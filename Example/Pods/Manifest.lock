@@ -1,5 +1,5 @@
 PODS:
-  - el-grocer-shopper-sdk-iOS (0.1.0)
+  - el-grocer-shopper-sdk-iOS (0.1.1)
   - FBSnapshotTestCase (2.1.4):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
   - FBSnapshotTestCase/Core (2.1.4)
@@ -19,9 +19,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  el-grocer-shopper-sdk-iOS: d6b5350feb027c15cd2f35cfe19f594cb8508479
+  el-grocer-shopper-sdk-iOS: e2d8db60a79c46a30b0f527c30608cafa47e2bd8
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
 
 PODFILE CHECKSUM: d723ce1ab344d8e925eef437c170882469ea7898
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
