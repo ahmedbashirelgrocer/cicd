@@ -1,0 +1,22 @@
+{
+  "name": "el-grocer-shopper-sdk-iOS",
+  "version": "0.1.0",
+  "summary": "A short description of el-grocer-shopper-sdk-iOS.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/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/el-grocer-shopper-sdk-iOS",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "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": "abubaker@elgrocer.com"
+  },
+  "source": {
+    "git": "https://github.com/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/el-grocer-shopper-sdk-iOS.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "el-grocer-shopper-sdk-iOS/Classes/**/*"
+}

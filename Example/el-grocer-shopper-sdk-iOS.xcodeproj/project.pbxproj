@@ -29,8 +29,8 @@
 
 /* Begin PBXFileReference section */
 		359F630A0ED363F0F210A97E /* Pods-el-grocer-shopper-sdk-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-el-grocer-shopper-sdk-iOS_Tests.debug.xcconfig"; path = "Target Support Files/Pods-el-grocer-shopper-sdk-iOS_Tests/Pods-el-grocer-shopper-sdk-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		3CDE9D3F113D6A4338D65FEA /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		5FDB7FDED447A7DBFF6A17EB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		3CDE9D3F113D6A4338D65FEA /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		5FDB7FDED447A7DBFF6A17EB /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* el-grocer-shopper-sdk-iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "el-grocer-shopper-sdk-iOS_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,7 +44,7 @@
 		7A22A518149722A2BE797575 /* Pods_el_grocer_shopper_sdk_iOS_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_el_grocer_shopper_sdk_iOS_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9650FCC327111E588BE5A87D /* Pods_el_grocer_shopper_sdk_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_el_grocer_shopper_sdk_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B10CCCCC01F79C4ED15A5BD9 /* Pods-el-grocer-shopper-sdk-iOS_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-el-grocer-shopper-sdk-iOS_Example.release.xcconfig"; path = "Target Support Files/Pods-el-grocer-shopper-sdk-iOS_Example/Pods-el-grocer-shopper-sdk-iOS_Example.release.xcconfig"; sourceTree = "<group>"; };
-		B6F764D80689606E313D8B2C /* el-grocer-shopper-sdk-iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = "el-grocer-shopper-sdk-iOS.podspec"; path = "../el-grocer-shopper-sdk-iOS.podspec"; sourceTree = "<group>"; };
+		B6F764D80689606E313D8B2C /* el-grocer-shopper-sdk-iOS.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "el-grocer-shopper-sdk-iOS.podspec"; path = "../el-grocer-shopper-sdk-iOS.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F01F15ABF6339FBB293BAB81 /* Pods-el-grocer-shopper-sdk-iOS_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-el-grocer-shopper-sdk-iOS_Tests.release.xcconfig"; path = "Target Support Files/Pods-el-grocer-shopper-sdk-iOS_Tests/Pods-el-grocer-shopper-sdk-iOS_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		F40DF6C6E28FF422C900DE21 /* Pods-el-grocer-shopper-sdk-iOS_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-el-grocer-shopper-sdk-iOS_Example.debug.xcconfig"; path = "Target Support Files/Pods-el-grocer-shopper-sdk-iOS_Example/Pods-el-grocer-shopper-sdk-iOS_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,7 +156,6 @@
 				359F630A0ED363F0F210A97E /* Pods-el-grocer-shopper-sdk-iOS_Tests.debug.xcconfig */,
 				F01F15ABF6339FBB293BAB81 /* Pods-el-grocer-shopper-sdk-iOS_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -228,6 +227,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
