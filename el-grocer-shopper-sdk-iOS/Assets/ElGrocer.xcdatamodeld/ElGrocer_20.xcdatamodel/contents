@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15400" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Brand" representedClassName="ElGrocerShopper.Brand" syncable="YES">
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nameEn" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CarouselProducts" representedClassName=".CarouselProducts" syncable="YES">
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="groceryID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nameEn" optional="YES" attributeType="String"/>
+        <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Category" representedClassName=".Category" syncable="YES">
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <attribute name="isSubcategory" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nameEn" optional="YES" attributeType="String"/>
+        <attribute name="parentCategoryId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="sortID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <relationship name="brands" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Brand"/>
+    </entity>
+    <entity name="DeliveryAddress" representedClassName="ElGrocerShopper.DeliveryAddress" syncable="YES">
+        <attribute name="additionalDirection" optional="YES" attributeType="String"/>
+        <attribute name="address" attributeType="String" defaultValueString="Unknown"/>
+        <attribute name="addressType" optional="YES" attributeType="String"/>
+        <attribute name="apartment" optional="YES" attributeType="String"/>
+        <attribute name="building" optional="YES" attributeType="String"/>
+        <attribute name="dbID" optional="YES" attributeType="String"/>
+        <attribute name="floor" optional="YES" attributeType="String"/>
+        <attribute name="houseNumber" optional="YES" attributeType="String"/>
+        <attribute name="isActive" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="isArchive" optional="YES" attributeType="Boolean" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="isCovered" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="isInvoiceAddress" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="locationName" optional="YES" attributeType="String"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="street" optional="YES" attributeType="String"/>
+        <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="deliveryAddresses" inverseEntity="UserProfile"/>
+    </entity>
+    <entity name="DeliverySlot" representedClassName="ElGrocerShopper.DeliverySlot" syncable="YES">
+        <attribute name="dayName" optional="YES" attributeType="String"/>
+        <attribute name="dayNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="endTime" optional="YES" attributeType="String"/>
+        <attribute name="estimatedDeliveryDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="ordersLimit" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="String"/>
+        <attribute name="week" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Grocery" representedClassName="ElGrocerShopper.Grocery" syncable="YES">
+        <attribute name="addDay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="availablePayments" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="dbID" attributeType="String" defaultValueString="0"/>
+        <attribute name="deliveryFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="deliveryType" optional="YES" attributeType="String"/>
+        <attribute name="deliveryTypeId" optional="YES" attributeType="String"/>
+        <attribute name="deliveryZoneId" optional="YES" attributeType="String"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <attribute name="isArchive" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="isFavourite" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="isInRange" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="isOpen" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="isSchedule" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isShowRecipe" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="minBasketValue" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nameEn" optional="YES" attributeType="String"/>
+        <attribute name="openingTime" optional="YES" attributeType="String"/>
+        <attribute name="paymentAvailableID" optional="YES" attributeType="Transformable"/>
+        <attribute name="retailerType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="reviewScore" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="riderFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="serviceFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="smallImageUrl" optional="YES" attributeType="String"/>
+        <attribute name="topSearch" optional="YES" attributeType="Transformable"/>
+        <attribute name="vat" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="brands" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Brand"/>
+        <relationship name="categories" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Category"/>
+        <relationship name="deliverySlots" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DeliverySlot"/>
+        <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Grocery" inverseName="newRelationship1" inverseEntity="Grocery"/>
+        <relationship name="newRelationship1" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Grocery" inverseName="newRelationship" inverseEntity="Grocery"/>
+        <relationship name="reviews" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GroceryReview" inverseName="grocery" inverseEntity="GroceryReview"/>
+        <relationship name="subcategories" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Category"/>
+    </entity>
+    <entity name="GroceryCategoryBrands" representedClassName="ElGrocerShopper.GroceryCategoryBrands" syncable="YES">
+        <attribute name="brandId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="categoryId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="groceryId" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="GroceryReview" representedClassName="ElGrocerShopper.GroceryReview" syncable="YES">
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="reviewer" optional="YES" attributeType="String"/>
+        <attribute name="reviewText" optional="YES" attributeType="String"/>
+        <attribute name="score" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
+        <relationship name="grocery" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Grocery" inverseName="reviews" inverseEntity="Grocery"/>
+    </entity>
+    <entity name="Order" representedClassName="ElGrocerShopper.Order" syncable="YES">
+        <attribute name="cardID" optional="YES" attributeType="String"/>
+        <attribute name="cardLast" optional="YES" attributeType="String"/>
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="deliveryDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="orderDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="orderNote" optional="YES" attributeType="String"/>
+        <attribute name="payementType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="priceVariance" optional="YES" attributeType="String"/>
+        <attribute name="promoCode" optional="YES" attributeType="Transformable"/>
+        <attribute name="refToken" optional="YES" attributeType="String"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
+        <relationship name="deliveryAddress" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DeliveryAddress"/>
+        <relationship name="deliverySlot" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DeliverySlot"/>
+        <relationship name="grocery" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Grocery"/>
+    </entity>
+    <entity name="OrderSubstitution" representedClassName="ElGrocerShopper.OrderSubstitution" syncable="YES">
+        <attribute name="groceryId" optional="YES" attributeType="String"/>
+        <attribute name="orderId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="productId" optional="YES" attributeType="String"/>
+        <attribute name="subtitutingProductId" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Product" representedClassName="ElGrocerShopper.Product" syncable="YES">
+        <attribute name="brandId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="brandName" optional="YES" attributeType="String"/>
+        <attribute name="brandNameEn" optional="YES" attributeType="String"/>
+        <attribute name="categoryId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="categoryName" optional="YES" attributeType="String"/>
+        <attribute name="categoryNameEn" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="currency" optional="YES" attributeType="String"/>
+        <attribute name="dbID" optional="YES" attributeType="String"/>
+        <attribute name="descr" optional="YES" attributeType="String"/>
+        <attribute name="groceryId" attributeType="String" defaultValueString="0"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <attribute name="isArchive" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="isAvailable" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isFavourite" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="isPromotion" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isPublished" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isSponsored" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nameEn" optional="YES" attributeType="String"/>
+        <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO"/>
+        <attribute name="productId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="subcategoryId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="subcategoryName" optional="YES" attributeType="String"/>
+        <attribute name="subcategoryNameEn" optional="YES" attributeType="String"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="RecipeCart" representedClassName=".RecipeCart" syncable="YES">
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="ingredients" optional="YES" attributeType="Transformable"/>
+        <attribute name="recipeID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="recipeName" optional="YES" attributeType="String"/>
+        <attribute name="retailerID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Referral" representedClassName="ElGrocerShopper.Referral" syncable="YES">
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="referralCode" optional="YES" attributeType="String"/>
+        <attribute name="referralMessage" optional="YES" attributeType="String"/>
+        <attribute name="referralUrl" optional="YES" attributeType="String"/>
+        <attribute name="referrerAmount" optional="YES" attributeType="String"/>
+        <attribute name="walletTotal" optional="YES" attributeType="String"/>
+        <relationship name="referralWallet" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="ReferralWallet"/>
+    </entity>
+    <entity name="ReferralWallet" representedClassName="ElGrocerShopper.ReferralWallet" syncable="YES">
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="referralRuleId" optional="YES" attributeType="String"/>
+        <attribute name="walletAmount" optional="YES" attributeType="String"/>
+        <attribute name="walletExpireDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="walletInfo" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="ShoppingBasketItem" representedClassName="ElGrocerShopper.ShoppingBasketItem" syncable="YES">
+        <attribute name="brandName" optional="YES" attributeType="String"/>
+        <attribute name="brandNameEn" optional="YES" attributeType="String"/>
+        <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="groceryId" attributeType="String" defaultValueString="0"/>
+        <attribute name="hasSubtitution" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isSubtituted" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="orderId" optional="YES" attributeType="Integer 64" defaultValueString="-1" usesScalarValueType="NO"/>
+        <attribute name="productId" attributeType="String" defaultValueString="0"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="wasInShop" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="SubstitutionBasketItem" representedClassName="ElGrocerShopper.SubstitutionBasketItem" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="groceryId" optional="YES" attributeType="String"/>
+        <attribute name="orderId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="productId" optional="YES" attributeType="String"/>
+        <attribute name="subtituteProductId" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="UserProfile" representedClassName="ElGrocerShopper.UserProfile" syncable="YES">
+        <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="language" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="referralCode" optional="YES" attributeType="String"/>
+        <relationship name="deliveryAddresses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DeliveryAddress" inverseName="userProfile" inverseEntity="DeliveryAddress"/>
+    </entity>
+    <elements>
+        <element name="Brand" positionX="-73.25390625" positionY="-36.828125" width="128" height="105"/>
+        <element name="CarouselProducts" positionX="-963" positionY="-1116" width="128" height="120"/>
+        <element name="Category" positionX="-222.80859375" positionY="-3.13671875" width="128" height="180"/>
+        <element name="DeliveryAddress" positionX="-394.375" positionY="-710.22265625" width="128" height="300"/>
+        <element name="DeliverySlot" positionX="-1002.35546875" positionY="7.3203125" width="128" height="163"/>
+        <element name="Grocery" positionX="-1172.57421875" positionY="8.26953125" width="128" height="553"/>
+        <element name="GroceryCategoryBrands" positionX="16.41015625" positionY="308.84765625" width="128" height="90"/>
+        <element name="GroceryReview" positionX="-205.046875" positionY="229.79296875" width="128" height="120"/>
+        <element name="Order" positionX="-10.31640625" positionY="345.77734375" width="128" height="253"/>
+        <element name="OrderSubstitution" positionX="-9" positionY="171" width="128" height="105"/>
+        <element name="Product" positionX="144.171875" positionY="18.74609375" width="128" height="433"/>
+        <element name="RecipeCart" positionX="-963" positionY="-1116" width="128" height="120"/>
+        <element name="Referral" positionX="-34.265625" positionY="383.1328125" width="128" height="150"/>
+        <element name="ReferralWallet" positionX="100.21875" positionY="344.484375" width="128" height="120"/>
+        <element name="ShoppingBasketItem" positionX="164.484375" positionY="236.91796875" width="128" height="193"/>
+        <element name="SubstitutionBasketItem" positionX="55.6171875" positionY="-245.4140625" width="128" height="120"/>
+        <element name="UserProfile" positionX="-191.8515625" positionY="-1270.53125" width="128" height="150"/>
+    </elements>
+</model>

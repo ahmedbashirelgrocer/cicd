@@ -23,7 +23,7 @@
   "exclude_files": "Classes/Exclude",
   "resource_bundles": {
     "el-grocer-shopper-sdk-iOS": [
-      "el-grocer-shopper-sdk-iOS/Classes/**/*{.png,.xcassets}"
+      "el-grocer-shopper-sdk-iOS/Assets/**/*{.png,.xcassets,.xcdatamodeld}"
     ]
   },
   "frameworks": [

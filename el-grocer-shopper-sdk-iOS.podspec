@@ -53,7 +53,7 @@ Pod::Spec.new do |s|
   s.exclude_files = "Classes/Exclude"
    
   s.resource_bundles = {
-      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/Classes/**/*{.png,.xcassets}']
+      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/Assets/**/*{.png,.xcassets,.xcdatamodeld}']
   }
 
     # spec.public_header_files = "Classes/**/*.h"
