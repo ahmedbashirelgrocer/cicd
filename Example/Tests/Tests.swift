@@ -1,5 +1,5 @@
 import XCTest
-import el-grocer-shopper-sdk-iOS
+//import el-grocer-shopper-sdk-iOS
 
 class Tests: XCTestCase {
     
