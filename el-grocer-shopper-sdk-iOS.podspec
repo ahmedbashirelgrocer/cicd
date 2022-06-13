@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '0.1.4'
+  s.version          = '0.1.5'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -49,7 +49,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '12.0'
   s.swift_versions = '4.2'
   s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*'
-  spec.exclude_files = "Classes/Exclude"
+  s.exclude_files = "Classes/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
   
