@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ABM' => 'abubaker@elgrocer.com' }
-  s.source           = { :git => 'https://AbubakerMajeed@github.com/elgrocer/el-grocer-shopper-sdk-iOS.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://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@github.com/elgrocer/el-grocer-shopper-sdk-iOS.git', :tag => s.version.to_s }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
