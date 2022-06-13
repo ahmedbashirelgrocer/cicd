@@ -56,7 +56,7 @@ PODS:
     - Fabric (~> 1.10.2)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (0.1.2):
+  - el-grocer-shopper-sdk-iOS (0.1.5):
     - Adyen
     - AFNetworkActivityLogger
     - AFNetworking
@@ -470,7 +470,7 @@ SPEC CHECKSUMS:
   Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 5670e11f5631f74f1feb424eb9310418e7a97458
+  el-grocer-shopper-sdk-iOS: fcca9ecf2377b22e785c3bc6a920464710c624db
   Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   FBAEMKit: c6b8ddf8371640fcd1a3b844d0f8884c8f334cea
   FBSDKCoreKit: 506c0fd1c09a3075f62be8fa36bdd921c563daa9
