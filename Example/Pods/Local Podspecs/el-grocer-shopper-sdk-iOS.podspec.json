@@ -1,6 +1,6 @@
 {
   "name": "el-grocer-shopper-sdk-iOS",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "summary": "IOS Shopper app basic setUp.",
   "description": "'IOS Shopper app basic setUp. This sdk will allow all Shopper app functionalities from sdk. That will be signIn, registration, Store visibilty, Add Product, Place Order, Order Detail, Recipes, Search & locations'",
   "homepage": "https://www.elgrocer.com",
@@ -13,12 +13,192 @@
   },
   "source": {
     "git": "https://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@github.com/elgrocer/el-grocer-shopper-sdk-iOS.git",
-    "tag": "0.1.1"
+    "tag": "0.1.2"
   },
   "platforms": {
     "ios": "12.0"
   },
   "swift_versions": "4.2",
-  "source_files": "el-grocer-shopper-sdk-iOS/Classes/**/*",
+  "source_files": "el-grocer-shopper-sdk-iOS/**/*.{h,m,swift}",
+  "resource_bundles": {
+    "el-grocer-shopper-sdk-iOS": [
+      "el-grocer-shopper-sdk-iOS/**/*{.png,.xcassets}"
+    ]
+  },
+  "frameworks": [
+    "UIKit",
+    "Foundation",
+    "CoreData"
+  ],
+  "dependencies": {
+    "AFNetworking": [
+
+    ],
+    "MSPeekCollectionViewDelegateImplementation": [
+
+    ],
+    "GoogleAnalytics": [
+
+    ],
+    "GoogleIDFASupport": [
+
+    ],
+    "GoogleMaps": [
+
+    ],
+    "GooglePlaces": [
+
+    ],
+    "FlagPhoneNumber": [
+      "~> 0.7.6"
+    ],
+    "PinCodeTextField": [
+
+    ],
+    "Firebase/Crashlytics": [
+
+    ],
+    "Crashlytics": [
+
+    ],
+    "Firebase/Analytics": [
+
+    ],
+    "Firebase/Auth": [
+
+    ],
+    "Firebase/Core": [
+
+    ],
+    "Firebase/Messaging": [
+
+    ],
+    "Firebase/DynamicLinks": [
+
+    ],
+    "Firebase/Performance": [
+
+    ],
+    "Firebase/Storage": [
+
+    ],
+    "Firebase/Database": [
+
+    ],
+    "AFNetworkActivityLogger": [
+
+    ],
+    "FBSDKCoreKit": [
+
+    ],
+    "AppsFlyerFramework": [
+
+    ],
+    "SwiftDate": [
+
+    ],
+    "CleverTap-iOS-SDK": [
+
+    ],
+    "Storyly": [
+      "~> 1.19.3"
+    ],
+    "CHDropDownTextField": [
+      "~> 1.0.0"
+    ],
+    "FXPageControl": [
+
+    ],
+    "RxSwift": [
+
+    ],
+    "RxCocoa": [
+
+    ],
+    "HMSegmentedControl": [
+
+    ],
+    "KLCPopup": [
+      "~> 1.0"
+    ],
+    "JDFTooltips": [
+      "~> 1.1"
+    ],
+    "DoneCancelNumberPadToolbar": [
+      "~> 0.6"
+    ],
+    "BBBadgeBarButtonItem": [
+      "~> 1.2"
+    ],
+    "PageControl": [
+      "~> 1.0"
+    ],
+    "Shimmer": [
+      "~> 1.0"
+    ],
+    "BetterSegmentedControl": [
+
+    ],
+    "AlgoliaSearchClient": [
+      "~> 8.0"
+    ],
+    "InstantSearch/Insights": [
+      "~> 7.7"
+    ],
+    "STPopup": [
+
+    ],
+    "MaterialComponents/BottomSheet": [
+
+    ],
+    "MaterialComponents/ActivityIndicator": [
+
+    ],
+    "AnimatedGradientView": [
+
+    ],
+    "SkyFloatingLabelTextField": [
+      "~> 3.0"
+    ],
+    "IQKeyboardManagerSwift": [
+      "6.3.0"
+    ],
+    "CCValidator": [
+
+    ],
+    "BadgeControl": [
+
+    ],
+    "DisplaySwitcher": [
+
+    ],
+    "PMAlertController": [
+
+    ],
+    "SwiftMessages": [
+
+    ],
+    "GrowingTextView": [
+      "0.6.1"
+    ],
+    "KAPinField": [
+
+    ],
+    "NBBottomSheet": [
+
+    ],
+    "FloatRatingView": [
+      "~> 4"
+    ],
+    "SendBirdUIKit": [
+
+    ],
+    "SendBirdDesk": [
+
+    ],
+    "Adyen": [
+
+    ]
+  },
   "swift_version": "4.2"
 }

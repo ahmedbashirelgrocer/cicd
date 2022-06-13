@@ -31,13 +31,87 @@ s.description      = <<-DESC
   s.ios.deployment_target = '12.0'
   s.swift_versions = '4.2'
 
-  s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*'
+  s.source_files = 'el-grocer-shopper-sdk-iOS/**/*.{h,m,swift}'
   
-  # s.resource_bundles = {
-  #   'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/Assets/*.png']
-  # }
+  s.resource_bundles = {
+      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/**/*{.png,.xcassets}']
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.frameworks = 'UIKit', 'Foundation', 'CoreData'
+  
+  s.dependency 'AFNetworking' #, '~> 4.0'
+  
+  s.dependency 'MSPeekCollectionViewDelegateImplementation'
+  s.dependency 'GoogleAnalytics'
+  s.dependency 'GoogleIDFASupport'
+  s.dependency 'GoogleMaps'
+  s.dependency 'GooglePlaces'
+  s.dependency 'FlagPhoneNumber', '~> 0.7.6'
+  s.dependency 'PinCodeTextField'
+
+  # Add the pod for Firebase Crashlytics
+  s.dependency 'Firebase/Crashlytics'
+  s.dependency 'Crashlytics' # please dont delete this for now it will causing crashes need fixes
+  # Recommended: Add the Firebase pod for Google Analytics
+  s.dependency 'Firebase/Analytics'
+  s.dependency 'Firebase/Auth'
+  s.dependency 'Firebase/Core'
+  s.dependency 'Firebase/Messaging'
+  s.dependency 'Firebase/DynamicLinks'
+  s.dependency 'Firebase/Performance'
+  s.dependency 'Firebase/Storage'
+  s.dependency 'Firebase/Database'
+  
+  # pod 'AFNetworking', '~> 3.2.1' , :subspecs => [‘Reachability', 'Serialization', 'Security', 'NSURLSession']
+  # pod 'AFNetworkActivityLogger', git: 'https://github.com/AFNetworking/AFNetworkActivityLogger.git'
+  s.dependency 'AFNetworkActivityLogger' #, :git => 'https://github.com/ToshMeston/AFNetworkActivityLogger.git'
+
+  # pod 'mopub-ios-sdk' #, '~>4.6.0'
+  s.dependency 'FBSDKCoreKit'
+  # pod 'MaterialShowcase'
+    s.dependency 'AppsFlyerFramework'
+    s.dependency 'SwiftDate'
+    s.dependency 'CleverTap-iOS-SDK'
+    s.dependency 'Storyly', '~> 1.19.3'
+    s.dependency 'CHDropDownTextField', '~> 1.0.0'
+    s.dependency 'FXPageControl'
+    s.dependency 'RxSwift' #, '~>4.0'
+    s.dependency 'RxCocoa' #,‘~>4.0'
+    s.dependency 'HMSegmentedControl'
+    s.dependency 'KLCPopup', '~> 1.0'
+    s.dependency 'JDFTooltips', '~> 1.1'
+    
+    
+    s.dependency 'DoneCancelNumberPadToolbar', '~> 0.6'
+    s.dependency 'BBBadgeBarButtonItem', '~> 1.2'
+    s.dependency 'PageControl', '~> 1.0'
+    s.dependency 'Shimmer', '~> 1.0'
+    s.dependency 'BetterSegmentedControl'
+    s.dependency 'AlgoliaSearchClient', '~> 8.0'
+    s.dependency 'InstantSearch/Insights', '~> 7.7'
+    s.dependency 'STPopup'
+    s.dependency 'MaterialComponents/BottomSheet'
+    s.dependency 'MaterialComponents/ActivityIndicator'
+    s.dependency 'AnimatedGradientView'
+    s.dependency 'SkyFloatingLabelTextField', '~> 3.0'
+    s.dependency 'IQKeyboardManagerSwift', '6.3.0'
+    
+    s.dependency 'CCValidator'
+      s.dependency 'BadgeControl'
+      s.dependency 'DisplaySwitcher' #, '~> 2.0'
+      s.dependency 'PMAlertController'
+      s.dependency 'SwiftMessages'
+
+      s.dependency 'GrowingTextView', '0.6.1'
+      s.dependency 'KAPinField'
+      s.dependency 'NBBottomSheet'
+
+      # Pods for RateView
+      s.dependency 'FloatRatingView', '~> 4'
+      # sendBird chat
+      s.dependency 'SendBirdUIKit'
+      s.dependency 'SendBirdDesk'
+      # add file
+      s.dependency 'Adyen'
 end
