@@ -1,0 +1,409 @@
+//
+//  NetworkLayer.swift
+//  ElGrocerShopper
+//
+//  Created by M Abubaker Majeed on 07/07/2020.
+//  Copyright © 2020 elGrocer. All rights reserved.
+//
+
+import Foundation
+import AFNetworking
+
+
+typealias callProgress =  ((_ progress : Progress) -> ())?
+typealias SuccessCase  =  (_ URLSessionDataTask : URLSessionDataTask , _ responseObject : Any? ) -> ()
+typealias FailureCase  =  (_ URLSessionDataTask : URLSessionDataTask? , _ error : Error ) -> Void
+
+
+enum callType {
+    case get
+    case post
+    case put
+    case delete
+    case edit
+}
+
+class CallObj {
+    
+    var type :  callType
+    var URLString: String
+    var parameters: Any?
+    var progress :  callProgress? = nil
+    var success :  SuccessCase
+    var failure :  FailureCase
+    
+    init( type : callType   , URLString: String, parameters: Any?, progress :  callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase) {
+        self.type = type
+        self.URLString = URLString
+        self.parameters = parameters
+        self.progress = progress
+        self.success = success
+        self.failure = failure
+    }
+    
+    func startNetWorkLayerCall (_ layerCall : NetworkLayer ) {
+        
+        debugPrint("AF: URLString \(self.URLString)")
+        debugPrint("AF: parameters \(String(describing: self.parameters))")
+        
+        if self.type == .get {
+            layerCall.get(self.URLString, parameters: self.parameters , progress: self.progress! , success: self.success, failure: self.failure)
+        }else if self.type == .post {
+            layerCall.post(self.URLString, parameters: self.parameters , progress: self.progress! , success: self.success, failure: self.failure)
+        }else if self.type == .put {
+            layerCall.put(self.URLString, parameters: self.parameters  , success: self.success, failure: self.failure)
+        } else if self.type == .delete {
+            layerCall.delete(self.URLString, parameters: self.parameters  , success: self.success, failure: self.failure)
+        }
+    }
+    
+}
+
+class NetworkLayer {
+    
+   private var  queue = Queue<CallObj>()
+   private var expireDate : Date?
+   private var baseApiPath: String!
+   //private var projectScope : ScopeDetail?
+   // private var isTokenCalling: Bool = false
+    /*
+    //not being used right now
+    lazy private(set) var  mocRequestManager : AFHTTPSessionManager = {
+        let  requestManager : AFHTTPSessionManager
+        self.baseApiPath = EnvironmentVariables.sharedInstance.getMocBackendUrl()
+        requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
+        if #available(iOS 11.0, *) {
+            requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.sortedKeys)
+        } else {
+            // Fallback on earlier versions
+            requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.prettyPrinted)
+        }
+        //requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection") //  keep-alive
+        //requestManager.responseSerializer = AFJSONResponseSerializer()
+        requestManager.securityPolicy.allowInvalidCertificates = true
+        requestManager.securityPolicy.validatesDomainName = false
+        requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
+        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
+        securitypolicy.allowInvalidCertificates = true
+        securitypolicy.validatesDomainName = false
+        requestManager.securityPolicy = securitypolicy
+        return requestManager
+    }()
+     */
+    lazy private(set) var  requestManager : AFHTTPSessionManager = {
+        let  requestManager : AFHTTPSessionManager
+        self.baseApiPath = EnvironmentVariables.sharedInstance.getBackendUrl()
+        requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
+        if #available(iOS 11.0, *) {
+            requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.sortedKeys)
+        } else {
+            // Fallback on earlier versions
+            requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.prettyPrinted)
+        }
+        //requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection") //  keep-alive
+        requestManager.securityPolicy.allowInvalidCertificates = true
+        requestManager.securityPolicy.validatesDomainName = false
+        requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
+        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
+        securitypolicy.allowInvalidCertificates = true
+        securitypolicy.validatesDomainName = false
+        requestManager.securityPolicy = securitypolicy
+        return requestManager
+    }()
+    
+     var productsSearchOperation : URLSessionDataTask?
+     var basketFetchOperation : URLSessionDataTask?
+     var recipeApiOperation:URLSessionDataTask?
+     var retryAtempt = 5
+    
+    /*
+    @discardableResult
+    func get( _ URLString: String, parameters: Any? , operation : URLSessionDataTask?   , progress :  callProgress ,  success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
+        let mins = (Date().dataInUTC() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInUTC() ?? Date() )
+        guard mins > 0  else {
+            queue.enqueue(CallObj.init(type: .get, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
+            self.getToken()
+            return nil
+        }
+        self.setAuthriztionToken()
+        guard operation != nil  else {
+            if operation == self.productsSearchOperation {
+              self.productsSearchOperation =  self.requestManager.get(URLString, parameters: parameters, progress: progress, success: success, failure: failure as? (URLSessionDataTask?, Error) -> Void)
+            } else if operation == self.basketFetchOperation {
+              self.basketFetchOperation  =  self.requestManager.get(URLString, parameters: parameters, progress: progress, success: success, failure: failure as? (URLSessionDataTask?, Error) -> Void)
+            }else if operation == self.recipeApiOperation {
+              self.recipeApiOperation = self.requestManager.get(URLString, parameters: parameters, progress: progress, success: success, failure: failure as? (URLSessionDataTask?, Error) -> Void)
+            }else{
+                 return self.requestManager.get(URLString, parameters: parameters, progress: progress, success: success, failure: failure as? (URLSessionDataTask?, Error) -> Void)
+            }
+            return nil
+        }
+        return self.requestManager.get(URLString, parameters: parameters, progress: progress, success: success, failure: failure as? (URLSessionDataTask?, Error) -> Void)
+    }
+    */
+    
+    
+    
+    @discardableResult
+    func get( _ URLString: String, parameters: Any?, progress :  callProgress ,  success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
+        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
+        guard mins > 0  else {
+            queue.enqueue(CallObj.init(type: .get, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
+            self.getToken()
+            return nil
+        }
+        self.setAuthriztionToken()
+        return self.requestManager.get(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , progress: progress, success: success, failure: failure )
+    }
+    @discardableResult
+    func post( _ URLString: String, parameters: Any?, progress :   callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
+        
+        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
+        guard  mins > 0  else {
+            queue.enqueue(CallObj.init(type: .post, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
+            self.getToken()
+            return nil
+        }
+        self.setAuthriztionToken()
+        return self.requestManager.post(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , progress: progress, success: success, failure: failure )
+    }
+    
+    @discardableResult
+    func delete(_ URLString: String, parameters: Any? , success : @escaping SuccessCase , failure : @escaping FailureCase) -> URLSessionDataTask? {
+        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
+        guard  mins > 0  else {
+        queue.enqueue(CallObj.init(type: .delete, URLString: URLString , parameters: parameters, progress: nil  , success: success, failure: failure))
+        self.getToken()
+        return nil
+        }
+        self.setAuthriztionToken()
+        
+        return self.requestManager.delete(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , success: success , failure:  failure  )
+    }
+    
+    func put(_ URLString: String, parameters: Any? , success : @escaping SuccessCase , failure : @escaping FailureCase) {
+        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
+        guard  mins > 0  else {
+            queue.enqueue(CallObj.init(type: .put, URLString: URLString , parameters: parameters, progress: nil  , success: success, failure: failure))
+            self.getToken()
+            return
+        }
+        self.setAuthriztionToken()
+        self.requestManager.put(URLString, parameters: parameters,headers: self.requestManager.requestSerializer.httpRequestHeaders , success: success, failure: failure)
+    }
+    
+    
+    func getToken () {
+        guard !ElGrocerUtility.sharedInstance.isTokenCalling else{
+            return
+        }
+        ElGrocerUtility.sharedInstance.isTokenCalling = true
+        let baseurl = EnvironmentVariables.sharedInstance.getBackendUrl()
+        let requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: baseurl)! as URL)
+        requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.prettyPrinted)
+       // requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
+        requestManager.securityPolicy.allowInvalidCertificates = true
+        requestManager.securityPolicy.validatesDomainName = false
+        requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
+        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
+        securitypolicy.allowInvalidCertificates = true
+        securitypolicy.validatesDomainName = false
+        requestManager.securityPolicy = securitypolicy
+        let  ApplicationUID  =  "47f1a7cd44806ae426c41bc76a8ecf8ac8a4af9ca130c9d8666f2aaa17e64070"
+        let  ApplicationSecret  =  "a5ee8c3880ffcd31a3527e9bab930bd0a93d6ffd55fd227a156d769294a9690d"
+        let parms = [ "client_id" : ApplicationUID , "client_secret" : ApplicationSecret ,  "grant_type" : "client_credentials" , "redirect_uri" : "https://api.elgrocer.com" ]
+        let mainURL = baseurl.replacingOccurrences(of: "/api/", with: "")
+        let urlString = mainURL + "/oauth/token"
+        
+       /* if let _ = UIApplication.topViewController() {
+            let _ = SpinnerView.showSpinnerView()
+        }*/
+        requestManager.post(urlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { (task, responseObject) in
+            if responseObject is Dictionary<String, Any> {
+                ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: responseObject as! Dictionary<String, Any>)
+                 let date = NSDate(timeIntervalSince1970:  ElGrocerUtility.sharedInstance.projectScope!.created_at)
+                 let expireTime = date.addingTimeInterval(ElGrocerUtility.sharedInstance.projectScope!.expires_in)
+                 self.expireDate = expireTime as Date
+                
+                while !self.queue.isEmpty() {
+                    if  let call : CallObj =  self.queue.dequeue() {
+                        //debugPrint("dequeue call\(call.URLString) && \(call.parameters ?? "")")
+                       call.startNetWorkLayerCall(self)
+                    }
+                }
+                ElGrocerUtility.sharedInstance.isTokenCalling = false
+            }
+        }) { (task, error) in
+           // debugPrint(error)
+          //  UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            ElGrocerUtility.sharedInstance.isTokenCalling = false
+            if let finalerror  =  error as? NSError {
+                if let response = finalerror.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? HTTPURLResponse {
+                    print(response.statusCode)
+                    if response.statusCode == 404 {
+                        let fakeDict = ["access_token" : "fakeToken" , "created_at" : Date().timeIntervalSinceNow , "expires_in" : 300 , "scope" : "public" , "token_type" : "Bearer"] as [String : Any]
+                        ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: fakeDict)
+                        let date = Date()
+                        let expireTime = date.addingTimeInterval(300)
+                        self.expireDate = expireTime as Date
+                        while !self.queue.isEmpty() {
+                            if  let call : CallObj =  self.queue.dequeue() {
+                                call.startNetWorkLayerCall(self)
+                            }
+                        }
+                    }else{
+                       self.getToken()
+                    }
+                }else{
+                    var delay : Double = 5
+                    if  ReachabilityManager.sharedInstance.isNetworkAvailable() {
+                        delay = 1
+                    }
+                    let when = DispatchTime.now() + delay
+                    DispatchQueue.global().asyncAfter(deadline: when) {
+                       self.getToken()
+                    }
+                }
+            }
+            
+        }
+   
+    }
+    
+    func setAuthriztionToken() {
+        if let token = ElGrocerUtility.sharedInstance.projectScope?.access_token {
+            self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "access_token")
+        }
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            self.requestManager.requestSerializer.setValue(version, forHTTPHeaderField: "app_version")
+        }else{
+            self.requestManager.requestSerializer.setValue("1000000", forHTTPHeaderField: "app_version")
+        }
+        let isDelivery = ElGrocerUtility.sharedInstance.isDeliveryMode ? "1" : "2"
+        self.requestManager.requestSerializer.setValue(isDelivery , forHTTPHeaderField: "service_id")
+        self.setLocale()
+        self.setDateTimeOffset()
+        self.setAuthenticationToken()
+    }
+    
+    func setAuthenticationToken() {
+        
+        self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
+        self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
+        self.requestManager.requestSerializer.setValue(ElGrocerUtility.sharedInstance.getGenericSessionID() , forHTTPHeaderField: FireBaseParmName.SessionID.rawValue)
+    }
+    func setLocale() {
+    
+        var currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+        if currentLang == "Base" {
+          currentLang = "en"
+        }
+          self.requestManager.requestSerializer.setValue(currentLang, forHTTPHeaderField: "Locale")
+      
+    }
+    func setDateTimeOffset() {
+    
+        self.requestManager.requestSerializer.setValue(TimeZone.getCurrentTimeZoneIdentifier(), forHTTPHeaderField: "DateTimeOffset")
+    }
+
+}
+
+//MARK: moc get and post
+//====================moc requests=========================
+/*
+ // not being used right now
+extension NetworkLayer {
+    
+    @discardableResult
+    func mocGet( _ URLString: String, parameters: Any?, progress :  callProgress ,  success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
+//        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
+//        guard mins > 0  else {
+//            queue.enqueue(CallObj.init(type: .get, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
+//            self.getToken()
+//            return nil
+//        }
+        self.setAuthriztionToken()
+        return self.mocRequestManager.get(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , progress: progress, success: success, failure: failure )
+    }
+    
+    @discardableResult
+    func mocPost( _ URLString: String, parameters: Any?, progress :   callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
+        
+//        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
+//        guard  mins > 0  else {
+//            queue.enqueue(CallObj.init(type: .post, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
+//            self.getToken()
+//            return nil
+//        }
+        self.setAuthriztionToken()
+        return self.mocRequestManager.post(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , progress: progress, success: success, failure: failure )
+    }
+    
+    func mocPut(_ URLString: String, parameters: Any? , success : @escaping SuccessCase , failure : @escaping FailureCase) {
+//        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
+//        guard  mins > 0  else {
+//            queue.enqueue(CallObj.init(type: .put, URLString: URLString , parameters: parameters, progress: nil  , success: success, failure: failure))
+//            self.getToken()
+//            return
+//        }
+        self.setAuthriztionToken()
+        self.mocRequestManager.put(URLString, parameters: parameters,headers: self.requestManager.requestSerializer.httpRequestHeaders , success: success, failure: failure)
+    }
+    
+}
+ */
+//================================================================================
+
+struct ScopeDetail {
+    
+    var access_token : String = ""
+    var created_at : TimeInterval
+    var expires_in : TimeInterval
+    var scope : String = ""
+    var token_type : String = ""
+ 
+}
+extension ScopeDetail {
+    
+    init( tokenDetail : Dictionary<String,Any>){
+        access_token = tokenDetail["access_token"] as? String ?? ""
+        created_at = tokenDetail["created_at"] as? TimeInterval ?? 0
+        expires_in = tokenDetail["expires_in"] as? TimeInterval ?? 0
+        scope = tokenDetail["scope"] as? String ?? ""
+        token_type = tokenDetail["token_type"] as? String ?? ""
+        FireBaseEventsLogger.setUserProperty(access_token , key: "access_token")
+    }
+
+}
+
+class Queue<T> {
+    
+    private var elements: [T] = []
+    
+    func isEmpty() -> Bool {
+        guard !elements.isEmpty else {
+            return true
+        }
+        return false
+    }
+    
+    func enqueue(_ value: T) {
+        elements.append(value)
+    }
+    
+    func dequeue() -> T? {
+        guard !elements.isEmpty else {
+            return nil
+        }
+        return elements.removeFirst()
+    }
+    
+    var head: T? {
+        return elements.first
+    }
+    
+    var tail: T? {
+        return elements.last
+    }
+}
+

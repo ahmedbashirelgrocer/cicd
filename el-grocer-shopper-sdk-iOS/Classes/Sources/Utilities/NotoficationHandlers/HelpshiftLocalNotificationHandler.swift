@@ -1,0 +1,37 @@
+//
+//  HelpshiftLocalNotificationHandler.swift
+//  ElGrocerShopper
+//
+//  Created by PiotrGorzelanyMac on 04/03/16.
+//  Copyright © 2016 RST IT. All rights reserved.
+//
+
+import Foundation
+
+class HelpshiftLocalNotificationHandler: LocalNotificationHandlerType {
+    
+    fileprivate let originKey = "origin"
+    fileprivate let helpshiftOriginKey = "helpshift"
+    
+    func handleLocalNotification(_ notification: UILocalNotification) -> Bool {
+        
+        guard let userInfo = notification.userInfo, let origin = userInfo[originKey] as? String , origin == helpshiftOriginKey else {
+            return false
+        }
+        
+        // The notification is a helpshift notification so we can handle it
+        
+        /*guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return false
+        }
+        
+        //Helpshift
+        HelpshiftCore.initialize(with: HelpshiftAll.sharedInstance())
+        HelpshiftCore.install(forApiKey: kHelpShiftApiKey, domainName: kHelpShiftDomainName, appID:kHelpShiftAppId)
+        
+         HelpshiftCore.handle(notification, with: appDelegate.window?.rootViewController)*/
+        
+        return true
+    }
+    
+}

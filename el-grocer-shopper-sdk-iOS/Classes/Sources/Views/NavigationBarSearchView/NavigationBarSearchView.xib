@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="NavigationBarSearchView" customModule="ElGrocerShopper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="206" height="36"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ceg-9g-mDt" userLabel="searchTextField">
+                    <rect key="frame" x="35" y="0.0" width="171" height="36"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                    <connections>
+                        <outlet property="delegate" destination="iN0-l3-epB" id="Tfu-s0-DNa"/>
+                    </connections>
+                </textField>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search-SearchBar" translatesAutoresizingMaskIntoConstraints="NO" id="cbO-mF-he7" userLabel="searchIcon">
+                    <rect key="frame" x="18" y="6" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="P5U-jb-ntd"/>
+                        <constraint firstAttribute="height" constant="24" id="cu4-QV-uVo"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search Products..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDF-xo-im1" userLabel="placeholder">
+                    <rect key="frame" x="50" y="9.5" width="148" height="17"/>
+                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.73999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ceg-9g-mDt" secondAttribute="trailing" id="05i-Dy-KEJ"/>
+                <constraint firstItem="cbO-mF-he7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="18" id="1q5-cH-7x9"/>
+                <constraint firstItem="ceg-9g-mDt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="BuW-fG-Xxj"/>
+                <constraint firstItem="rDF-xo-im1" firstAttribute="leading" secondItem="cbO-mF-he7" secondAttribute="trailing" constant="8" id="DxQ-Yp-XHs"/>
+                <constraint firstItem="ceg-9g-mDt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="35" id="KHv-kh-IkR"/>
+                <constraint firstAttribute="bottom" secondItem="ceg-9g-mDt" secondAttribute="bottom" id="V75-99-Cje"/>
+                <constraint firstAttribute="trailing" secondItem="rDF-xo-im1" secondAttribute="trailing" constant="8" id="fZz-ZT-v2l"/>
+                <constraint firstAttribute="centerY" secondItem="rDF-xo-im1" secondAttribute="centerY" id="jZ5-H7-x7Q"/>
+                <constraint firstAttribute="centerY" secondItem="cbO-mF-he7" secondAttribute="centerY" id="sjv-Kj-Nek"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="searchIconLeftSpaceConstraint" destination="1q5-cH-7x9" id="Qe0-Y3-Emh"/>
+                <outlet property="searchPlaceholder" destination="rDF-xo-im1" id="axW-6w-Dgq"/>
+                <outlet property="searchTextField" destination="ceg-9g-mDt" id="VBl-7I-Q4F"/>
+            </connections>
+            <point key="canvasLocation" x="32.5" y="228.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="search-SearchBar" width="24.5" height="24"/>
+    </resources>
+</document>

@@ -1,0 +1,1211 @@
+[
+    {
+        "eg_name": "FirstOpen",
+        "clever_tap": {
+            "name": "FirstOpen",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "FirstOpen",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "FirstSetLocation",
+        "clever_tap": {
+            "name": "FirstSetLocation",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "FirstSetLocation",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "FirstStoreSelected",
+        "clever_tap": {
+            "name": "FirstStoreSelected",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "FirstStoreSelected",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "Navigation",
+        "clever_tap": {
+            "name": "Navigation",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "Navigation",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItem",
+        "clever_tap": {
+            "name": "AddItem",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItem",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ViewItem",
+        "clever_tap": {
+            "name": "ViewItem",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ViewItem",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "Search",
+        "clever_tap": {
+            "name": "Search",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "Search",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "EditSearch",
+        "clever_tap": {
+            "name": "EditSearch",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "EditSearch",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "PayCash",
+        "clever_tap": {
+            "name": "PayCash",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "PayCash",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "PayCardOnDelivery",
+        "clever_tap": {
+            "name": "PayCardOnDelivery",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "PayCardOnDelivery",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "PayCreditCard",
+        "clever_tap": {
+            "name": "PayCreditCard",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "PayCreditCard",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ScheduleOrder",
+        "clever_tap": {
+            "name": "ScheduleOrder",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ScheduleOrder",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "PromoCode",
+        "clever_tap": {
+            "name": "PromoCode",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "PromoCode",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "PurchaseOrder",
+        "clever_tap": {
+            "name": "PurchaseOrder",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "PurchaseOrder",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "PurchaseValue",
+        "clever_tap": {
+            "name": "PurchaseValue",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "PurchaseValue",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "CheckoutTime",
+        "clever_tap": {
+            "name": "CheckoutTime",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "CheckoutTime",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "CheckoutComplete",
+        "clever_tap": {
+            "name": "CheckoutComplete",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "CheckoutComplete",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "PurchasedItem",
+        "clever_tap": {
+            "name": "PurchasedItem",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "PurchasedItem",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "EditOrder",
+        "clever_tap": {
+            "name": "EditOrder",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "EditOrder",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SignIn",
+        "clever_tap": {
+            "name": "SignIn",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SignIn",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "CreateAccount",
+        "clever_tap": {
+            "name": "CreateAccount",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "CreateAccount",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ForgotPassword",
+        "clever_tap": {
+            "name": "ForgotPassword",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ForgotPassword",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ForgotPasswordSuccess",
+        "clever_tap": {
+            "name": "ForgotPasswordSuccess",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ForgotPasswordSuccess",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "Register",
+        "clever_tap": {
+            "name": "Register",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "Register",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "Login",
+        "clever_tap": {
+            "name": "Login",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "Login",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ViewMore",
+        "clever_tap": {
+            "name": "ViewMore",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ViewMore",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "EditMultiSearch",
+        "clever_tap": {
+            "name": "EditMultiSearch",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "EditMultiSearch",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "MultiSearch",
+        "clever_tap": {
+            "name": "MultiSearch",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "MultiSearch",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "Share",
+        "clever_tap": {
+            "name": "Share",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "Share",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddRecipe",
+        "clever_tap": {
+            "name": "AddRecipe",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddRecipe",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ReOrder",
+        "clever_tap": {
+            "name": "ReOrder",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ReOrder",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ChangeOrder",
+        "clever_tap": {
+            "name": "ChangeOrder",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ChangeOrder",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SignOut",
+        "clever_tap": {
+            "name": "SignOut",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SignOut",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AutoDetect",
+        "clever_tap": {
+            "name": "AutoDetect",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AutoDetect",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ManualSelect",
+        "clever_tap": {
+            "name": "ManualSelect",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ManualSelect",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ChangePassword",
+        "clever_tap": {
+            "name": "ChangePassword",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ChangePassword",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ChangeLanguage",
+        "clever_tap": {
+            "name": "ChangeLanguage",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ChangeLanguage",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SelectLocationSearch",
+        "clever_tap": {
+            "name": "SelectLocationSearch",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SelectLocationSearch",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SelectLocationCancel",
+        "clever_tap": {
+            "name": "SelectLocationCancel",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SelectLocationCancel",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SelectLocationConfirm",
+        "clever_tap": {
+            "name": "SelectLocationConfirm",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SelectLocationConfirm",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SubstitutionCancelOrder",
+        "clever_tap": {
+            "name": "SubstitutionCancelOrder",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SubstitutionCancelOrder",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SubstitutionSelected",
+        "clever_tap": {
+            "name": "SubstitutionSelected",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SubstitutionSelected",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SubstitutionContinue",
+        "clever_tap": {
+            "name": "SubstitutionContinue",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SubstitutionContinue",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "SendReplacement",
+        "clever_tap": {
+            "name": "SendReplacement",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "SendReplacement",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddRating",
+        "clever_tap": {
+            "name": "AddRating",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddRating",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddComment",
+        "clever_tap": {
+            "name": "AddComment",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddComment",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "LeaveFeedback",
+        "clever_tap": {
+            "name": "LeaveFeedback",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "LeaveFeedback",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "Message",
+        "clever_tap": {
+            "name": "Message",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "Message",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "PopUpButtonClick",
+        "clever_tap": {
+            "name": "PopUpButtonClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "PopUpButtonClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "OtpConfirm",
+        "clever_tap": {
+            "name": "OtpConfirm",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "OtpConfirm",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "OtpResend",
+        "clever_tap": {
+            "name": "OtpResend",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "OtpResend",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "Checkout",
+        "clever_tap": {
+            "name": "Checkout",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "Checkout",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "ClearBasket",
+        "clever_tap": {
+            "name": "ClearBasket",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "ClearBasket",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "OpenLocation",
+        "clever_tap": {
+            "name": "OpenLocation",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "OpenLocation",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "BeginCheckout",
+        "clever_tap": {
+            "name": "BeginCheckout",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "BeginCheckout",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "StoreListingNoStores",
+        "clever_tap": {
+            "name": "StoreListingNoStores",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "StoreListingNoStores",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "DealsClick",
+        "clever_tap": {
+            "name": "DealsClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "DealsClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "DealsView",
+        "clever_tap": {
+            "name": "DealsView",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "DealsView",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "NoDeals",
+        "clever_tap": {
+            "name": "NoDeals",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "NoDeals",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "NoBanners",
+        "clever_tap": {
+            "name": "NoBanners",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "NoBanners",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "NavHomeClick",
+        "clever_tap": {
+            "name": "NavHomeClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "NavHomeClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "NavHomeClick",
+        "clever_tap": {
+            "name": "NavHomeClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "NavHomeClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "NavProfileClick",
+        "clever_tap": {
+            "name": "NavProfileClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "NavProfileClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "NavStoreCategoryClick",
+        "clever_tap": {
+            "name": "NavStoreCategoryClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "NavStoreCategoryClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "NavStoreClick",
+        "clever_tap": {
+            "name": "NavStoreClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "NavStoreClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "RecipeClick",
+        "clever_tap": {
+            "name": "RecipeClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "RecipeClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "RecipeFilterClick",
+        "clever_tap": {
+            "name": "RecipeFilterClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "RecipeFilterClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "NoRecipe",
+        "clever_tap": {
+            "name": "NoRecipe",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "NoRecipe",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "HomeView",
+        "clever_tap": {
+            "name": "HomeView",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "HomeView",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "BannerClick",
+        "clever_tap": {
+            "name": "BannerClick",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "BannerClick",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "LocationChange",
+        "clever_tap": {
+            "name": "LocationChange",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "LocationChange",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "StoreListingOneCategoryFilter",
+        "clever_tap": {
+            "name": "StoreListingOneCategoryFilter",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "StoreListingOneCategoryFilter",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "StoreCategoryFilter",
+        "clever_tap": {
+            "name": "StoreCategoryFilter",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "StoreCategoryFilter",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "StoreListingRows",
+        "clever_tap": {
+            "name": "StoreListingRows",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "StoreListingRows",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "LocationSelected",
+        "clever_tap": {
+            "name": "LocationSelected",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "LocationSelected",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "StoreSelected",
+        "clever_tap": {
+            "name": "StoreSelected",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "StoreSelected",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "FirstOrder",
+        "clever_tap": {
+            "name": "FirstOrder",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "FirstOrder",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemPrevious",
+        "clever_tap": {
+            "name": "AddItemPrevious",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemPrevious",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemStore",
+        "clever_tap": {
+            "name": "AddItemStore",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemStore",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemPreviousViewMore",
+        "clever_tap": {
+            "name": "AddItemPreviousViewMore",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemPreviousViewMore",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemMultiSearch",
+        "clever_tap": {
+            "name": "AddItemMultiSearch",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemMultiSearch",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemBrand",
+        "clever_tap": {
+            "name": "AddItemBrand",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemBrand",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemBasketCarousel",
+        "clever_tap": {
+            "name": "AddItemBasketCarousel",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemBasketCarousel",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemRecipe",
+        "clever_tap": {
+            "name": "AddItemRecipe",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemRecipe",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemSearch",
+        "clever_tap": {
+            "name": "AddItemSearch",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemSearch",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemCategory",
+        "clever_tap": {
+            "name": "AddItemCategory",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemCategory",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemHomeLanding",
+        "clever_tap": {
+            "name": "AddItemHomeLanding",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemHomeLanding",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemSearchLanding",
+        "clever_tap": {
+            "name": "AddItemSearchLanding",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemSearchLanding",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "MultiBrandBanner",
+        "clever_tap": {
+            "name": "MultiBrandBanner",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "MultiBrandBanner",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "RemoveItem",
+        "clever_tap": {
+            "name": "RemoveItem",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "RemoveItem",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "AddItemSponsored",
+        "clever_tap": {
+            "name": "AddItemSponsored",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "AddItemSponsored",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "OrderAccepted",
+        "clever_tap": {
+            "name": "OrderAccepted",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "OrderAccepted",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    },
+    {
+        "eg_name": "OrderDelivered",
+        "clever_tap": {
+            "name": "OrderDelivered",
+            "mode": 1
+        },
+        "firebase": {
+            "name": "OrderDelivered",
+            "mode": 1
+        },
+        "isWeb": false,
+        "isMobile": true
+    }
+]

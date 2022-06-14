@@ -49,12 +49,14 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '12.0'
   s.swift_versions = '4.2'
 
-  s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*'
+  s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*.*'
   s.exclude_files = "Classes/Exclude"
    
   s.resource_bundles = {
-      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/Assets/**/*{.png,.xcassets,.xcdatamodeld}']
+      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/Assets/**/*.*']
   }
+  
+  #.{png,xcassets,xcdatamodeld,plist,strings,json,m4r}
 
     # spec.public_header_files = "Classes/**/*.h"
   # s.public_header_files = 'Pod/Classes/**/*.h'
@@ -110,7 +112,7 @@ Pod::Spec.new do |s|
 
   # Add the pod for Firebase Crashlytics
   s.dependency 'Firebase/Crashlytics'
-  s.dependency 'Crashlytics' # please dont delete this for now it will causing crashes need fixes
+  #s.dependency 'Crashlytics' # please dont delete this for now it will causing crashes need fixes
   # Recommended: Add the Firebase pod for Google Analytics
   s.dependency 'Firebase/Analytics'
   s.dependency 'Firebase/Auth'

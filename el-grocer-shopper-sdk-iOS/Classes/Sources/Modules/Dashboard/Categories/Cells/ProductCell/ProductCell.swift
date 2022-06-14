@@ -1,0 +1,1121 @@
+//
+//  ProductCell.swift
+//  ElGrocerShopper
+//
+//  Created by Awais Arshad Chatha on 08.07.2015.
+//  Copyright (c) 2015 elGrocer. All rights reserved.
+//   New UI
+
+import Foundation
+import UIKit
+import SDWebImage
+import STPopup
+import PMAlertController
+let kProductCellIdentifier = "ProductCell"
+let kProductCellHeight: CGFloat = 264
+let kProductCellWidth: CGFloat = 163
+let KProductNotification = Notification.Name("NotificationProductIdentifierforchat")
+protocol ProductCellProtocol : class {
+    
+    func productCellOnFavouriteClick(_ productCell:ProductCell, product:Product) -> Void
+    func productCellOnProductQuickAddButtonClick(_ productCell:ProductCell, product:Product) -> Void
+    func productCellOnProductQuickRemoveButtonClick(_ productCell:ProductCell, product:Product) -> Void
+    func chooseReplacementWithProduct(_ product:Product) -> Void
+    func productDelete(_ product:Product) -> Void
+}
+extension ProductCellProtocol {
+    func productDelete(_ product:Product){}
+}
+
+class ProductCell : UICollectionViewCell {
+    let topAddButtonmaxY = 0
+    let topAddButtonminY = -32
+  
+    
+    @IBOutlet var deleteView: UIView!
+    
+    @IBOutlet var addToCartBottomPossitionConstraint: NSLayoutConstraint!
+    @IBOutlet var quantityYPossition: NSLayoutConstraint!
+    @IBOutlet var bottomPossition: NSLayoutConstraint!
+    @IBOutlet weak var lblAddToCartHeight: NSLayoutConstraint!
+    @IBOutlet weak var addToCartCOntainerHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var addToCartBGView: UIView!
+   // @IBOutlet weak var bottomLine: UIView!
+    //@IBOutlet weak var productdescriptionline: UIView!
+    @IBOutlet weak var productContainer: UIView!
+    @IBOutlet weak var productView: UIView!
+    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var productNameLabel: UILabel!
+    @IBOutlet weak var productPriceLabel: UILabel!
+    @IBOutlet weak var productDescriptionLabel: UILabel!
+    @IBOutlet weak var sponserdView: UILabel!{
+        didSet{
+            sponserdView.backgroundColor = .navigationBarColor()
+        }
+    }
+    @IBOutlet weak var lblAddToCart: UILabel!
+    @IBOutlet var productBGShadowView: AWView!
+    
+   
+    @IBOutlet var addToContainerView: UIView!
+    
+   
+    @IBOutlet weak var buttonsView: UIView!
+    
+    @IBOutlet weak var quickAddToCartButton: UIButton!
+    @IBOutlet weak var addToCartButton: UIButton!
+    @IBOutlet weak var plusButton: UIButton!
+    @IBOutlet weak var minusButton: UIButton!
+    @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var productCellCounterBGImageView: UIImageView!
+    
+    @IBOutlet weak var outOfStockContainer: UIView!
+    @IBOutlet weak var outOfStockLabel: UILabel!
+    @IBOutlet weak var chooseReplacmentBtn: UIButton!
+    @IBOutlet weak var saleView: UIImageView!{
+        didSet{
+            saleView.isHidden = true
+        }
+    }
+    @IBOutlet var lblRemove: UILabel!
+    @IBOutlet var imageCrossState: UIImageView!
+    
+    @IBOutlet var chooseReplaceBg: UIView!
+    @IBOutlet var imgRepalce: UIImageView!
+    @IBOutlet var promotionBGView: UIView!{
+        didSet{
+            promotionBGView.backgroundColor = .promotionRedColor()
+        }
+    }
+    @IBOutlet var lblStrikePrice: UILabel!{
+        didSet{
+            lblStrikePrice.setCaptionTwoRegWhiteStyle()
+        }
+    }
+    @IBOutlet var lblOfferPrice: UILabel!{
+        didSet{
+            lblOfferPrice.setCaptionTwoRegWhiteStyle()
+        }
+    }
+    @IBOutlet var lblDiscountPercent: UILabel!{
+        didSet{
+            lblDiscountPercent.setCaptionOneBoldYellowStyle()
+        }
+    }
+    @IBOutlet var lblOFF: UILabel!{
+        didSet{
+            lblOFF.setCaptionOneBoldYellowStyle()
+            lblOFF.text = NSLocalizedString("txt_off_Single", comment: "")
+        }
+    }
+    @IBOutlet var limitedStockBGView: UIView!{
+        didSet{
+            limitedStockBGView.backgroundColor = .limitedStockGreenColor()
+        }
+    }
+    @IBOutlet var lblLimitedStock: UILabel!{
+        didSet{
+            lblLimitedStock.setCaptionOneBoldWhiteStyle()
+            lblLimitedStock.text = NSLocalizedString("lbl_limited_Stock", comment: "")
+        }
+    }
+    
+    
+    
+    var cellIndex : IndexPath?
+    
+    @IBOutlet weak var lblAddToCartProductView: UILabel! {
+        didSet{}
+    }
+    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    
+    weak var product:Product!
+    weak var productGrocery:Grocery?
+    weak var delegate:ProductCellProtocol?
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        addImageViewGesture()
+        setUpProductNameAppearance()
+        setUpProductPriceAppearance()
+        setUpProductDescriptionAppearance()
+        setUpQuantityLabelAppearance()
+        setUpAddToCartButtonAppearance()
+        setUpOutOfStockLabelAppearance()
+        setUpAddToCartView()
+        setButtonApearence()
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationReceived(notification:)), name: KProductNotification, object: nil)
+    
+    }
+    @objc
+    func notificationReceived ( notification : NSNotification) {
+       
+        if let product = notification.object as? Product {
+            guard self.product != nil else {
+                return
+            }
+            guard product.dbID == self.product.dbID else {
+                return
+            }
+            self.configureWithProduct(product , grocery: self.productGrocery, cellIndex: self.cellIndex)
+        }
+        
+    }
+    
+    func setPromotionView(_ isPrmotion : Bool = false , _ isLimitedStock : Bool = false ,isNeedToShowPercentage : Bool = true){
+        //self.limitedStockBGView.isHidden = !isLimitedStock
+        self.limitedStockBGView.isHidden = !isLimitedStock
+        self.promotionBGView.isHidden = !isPrmotion
+        
+        if isPrmotion{
+            //set text values
+            setPromotionAppearence()
+            configurePromotionView(isNeedToShowPercentage: isNeedToShowPercentage)
+        }
+        
+    }
+    func setPromotionAppearence(){
+        promotionBGView.layer.cornerRadius = 8
+        promotionBGView.layer.maskedCorners = [.layerMaxXMinYCorner , .layerMinXMinYCorner]
+    }
+    
+    func setLimitedView( isLimitedStock : Bool = false ){
+            //self.limitedStockBGView.isHidden = !isLimitedStock
+        self.limitedStockBGView.isHidden = !isLimitedStock
+        self.promotionBGView.isHidden = true
+        self.lblDiscountPercent.text = ""
+        self.lblOFF.text = ""
+        self.saleView.isHidden = true
+        self.lblStrikePrice.strikeThrough(false)
+   
+    }
+    
+    func configurePromotionView(isNeedToShowPercentage : Bool) {
+        
+        if !isNeedToShowPercentage {
+            
+            self.lblStrikePrice.attributedText = nil
+            self.lblStrikePrice.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+            self.lblStrikePrice.textColor = .elGrocerYellowColor()
+            self.lblDiscountPercent.text = ""
+            self.lblOFF.text = ""
+            self.limitedStockBGView.isHidden = true
+            self.saleView.isHidden = false
+            self.lblStrikePrice.strikeThrough(false)
+            
+        } else {
+            
+            self.lblStrikePrice.textColor = .navigationBarWhiteColor()
+//            self.lblStrikePrice.text = NSLocalizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
+            self.lblStrikePrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: product.price.doubleValue)
+            self.lblStrikePrice.strikeThrough(true)
+            if let percentage = ProductQuantiy.getPercentage(product: self.product) as? Int{
+                if percentage == 0 {
+                    
+                    self.lblStrikePrice.attributedText = nil
+                    self.lblStrikePrice.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+                    self.lblStrikePrice.textColor = .elGrocerYellowColor()
+                    self.lblDiscountPercent.text = ""
+                    self.lblOFF.text = ""
+                    self.limitedStockBGView.isHidden = true
+                    self.saleView.isHidden = false
+                    self.lblStrikePrice.strikeThrough(false)
+                    
+                    
+                }else {
+                    self.lblDiscountPercent.text = "-" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(percentage)) + "%"
+                    self.lblOFF.text = NSLocalizedString("txt_off_Single", comment: "")
+                    self.lblStrikePrice.textColor = .white
+                    self.saleView.isHidden = true
+                }
+                
+            }
+          
+        }
+  
+//        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+//        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(16), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+//            let attributedString1 = NSMutableAttributedString(string: CurrencyManager.getCurrentCurrency() , attributes:attrs1 as [NSAttributedString.Key : Any])
+//            let price =  NSString(format: " %.2f" , self.product.promoPrice!.floatValue)
+//            let attributedString2 = NSMutableAttributedString(string:price as String , attributes:attrs2 as [NSAttributedString.Key : Any])
+//            attributedString1.append(attributedString2)
+//
+//        self.lblOfferPrice.attributedText = attributedString1
+        self.lblOfferPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: self.product.promoPrice!.doubleValue,isProductWhite: true)
+       
+    }
+    
+    func getPercentage() -> Int{
+        
+        guard let promoPrice = product.promoPrice as? Double else{return 0}
+        guard let price = product.price as? Double else{return 0}
+        
+        var percentage : Double = 0
+        if price > 0{
+            let percentageDecimal = ((price - promoPrice)/price)
+            percentage = percentageDecimal * 100
+           // percentage  = (promoPrice / price) * 100
+        }
+        
+        
+        return Int(percentage)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.productImageView.sd_cancelCurrentImageLoad()
+        self.productImageView.image = self.placeholderPhoto
+    }
+    
+    
+    
+    // MARK: Appearance
+    
+    
+    fileprivate func setButtonApearence() {
+        
+        switch ElGrocerUtility.sharedInstance.isArabicSelected() {
+        case true:
+            self.minusButton.roundCorners(corners: [.topLeft], radius: 8)
+            self.plusButton.roundCorners(corners: [.topRight], radius: 8)
+            self.deleteView.roundCorners(corners: [ .bottomLeft], radius: 8.0)
+        default:
+            self.minusButton.roundCorners(corners: [.topRight], radius: 8)
+            self.plusButton.roundCorners(corners: [.topLeft], radius: 8)
+            self.deleteView.roundCorners(corners: [ .bottomRight], radius: 8.0)
+        }
+        
+    }
+    
+    
+    
+    fileprivate func setUpProductDescriptionAppearance() {
+        
+        self.productDescriptionLabel.setCaptionOneRegSecondaryDarkStyle()
+        self.productDescriptionLabel.numberOfLines = 0
+        self.productDescriptionLabel.textAlignment = .left
+        self.productDescriptionLabel.clipsToBounds = true
+        self.productDescriptionLabel.setNeedsLayout()
+        self.sponserdView.roundCorners(corners: [ .bottomLeft ], radius: 5)
+        self.sponserdView.text = NSLocalizedString("lbl_Sponsored", comment: "")
+        self.sponserdView.setCaptionOneBoldWhiteStyle()
+    }
+    
+    fileprivate func setUpProductNameAppearance() {
+
+
+        self.productNameLabel.setBody2RegDarkStyle()
+        self.productNameLabel.sizeToFit()
+        self.productNameLabel.numberOfLines = 2
+    }
+    
+    fileprivate func setUpProductPriceAppearance() {
+        
+        self.productPriceLabel.setBody2SemiboldDarkStyle()
+    }
+    
+    fileprivate func setUpQuantityLabelAppearance() {
+        
+        self.quantityLabel.setSubHead2RegDarkStyle()
+
+    }
+    
+    fileprivate func setUpOutOfStockLabelAppearance() {
+        
+        self.outOfStockLabel.text = NSLocalizedString("out_of_stock_title", comment: "")
+        self.outOfStockLabel.setSubHead2BoldWhiteStyle()
+        self.outOfStockLabel.backgroundColor = .newBlackColor()
+        
+        self.chooseReplacmentBtn.setTitle(NSLocalizedString("choose_alternatives_title", comment: ""), for: UIControl.State())
+        self.chooseReplacmentBtn.setSubHead1BoldWhiteStyle()
+        self.chooseReplacmentBtn.titleLabel?.textAlignment = .natural
+        
+        
+        self.imageCrossState.backgroundColor = .orange
+        self.imageCrossState.alpha = 0.8
+        self.imageCrossState.layer.cornerRadius = self.imageCrossState.frame.size.width/2
+        self.imageCrossState.clipsToBounds = true
+        
+        
+        self.lblRemove.isHidden = true
+        self.imageCrossState.isHidden = true
+        self.lblRemove.font = UIFont.SFProDisplayBoldFont(14.0)
+        self.lblRemove.text = NSLocalizedString("remove_Item_On_ProductCell_button_title", comment: "")
+        
+        
+    }
+    
+    fileprivate func setUpAddToCartButtonAppearance() {
+        
+        self.addToCartButton.setTitle(NSLocalizedString("addtocart_button_title", comment: ""), for: UIControl.State())
+        self.addToCartButton.setBody3BoldWhiteStyle()
+        //self.addToCartButton.titleLabel?.textColor = UIColor.mediumGreenColor()
+        self.setUpAddToCartLableAppearance()
+    }
+
+    fileprivate func setUpAddToCartLableAppearance() {
+
+        self.lblAddToCart.text = NSLocalizedString("addtocart_button_title", comment: "")
+        self.lblAddToCartProductView.text = NSLocalizedString("addtocart_button_title", comment: "")
+    }
+
+    fileprivate func addImageViewGesture() {
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showImagePopUp))
+        tap.numberOfTapsRequired = 1
+        self.productImageView.addGestureRecognizer(tap)
+        self.productImageView.isUserInteractionEnabled = true
+
+    }
+    
+    
+    func setChooseReplaceViewSuccess () {
+        
+        if chooseReplacmentBtn.titleLabel?.text != NSLocalizedString("lbl_replace_seleted", comment: "") {
+            chooseReplaceBg.backgroundColor = .navigationBarColor()
+            UIView.performWithoutAnimation {
+                chooseReplacmentBtn.setTitle(NSLocalizedString("lbl_replace_seleted", comment: ""), for: .normal)
+                chooseReplacmentBtn.layoutIfNeeded()
+            }
+           
+            imgRepalce.image = UIImage(named: "MyBasketSubsituteSuccess")
+        }
+        
+        
+ 
+    }
+
+    func setNotSelectedReplacementView() {
+        if chooseReplacmentBtn.titleLabel?.text != NSLocalizedString("choose_substitutions_title", comment: "") {
+            chooseReplaceBg.backgroundColor = .secondaryDarkGreenColor()//.redInfoColor()
+            UIView.performWithoutAnimation {
+                 chooseReplacmentBtn.setTitle(NSLocalizedString("choose_substitutions_title", comment: ""), for: .normal)
+                chooseReplacmentBtn.layoutIfNeeded()
+            }
+            imgRepalce.image = UIImage(named: "MyBasketSubsituteChoseReplacement")
+            
+        }
+    }
+
+
+
+
+    fileprivate func setUpAddToCartView() {
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func onQuickProductAddButtonClick(_ sender: AnyObject) {
+        
+    }
+ 
+    
+    @IBAction func deleteProductButtonCalled(_ sender: Any) {
+        self.delegate?.productDelete(self.product)
+    }
+
+    @IBAction func addToCartHandler(_ sender: AnyObject) {
+        
+        guard self.product != nil else {return}
+        guard self.addToCartButton.titleLabel?.text != NSLocalizedString("lbl_ShopInStore", comment: "") else {
+            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+            return
+        }
+        
+      
+        func addCartAction() {
+            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+            self.cellAddToCartEvents()
+       
+        }
+     
+        func animationWorkToAdd () {
+            
+            if let item = ShoppingBasketItem.checkIfProductIsInBasket(self.product, grocery: self.productGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                let count = item.count.intValue + 1
+                if count != 1 {
+                    UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
+                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
+                    }, completion: { (completed) in
+                        addCartAction()
+                    })
+                    return
+                }
+            }
+            
+            
+            if let topVc = UIApplication.topViewController() {
+                if topVc is SubstitutionsProductViewController {
+                    let subVc = topVc as! SubstitutionsProductViewController
+                    if let item = subVc.substitutionItemForProduct(self.product) {
+                        let count = item.count.intValue + 1
+                        if count != 1 {
+                            UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
+                                self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
+                            }, completion: { (completed) in
+                                addCartAction()
+                            })
+                            return
+                        }
+                    }
+                }
+            }
+            
+            self.addToCartButton.isHidden = true
+            self.buttonsView.isHidden = false
+            addCartAction()
+            
+        }
+        
+
+        
+        if self.product.isPg18.boolValue && !UserDefaults.isUserOver18() {
+            
+            if let appDelegate = UIApplication.shared.delegate {
+                let alertView = TobbacoPopup.showNotificationPopup(topView: (appDelegate.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: NSLocalizedString("over_18", comment: "") , buttonTwoText: NSLocalizedString("less_over_18", comment: ""))
+                
+                alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
+                    guard self == self  else {
+                        return
+                    }
+                    if buttonIndex == 0 {
+                        UserDefaults.setOver18(true)
+                        animationWorkToAdd ()
+                        return
+                    }
+                    UserDefaults.setOver18(false)
+                }
+            }
+       
+        }else{
+           animationWorkToAdd ()
+        }
+    
+    }
+    
+    @IBAction func minusButtonHandler(_ sender: AnyObject) {
+        DispatchQueue.main.async {
+        func callDelegateAndAnalytics() {
+            FireBaseEventsLogger.trackDecrementAddToProduct(product: self.product)
+            self.delegate?.productCellOnProductQuickRemoveButtonClick(self, product: self.product)
+        }
+          
+            func proceedWithCount (count : Int) {
+                if count == 0 {
+                    
+                    if self.product.promotion?.boolValue == true {
+                        if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0{
+                            self.plusButton.isEnabled = true
+                            self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                        }
+                        //self.limitedStockBGView.isHidden = false
+                    }
+                    
+                    self.addToCartButton.isHidden = false
+                    self.buttonsView.isHidden = true
+                    self.bringSubviewToFront(self.addToCartButton)
+                    
+                    func showAddToCartButtonAnimated() {
+//                        self.addToCartBottomPossitionConstraint.constant = CGFloat(self.topAddButtonmaxY)
+//                        self.layoutIfNeeded()
+//                        self.setNeedsLayout()
+                        callDelegateAndAnalytics()
+                        
+                    }
+//                    self.bottomPossition.constant = CGFloat(self.topAddButtonminY)
+//                    self.addToCartBottomPossitionConstraint.constant = CGFloat(self.topAddButtonminY)
+                    showAddToCartButtonAnimated()
+                    return
+                }else if count == 1 {
+                    
+                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
+                    self.minusButton.setImage(UIImage(named: "delete_product_cell"), for: .normal)
+                    
+                    if self.product.promotion?.boolValue == true {
+                        //self.limitedStockBGView.isHidden = false
+                        self.promotionBGView.isHidden = false
+                        if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0 {
+                            self.plusButton.isEnabled = true
+                            self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                            callDelegateAndAnalytics()
+                        }
+                    }else{
+                        self.plusButton.isEnabled = true
+                        self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                        //self.limitedStockBGView.isHidden = true
+                        self.promotionBGView.isHidden = true
+                        callDelegateAndAnalytics()
+                    }
+                    
+                   
+                    
+                }else if count > 0  {
+                    
+                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
+                    
+                    if self.product.promotion?.boolValue == true {
+                        //self.limitedStockBGView.isHidden = false
+                        self.promotionBGView.isHidden = false
+                        if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0  {
+                            self.plusButton.isEnabled = true
+                            self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                            callDelegateAndAnalytics()
+                           // debugPrint("minus button plus buttonenable")
+                        }
+                    }else{
+                        
+                        self.plusButton.isEnabled = true
+                        self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                       // self.limitedStockBGView.isHidden = true
+                        self.promotionBGView.isHidden = true
+                        callDelegateAndAnalytics()
+                    }
+                    
+                }
+                
+                
+            }
+            
+            
+        if let item = ShoppingBasketItem.checkIfProductIsInBasket(self.product, grocery: self.productGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            let count = item.count.intValue - 1
+            proceedWithCount(count: count)
+        }else{
+            
+            if let topVc = UIApplication.topViewController() {
+                if topVc is SubstitutionsProductViewController {
+                    let subVc = topVc as! SubstitutionsProductViewController
+                    if let item = subVc.substitutionItemForProduct(self.product) {
+                        if self.product.promotion?.boolValue == true{
+                            if item.count.intValue >= self.product.promoProductLimit as! Int && self.product.promoProductLimit?.intValue ?? 0 > 0 {
+                                debugPrint("exceedlimits");
+                            }else{
+                                let count = item.count.intValue - 1
+                                proceedWithCount(count: count)
+                                return
+                            }
+                        }else{
+                            let count = item.count.intValue - 1
+                            proceedWithCount(count: count)
+                            return
+                        }
+                    }
+                }
+            }
+
+            
+            
+            callDelegateAndAnalytics()
+            }
+        }
+    }
+    
+    func cellAddToCartEvents () {
+        ElGrocerEventsLogger.sharedInstance.addToCart(product: self.product, "", nil, false , self.cellIndex)
+    }
+    
+    @IBAction func plusButtonHandler(_ sender: AnyObject) {
+        DispatchQueue.main.async {
+        
+        guard self.product != nil else {return}
+         
+        func addCartAction() {
+    
+            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+            self.cellAddToCartEvents()
+            if self.product.isPg18.boolValue {
+                let msg = (self.product.name ?? "") + "\n" + NSLocalizedString("tobaco_product_msg", comment: "")
+                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
+            }
+        }
+            
+            func animationWorkToAdd () {
+                
+                var count = 0
+                var itemCurrentCount = 0
+                var isSubsituteItem = false
+                
+                if let item = ShoppingBasketItem.checkIfProductIsInBasket(self.product, grocery: self.productGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                    isSubsituteItem = true
+                     count = item.count.intValue
+                    itemCurrentCount = item.count.intValue
+                    if self.product.promotion?.boolValue == true{
+                        if item.count.intValue >= self.product.promoProductLimit as! Int && self.product.promoProductLimit?.intValue ?? 0 > 0  {
+                            
+                        }else{
+                            count = item.count.intValue + 1
+                        }
+                    }else{
+                        count = item.count.intValue + 1
+
+                    }
+                }else{
+                    if let topVc = UIApplication.topViewController() {
+                        if topVc is SubstitutionsProductViewController {
+                            let subVc = topVc as! SubstitutionsProductViewController
+                            if let item = subVc.substitutionItemForProduct(self.product) {
+                                isSubsituteItem = true
+                                count = item.count.intValue
+                                itemCurrentCount = item.count.intValue
+                                if self.product.promotion?.boolValue == true{
+                                    if item.count.intValue >= self.product.promoProductLimit as! Int && self.product.promoProductLimit?.intValue ?? 0 > 0 {
+                                        debugPrint("exceedlimits");
+                                    }else{
+                                        count = item.count.intValue + 1
+                                    }
+                                }else{
+                                    count = item.count.intValue + 1
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                
+                if count != 1 {
+                    
+                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
+                    if count == 2 {
+                        self.minusButton.setImage(UIImage(named: "remove_product_cell"), for: .normal)
+                    }
+                    
+                    
+                    if self.product.promotion?.boolValue == true {
+                        
+                        func showOverLimitMsg() {
+                            let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(self.product.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
+                            let title = NSLocalizedString("msg_limited_stock_title", comment: "")
+                            ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                        }
+                        
+                        
+                        if (isSubsituteItem && count == self.product.promoProductLimit as! Int) && self.product.promoProductLimit?.intValue ?? 0 > 0 {
+                            showOverLimitMsg()
+                        }
+                        
+                        if (itemCurrentCount >= self.product.promoProductLimit as! Int) && self.product.promoProductLimit?.intValue ?? 0 > 0 {
+                            self.plusButton.backgroundColor = UIColor.newBorderGreyColor()
+                            self.plusButton.isEnabled = false
+                            showOverLimitMsg()
+                            
+                        }else{
+                            self.plusButton.isEnabled = true
+                            self.plusButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
+                            addCartAction()
+                            
+                            ProductQuantiy.checkLimitForDisplayMsgs(selectedProduct: self.product, counter: count)
+                        }
+                        
+                        
+                        
+                    }else{
+                        
+                        if self.product.availableQuantity >= 0 && self.product.availableQuantity.intValue <= count {
+                            
+                            func showOverLimitMsg() {
+                                let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(self.product.availableQuantity)" + NSLocalizedString("msg_limited_stock_end", comment: "")
+                                let title = NSLocalizedString("msg_limited_stock_Quantity_title", comment: "")
+                                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                            }
+                            
+                            showOverLimitMsg()
+                            
+                        }
+                       
+                        self.plusButton.isEnabled = true
+                        self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                        //self.limitedStockBGView.isHidden = true
+                        self.promotionBGView.isHidden = true
+                        addCartAction()
+                        
+                    }
+                    
+                    
+
+                    
+                    return
+                }
+                
+                addCartAction()
+               // self.bottomPossition.constant = CGFloat(self.topAddButtonminY)
+//                UIView.animate(withDuration: 0, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0.0, options: [] , animations: {
+//                    self.layoutIfNeeded()
+//                    self.setNeedsLayout()
+//                }, completion: { (completed) in  } )
+                
+                self.buttonsView.isHidden = false
+              //  self.bottomPossition.constant =  CGFloat(self.topAddButtonmaxY)
+             //   self.addToCartBottomPossitionConstraint.constant = CGFloat(self.topAddButtonminY)
+//                UIView.animate(withDuration: 0.05, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [] , animations: {
+//                    self.layoutIfNeeded()
+//                    self.setNeedsLayout()
+//                }, completion: { (completed) in
+//
+//                } )
+                
+                
+            }
+     
+            if self.product.isPg18.boolValue && !UserDefaults.isUserOver18() {
+                
+                if let appDelegate = UIApplication.shared.delegate {
+                    let alertView = TobbacoPopup.showNotificationPopup(topView: (appDelegate.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: NSLocalizedString("over_18", comment: "") , buttonTwoText: NSLocalizedString("less_over_18", comment: ""))
+                    
+                    alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
+                        guard self == self  else {
+                            return
+                        }
+                        if buttonIndex == 0 {
+                            UserDefaults.setOver18(true)
+                            animationWorkToAdd ()
+                            return
+                        }
+                        UserDefaults.setOver18(false)
+                    }
+                }
+                
+            }else{
+                animationWorkToAdd ()
+            }
+            
+        }
+    
+    }
+    
+    @IBAction func chooseReplacementHandler(_ sender: Any) {
+        self.delegate?.chooseReplacementWithProduct(self.product)
+    }
+    
+    // MARK: Data
+    
+    func configureWithProduct(_ product: Product, grocery:Grocery? , cellIndex : IndexPath?) {
+     
+        self.product = product
+        self.cellIndex = cellIndex
+        self.productGrocery = grocery
+        self.productNameLabel.text = product.name
+        if self.productNameLabel.text?.isEmpty ?? false {
+            self.productNameLabel.text = product.nameEn
+        }
+        
+        if product.descr != nil && product.descr?.isEmpty == false  {
+            
+            self.productDescriptionLabel.isHidden = false
+            self.productDescriptionLabel.text =  product.descr!// + "  "
+        
+        }else{
+            self.productDescriptionLabel.isHidden = true
+        }
+
+//        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+//        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(16), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+//        let attributedString1 = NSMutableAttributedString(string: CurrencyManager.getCurrentCurrency() , attributes:attrs1 as [NSAttributedString.Key : Any])
+//        let price =  NSString(format: " %.2f" , self.product.price.doubleValue)
+//
+//
+//        let attributedString2 = NSMutableAttributedString(string:price as String , attributes:attrs2 as [NSAttributedString.Key : Any])
+//        attributedString1.append(attributedString2)
+//        self.productPriceLabel.attributedText = attributedString1
+        
+        self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: self.product.price.doubleValue)
+           
+
+        self.plusButton.setImage(UIImage(named: "icPlusGray")!.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.minusButton.setImage(UIImage(named: "icDashGrey")!.withRenderingMode(.alwaysTemplate), for: .normal)
+        //check if item is added to basket
+        if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            if item.isSubtituted.boolValue {
+                self.setChooseReplaceViewSuccess()
+                let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+                if currentLang == "ar" {
+                    self.imgRepalce.transform = .identity
+                     self.imgRepalce.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+                }
+            }else{
+                 self.setNotSelectedReplacementView()
+                let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+                if currentLang == "ar" {
+                     self.imgRepalce.transform = CGAffineTransform(scaleX: -1, y: 1)
+                     self.imgRepalce.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+                }
+            }
+            
+           // self.bottomPossition.constant = CGFloat(self.topAddButtonmaxY)
+            addToCartButton.isHidden = true
+            buttonsView.isHidden = false
+
+            self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)"
+             //self.quantityLabel.textColor = UIColor.newBlackColor()
+
+            self.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
+            self.minusButton.imageView?.tintColor = UIColor.navigationBarColor()
+
+              self.plusButton.setImage(UIImage(named: "add_product_cell"), for: .normal)
+            if item.count == 1 {
+                self.minusButton.setImage(UIImage(named: "delete_product_cell"), for: .normal)
+            }else{
+                self.minusButton.setImage(UIImage(named: "remove_product_cell"), for: .normal)
+            }
+ 
+        } else {
+            addToCartButton.isHidden = false
+            buttonsView.isHidden = true
+            self.quantityLabel.text = "0"
+            self.plusButton.imageView?.tintColor = UIColor.darkTextGrayColor()
+            self.minusButton.imageView?.tintColor = UIColor.darkTextGrayColor()
+            self.plusButton.setImage(UIImage(named: "add_product_cell"), for: .normal)
+            self.minusButton.setImage(UIImage(named: "delete_product_cell"), for: .normal)
+        }
+        
+        if product.imageUrl != nil && product.imageUrl?.range(of: "http") != nil {
+            
+            self.productImageView.sd_setImage(with: URL(string: product.imageUrl!), placeholderImage: self.placeholderPhoto, options: SDWebImageOptions(rawValue: 1), completed: {[weak self] (image, error, cacheType, imageURL) in
+                guard let self = self else {
+                    return
+                }
+                if cacheType == SDImageCacheType.none {
+                    UIView.transition(with: self.productImageView , duration: 0.2, options:  [.transitionCrossDissolve], animations: {
+                        self.productImageView.image = image
+                    }, completion: { (completed) in
+                    })
+                }
+            })
+        }
+        
+        //hide product price and currency if grocery is nil
+      //  self.productPriceLabel.isHidden = grocery == nil
+        
+        if grocery == nil {
+            
+            var priceValue : NSNumber? = nil
+            
+            if let shopsA = product.shops {
+                
+                let shopsList = product.convertToDictionaryArray(text: shopsA)
+                let shops = shopsList?.filter({ data in
+                    let isDataAvailable =  ElGrocerUtility.sharedInstance.groceries.filter { grocery in
+                        return (data["retailer_id"] as! NSNumber).stringValue == grocery.getCleanGroceryID()
+                    }
+                    return isDataAvailable.count > 0
+                })
+                for shop in shops ?? [] {
+                    if let price = shop["price"] as? NSNumber {
+                        if priceValue == nil ||  price < (priceValue ?? NSNumber.init(value : Double.greatestFiniteMagnitude)) {
+                            priceValue = price
+                        }
+                    }
+                }
+            }
+            
+            if let shopsA = product.promotionalShops {
+                let shopsList = product.convertToDictionaryArray(text: shopsA)
+                let shops = shopsList?.filter({ data in
+                    let isDataAvailable =  ElGrocerUtility.sharedInstance.groceries.filter { grocery in
+                        return (data["retailer_id"] as! NSNumber).stringValue == grocery.getCleanGroceryID()
+                    }
+                    return isDataAvailable.count > 0
+                })
+                for shop in shops ?? [] {
+                    let strtTime = shop["start_time"] as? Int ?? 0
+                    let endTime = shop["end_time"] as? Int ?? 0
+                    
+                    let retailerId = shop["retailer_id"] as? String ?? "-1"
+                    let time = ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: retailerId)
+                    if strtTime <= time && endTime >= time {
+                        if let price = shop["price"] as? NSNumber {
+                            if priceValue == nil || price < (priceValue ?? NSNumber.init(value : Double.greatestFiniteMagnitude)) {
+                                priceValue = price
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if priceValue != nil {
+                
+                self.productPriceLabel.isHidden = !(priceValue! > 0)
+                
+                if priceValue!.doubleValue > 0 {
+//                    let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+//                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(16), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+//                    let attributedString1 = NSMutableAttributedString(string: CurrencyManager.getCurrentCurrency() , attributes:attrs1 as [NSAttributedString.Key : Any])
+//                    let price =  NSString(format: " %.2f" , priceValue!.doubleValue)
+//                    let attributedString2 = NSMutableAttributedString(string:price as String , attributes:attrs2 as [NSAttributedString.Key : Any])
+//                    attributedString1.append(attributedString2)
+//                    self.productPriceLabel.attributedText = attributedString1
+                    
+                    self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: priceValue!.doubleValue)
+                }
+            }
+         
+        }
+        
+        if !(product.isPublished.boolValue && product.isAvailable.boolValue) {
+            self.outOfStockContainer.isHidden = false
+          
+        }else{
+            self.outOfStockContainer.isHidden = true
+        }
+        
+        let isSponsored = product.isSponsored?.boolValue ?? false
+        self.sponserdView.isHidden = !isSponsored
+        ElGrocerUtility.sharedInstance.setPromoImage(imageView:  self.saleView)
+        let promotionValues = ProductQuantiy.checkPromoNeedToDisplay(product)
+        let isQuanityLimited = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product)
+        
+        if promotionValues.isNeedToDisplayPromo {
+            setPromotionView(promotionValues.isNeedToDisplayPromo, promotionValues.isNeedToShowPromoPercentage, isNeedToShowPercentage: promotionValues.isNeedToShowPromoPercentage)
+        }  else {
+            setPromotionView()
+            self.saleView.isHidden = true
+        }
+        
+        self.limitedStockBGView.isHidden = isQuanityLimited
+        
+       
+        
+      
+        
+        if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            
+            //if promotionValues.isNeedToDisplayPromo {
+                if ProductQuantiy.checkPromoLimitReached(product, count: item.count.intValue){
+                    self.plusButton.tintColor = UIColor.newBorderGreyColor()
+                    self.plusButton.imageView?.tintColor = UIColor.newBorderGreyColor()
+                    self.plusButton.isEnabled = false
+                    self.plusButton.setBackgroundColorForAllState(UIColor.newBorderGreyColor())
+                    FireBaseEventsLogger.trackInventoryReach(product: product, isCarousel: false)
+                    return
+                }
+            //}
+            self.plusButton.isEnabled = true
+            self.plusButton.tintColor = UIColor.navigationBarColor()
+            self.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
+            self.plusButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+        }
+        
+        if product.availableQuantity == 0 && grocery?.inventoryControlled?.boolValue ?? false {
+            
+            self.addToCartButton.tintColor = UIColor.newBorderGreyColor()
+            self.addToCartButton.isEnabled = false
+            self.addToCartButton.setBackgroundColorForAllState(UIColor.newBorderGreyColor())
+            
+        }else {
+          
+            self.addToCartButton.tintColor = UIColor.navigationBarColor()
+            self.addToCartButton.isEnabled = true
+            self.addToCartButton.setBody3BoldWhiteStyle()
+            self.addToCartButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+            
+        }
+      
+    }
+
+
+    @objc
+    func showImagePopUp(){
+    
+        if let topVc = UIApplication.topViewController() {
+            if topVc is SubstitutionsProductViewController || topVc is GlobalSearchResultsViewController || (topVc is BrandDeepLinksVC && self.productGrocery == nil){
+                return
+            }
+        }
+        guard self.product != nil else {
+            return
+        }
+        let popupViewController = PopImageViwerViewController(nibName: "PopImageViwerViewController", bundle: nil)
+        popupViewController.view.frame = UIScreen.main.bounds
+        let popupController = STPopupController(rootViewController: popupViewController)
+        if NSClassFromString("UIBlurEffect") != nil {
+            let blurEffect = UIBlurEffect(style: .dark)
+            popupController.backgroundView = UIVisualEffectView(effect: blurEffect)
+        }
+        popupController.transitionStyle = .slideVertical
+        if let topController = UIApplication.topViewController() { 
+            popupController.backgroundView?.alpha = 1
+            popupController.navigationBarHidden = true
+            popupController.transitioning = self
+            
+            if productImageView.image != nil{
+                
+                popupViewController.priviousImage = self.productImageView.image!
+                popupViewController.setProductImage(image: self.productImageView.image!)
+                
+            }
+            //popupViewController.productImage.image = self.productImageView.image
+            popupViewController.lblProductName.text = self.productNameLabel.text
+            popupViewController.productQuantity.text =  self.product.descr ?? ""
+            popupViewController.product = self.product
+            popupViewController.checkPromotionView(product: self.product)
+            if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+                 popupViewController.storeImageURL = grocery.smallImageUrl
+            }
+            popupController.containerView.layer.cornerRadius = 5
+            popupController.present(in: topController)
+            popupController.backgroundView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(alertControllerBackgroundTapped)))
+            //popupViewController.setSpecialDiscountView(self.product)
+           
+            
+        }
+        
+    }
+    @objc
+    func alertControllerBackgroundTapped()
+    {
+        if let topController = UIApplication.topViewController() {
+            topController.dismiss(animated: true, completion: nil)
+        }
+
+    }
+    func matchesForRegexInText(_ regex: String, text: String) -> [String] {
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regex, options: [])
+            let nsString = text as NSString
+            let results = regex.matches(in: text,
+                                                options: [], range: NSMakeRange(0, nsString.length))
+            return results.map { nsString.substring(with: $0.range)}
+        } catch let error as NSError {
+            print("invalid regex: \(error.localizedDescription)")
+            return []
+        }
+    }
+}
+extension ProductCell : STPopupControllerTransitioning {
+
+    // MARK: STPopupControllerTransitioning
+
+    func popupControllerTransitionDuration(_ context: STPopupControllerTransitioningContext) -> TimeInterval {
+        return context.action == .present ? 0.40 : 0.35
+    }
+
+    func popupControllerAnimateTransition(_ context: STPopupControllerTransitioningContext, completion: @escaping () -> Void) {
+        // Popup will be presented with an animation sliding from right to left.
+        let containerView = context.containerView
+        if context.action == .present {
+//            containerView.transform = CGAffineTransform(translationX: containerView.superview!.bounds.size.width - containerView.frame.origin.x, y: 0)
+        containerView.transform = CGAffineTransform(translationX: 0, y: 0)
+        containerView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            
+            UIView.animate(withDuration: popupControllerTransitionDuration(context), delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+                containerView.transform = .identity
+            }, completion: { _ in
+                completion()
+            });
+            
+        } else {
+            UIView.animate(withDuration: popupControllerTransitionDuration(context), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+               // containerView.transform = CGAffineTransform(translationX: -2 * (containerView.superview!.bounds.size.width - containerView.frame.origin.x), y: 0)
+                containerView.transform = CGAffineTransform(translationX: 0, y: 0)
+            }, completion: { _ in
+                containerView.transform = .identity
+                completion()
+            });
+        }
+    }
+
+}
+

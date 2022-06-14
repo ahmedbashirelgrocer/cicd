@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="80" id="NnW-OL-tXg" customClass="IngrediantsCell" customModule="ElGrocerShopper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NnW-OL-tXg" id="8kj-zl-oyu">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="5hb-AJ-yx2">
+                        <rect key="frame" x="16" y="12" width="56" height="42"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="42" id="TJI-jk-CqK"/>
+                            <constraint firstAttribute="width" constant="56" id="wwC-N3-UZn"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Line secondLine" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qdh-IO-Tmw">
+                        <rect key="frame" x="80" y="12" width="213" height="41"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sJc-Xd-yYD">
+                        <rect key="frame" x="374" y="12" width="24" height="24"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="RSb-vE-vE4"/>
+                            <constraint firstAttribute="height" constant="24" id="cvk-9H-70g"/>
+                        </constraints>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <state key="normal" image="addIngrediant"/>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBW-ob-6OF">
+                        <rect key="frame" x="301" y="12" width="61" height="20.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="61" id="0fq-vt-OGX"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zDb-Km-qTc">
+                        <rect key="frame" x="80" y="57" width="213" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="zDb-Km-qTc" firstAttribute="trailing" secondItem="qdh-IO-Tmw" secondAttribute="trailing" id="0kT-uj-sLo"/>
+                    <constraint firstItem="OBW-ob-6OF" firstAttribute="leading" secondItem="qdh-IO-Tmw" secondAttribute="trailing" constant="8" id="0oP-z6-ejr"/>
+                    <constraint firstItem="qdh-IO-Tmw" firstAttribute="top" secondItem="5hb-AJ-yx2" secondAttribute="top" id="2wi-kB-L73"/>
+                    <constraint firstItem="sJc-Xd-yYD" firstAttribute="top" secondItem="8kj-zl-oyu" secondAttribute="top" constant="12" id="NHQ-6p-1b5"/>
+                    <constraint firstItem="5hb-AJ-yx2" firstAttribute="top" secondItem="8kj-zl-oyu" secondAttribute="top" constant="12" id="SAb-cv-94t"/>
+                    <constraint firstItem="5hb-AJ-yx2" firstAttribute="leading" secondItem="8kj-zl-oyu" secondAttribute="leading" constant="16" id="XRH-VE-BpT"/>
+                    <constraint firstItem="OBW-ob-6OF" firstAttribute="top" secondItem="qdh-IO-Tmw" secondAttribute="top" id="lds-6w-rb7"/>
+                    <constraint firstAttribute="trailing" secondItem="sJc-Xd-yYD" secondAttribute="trailing" constant="16" id="oxK-6R-fXy"/>
+                    <constraint firstItem="zDb-Km-qTc" firstAttribute="top" secondItem="qdh-IO-Tmw" secondAttribute="bottom" constant="4" id="oy9-Lu-BaB"/>
+                    <constraint firstItem="qdh-IO-Tmw" firstAttribute="leading" secondItem="5hb-AJ-yx2" secondAttribute="trailing" constant="8" id="tTL-Nx-saO"/>
+                    <constraint firstItem="zDb-Km-qTc" firstAttribute="leading" secondItem="5hb-AJ-yx2" secondAttribute="trailing" constant="8" id="tZ2-Yu-Zi2"/>
+                    <constraint firstItem="sJc-Xd-yYD" firstAttribute="leading" secondItem="OBW-ob-6OF" secondAttribute="trailing" constant="12" id="vks-bX-J3a"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btnAddRemoveIngrediant" destination="sJc-Xd-yYD" id="ld8-eO-HAz"/>
+                <outlet property="ingrediantImage" destination="5hb-AJ-yx2" id="j48-V1-I8b"/>
+                <outlet property="lblIngredantName" destination="qdh-IO-Tmw" id="Tpg-SU-FoU"/>
+                <outlet property="lblIngrediantQuantity" destination="OBW-ob-6OF" id="WM2-ki-0ax"/>
+                <outlet property="lblTotalQuantity" destination="zDb-Km-qTc" id="vkX-TC-Zwo"/>
+            </connections>
+            <point key="canvasLocation" x="218.84057971014494" y="19.419642857142858"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="addIngrediant" width="24" height="24"/>
+        <image name="product_placeholder" width="140" height="140"/>
+    </resources>
+</document>

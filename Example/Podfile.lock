@@ -42,9 +42,6 @@ PODS:
   - AlgoliaSearchClient (8.14.0):
     - Logging
   - AnimatedGradientView (3.1.0)
-  - AppsFlyerFramework (6.6.1):
-    - AppsFlyerFramework/Main (= 6.6.1)
-  - AppsFlyerFramework/Main (6.6.1)
   - BadgeControl (1.2.1)
   - BBBadgeBarButtonItem (1.2)
   - BetterSegmentedControl (2.0.1)
@@ -52,8 +49,6 @@ PODS:
   - CHDropDownTextField (1.0.0)
   - CleverTap-iOS-SDK (4.0.1):
     - SDWebImage (~> 5.1)
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
   - el-grocer-shopper-sdk-iOS (0.1.5):
@@ -62,14 +57,12 @@ PODS:
     - AFNetworking
     - AlgoliaSearchClient (~> 8.0)
     - AnimatedGradientView
-    - AppsFlyerFramework
     - BadgeControl
     - BBBadgeBarButtonItem (~> 1.2)
     - BetterSegmentedControl
     - CCValidator
     - CHDropDownTextField (~> 1.0.0)
     - CleverTap-iOS-SDK
-    - Crashlytics
     - DisplaySwitcher
     - DoneCancelNumberPadToolbar (~> 0.6)
     - FBSDKCoreKit
@@ -113,7 +106,6 @@ PODS:
     - STPopup
     - SwiftDate
     - SwiftMessages
-  - Fabric (1.10.2)
   - FBAEMKit (12.0.2):
     - FBSDKCoreKit_Basics (= 12.0.2)
   - FBSDKCoreKit (12.0.2):
@@ -372,17 +364,14 @@ SPEC REPOS:
     - AFNetworking
     - AlgoliaSearchClient
     - AnimatedGradientView
-    - AppsFlyerFramework
     - BadgeControl
     - BBBadgeBarButtonItem
     - BetterSegmentedControl
     - CCValidator
     - CHDropDownTextField
     - CleverTap-iOS-SDK
-    - Crashlytics
     - DisplaySwitcher
     - DoneCancelNumberPadToolbar
-    - Fabric
     - FBAEMKit
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
@@ -460,18 +449,15 @@ SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
   AnimatedGradientView: f249740238c6b491a10d505ab06bb98d897ca3a7
-  AppsFlyerFramework: 5e4b385a27dc6179e132b1617f76809412eb2f88
   BadgeControl: 67036e7f586930bba15084dbf89ebce7aa2f2bc2
   BBBadgeBarButtonItem: c2fbca0bff18e21b70defc9438a8a5048008e7ca
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
   CCValidator: 19c090b536c0152863795aa291bf7be3ffccf457
   CHDropDownTextField: d8a2843acbdd75b5b8d26b27dca9e07c2b1ae5e1
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
-  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 90fe075d0bcf8566c1aac398a28bb6a5401e96c7
-  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
+  el-grocer-shopper-sdk-iOS: 95a6edb8d6f32cf3a4ad39a889ae372ed06194be
   FBAEMKit: c6b8ddf8371640fcd1a3b844d0f8884c8f334cea
   FBSDKCoreKit: 506c0fd1c09a3075f62be8fa36bdd921c563daa9
   FBSDKCoreKit_Basics: c0701d1634c944d60dd3c6361d66dbd0e707a456

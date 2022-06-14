@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserInfoTableCell" rowHeight="200" id="KGk-i7-Jjw" customClass="UserInfoCell" customModule="ElGrocerShopper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="343" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="343" height="200"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cDX-TL-Isu" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                        <rect key="frame" x="16" y="10" width="311" height="180"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileElgrocerIcon" translatesAutoresizingMaskIntoConstraints="NO" id="mHv-y2-f3t">
+                                <rect key="frame" x="251" y="16" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="FSE-1c-E7H"/>
+                                    <constraint firstAttribute="height" constant="44" id="V0P-Nf-2xT"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ap-gu-rgn">
+                                <rect key="frame" x="16" y="16" width="225" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="phone num" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Y4-aN-22C">
+                                <rect key="frame" x="16" y="60" width="279" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6O-hL-zal">
+                                <rect key="frame" x="16" y="86" width="279" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UXE-iN-JRZ" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                <rect key="frame" x="16" y="120" width="279" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Tdv-QI-JfD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
+                                <state key="normal" title="button">
+                                    <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                        <real key="value" value="22"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.019607843137254902" green="0.73725490196078436" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="UXE-iN-JRZ" secondAttribute="trailing" constant="16" id="9Zg-fZ-hhq"/>
+                            <constraint firstItem="6Y4-aN-22C" firstAttribute="leading" secondItem="0ap-gu-rgn" secondAttribute="leading" id="Ajp-vq-GtH"/>
+                            <constraint firstItem="M6O-hL-zal" firstAttribute="top" secondItem="6Y4-aN-22C" secondAttribute="bottom" constant="5" id="K3p-iM-bm7"/>
+                            <constraint firstItem="M6O-hL-zal" firstAttribute="leading" secondItem="6Y4-aN-22C" secondAttribute="leading" id="N7i-bc-LgR"/>
+                            <constraint firstItem="UXE-iN-JRZ" firstAttribute="leading" secondItem="cDX-TL-Isu" secondAttribute="leading" constant="16" id="O8R-il-867"/>
+                            <constraint firstItem="M6O-hL-zal" firstAttribute="trailing" secondItem="6Y4-aN-22C" secondAttribute="trailing" id="QOu-fg-SG9"/>
+                            <constraint firstItem="0ap-gu-rgn" firstAttribute="leading" secondItem="cDX-TL-Isu" secondAttribute="leading" constant="16" id="TKA-mA-VUS"/>
+                            <constraint firstAttribute="trailing" secondItem="mHv-y2-f3t" secondAttribute="trailing" constant="16" id="bOS-gU-niN"/>
+                            <constraint firstAttribute="trailing" secondItem="6Y4-aN-22C" secondAttribute="trailing" constant="16" id="eim-br-iA4"/>
+                            <constraint firstItem="0ap-gu-rgn" firstAttribute="top" secondItem="mHv-y2-f3t" secondAttribute="top" id="g55-A3-iLG"/>
+                            <constraint firstItem="mHv-y2-f3t" firstAttribute="leading" secondItem="0ap-gu-rgn" secondAttribute="trailing" constant="10" id="ioI-oj-NJV"/>
+                            <constraint firstItem="6Y4-aN-22C" firstAttribute="top" secondItem="mHv-y2-f3t" secondAttribute="bottom" id="m3i-Tb-0vh"/>
+                            <constraint firstAttribute="bottom" secondItem="UXE-iN-JRZ" secondAttribute="bottom" constant="16" id="trP-8b-lFA"/>
+                            <constraint firstItem="mHv-y2-f3t" firstAttribute="top" secondItem="cDX-TL-Isu" secondAttribute="top" constant="16" id="wFG-jq-q0n"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="cDX-TL-Isu" secondAttribute="trailing" constant="16" id="M9y-1E-IXw"/>
+                    <constraint firstItem="cDX-TL-Isu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="fAv-Ke-quH"/>
+                    <constraint firstAttribute="bottom" secondItem="cDX-TL-Isu" secondAttribute="bottom" constant="10" id="hDG-e5-5iw"/>
+                    <constraint firstItem="cDX-TL-Isu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="tDe-Gp-H7s"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="btnEditProfile" destination="UXE-iN-JRZ" id="doR-CZ-lk9"/>
+                <outlet property="emailLabel" destination="M6O-hL-zal" id="4PZ-Oo-eNn"/>
+                <outlet property="greenBGView" destination="cDX-TL-Isu" id="CqX-se-nYf"/>
+                <outlet property="nameLabel" destination="0ap-gu-rgn" id="zdT-qg-6tb"/>
+                <outlet property="phoneLabel" destination="6Y4-aN-22C" id="b51-FY-gNw"/>
+            </connections>
+            <point key="canvasLocation" x="266.39999999999998" y="145.72713643178412"/>
+        </tableViewCell>
+    </objects>
+    <designables>
+        <designable name="UXE-iN-JRZ">
+            <size key="intrinsicContentSize" width="50" height="32"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="profileElgrocerIcon" width="44" height="44"/>
+    </resources>
+</document>

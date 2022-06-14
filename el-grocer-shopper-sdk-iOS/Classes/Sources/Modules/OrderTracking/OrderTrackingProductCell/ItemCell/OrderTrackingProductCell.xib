@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="80" id="KGk-i7-Jjw" customClass="OrderTrackingProductCell" customModule="ElGrocerShopper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TPm-Qw-j9o">
+                        <rect key="frame" x="10" y="5" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="SDh-SJ-ssA"/>
+                            <constraint firstAttribute="width" constant="20" id="rgf-IB-bBi"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gah-xg-ab2">
+                        <rect key="frame" x="40" y="5" width="270" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="cug-wQ-kWK">
+                        <rect key="frame" x="10" y="36" width="310" height="53.5"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fsr-Jm-z5v">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <connections>
+                            <outlet property="dataSource" destination="KGk-i7-Jjw" id="2M0-0x-QBt"/>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="1Vb-UT-b9W"/>
+                        </connections>
+                    </collectionView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="gah-xg-ab2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="8vc-r9-e4S"/>
+                    <constraint firstAttribute="trailing" secondItem="gah-xg-ab2" secondAttribute="trailing" constant="10" id="Jbo-U2-2Y6"/>
+                    <constraint firstItem="cug-wQ-kWK" firstAttribute="top" secondItem="gah-xg-ab2" secondAttribute="bottom" constant="10" id="NYe-j2-cNU"/>
+                    <constraint firstItem="TPm-Qw-j9o" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="PgP-FY-HAx"/>
+                    <constraint firstItem="gah-xg-ab2" firstAttribute="leading" secondItem="TPm-Qw-j9o" secondAttribute="trailing" constant="10" id="Slk-T4-snZ"/>
+                    <constraint firstAttribute="trailing" secondItem="cug-wQ-kWK" secondAttribute="trailing" id="YCR-ru-Ed8"/>
+                    <constraint firstItem="cug-wQ-kWK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="cZA-EV-xNn"/>
+                    <constraint firstItem="TPm-Qw-j9o" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="pwj-uC-ieJ"/>
+                    <constraint firstAttribute="bottom" secondItem="cug-wQ-kWK" secondAttribute="bottom" constant="10" id="rrv-J1-ucn"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="cartImgView" destination="TPm-Qw-j9o" id="1qo-V3-Eh8"/>
+                <outlet property="cartLabel" destination="gah-xg-ab2" id="beJ-tS-K3P"/>
+                <outlet property="collectionView" destination="cug-wQ-kWK" id="w3W-8P-qQw"/>
+            </connections>
+            <point key="canvasLocation" x="81" y="71"/>
+        </tableViewCell>
+    </objects>
+</document>

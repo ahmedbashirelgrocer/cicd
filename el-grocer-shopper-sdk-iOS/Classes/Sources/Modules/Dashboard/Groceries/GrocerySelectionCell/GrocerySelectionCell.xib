@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GrocerySelectionCell" rowHeight="110" id="jka-iH-dv5" customClass="GrocerySelectionCell" customModule="ElGrocerShopper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jka-iH-dv5" id="D7v-tR-gud">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="109.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mEq-s9-KJy" userLabel="photo">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="108.5"/>
+                        <color key="backgroundColor" red="0.2901960784" green="0.58039215690000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </imageView>
+                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LAP-Fr-Q6v" userLabel="photoBlackOverlay">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="108.5"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERH-d6-UW8" userLabel="groceryScore">
+                        <rect key="frame" x="284" y="16" width="20" height="25.5"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="Enb-hv-fac"/>
+                            <constraint firstAttribute="width" secondItem="ERH-d6-UW8" secondAttribute="height" multiplier="40:51" id="MJ1-6s-t9f"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <inset key="titleEdgeInsets" minX="0.0" minY="12" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" backgroundImage="brating-00">
+                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="onGroceryScoreButtonClick:" destination="jka-iH-dv5" eventType="touchUpInside" id="cWB-fr-3bO"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQ6-Q8-Rig" userLabel="name">
+                        <rect key="frame" x="16" y="16" width="288" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IT1-KU-i2i" userLabel="address">
+                        <rect key="frame" x="16" y="36.5" width="288" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozv-se-8Uj" userLabel="itemsCount">
+                        <rect key="frame" x="16" y="73" width="42" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="mEq-s9-KJy" firstAttribute="top" secondItem="D7v-tR-gud" secondAttribute="top" id="09f-0S-755"/>
+                    <constraint firstItem="mEq-s9-KJy" firstAttribute="leading" secondItem="D7v-tR-gud" secondAttribute="leading" id="7Vz-Py-Udl"/>
+                    <constraint firstAttribute="trailing" secondItem="mEq-s9-KJy" secondAttribute="trailing" id="Arc-Ih-3b0"/>
+                    <constraint firstItem="IT1-KU-i2i" firstAttribute="top" secondItem="VQ6-Q8-Rig" secondAttribute="bottom" id="KGs-p5-G4P"/>
+                    <constraint firstAttribute="bottom" secondItem="LAP-Fr-Q6v" secondAttribute="bottom" constant="1" id="PrN-md-jdb"/>
+                    <constraint firstAttribute="trailing" secondItem="VQ6-Q8-Rig" secondAttribute="trailing" constant="16" id="VGd-eJ-XYo"/>
+                    <constraint firstAttribute="bottom" secondItem="mEq-s9-KJy" secondAttribute="bottom" constant="1" id="Xle-aG-mYS"/>
+                    <constraint firstAttribute="bottom" secondItem="ozv-se-8Uj" secondAttribute="bottom" constant="16" id="ZWd-VR-Bx3"/>
+                    <constraint firstItem="ozv-se-8Uj" firstAttribute="leading" secondItem="D7v-tR-gud" secondAttribute="leading" constant="16" id="cGo-DY-6vM"/>
+                    <constraint firstItem="ERH-d6-UW8" firstAttribute="top" secondItem="D7v-tR-gud" secondAttribute="top" constant="16" id="dBp-5H-N0M"/>
+                    <constraint firstItem="VQ6-Q8-Rig" firstAttribute="leading" secondItem="D7v-tR-gud" secondAttribute="leading" constant="16" id="eMU-ow-MRF"/>
+                    <constraint firstItem="VQ6-Q8-Rig" firstAttribute="top" secondItem="D7v-tR-gud" secondAttribute="top" constant="16" id="j5D-sE-8ns"/>
+                    <constraint firstItem="IT1-KU-i2i" firstAttribute="leading" secondItem="D7v-tR-gud" secondAttribute="leading" constant="16" id="jal-iM-tE1"/>
+                    <constraint firstAttribute="trailing" secondItem="IT1-KU-i2i" secondAttribute="trailing" constant="16" id="nTX-f6-jh2"/>
+                    <constraint firstItem="LAP-Fr-Q6v" firstAttribute="leading" secondItem="D7v-tR-gud" secondAttribute="leading" id="soD-2o-Ct6"/>
+                    <constraint firstItem="LAP-Fr-Q6v" firstAttribute="top" secondItem="D7v-tR-gud" secondAttribute="top" id="ugV-gM-wt3"/>
+                    <constraint firstAttribute="trailing" secondItem="ERH-d6-UW8" secondAttribute="trailing" constant="16" id="wK1-7T-7kt"/>
+                    <constraint firstAttribute="trailing" secondItem="LAP-Fr-Q6v" secondAttribute="trailing" id="zjW-HQ-Eam"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="groceryAddress" destination="IT1-KU-i2i" id="qcp-oT-bjb"/>
+                <outlet property="groceryItemsCount" destination="ozv-se-8Uj" id="uue-lu-0SB"/>
+                <outlet property="groceryName" destination="VQ6-Q8-Rig" id="bAc-fJ-UZh"/>
+                <outlet property="groceryPhoto" destination="mEq-s9-KJy" id="DXq-kJ-LMW"/>
+                <outlet property="groceryScoreButton" destination="ERH-d6-UW8" id="Omq-SU-rG3"/>
+            </connections>
+            <point key="canvasLocation" x="405" y="200"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="brating-00" width="19.5" height="25"/>
+    </resources>
+</document>

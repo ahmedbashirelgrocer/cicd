@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Bold.otf">
+            <string>SFProDisplay-Bold</string>
+        </array>
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AWPickerViewController" customModule="ElGrocerShopper" customModuleProvider="target">
+            <connections>
+                <outlet property="SegmentOneWidth" destination="ZP7-sE-kbi" id="jTR-aQ-hgp"/>
+                <outlet property="activityIndication" destination="0Qv-e3-cHC" id="uI5-w0-ZEr"/>
+                <outlet property="btnConfirm" destination="TDA-h2-usZ" id="TJh-dB-5qo"/>
+                <outlet property="lblNoSlot" destination="ctc-fL-gPq" id="WwP-h9-WEl"/>
+                <outlet property="lblSegmentOneDate" destination="Ken-qf-JTn" id="O4R-9Z-Klc"/>
+                <outlet property="lblSegmentOneDesc" destination="D9R-6C-OPo" id="HuL-rJ-oxd"/>
+                <outlet property="lblSegmentTwoDate" destination="fLA-Fn-EDl" id="9xL-6Z-eUH"/>
+                <outlet property="lblSegmentTwoDesc" destination="Wn4-EW-Fdu" id="77n-if-8ql"/>
+                <outlet property="lblTitle" destination="KmR-SF-fPL" id="5Rg-aa-mDv"/>
+                <outlet property="segmentHeights" destination="Fz3-LM-ZI1" id="vs5-MX-oQq"/>
+                <outlet property="segmentOneIndicatorView" destination="OoA-9t-fR0" id="vbq-LQ-96L"/>
+                <outlet property="segmentTwoIndicatorView" destination="IyK-V2-Rsn" id="rcm-OH-iOC"/>
+                <outlet property="slotDaySegmentView" destination="KeG-o6-IrN" id="MWW-Qc-tVb"/>
+                <outlet property="slotsCollectionView" destination="sVJ-9m-KHe" id="fjG-sz-9Q0"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="396"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rlJ-za-JXq" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="6" width="375" height="390"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TDA-h2-usZ" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <rect key="frame" x="16" y="326" width="343" height="56"/>
+                            <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="fUB-So-Pya"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
+                            <state key="normal" title="Confirm delivery slot">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="28"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="confirmSlotAction:" destination="-1" eventType="touchUpInside" id="n5g-8u-UuF"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="TDA-h2-usZ" secondAttribute="trailing" constant="16" id="BYp-zE-hxB"/>
+                        <constraint firstAttribute="bottom" secondItem="TDA-h2-usZ" secondAttribute="bottom" constant="8" id="naa-Ci-QSY"/>
+                        <constraint firstItem="TDA-h2-usZ" firstAttribute="leading" secondItem="rlJ-za-JXq" secondAttribute="leading" constant="16" id="rxg-3E-f3o"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                            <real key="value" value="16"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4oZ-Mp-lsp">
+                    <rect key="frame" x="335" y="16" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="or1-ma-D12"/>
+                        <constraint firstAttribute="height" constant="24" id="paM-ck-mwD"/>
+                    </constraints>
+                    <state key="normal" image="CloseButtonIconGreen"/>
+                    <connections>
+                        <action selector="crossAction:" destination="-1" eventType="touchUpInside" id="YNF-BG-UWu"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change your delivery time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KmR-SF-fPL">
+                    <rect key="frame" x="16" y="16" width="309" height="24"/>
+                    <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="20"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KeG-o6-IrN">
+                    <rect key="frame" x="0.0" y="53" width="375" height="72"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jdv-m5-Eyl" userLabel="segmentOne" customClass="UIControl">
+                            <rect key="frame" x="0.0" y="0.0" width="187.5" height="72"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14 Jul" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ken-qf-JTn">
+                                    <rect key="frame" x="73" y="9" width="42" height="19"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="16"/>
+                                    <color key="textColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D9R-6C-OPo">
+                                    <rect key="frame" x="86" y="28" width="15.5" height="14"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
+                                    <color key="textColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OoA-9t-fR0" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <rect key="frame" x="14.5" y="51" width="158.5" height="4"/>
+                                    <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="4" id="g7v-Q8-RR4"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                            <real key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="OoA-9t-fR0" firstAttribute="centerX" secondItem="Ken-qf-JTn" secondAttribute="centerX" id="3xc-Bi-cCj"/>
+                                <constraint firstItem="OoA-9t-fR0" firstAttribute="width" secondItem="Jdv-m5-Eyl" secondAttribute="width" multiplier="0.845" id="9uM-N5-NHi"/>
+                                <constraint firstItem="D9R-6C-OPo" firstAttribute="top" secondItem="Ken-qf-JTn" secondAttribute="bottom" id="S6f-fj-UeY"/>
+                                <constraint firstItem="D9R-6C-OPo" firstAttribute="centerX" secondItem="Ken-qf-JTn" secondAttribute="centerX" id="gEW-h2-fYJ"/>
+                                <constraint firstItem="Ken-qf-JTn" firstAttribute="top" secondItem="Jdv-m5-Eyl" secondAttribute="top" constant="9" id="osZ-to-eT9"/>
+                                <constraint firstItem="Ken-qf-JTn" firstAttribute="centerX" secondItem="Jdv-m5-Eyl" secondAttribute="centerX" id="uIb-4y-q3n"/>
+                                <constraint firstAttribute="bottom" secondItem="OoA-9t-fR0" secondAttribute="bottom" constant="17" id="uYj-v2-Y2Z"/>
+                            </constraints>
+                            <connections>
+                                <action selector="segmentOneSelect:" destination="-1" eventType="touchUpInside" id="InP-jZ-k5q"/>
+                            </connections>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yi1-W7-ahC" userLabel="segmenttwo" customClass="UIControl">
+                            <rect key="frame" x="187.5" y="0.0" width="187.5" height="72"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLA-Fn-EDl">
+                                    <rect key="frame" x="83.5" y="9" width="21" height="19"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="16"/>
+                                    <color key="textColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wn4-EW-Fdu">
+                                    <rect key="frame" x="86" y="28" width="15.5" height="14"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
+                                    <color key="textColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IyK-V2-Rsn" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <rect key="frame" x="14.5" y="51" width="158.5" height="4"/>
+                                    <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="4" id="j4D-oq-jvN"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                            <real key="value" value="2"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="IyK-V2-Rsn" firstAttribute="width" secondItem="yi1-W7-ahC" secondAttribute="width" multiplier="0.845" id="12E-dq-0Qa"/>
+                                <constraint firstItem="fLA-Fn-EDl" firstAttribute="centerX" secondItem="yi1-W7-ahC" secondAttribute="centerX" id="NU0-pa-5Gz"/>
+                                <constraint firstItem="IyK-V2-Rsn" firstAttribute="centerX" secondItem="fLA-Fn-EDl" secondAttribute="centerX" id="So6-Ic-Inv"/>
+                                <constraint firstItem="Wn4-EW-Fdu" firstAttribute="top" secondItem="fLA-Fn-EDl" secondAttribute="bottom" id="YGb-Gj-SAq"/>
+                                <constraint firstItem="Wn4-EW-Fdu" firstAttribute="centerX" secondItem="fLA-Fn-EDl" secondAttribute="centerX" id="ksn-6t-me9"/>
+                                <constraint firstAttribute="bottom" secondItem="IyK-V2-Rsn" secondAttribute="bottom" constant="17" id="phd-Ft-kDq"/>
+                                <constraint firstItem="fLA-Fn-EDl" firstAttribute="top" secondItem="yi1-W7-ahC" secondAttribute="top" constant="9" id="ppI-T1-c3d"/>
+                            </constraints>
+                            <connections>
+                                <action selector="segmentTwoSelect:" destination="-1" eventType="touchUpInside" id="IrB-2t-FPw"/>
+                            </connections>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Jdv-m5-Eyl" secondAttribute="bottom" id="4C9-vr-eak"/>
+                        <constraint firstItem="Jdv-m5-Eyl" firstAttribute="leading" secondItem="KeG-o6-IrN" secondAttribute="leading" id="FKe-pY-ztG"/>
+                        <constraint firstAttribute="height" constant="72" id="Fz3-LM-ZI1"/>
+                        <constraint firstItem="yi1-W7-ahC" firstAttribute="width" secondItem="Jdv-m5-Eyl" secondAttribute="width" id="Hfi-zm-g6r"/>
+                        <constraint firstAttribute="bottom" secondItem="yi1-W7-ahC" secondAttribute="bottom" id="MFL-tD-mg0"/>
+                        <constraint firstItem="Jdv-m5-Eyl" firstAttribute="width" secondItem="KeG-o6-IrN" secondAttribute="width" multiplier="0.5" id="ZP7-sE-kbi"/>
+                        <constraint firstItem="Jdv-m5-Eyl" firstAttribute="top" secondItem="KeG-o6-IrN" secondAttribute="top" id="cl6-Ou-a2k"/>
+                        <constraint firstItem="yi1-W7-ahC" firstAttribute="leading" secondItem="Jdv-m5-Eyl" secondAttribute="trailing" id="hMs-qr-eox"/>
+                        <constraint firstItem="yi1-W7-ahC" firstAttribute="top" secondItem="KeG-o6-IrN" secondAttribute="top" id="s1f-a4-6yi"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sVJ-9m-KHe" customClass="AWPickerList" customModule="ElGrocerShopper" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="125" width="375" height="197"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="0Qv-e3-cHC">
+                    <rect key="frame" x="169" y="179.5" width="37" height="37"/>
+                    <color key="color" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                </activityIndicatorView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctc-fL-gPq">
+                    <rect key="frame" x="166.5" y="187.5" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="OGy-nd-Ckm"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="TDA-h2-usZ" firstAttribute="top" secondItem="sVJ-9m-KHe" secondAttribute="bottom" constant="10" id="06x-13-gEx"/>
+                <constraint firstItem="rlJ-za-JXq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="6" id="6Fv-ez-RdW"/>
+                <constraint firstItem="4oZ-Mp-lsp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="16" id="A0S-ni-okk"/>
+                <constraint firstItem="0Qv-e3-cHC" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="CIt-te-zAC"/>
+                <constraint firstItem="OGy-nd-Ckm" firstAttribute="trailing" secondItem="rlJ-za-JXq" secondAttribute="trailing" id="D9Q-vB-Zp2"/>
+                <constraint firstItem="ctc-fL-gPq" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Df7-hA-IzY"/>
+                <constraint firstItem="0Qv-e3-cHC" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="F1g-n7-siR"/>
+                <constraint firstItem="KeG-o6-IrN" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="HgA-is-5Yz"/>
+                <constraint firstItem="sVJ-9m-KHe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="IVO-ee-PDC"/>
+                <constraint firstItem="OGy-nd-Ckm" firstAttribute="bottom" secondItem="rlJ-za-JXq" secondAttribute="bottom" id="NVg-WS-Rh4"/>
+                <constraint firstItem="rlJ-za-JXq" firstAttribute="leading" secondItem="OGy-nd-Ckm" secondAttribute="leading" id="PCi-2t-SO5"/>
+                <constraint firstItem="KmR-SF-fPL" firstAttribute="centerY" secondItem="4oZ-Mp-lsp" secondAttribute="centerY" id="ST9-nq-pvP"/>
+                <constraint firstItem="sVJ-9m-KHe" firstAttribute="top" secondItem="KeG-o6-IrN" secondAttribute="bottom" id="WIe-DA-H79"/>
+                <constraint firstItem="KeG-o6-IrN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="avd-Ra-v3F"/>
+                <constraint firstItem="4oZ-Mp-lsp" firstAttribute="leading" secondItem="KmR-SF-fPL" secondAttribute="trailing" constant="10" id="dYn-BO-TCb"/>
+                <constraint firstAttribute="trailing" secondItem="4oZ-Mp-lsp" secondAttribute="trailing" constant="16" id="fwC-fS-LPG"/>
+                <constraint firstItem="KmR-SF-fPL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="j0f-X2-R5z"/>
+                <constraint firstItem="ctc-fL-gPq" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jwS-Z4-cWT"/>
+                <constraint firstAttribute="trailing" secondItem="sVJ-9m-KHe" secondAttribute="trailing" id="kZ8-vN-Pcl"/>
+                <constraint firstItem="KeG-o6-IrN" firstAttribute="top" secondItem="4oZ-Mp-lsp" secondAttribute="bottom" constant="13" id="wE8-aR-89g"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="19.565217391304348" y="312.72321428571428"/>
+        </view>
+    </objects>
+    <designables>
+        <designable name="TDA-h2-usZ">
+            <size key="intrinsicContentSize" width="155" height="33"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="CloseButtonIconGreen" width="24" height="24"/>
+    </resources>
+</document>

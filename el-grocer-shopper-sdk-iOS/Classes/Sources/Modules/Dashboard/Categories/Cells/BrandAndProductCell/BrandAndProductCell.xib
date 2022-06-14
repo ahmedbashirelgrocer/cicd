@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+        <array key="SF-UI-Display-Semibold.otf">
+            <string>SFUIDisplay-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BrandAndProductCell" rowHeight="318" id="KGk-i7-Jjw" customClass="BrandAndProductCell" customModule="ElGrocerShopper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="315"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="315"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Coca Cola" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MdB-3f-AEE">
+                        <rect key="frame" x="16" y="10" width="243" height="24"/>
+                        <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="20"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asc-qN-b1z">
+                        <rect key="frame" x="314" y="10" width="32" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="2uj-81-KlI"/>
+                            <constraint firstAttribute="width" constant="32" id="bUx-Pq-4P7"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="14"/>
+                        <color key="textColor" red="0.73725490196078436" green="0.73725490196078436" blue="0.73725490196078436" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icNext" translatesAutoresizingMaskIntoConstraints="NO" id="xpD-cS-D6O">
+                        <rect key="frame" x="351" y="13" width="14" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="14" id="8SS-ut-vg2"/>
+                            <constraint firstAttribute="width" constant="14" id="upS-Nt-s32"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="huj-vC-DXt" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                        <rect key="frame" x="279" y="10" width="80" height="24"/>
+                        <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="MUH-4L-eXB"/>
+                            <constraint firstAttribute="height" constant="24" id="mvR-Wf-NK6"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
+                        <state key="normal" title="View All">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="12"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="viewAllHandler:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="f0x-dP-tK4"/>
+                        </connections>
+                    </button>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="55c-XT-2Ig">
+                        <rect key="frame" x="0.0" y="51" width="375" height="264"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="2bT-1V-iq1">
+                            <size key="itemSize" width="148" height="194"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <connections>
+                            <outlet property="dataSource" destination="KGk-i7-Jjw" id="SDL-Ab-16O"/>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="BxF-wa-yak"/>
+                        </connections>
+                    </collectionView>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="MdB-3f-AEE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="1Yk-0m-Ypk"/>
+                    <constraint firstItem="asc-qN-b1z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="3H4-gr-7HZ"/>
+                    <constraint firstItem="huj-vC-DXt" firstAttribute="leading" secondItem="MdB-3f-AEE" secondAttribute="trailing" constant="20" id="5fW-o7-ddo"/>
+                    <constraint firstAttribute="trailing" secondItem="55c-XT-2Ig" secondAttribute="trailing" id="9Yp-gp-9aa"/>
+                    <constraint firstAttribute="trailing" secondItem="xpD-cS-D6O" secondAttribute="trailing" constant="10" id="Fq5-tK-7oz"/>
+                    <constraint firstItem="MdB-3f-AEE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Irj-D2-CHA"/>
+                    <constraint firstAttribute="bottom" secondItem="55c-XT-2Ig" secondAttribute="bottom" id="MUS-jR-Vzn"/>
+                    <constraint firstAttribute="trailing" secondItem="huj-vC-DXt" secondAttribute="trailing" constant="16" id="Ne3-XS-kAv"/>
+                    <constraint firstItem="55c-XT-2Ig" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Uac-ew-kAx"/>
+                    <constraint firstItem="55c-XT-2Ig" firstAttribute="top" secondItem="MdB-3f-AEE" secondAttribute="bottom" constant="17" id="oYU-9c-HL6"/>
+                    <constraint firstItem="xpD-cS-D6O" firstAttribute="leading" secondItem="asc-qN-b1z" secondAttribute="trailing" constant="5" id="p1e-IL-Mf4"/>
+                    <constraint firstItem="xpD-cS-D6O" firstAttribute="centerY" secondItem="asc-qN-b1z" secondAttribute="centerY" id="quP-Pn-Nu0"/>
+                    <constraint firstItem="huj-vC-DXt" firstAttribute="centerY" secondItem="MdB-3f-AEE" secondAttribute="centerY" id="wDX-rM-A6x"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="arrowImgView" destination="xpD-cS-D6O" id="aPp-ye-meg"/>
+                <outlet property="brandNameLbl" destination="MdB-3f-AEE" id="qrg-uO-0je"/>
+                <outlet property="brandsCollectionView" destination="55c-XT-2Ig" id="FQm-7P-8xZ"/>
+                <outlet property="btnViewAll" destination="huj-vC-DXt" id="d7v-U0-2sX"/>
+                <outlet property="itemsCountlbl" destination="asc-qN-b1z" id="SXP-1G-RqJ"/>
+            </connections>
+            <point key="canvasLocation" x="829.71014492753625" y="-33.482142857142854"/>
+        </tableViewCell>
+    </objects>
+    <designables>
+        <designable name="huj-vC-DXt">
+            <size key="intrinsicContentSize" width="43" height="27"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="icNext" width="14" height="14"/>
+    </resources>
+</document>
