@@ -128,7 +128,7 @@ Pod::Spec.new do |s|
   # pod 'mopub-ios-sdk' #, '~>4.6.0'
   s.dependency 'FBSDKCoreKit'
   # pod 'MaterialShowcase'
-  s.dependency 'AppsFlyerFramework'
+  #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate'
   s.dependency 'CleverTap-iOS-SDK'
   s.dependency 'Storyly', '~> 1.19.3'
