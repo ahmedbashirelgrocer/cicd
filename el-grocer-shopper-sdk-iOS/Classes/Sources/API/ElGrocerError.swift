@@ -143,7 +143,7 @@ struct ElGrocerError {
         }
         self.jsonValue = json
         
-        guard let status = json["status"] as? String , status == "error" else {
+        guard let status = json?["status"] as? String , status == "error" else {
             return
         }
     
@@ -152,8 +152,9 @@ struct ElGrocerError {
         if let httpresponse = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? HTTPURLResponse {
             errorCode = httpresponse.statusCode
         }
-        FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  json )
-        let messages = json["messages"] as? NSDictionary
+        
+        FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  json! )
+        let messages = json?["messages"] as? NSDictionary
         if let dataMessage = messages {
             errorCode = dataMessage["error_code"] as? Int ?? genericErrorCode
         }
@@ -243,10 +244,10 @@ struct ElGrocerError {
         }else{
             self.message = messages?["error_message"] as? String
             if self.message == nil {
-                self.message = json["error_message"] as? String
+                self.message = json?["error_message"] as? String
             }
             if self.message == nil {
-                 self.message = json["messages"] as? String
+                self.message = json?["messages"] as? String
             }
             if let dataMessage = messages {
                 if dataMessage["error_message"] != nil {

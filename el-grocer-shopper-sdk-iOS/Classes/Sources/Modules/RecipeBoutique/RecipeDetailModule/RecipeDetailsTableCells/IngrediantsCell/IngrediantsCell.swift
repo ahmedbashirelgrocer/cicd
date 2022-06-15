@@ -8,6 +8,7 @@
 
 import UIKit
 import NBBottomSheet
+import SDWebImage
 
 let kIngrediantCellHeight : CGFloat = 55 + 24 // 24 for padding
 

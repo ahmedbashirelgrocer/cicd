@@ -52,8 +52,8 @@ class SignInViewController: RegistrationViewController, Form {
             requiredInputTextFields.append(phoneNumberTextField)
             phoneNumberTextField.placeholder = NSLocalizedString("enter_mobile_num_placeholder", comment: "")
             phoneNumberTextField.setFlag(for: FPNOBJCCountryKey.AE)
-            phoneNumberTextField.customDelegate = self
-            phoneNumberTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
+            //phoneNumberTextField.customDelegate = self
+            //phoneNumberTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
         }
     }
     @IBOutlet var phoneErrorLabel: UILabel!{

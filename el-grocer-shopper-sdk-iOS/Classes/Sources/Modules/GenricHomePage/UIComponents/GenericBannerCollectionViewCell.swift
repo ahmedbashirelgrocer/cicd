@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+
 let KGenericBannerCollectionViewCell = "GenericBannerCollectionViewCell"
 class GenericBannerCollectionViewCell: UICollectionViewCell {
 

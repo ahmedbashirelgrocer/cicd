@@ -7,9 +7,10 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseCore
 import STPopup
 import UIKit
+import FirebaseDynamicLinks
 
 let KresetToZero = "resetViewToZero"
 let KChangeCurrentState = "CurrentStateModeSwitch"

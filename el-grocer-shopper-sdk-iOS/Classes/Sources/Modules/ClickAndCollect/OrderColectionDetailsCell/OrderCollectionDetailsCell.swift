@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import SDWebImage
 
 let KOrderCollectionDetailsCell : CGFloat = 430 + 83 //-> 83 for top bottom paddings
 

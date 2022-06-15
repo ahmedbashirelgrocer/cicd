@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SDWebImage
 import STPopup
-import PMAlertController
+// import PMAlertController
 let kProductCellIdentifier = "ProductCell"
 let kProductCellHeight: CGFloat = 264
 let kProductCellWidth: CGFloat = 163

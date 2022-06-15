@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 let KGroceryNewCollectionViewCell = "GroceryNewCollectionViewCell"
 let KGroceryNewCollectionViewCellHeight = 173

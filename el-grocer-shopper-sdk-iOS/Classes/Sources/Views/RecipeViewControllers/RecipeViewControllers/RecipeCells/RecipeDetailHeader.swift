@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+
 let KRecipeDetailHeaderHeight = 340.0
 
 class RecipeDetailHeader: UITableViewHeaderFooterView {

@@ -171,8 +171,12 @@ extension ApplePaymentHandler: PKPaymentAuthorizationControllerDelegate {
     }
     
     func convertToDictionary(paymentDetails: PKPayment){
-        
-        let paymentDataDictionary: [AnyHashable: Any]? = try? JSONSerialization.jsonObject(with: paymentDetails.token.paymentData, options: .mutableContainers) as? [AnyHashable : Any]
+        var paymentDataDictionary: [AnyHashable: Any]? = [:]
+        do {
+            paymentDataDictionary = try JSONSerialization.jsonObject(with: paymentDetails.token.paymentData, options: .mutableContainers) as? [AnyHashable : Any]
+        } catch {
+            
+        }
         let headerDict = paymentDataDictionary?[AnyHashable("header")] as? NSDictionary ?? ["":""]
         let appleApplicationData : String = String(self.paymentRequestHashValue)
         let signature : String = paymentDataDictionary?[AnyHashable("signature")] as? String ?? ""

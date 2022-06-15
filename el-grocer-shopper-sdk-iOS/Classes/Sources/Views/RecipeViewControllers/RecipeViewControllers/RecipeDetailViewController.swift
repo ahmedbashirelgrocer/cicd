@@ -8,6 +8,7 @@
 
 import UIKit
 import NBBottomSheet
+import SDWebImage
 
 class RecipeDetailViewController: BasketBasicViewController   {
     

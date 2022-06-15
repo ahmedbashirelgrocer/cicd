@@ -890,11 +890,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         completionHandler(false, "")
         return
     }
-    guard let status = json["status"] as? String , status == "error" else {
+    guard let status = json?["status"] as? String , status == "error" else {
         completionHandler(false, "")
         return
     }
-    let messages = json["messages"] as? NSDictionary
+    let messages = json?["messages"] as? NSDictionary
     if let errorMsgDict = messages?["error_message"] as? String {
         
         completionHandler(false, errorMsgDict)

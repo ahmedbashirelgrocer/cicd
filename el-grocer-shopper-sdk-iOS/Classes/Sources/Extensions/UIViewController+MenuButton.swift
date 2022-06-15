@@ -180,3 +180,7 @@ extension UIViewController {
     }
     
 }
+
+//class AppDelegate: UIResponder, UIApplicationDelegate {
+//    static var shared = AppDelegate()
+//}

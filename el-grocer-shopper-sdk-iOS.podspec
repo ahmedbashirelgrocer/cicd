@@ -97,10 +97,11 @@ Pod::Spec.new do |s|
   # spec.requires_arc = true
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
+  #s.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => 'el-grocer-shopper-sdk-iOS/Bridging-Header.h' }
   
-  s.frameworks = 'UIKit', 'Foundation', 'CoreData'
+  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'AdSupport', 'AppTrackingTransparency', 'SystemConfiguration'
   
-  s.dependency 'AFNetworking' #, '~> 4.0'
+  s.dependency 'AFNetworking' , '~> 4.0'
   
   s.dependency 'MSPeekCollectionViewDelegateImplementation'
   s.dependency 'GoogleAnalytics'
@@ -108,27 +109,29 @@ Pod::Spec.new do |s|
   s.dependency 'GoogleMaps'
   s.dependency 'GooglePlaces'
   s.dependency 'FlagPhoneNumber', '~> 0.7.6'
-  s.dependency 'PinCodeTextField'
+  s.dependency 'PinCodeTextField' ###
 
   # Add the pod for Firebase Crashlytics
   s.dependency 'Firebase/Crashlytics'
   #s.dependency 'Crashlytics' # please dont delete this for now it will causing crashes need fixes
   # Recommended: Add the Firebase pod for Google Analytics
-  s.dependency 'Firebase/Analytics'
+  # s.dependency 'Firebase/Analytics', '~> 7.5.0'
   s.dependency 'Firebase/Auth'
-  s.dependency 'Firebase/Core'
+  s.dependency 'Firebase/Core', '~> 7.5.0'
   s.dependency 'Firebase/Messaging'
   s.dependency 'Firebase/DynamicLinks'
   s.dependency 'Firebase/Performance'
-  s.dependency 'Firebase/Storage'
-  s.dependency 'Firebase/Database'
+  # s.dependency 'Firebase/Storage'
+  # s.dependency 'Firebase/Database'
+  # s.dependency 'Firebase'
+  #s.dependency GoogleConversionTracking
   
   # pod 'AFNetworking', '~> 3.2.1' , :subspecs => [‘Reachability', 'Serialization', 'Security', 'NSURLSession']
   # pod 'AFNetworkActivityLogger', git: 'https://github.com/AFNetworking/AFNetworkActivityLogger.git'
-  s.dependency 'AFNetworkActivityLogger' #, :git => 'https://github.com/ToshMeston/AFNetworkActivityLogger.git'
+  # s.dependency 'AFNetworkActivityLogger' #, :git => 'https://github.com/ToshMeston/AFNetworkActivityLogger.git'
 
   # pod 'mopub-ios-sdk' #, '~>4.6.0'
-  s.dependency 'FBSDKCoreKit'
+  s.dependency 'FBSDKCoreKit', '~> 8.1.0'
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate'
@@ -136,15 +139,15 @@ Pod::Spec.new do |s|
   s.dependency 'Storyly', '~> 1.19.3'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
   s.dependency 'FXPageControl'
-  s.dependency 'RxSwift' #, '~>4.0'
-  s.dependency 'RxCocoa' #,‘~>4.0'
+  s.dependency 'RxSwift', '~>5.1.1'
+  s.dependency 'RxCocoa', '~>5.1.1'
   s.dependency 'HMSegmentedControl'
   s.dependency 'KLCPopup', '~> 1.0'
   s.dependency 'JDFTooltips', '~> 1.1'
     
   s.dependency 'DoneCancelNumberPadToolbar', '~> 0.6'
   s.dependency 'BBBadgeBarButtonItem', '~> 1.2'
-  s.dependency 'PageControl', '~> 1.0'
+  s.dependency 'PageControl' #, '~> 1.0'
   s.dependency 'Shimmer', '~> 1.0'
   s.dependency 'BetterSegmentedControl'
   s.dependency 'AlgoliaSearchClient', '~> 8.0'
@@ -154,16 +157,16 @@ Pod::Spec.new do |s|
   s.dependency 'MaterialComponents/ActivityIndicator'
   s.dependency 'AnimatedGradientView'
   s.dependency 'SkyFloatingLabelTextField', '~> 3.0'
-  s.dependency 'IQKeyboardManagerSwift', '6.3.0'
+  s.dependency 'IQKeyboardManagerSwift'#, '6.3.0'
     
   s.dependency 'CCValidator'
   s.dependency 'BadgeControl'
   s.dependency 'DisplaySwitcher' #, '~> 2.0'
-  s.dependency 'PMAlertController'
+  #s.dependency 'PMAlertController' ###
   s.dependency 'SwiftMessages'
 
-  s.dependency 'GrowingTextView', '0.6.1'
-  s.dependency 'KAPinField'
+  s.dependency 'GrowingTextView'#, '0.6.1'
+  s.dependency 'KAPinField' ###
   s.dependency 'NBBottomSheet'
 
       # Pods for RateView
@@ -173,5 +176,7 @@ Pod::Spec.new do |s|
   s.dependency 'SendBirdDesk'
       # add file
   s.dependency 'Adyen'
+  s.dependency 'AppsFlyerFramework'
+  s.dependency 'SDWebImage'
 
 end

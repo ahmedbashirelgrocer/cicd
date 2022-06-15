@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MyBasketStroreNameTableViewCell: UITableViewCell {
 

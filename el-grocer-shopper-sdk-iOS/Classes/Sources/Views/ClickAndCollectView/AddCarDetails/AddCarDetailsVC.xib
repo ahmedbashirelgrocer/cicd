@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddCarDetailsVC" customModule="ElGrocerShopper" customModuleProvider="target">
+            <connections>
+                <outlet property="backGroundView" destination="Tkf-Ds-XUi" id="ZJC-6N-ZEe"/>
+                <outlet property="btnAddCar" destination="4jw-vE-TGb" id="um5-dL-Zs0"/>
+                <outlet property="btnBack" destination="mJE-YI-QqV" id="Aqi-Xw-Tes"/>
+                <outlet property="btnCheckBox" destination="cye-jh-9oX" id="Bmn-B9-7I3"/>
+                <outlet property="btnCross" destination="BSA-hE-vui" id="5qk-Xt-VOM"/>
+                <outlet property="carBrandCollectionView" destination="aOY-fG-c6h" id="9e5-4B-MIM"/>
+                <outlet property="carColorCollectionView" destination="4qB-Yl-PiB" id="Kyc-W8-bUa"/>
+                <outlet property="carModelTextfield" destination="qTN-OU-V1I" id="nsh-pe-Afk"/>
+                <outlet property="lblHeading" destination="ghl-Am-ejQ" id="m8o-GP-ieJ"/>
+                <outlet property="lbl_Save_car_details" destination="I86-7A-LAA" id="1A5-DW-dgR"/>
+                <outlet property="plateNumTextfield" destination="eCW-BK-TR8" id="F7v-hp-2Do"/>
+                <outlet property="subHeadingLabel" destination="xLJ-De-ieJ" id="fIS-j9-ccI"/>
+                <outlet property="view" destination="iN0-l3-epB" id="kJU-8C-leP"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="555"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tkf-Ds-XUi">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="555"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YMO-TU-sfE">
+                            <rect key="frame" x="16" y="406" width="288" height="1"/>
+                            <color key="backgroundColor" red="0.89411764705882346" green="0.89411764705882346" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="WM8-vA-oZe"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cye-jh-9oX">
+                            <rect key="frame" x="16" y="422" width="25" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="25" id="GMd-ty-0vF"/>
+                                <constraint firstAttribute="height" constant="25" id="XQi-8w-7UD"/>
+                            </constraints>
+                            <state key="normal" title="Button" image="CheckboxUnfilled"/>
+                            <connections>
+                                <action selector="btnCheckBoxHandler:" destination="-1" eventType="touchUpInside" id="Teg-C4-3np"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jw-vE-TGb" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <rect key="frame" x="16" y="451" width="288" height="56"/>
+                            <color key="backgroundColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="hJP-OG-bPk"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
+                            <state key="normal" title="Add car">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="28"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="btnAddCarHandler:" destination="-1" eventType="touchUpInside" id="ekQ-Ug-DUT"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="cye-jh-9oX" firstAttribute="top" secondItem="YMO-TU-sfE" secondAttribute="top" constant="16" id="AK9-Nk-qeO"/>
+                        <constraint firstItem="4jw-vE-TGb" firstAttribute="leading" secondItem="Tkf-Ds-XUi" secondAttribute="leading" constant="16" id="GPu-SR-JLy"/>
+                        <constraint firstAttribute="trailing" secondItem="4jw-vE-TGb" secondAttribute="trailing" constant="16" id="HWt-iL-MQM"/>
+                        <constraint firstItem="cye-jh-9oX" firstAttribute="leading" secondItem="4jw-vE-TGb" secondAttribute="leading" id="Tdr-CC-B9w"/>
+                        <constraint firstAttribute="bottom" secondItem="4jw-vE-TGb" secondAttribute="bottom" constant="48" id="dNv-FG-ckH"/>
+                    </constraints>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="z8F-KO-9WI">
+                    <rect key="frame" x="16" y="16" width="288" height="54"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ekh-yr-NbE">
+                            <rect key="frame" x="0.0" y="0.0" width="288" height="26"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add new car" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ghl-Am-ejQ">
+                                    <rect key="frame" x="33" y="2.5" width="222" height="20.5"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mJE-YI-QqV">
+                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="25" id="w1g-xh-mlJ"/>
+                                        <constraint firstAttribute="height" constant="25" id="zhS-S9-Rck"/>
+                                    </constraints>
+                                    <state key="normal" image="BackButtonIconGreen"/>
+                                    <connections>
+                                        <action selector="btnBackHandler:" destination="-1" eventType="touchUpInside" id="oRP-hK-3e7"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSA-hE-vui">
+                                    <rect key="frame" x="263" y="0.0" width="25" height="25"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="25" id="GkO-5J-gKA"/>
+                                        <constraint firstAttribute="width" constant="25" id="XcF-qL-HtO"/>
+                                    </constraints>
+                                    <state key="normal" image="CloseButtonIconGreen"/>
+                                    <connections>
+                                        <action selector="btnCrossHandler:" destination="-1" eventType="touchUpInside" id="La7-on-ggP"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="mJE-YI-QqV" firstAttribute="leading" secondItem="Ekh-yr-NbE" secondAttribute="leading" id="4g7-MD-QWb"/>
+                                <constraint firstItem="BSA-hE-vui" firstAttribute="leading" secondItem="ghl-Am-ejQ" secondAttribute="trailing" constant="8" id="5pz-0J-y0J"/>
+                                <constraint firstItem="ghl-Am-ejQ" firstAttribute="leading" secondItem="mJE-YI-QqV" secondAttribute="trailing" constant="8" id="6E6-WU-eHC"/>
+                                <constraint firstItem="ghl-Am-ejQ" firstAttribute="centerY" secondItem="BSA-hE-vui" secondAttribute="centerY" id="WDI-IT-LVJ"/>
+                                <constraint firstAttribute="trailing" secondItem="BSA-hE-vui" secondAttribute="trailing" id="adL-62-P69"/>
+                                <constraint firstItem="mJE-YI-QqV" firstAttribute="top" secondItem="Ekh-yr-NbE" secondAttribute="top" id="age-jd-2jt"/>
+                                <constraint firstItem="BSA-hE-vui" firstAttribute="top" secondItem="Ekh-yr-NbE" secondAttribute="top" id="mqo-Oi-6Lo"/>
+                                <constraint firstAttribute="height" constant="26" id="rw5-Iy-Bfg"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SbM-uA-Ubj">
+                            <rect key="frame" x="0.0" y="34" width="288" height="20"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add new" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xLJ-De-ieJ">
+                                    <rect key="frame" x="0.0" y="-0.5" width="288" height="20.5"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="xLJ-De-ieJ" secondAttribute="trailing" id="Jmf-8e-9W8"/>
+                                <constraint firstItem="xLJ-De-ieJ" firstAttribute="leading" secondItem="SbM-uA-Ubj" secondAttribute="leading" id="MvY-a1-OWG"/>
+                                <constraint firstAttribute="height" constant="20" id="dX2-uy-2fF"/>
+                                <constraint firstAttribute="bottom" secondItem="xLJ-De-ieJ" secondAttribute="bottom" id="g0E-3d-tcW"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Plate number*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eCW-BK-TR8" customClass="ElgrocerTextField" customModule="ElGrocerShopper" customModuleProvider="target">
+                    <rect key="frame" x="16" y="86" width="288" height="56"/>
+                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="56" id="MCo-KU-zem"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                            <real key="value" value="8"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </textField>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Car model: Mercedes etc. (Optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qTN-OU-V1I" customClass="ElgrocerTextField" customModule="ElGrocerShopper" customModuleProvider="target">
+                    <rect key="frame" x="16" y="158" width="288" height="56"/>
+                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                            <real key="value" value="8"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </textField>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="aOY-fG-c6h">
+                    <rect key="frame" x="0.0" y="230" width="320" height="55"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="55" id="cHo-VP-ryj"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="8" id="elA-i3-XCx">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4qB-Yl-PiB">
+                    <rect key="frame" x="0.0" y="295" width="320" height="101"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="101" id="xsR-eI-Syd"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="16" id="65t-lQ-gbN">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save car details for the future collections." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I86-7A-LAA">
+                    <rect key="frame" x="49" y="426" width="237.5" height="17"/>
+                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="YMO-TU-sfE" firstAttribute="top" secondItem="4qB-Yl-PiB" secondAttribute="bottom" constant="10" id="2p6-JW-y5E"/>
+                <constraint firstItem="aOY-fG-c6h" firstAttribute="top" secondItem="qTN-OU-V1I" secondAttribute="bottom" constant="16" id="40E-8J-I1i"/>
+                <constraint firstItem="YMO-TU-sfE" firstAttribute="trailing" secondItem="4jw-vE-TGb" secondAttribute="trailing" id="4UI-hH-qZI"/>
+                <constraint firstItem="I86-7A-LAA" firstAttribute="centerY" secondItem="cye-jh-9oX" secondAttribute="centerY" id="4u9-xT-CWq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="aOY-fG-c6h" secondAttribute="trailing" id="6UI-gZ-h8N"/>
+                <constraint firstItem="aOY-fG-c6h" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="8M4-VN-DMA"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="z8F-KO-9WI" secondAttribute="trailing" constant="16" id="AIC-LV-6I4"/>
+                <constraint firstItem="Tkf-Ds-XUi" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="GbV-rd-cFZ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="eCW-BK-TR8" secondAttribute="trailing" constant="16" id="HSy-8j-gFM"/>
+                <constraint firstAttribute="bottom" secondItem="Tkf-Ds-XUi" secondAttribute="bottom" id="N7N-Jd-Wyb"/>
+                <constraint firstItem="eCW-BK-TR8" firstAttribute="top" secondItem="z8F-KO-9WI" secondAttribute="bottom" constant="16" id="Nd4-Ba-P5G"/>
+                <constraint firstItem="z8F-KO-9WI" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="OIb-d2-7qY"/>
+                <constraint firstItem="YMO-TU-sfE" firstAttribute="leading" secondItem="cye-jh-9oX" secondAttribute="leading" id="Pab-Vc-21j"/>
+                <constraint firstItem="I86-7A-LAA" firstAttribute="leading" secondItem="cye-jh-9oX" secondAttribute="trailing" constant="8" id="VGD-id-kdM"/>
+                <constraint firstItem="4qB-Yl-PiB" firstAttribute="top" secondItem="aOY-fG-c6h" secondAttribute="bottom" constant="10" id="ZRf-Qc-FZR"/>
+                <constraint firstItem="Tkf-Ds-XUi" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="bXN-u5-haR"/>
+                <constraint firstItem="z8F-KO-9WI" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="edM-Qs-dDm"/>
+                <constraint firstItem="4qB-Yl-PiB" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kOU-MC-onJ"/>
+                <constraint firstItem="qTN-OU-V1I" firstAttribute="leading" secondItem="eCW-BK-TR8" secondAttribute="leading" id="oaf-SS-Vxa"/>
+                <constraint firstItem="qTN-OU-V1I" firstAttribute="top" secondItem="eCW-BK-TR8" secondAttribute="bottom" priority="700" constant="16" id="soj-nQ-XBL"/>
+                <constraint firstItem="qTN-OU-V1I" firstAttribute="height" secondItem="eCW-BK-TR8" secondAttribute="height" id="udh-ND-k56"/>
+                <constraint firstItem="qTN-OU-V1I" firstAttribute="trailing" secondItem="eCW-BK-TR8" secondAttribute="trailing" id="vZQ-xQ-igy"/>
+                <constraint firstItem="Tkf-Ds-XUi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="wF1-OC-o8w"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="4qB-Yl-PiB" secondAttribute="trailing" id="yR1-Sa-4Qy"/>
+                <constraint firstItem="eCW-BK-TR8" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="zFR-za-a9E"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="63.75" y="63.908450704225352"/>
+        </view>
+    </objects>
+    <designables>
+        <designable name="4jw-vE-TGb">
+            <size key="intrinsicContentSize" width="59" height="33"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="BackButtonIconGreen" width="24" height="24"/>
+        <image name="CheckboxUnfilled" width="24" height="24"/>
+        <image name="CloseButtonIconGreen" width="24" height="24"/>
+    </resources>
+</document>

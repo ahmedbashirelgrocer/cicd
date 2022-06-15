@@ -8,7 +8,9 @@
 
 import UIKit
 import Shimmer
-import PMAlertController
+import SDWebImage
+
+// import PMAlertController
 let kHomeCellIdentifier = "HomeCell"
 let kHomeCellHeight: CGFloat = 340
 

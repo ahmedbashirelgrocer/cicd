@@ -12,6 +12,7 @@ import GoogleMaps
 import GooglePlaces
 //import GooglePlacePicker
 import NBBottomSheet
+import SDWebImage
 
 enum storeTypeViewHeight : CGFloat {
     case showTextOnly = 60.0

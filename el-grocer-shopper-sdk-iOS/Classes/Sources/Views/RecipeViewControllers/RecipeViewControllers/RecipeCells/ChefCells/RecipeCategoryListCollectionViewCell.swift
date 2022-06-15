@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+
 let KRecipeCategoryDataReuseIdentifier : String  = "RecipeCategoryListCollectionViewCell"
 let kRecipeCategoryCellHeight: CGFloat = 40
 let kRecipeCategoryCellWidth: CGFloat = 100

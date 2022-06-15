@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 let KRecipeDetailBottomCellHeight : CGFloat = 130
 let KRecipeDetailMinCellHeight : CGFloat = 130  + 56 + 24 //140 bottom section + padding , 56 image height( discription height to be added)

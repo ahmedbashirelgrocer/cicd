@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 let kShoppingBasketCellIdentifier = "ShoppingBasketCell"
 let kShoppingBasketCellHeight: CGFloat = 60

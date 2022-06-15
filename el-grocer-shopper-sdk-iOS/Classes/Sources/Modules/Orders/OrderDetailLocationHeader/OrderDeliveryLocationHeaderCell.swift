@@ -8,6 +8,8 @@
 
 import UIKit
 import QuartzCore
+import SDWebImage
+
 let KOrderDeliveryLocationCellIdentifier = "OrderDeliveryLocationHeaderCell"
 
 let KOrderDeliveryLocationCellHeight : CGFloat = 246.0

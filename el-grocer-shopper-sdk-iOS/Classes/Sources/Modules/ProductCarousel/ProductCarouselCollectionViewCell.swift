@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 let KProductCarouselCollectionViewCellIdentifier  = "ProductCarouselCollectionViewCell"
 let KCarouselCellWidth = 180

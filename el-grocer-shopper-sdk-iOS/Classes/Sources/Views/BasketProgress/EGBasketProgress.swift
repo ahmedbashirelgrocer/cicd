@@ -8,6 +8,8 @@
 
 import UIKit
 import STPopup
+import SDWebImage
+
 class EGBasketProgress: UIView {
 
     @IBOutlet var viewForProgress: UIView!

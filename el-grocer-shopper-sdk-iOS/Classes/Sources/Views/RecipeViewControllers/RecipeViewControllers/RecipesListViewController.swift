@@ -8,6 +8,7 @@
 
 import UIKit
 import JDFTooltips
+import BBBadgeBarButtonItem
 
 class RecipesListViewController: BasketBasicViewController {
     

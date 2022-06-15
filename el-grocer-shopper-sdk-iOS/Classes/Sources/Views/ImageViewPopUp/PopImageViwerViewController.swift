@@ -9,6 +9,8 @@
 import UIKit
 import FBSDKCoreKit
 import NBBottomSheet
+import SDWebImage
+import SDWebImage
 
 enum PopImageControllerType{
     case productDeepLink

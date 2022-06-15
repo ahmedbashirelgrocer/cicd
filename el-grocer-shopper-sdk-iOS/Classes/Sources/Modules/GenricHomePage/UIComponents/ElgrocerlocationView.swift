@@ -8,6 +8,7 @@
 
 import UIKit
 import STPopup
+import SDWebImage
 
 let KElgrocerlocationViewFullHeight : CGFloat = CGFloat(165)
 

@@ -8,7 +8,7 @@
 
 import Foundation
 import Storyly
-import Firebase
+import FirebaseCore
 class StorylyAds  {
     
     var storylyView = StorylyView()

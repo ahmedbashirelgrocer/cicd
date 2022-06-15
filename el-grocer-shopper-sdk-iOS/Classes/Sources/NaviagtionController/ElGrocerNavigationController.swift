@@ -107,7 +107,7 @@ class ElGrocerNavigationController : UINavigationController {
     }
     
     func resetViewsLayout() {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         UIView.animate(withDuration: 0.33, animations: { () -> Void in
             (self.navigationBar as! ElGrocerNavigationBar).layoutIfNeeded()
             (self.navigationBar as! ElGrocerNavigationBar).setNeedsLayout()
@@ -116,7 +116,7 @@ class ElGrocerNavigationController : UINavigationController {
     
     // MARK: Hide Border
     func setGreenBackgroundColor() {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setGreenBackground()
         (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: .navigationBarWhiteColor())
         (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(.navigationBarWhiteColor())
@@ -125,7 +125,7 @@ class ElGrocerNavigationController : UINavigationController {
         
     }
     func setWhiteBackgroundColor() {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setWhiteBackground()
         (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: .navigationBarColor())
         (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(.navigationBarColor())
@@ -133,45 +133,45 @@ class ElGrocerNavigationController : UINavigationController {
     }
     
     func setNewLightBackgroundColor() {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setNewLightBackground()
     }
     func setClearBackgroundColor() {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setClearBackground()
     }
     func setBackgroundColorForBar(_ backgrounColor:UIColor) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setBackgroundColorForBar(backgrounColor)
     }
     
     // MARK: Hide Border
     
     func hideBorder(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).hideBorder(true)
     }
     func setBackButtonHidden(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setBackButtonHidden(hidden)
     }
     
     func setNavBarHidden(_ hidden:Bool = false) {
-//        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+//        guard self.navigationBar is ElGrocerNavigationBar else {return}
         //(self.navigationBar as! ElGrocerNavigationBar).setNavBarHidden(hidden)
 //        (self.navigationBar as! ElGrocerNavigationBar).barTintColor = UIColor.clear
         (self.navigationBar as! ElGrocerNavigationBar).isHidden = hidden
     }
     func setProfileButtonHidden(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setProfileButtonHidden(hidden)
     }
     func setCartButtonHidden(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setCartButtonHidden(hidden)
     }
     func setCartButtonActive(_ isActive:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setCartButtonActive(isActive)
     }
     
@@ -179,53 +179,53 @@ class ElGrocerNavigationController : UINavigationController {
     
     func setLogoHidden(_ hidden:Bool) {
         
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
          self.setNavigationBarHidden(false, animated: false)
         (self.navigationBar as! ElGrocerNavigationBar).setLogoHidden(hidden)
         
     }
     func changeLogoColor(_ color:UIColor = .navigationBarColor()) {
         
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
          self.setNavigationBarHidden(false, animated: false)
         (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: color)
     }
     
     func changeBackButtonImage(_ isWhite: Bool = false){
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
          self.setNavigationBarHidden(false, animated: false)
         (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(isWhite)
     }
     
     
     func setChatButtonHidden(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setChatButtonHidden(hidden)
     }
     
     func setChatIcon ( _ isNewMessage : Bool = false) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setChatIcon(isNewMessage)
     }
     
     func setChatIconColor ( _ color : UIColor = .navigationBarColor()) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(color)
     }
     
     func setWhiteTitleColor() {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setWhiteTitleTextColor()
     }
     
     //MARK: location view
     func setLocationHidden(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setLocationHidden(hidden)
     }
     
     func setLocationText(_ text : String = "") {
-        if let bar = self.navigationBar as? ElGrocerShopper.ElGrocerNavigationBar {
+        if let bar = self.navigationBar as? ElGrocerNavigationBar {
             bar.setLocationText(text)
         }
     }
@@ -236,41 +236,41 @@ class ElGrocerNavigationController : UINavigationController {
     
     func setSearchBarHidden(_ hidden:Bool) {
         
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setSearchBarHidden(hidden)
     
     }
     
     func shakeSearchBar(){
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).shakeSearchBar()
     }
     
     //Hunain 29Dec16
     
     func setSearchActive(){
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setSearchBarActive()
     }
     
     func setSearchBarDelegate(_ delegate:NavigationBarSearchProtocol?) {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setSearchBarDelegate(delegate)
     }
     
     func clearSearchBar() {
-     guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+     guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).clearSearchBar()
     }
     
     func setSearchBarText(_ searchText:String){
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setSearchBarText(searchText)
     }
     
     func setSearchBarPlaceholderText(_ searchText:String) {
         
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setSearchBarPlaceholderText(searchText)
   
     }

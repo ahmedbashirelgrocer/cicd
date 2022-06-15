@@ -20,6 +20,8 @@ import SwiftMessages
 import AppsFlyerLib
 import SafariServices
 import SwiftDate
+import BBBadgeBarButtonItem
+
 private let SharedInstance = ElGrocerUtility()
 let productPlaceholderPhoto = UIImage(named: "product_placeholder")!
 
@@ -503,7 +505,10 @@ class ElGrocerUtility {
         //AppEvents.ParameterName.contentID: clearProductID ,
         let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
         
-         AppEvents.logEvent(AppEvents.Name.addedToCart, valueToSum: Double(truncating: product.price), parameters: facebookParams as! [String : Any])
+        /// TO DO: Need update SDK
+//        if let facebookParams = facebookParams as? [AppEvents.ParameterName : Any] {
+//            AppEvents.logEvent(AppEvents.Name.addedToCart, valueToSum: Double(truncating: product.price), parameters: facebookParams)
+//        }
         
         ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("AppEvents.Name.addedToCart", facebookParams as? [String : Any])
         

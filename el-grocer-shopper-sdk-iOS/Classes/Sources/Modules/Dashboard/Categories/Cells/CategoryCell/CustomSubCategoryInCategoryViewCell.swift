@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+
 let KCustomSubCategoryInCategoryViewCellWidth = (ScreenSize.SCREEN_WIDTH * 0.2775)//104//124
 let KCustomSubCategoryInCategoryViewCellHeight = KCustomSubCategoryInCategoryViewCellWidth*1.2025//125
 let KCustomSubCategoryInCategoryViewCellIdentifier = "CustomSubCategoryInCategoryViewCell"

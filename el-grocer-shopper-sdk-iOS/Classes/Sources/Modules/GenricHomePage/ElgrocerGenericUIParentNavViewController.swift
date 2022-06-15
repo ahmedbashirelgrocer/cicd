@@ -50,53 +50,53 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
     
     // MARK: Hide Border
     func setWhiteBackgroundColor() {
-        guard self.navigationBar is ElGrocerShopper.ElGrocerNavigationBar else {return}
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).setWhiteBackground()
     }
     
     func setBackgroundColorForBar(_ backgrounColor:UIColor) {
-        guard self.navigationBar is ElGrocerShopper.ElgrocerWhilteLogoBar else {return}
+        guard self.navigationBar is ElgrocerWhilteLogoBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).setBackgroundColorForBar(backgrounColor)
     }
     
     // MARK: Hide Border
     func hideBorder(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElgrocerWhilteLogoBar else {return}
+        guard self.navigationBar is ElgrocerWhilteLogoBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).hideBorder(true)
     }
     
     // MARK: Logo
     
     func updateBadgeValue () {
-        guard self.navigationBar is ElGrocerShopper.ElgrocerWhilteLogoBar else {return}
+        guard self.navigationBar is ElgrocerWhilteLogoBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).updateBadgeValue ()
     }
     
     func updateBadge( number : String) {
-        guard self.navigationBar is ElGrocerShopper.ElgrocerWhilteLogoBar else {return}
+        guard self.navigationBar is ElgrocerWhilteLogoBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).updateBadge(number: number)
     }
     
     func setLogoHidden(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElgrocerWhilteLogoBar else {return}
+        guard self.navigationBar is ElgrocerWhilteLogoBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).setLogoHidden(hidden)
         
     }
     
     func setBackButtonHidden(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElgrocerWhilteLogoBar else {return}
+        guard self.navigationBar is ElgrocerWhilteLogoBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).setBackHidden(hidden)
       
     }
     
     func setBasketButtonHidden(_ hidden:Bool) {
-        guard self.navigationBar is ElGrocerShopper.ElgrocerWhilteLogoBar else {return}
+        guard self.navigationBar is ElgrocerWhilteLogoBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).setBasketHidden(hidden)
         
     }
     
     func resetToWhite() {
-        guard self.navigationBar is ElGrocerShopper.ElgrocerWhilteLogoBar else {return}
+        guard self.navigationBar is ElgrocerWhilteLogoBar else {return}
         (self.navigationBar as! ElgrocerWhilteLogoBar).resetToWhite()
     }
     

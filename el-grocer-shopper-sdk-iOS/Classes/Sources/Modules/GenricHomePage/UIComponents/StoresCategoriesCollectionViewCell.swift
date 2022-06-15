@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 let KStoresCategoriesCollectionViewCell = "StoresCategoriesCollectionViewCell"
 class StoresCategoriesCollectionViewCell: UICollectionViewCell {

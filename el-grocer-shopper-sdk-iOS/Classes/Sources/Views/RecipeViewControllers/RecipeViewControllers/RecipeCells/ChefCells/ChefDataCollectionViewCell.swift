@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 let KChefDataReuseIdentifier : String  = "ChefDataCollectionViewCell"
 let kChefCellHeight: CGFloat = 103

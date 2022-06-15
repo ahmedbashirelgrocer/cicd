@@ -13,8 +13,9 @@ import CleverTapSDK
 import AdSupport
 import AppsFlyerLib
 import FBSDKCoreKit
-import Firebase
+import FirebaseCore
 import CoreLocation
+import BBBadgeBarButtonItem
     // import MaterialShowcase
 
 let kfeaturedCategoryId : Int64 = 0 // Platform.isSimulator ? 12 : 0 // 12 for staging server

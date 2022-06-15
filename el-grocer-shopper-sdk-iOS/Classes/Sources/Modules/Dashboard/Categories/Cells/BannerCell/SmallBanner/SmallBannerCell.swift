@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+
 let kSmallBannerCellIdentifier = "SmallBannerCell"
 
 protocol SmallBannerCellDelegate : class {

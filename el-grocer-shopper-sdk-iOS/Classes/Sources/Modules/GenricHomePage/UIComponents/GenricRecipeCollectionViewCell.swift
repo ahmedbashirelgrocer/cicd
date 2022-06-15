@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+
 let KGenricRecipeCollectionViewCell = "GenricRecipeCollectionViewCell"
 let KRecipeCellRatio = 1.35
 class GenricRecipeCollectionViewCell: UICollectionViewCell {

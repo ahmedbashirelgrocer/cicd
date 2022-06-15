@@ -9,6 +9,8 @@
 import UIKit
 import FloatRatingView
 import PageControl
+import SDWebImage
+
 enum feedBackType {
     case clickAndCollectFeedBack
     case deliveryFeedBack

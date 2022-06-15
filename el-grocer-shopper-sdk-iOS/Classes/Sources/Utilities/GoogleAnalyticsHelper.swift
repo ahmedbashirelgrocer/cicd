@@ -191,12 +191,13 @@ class GoogleAnalyticsHelper {
 
     class func logEventWith ( category : String , action : String , _ lable : String? = nil , value : Int? = 1) {
         
-       //  let tracker = GAI.sharedInstance().defaultTracker
-          let params = GAIDictionaryBuilder.createEvent(withCategory: category, action: action , label: lable, value: 1)
-        // tracker?.send(params?.build() as? [AnyHashable: Any])
-        if let data = params?.build() {
-            // Answers.CustomEvent(withName: category , customAttributes: data as? [String : Any])
-        }
+// TO DO: Fix Me
+//       //  let tracker = GAI.sharedInstance().defaultTracker
+//          let params = GAIDictionaryBuilder.createEvent(withCategory: category, action: action , label: lable, value: 1)
+//        // tracker?.send(params?.build() as? [AnyHashable: Any])
+//        if let data = params?.build() {
+//            // Answers.CustomEvent(withName: category , customAttributes: data as? [String : Any])
+//        }
 
         if Platform.isDebugBuild {
             debugPrint("category : \(category) ,  action : \(action) , lable : \(lable ?? " ") , value : \(value ?? -1)")
@@ -214,98 +215,100 @@ class GoogleAnalyticsHelper {
 //            #endif
 //        }
         
-        
-        guard let gai = GAI.sharedInstance() else {
-            assert(false, "Google Analytics not configured correctly")
-        }
-        gai.tracker(withTrackingId: "UA-64355049-2")
-        // Optional: automatically report uncaught exceptions.
-        gai.trackUncaughtExceptions = true
     
-        if Platform.isDebugBuild {
-             gai.logger.logLevel = .verbose;
-        }else{
-             gai.logger.logLevel = .none;
-        }
-  
-        GAI.sharedInstance().defaultTracker.allowIDFACollection = true
-        #if DEBUG
-        // Prevent analytics from sending any data if the build is in debug mode
-        print("Debug build - Google Analytics disabled")
-        GAI.sharedInstance().dryRun = true
-        #endif
+// TO DO: Fix Me
+//        guard let gai = GAI.sharedInstance() else {
+//            assert(false, "Google Analytics not configured correctly")
+//        }
+//        gai.tracker(withTrackingId: "UA-64355049-2")
+//        // Optional: automatically report uncaught exceptions.
+//        gai.trackUncaughtExceptions = true
+//
+//        if Platform.isDebugBuild {
+//             gai.logger.logLevel = .verbose;
+//        }else{
+//             gai.logger.logLevel = .none;
+//        }
+//
+//        GAI.sharedInstance().defaultTracker.allowIDFACollection = true
+//        #if DEBUG
+//        // Prevent analytics from sending any data if the build is in debug mode
+//        print("Debug build - Google Analytics disabled")
+//        GAI.sharedInstance().dryRun = true
+//        #endif
     }
 
     // MARK: Screen tracking
     class func trackScreenWithName(_ name:String , _ value: String = "") {
-        
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker?.set(kGAIScreenName, value: name)
-        if !value.isEmpty {
-            // tracker?.set(kGAIDescription, value: value)
-            tracker?.set(kGAIEventLabel, value: value)
-        }
-        
-        let builder = GAIDictionaryBuilder.createScreenView()
-        //tracker?.send(builder?.build() as! [AnyHashable: Any])
-        
-        
-        tracker?.send(builder?.build() as? [AnyHashable: Any])
+// TO DO: Fix Me
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        tracker?.set(kGAIScreenName, value: name)
+//        if !value.isEmpty {
+//            // tracker?.set(kGAIDescription, value: value)
+//            tracker?.set(kGAIEventLabel, value: value)
+//        }
+//
+//        let builder = GAIDictionaryBuilder.createScreenView()
+//        //tracker?.send(builder?.build() as! [AnyHashable: Any])
+//
+//
+//        tracker?.send(builder?.build() as? [AnyHashable: Any])
     }
     // MARK: Events tracking
     
     class func trackDeliveryLocationAction(_ actionType:DeliveryLocationActionType) {
         
         //get tracker and set params
-        let tracker = GAI.sharedInstance().defaultTracker
-        let params = GAIDictionaryBuilder.createEvent(withCategory: kDeliveryLocationEvent, action: actionType.rawValue, label: nil, value: 1)
-        //tracker?.send(params?.build() as! [AnyHashable: Any])
-        tracker?.send(params?.build() as? [AnyHashable: Any])
+// TO DO: Fix Me
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        let params = GAIDictionaryBuilder.createEvent(withCategory: kDeliveryLocationEvent, action: actionType.rawValue, label: nil, value: 1)
+//        //tracker?.send(params?.build() as! [AnyHashable: Any])
+//        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     
     class func trackProductsSearchPhrase(_ phrase:String) {
-        
+        // TO DO: Fix Me
         //get tracker and set params
-        let tracker = GAI.sharedInstance().defaultTracker
-        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsSearchEvent, action: phrase, label: nil, value: 1)
-        //tracker?.send(params?.build() as! [AnyHashable: Any])
-        tracker?.send(params?.build() as? [AnyHashable: Any])
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsSearchEvent, action: phrase, label: nil, value: 1)
+//        //tracker?.send(params?.build() as! [AnyHashable: Any])
+//        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     
     class func trackEventCategoryName(_ categoryName : String ) {
-        
+        // TO DO: Fix Me
         //get tracker and set params
-        let tracker = GAI.sharedInstance().defaultTracker
-        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: nil , label: nil, value: 1)
-        //tracker?.send(params?.build() as! [AnyHashable: Any])
-        tracker?.send(params?.build() as? [AnyHashable: Any])
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: nil , label: nil, value: 1)
+//        //tracker?.send(params?.build() as! [AnyHashable: Any])
+//        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     
     class func trackEventName(_ categoryName : String , _ name:String) {
-        
+        // TO DO: Fix Me
         //get tracker and set params
-        let tracker = GAI.sharedInstance().defaultTracker
-        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: name, label: nil, value: 1)
-        //tracker?.send(params?.build() as! [AnyHashable: Any])
-        tracker?.send(params?.build() as? [AnyHashable: Any])
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: name, label: nil, value: 1)
+//        //tracker?.send(params?.build() as! [AnyHashable: Any])
+//        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     class func trackEventNameWithLable(_ categoryName : String , _ name:String ,_ lable : String) {
-        
+        // TO DO: Fix Me
         //get tracker and set params
-        let tracker = GAI.sharedInstance().defaultTracker
-        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: name, label: lable, value: 1)
-        //tracker?.send(params?.build() as! [AnyHashable: Any])
-        tracker?.send(params?.build() as? [AnyHashable: Any])
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: name, label: lable, value: 1)
+//        //tracker?.send(params?.build() as! [AnyHashable: Any])
+//        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     
     class func trackReorderProductsAction() {
-        
-        //get tracker and set params
-        let tracker = GAI.sharedInstance().defaultTracker
-        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsReorderEvent, action: "Reorder button touched", label: nil, value: 1)
-        //tracker?.send(params?.build() as! [AnyHashable: Any])
-        
-        tracker?.send(params?.build() as? [AnyHashable: Any])
+        // TO DO: Fix Me
+//        //get tracker and set params
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsReorderEvent, action: "Reorder button touched", label: nil, value: 1)
+//        //tracker?.send(params?.build() as! [AnyHashable: Any])
+//
+//        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     
 
@@ -344,98 +347,99 @@ class GoogleAnalyticsHelper {
     // class func trackProductQuickAddAction(_ screenName : String , productName : String , brandName : String , categoryName : String , subcategoryName : String)
     
     class func trackProductQuickAddAction() {
-
+        // TO DO: Fix Me
         //get tracker and set params
-        let tracker = GAI.sharedInstance().defaultTracker
-        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsQuickAddEvent, action: "Product quick add button touched", label: nil, value: 1)
-        //tracker?.send(params?.build() as! [AnyHashable: Any])
-        tracker?.send(params?.build() as? [AnyHashable: Any])
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsQuickAddEvent, action: "Product quick add button touched", label: nil, value: 1)
+//        //tracker?.send(params?.build() as! [AnyHashable: Any])
+//        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     
     class func trackOrderPaymentType(_ paymentType:PaymentOption) {
-        
+        // TO DO: Fix Me
         //get tracker and set params
-        let tracker = GAI.sharedInstance().defaultTracker
-        let params = GAIDictionaryBuilder.createEvent(withCategory: kOrderPaymentTypeEvent, action: "Order placed with payment type", label: paymentType == PaymentOption.cash ? "Cash" : "Card", value: 1)
-        //tracker?.send(params?.build() as! [AnyHashable: Any])
-        tracker?.send(params?.build() as? [AnyHashable: Any])
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        let params = GAIDictionaryBuilder.createEvent(withCategory: kOrderPaymentTypeEvent, action: "Order placed with payment type", label: paymentType == PaymentOption.cash ? "Cash" : "Card", value: 1)
+//        //tracker?.send(params?.build() as! [AnyHashable: Any])
+//        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     
     // MARK: Ecommerce
     @discardableResult
     class func trackPlacedOrderForEcommerce(_ order:Order, orderItems:[ShoppingBasketItem], products:[Product], productsPrices:NSDictionary?, IsSmiles: Bool) -> [[AnyHashable : Any]] {
-        
-        //get tracker
-        let tracker = GAI.sharedInstance().defaultTracker
-        
-        //orders item map
-        var orderItemsMap = [String : ShoppingBasketItem]()
-        for item in orderItems {
-            orderItemsMap[item.productId] = item
-        }
-        
-        var revenue = 0.00
-        var productsParams = [GAIDictionaryBuilder]()
-        
-       
-        var fbDataA : [[AnyHashable : Any]] = []
-        
-        //order revenue and products with prices
-        for product in products {
-            
-            let item = orderItemsMap[product.dbID]
-            let priceDict = getPriceDictionaryForProduct(product, productsPrices: productsPrices)
-            if item != nil {
-                
-                var price = product.price.doubleValue
-                if let priceFromGrocery = priceDict?["price_full"] as? NSNumber {
-                    price = priceFromGrocery.doubleValue
-                }
-                
-                revenue += price * item!.count.doubleValue
-                
-                 let idString = "\(Product.getCleanProductId(fromId: product.dbID))"
-                 let quantitiy = item!.count.intValue
-
-                if !idString.isEmpty {
-                    let facebookParams = ["id" : idString , "quantity" : quantitiy] as [AnyHashable: Any]
-                    fbDataA.append(facebookParams)
-                }
-
-                let smileParam = ["IsSmiles" : IsSmiles] as [AnyHashable: Any]
-                fbDataA.append(smileParam)
-                
-                //build product params
-                let productParams = GAIDictionaryBuilder.createItem(withTransactionId: "\(order.dbID)",
-                    name: product.name,
-                    sku: "\(product.productId)",
-                    category: item!.brandName,
-                    price: price as NSNumber?,
-                    quantity: item!.count.intValue as NSNumber?,
-                    currencyCode: CurrencyManager.getCurrentCurrency())
-                
-                productsParams.append(productParams!)
-            }
-        }
-        
-        //build transaction params
-        let transaction = GAIDictionaryBuilder.createTransaction(withId: "\(order.dbID)",
-            affiliation: order.grocery.name,
-            revenue: revenue as NSNumber?,
-            tax: 0,
-            shipping: 0,
-            currencyCode: CurrencyManager.getCurrentCurrency())
-        
-        //send params
-        //tracker?.send(transaction?.build() as! [AnyHashable: Any])
-        tracker?.send(transaction?.build() as? [AnyHashable: Any])
-        
-        for productParam in productsParams {
-            //tracker?.send(productParam.build() as! [AnyHashable: Any])
-            tracker?.send(productParam.build() as? [AnyHashable: Any])
-        }
-        
-        return fbDataA
+        return []
+// TO DO: Fix Me
+//        //get tracker
+//        let tracker = GAI.sharedInstance().defaultTracker
+//
+//        //orders item map
+//        var orderItemsMap = [String : ShoppingBasketItem]()
+//        for item in orderItems {
+//            orderItemsMap[item.productId] = item
+//        }
+//
+//        var revenue = 0.00
+//        var productsParams = [GAIDictionaryBuilder]()
+//
+//
+//        var fbDataA : [[AnyHashable : Any]] = []
+//
+//        //order revenue and products with prices
+//        for product in products {
+//
+//            let item = orderItemsMap[product.dbID]
+//            let priceDict = getPriceDictionaryForProduct(product, productsPrices: productsPrices)
+//            if item != nil {
+//
+//                var price = product.price.doubleValue
+//                if let priceFromGrocery = priceDict?["price_full"] as? NSNumber {
+//                    price = priceFromGrocery.doubleValue
+//                }
+//
+//                revenue += price * item!.count.doubleValue
+//
+//                 let idString = "\(Product.getCleanProductId(fromId: product.dbID))"
+//                 let quantitiy = item!.count.intValue
+//
+//                if !idString.isEmpty {
+//                    let facebookParams = ["id" : idString , "quantity" : quantitiy] as [AnyHashable: Any]
+//                    fbDataA.append(facebookParams)
+//                }
+//
+//                let smileParam = ["IsSmiles" : IsSmiles] as [AnyHashable: Any]
+//                fbDataA.append(smileParam)
+//
+//                //build product params
+//                let productParams = GAIDictionaryBuilder.createItem(withTransactionId: "\(order.dbID)",
+//                    name: product.name,
+//                    sku: "\(product.productId)",
+//                    category: item!.brandName,
+//                    price: price as NSNumber?,
+//                    quantity: item!.count.intValue as NSNumber?,
+//                    currencyCode: CurrencyManager.getCurrentCurrency())
+//
+//                productsParams.append(productParams!)
+//            }
+//        }
+//
+//        //build transaction params
+//        let transaction = GAIDictionaryBuilder.createTransaction(withId: "\(order.dbID)",
+//            affiliation: order.grocery.name,
+//            revenue: revenue as NSNumber?,
+//            tax: 0,
+//            shipping: 0,
+//            currencyCode: CurrencyManager.getCurrentCurrency())
+//
+//        //send params
+//        //tracker?.send(transaction?.build() as! [AnyHashable: Any])
+//        tracker?.send(transaction?.build() as? [AnyHashable: Any])
+//
+//        for productParam in productsParams {
+//            //tracker?.send(productParam.build() as! [AnyHashable: Any])
+//            tracker?.send(productParam.build() as? [AnyHashable: Any])
+//        }
+//
+//        return fbDataA
     }
     
     fileprivate class func getPriceDictionaryForProduct(_ product:Product, productsPrices:NSDictionary?) -> NSDictionary? {

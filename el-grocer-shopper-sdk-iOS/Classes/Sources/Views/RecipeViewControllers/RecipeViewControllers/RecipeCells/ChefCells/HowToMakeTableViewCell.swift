@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 let KHowToMakeTableViewCellIdentifier = "HowToMakeTableViewCell"
 class HowToMakeTableViewCell: UITableViewCell {

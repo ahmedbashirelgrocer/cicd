@@ -7,11 +7,13 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseCore
 import MapKit
 import FBSDKCoreKit
 import CleverTapSDK
 import AppsFlyerLib
+import FirebaseRemoteConfig
+
 struct EventDestination {
     var name : String? = ""
     var mode  : Int = -1

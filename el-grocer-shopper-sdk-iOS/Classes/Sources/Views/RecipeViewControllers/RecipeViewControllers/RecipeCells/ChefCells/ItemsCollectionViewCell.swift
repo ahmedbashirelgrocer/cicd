@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SDWebImage
+
 let KItemsCollectionViewCellIdentifier = "ItemsCollectionViewCell"
 let kItemCellHeight: CGFloat = 85.0
 let kItemCellWidth: CGFloat = 130

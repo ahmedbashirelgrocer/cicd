@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 // 3:4 ratio to get dynamic height
 // 68 top distance of map view

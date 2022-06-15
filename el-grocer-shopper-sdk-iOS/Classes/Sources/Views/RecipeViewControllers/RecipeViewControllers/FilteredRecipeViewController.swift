@@ -9,6 +9,7 @@
 import UIKit
 import JDFTooltips
 import Storyly
+import BBBadgeBarButtonItem
 
 class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelegate {
     

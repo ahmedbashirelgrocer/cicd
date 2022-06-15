@@ -7,6 +7,7 @@
 
 import UIKit
 import BBBadgeBarButtonItem
+import SDWebImage
 
 
 class SearchViewController: BasketBasicViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource , UIGestureRecognizerDelegate {

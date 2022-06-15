@@ -62,7 +62,7 @@ class ElgrocerChannelController : SBUChannelViewController{
         
         if let msgData = message.data.data(using: .utf8) {
             let dataObject = try? JSONSerialization.jsonObject(with: msgData, options: []) as? [String: Any]
-            if let dataObj = dataObject {
+            if let dataObj = dataObject, let dataObj = dataObj {
                 handleMessageType(data: dataObj, message: message)
             }
         }
@@ -152,7 +152,7 @@ class ElgrocerChannelController : SBUChannelViewController{
         super.channel(sender, didReceive: message)
         if let msgData = message.data.data(using: .utf8) {
             let dataObject = try? JSONSerialization.jsonObject(with: msgData, options: []) as? [String: Any]
-            if let dataObj = dataObject {
+            if let dataObj = dataObject, let dataObj = dataObj {
                 handleMessageType(data: dataObj, message: message)
             }
         }
