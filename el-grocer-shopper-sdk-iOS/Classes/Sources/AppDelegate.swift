@@ -56,7 +56,6 @@ let kGoogleMapsApiKey   =   "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" // forlive
 let KGoToBasket = "gotoBackFromTabBar"
 let KCancelOldAllCalls = "CancelDataCalls"
 
-@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
     
     static var shared = AppDelegate()
@@ -150,10 +149,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
     }
 
 func checkAdvertPermission () {
-    
-    MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
-        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
-    }
+// TO DO: Arch Error Fix
+//    MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
+//        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
+//    }
     
 // TO DO: SDK Update
 //    Settings.isAdvertiserIDCollectionEnabled = true
@@ -537,8 +536,8 @@ func checkAdvertPermission () {
     
     
     func initiliazeMarketingCampaignTrackingServices() {
-        
-        MarketingCampaignTrackingHelper.sharedInstance.initializeMarketingCampaignTrackingServices()
+        // TO DO: Arch Error 
+        //MarketingCampaignTrackingHelper.sharedInstance.initializeMarketingCampaignTrackingServices()
     }
     
     // MARK: App Structure

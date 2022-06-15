@@ -13,14 +13,14 @@ import Foundation
 
 
 
-import AppTrackingTransparency
-import AdSupport
+//import AppTrackingTransparency
+//import AdSupport
 
 
 
 class MarketingCampaignTrackingHelper {
     
-    // MARK: SharedInstance
+  /*  // MARK: SharedInstance
     
     static let sharedInstance = MarketingCampaignTrackingHelper()
     
@@ -79,6 +79,6 @@ class MarketingCampaignTrackingHelper {
         }
     }
     
-    
+    */
     
 }
