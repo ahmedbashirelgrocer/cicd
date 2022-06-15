@@ -1,0 +1,6 @@
+framework module CHDropDownTextField {
+  umbrella header "CHDropDownTextField-umbrella.h"
+
+  export *
+  module * { export * }
+}

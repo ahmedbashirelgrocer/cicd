@@ -1,0 +1,6 @@
+framework module Pods_el_grocer_shopper_sdk_iOS_Example {
+  umbrella header "Pods-el-grocer-shopper-sdk-iOS_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
