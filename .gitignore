@@ -35,4 +35,4 @@ Carthage/Build
 # `pod install` in .travis.yml
 #
 
-Example/Pods/
+# Example/Pods/
