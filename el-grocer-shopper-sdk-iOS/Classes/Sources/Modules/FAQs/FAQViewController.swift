@@ -81,7 +81,7 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.FAQ.rawValue, screenClass: String(describing: self.classForCoder))
 
-        searchBarView = Bundle.main.loadNibNamed("FAQSearchView", owner: self, options: nil)![0] as? FAQSearchView
+        searchBarView = Bundle.resource.loadNibNamed("FAQSearchView", owner: self, options: nil)![0] as? FAQSearchView
         searchBarView?.delegate = self
         //self.tableView.tableHeaderView = searchBarView
     }

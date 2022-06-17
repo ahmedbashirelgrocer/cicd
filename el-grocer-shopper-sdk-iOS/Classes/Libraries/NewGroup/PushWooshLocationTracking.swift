@@ -56,7 +56,7 @@ class  PushWooshTracking {
     */
     
     class func isSimulatorOrTestFlight() -> Bool {
-        guard let path = Bundle.main.appStoreReceiptURL?.path else {
+        guard let path = Bundle.resource.appStoreReceiptURL?.path else {
             return false
         }
         return path.contains("CoreSimulator") || path.contains("sandboxReceipt")

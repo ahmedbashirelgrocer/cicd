@@ -759,7 +759,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
             // self.tblBasket.tableFooterView = tblFooterCheckOutView
         
-        searchBar = Bundle.main.loadNibNamed("CategorySearchBar", owner: self, options: nil)![0] as? CategorySearchBar
+        searchBar = Bundle.resource.loadNibNamed("CategorySearchBar", owner: self, options: nil)![0] as? CategorySearchBar
         searchBar.delegate = self
         
         self.myBasketDataObj.delegate = self

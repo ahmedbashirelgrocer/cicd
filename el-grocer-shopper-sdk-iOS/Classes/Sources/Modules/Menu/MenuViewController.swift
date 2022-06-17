@@ -34,7 +34,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
     let border = CALayer()
     
     fileprivate func setAppVersion() {
-        if let nsObject: AnyObject = (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject??)! {
+        if let nsObject: AnyObject = (Bundle.resource.infoDictionary!["CFBundleShortVersionString"] as AnyObject??)! {
             let version = nsObject as! String
             
             labelAppVersion.textColor = UIColor.greenInfoColor()

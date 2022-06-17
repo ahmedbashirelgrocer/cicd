@@ -111,7 +111,7 @@ class AdyenManager {
         configurations.showsStorePaymentMethodField = false
         configurations.showsHolderNameField = true
         
-      //  let localizationParameters = LocalizationParameters.init(bundle: Bundle.main, tableName: nil, keySeparator: "=", locale: "base")
+      //  let localizationParameters = LocalizationParameters.init(bundle: Bundle.resource, tableName: nil, keySeparator: "=", locale: "base")
       
         
         let style = FormComponentStyle(tintColor: .navigationBarColor())

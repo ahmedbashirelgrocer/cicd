@@ -32,9 +32,9 @@ class func setLanguage(_ language: String) {
 
     defer {
 
-        object_setClass(Bundle.main, AnyLanguageBundle.self)
+        object_setClass(Bundle.resource, AnyLanguageBundle.self)
     }
-    objc_setAssociatedObject(Bundle.main, &bundleKey,    Bundle.main.path(forResource: language, ofType: "lproj"), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    objc_setAssociatedObject(Bundle.resource, &bundleKey,    Bundle.resource.path(forResource: language, ofType: "lproj"), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
   }
     func localizedStringForKey(key:String, comment:String) -> String {
         return self.localizedString(forKey: key, value: comment, table: nil)

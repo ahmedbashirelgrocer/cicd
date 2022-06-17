@@ -43,7 +43,7 @@ class TutorialView : UIView {
 
     class func showTutorialView(withImage image:TutorialImage) {
         
-        let view = Bundle.main.loadNibNamed("TutorialView", owner: nil, options: nil)![0] as! TutorialView
+        let view = Bundle.resource.loadNibNamed("TutorialView", owner: nil, options: nil)![0] as! TutorialView
         view.frame = UIScreen.main.bounds
         view.setTutorialImage(image)
         

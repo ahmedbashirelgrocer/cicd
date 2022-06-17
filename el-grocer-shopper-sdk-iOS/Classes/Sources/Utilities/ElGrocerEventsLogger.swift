@@ -221,7 +221,7 @@ class ElGrocerEventsLogger  {
     private func loadDataFromLocalFile() -> Bool {
         let fileName = "events"
         let fileType = "json"
-        if let path = Bundle.main.path(forResource: fileName, ofType: fileType ) {
+        if let path = Bundle.resource.path(forResource: fileName, ofType: fileType ) {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                 let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)

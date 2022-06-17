@@ -30,7 +30,7 @@ public class ApplePaymentConfigrations {
 
     private struct MainBundle {
         static var prefix: String = {
-            guard let prefix = Bundle.main.object(forInfoDictionaryKey: "AAPLOfferingApplePayBundlePrefix") as? String else {
+            guard let prefix = Bundle.resource.object(forInfoDictionaryKey: "AAPLOfferingApplePayBundlePrefix") as? String else {
                 return ""
             }
             return prefix

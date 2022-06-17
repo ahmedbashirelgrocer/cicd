@@ -221,7 +221,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         self.collectionView.collectionViewLayout = flowLayout
         
         
-        self.superSectionHeader   = (Bundle.main.loadNibNamed("SubCateSegmentTableViewHeader", owner: self, options: nil)![0] as? SubCateSegmentTableViewHeader)!
+        self.superSectionHeader   = (Bundle.resource.loadNibNamed("SubCateSegmentTableViewHeader", owner: self, options: nil)![0] as? SubCateSegmentTableViewHeader)!
         self.superSectionHeader.segmenntCollectionView.segmentDelegate = self
         self.superSectionHeader.viewLayoutCliced = { [weak self ] () in
             guard let self = self else {return}

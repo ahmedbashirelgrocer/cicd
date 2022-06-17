@@ -151,7 +151,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         
         if self.availableStoreTypeA.count > 0 {
           
-            header = (Bundle.main.loadNibNamed("SegmentHeader", owner: self, options: nil)![0] as? SegmentHeader)!
+            header = (Bundle.resource.loadNibNamed("SegmentHeader", owner: self, options: nil)![0] as? SegmentHeader)!
             header?.segmentView.commonInit()
             header?.segmentView.backgroundColor = .textfieldBackgroundColor()
             header?.backgroundColor = .textfieldBackgroundColor()

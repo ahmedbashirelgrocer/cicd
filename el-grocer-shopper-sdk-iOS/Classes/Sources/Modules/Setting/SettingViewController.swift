@@ -54,9 +54,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         
         // Do any additional setup after loading the view.
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.lblversionNumber.text = "v" + " " + version
-            if let buildnumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String  {
+            if let buildnumber = Bundle.resource.infoDictionary?["CFBundleVersion"] as? String  {
                 self.lblversionNumber.text = (self.lblversionNumber.text ?? ("v" + " ")) + "-" + buildnumber
             }
         }else{

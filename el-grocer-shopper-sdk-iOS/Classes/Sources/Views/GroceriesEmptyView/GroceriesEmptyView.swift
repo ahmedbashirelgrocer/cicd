@@ -54,7 +54,7 @@ class GroceriesEmptyView: UIView {
     
     class func initFromNib() -> GroceriesEmptyView {
         
-        let groceryEmptyView = Bundle.main.loadNibNamed("GroceriesEmptyView", owner: nil, options: nil)![0] as! GroceriesEmptyView
+        let groceryEmptyView = Bundle.resource.loadNibNamed("GroceriesEmptyView", owner: nil, options: nil)![0] as! GroceriesEmptyView
         return groceryEmptyView
     }
 

@@ -34,7 +34,7 @@ class SpinnerView : UIView {
         
         if UIApplication.shared.keyWindow?.viewWithTag(kSpinnerViewTag) == nil && ReachabilityManager.sharedInstance.isNetworkAvailable(false) {
             
-            let spinnerView = Bundle.main.loadNibNamed("SpinnerView", owner: nil, options: nil)![0] as! SpinnerView
+            let spinnerView = Bundle.resource.loadNibNamed("SpinnerView", owner: nil, options: nil)![0] as! SpinnerView
             spinnerView.frame = UIScreen.main.bounds
             spinnerView.tag = kSpinnerViewTag
             spinnerView.alpha = 0.9
@@ -61,7 +61,7 @@ class SpinnerView : UIView {
         
         if UIApplication.shared.keyWindow?.viewWithTag(kSpinnerViewTag) == nil && ReachabilityManager.sharedInstance.isNetworkAvailable(false) {
             
-            let spinnerView = Bundle.main.loadNibNamed("SpinnerView", owner: nil, options: nil)![0] as! SpinnerView
+            let spinnerView = Bundle.resource.loadNibNamed("SpinnerView", owner: nil, options: nil)![0] as! SpinnerView
             spinnerView.frame = UIScreen.main.bounds
             spinnerView.tag = kSpinnerViewTag
             spinnerView.alpha = 0
@@ -92,7 +92,7 @@ class SpinnerView : UIView {
         
         if UIApplication.shared.keyWindow?.viewWithTag(kSpinnerViewTag) == nil {
             
-            let spinnerView = Bundle.main.loadNibNamed("SpinnerView", owner: nil, options: nil)![0] as! SpinnerView
+            let spinnerView = Bundle.resource.loadNibNamed("SpinnerView", owner: nil, options: nil)![0] as! SpinnerView
             spinnerView.frame = view.bounds
             spinnerView.tag = kSpinnerViewTag
             spinnerView.alpha = 0

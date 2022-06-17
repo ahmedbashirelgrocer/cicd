@@ -238,9 +238,9 @@ class RecipeDetailViewController: BasketBasicViewController   {
 
     func initailCellRegistration() {
 
-        recipeDetialHeader = (Bundle.main.loadNibNamed("RecipeDetailHeader", owner: self, options: nil)![0] as? RecipeDetailHeader)!
+        recipeDetialHeader = (Bundle.resource.loadNibNamed("RecipeDetailHeader", owner: self, options: nil)![0] as? RecipeDetailHeader)!
         
-        HowToMakeViewHeader = (Bundle.main.loadNibNamed("HowToMakeView", owner: self, options: nil)![0] as? HowToMakeView)!
+        HowToMakeViewHeader = (Bundle.resource.loadNibNamed("HowToMakeView", owner: self, options: nil)![0] as? HowToMakeView)!
         
         let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle(for: RecipeTableViewCell.self))
         self.tableView.register(recipeListCell, forCellReuseIdentifier: KRecipeTableViewCellIdentifier )

@@ -549,7 +549,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
                 currentLang = "en"
             }
             var final_Version = "1000000"
-            if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
                 final_Version = version
             }
             request.allHTTPHeaderFields = ["Locale" : currentLang , "app_version" : final_Version ]

@@ -460,7 +460,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   func checkClientVersion(_ completionHandler: @escaping (_ action: Int, _ message: String?) -> Void, errorHandler: @escaping () -> Void) {
   
   let clientType = 1 // iPhone Shopper App
-  let infoDictionary: NSDictionary? = Bundle.main.infoDictionary as NSDictionary?
+  let infoDictionary: NSDictionary? = Bundle.resource.infoDictionary as NSDictionary?
   let clientVersion = infoDictionary?.object(forKey: "CFBundleShortVersionString") as! String
   
   let params: [String: AnyObject] = [

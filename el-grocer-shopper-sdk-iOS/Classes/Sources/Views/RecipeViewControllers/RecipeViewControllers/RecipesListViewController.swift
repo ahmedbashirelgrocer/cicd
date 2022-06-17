@@ -141,7 +141,7 @@ class RecipesListViewController: BasketBasicViewController {
     
     func initailCellRegistration() {
         
-        recipeSearchHeader = (Bundle.main.loadNibNamed("SearchRecipeHeader", owner: self, options: nil)![0] as? SearchRecipeHeader)!
+        recipeSearchHeader = (Bundle.resource.loadNibNamed("SearchRecipeHeader", owner: self, options: nil)![0] as? SearchRecipeHeader)!
         
         
         let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle(for: RecipeTableViewCell.self))

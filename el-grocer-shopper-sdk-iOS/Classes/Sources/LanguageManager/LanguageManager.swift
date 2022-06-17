@@ -63,7 +63,7 @@ class LanguageManager: NSObject {
     
     func getCurrentBundle()-> Bundle{
         
-       /* if let bundle = NSBundle.main.path(forResource: lprojBasePath, ofType: "lproj"){
+       /* if let bundle = NSBundle.resource.path(forResource: lprojBasePath, ofType: "lproj"){
             
             return NSBundle(path: bundle)!
             
@@ -73,10 +73,10 @@ class LanguageManager: NSObject {
         }*/
         
         
-        if let bundle = Bundle.main.path(forResource: lprojBasePath, ofType: "lproj"){
+        if let bundle = Bundle.resource.path(forResource: lprojBasePath, ofType: "lproj"){
             return Bundle(path: bundle)!
         }else{
-            // return NSBundle.mainBundle()
+            // return NSBundle.resourceBundle()
             fatalError("lproj files not found on project directory. /n Hint:Localize your strings file")
         }
     }

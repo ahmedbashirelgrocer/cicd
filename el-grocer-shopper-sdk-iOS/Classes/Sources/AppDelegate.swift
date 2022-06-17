@@ -77,7 +77,8 @@ open class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  
      var parentTabNav  : ElgrocerGenericUIParentNavViewController?
   
     // MARK: App lifecycle
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
         SwiftDate.defaultRegion = Region.getCurrentRegion()
         self.appStartTime = Date()
         
@@ -510,7 +511,7 @@ func checkAdvertPermission () {
     fileprivate func debugFirebaseSetting() {
         
         var filePath:String!
-        filePath = Bundle.main.path(forResource: "GoogleService-Info-SandBox", ofType: "plist")
+        filePath = Bundle.resource.path(forResource: "GoogleService-Info-SandBox", ofType: "plist")
         let projectName = "elgrocer"
         let options = FirebaseOptions.init(contentsOfFile: filePath)!
         options.deepLinkURLScheme = "elgrocer.com.ElGrocerShopper"
@@ -653,7 +654,7 @@ func checkAdvertPermission () {
         let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
 
         let vcData: [(UIViewController, UIImage , String)] = [
-            (homeViewEmpty, UIImage(named: "TabbarHome")!,NSLocalizedString("Home_Title", comment: "")),
+            (homeViewEmpty, UIImage(named: "TabbarHome", in: .resource, compatibleWith: nil)!,NSLocalizedString("Home_Title", comment: "")),
             (storeMain, UIImage(named: "icStore")!,NSLocalizedString("Store_Title", comment: "")),
             (searchController, UIImage(named: "icTabBarshoppingList")! ,NSLocalizedString("Shopping_list_Titile", comment: "")),
             (settingController, UIImage(named: "TabbarProfile")!   ,NSLocalizedString("more_title", comment: "")),
@@ -806,7 +807,7 @@ func checkAdvertPermission () {
     }
     
     func getCurrentAppVersion() -> String {
-        let infoDictionary: NSDictionary? = Bundle.main.infoDictionary as NSDictionary? // Fetch info.plist as a Dictionary
+        let infoDictionary: NSDictionary? = Bundle.resource.infoDictionary as NSDictionary? // Fetch info.plist as a Dictionary
         let major = infoDictionary?.object(forKey: "CFBundleShortVersionString") as! String
         let minor = infoDictionary?.object(forKey: "CFBundleVersion") as! String
         return "\(major).\(minor)"

@@ -269,7 +269,7 @@ class EntryViewController: UIViewController {
   
     private func playVideo() {
         
-        guard let videoURL = Bundle.main.url(forResource: "Intro", withExtension: "mp4") else {
+        guard let videoURL = Bundle.resource.url(forResource: "Intro", withExtension: "mp4") else {
             debugPrint("Intro.mp4 not found")
             return
         }

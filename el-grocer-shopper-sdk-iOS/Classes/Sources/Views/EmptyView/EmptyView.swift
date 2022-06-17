@@ -39,7 +39,7 @@ class EmptyView : UIView {
     
     class func createAndAddEmptyView(_ title:String, description:String, addToView superView:UIView) -> EmptyView {
         
-        let view = Bundle.main.loadNibNamed("EmptyView", owner: nil, options: nil)![0] as! EmptyView
+        let view = Bundle.resource.loadNibNamed("EmptyView", owner: nil, options: nil)![0] as! EmptyView
         view.titleLabel.text = title
         view.descriptionLabel.text = description
         view.translatesAutoresizingMaskIntoConstraints = false

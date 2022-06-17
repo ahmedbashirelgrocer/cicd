@@ -274,7 +274,7 @@ class NetworkLayer {
         if let token = ElGrocerUtility.sharedInstance.projectScope?.access_token {
             self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "access_token")
         }
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.requestManager.requestSerializer.setValue(version, forHTTPHeaderField: "app_version")
         }else{
             self.requestManager.requestSerializer.setValue("1000000", forHTTPHeaderField: "app_version")

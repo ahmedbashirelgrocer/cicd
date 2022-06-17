@@ -13,7 +13,7 @@ class ElGrocerViewControllers {
     
     fileprivate class func initializeControllerFromStoryboard<T: UIViewController>(_ storyboardId: String, storyboardControllerId: String) -> T {
         
-        let storyboard = UIStoryboard(name: storyboardId, bundle: Bundle(for: self))
+        let storyboard = UIStoryboard(name: storyboardId, bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: storyboardControllerId) as! T
     }
     

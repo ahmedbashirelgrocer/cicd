@@ -87,7 +87,7 @@ class DatabaseManager : NSObject {
             var models: [NSManagedObjectModel] = [NSManagedObjectModel]()
             
             for store in persistantStores {
-                if let modelUrl = Bundle.main.url(forResource: store.model, withExtension:"momd") {
+                if let modelUrl = Bundle.resource.url(forResource: store.model, withExtension:"momd") {
                     if let model = NSManagedObjectModel(contentsOf: modelUrl) {
                         models.append(model)
                     }

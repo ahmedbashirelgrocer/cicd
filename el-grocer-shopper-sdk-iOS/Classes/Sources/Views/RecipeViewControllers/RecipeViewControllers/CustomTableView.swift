@@ -12,7 +12,7 @@ class CustomTableView: UITableView {
 
 
     lazy var customTableBGView : UIView = {
-        let spinnerView = Bundle.main.loadNibNamed("SpinnerView", owner: nil, options: nil)![0] as! SpinnerView
+        let spinnerView = Bundle.resource.loadNibNamed("SpinnerView", owner: nil, options: nil)![0] as! SpinnerView
         spinnerView.tag = kSpinnerViewTag
         spinnerView.alpha = 1
         return spinnerView

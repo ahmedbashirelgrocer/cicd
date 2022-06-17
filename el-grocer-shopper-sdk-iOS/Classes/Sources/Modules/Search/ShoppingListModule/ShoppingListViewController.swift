@@ -352,7 +352,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
         
      //   self.addBackButton()
         if self.isChooseAlternative {
-        DoneViewFooter = (Bundle.main.loadNibNamed("DoneButtonFooterView", owner: self, options: nil)![0] as? DoneButtonFooterView)!
+        DoneViewFooter = (Bundle.resource.loadNibNamed("DoneButtonFooterView", owner: self, options: nil)![0] as? DoneButtonFooterView)!
             self.addClouser()
         }else{  }
        

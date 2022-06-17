@@ -199,7 +199,7 @@ class ElGrocerUtility {
         var latlng = "0"
         var userID = "0"
         
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             versionNumber = version
         }
         if let address = ElGrocerUtility.sharedInstance.activeAddress {
@@ -1607,7 +1607,7 @@ struct Platform {
     }()
     
     static let isTestFlight: Bool = {
-        guard let path = Bundle.main.appStoreReceiptURL?.path else {
+        guard let path = Bundle.resource.appStoreReceiptURL?.path else {
             return false
         }
         return path.contains("sandboxReceipt")
