@@ -56,7 +56,7 @@ let kGoogleMapsApiKey   =   "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" // forlive
 let KGoToBasket = "gotoBackFromTabBar"
 let KCancelOldAllCalls = "CancelDataCalls"
 
-class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
+open class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
     
     static var shared = AppDelegate()
     
