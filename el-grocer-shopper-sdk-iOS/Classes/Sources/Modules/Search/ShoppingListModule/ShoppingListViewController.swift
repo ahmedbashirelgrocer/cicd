@@ -382,11 +382,11 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
     }
 
     func registerCells() {
-        let shoppingListCell = UINib(nibName: kShoppingListCellIdentifier, bundle: Bundle(for: ShoppingListViewController.self))
+        let shoppingListCell = UINib(nibName: kShoppingListCellIdentifier, bundle: Bundle.resource)
         self.shoppingListTableView.register(shoppingListCell, forCellReuseIdentifier: kShoppingListCellIdentifier )
         self.shoppingListTableView.backgroundColor = UIColor.textfieldBackgroundColor()
         
-        let spaceTableViewCell = UINib(nibName: "ProgressCompleteionTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "ProgressCompleteionTableViewCell", bundle: Bundle.resource)
         self.shoppingListTableView.register(spaceTableViewCell, forCellReuseIdentifier: "ProgressCompleteionTableViewCell")
     }
 

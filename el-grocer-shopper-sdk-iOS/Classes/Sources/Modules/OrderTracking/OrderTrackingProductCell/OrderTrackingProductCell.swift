@@ -25,7 +25,7 @@ class OrderTrackingProductCell: UITableViewCell {
         
         self.setUpViewAppearance()
         
-        let itemCellNib = UINib(nibName: "ItemCell", bundle:nil)
+        let itemCellNib = UINib(nibName: "ItemCell", bundle: Bundle.resource)
         self.collectionView.register(itemCellNib, forCellWithReuseIdentifier: kItemCellIdentifier)
     }
     

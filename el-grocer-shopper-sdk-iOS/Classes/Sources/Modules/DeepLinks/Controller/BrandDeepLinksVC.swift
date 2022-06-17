@@ -330,21 +330,21 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         
         self.collectionView.bounces = false
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: ProductsViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
-        let headerNib = UINib(nibName: "SubCateReusableView", bundle: Bundle(for: ProductsViewController.self))
+        let headerNib = UINib(nibName: "SubCateReusableView", bundle: Bundle.resource)
         self.collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: kSubCateHeaderCellIdentifier)
         
         
-        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle(for: SearchViewController.self))
+        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle.resource)
         self.collectionView.register(BasketBannerCollectionViewCellNIB , forCellWithReuseIdentifier: BasketBannerCollectionViewCellIdentifier)
         
         
-        let headerNibBrand = UINib(nibName: "BrandHeaderCell", bundle: Bundle(for: BrandDetailsViewController.self))
+        let headerNibBrand = UINib(nibName: "BrandHeaderCell", bundle: Bundle.resource)
         self.collectionView.register(headerNibBrand, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: kBrandHeaderCellIdentifier)
         
-        let EmptyCollectionReusableViewheaderNib = UINib(nibName: "EmptyCollectionReusableView", bundle: Bundle(for: EmptyCollectionReusableView.self))
+        let EmptyCollectionReusableViewheaderNib = UINib(nibName: "EmptyCollectionReusableView", bundle: Bundle.resource)
         self.collectionView.register(EmptyCollectionReusableViewheaderNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyCollectionReusableView")
         
         

@@ -46,7 +46,7 @@ class ItemsOutOfStockQuestionnaire: UITableViewCell {
     
     private func registerCells() {
         
-        let questionareCell = UINib(nibName: "QuestionareCell", bundle: Bundle(for: QuestionareCell.self))
+        let questionareCell = UINib(nibName: "QuestionareCell", bundle: Bundle.resource)
         self.optionsTableView.register(questionareCell, forCellReuseIdentifier: "QuestionareCell")
     }
     

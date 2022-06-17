@@ -174,7 +174,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                         var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(size + 210)))
                         configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                         let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: nil)
+                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: Bundle.resource)
                         controler.detailsType = .car
                         controler.carDataList = dataHandler.carList
                         controler.selectedCar = dataHandler.selectedCar
@@ -204,7 +204,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                 var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(555))
                 configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                 let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: nil)
+                let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: Bundle.resource)
                     controler.carType  = .addNew
                 if self.currentTopVc is UIViewController {
                     controler.currentVc = self.currentTopVc as? UIViewController
@@ -229,7 +229,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                         var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(size + 210)))
                         configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                         let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: nil)
+                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: Bundle.resource)
                         controler.dataList = dataHandler.collectorList
                         controler.selectedCollector = dataHandler.selectedCollector
                         controler.dataHandlerView = self.currentTopVc as? UIViewController
@@ -248,7 +248,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                 var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(378))
                 configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                 let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: nil)
+                let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: Bundle.resource)
                 controler.collectorType  = .AddNewCollector
                 if self.currentTopVc is UIViewController {
                     controler.currentVc = self.currentTopVc as? UIViewController
@@ -288,7 +288,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                         var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(size + 210)))
                         configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                         let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: nil)
+                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: Bundle.resource)
                         controler.detailsType = .car
                         controler.carDataList = dataController.dataHandler.carList
                         controler.selectedCar = dataController.dataHandler.selectedCar
@@ -321,7 +321,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                 var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(555))
                 configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                 let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: nil)
+                let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: Bundle.resource)
                     controler.carType  = .addNew
                 if self.currentTopVc is UIViewController {
                     controler.currentVc = self.currentTopVc as? UIViewController
@@ -353,7 +353,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                         var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(size + 210)))
                         configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                         let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: nil)
+                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: Bundle.resource)
                         controler.dataList = dataController.dataHandler.collectorList
                         controler.selectedCollector = dataController.dataHandler.selectedCollector
                         controler.dataHandlerView = dataController
@@ -370,7 +370,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                 var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(378))
                 configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                 let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: nil)
+                let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: Bundle.resource)
                 controler.collectorType  = .AddNewCollector
                 if self.currentTopVc is UIViewController {
                     controler.currentVc = self.currentTopVc as? UIViewController

@@ -226,17 +226,17 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func registerTableViewCell() {
         
-        let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: Bundle(for: type(of: self)))
+        let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: Bundle.resource)
         self.tableView.register(userInfoCellNib, forCellReuseIdentifier: kUserInfoCellIdentifier)
         
-        let loginCellNib  = UINib(nibName: "loginCell", bundle: Bundle(for: type(of: self)))
+        let loginCellNib  = UINib(nibName: "loginCell", bundle: Bundle.resource)
         self.tableView.register(loginCellNib, forCellReuseIdentifier: KloginCellIdentifier)
         
-        let settingCellNib = UINib(nibName: "SettingCell", bundle: Bundle(for: type(of: self)))
+        let settingCellNib = UINib(nibName: "SettingCell", bundle: Bundle.resource)
         self.tableView.register(settingCellNib, forCellReuseIdentifier: kSettingCellIdentifier)
         
         
-        let SignOutCellNib = UINib(nibName: "SignOutCell", bundle: Bundle(for: type(of: self)))
+        let SignOutCellNib = UINib(nibName: "SignOutCell", bundle: Bundle.resource)
         self.tableView.register(SignOutCellNib, forCellReuseIdentifier: kSignOutCellIdentifier)
         
         
@@ -830,7 +830,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         ElGrocerEventsLogger.sharedInstance.trackSettingClicked("ManageCards")
         
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: nil)
+        let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: Bundle.resource)
         creditVC.userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         creditVC.isFromSetting = true
         let navigation = ElgrocerGenericUIParentNavViewController.init(rootViewController: creditVC)
@@ -869,7 +869,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         /*
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        let addCreditVC = AddCreditCardViewController(nibName: "AddCreditCardViewController", bundle: nil)
+        let addCreditVC = AddCreditCardViewController(nibName: "AddCreditCardViewController", bundle: Bundle.resource)
         addCreditVC.userProfile = userProfile
         addCreditVC.isAddOnly = true
         addCreditVC.totalPrice = 1.0

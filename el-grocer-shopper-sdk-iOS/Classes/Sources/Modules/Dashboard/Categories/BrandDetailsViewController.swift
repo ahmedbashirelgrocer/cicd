@@ -524,16 +524,16 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     
     func registerCellsForCollection() {
         
-        let headerNib = UINib(nibName: "BrandHeaderCell", bundle: Bundle(for: BrandDetailsViewController.self))
+        let headerNib = UINib(nibName: "BrandHeaderCell", bundle: .resource)
         self.collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: kBrandHeaderCellIdentifier)
 
-        let EmptyCollectionReusableViewheaderNib = UINib(nibName: "EmptyCollectionReusableView", bundle: Bundle(for: EmptyCollectionReusableView.self))
+        let EmptyCollectionReusableViewheaderNib = UINib(nibName: "EmptyCollectionReusableView", bundle: Bundle.resource)
         self.collectionView.register(EmptyCollectionReusableViewheaderNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyCollectionReusableView")
        
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: BrandDetailsViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: .resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
-        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle:nil)
+        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle: Bundle.resource)
         self.collectionView.register(productSekeltonCelllNib, forCellWithReuseIdentifier: kProductSekeltonCellIdentifier)
 
 

@@ -52,11 +52,11 @@ class CarouselProductsView: CustomCollectionView {
     
     func registerdCell () {
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle:Bundle(for: CarouselProductsView.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView!.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
         
-        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle:nil)
+        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle: Bundle.resource)
         self.collectionView!.register(productSekeltonCelllNib, forCellWithReuseIdentifier: kProductSekeltonCellIdentifier)
        
     }

@@ -202,7 +202,7 @@ class GroceryReviewsViewController : UIViewController, UITableViewDataSource, UI
     
     func registerTableCell() {
         
-        let cellNib = UINib(nibName: "GroceryReviewCell", bundle: Bundle(for: GroceryReviewsViewController.self))
+        let cellNib = UINib(nibName: "GroceryReviewCell", bundle: Bundle.resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: kGroceryReviewCellIdentifier)
     }
     

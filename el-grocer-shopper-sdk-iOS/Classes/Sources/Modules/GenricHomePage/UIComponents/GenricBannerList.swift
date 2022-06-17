@@ -34,7 +34,7 @@ class GenricBannerList : CustomCollectionView {
     func registerCellsAndSetDelegateAndDataSource () {
         
         self.addCollectionViewWithDirection(.horizontal)
-        let genericBannerCollectionViewCell = UINib(nibName: KGenericBannerCollectionViewCell , bundle:nil)
+        let genericBannerCollectionViewCell = UINib(nibName: KGenericBannerCollectionViewCell , bundle: Bundle.resource)
         self.collectionView?.register(genericBannerCollectionViewCell, forCellWithReuseIdentifier: KGenericBannerCollectionViewCell )
         self.collectionView?.isScrollEnabled = true
        // self.collectionView?. = true

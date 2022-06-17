@@ -127,7 +127,7 @@ class CandCHistoryCell: UITableViewCell {
     }
     
     func registerCell(){
-        let orderProductCellNib = UINib(nibName: "OrderProductCell", bundle:nil)
+        let orderProductCellNib = UINib(nibName: "OrderProductCell", bundle: Bundle.resource)
         self.orderSummaryCollectionView.register(orderProductCellNib, forCellWithReuseIdentifier: kOrderProductCellIdentifier)
     }
     

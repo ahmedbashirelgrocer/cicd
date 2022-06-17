@@ -56,16 +56,16 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
     
     func registerTableViewCell() {
         
-        let timelineTableViewCellNib = UINib(nibName: "TimelineTableViewCell", bundle: Bundle(for: TimelineTableViewCell.self))
+        let timelineTableViewCellNib = UINib(nibName: "TimelineTableViewCell", bundle: Bundle.resource)
         self.timeLineTableView.register(timelineTableViewCellNib, forCellReuseIdentifier: kTimelineCellIdentifier)
         
-        let settingCellNib = UINib(nibName: "SettingCell", bundle: Bundle(for: type(of: self)))
+        let settingCellNib = UINib(nibName: "SettingCell", bundle: Bundle.resource)
         self.timeLineTableView.register(settingCellNib, forCellReuseIdentifier: kSettingCellIdentifier)
         
-        let orderTrackingLocationCellNib = UINib(nibName: "OrderTrackingLocationCell", bundle: Bundle(for: type(of: self)))
+        let orderTrackingLocationCellNib = UINib(nibName: "OrderTrackingLocationCell", bundle: Bundle.resource)
         self.timeLineTableView.register(orderTrackingLocationCellNib, forCellReuseIdentifier: kOrderTrackingLocationCellIdentifier)
         
-        let orderTrackingProductCellNib = UINib(nibName: "OrderTrackingProductCell", bundle: Bundle(for: type(of: self)))
+        let orderTrackingProductCellNib = UINib(nibName: "OrderTrackingProductCell", bundle: Bundle.resource)
         self.timeLineTableView.register(orderTrackingProductCellNib, forCellReuseIdentifier: kOrderTrackingProductCellIdentifier)
     }
     

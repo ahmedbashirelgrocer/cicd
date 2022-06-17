@@ -69,7 +69,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
 
     func registerCellForCollection() {
         
-        let segmentCellNib = UINib(nibName: "AWSegmentViewCell", bundle: Bundle(for: type(of: self)))
+        let segmentCellNib = UINib(nibName: "AWSegmentViewCell", bundle: Bundle.resource)
         self.register(segmentCellNib, forCellWithReuseIdentifier: kSegmentViewCellIdentifier)
     }
     

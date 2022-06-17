@@ -222,10 +222,10 @@ class AddCarDetailsVC: UIViewController {
     }
     //MARK: Collectionview delegates
     func setCollectionViewDelegates() {
-        self.carBrandCollectionView.register(UINib.init(nibName: "CarBrandCollectionCell", bundle: nil), forCellWithReuseIdentifier: "CarBrandCollectionCell")
+        self.carBrandCollectionView.register(UINib.init(nibName: "CarBrandCollectionCell", bundle: Bundle.resource), forCellWithReuseIdentifier: "CarBrandCollectionCell")
         carBrandCollectionView.delegate = self
         carBrandCollectionView.dataSource = self
-        self.carColorCollectionView.register(UINib.init(nibName: "CarColorCollectionCell", bundle: nil), forCellWithReuseIdentifier: "CarColorCollectionCell")
+        self.carColorCollectionView.register(UINib.init(nibName: "CarColorCollectionCell", bundle: Bundle.resource), forCellWithReuseIdentifier: "CarColorCollectionCell")
         carColorCollectionView.delegate = self
         carColorCollectionView.dataSource = self
     }

@@ -28,10 +28,10 @@ class SmallBannerCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        let bannerTitleCellNib = UINib(nibName: "BannerTitleCell", bundle:nil)
+        let bannerTitleCellNib = UINib(nibName: "BannerTitleCell", bundle: Bundle.resource)
         self.collectionView.register(bannerTitleCellNib, forCellWithReuseIdentifier: kBannerTitleCellIdentifier)
         
-        let bannerLogoCellNib = UINib(nibName: "BannerLogoCell", bundle:nil)
+        let bannerLogoCellNib = UINib(nibName: "BannerLogoCell", bundle: Bundle.resource)
         self.collectionView.register(bannerLogoCellNib, forCellWithReuseIdentifier: kBannerLogoCellIdentifier)
         
         

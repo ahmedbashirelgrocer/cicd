@@ -49,7 +49,7 @@ class AdvertBrandViewController:  BasketBasicViewController {
     
     func registerCell(){
        
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: SubCategoriesViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.customCollectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10, right: 10)

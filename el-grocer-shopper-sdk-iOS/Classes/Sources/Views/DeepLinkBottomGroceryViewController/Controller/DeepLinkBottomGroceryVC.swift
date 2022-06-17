@@ -46,10 +46,10 @@ class DeepLinkBottomGroceryVC: UIViewController , UITableViewDelegate , UITableV
     }
     func registerCell () {
         
-        let elgrocerGroceryListTableViewCell = UINib(nibName: KElgrocerGroceryListTableViewCell, bundle: Bundle(for: ElgrocerGroceryListTableViewCell.self))
+        let elgrocerGroceryListTableViewCell = UINib(nibName: KElgrocerGroceryListTableViewCell, bundle: Bundle.resource)
         self.tableView.register(elgrocerGroceryListTableViewCell , forCellReuseIdentifier: KElgrocerGroceryListTableViewCell)
         
-        let GroceryWithProductTableCell = UINib(nibName: "GroceryWithProductTableCell", bundle: Bundle(for: GroceryWithProductTableCell.self))
+        let GroceryWithProductTableCell = UINib(nibName: "GroceryWithProductTableCell", bundle: Bundle.resource)
         self.tableView.register(GroceryWithProductTableCell , forCellReuseIdentifier: "GroceryWithProductTableCell")
         
     }

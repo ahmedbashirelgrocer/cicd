@@ -37,7 +37,7 @@ class RecipeItemColloectionView: CustomCollectionView {
         self.collectionView?.isScrollEnabled = false
         
         
-        let chefDataCell = UINib(nibName: "ItemsCollectionViewCell", bundle:nil)
+        let chefDataCell = UINib(nibName: "ItemsCollectionViewCell", bundle: Bundle.resource)
         self.collectionView!.register(chefDataCell, forCellWithReuseIdentifier: KItemsCollectionViewCellIdentifier)
         
         

@@ -38,16 +38,16 @@ class OrderStatusVC: UIViewController {
     
     func RegisterCell(){
         
-        let warningCell = UINib(nibName: "warningAlertCell" , bundle:nil)
+        let warningCell = UINib(nibName: "warningAlertCell" , bundle: Bundle.resource)
         self.orderStatusTableView.register(warningCell, forCellReuseIdentifier: "warningAlertCell")
         
-        let OrderStatusDetailCell = UINib(nibName: "OrderStatusDetailCell" , bundle:nil)
+        let OrderStatusDetailCell = UINib(nibName: "OrderStatusDetailCell" , bundle: Bundle.resource)
         self.orderStatusTableView.register(OrderStatusDetailCell, forCellReuseIdentifier: "OrderStatusDetailCell")
         
-        let CandCLocationCell = UINib(nibName: "CandCLocationCell" , bundle:nil)
+        let CandCLocationCell = UINib(nibName: "CandCLocationCell" , bundle: Bundle.resource)
         self.orderStatusTableView.register(CandCLocationCell, forCellReuseIdentifier: "CandCLocationCell")
         
-        let bannerCell = UINib(nibName: KGenericBannersCell , bundle:nil)
+        let bannerCell = UINib(nibName: KGenericBannersCell , bundle: Bundle.resource)
         self.orderStatusTableView.register(bannerCell, forCellReuseIdentifier: KGenericBannersCell)
         
         

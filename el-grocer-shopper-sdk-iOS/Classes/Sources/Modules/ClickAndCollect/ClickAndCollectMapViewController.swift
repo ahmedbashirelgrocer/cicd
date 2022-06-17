@@ -229,14 +229,14 @@ class ClickAndCollectMapViewController: UIViewController {
     func registerTableViewObject() {
         
         self.tableView.backgroundColor = .white
-        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: nil)
+        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: Bundle.resource)
         self.tableView.register(ElgrocerCategorySelectTableViewCell, forCellReuseIdentifier: KElgrocerCategorySelectTableViewCell)
         
         
-        let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: nil)
+        let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
         
-        let recipeCategoryDataCell = UINib(nibName: "CarBrandCollectionCell" , bundle:nil)
+        let recipeCategoryDataCell = UINib(nibName: "CarBrandCollectionCell" , bundle: Bundle.resource)
         self.currentOrderCollectionView.register(recipeCategoryDataCell, forCellWithReuseIdentifier: "CarBrandCollectionCell")
         
         self.currentOrderCollectionView.delegate = self

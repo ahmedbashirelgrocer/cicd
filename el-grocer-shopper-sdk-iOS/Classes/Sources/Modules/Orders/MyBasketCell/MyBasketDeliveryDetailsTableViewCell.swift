@@ -212,7 +212,7 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
     
     @IBAction func ActionDeliverySlot(_ sender: Any) {
         
-        let popupViewController = AWPickerViewController(nibName: "AWPickerViewController", bundle: nil)
+        let popupViewController = AWPickerViewController(nibName: "AWPickerViewController", bundle: Bundle.resource)
         let popupController = STPopupController(rootViewController: popupViewController)
         if NSClassFromString("UIBlurEffect") != nil {
             // let blurEffect = UIBlurEffect(style: .dark)

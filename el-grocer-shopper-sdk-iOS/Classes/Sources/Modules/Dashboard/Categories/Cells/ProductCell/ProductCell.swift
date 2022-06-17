@@ -1026,7 +1026,7 @@ class ProductCell : UICollectionViewCell {
         guard self.product != nil else {
             return
         }
-        let popupViewController = PopImageViwerViewController(nibName: "PopImageViwerViewController", bundle: nil)
+        let popupViewController = PopImageViwerViewController(nibName: "PopImageViwerViewController", bundle: Bundle.resource)
         popupViewController.view.frame = UIScreen.main.bounds
         let popupController = STPopupController(rootViewController: popupViewController)
         if NSClassFromString("UIBlurEffect") != nil {

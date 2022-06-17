@@ -237,10 +237,10 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
     // MARK: UITableView
     
     func registerTableCell() {
-        let cellNib = UINib(nibName: "OrderHistoryCell", bundle: Bundle(for: OrdersViewController.self))
+        let cellNib = UINib(nibName: "OrderHistoryCell", bundle: Bundle.resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: kOrderHistoryCellIdentifier)
         
-        let cAndCHistoryCell = UINib(nibName: "CandCHistoryCell", bundle: Bundle(for: CandCHistoryCell.self))
+        let cAndCHistoryCell = UINib(nibName: "CandCHistoryCell", bundle: Bundle.resource)
         self.tableView.register(cAndCHistoryCell, forCellReuseIdentifier: "CandCHistoryCell")
     }
     

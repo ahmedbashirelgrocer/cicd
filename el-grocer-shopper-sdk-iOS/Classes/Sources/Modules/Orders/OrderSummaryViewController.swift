@@ -277,7 +277,7 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
     
     fileprivate func registerCellsForTableView() {
         
-        let celllNib = UINib(nibName: "ShoppingBasketCell", bundle: Bundle(for: ShoppingBasketView.self))
+        let celllNib = UINib(nibName: "ShoppingBasketCell", bundle: Bundle.resource)
         self.tableView.register(celllNib, forCellReuseIdentifier: kShoppingBasketCellIdentifier)
     }
     

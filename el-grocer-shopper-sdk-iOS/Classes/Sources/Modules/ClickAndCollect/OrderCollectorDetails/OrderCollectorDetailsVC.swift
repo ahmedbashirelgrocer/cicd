@@ -65,7 +65,7 @@ class OrderCollectorDetailsVC: UIViewController {
         self.setTableviewDelegates()
     }
     func setTableviewDelegates() {
-        self.detailsTableView.register(UINib.init(nibName: "CollectorDetailCell", bundle: nil), forCellReuseIdentifier: "CollectorDetailCell")
+        self.detailsTableView.register(UINib.init(nibName: "CollectorDetailCell", bundle: Bundle.resource), forCellReuseIdentifier: "CollectorDetailCell")
         detailsTableView.delegate = self
         detailsTableView.dataSource = self
         detailsTableView.isScrollEnabled = true
@@ -111,7 +111,7 @@ class OrderCollectorDetailsVC: UIViewController {
             var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(555))
             configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
             let bottomSheetController = NBBottomSheetController(configuration: configuration)
-            let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: nil)
+            let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: Bundle.resource)
             controler.carType  = .addNew
             controler.carSelected = { (car) in
                 if self.dataHandlerView is MyBasketPlaceOrderVC {
@@ -162,7 +162,7 @@ class OrderCollectorDetailsVC: UIViewController {
         var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(378))
         configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
         let bottomSheetController = NBBottomSheetController(configuration: configuration)
-        let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: nil)
+        let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: Bundle.resource)
         controler.currentVc = dataHandlerView
         controler.collectorType  = .AddNewCollector
         controler.currentVc = self.dataHandlerView
@@ -336,7 +336,7 @@ extension OrderCollectorDetailsVC : UITableViewDelegate , UITableViewDataSource 
                 var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(378))
                 configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                 let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: nil)
+                let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: Bundle.resource)
                 controler.currentVc = self.dataHandlerView
                 controler.collectorType  = .OrderCollector
                 controler.priviousCollectorData = rowCollector//self.dataList[indexPath.row]
@@ -349,7 +349,7 @@ extension OrderCollectorDetailsVC : UITableViewDelegate , UITableViewDataSource 
                 var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(555))
                 configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
                 let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: nil)
+                let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: Bundle.resource)
                 controler.currentVc = self.dataHandlerView
                 controler.carType  = .carDetails
                 controler.priviousCarData = rowCar//self.carDataList[indexPath.row]

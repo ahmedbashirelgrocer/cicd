@@ -1117,11 +1117,11 @@ extension RecipeDetailVC: PresenterToViewRecipeProtocol{
     }
     
     func initailCellRegistration() {
-        self.tableView.register(UINib(nibName: "recipeDetailCell", bundle: nil), forCellReuseIdentifier: "recipeDetailCell")
-        self.tableView.register(UINib(nibName: "IngrediantsCell", bundle: nil), forCellReuseIdentifier: "IngrediantsCell")
-        self.tableView.register(UINib(nibName: "AddAllIngrediantsCell", bundle: nil), forCellReuseIdentifier: "AddAllIngrediantsCell")
-        self.tableView.register(UINib(nibName: "RecipePreparationCell", bundle: nil), forCellReuseIdentifier: "RecipePreparationCell")
-        self.tableView.register(UINib(nibName: KGenericViewTitileTableViewCell, bundle: nil), forCellReuseIdentifier: KGenericViewTitileTableViewCell)
+        self.tableView.register(UINib(nibName: "recipeDetailCell", bundle: Bundle.resource), forCellReuseIdentifier: "recipeDetailCell")
+        self.tableView.register(UINib(nibName: "IngrediantsCell", bundle: Bundle.resource), forCellReuseIdentifier: "IngrediantsCell")
+        self.tableView.register(UINib(nibName: "AddAllIngrediantsCell", bundle: Bundle.resource), forCellReuseIdentifier: "AddAllIngrediantsCell")
+        self.tableView.register(UINib(nibName: "RecipePreparationCell", bundle: Bundle.resource), forCellReuseIdentifier: "RecipePreparationCell")
+        self.tableView.register(UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource), forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         self.tableView.delegate = self
         self.tableView.dataSource = self
         

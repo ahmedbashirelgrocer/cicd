@@ -103,13 +103,13 @@ class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelega
     
     func initailCellRegistration() {
         
-        self.tableView.register(UINib(nibName: "chefDescriptionCell", bundle: nil), forCellReuseIdentifier: "chefDescriptionCell")
-        self.tableView.register(UINib(nibName: KGenericViewTitileTableViewCell, bundle: nil), forCellReuseIdentifier: KGenericViewTitileTableViewCell)
+        self.tableView.register(UINib(nibName: "chefDescriptionCell", bundle: Bundle.resource), forCellReuseIdentifier: "chefDescriptionCell")
+        self.tableView.register(UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource), forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
         
-        self.tableView.register(UINib(nibName: KStorlyTableViewCell, bundle: nil), forCellReuseIdentifier: KStorlyTableViewCell)
+        self.tableView.register(UINib(nibName: KStorlyTableViewCell, bundle: Bundle.resource), forCellReuseIdentifier: KStorlyTableViewCell)
         
-        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle(for: RecipeTableViewCell.self))
+        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(recipeListCell, forCellReuseIdentifier: KRecipeTableViewCellIdentifier )
         self.tableView.backgroundColor = .tableViewBackgroundColor() //.navigationBarWhiteColor()
         self.tableView.estimatedRowHeight = CGFloat(KRecipeTableViewCellHeight)

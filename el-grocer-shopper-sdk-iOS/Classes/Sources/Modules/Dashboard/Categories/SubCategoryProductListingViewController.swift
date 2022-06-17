@@ -21,7 +21,7 @@ class SubCategoryProductListingViewController: UIViewController {
     
     func registerCells() {
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: SubCategoriesViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: .resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumInteritemSpacing = 0

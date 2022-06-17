@@ -1094,7 +1094,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     func registerCell() {
         
-        let genericBannersCell = UINib(nibName: "LocationPersonalInfoTableViewCell", bundle: Bundle(for: LocationPersonalInfoTableViewCell.self))
+        let genericBannersCell = UINib(nibName: "LocationPersonalInfoTableViewCell", bundle: Bundle.resource)
         self.editTableView.register(genericBannersCell, forCellReuseIdentifier: "LocationPersonalInfoTableViewCell")
 
     }

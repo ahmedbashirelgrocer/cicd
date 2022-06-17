@@ -106,14 +106,14 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         
         
-        let SpecialtyStoresGroceryTableCell = UINib(nibName: "SpecialtyStoresGroceryTableCell" , bundle: Bundle(for: SpecialtyStoresGroceryTableCell.self))
+        let SpecialtyStoresGroceryTableCell = UINib(nibName: "SpecialtyStoresGroceryTableCell" , bundle: Bundle.resource)
         self.tableView.register(SpecialtyStoresGroceryTableCell, forCellReuseIdentifier: "SpecialtyStoresGroceryTableCell" )
         
-        let HyperMarketGroceryTableCell = UINib(nibName: "HyperMarketGroceryTableCell" , bundle: Bundle(for: HyperMarketGroceryTableCell.self))
+        let HyperMarketGroceryTableCell = UINib(nibName: "HyperMarketGroceryTableCell" , bundle: Bundle.resource)
         self.tableView.register(HyperMarketGroceryTableCell, forCellReuseIdentifier: "HyperMarketGroceryTableCell" )
         
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle(for: GenericBannersCell.self))
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
     }
     

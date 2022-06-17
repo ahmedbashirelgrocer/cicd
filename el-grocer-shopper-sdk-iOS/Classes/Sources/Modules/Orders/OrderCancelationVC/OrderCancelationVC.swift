@@ -103,16 +103,16 @@ class OrderCancelationVC: UIViewController {
         self.tblView.rowHeight = 44.0;
         
         
-        let instructionCell = UINib(nibName: "instructionsTableCell", bundle: Bundle(for: instructionsTableCell.self))
+        let instructionCell = UINib(nibName: "instructionsTableCell", bundle: Bundle.resource)
         self.tblView.register(instructionCell, forCellReuseIdentifier: "instructionsTableCell")
         
         
-        let titleTableViewCell = UINib(nibName: "TitleTableViewCell", bundle: Bundle(for: TitleTableViewCell.self))
+        let titleTableViewCell = UINib(nibName: "TitleTableViewCell", bundle: Bundle.resource)
         self.tblView.register(titleTableViewCell, forCellReuseIdentifier: "TitleTableViewCell")
         
-        let questionareCell = UINib(nibName: "QuestionareCell", bundle: Bundle(for: QuestionareCell.self))
+        let questionareCell = UINib(nibName: "QuestionareCell", bundle: Bundle.resource)
         self.tblView.register(questionareCell, forCellReuseIdentifier: "QuestionareCell")
-        let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle(for: SubsitutionActionButtonTableViewCell.self))
+        let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle.resource)
         self.tblView.register(subsitutionActionButtonTableViewCell, forCellReuseIdentifier: "SubsitutionActionButtonTableViewCell")
     
     }

@@ -54,14 +54,14 @@ class BannerCell: UITableViewCell {
         
         self.containerView.backgroundColor = UIColor.clear
         
-        let bannerCellNib = UINib(nibName: "LargeBannerCell", bundle:nil)
+        let bannerCellNib = UINib(nibName: "LargeBannerCell", bundle: Bundle.resource)
         self.bannerCollectionView.register(bannerCellNib, forCellWithReuseIdentifier: kLargeBannerCellIdentifier)
         
-        let samllBannerCellNib = UINib(nibName: "SmallBannerCell", bundle:nil)
+        let samllBannerCellNib = UINib(nibName: "SmallBannerCell", bundle: Bundle.resource)
         self.bannerCollectionView.register(samllBannerCellNib, forCellWithReuseIdentifier: kSmallBannerCellIdentifier)
         
         
-        let RecipeBannerCollectionViewNib = UINib(nibName: KRecipeBannerCollectionViewCellIdentifier, bundle:nil)
+        let RecipeBannerCollectionViewNib = UINib(nibName: KRecipeBannerCollectionViewCellIdentifier, bundle: Bundle.resource)
         self.bannerCollectionView.register(RecipeBannerCollectionViewNib, forCellWithReuseIdentifier: KRecipeBannerCollectionViewCellIdentifier)
         
     }

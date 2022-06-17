@@ -136,7 +136,7 @@ class OrderHistoryCell: UITableViewCell {
             dateFormatter.locale = Locale(identifier: "ar")
         }
         
-        let orderProductCellNib = UINib(nibName: "OrderProductCell", bundle:nil)
+        let orderProductCellNib = UINib(nibName: "OrderProductCell", bundle: Bundle.resource)
         self.productCollectionView.register(orderProductCellNib, forCellWithReuseIdentifier: kOrderProductCellIdentifier)
         
         self.setUpOrderDateLabelAppearance()

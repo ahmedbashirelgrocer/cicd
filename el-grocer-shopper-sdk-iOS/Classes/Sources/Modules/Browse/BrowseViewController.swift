@@ -203,10 +203,10 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         categorySearchBar = Bundle.resource.loadNibNamed("CategorySearchBar", owner: self, options: nil)![0] as? CategorySearchBar
         categorySearchBar.delegate = self
         
-        let categoryCellNib = UINib(nibName: "CategoryCell", bundle: Bundle(for: BrowseViewController.self))
+        let categoryCellNib = UINib(nibName: "CategoryCell", bundle: .resource)
         self.tableViewCategories.register(categoryCellNib, forCellReuseIdentifier: kCategoryCellIdentifier)
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: .resource)
         self.tableViewCategories.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
     }
     

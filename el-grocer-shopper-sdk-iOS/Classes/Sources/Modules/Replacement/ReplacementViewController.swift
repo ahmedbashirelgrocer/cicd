@@ -230,7 +230,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
     }
     
     func registerCellsForCollection() {
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: ReplacementViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
         self.collectionView.backgroundColor = UIColor.tableViewBackgroundColor()

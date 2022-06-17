@@ -57,7 +57,7 @@ class RecipeCategoriesList: CustomCollectionView {
     
     func registerCellsAndSetDelegateAndDataSource () {
         
-        let recipeCategoryDataCell = UINib(nibName: "CarBrandCollectionCell" , bundle:nil)
+        let recipeCategoryDataCell = UINib(nibName: "CarBrandCollectionCell" , bundle: Bundle.resource)
         self.collectionView!.register(recipeCategoryDataCell, forCellWithReuseIdentifier: "CarBrandCollectionCell")
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self

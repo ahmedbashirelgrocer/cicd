@@ -704,56 +704,56 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.tblBasket.estimatedRowHeight = UITableView.automaticDimension
         self.tblBasket.rowHeight = UITableView.automaticDimension
         
-        let questionareCell = UINib(nibName: "QuestionareCell", bundle: Bundle(for: QuestionareCell.self))
+        let questionareCell = UINib(nibName: "QuestionareCell", bundle: Bundle.resource)
         self.tblBasket.register(questionareCell, forCellReuseIdentifier: "QuestionareCell")
         
-        let itemOOS = UINib(nibName: "ItemsOutOfStockQuestionnaire", bundle: Bundle(for: ItemsOutOfStockQuestionnaire.self))
+        let itemOOS = UINib(nibName: "ItemsOutOfStockQuestionnaire", bundle: Bundle.resource)
         self.tblBasket.register(itemOOS, forCellReuseIdentifier: "ItemsOutOfStockQuestionnaire")
         
-        let candCGetDetailTableViewCell = UINib(nibName: "CandCGetDetailTableViewCell", bundle: Bundle(for: CandCGetDetailTableViewCell.self))
+        let candCGetDetailTableViewCell = UINib(nibName: "CandCGetDetailTableViewCell", bundle: Bundle.resource)
         self.tblBasket.register(candCGetDetailTableViewCell, forCellReuseIdentifier: "CandCGetDetailTableViewCell")
         
-        let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle(for: SubsitutionActionButtonTableViewCell.self))
+        let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle.resource)
         self.tblBasket.register(subsitutionActionButtonTableViewCell, forCellReuseIdentifier: "SubsitutionActionButtonTableViewCell")
         
-        let myBasketProgressTableViewCell = UINib(nibName: "MyBasketProgressTableViewCell" , bundle: Bundle(for: MyBasketProgressTableViewCell.self))
+        let myBasketProgressTableViewCell = UINib(nibName: "MyBasketProgressTableViewCell" , bundle: Bundle.resource)
         self.tblBasket.register(myBasketProgressTableViewCell, forCellReuseIdentifier: "MyBasketProgressTableViewCell")
         
-        let myBasketStroreNameTableViewCell = UINib(nibName: "MyBasketStroreNameTableViewCell" , bundle: Bundle(for: MyBasketStroreNameTableViewCell.self))
+        let myBasketStroreNameTableViewCell = UINib(nibName: "MyBasketStroreNameTableViewCell" , bundle: Bundle.resource)
         self.tblBasket.register(myBasketStroreNameTableViewCell, forCellReuseIdentifier: "MyBasketStroreNameTableViewCell")
         
         
-        let myBasketDeliveryDetailsTableViewCell = UINib(nibName: "MyBasketDeliveryDetailsTableViewCell" , bundle: Bundle(for: MyBasketDeliveryDetailsTableViewCell.self))
+        let myBasketDeliveryDetailsTableViewCell = UINib(nibName: "MyBasketDeliveryDetailsTableViewCell" , bundle: Bundle.resource)
         self.tblBasket.register(myBasketDeliveryDetailsTableViewCell, forCellReuseIdentifier: "MyBasketDeliveryDetailsTableViewCell")
         
         
-        let carosalCell = UINib(nibName: "MyBasketCarousalTableViewCell" , bundle: Bundle(for: MyBasketCarousalTableViewCell.self))
+        let carosalCell = UINib(nibName: "MyBasketCarousalTableViewCell" , bundle: Bundle.resource)
         self.tblBasket.register(carosalCell, forCellReuseIdentifier: "MyBasketCarousalTableViewCell")
         
         
         
-        let myBasketPromoAndPaymentTableViewCell = UINib(nibName: "MyBasketPromoAndPaymentTableViewCell" , bundle: Bundle(for: MyBasketPromoAndPaymentTableViewCell.self))
+        let myBasketPromoAndPaymentTableViewCell = UINib(nibName: "MyBasketPromoAndPaymentTableViewCell" , bundle: Bundle.resource)
         self.tblBasket.register(myBasketPromoAndPaymentTableViewCell, forCellReuseIdentifier: "MyBasketPromoAndPaymentTableViewCell")
         
         
-        let productImageCell = UINib(nibName: KProductsImagesTableViewCellIdentifier , bundle: Bundle(for: ProductsImagesTableViewCell.self))
+        let productImageCell = UINib(nibName: KProductsImagesTableViewCellIdentifier , bundle: Bundle.resource)
         self.tblBasket.register(productImageCell, forCellReuseIdentifier: KProductsImagesTableViewCellIdentifier)
         
         
-        let replaceProductCell = UINib(nibName: "MyBasketReplaceProductTableViewCell", bundle: Bundle(for: MyBasketReplaceProductTableViewCell.self))
+        let replaceProductCell = UINib(nibName: "MyBasketReplaceProductTableViewCell", bundle: Bundle.resource)
         self.tblBasket.register(replaceProductCell, forCellReuseIdentifier: KMyBasketReplaceProductIdentifier)
         
         
-        let instructionCell = UINib(nibName: "MyBasketInstructionTableViewCell", bundle: Bundle(for: MyBasketInstructionTableViewCell.self))
+        let instructionCell = UINib(nibName: "MyBasketInstructionTableViewCell", bundle: Bundle.resource)
         self.tblBasket.register(instructionCell, forCellReuseIdentifier: "MyBasketInstructionTableViewCell")
         
-        let warningCell = UINib(nibName: "warningAlertCell", bundle: Bundle(for: warningAlertCell.self))
+        let warningCell = UINib(nibName: "warningAlertCell", bundle: Bundle.resource)
         self.tblBasket.register(warningCell, forCellReuseIdentifier: "warningAlertCell")
         
-        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle(for: GenericViewTitileTableViewCell.self))
+        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource)
         self.tblBasket.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tblBasket.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
         

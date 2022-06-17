@@ -89,10 +89,10 @@ class BrandAndProductCell: UITableViewCell{
         super.awakeFromNib()
         // Initialization code
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle:nil)
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.brandsCollectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
-        let brandCellNib = UINib(nibName: "BrandCell", bundle:nil)
+        let brandCellNib = UINib(nibName: "BrandCell", bundle: Bundle.resource)
         self.brandsCollectionView.register(brandCellNib, forCellWithReuseIdentifier: kBrandCellIdentifier)
     }
    

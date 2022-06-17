@@ -176,10 +176,10 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
     }
     
     func initailCellRegistration() {
-        self.tableView.register(UINib(nibName: "chefListTableCell", bundle: nil), forCellReuseIdentifier: "chefListTableCellTableViewCell")
-        self.tableView.register(UINib(nibName: KGenericViewTitileTableViewCell, bundle: nil), forCellReuseIdentifier: KGenericViewTitileTableViewCell)
+        self.tableView.register(UINib(nibName: "chefListTableCell", bundle: Bundle.resource), forCellReuseIdentifier: "chefListTableCellTableViewCell")
+        self.tableView.register(UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource), forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle(for: RecipeTableViewCell.self))
+        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(recipeListCell, forCellReuseIdentifier: KRecipeTableViewCellIdentifier )
         self.tableView.backgroundColor = UIColor.tableViewBackgroundColor()
         self.tableView.estimatedRowHeight = CGFloat(KRecipeTableViewCellHeight)

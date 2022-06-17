@@ -361,26 +361,26 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.tableViewCategories.backgroundColor = UIColor.productBGColor()
         
         
-        let homeCellNib = UINib(nibName: "HomeCell", bundle: Bundle(for: MainCategoriesViewController.self))
+        let homeCellNib = UINib(nibName: "HomeCell", bundle: .resource)
         self.tableViewCategories.register(homeCellNib, forCellReuseIdentifier: kHomeCellIdentifier)
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: .resource)
         self.tableViewCategories.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle(for: GenericBannersCell.self))
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: .resource)
         self.tableViewCategories.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
-        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle(for: GenericViewTitileTableViewCell.self))
+        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: .resource)
         self.tableViewCategories.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let elgrocerGroceryListTableViewCell = UINib(nibName: KElgrocerGroceryListTableViewCell, bundle: Bundle(for: ElgrocerGroceryListTableViewCell.self))
+        let elgrocerGroceryListTableViewCell = UINib(nibName: KElgrocerGroceryListTableViewCell, bundle: Bundle.resource)
         self.tableViewCategories.register(elgrocerGroceryListTableViewCell , forCellReuseIdentifier: KElgrocerGroceryListTableViewCell)
         
-        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: nil)
+        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: Bundle.resource)
         self.tableViewCategories.register(ElgrocerCategorySelectTableViewCell, forCellReuseIdentifier: KElgrocerCategorySelectTableViewCell)
         
-        let genricHomeRecipeTableViewCell = UINib(nibName: KGenricHomeRecipeTableViewCell , bundle: Bundle(for: GenricHomeRecipeTableViewCell.self))
+        let genricHomeRecipeTableViewCell = UINib(nibName: KGenricHomeRecipeTableViewCell , bundle: Bundle.resource)
         self.tableViewCategories.register(genricHomeRecipeTableViewCell, forCellReuseIdentifier: KGenricHomeRecipeTableViewCell )
         
     }
@@ -1019,7 +1019,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                         ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("Open_App_After_Ordering")
                         let orderTrackingObj = self.orderTrackingArray[0]
                         let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: nil)
-                        let orderReviewVC = GenericFeedBackVC(nibName: "GenericFeedBackVC", bundle: nil)
+                        let orderReviewVC = GenericFeedBackVC(nibName: "GenericFeedBackVC", bundle: Bundle.resource)
                         navController.viewControllers = [orderReviewVC]
                         orderReviewVC.orderTracking = orderTrackingObj
                         orderReviewVC.feedBackType = (orderTrackingObj.retailer_service_id == OrderType.delivery) ? .deliveryFeedBack : .clickAndCollectFeedBack

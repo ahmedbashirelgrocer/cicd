@@ -210,13 +210,13 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     fileprivate func registerCells () {
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: SearchViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
-        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle(for: SearchViewController.self))
+        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle.resource)
         self.collectionView.register(BasketBannerCollectionViewCellNIB , forCellWithReuseIdentifier: BasketBannerCollectionViewCellIdentifier)
         
-        let EmptyCollectionReusableViewheaderNib = UINib(nibName: "NoStoreSearchStoreCollectionReusableView", bundle: Bundle(for: NoStoreSearchStoreCollectionReusableView.self))
+        let EmptyCollectionReusableViewheaderNib = UINib(nibName: "NoStoreSearchStoreCollectionReusableView", bundle: Bundle.resource)
         self.collectionView.register(EmptyCollectionReusableViewheaderNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "NoStoreSearchStoreCollectionReusableView")
         
         self.collectionView.delegate   = self

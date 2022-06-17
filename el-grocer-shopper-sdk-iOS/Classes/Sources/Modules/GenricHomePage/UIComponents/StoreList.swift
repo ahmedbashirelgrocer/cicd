@@ -28,7 +28,7 @@ class StoreList: CustomCollectionView {
     func registerCellsAndSetDelegateAndDataSource () {
         
         self.addCollectionViewWithDirection(.horizontal)
-        let storeCell = UINib(nibName: "BottomSheetGroceryCollectionCell" , bundle:nil)
+        let storeCell = UINib(nibName: "BottomSheetGroceryCollectionCell" , bundle: Bundle.resource)
         self.collectionView?.register(storeCell, forCellWithReuseIdentifier: "BottomSheetGroceryCollectionCell" )
         self.collectionView?.isScrollEnabled = true
         self.collectionView?.delegate = self

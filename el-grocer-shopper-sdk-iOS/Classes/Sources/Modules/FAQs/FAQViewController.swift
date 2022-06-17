@@ -94,7 +94,7 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func registerTableCell() {
         
-        let cellNib = UINib(nibName: "FaqCell", bundle: Bundle(for: FAQViewController.self))
+        let cellNib = UINib(nibName: "FaqCell", bundle: Bundle.resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: kFAQCellIdentifier)
         self.tableView.backgroundColor = .textfieldBackgroundColor()
     }

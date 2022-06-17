@@ -110,32 +110,32 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func cellRegistration() {
-        let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle: Bundle(for: OrderCollectionDetailsCell.self))
+        let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle: Bundle.resource)
         self.tableview.register(orderCollectionDetailsCell, forCellReuseIdentifier: "OrderCollectionDetailsCell")
         
-        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle(for: GenericViewTitileTableViewCell.self))
+        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource)
         self.tableview.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let warningCell = UINib(nibName: "warningAlertCell" , bundle:nil)
+        let warningCell = UINib(nibName: "warningAlertCell" , bundle: Bundle.resource)
         self.tableview.register(warningCell, forCellReuseIdentifier: "warningAlertCell")
         
-        let OrderStatusDetailCell = UINib(nibName: "OrderStatusDetailCell" , bundle:nil)
+        let OrderStatusDetailCell = UINib(nibName: "OrderStatusDetailCell" , bundle: Bundle.resource)
         self.tableview.register(OrderStatusDetailCell, forCellReuseIdentifier: "OrderStatusDetailCell")
         
-        let CandCLocationCell = UINib(nibName: "CandCLocationCell" , bundle:nil)
+        let CandCLocationCell = UINib(nibName: "CandCLocationCell" , bundle: Bundle.resource)
         self.tableview.register(CandCLocationCell, forCellReuseIdentifier: "CandCLocationCell")
         
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle(for: GenericBannersCell.self))
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.tableview.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableview.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
-        let shareCell = UINib(nibName: "shareCollectionDetailCell" , bundle:nil)
+        let shareCell = UINib(nibName: "shareCollectionDetailCell" , bundle: Bundle.resource)
         self.tableview.register(shareCell, forCellReuseIdentifier: "shareCollectionDetailCell")
         
-        let smilePointTableCell = UINib(nibName: "smilePointTableCell", bundle: Bundle(for: smilePointTableCell.self))
+        let smilePointTableCell = UINib(nibName: "smilePointTableCell", bundle: .resource)
         self.tableview.register(smilePointTableCell, forCellReuseIdentifier: "smilePointTableCell")
         
         tableBottom = self.tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant:0)

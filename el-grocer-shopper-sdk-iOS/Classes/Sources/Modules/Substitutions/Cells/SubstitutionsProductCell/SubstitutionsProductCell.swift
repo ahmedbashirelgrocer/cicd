@@ -31,7 +31,7 @@ class SubstitutionsProductCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        let suggestedProductCellNib = UINib(nibName: "SuggestedProductCell", bundle:nil)
+        let suggestedProductCellNib = UINib(nibName: "SuggestedProductCell", bundle: Bundle.resource)
         self.productsCollectionView.register(suggestedProductCellNib, forCellWithReuseIdentifier: kSuggestedProductCellIdentifier)
     }
     

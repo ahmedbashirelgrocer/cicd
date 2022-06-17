@@ -72,10 +72,10 @@ class HyperMarketViewController: UIViewController {
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         
-        let HyperMarketGroceryTableCell = UINib(nibName: "HyperMarketGroceryTableCell" , bundle: Bundle(for: HyperMarketGroceryTableCell.self))
+        let HyperMarketGroceryTableCell = UINib(nibName: "HyperMarketGroceryTableCell" , bundle: Bundle.resource)
         self.tableView.register(HyperMarketGroceryTableCell, forCellReuseIdentifier: "HyperMarketGroceryTableCell" )
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle(for: GenericBannersCell.self))
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
     }

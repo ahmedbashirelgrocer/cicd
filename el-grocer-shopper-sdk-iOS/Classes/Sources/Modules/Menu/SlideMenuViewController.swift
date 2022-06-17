@@ -45,7 +45,7 @@ class SlideMenuViewController : UIViewController, MenuTableProtocol {
     }
     
     init(menuController: UIViewController, contentController: UINavigationController) {
-        super.init(nibName: nil, bundle: nil);
+        super.init(nibName: nil, bundle: Bundle.resource);
         
         self.menuController = menuController
         self.contentController = contentController

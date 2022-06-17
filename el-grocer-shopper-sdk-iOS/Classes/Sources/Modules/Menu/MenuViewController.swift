@@ -119,7 +119,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
     
     func registerTableViewCell() {
         
-        let nib = UINib(nibName: "MenuTableCell", bundle: Bundle(for: type(of: self)))
+        let nib = UINib(nibName: "MenuTableCell", bundle: Bundle.resource)
         self.tableView.register(nib, forCellReuseIdentifier: kMenuTableCellIdentifier)
     }
     

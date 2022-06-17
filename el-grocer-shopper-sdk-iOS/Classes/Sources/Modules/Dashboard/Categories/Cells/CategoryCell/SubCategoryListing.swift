@@ -28,11 +28,11 @@ class SubCategoryListing: CustomCollectionView {
     func registerCellsAndSetDelegateAndDataSource () {
         
         self.addCollectionViewWithDirection(.horizontal)
-        let subCateCell = UINib(nibName: KCustomSubCategoryInCategoryViewCellIdentifier, bundle:nil)
+        let subCateCell = UINib(nibName: KCustomSubCategoryInCategoryViewCellIdentifier, bundle: Bundle.resource)
         self.collectionView!.register(subCateCell, forCellWithReuseIdentifier: KCustomSubCategoryInCategoryViewCellIdentifier)
         
         
-        let subCateCellSkelton = UINib(nibName: KCustomSubCategoryInCategoryViewSkeltonCollectionViewCellIdentifier , bundle:nil)
+        let subCateCellSkelton = UINib(nibName: KCustomSubCategoryInCategoryViewSkeltonCollectionViewCellIdentifier , bundle: Bundle.resource)
         self.collectionView!.register(subCateCellSkelton, forCellWithReuseIdentifier: KCustomSubCategoryInCategoryViewSkeltonCollectionViewCellIdentifier)
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {

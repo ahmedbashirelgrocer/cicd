@@ -29,7 +29,7 @@ class BasketBannerCollectionViewCell: UICollectionViewCell {
 //        self.bannerTableView.register(basketBannerCellNib, forCellReuseIdentifier: kBasketBannerCellIdentifier)
         
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle(for: GenericBannersCell.self))
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.bannerTableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
        
 //        let bannerCellNib = UINib(nibName: "BannerCell", bundle: Bundle(for: MainCategoriesViewController.self))

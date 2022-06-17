@@ -31,7 +31,7 @@ class GenricRecipeCell : CustomCollectionView {
     func registerCellsAndSetDelegateAndDataSource () {
         
         self.addCollectionViewWithDirection(.horizontal)
-        let genricRecipeCollectionViewCell = UINib(nibName: KGenricRecipeCollectionViewCell , bundle:nil)
+        let genricRecipeCollectionViewCell = UINib(nibName: KGenricRecipeCollectionViewCell , bundle: Bundle.resource)
         self.collectionView?.register(genricRecipeCollectionViewCell, forCellWithReuseIdentifier: KGenricRecipeCollectionViewCell )
         
 //        behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(12), cellPeekWidth: CGFloat(12), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)

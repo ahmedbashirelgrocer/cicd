@@ -224,8 +224,8 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
     
     func registerCellsForCollection() {
         
-        let groceryCellNib = UINib(nibName: "GroceryCollectionCell", bundle: Bundle(for: FavouritesViewController.self))
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: FavouritesViewController.self))
+        let groceryCellNib = UINib(nibName: "GroceryCollectionCell", bundle: Bundle.resource)
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         
         self.collectionView.register(groceryCellNib, forCellWithReuseIdentifier: kGroceryCollectionCellIdentifier)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)

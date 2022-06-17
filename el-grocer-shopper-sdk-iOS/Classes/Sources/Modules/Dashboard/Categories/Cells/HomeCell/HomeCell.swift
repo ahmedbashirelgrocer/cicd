@@ -98,16 +98,16 @@ class HomeCell: UITableViewCell {
         // Initialization code
         setArrowAppearance()
         
-        let storeCateCell = UINib(nibName: KStoresCategoriesCollectionViewCell , bundle:nil)
+        let storeCateCell = UINib(nibName: KStoresCategoriesCollectionViewCell , bundle: Bundle.resource)
         self.productsCollectionView.register(storeCateCell, forCellWithReuseIdentifier: KStoresCategoriesCollectionViewCell)
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle:nil)
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.productsCollectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
-        let nextCellNib = UINib(nibName: "NextCell", bundle:nil)
+        let nextCellNib = UINib(nibName: "NextCell", bundle: Bundle.resource)
         self.productsCollectionView.register(nextCellNib, forCellWithReuseIdentifier: kNextCellIdentifier)
         
-        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle:nil)
+        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle: Bundle.resource)
         self.productsCollectionView.register(productSekeltonCelllNib, forCellWithReuseIdentifier: kProductSekeltonCellIdentifier)
         
        // let arrowIcon = ElGrocerUtility.sharedInstance.getImageWithName("Disclosure Arrow")

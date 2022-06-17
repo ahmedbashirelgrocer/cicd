@@ -62,7 +62,7 @@ class BannerDetailsViewController: BasketBasicViewController,UICollectionViewDat
     }
     
     func registerCellsForCollection() {
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: BannerDetailsViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: .resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
         self.collectionView.backgroundColor = UIColor.productBGColor()

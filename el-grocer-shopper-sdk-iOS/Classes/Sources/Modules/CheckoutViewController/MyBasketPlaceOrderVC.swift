@@ -379,30 +379,30 @@ class MyBasketPlaceOrderVC: UIViewController {
         self.checkouTableView.delegate = self
         self.checkouTableView.dataSource = self
         
-        let candCGetDetailTableViewCell = UINib(nibName: "CandCGetDetailTableViewCell", bundle: Bundle(for: CandCGetDetailTableViewCell.self))
+        let candCGetDetailTableViewCell = UINib(nibName: "CandCGetDetailTableViewCell", bundle: Bundle.resource)
         self.checkouTableView.register(candCGetDetailTableViewCell, forCellReuseIdentifier: "CandCGetDetailTableViewCell")
         
-        let myBasketDeliverySlotTableViewCell = UINib(nibName: "deliverySlotCell" , bundle: Bundle(for: deliverySlotCell.self))
+        let myBasketDeliverySlotTableViewCell = UINib(nibName: "deliverySlotCell" , bundle: Bundle.resource)
         self.checkouTableView.register(myBasketDeliverySlotTableViewCell, forCellReuseIdentifier: "deliverySlotCell")
         
         
-        let myBasketDeliveryDetailsTableViewCell = UINib(nibName: "deliveryDetailsCell" , bundle: Bundle(for: deliveryDetailsCell.self))
+        let myBasketDeliveryDetailsTableViewCell = UINib(nibName: "deliveryDetailsCell" , bundle: Bundle.resource)
         self.checkouTableView.register(myBasketDeliveryDetailsTableViewCell, forCellReuseIdentifier: "deliveryDetailsCell")
         
-        let warningCell = UINib(nibName: "warningAlertCell" , bundle: Bundle(for: warningAlertCell.self))
+        let warningCell = UINib(nibName: "warningAlertCell" , bundle: .resource)
         self.checkouTableView.register(warningCell, forCellReuseIdentifier: "warningAlertCell")
         
-        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle(for: GenericViewTitileTableViewCell.self))
+        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource)
         self.checkouTableView.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: .resource)
         self.checkouTableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
         
-        let instructionCell = UINib(nibName: "instructionsTableCell", bundle: Bundle(for: instructionsTableCell.self))
+        let instructionCell = UINib(nibName: "instructionsTableCell", bundle: .resource)
         self.checkouTableView.register(instructionCell, forCellReuseIdentifier: "instructionsTableCell")
         
-        let SmileRedeemCartCell = UINib(nibName: "SmileRedeemCartCell", bundle: Bundle(for: SmileRedeemCartCell.self))
+        let SmileRedeemCartCell = UINib(nibName: "SmileRedeemCartCell", bundle: .resource)
         self.checkouTableView.register(SmileRedeemCartCell, forCellReuseIdentifier: "SmileRedeemCartCell")
         
 
@@ -988,7 +988,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBAction func btnPayUsingHandler(_ sender: Any) {
         
 //        showCVV(true)
-        let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: nil)
+        let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: Bundle.resource)
         if #available(iOS 13, *) {
             creditVC.view.backgroundColor = .clear
         } else {

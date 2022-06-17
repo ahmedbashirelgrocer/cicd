@@ -898,30 +898,30 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         //
         
-        let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle(for: SubsitutionActionButtonTableViewCell.self))
+        let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle.resource)
         self.tableView.register(subsitutionActionButtonTableViewCell, forCellReuseIdentifier: "SubsitutionActionButtonTableViewCell")
         
         
-        let subsituteFinalBillTableViewCell = UINib(nibName: "SubsituteFinalBillTableViewCell", bundle: Bundle(for: SubsituteFinalBillTableViewCell.self))
+        let subsituteFinalBillTableViewCell = UINib(nibName: "SubsituteFinalBillTableViewCell", bundle: Bundle.resource)
         self.tableView.register(subsituteFinalBillTableViewCell, forCellReuseIdentifier: "SubsituteFinalBillTableViewCell")
         
         
-        let subsitutePaymentTableViewCell = UINib(nibName: "SubsitutePaymentTableViewCell", bundle: Bundle(for: SubsitutePaymentTableViewCell.self))
+        let subsitutePaymentTableViewCell = UINib(nibName: "SubsitutePaymentTableViewCell", bundle: Bundle.resource)
         self.tableView.register(subsitutePaymentTableViewCell, forCellReuseIdentifier: "SubsitutePaymentTableViewCell")
         
 
-        let replaceProductCell = UINib(nibName: "MyBasketReplaceProductTableViewCell", bundle: Bundle(for: MyBasketReplaceProductTableViewCell.self))
+        let replaceProductCell = UINib(nibName: "MyBasketReplaceProductTableViewCell", bundle: Bundle.resource)
         self.tableView.register(replaceProductCell, forCellReuseIdentifier: KMyBasketReplaceProductIdentifier)
         
         
-        let myBasketPromoAndPaymentTableViewCell = UINib(nibName: "MyBasketPromoAndPaymentTableViewCell" , bundle: Bundle(for: MyBasketPromoAndPaymentTableViewCell.self))
+        let myBasketPromoAndPaymentTableViewCell = UINib(nibName: "MyBasketPromoAndPaymentTableViewCell" , bundle: Bundle.resource)
         self.tableView.register(myBasketPromoAndPaymentTableViewCell, forCellReuseIdentifier: "MyBasketPromoAndPaymentTableViewCell")
         
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
-        let smilePointTableCell = UINib(nibName: "smilePointTableCell", bundle: Bundle(for: smilePointTableCell.self))
+        let smilePointTableCell = UINib(nibName: "smilePointTableCell", bundle: .resource)
         self.tableView.register(smilePointTableCell, forCellReuseIdentifier: "smilePointTableCell")
 
         

@@ -130,7 +130,7 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
         }
     }
     func registerCells(){
-        let spaceTableViewCell = UINib(nibName: "savedCarCell", bundle: Bundle(for: savedCarCell.self))
+        let spaceTableViewCell = UINib(nibName: "savedCarCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "savedCarCell")
         
         tableView.backgroundColor = .tableViewBackgroundColor()// .navigationBarWhiteColor()
@@ -141,7 +141,7 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
     func editCarDetail(index : Int){
         let rowCar = self.dataHandler.carList[index]
         
-        let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: nil)
+        let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: Bundle.resource)
         controler.currentVc = self.dataHandlerView
         controler.carType  = .carDetails
         controler.priviousCarData = rowCar//self.carDataList[indexPath.row]
@@ -172,7 +172,7 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
     }
     
     func gotoAddCarDetails(){
-        let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: nil)
+        let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: Bundle.resource)
         controler.carType  = .addNew
         controler.carSelected = { (car) in
             /*if self.dataHandlerView is MyBasketViewController {

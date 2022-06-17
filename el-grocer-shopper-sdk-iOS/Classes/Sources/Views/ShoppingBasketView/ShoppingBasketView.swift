@@ -302,7 +302,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     
     fileprivate func registerCellsForCollection() {
         
-        let celllNib = UINib(nibName: "ShoppingBasketCell", bundle: Bundle(for: ShoppingBasketView.self))
+        let celllNib = UINib(nibName: "ShoppingBasketCell", bundle: Bundle.resource)
         self.tableView.register(celllNib, forCellReuseIdentifier: kShoppingBasketCellIdentifier)
     }
     

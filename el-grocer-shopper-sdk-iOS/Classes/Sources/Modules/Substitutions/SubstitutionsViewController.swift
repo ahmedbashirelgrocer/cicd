@@ -76,10 +76,10 @@ class SubstitutionsViewController: UIViewController,UITableViewDataSource, UITab
         
         self.tblExpandable.tableFooterView = UIView(frame: CGRect.zero)
         
-        let substitutionsCellNib = UINib(nibName: "SubstitutionsCell", bundle:nil)
+        let substitutionsCellNib = UINib(nibName: "SubstitutionsCell", bundle: Bundle.resource)
         self.tblExpandable.register(substitutionsCellNib, forCellReuseIdentifier:kSubstitutionsCell)
         
-        let substitutionsProductCellNib = UINib(nibName: "SubstitutionsProductCell", bundle:nil)
+        let substitutionsProductCellNib = UINib(nibName: "SubstitutionsProductCell", bundle: Bundle.resource)
         self.tblExpandable.register(substitutionsProductCellNib, forCellReuseIdentifier:kSubstitutionsProductCell)
     }
     

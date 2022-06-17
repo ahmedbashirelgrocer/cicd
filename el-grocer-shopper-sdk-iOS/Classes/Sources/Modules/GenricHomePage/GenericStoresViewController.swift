@@ -1181,47 +1181,47 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
         self.tableView.backgroundColor = .white
         self.tableView.bounces = false
         
-        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle(for: GenericViewTitileTableViewCell.self))
+        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource)
         self.tableView.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let centerLabelTableViewCell = UINib(nibName: KCenterLabelTableViewCellIdentifier, bundle: Bundle(for: CenterLabelTableViewCell.self))
+        let centerLabelTableViewCell = UINib(nibName: KCenterLabelTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(centerLabelTableViewCell, forCellReuseIdentifier: KCenterLabelTableViewCellIdentifier)
         
         
         
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
         
-        let elgrocerGroceryListTableViewCell = UINib(nibName: KElgrocerGroceryListTableViewCell, bundle: Bundle(for: ElgrocerGroceryListTableViewCell.self))
+        let elgrocerGroceryListTableViewCell = UINib(nibName: KElgrocerGroceryListTableViewCell, bundle: Bundle.resource)
         self.tableView.register(elgrocerGroceryListTableViewCell , forCellReuseIdentifier: KElgrocerGroceryListTableViewCell)
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle(for: GenericBannersCell.self))
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
         
-        let singleBannerTableViewCell = UINib(nibName: KSingleBannerTableViewCellIdentifier, bundle: Bundle(for: SingleBannerTableViewCell.self))
+        let singleBannerTableViewCell = UINib(nibName: KSingleBannerTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(singleBannerTableViewCell, forCellReuseIdentifier: KSingleBannerTableViewCellIdentifier)
         
-        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: nil)
+        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: Bundle.resource)
         self.tableView.register(ElgrocerCategorySelectTableViewCell, forCellReuseIdentifier: KElgrocerCategorySelectTableViewCell)
         
-        let genricHomeRecipeTableViewCell = UINib(nibName: KGenricHomeRecipeTableViewCell , bundle: Bundle(for: GenricHomeRecipeTableViewCell.self))
+        let genricHomeRecipeTableViewCell = UINib(nibName: KGenricHomeRecipeTableViewCell , bundle: Bundle.resource)
         self.tableView.register(genricHomeRecipeTableViewCell, forCellReuseIdentifier: KGenricHomeRecipeTableViewCell )
         
             //MARK: CollectionView Cell registration
-        let HomeMainCategoriesTableCell = UINib(nibName: "HomeMainCategoriesTableCell" , bundle: Bundle(for: HomeMainCategoriesTableCell.self))
+        let HomeMainCategoriesTableCell = UINib(nibName: "HomeMainCategoriesTableCell" , bundle: Bundle.resource)
         self.tableView.register(HomeMainCategoriesTableCell, forCellReuseIdentifier: "HomeMainCategoriesTableCell" )
         
-        let smilePointTableCell = UINib(nibName: "smilePointTableCell", bundle: Bundle(for: smilePointTableCell.self))
+        let smilePointTableCell = UINib(nibName: "smilePointTableCell", bundle: Bundle.resource)
         self.tableView.register(smilePointTableCell, forCellReuseIdentifier: "smilePointTableCell")
         
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
 
         
-        let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: nil)
+        let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
         
         self.currentOrderCollectionView.delegate = self

@@ -105,7 +105,7 @@ class CreditCardListViewController: UIViewController {
         super.viewDidLoad()
         self.setTextColorForTermsString()
         self.tableView.backgroundColor = .white
-        let CreditCardViewTableViewCell = UINib(nibName: KCreditCardViewTableViewCellIdentifier , bundle: nil)
+        let CreditCardViewTableViewCell = UINib(nibName: KCreditCardViewTableViewCellIdentifier , bundle: Bundle.resource)
         self.tableView.register(CreditCardViewTableViewCell , forCellReuseIdentifier: KCreditCardViewTableViewCellIdentifier)
         
          self.btnConfirmPayment.setTitle(localizedString("confirm_payment_button_title", comment: "") , for: .normal)

@@ -77,7 +77,7 @@ class CustomCollectionViewWithProducts: CustomCollectionView {
 
     func nibSetup() {
 
-        let currentSelf  = (UINib(nibName: "CustomCollectionViewWithProducts" , bundle: nil)).instantiate(withOwner: self, options: nil)
+        let currentSelf  = (UINib(nibName: "CustomCollectionViewWithProducts" , bundle: Bundle.resource)).instantiate(withOwner: self, options: nil)
         let selfView = currentSelf[0] as! UIView
         addSubview(selfView)
         selfView.frame = self.bounds
@@ -93,22 +93,22 @@ class CustomCollectionViewWithProducts: CustomCollectionView {
 
         super.awakeFromNib()
 
-        let productCellNib = UINib(nibName: "ProductCell", bundle:nil)
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView!.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
 
-        let nextCellNib = UINib(nibName: "NextCell", bundle:nil)
+        let nextCellNib = UINib(nibName: "NextCell", bundle: Bundle.resource)
         self.collectionView!.register(nextCellNib, forCellWithReuseIdentifier: kNextCellIdentifier)
         
         
-        let crossCellNib = UINib(nibName: "CrossCollectionViewController", bundle:nil)
+        let crossCellNib = UINib(nibName: "CrossCollectionViewController", bundle: Bundle.resource)
         self.collectionView!.register(crossCellNib, forCellWithReuseIdentifier: kCrossCollectionCellIdentifier )
         
       
-        let nextSubNib = UINib(nibName: "NextShowSubstituteCollectionViewCell", bundle:nil)
+        let nextSubNib = UINib(nibName: "NextShowSubstituteCollectionViewCell", bundle: Bundle.resource)
         self.collectionView!.register(nextSubNib, forCellWithReuseIdentifier: KNextShowSubstituteTableViewCellIdentifier)
         
         
-        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle:nil)
+        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle: Bundle.resource)
         self.collectionView!.register(productSekeltonCelllNib, forCellWithReuseIdentifier: kProductSekeltonCellIdentifier)
         
         

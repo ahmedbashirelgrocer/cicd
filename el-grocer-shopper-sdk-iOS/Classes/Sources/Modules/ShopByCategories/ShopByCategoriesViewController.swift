@@ -54,7 +54,7 @@ class ShopByCategoriesViewController: UIViewController {
         self.categoryCollectionView.delegate = self
         self.categoryCollectionView.dataSource = self
         
-        let HomeMainCategoryCollectionCell = UINib(nibName: "HomeMainCategoryCollectionCell", bundle: Bundle(for: HomeMainCategoryCollectionCell.self))
+        let HomeMainCategoryCollectionCell = UINib(nibName: "HomeMainCategoryCollectionCell", bundle: Bundle.resource)
         self.categoryCollectionView.register(HomeMainCategoryCollectionCell, forCellWithReuseIdentifier: "HomeMainCategoryCollectionCell")
         
     }

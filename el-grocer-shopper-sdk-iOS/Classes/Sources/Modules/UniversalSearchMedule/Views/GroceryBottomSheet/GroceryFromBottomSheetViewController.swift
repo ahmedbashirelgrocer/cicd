@@ -40,7 +40,7 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
     }
     func registerCell () {
         
-        let elgrocerGroceryListTableViewCell = UINib(nibName: KElgrocerGroceryListTableViewCell, bundle: Bundle(for: ElgrocerGroceryListTableViewCell.self))
+        let elgrocerGroceryListTableViewCell = UINib(nibName: KElgrocerGroceryListTableViewCell, bundle: Bundle.resource)
         self.tableView.register(elgrocerGroceryListTableViewCell , forCellReuseIdentifier: KElgrocerGroceryListTableViewCell)
         
     }

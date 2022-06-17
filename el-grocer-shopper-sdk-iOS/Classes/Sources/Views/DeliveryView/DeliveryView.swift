@@ -151,7 +151,7 @@ class DeliveryView: UIView {
     
     func registerTableViewCell() {
         
-        let deliveryCellNib  = UINib(nibName: "DeliveryCell", bundle: Bundle(for: type(of: self)))
+        let deliveryCellNib  = UINib(nibName: "DeliveryCell", bundle: Bundle.resource)
         self.tableView.register(deliveryCellNib, forCellReuseIdentifier: kDeliveryCellIdentifier)
     }
     

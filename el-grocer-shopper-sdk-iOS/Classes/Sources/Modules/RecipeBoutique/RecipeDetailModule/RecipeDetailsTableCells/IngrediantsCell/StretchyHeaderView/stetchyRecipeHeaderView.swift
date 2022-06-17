@@ -72,7 +72,7 @@ class stetchyRecipeHeaderView: UIView {
     }
     
     func registerCell(){
-        self.headerCollectionView.register(UINib.init(nibName: "recipeCustomHeaderCVC", bundle: nil), forCellWithReuseIdentifier: "recipeCustomHeaderCVC")
+        self.headerCollectionView.register(UINib.init(nibName: "recipeCustomHeaderCVC", bundle: Bundle.resource), forCellWithReuseIdentifier: "recipeCustomHeaderCVC")
         headerCollectionView.delegate = self
         headerCollectionView.dataSource = self
         

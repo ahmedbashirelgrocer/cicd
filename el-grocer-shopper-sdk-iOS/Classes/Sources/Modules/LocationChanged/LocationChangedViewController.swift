@@ -120,7 +120,7 @@ class LocationChangedViewController: UIViewController {
 
     class func getViewController() -> LocationChangedViewController {
         
-        return LocationChangedViewController(nibName: "LocationChangedViewController", bundle: nil) as LocationChangedViewController
+        return LocationChangedViewController(nibName: "LocationChangedViewController", bundle: Bundle.resource) as LocationChangedViewController
     }
     
 }

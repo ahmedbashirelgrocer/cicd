@@ -258,7 +258,7 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
     */
     func registerTableCells(){
         
-        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle(for: RecipeTableViewCell.self))
+        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(recipeListCell, forCellReuseIdentifier: KRecipeTableViewCellIdentifier )
         self.tableView.backgroundColor = .tableViewBackgroundColor() //.navigationBarWhiteColor()
         self.tableView.estimatedRowHeight = CGFloat(KRecipeTableViewCellHeight)

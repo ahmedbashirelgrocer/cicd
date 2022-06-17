@@ -73,7 +73,7 @@ class ChefListView: CustomCollectionView {
     func registerCellsAndSetDelegateAndDataSource () {
 
         self.addCollectionViewWithDirection(.horizontal)
-        let chefDataCell = UINib(nibName: "ChefDataCollectionViewCell", bundle:nil)
+        let chefDataCell = UINib(nibName: "ChefDataCollectionViewCell", bundle: Bundle.resource)
         self.collectionView!.register(chefDataCell, forCellWithReuseIdentifier: KChefDataReuseIdentifier)
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self

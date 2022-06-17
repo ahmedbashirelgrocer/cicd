@@ -416,22 +416,22 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     
     func registerCellsForTable() {
         
-        let topSearchCellNib = UINib(nibName: "TopSearchCell", bundle:nil)
+        let topSearchCellNib = UINib(nibName: "TopSearchCell", bundle: Bundle.resource)
         self.tableView.register(topSearchCellNib, forCellReuseIdentifier: kTopSearchCell)
         
-        let searchSuggestionCellNib = UINib(nibName: "SearchSuggestionCell", bundle:nil)
+        let searchSuggestionCellNib = UINib(nibName: "SearchSuggestionCell", bundle: Bundle.resource)
         self.tableView.register(searchSuggestionCellNib, forCellReuseIdentifier: kSearchSuggestionCellIdentifier)
     }
     
     func registerCellsForCollection() {
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: SearchViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
         
         self.collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TitleHeader")
         
-        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle(for: SearchViewController.self))
+        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle.resource)
         self.collectionView.register(BasketBannerCollectionViewCellNIB , forCellWithReuseIdentifier: BasketBannerCollectionViewCellIdentifier)
 
 

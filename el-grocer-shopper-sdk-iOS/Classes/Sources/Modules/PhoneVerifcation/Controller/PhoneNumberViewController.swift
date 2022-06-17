@@ -16,7 +16,7 @@ public protocol PhoneNumberViewControllerDelegate {
 
 public final class PhoneNumberViewController: UIViewController, CountriesViewControllerDelegate {
     public class func standardController() -> PhoneNumberViewController {
-        return UIStoryboard(name: "PhoneNumberPicker", bundle: nil).instantiateViewController(withIdentifier: "PhoneNumber") as! PhoneNumberViewController
+        return UIStoryboard(name: "PhoneNumberPicker", bundle: Bundle.resource).instantiateViewController(withIdentifier: "PhoneNumber") as! PhoneNumberViewController
     }
     
     @IBOutlet weak public var countryButton: UIButton!

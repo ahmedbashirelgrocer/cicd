@@ -185,32 +185,32 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     func registerCellsForCollection() {
         
-        let EmptyCollectionReusableViewheaderNib = UINib(nibName: "EmptyCollectionReusableView", bundle: Bundle(for: EmptyCollectionReusableView.self))
+        let EmptyCollectionReusableViewheaderNib = UINib(nibName: "EmptyCollectionReusableView", bundle: Bundle.resource)
         self.collectionView.register(EmptyCollectionReusableViewheaderNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyCollectionReusableView")
         
         self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: collectionPageIdentifier)
         
         
-        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle(for: SearchViewController.self))
+        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: .resource)
         self.collectionView.register(BasketBannerCollectionViewCellNIB , forCellWithReuseIdentifier: BasketBannerCollectionViewCellIdentifier)
         
         
-        let EmptyCollectionViewCellNib = UINib(nibName: KEmptyCollectionViewCellIdentifier, bundle: Bundle(for: SubCategoriesViewController.self))
+        let EmptyCollectionViewCellNib = UINib(nibName: KEmptyCollectionViewCellIdentifier, bundle: .resource)
         self.collectionView.register(EmptyCollectionViewCellNib, forCellWithReuseIdentifier: KEmptyCollectionViewCellIdentifier)
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: SubCategoriesViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: .resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
         
-        let userMsgCollectionViewCellXib = UINib(nibName: "UserMsgCollectionViewCell", bundle: Bundle(for: UserMsgCollectionViewCell.self))
+        let userMsgCollectionViewCellXib = UINib(nibName: "UserMsgCollectionViewCell", bundle: Bundle.resource)
         self.collectionView.register(userMsgCollectionViewCellXib, forCellWithReuseIdentifier: "UserMsgCollectionViewCell")
         
         
-        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle:nil)
+        let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle: Bundle.resource)
         self.collectionView.register(productSekeltonCelllNib, forCellWithReuseIdentifier: kProductSekeltonCellIdentifier)
         
         
-        let productsBrandCellNib = UINib(nibName: KSubCategoryBrandWiseProductsViewCollectionViewCellIdentifier , bundle: Bundle(for: SubCategoriesViewController.self))
+        let productsBrandCellNib = UINib(nibName: KSubCategoryBrandWiseProductsViewCollectionViewCellIdentifier , bundle: Bundle.resource)
         self.collectionView.register(productsBrandCellNib, forCellWithReuseIdentifier: KSubCategoryBrandWiseProductsViewCollectionViewCellIdentifier)
         
      

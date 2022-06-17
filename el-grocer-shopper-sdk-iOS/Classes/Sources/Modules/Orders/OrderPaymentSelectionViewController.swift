@@ -198,7 +198,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
     
     func registerTableViewCell() {
         
-        let settingCellNib = UINib(nibName: "PaymentSelectionCell", bundle: Bundle(for: type(of: self)))
+        let settingCellNib = UINib(nibName: "PaymentSelectionCell", bundle: Bundle.resource)
         self.tableView.register(settingCellNib, forCellReuseIdentifier: kPaymentSelectionCellIdentifier)
     }
     

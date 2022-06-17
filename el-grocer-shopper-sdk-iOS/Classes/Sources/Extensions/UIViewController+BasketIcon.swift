@@ -30,7 +30,7 @@ extension UIViewController {
         
         self.basketIconOverlay?.removeFromSuperview()
         
-        self.basketIconOverlay = Bundle(for: BasketIconOverlayView.self).loadNibNamed("BasketIconOverlayView", owner: nil, options: nil)![0] as? BasketIconOverlayView
+        self.basketIconOverlay = Bundle.resource.loadNibNamed("BasketIconOverlayView", owner: nil, options: nil)![0] as? BasketIconOverlayView
         self.basketIconOverlay?.translatesAutoresizingMaskIntoConstraints = false
         self.basketIconOverlay?.delegate = delegate
         self.basketIconOverlay?.grocery = grocery

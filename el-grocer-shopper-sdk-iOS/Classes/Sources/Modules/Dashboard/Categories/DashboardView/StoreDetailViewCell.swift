@@ -45,7 +45,7 @@ class StoreDetailViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
         
         self.backgroundColor = UIColor.productBGColor()
         
-        self.collectionViewGroceries.register(UINib(nibName: "GroceryDetailCell", bundle: nil), forCellWithReuseIdentifier: kGroceryDetailHeaderCell)
+        self.collectionViewGroceries.register(UINib(nibName: "GroceryDetailCell", bundle: Bundle.resource), forCellWithReuseIdentifier: kGroceryDetailHeaderCell)
     }
     
     func reloadCellForGrocery(_ grocery: Grocery?) {

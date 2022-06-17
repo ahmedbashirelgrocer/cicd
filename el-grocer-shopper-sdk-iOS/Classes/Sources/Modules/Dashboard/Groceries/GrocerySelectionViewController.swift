@@ -55,7 +55,7 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
     
     func registerNewTableCell() {
         
-        let cellNib = UINib(nibName: "GroceryCell", bundle: Bundle(for: GroceriesViewController.self))
+        let cellNib = UINib(nibName: "GroceryCell", bundle: Bundle.resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: kGroceryCellIdentifier)
     }
     
@@ -204,7 +204,7 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
     
     func registerTableCell() {
         
-        let cellNib = UINib(nibName: "GrocerySelectionCell", bundle: Bundle(for: GrocerySelectionViewController.self))
+        let cellNib = UINib(nibName: "GrocerySelectionCell", bundle: Bundle.resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: kGrocerySelectionCellIdentifier)
     }
     

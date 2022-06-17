@@ -15,7 +15,7 @@ public protocol CountriesViewControllerDelegate {
 
 public final class CountriesViewController: UITableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     public class func standardController() -> CountriesViewController {
-        return UIStoryboard(name: "PhoneNumberPicker", bundle: Bundle(for: self)).instantiateViewController(withIdentifier: "Countries") as! CountriesViewController
+        return UIStoryboard(name: "PhoneNumberPicker", bundle: Bundle.resource).instantiateViewController(withIdentifier: "Countries") as! CountriesViewController
     }
     
     @IBOutlet weak public var cancelBarButtonItem: UIBarButtonItem!

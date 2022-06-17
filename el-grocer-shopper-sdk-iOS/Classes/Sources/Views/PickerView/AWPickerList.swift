@@ -28,7 +28,7 @@ class AWPickerList: CustomCollectionView {
     func registerCellsAndSetDelegateAndDataSource () {
         
         self.addCollectionViewWithDirection(.vertical)
-        let cell = UINib(nibName: "AWPicketCollectionViewCell", bundle:nil)
+        let cell = UINib(nibName: "AWPicketCollectionViewCell", bundle: Bundle.resource)
         self.collectionView?.register(cell, forCellWithReuseIdentifier: "AWPicketCollectionViewCell")
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self

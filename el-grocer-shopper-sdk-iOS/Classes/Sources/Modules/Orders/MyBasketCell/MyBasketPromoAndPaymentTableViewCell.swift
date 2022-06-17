@@ -827,7 +827,7 @@ extension MyBasketPromoAndPaymentTableViewCell {
 //        configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
 //        let bottomSheetController = NBBottomSheetController(configuration: configuration)
         
-        let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: nil)
+        let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: Bundle.resource)
         if #available(iOS 13, *) {
             creditVC.view.backgroundColor = .clear
         } else {

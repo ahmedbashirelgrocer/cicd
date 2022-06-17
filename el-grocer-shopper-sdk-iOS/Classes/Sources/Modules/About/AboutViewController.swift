@@ -80,7 +80,7 @@ class AboutViewController : UIViewController, UITableViewDataSource, UITableView
     
     func registerTableCell() {
         
-        let cellNib = UINib(nibName: "AboutCell", bundle: Bundle(for: AboutViewController.self))
+        let cellNib = UINib(nibName: "AboutCell", bundle: .resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: kAboutCellIdentifier)
     }
     

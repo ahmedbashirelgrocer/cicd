@@ -42,7 +42,7 @@ extension UIViewController {
     
     func addLoadingBarView() {
         
-        self.loadingBarView = Bundle(for: LoadingBarView.self).loadNibNamed("LoadingBarView", owner: nil, options: nil)![0] as? LoadingBarView
+        self.loadingBarView = Bundle.resource.loadNibNamed("LoadingBarView", owner: nil, options: nil)![0] as? LoadingBarView
         self.loadingBarView?.translatesAutoresizingMaskIntoConstraints = false
         self.loadingBarView?.isHidden = true
         

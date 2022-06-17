@@ -1628,41 +1628,41 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     private func registerCellsForCollection() {
         
         
-        let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle: Bundle(for: OrderCollectionDetailsCell.self))
+        let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle: Bundle.resource)
         self.tableView.register(orderCollectionDetailsCell, forCellReuseIdentifier: "OrderCollectionDetailsCell")
         
         
-        let orderBasketProductTableViewCellNib = UINib(nibName: "OrderBasketProductTableViewCell", bundle: Bundle(for: OrderBasketProductTableViewCell.self))
+        let orderBasketProductTableViewCellNib = UINib(nibName: "OrderBasketProductTableViewCell", bundle: Bundle.resource)
         self.tableView.register(orderBasketProductTableViewCellNib, forCellReuseIdentifier: "OrderBasketProductTableViewCell")
         
-        let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle(for: SubsitutionActionButtonTableViewCell.self))
+        let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle.resource)
         self.tableView.register(subsitutionActionButtonTableViewCell, forCellReuseIdentifier: "SubsitutionActionButtonTableViewCell")
         
         
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
-        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle(for: GenericViewTitileTableViewCell.self))
+        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource)
         self.tableView.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let orderDetailStateTableViewCellNib = UINib(nibName: "OrderDetailStateTableViewCell", bundle: Bundle(for: OrderDetailStateTableViewCell.self))
+        let orderDetailStateTableViewCellNib = UINib(nibName: "OrderDetailStateTableViewCell", bundle: Bundle.resource)
         self.tableView.register(orderDetailStateTableViewCellNib, forCellReuseIdentifier: "OrderDetailStateTableViewCell")
         
         
-        let myBasketDeliveryDetailsTableViewCell = UINib(nibName: "MyBasketDeliveryDetailsTableViewCell" , bundle: Bundle(for: MyBasketDeliveryDetailsTableViewCell.self))
+        let myBasketDeliveryDetailsTableViewCell = UINib(nibName: "MyBasketDeliveryDetailsTableViewCell" , bundle: Bundle.resource)
         self.tableView.register(myBasketDeliveryDetailsTableViewCell, forCellReuseIdentifier: "MyBasketDeliveryDetailsTableViewCell")
         
         
-        let myBasketPromoAndPaymentTableViewCell = UINib(nibName: "MyBasketPromoAndPaymentTableViewCell" , bundle: Bundle(for: MyBasketPromoAndPaymentTableViewCell.self))
+        let myBasketPromoAndPaymentTableViewCell = UINib(nibName: "MyBasketPromoAndPaymentTableViewCell" , bundle: Bundle.resource)
         self.tableView.register(myBasketPromoAndPaymentTableViewCell, forCellReuseIdentifier: "MyBasketPromoAndPaymentTableViewCell")
         
         
-        let celllNib = UINib(nibName: "ShoppingBasketCell", bundle: Bundle(for: ShoppingBasketView.self))
+        let celllNib = UINib(nibName: "ShoppingBasketCell", bundle: Bundle.resource)
         self.tableView.register(celllNib, forCellReuseIdentifier: kShoppingBasketCellIdentifier)
         
         //need support Table view cell in order details
-        let myBasketCustomerSupportTableViewCell = UINib(nibName: "NeedCustomerSupportView" , bundle: Bundle(for: NeedCustomerSupportView.self))
+        let myBasketCustomerSupportTableViewCell = UINib(nibName: "NeedCustomerSupportView" , bundle: Bundle.resource)
         self.tableView.register(myBasketCustomerSupportTableViewCell, forCellReuseIdentifier: "NeedCustomerSupportView")
         
        // self.tableView.tableFooterView = self.summaryView

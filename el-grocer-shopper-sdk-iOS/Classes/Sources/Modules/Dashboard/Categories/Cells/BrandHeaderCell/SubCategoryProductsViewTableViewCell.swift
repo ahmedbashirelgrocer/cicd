@@ -64,20 +64,20 @@ class SubCategoryProductsViewTableViewCell: UITableViewCell {
     
     func registerCellsForTable() {
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: .resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
-        let brandAndProductCellNib = UINib(nibName: "BrandAndProductCell", bundle:nil)
+        let brandAndProductCellNib = UINib(nibName: "BrandAndProductCell", bundle: Bundle.resource)
         self.tableView.register(brandAndProductCellNib, forCellReuseIdentifier: kBrandAndProductCell)
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle(for: GenericBannersCell.self))
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
-        let headerNib = UINib(nibName: "SubCateReusableView", bundle: Bundle(for: SubCategoriesViewController.self))
+        let headerNib = UINib(nibName: "SubCateReusableView", bundle: Bundle.resource)
         self.collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: kSubCateHeaderCellIdentifier)
         
         
-        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle(for: SubCategoriesViewController.self))
+        let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10, right: 10)

@@ -544,7 +544,7 @@ class ElgrocerlocationView:  UIView  {
         
        /*
 
-        let popupViewController = AWPickerViewController(nibName: "AWPickerViewController", bundle: nil)
+        let popupViewController = AWPickerViewController(nibName: "AWPickerViewController", bundle: Bundle.resource)
         popupViewController.changeSlot = { [weak self] (slot) in
             self?.setSlotData()
         }

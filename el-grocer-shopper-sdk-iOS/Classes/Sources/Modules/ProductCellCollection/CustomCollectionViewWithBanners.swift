@@ -27,7 +27,7 @@ class CustomCollectionViewWithBanners: CustomCollectionView {
     func registerCollectionCell() {
 
 
-        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle(for: SearchViewController.self))
+        let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle.resource)
         self.collectionView?.register(BasketBannerCollectionViewCellNIB , forCellWithReuseIdentifier: BasketBannerCollectionViewCellIdentifier)
 
         self.collectionView?.delegate = self

@@ -92,7 +92,7 @@ class GenericFeedBackVC: UIViewController {
         commentFeedBack = ""
     }
     func setCollectionViewDelegates() {
-        self.genericCollectionView.register(UINib.init(nibName: "GenericFeedBackCollectionCell", bundle: nil), forCellWithReuseIdentifier: "GenericFeedBackCollectionCell")
+        self.genericCollectionView.register(UINib.init(nibName: "GenericFeedBackCollectionCell", bundle: Bundle.resource), forCellWithReuseIdentifier: "GenericFeedBackCollectionCell")
         genericCollectionView.delegate = self
         genericCollectionView.dataSource = self
     }

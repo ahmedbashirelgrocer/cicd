@@ -16,6 +16,8 @@
   <string>FMWK</string>
   <key>CFBundleShortVersionString</key>
   <string>0.1.5</string>
+  <key>Configuration</key>
+  <string>$(CONFIGURATION)</string>
   <key>CFBundleSignature</key>
   <string>????</string>
   <key>CFBundleVersion</key>

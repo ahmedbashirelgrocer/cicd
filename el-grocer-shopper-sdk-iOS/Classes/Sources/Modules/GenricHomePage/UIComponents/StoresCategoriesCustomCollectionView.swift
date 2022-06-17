@@ -45,17 +45,17 @@ class StoresCategoriesCustomCollectionView: CustomCollectionView {
         self.addCollectionViewWithDirection(.horizontal)
         
         
-        let storeSkeloton = UINib(nibName: KStoresCategoriesSkeletonCollectionViewCell , bundle:nil)
+        let storeSkeloton = UINib(nibName: KStoresCategoriesSkeletonCollectionViewCell , bundle: Bundle.resource)
         self.collectionView?.register(storeSkeloton, forCellWithReuseIdentifier: KStoresCategoriesSkeletonCollectionViewCell)
         
-        let storeCateCell = UINib(nibName: KStoresCategoriesCollectionViewCell , bundle:nil)
+        let storeCateCell = UINib(nibName: KStoresCategoriesCollectionViewCell , bundle: Bundle.resource)
         self.collectionView?.register(storeCateCell, forCellWithReuseIdentifier: KStoresCategoriesCollectionViewCell)
         
         
-        let orderProductCellNib = UINib(nibName: "OrderProductCell", bundle:nil)
+        let orderProductCellNib = UINib(nibName: "OrderProductCell", bundle: Bundle.resource)
         self.collectionView?.register(orderProductCellNib, forCellWithReuseIdentifier: kOrderProductCellIdentifier)
         
-        let storeTextOnlyCell = UINib(nibName: "CarBrandCollectionCell" , bundle:nil)
+        let storeTextOnlyCell = UINib(nibName: "CarBrandCollectionCell" , bundle: Bundle.resource)
         self.collectionView?.register(storeTextOnlyCell, forCellWithReuseIdentifier: "CarBrandCollectionCell")
         
         self.collectionView?.isScrollEnabled = true

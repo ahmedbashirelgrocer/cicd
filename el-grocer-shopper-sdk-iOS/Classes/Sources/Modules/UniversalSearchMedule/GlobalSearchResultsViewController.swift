@@ -85,29 +85,29 @@ class GlobalSearchResultsViewController: UIViewController {
     func registerTableViewObject() {
         
         self.tableView.backgroundColor = .tableViewBackgroundColor()//.white
-        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle(for: GenericViewTitileTableViewCell.self))
+        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource)
         self.tableView.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: nil)
+        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: Bundle.resource)
         self.tableView.register(ElgrocerCategorySelectTableViewCell, forCellReuseIdentifier: KElgrocerCategorySelectTableViewCell)
         
-        let homeCellNib = UINib(nibName: "HomeCell", bundle: Bundle(for: MainCategoriesViewController.self))
+        let homeCellNib = UINib(nibName: "HomeCell", bundle: Bundle.resource)
         self.tableView.register(homeCellNib, forCellReuseIdentifier: kHomeCellIdentifier)
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle(for: GenericBannersCell.self))
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle(for: SpaceTableViewCell.self))
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
         
-        let genricHomeRecipeTableViewCell = UINib(nibName: KGenricHomeRecipeTableViewCell , bundle: Bundle(for: GenricHomeRecipeTableViewCell.self))
+        let genricHomeRecipeTableViewCell = UINib(nibName: KGenricHomeRecipeTableViewCell , bundle: Bundle.resource)
         self.tableView.register(genricHomeRecipeTableViewCell, forCellReuseIdentifier: KGenricHomeRecipeTableViewCell )
         
-        let genericRecipeTitleTableViewCell = UINib(nibName: "GenericRecipeTitleTableViewCell" , bundle: Bundle(for: GenricHomeRecipeTableViewCell.self))
+        let genericRecipeTitleTableViewCell = UINib(nibName: "GenericRecipeTitleTableViewCell" , bundle: Bundle.resource)
         self.tableView.register(genericRecipeTitleTableViewCell, forCellReuseIdentifier: "GenericRecipeTitleTableViewCell" )
          
-        let categoryTextOnlyCell = UINib(nibName: "CarBrandCollectionCell" , bundle:nil)
+        let categoryTextOnlyCell = UINib(nibName: "CarBrandCollectionCell" , bundle: Bundle.resource)
         self.segmentsCollectionView!.register(categoryTextOnlyCell, forCellWithReuseIdentifier: "CarBrandCollectionCell")
         self.segmentsCollectionView.delegate = self
         self.segmentsCollectionView.dataSource = self

@@ -251,7 +251,7 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
     
     func registerTableCell() {
         
-        let cellNib = UINib(nibName: "GroceryCell", bundle: Bundle(for: GroceriesViewController.self))
+        let cellNib = UINib(nibName: "GroceryCell", bundle: Bundle.resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: kGroceryCellIdentifier)
     }
     

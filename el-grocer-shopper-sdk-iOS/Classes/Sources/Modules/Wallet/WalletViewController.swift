@@ -183,7 +183,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
     
     func registerTableViewCell() {
         
-        let walletHistoryCellNib  = UINib(nibName: "WalletHistoryCell", bundle:Bundle(for: type(of: self)))
+        let walletHistoryCellNib  = UINib(nibName: "WalletHistoryCell", bundle: Bundle.resource)
         self.walletTableView.register(walletHistoryCellNib, forCellReuseIdentifier: kWalletHistoryCellIdentifier)
     }
     

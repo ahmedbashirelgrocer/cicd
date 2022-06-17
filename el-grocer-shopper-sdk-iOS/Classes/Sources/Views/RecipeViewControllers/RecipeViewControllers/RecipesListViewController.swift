@@ -144,7 +144,7 @@ class RecipesListViewController: BasketBasicViewController {
         recipeSearchHeader = (Bundle.resource.loadNibNamed("SearchRecipeHeader", owner: self, options: nil)![0] as? SearchRecipeHeader)!
         
         
-        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle(for: RecipeTableViewCell.self))
+        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(recipeListCell, forCellReuseIdentifier: KRecipeTableViewCellIdentifier )
         self.tableView.backgroundColor = UIColor.lightGrayBGColor()
         self.tableView.estimatedRowHeight = CGFloat(KRecipeTableViewCellHeight)
