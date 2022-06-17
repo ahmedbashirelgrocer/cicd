@@ -49,11 +49,11 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '12.0'
   s.swift_versions = '4.2'
 
-  s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*.*'
+  s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*.{m,h,swift}'
   s.exclude_files = "Classes/Exclude"
    
   s.resource_bundles = {
-      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/Assets/**/*.*']
+      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/**/{R-SupportingFiles/*.*,*.storyboard,*.xib,*.xcassets,*.xcdatamodeld,*.m4r,*.otf,*.ttf,*.json,*.strings}']
   }
   
   #.{png,xcassets,xcdatamodeld,plist,strings,json,m4r}
