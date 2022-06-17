@@ -1,6 +1,6 @@
 {
   "name": "el-grocer-shopper-sdk-iOS",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "summary": "IOS Shopper app basic setUp.",
   "description": "'IOS Shopper app basic setUp. This sdk will allow all Shopper app functionalities from sdk. That will be signIn, registration, Store visibilty, Add Product, Place Order, Order Detail, Recipes, Search & locations'",
   "homepage": "https://www.elgrocer.com",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://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@github.com/elgrocer/el-grocer-shopper-sdk-iOS.git",
-    "tag": "0.1.6"
+    "tag": "0.1.7"
   },
   "platforms": {
     "ios": "12.0"
