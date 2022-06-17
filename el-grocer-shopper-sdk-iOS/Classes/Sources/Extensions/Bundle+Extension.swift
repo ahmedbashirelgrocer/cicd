@@ -11,7 +11,7 @@ private let RESOURCE_NAME = "el-grocer-shopper-sdk-iOS"
 
 extension Bundle {
     static var resource: Bundle {
-        let myBundle = Bundle.resource
+        let myBundle = Bundle(for: GetBundleClass.self)
         // Get the URL to the resource bundle within the bundle
         // of the current class.
         guard let resourceBundleURL = myBundle.url(
@@ -23,7 +23,7 @@ extension Bundle {
         return bundle
     }
     
-    static var source_files: Bundle { return Bundle.resource }
+    static var source_files: Bundle { return Bundle(for: GetBundleClass.self) }
 }
 
 private final class GetBundleClass { }
