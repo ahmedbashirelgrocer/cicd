@@ -174,7 +174,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 10
         
-   
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self = self else {return}
+            self.configureMapView()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -191,10 +194,6 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsLocationMap)
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.Map.rawValue, screenClass: String(describing: self.classForCoder))
         self.setUpBottomView()
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {return}
-            self.configureMapView()
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
