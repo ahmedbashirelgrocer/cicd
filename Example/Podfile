@@ -1,6 +1,6 @@
 use_frameworks! :linkage => :static
 
-platform :ios, '14.0'
+platform :ios, '12.0'
 
 target 'el-grocer-shopper-sdk-iOS_Example' do
   pod 'el-grocer-shopper-sdk-iOS', :path => '../'
