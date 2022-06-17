@@ -165,7 +165,7 @@ class ProductDetailsView : UIView {
         self.shoppingItem = shoppingItem
         
         //check for favourite
-        self.favouriteIcon.image = product.isFavourite.boolValue ? UIImage(named: "heart_full") : UIImage(named: "heart_empty")
+        self.favouriteIcon.image = product.isFavourite.boolValue ? UIImage(name: "heart_full") : UIImage(name: "heart_empty")
         
         //check if item is added to basket and update counter
         if self.shoppingItem != nil {
@@ -191,7 +191,7 @@ class ProductDetailsView : UIView {
         
         if let photoUrl = self.product.imageUrl {
             
-            self.productPhoto.sd_setImage(with: URL(string: photoUrl), placeholderImage: UIImage(named: "product_placeholder")!)
+            self.productPhoto.sd_setImage(with: URL(string: photoUrl), placeholderImage: UIImage(name: "product_placeholder")!)
         }
         
         //hide product price and currency if grocery is nil
@@ -207,7 +207,7 @@ class ProductDetailsView : UIView {
         if UserDefaults.isUserLoggedIn() {
             self.product.isFavourite = NSNumber(value: !self.product.isFavourite.boolValue as Bool)
             DatabaseHelper.sharedInstance.saveDatabase()
-            self.favouriteIcon.image = product.isFavourite.boolValue ? UIImage(named: "heart_full") : UIImage(named: "heart_empty")
+            self.favouriteIcon.image = product.isFavourite.boolValue ? UIImage(name: "heart_full") : UIImage(name: "heart_empty")
             self.delegate?.productDetailsViewProtocolDidTouchFavourite(self, product: self.product)
         } else {
             ElGrocerAlertView.createAlert(NSLocalizedString("item_favourite_alert_title", comment: ""),

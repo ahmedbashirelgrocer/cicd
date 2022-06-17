@@ -42,8 +42,8 @@ class GroceryReviewCell : UITableViewCell {
     
     fileprivate func setUpRatingView() {
         
-        self.ratingView.emptyImage = UIImage(named: "stars-gray")
-        self.ratingView.fullImage = UIImage(named: "stars")
+        self.ratingView.emptyImage = UIImage(name: "stars-gray")
+        self.ratingView.fullImage = UIImage(name: "stars")
         
         self.ratingView.contentMode = UIView.ContentMode.scaleAspectFit
         self.ratingView.maxRating = 5

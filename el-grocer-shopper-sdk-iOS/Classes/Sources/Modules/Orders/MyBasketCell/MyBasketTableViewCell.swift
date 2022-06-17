@@ -99,7 +99,7 @@ class MyBasketTableViewCell: UITableViewCell {
         }
     }
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     //Hunain 16Jan17
     let kMaxCellTranslation: CGFloat = 110
@@ -390,9 +390,9 @@ class MyBasketTableViewCell: UITableViewCell {
     func configureWithProduct(_ shoppingItem:ShoppingBasketItem, product:Product, shouldHidePrice:Bool, isProductAvailable:Bool, priceDictFromGrocery:NSDictionary?, currentRow:NSInteger) {
         
         if shoppingItem.count > 1 {
-            self.minusBtn.setImage(UIImage(named: "MYBasketRemove"), for: .normal)
+            self.minusBtn.setImage(UIImage(name: "MYBasketRemove"), for: .normal)
         }else{
-            self.minusBtn.setImage(UIImage(named: "MyBasketDelete"), for: .normal)
+            self.minusBtn.setImage(UIImage(name: "MyBasketDelete"), for: .normal)
         }
         
         var productDescription = ""

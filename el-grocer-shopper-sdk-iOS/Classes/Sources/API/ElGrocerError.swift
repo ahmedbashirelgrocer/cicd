@@ -276,8 +276,8 @@ struct ElGrocerError {
         let okButtonTitle = NSLocalizedString("ok_button_title", comment: "")
         
         let alert = ElGrocerAlertView.createAlert(errorTitle, description: self.localizedMessage, positiveButton: okButtonTitle, negativeButton: nil, buttonClickCallback: nil)
-      //  alert.positiveButton.setBackgroundImage(UIImage(named: "modal_button_red"), for: UIControl.State())
-     //   alert.positiveButton.setBackgroundImage(UIImage(named: "modal_button_red"), for: UIControl.State.highlighted)
+      //  alert.positiveButton.setBackgroundImage(UIImage(name: "modal_button_red"), for: UIControl.State())
+     //   alert.positiveButton.setBackgroundImage(UIImage(name: "modal_button_red"), for: UIControl.State.highlighted)
         return alert
         
     }

@@ -617,7 +617,7 @@ extension MyBasketPromoAndPaymentTableViewCell {
             self.btnApplyPromo.setTitle("", for: .normal)
             self.promoView.borderColor =  .navigationBarColor()
             self.btnApplyPromo.tintColor = .navigationBarColor()
-            self.btnApplyPromo.setImage(UIImage(named: "MyBasketPromoSuccess"), for: .normal)
+            self.btnApplyPromo.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
             return
         }
         self.btnApplyPromo.setTitle(NSLocalizedString("promo_code_alert_yes", comment: ""), for: .normal)
@@ -646,7 +646,7 @@ extension MyBasketPromoAndPaymentTableViewCell {
         self.promoView.borderColor =  .navigationBarColor()
         self.btnApplyPromo.setTitle("", for: .normal)
         self.btnApplyPromo.tintColor = .navigationBarColor()
-        self.btnApplyPromo.setImage(UIImage(named: "MyBasketPromoSuccess"), for: .normal)
+        self.btnApplyPromo.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
         self.lblpromoMessage.textColor = .navigationBarColor()
         self.lblpromoMessage.isHidden = false
         self.lblpromoMessage.text = text
@@ -730,7 +730,7 @@ extension MyBasketPromoAndPaymentTableViewCell {
       
         self.btnApplyPromo.tintColor = .lightTextGrayColor()
         self.btnApplyPromo.setTitle("", for: .normal)
-        self.btnApplyPromo.setImage(UIImage(named: "MyBasketPromoClose"), for: .normal)
+        self.btnApplyPromo.setImage(UIImage(name: "MyBasketPromoClose"), for: .normal)
         self.setPaymentDetails()
         
         self.paymentDetailBackGroundHeightConstraint.constant = 210 + self.getPromoMessageLabelHeight(text: text) + (self.percentOffBGView.isHidden ? 0 : 15)
@@ -785,15 +785,15 @@ extension MyBasketPromoAndPaymentTableViewCell {
         if let selectedOption = payment {
             if selectedOption.rawValue == PaymentOption.cash.rawValue {
                 findSegment = NSLocalizedString("cash_On_Delivery_string", comment: "")
-                self.imagePayment.image = UIImage(named: "cash-List-white")
+                self.imagePayment.image = UIImage(name: "cash-List-white")
                 self.cvvWidth.constant = 0
             }else if selectedOption.rawValue == PaymentOption.card.rawValue {
                 findSegment = NSLocalizedString("pay_via_card", comment: "")
-                self.imagePayment.image = UIImage(named: "CardOnDelivery-white")
+                self.imagePayment.image = UIImage(name: "CardOnDelivery-white")
                 self.cvvWidth.constant = 0
             }else if selectedOption.rawValue == PaymentOption.creditCard.rawValue {
                 
-                self.imagePayment.image = UIImage(named: "placeorder-card-white")
+                self.imagePayment.image = UIImage(name: "placeorder-card-white")
                 let cardID = UserDefaults.getCardID(userID: selectedController?.userProfile?.dbID.stringValue ?? "-1")
                 if cardID.count > 0 {
                     let cardSelected =  selectedController?.creditCardA.filter { (card) -> Bool in

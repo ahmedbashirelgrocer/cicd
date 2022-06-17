@@ -333,8 +333,8 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             productCell.quantityLabel.textColor = UIColor.newBlackColor()
                             productCell.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
                             productCell.minusButton.imageView?.tintColor = UIColor.navigationBarColor()
-                            productCell.productCellCounterBGImageView.image = UIImage(named: "icProductCellGreenBG")
-                            productCell.imageCrossState.image = UIImage(named: "Product Minus")
+                            productCell.productCellCounterBGImageView.image = UIImage(name: "icProductCellGreenBG")
+                            productCell.imageCrossState.image = UIImage(name: "Product Minus")
                             productCell.imageCrossState.backgroundColor = UIColor.red
                             
                             if product.count.intValue > 0 {
@@ -349,9 +349,9 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             }
                             
                             if product.count.intValue == 1 {
-                                productCell.minusButton.setImage(UIImage(named: "delete_product_cell"), for: .normal)
+                                productCell.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
                             }else{
-                                productCell.minusButton.setImage(UIImage(named: "remove_product_cell"), for: .normal)
+                                productCell.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
                             }
                             
                             func setPlusButtonState(_ isEnable : Bool){
@@ -389,7 +389,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                         }else{
                             debugPrint("checktest product item: Nil")
                             debugPrint("checktest currentProduct: \(currentProduct?.name)")
-                            productCell.imageCrossState.image = UIImage(named: "Product Plus")
+                            productCell.imageCrossState.image = UIImage(name: "Product Plus")
                             productCell.imageCrossState.backgroundColor = UIColor.lightGreenColor()
                             productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
                             productCell.productContainer.layer.borderWidth = 0

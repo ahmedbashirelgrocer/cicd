@@ -20,7 +20,7 @@ class RecipeCategoryListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var lblCategoryName: UILabel!
     
     lazy var placeholderPhoto : UIImage = {
-        return UIImage(named: "product_placeholder")!
+        return UIImage(name: "product_placeholder")!
     }()
     
     override func awakeFromNib() {

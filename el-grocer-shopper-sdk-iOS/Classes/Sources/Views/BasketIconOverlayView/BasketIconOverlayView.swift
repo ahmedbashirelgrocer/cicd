@@ -246,13 +246,13 @@ class BasketIconOverlayView : UIView {
                             .normal(NSLocalizedString("to_reach_minimum_order", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
                                     color: .secondaryDarkGreenColor())
-                        self.minOrderImageView.image = UIImage(named: "cart-addmore")
+                        self.minOrderImageView.image = UIImage(name: "cart-addmore")
                         let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
                         self.minOrderProgressView.setProgress(progressValue, animated: true)
                     }else{
                         // Order amount more then or eqaul to minimum basket amount
                         self.minOrderLabel.text = "\(NSLocalizedString("lbl_congrtz", comment: "")) "
-                        self.minOrderImageView.image = UIImage(named: "cart-price")
+                        self.minOrderImageView.image = UIImage(name: "cart-price")
                         self.minOrderProgressView.setProgress(1.0, animated: true)
                     }
 //                    self.cartTotalPriceLabel.text = " \(CurrencyManager.getCurrentCurrency()) " + String(format:"%.2f",priceSum)

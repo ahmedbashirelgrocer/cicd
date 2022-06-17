@@ -13,7 +13,7 @@ let KRecipeBannerCollectionViewCellIdentifier = "RecipeBannerCollectionViewCell"
 
 class RecipeBannerCollectionViewCell: UICollectionViewCell {
 
-    lazy var placeholderPhoto = UIImage(named: "product_placeholder")!
+    lazy var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!

@@ -250,9 +250,9 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
          self.oldPasswordTextField.isSecureTextEntry = !self.oldPasswordTextField.isSecureTextEntry
         
         if self.oldPasswordTextField.isSecureTextEntry{
-            sender.setImage(UIImage(named: "eyeGray"), for: UIControl.State())
+            sender.setImage(UIImage(name: "eyeGray"), for: UIControl.State())
         }else{
-            sender.setImage(UIImage(named: "eyeBlack"), for: UIControl.State())
+            sender.setImage(UIImage(name: "eyeBlack"), for: UIControl.State())
         }
         
     }
@@ -260,17 +260,17 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
         self.newPasswordTextField.isSecureTextEntry = !self.newPasswordTextField.isSecureTextEntry
         
         if self.newPasswordTextField.isSecureTextEntry{
-            sender.setImage(UIImage(named: "eyeGray"), for: UIControl.State())
+            sender.setImage(UIImage(name: "eyeGray"), for: UIControl.State())
         }else{
-            sender.setImage(UIImage(named: "eyeBlack"), for: UIControl.State())
+            sender.setImage(UIImage(name: "eyeBlack"), for: UIControl.State())
         }
     }
     @IBAction func confirmPassowrdEye(_ sender: UIButton) {
         self.confirmPasswordTextField.isSecureTextEntry = !self.confirmPasswordTextField.isSecureTextEntry
         if self.confirmPasswordTextField.isSecureTextEntry{
-            sender.setImage(UIImage(named: "eyeGray"), for: UIControl.State())
+            sender.setImage(UIImage(name: "eyeGray"), for: UIControl.State())
         }else{
-            sender.setImage(UIImage(named: "eyeBlack"), for: UIControl.State())
+            sender.setImage(UIImage(name: "eyeBlack"), for: UIControl.State())
         }
     }
     

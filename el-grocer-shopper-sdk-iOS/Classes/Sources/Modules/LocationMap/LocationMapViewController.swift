@@ -247,7 +247,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                     }
                         
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "locationPop") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: ""),NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: ""),NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
                             
                             if index == 0 {
                                 ElGrocerUtility.sharedInstance.activeGrocery = nil

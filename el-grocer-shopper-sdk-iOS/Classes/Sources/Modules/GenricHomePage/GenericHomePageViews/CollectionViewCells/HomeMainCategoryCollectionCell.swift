@@ -25,10 +25,10 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
     @IBOutlet var imgCategory: UIImageView!{
         didSet{
             imgCategory.isHidden = true
-          //  imgCategory.image = UIImage(named: "testCategoryImage")
+          //  imgCategory.image = UIImage(name: "testCategoryImage")
         }
     }
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -160,7 +160,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         
         setUpAppearence(cellType: .ClickAndCollect, showArrow: false)
         self.lblName.text = title
-        self.bgImageView.image = UIImage(named: imageName)
+        self.bgImageView.image = UIImage(name: imageName)
         self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
         
     }
@@ -169,7 +169,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         
         setUpAppearence(cellType: .ClickAndCollect, showArrow: false)
         self.lblName.text = title
-        self.bgImageView.image = UIImage(named: "DealsBgImage")
+        self.bgImageView.image = UIImage(name: "DealsBgImage")
         self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
         
     }
@@ -178,7 +178,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         
         setUpAppearence(cellType: .Recipe, showArrow: false)
         self.lblName.text = title
-        self.bgImageView.image = UIImage(named: imageName)
+        self.bgImageView.image = UIImage(name: imageName)
         self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
         
     }
@@ -204,7 +204,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
     func configureCellForStores(title: String,image: String,_ showArrow: Bool = false){
         setUpAppearence(cellType: .Store, showArrow: showArrow)
         self.showViewAllArrow(showArrow)
-        self.bgImageView.image = UIImage(named: "testCategoryImage")
+        self.bgImageView.image = UIImage(name: "testCategoryImage")
         if showArrow{
             self.lblName.text = title
             self.bgImageView.image = UIImage()

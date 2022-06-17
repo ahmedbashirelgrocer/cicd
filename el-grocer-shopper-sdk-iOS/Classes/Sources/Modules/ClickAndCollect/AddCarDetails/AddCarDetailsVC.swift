@@ -266,11 +266,11 @@ class AddCarDetailsVC: UIViewController {
     
     @IBAction func btnCheckBoxHandler(_ sender: Any) {
         if checked{
-            btnCheckBox.setImage(UIImage(named: "CheckboxUnfilled"), for: .normal)
+            btnCheckBox.setImage(UIImage(name: "CheckboxUnfilled"), for: .normal)
             checked = false
             self.btnAddCar.setBackgroundColor(.disableButtonColor() , forState: UIControl.State())
         }else{
-            btnCheckBox.setImage(UIImage(named: "CheckboxFilled"), for: .normal)
+            btnCheckBox.setImage(UIImage(name: "CheckboxFilled"), for: .normal)
             checked = true
             self.btnAddCar.setBackgroundColor(.navigationBarColor() , forState: UIControl.State())
         }
@@ -328,7 +328,7 @@ class AddCarDetailsVC: UIViewController {
                             }
                             self.btnCrossHandler("")
                         }
-                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_added", comment: ""), "", image: UIImage(named: "carBlack"), -1, false) { sender, index, isUndo in
+                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_added", comment: ""), "", image: UIImage(name: "carBlack"), -1, false) { sender, index, isUndo in
                         }
                     case .failure(let error):
                         error.showErrorAlert()
@@ -354,7 +354,7 @@ class AddCarDetailsVC: UIViewController {
                             }
                             
                         }
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_updated", comment: ""), "", image: UIImage(named: "carBlack"), -1, false) { sender, index, isUndo in
+                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_updated", comment: ""), "", image: UIImage(name: "carBlack"), -1, false) { sender, index, isUndo in
                     }
                     case .failure(let error):
                         error.showErrorAlert()

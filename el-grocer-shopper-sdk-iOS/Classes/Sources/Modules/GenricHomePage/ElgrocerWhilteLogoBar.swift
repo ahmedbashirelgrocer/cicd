@@ -140,8 +140,8 @@ class ElgrocerWhilteLogoBar: UINavigationBar {
             self.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
             self.shadowImage = UIImage()
         }else{
-            self.setBackgroundImage(UIImage(named: ""), for: UIBarMetrics.default)
-            self.shadowImage = UIImage(named: "")
+            self.setBackgroundImage(UIImage(name: ""), for: UIBarMetrics.default)
+            self.shadowImage = UIImage(name: "")
         }
     }
     
@@ -213,14 +213,14 @@ class ElgrocerWhilteLogoBar: UINavigationBar {
     
     fileprivate func addLogoView() {
         
-        let image = UIImage(named: "menu_logo")!
+        let image = UIImage(name: "menu_logo")!
         self.logoView = UIImageView(image: image)
         self.addSubview(self.logoView)
     }
     
     fileprivate func addBackButton() {
         
-        let image = UIImage(named: "back-NewUI")!
+        let image = UIImage(name: "back-NewUI")!
         self.backButton  = UIButton(type: .custom)
         self.backButton.setImage(image, for: .normal)
         self.addSubview(self.backButton)
@@ -228,7 +228,7 @@ class ElgrocerWhilteLogoBar: UINavigationBar {
     
     fileprivate func addBasketButton() {
         
-        let image = UIImage(named: "newBusket")!
+        let image = UIImage(name: "newBusket")!
         self.basketButton  = UIButton(type: .custom)
         self.basketButton.setImage(image, for: .normal)
         self.addSubview(self.basketButton)

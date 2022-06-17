@@ -22,7 +22,7 @@ class StretchyTableHeaderView: UIView {
     var imageView: UIImageView!{
         didSet{
             //imageView.isHidden = true
-            imageView.image = UIImage(named: "product_placeholder")
+            imageView.image = UIImage(name: "product_placeholder")
         }
     }
     

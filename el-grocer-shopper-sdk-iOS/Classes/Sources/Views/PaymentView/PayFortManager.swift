@@ -548,11 +548,11 @@ enum CreditCardType : String {
         
         switch self {
             case .VISA:
-                return UIImage(named: "ic_visa")!
+                return UIImage(name: "ic_visa")!
             case .MASTER_CARD :
-                return UIImage(named: "ic_mastercard")!
+                return UIImage(name: "ic_mastercard")!
             default:
-                return UIImage(named: "category_placeholder")!
+                return UIImage(name: "category_placeholder")!
         }
     }
     
@@ -562,11 +562,11 @@ enum CreditCardType : String {
         
         switch self {
             case .VISA:
-                return UIImage(named: "ic_visa")!
+                return UIImage(name: "ic_visa")!
             case .MASTER_CARD :
-                return UIImage(named: "ic_mastercard")!
+                return UIImage(name: "ic_mastercard")!
             default:
-                return UIImage(named: "ic_visa")!
+                return UIImage(name: "ic_visa")!
         }
     }
     

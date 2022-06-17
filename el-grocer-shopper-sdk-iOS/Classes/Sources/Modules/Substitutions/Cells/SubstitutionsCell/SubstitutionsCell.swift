@@ -39,7 +39,7 @@ class SubstitutionsCell: UITableViewCell {
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var saleView: UIImageView!
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     let cellButtonNormalTitleColor      = UIColor.colorWithHexString(hexString: "656565")
     let cellButtonNormalBackgroundColor = UIColor.colorWithHexString(hexString: "E3E3E3")
@@ -161,7 +161,7 @@ class SubstitutionsCell: UITableViewCell {
             
             if isOpen {
                 
-                self.chooseSubtituteButton.setImage(UIImage(named: "icClose"), for: UIControl.State())
+                self.chooseSubtituteButton.setImage(UIImage(name: "icClose"), for: UIControl.State())
                 
                 let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
                 if currentLang == "ar" {

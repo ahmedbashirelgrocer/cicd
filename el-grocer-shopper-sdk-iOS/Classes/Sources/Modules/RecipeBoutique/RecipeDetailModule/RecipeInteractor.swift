@@ -65,7 +65,7 @@ extension RecipeInteractor : RecipeDataHandlerDelegate {
     func addToCartCompleted() {
         ElGrocerUtility.sharedInstance.delay(1.0) {
             let msg = NSLocalizedString("product_added_to_cart", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
         }
         self.presenter.view.addToCartCompleted()
     }

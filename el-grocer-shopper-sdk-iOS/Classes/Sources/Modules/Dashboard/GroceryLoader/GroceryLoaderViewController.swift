@@ -23,7 +23,7 @@ class GroceryLoaderViewController: UIViewController {
 
     var homeFeeds:[Home] = [Home]()
     
-    var placeholderImage = UIImage(named: "product_placeholder")!
+    var placeholderImage = UIImage(name: "product_placeholder")!
     
     
     private var shapeLayer = CAShapeLayer()

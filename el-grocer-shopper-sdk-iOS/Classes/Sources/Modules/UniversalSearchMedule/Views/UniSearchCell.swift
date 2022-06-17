@@ -65,18 +65,18 @@ class UniSearchCell: UITableViewCell {
       
         if obj?.modelType == SearchResultSuggestionType.trendingSearch {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                imgView.image = UIImage(named: "trendingSearch")?.imageFlippedForRightToLeftLayoutDirection()
+                imgView.image = UIImage(name: "trendingSearch")?.imageFlippedForRightToLeftLayoutDirection()
             }else {
-                imgView.image = UIImage(named: "trendingSearch")
+                imgView.image = UIImage(name: "trendingSearch")
             }
         }else if obj?.modelType == SearchResultSuggestionType.categoriesTitles {
-            imgView.image = UIImage(named: "categorySearch")
+            imgView.image = UIImage(name: "categorySearch")
         }else if obj?.modelType == SearchResultSuggestionType.brandTitles {
-            imgView.image = UIImage(named: "categorySearch")
+            imgView.image = UIImage(name: "categorySearch")
         }else if obj?.modelType == SearchResultSuggestionType.searchHistory {
-            imgView.image = UIImage(named: "universalSearch")
+            imgView.image = UIImage(name: "universalSearch")
         }else if obj?.modelType == SearchResultSuggestionType.recipeTitles {
-            imgView.image = UIImage(named: "recipeImageSearch")
+            imgView.image = UIImage(name: "recipeImageSearch")
         }
         
         

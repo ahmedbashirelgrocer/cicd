@@ -79,7 +79,7 @@ class HomeCell: UITableViewCell {
     
     
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     private weak var homeFeed: Home?
     private weak var grocery:Grocery?
@@ -487,9 +487,9 @@ extension HomeCell: UICollectionViewDelegate {
                         
                         
                /*
-                        let alertVC = PMAlertController(title: nil  , description: ElGrocerUtility.sharedInstance.appConfigData?.pg_18_msg , image: UIImage(named: "18Plus"), style: .alert)
+                        let alertVC = PMAlertController(title: nil  , description: ElGrocerUtility.sharedInstance.appConfigData?.pg_18_msg , image: UIImage(name: "18Plus"), style: .alert)
                         
-                        alertVC.headerViewHeightConstraint.constant = UIImage(named: "18Plus")?.size.height ?? 0
+                        alertVC.headerViewHeightConstraint.constant = UIImage(name: "18Plus")?.size.height ?? 0
                         
                         
                         let addAction = PMAlertAction(title: NSLocalizedString("over_18", comment: ""), style: .cancel, action: { () in

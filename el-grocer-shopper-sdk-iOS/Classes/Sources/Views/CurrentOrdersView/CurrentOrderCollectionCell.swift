@@ -62,11 +62,11 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
         didSet{
             ordersPageControl.numberOfPages = 3
             if #available(iOS 14.0, *) {
-                ordersPageControl.preferredIndicatorImage  = UIImage(named: "selectedPageControl")
+                ordersPageControl.preferredIndicatorImage  = UIImage(name: "selectedPageControl")
                 ordersPageControl.currentPageIndicatorTintColor = UIColor.navigationBarColor()
                 ordersPageControl.pageIndicatorTintColor = UIColor.unselectedPageControl()
                 //ordersPageControl.page
-                //ordersPageControl.setIndicatorImage(UIImage(named: "selectedPageControl"), forPage: 0)
+                //ordersPageControl.setIndicatorImage(UIImage(name: "selectedPageControl"), forPage: 0)
             } else {
                 // Fallback on earlier versions
             }
@@ -135,7 +135,7 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
         
       let data =  status_id?.getImageName()
         if let image = data?.0 {
-            self.statusImageView.image = UIImage(named: image)
+            self.statusImageView.image = UIImage(name: image)
         }
         
         DispatchQueue.main.async {

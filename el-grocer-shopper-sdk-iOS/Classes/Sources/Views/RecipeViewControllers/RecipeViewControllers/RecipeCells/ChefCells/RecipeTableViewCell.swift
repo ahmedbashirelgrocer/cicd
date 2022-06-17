@@ -293,7 +293,7 @@ class RecipeTableViewCell: UITableViewCell {
     @IBOutlet weak var addWidth: NSLayoutConstraint!
     
     lazy var placeholderPhoto : UIImage = {
-        return UIImage(named: "product_placeholder")!
+        return UIImage(name: "product_placeholder")!
     }()
     
     @IBOutlet var chefImage: UIImageView!{
@@ -374,9 +374,9 @@ class RecipeTableViewCell: UITableViewCell {
     
     func setSaveFilled(_ filled : Bool = false){
         if filled{
-            self.saveRecipeImageView.image = UIImage(named: "saveFilled")
+            self.saveRecipeImageView.image = UIImage(name: "saveFilled")
         }else{
-            self.saveRecipeImageView.image = UIImage(named: "saveUnfilled")
+            self.saveRecipeImageView.image = UIImage(name: "saveUnfilled")
         }
     }
     
@@ -504,9 +504,9 @@ class RecipeTableViewCell: UITableViewCell {
 //        self.addWidth.constant = 73
 //        self.viewAdd.backgroundColor = UIColor.navigationBarColor()
 //        self.lblAdd.textColor = UIColor.white
-//        self.imageViewBacket.image = UIImage(named: "shopping-basketWhite")//
+//        self.imageViewBacket.image = UIImage(name: "shopping-basketWhite")//
 //        self.lblAdd.text = NSLocalizedString("lbl_Add_Text", comment: "")
-//        self.imageCheckMark.image = UIImage(named: "checkMark-GreenButton")
+//        self.imageCheckMark.image = UIImage(name: "checkMark-GreenButton")
 //        self.imageCheckMark.isHidden = false
 //        self.viewAdd.setNeedsLayout()
 //        self.viewAdd.layoutIfNeeded()
@@ -520,9 +520,9 @@ class RecipeTableViewCell: UITableViewCell {
 //        self.addWidth.constant = 65
 //        self.viewAdd.backgroundColor = UIColor.white
 //        self.lblAdd.textColor = UIColor.navigationBarColor()
-//        self.imageViewBacket.image = UIImage(named: "backGreen")
+//        self.imageViewBacket.image = UIImage(name: "backGreen")
 //        self.lblAdd.text = NSLocalizedString("lbl_Add_Text", comment: "")
-//        self.imageCheckMark.image = UIImage(named: "checkMark-GreenButton")
+//        self.imageCheckMark.image = UIImage(name: "checkMark-GreenButton")
 //        self.imageCheckMark.isHidden = true
 //        self.viewAdd.setNeedsLayout()
 //        self.viewAdd.layoutIfNeeded()
@@ -574,7 +574,7 @@ class RecipeTableViewCell: UITableViewCell {
                 
                 if isSave {
                     let msg = NSLocalizedString("recipe_save_success", comment: "")
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
                 }
                 
                 if let clouser = self.changeRecipeSaveStateTo {

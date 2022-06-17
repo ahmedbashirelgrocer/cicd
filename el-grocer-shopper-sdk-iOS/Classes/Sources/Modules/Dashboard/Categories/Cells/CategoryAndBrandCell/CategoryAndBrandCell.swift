@@ -25,7 +25,7 @@ class CategoryAndBrandCell : UICollectionViewCell {
     @IBOutlet weak var photoOverlayView: UIView!
     
     
-    var placeholderImage = UIImage(named: "category_placeholder")!
+    var placeholderImage = UIImage(name: "category_placeholder")!
     
     override func awakeFromNib() {
         super.awakeFromNib()

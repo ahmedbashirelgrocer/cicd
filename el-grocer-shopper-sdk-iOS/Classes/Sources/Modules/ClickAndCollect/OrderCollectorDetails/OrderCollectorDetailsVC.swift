@@ -40,7 +40,7 @@ class OrderCollectorDetailsVC: UIViewController {
     }
     @IBOutlet var btnAddNew: UIButton!{
         didSet{
-            btnAddNew.setImage(UIImage(named: "plusLinear"), for: .normal)
+            btnAddNew.setImage(UIImage(name: "plusLinear"), for: .normal)
             btnAddNew.setH4SemiBoldWhiteStyle(true)
            
         }
@@ -82,11 +82,11 @@ class OrderCollectorDetailsVC: UIViewController {
         switch detailsType {
         case .orderCollector :
             self.lblHeading.text = NSLocalizedString("lbl_Order_Detail_Collector", comment: "")
-            self.imgSomeoneElse.image = UIImage(named: "CartCollectorProfileIcon")
+            self.imgSomeoneElse.image = UIImage(name: "CartCollectorProfileIcon")
             self.lbl_Someone_else.text = NSLocalizedString("lbl_Someone_else", comment: "")
         default:
             self.lblHeading.text = NSLocalizedString("lbl_Car_Detail_Collector", comment: "")
-            self.imgSomeoneElse.image = UIImage(named: "CarDetailsProfileIcon")
+            self.imgSomeoneElse.image = UIImage(name: "CarDetailsProfileIcon")
             self.lbl_Someone_else.text = NSLocalizedString("lbl_Different_Car", comment: "")
         }
         self.btnAddNew.setTitle(NSLocalizedString("lbl_add_new", comment: ""), for: UIControl.State())
@@ -313,7 +313,7 @@ extension OrderCollectorDetailsVC : UITableViewDelegate , UITableViewDataSource 
         let more = UITableViewRowAction(style: .normal, title: NSLocalizedString("dashboard_location_delete_button", comment: "")) { action, index in
         
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "MyBasket_Collector_Details") , header: "", detail: NSLocalizedString("remove_Collector_alert_message", comment: ""),NSLocalizedString("sign_out_alert_yes", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "MyBasket_Collector_Details") , header: "", detail: NSLocalizedString("remove_Collector_alert_message", comment: ""),NSLocalizedString("sign_out_alert_yes", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                 
                 if buttonIndex == 0 {
                     if self.detailsType == .orderCollector {

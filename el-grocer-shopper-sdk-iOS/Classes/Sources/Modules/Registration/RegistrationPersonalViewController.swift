@@ -218,11 +218,11 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         if isPasswordShown{
             isPasswordShown = false
             passwordTextField.isSecureTextEntry = true
-            btnEye.setImage(UIImage(named: "eyeGray"), for: UIControl.State())
+            btnEye.setImage(UIImage(name: "eyeGray"), for: UIControl.State())
         }else{
             isPasswordShown = true
             passwordTextField.isSecureTextEntry = false
-            btnEye.setImage(UIImage(named: "eyeBlack"), for: UIControl.State())
+            btnEye.setImage(UIImage(name: "eyeBlack"), for: UIControl.State())
         }
     }
     

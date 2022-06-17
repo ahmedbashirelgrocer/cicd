@@ -43,8 +43,8 @@ class ElgrocerSwitchAppView: UIView {
             cAndCView.backgroundColor = cAndcColor
             deliveryView.layer.masksToBounds = maskToBoundDelivery
             cAndCView.layer.masksToBounds = maskToBoundClickAndCollect
-            deliveryImage.image = UIImage(named: "orderInfoCar")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-            cAndCImage.image = UIImage(named: "Home_Click")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            deliveryImage.image = UIImage(name: "orderInfoCar")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            cAndCImage.image = UIImage(name: "Home_Click")?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
             deliveryImage.tintColor = cAndcColor
             cAndCImage.tintColor = deliveryColor
             

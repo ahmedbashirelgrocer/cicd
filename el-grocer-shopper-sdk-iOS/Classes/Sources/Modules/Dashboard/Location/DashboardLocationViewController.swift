@@ -315,7 +315,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             SpinnerView.hideSpinnerView()
                             
                             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "locationPop") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: ""),NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: ""),NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
                                 
                                 if index == 0 {
                                     ElGrocerUtility.sharedInstance.activeGrocery = nil
@@ -552,14 +552,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         if isEnabled {
             self.locationView.backgroundColor =  UIColor.meunCellSelectedColor()
-            self.locationImgView.image = UIImage(named: "location-pin-selected")
+            self.locationImgView.image = UIImage(name: "location-pin-selected")
             self.locationLabel.textColor = UIColor.meunGreenTextColor()
             
             titleStr = NSMutableAttributedString(string: NSLocalizedString("dashboard_enable_location_services", comment: ""))
             
         }else{
             self.locationView.backgroundColor =  UIColor.redInfoColor()
-            self.locationImgView.image = UIImage(named: "location-pin-white")
+            self.locationImgView.image = UIImage(name: "location-pin-white")
             self.locationLabel.textColor = UIColor.white
             
             titleStr = NSMutableAttributedString(string: NSLocalizedString("dashboard_enable_location_services_2", comment: ""))
@@ -1137,7 +1137,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "LocationDelete") , header: "", detail: NSLocalizedString("dashboard_location_delete_alert_message", comment: ""),NSLocalizedString("sign_out_alert_yes", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (index) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: NSLocalizedString("dashboard_location_delete_alert_message", comment: ""),NSLocalizedString("sign_out_alert_yes", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (index) in
             
             if index == 0 {
                  self.removeUserLocation(cell)

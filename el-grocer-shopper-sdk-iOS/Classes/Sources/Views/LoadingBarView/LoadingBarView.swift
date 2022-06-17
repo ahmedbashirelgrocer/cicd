@@ -35,7 +35,7 @@ class LoadingBarView : UIView {
     
     fileprivate func createPatternLayer() {
         
-        self.patternImage = UIImage(named: "loader")!
+        self.patternImage = UIImage(name: "loader")!
         
         if #available(iOS 13.0, *) {
             self.patternImage = self.patternImage.withTintColor(UIColor.navigationBarColor())

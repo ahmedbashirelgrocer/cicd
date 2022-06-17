@@ -54,7 +54,7 @@ class OrderCancelationHandler : NSObject {
     private func showCancelationAlert(){
       
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "CancelOrderPopUp"), header: NSLocalizedString("order_cancelation_popup_title", comment: ""), detail: NSLocalizedString("order_cancelation_popup_desc", comment: ""), NSLocalizedString("order_cancelation_popup_close_button", comment: ""), NSLocalizedString("order_cancelation_popup_close_button", comment: ""), withView: appDelegate.window!, false , true) { buttonIndex in
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "CancelOrderPopUp"), header: NSLocalizedString("order_cancelation_popup_title", comment: ""), detail: NSLocalizedString("order_cancelation_popup_desc", comment: ""), NSLocalizedString("order_cancelation_popup_close_button", comment: ""), NSLocalizedString("order_cancelation_popup_close_button", comment: ""), withView: appDelegate.window!, false , true) { buttonIndex in
             }
         }
     }

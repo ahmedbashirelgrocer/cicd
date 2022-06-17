@@ -306,7 +306,7 @@ class ProductQuantiy {
 
                 let msg = selectedProduct.promotion?.boolValue == true ? (NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")) : ""
                 let title = selectedProduct.promotion?.boolValue == true ? NSLocalizedString("msg_limited_stock_title", comment: "") : "Item has limited items stock."
-                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                 return false
             }
         //}
@@ -320,7 +320,7 @@ class ProductQuantiy {
         func showOverLimitMsg() {
             let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
             let title = NSLocalizedString("msg_limited_stock_title", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
         }
         
         
@@ -335,7 +335,7 @@ class ProductQuantiy {
             func showOverLimitMsg() {
                 let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.availableQuantity)" + NSLocalizedString("msg_limited_stock_end", comment: "")
                 let title = NSLocalizedString("msg_limited_stock_Quantity_title", comment: "")
-                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
             }
             showOverLimitMsg()
         }

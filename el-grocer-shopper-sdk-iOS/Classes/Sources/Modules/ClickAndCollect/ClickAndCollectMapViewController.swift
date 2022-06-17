@@ -221,7 +221,7 @@ class ClickAndCollectMapViewController: UIViewController {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.txtLocation.textAlignment = .right
         }
-        self.imgCarOrderInfo.image = UIImage(named: "orderInfoCar")
+        self.imgCarOrderInfo.image = UIImage(name: "orderInfoCar")
         self.lblDetailOrderInfo.setBody3RegSecondaryWhiteStyle()
         self.btnViewOrderInfo.setCaption1BoldWhiteStyle()
     }

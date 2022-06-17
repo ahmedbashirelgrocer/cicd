@@ -527,7 +527,7 @@ class SendBirdManager {
                                         if let message = sendBirdData["message"] as? String{
                                             
                                             
-                                            ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(named: "chat-White"), -1, false) { data, index, viewTap in
+                                            ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(name: "chat-White"), -1, false) { data, index, viewTap in
                                                 
                                                 guard SBDMain.getCurrentUser() != nil else {
                                                     SendBirdDeskManager(type: type).logIn(isWithChat: false) {
@@ -558,7 +558,7 @@ class SendBirdManager {
                                     
                                     if let message = sendBirdData["message"] as? String{
                                         DispatchQueue.main.async {
-                                            ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(named: "chat-White"), -1, false) { data, index, viewTap in
+                                            ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(name: "chat-White"), -1, false) { data, index, viewTap in
                                                 
                                                 guard SBDMain.getCurrentUser() != nil else{
                                                     SendBirdDeskManager(type: type).logIn(isWithChat: false) {
@@ -614,14 +614,14 @@ class SendBirdManager {
                                                 
                                                 guard SBDMain.getCurrentUser() != nil else {
                                                     self.logIn(connectAnnonymousUser: true) {
-                                                        ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(named: "chat-White"), -1, false) { data, index, viewTap in
+                                                        ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(name: "chat-White"), -1, false) { data, index, viewTap in
                                                             SendBirdManager().callSendBirdChat(pickerID: pickerID, orderId: orderId, controller: controller)
                                                         }
                                                     }
                                                     return
                                                 }
                                                 
-                                                ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(named: "chat-White"), -1, false) { data, index, viewTap in
+                                                ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(name: "chat-White"), -1, false) { data, index, viewTap in
                                                     SendBirdManager().callSendBirdChat(pickerID: pickerID, orderId: orderId, controller: controller)
                                                 }
                                             }
@@ -636,7 +636,7 @@ class SendBirdManager {
                                     if UIApplication.shared.applicationState == .active && !isAppStart  {
                                         if let message = sendBirdData["message"] as? String{
                                             
-                                            ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(named: "chat-White"), -1, false) { data, index, viewTap in
+                                            ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(name: "chat-White"), -1, false) { data, index, viewTap in
                                                 SendBirdManager().callSendBirdChat(pickerID: pickerID, orderId: orderId, controller: controller)
                                             }
                                         }

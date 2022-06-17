@@ -334,7 +334,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     }
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             self.createBasketAndNavigateToViewForEditOrder(self.selectedOrder)
@@ -407,7 +407,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                 }
                
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                     
                     if buttonIndex == 1 {
                         self.createBasketAndNavigateToViewForEditOrder(self.selectedOrder)

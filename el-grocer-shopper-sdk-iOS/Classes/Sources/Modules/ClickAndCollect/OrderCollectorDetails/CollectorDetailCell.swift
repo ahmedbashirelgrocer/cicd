@@ -34,20 +34,20 @@ class CollectorDetailCell: UITableViewCell {
         //MARK: Only For setup remove
         initialAssignValues(detailsType: detailsType)
         lblName.text = "James, 0551234567"
-        btnRadio.setImage(UIImage(named: "RadioButtonUnfilled"), for: .normal)
+        btnRadio.setImage(UIImage(name: "RadioButtonUnfilled"), for: .normal)
     }
     func setRadioButtonFilled(setFilled : Bool){
         if setFilled{
-            btnRadio.setImage(UIImage(named: "RadioButtonFilled"), for: .normal)
+            btnRadio.setImage(UIImage(name: "RadioButtonFilled"), for: .normal)
         }else{
-            btnRadio.setImage(UIImage(named: "RadioButtonUnfilled"), for: .normal)
+            btnRadio.setImage(UIImage(name: "RadioButtonUnfilled"), for: .normal)
         }
     }
     func initialAssignValues(detailsType : CollectorDetailsType){
         if detailsType == .orderCollector{
-            self.imgCollectorProfile.image = UIImage(named: "CartCollectorProfileIcon")
+            self.imgCollectorProfile.image = UIImage(name: "CartCollectorProfileIcon")
         }else{
-            self.imgCollectorProfile.image = UIImage(named: "CarDetailsProfileIcon")
+            self.imgCollectorProfile.image = UIImage(name: "CarDetailsProfileIcon")
         }
     }
     func setFonts(){

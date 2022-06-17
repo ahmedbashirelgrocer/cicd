@@ -356,7 +356,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
                     self.dataHandler.addRecipeToCart(retailerID: self.grocery?.dbID , recipe: addToCartRecipe)
                     ElGrocerUtility.sharedInstance.delay(1.0) {
                         let msg = NSLocalizedString("product_added_to_basket", comment: "")
-                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
                     }
                 }else{
                     self.addToCartCompleted()
@@ -425,7 +425,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
         
         ElGrocerUtility.sharedInstance.delay(1.0) {
             let msg = NSLocalizedString("product_added_to_basket", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
         }
         
         self.AddToLocalDB()
@@ -458,7 +458,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
                 dataHandler.addRecipeToCart(retailerID: self.grocery?.dbID , recipe: addToCartRecipe)
                 ElGrocerUtility.sharedInstance.delay(1.0) {
                     let msg = NSLocalizedString("product_added_to_basket", comment: "")
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
                 }
             }else{
                 self.addToCartCompleted()

@@ -61,7 +61,7 @@ class OrderTrackingLocationCell: UITableViewCell {
         self.notesLabel.sizeToFit()
         self.notesLabel.numberOfLines = 2
         
-        self.notesImgView.image = UIImage(named: "Notes-Icon")
+        self.notesImgView.image = UIImage(name: "Notes-Icon")
         self.notesImgView.image = self.notesImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         self.notesImgView.tintColor = UIColor.navigationBarColor()
     }
@@ -92,7 +92,7 @@ class OrderTrackingLocationCell: UITableViewCell {
         
         let marker = GMSMarker()
         marker.position = locCoordinates
-        marker.icon =  UIImage(named:"icPin")
+        marker.icon =  UIImage(name:"icPin")
         marker.map = mapView
         
         let downwards = GMSCameraUpdate.scrollBy(x: -35, y: 35)

@@ -141,9 +141,9 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     }
     func setDeliveryTypeImage(isInstant: Bool = false) {
         if isInstant {
-            self.imgDeliveryType.image = UIImage(named: "instatntDeliveryBolt")
+            self.imgDeliveryType.image = UIImage(name: "instatntDeliveryBolt")
         }else {
-            self.imgDeliveryType.image = UIImage(named: "clockGreen")
+            self.imgDeliveryType.image = UIImage(name: "clockGreen")
         }
     }
 

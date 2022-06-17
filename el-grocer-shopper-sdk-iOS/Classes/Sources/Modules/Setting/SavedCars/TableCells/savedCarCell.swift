@@ -86,10 +86,10 @@ class savedCarCell: UITableViewCell {
         self.backgroundColor = .tableViewBackgroundColor()
         
         if saveType == .addNewCar{
-            carImageView.image = UIImage(named: kCarImageBlack)
-            imgEdit.image = UIImage(named: kEditImageBlack)
-            imgDelete.image = UIImage(named: kDeleteImageBlack)
-            imgDefault.image = UIImage(named: kCheckImage)
+            carImageView.image = UIImage(name: kCarImageBlack)
+            imgEdit.image = UIImage(name: kEditImageBlack)
+            imgDelete.image = UIImage(name: kDeleteImageBlack)
+            imgDefault.image = UIImage(name: kCheckImage)
             lblEdit.text = NSLocalizedString("btn_edit", comment: "")
             lblDelete.text = NSLocalizedString("btn_delete", comment: "")
             
@@ -100,7 +100,7 @@ class savedCarCell: UITableViewCell {
             DeleteBGView.isHidden = true
             defaultBGView.isHidden = true
             editBGView.isHidden = false
-            imgEdit.image = UIImage(named: kDeleteImageBlack)
+            imgEdit.image = UIImage(name: kDeleteImageBlack)
             lblEdit.text = NSLocalizedString("btn_delete", comment: "")
         }
     }
@@ -121,9 +121,9 @@ class savedCarCell: UITableViewCell {
     
     func setCardImage(card : CreditCardType){
         if card == .VISA{
-            self.carImageView.image = UIImage(named: kCardVisa)
+            self.carImageView.image = UIImage(name: kCardVisa)
         }else if card == .MASTER_CARD{
-            self.carImageView.image = UIImage(named: kCardMaster)
+            self.carImageView.image = UIImage(name: kCardMaster)
         }
     }
     

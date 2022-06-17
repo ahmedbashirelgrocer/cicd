@@ -518,7 +518,7 @@ extension ShoppingBasketItem {
     
     class func showMessage (_ msg : String) {
         
-        ElGrocerUtility.sharedInstance.showTopMessageView(msg, image: UIImage(named: "MyBasketOutOfStockStatusBar"), backButtonClicked:  {  (sender , index , isUnDo) in
+        ElGrocerUtility.sharedInstance.showTopMessageView(msg, image: UIImage(name: "MyBasketOutOfStockStatusBar"), backButtonClicked:  {  (sender , index , isUnDo) in
             
         })
 

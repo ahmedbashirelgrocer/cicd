@@ -47,7 +47,7 @@ class GenericFeedBackVC: UIViewController {
     var feedBackType : feedBackType = .deliveryFeedBack
     var orderTracking:OrderTracking!
     var feedBackDone = false
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     // MARK: Lifecycle
     override var preferredStatusBarStyle: UIStatusBarStyle {

@@ -243,7 +243,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 cell.itemTitle.textColor = UIColor.black
                 cell.walletAmount.textColor = UIColor.black
                 let imageName = Images[self.lastSelection.row]
-                cell.itemImage.image = UIImage(named:imageName)
+                cell.itemImage.image = UIImage(name:imageName)
                 
                 border.removeFromSuperlayer()
                 
@@ -260,7 +260,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 selectedCell.itemTitle.textColor = UIColor.meunGreenTextColor()
                 selectedCell.walletAmount.textColor = UIColor.meunGreenTextColor()
                 let selectedImage = selectedImages[(indexPath as NSIndexPath).row]
-                selectedCell.itemImage.image = UIImage(named:selectedImage)
+                selectedCell.itemImage.image = UIImage(name:selectedImage)
                 
                 self.lastSelection = indexPath
             }

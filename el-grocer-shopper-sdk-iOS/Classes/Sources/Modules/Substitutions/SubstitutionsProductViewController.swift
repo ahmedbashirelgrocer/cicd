@@ -238,7 +238,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var btnAddPromo: UIButton!{
         didSet{
             btnAddPromo.setTitle(NSLocalizedString("btn_enter_promoCode", comment: ""), for: UIControl.State())
-            btnAddPromo.setImage(UIImage(named: "arrowDown16"), for: UIControl.State())
+            btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
             btnAddPromo.setCaptionBoldGreenStyle()
             btnAddPromo.isHidden = true
         }
@@ -246,7 +246,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var btnShowBillDetails: UIButton!{
         didSet{
             btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            btnShowBillDetails.setImage(UIImage(named: "billDetailsIcon"), for: UIControl.State())
+            btnShowBillDetails.setImage(UIImage(name: "billDetailsIcon"), for: UIControl.State())
             btnShowBillDetails.semanticContentAttribute = .forceLeftToRight
             btnShowBillDetails.setCaptionBoldSecondaryGreenStyle()
         }
@@ -457,7 +457,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         if self.order.status.intValue != OrderStatus.inSubtitution.rawValue {
             
             
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(named: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
             
 //            let notification = ElGrocerAlertView.createAlert(NSLocalizedString("order_cancel_alert_title", comment: ""),description: NSLocalizedString("Msg_Not_InSubsitution", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
 //            notification.showPopUp()
@@ -521,7 +521,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             spinner?.removeFromSuperview()
             switch result {
             case .success(_):
-                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("order_cancel_success_message", comment: "") , image: UIImage(named: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                 self.perform(#selector(self.dismissView), with: nil, afterDelay: 1.0)
                 
             case .failure(let error):
@@ -565,7 +565,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "")  , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "")  , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
 //                self.cancelOrder()
@@ -629,7 +629,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     
                     if self.order.status.intValue != OrderStatus.inSubtitution.rawValue {
                         
-                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(named: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                         
                         self.backButtonClick()
                         return
@@ -640,7 +640,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     
                 case .failure(let error):
                     if error.code == 500 {
-                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(named: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                     }else{
                         error.showErrorAlert()
                     }
@@ -768,7 +768,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     
                     ElGrocerUtility.sharedInstance.delay(1) {
                         let msg = NSLocalizedString("lbl_OOS_Msg", comment: "")
-                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
                     }
                     
                     
@@ -1231,7 +1231,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     ElGrocerUtility.sharedInstance.delay(1) {
                        self.discardProductInBasketWithProductIndex(selectedProduct)
                     }
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(named: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
+                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                         if isUnDo {
                             Thread.OnMainThread {
                                 ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery:self?.order.grocery, brandName:nil, quantity: 1, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -1881,19 +1881,19 @@ extension SubstitutionsProductViewController{
             self.billDetailsBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = false
             self.btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(named: "arrowDown16"), for: UIControl.State())
+            self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
         } else if viewStyle == .showBillDetails{
             self.billDetailsBGView.visibility = .visible
             self.checkOutDetaailsLineView.isHidden = true
             
             self.btnShowBillDetails.setTitle(NSLocalizedString("btn_hide_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(named: "arrowDown16"), for: UIControl.State())
+            self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
             
         } else {
             self.billDetailsBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = true
             self.btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(named: "arrowUp16"), for: UIControl.State())
+            self.btnAddPromo.setImage(UIImage(name: "arrowUp16"), for: UIControl.State())
         }
         
     }
@@ -2057,27 +2057,27 @@ extension SubstitutionsProductViewController{
         if paymentType == PaymentOption.none{
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("payment_method_title", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPayment")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPayment")
             showCVV(false)
         }else if paymentType == .cash {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("cash_delivery", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPaymentC")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentC")
             showCVV(false)
         }else if paymentType == .card {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("pay_via_card", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPaymentCD")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCD")
             showCVV(false)
         }else if paymentType == .applePay {
             setApplePayAppearence(true)
             self.lblSelectedPayment.text = NSLocalizedString("pay_via_Apple_pay", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "payWithApple")
+            self.selectedPaymentImage.image = UIImage(name: "payWithApple")
             showCVV(false)
         }else if paymentType == .smilePoints {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("pay_via_smiles_points", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPaymentCC")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
         }else{
@@ -2085,7 +2085,7 @@ extension SubstitutionsProductViewController{
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("lbl_Card_ending_in", comment: "") + (creditCardNum ?? "")
             
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPaymentCC")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
         }
     }
     

@@ -63,9 +63,9 @@ class NavigationBarChatButton: UIView {
     func setChatIcon ( _ isNewMessage : Bool = false) {
         
         if isNewMessage {
-                navChatButton.setImage(UIImage(named: "nav_chat_icon_unread"), for: UIControl.State())
+                navChatButton.setImage(UIImage(name: "nav_chat_icon_unread"), for: UIControl.State())
         }else{
-            navChatButton.setImage(UIImage(named: "nav_chat_icon"), for: UIControl.State())
+            navChatButton.setImage(UIImage(name: "nav_chat_icon"), for: UIControl.State())
         }
     }
     

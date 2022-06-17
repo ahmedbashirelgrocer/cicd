@@ -63,7 +63,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
     var currentOffset = 0
     var currentLimit = 6
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -175,7 +175,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         self.searchTextField.leftViewMode = UITextField.ViewMode.always
         
         let mainSearchView = UIView.init(frame: CGRect(x: 0.0, y: 0.0, width: 32, height: 24))
-        let searchView = UIImageView(image: UIImage(named: "icSearchLight"))
+        let searchView = UIImageView(image: UIImage(name: "icSearchLight"))
         searchView.contentMode = UIView.ContentMode.center
         searchView.backgroundColor = UIColor.clear
         searchView.frame = CGRect(x: 0.0, y: 0.0, width: 24, height: 24)

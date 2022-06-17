@@ -64,7 +64,7 @@ class SubtitutionBasketCell: UITableViewCell {
     
     // MARK: Variables
     weak var delegate:SubtitutionBasketCellProtocol?
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     let kMaxCellTranslation: CGFloat = 110
     var currentTranslation:CGFloat = 0

@@ -33,7 +33,7 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
         didSet{
             btnAddNewCar.cornarRadius = 28
             btnAddNewCar.setButton2SemiBoldWhiteStyle()
-            btnAddNewCar.setImage(UIImage(named: "addIconWhite"), for: UIControl.State())
+            btnAddNewCar.setImage(UIImage(name: "addIconWhite"), for: UIControl.State())
         }
     }
     
@@ -221,7 +221,7 @@ extension savedCarsVC{
         let indx = sender.tag
         if indx >= 0{
             self.deleteCarAt(indx)
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_removed", comment: ""), "", image: UIImage(named: "carBlack"), indx, false) { sender, index, isUndo in
+            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_removed", comment: ""), "", image: UIImage(name: "carBlack"), indx, false) { sender, index, isUndo in
             }
         }
         

@@ -141,7 +141,7 @@ class PopImageViwerViewController: UIViewController {
    
     
     lazy var placeholderPhoto : UIImage = {
-        return UIImage(named: "product_placeholder")!
+        return UIImage(name: "product_placeholder")!
     }()
     
     var storeImageURL: String?
@@ -843,7 +843,7 @@ class PopImageViwerViewController: UIViewController {
                 print("show error adding more quantity then limit")
                 let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
                 let title = NSLocalizedString("msg_limited_stock_title", comment: "")
-                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                 
             }
             
@@ -878,7 +878,7 @@ class PopImageViwerViewController: UIViewController {
                     
                     let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
                     let title = NSLocalizedString("msg_limited_stock_title", comment: "")
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                     
                 }else{
                     self.btnPlusButton.isEnabled = true
@@ -896,7 +896,7 @@ class PopImageViwerViewController: UIViewController {
                     
                     let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
                     let title = NSLocalizedString("msg_limited_stock_title", comment: "")
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                     
                 }else{
                     self.productCount = productCount + 1
@@ -968,7 +968,7 @@ class PopImageViwerViewController: UIViewController {
             
 //            ElGrocerUtility.sharedInstance.delay(1.0) {
 //                let msg = NSLocalizedString("product_added_to_cart", comment: "")
-//                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+//                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
 //            }
 //            self.addIngrediant(true)
 //            view.itemsInCart = view.itemsInCart + 1

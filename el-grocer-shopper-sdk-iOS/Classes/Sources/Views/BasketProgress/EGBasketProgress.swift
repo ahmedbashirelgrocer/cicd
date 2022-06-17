@@ -96,7 +96,7 @@ class EGBasketProgress: UIView {
         
         self.completeCheckOut.isHidden = true
         self.HalfFIllBucket.isHidden = false
-        self.progressFullBar.image = UIImage(named: "MYBasketProgressNotFilled")
+        self.progressFullBar.image = UIImage(name: "MYBasketProgressNotFilled")
         
         
     }
@@ -104,7 +104,7 @@ class EGBasketProgress: UIView {
     func configureCompleteProgressState() {
         self.HalfFIllBucket.isHidden = true
         self.completeCheckOut.isHidden = false
-        self.progressFullBar.image = UIImage(named: "MYBasketProgressFilled")
+        self.progressFullBar.image = UIImage(name: "MYBasketProgressFilled")
         
     }
     

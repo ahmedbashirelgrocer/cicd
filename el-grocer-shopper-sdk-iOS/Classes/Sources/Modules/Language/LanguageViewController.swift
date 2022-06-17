@@ -153,9 +153,9 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
         cell.configureCellWithTitle(langTtile, withImage: langImage)
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         
-        cell.selectionImage.image = UIImage(named:"RadioButtonUnfilled")
+        cell.selectionImage.image = UIImage(name:"RadioButtonUnfilled")
         if self.lastSelection.row == indexPath.row {
-            cell.selectionImage.image = UIImage(named:"RadioButtonFilled")
+            cell.selectionImage.image = UIImage(name:"RadioButtonFilled")
         }
         
         return cell
@@ -167,11 +167,11 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
             
             if self.lastSelection != nil {
                 let cell = tableView.cellForRow(at: self.lastSelection) as! LanguageCell
-                cell.selectionImage.image = UIImage(named:"RadioButtonUnfilled")
+                cell.selectionImage.image = UIImage(name:"RadioButtonUnfilled")
             }
             
             let cell = tableView.cellForRow(at: indexPath) as! LanguageCell
-            cell.selectionImage.image = UIImage(named:"RadioButtonFilled")
+            cell.selectionImage.image = UIImage(name:"RadioButtonFilled")
             self.lastSelection = indexPath
         }
     }

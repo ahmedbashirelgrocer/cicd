@@ -62,14 +62,14 @@ class CandCGetDetailTableViewCell: UITableViewCell {
         self.currentCellType = cellType
         self.currentTopVc = topVc
         if cellType == .car {
-            selectedTypeImage.image = UIImage(named: "MyBasket_Car_Detail")
+            selectedTypeImage.image = UIImage(name: "MyBasket_Car_Detail")
             selectedTypeImage.changePngColorTo(color: UIColor.navigationBarWhiteColor())
             lblCellType.text = NSLocalizedString("lbl_car_Details_heading", comment: "")
             //setCarData()
             setCarData(dataHandler: dataHandler)
             
         }else{
-            selectedTypeImage.image = UIImage(named: "MyBasket_Collector_Details")
+            selectedTypeImage.image = UIImage(name: "MyBasket_Collector_Details")
             selectedTypeImage.changePngColorTo(color: UIColor.navigationBarWhiteColor())
             lblCellType.text = NSLocalizedString("lbl_Order_Collector", comment: "")
             //setCollectorData()

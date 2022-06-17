@@ -26,7 +26,7 @@ class FaqCell: UITableViewCell {
     // MARK: Appearance
     
     fileprivate func setupAccessoryView() {
-        let rightArrowIcon = UIImage(named: "arrowRight")
+        let rightArrowIcon = UIImage(name: "arrowRight")
         let iconView = UIImageView(image: rightArrowIcon)
         iconView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         self.accessoryView = iconView

@@ -31,7 +31,7 @@ class ShoppingBasketCell : UITableViewCell {
     @IBOutlet weak var notSubstitutedContainer: UIView!
     @IBOutlet weak var notSubstitutedLabel: UILabel!
     @IBOutlet weak var productImage: AWImageView!
-     var placeholderPhoto = UIImage(named: "product_placeholder")!
+     var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     override func awakeFromNib() {
         super.awakeFromNib()

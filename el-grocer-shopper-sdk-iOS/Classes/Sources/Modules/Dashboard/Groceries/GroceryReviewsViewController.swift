@@ -119,7 +119,7 @@ class GroceryReviewsViewController : UIViewController, UITableViewDataSource, UI
         
         if self.grocery.imageUrl != nil && self.grocery.imageUrl?.range(of: "http") != nil {
             
-            self.photoImageView.sd_setImage(with: URL(string: self.grocery.imageUrl!), placeholderImage: UIImage(named: "category_placeholder"), options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
+            self.photoImageView.sd_setImage(with: URL(string: self.grocery.imageUrl!), placeholderImage: UIImage(name: "category_placeholder"), options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
                 if cacheType == SDImageCacheType.none {
                     
                     UIView.transition(with: self.photoImageView, duration: 0.33, options: UIView.AnimationOptions.transitionCrossDissolve, animations: { () -> Void in
@@ -140,25 +140,25 @@ class GroceryReviewsViewController : UIViewController, UITableViewDataSource, UI
         switch self.grocery.reviewScore.intValue {
             
         case 0:
-            self.scoreImage.image = UIImage(named: "rating-00")
+            self.scoreImage.image = UIImage(name: "rating-00")
             
         case 1:
-            self.scoreImage.image = UIImage(named: "rating-01")
+            self.scoreImage.image = UIImage(name: "rating-01")
             
         case 2:
-            self.scoreImage.image = UIImage(named: "rating-02")
+            self.scoreImage.image = UIImage(name: "rating-02")
             
         case 3:
-            self.scoreImage.image = UIImage(named: "rating-03")
+            self.scoreImage.image = UIImage(name: "rating-03")
             
         case 4:
-            self.scoreImage.image = UIImage(named: "rating-04")
+            self.scoreImage.image = UIImage(name: "rating-04")
             
         case 5:
-            self.scoreImage.image = UIImage(named: "rating-05")
+            self.scoreImage.image = UIImage(name: "rating-05")
             
         default:
-            self.scoreImage.image = UIImage(named: "rating-00")
+            self.scoreImage.image = UIImage(name: "rating-00")
         }
     }
     

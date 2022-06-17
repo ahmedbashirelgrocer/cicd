@@ -77,7 +77,7 @@ class OrderStatusDetailCell: UITableViewCell {
             self.chatWithPickerBGView.isHidden = true // currently chat is not included
             self.orderDetailsBGView.isHidden = true
             self.btnChatWithPicker.setTitle(NSLocalizedString("title_chat_with_Picker", comment: ""), for: UIControl.State())
-            self.statusImageView.image = UIImage(named: "riderOrPicker")
+            self.statusImageView.image = UIImage(name: "riderOrPicker")
             self.lblHeading.setBody3BoldUpperStyle(false)
             self.lblDetails.setBody3RegDarkStyle()
         }else if cellType == .chatButton {
@@ -87,7 +87,7 @@ class OrderStatusDetailCell: UITableViewCell {
             self.chatWithPickerBGView.isHidden = false
             self.orderDetailsBGView.isHidden = true
             self.btnChatWithPicker.setTitle(NSLocalizedString("title_chat_with_Picker", comment: ""), for: UIControl.State())
-            self.statusImageView.image = UIImage(named: "riderOrPicker")
+            self.statusImageView.image = UIImage(name: "riderOrPicker")
             self.lblHeading.setBody3BoldUpperStyle(false)
             self.lblDetails.setBody3RegDarkStyle()
             
@@ -96,7 +96,7 @@ class OrderStatusDetailCell: UITableViewCell {
             self.chatWithPickerBGView.isHidden = false
             self.orderDetailsBGView.isHidden = true
             self.btnChatWithPicker.setTitle("CALL THE DRIVER", for: UIControl.State())
-            self.statusImageView.image = UIImage(named: "riderOrPicker")
+            self.statusImageView.image = UIImage(name: "riderOrPicker")
             
             self.lblHeading.setBody3BoldUpperStyle(false)
             self.lblDetails.setBody3RegDarkStyle()
@@ -112,7 +112,7 @@ class OrderStatusDetailCell: UITableViewCell {
             self.orderDetailsBGView.isHidden = false
             self.orderDetailsBGView.visibility = .visible
             self.lblOrderDetails.text = NSLocalizedString("lbl_Order_Details", comment: "")
-            self.statusImageView.image = UIImage(named: "storeDetailsIcon")
+            self.statusImageView.image = UIImage(name: "storeDetailsIcon")
             
             self.lblHeading.setBody3BoldUpperStyle(false)
             self.lblDetails.setBody3RegDarkStyle()
@@ -128,14 +128,14 @@ class OrderStatusDetailCell: UITableViewCell {
             
             self.chatWithPickerBGView.visibility = .goneX
             self.orderDetailsBGView.visibility = .goneX
-            self.statusImageView.image = UIImage(named: "locationDetailsIcon")
+            self.statusImageView.image = UIImage(name: "locationDetailsIcon")
 
             
         }else if cellType == .carDetails{
             
             self.chatWithPickerBGView.visibility = .goneX
             self.orderDetailsBGView.visibility = .goneX
-            self.statusImageView.image = UIImage(named: "carDetailsIcon")
+            self.statusImageView.image = UIImage(name: "carDetailsIcon")
 //            self.lblHeading.text = "Car details:"
 //            self.lblDetails.text = "Q63642, SUV, Mercedes, Silver"
             
@@ -143,7 +143,7 @@ class OrderStatusDetailCell: UITableViewCell {
             
             self.chatWithPickerBGView.visibility = .goneX
             self.orderDetailsBGView.visibility = .goneX
-            self.statusImageView.image = UIImage(named: "collectorDetailsIcon")
+            self.statusImageView.image = UIImage(name: "collectorDetailsIcon")
 //            self.lblHeading.text = "Order collector details:"
 //            self.lblDetails.text = "James, 055 123 45 66"
             

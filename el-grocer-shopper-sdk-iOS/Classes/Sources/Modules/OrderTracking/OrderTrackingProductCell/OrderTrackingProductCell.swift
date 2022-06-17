@@ -36,7 +36,7 @@ class OrderTrackingProductCell: UITableViewCell {
         self.cartLabel.sizeToFit()
         self.cartLabel.numberOfLines = 1
         
-        self.cartImgView.image = UIImage(named: "icBasket")
+        self.cartImgView.image = UIImage(name: "icBasket")
         self.cartImgView.image = self.cartImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         self.cartImgView.tintColor = UIColor.navigationBarColor()
     }

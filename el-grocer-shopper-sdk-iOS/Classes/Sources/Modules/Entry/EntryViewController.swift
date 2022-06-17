@@ -83,7 +83,7 @@ class EntryViewController: UIViewController {
 //    func splashAnimation () {
 //
 //
-//        let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "splash-icon")!,iconInitialSize: CGSize(width: 220, height: 80), backgroundColor: UIColor(red:0.11, green:0.56, blue:0.95, alpha:1.0))
+//        let revealingSplashView = RevealingSplashView(iconImage: UIImage(name: "splash-icon")!,iconInitialSize: CGSize(width: 220, height: 80), backgroundColor: UIColor(red:0.11, green:0.56, blue:0.95, alpha:1.0))
 //
 //        //Adds the revealing splash view as a sub view
 //        self.view.addSubview(revealingSplashView)

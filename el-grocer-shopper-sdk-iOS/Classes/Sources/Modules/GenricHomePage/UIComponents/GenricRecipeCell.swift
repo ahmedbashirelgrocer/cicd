@@ -77,17 +77,17 @@ class GenricRecipeCell : CustomCollectionView {
                     if self.collectionData[index].isSaved{
                         if let cell = self.collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as? GenricRecipeCollectionViewCell{
                             
-                            cell.saveRecipeImageView.image = UIImage(named: "saveUnfilled")
+                            cell.saveRecipeImageView.image = UIImage(name: "saveUnfilled")
                             self.collectionData[index].isSaved = false
                         }
                     }else{
                         if let cell = self.collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as? GenricRecipeCollectionViewCell{
                             
-                            cell.saveRecipeImageView.image = UIImage(named: "saveFilled")
+                            cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
                             self.collectionData[index].isSaved = true
                         }
                         let msg = NSLocalizedString("recipe_save_success", comment: "")
-                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
                     }
                     
                 }else{
@@ -95,13 +95,13 @@ class GenricRecipeCell : CustomCollectionView {
                     if self.collectionData[index].isSaved{
                         if let cell = self.collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as? GenricRecipeCollectionViewCell{
                             
-                                cell.saveRecipeImageView.image = UIImage(named: "saveFilled")
+                                cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
                             
                         }
                     }else{
                         if let cell = self.collectionView?.cellForItem(at: IndexPath(item: index, section: 0)) as? GenricRecipeCollectionViewCell{
                             
-                                cell.saveRecipeImageView.image = UIImage(named: "saveUnfilled")
+                                cell.saveRecipeImageView.image = UIImage(name: "saveUnfilled")
                             
                         }
                     }

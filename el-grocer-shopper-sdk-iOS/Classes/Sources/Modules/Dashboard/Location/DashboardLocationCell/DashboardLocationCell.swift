@@ -121,7 +121,7 @@ class DashboardLocationCell : UITableViewCell {
 //        self.locationAddress.text = location.locationName
 //        self.activeLocationIcon.isHidden = !location.isActive.boolValue
         self.editButton.isHidden = !UserDefaults.isUserLoggedIn()
-    //    self.homeIcon.image = location.isActive.boolValue ? UIImage(named: "home-icon-selected") :  UIImage(named: "home-icon")
+    //    self.homeIcon.image = location.isActive.boolValue ? UIImage(name: "home-icon-selected") :  UIImage(name: "home-icon")
         self.deleteButton.isHidden = location.isActive.boolValue
         self.defaultButton.isHidden = !location.isActive.boolValue
         

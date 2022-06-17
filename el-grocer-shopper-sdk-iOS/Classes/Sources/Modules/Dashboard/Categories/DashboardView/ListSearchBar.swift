@@ -213,13 +213,13 @@ extension ListSearchBar : UITextViewDelegate {
 
 
         if !textView.text.trimmingCharacters(in: .whitespaces).isEmpty && textView.text.count > 0 &&  (textView.text != NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")){
-           // self.searchButton.setImage(UIImage(named: "icSearchGreen"), for: .normal)
+           // self.searchButton.setImage(UIImage(name: "icSearchGreen"), for: .normal)
 
             self.searchButton.setTitle(NSLocalizedString("my_account_shop_now_button", comment: ""), for: .normal)
             self.searchButton.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
          //   self.searchButton.setTitleColor(UIColor.lightGrayBGColor(), for: .normal)
         }else{
-           // self.searchButton.setImage(UIImage(named: "icSearch"), for: .normal)
+           // self.searchButton.setImage(UIImage(name: "icSearch"), for: .normal)
             self.searchButton.setTitle(NSLocalizedString("my_account_shop_now_button", comment: ""), for: .normal)
            self.searchButton.setBackgroundColor(UIColor.lightGray, forState: .normal)
           //  self.searchButton.setTitleColor(UIColor.lightGrayBGColor(), for: .normal)

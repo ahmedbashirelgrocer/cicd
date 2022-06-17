@@ -159,44 +159,44 @@ class OrderHistoryCell1 : UITableViewCell {
             
             if order.deliverySlot != nil {
                 
-                self.orderStatusIcon.image = UIImage(named: "schedule-icon")
+                self.orderStatusIcon.image = UIImage(name: "schedule-icon")
                 self.orderStatusLabel.textColor = UIColor(red:0.01, green:0.51, blue:0.23, alpha:1.0)
                 let image = ElGrocerUtility.sharedInstance.getImageWithName("arrow-schedule")
                 self.orderStatusArrow.image = image
                 
             }else{
-                self.orderStatusIcon.image = UIImage(named: "Pending-icon")
+                self.orderStatusIcon.image = UIImage(name: "Pending-icon")
                 self.orderStatusLabel.textColor = UIColor(red:1.00, green:0.00, blue:0.00, alpha:1.0)
                 let image = ElGrocerUtility.sharedInstance.getImageWithName("arrow-pending")
                 self.orderStatusArrow.image = image
             }
             
         case OrderStatus.accepted.rawValue:
-            self.orderStatusIcon.image = UIImage(named: "accpted-icon")
+            self.orderStatusIcon.image = UIImage(name: "accpted-icon")
             self.orderStatusLabel.textColor = UIColor(red:0.52, green:0.34, blue:0.65, alpha:1.0)
             let image = ElGrocerUtility.sharedInstance.getImageWithName("arrow-accepted")
             self.orderStatusArrow.image = image
             
         case OrderStatus.enRoute.rawValue:
-            self.orderStatusIcon.image = UIImage(named: "enroute-icon")
+            self.orderStatusIcon.image = UIImage(name: "enroute-icon")
             self.orderStatusLabel.textColor = UIColor(red:0.16, green:0.67, blue:0.89, alpha:1.0)
             let image = ElGrocerUtility.sharedInstance.getImageWithName("arrow-enroute")
             self.orderStatusArrow.image = image
             
         case OrderStatus.completed.rawValue:
-            self.orderStatusIcon.image = UIImage(named: "completed-icons")
+            self.orderStatusIcon.image = UIImage(name: "completed-icons")
             self.orderStatusLabel.textColor = UIColor(red:0.31, green:0.65, blue:0.28, alpha:1.0)
             let image = ElGrocerUtility.sharedInstance.getImageWithName("arrow-completed")
             self.orderStatusArrow.image = image
             
         case OrderStatus.canceled.rawValue:
-            self.orderStatusIcon.image = UIImage(named: "cancel-icon")
+            self.orderStatusIcon.image = UIImage(name: "cancel-icon")
             self.orderStatusLabel.textColor = UIColor.black
             let image = ElGrocerUtility.sharedInstance.getImageWithName("arrow-black")
             self.orderStatusArrow.image = image
             
         default:
-            self.orderStatusIcon.image = UIImage(named: "delivered-icon")
+            self.orderStatusIcon.image = UIImage(name: "delivered-icon")
             self.orderStatusLabel.textColor = UIColor(red:0.2, green:0.2, blue:0.2, alpha:1.0)
             let image = ElGrocerUtility.sharedInstance.getImageWithName("delivered-arrow")
             self.orderStatusArrow.image = image

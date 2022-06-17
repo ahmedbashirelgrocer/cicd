@@ -22,7 +22,7 @@ class ItemsOutOfStockQuestionnaire: UITableViewCell {
         didSet{
             btnEdit.setTitle(NSLocalizedString("dashboard_location_edit_button", comment: ""), for: UIControl.State())
             btnEdit.setBody1BoldGreenStyle()
-            btnEdit.setImage(UIImage(named: "arrowDown"), for: UIControl.State())
+            btnEdit.setImage(UIImage(name: "arrowDown"), for: UIControl.State())
             btnEdit.semanticContentAttribute = .forceLeftToRight
             
         }
@@ -131,9 +131,9 @@ class ItemsOutOfStockQuestionnaire: UITableViewCell {
         }
         self.optionsTableView.isUserInteractionEnabled = isExpanded
         if isExpanded{
-            btnEdit.setImage(UIImage(named: "arrowUp"), for: UIControl.State())
+            btnEdit.setImage(UIImage(name: "arrowUp"), for: UIControl.State())
         }else{
-            btnEdit.setImage(UIImage(named: "arrowDown"), for: UIControl.State())
+            btnEdit.setImage(UIImage(name: "arrowDown"), for: UIControl.State())
         }
         
         self.optionsTableView.reloadData()

@@ -27,7 +27,7 @@ class GroceryCollectionCell : UICollectionViewCell {
     @IBOutlet weak var favouriteIcon: UIImageView!
     @IBOutlet weak var groceryScoreButton: UIButton!
     
-    var placeholderImage = UIImage(named: "category_placeholder")!
+    var placeholderImage = UIImage(name: "category_placeholder")!
     
     weak var grocery:Grocery!
     weak var delegate:GroceryCollectionCellProtocol?
@@ -76,7 +76,7 @@ class GroceryCollectionCell : UICollectionViewCell {
         self.grocery = grocery
         
         //check for favourite
-        self.favouriteIcon.image = self.grocery.isFavourite.boolValue ? UIImage(named: "heart_full") : UIImage(named: "heart_empty")
+        self.favouriteIcon.image = self.grocery.isFavourite.boolValue ? UIImage(name: "heart_full") : UIImage(name: "heart_empty")
         
         self.groceryName.text = grocery.name
         self.groceryAddress.text = grocery.address
@@ -99,25 +99,25 @@ class GroceryCollectionCell : UICollectionViewCell {
         switch self.grocery.reviewScore.intValue {
             
         case 0:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-00"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-00"), for: UIControl.State())
             
         case 1:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-01"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-01"), for: UIControl.State())
             
         case 2:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-02"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-02"), for: UIControl.State())
             
         case 3:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-03"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-03"), for: UIControl.State())
             
         case 4:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-04"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-04"), for: UIControl.State())
             
         case 5:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-05"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-05"), for: UIControl.State())
             
         default:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-00"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-00"), for: UIControl.State())
             
         }
         
@@ -146,7 +146,7 @@ class GroceryCollectionCell : UICollectionViewCell {
         
         self.grocery.isFavourite = NSNumber(value: !self.grocery.isFavourite.boolValue as Bool)
         DatabaseHelper.sharedInstance.saveDatabase()
-        self.favouriteIcon.image = self.grocery.isFavourite.boolValue ? UIImage(named: "heart_full") : UIImage(named: "heart_empty")
+        self.favouriteIcon.image = self.grocery.isFavourite.boolValue ? UIImage(name: "heart_full") : UIImage(name: "heart_empty")
         
         self.delegate?.groceryCollectionCellDidTouchFavourite(self, grocery: self.grocery)
     }

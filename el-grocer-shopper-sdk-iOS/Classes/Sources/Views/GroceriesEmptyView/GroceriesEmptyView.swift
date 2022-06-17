@@ -67,12 +67,12 @@ class GroceriesEmptyView: UIView {
             
             //titleLabel.text = NSLocalizedString("no_partner_grocery", comment: "")
             titleLabel.text = NSLocalizedString("no_groceries_sorry_message", comment: "")
-            topImageView.image = UIImage(named: "img_shops")
+            topImageView.image = UIImage(name: "img_shops")
             
         case .offline:
             
             titleLabel.text = NSLocalizedString("no_groceries_sorry_message", comment: "")
-            topImageView.image = UIImage(named: "shops_offline")
+            topImageView.image = UIImage(name: "shops_offline")
         }
         
     }

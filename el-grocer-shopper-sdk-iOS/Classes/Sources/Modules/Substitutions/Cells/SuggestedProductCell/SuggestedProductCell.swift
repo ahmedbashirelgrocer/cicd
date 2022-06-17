@@ -39,7 +39,7 @@ class SuggestedProductCell : UICollectionViewCell {
     
     
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     weak var product:Product!
     weak var delegate:SuggestedProductCellProtocol?

@@ -377,17 +377,17 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                     if isOnTheWay {
                         self.btnOnMyWay.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
                         self.btnAtTheStore.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
-                        self.btnOnMyWay.setImage(UIImage(named: "statusCheckTickIcon"), for: UIControl.State())
+                        self.btnOnMyWay.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.tintColor = .white
                         self.btnAtTheStore.setImage(nil, for: UIControl.State())
                     }else{
                         self.btnAtTheStore.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
                         self.btnOnMyWay.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
-                        self.btnAtTheStore.setImage(UIImage(named: "statusCheckTickIcon"), for: UIControl.State())
+                        self.btnAtTheStore.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.setImage(nil, for: UIControl.State())
                         self.btnAtTheStore.tintColor = .white
                     }
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
                 case .failure(let error):
                     error.showErrorAlert()
                     
@@ -407,7 +407,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //
 //            }
@@ -422,7 +422,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.setCollectorStatus(self.order, isOnTheWay: true, button: sender)
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
 //            }
@@ -466,7 +466,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //                    UIView.animate(withDuration: 0.33, animations: { () -> Void in
 //
 //                        self.deliveryStatus.text = NSLocalizedString(OrderStatus.labels[self.order.status.intValue], comment: "")
-//                        self.deliveryIcon.image = self.order.status.intValue == OrderStatus.completed.rawValue ? UIImage(named: "status-complete-New") : UIImage(named: "status-pending-New")
+//                        self.deliveryIcon.image = self.order.status.intValue == OrderStatus.completed.rawValue ? UIImage(name: "status-complete-New") : UIImage(name: "status-pending-New")
 //
 //                        self.view.layoutIfNeeded()
 //                    })
@@ -526,7 +526,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
      
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
                 self.createBasketAndNavigateToViewForEditOrder()
@@ -675,7 +675,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         //sab
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "")  , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "")  , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
 //            
 //            if buttonIndex == 1 {
 ////                self.cancelOrder(self.order.dbID.stringValue)
@@ -729,7 +729,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             switch result {
                 case .success(_):
                     
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("order_cancel_success_message", comment: "") , image: UIImage(named: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                     
 //                    let notification = ElGrocerAlertView.createAlert(NSLocalizedString("order_cancel_alert_title", comment: ""),description: NSLocalizedString("order_cancel_success_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
 //                    notification.showPopUp()
@@ -1579,10 +1579,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
         if order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue {
             self.reorderButton.setTitle("Edit Basket", for: .normal)
-            self.reorderButton.setImage(UIImage(named: "editOrder"), for: .normal)
+            self.reorderButton.setImage(UIImage(name: "editOrder"), for: .normal)
         }else  if order.status.intValue == OrderStatus.payment_pending.rawValue  {
             self.reorderButton.setTitle("Payment Confirmation", for: .normal)
-            self.reorderButton.setImage(UIImage(named: "editOrder"), for: .normal)
+            self.reorderButton.setImage(UIImage(name: "editOrder"), for: .normal)
         }else{
              
         }

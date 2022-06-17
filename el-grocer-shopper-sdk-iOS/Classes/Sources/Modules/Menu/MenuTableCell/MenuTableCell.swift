@@ -60,7 +60,7 @@ class MenuTableCell : UITableViewCell {
         
         self.menuItem = menuItem
         
-        self.itemImage.image = UIImage(named:image)
+        self.itemImage.image = UIImage(name:image)
         self.itemTitle.text = menuItem.title
     }
 

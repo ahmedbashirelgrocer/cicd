@@ -11,7 +11,7 @@ import SDWebImage
 
 let KOrderBasketProductTableViewCellHeight = CGFloat(160)
 class OrderBasketProductTableViewCell: UITableViewCell {
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     @IBOutlet var saleView: UIImageView!
     @IBOutlet var imageProduct: UIImageView!

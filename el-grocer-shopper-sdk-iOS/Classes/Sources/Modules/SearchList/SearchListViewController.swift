@@ -364,7 +364,7 @@ extension SearchListViewController : UITextViewDelegate {
         
         
         if !textView.text.trimmingCharacters(in: .whitespaces).isEmpty && textView.text.count > 0 &&  (textView.text != NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")){
-            // self.searchButton.setImage(UIImage(named: "icSearchGreen"), for: .normal)
+            // self.searchButton.setImage(UIImage(name: "icSearchGreen"), for: .normal)
             textView.textColor = .newBlackColor()//UIColor(red: 0, green: 0, blue: 0, alpha: 1)
             self.searchButton.setTitle(NSLocalizedString("lbl_ShopSearch", comment: ""), for: .normal)
             self.searchButton.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
@@ -375,7 +375,7 @@ extension SearchListViewController : UITextViewDelegate {
             
             
         }else{
-            // self.searchButton.setImage(UIImage(named: "icSearch"), for: .normal)
+            // self.searchButton.setImage(UIImage(name: "icSearch"), for: .normal)
             textView.textColor = .navigationBarColor()//UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.74)
             self.searchButton.setTitle(NSLocalizedString("lbl_ShopSearch", comment: ""), for: .normal)
             self.searchButton.setBackgroundColor(UIColor(red: 0.567, green: 0.567, blue: 0.567, alpha: 1) , forState: .normal)

@@ -37,7 +37,7 @@ class SmileRedeemCartCell: UITableViewCell {
     @IBOutlet var smilePaySwitch: UISwitch!
     @IBOutlet var imgInfo: UIImageView!{
         didSet {
-            imgInfo.image = UIImage(named: "smallInfoIconSmiles")
+            imgInfo.image = UIImage(name: "smallInfoIconSmiles")
         }
     }
     @IBOutlet var lblInfoMessage: UILabel!{

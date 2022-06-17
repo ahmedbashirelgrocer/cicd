@@ -34,7 +34,7 @@ class SchedulePopUp: UIView {
     // MARK: Data
     func setDataInView(){
         
-        self.deliveryImgView.image = UIImage(named: "instant-delivery-icon")
+        self.deliveryImgView.image = UIImage(name: "instant-delivery-icon")
         
         var message = NSLocalizedString("instant_delivery_message", comment: "")
         
@@ -45,7 +45,7 @@ class SchedulePopUp: UIView {
             
             if (self.grocery?.isOpen.boolValue == true){
                 
-                self.deliveryImgView.image = UIImage(named: "instant-delivery-icon")
+                self.deliveryImgView.image = UIImage(name: "instant-delivery-icon")
                 
                 self.deliveryImgView.image = self.deliveryImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
                 
@@ -55,7 +55,7 @@ class SchedulePopUp: UIView {
                 
             }else{
                 
-               self.deliveryImgView.image = UIImage(named: "schedule-delivery-icon")
+               self.deliveryImgView.image = UIImage(name: "schedule-delivery-icon")
                message = NSLocalizedString("scheduled_delivery_message", comment: "")
             }
         }

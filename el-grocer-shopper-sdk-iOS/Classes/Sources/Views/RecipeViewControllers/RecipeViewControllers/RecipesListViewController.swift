@@ -299,7 +299,7 @@ class RecipesListViewController: BasketBasicViewController {
         
         //let toolTipStr = NSLocalizedString("product_added_to_basket", comment: "")
         let msg = NSLocalizedString("product_added_to_basket", comment: "")
-        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "lbl_edit_Added") , -1 , false) { (sender , index , isUnDo) in  }
+        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "lbl_edit_Added") , -1 , false) { (sender , index , isUnDo) in  }
         
         if self.toolTipView != nil {
             self.toolTipView = nil

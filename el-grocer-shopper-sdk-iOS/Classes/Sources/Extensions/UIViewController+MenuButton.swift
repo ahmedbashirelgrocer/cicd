@@ -15,9 +15,9 @@ extension UIViewController {
     
     func addRightCrossButton(_ isWhite: Bool = false) {
         
-        var image: UIImage! = UIImage(named: "cross")
+        var image: UIImage! = UIImage(name: "cross")
         if isWhite{
-           image = UIImage(named: "crossWhite")
+           image = UIImage(name: "crossWhite")
         }
         let menuButton:UIButton = UIButton(type: UIButton.ButtonType.custom)
         
@@ -35,7 +35,7 @@ extension UIViewController {
     
     func addMenuButton() {
         
-        let image:UIImage! = UIImage(named: "menu")
+        let image:UIImage! = UIImage(name: "menu")
         let menuButton:UIButton = UIButton(type: UIButton.ButtonType.custom)
         
         let size = self.navigationController?.navigationBar.frame.size.height
@@ -88,7 +88,7 @@ extension UIViewController {
     
     fileprivate func addRedDotToButton(_ button:UIButton) {
         
-        let dotImage = UIImage(named: "red_dot")
+        let dotImage = UIImage(name: "red_dot")
         let dotImageView = UIImageView(image: dotImage)
         dotImageView.translatesAutoresizingMaskIntoConstraints = false
         dotImageView.tag = kRedDotImageViewTag

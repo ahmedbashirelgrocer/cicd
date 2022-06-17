@@ -514,7 +514,7 @@ extension MyBasket {
         
         if isPromoChanged && promotionalItemChangedMessage.count > 0 {
             let msg = promotionalItemChangedMessage //NSLocalizedString("promotion_changed_alert_title", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView( msg , image: UIImage(named: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView( msg , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
         }
         
         self.finalizedProductsA = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)

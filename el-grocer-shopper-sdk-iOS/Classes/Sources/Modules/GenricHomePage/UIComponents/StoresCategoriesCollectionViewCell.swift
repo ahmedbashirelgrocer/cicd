@@ -50,7 +50,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         //
         //            self.lblCategoryName.text = NSLocalizedString("all_store", comment: "")
         //             self.setImage("https://www.google.com" , isSelected: isSelected , imageView: self.centeraImage, type: type)
-        //            self.centeraImage.image = UIImage(named: "allStore")
+        //            self.centeraImage.image = UIImage(name: "allStore")
         //            self.makeState(isSelected: isSelected, imageView: centeraImage)
         //            return
         //        }
@@ -58,7 +58,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         self.setImage(type.imageUrl, isSelected: isSelected , imageView: self.centerImage, type: type)
         // self.setImage(type.imageUrl, imageView: self.centeraImage, type: type)
         self.lblCategoryName.text = type.name ?? ""
-        // self.centeraImage.image = UIImage(named: "allStore")
+        // self.centeraImage.image = UIImage(name: "allStore")
         
         self.bgView.cornarRadius = 8
         self.imageViewWidth.constant = 64
@@ -102,7 +102,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
     
     func configuredAllGroceryCell( isSelected : Bool = false) {
         self.currentSelectedGrocery = isSelected
-        self.centerImage.image = UIImage(named: "allStore")
+        self.centerImage.image = UIImage(name: "allStore")
         self.makeState(isSelected: isSelected, imageView: centerImage)
         self.makeIconTinted(isSelected: isSelected, imageView: centerImage)
         self.lblCategoryName.text = NSLocalizedString("all_store", comment: "")
@@ -180,7 +180,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
     func configuredRecipeCell( ) {
         self.bgView.cornarRadius = 8.0
         self.bgView.backgroundColor = .navigationBarColor()
-        self.centerImage.image = UIImage(named: "recipeCategoryImage")
+        self.centerImage.image = UIImage(name: "recipeCategoryImage")
         self.lblCategoryName.text = NSLocalizedString("Order_Title", comment: "")
         self.lblCategoryName.textColor = .navigationBarColor()
         self.setImageViewSize(true)

@@ -615,7 +615,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         guard self.order != nil else {return}
         //OrderConfirmationNewChat
         self.lblGrocerName.attributedText =  NSMutableAttributedString().bold(NSLocalizedString("lbl_Order_Confirm_Msg", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor()).bold(self.grocery.name ?? "", UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor()).bold( " " + NSLocalizedString("lbl_Order_Confirm_Msg_last", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor())
-        self.imgViewRetailer.image = UIImage(named: "order_Confirmed")
+        self.imgViewRetailer.image = UIImage(name: "order_Confirmed")
         
         
     }
@@ -748,7 +748,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.setCollectorStatus(self.order, isOnTheWay: false, button: sender)
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
 //            }
@@ -763,7 +763,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.setCollectorStatus(self.order, isOnTheWay: true , button: sender)
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //
 //            }
@@ -829,7 +829,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         attttributedText.append(descriptionPart)
         attttributedText.append(NSAttributedString(string: " "))// adding  space
         let semiBold = UIFont.SFProDisplaySemiBoldFont(10.0)
-        if let image = UIImage(named: "liveChat-Order") {
+        if let image = UIImage(name: "liveChat-Order") {
             let image1Attachment = NSTextAttachment()
             var y = -(semiBold.ascender-semiBold.capHeight/2-image.size.height/2)
             y = -1.0
@@ -1251,7 +1251,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 case .success( _):
                     let msg = NSLocalizedString("status_Update_Msg", comment: "")
                     if isOnTheWay {
-                        self.btnOnMyWay.setImage(UIImage(named: "statusCheckTickIcon"), for: UIControl.State())
+                        self.btnOnMyWay.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.tintColor = .white
                         self.btnAtTheStore.setImage(nil, for: UIControl.State())
                         self.btnOnMyWay.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
@@ -1259,11 +1259,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                     }else{
                         self.btnAtTheStore.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
                         self.btnOnMyWay.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
-                        self.btnAtTheStore.setImage(UIImage(named: "statusCheckTickIcon"), for: UIControl.State())
+                        self.btnAtTheStore.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.setImage(nil, for: UIControl.State())
                         self.btnAtTheStore.tintColor = .white
                     }
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
                 case .failure(let error):
                     error.showErrorAlert()
                 

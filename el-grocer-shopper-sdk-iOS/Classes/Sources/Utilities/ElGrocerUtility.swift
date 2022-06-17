@@ -23,7 +23,7 @@ import SwiftDate
 import BBBadgeBarButtonItem
 
 private let SharedInstance = ElGrocerUtility()
-let productPlaceholderPhoto = UIImage(named: "product_placeholder")!
+let productPlaceholderPhoto = UIImage(name: "product_placeholder")!
 
 
 
@@ -725,10 +725,10 @@ class ElGrocerUtility {
     
     func getImageWithName(_ imageName:String) -> UIImage {
         
-        var flippedImage = UIImage(named: imageName)
+        var flippedImage = UIImage(name: imageName)
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
         if currentLang == "ar" {
-            let sourceImage = UIImage(named: imageName)
+            let sourceImage = UIImage(name: imageName)
             flippedImage = UIImage(cgImage: sourceImage!.cgImage!, scale: (sourceImage?.scale)!, orientation: .upMirrored)
         }
         return flippedImage!
@@ -922,23 +922,23 @@ class ElGrocerUtility {
         //        case nonHandle = 7
         //        case inEdit = 8
         if order.deliverySlot != nil && order.status.intValue == 0{
-            return UIImage(named: "schedule-icon")!
+            return UIImage(name: "schedule-icon")!
         }
         switch order.status.intValue {
             case 0:
-                return UIImage(named: "status-pending-New")!
+                return UIImage(name: "status-pending-New")!
             case 1:
-                return UIImage(named: "status-complete-New")!
+                return UIImage(name: "status-complete-New")!
             case 2:
-                return UIImage(named: "enroute-icon")!
+                return UIImage(name: "enroute-icon")!
             case 3:
-                return UIImage(named: "completed-icons")!
+                return UIImage(name: "completed-icons")!
             case 4:
-                return UIImage(named: "cancel-icon")!
+                return UIImage(name: "cancel-icon")!
             case 5:
-                return UIImage(named: "status-complete-New")!
+                return UIImage(name: "status-complete-New")!
             default:
-                return UIImage(named: "status-pending-New")!
+                return UIImage(name: "status-pending-New")!
         }
         
     }
@@ -977,7 +977,7 @@ class ElGrocerUtility {
                completionHandler(true)
             }else{
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                     
                     if buttonIndex == 1 {
                         //clear active basket and add product

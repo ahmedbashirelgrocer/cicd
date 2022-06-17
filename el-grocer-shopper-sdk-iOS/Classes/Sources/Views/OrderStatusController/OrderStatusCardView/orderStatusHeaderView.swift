@@ -129,7 +129,7 @@ class orderStatusHeaderView: UIView {
         let data = status.getStatusKeyLogic()
         if data.status_id.intValue == OrderStatus.inSubtitution.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
-            let orderStatusIcon = UIImage(named: status.imageName)
+            let orderStatusIcon = UIImage(name: status.imageName)
             self.orderStatusImageView.image = orderStatusIcon
             self.lblOrderStatus.textColor = status.color
             self.btnOrderStatus.visibility = .visible
@@ -155,7 +155,7 @@ class orderStatusHeaderView: UIView {
             }
         }else if data.status_id.intValue == OrderStatus.canceled.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
-            let orderStatusIcon = UIImage(named: status.imageName)
+            let orderStatusIcon = UIImage(name: status.imageName)
             self.orderStatusImageView.image = orderStatusIcon
             self.lblOrderStatus.textColor = status.color
             self.btnOrderStatus.visibility = .goneY
@@ -169,7 +169,7 @@ class orderStatusHeaderView: UIView {
         }else if data.status_id.intValue == OrderStatus.enRoute.rawValue{
            // self.lblOrderType.text = NSLocalizedString("title_updated_delivery", comment: "")
             self.lblOrderType.textColor = status.color
-            let orderStatusIcon = UIImage(named: status.imageName)
+            let orderStatusIcon = UIImage(name: status.imageName)
             self.orderStatusImageView.image = orderStatusIcon
             self.lblOrderStatus.textColor = status.color
             self.btnOrderStatus.visibility = .goneY
@@ -177,7 +177,7 @@ class orderStatusHeaderView: UIView {
             self.spinnerView.animationColor = status.color
             self.spinnerView.animate()
         }else{
-            let orderStatusIcon = UIImage(named: status.imageName)
+            let orderStatusIcon = UIImage(name: status.imageName)
             self.lblOrderType.textColor = .secondaryBlackColor()
             self.orderStatusImageView.image = orderStatusIcon
             self.lblOrderStatus.textColor = status.color

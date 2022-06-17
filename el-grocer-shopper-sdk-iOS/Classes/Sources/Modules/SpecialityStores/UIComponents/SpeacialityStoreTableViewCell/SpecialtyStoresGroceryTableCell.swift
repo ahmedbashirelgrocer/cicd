@@ -21,7 +21,7 @@ class SpecialtyStoresGroceryTableCell: UITableViewCell {
     @IBOutlet var imgGrocery: UIImageView!
     @IBOutlet var imgGroceryBackground: UIImageView!{
         didSet{
-            imgGroceryBackground.image = UIImage(named: "groceryBGView")
+            imgGroceryBackground.image = UIImage(name: "groceryBGView")
         }
     }
     @IBOutlet var runVideoBGView: UIView!{
@@ -32,7 +32,7 @@ class SpecialtyStoresGroceryTableCell: UITableViewCell {
     }
     @IBOutlet var imgPlay: UIImageView!{
         didSet{
-            imgPlay.image = UIImage(named: "playGroceryVideo")
+            imgPlay.image = UIImage(name: "playGroceryVideo")
         }
     }
     @IBOutlet var lblRunVideo: UILabel!{
@@ -55,7 +55,7 @@ class SpecialtyStoresGroceryTableCell: UITableViewCell {
     }
     @IBOutlet var imgSlotTime: UIImageView!
     @IBOutlet var lblSlotTime: UILabel!
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
 
     override func awakeFromNib() {
         super.awakeFromNib()

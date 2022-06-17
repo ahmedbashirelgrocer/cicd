@@ -69,9 +69,9 @@ class ElGrocerNavigationBar : UINavigationBar {
             let isUnreadMessage = notification.object as! Bool
             self.setChatIcon(isUnreadMessage)
             if isUnreadMessage {
-                self.chatButton.navChatButton.setImage(UIImage(named: "nav_chat_icon_unread") , for: UIControl.State())
+                self.chatButton.navChatButton.setImage(UIImage(name: "nav_chat_icon_unread") , for: UIControl.State())
             }else{
-                let image = UIImage(named: "nav_chat_icon")!
+                let image = UIImage(name: "nav_chat_icon")!
                 self.chatButton.navChatButton.setImage(image , for: UIControl.State())
             }
         }
@@ -330,8 +330,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             self.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
             self.shadowImage = UIImage()
         }else{
-            self.setBackgroundImage(UIImage(named: ""), for: UIBarMetrics.default)
-            self.shadowImage = UIImage(named: "")
+            self.setBackgroundImage(UIImage(name: ""), for: UIBarMetrics.default)
+            self.shadowImage = UIImage(name: "")
         }
     }
     
@@ -394,7 +394,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     fileprivate func addLogoView() {
         
-        let image = UIImage(named: "menu_logo")!
+        let image = UIImage(name: "menu_logo")!
         self.logoView = UIImageView(image: image)
         self.addSubview(self.logoView)
     }
@@ -516,9 +516,9 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     fileprivate func addBackButton(_ isWhite: Bool = false) {
         
-        var image = UIImage(named: "BackGreen")!
+        var image = UIImage(name: "BackGreen")!
         if isWhite{
-            image = UIImage(named: "BackWhite")!
+            image = UIImage(name: "BackWhite")!
         }
         self.backButton  = UIButton(type: .custom)
         self.backButton.setImage(image, for: .normal)
@@ -528,9 +528,9 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         if let back = self.backButton{
             if back.isHidden == false{
-                var image = UIImage(named: "BackGreen")!
+                var image = UIImage(name: "BackGreen")!
                 if isWhite{
-                    image = UIImage(named: "BackWhite")!
+                    image = UIImage(name: "BackWhite")!
                 }
                 back.setImage(image, for: UIControl.State())
                 self.backButton = back
@@ -544,7 +544,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
   
     fileprivate func addProfileButton() {
-        let image = UIImage(named: "profile-icon")
+        let image = UIImage(name: "profile-icon")
         self.profileButton  = UIButton(type: .custom)
         self.profileButton.setImage(image, for: .normal)
         self.addSubview(self.profileButton)
@@ -552,8 +552,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addCartButton() {
-        let imageNormal = UIImage(named: "Cart-Inactive-icon")
-        let imageSelected = UIImage(named: "Cart-Active-icon")
+        let imageNormal = UIImage(name: "Cart-Inactive-icon")
+        let imageSelected = UIImage(name: "Cart-Active-icon")
         self.cartButton = UIButton(type: .custom)
         self.cartButton.setImage(imageNormal, for: .normal)
         self.cartButton.setImage(imageSelected, for: .selected)

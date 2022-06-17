@@ -114,7 +114,7 @@ class ElGrocerAlertView : UIView {
             FireBaseEventsLogger.trackMessageEvents(message: textMessage)
         }
 
-       /* let alertVC = PMAlertController(title: nil , description: self.descriptionLabel.text , image: UIImage(named: "delete-PopUp"), style: .alert)
+       /* let alertVC = PMAlertController(title: nil , description: self.descriptionLabel.text , image: UIImage(name: "delete-PopUp"), style: .alert)
         
         
         alertVC.alertDescription.textColor = .colorWithHexString(hexString: "333333")

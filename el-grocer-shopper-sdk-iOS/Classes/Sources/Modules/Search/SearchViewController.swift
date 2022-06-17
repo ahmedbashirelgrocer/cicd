@@ -482,7 +482,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.searchTextField.textColor = UIColor.newBlackColor()
         self.searchTextField.clipsToBounds = false
         
-        self.searchTextField.clearButton?.setImage(UIImage(named: "sCross"), for: .normal)
+        self.searchTextField.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
         
         
        
@@ -492,7 +492,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.searchTextField.clearButtonRect(forBounds: finalRect)
         
      
-//        let imageView = UIImageView(image: UIImage(named: "icSearchLight"))
+//        let imageView = UIImageView(image: UIImage(name: "icSearchLight"))
 //        imageView.contentMode = UIView.ContentMode.left
 //        imageView.frame = CGRect(x: 0.0, y: 0.0, width: imageView.image!.size.width + 20.0, height: imageView.image!.size.height)
 //        self.searchTextField.leftViewMode = UITextField.ViewMode.always
@@ -501,7 +501,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         
 //        self.searchTextField.leftViewMode = UITextField.ViewMode.always
-//        let searchView = UIImageView(image: UIImage(named: "icSearchLight"))
+//        let searchView = UIImageView(image: UIImage(name: "icSearchLight"))
 //        searchView.frame = CGRect(x: 0.0, y: 0.0, width: searchView.image!.size.width + 20.0, height: searchView.image!.size.height)
 //        searchView.contentMode = UIView.ContentMode.left
 //        searchView.backgroundColor = UIColor.clear
@@ -927,7 +927,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         if UserDefaults.isOrderInEdit() {
       
-        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_edit_Added", comment: ""), image: UIImage(named: "iconAddItemSuccess"), -1 , backButtonClicked: { [weak self] (sender , index , isUnDo) in
+        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_edit_Added", comment: ""), image: UIImage(name: "iconAddItemSuccess"), -1 , backButtonClicked: { [weak self] (sender , index , isUnDo) in
             if isUnDo {
                 if let availableP = self?.selectedProduct {
                      self?.removeProductToBasketFromQuickRemove(availableP)

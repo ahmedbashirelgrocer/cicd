@@ -47,7 +47,7 @@ class OrderReviewViewController: UIViewController {
     var pageController: PageControlViewController!
     var dataController: [UIViewController] = []
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     var delivery = 0
     var speed = 0

@@ -168,14 +168,14 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var btnAddPromo: UIButton!{
         didSet{
             btnAddPromo.setTitle(NSLocalizedString("btn_enter_promoCode", comment: ""), for: UIControl.State())
-            btnAddPromo.setImage(UIImage(named: "arrowDown16"), for: UIControl.State())
+            btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
             btnAddPromo.setCaptionBoldGreenStyle()
         }
     }
     @IBOutlet var btnShowBillDetails: UIButton!{
         didSet{
             btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            btnShowBillDetails.setImage(UIImage(named: "billDetailsIcon"), for: UIControl.State())
+            btnShowBillDetails.setImage(UIImage(name: "billDetailsIcon"), for: UIControl.State())
             btnShowBillDetails.semanticContentAttribute = .forceLeftToRight
             btnShowBillDetails.setCaptionBoldSecondaryGreenStyle()
         }
@@ -505,13 +505,13 @@ class MyBasketPlaceOrderVC: UIViewController {
         let paymentNetworks = [ PKPaymentNetwork.masterCard,  PKPaymentNetwork.visa]
         if   PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) && isVisible {
             self.lblSelectedPayment.text = NSLocalizedString("pay_via_Apple_pay", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "payWithApple")
+            self.selectedPaymentImage.image = UIImage(name: "payWithApple")
             self.lblPayWithApplePay.text = NSLocalizedString("title_pay_with_apple_pay", comment: "")
         } else {
            
             self.lblPayWithApplePay.text = NSLocalizedString("title_SetUp_with_apple_pay", comment: "")
             self.lblSelectedPayment.text = NSLocalizedString("pay_via_Apple_pay", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "payWithApple")
+            self.selectedPaymentImage.image = UIImage(name: "payWithApple")
         }
         
     }
@@ -583,18 +583,18 @@ class MyBasketPlaceOrderVC: UIViewController {
         
         if !ElGrocerUtility.sharedInstance.isDeliveryMode {
             if self.dataHandler.selectedCar == nil {
-                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_Msg_carDetail", comment: "") , image: UIImage(named: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_Msg_carDetail", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
                 return
             }
             if self.dataHandler.selectedCollector == nil {
-                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_Msg_CollectorDetail", comment: "") , image: UIImage(named: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_Msg_CollectorDetail", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
                 return
             }
         }
         
         
         guard let slot = self.secondCheckOutDataHandler!.activeDeliverySlot else {
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("no_slot_available_message", comment: "") , image: UIImage(named: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("no_slot_available_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
             return
         }
         
@@ -811,7 +811,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                     // qunatity check
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
                         if buttonIndex == 1 {
                             
                             if let data = error.jsonValue?["data"] as? [NSDictionary] {
@@ -1154,21 +1154,21 @@ extension MyBasketPlaceOrderVC {
             self.promoBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = false
             self.btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(named: "arrowDown16"), for: UIControl.State())
+            self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
         } else if viewStyle == .showBillDetails{
             self.billDetailsBGView.visibility = .visible
             self.promoBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = true
             
             self.btnShowBillDetails.setTitle(NSLocalizedString("btn_hide_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(named: "arrowDown16"), for: UIControl.State())
+            self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
             
         } else {
             self.billDetailsBGView.visibility = .gone
             self.promoBGView.visibility = .visible
             self.checkOutDetaailsLineView.isHidden = true
             self.btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(named: "arrowUp16"), for: UIControl.State())
+            self.btnAddPromo.setImage(UIImage(name: "arrowUp16"), for: UIControl.State())
         }
         
     }
@@ -1576,19 +1576,19 @@ extension MyBasketPlaceOrderVC {
         if paymentType == PaymentOption.none{
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("payment_method_title", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPayment")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPayment")
             self.btnCheckoutBGView.backgroundColor = .disableButtonColor()
             showCVV(false)
         }else if paymentType == .cash {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("cash_delivery", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPaymentC")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentC")
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
         }else if paymentType == .card {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("pay_via_card", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPaymentCD")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCD")
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
         }else if paymentType == .applePay {
@@ -1601,7 +1601,7 @@ extension MyBasketPlaceOrderVC {
             //lblItemCount
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = NSLocalizedString("pay_via_smiles_points", comment: "")
-            self.selectedPaymentImage.image = UIImage(named: "MYBasketPaymentCC")
+            self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
         }else{
@@ -1609,13 +1609,13 @@ extension MyBasketPlaceOrderVC {
             setApplePayAppearence(false)
             if let card = self.selectedCreditCard {
                 self.lblSelectedPayment.text = NSLocalizedString("lbl_Card_ending_in", comment: "") + card.last4
-                self.selectedPaymentImage.image = UIImage(named: "MYBasketPaymentCC")
+                self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
                 self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
                 showCVV(false)
             }else{
                 showCVV(false)
                 self.btnCheckoutBGView.backgroundColor = .disableButtonColor()
-                self.selectedPaymentImage.image = UIImage(named: "MYBasketPayment")
+                self.selectedPaymentImage.image = UIImage(name: "MYBasketPayment")
             }
         }
     }
@@ -1745,7 +1745,7 @@ extension MyBasketPlaceOrderVC {
                     }
                 self.showPromoError(false, message: alertDescription)
                 self.animateFailureForPromo()
-                    ElGrocerUtility.sharedInstance.showTopMessageView(alertDescription , image: UIImage(named: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(alertDescription , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
                     self.setBillDetails()
                 if self.selectedPaymentOption == PaymentOption.smilePoints {
                     self.checkouTableView.reloadDataOnMain()
@@ -1763,7 +1763,7 @@ extension MyBasketPlaceOrderVC {
         self.promoTxtFieldBGView.layer.borderWidth = 1
         self.btnPromoApply.tintColor = .navigationBarColor()
         self.btnPromoApply.setTitle("", for: UIControl.State())
-        self.btnPromoApply.setImage(UIImage(named: "MyBasketPromoSuccess"), for: .normal)
+        self.btnPromoApply.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
     }
     
     func animateFailureForPromo(){
@@ -1780,7 +1780,7 @@ extension MyBasketPlaceOrderVC {
     func showOutOfStockAlert () {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("title_checkout_screen", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("title_checkout_screen", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             if buttonIndex == 0 {
                 self.backButtonClick()
             }else if buttonIndex == 1 {

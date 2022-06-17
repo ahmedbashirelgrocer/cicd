@@ -68,7 +68,7 @@ class GroceryDetailCell: UICollectionViewCell {
     
     
     // Constant Properties
-    var placeholderImage = UIImage(named: "category_placeholder")!
+    var placeholderImage = UIImage(name: "category_placeholder")!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -126,7 +126,7 @@ class GroceryDetailCell: UICollectionViewCell {
         
         //
         self.lblLocationTitle.text   = NSLocalizedString("location_count_singular", comment: "")
-      //  ElGrocerUtility.sharedInstance.addImageatEndLableText(self.lblLocationTitle, image: UIImage(named: "mcHomeDownArrow")!)
+      //  ElGrocerUtility.sharedInstance.addImageatEndLableText(self.lblLocationTitle, image: UIImage(name: "mcHomeDownArrow")!)
         
         self.labelMinOrderAmount.text   = NSLocalizedString("min_order_amount", comment: "")
         self.labelDeliveryHours.text    = NSLocalizedString("delivery_hours", comment: "")
@@ -312,7 +312,7 @@ class GroceryDetailCell: UICollectionViewCell {
         if self.lblLocationAddress.text?.count ?? 0 == 0 {
             self.lblLocationAddress.text   = currentAddress.locationName
         }
-      //  ElGrocerUtility.sharedInstance.addImageatEndLableText(self.lblLocationAddress, image: UIImage(named: "mcHomeDownArrow")!)
+      //  ElGrocerUtility.sharedInstance.addImageatEndLableText(self.lblLocationAddress, image: UIImage(name: "mcHomeDownArrow")!)
         
       
     }

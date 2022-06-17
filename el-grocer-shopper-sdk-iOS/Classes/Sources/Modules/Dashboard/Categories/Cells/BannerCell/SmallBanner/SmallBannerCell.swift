@@ -66,7 +66,7 @@ class SmallBannerCell: UICollectionViewCell {
         let bannerLink = self.banner.bannerLinks[1]
         if bannerLink.bannerLinkImageUrl.isEmpty == false{
             
-            self.bannerImage.sd_setImage(with: URL(string: bannerLink.bannerLinkImageUrl), placeholderImage: UIImage(named: "product_placeholder"), options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
+            self.bannerImage.sd_setImage(with: URL(string: bannerLink.bannerLinkImageUrl), placeholderImage: UIImage(name: "product_placeholder"), options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
                 if cacheType == SDImageCacheType.none {
                     
                     UIView.transition(with: self.bannerImage, duration: 0.33, options: UIView.AnimationOptions.transitionCrossDissolve, animations: { () -> Void in

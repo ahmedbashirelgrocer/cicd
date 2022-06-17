@@ -31,7 +31,7 @@ class LanguageCell: UITableViewCell {
     
     // MARK: Data
     func configureCellWithTitle(_ title: String, withImage image:String) {
-        self.languageImage.image = UIImage(named:image)
+        self.languageImage.image = UIImage(name:image)
         self.languageImage.layer.cornerRadius = 10
         self.languageImage.layer.masksToBounds = true
         self.languageTitle.text = title

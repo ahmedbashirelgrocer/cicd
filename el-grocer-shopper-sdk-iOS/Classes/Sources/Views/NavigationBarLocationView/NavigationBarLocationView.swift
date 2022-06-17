@@ -12,12 +12,12 @@ class NavigationBarLocationView: UIView {
 
     @IBOutlet var imgLocationPin: UIImageView!{
         didSet{
-            imgLocationPin.image = UIImage(named: "yellowLocationPin")
+            imgLocationPin.image = UIImage(name: "yellowLocationPin")
         }
     }
     @IBOutlet var imgArrowDown: UIImageView!{
         didSet{
-            imgArrowDown.image = UIImage(named: "yellowArrowDown")
+            imgArrowDown.image = UIImage(name: "yellowArrowDown")
         }
     }
     @IBOutlet var lblLocation: UILabel!{

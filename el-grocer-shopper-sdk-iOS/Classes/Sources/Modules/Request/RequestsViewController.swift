@@ -114,7 +114,7 @@ class RequestsViewController: UIViewController {
         self.tagsView.tagColor = UIColor( red: 66/255, green: 157/255, blue:57/255, alpha: 1.0)
         self.tagsView.tagFont = UIFont.SFProDisplayBoldFont(14.0)
         self.tagsView.tagTextColor = UIColor.white
-        self.tagsView.crossImage = UIImage(named:"icCloseWhite")
+        self.tagsView.crossImage = UIImage(name:"icCloseWhite")
         
         self.handleTagBlocks()
     }

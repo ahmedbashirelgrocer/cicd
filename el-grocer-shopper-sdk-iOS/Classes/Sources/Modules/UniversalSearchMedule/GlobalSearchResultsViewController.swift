@@ -27,7 +27,7 @@ class GlobalSearchResultsViewController: UIViewController {
         }
         searchHeader?.txtSearchBar.text = self.keyWord
         if let clearButton = searchHeader?.txtSearchBar.value(forKeyPath: "_clearButton") as? UIButton {
-                    clearButton.setImage(UIImage(named:"sCross"), for: .normal)
+                    clearButton.setImage(UIImage(name:"sCross"), for: .normal)
                 }
         return searchHeader!
     }()

@@ -63,7 +63,7 @@ extension UIViewController {
     func addBackButtonWithGreenLayout() {
         
        // let image = ElGrocerUtility.sharedInstance.getImageWithName("BackGreen")
-         let image:UIImage! = UIImage(named: "SignIn-close")
+         let image:UIImage! = UIImage(name: "SignIn-close")
         let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
         backButton.tintColor = UIColor.navigationBarColor()
         self.navigationItem.leftBarButtonItem = backButton
@@ -87,7 +87,7 @@ extension UIViewController {
     
     func addLocationButton() {
         
-        let locationButton = UIBarButtonItem(image: UIImage(named: "location"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(locationButtonClick))
+        let locationButton = UIBarButtonItem(image: UIImage(name: "location"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(locationButtonClick))
         locationButton.tintColor = UIColor.white
         self.navigationItem.leftBarButtonItem = locationButton
         
@@ -99,7 +99,7 @@ extension UIViewController {
     // MARK: Grocery Button
     func addGroceryButton() {
         
-        let locationButton = UIBarButtonItem(image: UIImage(named: "icShop"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(groceryButtonClick))
+        let locationButton = UIBarButtonItem(image: UIImage(name: "icShop"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(groceryButtonClick))
         locationButton.tintColor = UIColor.white
         self.navigationItem.leftBarButtonItem = locationButton
 
@@ -107,7 +107,7 @@ extension UIViewController {
 
     func addNotifcationIconAtRight() -> Void {
         
-        let grocerImage = UIImage(named: "setting_notifcation")
+        let grocerImage = UIImage(name: "setting_notifcation")
         let notifcationIconButton = UIBarButtonItem(image: grocerImage, style: UIBarButtonItem.Style.plain, target: self, action: #selector(notifcationButtonClick))
         notifcationIconButton.tintColor = UIColor.colorWithHexString(hexString: "9EA6C1")
         self.navigationItem.rightBarButtonItem = notifcationIconButton
@@ -117,7 +117,7 @@ extension UIViewController {
     
     func addGrocerLogo() -> Void {
 
-        let grocerImage = UIImage(named: "newLogo")
+        let grocerImage = UIImage(name: "newLogo")
         let titleView = UIView(frame: CGRect.init(x: 0, y: 0, width: 50, height: 35))
         let titleImageView = UIImageView(image: grocerImage)
         titleImageView.frame = CGRect.init(x: 10, y: 0, width: 25, height: 32)
@@ -162,7 +162,7 @@ extension UIViewController {
 
     func addChangeStoreButtonWithStoreNameAtLeftSide(_ storeName: String, andWithLocationName locationName:String) {
         let storeBtn1 = UIButton(type:UIButton.ButtonType.custom)
-        storeBtn1.setImage(UIImage(named: "home_logo_new"), for: .normal)
+        storeBtn1.setImage(UIImage(name: "home_logo_new"), for: .normal)
         let leftLocationItem1 = UIBarButtonItem.init(customView: storeBtn1)
         self.navigationItem.leftBarButtonItem = leftLocationItem1
         return
@@ -176,8 +176,8 @@ extension UIViewController {
         
         let basketBtn = UIButton(type:UIButton.ButtonType.custom)
         basketBtn.frame = CGRect(x: 0,y: 0,width: 30,height: 30) as CGRect
-        basketBtn.setImage(UIImage(named: "newBusket"), for:  UIControl.State())
-        basketBtn.setImage(UIImage(named: "newBusket"), for:  UIControl.State.highlighted)
+        basketBtn.setImage(UIImage(name: "newBusket"), for:  UIControl.State())
+        basketBtn.setImage(UIImage(name: "newBusket"), for:  UIControl.State.highlighted)
         basketBtn.addTarget(self, action: #selector(UIViewController().basketButtonClick), for: UIControl.Event.touchUpInside)
         
         let barButton = BBBadgeBarButtonItem.init(customUIButton: basketBtn)
@@ -195,7 +195,7 @@ extension UIViewController {
     
     func addPlusButton() {
         
-        let plusButton = UIBarButtonItem(image: UIImage(named: "newUIPlusIcon"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(plusButtonClick))
+        let plusButton = UIBarButtonItem(image: UIImage(name: "newUIPlusIcon"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(plusButtonClick))
         plusButton.tintColor = UIColor.white
         self.navigationItem.rightBarButtonItem = plusButton
     }
@@ -203,7 +203,7 @@ extension UIViewController {
 
     func addClearBasketButton() {
 
-        let delImage = UIImage(named: "NewDelBasket")!
+        let delImage = UIImage(name: "NewDelBasket")!
         let delBtn: UIButton = UIButton(type: UIButton.ButtonType.custom)
         delBtn.setImage(delImage, for: .normal)
         delBtn.addTarget(self, action: #selector(deleteButtonClick) , for: .touchUpInside)
@@ -223,8 +223,8 @@ extension UIViewController {
     func addPlusAndDelButton() {
         
         
-        let plusImage = UIImage(named: "newUIPlusIcon")!
-        let delImage = UIImage(named: "NewDelBasket")!
+        let plusImage = UIImage(name: "newUIPlusIcon")!
+        let delImage = UIImage(name: "NewDelBasket")!
        
         
         let searchBtn: UIButton = UIButton(type: UIButton.ButtonType.custom)
@@ -247,11 +247,11 @@ extension UIViewController {
         
         
         
-//        let plusButton = UIBarButtonItem(image: UIImage(named: "newUIPlusIcon"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(plusButtonClick))
+//        let plusButton = UIBarButtonItem(image: UIImage(name: "newUIPlusIcon"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(plusButtonClick))
 //        plusButton.tintColor = UIColor.white
 //
 //
-//        let delButton = UIBarButtonItem(image: UIImage(named: "NewDelBasket"), style: UIBarButtonItem.Style.done, target: self, action: #selector(deleteButtonClick))
+//        let delButton = UIBarButtonItem(image: UIImage(name: "NewDelBasket"), style: UIBarButtonItem.Style.done, target: self, action: #selector(deleteButtonClick))
 //        delButton.tintColor = UIColor.white
 //
 //
@@ -268,7 +268,7 @@ extension UIViewController {
     
     func addShareButton() {
         
-        let plusButton = UIBarButtonItem(image: UIImage(named: "recipeShare"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(shareButtonClick))
+        let plusButton = UIBarButtonItem(image: UIImage(name: "recipeShare"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(shareButtonClick))
         plusButton.tintColor = UIColor.newBlackColor()
         self.navigationItem.rightBarButtonItem = plusButton
         

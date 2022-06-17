@@ -58,7 +58,7 @@ class TutorialView : UIView {
             
             //iphone 4 (if we have specific image - load)
             let iphone4Image = TutorialImage.images[image.rawValue] + "-iphone4"
-            if let iphone4File = UIImage(named: iphone4Image) {
+            if let iphone4File = UIImage(name: iphone4Image) {
                 
                 self.tutorialImageView.image = iphone4File
                 return
@@ -66,7 +66,7 @@ class TutorialView : UIView {
         }
         
         let imageName = TutorialImage.images[image.rawValue]
-        self.tutorialImageView.image = UIImage(named: imageName)
+        self.tutorialImageView.image = UIImage(name: imageName)
     }
     
     // MARK: Tap gesture

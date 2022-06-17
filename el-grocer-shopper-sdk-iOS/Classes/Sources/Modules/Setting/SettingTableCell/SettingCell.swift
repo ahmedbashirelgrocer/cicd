@@ -46,7 +46,7 @@ class SettingCell: UITableViewCell {
     
     func configureCellWithTitle(_ title: String, withImage image:String) {
         
-        self.itemImage.image = UIImage(named:image)
+        self.itemImage.image = UIImage(name:image)
         self.itemTitle.text = title
         
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()

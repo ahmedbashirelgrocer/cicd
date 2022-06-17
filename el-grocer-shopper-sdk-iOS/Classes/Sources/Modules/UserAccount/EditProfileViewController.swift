@@ -254,7 +254,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         phoneTextField.setInitialPadding(leftPadding: 50)
         
 //        let imageView = UIImageView(frame: CGRect(x: 16, y: 16, width: 24, height: 24))
-//        let image = UIImage(named: "flagUAE")
+//        let image = UIImage(name: "flagUAE")
 //        imageView.image = image
 //        imageView.contentMode = .scaleAspectFit
 //        let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: phoneTextField.frame.height))

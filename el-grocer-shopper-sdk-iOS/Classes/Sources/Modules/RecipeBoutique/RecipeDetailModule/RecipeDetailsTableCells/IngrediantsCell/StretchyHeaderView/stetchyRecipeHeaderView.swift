@@ -96,7 +96,7 @@ extension stetchyRecipeHeaderView : UICollectionViewDelegate ,  UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "recipeCustomHeaderCVC", for: indexPath) as! recipeCustomHeaderCVC
-        cell.imageView.image = UIImage(named: "product_placeholder")
+        cell.imageView.image = UIImage(name: "product_placeholder")
         //cell.setUpInitialAppearence()
         if recipe?.recipeImages != nil {
             if recipe?.recipeImages?[indexPath.row].isEmpty == false{

@@ -547,9 +547,9 @@ extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
         }
         self.superSectionHeader.viewLayoutButton.isHidden = false
         if !isGrid {
-            self.superSectionHeader.viewLayoutButton.setImage(UIImage(named: "grid-icon-unselected"), for: .normal)
+            self.superSectionHeader.viewLayoutButton.setImage(UIImage(name: "grid-icon-unselected"), for: .normal)
         }else{
-            self.superSectionHeader.viewLayoutButton.setImage(UIImage(named: "grid-icon"), for: .normal)
+            self.superSectionHeader.viewLayoutButton.setImage(UIImage(name: "grid-icon"), for: .normal)
         }
         self.viewHandler.trackCateNavClick()
     }

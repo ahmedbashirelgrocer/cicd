@@ -426,7 +426,7 @@ class SignInViewController: RegistrationViewController, Form {
                                 }
                                 
                                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: "") ,NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                                _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: "") ,NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
                                     if index == 0 {
                                          self.setHomeView()
                                     }else{
@@ -590,11 +590,11 @@ class SignInViewController: RegistrationViewController, Form {
         if isPasswordShown{
             isPasswordShown = false
             passwordTextField.isSecureTextEntry = true
-            btnEye.setImage(UIImage(named: "eyeGray"), for: UIControl.State())
+            btnEye.setImage(UIImage(name: "eyeGray"), for: UIControl.State())
         }else{
             isPasswordShown = true
             passwordTextField.isSecureTextEntry = false
-            btnEye.setImage(UIImage(named: "eyeBlack"), for: UIControl.State())
+            btnEye.setImage(UIImage(name: "eyeBlack"), for: UIControl.State())
         }
     }
     

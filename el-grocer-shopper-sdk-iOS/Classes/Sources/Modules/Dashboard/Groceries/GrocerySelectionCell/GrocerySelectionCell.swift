@@ -28,7 +28,7 @@ class GrocerySelectionCell : UITableViewCell {
     
     weak var delegate:GrocerySelectionCellProtocol?
     
-    var placeholderImage = UIImage(named: "category_placeholder")!
+    var placeholderImage = UIImage(name: "category_placeholder")!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -110,25 +110,25 @@ class GrocerySelectionCell : UITableViewCell {
         switch grocery.reviewScore.intValue {
             
         case 0:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-00"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-00"), for: UIControl.State())
             
         case 1:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-01"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-01"), for: UIControl.State())
             
         case 2:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-02"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-02"), for: UIControl.State())
             
         case 3:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-03"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-03"), for: UIControl.State())
             
         case 4:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-04"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-04"), for: UIControl.State())
             
         case 5:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-05"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-05"), for: UIControl.State())
             
         default:
-            self.groceryScoreButton.setBackgroundImage(UIImage(named: "brating-00"), for: UIControl.State())
+            self.groceryScoreButton.setBackgroundImage(UIImage(name: "brating-00"), for: UIControl.State())
             
         }
 

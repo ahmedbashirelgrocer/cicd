@@ -12,7 +12,7 @@ import SDWebImage
 let KProductCarouselCollectionViewCellIdentifier  = "ProductCarouselCollectionViewCell"
 let KCarouselCellWidth = 180
 class ProductCarouselCollectionViewCell: UICollectionViewCell {
-    let placeholderPhoto = UIImage(named: "product_placeholder")!
+    let placeholderPhoto = UIImage(name: "product_placeholder")!
     @IBOutlet weak var bgView: UIView! 
     @IBOutlet weak var btnAddNow: UIButton!
     @IBOutlet weak var lblProductPrice: UILabel!

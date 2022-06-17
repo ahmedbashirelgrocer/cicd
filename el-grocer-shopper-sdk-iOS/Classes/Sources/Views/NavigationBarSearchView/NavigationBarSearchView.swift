@@ -70,7 +70,7 @@ class NavigationBarSearchView : UIView, UITextFieldDelegate {
         self.searchPlaceholder.font = UIFont.SFProDisplayNormalFont(14)
         self.searchPlaceholder.textColor = UIColor.searchPlaceholderTextColor()
         self.searchTextField.clearButtonMode = .unlessEditing
-        self.searchTextField.clearButton?.setImage(UIImage(named: "sCross"), for: .normal)
+        self.searchTextField.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
     }
     
     func adjustSearchIconAndPlaceholderPosition(_ isEditing:Bool, animated:Bool) {

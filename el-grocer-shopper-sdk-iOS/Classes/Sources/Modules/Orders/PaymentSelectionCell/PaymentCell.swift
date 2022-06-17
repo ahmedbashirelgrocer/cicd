@@ -33,9 +33,9 @@ class PaymentCell: UITableViewCell {
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
         if self.imgView != nil {
             if currentLang == "ar" {
-                self.imgView.image = UIImage(named: "LeftArrow")
+                self.imgView.image = UIImage(name: "LeftArrow")
             }else{
-                self.imgView.image = UIImage(named: "RightArrow")
+                self.imgView.image = UIImage(name: "RightArrow")
             }
         }
     }

@@ -63,13 +63,13 @@ class CreditCardViewTableViewCell: UITableViewCell {
         
         if obj == PaymentOption.cash {
             self.lblCardType.text = NSLocalizedString("cash_On_Delivery_string", comment: "")
-             self.cardImage.image = UIImage(named: "cash-List")
+             self.cardImage.image = UIImage(name: "cash-List")
         }else  if obj == PaymentOption.card {
             self.lblCardType.text = NSLocalizedString("pay_via_card", comment: "")
-            self.cardImage.image = UIImage(named: "CardOnDelivery")
+            self.cardImage.image = UIImage(name: "CardOnDelivery")
         }else  if obj == PaymentOption.applePay {
             self.lblCardType.text = NSLocalizedString("checkout_paymentlist_applepay_title", comment: "")
-            self.cardImage.image = UIImage(named: "payWithApple")
+            self.cardImage.image = UIImage(name: "payWithApple")
         }
     }
     
@@ -81,7 +81,7 @@ class CreditCardViewTableViewCell: UITableViewCell {
         self.radioButton.isHidden = false
         
         self.lblCardType.text = NSLocalizedString("checkout_paymentlist_applepay_title", comment: "")
-        self.cardImage.image = UIImage(named: "payWithApple")
+        self.cardImage.image = UIImage(name: "payWithApple")
     }
     
     func configureCellAsPaymentOption (obj : Any) {
@@ -94,7 +94,7 @@ class CreditCardViewTableViewCell: UITableViewCell {
         self.lblCardType.text = NSLocalizedString("lbl_text_new_card" , comment: "")
         
         
-        self.cardImage.image = UIImage(named: "placeorder-card")
+        self.cardImage.image = UIImage(name: "placeorder-card")
         
     }
     

@@ -31,36 +31,36 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
     @IBOutlet var lblAlert: UILabel!
     @IBOutlet var imgAlert: UIImageView!{
         didSet{
-            imgAlert.image = UIImage(named: "infoAlertIcon")
+            imgAlert.image = UIImage(name: "infoAlertIcon")
         }
     }
     @IBOutlet var imgSelfCollection: UIImageView!{
         didSet{
-            imgSelfCollection.image = UIImage(named: "ClockIcon")
+            imgSelfCollection.image = UIImage(name: "ClockIcon")
         }
     }
     @IBOutlet var lblSelfCollection: UILabel!
     @IBOutlet var imgCollectionLocation: UIImageView!{
         didSet{
-            imgCollectionLocation.image = UIImage(named: "LocationPinIconBlack")
+            imgCollectionLocation.image = UIImage(name: "LocationPinIconBlack")
         }
     }
     @IBOutlet var lblCollectionLocation: UILabel!
     @IBOutlet var imgOrderPlacedBy: UIImageView!{
         didSet{
-            imgOrderPlacedBy.image = UIImage(named: "ProfileIcon")
+            imgOrderPlacedBy.image = UIImage(name: "ProfileIcon")
         }
     }
     @IBOutlet var lblOrderPlacedBy: UILabel!
     @IBOutlet var imgOrderCollectorDetails: UIImageView!{
         didSet{
-            imgOrderCollectorDetails.image = UIImage(named: "CartCollectorProfileIcon")
+            imgOrderCollectorDetails.image = UIImage(name: "CartCollectorProfileIcon")
         }
     }
     @IBOutlet var lblOrderCollectorDetails: UILabel!
     @IBOutlet var imgCarDetails: UIImageView!{
         didSet{
-            imgCarDetails.image = UIImage(named: "CarDetailsProfileIcon")
+            imgCarDetails.image = UIImage(name: "CarDetailsProfileIcon")
         }
     }
     @IBOutlet var lblCarDetails: UILabel!

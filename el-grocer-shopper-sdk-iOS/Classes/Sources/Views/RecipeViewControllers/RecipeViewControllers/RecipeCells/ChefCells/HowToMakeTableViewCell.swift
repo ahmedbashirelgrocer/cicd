@@ -13,7 +13,7 @@ let KHowToMakeTableViewCellIdentifier = "HowToMakeTableViewCell"
 class HowToMakeTableViewCell: UITableViewCell {
     
     lazy var placeholderPhoto : UIImage = {
-            return UIImage(named: "product_placeholder")!
+            return UIImage(name: "product_placeholder")!
     }()
     
     @IBOutlet weak var stepImage: UIImageView!

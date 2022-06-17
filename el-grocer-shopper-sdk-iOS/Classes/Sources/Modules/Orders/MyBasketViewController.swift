@@ -532,12 +532,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if !self.isAddressCompleted && (userProfile != nil) && (self.grocery != nil)  {
             self.tblViewYPossition.constant = 150
             self.lblTopViewEdgeCaseMsg.text = NSLocalizedString("lbl_myBasket_add_Address", comment: "")
-            self.imgViewTopCardView.image = UIImage(named: "addAddress")
+            self.imgViewTopCardView.image = UIImage(name: "addAddress")
             self.btnAddAddress.setTitle(NSLocalizedString("btn_add_address_alert_title", comment: ""), for: .normal)
             self.viewAddAddress.isHidden = false
         }else{
             self.lblTopViewEdgeCaseMsg.text = NSLocalizedString("lbl_myBasket_signInSIgnUp", comment: "")
-            self.imgViewTopCardView.image = UIImage(named: "MYBasketSignInView")
+            self.imgViewTopCardView.image = UIImage(name: "MYBasketSignInView")
             self.viewAddAddress.isHidden = true
             self.btnSignIn.setTitle(NSLocalizedString("area_selection_login_button_title", comment: ""), for: .normal)
             self.btnSIgnUp.setTitle(NSLocalizedString("Sign_up", comment: ""), for: .normal)
@@ -1329,7 +1329,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("title_checkout_screen", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("title_checkout_screen", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
                 self.removeOutOfStockProductsFromBasket()
@@ -1343,7 +1343,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         
         
-            //        let alertVC = PMAlertController(title: NSLocalizedString("out_of_stock_message_title", comment: "") , description: NSLocalizedString("out_of_stock_message", comment: "") , image: UIImage(named: "img.png"), style: .alert)
+            //        let alertVC = PMAlertController(title: NSLocalizedString("out_of_stock_message_title", comment: "") , description: NSLocalizedString("out_of_stock_message", comment: "") , image: UIImage(name: "img.png"), style: .alert)
             //
             //        alertVC.addAction(PMAlertAction(title: NSLocalizedString("sign_out_alert_no", comment: ""), style: .cancel, action: { () -> Void in
             //            print("Capture action Cancel")
@@ -1785,7 +1785,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 .normal(NSLocalizedString("to_reach_minimum_order", comment: ""),
                         UIFont.SFProDisplayNormalFont(12), color: .secondaryDarkGreenColor())
             
-            self.minOrderImageView.image = UIImage(named: "cart-addmore")
+            self.minOrderImageView.image = UIImage(name: "cart-addmore")
             let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
             self.minOrderProgressView.setProgress(progressValue, animated: true)
             self.title = NSLocalizedString("shopping_OOS_title_label", comment: "")
@@ -1797,7 +1797,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             // Order amount more then or eqaul to minimum basket amount
             // change color to gree, enable button ...
             self.minOrderLabel.text = "\(NSLocalizedString("lbl_congrtz", comment: "")) "
-            self.minOrderImageView.image = UIImage(named: "cart-price")
+            self.minOrderImageView.image = UIImage(name: "cart-price")
             self.minOrderProgressView.setProgress(1.0, animated: true)
             if UserDefaults.isUserLoggedIn() && notAvailableCount == 0 {
             self.checkoutBtn.isEnabled = true
@@ -2341,7 +2341,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     ElGrocerUtility.sharedInstance.delay(0.1) {
                         self.deleteProduct(-1, selectedProduct)
                     }
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(named: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
+                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                         
                         if isUnDo {
                             ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery:self?.grocery, brandName:nil, quantity: 1, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -2625,7 +2625,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     func showPromotionChangedMessage(){
         if self.promotionalItemChanged{
             let msg = NSLocalizedString("promotion_changed_alert_title", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
         }
     }
     
@@ -2930,7 +2930,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
          //                        let notification = ElGrocerAlertView.createAlert(NSLocalizedString("order_cancel_alert_title", comment: ""),description: NSLocalizedString("order_cancel_success_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
          //                        notification.showPopUp()
          let msg = NSLocalizedString("order_cancel_success_message", comment: "")
-         ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+         ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
          
          UserDefaults.resetEditOrder()
          self.finalRemoveCall();
@@ -2948,7 +2948,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         /*
          let appDelegate = UIApplication.shared.delegate as! AppDelegate
-         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: "") ,NSLocalizedString("sign_out_alert_no", comment: "") , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: "") ,NSLocalizedString("sign_out_alert_no", comment: "") , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
          
          if buttonIndex == 1 {
          finalCancelCall()
@@ -3207,7 +3207,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     func showOverLimitMsg() {
                         let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(self.selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
                         let title = NSLocalizedString("msg_limited_stock_title", comment: "")
-                        ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                     }
                     
                     if (counter >= self.selectedProduct.promoProductLimit as! Int) && self.selectedProduct.promoProductLimit?.intValue ?? 0 > 0 {
@@ -3220,7 +3220,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                         func showOverLimitMsg() {
                             let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(self.selectedProduct.availableQuantity)" + NSLocalizedString("msg_limited_stock_end", comment: "")
                             let title = NSLocalizedString("msg_limited_stock_Quantity_title", comment: "")
-                            ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                            ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                         }
                         showOverLimitMsg()
                     }
@@ -3246,7 +3246,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             if counter > 0 {
                 counter -= 1
                 if counter < 1  && UserDefaults.isOrderInEdit() {
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_edit_delete", comment: ""), image: UIImage(named: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
+                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_edit_delete", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                         if isUnDo {
                             if let availableP = self?.selectedProduct {
                                 self?.updateSelectedProductsQuantity(1, andWithProductIndex: index)
@@ -3635,7 +3635,7 @@ extension MyBasketViewController {
         ElGrocerUtility.sharedInstance.delay(1) {
             if UIApplication.topViewController() is MyBasketViewController {
                 let msg = NSLocalizedString("slot_expired_message", comment: "")
-                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
             }
         }
         

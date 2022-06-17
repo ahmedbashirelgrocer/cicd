@@ -50,7 +50,7 @@ class CrossCollectionViewController: UICollectionViewCell {
         }else  if state == .WhiteBorder {
             
             self.bgView.layer.borderColor = UIColor.white.cgColor
-            self.bgImage.image = UIImage(named: "NoAlternative")
+            self.bgImage.image = UIImage(name: "NoAlternative")
             self.bgImage.alpha = 1.0
         }
        

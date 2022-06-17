@@ -178,7 +178,7 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
                 if self.recipeListArray[index].isSaved{
                     if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? RecipeTableViewCell{
 
-                        cell.saveRecipeImageView.image = UIImage(named: "saveUnfilled")
+                        cell.saveRecipeImageView.image = UIImage(name: "saveUnfilled")
                         self.recipeListArray[index].isSaved = false
                         
                         if let catId = self.categoryListView.categorySelected?.categoryID{
@@ -196,23 +196,23 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
                 }else{
                     if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? RecipeTableViewCell{
 
-                        cell.saveRecipeImageView.image = UIImage(named: "saveFilled")
+                        cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
                         self.recipeListArray[index].isSaved = true
                     }
                     let msg = NSLocalizedString("recipe_save_success", comment: "")
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
                 }
             }else{
                 if self.recipeListArray[index].isSaved{
                     if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? RecipeTableViewCell{
 
-                            cell.saveRecipeImageView.image = UIImage(named: "saveFilled")
+                            cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
 
                     }
                 }else{
                     if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? RecipeTableViewCell{
 
-                            cell.saveRecipeImageView.image = UIImage(named: "saveUnfilled")
+                            cell.saveRecipeImageView.image = UIImage(name: "saveUnfilled")
                         if let catId = self.categoryListView.categorySelected?.categoryID{
                             SpinnerView.showSpinnerViewInView(self.view)
                             self.dataHandler.getSavedRecipeList(shopperId: UserDefaults.getLogInUserID(), categoryId: "\(catId)")

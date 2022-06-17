@@ -104,11 +104,11 @@ class NotificationPopup: UIView {
     
     private func setUpNotificationImageViewApperance(){
         
-        self.starsImgView.image = UIImage(named: "Stars-Icon")
+        self.starsImgView.image = UIImage(name: "Stars-Icon")
         self.starsImgView.image = self.starsImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         self.starsImgView.tintColor = UIColor.navigationBarColor()
         
-        self.notificationImgView.image = UIImage(named: "Bell-Icon")
+        self.notificationImgView.image = UIImage(name: "Bell-Icon")
         self.notificationImgView.image = self.notificationImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         self.notificationImgView.tintColor = UIColor.navigationBarColor()
     }

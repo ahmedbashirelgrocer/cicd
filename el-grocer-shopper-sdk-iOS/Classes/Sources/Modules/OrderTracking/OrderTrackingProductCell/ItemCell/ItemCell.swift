@@ -15,7 +15,7 @@ class ItemCell: UICollectionViewCell {
 
     @IBOutlet weak var productImage: UIImageView!
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     override func awakeFromNib() {
         super.awakeFromNib()

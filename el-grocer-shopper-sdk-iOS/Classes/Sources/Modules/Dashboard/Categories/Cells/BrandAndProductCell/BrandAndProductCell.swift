@@ -71,7 +71,7 @@ class BrandAndProductCell: UITableViewCell{
     }
     var selectedProduct:Product!
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     var setDelegateVersion : UIViewController?
     
     let FakebrandCellIndexToNoTShow = -1111111110

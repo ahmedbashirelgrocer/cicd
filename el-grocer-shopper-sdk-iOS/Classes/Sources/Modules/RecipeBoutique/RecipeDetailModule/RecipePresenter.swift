@@ -315,7 +315,7 @@ class RecipePresenter: ViewToPresenterRecipeProtocol {
                         self.interactor.dataHandler.addRecipeToCart(retailerID: self.view.grocery?.dbID , recipe: addToCartRecipe)
                         ElGrocerUtility.sharedInstance.delay(1.0) {
                             let msg = NSLocalizedString("product_added_to_basket", comment: "")
-                            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
+                            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
                         }
                         self.view.addToCartCompleted()
                     }else{
@@ -379,22 +379,22 @@ extension RecipePresenter: InteractorToPresenterRecipeProtocol {
         
         if recipe!.isSaved{
             if sucess{
-                view.btnSave.setImage(UIImage(named: "saveUnfilled"), for: .normal)
+                view.btnSave.setImage(UIImage(name: "saveUnfilled"), for: .normal)
                 recipe?.isSaved = false
             }else{
-                //cell.saveRecipeImageView.image = UIImage(named: "saveUnfilled")
-                view.btnSave.setImage(UIImage(named: "saveFilled"), for: .normal)
+                //cell.saveRecipeImageView.image = UIImage(name: "saveUnfilled")
+                view.btnSave.setImage(UIImage(name: "saveFilled"), for: .normal)
             }
         }else{
             if sucess{
-                view.btnSave.setImage(UIImage(named: "saveFilled"), for: .normal)
+                view.btnSave.setImage(UIImage(name: "saveFilled"), for: .normal)
                 recipe?.isSaved = true
-                //cell.saveRecipeImageView.image = UIImage(named: "saveFilled")
+                //cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
                 let msg = NSLocalizedString("recipe_save_success", comment: "")
-                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
             }else{
-                //cell.saveRecipeImageView.image = UIImage(named: "saveUnfilled")
-                view.btnSave.setImage(UIImage(named: "saveUnfilled"), for: .normal)
+                //cell.saveRecipeImageView.image = UIImage(name: "saveUnfilled")
+                view.btnSave.setImage(UIImage(name: "saveUnfilled"), for: .normal)
             }
         }
         

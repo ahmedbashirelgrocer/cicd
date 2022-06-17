@@ -358,12 +358,12 @@ extension SendBirdListViewController : UITableViewDelegate , UITableViewDataSour
         if showCloseTickets {
             if let channel = closedTicketList?[indexPath.row].channel {
                 cell.configure(channel: channel)
-                cell.coverImage.setImage(withImage: UIImage(named: "logo-bg")!)
+                cell.coverImage.setImage(withImage: UIImage(name: "logo-bg")!)
             }
         }else {
             if let channel = ticketList?[indexPath.row].channel {
                 cell.configure(channel: channel)
-                cell.coverImage.setImage(withImage: UIImage(named: "logo-bg")!)
+                cell.coverImage.setImage(withImage: UIImage(name: "logo-bg")!)
             }
         }
         return cell
@@ -409,7 +409,7 @@ extension SendBirdListViewController : UITableViewDelegate , UITableViewDataSour
 extension SendBirdListViewController {
     func addCreateTicketButton() {
         
-        let image: UIImage! = UIImage(named: "addIconWhite")
+        let image: UIImage! = UIImage(name: "addIconWhite")
         let menuButton:UIButton = UIButton(type: UIButton.ButtonType.custom)
         
         let size = self.navigationController?.navigationBar.frame.size.height

@@ -56,7 +56,7 @@ class OrderProductCell: UICollectionViewCell {
         self.showPromotionView()
     }
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     func loadSaleTag(){
         ElGrocerUtility.sharedInstance.setPromoImage(imageView:  self.saleView)
     }

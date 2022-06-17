@@ -14,7 +14,7 @@ let KRecipeDetailHeaderHeight = 340.0
 class RecipeDetailHeader: UITableViewHeaderFooterView {
     
     lazy var placeholderPhoto : UIImage = {
-            return UIImage(named: "product_placeholder")!
+            return UIImage(name: "product_placeholder")!
     }()
     
     @IBOutlet weak var ImageRecipe: UIImageView!

@@ -47,7 +47,7 @@ class CartPickerAddDetails: UIViewController {
     }
     @IBOutlet var btnCheckbox: UIButton!{
         didSet{
-            btnCheckbox.setImage(UIImage(named: "CheckboxUnfilled"), for: .normal)
+            btnCheckbox.setImage(UIImage(name: "CheckboxUnfilled"), for: .normal)
         }
     }
     @IBOutlet var lbl_save_details_future: UILabel! {
@@ -231,10 +231,10 @@ class CartPickerAddDetails: UIViewController {
     }
     @IBAction func btnCheckboxHandler(_ sender: Any) {
         if checked{
-            btnCheckbox.setImage(UIImage(named: "CheckboxUnfilled"), for: .normal)
+            btnCheckbox.setImage(UIImage(name: "CheckboxUnfilled"), for: .normal)
             checked = false
         }else{
-            btnCheckbox.setImage(UIImage(named: "CheckboxFilled"), for: .normal)
+            btnCheckbox.setImage(UIImage(name: "CheckboxFilled"), for: .normal)
             checked = true
         }
     }

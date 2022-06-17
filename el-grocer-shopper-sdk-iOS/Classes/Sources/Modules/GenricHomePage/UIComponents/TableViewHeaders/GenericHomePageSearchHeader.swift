@@ -30,7 +30,7 @@ class GenericHomePageSearchHeader: UIView {
     }
     @IBOutlet var imgSearch: UIImageView!{
         didSet{
-            imgSearch.image = UIImage(named: "search-SearchBar")
+            imgSearch.image = UIImage(name: "search-SearchBar")
         }
     }
     @IBOutlet var txtSearch: UITextField!{

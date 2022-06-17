@@ -125,11 +125,11 @@ class DeliveryInfoViewController: UIViewController {
         if isSelected {
             self.apartmentView.layer.borderColor = UIColor.navigationBarColor().cgColor
             self.apartmentLabel.textColor = UIColor.navigationBarColor()
-            self.apartmentImgView.image = UIImage(named: "Apartment-Selected")
+            self.apartmentImgView.image = UIImage(name: "Apartment-Selected")
         }else{
             self.apartmentView.layer.borderColor = UIColor.darkBorderGrayColor().cgColor
             self.apartmentLabel.textColor = UIColor.lightTextGrayColor()
-            self.apartmentImgView.image = UIImage(named: "Apartment")
+            self.apartmentImgView.image = UIImage(name: "Apartment")
         }
     }
     
@@ -142,11 +142,11 @@ class DeliveryInfoViewController: UIViewController {
         if isSelected {
             self.houseView.layer.borderColor = UIColor.navigationBarColor().cgColor
             self.houseLabel.textColor = UIColor.navigationBarColor()
-            self.houseImgView.image = UIImage(named: "House-Selected")
+            self.houseImgView.image = UIImage(name: "House-Selected")
         }else{
             self.houseView.layer.borderColor = UIColor.darkBorderGrayColor().cgColor
             self.houseLabel.textColor = UIColor.lightTextGrayColor()
-            self.houseImgView.image = UIImage(named: "House")
+            self.houseImgView.image = UIImage(name: "House")
         }
     }
     
@@ -159,11 +159,11 @@ class DeliveryInfoViewController: UIViewController {
         if isSelected {
             self.officeView.layer.borderColor = UIColor.navigationBarColor().cgColor
             self.officeLabel.textColor = UIColor.navigationBarColor()
-            self.officeImgView.image = UIImage(named: "Office-Selected")
+            self.officeImgView.image = UIImage(name: "Office-Selected")
         }else{
             self.officeView.layer.borderColor = UIColor.darkBorderGrayColor().cgColor
             self.officeLabel.textColor = UIColor.lightTextGrayColor()
-            self.officeImgView.image = UIImage(named: "Office")
+            self.officeImgView.image = UIImage(name: "Office")
         }
     }
     

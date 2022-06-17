@@ -63,9 +63,9 @@ class EmbededPaymentWebViewController: UIViewController, NavigationBarProtocol {
     var isPaymentAgreemnetApprovedByUser : Bool = false {
         didSet{
             if isPaymentAgreemnetApprovedByUser {
-                btnPaymentSelection.setImage(UIImage(named: "CheckboxFilled"), for: .normal)
+                btnPaymentSelection.setImage(UIImage(name: "CheckboxFilled"), for: .normal)
             }else{
-                btnPaymentSelection.setImage(UIImage(named: "CheckboxUnfilled"), for: .normal)
+                btnPaymentSelection.setImage(UIImage(name: "CheckboxUnfilled"), for: .normal)
             }
             self.changeButtonState((isPaymentAgreemnetApprovedByUser && isFormValidate))
         }
@@ -509,7 +509,7 @@ extension EmbededPaymentWebViewController: WKScriptMessageHandler,  WKUIDelegate
                         }else{
                            self.backButtonClick()
                         }
-                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_added", comment: ""), "", image: UIImage(named: "placeorder-card"), -1, false) { sender, index, isUndo in
+                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_added", comment: ""), "", image: UIImage(name: "placeorder-card"), -1, false) { sender, index, isUndo in
                         }
                     }else{
                         

@@ -67,9 +67,9 @@ class CreditCardListViewController: UIViewController {
     var isPaymentAgreemnetApprovedByUser : Bool = false {
         didSet{
             if isPaymentAgreemnetApprovedByUser {
-                btnPaymentSelection.setImage(UIImage(named: "CheckboxFilled"), for: .normal)
+                btnPaymentSelection.setImage(UIImage(name: "CheckboxFilled"), for: .normal)
             }else{
-                btnPaymentSelection.setImage(UIImage(named: "CheckboxUnfilled"), for: .normal)
+                btnPaymentSelection.setImage(UIImage(name: "CheckboxUnfilled"), for: .normal)
             }
             UserDefaults.setPaymentAcceptedState(isPaymentAgreemnetApprovedByUser)
             self.changeButtonState(isPaymentAgreemnetApprovedByUser)
@@ -782,10 +782,10 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
         if card is PaymentOption {
             let cell : CreditCardViewTableViewCell = tableView.dequeueReusableCell(withIdentifier: KCreditCardViewTableViewCellIdentifier , for: indexPath) as! CreditCardViewTableViewCell
             cell.configureCellAsPaymentOption(obj: card as! PaymentOption)
-            cell.radioButton.image = UIImage(named:"RadioButtonUnfilled")
+            cell.radioButton.image = UIImage(name:"RadioButtonUnfilled")
             if let currentMethod = self.selectedMethod as? PaymentOption {
                 if  currentMethod ==  card as! PaymentOption {
-                    cell.radioButton.image = UIImage(named:"RadioButtonFilled")
+                    cell.radioButton.image = UIImage(name:"RadioButtonFilled")
                 }
             }
             cell.selectionStyle = .none
@@ -793,10 +793,10 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
         }else if card is ApplePayPaymentMethod {
             let cell : CreditCardViewTableViewCell = tableView.dequeueReusableCell(withIdentifier: KCreditCardViewTableViewCellIdentifier , for: indexPath) as! CreditCardViewTableViewCell
             cell.configureCellAsApplePay(obj: card as! ApplePayPaymentMethod)
-            cell.radioButton.image = UIImage(named:"RadioButtonUnfilled")
+            cell.radioButton.image = UIImage(name:"RadioButtonUnfilled")
             if let currentMethod = self.selectedMethod as? ApplePayPaymentMethod {
                 if  currentMethod.name ==  (card as! ApplePayPaymentMethod).name {
-                    cell.radioButton.image = UIImage(named:"RadioButtonFilled")
+                    cell.radioButton.image = UIImage(name:"RadioButtonFilled")
                 }
             }
             cell.selectionStyle = .none
@@ -805,11 +805,11 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
             let cell : CreditCardViewTableViewCell = tableView.dequeueReusableCell(withIdentifier: KCreditCardViewTableViewCellIdentifier , for: indexPath) as! CreditCardViewTableViewCell
             let card = paymentMethodA[indexPath.row]
             cell.configureCell(card: card as! CreditCard)
-            cell.radioButton.image = UIImage(named:"RadioButtonUnfilled")
+            cell.radioButton.image = UIImage(name:"RadioButtonUnfilled")
             if let currentMethod = self.selectedMethod as? CreditCard {
                 if let currentMethod = currentMethod.adyenPaymentMethod {
                     if  currentMethod.identifier ==  (card as! CreditCard).adyenPaymentMethod?.identifier ?? "" {
-                        cell.radioButton.image = UIImage(named:"RadioButtonFilled")
+                        cell.radioButton.image = UIImage(name:"RadioButtonFilled")
                     }
                 }
                 

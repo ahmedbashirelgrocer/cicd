@@ -127,7 +127,7 @@ class OrderCancelationVC: UIViewController {
                 
                 if insCell?.txtNoteView.text.count ?? 0 == 0 {
                     insCell?.txtNoteView.becomeFirstResponder()
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("write_reason_alert", comment: "") , image: UIImage(named: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("write_reason_alert", comment: "") , image: UIImage(name: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
                 }else{
                     self.delegate?.startCancellationProcess(self.orderID , reason: self.questionsArray[self.selectedOptionIndex].reasonKey , improvement: insCell?.txtNoteView.text ?? "" , reasonString : self.questionsArray[self.selectedOptionIndex].reasonString)
                 }
@@ -137,7 +137,7 @@ class OrderCancelationVC: UIViewController {
             }
             
         }else{
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("select_one_option", comment: "") , image: UIImage(named: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
+            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("select_one_option", comment: "") , image: UIImage(name: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
         }
     }
    

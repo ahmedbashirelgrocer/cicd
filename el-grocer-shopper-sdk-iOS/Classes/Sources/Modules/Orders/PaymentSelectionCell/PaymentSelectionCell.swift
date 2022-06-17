@@ -50,7 +50,7 @@ class PaymentSelectionCell: UITableViewCell {
     
     func configureCellWithTitle(_ title: String, withImage image:String) {
         
-        self.paymentImgView.image = UIImage(named:image)
+        self.paymentImgView.image = UIImage(name:image)
         self.paymentTitle.text = title
     }
 }

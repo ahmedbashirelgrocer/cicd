@@ -154,7 +154,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         let shopperId = userInfo[shopperIdKey] as! NSNumber
         
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
                     if buttonIndex == 0 {
                         self.setCollectorStatus(orderId, shopperId: shopperId  , isOnTheWay: false )
                     }
@@ -173,7 +173,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             switch result {
                 case .success( _):
                     let msg = NSLocalizedString("status_Update_Msg", comment: "")
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
                 case .failure(let error):
                     error.showErrorAlert()
                     

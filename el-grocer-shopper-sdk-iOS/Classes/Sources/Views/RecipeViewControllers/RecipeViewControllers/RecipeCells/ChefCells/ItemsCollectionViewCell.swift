@@ -14,7 +14,7 @@ let kItemCellHeight: CGFloat = 85.0
 let kItemCellWidth: CGFloat = 130
 class ItemsCollectionViewCell: UICollectionViewCell {
     lazy var placeholderPhoto : UIImage = {
-            return UIImage(named: "product_placeholder")!
+            return UIImage(name: "product_placeholder")!
     }()
     
     @IBOutlet weak var imageIngrediant: UIImageView!

@@ -50,7 +50,7 @@ class BasketBannerCell: UITableViewCell {
         self.imageContainer.layer.cornerRadius = self.imageContainer.bounds.width/2
         self.imageContainer.layer.masksToBounds = true
         
-        self.imgView.image =  UIImage(named: "reorder-basket")
+        self.imgView.image =  UIImage(name: "reorder-basket")
         self.imgView.image = self.imgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         self.imgView.tintColor = UIColor.navigationBarColor()
         
@@ -101,7 +101,7 @@ class BasketBannerCell: UITableViewCell {
         self.reOrderButton.setTitleColor(UIColor.white, for: UIControl.State())
         
         self.reOrderButton.tag = 200 + 0
-        self.bgImgView.image = UIImage(named: "recipe_banner")
+        self.bgImgView.image = UIImage(name: "recipe_banner")
         self.imageContainer.isHidden = true
         self.containerWidth.constant = 0
         self.imageContainer.layoutIfNeeded()

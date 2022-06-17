@@ -71,8 +71,8 @@ class ReviewQuestionViewController: UIViewController {
     
     fileprivate func setUpRatingView() {
         
-        self.ratingView.emptyImage = UIImage(named: "icStar")
-        self.ratingView.fullImage = UIImage(named: "icStarSelected")
+        self.ratingView.emptyImage = UIImage(name: "icStar")
+        self.ratingView.fullImage = UIImage(name: "icStarSelected")
         
         self.ratingView.contentMode = UIView.ContentMode.scaleAspectFit
         self.ratingView.maxRating = 5

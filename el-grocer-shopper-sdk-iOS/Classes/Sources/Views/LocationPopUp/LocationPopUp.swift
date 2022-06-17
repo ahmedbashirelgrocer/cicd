@@ -87,7 +87,7 @@ class LocationPopUp: UIView {
     
     private func setUpNotificationImageViewApperance(){
         
-        self.notificationImgView.image = UIImage(named: "location-enable")
+        self.notificationImgView.image = UIImage(name: "location-enable")
         self.notificationImgView.image = self.notificationImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         self.notificationImgView.tintColor = UIColor.navigationBarColor()
     }

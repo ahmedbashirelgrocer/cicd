@@ -106,9 +106,9 @@ class GenricRecipeCollectionViewCell: UICollectionViewCell {
     
     func setSaveFilled(_ filled : Bool = false){
         if filled{
-            self.saveRecipeImageView.image = UIImage(named: "saveFilled")
+            self.saveRecipeImageView.image = UIImage(name: "saveFilled")
         }else{
-            self.saveRecipeImageView.image = UIImage(named: "saveUnfilled")
+            self.saveRecipeImageView.image = UIImage(name: "saveUnfilled")
         }
     }
     

@@ -128,7 +128,7 @@ class ProductCell : UICollectionViewCell {
     @IBOutlet weak var lblAddToCartProductView: UILabel! {
         didSet{}
     }
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     weak var product:Product!
     weak var productGrocery:Grocery?
@@ -381,7 +381,7 @@ class ProductCell : UICollectionViewCell {
                 chooseReplacmentBtn.layoutIfNeeded()
             }
            
-            imgRepalce.image = UIImage(named: "MyBasketSubsituteSuccess")
+            imgRepalce.image = UIImage(name: "MyBasketSubsituteSuccess")
         }
         
         
@@ -395,7 +395,7 @@ class ProductCell : UICollectionViewCell {
                  chooseReplacmentBtn.setTitle(NSLocalizedString("choose_substitutions_title", comment: ""), for: .normal)
                 chooseReplacmentBtn.layoutIfNeeded()
             }
-            imgRepalce.image = UIImage(named: "MyBasketSubsituteChoseReplacement")
+            imgRepalce.image = UIImage(name: "MyBasketSubsituteChoseReplacement")
             
         }
     }
@@ -532,7 +532,7 @@ class ProductCell : UICollectionViewCell {
                 }else if count == 1 {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    self.minusButton.setImage(UIImage(named: "delete_product_cell"), for: .normal)
+                    self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
                     
                     if self.product.promotion?.boolValue == true {
                         //self.limitedStockBGView.isHidden = false
@@ -628,7 +628,7 @@ class ProductCell : UICollectionViewCell {
             self.cellAddToCartEvents()
             if self.product.isPg18.boolValue {
                 let msg = (self.product.name ?? "") + "\n" + NSLocalizedString("tobaco_product_msg", comment: "")
-                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
             }
         }
             
@@ -679,7 +679,7 @@ class ProductCell : UICollectionViewCell {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
                     if count == 2 {
-                        self.minusButton.setImage(UIImage(named: "remove_product_cell"), for: .normal)
+                        self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
                     }
                     
                     
@@ -688,7 +688,7 @@ class ProductCell : UICollectionViewCell {
                         func showOverLimitMsg() {
                             let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(self.product.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
                             let title = NSLocalizedString("msg_limited_stock_title", comment: "")
-                            ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                            ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                         }
                         
                         
@@ -718,7 +718,7 @@ class ProductCell : UICollectionViewCell {
                             func showOverLimitMsg() {
                                 let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(self.product.availableQuantity)" + NSLocalizedString("msg_limited_stock_end", comment: "")
                                 let title = NSLocalizedString("msg_limited_stock_Quantity_title", comment: "")
-                                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                                ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                             }
                             
                             showOverLimitMsg()
@@ -823,8 +823,8 @@ class ProductCell : UICollectionViewCell {
         self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: self.product.price.doubleValue)
            
 
-        self.plusButton.setImage(UIImage(named: "icPlusGray")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.minusButton.setImage(UIImage(named: "icDashGrey")!.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.plusButton.setImage(UIImage(name: "icPlusGray")!.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.minusButton.setImage(UIImage(name: "icDashGrey")!.withRenderingMode(.alwaysTemplate), for: .normal)
         //check if item is added to basket
         if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             if item.isSubtituted.boolValue {
@@ -853,11 +853,11 @@ class ProductCell : UICollectionViewCell {
             self.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
             self.minusButton.imageView?.tintColor = UIColor.navigationBarColor()
 
-              self.plusButton.setImage(UIImage(named: "add_product_cell"), for: .normal)
+              self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
             if item.count == 1 {
-                self.minusButton.setImage(UIImage(named: "delete_product_cell"), for: .normal)
+                self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
             }else{
-                self.minusButton.setImage(UIImage(named: "remove_product_cell"), for: .normal)
+                self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
             }
  
         } else {
@@ -866,8 +866,8 @@ class ProductCell : UICollectionViewCell {
             self.quantityLabel.text = "0"
             self.plusButton.imageView?.tintColor = UIColor.darkTextGrayColor()
             self.minusButton.imageView?.tintColor = UIColor.darkTextGrayColor()
-            self.plusButton.setImage(UIImage(named: "add_product_cell"), for: .normal)
-            self.minusButton.setImage(UIImage(named: "delete_product_cell"), for: .normal)
+            self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
+            self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
         }
         
         if product.imageUrl != nil && product.imageUrl?.range(of: "http") != nil {

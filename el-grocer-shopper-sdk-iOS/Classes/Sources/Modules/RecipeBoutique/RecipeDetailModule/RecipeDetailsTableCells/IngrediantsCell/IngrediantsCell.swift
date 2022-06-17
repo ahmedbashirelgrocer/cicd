@@ -124,9 +124,9 @@ class IngrediantsCell: UITableViewCell {
 
     func addIngrediant(_ added : Bool = false){
         if added{
-            self.btnAddRemoveIngrediant.setImage(UIImage(named: "removeIngrediant"), for: UIControl.State())
+            self.btnAddRemoveIngrediant.setImage(UIImage(name: "removeIngrediant"), for: UIControl.State())
         }else{
-            self.btnAddRemoveIngrediant.setImage(UIImage(named: "addIngrediant"), for: UIControl.State())
+            self.btnAddRemoveIngrediant.setImage(UIImage(name: "addIngrediant"), for: UIControl.State())
         }
     }
 
@@ -356,7 +356,7 @@ class IngrediantsCell: UITableViewCell {
             
             ElGrocerUtility.sharedInstance.delay(1.0) {
                 let msg = NSLocalizedString("product_added_to_cart", comment: "")
-                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
             }
             self.addIngrediant(true)
             view.itemsInCart = view.itemsInCart + 1
@@ -374,7 +374,7 @@ extension IngrediantsCell : RecipeDataHandlerDelegate{
         ElGrocerUtility.sharedInstance.delay(1.0) {
             
             let msg = NSLocalizedString("product_added_to_cart", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
         }
         self.addIngrediant(true)
         view.itemsInCart = view.itemsInCart + 1

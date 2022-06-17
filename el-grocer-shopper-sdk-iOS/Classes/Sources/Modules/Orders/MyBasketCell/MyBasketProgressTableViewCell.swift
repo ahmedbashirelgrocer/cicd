@@ -98,15 +98,15 @@ class MyBasketProgressTableViewCell: UITableViewCell {
         
         self.completeCheckOut.isHidden = true
         self.HalfFIllBucket.isHidden = false
-        self.progressFullBar.image = UIImage(named: "MYBasketProgressNotFilled")
+        self.progressFullBar.image = UIImage(name: "MYBasketProgressNotFilled")
         
     }
     
     func configureCompleteProgressState() {
         self.HalfFIllBucket.isHidden = true
         self.completeCheckOut.isHidden = false
-       // self.progressFullBar.image = UIImage(named: "MYBasketProgressNotFilled")
-          self.progressFullBar.image = UIImage(named: "MYBasketProgressFilled")
+       // self.progressFullBar.image = UIImage(name: "MYBasketProgressNotFilled")
+          self.progressFullBar.image = UIImage(name: "MYBasketProgressFilled")
       //  self.distanceFromCompletion.constant = 1.0
     }
     

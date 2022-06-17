@@ -29,7 +29,7 @@ class RecipeDetailVC: BasketBasicViewController {
             self.recipeDetailNavBar.isTranslucent = true
             self.recipeDetailNavBar.backgroundColor = .clear
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                if let backImage = UIImage(named: "recipeBackArrow") {
+                if let backImage = UIImage(name: "recipeBackArrow") {
                     recipeDetailNavBar.topItem?.leftBarButtonItem?.image? = backImage.withHorizontallyFlippedOrientation()
                 }
             }
@@ -302,9 +302,9 @@ class RecipeDetailVC: BasketBasicViewController {
        
         if recipe?.recipeID != -1{
             if recipe!.isSaved{
-                self.btnSave.setImage(UIImage(named: "saveFilled"), for: .normal)
+                self.btnSave.setImage(UIImage(name: "saveFilled"), for: .normal)
             }else{
-                self.btnSave.setImage(UIImage(named: "saveUnfilled"), for: .normal)
+                self.btnSave.setImage(UIImage(name: "saveUnfilled"), for: .normal)
             }
         }
         
@@ -677,7 +677,7 @@ class RecipeDetailVC: BasketBasicViewController {
         
         ElGrocerUtility.sharedInstance.delay(1.0) {
             let msg = NSLocalizedString("product_added_to_cart", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
         }
         
         self.AddToLocalDB()
@@ -714,7 +714,7 @@ class RecipeDetailVC: BasketBasicViewController {
                 presenter.interactor.dataHandler.addRecipeToCart(retailerID: self.grocery?.dbID , recipe: addToCartRecipe)
                 ElGrocerUtility.sharedInstance.delay(1.0) {
                     let msg = NSLocalizedString("product_added_to_basket", comment: "")
-                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(named: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
                 }
             }else{
                 self.addToCartCompleted()

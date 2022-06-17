@@ -34,7 +34,7 @@ class StoreHeaderView: UIView {
     }
     @IBOutlet var imgDeliverySlot: UIImageView!{
         didSet{
-            imgDeliverySlot.image = UIImage(named: "clockWhite")
+            imgDeliverySlot.image = UIImage(name: "clockWhite")
         }
     }
     @IBOutlet var lblGroceryDeliverySlot: UILabel!{
@@ -57,7 +57,7 @@ class StoreHeaderView: UIView {
     }
     @IBOutlet var imgSearch: UIImageView!{
         didSet{
-            imgSearch.image = UIImage(named: "search-SearchBar")
+            imgSearch.image = UIImage(name: "search-SearchBar")
         }
     }
     @IBOutlet var txtSearchBar: UITextField!{
@@ -79,7 +79,7 @@ class StoreHeaderView: UIView {
     }
     @IBOutlet var imgShoppingList: UIImageView!{
         didSet{
-            imgShoppingList.image = UIImage(named: "addShoppingListYellow")
+            imgShoppingList.image = UIImage(name: "addShoppingListYellow")
         }
     }
     @IBOutlet var btnlblShopping: UILabel!{
@@ -101,7 +101,7 @@ class StoreHeaderView: UIView {
     }
     @IBOutlet var imgHelp: UIImageView!{
         didSet{
-            imgHelp.image = UIImage(named: "nav_chat_icon")
+            imgHelp.image = UIImage(name: "nav_chat_icon")
         }
     }
     @IBOutlet var btnHelp: UIButton!

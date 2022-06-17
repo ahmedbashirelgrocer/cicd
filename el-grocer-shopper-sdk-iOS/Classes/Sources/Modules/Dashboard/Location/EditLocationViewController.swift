@@ -537,7 +537,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if isSelected {
             self.apartmentView.layer.borderColor = UIColor.navigationBarColor().cgColor
             self.apartmentLabel.textColor = UIColor.navigationBarColor()
-            self.apartmentImgView.image = UIImage(named: "Apartment")
+            self.apartmentImgView.image = UIImage(name: "Apartment")
             self.apartmentImgView.changePngColorTo(color: .navigationBarColor())
 //            if let image = self.houseImgView.image?.withRenderingMode(.alwaysTemplate) {
 //                self.houseImgView.image = image
@@ -546,7 +546,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         }else{
             self.apartmentView.layer.borderColor = UIColor.borderGrayColor().cgColor
             self.apartmentLabel.textColor = .selectionTabDark()
-            self.apartmentImgView.image = UIImage(named: "Apartment")
+            self.apartmentImgView.image = UIImage(name: "Apartment")
             self.apartmentImgView.changePngColorTo(color: .selectionTabDark())
 //            if let image = self.houseImgView.image?.withRenderingMode(.alwaysTemplate) {
 //                self.houseImgView.image = image
@@ -573,12 +573,12 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if isSelected {
             self.houseView.layer.borderColor = UIColor.navigationBarColor().cgColor
             self.houseLabel.textColor = UIColor.navigationBarColor()
-            self.houseImgView.image = UIImage(named: "House")
+            self.houseImgView.image = UIImage(name: "House")
             self.houseImgView.changePngColorTo(color: .navigationBarColor())
         }else{
             self.houseView.layer.borderColor = UIColor.borderGrayColor().cgColor
             self.houseLabel.textColor = .selectionTabDark()
-            self.houseImgView.image = UIImage(named: "House")
+            self.houseImgView.image = UIImage(name: "House")
             self.houseImgView.changePngColorTo(color: .selectionTabDark())
             
         }
@@ -599,7 +599,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if isSelected {
             self.officeView.layer.borderColor = UIColor.navigationBarColor().cgColor
             self.officeLabel.textColor = UIColor.navigationBarColor()
-            self.officeImgView.image = UIImage(named: "Office")
+            self.officeImgView.image = UIImage(name: "Office")
             self.officeImgView.changePngColorTo(color: .navigationBarColor())
 //            if let image = self.houseImgView.image?.withRenderingMode(.alwaysTemplate) {
 //                self.houseImgView.image = image
@@ -608,7 +608,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         }else{
             self.officeView.layer.borderColor = UIColor.borderGrayColor().cgColor
             self.officeLabel.textColor = .selectionTabDark()
-            self.officeImgView.image = UIImage(named: "Office")
+            self.officeImgView.image = UIImage(name: "Office")
             self.officeImgView.changePngColorTo(color: .selectionTabDark())
 //            if let image = self.houseImgView.image?.withRenderingMode(.alwaysTemplate) {
 //                self.houseImgView.image = image
@@ -635,14 +635,14 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         
         if isEnabled {
 //            self.locationView.backgroundColor =  UIColor.meunCellSelectedColor()
-//            self.locationImgView.image = UIImage(named: "location-pin-selected")
+//            self.locationImgView.image = UIImage(name: "location-pin-selected")
 //            self.locationLabel.textColor = UIColor.meunGreenTextColor()
             
             titleStr = NSMutableAttributedString(string: NSLocalizedString("dashboard_enable_location_services", comment: ""))
             
         }else{
 //            self.locationView.backgroundColor =  UIColor.redInfoColor()
-//            self.locationImgView.image = UIImage(named: "location-pin-white")
+//            self.locationImgView.image = UIImage(name: "location-pin-white")
 //            self.locationLabel.textColor = UIColor.white
 //
             titleStr = NSMutableAttributedString(string: NSLocalizedString("dashboard_enable_location_services_2", comment: ""))

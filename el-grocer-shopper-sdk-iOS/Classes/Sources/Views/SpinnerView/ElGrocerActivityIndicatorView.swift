@@ -14,13 +14,13 @@ class ElGrocerActivityIndicatorView: UIImageView {
         super.init(coder: aDecoder)
         
         self.animationImages = [
-            UIImage(named: "elgrocer-activity-indicator-1")!,
-            UIImage(named: "elgrocer-activity-indicator-2")!,
-            UIImage(named: "elgrocer-activity-indicator-3")!,
-            UIImage(named: "elgrocer-activity-indicator-4")!,
-            UIImage(named: "elgrocer-activity-indicator-5")!,
-            UIImage(named: "elgrocer-activity-indicator-6")!,
-            UIImage(named: "elgrocer-activity-indicator-7")!,
+            UIImage(name: "elgrocer-activity-indicator-1")!,
+            UIImage(name: "elgrocer-activity-indicator-2")!,
+            UIImage(name: "elgrocer-activity-indicator-3")!,
+            UIImage(name: "elgrocer-activity-indicator-4")!,
+            UIImage(name: "elgrocer-activity-indicator-5")!,
+            UIImage(name: "elgrocer-activity-indicator-6")!,
+            UIImage(name: "elgrocer-activity-indicator-7")!,
         ]
         
         self.animationDuration = 1.5
@@ -43,7 +43,7 @@ class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
         var imageA = [UIImage]()
         for index in 1...144 {
             let imageName = "ElgrocerLogoAnimation-" + "\(index)"
-            if let imageNew = UIImage(named: imageName) {
+            if let imageNew = UIImage(name: imageName) {
                 imageA.append(imageNew)
             }
             

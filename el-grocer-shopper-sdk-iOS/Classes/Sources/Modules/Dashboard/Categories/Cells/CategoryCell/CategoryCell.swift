@@ -38,7 +38,7 @@ class CategoryCell: UITableViewCell {
         }
     }
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     var cellIndex: Int = 0
     var subCategorySelected: ((_ selectedSubCategory : SubCategory? , _ index : Int)->Void)?
     var viewAllSelected: ((_ index : Int)->Void)?
@@ -110,6 +110,6 @@ class CategoryCell: UITableViewCell {
             allImageName = "AllProducts-Arabic"
         }
         
-        self.imgCategory.image = UIImage(named: allImageName)!
+        self.imgCategory.image = UIImage(name: allImageName)!
     }
 }

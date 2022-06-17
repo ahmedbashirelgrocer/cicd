@@ -15,7 +15,7 @@ class PlaceOrderProductsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var saleView: UIImageView!
     @IBOutlet weak var lblNumberOfItems: UILabel!
     
-    var placeholderPhoto = UIImage(named: "product_placeholder")!
+    var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     // MARK: Data
     func configureWithProduct(_ product:Product) {

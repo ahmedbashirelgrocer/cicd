@@ -23,7 +23,7 @@ class CategoryHeaderView: UICollectionReusableView {
     
     @IBOutlet weak var searchView: UIView!
     
-    var placeholderPhoto = UIImage(named: "brand_placeholder")!
+    var placeholderPhoto = UIImage(name: "brand_placeholder")!
 
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -22,7 +22,7 @@ class ChefDataCollectionViewCell: UICollectionViewCell {
     }
     @IBOutlet weak var lblChefName: UILabel!
     lazy var placeholderPhoto : UIImage = {
-        return UIImage(named: "product_placeholder")!
+        return UIImage(name: "product_placeholder")!
     }()
     override func awakeFromNib() {
         super.awakeFromNib()
