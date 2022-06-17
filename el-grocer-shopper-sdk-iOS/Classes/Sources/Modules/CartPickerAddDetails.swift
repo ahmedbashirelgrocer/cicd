@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FlagPhoneNumber
+//import FlagPhoneNumber
 enum CartCollectorType {
     case OrderCollector
     case AddNewCollector

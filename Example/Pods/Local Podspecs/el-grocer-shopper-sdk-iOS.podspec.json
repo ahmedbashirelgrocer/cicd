@@ -1,6 +1,6 @@
 {
   "name": "el-grocer-shopper-sdk-iOS",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "summary": "IOS Shopper app basic setUp.",
   "description": "'IOS Shopper app basic setUp. This sdk will allow all Shopper app functionalities from sdk. That will be signIn, registration, Store visibilty, Add Product, Place Order, Order Detail, Recipes, Search & locations'",
   "homepage": "https://www.elgrocer.com",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://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@github.com/elgrocer/el-grocer-shopper-sdk-iOS.git",
-    "tag": "0.1.5"
+    "tag": "0.1.6"
   },
   "platforms": {
     "ios": "12.0"
@@ -26,14 +26,6 @@
       "el-grocer-shopper-sdk-iOS/**/{R-SupportingFiles/*.*,*.storyboard,*.xib,*.xcassets,*.xcdatamodeld,*.m4r,*.otf,*.ttf,*.json,*.strings}"
     ]
   },
-  "frameworks": [
-    "UIKit",
-    "Foundation",
-    "CoreData",
-    "AdSupport",
-    "AppTrackingTransparency",
-    "SystemConfiguration"
-  ],
   "dependencies": {
     "AFNetworking": [
       "~> 4.0"
@@ -52,9 +44,6 @@
     ],
     "GooglePlaces": [
 
-    ],
-    "FlagPhoneNumber": [
-      "~> 0.7.6"
     ],
     "PinCodeTextField": [
 
@@ -116,9 +105,6 @@
     "BBBadgeBarButtonItem": [
       "~> 1.2"
     ],
-    "PageControl": [
-
-    ],
     "Shimmer": [
       "~> 1.0"
     ],
@@ -150,9 +136,6 @@
 
     ],
     "CCValidator": [
-
-    ],
-    "BadgeControl": [
 
     ],
     "DisplaySwitcher": [
@@ -189,5 +172,6 @@
 
     ]
   },
+  "static_framework": true,
   "swift_version": "4.2"
 }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import BadgeControl
+//import BadgeControl
 class ElgrocerWhilteLogoBar: UINavigationBar {
 
     /*

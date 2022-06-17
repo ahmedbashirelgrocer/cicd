@@ -1,6 +1,7 @@
 use_frameworks! :linkage => :static
-
 platform :ios, '12.0'
+source 'https://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@github.com/elgrocer/el-grocer-shopper-sdk-iOS.git'
+
 
 target 'el-grocer-shopper-sdk-iOS_Example' do
   pod 'el-grocer-shopper-sdk-iOS', :path => '../'

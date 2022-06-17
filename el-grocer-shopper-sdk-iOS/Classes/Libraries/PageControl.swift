@@ -29,7 +29,7 @@ public class PageControlViewController: UIViewController, UICollectionViewDelega
     open var delegate: PageControlDelegate? = nil
     open var dataSource: PageControlDataSource? = nil
     
-    open var animation: UIViewAnimationCurve = .easeInOut
+    open var animation: UIView.AnimationCurve = .easeInOut
     open var animationSpeed: TimeInterval = 0.18
     
     fileprivate var data: [Int: UIViewController]?
@@ -98,9 +98,9 @@ public class PageControlViewController: UIViewController, UICollectionViewDelega
     
     open func updateData(){
         for (_, page) in self.data! {
-            page.willMove(toParentViewController: nil)
+            page.willMove(toParent: nil)
             page.view.removeFromSuperview()
-            page.removeFromParentViewController()
+            page.removeFromParent()
         }
         
         self.data?.removeAll()
@@ -121,9 +121,9 @@ public class PageControlViewController: UIViewController, UICollectionViewDelega
         self.setupViews(currentPosition: self.currentPos)
         
         for (_, page) in self.data! {
-            self.addChildViewController(page)
+            self.addChild(page)
             self.view.addSubview(page.view)
-            page.didMove(toParentViewController: self)
+            page.didMove(toParent: self)
         }
     }
     

@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '0.1.5'
+  s.version          = '0.1.7'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -99,16 +99,19 @@ Pod::Spec.new do |s|
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   #s.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => 'el-grocer-shopper-sdk-iOS/Bridging-Header.h' }
   
-  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'AdSupport', 'AppTrackingTransparency', 'SystemConfiguration'
+#  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'AdSupport', 'AppTrackingTransparency', 'SystemConfiguration'
+  
+ # s.ios.vendored_frameworks = 'AppsFlyerLib.xcframework'
   
   s.dependency 'AFNetworking' , '~> 4.0'
   
   s.dependency 'MSPeekCollectionViewDelegateImplementation'
+  s.static_framework = true
   s.dependency 'GoogleAnalytics'
   s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps'
   s.dependency 'GooglePlaces'
-  s.dependency 'FlagPhoneNumber', '~> 0.7.6'
+  #s.dependency 'FlagPhoneNumber', '~> 0.7.6'
   s.dependency 'PinCodeTextField' ###
 
   # Add the pod for Firebase Crashlytics
@@ -132,6 +135,7 @@ Pod::Spec.new do |s|
 
   # pod 'mopub-ios-sdk' #, '~>4.6.0'
   s.dependency 'FBSDKCoreKit', '~> 8.1.0'
+  
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate'
@@ -147,7 +151,7 @@ Pod::Spec.new do |s|
     
   s.dependency 'DoneCancelNumberPadToolbar', '~> 0.6'
   s.dependency 'BBBadgeBarButtonItem', '~> 1.2'
-  s.dependency 'PageControl' #, '~> 1.0'
+  #s.dependency 'PageControl' #, '~> 1.0'
   s.dependency 'Shimmer', '~> 1.0'
   s.dependency 'BetterSegmentedControl'
   s.dependency 'AlgoliaSearchClient', '~> 8.0'
@@ -160,7 +164,7 @@ Pod::Spec.new do |s|
   s.dependency 'IQKeyboardManagerSwift'#, '6.3.0'
     
   s.dependency 'CCValidator'
-  s.dependency 'BadgeControl'
+  #s.dependency 'BadgeControl'
   s.dependency 'DisplaySwitcher' #, '~> 2.0'
   #s.dependency 'PMAlertController' ###
   s.dependency 'SwiftMessages'

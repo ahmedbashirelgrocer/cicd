@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 public typealias BadgeAnimation = (UIView) -> Void
 
 public struct BadgeAnimations {
