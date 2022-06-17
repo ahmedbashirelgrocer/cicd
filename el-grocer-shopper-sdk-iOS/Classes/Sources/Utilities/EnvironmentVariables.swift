@@ -23,8 +23,9 @@ class EnvironmentVariables {
         
         // let bundle = NSBundle(forClass: EnvironmentVariables.self)
         let bundle = Bundle.resource
-        //Fixme
-        let configurationName = "Debug" // bundle.infoDictionary![kConfigurationKey] as! String
+        // "Debug"
+        let infoDict = Bundle.main.infoDictionary
+        let configurationName = infoDict![kConfigurationKey] as! String
         //load our configuration plist
         let environmentsPath = bundle.path(forResource: kEnvironmentPlistName, ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)

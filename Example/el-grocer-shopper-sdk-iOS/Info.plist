@@ -1,39 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>CFBundleDevelopmentRegion</key>
-        <string>en</string>
-        <key>CFBundleExecutable</key>
-        <string>$(EXECUTABLE_NAME)</string>
-        <key>CFBundleIdentifier</key>
-        <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-        <key>CFBundleInfoDictionaryVersion</key>
-        <string>6.0</string>
-        <key>CFBundleName</key>
-        <string>$(PRODUCT_NAME)</string>
-        <key>CFBundlePackageType</key>
-        <string>APPL</string>
-        <key>CFBundleShortVersionString</key>
-        <string>1.0</string>
-        <key>CFBundleSignature</key>
-        <string>????</string>
-        <key>CFBundleVersion</key>
-        <string>1</string>
-        <key>LSRequiresIPhoneOS</key>
-        <true/>
-        <key>UILaunchStoryboardName</key>
-        <string>LaunchScreen</string>
-        <key>UIMainStoryboardFile</key>
-        <string>Main</string>
-        <key>UIRequiredDeviceCapabilities</key>
-        <array>
-            <string>armv7</string>
-        </array>
-        <key>UISupportedInterfaceOrientations</key>
-        <array>
-            <string>UIInterfaceOrientationPortrait</string>
-            <string>UIInterfaceOrientationLandscapeLeft</string>
-        </array>
-    </dict>
+<dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Bundle ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>elgrocer.com.ElGrocerShopper</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.419319384762-fe4ido48tjcsgp15qcu480gilrvutnej</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>elgrocer.com.ElGrocerShopper</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>elgrocer.com.ElGrocerShopper</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>BUNDLE_ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>elgrocer.com.ElGrocerShopper</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.434254382905-lrab4l21j5a8641p6llct8ib151ncq11</string>
+			</array>
+		</dict>
+	</array>
+	<key>CleverTapAccountID</key>
+	<string>675-6KZ-RW6Z</string>
+	<key>CleverTapToken</key>
+	<string>136-5a6</string>
+	<key>CFBundleDisplayName</key>
+	<string>elGrocer SDK</string>
+	<key>CleverTapUseIFA</key>
+	<true/>
+	<key>Configuration</key>
+	<string>$(CONFIGURATION)</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<true/>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>FacebookAppID</key>
+	<string>1555006491476819</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<false/>
+	<key>FacebookDisplayName</key>
+	<string>el Grocer</string>
+	<key>FacebookSKAdNetworkReportEnabled</key>
+	<true/>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>elgrocer</string>
+		<string>elGrocer</string>
+	</array>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>We would like to access your blue tooth of the device to check status</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need to access your camera to take a picture/record a video to share</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
+	<key>Pushwoosh_APPID</key>
+	<string>481D5-4F597</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>elGrocer would like access for better personalized app &amp; shopping experience</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>“We want to allow you to upload photos via messenger”</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We would like to access device microphone to record audio.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>“We want to show you right products on right time”</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>Pushwoosh_APPNAME</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<key>Pushwoosh_LOG_LEVEL</key>
+	<string>NONE</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>We would like to access connected bluetooth devices when available.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIRequiredDeviceCapabilities - 2</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_pjwiC52NkG8Bm0jdzMyRtoecxzaV63Wv</string>
+		<key>test</key>
+		<string>key_test_bkxpt59PjLZBb6jeAOzTqcbgsqjT093n</string>
+	</dict>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+	</array>
+</dict>
 </plist>
