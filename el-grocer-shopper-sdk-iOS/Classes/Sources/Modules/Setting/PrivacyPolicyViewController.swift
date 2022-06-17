@@ -46,9 +46,9 @@ class PrivacyPolicyViewController: UIViewController, NavigationBarProtocol  {
         self.activtyIndicator.hidesWhenStopped = true
         
         var urlStr = "https://www.elgrocer.com/privacypolicymob"
-        self.title = NSLocalizedString("setting_privacy_policy", comment: "")
+        self.title = localizedString("setting_privacy_policy", comment: "")
         if (isTermsAndConditions == true){
-            self.title = NSLocalizedString("terms_settings", comment: "")
+            self.title = localizedString("terms_settings", comment: "")
             urlStr = "https:///www.elgrocer.com/termsconditionsmob"
         }
         

@@ -59,7 +59,7 @@ extension AWPickerList : UICollectionViewDelegate , UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AWPicketCollectionViewCell" , for: indexPath) as! AWPicketCollectionViewCell
         let slot = filterData[indexPath.row]
         if slot.isInstant.boolValue {
-            cell.lblSlotName.text = NSLocalizedString("today_title", comment: "") + " "   +  NSLocalizedString("60_min", comment: "")
+            cell.lblSlotName.text = localizedString("today_title", comment: "") + " "   +  localizedString("60_min", comment: "")
         } else {
             let timeSlot = self.getSlotTimeInSlotSelection(slot: slot , ElGrocerUtility.sharedInstance.isDeliveryMode)
             cell.lblSlotName.text = timeSlot

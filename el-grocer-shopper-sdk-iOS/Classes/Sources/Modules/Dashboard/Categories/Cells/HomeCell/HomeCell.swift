@@ -176,7 +176,7 @@ class HomeCell: UITableViewCell {
                  self.cellTopSpace.constant = 0
                  self.titleViewHeight.constant = 45
                  self.topDistanceOfTitle.constant = 9
-                 self.viewMoreButton.setTitle(NSLocalizedString("view_more_title", comment: ""), for: UIControl.State())
+                 self.viewMoreButton.setTitle(localizedString("view_more_title", comment: ""), for: UIControl.State())
                  self.viewMoreButton.isHidden = false
                 rightArrowImageView.isHidden = false
                  self.isNeedToShowRecipe = isNeedToShowRecipe
@@ -185,7 +185,7 @@ class HomeCell: UITableViewCell {
                 self.titleViewHeight.constant = 27
                 self.cellTopSpace.constant = 17
                 
-                self.viewMoreButton.setTitle( (homeFeedObj.type == HomeType.universalSearchProducts ) ? NSLocalizedString("lbl_goToStore", comment: "").uppercased() : NSLocalizedString("view_more_title", comment: ""), for: UIControl.State())
+                self.viewMoreButton.setTitle( (homeFeedObj.type == HomeType.universalSearchProducts ) ? localizedString("lbl_goToStore", comment: "").uppercased() : localizedString("view_more_title", comment: ""), for: UIControl.State())
                 self.viewMoreButton.isHidden = false
                 rightArrowImageView.isHidden = false
                 homeFeedObj.products.sort { (productOne, productTwo) -> Bool in
@@ -399,7 +399,7 @@ extension HomeCell: UICollectionViewDataSource {
                     productCell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
                 }
                 if homeFeedObj.type == .universalSearchProducts {
-                    productCell.addToCartButton.setTitle(NSLocalizedString("lbl_ShopInStore", comment: ""), for: .normal)
+                    productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
                     productCell.addToCartButton.tintColor = UIColor.navigationBarColor()
                     productCell.addToCartButton.isEnabled = true
                     productCell.addToCartButton.setBody3BoldWhiteStyle()
@@ -467,7 +467,7 @@ extension HomeCell: UICollectionViewDelegate {
                         
                         
                         if let appDelegate = UIApplication.shared.delegate {
-                            let alertView = TobbacoPopup.showNotificationPopup(topView: (appDelegate.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: NSLocalizedString("over_18", comment: "") , buttonTwoText: NSLocalizedString("less_over_18", comment: ""))
+                            let alertView = TobbacoPopup.showNotificationPopup(topView: (appDelegate.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: localizedString("over_18", comment: "") , buttonTwoText: localizedString("less_over_18", comment: ""))
                             
                             alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
                                 guard self == self  else {
@@ -492,7 +492,7 @@ extension HomeCell: UICollectionViewDelegate {
                         alertVC.headerViewHeightConstraint.constant = UIImage(name: "18Plus")?.size.height ?? 0
                         
                         
-                        let addAction = PMAlertAction(title: NSLocalizedString("over_18", comment: ""), style: .cancel, action: { () in
+                        let addAction = PMAlertAction(title: localizedString("over_18", comment: ""), style: .cancel, action: { () in
                             UserDefaults.setOver18(true)
                             self.delegate?.navigateToSubCategoryFrom(category: homeFeedObj.categories[indexPath.row])
                         })
@@ -500,14 +500,14 @@ extension HomeCell: UICollectionViewDelegate {
                         alertVC.addAction(addAction)
                         
                         
-                        let cancel = PMAlertAction(title: NSLocalizedString("less_over_18", comment: ""), style: .cancel, action: { () -> Void in
+                        let cancel = PMAlertAction(title: localizedString("less_over_18", comment: ""), style: .cancel, action: { () -> Void in
                             UserDefaults.setOver18(false)
                             print("Capture action Cancel")
                         })
                         cancel.setTitleColor(.redInfoColor(), for: UIControl.State())
                         alertVC.addAction(cancel)
                         
-                        alertVC.addAction(PMAlertAction(title: NSLocalizedString("promo_code_alert_no", comment: ""), style: .cancel, action: { () -> Void in
+                        alertVC.addAction(PMAlertAction(title: localizedString("promo_code_alert_no", comment: ""), style: .cancel, action: { () -> Void in
                             print("Capture action Cancel")
                         }))
                         

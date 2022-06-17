@@ -240,12 +240,12 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                 productCell.quickAddToCartButton.isUserInteractionEnabled = true
                 
                 UIView.performWithoutAnimation {
-                   productCell.addToCartButton.setTitle(NSLocalizedString("btn_Choose_title", comment: ""), for: UIControl.State())
+                   productCell.addToCartButton.setTitle(localizedString("btn_Choose_title", comment: ""), for: UIControl.State())
                     productCell.addToCartButton.layoutIfNeeded()
                 }
             }else{
                 UIView.performWithoutAnimation {
-                    productCell.addToCartButton.setTitle(NSLocalizedString("addtocart_button_title", comment: ""), for: UIControl.State())
+                    productCell.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
                     productCell.addToCartButton.layoutIfNeeded()
                 }
                

@@ -257,7 +257,7 @@ class SendBirdManager {
             groupChannelParams.channelUrl = OrderUrlPrefix + orderId
             groupChannelParams.addUserIds([pickerIdWithPrefix])
             groupChannelParams.isPublic = true
-            groupChannelParams.name = NSLocalizedString("order_sendBird_nav_title", comment: "") + ":" + orderId
+            groupChannelParams.name = localizedString("order_sendBird_nav_title", comment: "") + ":" + orderId
             groupChannelParams.customType = orderId
             self.checkIfChannelExist(channelUrl: OrderUrlPrefix + orderId) { doesExist, channel in
                 if doesExist{
@@ -503,12 +503,12 @@ class SendBirdManager {
                         let name = channel["name"] as? String ?? ""
                         var orderId = name
                         var type: SendBirdDeskType = .orderSupport
-                        if name.contains(NSLocalizedString("order_sendBird_nav_title", comment: "") + ":"){
-                           orderId = orderId.replacingOccurrences(of: NSLocalizedString("order_sendBird_nav_title", comment: "") + ": ", with: "")
+                        if name.contains(localizedString("order_sendBird_nav_title", comment: "") + ":"){
+                           orderId = orderId.replacingOccurrences(of: localizedString("order_sendBird_nav_title", comment: "") + ": ", with: "")
                             type = .orderSupport
-                        }else if name.contains(NSLocalizedString("support_sendBird_nav_title", comment: "") + ":"){
+                        }else if name.contains(localizedString("support_sendBird_nav_title", comment: "") + ":"){
                             
-                           orderId = orderId.replacingOccurrences(of: NSLocalizedString("support_sendBird_nav_title", comment: "") + ": ", with: "")
+                           orderId = orderId.replacingOccurrences(of: localizedString("support_sendBird_nav_title", comment: "") + ": ", with: "")
                             type = .agentSupport
                         }
                         

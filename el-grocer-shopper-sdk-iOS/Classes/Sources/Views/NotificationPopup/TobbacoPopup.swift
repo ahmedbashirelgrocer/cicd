@@ -57,7 +57,7 @@ class TobbacoPopup: UIView {
     class func showNotificationPopup(topView:UIView , msg : String , buttonOneText : String = "" , buttonTwoText : String = "") -> TobbacoPopup{
         
         
-        let view = Bundle(for: self).loadNibNamed("TobbacoPopup", owner: nil, options: nil)![0] as! TobbacoPopup
+        let view = Bundle.resource.loadNibNamed("TobbacoPopup", owner: nil, options: nil)![0] as! TobbacoPopup
         view.lblMessage.text = msg
         view.tag = KtobbacoViewTag
         view.alpha = 0

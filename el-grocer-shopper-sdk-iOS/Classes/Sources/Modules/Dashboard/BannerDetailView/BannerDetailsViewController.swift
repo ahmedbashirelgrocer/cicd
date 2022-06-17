@@ -12,7 +12,7 @@ class BannerDetailsViewController: BasketBasicViewController,UICollectionViewDat
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var titleString = NSLocalizedString("featured_products_title", comment: "")
+    var titleString = localizedString("featured_products_title", comment: "")
     var productsArray = [Product]()
     
     var selectedProduct:Product!

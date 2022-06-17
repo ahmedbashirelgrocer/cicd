@@ -82,7 +82,7 @@ class OrderHistoryCell: UITableViewCell {
     @IBOutlet var lblEstimatedDelivery: UILabel!{
         didSet{
             lblEstimatedDelivery.setBody3RegSecondaryDarkStyle()
-            lblEstimatedDelivery.text = NSLocalizedString("title_estimated_delivery", comment: "")
+            lblEstimatedDelivery.text = localizedString("title_estimated_delivery", comment: "")
         }
     }
     @IBOutlet var progressView: UIProgressView! {
@@ -100,7 +100,7 @@ class OrderHistoryCell: UITableViewCell {
     @IBOutlet var lblOrderTracking: UILabel!
     @IBOutlet var lblTrackyourOrder: UILabel!{
         didSet{
-            self.lblTrackyourOrder.text = NSLocalizedString("lbl_Track_your_order", comment: "")
+            self.lblTrackyourOrder.text = localizedString("lbl_Track_your_order", comment: "")
         }
     }
    
@@ -220,25 +220,25 @@ class OrderHistoryCell: UITableViewCell {
         
         self.currentOrder = order
         self.setButtonType(order)
-        self.fromLabel.text = NSLocalizedString("from_title", comment: "")
+        self.fromLabel.text = localizedString("from_title", comment: "")
        
-        self.toLabel.text = ( self.currentOrder?.isCandCOrder() ?? false ? NSLocalizedString("lbl_order_collection_Address", comment: "") :  NSLocalizedString("delivery_address", comment: "")) + ":"
+        self.toLabel.text = ( self.currentOrder?.isCandCOrder() ?? false ? localizedString("lbl_order_collection_Address", comment: "") :  localizedString("delivery_address", comment: "")) + ":"
         
-        self.quantityTitleLabel.text = NSLocalizedString("quantity_:", comment: "")
-        self.totalPriceTitleLabel.text = NSLocalizedString("total_price_:", comment: "")
-        self.viewOrderLabel.text = NSLocalizedString("lbl_Order_Details", comment: "")
+        self.quantityTitleLabel.text = localizedString("quantity_:", comment: "")
+        self.totalPriceTitleLabel.text = localizedString("total_price_:", comment: "")
+        self.viewOrderLabel.text = localizedString("lbl_Order_Details", comment: "")
         self.userAddressLabel.text = self.currentOrder?.pickUp != nil  ? self.currentOrder?.pickUp?.details :  ElGrocerUtility.sharedInstance.getFormattedAddress(order.deliveryAddress)
         self.groceryAddressLabel.text = order.grocery.name
         self.orderDateLabel.text = ""
         //MARK: time is handled in orderNumberLabel
         self.orderNumberLabel.text = order.getSlotFormattedString()
         
-        self.lblDeliverySlot.text = NSLocalizedString("order_lbl_numner", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: order.dbID.stringValue)
+        self.lblDeliverySlot.text = localizedString("order_lbl_numner", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: order.dbID.stringValue)
         
         let string = NSMutableAttributedString(string: self.lblDeliverySlot.text ?? "")
-        string.setColorForText(NSLocalizedString("order_lbl_numner", comment: "") , with: .secondaryBlackColor())
+        string.setColorForText(localizedString("order_lbl_numner", comment: "") , with: .secondaryBlackColor())
         string.setColorForText(" # " , with: .secondaryBlackColor())
-        string.setFontForText(NSLocalizedString("order_lbl_numner", comment: "") , with: .SFProDisplayNormalFont(14))
+        string.setFontForText(localizedString("order_lbl_numner", comment: "") , with: .SFProDisplayNormalFont(14))
         
         string.setFontForText(" # " , with: .SFProDisplayNormalFont(14))
         string.setColorForText(String(format: "%d",order.dbID.intValue) , with: UIColor.newBlackColor())
@@ -263,9 +263,9 @@ class OrderHistoryCell: UITableViewCell {
         let data = status.getStatusKeyLogic()
         
         if data.service_id.intValue == Int(OrderType.delivery.rawValue){
-            self.lblEstimatedDelivery.text = NSLocalizedString("title_Estimated_delivery", comment: "")
+            self.lblEstimatedDelivery.text = localizedString("title_Estimated_delivery", comment: "")
         }else{
-            self.lblEstimatedDelivery.text = NSLocalizedString("lbl_self_collection_time", comment: "")
+            self.lblEstimatedDelivery.text = localizedString("lbl_self_collection_time", comment: "")
         }
         
         switch data.status_id.intValue {
@@ -341,11 +341,11 @@ class OrderHistoryCell: UITableViewCell {
     func setButtonType (_ order : Order) {
         
         if order.status.intValue == OrderStatus.payment_pending.rawValue {
-            self.btnChoose.setTitle(NSLocalizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
+            self.btnChoose.setTitle(localizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
         }else if order.status.intValue == OrderStatus.inSubtitution.rawValue {
-            self.btnChoose.setTitle(NSLocalizedString("choose_substitutions_title", comment: ""), for: .normal)
+            self.btnChoose.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
         }else {
-            self.btnChoose.setTitle(NSLocalizedString("order_confirmation_Edit_order_button", comment: ""), for: .normal)
+            self.btnChoose.setTitle(localizedString("order_confirmation_Edit_order_button", comment: ""), for: .normal)
         }
     }
 
@@ -353,14 +353,14 @@ class OrderHistoryCell: UITableViewCell {
 //    private func loadOrderStatusLabel(_ order: Order!) -> String {
 //
 ////        if order.status.intValue == -1 {
-////            return NSLocalizedString("lbl_Payment_Pending", comment: "")
+////            return localizedString("lbl_Payment_Pending", comment: "")
 ////        }
 ////        if order.deliverySlot != nil && order.status.intValue == 0 {
-////            return NSLocalizedString("order_status_schedule_order", comment: "")
+////            return localizedString("order_status_schedule_order", comment: "")
 ////        }else if ((order.status.intValue < OrderStatus.labels.count)) {
-////            return NSLocalizedString(OrderStatus.labels[order.status.intValue], comment: "")
+////            return localizedString(OrderStatus.labels[order.status.intValue], comment: "")
 ////        } else {
-////            return NSLocalizedString("order_status_unknown", comment: "")
+////            return localizedString("order_status_unknown", comment: "")
 ////        }
 //    }
     
@@ -405,7 +405,7 @@ class OrderHistoryCell: UITableViewCell {
             }
             
             //summary
-            let countLabel = summaryCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+            let countLabel = summaryCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
             self.quantityLabel.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
             
 //            self.priceLabel.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() , grandTotal)
@@ -434,7 +434,7 @@ class OrderHistoryCell: UITableViewCell {
             }
             
             //summary
-            let countLabel = summaryCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+            let countLabel = summaryCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
             self.quantityLabel.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
             
 //            self.priceLabel.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)

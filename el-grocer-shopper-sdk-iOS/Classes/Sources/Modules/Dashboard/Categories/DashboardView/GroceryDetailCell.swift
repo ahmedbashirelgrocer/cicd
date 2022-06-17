@@ -125,14 +125,14 @@ class GroceryDetailCell: UICollectionViewCell {
         self.lblPaymentMethod.font      = UIFont.SFProDisplaySemiBoldFont(12.0)
         
         //
-        self.lblLocationTitle.text   = NSLocalizedString("location_count_singular", comment: "")
+        self.lblLocationTitle.text   = localizedString("location_count_singular", comment: "")
       //  ElGrocerUtility.sharedInstance.addImageatEndLableText(self.lblLocationTitle, image: UIImage(name: "mcHomeDownArrow")!)
         
-        self.labelMinOrderAmount.text   = NSLocalizedString("min_order_amount", comment: "")
-        self.labelDeliveryHours.text    = NSLocalizedString("delivery_hours", comment: "")
-        self.labelDeliveryWithin.text   = NSLocalizedString("service_price_title", comment: "")
-        self.labelPaymentMethod.text    = NSLocalizedString("payment_method", comment: "")
-        self.btnChange.setTitle(NSLocalizedString("Change", comment: ""), for: .normal)
+        self.labelMinOrderAmount.text   = localizedString("min_order_amount", comment: "")
+        self.labelDeliveryHours.text    = localizedString("delivery_hours", comment: "")
+        self.labelDeliveryWithin.text   = localizedString("service_price_title", comment: "")
+        self.labelPaymentMethod.text    = localizedString("payment_method", comment: "")
+        self.btnChange.setTitle(localizedString("Change", comment: ""), for: .normal)
         
 
          if LanguageManager.sharedInstance.getSelectedLocale().caseInsensitiveCompare("ar") == ComparisonResult.orderedSame {
@@ -221,28 +221,28 @@ class GroceryDetailCell: UICollectionViewCell {
         
         self.lblStoreName.text  = myGrocery.name ?? "" + "⌄"
 
-        var open = NSLocalizedString("open", comment: "")
-        var scheduled = NSLocalizedString("scheduled_delivery", comment: "")
+        var open = localizedString("open", comment: "")
+        var scheduled = localizedString("scheduled_delivery", comment: "")
 
         if !(myGrocery.isSchedule.boolValue) {
-            scheduled = NSLocalizedString("instant_delivery", comment: "")
+            scheduled = localizedString("instant_delivery", comment: "")
         }
         if !(myGrocery.isOpen.boolValue) {
-            open    = NSLocalizedString("closed", comment: "")
+            open    = localizedString("closed", comment: "")
         }
         self.lblStoreStatus.text    = open + "-" + scheduled
        // self.lblStoreStatus.sizeToFit()
 
         if(myGrocery.isOpen.boolValue && (myGrocery.isInstant() || myGrocery.isInstantSchedule())) {
-             self.lblStoreStatus.text    =  NSLocalizedString("delivery_One_Hour_WithOutNext", comment: "")
+             self.lblStoreStatus.text    =  localizedString("delivery_One_Hour_WithOutNext", comment: "")
         } else {
 /*
             let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
             let calendarComponents = (calendar as NSCalendar).components(.weekday, from:Date())
             let weekDay = calendarComponents.weekday
             let nextDay = weekDay! + 1 == 8 ? 1 : weekDay! + 1
-            var dayTitle = "" // NSLocalizedString("today_title", comment: "") remove today 
-            let initailText =  NSLocalizedString("Delivery_Slot", comment: "")
+            var dayTitle = "" // localizedString("today_title", comment: "") remove today 
+            let initailText =  localizedString("Delivery_Slot", comment: "")
             
             var currentSlots = myGrocery.getAllDeliverySlots()
            // var currentSlots: [DeliverySlot] = slotsA.compactMap({ $0 as? DeliverySlot })
@@ -268,7 +268,7 @@ class GroceryDetailCell: UICollectionViewCell {
             for slots in currentSlots {
                // debugPrint(slots.dbID)
                 if  truncating: slots.start_time.weekday  == nextDay {
-                    dayTitle = NSLocalizedString("tomorrow_title", comment: "")
+                    dayTitle = localizedString("tomorrow_title", comment: "")
                 }
                 if let start = slots.startTime , let endT = slots.endTime {
                     let timeSlot = DeliverySlot.getFormatedTimeWithAmPmStringWithStartTime(start , andWithEndTime: endT)
@@ -407,22 +407,22 @@ class GroceryDetailCell: UICollectionViewCell {
         if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.creditCard.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("cash_card_creditCard_delivery", comment: "")
+            paymentDescription = localizedString("cash_card_creditCard_delivery", comment: "")
             
         } else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("cash_card_delivery", comment: "")
+            paymentDescription = localizedString("cash_card_delivery", comment: "")
             
         } else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue == 0 {
             
             //only Cash
-            paymentDescription = NSLocalizedString("cash_delivery", comment: "")
+            paymentDescription = localizedString("cash_delivery", comment: "")
             
         } else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue == 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 {
             
             //only Card
-            paymentDescription = NSLocalizedString("card_delivery", comment: "")
+            paymentDescription = localizedString("card_delivery", comment: "")
         }
         return paymentDescription
     }

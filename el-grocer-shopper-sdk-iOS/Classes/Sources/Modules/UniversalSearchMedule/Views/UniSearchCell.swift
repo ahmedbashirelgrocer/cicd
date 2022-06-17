@@ -43,11 +43,11 @@ class UniSearchCell: UITableViewCell {
             if obj?.modelType == SearchResultSuggestionType.brandTitles {
                 title = searchString
                 subTitle.isHidden = false
-                subTitle.text = NSLocalizedString("In", comment: "") + " " + (obj?.title ?? "")
+                subTitle.text = localizedString("In", comment: "") + " " + (obj?.title ?? "")
             }else if obj?.modelType == SearchResultSuggestionType.categoriesTitles {
                 title = searchString
                 subTitle.isHidden = false
-                subTitle.text = NSLocalizedString("In", comment: "") + " " + (obj?.title ?? "")
+                subTitle.text = localizedString("In", comment: "") + " " + (obj?.title ?? "")
             }else{
                 subTitle.isHidden = true
             }

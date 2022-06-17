@@ -14,19 +14,19 @@ class SubsituteFinalBillTableViewCell: UITableViewCell {
     @IBOutlet var lblTitleTotalPrice: UILabel!
     @IBOutlet var lblTitileGrandTotal: UILabel!{
         didSet {
-            lblTitileGrandTotal.text = NSLocalizedString("grand_total", comment: "")
+            lblTitileGrandTotal.text = localizedString("grand_total", comment: "")
             lblTitileGrandTotal.setBody3RegDarkStyle()
         }
     }
     @IBOutlet var lblTitileFinalBillAmount: UILabel!{
         didSet {
-            lblTitileFinalBillAmount.text = NSLocalizedString("total_bill_amount", comment: "")
+            lblTitileFinalBillAmount.text = localizedString("total_bill_amount", comment: "")
             lblTitileFinalBillAmount.setBodyBoldGreenStyle()
         }
     }
     @IBOutlet var lblTitileServiceFee: UILabel! {
         didSet {
-            lblTitileServiceFee.text = NSLocalizedString("service_price", comment: "")
+            lblTitileServiceFee.text = localizedString("service_price", comment: "")
             lblTitileServiceFee.setBody3RegGreyStyle()
         }
     }

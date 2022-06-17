@@ -80,7 +80,7 @@ class savedCarCell: UITableViewCell {
     }
     
     func setupInitialAppearence(){
-        lblDefault.text = NSLocalizedString("btn_default", comment: "")
+        lblDefault.text = localizedString("btn_default", comment: "")
         
         cellBGView.backgroundColor = .white
         self.backgroundColor = .tableViewBackgroundColor()
@@ -90,8 +90,8 @@ class savedCarCell: UITableViewCell {
             imgEdit.image = UIImage(name: kEditImageBlack)
             imgDelete.image = UIImage(name: kDeleteImageBlack)
             imgDefault.image = UIImage(name: kCheckImage)
-            lblEdit.text = NSLocalizedString("btn_edit", comment: "")
-            lblDelete.text = NSLocalizedString("btn_delete", comment: "")
+            lblEdit.text = localizedString("btn_edit", comment: "")
+            lblDelete.text = localizedString("btn_delete", comment: "")
             
             DeleteBGView.isHidden = false
             editBGView.isHidden = false
@@ -101,14 +101,14 @@ class savedCarCell: UITableViewCell {
             defaultBGView.isHidden = true
             editBGView.isHidden = false
             imgEdit.image = UIImage(name: kDeleteImageBlack)
-            lblEdit.text = NSLocalizedString("btn_delete", comment: "")
+            lblEdit.text = localizedString("btn_delete", comment: "")
         }
     }
     
     func ConfigureCardCell(data : CreditCard , isDefault : Bool = false){
         if data.cardID != ""{
             
-            let info = NSLocalizedString("lbl_card_ending", comment: "") + data.last4
+            let info = localizedString("lbl_card_ending", comment: "") + data.last4
             lblInfo.text = info
             
             setCardImage(card: data.cardType)

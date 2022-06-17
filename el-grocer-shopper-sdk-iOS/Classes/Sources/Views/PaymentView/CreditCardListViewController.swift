@@ -78,7 +78,7 @@ class CreditCardListViewController: UIViewController {
 
     @IBOutlet var lblChosePayment: UILabel! {
         didSet {
-            lblChosePayment.text = NSLocalizedString("payment_method_title", comment: "")
+            lblChosePayment.text = localizedString("payment_method_title", comment: "")
         }
     }
     
@@ -108,17 +108,17 @@ class CreditCardListViewController: UIViewController {
         let CreditCardViewTableViewCell = UINib(nibName: KCreditCardViewTableViewCellIdentifier , bundle: nil)
         self.tableView.register(CreditCardViewTableViewCell , forCellReuseIdentifier: KCreditCardViewTableViewCellIdentifier)
         
-         self.btnConfirmPayment.setTitle(NSLocalizedString("confirm_payment_button_title", comment: "") , for: .normal)
+         self.btnConfirmPayment.setTitle(localizedString("confirm_payment_button_title", comment: "") , for: .normal)
         
         if isFromSetting {
              self.viewHeight.constant = ScreenSize.SCREEN_HEIGHT
              self.btnCross.isHidden = false
              self.backButtonWidth.constant = 0
-             lblChosePayment.text = NSLocalizedString("Setting_Credit_Card_List", comment: "")
+             lblChosePayment.text = localizedString("Setting_Credit_Card_List", comment: "")
             self.topYSpace.constant = 44
           
         }else{
-          //  btnAddNewCard.setTitle(NSLocalizedString("confimAndAddCard", comment: "") , for: .normal)
+          //  btnAddNewCard.setTitle(localizedString("confimAndAddCard", comment: "") , for: .normal)
         }
         if let bar = self.navigationController {
             bar.setNavigationBarHidden(true, animated: false)
@@ -145,8 +145,8 @@ class CreditCardListViewController: UIViewController {
     
     func setTextColorForTermsString () {
         
-        let text = NSLocalizedString("lbl_Terms_Payment_Text", comment: "")
-        let linkTextWithColor = NSLocalizedString("lbl_TermsAndPayment", comment: "")
+        let text = localizedString("lbl_Terms_Payment_Text", comment: "")
+        let linkTextWithColor = localizedString("lbl_TermsAndPayment", comment: "")
         let range = (text as NSString).range(of: linkTextWithColor)
         let attributedString = NSMutableAttributedString(string:text)
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.navigationBarColor() , range: range)
@@ -164,7 +164,7 @@ class CreditCardListViewController: UIViewController {
             self.viewHeight.constant = ScreenSize.SCREEN_HEIGHT
             self.btnCross.isHidden = false
             self.backButtonWidth.constant = 0
-            lblChosePayment.text = NSLocalizedString("Setting_Credit_Card_List", comment: "")
+            lblChosePayment.text = localizedString("Setting_Credit_Card_List", comment: "")
             lblChosePayment.textAlignment = .center
             
             
@@ -423,17 +423,17 @@ class CreditCardListViewController: UIViewController {
         if isCashAvailable && !isDeliveryCardAvailable && !payOnline {
             
             //cash only
-            self.lblPaymentMethodMessage.text = NSLocalizedString("Msg_CashOnly", comment: "")
+            self.lblPaymentMethodMessage.text = localizedString("Msg_CashOnly", comment: "")
             self.lblPaymentInfoHeight.constant = 30
             self.lblPaymentInfoBottomHeight.constant = 15
         }else if isCashAvailable && isDeliveryCardAvailable && !payOnline {
             //deliverycard only
-            self.lblPaymentMethodMessage.text = NSLocalizedString("Msg_CardAndCash", comment: "")
+            self.lblPaymentMethodMessage.text = localizedString("Msg_CardAndCash", comment: "")
             self.lblPaymentInfoHeight.constant = 30
             self.lblPaymentInfoBottomHeight.constant = 15
         }else if !isCashAvailable && !isDeliveryCardAvailable && payOnline {
             //deliverycard only
-            self.lblPaymentMethodMessage.text = NSLocalizedString("lbl_OnlineOnly", comment: "")
+            self.lblPaymentMethodMessage.text = localizedString("lbl_OnlineOnly", comment: "")
             self.lblPaymentInfoHeight.constant = 30
             self.lblPaymentInfoBottomHeight.constant = 15
         }else  {
@@ -738,7 +738,7 @@ class CreditCardListViewController: UIViewController {
         }
         webView.willMove(toWindow: nil)
         webView.removeFromSuperview()
-        let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+        let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
         errorAlert.showPopUp()
   
     }
@@ -929,11 +929,11 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
        
-        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("dashboard_location_delete_button", comment: "") , handler: { (action, indexPath) in
-            ElGrocerAlertView.createAlert(NSLocalizedString("card_title", comment: ""),
-                                          description: NSLocalizedString("card_Delete_Message", comment: ""),
-                                          positiveButton: NSLocalizedString("promo_code_alert_no", comment: "") ,
-                                          negativeButton: NSLocalizedString("dashboard_location_delete_button", comment: "") ,
+        let deleteAction = UITableViewRowAction(style: .default, title: localizedString("dashboard_location_delete_button", comment: "") , handler: { (action, indexPath) in
+            ElGrocerAlertView.createAlert(localizedString("card_title", comment: ""),
+                                          description: localizedString("card_Delete_Message", comment: ""),
+                                          positiveButton: localizedString("promo_code_alert_no", comment: "") ,
+                                          negativeButton: localizedString("dashboard_location_delete_button", comment: "") ,
                                           buttonClickCallback: { (buttonIndex:Int) -> Void in
                                             if buttonIndex == 1 {
                                                 self.callDelWithCancelParm(indexPath: indexPath , false)
@@ -980,9 +980,9 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
                             self.paymentMethodA.remove(at: indexPath.row)
                             self.tableView.reloadData()
                             self.lblNoCard.isHidden =  self.paymentMethodA.count > 0
-                            let notification = ElGrocerAlertView.createAlert(NSLocalizedString("card_title", comment: "") ,
+                            let notification = ElGrocerAlertView.createAlert(localizedString("card_title", comment: "") ,
                                                                              description: "Card successfully deleted" ,
-                                                                             positiveButton: NSLocalizedString("promo_code_alert_ok", comment: ""),
+                                                                             positiveButton: localizedString("promo_code_alert_ok", comment: ""),
                                                                              negativeButton: nil, buttonClickCallback: nil )
                             notification.show()
                             
@@ -1011,7 +1011,7 @@ extension CreditCardListViewController : WKNavigationDelegate {
         
         SpinnerView.hideSpinnerView()
         self.dismiss(animated: true) {
-            let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+            let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
             errorAlert.showPopUp()
         }
         
@@ -1019,7 +1019,7 @@ extension CreditCardListViewController : WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         debugPrint(error)
-        self.removeWebAndShowAlert(webView,NSLocalizedString("my_account_saving_error", comment: ""))
+        self.removeWebAndShowAlert(webView,localizedString("my_account_saving_error", comment: ""))
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -1030,7 +1030,7 @@ extension CreditCardListViewController : WKNavigationDelegate {
             if message != nil {
                 if message == "success" {
                     
-                    let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("forgot_password_success_alert_title", comment: ""),description:NSLocalizedString("Setting_Credit_Card_Add_Success",comment: "") ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+                    let errorAlert = ElGrocerAlertView.createAlert(localizedString("forgot_password_success_alert_title", comment: ""),description:localizedString("Setting_Credit_Card_Add_Success",comment: "") ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
                     errorAlert.showPopUp ()
                  
                     self.dismiss(animated: true) {

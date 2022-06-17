@@ -50,7 +50,7 @@ class RecipeDetailHeader: UITableViewHeaderFooterView {
         self.lableTotalItems.text = ""
         self.lableQunatityOfPeople.text = ""
         self.LableCookTime.text = ""
-        self.lableForPeople.text = NSLocalizedString("lbl_Serving_text", comment: "")
+        self.lableForPeople.text = localizedString("lbl_Serving_text", comment: "")
     }
 
     func configuerData(_ recipe : Recipe) {
@@ -64,7 +64,7 @@ class RecipeDetailHeader: UITableViewHeaderFooterView {
         self.LablePrepTime.text = String(describing: recipe.recipePrepTime ?? 0)
         self.LableCookTime.text = String(describing: recipe.recipeCookTime ?? 0)
         self.lableQunatityOfPeople.text = String(describing: recipe.recipeForPeople ?? 0)
-        self.lableTotalItems.text = NSLocalizedString("lbl_TotalItem", comment: "") + ": " + "\(String(describing: recipe.Ingredients?.count ?? 0))"
+        self.lableTotalItems.text = localizedString("lbl_TotalItem", comment: "") + ": " + "\(String(describing: recipe.Ingredients?.count ?? 0))"
         
     }
     

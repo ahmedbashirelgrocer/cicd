@@ -57,7 +57,7 @@ extension ProductDelegate : ProductCellProtocol {
                     
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             
@@ -106,8 +106,8 @@ extension ProductDelegate : ProductCellProtocol {
                     ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     ElGrocerUtility.sharedInstance.resetBasketPresistence()
                 }else{
-                    ElGrocerAlertView.createAlert(NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""),description: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),positiveButton: NSLocalizedString("products_adding_different_grocery_alert_confirm_button", comment: ""),
-                                                  negativeButton: NSLocalizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
+                    ElGrocerAlertView.createAlert(localizedString("products_adding_different_grocery_alert_title", comment: ""),description: localizedString("products_adding_different_grocery_alert_message", comment: ""),positiveButton: localizedString("products_adding_different_grocery_alert_confirm_button", comment: ""),
+                                                  negativeButton: localizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
                                                     if buttonIndex == 0 {
                                                         
                                                         //clear active basket and add product
@@ -238,7 +238,7 @@ extension ProductDelegate : ProductCellProtocol {
                     
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             //clear active basket and add product
@@ -270,10 +270,10 @@ extension ProductDelegate : ProductCellProtocol {
             self.productCellOnFavouriteClick(productCell, product: selectedProduct)
         } else {
             
-            ElGrocerAlertView.createAlert(NSLocalizedString("item_favourite_alert_title", comment: ""),
-                                          description: NSLocalizedString("item_favourite_alert_description", comment: ""),
-                                          positiveButton: NSLocalizedString("item_favourite_alert_yes", comment: ""),
-                                          negativeButton: NSLocalizedString("item_favourite_alert_no", comment: ""),
+            ElGrocerAlertView.createAlert(localizedString("item_favourite_alert_title", comment: ""),
+                                          description: localizedString("item_favourite_alert_description", comment: ""),
+                                          positiveButton: localizedString("item_favourite_alert_yes", comment: ""),
+                                          negativeButton: localizedString("item_favourite_alert_no", comment: ""),
                                           buttonClickCallback: { (buttonIndex:Int) -> Void in
                                             
                                             if buttonIndex == 0 {

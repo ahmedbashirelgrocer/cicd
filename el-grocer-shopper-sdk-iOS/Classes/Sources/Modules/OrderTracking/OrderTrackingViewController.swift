@@ -16,11 +16,11 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
     
     // TimelinePoint, Timeline back color, title, description
     let data:[Int: [(TimelinePoint, UIColor, String, String?)]] = [0:[
-        (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), UIColor.borderGrayColor(), NSLocalizedString("order_status_pending", comment: ""), NSLocalizedString("order_traking_pending_message", comment: "")),
-        (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), UIColor.borderGrayColor(), NSLocalizedString("order_status_accepted", comment: ""), NSLocalizedString("order_traking_accept_message", comment: "")),
-                                                                    (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), UIColor.borderGrayColor(), NSLocalizedString("order_status_insubtitution", comment: "").uppercased(), NSLocalizedString("order_traking_in_substitution_message", comment: "")),
-        (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), UIColor.borderGrayColor(), NSLocalizedString("order_status_en_route", comment: ""), NSLocalizedString("order_traking_enroute_message", comment: "")),
-        (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), .clear, NSLocalizedString("order_status_completed", comment: ""), "Your order has been delivered. Thanks for shopping with elGrocer.")]
+        (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), UIColor.borderGrayColor(), localizedString("order_status_pending", comment: ""), localizedString("order_traking_pending_message", comment: "")),
+        (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), UIColor.borderGrayColor(), localizedString("order_status_accepted", comment: ""), localizedString("order_traking_accept_message", comment: "")),
+                                                                    (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), UIColor.borderGrayColor(), localizedString("order_status_insubtitution", comment: "").uppercased(), localizedString("order_traking_in_substitution_message", comment: "")),
+        (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), UIColor.borderGrayColor(), localizedString("order_status_en_route", comment: ""), localizedString("order_traking_enroute_message", comment: "")),
+        (TimelinePoint(color: UIColor.borderGrayColor(), filled: true), .clear, localizedString("order_status_completed", comment: ""), "Your order has been delivered. Thanks for shopping with elGrocer.")]
     ]
     
     var isOrderInSubtitution = false
@@ -37,7 +37,7 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.title = NSLocalizedString("order_tracking_title", comment: "")
+        self.title = localizedString("order_tracking_title", comment: "")
         addBackButton()
         
         self.registerTableViewCell()
@@ -147,15 +147,15 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
             }
         }
         
-        titlesArray.append(NSLocalizedString("total_price", comment: ""))
+        titlesArray.append(localizedString("total_price", comment: ""))
         descriptionArray.append(String(format:"%@ %.2f", CurrencyManager.getCurrentCurrency() ,  priceSum))
     
         let serviceFee = self.order.grocery.serviceFee
         
-        titlesArray.append(NSLocalizedString("service_price", comment: ""))
+        titlesArray.append(localizedString("service_price", comment: ""))
         descriptionArray.append(String(format:"%@ %.2f ", CurrencyManager.getCurrentCurrency() , serviceFee))
         
-        let valueAddedTaxStr = String(format:"%@ %@",NSLocalizedString("vat_title", comment: ""),"(\(self.order.grocery.vat)%)")
+        let valueAddedTaxStr = String(format:"%@ %@",localizedString("vat_title", comment: ""),"(\(self.order.grocery.vat)%)")
         
         let itemsVat = priceSum - (priceSum / ((100 + Double(truncating: self.order.grocery.vat))/100))
         print("Value Added Tax Value:",itemsVat)
@@ -173,7 +173,7 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
             
             let promoCodeValue = promoCode.valueCents / 100.0 as Double
             
-            titlesArray.append(NSLocalizedString("promotion_discount_aed", comment: ""))
+            titlesArray.append(localizedString("promotion_discount_aed", comment: ""))
             descriptionArray.append(String(format:"%@ %.2f", CurrencyManager.getCurrentCurrency() , promoCodeValue))
             
             if priceSum - promoCodeValue <= 0.0 {
@@ -185,7 +185,7 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
         
         let grandTotal = priceSum + serviceFee
         
-        titlesArray.append(NSLocalizedString("grand_total", comment: ""))
+        titlesArray.append(localizedString("grand_total", comment: ""))
         descriptionArray.append(String(format:"%@ %.2f", CurrencyManager.getCurrentCurrency() , grandTotal))
     }
     
@@ -304,7 +304,7 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
                 
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
                 
-                var title = NSLocalizedString("delivery_title", comment: "")
+                var title = localizedString("delivery_title", comment: "")
                 
                 if self.order.deliverySlot != nil {
                     

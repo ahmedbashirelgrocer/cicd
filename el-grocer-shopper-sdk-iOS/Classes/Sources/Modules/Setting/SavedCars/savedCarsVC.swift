@@ -91,9 +91,9 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
     
     func setUpInitialAppearence(){
         if saveType == .addNewCar{
-            btnAddNewCar.setTitle(NSLocalizedString("lbl_add_new_car", comment: ""), for: UIControl.State())
+            btnAddNewCar.setTitle(localizedString("lbl_add_new_car", comment: ""), for: UIControl.State())
         }else{
-            btnAddNewCar.setTitle(NSLocalizedString("lbl_add_new_card", comment: ""), for: UIControl.State())
+            btnAddNewCar.setTitle(localizedString("lbl_add_new_card", comment: ""), for: UIControl.State())
         }
         
     }
@@ -124,9 +124,9 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
 
         if saveType == .addNewCar{
-            self.title = NSLocalizedString("saved_cars_title", comment: "")
+            self.title = localizedString("saved_cars_title", comment: "")
         }else{
-            self.title = NSLocalizedString("payment_methods_title", comment: "")
+            self.title = localizedString("payment_methods_title", comment: "")
         }
     }
     func registerCells(){
@@ -221,7 +221,7 @@ extension savedCarsVC{
         let indx = sender.tag
         if indx >= 0{
             self.deleteCarAt(indx)
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_removed", comment: ""), "", image: UIImage(name: "carBlack"), indx, false) { sender, index, isUndo in
+            ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("car_removed", comment: ""), "", image: UIImage(name: "carBlack"), indx, false) { sender, index, isUndo in
             }
         }
         
@@ -238,10 +238,10 @@ extension savedCarsVC{
             let indx = sender.tag
             if indx >= 0 {
                 
-                ElGrocerAlertView.createAlert(NSLocalizedString("card_title", comment: ""),
-                                              description: NSLocalizedString("card_Delete_Message", comment: ""),
-                                              positiveButton: NSLocalizedString("promo_code_alert_no", comment: "") ,
-                                              negativeButton: NSLocalizedString("dashboard_location_delete_button", comment: "") ,
+                ElGrocerAlertView.createAlert(localizedString("card_title", comment: ""),
+                                              description: localizedString("card_Delete_Message", comment: ""),
+                                              positiveButton: localizedString("promo_code_alert_no", comment: "") ,
+                                              negativeButton: localizedString("dashboard_location_delete_button", comment: "") ,
                                               buttonClickCallback: { (buttonIndex:Int) -> Void in
                     if buttonIndex == 1 {
                         self.deleteCardAt(indx)

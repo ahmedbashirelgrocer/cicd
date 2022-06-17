@@ -120,8 +120,8 @@ class EmbededPaymentWebViewController: UIViewController, NavigationBarProtocol {
     
     func setTextColorForTermsString () {
 
-        let text = NSLocalizedString("lbl_Terms_Payment_Text", comment: "")
-        let linkTextWithColor = NSLocalizedString("lbl_TermsAndPayment", comment: "")        
+        let text = localizedString("lbl_Terms_Payment_Text", comment: "")
+        let linkTextWithColor = localizedString("lbl_TermsAndPayment", comment: "")        
         let range = (text as NSString).range(of: linkTextWithColor)
         let attributedString = NSMutableAttributedString(string:text)
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.navigationBarColor() , range: range)
@@ -172,12 +172,12 @@ class EmbededPaymentWebViewController: UIViewController, NavigationBarProtocol {
        
         if isAddNewCard {
             
-            self.lblTitile.text = NSLocalizedString("Add_New_Card_Title", comment: "")
-            self.title = NSLocalizedString("Add_New_Card_Title", comment: "")
-            (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.navigationBar.topItem?.title = NSLocalizedString("Add_New_Card_Title", comment: "")
-            self.btnConfirmPayment.setTitle(NSLocalizedString("Add_New_Card_Title", comment: "") , for: .normal)
+            self.lblTitile.text = localizedString("Add_New_Card_Title", comment: "")
+            self.title = localizedString("Add_New_Card_Title", comment: "")
+            (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.navigationBar.topItem?.title = localizedString("Add_New_Card_Title", comment: "")
+            self.btnConfirmPayment.setTitle(localizedString("Add_New_Card_Title", comment: "") , for: .normal)
             
-            self.lblInfo.text = NSLocalizedString("Setting_Add_Card_User_Notification_Message", comment: "")
+            self.lblInfo.text = localizedString("Setting_Add_Card_User_Notification_Message", comment: "")
             
             let contentController = self.webView.configuration.userContentController
             contentController.removeScriptMessageHandler(forName: KisFormValidated)
@@ -185,17 +185,17 @@ class EmbededPaymentWebViewController: UIViewController, NavigationBarProtocol {
             contentController.add(self, name: KisFormValidated)
             contentController.add(self, name: KshowLoading)
         }else if isForCVVAuth {
-           self.lblTitile.text = NSLocalizedString("Title_waiting_approval_Payment", comment: "")
-            self.title = NSLocalizedString("Title_waiting_approval_Payment", comment: "")
-            (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.navigationBar.topItem?.title = NSLocalizedString("Title_waiting_approval_Payment", comment: "")
+           self.lblTitile.text = localizedString("Title_waiting_approval_Payment", comment: "")
+            self.title = localizedString("Title_waiting_approval_Payment", comment: "")
+            (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.navigationBar.topItem?.title = localizedString("Title_waiting_approval_Payment", comment: "")
         }else if  isForSub {
-            self.lblTitile.text = NSLocalizedString("Title_waiting_approval_Payment", comment: "")
-            self.title = NSLocalizedString("Title_waiting_approval_Payment", comment: "")
-            (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.navigationBar.topItem?.title = NSLocalizedString("Title_waiting_approval_Payment", comment: "")
+            self.lblTitile.text = localizedString("Title_waiting_approval_Payment", comment: "")
+            self.title = localizedString("Title_waiting_approval_Payment", comment: "")
+            (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.navigationBar.topItem?.title = localizedString("Title_waiting_approval_Payment", comment: "")
         }else if  istrackingUrl {
-            self.lblTitile.text = NSLocalizedString("order_confirmation_track_order_button", comment: "")
-            self.title = NSLocalizedString("order_confirmation_track_order_button", comment: "")
-            (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.navigationBar.topItem?.title = NSLocalizedString("order_confirmation_track_order_button", comment: "")
+            self.lblTitile.text = localizedString("order_confirmation_track_order_button", comment: "")
+            self.title = localizedString("order_confirmation_track_order_button", comment: "")
+            (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.navigationBar.topItem?.title = localizedString("order_confirmation_track_order_button", comment: "")
         }
         
     }
@@ -377,7 +377,7 @@ class EmbededPaymentWebViewController: UIViewController, NavigationBarProtocol {
         
         if isForCVVAuth || isForSub {
             
-            let notification = ElGrocerAlertView.createAlert(NSLocalizedString("location_not_covered_alert_title", comment: "") , description: NSLocalizedString("Card_Error_Back_Click", comment: "") , positiveButton: NSLocalizedString("account_setup_cancel", comment: "") , negativeButton: NSLocalizedString("btn_Go_Back", comment: "") ) { (index) in
+            let notification = ElGrocerAlertView.createAlert(localizedString("location_not_covered_alert_title", comment: "") , description: localizedString("Card_Error_Back_Click", comment: "") , positiveButton: localizedString("account_setup_cancel", comment: "") , negativeButton: localizedString("btn_Go_Back", comment: "") ) { (index) in
                 
                 if index == 0 {
                     
@@ -509,7 +509,7 @@ extension EmbededPaymentWebViewController: WKScriptMessageHandler,  WKUIDelegate
                         }else{
                            self.backButtonClick()
                         }
-                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_added", comment: ""), "", image: UIImage(name: "placeorder-card"), -1, false) { sender, index, isUndo in
+                        ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("car_added", comment: ""), "", image: UIImage(name: "placeorder-card"), -1, false) { sender, index, isUndo in
                         }
                     }else{
                         
@@ -529,7 +529,7 @@ extension EmbededPaymentWebViewController: WKScriptMessageHandler,  WKUIDelegate
     
         let message =  message.count > 0 ? message : "Error while adding card"
            // message = message
-        let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""), description: message  , positiveButton: NSLocalizedString("lbl_retry", comment: "") , negativeButton: NSLocalizedString("promo_code_alert_no", comment: "")) { (index) in
+        let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""), description: message  , positiveButton: localizedString("lbl_retry", comment: "") , negativeButton: localizedString("promo_code_alert_no", comment: "")) { (index) in
             if index == 0 {
                 ElGrocerUtility.sharedInstance.delay(1) {
                      self.callLoadrequest()

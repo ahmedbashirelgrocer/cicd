@@ -49,11 +49,11 @@ class SubstitutionItemCell: UITableViewCell {
         self.lblProductPrice.font       = UIFont.SFProDisplayNormalFont(14.0)
         
         self.quantityLabel.font         = UIFont.SFProDisplayNormalFont(14.0)
-        self.quantityLabel.text         = NSLocalizedString("quantity_:", comment: "")
+        self.quantityLabel.text         = localizedString("quantity_:", comment: "")
         self.lblQuantity.font           = UIFont.SFProDisplayNormalFont(14.0)
         
         self.totalLabel.font            = UIFont.SFProDisplayNormalFont(14.0)
-        self.totalLabel.text            = NSLocalizedString("total_:", comment: "")
+        self.totalLabel.text            = localizedString("total_:", comment: "")
         self.lblTotalPrice.font         = UIFont.SFProDisplaySemiBoldFont(14.0)
         
         self.lblBanner.font             = UIFont.SFProDisplayBoldFont(14.0)
@@ -110,7 +110,7 @@ class SubstitutionItemCell: UITableViewCell {
             
             isBannerHidden  = false
            highlightColor  = UIColor(red: 255.0/255.0,green: 116.0/255.0,blue: 115.0/255.0,alpha:1.0)
-            bannerText      = NSLocalizedString("no_replacement_suggested_title", comment: "")
+            bannerText      = localizedString("no_replacement_suggested_title", comment: "")
             
         }else if !isProductAvailable && isSubstitutionAvailable {
             alphaImage      = CGFloat(0.4)
@@ -118,7 +118,7 @@ class SubstitutionItemCell: UITableViewCell {
             
             isBannerHidden  = false
             highlightColor  = UIColor(red: 255.0/255.0,green: 173.0/255.0,blue: 54.0/255.0,alpha:1.0)
-            bannerText      = NSLocalizedString("replacement_suggested_title", comment: "")
+            bannerText      = localizedString("replacement_suggested_title", comment: "")
         }
         
         self.viewBase.borderColor           = highlightColor

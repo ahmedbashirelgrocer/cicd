@@ -32,7 +32,7 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.txtNoteView.placeholder = NSLocalizedString("lbl_placeholder_text", comment: "type to leave us")
+        self.txtNoteView.placeholder = localizedString("lbl_placeholder_text", comment: "type to leave us")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

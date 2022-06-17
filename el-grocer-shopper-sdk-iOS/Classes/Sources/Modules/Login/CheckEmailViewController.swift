@@ -29,10 +29,10 @@ class CheckEmailViewController: UIViewController {
         
         (self.navigationController as? ElGrocerNavigationController)?.hideNavigationBar(true)
         
-        self.lblInfo.text   = NSLocalizedString("check_email_detail_label", comment: "")
+        self.lblInfo.text   = localizedString("check_email_detail_label", comment: "")
         self.lblInfo.font   = UIFont.SFProDisplayBoldFont(12.0)
         
-        self.btnOk.setTitle(NSLocalizedString("ok_button_title", comment: ""), for:UIControl.State())
+        self.btnOk.setTitle(localizedString("ok_button_title", comment: ""), for:UIControl.State())
         self.btnOk.titleLabel?.font = UIFont.SFProDisplayBoldFont(14.0)
     }
     

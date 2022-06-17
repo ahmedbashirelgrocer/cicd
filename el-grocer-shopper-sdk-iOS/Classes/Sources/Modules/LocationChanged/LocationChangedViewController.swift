@@ -55,10 +55,10 @@ class LocationChangedViewController: UIViewController {
         bottomConstraint.constant = -subViewHeight
         containerViewHeightConstraint.constant = subViewHeight
         
-        self.mainDescriptionLabel.text = NSLocalizedString("location_changed_view_main_Description_label_text", comment: "")
-        self.subDescriptionLabel.text = NSLocalizedString("location_changed_view_sub_Description_label_text", comment: "")
-        self.changeLocationButton.setTitle(NSLocalizedString("location_changed_view_change_location_button_title", comment: ""), for: UIControl.State())
-        self.dontChangeButton.setTitle(NSLocalizedString("location_changed_view_dont_change_location_button_title", comment: ""), for: UIControl.State())
+        self.mainDescriptionLabel.text = localizedString("location_changed_view_main_Description_label_text", comment: "")
+        self.subDescriptionLabel.text = localizedString("location_changed_view_sub_Description_label_text", comment: "")
+        self.changeLocationButton.setTitle(localizedString("location_changed_view_change_location_button_title", comment: ""), for: UIControl.State())
+        self.dontChangeButton.setTitle(localizedString("location_changed_view_dont_change_location_button_title", comment: ""), for: UIControl.State())
     }
     
     override func viewWillDisappear(_ animated: Bool) {

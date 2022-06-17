@@ -23,7 +23,7 @@ class ElgrocerClickAndCollectGroceryDetailViewController: UIViewController {
     @IBOutlet var lblGroceryTimeDistance: UILabel!
     @IBOutlet var btnShop: UIButton! {
         didSet{
-            btnShop.setTitle(NSLocalizedString("shop_btn_title", comment: ""), for: UIControl.State())
+            btnShop.setTitle(localizedString("shop_btn_title", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var lblDeliverySlotDay: UILabel!
@@ -32,7 +32,7 @@ class ElgrocerClickAndCollectGroceryDetailViewController: UIViewController {
     @IBOutlet var minOrderBGView: UIView!
     @IBOutlet var lblMinOrder: UILabel! {
         didSet{
-            lblMinOrder.text = NSLocalizedString("lbl_MinOrder", comment: "")
+            lblMinOrder.text = localizedString("lbl_MinOrder", comment: "")
         }
     }
     @IBOutlet var lblMinOrderValue: UILabel!
@@ -118,10 +118,10 @@ class ElgrocerClickAndCollectGroceryDetailViewController: UIViewController {
             if self.storeType != nil {
                 self.lblGroceryType.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? self.storeType?.nameAr : self.storeType?.name
             }else{
-                self.lblGroceryType.text = NSLocalizedString("lbl_Other", comment: "")
+                self.lblGroceryType.text = localizedString("lbl_Other", comment: "")
             }
             self.lblMinOrderValue.text = CurrencyManager.getCurrentCurrency() + " "  + String(self.grocery?.minBasketValue ?? 0)
-            self.lblGroceryTimeDistance.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: (self.grocery?.distance.stringValue ?? "0")) + " " + NSLocalizedString("lbl_prep_time_min", comment: "")
+            self.lblGroceryTimeDistance.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: (self.grocery?.distance.stringValue ?? "0")) + " " + localizedString("lbl_prep_time_min", comment: "")
             self.setImage(self.grocery?.smallImageUrl)
         }
         

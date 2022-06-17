@@ -28,7 +28,7 @@ extension LocationMapViewControllerDelegate {
 class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , NavigationBarProtocol {
     @IBOutlet var lbl_chooselocation: UILabel!{
         didSet{
-            lbl_chooselocation.text =  NSLocalizedString("lbl_chooselocation", comment: "")
+            lbl_chooselocation.text =  localizedString("lbl_chooselocation", comment: "")
             lbl_chooselocation.setH3SemiBoldDarkStyle()
             
         }
@@ -37,14 +37,14 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     @IBOutlet var lblManuallMsg: UILabel! {
         didSet{
-            lblManuallMsg.text =  NSLocalizedString("lbl_Manuall_Location", comment: "")
+            lblManuallMsg.text =  localizedString("lbl_Manuall_Location", comment: "")
             lblManuallMsg.setBody3RegDarkStyle()
         }
         
     }
     @IBOutlet var lblCurrentLocation: UILabel!{
         didSet{
-            lblCurrentLocation.text =  NSLocalizedString("lbl_use_current_location", comment: "")
+            lblCurrentLocation.text =  localizedString("lbl_use_current_location", comment: "")
             lblCurrentLocation.setBody3RegDarkStyle()
         }
         
@@ -133,13 +133,13 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         
         if isConfirmAddress == true {
-            self.navigationItem.title = NSLocalizedString("confirm_address_title", comment: "")
+            self.navigationItem.title = localizedString("confirm_address_title", comment: "")
             if let place = self.place{
                 self.viewModel.predictionlocationName.value = place.name
                 self.viewModel.predictionlocationAddress.value = place.formattedAddress
             }
         }else{
-            self.navigationItem.title = NSLocalizedString("lbl_chooselocation", comment: "") //
+            self.navigationItem.title = localizedString("lbl_chooselocation", comment: "") //
         }
         
         self.setBindings()
@@ -247,7 +247,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                     }
                         
                         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: ""),NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
                             
                             if index == 0 {
                                 ElGrocerUtility.sharedInstance.activeGrocery = nil
@@ -277,10 +277,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                     if self.manualTextField.text?.count ?? 0 > 0 {
                         self.manualLbl.text = ""
                         self.manualTextField.text  =  self.viewModel.selectedAddress.value?.formattedAddress ?? "Current Location"
-                        self.addressTitleLabel.text = NSLocalizedString("lbl_use_current_location", comment: "")
+                        self.addressTitleLabel.text = localizedString("lbl_use_current_location", comment: "")
                         self.addressTextField.text = ""
                     }else{
-                        self.manualLbl.text = NSLocalizedString("lbl_Manuall_Location", comment: "")
+                        self.manualLbl.text = localizedString("lbl_Manuall_Location", comment: "")
                         self.manualTextField.text  =  ""
                         self.addressTitleLabel.text = ""
                         self.addressTextField.text = self.viewModel.selectedAddress.value?.formattedAddress ?? "Current Location"
@@ -290,8 +290,8 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 }else{
                     self.manualTextField.text = ""
                     self.addressTextField.text = ""
-                    self.addressTitleLabel.text = NSLocalizedString("lbl_use_current_location", comment: "")
-                    self.manualLbl.text  = NSLocalizedString("lbl_Manuall_Location", comment: "")
+                    self.addressTitleLabel.text = localizedString("lbl_use_current_location", comment: "")
+                    self.manualLbl.text  = localizedString("lbl_Manuall_Location", comment: "")
                 }
                 
                 self.checkCOnveredArea(returnLocation)
@@ -418,7 +418,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                             }, completion: nil)
                             
                             self.setUpBottomView()
-                            self.confirmButton.setTitle(NSLocalizedString("request_to_deliver_here", comment: ""), for: .normal)
+                            self.confirmButton.setTitle(localizedString("request_to_deliver_here", comment: ""), for: .normal)
                             self.confirmButton.setBackgroundColor(.white, forState: .normal)
                             self.confirmButton.setH4SemiBoldGreenStyle()
                             self.confirmButton.layer.cornerRadius = 28
@@ -428,10 +428,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                             
                             
                             if self.manualTextField.text?.count ?? 0 > 0 {
-                                self.lblErrorTwo.text = NSLocalizedString("lbl_error_No_Grocery", comment: "")
+                                self.lblErrorTwo.text = localizedString("lbl_error_No_Grocery", comment: "")
                                 self.maunalSearchView.layer.borderColor = UIColor.redInfoColor().cgColor
                             }else{
-                                self.lblError.text = NSLocalizedString("lbl_error_No_Grocery", comment: "")
+                                self.lblError.text = localizedString("lbl_error_No_Grocery", comment: "")
                                 self.lblCurrentSearchView.layer.borderColor = UIColor.redInfoColor().cgColor
                                 
                             }
@@ -515,17 +515,17 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 
                 if self.isNeedToUpdateManual {
                    //  self.manualLbl.text = self.viewModel.locationAddress.value
-                    // self.addressTextField.text = NSLocalizedString("lbl_use_current_location", comment: "")
+                    // self.addressTextField.text = localizedString("lbl_use_current_location", comment: "")
                 } else {
                   //  self.addressTextField.text = self.viewModel.locationAddress.value
-                  //  self.manualLbl.text  = NSLocalizedString("lbl_Manuall_Location", comment: "")
+                  //  self.manualLbl.text  = localizedString("lbl_Manuall_Location", comment: "")
                 }
                 
                 if self.isPinUpdate {
                       self.manualTextField.text = ""
                       self.addressTextField.text = ""
-                      self.addressTitleLabel.text = NSLocalizedString("lbl_use_current_location", comment: "")
-                      self.manualLbl.text  = NSLocalizedString("lbl_Manuall_Location", comment: "")
+                      self.addressTitleLabel.text = localizedString("lbl_use_current_location", comment: "")
+                      self.manualLbl.text  = localizedString("lbl_Manuall_Location", comment: "")
                 }
                 
                 self.isNeedToUpdateManual = false
@@ -575,7 +575,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 var finalAddress = address
                 
 //                if finalAddress.count == 0 {
-//                 finalAddress =  NSLocalizedString("lbl_use_current_location", comment: "")
+//                 finalAddress =  localizedString("lbl_use_current_location", comment: "")
 //                }
               //  self.addressTextField.text = finalAddress
                 
@@ -616,9 +616,9 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     fileprivate func showLocationDisableAlert(){
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("location_disable_alert_title", comment: ""),
-                                      description:NSLocalizedString("location_disable_alert_message", comment: ""),
-                                      positiveButton: NSLocalizedString("location_disable_alert_button", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("location_disable_alert_title", comment: ""),
+                                      description:localizedString("location_disable_alert_message", comment: ""),
+                                      positiveButton: localizedString("location_disable_alert_button", comment: ""),
                                       negativeButton: nil, buttonClickCallback: nil).show()
         
     }
@@ -723,10 +723,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         
     addressTextField.rightViewMode = UITextField.ViewMode.always
         
-//        self.manualLbl.text = NSLocalizedString("lbl_Manuall_Location", comment: "")
+//        self.manualLbl.text = localizedString("lbl_Manuall_Location", comment: "")
 //        self.manualTextField.text  =  ""
 //
-        self.addressTitleLabel.text = NSLocalizedString("lbl_use_current_location", comment: "")
+        self.addressTitleLabel.text = localizedString("lbl_use_current_location", comment: "")
         self.addressTextField.text = ""
         
         
@@ -797,10 +797,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     func setupLabelsAppearance() {
         
         if isConfirmAddress {
-            footerTitleLabel.text = NSLocalizedString("drag_pin_title", comment: "")
+            footerTitleLabel.text = localizedString("drag_pin_title", comment: "")
             self.addressLabel.text = self.place?.formattedAddress
         }else{
-            footerTitleLabel.text = NSLocalizedString("location_map_label_title", comment: "")
+            footerTitleLabel.text = localizedString("location_map_label_title", comment: "")
         }
         
         footerTitleLabel.font = UIFont.bookFont(13.0)
@@ -842,13 +842,13 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     }
     
     func setupButtonsAppearance() {
-    self.confirmButton.setTitle(NSLocalizedString("confirm_location_button_title", comment: ""), for: UIControl.State())
+    self.confirmButton.setTitle(localizedString("confirm_location_button_title", comment: ""), for: UIControl.State())
         self.confirmButton.setH4SemiBoldWhiteStyle()
         self.confirmButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
         self.confirmButton.layer.cornerRadius = 28
         self.confirmButton.layer.masksToBounds = true
         
-        self.cancelButton.setTitle(NSLocalizedString("account_setup_cancel", comment: ""), for: UIControl.State())
+        self.cancelButton.setTitle(localizedString("account_setup_cancel", comment: ""), for: UIControl.State())
         self.cancelButton.setH4SemiBoldWhiteStyle()
         self.cancelButton.setBackgroundColor(UIColor.white, forState: UIControl.State())
         self.cancelButton.layer.cornerRadius = 28
@@ -951,7 +951,7 @@ extension LocationMapViewController: UITextFieldDelegate {
         
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         self.viewModel.selectedLocation.value = location
-      //  self.viewModel.locationName.value = NSLocalizedString("lbl_use_current_location", comment: "")
+      //  self.viewModel.locationName.value = localizedString("lbl_use_current_location", comment: "")
         let camera = GMSCameraPosition.camera(withTarget: location.coordinate , zoom: cameraZoom)
         self.mapView.camera = camera
         
@@ -962,7 +962,7 @@ extension LocationMapViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         
         if (textField == self.addressTextField) {
-//            if  (self.viewModel.locationName.value == NSLocalizedString("lbl_use_current_location", comment: "")  || self.viewModel.locationName.value == "") {
+//            if  (self.viewModel.locationName.value == localizedString("lbl_use_current_location", comment: "")  || self.viewModel.locationName.value == "") {
 //                 showLocationCustomPopUp()
 //            }
             showLocationCustomPopUp()
@@ -1048,12 +1048,12 @@ extension LocationMapViewController: GMSAutocompleteViewControllerDelegate {
             }
         })
        
-       // self.addressTextField.text = NSLocalizedString("lbl_use_current_location", comment: "")
+       // self.addressTextField.text = localizedString("lbl_use_current_location", comment: "")
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
         
-       _ = ElGrocerAlertView.createAlert(error.localizedDescription, description: nil, positiveButton: NSLocalizedString("common_ok_button_title", comment: ""), negativeButton: nil) { (buttonIndex) in
+       _ = ElGrocerAlertView.createAlert(error.localizedDescription, description: nil, positiveButton: localizedString("common_ok_button_title", comment: ""), negativeButton: nil) { (buttonIndex) in
             viewController.presentingViewController?.dismiss(animated: true, completion: nil)
         }
     }

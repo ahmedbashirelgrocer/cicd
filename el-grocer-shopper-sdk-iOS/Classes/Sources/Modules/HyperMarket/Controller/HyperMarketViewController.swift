@@ -57,7 +57,7 @@ class HyperMarketViewController: UIViewController {
             (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
             
             self.navigationItem.hidesBackButton = true
-            self.title = self.controllerTitle//NSLocalizedString("title_hyperMarket", comment: "")
+            self.title = self.controllerTitle//localizedString("title_hyperMarket", comment: "")
             self.addRightCrossButton(true)
         }
     }

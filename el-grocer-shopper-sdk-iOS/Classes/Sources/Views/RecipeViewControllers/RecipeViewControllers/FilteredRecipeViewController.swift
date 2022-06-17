@@ -270,7 +270,7 @@ class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelega
     func showAddToBasketToolMessage() {
         
         if toolTipView == nil {
-            let toolTipStr = NSLocalizedString("product_added_to_basket", comment: "")
+            let toolTipStr = localizedString("product_added_to_basket", comment: "")
             if let barButton = self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem {
                 self.toolTipView = JDFTooltipView.init(targetBarButtonItem: barButton, hostView: self.view.window, tooltipText: toolTipStr, arrowDirection: JDFTooltipViewArrowDirection.up, width:  self.view.bounds.width)
                 self.toolTipView!.tooltipBackgroundColour = UIColor.lightGreenColor()
@@ -344,7 +344,7 @@ class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelega
                         cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
                         self.recipeListArray[index].isSaved = true
                     }
-                    let msg = NSLocalizedString("recipe_save_success", comment: "")
+                    let msg = localizedString("recipe_save_success", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
                 }
             }else{
@@ -443,7 +443,7 @@ extension FilteredRecipeViewController : UITableViewDelegate , UITableViewDataSo
             if indexPath.row == 0{
                 print("heading")
                 let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: NSLocalizedString("lbl_preparation_Highlight", comment: ""))
+                cell.configureCell(title: localizedString("lbl_preparation_Highlight", comment: ""))
                 return cell
             }else{
                 // print("storyly Collection view")
@@ -566,8 +566,8 @@ extension FilteredRecipeViewController : RecipeDataHandlerDelegate {
 //            self.getAlreadyAddedList { [weak self](recipeCartList) in
 //                guard let self = self else {return}
 //                self.recipCartList = recipeCartList
-//                self.emtpyTitle = NSLocalizedString("title_no_Recipe_Found", comment: "")
-//                self.emtpyDescription = NSLocalizedString("message_no_Recipe_Found", comment: "")
+//                self.emtpyTitle = localizedString("title_no_Recipe_Found", comment: "")
+//                self.emtpyDescription = localizedString("message_no_Recipe_Found", comment: "")
 //                self.reloadData()
 //            }
         }

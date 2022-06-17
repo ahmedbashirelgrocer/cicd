@@ -32,17 +32,17 @@ class LocationPersonalInfoTableViewCell: UITableViewCell , AWSegmentViewProtocol
 
     @IBOutlet var lblChoseLocation: UILabel!{
         didSet {
-            lblChoseLocation.text = NSLocalizedString("lbl_choose_nick", comment: "")
+            lblChoseLocation.text = localizedString("lbl_choose_nick", comment: "")
         }
     }
     @IBOutlet var btnDone: AWButton!{
         didSet {
-            btnDone.setTitle( NSLocalizedString("lbl_save_changes", comment: "") , for: .normal)
+            btnDone.setTitle( localizedString("lbl_save_changes", comment: "") , for: .normal)
         }
     }
     @IBOutlet var lblPersonalInfo: UILabel!{
         didSet {
-            lblPersonalInfo.text = NSLocalizedString("lbl_personal", comment: "")
+            lblPersonalInfo.text = localizedString("lbl_personal", comment: "")
         }
     }
     @IBOutlet var viewName: AWView!
@@ -75,21 +75,21 @@ class LocationPersonalInfoTableViewCell: UITableViewCell , AWSegmentViewProtocol
         
    
         
-        txtMobileNumber.placeholder = NSLocalizedString("lbl_MobileNumber_location", comment: "")
-        txtShopperName.placeholder = NSLocalizedString("lbl_Name_location", comment: "")
+        txtMobileNumber.placeholder = localizedString("lbl_MobileNumber_location", comment: "")
+        txtShopperName.placeholder = localizedString("lbl_Name_location", comment: "")
         
         self.txtMobileNumber.attributedPlaceholder = NSAttributedString.init(string: self.txtMobileNumber.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
         self.txtShopperName.attributedPlaceholder = NSAttributedString.init(string: self.txtShopperName.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
         
         
         if editScreenState == .isForSignUp {
-            self.btnDone.setTitle(NSLocalizedString("btn_add_address_alert_title", comment: ""), for: .normal)
+            self.btnDone.setTitle(localizedString("btn_add_address_alert_title", comment: ""), for: .normal)
         }else if editScreenState == .isForAddNew {
-             self.btnDone.setTitle(NSLocalizedString("btn_add_address_alert_title", comment: ""), for: .normal)
+             self.btnDone.setTitle(localizedString("btn_add_address_alert_title", comment: ""), for: .normal)
         }else if editScreenState == .isFromEdit {
-              self.btnDone.setTitle(NSLocalizedString("lbl_save_changes", comment: "") , for: .normal)
+              self.btnDone.setTitle(localizedString("lbl_save_changes", comment: "") , for: .normal)
         }else {
-             self.btnDone.setTitle(NSLocalizedString("lbl_delivery", comment: ""), for: .normal)
+             self.btnDone.setTitle(localizedString("lbl_delivery", comment: ""), for: .normal)
         }
         
         

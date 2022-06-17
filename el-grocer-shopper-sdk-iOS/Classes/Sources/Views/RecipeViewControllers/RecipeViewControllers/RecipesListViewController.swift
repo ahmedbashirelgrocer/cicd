@@ -95,7 +95,7 @@ class RecipesListViewController: BasketBasicViewController {
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
         
-        self.navigationController!.navigationBar.topItem!.title = NSLocalizedString("title_recipe_list", comment: "")
+        self.navigationController!.navigationBar.topItem!.title = localizedString("title_recipe_list", comment: "")
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
@@ -113,7 +113,7 @@ class RecipesListViewController: BasketBasicViewController {
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setNewLightBackgroundColor()
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            self.addCustomTitleViewWithTitleDarkShade( NSLocalizedString("title_recipe_list", comment: "") , true)
+            self.addCustomTitleViewWithTitleDarkShade( localizedString("title_recipe_list", comment: "") , true)
         }
         
         
@@ -297,8 +297,8 @@ class RecipesListViewController: BasketBasicViewController {
     }
     func showAddToBasketToolMessage() {
         
-        //let toolTipStr = NSLocalizedString("product_added_to_basket", comment: "")
-        let msg = NSLocalizedString("product_added_to_basket", comment: "")
+        //let toolTipStr = localizedString("product_added_to_basket", comment: "")
+        let msg = localizedString("product_added_to_basket", comment: "")
         ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "lbl_edit_Added") , -1 , false) { (sender , index , isUnDo) in  }
         
         if self.toolTipView != nil {
@@ -306,7 +306,7 @@ class RecipesListViewController: BasketBasicViewController {
         }
         
         if toolTipView == nil {
-            let toolTipStr = NSLocalizedString("product_added_to_basket", comment: "")
+            let toolTipStr = localizedString("product_added_to_basket", comment: "")
             if let barButton = self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem {
                 self.toolTipView = JDFTooltipView.init(targetBarButtonItem: barButton, hostView: self.view.window, tooltipText: toolTipStr, arrowDirection: JDFTooltipViewArrowDirection.up, width:  self.view.bounds.width)
                 self.toolTipView!.tooltipBackgroundColour = UIColor.lightGreenColor()
@@ -450,8 +450,8 @@ extension RecipesListViewController : RecipeDataHandlerDelegate {
             guard let self = self else {return}
             self.currentSpinnerView?.removeFromSuperview()
             self.recipCartList = recipeCartList
-            self.emtpyTitle = NSLocalizedString("title_no_Recipe_Found", comment: "")
-            self.emtpyDescription = NSLocalizedString("message_no_Recipe_Found", comment: "")
+            self.emtpyTitle = localizedString("title_no_Recipe_Found", comment: "")
+            self.emtpyDescription = localizedString("message_no_Recipe_Found", comment: "")
             self.reloadData()
         }
 

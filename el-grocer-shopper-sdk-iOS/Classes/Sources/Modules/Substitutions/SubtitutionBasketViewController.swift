@@ -52,7 +52,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
 
         // Do any additional setup after loading the view.
         
-        self.title = NSLocalizedString("substitutions_title_new", comment: "")
+        self.title = localizedString("substitutions_title_new", comment: "")
         
         addBackButton()
         
@@ -138,7 +138,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
             self.substitutionTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 60, right: 0)
             self.viewStats.isHidden   = false
             
-            let countLabel = totalQuantity == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+            let countLabel = totalQuantity == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
             
             self.lblQuantity.text   = String(format: "%d %@",totalQuantity,countLabel)
             self.lblTotalPrice.text = String(format: "%@ %.2f",CurrencyManager.getCurrentCurrency() , totalPrice)
@@ -158,17 +158,17 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
         
         self.substitutionSummaryTitle.font = UIFont.SFProDisplaySemiBoldFont(13.0)
         self.substitutionSummaryTitle.textColor = UIColor.black
-        self.substitutionSummaryTitle.text = NSLocalizedString("choose_substitutions_title_new", comment: "")
+        self.substitutionSummaryTitle.text = localizedString("choose_substitutions_title_new", comment: "")
         
         self.substitutionMessage.font = UIFont.bookFont(11.0)
         self.substitutionMessage.textColor = UIColor.black
-        self.substitutionMessage.text = NSLocalizedString("products_out_of_stock_message_new", comment: "")
+        self.substitutionMessage.text = localizedString("products_out_of_stock_message_new", comment: "")
     }
     
     func setupLabelAppearance() {
         
         self.quantityLabel.font         = UIFont.SFProDisplaySemiBoldFont(12.0)
-        self.quantityLabel.text         = NSLocalizedString("substituted_items", comment: "")
+        self.quantityLabel.text         = localizedString("substituted_items", comment: "")
         self.lblQuantity.font           = UIFont.SFProDisplaySemiBoldFont(14.0)
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
         if currentLang == "ar" {
@@ -178,7 +178,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
         }
         
         self.totalPriceLabel.font   = UIFont.SFProDisplaySemiBoldFont(12.0)
-        self.totalPriceLabel.text   = NSLocalizedString("total_price_:", comment: "")
+        self.totalPriceLabel.text   = localizedString("total_price_:", comment: "")
         self.lblTotalPrice.font     = UIFont.SFProDisplaySemiBoldFont(17.0)
     }
     
@@ -197,10 +197,10 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
     
     private func configureSendButtonAppearence(){
         
-        self.sendButton.setTitle(NSLocalizedString("confirm_button_title_new", comment: "").uppercased(), for: UIControl.State())
+        self.sendButton.setTitle(localizedString("confirm_button_title_new", comment: "").uppercased(), for: UIControl.State())
         self.sendButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12.0)
         
-        self.sendButton_short.setTitle(NSLocalizedString("confirm_button_title_new", comment: "").uppercased(), for: UIControl.State())
+        self.sendButton_short.setTitle(localizedString("confirm_button_title_new", comment: "").uppercased(), for: UIControl.State())
         self.sendButton_short.titleLabel?.font = UIFont.SFProDisplayBoldFont(12.0)
     }
     
@@ -218,7 +218,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
     
     private func configureCancelOrderButtonApperence(){
         
-        self.cancelOrderButton.setTitle(NSLocalizedString("cancel_order_button_title", comment: ""), for: UIControl.State())
+        self.cancelOrderButton.setTitle(localizedString("cancel_order_button_title", comment: ""), for: UIControl.State())
         self.cancelOrderButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(13.0)
     }
     
@@ -325,7 +325,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
                 if isSuccess {
                     self.gotoCvvAuth(cvv, cardID: cardID , authAmount:  self.finalAmmountWithSubItems() )
                 }else{
-                    let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description:NSLocalizedString("cvv_alert_msg", comment: "") ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+                    let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:localizedString("cvv_alert_msg", comment: "") ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
                     errorAlert.showPopUp()
                     // self.setSendButtonEnabled(true)
                 }
@@ -581,7 +581,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
         
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "")  , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
                 FireBaseEventsLogger.trackSubstitutionConfirmationEvents("CancelOrder")
@@ -594,10 +594,10 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
         
         
         
-//        ElGrocerAlertView.createAlert(NSLocalizedString("order_history_cancel_alert_title", comment: ""),
-//                                      description: NSLocalizedString("order_history_cancel_alert_message", comment: ""),
-//                                      positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),
-//                                      negativeButton: NSLocalizedString("sign_out_alert_no", comment: "")) { (buttonIndex:Int) -> Void in
+//        ElGrocerAlertView.createAlert(localizedString("order_history_cancel_alert_title", comment: ""),
+//                                      description: localizedString("order_history_cancel_alert_message", comment: ""),
+//                                      positiveButton: localizedString("sign_out_alert_yes", comment: ""),
+//                                      negativeButton: localizedString("sign_out_alert_no", comment: "")) { (buttonIndex:Int) -> Void in
 //                                        
 //                                        if buttonIndex == 0 {
 //                                            FireBaseEventsLogger.trackSubstitutionConfirmationEvents("CancelOrder")
@@ -639,9 +639,9 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
             switch result {
             case .success(_):
                 
-//                let notification = ElGrocerAlertView.createAlert(NSLocalizedString("order_cancel_alert_title", comment: ""),description: NSLocalizedString("order_cancel_success_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+//                let notification = ElGrocerAlertView.createAlert(localizedString("order_cancel_alert_title", comment: ""),description: localizedString("order_cancel_success_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
 //                notification.showPopUp()
-                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                 
                 self.perform(#selector(self.dismissView), with: nil, afterDelay: 3.0)
                 
@@ -727,7 +727,7 @@ extension SubtitutionBasketViewController : WKNavigationDelegate {
         
         SpinnerView.hideSpinnerView()
         self.dismiss(animated: true) {
-            let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+            let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
             errorAlert.showPopUp()
         }
         
@@ -739,7 +739,7 @@ extension SubtitutionBasketViewController : WKNavigationDelegate {
         SpinnerView.hideSpinnerView()
         webView.willMove(toWindow: nil)
         webView.removeFromSuperview()
-        let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description:error.localizedDescription ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+        let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:error.localizedDescription ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
         errorAlert.showPopUp()
     }
     

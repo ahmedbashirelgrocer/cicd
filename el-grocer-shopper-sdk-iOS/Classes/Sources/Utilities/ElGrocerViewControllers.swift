@@ -440,7 +440,7 @@ class ElGrocerViewControllers {
     class func recipesDetailViewController() -> RecipeDetailViewController {
         let recipeDetail : RecipeDetailViewController  = ElGrocerViewControllers.initializeControllerFromStoryboard("RecipeStory", storyboardControllerId: "RecipeDetailViewController")
         recipeDetail.addToBasketMessageDisplayed = {
-            let msg = NSLocalizedString("product_added_to_basket", comment: "")
+            let msg = localizedString("product_added_to_basket", comment: "")
             ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "lbl_edit_Added") , -1 , false) { (sender , index , isUnDo) in  }
         }
         return recipeDetail
@@ -449,7 +449,7 @@ class ElGrocerViewControllers {
     class func recipeDetailViewController() -> RecipeDetailVC {
         let recipeDetail : RecipeDetailVC  = ElGrocerViewControllers.initializeControllerFromStoryboard("RecipeStory", storyboardControllerId: "RecipeDetailVC")
         recipeDetail.addToBasketMessageDisplayed = {
-            let msg = NSLocalizedString("product_added_to_basket", comment: "")
+            let msg = localizedString("product_added_to_basket", comment: "")
             ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "lbl_edit_Added") , -1 , false) { (sender , index , isUnDo) in  }
         }
         return recipeDetail

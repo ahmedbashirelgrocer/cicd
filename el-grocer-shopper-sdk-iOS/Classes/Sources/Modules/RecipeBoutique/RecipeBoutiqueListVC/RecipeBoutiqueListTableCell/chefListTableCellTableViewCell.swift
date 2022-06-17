@@ -16,7 +16,7 @@ class chefListTableCellTableViewCell: UITableViewCell {
     @IBOutlet var lblHeading: UILabel!{
         didSet{
             lblHeading.setH3SemiBoldDarkStyle()
-            lblHeading.text = NSLocalizedString("lbl_chef_and_brand_text", comment: "")
+            lblHeading.text = localizedString("lbl_chef_and_brand_text", comment: "")
         }
     }
     override func awakeFromNib() {

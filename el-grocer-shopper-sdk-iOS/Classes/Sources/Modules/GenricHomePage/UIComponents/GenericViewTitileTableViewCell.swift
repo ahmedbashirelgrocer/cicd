@@ -49,7 +49,7 @@ class GenericViewTitileTableViewCell: UITableViewCell {
     @IBOutlet var rightButtonText: UILabel! {
         didSet {
             rightButtonText.setCaptionOneBoldUpperCaseGreenStyleWithFontScale14()
-            rightButtonText.text = NSLocalizedString("view_more_title", comment: "")
+            rightButtonText.text = localizedString("view_more_title", comment: "")
         }
     }
     @IBOutlet var arrowImage: UIImageView!
@@ -100,7 +100,7 @@ class GenericViewTitileTableViewCell: UITableViewCell {
         viewAll.visibility = viewAll.isHidden ? .goneX : .visible
         arrowImage.isHidden = false
         rightButtonText.setBody1BoldStyle()
-        rightButtonText.text = NSLocalizedString("btn_txt_edit", comment: "")
+        rightButtonText.text = localizedString("btn_txt_edit", comment: "")
     }
     
     

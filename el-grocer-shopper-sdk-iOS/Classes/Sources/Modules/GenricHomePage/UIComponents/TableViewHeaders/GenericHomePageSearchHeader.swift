@@ -35,8 +35,8 @@ class GenericHomePageSearchHeader: UIView {
     }
     @IBOutlet var txtSearch: UITextField!{
         didSet{
-            txtSearch.placeholder = NSLocalizedString("search_placeholder_home", comment: "")
-            txtSearch.setPlaceHolder(text: NSLocalizedString("search_placeholder_home", comment: ""))
+            txtSearch.placeholder = localizedString("search_placeholder_home", comment: "")
+            txtSearch.setPlaceHolder(text: localizedString("search_placeholder_home", comment: ""))
             
           //  txtSearch.textAlignment = .natural
             

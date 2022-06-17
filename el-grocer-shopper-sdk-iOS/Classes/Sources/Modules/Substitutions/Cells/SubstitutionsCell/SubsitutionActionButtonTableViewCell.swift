@@ -33,9 +33,9 @@ class SubsitutionActionButtonTableViewCell: UITableViewCell {
     func configure(_ isNeedToShowCancelButton : Bool) {
         self.isNeedToShowCancelButton = isNeedToShowCancelButton
         if isNeedToShowCancelButton {
-            lblButtonTitle.text = NSLocalizedString("order_history_cancel_alert_title", comment: "")
+            lblButtonTitle.text = localizedString("order_history_cancel_alert_title", comment: "")
         }else{
-           lblButtonTitle.text = NSLocalizedString("lbl_Sub_Button_text_No_replacement", comment: "")
+           lblButtonTitle.text = localizedString("lbl_Sub_Button_text_No_replacement", comment: "")
         }
         
         

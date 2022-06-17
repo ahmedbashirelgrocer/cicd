@@ -166,10 +166,10 @@ class GroceryReviewsViewController : UIViewController, UITableViewDataSource, UI
         
         self.ratingHeaderLabel.textColor = UIColor.white
         self.ratingHeaderLabel.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-        self.ratingHeaderLabel.text = NSLocalizedString("grocery_review_header_label", comment: "")
+        self.ratingHeaderLabel.text = localizedString("grocery_review_header_label", comment: "")
         
-        let ratingDescription_1 = NSLocalizedString("grocery_review_description_label_1", comment: "")
-        let ratingDescription_2 = NSLocalizedString("grocery_review_description_label_2", comment: "")
+        let ratingDescription_1 = localizedString("grocery_review_description_label_1", comment: "")
+        let ratingDescription_2 = localizedString("grocery_review_description_label_2", comment: "")
 
         let attributedRatingDescription = NSMutableAttributedString(string: "\(ratingDescription_1)\(ratingDescription_2)")
         attributedRatingDescription.addAttribute(NSAttributedString.Key.font, value: UIFont.bookFont(13.0), range: NSMakeRange(0, ratingDescription_1.count))
@@ -194,7 +194,7 @@ class GroceryReviewsViewController : UIViewController, UITableViewDataSource, UI
         
         self.emptyView?.removeFromSuperview()
         
-        self.emptyView = EmptyView.createAndAddEmptyView(NSLocalizedString("empty_view_reviews_title", comment: ""), description: NSLocalizedString("empty_view_reviews_description", comment: ""), addToView: self.view)
+        self.emptyView = EmptyView.createAndAddEmptyView(localizedString("empty_view_reviews_title", comment: ""), description: localizedString("empty_view_reviews_description", comment: ""), addToView: self.view)
         self.emptyView?.isHidden = (self.reviews.count > 0)
     }
     

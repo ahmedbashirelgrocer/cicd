@@ -28,7 +28,7 @@ class SmilesHomeVC: UIViewController, NavigationBarProtocol {
     
     @IBOutlet var btnStartShopping: AWButton! {
         didSet{
-            btnStartShopping.setTitle(NSLocalizedString("lbl_StartShopping", comment: ""), for: UIControl.State())
+            btnStartShopping.setTitle(localizedString("lbl_StartShopping", comment: ""), for: UIControl.State())
         }
     }
     
@@ -51,7 +51,7 @@ class SmilesHomeVC: UIViewController, NavigationBarProtocol {
         
         viewModel.smilePoints.bind { [weak self] smilePoints in
             self?.smilePoints = Int(smilePoints ?? 0)
-            self?.smilePointsLabel.text = "\(Int(smilePoints ?? 0)) " + NSLocalizedString("txt_smile_point", comment: "")
+            self?.smilePointsLabel.text = "\(Int(smilePoints ?? 0)) " + localizedString("txt_smile_point", comment: "")
             SpinnerView.hideSpinnerView()
         }
     }
@@ -59,9 +59,9 @@ class SmilesHomeVC: UIViewController, NavigationBarProtocol {
     func setInitialAppearence() {
         
         self.setupNavigationAppearence()
-        self.title = NSLocalizedString("txt_smile_point", comment: "")
-        smileBalanceLabel.text = NSLocalizedString("Your_balance", comment: "")
-        smilePointsLabel.text = "\(smilePoints)" + " " + NSLocalizedString("txt_smile_point", comment: "")
+        self.title = localizedString("txt_smile_point", comment: "")
+        smileBalanceLabel.text = localizedString("Your_balance", comment: "")
+        smilePointsLabel.text = "\(smilePoints)" + " " + localizedString("txt_smile_point", comment: "")
     }
     
     override func backButtonClick() {

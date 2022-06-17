@@ -29,9 +29,9 @@ class RequestsViewController: UIViewController {
         
         if isNavigateToRequest == true {
             addBackButton()
-            self.title = NSLocalizedString("requests_title", comment: "")
+            self.title = localizedString("requests_title", comment: "")
         }else{
-           self.navigationController!.navigationBar.topItem!.title = NSLocalizedString("requests_title", comment: "")
+           self.navigationController!.navigationBar.topItem!.title = localizedString("requests_title", comment: "")
         }
         
         self.requestButtonView = RequestButtonView.getRequestButtonView()
@@ -73,7 +73,7 @@ class RequestsViewController: UIViewController {
         
         self.requestTextField.becomeFirstResponder()
         
-        self.requestTextField.placeholder = NSLocalizedString("type_your_products_placeholder", comment: "")
+        self.requestTextField.placeholder = localizedString("type_your_products_placeholder", comment: "")
         
         self.requestTextField.layer.cornerRadius = 5.0
         self.requestTextField.layer.masksToBounds = true
@@ -95,16 +95,16 @@ class RequestsViewController: UIViewController {
         
         self.requestTitleLabel.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         self.requestTitleLabel.textColor = UIColor.black
-        self.requestTitleLabel.text = NSLocalizedString("not_finding_your_favorite_products_title", comment: "")
+        self.requestTitleLabel.text = localizedString("not_finding_your_favorite_products_title", comment: "")
         
         self.requestDescriptionLabel.font = UIFont.SFProDisplaySemiBoldFont(11.0)
         self.requestDescriptionLabel.textColor = UIColor.lightTextGrayColor()
-        self.requestDescriptionLabel.text = NSLocalizedString("not_finding_your_favorite_products_description", comment: "")
+        self.requestDescriptionLabel.text = localizedString("not_finding_your_favorite_products_description", comment: "")
     }
     
     fileprivate func setUpRequestButtonAppearance(){
         
-        self.requestButton.setTitle(NSLocalizedString("request_button_title", comment: ""), for: UIControl.State())
+        self.requestButton.setTitle(localizedString("request_button_title", comment: ""), for: UIControl.State())
         self.requestButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(14.0)
         self.refreshButtons()
     }
@@ -202,9 +202,9 @@ class RequestsViewController: UIViewController {
         
         self.clearTags()
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("request_alert_title", comment: ""),
-                                      description: NSLocalizedString("request_alert_description", comment: ""),
-                                      positiveButton: NSLocalizedString("ok_button_title", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("request_alert_title", comment: ""),
+                                      description: localizedString("request_alert_description", comment: ""),
+                                      positiveButton: localizedString("ok_button_title", comment: ""),
                                       negativeButton: nil,
                                       buttonClickCallback:nil).show()
     

@@ -51,7 +51,7 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("dashboard_store_navigation_bar_title", comment: "")
+        self.title = localizedString("dashboard_store_navigation_bar_title", comment: "")
        // self.tableA = ElGrocerUtility.sharedInstance.completeGroceries
         
         //Hunain 29Dec16
@@ -353,9 +353,9 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
         }else{
             
             print("Currently Grocery is closed")
-            ElGrocerAlertView.createAlert(NSLocalizedString("store_close_alert_title", comment: ""),
-                                          description:NSLocalizedString("store_close_alert_message", comment: ""),
-                                          positiveButton: NSLocalizedString("store_close_alert_button", comment: ""),
+            ElGrocerAlertView.createAlert(localizedString("store_close_alert_title", comment: ""),
+                                          description:localizedString("store_close_alert_message", comment: ""),
+                                          positiveButton: localizedString("store_close_alert_button", comment: ""),
                                           negativeButton: nil, buttonClickCallback: nil).show()
         }
     }
@@ -413,9 +413,9 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
                 
                 
             } else {
-                ElGrocerAlertView.createAlert(NSLocalizedString("registration_error_alert", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("registration_error_alert", comment: ""),
                                               description: nil,
-                                              positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                              positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                               negativeButton: nil, buttonClickCallback: nil).show()
             }
         }
@@ -474,9 +474,9 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
     //Hunain 30Dec16
     // MARK: Show Error
     func showErrorAlert() {
-        ElGrocerAlertView.createAlert(NSLocalizedString("my_account_saving_error", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("my_account_saving_error", comment: ""),
                                       description: nil,
-                                      positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                      positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                       negativeButton: nil, buttonClickCallback: nil).show()
     }
     

@@ -27,7 +27,7 @@ class CartPickerAddDetails: UIViewController {
             contactNameTextfield.layer.cornerRadius = 8
             contactNameTextfield.delegate = self
             contactNameTextfield.setBody1RegStyle()
-            contactNameTextfield.setPlaceHolder(text: NSLocalizedString("contact_name_placeHolder", comment: ""))
+            contactNameTextfield.setPlaceHolder(text: localizedString("contact_name_placeHolder", comment: ""))
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 contactNameTextfield.textAlignment = .right
             }
@@ -39,7 +39,7 @@ class CartPickerAddDetails: UIViewController {
             mobileNumTextfield.layer.cornerRadius = 8
             mobileNumTextfield.delegate = self
             mobileNumTextfield.setBody1RegStyle()
-            mobileNumTextfield.setPlaceHolder(text: NSLocalizedString("mobile_num_placeHolder", comment: ""))
+            mobileNumTextfield.setPlaceHolder(text: localizedString("mobile_num_placeHolder", comment: ""))
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 mobileNumTextfield.textAlignment = .right
             }
@@ -52,7 +52,7 @@ class CartPickerAddDetails: UIViewController {
     }
     @IBOutlet var lbl_save_details_future: UILabel! {
         didSet{
-            lbl_save_details_future.text = NSLocalizedString("lbl_save_details_future", comment: "")
+            lbl_save_details_future.text = localizedString("lbl_save_details_future", comment: "")
             lbl_save_details_future.setBody3RegDarkStyle()
         }
     }
@@ -110,8 +110,8 @@ class CartPickerAddDetails: UIViewController {
     func setupInitialAppearance(){
         switch collectorType {
         case .OrderCollector :
-            self.btnConfirm.setTitle(NSLocalizedString("btn_Order_Collector", comment: ""), for: .normal)
-            self.lblHeading.text = NSLocalizedString("lbl_Order_Collector", comment: "")
+            self.btnConfirm.setTitle(localizedString("btn_Order_Collector", comment: ""), for: .normal)
+            self.lblHeading.text = localizedString("lbl_Order_Collector", comment: "")
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.lblHeading.textAlignment = .right
             }else {
@@ -120,8 +120,8 @@ class CartPickerAddDetails: UIViewController {
             
             self.btnBack.visibility = .goneY
         default:
-            self.btnConfirm.setTitle(NSLocalizedString("btn_Add_Order_Collector", comment: ""), for: .normal)
-            self.lblHeading.text = NSLocalizedString("lbl_Add_Order_Collector", comment: "")
+            self.btnConfirm.setTitle(localizedString("btn_Add_Order_Collector", comment: ""), for: .normal)
+            self.lblHeading.text = localizedString("lbl_Add_Order_Collector", comment: "")
             self.lblHeading.textAlignment = .center
             self.btnBack.visibility = .visible
         }
@@ -146,11 +146,11 @@ class CartPickerAddDetails: UIViewController {
     @IBAction func btnConfirmHandler(_ sender: Any) {
         
         guard self.contactNameTextfield.text?.count ?? 0 > 0 && self.contactNameTextfield.text?.count ?? 0 < 51 else {
-            self.contactNameTextfield.showError(message: NSLocalizedString("error_enter_contactName", comment: ""))
+            self.contactNameTextfield.showError(message: localizedString("error_enter_contactName", comment: ""))
             return
         }
         guard self.mobileNumTextfield.text?.count ?? 0 > 0 && self.mobileNumTextfield.text?.count ?? 0 < 16  else {
-            self.mobileNumTextfield.showError(message: NSLocalizedString("error_enter_contact", comment: ""))
+            self.mobileNumTextfield.showError(message: localizedString("error_enter_contact", comment: ""))
             return
         }
         

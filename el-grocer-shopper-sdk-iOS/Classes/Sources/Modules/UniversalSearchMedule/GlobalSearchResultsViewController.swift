@@ -78,7 +78,7 @@ class GlobalSearchResultsViewController: UIViewController {
                 controller.setGreenBackgroundColor()
             }
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
-            self.title = NSLocalizedString("search_products", comment: "")
+            self.title = localizedString("search_products", comment: "")
         }
 
     }
@@ -148,7 +148,7 @@ class GlobalSearchResultsViewController: UIViewController {
     
     func setSegmentView() {
         /*
-        var segmentArray = [NSLocalizedString("all_store", comment: "")]
+        var segmentArray = [localizedString("all_store", comment: "")]
         var filterStoreTypeData : [StoreType] = []
         for data in self.filterGroceryData {
             let typeA = data.storeType
@@ -343,7 +343,7 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
                 let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell ) as! GenericViewTitileTableViewCell
                 cell.configureCell(title: "")
                 let searchWord = " \"" + "\(self.keyWord)" + " \""
-                let title = "\(NSLocalizedString("lbl_Stores_that_sell", comment: ""))" + searchWord
+                let title = "\(localizedString("lbl_Stores_that_sell", comment: ""))" + searchWord
                 let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(20) , NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()])
                 let nsRange = NSString(string: title).range(of: searchWord , options: String.CompareOptions.caseInsensitive)
                 if nsRange.location != NSNotFound {

@@ -38,7 +38,7 @@ class CrossCollectionViewController: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.lblRemoveItem.text = NSLocalizedString("remove_Item_button_title", comment: "")
+        self.lblRemoveItem.text = localizedString("remove_Item_button_title", comment: "")
     }
     fileprivate func setBGBorderColor (_ state : crossActionState) {
         

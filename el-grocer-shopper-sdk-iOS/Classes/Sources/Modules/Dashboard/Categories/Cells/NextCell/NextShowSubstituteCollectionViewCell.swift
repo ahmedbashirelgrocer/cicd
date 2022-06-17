@@ -21,7 +21,7 @@ class NextShowSubstituteCollectionViewCell: UICollectionViewCell {
     
     func setUpApearance() {
         
-        self.lblCentralText.text = NSLocalizedString("btn_My_Basket_More_Subsititue_Cell_Text", comment: "")
+        self.lblCentralText.text = localizedString("btn_My_Basket_More_Subsititue_Cell_Text", comment: "")
         
     }
 

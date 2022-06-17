@@ -78,7 +78,7 @@ class GrocerySelectionCell : UITableViewCell {
         self.groceryName.text = grocery.name
         self.groceryAddress.text = grocery.address
         
-        self.groceryItemsCount.text = "\(availableProducts)/\(totalProducts) " + NSLocalizedString("grocery_items_available_label", comment: "")
+        self.groceryItemsCount.text = "\(availableProducts)/\(totalProducts) " + localizedString("grocery_items_available_label", comment: "")
         
         if grocery.smallImageUrl != nil && grocery.smallImageUrl?.range(of: "http") != nil {
             

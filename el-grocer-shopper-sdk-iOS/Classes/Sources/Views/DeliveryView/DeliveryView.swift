@@ -41,7 +41,7 @@ class DeliveryView: UIView {
         
         registerTableViewCell()
         
-        titles =  [NSLocalizedString("delivery_view_on_time", comment: ""),NSLocalizedString("delivery_view_items_properly", comment: ""),NSLocalizedString("delivery_view_bill_amount", comment: "")]
+        titles =  [localizedString("delivery_view_on_time", comment: ""),localizedString("delivery_view_items_properly", comment: ""),localizedString("delivery_view_bill_amount", comment: "")]
         
         addTapGesture()
         
@@ -56,7 +56,7 @@ class DeliveryView: UIView {
         
         self.titleLabel.font = UIFont.bookFont(14.0)
         self.titleLabel.textColor = UIColor.black
-        self.titleLabel.text = NSLocalizedString("delivery_view_help_us", comment: "")
+        self.titleLabel.text = localizedString("delivery_view_help_us", comment: "")
         self.titleLabel.sizeToFit()
         self.titleLabel.numberOfLines = 0
     }
@@ -111,7 +111,7 @@ class DeliveryView: UIView {
     
     class func showDeliveryView(_ delegate:DeliveryViewProtocol?, withView topView:UIView, andWithOrderId orderId:Int) -> DeliveryView {
         
-        let view = Bundle(for: self).loadNibNamed("DeliveryView", owner: nil, options: nil)![0] as! DeliveryView
+        let view = Bundle.resource.loadNibNamed("DeliveryView", owner: nil, options: nil)![0] as! DeliveryView
         view.delegate = delegate
         view.imgBlured.image = topView.createBlurredSnapShot()
         view.alpha = 0

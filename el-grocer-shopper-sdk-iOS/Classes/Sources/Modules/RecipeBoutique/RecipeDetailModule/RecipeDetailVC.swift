@@ -68,18 +68,18 @@ class RecipeDetailVC: BasketBasicViewController {
     @IBOutlet var lblGoToCart: UILabel!{
         didSet{
             lblGoToCart.setBody2BoldWhiteStyle()
-            lblGoToCart.text = NSLocalizedString("lbl_go_to_cart_upperCase", comment: "")
+            lblGoToCart.text = localizedString("lbl_go_to_cart_upperCase", comment: "")
         }
     }
     @IBOutlet var btnShare: UIButton!{
         didSet{
-            btnShare.setTitle(NSLocalizedString("btn_share_title", comment: ""), for: UIControl.State())
+            btnShare.setTitle(localizedString("btn_share_title", comment: ""), for: UIControl.State())
             btnShare.setBody1BoldWhiteStyle()
         }
     }
     @IBOutlet var btnSave: UIButton!{
         didSet{
-            btnSave.setTitle(NSLocalizedString("btn_save_title", comment: ""), for: UIControl.State())
+            btnSave.setTitle(localizedString("btn_save_title", comment: ""), for: UIControl.State())
             btnSave.setBody1BoldWhiteStyle()
         }
     }
@@ -217,13 +217,13 @@ class RecipeDetailVC: BasketBasicViewController {
                     itemsInCart = 0
                 }
                 if itemsInCart == 0{
-                    self.lblItemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsInCart) ") + NSLocalizedString("lbl_item_multiple", comment: "") + ")"
+                    self.lblItemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsInCart) ") + localizedString("lbl_item_multiple", comment: "") + ")"
                     setButtonState(enabled: false)
                 }else{
                     if itemsInCart == 1{
-                        self.lblItemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsInCart) ") + NSLocalizedString("lbl_item_singular", comment: "") + ")"
+                        self.lblItemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsInCart) ") + localizedString("lbl_item_singular", comment: "") + ")"
                     }else{
-                        self.lblItemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsInCart) ") + NSLocalizedString("lbl_item_multiple", comment: "") + ")"
+                        self.lblItemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsInCart) ") + localizedString("lbl_item_multiple", comment: "") + ")"
                     }
                     setButtonState(enabled: true)
                 }
@@ -382,7 +382,7 @@ class RecipeDetailVC: BasketBasicViewController {
         if let recipeUse = self.recipe {
             if let _ = recipeUse.recipeChef {
                 
-                let recipeTitle = (self.recipe?.recipeName)! + " " + NSLocalizedString("recipe_share_by", comment: "") + " " + (self.recipe?.recipeChef?.chefName)! + NSLocalizedString("recipe_share_onElgrocer", comment: "")
+                let recipeTitle = (self.recipe?.recipeName)! + " " + localizedString("recipe_share_by", comment: "") + " " + (self.recipe?.recipeChef?.chefName)! + localizedString("recipe_share_onElgrocer", comment: "")
                 let items = [recipeTitle , URL(string: link)!] as [Any]
                 let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
                 present(ac, animated: true)
@@ -676,7 +676,7 @@ class RecipeDetailVC: BasketBasicViewController {
         
         
         ElGrocerUtility.sharedInstance.delay(1.0) {
-            let msg = NSLocalizedString("product_added_to_cart", comment: "")
+            let msg = localizedString("product_added_to_cart", comment: "")
             ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
         }
         
@@ -713,7 +713,7 @@ class RecipeDetailVC: BasketBasicViewController {
                 //sab
                 presenter.interactor.dataHandler.addRecipeToCart(retailerID: self.grocery?.dbID , recipe: addToCartRecipe)
                 ElGrocerUtility.sharedInstance.delay(1.0) {
-                    let msg = NSLocalizedString("product_added_to_basket", comment: "")
+                    let msg = localizedString("product_added_to_basket", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
                 }
             }else{
@@ -1001,7 +1001,7 @@ extension RecipeDetailVC : UITableViewDelegate , UITableViewDataSource {
         }else if indexPath.section == 1{
             if indexPath.row == 0{
                 let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: NSLocalizedString("lbl_ingrediants_title", comment: ""))
+                cell.configureCell(title: localizedString("lbl_ingrediants_title", comment: ""))
                 return cell
             }
             
@@ -1023,7 +1023,7 @@ extension RecipeDetailVC : UITableViewDelegate , UITableViewDataSource {
         
         if  indexPath.section == 2 && indexPath.row == 0{
             let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-            cell.configureCell(title: NSLocalizedString("lbl_preparation_title", comment: ""))
+            cell.configureCell(title: localizedString("lbl_preparation_title", comment: ""))
             return cell
         }
         
@@ -1052,7 +1052,7 @@ extension RecipeDetailVC {
                     let responseData = Grocery.insertGroceriesWithNotAvailableProducts(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     let groceries = responseData.groceries
                     if groceries.count == 0 {
-                        self.presenter.showBottomSheet(NSLocalizedString("No_Store_For_Recipe_title", comment: "") , grocery: [], isError: true, ingredients: [])
+                        self.presenter.showBottomSheet(localizedString("No_Store_For_Recipe_title", comment: "") , grocery: [], isError: true, ingredients: [])
                     }else{
                         if isSingleProduct{
                             completetion(responseData.groceries)
@@ -1077,7 +1077,7 @@ extension RecipeDetailVC: PresenterToViewRecipeProtocol{
         self.btnSave.contentHorizontalAlignment = .trailing
         
         
-        self.title = NSLocalizedString("title_recipe_list", comment: "")
+        self.title = localizedString("title_recipe_list", comment: "")
         
         if ((self.recipe?.recipeName) != nil) {
             _ = SpinnerView.showSpinnerViewInView(self.view)

@@ -85,15 +85,15 @@ class OrderBasketProductTableViewCell: UITableViewCell {
         self.productName.text = product.name
 
         let itemsCount = item!.count.intValue
-        let countLabel = itemsCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+        let countLabel = itemsCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
         self.productQuantity.text  = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsCount)") + " "  + countLabel + ")"
         
         
-//        self.lblStrikePrice.text = NSLocalizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
+//        self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
         self.lblStrikePrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: product.price.doubleValue)
         self.lblStrikePrice.strikeThrough(true)
         let stringPercent = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(ElGrocerUtility.sharedInstance.getPercentage(product: product ,  true)))
-        self.lblPercent.text = "-" + stringPercent + NSLocalizedString("txt_off", comment: "")
+        self.lblPercent.text = "-" + stringPercent + localizedString("txt_off", comment: "")
         
         let promotionValues = ProductQuantiy.checkPromoNeedToDisplayWithoutTimeCheckForOrders(product)
         if promotionValues.isNeedToDisplayPromo {
@@ -115,7 +115,7 @@ class OrderBasketProductTableViewCell: UITableViewCell {
                 self.lblStrikePrice.visibility = .goneX
                 self.lblStrikePrice.attributedText = nil
                 self.lblStrikePrice.text = ""
-                self.lblPercent.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+                self.lblPercent.text = localizedString("lbl_Special_Discount", comment: "")
                 self.percentOffBGView.isHidden = false
                 self.percentageViewDistaceFromStrikeLbl.constant = 0
                 self.saleView.isHidden = false

@@ -10,7 +10,7 @@
 
 //@IBOutlet var txtCreateShoppingList: UILabel! {
 //    didSet{
-//        txtCreateShoppingList.text = NSLocalizedString("lbl_shopping_list", comment: "Create your shopping list")
+//        txtCreateShoppingList.text = localizedString("lbl_shopping_list", comment: "Create your shopping list")
 //    }
 //}
 //
@@ -20,7 +20,7 @@
 //@IBOutlet var checkSearchAndShopProductsProcess: UIImageView!
 //@IBOutlet var txtSearchAndShopProducts: UILabel!{
 //    didSet{
-//        txtSearchAndShopProducts.text = NSLocalizedString("lbl_search_shop", comment: "Search and shop products")
+//        txtSearchAndShopProducts.text = localizedString("lbl_search_shop", comment: "Search and shop products")
 //    }
 //}
 
@@ -31,14 +31,14 @@ class ProgressCompleteionTableViewCell: UITableViewCell {
     @IBOutlet var lblCreatShoppingList: UILabel! {
         
         didSet{
-            lblCreatShoppingList.text =      NSLocalizedString("lbl_shopping_list", comment: "Create your shopping list")
+            lblCreatShoppingList.text =      localizedString("lbl_shopping_list", comment: "Create your shopping list")
         }
         
     }
     @IBOutlet var lblSearchAndShop: UILabel!{
         
         didSet{
-            lblSearchAndShop.text = NSLocalizedString("lbl_search_shop", comment: "Search and shop products")
+            lblSearchAndShop.text = localizedString("lbl_search_shop", comment: "Search and shop products")
         }
         
     }
@@ -46,12 +46,12 @@ class ProgressCompleteionTableViewCell: UITableViewCell {
     
     @IBOutlet var lblOne: UILabel! {
         didSet {
-            lblOne.text = NSLocalizedString("lbl_One", comment: "")
+            lblOne.text = localizedString("lbl_One", comment: "")
         }
     }
     @IBOutlet var lblTwo: UILabel!{
         didSet {
-            lblTwo.text = NSLocalizedString("lbl_Two", comment: "")
+            lblTwo.text = localizedString("lbl_Two", comment: "")
         }
     }
     

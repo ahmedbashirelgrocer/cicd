@@ -45,7 +45,7 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("grocery_selection_screen_title", comment: "")
+        self.title = localizedString("grocery_selection_screen_title", comment: "")
         self.addBackButton()
         self.configureGroceriesEmptyView()
         self.fetchData()
@@ -79,13 +79,13 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
     
     func setUpApearnce() {
         if self.isRecipeItems {
-            self.title = NSLocalizedString("grocery_selection_From_Recipe_screen_title", comment: "")
+            self.title = localizedString("grocery_selection_From_Recipe_screen_title", comment: "")
             self.registerNewTableCell()
             //No stores in your area have the sufficient ingredients for the recipes
             groceriesEmptyView.agentChatBtn.isHidden = self.isRecipeItems
             groceriesEmptyView.changeLocationBtn.isHidden = self.isRecipeItems
             groceriesEmptyView.topImageView.isHidden = self.isRecipeItems
-            groceriesEmptyView.titleLabel.text = NSLocalizedString("No_Store_For_Recipe_title", comment: "")
+            groceriesEmptyView.titleLabel.text = localizedString("No_Store_For_Recipe_title", comment: "")
             groceriesEmptyView.subtitleLabel.isHidden = self.isRecipeItems
             groceriesEmptyView.bgView.isHidden = self.isRecipeItems
             
@@ -284,7 +284,7 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
                 self.selectNewGrocery(grocery, notAvailableProducts: notAvailableProducts, prices: prices)
                 
                 
-//                ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description:NSLocalizedString("basket_active_from_other_grocery_message", comment: ""),positiveButton: NSLocalizedString("clear_button_title", comment: ""),negativeButton: NSLocalizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
+//                ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description:localizedString("basket_active_from_other_grocery_message", comment: ""),positiveButton: localizedString("clear_button_title", comment: ""),negativeButton: localizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
 //
 //                    if buttonIndex == 0 {
 //                        //clear active basket and add product
@@ -361,9 +361,9 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
         }else{
             
             print("Currently Grocery is closed")
-            ElGrocerAlertView.createAlert(NSLocalizedString("store_close_alert_title", comment: ""),
-                                          description:NSLocalizedString("store_close_alert_message", comment: ""),
-                                          positiveButton: NSLocalizedString("store_close_alert_button", comment: ""),
+            ElGrocerAlertView.createAlert(localizedString("store_close_alert_title", comment: ""),
+                                          description:localizedString("store_close_alert_message", comment: ""),
+                                          positiveButton: localizedString("store_close_alert_button", comment: ""),
                                           negativeButton: nil, buttonClickCallback: nil).show()
         }
         

@@ -26,7 +26,7 @@ class SmileRedeemCartCell: UITableViewCell {
     @IBOutlet var lblPayWithSmile: UILabel! {
         didSet {
             lblPayWithSmile.setBody3BoldUpperStyle(false)
-            lblPayWithSmile.text = NSLocalizedString("txt_pay_with_smile", comment: "")
+            lblPayWithSmile.text = localizedString("txt_pay_with_smile", comment: "")
         }
     }
     @IBOutlet var lblAvailableSmilePoints: UILabel! {
@@ -44,7 +44,7 @@ class SmileRedeemCartCell: UITableViewCell {
         didSet {
             lblInfoMessage.setCaptionOneRegDarkStyle()
             lblInfoMessage.textColor = UIColor.navigationBarColor()
-            lblInfoMessage.text = NSLocalizedString("smile_point_redeem", comment: "")
+            lblInfoMessage.text = localizedString("smile_point_redeem", comment: "")
         }
     }
 
@@ -65,14 +65,14 @@ class SmileRedeemCartCell: UITableViewCell {
             imgInfo.changePngColorTo(color: .navigationBarColor())
             lblInfoMessage.visibility = .visible
             imgInfo.visibility = .visible
-            lblInfoMessage.text = "\(points) " + NSLocalizedString("smile_point_redeem", comment: "")
+            lblInfoMessage.text = "\(points) " + localizedString("smile_point_redeem", comment: "")
         case .needmore:
             // not enough points to redeeme
             lblInfoMessage.textColor = .textfieldErrorColor()
             imgInfo.changePngColorTo(color: .textfieldErrorColor())
             lblInfoMessage.visibility = .visible
             imgInfo.visibility = .visible
-            lblInfoMessage.text = NSLocalizedString("not_enough_smile_point_initial", comment: "") + " \(points) " + NSLocalizedString("not_enough_smile_point_end", comment: "")
+            lblInfoMessage.text = localizedString("not_enough_smile_point_initial", comment: "") + " \(points) " + localizedString("not_enough_smile_point_end", comment: "")
         default:
             lblInfoMessage.visibility = .goneY
             imgInfo.visibility = .goneY
@@ -92,7 +92,7 @@ class SmileRedeemCartCell: UITableViewCell {
     }
     
     func configureCellData(smileUser: SmileUser) {
-        lblAvailableSmilePoints.text = NSLocalizedString("txt_available_points", comment: "") + "\(smileUser.availablePoints ?? 0) " + NSLocalizedString("smile_point_unit", comment: "")
+        lblAvailableSmilePoints.text = localizedString("txt_available_points", comment: "") + "\(smileUser.availablePoints ?? 0) " + localizedString("smile_point_unit", comment: "")
     }
     @IBAction func smilePaySwitchHandler(_ sender: Any) {
         smileSwitchIsOn = smilePaySwitch.isOn

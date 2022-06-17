@@ -46,18 +46,18 @@ class PlaceOrderTableViewCell: UITableViewCell {
             self.descriptionLabel.textColor = UIColor.lightTextGrayColor()
         }
         
-        if (titleStr == NSLocalizedString("promotion_discount_aed", comment: ""))  {
+        if (titleStr == localizedString("promotion_discount_aed", comment: ""))  {
             
             self.titleLabel.textColor = UIColor.redTextColor()
             self.descriptionLabel.textColor = UIColor.redTextColor()
             
-        }else if (titleStr == NSLocalizedString("total_price", comment: ""))  {
+        }else if (titleStr == localizedString("total_price", comment: ""))  {
             self.descriptionLabel.textColor = UIColor.greenInfoColor()
             self.titleLabel.textColor = UIColor.greenInfoColor()
-        }else if (titleStr == NSLocalizedString("delivery_fee_aed", comment: "") && (descriptionStr == NSLocalizedString("free", comment: "")))  {
+        }else if (titleStr == localizedString("delivery_fee_aed", comment: "") && (descriptionStr == localizedString("free", comment: "")))  {
             self.descriptionLabel.textColor = UIColor.greenInfoColor()
             self.titleLabel.textColor = UIColor.greenInfoColor()
-        }else if (titleStr == NSLocalizedString("grand_total", comment: "")) || (titleStr == NSLocalizedString("total_bill_amount", comment: ""))  {
+        }else if (titleStr == localizedString("grand_total", comment: "")) || (titleStr == localizedString("total_bill_amount", comment: ""))  {
             self.descriptionLabel.textColor = UIColor.greenInfoColor()
             self.titleLabel.textColor = UIColor.greenInfoColor()
         }

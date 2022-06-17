@@ -49,14 +49,14 @@ class ForceUpdateViewController: UIViewController {
         self.updateButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(20.0)
         self.updateButton.backgroundColor = UIColor.greenInfoColor()
         self.updateButton.layer.cornerRadius = 5
-        self.updateButton.setTitle(NSLocalizedString("force_update_button_title", comment: ""), for: UIControl.State())
+        self.updateButton.setTitle(localizedString("force_update_button_title", comment: ""), for: UIControl.State())
         
     }
     
     func styleLabels() {
         
-        titleLabel.text = NSLocalizedString("force_update_title", comment: "")
-        subtitleLabel.text = NSLocalizedString("force_update_subtitle", comment: "")
+        titleLabel.text = localizedString("force_update_title", comment: "")
+        subtitleLabel.text = localizedString("force_update_subtitle", comment: "")
         
     }
 

@@ -47,7 +47,7 @@ class deliverySlotCell: UITableViewCell {
         let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(17), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
         let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(17), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
         
-        let slotText = modeType == .delivery ? NSLocalizedString("delivery_time_slot", comment: "") : NSLocalizedString("lbl_Self_Collection", comment: "") + ":"
+        let slotText = modeType == .delivery ? localizedString("delivery_time_slot", comment: "") : localizedString("lbl_Self_Collection", comment: "") + ":"
         
         let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
        

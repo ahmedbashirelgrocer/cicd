@@ -23,12 +23,12 @@ class MyBasketOutOfStockInfo: UIView {
 //        "Msg_Cart_ChooseReplacement" = "Please choose the suitable replacement. ";
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
         if currentLang == "ar" {
-            lblMessage.text = NSLocalizedString("Msg_Cart_total", comment: "")
-            lblMessage.highlight(searchedText: NSLocalizedString("Msg_Cart_OUTOFSTOCK", comment: ""), color: .redInfoColor(), size: 11)
-//            self.lblMessage.attributedText =  NSMutableAttributedString().normal(NSLocalizedString("Msg_Cart_total", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor())
-//            self.lblMessage.attributedText =  NSMutableAttributedString().normal(NSLocalizedString("Msg_Cart_Initial", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor()).normal(NSLocalizedString("Msg_Cart_OUTOFSTOCK", comment: ""), UIFont.SFProDisplaySemiBoldFont(11), color: .redInfoColor()).normal(NSLocalizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor())
+            lblMessage.text = localizedString("Msg_Cart_total", comment: "")
+            lblMessage.highlight(searchedText: localizedString("Msg_Cart_OUTOFSTOCK", comment: ""), color: .redInfoColor(), size: 11)
+//            self.lblMessage.attributedText =  NSMutableAttributedString().normal(localizedString("Msg_Cart_total", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor())
+//            self.lblMessage.attributedText =  NSMutableAttributedString().normal(localizedString("Msg_Cart_Initial", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor()).normal(localizedString("Msg_Cart_OUTOFSTOCK", comment: ""), UIFont.SFProDisplaySemiBoldFont(11), color: .redInfoColor()).normal(localizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor())
         }else{
-            self.lblMessage.attributedText =  NSMutableAttributedString().normal(NSLocalizedString("Msg_Cart_Initial", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor()).normal(NSLocalizedString("Msg_Cart_OUTOFSTOCK", comment: ""), UIFont.SFProDisplaySemiBoldFont(11), color: .redInfoColor()).normal(NSLocalizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor())
+            self.lblMessage.attributedText =  NSMutableAttributedString().normal(localizedString("Msg_Cart_Initial", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor()).normal(localizedString("Msg_Cart_OUTOFSTOCK", comment: ""), UIFont.SFProDisplaySemiBoldFont(11), color: .redInfoColor()).normal(localizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplayNormalFont(11), color: .newBlackColor())
         }
        
       

@@ -64,8 +64,8 @@ class deliveryDetailsCell: UITableViewCell {
         if modeType == .delivery{
             self.lblAddress.text = address
         }else{
-            self.lblAddress.text = NSLocalizedString("lbl_collection_Location_heading", comment: "") + ":\n" + address
-            self.lblAddress.highlight(searchedText: NSLocalizedString("lbl_collection_Location_heading", comment: "") + ":\n", color: .newBlackColor(), size: 14)
+            self.lblAddress.text = localizedString("lbl_collection_Location_heading", comment: "") + ":\n" + address
+            self.lblAddress.highlight(searchedText: localizedString("lbl_collection_Location_heading", comment: "") + ":\n", color: .newBlackColor(), size: 14)
         }
     }
 

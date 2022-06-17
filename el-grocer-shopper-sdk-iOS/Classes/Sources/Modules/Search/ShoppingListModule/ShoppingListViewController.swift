@@ -344,9 +344,9 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
     func setTitle() {
 
         if self.isChooseAlternative {
-             self.title = NSLocalizedString("alternatives_New_title", comment: "")
+             self.title = localizedString("alternatives_New_title", comment: "")
         }else{
-             self.title = NSLocalizedString("Add_Shopping_list_Title", comment: "")
+             self.title = localizedString("Add_Shopping_list_Title", comment: "")
         }
         self.navigationController?.navigationBar.tintColor = .white
         
@@ -611,7 +611,7 @@ extension ShoppingListViewController : UITableViewDelegate , UITableViewDataSour
         listCell.delegate = self
         listCell.grocery = self.grocery
         let cellTitle = categoryA[rowNumber]
-        listCell.searchItemLable.text = "\(NSLocalizedString("shopping_Search_Item_Header_Title", comment: "")) \(cellTitle)"
+        listCell.searchItemLable.text = "\(localizedString("shopping_Search_Item_Header_Title", comment: "")) \(cellTitle)"
         
         let namePredicate = NSPredicate(format: "value contains[c] %@",cellTitle as! CVarArg);
         let filteredArray = self.dataHandler.bannerArray.filter { namePredicate.evaluate(with: $0) }

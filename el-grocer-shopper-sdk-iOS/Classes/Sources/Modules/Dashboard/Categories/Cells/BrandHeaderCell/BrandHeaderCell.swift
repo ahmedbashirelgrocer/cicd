@@ -57,7 +57,7 @@ class BrandHeaderCell : UICollectionReusableView {
 
         self.brandName.text = brand.name
 
-//        let countString = itemsCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+//        let countString = itemsCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
 //        self.brandItemsCount.text = "\(itemsCount) \(countString)"
 
         var brandImageUrl = ""

@@ -212,12 +212,12 @@ class GroceryWithProductTableCell: UITableViewCell {
             self.lblOrignalStrikePrice.visibility = .goneX
             self.lblOrignalStrikePrice.attributedText = nil
             self.lblOrignalStrikePrice.text = ""
-            self.lblPercentage.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+            self.lblPercentage.text = localizedString("lbl_Special_Discount", comment: "")
             self.percentageBGView.isHidden = false
 //            self.strikeLblDistanceFromQtyLbl.constant = 23
 //            self.lblDistanceFromPercentageView.constant = 0
         }else{
-            self.lblPercentage.text = "-" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(percentage)) + " " + NSLocalizedString("txt_off", comment: "")
+            self.lblPercentage.text = "-" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(percentage)) + " " + localizedString("txt_off", comment: "")
 //            self.strikeLblDistanceFromQtyLbl.constant = 4
 //            self.lblDistanceFromPercentageView.constant = 10
         }

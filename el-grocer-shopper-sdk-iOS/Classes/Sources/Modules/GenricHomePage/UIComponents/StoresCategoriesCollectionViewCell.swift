@@ -48,7 +48,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         self.currentSelected = isSelected
         //        if type.storeTypeid == -1 {
         //
-        //            self.lblCategoryName.text = NSLocalizedString("all_store", comment: "")
+        //            self.lblCategoryName.text = localizedString("all_store", comment: "")
         //             self.setImage("https://www.google.com" , isSelected: isSelected , imageView: self.centeraImage, type: type)
         //            self.centeraImage.image = UIImage(name: "allStore")
         //            self.makeState(isSelected: isSelected, imageView: centeraImage)
@@ -105,7 +105,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         self.centerImage.image = UIImage(name: "allStore")
         self.makeState(isSelected: isSelected, imageView: centerImage)
         self.makeIconTinted(isSelected: isSelected, imageView: centerImage)
-        self.lblCategoryName.text = NSLocalizedString("all_store", comment: "")
+        self.lblCategoryName.text = localizedString("all_store", comment: "")
         self.setImageViewSize(false)
     }
     
@@ -181,7 +181,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         self.bgView.cornarRadius = 8.0
         self.bgView.backgroundColor = .navigationBarColor()
         self.centerImage.image = UIImage(name: "recipeCategoryImage")
-        self.lblCategoryName.text = NSLocalizedString("Order_Title", comment: "")
+        self.lblCategoryName.text = localizedString("Order_Title", comment: "")
         self.lblCategoryName.textColor = .navigationBarColor()
         self.setImageViewSize(true)
         

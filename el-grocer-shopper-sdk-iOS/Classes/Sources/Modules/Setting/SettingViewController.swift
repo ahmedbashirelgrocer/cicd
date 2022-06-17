@@ -127,17 +127,17 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if UserDefaults.isUserLoggedIn()  {
 
-            titles =  [NSLocalizedString("live_chat", comment: ""), NSLocalizedString("orders_Settings", comment: "") ,
-                       NSLocalizedString("saved_recipies", comment: ""),
-                       NSLocalizedString("saved_Cars", comment: ""),
-                       NSLocalizedString("address_settings", comment: ""),
+            titles =  [localizedString("live_chat", comment: ""), localizedString("orders_Settings", comment: "") ,
+                       localizedString("saved_recipies", comment: ""),
+                       localizedString("saved_Cars", comment: ""),
+                       localizedString("address_settings", comment: ""),
                        
-                       NSLocalizedString("payment_methods", comment: ""),
-                       NSLocalizedString("password_settings", comment: ""),
-                       NSLocalizedString("language_settings", comment: ""),
-                       NSLocalizedString("terms_settings", comment: ""),
-                       NSLocalizedString("privacy_policy", comment: ""),
-                       NSLocalizedString("FAQ_settings", comment: "")]
+                       localizedString("payment_methods", comment: ""),
+                       localizedString("password_settings", comment: ""),
+                       localizedString("language_settings", comment: ""),
+                       localizedString("terms_settings", comment: ""),
+                       localizedString("privacy_policy", comment: ""),
+                       localizedString("FAQ_settings", comment: "")]
             
             Images =  ["liveChatSettings" , "ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" ,"paymentMethodSettings","passwordSettings","languageSettings","termsSettings","privacyPolicySettings" , "faqSettings"]
          
@@ -147,10 +147,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else{
 
             
-            titles =  [NSLocalizedString("language_settings", comment: ""),
-                       NSLocalizedString("terms_settings", comment: ""),
-                       NSLocalizedString("privacy_policy", comment: ""),
-                       NSLocalizedString("FAQ_settings", comment: "")]
+            titles =  [localizedString("language_settings", comment: ""),
+                       localizedString("terms_settings", comment: ""),
+                       localizedString("privacy_policy", comment: ""),
+                       localizedString("FAQ_settings", comment: "")]
             
             Images =  ["languageSettings","termsSettings","privacyPolicySettings" , "faqSettings"]
 
@@ -172,7 +172,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
          (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
          (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        self.title = NSLocalizedString("Profile_Title", comment: "")
+        self.title = localizedString("Profile_Title", comment: "")
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.backgroundColor = .navigationBarWhiteColor()
@@ -268,22 +268,22 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         //Setting screen new text
         if UserDefaults.isUserLoggedIn() {
             if section == 1 && smilePointSection == 1 {
-                return NSLocalizedString("txt_benifits", comment: "")
+                return localizedString("txt_benifits", comment: "")
             }
             if section == 0 {
                 return ""
             }else if section == 1 + smilePointSection{
-                return  NSLocalizedString("cell_Title_Account", comment: "")
+                return  localizedString("cell_Title_Account", comment: "")
             }else if section == 2 + smilePointSection{
-                return NSLocalizedString("settings_heading", comment: "")
+                return localizedString("settings_heading", comment: "")
             }else if section == 3 + smilePointSection{
-                return NSLocalizedString("Information_heading", comment: "")
+                return localizedString("Information_heading", comment: "")
             }
         }else{
              if section == 1 {
-                return NSLocalizedString("settings_heading", comment: "")
+                return localizedString("settings_heading", comment: "")
             }else if section == 2 {
-                return NSLocalizedString("Information_heading", comment: "")
+                return localizedString("Information_heading", comment: "")
             }
             
         }
@@ -398,11 +398,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             if indexPath.section == 1 && smilePointSection == 1 {
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
-                //var title = NSLocalizedString("txt_smile_point", comment: "") +  NSLocalizedString("txt_bracket_login", comment: "")
-                var title = NSLocalizedString("txt_earn_smiles", comment: "")
+                //var title = localizedString("txt_smile_point", comment: "") +  localizedString("txt_bracket_login", comment: "")
+                var title = localizedString("txt_earn_smiles", comment: "")
                 if UserDefaults.getIsSmileUser() {
                     let points = UserDefaults.getSmilesPoints()
-                    title = NSLocalizedString("txt_smile_point", comment: "") + "(\(points) " + NSLocalizedString("smile_point_unit", comment: "") + ")"
+                    title = localizedString("txt_smile_point", comment: "") + "(\(points) " + localizedString("smile_point_unit", comment: "") + ")"
                 }
                 let imageName = "smilesCellLogo"
                 cell.configureCellWithTitle(title, withImage: imageName)
@@ -469,7 +469,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
             }else  if indexPath.section == 4 + smilePointSection{
                 let cell:SignOutCell = tableView.dequeueReusableCell(withIdentifier: kSignOutCellIdentifier, for: indexPath) as! SignOutCell
-                cell.signOutButton.setTitle(NSLocalizedString("sign_out_alert_title", comment: ""), for: .normal)
+                cell.signOutButton.setTitle(localizedString("sign_out_alert_title", comment: ""), for: .normal)
                 cell.contentView.setNeedsLayout()
                 cell.contentView.layoutIfNeeded()
                 cell.signOutHandler = {[weak self] () in
@@ -689,9 +689,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     fileprivate func goToSmileWithPermission() {
         
-        let alertDescription = NSLocalizedString("smile_login_permission_text", comment: "")
-        let positiveBtnText = NSLocalizedString("Yes", comment: "")
-        let negativeBtnText = NSLocalizedString("No", comment: "")
+        let alertDescription = localizedString("smile_login_permission_text", comment: "")
+        let positiveBtnText = localizedString("Yes", comment: "")
+        let negativeBtnText = localizedString("No", comment: "")
         let smileLoginAlert = ElGrocerAlertView.createAlert("", description: alertDescription, positiveButton: positiveBtnText, negativeButton: negativeBtnText) { btnTappedIndex in
             if btnTappedIndex == 0 {
                 self.gotToSmileLoginVC()
@@ -845,7 +845,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         creditVC.creditCardDeleted = { (creditCardSelected) in
          
-//            let notification = ElGrocerAlertView.createAlert(NSLocalizedString("Card_AddCard_Title", comment: ""),description: NSLocalizedString("Setting_Credit_Card_Delete_Success", comment: "") ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+//            let notification = ElGrocerAlertView.createAlert(localizedString("Card_AddCard_Title", comment: ""),description: localizedString("Setting_Credit_Card_Delete_Success", comment: "") ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
 //            notification.showPopUp()
         }
         
@@ -901,8 +901,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     
                 }
                 
-                let msgString = isSuccess ? NSLocalizedString("Setting_Credit_Card_Add_Success", comment: "") : NSLocalizedString("Setting_Credit_Card_Add_Failure", comment: "")
-                let notification = ElGrocerAlertView.createAlert(NSLocalizedString("Card_AddCard_Title", comment: ""),description: msgString ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+                let msgString = isSuccess ? localizedString("Setting_Credit_Card_Add_Success", comment: "") : localizedString("Setting_Credit_Card_Add_Failure", comment: "")
+                let notification = ElGrocerAlertView.createAlert(localizedString("Card_AddCard_Title", comment: ""),description: msgString ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
                 notification.showPopUp()
                 
             })
@@ -956,10 +956,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("signed_out")
         ElGrocerEventsLogger.sharedInstance.trackSettingClicked("SignOut")
         // Sign Out
-        ElGrocerAlertView.createAlert(NSLocalizedString("sign_out_alert_title", comment: ""),
-                                      description: NSLocalizedString("sign_out_alert_description", comment: ""),
-                                      positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),
-                                      negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("sign_out_alert_title", comment: ""),
+                                      description: localizedString("sign_out_alert_description", comment: ""),
+                                      positiveButton: localizedString("sign_out_alert_yes", comment: ""),
+                                      negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         if buttonIndex == 0 {
                                              let appDelegate = UIApplication.shared.delegate as! AppDelegate

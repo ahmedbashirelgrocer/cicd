@@ -48,7 +48,7 @@ class OrderStatusDetailCell: UITableViewCell {
     @IBOutlet var lblOrderDetails: UILabel!{
         didSet{
             lblOrderDetails.setBody3BoldUpperStyle(true)
-            self.lblOrderDetails.text = NSLocalizedString("lbl_Order_Details", comment: "")
+            self.lblOrderDetails.text = localizedString("lbl_Order_Details", comment: "")
         }
     }
     @IBOutlet var btnOrderDetails: UIButton!
@@ -76,7 +76,7 @@ class OrderStatusDetailCell: UITableViewCell {
         if cellType == .pickrInfoWithoutChat {
             self.chatWithPickerBGView.isHidden = true // currently chat is not included
             self.orderDetailsBGView.isHidden = true
-            self.btnChatWithPicker.setTitle(NSLocalizedString("title_chat_with_Picker", comment: ""), for: UIControl.State())
+            self.btnChatWithPicker.setTitle(localizedString("title_chat_with_Picker", comment: ""), for: UIControl.State())
             self.statusImageView.image = UIImage(name: "riderOrPicker")
             self.lblHeading.setBody3BoldUpperStyle(false)
             self.lblDetails.setBody3RegDarkStyle()
@@ -86,7 +86,7 @@ class OrderStatusDetailCell: UITableViewCell {
             self.orderDetailsBGView.visibility = .visible
             self.chatWithPickerBGView.isHidden = false
             self.orderDetailsBGView.isHidden = true
-            self.btnChatWithPicker.setTitle(NSLocalizedString("title_chat_with_Picker", comment: ""), for: UIControl.State())
+            self.btnChatWithPicker.setTitle(localizedString("title_chat_with_Picker", comment: ""), for: UIControl.State())
             self.statusImageView.image = UIImage(name: "riderOrPicker")
             self.lblHeading.setBody3BoldUpperStyle(false)
             self.lblDetails.setBody3RegDarkStyle()
@@ -111,7 +111,7 @@ class OrderStatusDetailCell: UITableViewCell {
             self.chatWithPickerBGView.isHidden = true
             self.orderDetailsBGView.isHidden = false
             self.orderDetailsBGView.visibility = .visible
-            self.lblOrderDetails.text = NSLocalizedString("lbl_Order_Details", comment: "")
+            self.lblOrderDetails.text = localizedString("lbl_Order_Details", comment: "")
             self.statusImageView.image = UIImage(name: "storeDetailsIcon")
             
             self.lblHeading.setBody3BoldUpperStyle(false)
@@ -153,7 +153,7 @@ class OrderStatusDetailCell: UITableViewCell {
     func configureStoreNameAndOrderId(_ storeName : String , _ orderId : String) {
         
         self.lblHeading.text = storeName
-        self.lblDetails.text = NSLocalizedString("order_lbl_numner", comment: "") + " "  + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: orderId)
+        self.lblDetails.text = localizedString("order_lbl_numner", comment: "") + " "  + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: orderId)
         
     }
     
@@ -170,24 +170,24 @@ class OrderStatusDetailCell: UITableViewCell {
         if pickerName != ""{
             self.lblHeading.text = pickerName
         }else{
-            self.lblHeading.text = NSLocalizedString("txt_Picker", comment: "")
+            self.lblHeading.text = localizedString("txt_Picker", comment: "")
         }
         
-        self.lblDetails.text = NSLocalizedString("txt_elGrocer_Picker", comment: "")
+        self.lblDetails.text = localizedString("txt_elGrocer_Picker", comment: "")
         
         
     }
     
     func configureCandCLocation(_ locationAddres : String) {
 
-        self.lblHeading.text = NSLocalizedString("title_self_collection_point", comment: "")
+        self.lblHeading.text = localizedString("title_self_collection_point", comment: "")
         self.lblDetails.attributedText = self.setBoldForText(CompleteValue: locationAddres, textForAttribute: locationAddres)
         
     }
     
     func configureCandCCollectorDetails(_ name : String , phoneNumber : String) {
         
-        self.lblHeading.text = NSLocalizedString("title_order_collector_details", comment: "")
+        self.lblHeading.text = localizedString("title_order_collector_details", comment: "")
         let finalName = name + ", "
         let text = finalName + phoneNumber
         self.lblDetails.attributedText = self.setBoldForText(CompleteValue: text, textForAttribute: finalName)
@@ -196,7 +196,7 @@ class OrderStatusDetailCell: UITableViewCell {
     
     func configureCandCCarDetails(_ platNumber : String , model : String , type : String , color : String) {
         
-        self.lblHeading.text = NSLocalizedString("title_car_details", comment: "")
+        self.lblHeading.text = localizedString("title_car_details", comment: "")
         let text = platNumber + ", " +  model  + ", " + type  + ", " + color
         self.lblDetails.attributedText = self.setBoldForText(CompleteValue: text, textForAttribute: platNumber)
         

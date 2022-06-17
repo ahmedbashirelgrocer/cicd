@@ -38,7 +38,7 @@ class SpecialtyStoresGroceryTableCell: UITableViewCell {
     @IBOutlet var lblRunVideo: UILabel!{
         didSet{
             lblRunVideo.setSubHead2BoldWhiteStyle()
-            lblRunVideo.text = NSLocalizedString("Run a store video", comment: "")
+            lblRunVideo.text = localizedString("Run a store video", comment: "")
         }
     }
     @IBOutlet var bottomBGView: UIView!{

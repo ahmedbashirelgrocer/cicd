@@ -24,7 +24,7 @@ class EGBasketProgress: UIView {
     @IBOutlet var lblMessage: UILabel!
     @IBOutlet var lblDeliveryDetails: UILabel! {
         didSet{
-            lblDeliveryDetails.text =   NSLocalizedString("dashboard_location_navigation_bar_title", comment: "")
+            lblDeliveryDetails.text =   localizedString("dashboard_location_navigation_bar_title", comment: "")
         }
     }
     @IBOutlet var lblDeliverySlot: UILabel!
@@ -36,7 +36,7 @@ class EGBasketProgress: UIView {
     @IBOutlet var signInBtn: UIButton!
     @IBOutlet var continueShoppingBtn: AWButton! {
         didSet{
-            continueShoppingBtn.setTitle(NSLocalizedString("lbl_Contnue_shopping", comment: "") , for: UIControl.State())
+            continueShoppingBtn.setTitle(localizedString("lbl_Contnue_shopping", comment: "") , for: UIControl.State())
         }
     }
     
@@ -131,14 +131,14 @@ class EGBasketProgress: UIView {
         if isReadedMinLimit {
             self.isMinReached = true
             self.lblMessage.textColor = UIColor.navigationBarColor()
-            self.lblMessage.text =   NSLocalizedString("lbl_congrtz", comment: "")
+            self.lblMessage.text =   localizedString("lbl_congrtz", comment: "")
              self.configureCompleteProgressState()
             return
         }
         self.isMinReached = false
         self.configureHalfProgressState()
         let remaining = remainingLimit + " AED "
-        self.lblMessage.text = "\(NSLocalizedString("lbl_reach", comment: "")) " + minLimit + " \(CurrencyManager.getCurrentCurrency()) " + "\(NSLocalizedString("lbl_placeorder", comment: ""))\n" + "\(NSLocalizedString("lbl_Add", comment: "")) " + remaining + "\(NSLocalizedString("lbl_morefrom", comment: "")) " + storeName
+        self.lblMessage.text = "\(localizedString("lbl_reach", comment: "")) " + minLimit + " \(CurrencyManager.getCurrentCurrency()) " + "\(localizedString("lbl_placeorder", comment: ""))\n" + "\(localizedString("lbl_Add", comment: "")) " + remaining + "\(localizedString("lbl_morefrom", comment: "")) " + storeName
         self.makeStringGreenAndBold(lbl: self.lblMessage, totalString: self.lblMessage.text ?? ""  , changeString: remaining)
            
     }

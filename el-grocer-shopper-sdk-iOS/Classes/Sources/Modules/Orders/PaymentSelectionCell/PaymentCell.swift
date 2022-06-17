@@ -25,7 +25,7 @@ class PaymentCell: UITableViewCell {
         
         self.paymentTitle.font = UIFont.SFProDisplaySemiBoldFont(12.0)
 //        self.paymentTitle.textColor = UIColor.whiteColor()
-        self.paymentTitle.text = NSLocalizedString("payment_method_title", comment: "")
+        self.paymentTitle.text = localizedString("payment_method_title", comment: "")
         
         self.descriptionLabel.isHidden = true
 //        self.descriptionLabel.backgroundColor = UIColor.whiteColor()

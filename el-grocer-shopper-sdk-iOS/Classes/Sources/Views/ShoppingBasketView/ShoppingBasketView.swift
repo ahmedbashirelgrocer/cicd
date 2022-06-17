@@ -97,7 +97,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let topView = appDelegate.window!.rootViewController!.view
         
-        let view = Bundle(for: self).loadNibNamed("ShoppingBasketView", owner: nil, options: nil)![0] as! ShoppingBasketView
+        let view = Bundle.resource.loadNibNamed("ShoppingBasketView", owner: nil, options: nil)![0] as! ShoppingBasketView
         view.blurredBackground.image = topView?.createBlurredSnapShot()
         view.delegate = delegate
         view.shouldShowGroceryActiveBasket = shouldShowGroceryActiveBasket
@@ -235,8 +235,8 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
         self.quantityLabel.font = UIFont.bookFont(11.0)
         self.currencyLabel.font = UIFont.bookFont(11.0)
 
-        self.itemNameLabel.text = NSLocalizedString("shopping_basket_item_label", comment: "")
-        self.quantityLabel.text = NSLocalizedString("shopping_basket_quantity_label", comment: "")
+        self.itemNameLabel.text = localizedString("shopping_basket_item_label", comment: "")
+        self.quantityLabel.text = localizedString("shopping_basket_quantity_label", comment: "")
         self.currencyLabel.text = CurrencyManager.getCurrentCurrency()
     }
     
@@ -254,7 +254,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     
     fileprivate func setUpCheckoutButtonAppearance() {
         
-        self.checkoutButton.setTitle(NSLocalizedString("shopping_basket_payment_button", comment: ""), for: UIControl.State())
+        self.checkoutButton.setTitle(localizedString("shopping_basket_payment_button", comment: ""), for: UIControl.State())
         self.checkoutButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17.0)
         
         self.checkoutButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -self.checkoutButton.imageView!.frame.size.width - 4, bottom: 0, right: self.checkoutButton.imageView!.frame.size.width + 4)
@@ -292,7 +292,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
             self.totalPriceLabel.textColor = UIColor.redInfoColor()
             
             self.promotionDiscountLabel.textColor = UIColor.greenInfoColor()
-            self.promotionDiscountLabel.text = NSLocalizedString("shopping_basket_promotion_discount_price_label", comment: "")
+            self.promotionDiscountLabel.text = localizedString("shopping_basket_promotion_discount_price_label", comment: "")
             
             self.promotionDiscountPriceLabel.textColor = UIColor.greenInfoColor()
         }
@@ -464,9 +464,9 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
                 let promoCodeObjData = NSKeyedArchiver.archivedDataWithRootObject(promoCode)
                 UserDefaults.setPromoCodeValue(promoCodeObjData)
                 self.promoCodeLabel.textColor = UIColor.greenInfoColor()
-                let notification = ElGrocerAlertView.createAlert(NSLocalizedString("promo_code_alert_title", comment: ""),
-                    description: NSLocalizedString("promo_code_validation_success", comment: ""),
-                    positiveButton: NSLocalizedString("promo_code_alert_ok", comment: ""),
+                let notification = ElGrocerAlertView.createAlert(localizedString("promo_code_alert_title", comment: ""),
+                    description: localizedString("promo_code_validation_success", comment: ""),
+                    positiveButton: localizedString("promo_code_alert_ok", comment: ""),
                     negativeButton: nil,
                     buttonClickCallback: {(buttonIndex:Int) in self.refreshView()})
                 notification.show()
@@ -542,11 +542,11 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
         
         self.itemsSummaryValue = priceSum
         
-        let countLabel = summaryCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+        let countLabel = summaryCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
         
         if self.notAvailableProducts != nil {
             
-            self.summaryItemsCount.text = "\(summaryCount - notAvailableCount)/\(summaryCount) " + countLabel + " " + NSLocalizedString("shopping_basket_available_label", comment: "")
+            self.summaryItemsCount.text = "\(summaryCount - notAvailableCount)/\(summaryCount) " + countLabel + " " + localizedString("shopping_basket_available_label", comment: "")
             
         } else {
             
@@ -581,13 +581,13 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
                 // self.totalLabel.text = "Total of \(summaryCount - notAvailableCount) " + countLabel
                 
                 // Change title of summary label
-                self.summaryItemsCount.text = NSLocalizedString("shopping_basket_summary_items_label" , comment: "")
+                self.summaryItemsCount.text = localizedString("shopping_basket_summary_items_label" , comment: "")
             }
             
             // Show the total price of the order including discount if there is one
             self.summaryPrice.attributedText = ("\(CurrencyManager.getCurrentCurrency()) " + (NSString(format: "%.2f", priceSum) as String) as String).createTopAlignedPriceString(self.summaryPrice.font, price:NSNumber(value:priceSum))
         } else {
-            self.summaryPrice.text = NSLocalizedString("shopping_basket_items_no_price", comment: "")
+            self.summaryPrice.text = localizedString("shopping_basket_items_no_price", comment: "")
         }
     }
     
@@ -634,9 +634,9 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
                 FireBaseEventsLogger.setUserProperty(shoppingAmount, key: "shopping_cart_amount")
                 
                 //no minimum value
-                ElGrocerAlertView.createAlert(NSLocalizedString("order_no_minimum_value_alert_title", comment: ""),
-                    description: NSLocalizedString("order_no_minimum_value_alert_description", comment: "") + " \(self.minimumBasketValueForGrocery) AED",
-                    positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("order_no_minimum_value_alert_title", comment: ""),
+                    description: localizedString("order_no_minimum_value_alert_description", comment: "") + " \(self.minimumBasketValueForGrocery) AED",
+                    positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                     negativeButton: nil, buttonClickCallback: nil).show()
             }
             

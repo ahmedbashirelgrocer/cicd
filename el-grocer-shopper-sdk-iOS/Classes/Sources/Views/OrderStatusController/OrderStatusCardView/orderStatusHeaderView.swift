@@ -20,7 +20,7 @@ class orderStatusHeaderView: UIView {
     var statusId : String = ""
     @IBOutlet var lblTrackYourOrder: UILabel!{
         didSet{
-            self.lblTrackYourOrder.text = NSLocalizedString("lbl_Track_your_order", comment: "")
+            self.lblTrackYourOrder.text = localizedString("lbl_Track_your_order", comment: "")
         }
     }
     @IBOutlet var lblOrderTracking: UILabel!
@@ -66,13 +66,13 @@ class orderStatusHeaderView: UIView {
         didSet{
             lblOrderStatus.setBody3BoldUpperStyle(true)
             lblOrderStatus.textAlignment = .natural
-            //lblOrderStatus.text = NSLocalizedString("Scheduled", comment: "")
+            //lblOrderStatus.text = localizedString("Scheduled", comment: "")
         }
     }
     @IBOutlet var btnOrderStatus: AWButton!{
         didSet{
             btnOrderStatus.setCornerRadiusStyle()
-            btnOrderStatus.setTitle(NSLocalizedString("choose_substitutions_title_cell", comment: ""), for: UIControl.State())
+            btnOrderStatus.setTitle(localizedString("choose_substitutions_title_cell", comment: ""), for: UIControl.State())
             btnOrderStatus.backgroundColor = UIColor.navigationBarColor()
             btnOrderStatus.setTitleColor(.white, for: UIControl.State())
         }
@@ -119,9 +119,9 @@ class orderStatusHeaderView: UIView {
         self.trackingView.isHidden = self.trackingUrl.count == 0
 
         if orderType == .delivery{
-            self.lblOrderType.text = NSLocalizedString("title_Estimated_delivery", comment: "")
+            self.lblOrderType.text = localizedString("title_Estimated_delivery", comment: "")
         }else{
-            self.lblOrderType.text = NSLocalizedString("lbl_self_collection_time", comment: "")
+            self.lblOrderType.text = localizedString("lbl_self_collection_time", comment: "")
         }
         let statusString : String = ElGrocerUtility.sharedInstance.isArabicSelected() ? status.nameAr : status.nameEn
         let statusUppercased = statusString.uppercased()
@@ -136,7 +136,7 @@ class orderStatusHeaderView: UIView {
             self.orderStatusImageView.changePngColorTo(color: status.color)
             self.spinnerView.animationColor = status.color
             self.spinnerView.animate()
-           // self.lblOrderType.text = NSLocalizedString("title_Estimated_delivery", comment: "")
+           // self.lblOrderType.text = localizedString("title_Estimated_delivery", comment: "")
         }else if data.status_id.intValue == OrderStatus.delivered.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName(status.imageName)
@@ -149,9 +149,9 @@ class orderStatusHeaderView: UIView {
             self.lblOrderType.isHidden = false
             self.spinnerView.animate(true)
             if orderType == .delivery{
-                self.lblOrderType.text = NSLocalizedString("title_delivered", comment: "")
+                self.lblOrderType.text = localizedString("title_delivered", comment: "")
             }else{
-                self.lblOrderType.text = NSLocalizedString("title_collected", comment: "")
+                self.lblOrderType.text = localizedString("title_collected", comment: "")
             }
         }else if data.status_id.intValue == OrderStatus.canceled.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
@@ -167,7 +167,7 @@ class orderStatusHeaderView: UIView {
             //self.spinnerView.layer.removeAllAnimations()
             //self.spinnerView.isHidden = true
         }else if data.status_id.intValue == OrderStatus.enRoute.rawValue{
-           // self.lblOrderType.text = NSLocalizedString("title_updated_delivery", comment: "")
+           // self.lblOrderType.text = localizedString("title_updated_delivery", comment: "")
             self.lblOrderType.textColor = status.color
             let orderStatusIcon = UIImage(name: status.imageName)
             self.orderStatusImageView.image = orderStatusIcon

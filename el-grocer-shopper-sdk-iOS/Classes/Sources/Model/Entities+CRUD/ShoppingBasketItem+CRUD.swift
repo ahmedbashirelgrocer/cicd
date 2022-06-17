@@ -493,7 +493,7 @@ extension ShoppingBasketItem {
                     }
                     NotificationCenter.default.post(name: KProductNotification, object: product)
             case .failure(let error):
-                    var msg = NSLocalizedString("lbl_edit_delete", comment: "")
+                    var msg = localizedString("lbl_edit_delete", comment: "")
                     if let jsonData = error.jsonValue?["messages"] as? NSDictionary {
                         if let available_quantity = jsonData["available_quantity"] as? NSNumber {
                             product.availableQuantity = available_quantity

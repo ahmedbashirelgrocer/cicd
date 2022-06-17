@@ -44,7 +44,7 @@ class AddAddressCell: UITableViewCell {
         self.locationTitle.sizeToFit()
         self.locationTitle.numberOfLines = 1
         
-        self.locationTitle.text = String(format: "+       %@",NSLocalizedString("add_address_manually", comment: ""))
+        self.locationTitle.text = String(format: "+       %@",localizedString("add_address_manually", comment: ""))
     }
     
     func configureWithLocation (_ location : DeliveryAddress) {

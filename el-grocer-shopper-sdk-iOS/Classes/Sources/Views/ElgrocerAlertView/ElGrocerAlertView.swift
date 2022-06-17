@@ -71,7 +71,7 @@ class ElGrocerAlertView : UIView {
     
     class func createAlert(_ title:String, description:String?, positiveButton:String?, negativeButton:String?, buttonClickCallback:((_ buttonIndex:Int) -> Void)?) -> ElGrocerAlertView {
         
-        let alert = Bundle(for: self).loadNibNamed("ElGrocerAlertView", owner: nil, options: nil)![0] as! ElGrocerAlertView
+        let alert = Bundle.resource.loadNibNamed("ElGrocerAlertView", owner: nil, options: nil)![0] as! ElGrocerAlertView
         alert.buttonClickCallback = buttonClickCallback
         alert.setDataInView(title, description: description, positiveButton: positiveButton, negativeButton: negativeButton)
         
@@ -249,7 +249,7 @@ class ElGrocerAlertView : UIView {
            let descriptionHeight = self.descriptionLabel.font.sizeOfString(description, constrainedToWidth: Double(self.descriptionLabel.frame.size.width)).height
             
             let currentLanguage = UserDefaults.getCurrentLanguage()
-            if (description == NSLocalizedString("request_alert_description", comment: "") && UIScreen.main.bounds.size.height <= 568 && currentLanguage != "ar"){
+            if (description == localizedString("request_alert_description", comment: "") && UIScreen.main.bounds.size.height <= 568 && currentLanguage != "ar"){
                 viewHeight += 30
             }
             
@@ -305,7 +305,7 @@ class ElGrocerAlertView : UIView {
         self.descriptionLabel.text = description
         
         if description != nil {
-            let range = (description! as NSString).range(of: NSLocalizedString("cardErrorDefaultMsg", comment: ""))
+            let range = (description! as NSString).range(of: localizedString("cardErrorDefaultMsg", comment: ""))
             if range.length > 0 {
                 let attributedString = NSMutableAttributedString(string:description ?? "")
                 attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red , range: range)

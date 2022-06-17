@@ -19,7 +19,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
     }
     @IBOutlet var btnSubmit: AWButton!{
         didSet{
-            btnSubmit.setTitle(NSLocalizedString("btn_feedback_send_title", comment: ""), for: .normal)
+            btnSubmit.setTitle(localizedString("btn_feedback_send_title", comment: ""), for: .normal)
             btnSubmit.setH4SemiBoldWhiteStyle()
             btnSubmit.layer.backgroundColor = UIColor.navigationBarColor().cgColor
         }
@@ -321,69 +321,69 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
         if feedBackType == .clickAndCollectFeedBack{
             if index < 4{
                 if index == 0{
-                    self.ratingView.lblHeading.text = NSLocalizedString("lbl_click&Collect_feedback_Q1", comment: "")
+                    self.ratingView.lblHeading.text = localizedString("lbl_click&Collect_feedback_Q1", comment: "")
                 }else if index == 1{
-                    self.ratingView.lblHeading.text = NSLocalizedString("lbl_click&Collect_feedback_Q2", comment: "")
+                    self.ratingView.lblHeading.text = localizedString("lbl_click&Collect_feedback_Q2", comment: "")
                 }else if index == 2{
-                    self.ratingView.lblHeading.text = NSLocalizedString("lbl_click&Collect_feedback_Q3", comment: "")
+                    self.ratingView.lblHeading.text = localizedString("lbl_click&Collect_feedback_Q3", comment: "")
                     self.ratingView.lblHeading.sizeToFit()
                 }else if index == 3{
-                    self.writeReviewView.lblHeading.text = NSLocalizedString("lbl_click&Collect_feedback_Q4", comment: "")
-                    self.writeReviewView.lbl_help_us_be_better.text = NSLocalizedString("lbl_delivery_feedback_textView_heading", comment: "").uppercased()
-                    let placeHolder = NSAttributedString(string: NSLocalizedString("lbl_delivery_feedback_textView_placeHolder", comment: "") , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor() , NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14)])
+                    self.writeReviewView.lblHeading.text = localizedString("lbl_click&Collect_feedback_Q4", comment: "")
+                    self.writeReviewView.lbl_help_us_be_better.text = localizedString("lbl_delivery_feedback_textView_heading", comment: "").uppercased()
+                    let placeHolder = NSAttributedString(string: localizedString("lbl_delivery_feedback_textView_placeHolder", comment: "") , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor() , NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14)])
                     self.writeReviewView.growingTextView.attributedPlaceholder = placeHolder
                 }
             }
         }else{
             if index < 5{
                 if index == 0{
-                    self.ratingView.lblHeading.text = NSLocalizedString("lbl_delivery_feedback_Q1", comment: "")
+                    self.ratingView.lblHeading.text = localizedString("lbl_delivery_feedback_Q1", comment: "")
                 }else if index == 1{
-                    self.reviewView.lblHeading.text = NSLocalizedString("lbl_delivery_feedback_Q2", comment: "")
+                    self.reviewView.lblHeading.text = localizedString("lbl_delivery_feedback_Q2", comment: "")
                     
-                    self.reviewView.btnOption1.setTitle(NSLocalizedString("lbl_delivery_feedback_Q2_A1", comment: ""), for: .normal)
+                    self.reviewView.btnOption1.setTitle(localizedString("lbl_delivery_feedback_Q2_A1", comment: ""), for: .normal)
                     self.reviewView.btnOption1.tag = 2
                     self.reviewView.btnOption1.addTarget(self, action: #selector(optionAPressed(sender:)), for: .touchDown)
-                    self.reviewView.btnOption2.setTitle(NSLocalizedString("lbl_delivery_feedback_Q2_A2", comment: ""), for: .normal)
+                    self.reviewView.btnOption2.setTitle(localizedString("lbl_delivery_feedback_Q2_A2", comment: ""), for: .normal)
                     self.reviewView.btnOption2.tag = 2
                     self.reviewView.btnOption2.addTarget(self, action: #selector(optionBPressed(sender:)), for: .touchDown)
-                    self.reviewView.btnOption3.setTitle(NSLocalizedString("lbl_delivery_feedback_Q2_A3", comment: ""), for: .normal)
+                    self.reviewView.btnOption3.setTitle(localizedString("lbl_delivery_feedback_Q2_A3", comment: ""), for: .normal)
                     self.reviewView.btnOption3.tag = 2
                     self.reviewView.btnOption3.addTarget(self, action: #selector(optionCPressed(sender:)), for: .touchDown)
-                    self.reviewView.btnOption4.setTitle(NSLocalizedString("lbl_delivery_feedback_Q2_A4", comment: ""), for: .normal)
+                    self.reviewView.btnOption4.setTitle(localizedString("lbl_delivery_feedback_Q2_A4", comment: ""), for: .normal)
                     self.reviewView.btnOption4.tag = 2
                     self.reviewView.btnOption4.addTarget(self, action: #selector(optionDPressed(sender:)), for: .touchDown)
                 }else if index == 2{
-                    self.reviewView.lblHeading.text = NSLocalizedString("lbl_delivery_feedback_Q3", comment: "")
+                    self.reviewView.lblHeading.text = localizedString("lbl_delivery_feedback_Q3", comment: "")
                     
-                    self.reviewView.btnOption1.setTitle(NSLocalizedString("lbl_delivery_feedback_Q3_A1", comment: ""), for: .normal)
+                    self.reviewView.btnOption1.setTitle(localizedString("lbl_delivery_feedback_Q3_A1", comment: ""), for: .normal)
                     self.reviewView.btnOption1.tag = 3
                     self.reviewView.btnOption1.addTarget(self, action: #selector(optionAPressed(sender:)), for: .touchDown)
-                    self.reviewView.btnOption2.setTitle(NSLocalizedString("lbl_delivery_feedback_Q3_A2", comment: ""), for: .normal)
+                    self.reviewView.btnOption2.setTitle(localizedString("lbl_delivery_feedback_Q3_A2", comment: ""), for: .normal)
                     self.reviewView.btnOption2.tag = 3
                     self.reviewView.btnOption2.addTarget(self, action: #selector(optionBPressed(sender:)), for: .touchDown)
-                    self.reviewView.btnOption3.setTitle(NSLocalizedString("lbl_delivery_feedback_Q3_A3", comment: ""), for: .normal)
+                    self.reviewView.btnOption3.setTitle(localizedString("lbl_delivery_feedback_Q3_A3", comment: ""), for: .normal)
                     self.reviewView.btnOption3.tag = 3
                     self.reviewView.btnOption3.addTarget(self, action: #selector(optionCPressed(sender:)), for: .touchDown)
-                    self.reviewView.btnOption4.setTitle(NSLocalizedString("lbl_delivery_feedback_Q3_A4", comment: ""), for: .normal)
+                    self.reviewView.btnOption4.setTitle(localizedString("lbl_delivery_feedback_Q3_A4", comment: ""), for: .normal)
                     self.reviewView.btnOption4.tag = 3
                     self.reviewView.btnOption4.addTarget(self, action: #selector(optionDPressed(sender:)), for: .touchDown)
                 }else if index == 3{
-                    self.reviewView.lblHeading.text = NSLocalizedString("lbl_delivery_feedback_Q4", comment: "")
+                    self.reviewView.lblHeading.text = localizedString("lbl_delivery_feedback_Q4", comment: "")
                     
-                    self.reviewView.btnOption1.setTitle(NSLocalizedString("lbl_delivery_feedback_Q4_A1", comment: ""), for: .normal)
+                    self.reviewView.btnOption1.setTitle(localizedString("lbl_delivery_feedback_Q4_A1", comment: ""), for: .normal)
                     self.reviewView.btnOption1.tag = 4
                     self.reviewView.btnOption1.addTarget(self, action: #selector(optionAPressed(sender:)), for: .touchDown)
-                    self.reviewView.btnOption2.setTitle(NSLocalizedString("lbl_delivery_feedback_Q4_A2", comment: ""), for: .normal)
+                    self.reviewView.btnOption2.setTitle(localizedString("lbl_delivery_feedback_Q4_A2", comment: ""), for: .normal)
                     self.reviewView.btnOption2.tag = 4
                     self.reviewView.btnOption2.addTarget(self, action: #selector(optionBPressed(sender:)), for: .touchDown)
-                    self.reviewView.btnOption3.setTitle(NSLocalizedString("lbl_delivery_feedback_Q4_A3", comment: ""), for: .normal)
+                    self.reviewView.btnOption3.setTitle(localizedString("lbl_delivery_feedback_Q4_A3", comment: ""), for: .normal)
                     self.reviewView.btnOption3.tag = 4
                     self.reviewView.btnOption3.addTarget(self, action: #selector(optionCPressed(sender:)), for: .touchDown)
                 }else if index == 4{
-                    self.writeReviewView.lblHeading.text = NSLocalizedString("lbl_delivery_feedback_Q5", comment: "")
-                    self.writeReviewView.lbl_help_us_be_better.text = NSLocalizedString("lbl_delivery_feedback_textView_heading", comment: "").uppercased()
-                    let placeHolder = NSAttributedString(string: NSLocalizedString("lbl_delivery_feedback_textView_placeHolder", comment: "") , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor() , NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14)])
+                    self.writeReviewView.lblHeading.text = localizedString("lbl_delivery_feedback_Q5", comment: "")
+                    self.writeReviewView.lbl_help_us_be_better.text = localizedString("lbl_delivery_feedback_textView_heading", comment: "").uppercased()
+                    let placeHolder = NSAttributedString(string: localizedString("lbl_delivery_feedback_textView_placeHolder", comment: "") , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor() , NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14)])
                     
                     self.writeReviewView.growingTextView.attributedPlaceholder = placeHolder
                 }

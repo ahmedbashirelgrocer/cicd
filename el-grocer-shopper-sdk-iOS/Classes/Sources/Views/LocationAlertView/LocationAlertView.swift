@@ -42,7 +42,7 @@ class LocationAlertView: UIView {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let topView = appDelegate.window!.rootViewController!.view
         
-        let view = Bundle(for: self).loadNibNamed("LocationAlertView", owner: nil, options: nil)![0] as! LocationAlertView
+        let view = Bundle.resource.loadNibNamed("LocationAlertView", owner: nil, options: nil)![0] as! LocationAlertView
         
         view.imgBG.image = topView?.createBlurredSnapShot()
         view.delegate = delegate

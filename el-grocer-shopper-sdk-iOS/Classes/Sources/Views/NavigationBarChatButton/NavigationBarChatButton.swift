@@ -13,7 +13,7 @@ class NavigationBarChatButton: UIView {
     @IBOutlet var navChatButton: UIButton!
     @IBOutlet var lblChat: UILabel!{
         didSet{
-            lblChat.text = NSLocalizedString("btn_help", comment: "")
+            lblChat.text = localizedString("btn_help", comment: "")
         }
     }
     var chatClick: (()->Void)?

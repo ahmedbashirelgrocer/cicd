@@ -31,7 +31,7 @@ class DashboardLocationCell : UITableViewCell {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var defaultButton: UIButton! {
         didSet {
-            defaultButton.setTitle(NSLocalizedString("btn_default", comment: ""), for: UIControl.State())
+            defaultButton.setTitle(localizedString("btn_default", comment: ""), for: UIControl.State())
         }
     }
     
@@ -90,7 +90,7 @@ class DashboardLocationCell : UITableViewCell {
 //        self.editButton.backgroundColor = UIColor.navigationBarColor()
         self.editButton.setTitleColor(UIColor.selectionTabDark(), for: UIControl.State())
        // self.editButton.titleLabel?.font = UIFont.mediumFont(11.0)
-        self.editButton.setTitle("  " + NSLocalizedString("dashboard_location_edit_button", comment: ""), for: UIControl.State())
+        self.editButton.setTitle("  " + localizedString("dashboard_location_edit_button", comment: ""), for: UIControl.State())
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             if let btnImage = self.editButton.currentImage {
                 self.editButton.setImage(btnImage.withHorizontallyFlippedOrientation(), for: UIControl.State())
@@ -100,7 +100,7 @@ class DashboardLocationCell : UITableViewCell {
 //        self.deleteButton.backgroundColor = UIColor.redValidationErrorColor()
         self.deleteButton.setTitleColor(UIColor.selectionTabDark(), for: UIControl.State())
 //        self.deleteButton.titleLabel?.font = UIFont.mediumFont(11.0)
-        self.deleteButton.setTitle("  " + NSLocalizedString("dashboard_location_delete_button", comment: ""), for: UIControl.State())
+        self.deleteButton.setTitle("  " + localizedString("dashboard_location_delete_button", comment: ""), for: UIControl.State())
     }
     
     // MARK: Data

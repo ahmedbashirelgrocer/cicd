@@ -66,21 +66,21 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet weak var orderStatus: UILabel!
     @IBOutlet var lblOrderStatusAccepted: UILabel! {
         didSet{
-            lblOrderStatusAccepted.text = NSLocalizedString("order_status_accepted", comment: "")
+            lblOrderStatusAccepted.text = localizedString("order_status_accepted", comment: "")
             lblOrderStatusAccepted.setCaptionTwoRegDarkStyle()
         }
         
     }
     @IBOutlet var lblOrderStatusOnTheWay: UILabel! {
         didSet{
-            lblOrderStatusOnTheWay.text = NSLocalizedString("btn_on_my_way_txt", comment: "")
+            lblOrderStatusOnTheWay.text = localizedString("btn_on_my_way_txt", comment: "")
             lblOrderStatusOnTheWay.setCaptionTwoRegDarkStyle()
         }
         
     }
     @IBOutlet var orderStatusDelievered: UILabel! {
         didSet{
-            orderStatusDelievered.text = NSLocalizedString("order_status_delivered", comment: "")
+            orderStatusDelievered.text = localizedString("order_status_delivered", comment: "")
             orderStatusDelievered.setCaptionTwoRegDarkStyle()
         }
         
@@ -201,14 +201,14 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     @IBOutlet var btnContinueShoppinglable: UILabel! {
         didSet{
-            btnContinueShoppinglable.text = NSLocalizedString("lbl_Contnue_shopping", comment: "")
+            btnContinueShoppinglable.text = localizedString("lbl_Contnue_shopping", comment: "")
             btnContinueShoppinglable.setH4SemiBoldWhiteStyle()
         }
     }
     
     @IBOutlet var btnOrderDetail: UIButton!{
         didSet{
-            btnOrderDetail.setTitle(NSLocalizedString("lbl_Order_Details", comment: ""), for: .normal)
+            btnOrderDetail.setTitle(localizedString("lbl_Order_Details", comment: ""), for: .normal)
         }
         
     }
@@ -222,20 +222,20 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet var lbl_CurrentStatusMsg: UILabel! {
         didSet{
             lbl_CurrentStatusMsg.setH3SemiBoldStyle()
-            lbl_CurrentStatusMsg.text = NSLocalizedString("dialog_CandC_Msg", comment: "")
+            lbl_CurrentStatusMsg.text = localizedString("dialog_CandC_Msg", comment: "")
         }
     }
     @IBOutlet var btnAtTheStore: UIButton! {
         didSet{
             btnAtTheStore.setH4SemiBoldWhiteStyle()
-            btnAtTheStore.setTitle(NSLocalizedString("btn_at_the_store_txt", comment: ""), for: UIControl.State())
+            btnAtTheStore.setTitle(localizedString("btn_at_the_store_txt", comment: ""), for: UIControl.State())
             
         }
     }
     @IBOutlet var btnOnMyWay: UIButton! {
         didSet{
             btnOnMyWay.setH4SemiBoldWhiteStyle()
-            btnOnMyWay.setTitle(NSLocalizedString("btn_on_my_way_txt", comment: ""), for: UIControl.State())
+            btnOnMyWay.setTitle(localizedString("btn_on_my_way_txt", comment: ""), for: UIControl.State())
         }
     }
     
@@ -257,7 +257,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     override func viewDidLoad() {
         super.viewDidLoad()
      
-        self.title =  NSLocalizedString("order_confirmation_title", comment: "")
+        self.title =  localizedString("order_confirmation_title", comment: "")
         self.navigationItem.hidesBackButton = true
         //addBackButton()
         
@@ -551,10 +551,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         self.titleLabel.textColor = UIColor.colorWithHexString(hexString: "4A4A4A")
         self.titleLabel.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-        self.titleLabel.text = NSLocalizedString("order_confirmation_text", comment: "")
+        self.titleLabel.text = localizedString("order_confirmation_text", comment: "")
         
         self.lblGrocerName.setBody2SemiboldGreenStyle()
-        self.btnContinueShoppinglable.text = NSLocalizedString("lbl_Contnue_shopping", comment: "")
+        self.btnContinueShoppinglable.text = localizedString("lbl_Contnue_shopping", comment: "")
     }
     func setUpDelevryScheduleDetail() {
         guard self.order != nil else {return}
@@ -562,8 +562,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             self.lblDeliveryTime.attributedText = slotString
         }else{
             if order.deliverySlot == nil {
-                let prefixText = NSLocalizedString("lbl_Arring_Slot", comment: "")
-                let timeSlot = NSLocalizedString("order_schedule_InstantTime_lable", comment: "")
+                let prefixText = localizedString("lbl_Arring_Slot", comment: "")
+                let timeSlot = localizedString("order_schedule_InstantTime_lable", comment: "")
                 let scheduleStr = self.getDeleveryScheduleAttributedString(prefixText: prefixText, SuffixBold: timeSlot  , attachedImage: nil)
                 self.lblDeliveryTime.attributedText = scheduleStr
             }else{
@@ -571,17 +571,17 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 if let selectedSlot = order.deliverySlot {
                     slotTimeStr = selectedSlot.getSlotFormattedString(isDeliveryMode: order.isDeliveryOrder())
                     if  selectedSlot.isToday() {
-                        let name =    NSLocalizedString("today_title", comment: "") // + " " + ( selectedSlot.estimatedDeliveryDate!.dataMonthDateInUTCString() ?? "")
+                        let name =    localizedString("today_title", comment: "") // + " " + ( selectedSlot.estimatedDeliveryDate!.dataMonthDateInUTCString() ?? "")
                         slotTimeStr = String(format: "%@ (%@)", name ,slotTimeStr)
                     }else if selectedSlot.isTomorrow()  {
                         
-                        let name =    NSLocalizedString("tomorrow_title", comment: "") // + " " + ( selectedSlot.estimatedDeliveryDate!.dataMonthDateInUTCString() ?? "")
+                        let name =    localizedString("tomorrow_title", comment: "") // + " " + ( selectedSlot.estimatedDeliveryDate!.dataMonthDateInUTCString() ?? "")
                         slotTimeStr = String(format: "%@ (%@)", name,slotTimeStr)
                     }else{
                         slotTimeStr = String(format: "%@ (%@)", selectedSlot.start_time?.getDayName() ?? "" ,slotTimeStr)
                     }
                 }
-                let prefixText = NSLocalizedString("lbl_Arring_Slot", comment: "")
+                let prefixText = localizedString("lbl_Arring_Slot", comment: "")
                 let scheduleStr = self.getDeleveryScheduleAttributedString(prefixText: prefixText, SuffixBold: slotTimeStr  , attachedImage: nil)
                 self.lblDeliveryTime.attributedText = scheduleStr
             }
@@ -595,10 +595,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         var statusPart  : NSMutableAttributedString = NSMutableAttributedString.init(string: "")
         if order.deliverySlot != nil && order.status.intValue == 0{
               let dict2 = [NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor() ,NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(11)]
-            statusPart = NSMutableAttributedString(string:String(format:"%@",NSLocalizedString("order_status_schedule_order", comment: "")), attributes:dict2)
+            statusPart = NSMutableAttributedString(string:String(format:"%@",localizedString("order_status_schedule_order", comment: "")), attributes:dict2)
         }else{
               let dict2 = [NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor(),NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(11.0)]
-           statusPart = NSMutableAttributedString(string:String(format:"%@",NSLocalizedString("order_status_pending", comment: "")), attributes:dict2)
+           statusPart = NSMutableAttributedString(string:String(format:"%@",localizedString("order_status_pending", comment: "")), attributes:dict2)
         }
         
          self.orderStatus.attributedText = statusPart
@@ -614,7 +614,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
        
         guard self.order != nil else {return}
         //OrderConfirmationNewChat
-        self.lblGrocerName.attributedText =  NSMutableAttributedString().bold(NSLocalizedString("lbl_Order_Confirm_Msg", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor()).bold(self.grocery.name ?? "", UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor()).bold( " " + NSLocalizedString("lbl_Order_Confirm_Msg_last", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor())
+        self.lblGrocerName.attributedText =  NSMutableAttributedString().bold(localizedString("lbl_Order_Confirm_Msg", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor()).bold(self.grocery.name ?? "", UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor()).bold( " " + localizedString("lbl_Order_Confirm_Msg_last", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor())
         self.imgViewRetailer.image = UIImage(name: "order_Confirmed")
         
         
@@ -643,23 +643,23 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         let stringColor = UIColor.newBlackColor()
         let boldStringColor =   UIColor.newBlackColor() //.colorWithHexString(hexString: "4c4b44")
 
-        self.noteOrderLable.attributedText = setBoldForText(CompleteValue: NSLocalizedString("order_note_label_complete", comment: ""), textForAttribute: NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: ""))
-        //NSMutableAttributedString().normal(NSLocalizedString("order_Note_lable", comment: "") , .SFProDisplayNormalFont(12), color: stringColor).bold(NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: "") , .SFProDisplaySemiBoldFont(12), color: .newBlackColor()).normal(NSLocalizedString("order_Note_reason", comment: "") , .SFProDisplayNormalFont(12), color: stringColor)
+        self.noteOrderLable.attributedText = setBoldForText(CompleteValue: localizedString("order_note_label_complete", comment: ""), textForAttribute: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+        //NSMutableAttributedString().normal(localizedString("order_Note_lable", comment: "") , .SFProDisplayNormalFont(12), color: stringColor).bold(localizedString("order_Note_Bold_Price_May_Vary", comment: "") , .SFProDisplaySemiBoldFont(12), color: .newBlackColor()).normal(localizedString("order_Note_reason", comment: "") , .SFProDisplayNormalFont(12), color: stringColor)
         
 
         
-        self.editOrderStatus.attributedText = NSMutableAttributedString().normal(NSLocalizedString("edit_Notice_intial", comment: "") , .SFProDisplayNormalFont(12), color: stringColor).bold(NSLocalizedString("edit_Notice_Center", comment: "") , .SFProDisplaySemiBoldFont(12), color: .newBlackColor()).normal(NSLocalizedString("edit_Notice_last", comment: "") , .SFProDisplayNormalFont(12), color: stringColor)
+        self.editOrderStatus.attributedText = NSMutableAttributedString().normal(localizedString("edit_Notice_intial", comment: "") , .SFProDisplayNormalFont(12), color: stringColor).bold(localizedString("edit_Notice_Center", comment: "") , .SFProDisplaySemiBoldFont(12), color: .newBlackColor()).normal(localizedString("edit_Notice_last", comment: "") , .SFProDisplayNormalFont(12), color: stringColor)
 
     }
     func setNeedAssistanceLable () {
 
-        let clickAbleText = NSLocalizedString("launch_live_chat_text", comment: "")
-        let initialText   = NSLocalizedString("need_assistance_lable", comment: "")
+        let clickAbleText = localizedString("launch_live_chat_text", comment: "")
+        let initialText   = localizedString("need_assistance_lable", comment: "")
         self.needAssistanceLable.text = initialText
         
         self.lblChatWithElgrocer.text = clickAbleText
         
-      //  let clickAbleText = NSLocalizedString("launch_live_chat_text", comment: "")
+      //  let clickAbleText = localizedString("launch_live_chat_text", comment: "")
         // let finalStr = initialText + clickAbleText
        // self.needAssistanceLable.attributedText = self.getAttributedStringForAssitance(initialText, clickAble: clickAbleText)
     }
@@ -697,7 +697,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             itemsCount += item.count.intValue
         }
         
-        let countLabel = itemsCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+        let countLabel = itemsCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
         
        // let itemStr = self.getAttributedString(countLabel, description: "\(itemsCount)")
         //self.itemsLabel.attributedText = itemStr
@@ -709,7 +709,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         guard self.order != nil else {return}
         
         let semiBold = UIFont.SFProDisplaySemiBoldFont(16)
-        self.orderNumberLabel.attributedText =  NSMutableAttributedString().normal(NSLocalizedString("order_confirmation_number_label", comment: "") + " ", semiBold , color: .disableButtonColor()).bold("\(self.order.dbID.intValue)" , semiBold , color: .newBlackColor())
+        self.orderNumberLabel.attributedText =  NSMutableAttributedString().normal(localizedString("order_confirmation_number_label", comment: "") + " ", semiBold , color: .disableButtonColor()).bold("\(self.order.dbID.intValue)" , semiBold , color: .newBlackColor())
     }
     
     func setUpTotalAmountAppearance() {
@@ -736,7 +736,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
         let price = NSString(format: "%@ %.2f",CurrencyManager.getCurrentCurrency() , discountedPrice) as String
         
-        let priceStr = self.getAttributedString(NSLocalizedString("grand_total", comment: ""), description: price)
+        let priceStr = self.getAttributedString(localizedString("grand_total", comment: ""), description: price)
         
        // self.totalPriceLabel.attributedText = priceStr
     }
@@ -748,7 +748,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.setCollectorStatus(self.order, isOnTheWay: false, button: sender)
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
 //            }
@@ -763,7 +763,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.setCollectorStatus(self.order, isOnTheWay: true , button: sender)
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //
 //            }
@@ -871,7 +871,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
      //   self.trackOrderBtn.layer.cornerRadius = 5.0
         self.trackOrderBtn.clipsToBounds = true
-        self.trackOrderBtn.setTitle(NSLocalizedString("order_confirmation_Edit_order_button", comment: ""), for: UIControl.State())
+        self.trackOrderBtn.setTitle(localizedString("order_confirmation_Edit_order_button", comment: ""), for: UIControl.State())
         
 //        self.trackOrderBtn.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
 //        self.trackOrderBtn.setTitleColor(UIColor.white, for: UIControl.State())
@@ -904,7 +904,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             print("Order Address ID:%@",orderAddressId)
             
             guard defaultAddressId == orderAddressId else {
-                ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("edit_Order_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                 return
             }
         }
@@ -1138,7 +1138,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             }
         }else{
             if !isCurrentActive {
-                ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("reorder_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("reorder_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                 return
             }
         }
@@ -1249,7 +1249,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         ElGrocerApi.sharedInstance.updateCollectorStatus(orderId: currentOrder.dbID.stringValue , collector_status: status, shopper_id: currentOrder.shopperID?.stringValue ?? "" , collector_id: currentOrder.collector?.dbID.stringValue ?? "") { (result) in
             switch result {
                 case .success( _):
-                    let msg = NSLocalizedString("status_Update_Msg", comment: "")
+                    let msg = localizedString("status_Update_Msg", comment: "")
                     if isOnTheWay {
                         self.btnOnMyWay.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.tintColor = .white
@@ -1543,14 +1543,14 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
                 if orderStatus != .pending{
 
                     let cell = tableView.dequeueReusableCell(withIdentifier: "warningAlertCell", for: indexPath) as! warningAlertCell
-                    let text = NSLocalizedString("order_note_label_complete", comment: "")//+ NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: "") + NSLocalizedString("order_Note_reason", comment: "")
-                    cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+                    let text = localizedString("order_note_label_complete", comment: "")//+ localizedString("order_Note_Bold_Price_May_Vary", comment: "") + localizedString("order_Note_reason", comment: "")
+                    cell.ConfigureCell(text: text, highlightedText: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
                     return cell
                 }
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "warningAlertCell", for: indexPath) as! warningAlertCell
-                let text = NSLocalizedString("Msg_Edit_Order", comment: "")
-                cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("lbl_Order_Details", comment: ""))
+                let text = localizedString("Msg_Edit_Order", comment: "")
+                cell.ConfigureCell(text: text, highlightedText: localizedString("lbl_Order_Details", comment: ""))
                 return cell
             }else if indexPath.row == 1 {
                 
@@ -1578,8 +1578,8 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
                     return cell
                 }else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "warningAlertCell", for: indexPath) as! warningAlertCell
-                    let text = NSLocalizedString("order_note_label_complete", comment: "") //+ NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: "") + NSLocalizedString("order_Note_reason", comment: "")
-                    cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+                    let text = localizedString("order_note_label_complete", comment: "") //+ localizedString("order_Note_Bold_Price_May_Vary", comment: "") + localizedString("order_Note_reason", comment: "")
+                    cell.ConfigureCell(text: text, highlightedText: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
                     return cell
                 }
             }else if indexPath.row == 2 {
@@ -1653,27 +1653,27 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
                 if status.getMappingTypeWithOrderStatus().rawValue < OrderStatus.accepted.rawValue {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "warningAlertCell", for: indexPath) as! warningAlertCell
                         if indexPath.row == 0 {
-                            let text = NSLocalizedString("lbl_Alert_Arrive_on_time", comment: "")
-                            cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("lbl-collection-TimeLimit-alert", comment: ""))
+                            let text = localizedString("lbl_Alert_Arrive_on_time", comment: "")
+                            cell.ConfigureCell(text: text, highlightedText: localizedString("lbl-collection-TimeLimit-alert", comment: ""))
                         }
                         if indexPath.row == 1 {
-                            let text = NSLocalizedString("Msg_Edit_Order", comment: "")
-                            cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("lbl_Order_Details", comment: ""))
+                            let text = localizedString("Msg_Edit_Order", comment: "")
+                            cell.ConfigureCell(text: text, highlightedText: localizedString("lbl_Order_Details", comment: ""))
                         }
                         if indexPath.row == 2 {
-                            let text = NSLocalizedString("order_note_label_complete", comment: "") //+ NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: "") + NSLocalizedString("order_Note_reason", comment: "")
-                            cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+                            let text = localizedString("order_note_label_complete", comment: "") //+ localizedString("order_Note_Bold_Price_May_Vary", comment: "") + localizedString("order_Note_reason", comment: "")
+                            cell.ConfigureCell(text: text, highlightedText: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
                         }
                         return cell
                 }else{
                         let cell = tableView.dequeueReusableCell(withIdentifier: "warningAlertCell", for: indexPath) as! warningAlertCell
                         if indexPath.row == 0 {
-                            let text = NSLocalizedString("lbl_Alert_Arrive_on_time", comment: "")
-                            cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("lbl-collection-TimeLimit-alert", comment: ""))
+                            let text = localizedString("lbl_Alert_Arrive_on_time", comment: "")
+                            cell.ConfigureCell(text: text, highlightedText: localizedString("lbl-collection-TimeLimit-alert", comment: ""))
                         }
                         if indexPath.row == 1 {
-                            let text = NSLocalizedString("order_note_label_complete", comment: "") //+ NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: "") + NSLocalizedString("order_Note_reason", comment: "")
-                            cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+                            let text = localizedString("order_note_label_complete", comment: "") //+ localizedString("order_Note_Bold_Price_May_Vary", comment: "") + localizedString("order_Note_reason", comment: "")
+                            cell.ConfigureCell(text: text, highlightedText: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
                         }
                         return cell
                 }
@@ -1763,7 +1763,7 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
             }else if indexPath.row == 1 {
                 let cell : GenericViewTitileTableViewCell = self.tableview.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
                 cell.isTitleOnly = true
-                cell.configureCell(title: NSLocalizedString("lbl_BestOffers", comment: ""))
+                cell.configureCell(title: localizedString("lbl_BestOffers", comment: ""))
                 return cell
             }else{
                

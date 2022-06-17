@@ -72,7 +72,7 @@ class DeliveryInfoViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         //Add title of nav bar
-        self.title = NSLocalizedString("checkout_Profile_title", comment: "")
+        self.title = localizedString("checkout_Profile_title", comment: "")
         
         //Hide Seach bar in Nav bar
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
@@ -111,7 +111,7 @@ class DeliveryInfoViewController: UIViewController {
         
         self.deliveryLabel.font = UIFont.SFProDisplayBoldFont(16.0)
         self.deliveryLabel.textColor = UIColor.black
-        self.deliveryLabel.text = NSLocalizedString("delivery_address", comment: "")
+        self.deliveryLabel.text = localizedString("delivery_address", comment: "")
         
         self.limitLabel.font = UIFont.SFProDisplaySemiBoldFont(9.0)
         self.limitLabel.textColor = UIColor.lightGray
@@ -179,7 +179,7 @@ class DeliveryInfoViewController: UIViewController {
         
         self.streetTextField.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         self.streetTextField.textColor = UIColor.black
-        self.streetTextField.attributedPlaceholder = NSAttributedString(string:NSLocalizedString("street", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        self.streetTextField.attributedPlaceholder = NSAttributedString(string:localizedString("street", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         self.streetTextField.addTarget(self, action: #selector(DeliveryInfoViewController.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         
@@ -212,7 +212,7 @@ class DeliveryInfoViewController: UIViewController {
         
         self.floorTextField.font = UIFont.SFProDisplaySemiBoldFont(14.0)
         self.floorTextField.textColor = UIColor.black
-        self.floorTextField.attributedPlaceholder = NSAttributedString(string:NSLocalizedString("floor", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        self.floorTextField.attributedPlaceholder = NSAttributedString(string:localizedString("floor", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         self.floorTextField.addTarget(self, action: #selector(DeliveryInfoViewController.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         
@@ -245,7 +245,7 @@ class DeliveryInfoViewController: UIViewController {
         
         self.additionalDirectionTextField.font = UIFont.SFProDisplaySemiBoldFont(14.0)
         self.additionalDirectionTextField.textColor = UIColor.black
-        self.additionalDirectionTextField.attributedPlaceholder = NSAttributedString(string:NSLocalizedString("additional_direction", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        self.additionalDirectionTextField.attributedPlaceholder = NSAttributedString(string:localizedString("additional_direction", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         self.additionalDirectionTextField.addTarget(self, action: #selector(DeliveryInfoViewController.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         
@@ -257,7 +257,7 @@ class DeliveryInfoViewController: UIViewController {
     func setUpDoneButtonAppearance() {
         self.doneButton.backgroundColor = UIColor.navigationBarColor()
         self.doneButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(16.0)
-        self.doneButton.setTitle(NSLocalizedString("done_button_title", comment: ""), for: UIControl.State())
+        self.doneButton.setTitle(localizedString("done_button_title", comment: ""), for: UIControl.State())
     }
     
     // MARK: Hide View
@@ -342,21 +342,21 @@ class DeliveryInfoViewController: UIViewController {
     
     func setLabelTitles() {
         
-        self.apartmentLabel.text = NSLocalizedString("apartment", comment: "")
-        self.houseLabel.text = NSLocalizedString("house", comment: "")
-        self.officeLabel.text = NSLocalizedString("office", comment: "")
+        self.apartmentLabel.text = localizedString("apartment", comment: "")
+        self.houseLabel.text = localizedString("house", comment: "")
+        self.officeLabel.text = localizedString("office", comment: "")
         
-        var buildingPlaceholderText = NSLocalizedString("building", comment: "")
+        var buildingPlaceholderText = localizedString("building", comment: "")
         if self.addressType == "1" {
-            buildingPlaceholderText = NSLocalizedString("house", comment: "")
+            buildingPlaceholderText = localizedString("house", comment: "")
         }
         
         self.buildingTextField.attributedPlaceholder = NSAttributedString(string:buildingPlaceholderText, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         self.apartmentNumberTextField.returnKeyType = .next
-        var apartmentPlaceholderText = NSLocalizedString("apartment_no", comment: "")
+        var apartmentPlaceholderText = localizedString("apartment_no", comment: "")
         if self.addressType == "2"{
-            apartmentPlaceholderText = NSLocalizedString("office_no", comment: "")
+            apartmentPlaceholderText = localizedString("office_no", comment: "")
             self.apartmentNumberTextField.returnKeyType = .done
         }
         
@@ -647,9 +647,9 @@ class DeliveryInfoViewController: UIViewController {
     
     // MARK: Show Error
     func showErrorAlert() {
-        ElGrocerAlertView.createAlert(NSLocalizedString("my_account_saving_error", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("my_account_saving_error", comment: ""),
                                       description: nil,
-                                      positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                      positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                       negativeButton: nil, buttonClickCallback: nil).show()
     }
     

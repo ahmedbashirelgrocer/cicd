@@ -26,7 +26,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
     @IBOutlet weak var SMS_verifcation_Message_Lable: UILabel! {
         
         didSet {
-            SMS_verifcation_Message_Lable.text = NSLocalizedString("SMS_Verifcation_Title", comment: "")
+            SMS_verifcation_Message_Lable.text = localizedString("SMS_Verifcation_Title", comment: "")
             SMS_verifcation_Message_Lable.setBody2RegDarkStyle()
         }
         
@@ -45,7 +45,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
     @IBOutlet weak var didNot_Received_Lable: UILabel! {
         
         didSet {
-            didNot_Received_Lable.text = NSLocalizedString("Did_not_Received_Title", comment: "")
+            didNot_Received_Lable.text = localizedString("Did_not_Received_Title", comment: "")
         }
         
     }
@@ -55,7 +55,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         
         didSet {
             
-            btnReSend.setTitle(NSLocalizedString("Resend_SMS_Button_Title", comment: ""), for: .normal)
+            btnReSend.setTitle(localizedString("Resend_SMS_Button_Title", comment: ""), for: .normal)
             btnReSend.setBody2BoldGreenStyle()
             btnReSend.setTitleColor(self.btnReSend.isEnabled ? UIColor.navigationBarColor() : UIColor.lightGray , for: .normal)
             
@@ -65,21 +65,21 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
  
     @IBOutlet var lblNeedSupport: UILabel! {
         didSet {
-            lblNeedSupport.text = NSLocalizedString("need_assistance_lable", comment: "")
+            lblNeedSupport.text = localizedString("need_assistance_lable", comment: "")
             lblNeedSupport.setBodyBoldDarkStyle()
         }
     }
     
     @IBOutlet var lblChatWithElgrocer: UILabel!{
         didSet {
-            lblChatWithElgrocer.text = NSLocalizedString("launch_live_chat_text", comment: "")
+            lblChatWithElgrocer.text = localizedString("launch_live_chat_text", comment: "")
             lblChatWithElgrocer.setBody3SemiBoldGreenStyle()
         }
     }
    
     @IBOutlet weak var btnDone: UIButton! {
         didSet {
-            btnDone.setTitle(NSLocalizedString("done_button_title", comment: ""), for: .normal)
+            btnDone.setTitle(localizedString("done_button_title", comment: ""), for: .normal)
             self.btnDone.isUserInteractionEnabled = false
             self.btnDone.alpha = 0.3
         }
@@ -117,7 +117,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
     
     func setUpApearnce() {
         
-        self.title = NSLocalizedString("Sign_up", comment: "")
+        self.title = localizedString("Sign_up", comment: "")
         self.addBackButtonWithCrossIconRightSide()
         (self.navigationController as? ElGrocerNavigationController)?.hideBorder(true)
          (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
@@ -242,7 +242,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.btnReSend.setTitle("\(NSLocalizedString("lbl_resendIn", comment: "")) \(self.totalTime/60) \(NSLocalizedString("lbl_Min", comment: ""))", for: .normal)
+            self.btnReSend.setTitle("\(localizedString("lbl_resendIn", comment: "")) \(self.totalTime/60) \(localizedString("lbl_Min", comment: ""))", for: .normal)
         }
        
         if timer == nil {
@@ -266,12 +266,12 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         
          totalTime = totalTime - 1
         
-         self.btnReSend.setTitle("\(NSLocalizedString("lbl_resendIn", comment: "")) \( self.formatMinuteSeconds(totalTime)) ", for: .normal)
+         self.btnReSend.setTitle("\(localizedString("lbl_resendIn", comment: "")) \( self.formatMinuteSeconds(totalTime)) ", for: .normal)
         
         if totalTime < 1 {
             self.resetTimer()
             self.btnReSend.isEnabled = true
-             self.btnReSend.setTitle(NSLocalizedString("Resend_SMS_Button_Title", comment: ""), for: .normal)
+             self.btnReSend.setTitle(localizedString("Resend_SMS_Button_Title", comment: ""), for: .normal)
             
         }else{
             self.btnReSend.isEnabled = false
@@ -449,7 +449,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         guard code.count == numberOfPassChar else {
             
             self.errorLable.alpha = 1
-            self.errorLable.text = NSLocalizedString("error_PinCode", comment: "")
+            self.errorLable.text = localizedString("error_PinCode", comment: "")
             ElGrocerUtility.sharedInstance.delay(3.0, closure: { [weak self] in
                 guard let self = self else {return}
                 UIView.animate(withDuration: 1.5, animations: {
@@ -486,7 +486,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
                         self.pinField.animateFailure() {
                             SpinnerView.hideSpinnerView()
                             self.errorLable.alpha = 1
-                            self.errorLable.text = NSLocalizedString("error_PinCode", comment: "")
+                            self.errorLable.text = localizedString("error_PinCode", comment: "")
                             self.pinField.text = ""
                             
                             ElGrocerUtility.sharedInstance.delay(3.0, closure: { [weak self] in
@@ -504,7 +504,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
             case .failure(let error):
              //   print(error)
              // error.showErrorAlert()
-                    var errorMsgStr = NSLocalizedString("error_PinCode", comment: "")
+                    var errorMsgStr = localizedString("error_PinCode", comment: "")
                     if let errorDict = error.jsonValue, let msgDict = errorDict["messages"] as? NSDictionary {
                         if let errorCode = msgDict["error_code"] as? Int {
                             if let errorMsg = (msgDict["error_message"] as? String) {
@@ -556,7 +556,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
 //            pinField.animateFailure() {
 //                SpinnerView.hideSpinnerView()
 //                self.errorLable.alpha = 1
-//                self.errorLable.text = NSLocalizedString("error_PinCode", comment: "")
+//                self.errorLable.text = localizedString("error_PinCode", comment: "")
 //                self.pinField.text = ""
 //
 //                ElGrocerUtility.sharedInstance.delay(3.0, closure: { [weak self] in
@@ -581,7 +581,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
                     }else{
                         SpinnerView.hideSpinnerView()
                         self.errorLable.alpha = 1
-                        self.errorLable.text = NSLocalizedString("error_10000", comment: "")
+                        self.errorLable.text = localizedString("error_10000", comment: "")
                         ElGrocerUtility.sharedInstance.delay(3.0, closure: { [weak self] in
                             guard let self = self else {return}
                             UIView.animate(withDuration: 1.5, animations: {
@@ -634,9 +634,9 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
     }
     
     func showErrorAlert() {
-        ElGrocerAlertView.createAlert(NSLocalizedString("my_account_saving_error", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("my_account_saving_error", comment: ""),
                                       description: nil,
-                                      positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                      positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                       negativeButton: nil, buttonClickCallback: nil).show()
     }
     

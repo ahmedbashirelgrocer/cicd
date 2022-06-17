@@ -284,7 +284,7 @@ struct AppConfiguration {
     var payFortCheckoutUrl  : String = ""
     var PublicIp  : String = ""
     var payFortExtraAmount : String = ""
-    var pg_18_msg = NSLocalizedString("pg_18_msg", comment: "")
+    var pg_18_msg = localizedString("pg_18_msg", comment: "")
     var storlyInstanceId = ""
     //var orderStatus : [DynamicOrderStatus] = []
     var orderStatus :  [String:DynamicOrderStatus] = [:]
@@ -305,7 +305,7 @@ extension AppConfiguration {
         payFortCheckoutUrl  = dict["payfort_checkout_url"] as? String ?? ""
         PublicIp  = dict["client_ip"] as? String ?? ""
         payFortExtraAmount  = dict["extra_amount"] as? String ?? ""
-        pg_18_msg = dict["pg_18"] as? String ?? NSLocalizedString("pg_18_msg", comment: "")
+        pg_18_msg = dict["pg_18"] as? String ?? localizedString("pg_18_msg", comment: "")
         storlyInstanceId = dict["storyly_instance"] as? String ?? ""
         orderTotalSteps = dict["order_total_steps"] as? NSNumber ?? 0
         promoImage = dict["sale_tag"] as? String ?? ""

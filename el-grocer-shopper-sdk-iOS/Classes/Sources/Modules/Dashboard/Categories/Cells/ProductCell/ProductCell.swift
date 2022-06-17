@@ -106,7 +106,7 @@ class ProductCell : UICollectionViewCell {
     @IBOutlet var lblOFF: UILabel!{
         didSet{
             lblOFF.setCaptionOneBoldYellowStyle()
-            lblOFF.text = NSLocalizedString("txt_off_Single", comment: "")
+            lblOFF.text = localizedString("txt_off_Single", comment: "")
         }
     }
     @IBOutlet var limitedStockBGView: UIView!{
@@ -117,7 +117,7 @@ class ProductCell : UICollectionViewCell {
     @IBOutlet var lblLimitedStock: UILabel!{
         didSet{
             lblLimitedStock.setCaptionOneBoldWhiteStyle()
-            lblLimitedStock.text = NSLocalizedString("lbl_limited_Stock", comment: "")
+            lblLimitedStock.text = localizedString("lbl_limited_Stock", comment: "")
         }
     }
     
@@ -198,7 +198,7 @@ class ProductCell : UICollectionViewCell {
         if !isNeedToShowPercentage {
             
             self.lblStrikePrice.attributedText = nil
-            self.lblStrikePrice.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+            self.lblStrikePrice.text = localizedString("lbl_Special_Discount", comment: "")
             self.lblStrikePrice.textColor = .elGrocerYellowColor()
             self.lblDiscountPercent.text = ""
             self.lblOFF.text = ""
@@ -209,14 +209,14 @@ class ProductCell : UICollectionViewCell {
         } else {
             
             self.lblStrikePrice.textColor = .navigationBarWhiteColor()
-//            self.lblStrikePrice.text = NSLocalizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
+//            self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
             self.lblStrikePrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: product.price.doubleValue)
             self.lblStrikePrice.strikeThrough(true)
             if let percentage = ProductQuantiy.getPercentage(product: self.product) as? Int{
                 if percentage == 0 {
                     
                     self.lblStrikePrice.attributedText = nil
-                    self.lblStrikePrice.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+                    self.lblStrikePrice.text = localizedString("lbl_Special_Discount", comment: "")
                     self.lblStrikePrice.textColor = .elGrocerYellowColor()
                     self.lblDiscountPercent.text = ""
                     self.lblOFF.text = ""
@@ -227,7 +227,7 @@ class ProductCell : UICollectionViewCell {
                     
                 }else {
                     self.lblDiscountPercent.text = "-" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(percentage)) + "%"
-                    self.lblOFF.text = NSLocalizedString("txt_off_Single", comment: "")
+                    self.lblOFF.text = localizedString("txt_off_Single", comment: "")
                     self.lblStrikePrice.textColor = .white
                     self.saleView.isHidden = true
                 }
@@ -300,7 +300,7 @@ class ProductCell : UICollectionViewCell {
         self.productDescriptionLabel.clipsToBounds = true
         self.productDescriptionLabel.setNeedsLayout()
         self.sponserdView.roundCorners(corners: [ .bottomLeft ], radius: 5)
-        self.sponserdView.text = NSLocalizedString("lbl_Sponsored", comment: "")
+        self.sponserdView.text = localizedString("lbl_Sponsored", comment: "")
         self.sponserdView.setCaptionOneBoldWhiteStyle()
     }
     
@@ -325,11 +325,11 @@ class ProductCell : UICollectionViewCell {
     
     fileprivate func setUpOutOfStockLabelAppearance() {
         
-        self.outOfStockLabel.text = NSLocalizedString("out_of_stock_title", comment: "")
+        self.outOfStockLabel.text = localizedString("out_of_stock_title", comment: "")
         self.outOfStockLabel.setSubHead2BoldWhiteStyle()
         self.outOfStockLabel.backgroundColor = .newBlackColor()
         
-        self.chooseReplacmentBtn.setTitle(NSLocalizedString("choose_alternatives_title", comment: ""), for: UIControl.State())
+        self.chooseReplacmentBtn.setTitle(localizedString("choose_alternatives_title", comment: ""), for: UIControl.State())
         self.chooseReplacmentBtn.setSubHead1BoldWhiteStyle()
         self.chooseReplacmentBtn.titleLabel?.textAlignment = .natural
         
@@ -343,14 +343,14 @@ class ProductCell : UICollectionViewCell {
         self.lblRemove.isHidden = true
         self.imageCrossState.isHidden = true
         self.lblRemove.font = UIFont.SFProDisplayBoldFont(14.0)
-        self.lblRemove.text = NSLocalizedString("remove_Item_On_ProductCell_button_title", comment: "")
+        self.lblRemove.text = localizedString("remove_Item_On_ProductCell_button_title", comment: "")
         
         
     }
     
     fileprivate func setUpAddToCartButtonAppearance() {
         
-        self.addToCartButton.setTitle(NSLocalizedString("addtocart_button_title", comment: ""), for: UIControl.State())
+        self.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
         self.addToCartButton.setBody3BoldWhiteStyle()
         //self.addToCartButton.titleLabel?.textColor = UIColor.mediumGreenColor()
         self.setUpAddToCartLableAppearance()
@@ -358,8 +358,8 @@ class ProductCell : UICollectionViewCell {
 
     fileprivate func setUpAddToCartLableAppearance() {
 
-        self.lblAddToCart.text = NSLocalizedString("addtocart_button_title", comment: "")
-        self.lblAddToCartProductView.text = NSLocalizedString("addtocart_button_title", comment: "")
+        self.lblAddToCart.text = localizedString("addtocart_button_title", comment: "")
+        self.lblAddToCartProductView.text = localizedString("addtocart_button_title", comment: "")
     }
 
     fileprivate func addImageViewGesture() {
@@ -374,10 +374,10 @@ class ProductCell : UICollectionViewCell {
     
     func setChooseReplaceViewSuccess () {
         
-        if chooseReplacmentBtn.titleLabel?.text != NSLocalizedString("lbl_replace_seleted", comment: "") {
+        if chooseReplacmentBtn.titleLabel?.text != localizedString("lbl_replace_seleted", comment: "") {
             chooseReplaceBg.backgroundColor = .navigationBarColor()
             UIView.performWithoutAnimation {
-                chooseReplacmentBtn.setTitle(NSLocalizedString("lbl_replace_seleted", comment: ""), for: .normal)
+                chooseReplacmentBtn.setTitle(localizedString("lbl_replace_seleted", comment: ""), for: .normal)
                 chooseReplacmentBtn.layoutIfNeeded()
             }
            
@@ -389,10 +389,10 @@ class ProductCell : UICollectionViewCell {
     }
 
     func setNotSelectedReplacementView() {
-        if chooseReplacmentBtn.titleLabel?.text != NSLocalizedString("choose_substitutions_title", comment: "") {
+        if chooseReplacmentBtn.titleLabel?.text != localizedString("choose_substitutions_title", comment: "") {
             chooseReplaceBg.backgroundColor = .secondaryDarkGreenColor()//.redInfoColor()
             UIView.performWithoutAnimation {
-                 chooseReplacmentBtn.setTitle(NSLocalizedString("choose_substitutions_title", comment: ""), for: .normal)
+                 chooseReplacmentBtn.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
                 chooseReplacmentBtn.layoutIfNeeded()
             }
             imgRepalce.image = UIImage(name: "MyBasketSubsituteChoseReplacement")
@@ -420,7 +420,7 @@ class ProductCell : UICollectionViewCell {
     @IBAction func addToCartHandler(_ sender: AnyObject) {
         
         guard self.product != nil else {return}
-        guard self.addToCartButton.titleLabel?.text != NSLocalizedString("lbl_ShopInStore", comment: "") else {
+        guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             return
         }
@@ -475,7 +475,7 @@ class ProductCell : UICollectionViewCell {
         if self.product.isPg18.boolValue && !UserDefaults.isUserOver18() {
             
             if let appDelegate = UIApplication.shared.delegate {
-                let alertView = TobbacoPopup.showNotificationPopup(topView: (appDelegate.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: NSLocalizedString("over_18", comment: "") , buttonTwoText: NSLocalizedString("less_over_18", comment: ""))
+                let alertView = TobbacoPopup.showNotificationPopup(topView: (appDelegate.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: localizedString("over_18", comment: "") , buttonTwoText: localizedString("less_over_18", comment: ""))
                 
                 alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
                     guard self == self  else {
@@ -627,7 +627,7 @@ class ProductCell : UICollectionViewCell {
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             self.cellAddToCartEvents()
             if self.product.isPg18.boolValue {
-                let msg = (self.product.name ?? "") + "\n" + NSLocalizedString("tobaco_product_msg", comment: "")
+                let msg = (self.product.name ?? "") + "\n" + localizedString("tobaco_product_msg", comment: "")
                 ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
             }
         }
@@ -686,8 +686,8 @@ class ProductCell : UICollectionViewCell {
                     if self.product.promotion?.boolValue == true {
                         
                         func showOverLimitMsg() {
-                            let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(self.product.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
-                            let title = NSLocalizedString("msg_limited_stock_title", comment: "")
+                            let msg = localizedString("msg_limited_stock_start", comment: "") + "\(self.product.promoProductLimit!)" + localizedString("msg_limited_stock_end", comment: "")
+                            let title = localizedString("msg_limited_stock_title", comment: "")
                             ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                         }
                         
@@ -716,8 +716,8 @@ class ProductCell : UICollectionViewCell {
                         if self.product.availableQuantity >= 0 && self.product.availableQuantity.intValue <= count {
                             
                             func showOverLimitMsg() {
-                                let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(self.product.availableQuantity)" + NSLocalizedString("msg_limited_stock_end", comment: "")
-                                let title = NSLocalizedString("msg_limited_stock_Quantity_title", comment: "")
+                                let msg = localizedString("msg_limited_stock_start", comment: "") + "\(self.product.availableQuantity)" + localizedString("msg_limited_stock_end", comment: "")
+                                let title = localizedString("msg_limited_stock_Quantity_title", comment: "")
                                 ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                             }
                             
@@ -762,7 +762,7 @@ class ProductCell : UICollectionViewCell {
             if self.product.isPg18.boolValue && !UserDefaults.isUserOver18() {
                 
                 if let appDelegate = UIApplication.shared.delegate {
-                    let alertView = TobbacoPopup.showNotificationPopup(topView: (appDelegate.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: NSLocalizedString("over_18", comment: "") , buttonTwoText: NSLocalizedString("less_over_18", comment: ""))
+                    let alertView = TobbacoPopup.showNotificationPopup(topView: (appDelegate.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: localizedString("over_18", comment: "") , buttonTwoText: localizedString("less_over_18", comment: ""))
                     
                     alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
                         guard self == self  else {

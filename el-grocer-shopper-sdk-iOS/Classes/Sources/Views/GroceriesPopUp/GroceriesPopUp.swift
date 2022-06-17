@@ -85,21 +85,21 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
         self.sendButton.layer.cornerRadius = 5
         self.sendButton.isEnabled = false
         self.sendButton.alpha = 1.0
-        self.sendButton.setTitle(NSLocalizedString("send_button_title", comment: ""), for: UIControl.State())
+        self.sendButton.setTitle(localizedString("send_button_title", comment: ""), for: UIControl.State())
     
         self.btnRequest.layer.cornerRadius = 5
-        self.btnRequest.setTitle(NSLocalizedString("request_to_deliver_here", comment: ""), for: UIControl.State())
+        self.btnRequest.setTitle(localizedString("request_to_deliver_here", comment: ""), for: UIControl.State())
     
         self.btnChooseLocation.layer.cornerRadius = 5
         self.btnChooseLocation.layer.borderWidth = 0.5
         self.btnChooseLocation.layer.borderColor = UIColor.lightGray.cgColor
-        self.btnChooseLocation.setTitle(NSLocalizedString("choose_another_location", comment: ""), for: UIControl.State())
+        self.btnChooseLocation.setTitle(localizedString("choose_another_location", comment: ""), for: UIControl.State())
     }
     
     fileprivate func setLabelsAppearance(){
         
-        self.lblLocationTitle.text = NSLocalizedString("start_delivering_here", comment: "")
-        self.lblEmailTitle.text = NSLocalizedString("start_delivering_here", comment: "")
+        self.lblLocationTitle.text = localizedString("start_delivering_here", comment: "")
+        self.lblEmailTitle.text = localizedString("start_delivering_here", comment: "")
         
       //  self.lblDetailLocation.font = UIFont.bookFont(12.0)
         let paragraphStyle = NSMutableParagraphStyle()
@@ -107,24 +107,24 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
        // paragraphStyle.lineSpacing = 5.0
         paragraphStyle.lineHeightMultiple = 1.5
         
-        let lblDetailLocationStr = NSMutableAttributedString(string: NSLocalizedString("outside_delivery_area_text", comment: ""))
+        let lblDetailLocationStr = NSMutableAttributedString(string: localizedString("outside_delivery_area_text", comment: ""))
         lblDetailLocationStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, lblDetailLocationStr.length))
         self.lblDetailLocation.attributedText = lblDetailLocationStr
         
       //  self.lblDetailEmail.font = UIFont.bookFont(11.0)
         
-        let lblDetailEmailStr = NSMutableAttributedString(string: NSLocalizedString("stores_notify_text", comment: ""))
+        let lblDetailEmailStr = NSMutableAttributedString(string: localizedString("stores_notify_text", comment: ""))
         lblDetailEmailStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, lblDetailEmailStr.length))
         self.lblDetailEmail.attributedText = lblDetailEmailStr
         
         
-       // self.lblDetailEmail.text = NSLocalizedString("stores_notify_text", comment: "")
+       // self.lblDetailEmail.text = localizedString("stores_notify_text", comment: "")
     }
     
     fileprivate func setTextFieldAppearance(){
         
-        self.emailTextField.placeholder = NSLocalizedString("enter_email_placeholder_text", comment: "")
-        self.txtStoreName.placeholder = NSLocalizedString("lbl_StoreName", comment: "")
+        self.emailTextField.placeholder = localizedString("enter_email_placeholder_text", comment: "")
+        self.txtStoreName.placeholder = localizedString("lbl_StoreName", comment: "")
     }
     
     //Hunain 23Jan17
@@ -144,7 +144,7 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
     
     class func showGroceriesPopUp(_ delegate:GroceriesPopUpViewProtocol?, topView:UIView, shopId:NSNumber?) -> GroceriesPopUp {
         
-        let view = Bundle(for: self).loadNibNamed("GroceriesPopUp", owner: nil, options: nil)![0] as! GroceriesPopUp
+        let view = Bundle.resource.loadNibNamed("GroceriesPopUp", owner: nil, options: nil)![0] as! GroceriesPopUp
         view.delegate = delegate
       //  view.imgBlured.image =  topView.createBlurredSnapShot()
         view.alpha = 0
@@ -212,7 +212,7 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
             switch result {
             case .success(let result):
                 if result == true {
-                    let alert  = ElGrocerAlertView.createAlert(NSLocalizedString("thank_you", comment: ""), description: NSLocalizedString("delivery_location_request", comment: ""), positiveButton: NSLocalizedString("ok_button_title", comment: ""), negativeButton: "", buttonClickCallback: nil)
+                    let alert  = ElGrocerAlertView.createAlert(localizedString("thank_you", comment: ""), description: localizedString("delivery_location_request", comment: ""), positiveButton: localizedString("ok_button_title", comment: ""), negativeButton: "", buttonClickCallback: nil)
                     alert.show()
                     print("Record update successfully.")
                 } else {

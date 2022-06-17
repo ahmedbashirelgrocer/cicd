@@ -363,9 +363,9 @@ extension Grocery {
                 DatabaseHelper.sharedInstance.saveDatabase()
         }
         
-        grocery.genericSlot  =  NSLocalizedString("lbl_no_timeSlot_available", comment: "")
+        grocery.genericSlot  =  localizedString("lbl_no_timeSlot_available", comment: "")
         if  (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
-            grocery.genericSlot = NSLocalizedString("today_title", comment: "") + "\n"   +  NSLocalizedString("60_min", comment: "")
+            grocery.genericSlot = localizedString("today_title", comment: "") + "\n"   +  localizedString("60_min", comment: "")
         }else{
             if let deliverySlotA = responseDict["delivery_slots"] as? [NSDictionary] {
                 for data in deliverySlotA {
@@ -617,18 +617,18 @@ extension Grocery {
    
         
     func getDeliverySlotFormatterTimeStringWithDictionary (_ slotDict : NSDictionary ) -> String {
-        var groceryNextDeliveryString =  NSLocalizedString("lbl_no_timeSlot_available", comment: "")
+        var groceryNextDeliveryString =  localizedString("lbl_no_timeSlot_available", comment: "")
         if (slotDict["id"] as? String) == "0" {
-            groceryNextDeliveryString =  NSLocalizedString("today_title", comment: "") + "\n"  +  NSLocalizedString("60_min", comment: "")
+            groceryNextDeliveryString =  localizedString("today_title", comment: "") + "\n"  +  localizedString("60_min", comment: "")
         } else {
             
             var dayTitle = ""
             if let startDate = (slotDict["start_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
                 if let endDate = (slotDict["end_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
                     if startDate.isToday {
-                        dayTitle = NSLocalizedString("today_title", comment: "")
+                        dayTitle = localizedString("today_title", comment: "")
                     }else if startDate.isTomorrow {
-                        dayTitle = NSLocalizedString("tomorrow_title", comment: "")
+                        dayTitle = localizedString("tomorrow_title", comment: "")
                     }else {
                         dayTitle = startDate.getDayName() ?? ""
                     }

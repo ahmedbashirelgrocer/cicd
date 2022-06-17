@@ -150,12 +150,12 @@ class GenericFeedBackVC: UIViewController {
         self.storeImage.layer.cornerRadius = storeImage.layer.frame.height / 2
         
         if feedBackType == .clickAndCollectFeedBack{
-            self.title = NSLocalizedString("lbl_feedback_clickAndCollect_title", comment: "")
+            self.title = localizedString("lbl_feedback_clickAndCollect_title", comment: "")
             self.feedBackPageControl.numberOfPages = 4
             self.feedBackPageControl.isUserInteractionEnabled = false
             self.feedBackPageControl.currentPage = 1
         }else{
-            self.title = NSLocalizedString("lbl_feedback_delivery_title", comment: "")
+            self.title = localizedString("lbl_feedback_delivery_title", comment: "")
             self.feedBackPageControl.numberOfPages = 5
             self.feedBackPageControl.isUserInteractionEnabled = false
             self.feedBackPageControl.currentPage = 1

@@ -40,7 +40,7 @@ struct StorylyDeals {
     
     var isStorylyDealsEnable : Bool = false
     var priority : Int64 = 4
-    var name : String = NSLocalizedString("txt_cell_Deals", comment: "")
+    var name : String = localizedString("txt_cell_Deals", comment: "")
     
 }
 
@@ -208,10 +208,10 @@ class StoresDataHandler {
                     }
 
                 }else{
-                    self.delegate?.refreshMessageView(msg: NSLocalizedString("error_wrong", comment: ""))
+                    self.delegate?.refreshMessageView(msg: localizedString("error_wrong", comment: ""))
                 }
             }else{
-                self.delegate?.refreshMessageView(msg: NSLocalizedString("error_wrong", comment: ""))
+                self.delegate?.refreshMessageView(msg: localizedString("error_wrong", comment: ""))
             }
         }) { (task, error) in
             debugPrint(error.localizedDescription)

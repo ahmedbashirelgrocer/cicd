@@ -42,25 +42,25 @@ class smilePointTableCell: UITableViewCell {
     func setUpInitialAppearance() {
         self.smilePointBGView.setUpGradient(start: .centerLeft, end: .centerRight, colors: [UIColor.smilePrimaryPurpleColor().cgColor,UIColor.smilePrimaryOrangeColor().cgColor])
         self.smilePointBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner], radius: 8, withShadow: false)
-        //lblSmilePoint.text = NSLocalizedString("txt_smile_point", comment: "") +  NSLocalizedString("txt_bracket_login", comment: "")
-        lblSmilePoint.text = NSLocalizedString("txt_earn_smiles", comment: "")
+        //lblSmilePoint.text = localizedString("txt_smile_point", comment: "") +  localizedString("txt_bracket_login", comment: "")
+        lblSmilePoint.text = localizedString("txt_earn_smiles", comment: "")
 
     }
     
     func configureShowSmiles(_ smilepoints: Int?) {
         
-        //var title = NSLocalizedString("txt_smile_point", comment: "") +  NSLocalizedString("txt_bracket_login", comment: "")
-        var title = NSLocalizedString("txt_earn_smiles", comment: "")
+        //var title = localizedString("txt_smile_point", comment: "") +  localizedString("txt_bracket_login", comment: "")
+        var title = localizedString("txt_earn_smiles", comment: "")
         if UserDefaults.getIsSmileUser() {
             let points = UserDefaults.getSmilesPoints()
-            title = NSLocalizedString("txt_smile_point", comment: "") + "(\(points) \(NSLocalizedString("smile_point_unit", comment: "")))" 
+            title = localizedString("txt_smile_point", comment: "") + "(\(points) \(localizedString("smile_point_unit", comment: "")))" 
 
         }
         lblSmilePoint.text = title
     }
     
     func ConfigurePaidWithSmile() {
-        self.lblSmilePoint.text = NSLocalizedString("txt_paid_with_smile", comment: "")
+        self.lblSmilePoint.text = localizedString("txt_paid_with_smile", comment: "")
         self.imgArrow.isHidden = true
     }
     

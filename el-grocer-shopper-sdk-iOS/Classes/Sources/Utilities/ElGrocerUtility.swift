@@ -443,7 +443,7 @@ class ElGrocerUtility {
                     
                     if remainingMin <= 30 && remainingMin >= 0{
                         closeHour = true
-                        remainingMinutes = String(format: "%d %@",remainingMin,NSLocalizedString("min_title", comment: ""))
+                        remainingMinutes = String(format: "%d %@",remainingMin,localizedString("min_title", comment: ""))
                     }
                 }
                 
@@ -799,32 +799,32 @@ class ElGrocerUtility {
         if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.creditCard.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("cash_card_creditCard_delivery", comment: "")
+            paymentDescription = localizedString("cash_card_creditCard_delivery", comment: "")
             
         }else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0  && myGrocery.availablePayments.uint32Value & PaymentOption.creditCard.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("cash_creditCard_delivery", comment: "")
+            paymentDescription = localizedString("cash_creditCard_delivery", comment: "")
             
         }else if myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0  && myGrocery.availablePayments.uint32Value & PaymentOption.creditCard.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("card_creditCard_delivery", comment: "")
+            paymentDescription = localizedString("card_creditCard_delivery", comment: "")
             
         } else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("cash_card_delivery", comment: "")
+            paymentDescription = localizedString("cash_card_delivery", comment: "")
             
         } else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue == 0 {
             
             //only Cash
-            paymentDescription = NSLocalizedString("cash_delivery", comment: "")
+            paymentDescription = localizedString("cash_delivery", comment: "")
             
         } else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue == 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 {
             
             //only Card
-            paymentDescription = NSLocalizedString("card_delivery", comment: "")
+            paymentDescription = localizedString("card_delivery", comment: "")
         }
         return paymentDescription
     }
@@ -837,11 +837,11 @@ class ElGrocerUtility {
         let calendarComponents = (calendar as NSCalendar).components(.weekday, from:Date())
         let weekDay = calendarComponents.weekday
         let nextDay = weekDay! + 1 == 8 ? 1 : weekDay! + 1
-        var dayTitle = NSLocalizedString("today_title", comment: "")
+        var dayTitle = localizedString("today_title", comment: "")
         if Int(truncating: (dayNumber)) == weekDay{
-            dayTitle = NSLocalizedString("today_title", comment: "")
+            dayTitle = localizedString("today_title", comment: "")
         }else if Int(truncating: (dayNumber)) == nextDay{
-            dayTitle = NSLocalizedString("tomorrow_title", comment: "")
+            dayTitle = localizedString("tomorrow_title", comment: "")
         }else{
             let formatter = DateFormatter()
             let daysA = formatter.standaloneWeekdaySymbols;
@@ -977,7 +977,7 @@ class ElGrocerUtility {
                completionHandler(true)
             }else{
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                     
                     if buttonIndex == 1 {
                         //clear active basket and add product
@@ -1118,7 +1118,7 @@ class ElGrocerUtility {
     
     func getCvvFromUser (controller : UIViewController , _ cardLastFour : String = "" , completion : (@escaping (_ cvv : String , _  isSuccess : Bool) -> Void)) {
         
-        var  messageStr =  NSLocalizedString("cvv_alert_msg", comment: "")
+        var  messageStr =  localizedString("cvv_alert_msg", comment: "")
         messageStr = messageStr + (cardLastFour.count > 0 ? "\n Card ends with: \(cardLastFour)" : "")
         FireBaseEventsLogger.trackMessageEvents(message: messageStr)
         let alert = UIAlertController(title: "el Grocer", message: messageStr , preferredStyle: .alert)
@@ -1127,11 +1127,11 @@ class ElGrocerUtility {
             textField.isSecureTextEntry = true
             textField.keyboardType  = .asciiCapableNumberPad
         }
-        alert.addAction(UIAlertAction(title: NSLocalizedString("promo_code_alert_no", comment: "") , style: .destructive, handler: { (_) in
+        alert.addAction(UIAlertAction(title: localizedString("promo_code_alert_no", comment: "") , style: .destructive, handler: { (_) in
             completion("" , false)
             
         }))
-        alert.addAction(UIAlertAction(title:  NSLocalizedString("select_alternate_button_title_new", comment: "") , style: .default , handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title:  localizedString("select_alternate_button_title_new", comment: "") , style: .default , handler: { [weak alert] (_) in
             let textField = alert?.textFields![0]
             if textField?.text?.count ?? 0 == 3 {
                 completion(textField?.text! ?? "" , true)
@@ -1150,10 +1150,10 @@ class ElGrocerUtility {
                 SKStoreReviewController.requestReview()
             } else {
                 // Fallback on earlier versions
-                ElGrocerAlertView.createAlert(NSLocalizedString("rate_us_title", comment: ""),
-                                              description: NSLocalizedString("rate_us_message", comment: ""),
-                                              positiveButton: NSLocalizedString("rate_us_ok_title", comment: ""),
-                                              negativeButton: NSLocalizedString("rate_us_cancel_title", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("rate_us_title", comment: ""),
+                                              description: localizedString("rate_us_message", comment: ""),
+                                              positiveButton: localizedString("rate_us_ok_title", comment: ""),
+                                              negativeButton: localizedString("rate_us_cancel_title", comment: ""),
                                               buttonClickCallback: { (buttonIndex:Int) -> Void in
                                                 if buttonIndex == 0 {
                                                     let reviewUrl = "https://itunes.apple.com/us/app/el-grocer-home-delivery-app/id1040399641?mt=8?action=write-review"
@@ -1240,9 +1240,9 @@ class ElGrocerUtility {
     func getPriceStringByLanguage(price: Double, isArabic: Bool = ElGrocerUtility.sharedInstance.isArabicSelected()) -> String {
         
         if isArabic {
-            return (price.formateDisplayString()).changeToArabic() + " " + NSLocalizedString("aed", comment: "")
+            return (price.formateDisplayString()).changeToArabic() + " " + localizedString("aed", comment: "")
         }else {
-           return NSLocalizedString("aed", comment: "") + " " + price.formateDisplayString()
+           return localizedString("aed", comment: "") + " " + price.formateDisplayString()
         }
     }
     
@@ -1316,7 +1316,7 @@ class ElGrocerUtility {
         view.id = "\(index)"
         view.iconLabel?.text = nil
         view.iconLabel?.isHidden = true
-        view.button?.setTitle(isNeedtoShowButton ? NSLocalizedString("lbl_Undo", comment: "") : "", for: .normal)
+        view.button?.setTitle(isNeedtoShowButton ? localizedString("lbl_Undo", comment: "") : "", for: .normal)
         view.button?.backgroundColor = .secondaryDarkGreenColor()
         view.button?.setBackgroundColor(.secondaryDarkGreenColor() , forState: .normal)
         view.button?.setTitleColor(.white, for: .normal)
@@ -1333,7 +1333,7 @@ class ElGrocerUtility {
             view.bodyLabel?.textAlignment = .right
         }
         
-        if msg.contains(NSLocalizedString("tobaco_product_msg", comment: "")) {
+        if msg.contains(localizedString("tobaco_product_msg", comment: "")) {
             let msgA = (msg as NSString).components(separatedBy: "\n")
             if msgA.count > 1 {
                 let semiBold = UIFont.SFProDisplayNormalFont(14)

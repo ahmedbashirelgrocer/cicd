@@ -13,14 +13,14 @@ class ItemsOutOfStockQuestionnaire: UITableViewCell {
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var lblIfItemsOutOfStock: UILabel!{
         didSet{
-            lblIfItemsOutOfStock.text = NSLocalizedString("If_items_are_out_of_stock_unselected", comment: "")
+            lblIfItemsOutOfStock.text = localizedString("If_items_are_out_of_stock_unselected", comment: "")
             lblIfItemsOutOfStock.setH3SemiBoldDarkStyle()
         }
     }
     @IBOutlet var optionsTableView: UITableView!
     @IBOutlet var btnEdit: UIButton!{
         didSet{
-            btnEdit.setTitle(NSLocalizedString("dashboard_location_edit_button", comment: ""), for: UIControl.State())
+            btnEdit.setTitle(localizedString("dashboard_location_edit_button", comment: ""), for: UIControl.State())
             btnEdit.setBody1BoldGreenStyle()
             btnEdit.setImage(UIImage(name: "arrowDown"), for: UIControl.State())
             btnEdit.semanticContentAttribute = .forceLeftToRight
@@ -123,10 +123,10 @@ class ItemsOutOfStockQuestionnaire: UITableViewCell {
         }
         
         if isSelected{
-            lblIfItemsOutOfStock.text = NSLocalizedString("If_items_are_out_of_stock_selected", comment: "")
+            lblIfItemsOutOfStock.text = localizedString("If_items_are_out_of_stock_selected", comment: "")
             self.btnEdit.isHidden = false
         }else{
-            lblIfItemsOutOfStock.text = NSLocalizedString("If_items_are_out_of_stock_unselected", comment: "")
+            lblIfItemsOutOfStock.text = localizedString("If_items_are_out_of_stock_unselected", comment: "")
             self.btnEdit.isHidden = true
         }
         self.optionsTableView.isUserInteractionEnabled = isExpanded

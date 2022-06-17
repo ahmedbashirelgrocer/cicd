@@ -34,7 +34,7 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
         super.viewDidLoad()
        // Do any additional setup after loading the view.
         
-        self.title = NSLocalizedString("setting_faq", comment: "")
+        self.title = localizedString("setting_faq", comment: "")
         //addBackButton()
         populateQuestionArray()
         
@@ -44,8 +44,8 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func populateQuestionArray() {
         for title in self.faqTitles {
-            self.searchQuestionArray.append(NSLocalizedString(title, comment: ""))
-            self.filteredQuestionArray.append(NSLocalizedString(title, comment: ""))
+            self.searchQuestionArray.append(localizedString(title, comment: ""))
+            self.filteredQuestionArray.append(localizedString(title, comment: ""))
         }
     }
                                 
@@ -101,10 +101,10 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let title = NSLocalizedString(self.faqTitles[(indexPath as NSIndexPath).row], comment: "")
+        let title = localizedString(self.faqTitles[(indexPath as NSIndexPath).row], comment: "")
         var cellHeight = FaqCell.calculateCellHeight(title, cellWidth: tableView.frame.size.width)
         
-        if title == NSLocalizedString("faq_title_11", comment: "") {
+        if title == localizedString("faq_title_11", comment: "") {
            cellHeight = cellHeight + 10
         }
         
@@ -124,7 +124,7 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
         let cell = tableView.dequeueReusableCell(withIdentifier: kFAQCellIdentifier, for: indexPath) as! FaqCell
         cell.backgroundColor = .navigationBarWhiteColor()
-        //let title = NSLocalizedString(self.faqTitles[(indexPath as NSIndexPath).row], comment: "")
+        //let title = localizedString(self.faqTitles[(indexPath as NSIndexPath).row], comment: "")
         let title = filteredQuestionArray[indexPath.row]
         cell.configureCellWithTitle(title)
         
@@ -135,8 +135,8 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let title = NSLocalizedString(self.faqTitles[(indexPath as NSIndexPath).row], comment: "")
-        let descritpon = NSLocalizedString(self.faqDescriptions[(indexPath as NSIndexPath).row], comment: "")
+        let title = localizedString(self.faqTitles[(indexPath as NSIndexPath).row], comment: "")
+        let descritpon = localizedString(self.faqDescriptions[(indexPath as NSIndexPath).row], comment: "")
         
         let questionVC = ElGrocerViewControllers.questionViewController()
         questionVC.titleStr = title

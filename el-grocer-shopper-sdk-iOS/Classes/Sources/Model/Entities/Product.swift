@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-//let CurrencyManager.getCurrentCurrency() = NSLocalizedString("aed", comment: "")
+//let CurrencyManager.getCurrentCurrency() = localizedString("aed", comment: "")
 let kProductCurrencyEngAEDName = "AED"
 
 class Product: NSManagedObject, DBEntity {

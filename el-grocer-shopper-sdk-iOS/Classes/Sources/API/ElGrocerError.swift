@@ -39,25 +39,25 @@ private let errorCodes: [Int: String] = [
     
     // Internal
     
-    parsingErrorCode: NSLocalizedString("error_-1", comment: ""),
-    -2: NSLocalizedString("error_-2", comment: ""),
-    -3: NSLocalizedString("error_-3", comment: ""),
-    -4: NSLocalizedString("error_-4", comment: ""),
-    -5: NSLocalizedString("error_-5", comment: ""),
-    -6: NSLocalizedString("error_-6", comment: ""),
+    parsingErrorCode: localizedString("error_-1", comment: ""),
+    -2: localizedString("error_-2", comment: ""),
+    -3: localizedString("error_-3", comment: ""),
+    -4: localizedString("error_-4", comment: ""),
+    -5: localizedString("error_-5", comment: ""),
+    -6: localizedString("error_-6", comment: ""),
     
     // Api
     
-    genericErrorCode: NSLocalizedString("error_10000", comment: ""),
-    10001: NSLocalizedString("error_10001", comment: ""),
-    10002: NSLocalizedString("error_10002", comment: ""),
-    10003: NSLocalizedString("error_10003", comment: ""),
-    10004: NSLocalizedString("error_10004", comment: ""),
-    10005: NSLocalizedString("error_10005", comment: ""),
-    10006: NSLocalizedString("error_10006", comment: ""),
-    10007: NSLocalizedString("error_10007", comment: ""),
-    10008: NSLocalizedString("error_10008", comment: ""),
-    10009: NSLocalizedString("error_10009", comment: "")
+    genericErrorCode: localizedString("error_10000", comment: ""),
+    10001: localizedString("error_10001", comment: ""),
+    10002: localizedString("error_10002", comment: ""),
+    10003: localizedString("error_10003", comment: ""),
+    10004: localizedString("error_10004", comment: ""),
+    10005: localizedString("error_10005", comment: ""),
+    10006: localizedString("error_10006", comment: ""),
+    10007: localizedString("error_10007", comment: ""),
+    10008: localizedString("error_10008", comment: ""),
+    10009: localizedString("error_10009", comment: "")
 ]
 
 struct ElGrocerError {
@@ -171,7 +171,7 @@ struct ElGrocerError {
                         let messageComponents = serverMsg?.components(separatedBy: " ")
                         
                         if messageComponents?.count > 0 {
-                            self.message = NSString(format: "%@ %@ %@",NSLocalizedString("promo_code_minimum_value_alert_description", comment: ""),messageComponents![0],NSLocalizedString("promo_code_minimum_value_alert_remianing_description", comment: "")) as String
+                            self.message = NSString(format: "%@ %@ %@",localizedString("promo_code_minimum_value_alert_description", comment: ""),messageComponents![0],localizedString("promo_code_minimum_value_alert_remianing_description", comment: "")) as String
                         }else{
                             self.message = messages?["error_message"] as? String
                         }
@@ -198,11 +198,11 @@ struct ElGrocerError {
                         
                         let brandName = errorArray[1] as? String
                         let brandPrice = errorArray[2] as? Float
-                        let description = NSLocalizedString("promo_code_brand_alert_description", comment: "")
-                        let minimumOf = NSLocalizedString("promo_code_brand_alert_products", comment: "")
+                        let description = localizedString("promo_code_brand_alert_description", comment: "")
+                        let minimumOf = localizedString("promo_code_brand_alert_products", comment: "")
                         let priceStr = NSString(format: "%@ %0.2f",CurrencyManager.getCurrentCurrency(),brandPrice!)
-                        let worthOf = NSLocalizedString("promo_code_brand_alert_worth_of", comment: "")
-                        let purchased = NSLocalizedString("promo_code_brand_alert_products_purchased", comment: "")
+                        let worthOf = localizedString("promo_code_brand_alert_worth_of", comment: "")
+                        let purchased = localizedString("promo_code_brand_alert_products_purchased", comment: "")
                         
                         self.message = NSString(format: "%@ \"%@\" %@ %@ %@ \"%@\" %@",description,brandName ?? "",minimumOf,priceStr,worthOf,brandName ?? "" ,purchased) as String
                         
@@ -236,7 +236,7 @@ struct ElGrocerError {
                         if let errorArray = errorMsgDict[errorKey] as? NSArray{
                             genericError = errorArray.componentsJoined(by: "")
                         }
-                        self.message = NSLocalizedString(errorKey, value:genericError,comment: "")
+                        self.message = localizedString(errorKey, value:genericError,comment: "")
                     }
                 }
             }
@@ -259,7 +259,7 @@ struct ElGrocerError {
             
             if self.code == 471 {
                 if self.message == "Order Accepted!" || self.message == "Order En route!" || self.message == "Order Completed!" || self.message == "Order Delivered!" || self.message == "Order In substitution!" || self.message == "Order Canceled!" {
-                    self.message = NSLocalizedString("error_1112", comment: "You order is already processed to deliver. Please continue to place new order.")
+                    self.message = localizedString("error_1112", comment: "You order is already processed to deliver. Please continue to place new order.")
                 }
             }
         }
@@ -272,8 +272,8 @@ struct ElGrocerError {
         
         
         
-        let errorTitle = NSLocalizedString("alert_error_title", comment: "")
-        let okButtonTitle = NSLocalizedString("ok_button_title", comment: "")
+        let errorTitle = localizedString("alert_error_title", comment: "")
+        let okButtonTitle = localizedString("ok_button_title", comment: "")
         
         let alert = ElGrocerAlertView.createAlert(errorTitle, description: self.localizedMessage, positiveButton: okButtonTitle, negativeButton: nil, buttonClickCallback: nil)
       //  alert.positiveButton.setBackgroundImage(UIImage(name: "modal_button_red"), for: UIControl.State())

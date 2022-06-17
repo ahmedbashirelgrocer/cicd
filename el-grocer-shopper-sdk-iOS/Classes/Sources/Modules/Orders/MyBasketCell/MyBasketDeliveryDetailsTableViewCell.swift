@@ -23,7 +23,7 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
     
     @IBOutlet var lblAlertView: UILabel!{
         didSet{
-            lblAlertView.text = NSLocalizedString("lbl-collection-detail-alert", comment: "")
+            lblAlertView.text = localizedString("lbl-collection-detail-alert", comment: "")
         }
     }
     @IBOutlet var alertViewTopAnchor: NSLayoutConstraint!
@@ -32,7 +32,7 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
     @IBOutlet var slotViewHeight: NSLayoutConstraint!
     @IBOutlet var lblDeliveryDetails: UILabel!{
         didSet{
-            lblDeliveryDetails.text =   NSLocalizedString("dashboard_location_navigation_bar_title", comment: "")
+            lblDeliveryDetails.text =   localizedString("dashboard_location_navigation_bar_title", comment: "")
         }
     }
     @IBOutlet var lblDeliverySlot: UILabel!
@@ -53,14 +53,14 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
                 alertViewTopAnchor.constant = 0
                 
                 if lblDeliveryDetails != nil {
-                    lblDeliveryDetails.text =   NSLocalizedString("dashboard_location_navigation_bar_title", comment: "")
+                    lblDeliveryDetails.text =   localizedString("dashboard_location_navigation_bar_title", comment: "")
                 }
                 
             }else{
                 alertViewHeight.constant = 48
                 alertViewTopAnchor.constant = 16
                 if lblDeliveryDetails != nil {
-                    lblDeliveryDetails.text =   NSLocalizedString("lbl_collection_Details", comment: "")
+                    lblDeliveryDetails.text =   localizedString("lbl_collection_Details", comment: "")
                 }
             }
             self.layoutSubviews()
@@ -110,7 +110,7 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
             self.lblUserInfoDetail.constant = 55
         }
         
-        lblAlertView.attributedText = setBoldForText(CompleteValue: NSLocalizedString("lbl_Alert_Arrive_on_time", comment: ""), textForAttribute: NSLocalizedString("lbl_Bold_Alert_Arrive_on_time", comment: ""))
+        lblAlertView.attributedText = setBoldForText(CompleteValue: localizedString("lbl_Alert_Arrive_on_time", comment: ""), textForAttribute: localizedString("lbl_Bold_Alert_Arrive_on_time", comment: ""))
    
     }
     
@@ -153,7 +153,7 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
                 let attrs2  = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
                 let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
                 
-                let initialText = NSLocalizedString("title_self_collection_point", comment: "") + "\n"
+                let initialText = localizedString("title_self_collection_point", comment: "") + "\n"
                 
                 let attributedString = NSMutableAttributedString(string: initialText  , attributes:attrs1 as [NSAttributedString.Key : Any])
                 
@@ -195,7 +195,7 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
         let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
         let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
         
-        let slotText = self.currentBasketController?.isDeliveryMode ?? true ? NSLocalizedString("Delivery_Slot", comment: "") : NSLocalizedString("lbl_Self_Collection", comment: "") + ":"
+        let slotText = self.currentBasketController?.isDeliveryMode ?? true ? localizedString("Delivery_Slot", comment: "") : localizedString("lbl_Self_Collection", comment: "") + ":"
         
         let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
        

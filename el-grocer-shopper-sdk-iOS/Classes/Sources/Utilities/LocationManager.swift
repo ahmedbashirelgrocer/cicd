@@ -229,7 +229,7 @@ class LocationManager: NSObject {
     }
     
     func showLocationErrorMessage() -> Void {
-        let alert = UIAlertController(title: "Allow Location Access", message: NSLocalizedString("error_-4", comment: ""), preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Allow Location Access", message: localizedString("error_-4", comment: ""), preferredStyle: UIAlertController.Style.alert)
         
         // Button to Open Settings
         alert.addAction(UIAlertAction(title: "Settings", style: UIAlertAction.Style.cancel, handler: { action in

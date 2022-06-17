@@ -48,12 +48,12 @@ class ListSearchBar: UIView {
          self.addGredient()
          self.searchProductListingTextView.delegate = self
             self.searchProductListingTextView.textColor = UIColor.lightTextGrayColor()
-            self.searchProductListingTextView.text = NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")
-            self.searchButton.setTitle(NSLocalizedString("my_account_shop_now_button", comment: ""), for: .normal)
+            self.searchProductListingTextView.text = localizedString("shopping_PlaceHolder_Search_List", comment: "")
+            self.searchButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: .normal)
             self.adjustUITextViewHeight(self.searchProductListingTextView , isNewLine: false)
             self.searchButton.layer.cornerRadius = 3
             if  let lastSearchString = UserDefaults.getLastSearchList() {
-                if !lastSearchString.isEmpty &&   lastSearchString != NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "") {
+                if !lastSearchString.isEmpty &&   lastSearchString != localizedString("shopping_PlaceHolder_Search_List", comment: "") {
                     self.searchProductListingTextView.text = lastSearchString
                     self.setUIColor(self.searchProductListingTextView)
                     self.crossButton.isHidden = false
@@ -117,7 +117,7 @@ class ListSearchBar: UIView {
 
     @IBAction func searchClicked(_ sender: Any) {
 
-         guard !self.searchProductListingTextView.text.trimmingCharacters(in: .whitespaces).isEmpty && self.searchProductListingTextView.text.count > 0 && self.searchProductListingTextView.text != NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")  else {
+         guard !self.searchProductListingTextView.text.trimmingCharacters(in: .whitespaces).isEmpty && self.searchProductListingTextView.text.count > 0 && self.searchProductListingTextView.text != localizedString("shopping_PlaceHolder_Search_List", comment: "")  else {
             self.searchProductListingTextView.resignFirstResponder()
             return
         }
@@ -135,7 +135,7 @@ class ListSearchBar: UIView {
         self.searchProductListingTextView.text = nil
        // self.reloadHeader()
         self.setUIColor(self.searchProductListingTextView)
-        self.searchProductListingTextView.text = NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")
+        self.searchProductListingTextView.text = localizedString("shopping_PlaceHolder_Search_List", comment: "")
         self.adjustUITextViewHeight(self.searchProductListingTextView , isNewLine: false)
         self.searchProductListingTextView.textColor = UIColor.lightTextGrayColor()
         self.setCursorToStartOfTextView(self.searchProductListingTextView)
@@ -164,7 +164,7 @@ extension ListSearchBar : UITextViewDelegate {
 
           textView.tintColor = UIColor.darkTextGrayColor()
 
-        if textView.text == NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "") {
+        if textView.text == localizedString("shopping_PlaceHolder_Search_List", comment: "") {
             textView.text = nil
             textView.textColor = UIColor.colorWithHexString(hexString: "787878")
             self.setUIColor(textView)
@@ -177,7 +177,7 @@ extension ListSearchBar : UITextViewDelegate {
         self.setUIColor(textView)
         
         if textView.text.isEmpty {
-            textView.text = NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")
+            textView.text = localizedString("shopping_PlaceHolder_Search_List", comment: "")
             textView.textColor = UIColor.lightTextGrayColor()
         }
        self.adjustUITextViewHeight(self.searchProductListingTextView , isNewLine: false)
@@ -185,7 +185,7 @@ extension ListSearchBar : UITextViewDelegate {
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if textView.text == NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "") {
+        if textView.text == localizedString("shopping_PlaceHolder_Search_List", comment: "") {
             textView.text = nil
             textView.textColor = UIColor.colorWithHexString(hexString: "787878")
         }
@@ -212,15 +212,15 @@ extension ListSearchBar : UITextViewDelegate {
     func setUIColor (_ textView : UITextView) {
 
 
-        if !textView.text.trimmingCharacters(in: .whitespaces).isEmpty && textView.text.count > 0 &&  (textView.text != NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")){
+        if !textView.text.trimmingCharacters(in: .whitespaces).isEmpty && textView.text.count > 0 &&  (textView.text != localizedString("shopping_PlaceHolder_Search_List", comment: "")){
            // self.searchButton.setImage(UIImage(name: "icSearchGreen"), for: .normal)
 
-            self.searchButton.setTitle(NSLocalizedString("my_account_shop_now_button", comment: ""), for: .normal)
+            self.searchButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: .normal)
             self.searchButton.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
          //   self.searchButton.setTitleColor(UIColor.lightGrayBGColor(), for: .normal)
         }else{
            // self.searchButton.setImage(UIImage(name: "icSearch"), for: .normal)
-            self.searchButton.setTitle(NSLocalizedString("my_account_shop_now_button", comment: ""), for: .normal)
+            self.searchButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: .normal)
            self.searchButton.setBackgroundColor(UIColor.lightGray, forState: .normal)
           //  self.searchButton.setTitleColor(UIColor.lightGrayBGColor(), for: .normal)
         }

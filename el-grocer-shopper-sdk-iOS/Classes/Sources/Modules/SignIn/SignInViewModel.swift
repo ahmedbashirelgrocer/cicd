@@ -115,7 +115,7 @@ class SignInViewModel {
                 
             } else {
                 
-                self.state.value = .loginError(errorMessage: NSLocalizedString("login_error_alert", comment: ""))
+                self.state.value = .loginError(errorMessage: localizedString("login_error_alert", comment: ""))
                 
             }
             
@@ -151,7 +151,7 @@ class SignInViewModel {
                 
             } else {
                 completionHandler()
-                self.state.value = .loginError(errorMessage: NSLocalizedString("registration_error_alert", comment: ""))
+                self.state.value = .loginError(errorMessage: localizedString("registration_error_alert", comment: ""))
             }
         })
     }

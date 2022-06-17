@@ -32,10 +32,10 @@ class MyBasketReplaceProductTableViewCell: UITableViewCell {
         
         self.contentView.backgroundColor = UIColor.clear
         self.addClouser()
-//        cell.lblChosseAlternative.text = NSLocalizedString("choose_alternatives_title", comment: "")
+//        cell.lblChosseAlternative.text = localizedString("choose_alternatives_title", comment: "")
 //        cell.lblChosseAlternative.font = UIFont.openSansBoldFont(14.0)
 //        cell.lblChosseAlternative.textColor = UIColor.navigationBarColor()
-        self.lblChosseAlternative.text = NSLocalizedString("select_alternative_title", comment: "") + ":"
+        self.lblChosseAlternative.text = localizedString("select_alternative_title", comment: "") + ":"
         self.lblChosseAlternative.font = UIFont.SFProDisplayBoldFont(14.0)
         self.lblChosseAlternative.textColor = UIColor.navigationBarColor()
        

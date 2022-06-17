@@ -29,7 +29,7 @@ class SubstitutionsViewController: UIViewController,UITableViewDataSource, UITab
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = NSLocalizedString("substitutions_title_new", comment: "")
+        self.title = localizedString("substitutions_title_new", comment: "")
 
         addBackButton()
         
@@ -65,11 +65,11 @@ class SubstitutionsViewController: UIViewController,UITableViewDataSource, UITab
         
         self.chooseSubstitutionsTitle.font = UIFont.SFProDisplaySemiBoldFont(17.0)
         self.chooseSubstitutionsTitle.textColor = UIColor.black
-        self.chooseSubstitutionsTitle.text = NSLocalizedString("choose_substitutions_title_new", comment: "")
+        self.chooseSubstitutionsTitle.text = localizedString("choose_substitutions_title_new", comment: "")
         
         self.chooseSubstitutionsMessage.font = UIFont.SFProDisplayNormalFont(14.0)
         self.chooseSubstitutionsMessage.textColor = UIColor.lightGray
-        self.chooseSubstitutionsMessage.text = NSLocalizedString("products_out_of_stock_message_new", comment: "")
+        self.chooseSubstitutionsMessage.text = localizedString("products_out_of_stock_message_new", comment: "")
     }
     
     func configureTableView() {
@@ -85,7 +85,7 @@ class SubstitutionsViewController: UIViewController,UITableViewDataSource, UITab
     
     fileprivate func configureConfirmButtonAppearence(){
         
-        self.confirmButton.setTitle(NSLocalizedString("ok_button_title", comment: ""), for: UIControl.State())
+        self.confirmButton.setTitle(localizedString("ok_button_title", comment: ""), for: UIControl.State())
         self.confirmButton.titleLabel?.font =  UIFont.SFProDisplaySemiBoldFont(12.0)
     }
     

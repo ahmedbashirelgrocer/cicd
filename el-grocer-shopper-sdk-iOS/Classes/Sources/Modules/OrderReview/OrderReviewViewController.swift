@@ -76,7 +76,7 @@ class OrderReviewViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.title = NSLocalizedString("delivery_feedback_title", comment: "")
+        self.title = localizedString("delivery_feedback_title", comment: "")
         addBackButtonWithCrossIcon()
         
         //tap gesture
@@ -85,11 +85,11 @@ class OrderReviewViewController: UIViewController {
         
         self.setViewData()
         
-        self.data = [FeedbackQuestion.init(kRatingViewId, quesTitle: NSLocalizedString("how_was_your_delivery_title", comment: ""), ansTitle1: nil, ansTitle2: nil, ansTitle3: nil, ansTitle4: nil, isInfoView: false),
-        FeedbackQuestion.init(kFirstQuestionId, quesTitle: NSLocalizedString("feedback_question1_title", comment: ""), ansTitle1: NSLocalizedString("feedback_question1_answer1", comment: ""), ansTitle2: NSLocalizedString("feedback_question1_answer2", comment: ""), ansTitle3: NSLocalizedString("feedback_question1_answer3", comment: ""), ansTitle4: NSLocalizedString("feedback_question1_answer4", comment: ""), isInfoView: false),
-        FeedbackQuestion.init(kSecodQuestionId, quesTitle: NSLocalizedString("feedback_question2_title", comment: ""), ansTitle1: NSLocalizedString("feedback_question2_answer1", comment: ""), ansTitle2: NSLocalizedString("feedback_question2_answer2", comment: ""), ansTitle3: NSLocalizedString("feedback_question2_answer3", comment: ""), ansTitle4: NSLocalizedString("feedback_question2_answer4", comment: ""), isInfoView: false),
-        FeedbackQuestion.init(kThirdQuestionId, quesTitle: NSLocalizedString("feedback_question3_title", comment: ""), ansTitle1: NSLocalizedString("feedback_question3_answer1", comment: ""), ansTitle2: NSLocalizedString("feedback_question3_answer2", comment: ""), ansTitle3: NSLocalizedString("feedback_question3_answer3", comment: ""), ansTitle4: nil, isInfoView: false),
-        FeedbackQuestion.init(5, quesTitle: NSLocalizedString("feedback_question3_title", comment: ""), ansTitle1: nil, ansTitle2: nil, ansTitle3: nil, ansTitle4: nil, isInfoView: true)]
+        self.data = [FeedbackQuestion.init(kRatingViewId, quesTitle: localizedString("how_was_your_delivery_title", comment: ""), ansTitle1: nil, ansTitle2: nil, ansTitle3: nil, ansTitle4: nil, isInfoView: false),
+        FeedbackQuestion.init(kFirstQuestionId, quesTitle: localizedString("feedback_question1_title", comment: ""), ansTitle1: localizedString("feedback_question1_answer1", comment: ""), ansTitle2: localizedString("feedback_question1_answer2", comment: ""), ansTitle3: localizedString("feedback_question1_answer3", comment: ""), ansTitle4: localizedString("feedback_question1_answer4", comment: ""), isInfoView: false),
+        FeedbackQuestion.init(kSecodQuestionId, quesTitle: localizedString("feedback_question2_title", comment: ""), ansTitle1: localizedString("feedback_question2_answer1", comment: ""), ansTitle2: localizedString("feedback_question2_answer2", comment: ""), ansTitle3: localizedString("feedback_question2_answer3", comment: ""), ansTitle4: localizedString("feedback_question2_answer4", comment: ""), isInfoView: false),
+        FeedbackQuestion.init(kThirdQuestionId, quesTitle: localizedString("feedback_question3_title", comment: ""), ansTitle1: localizedString("feedback_question3_answer1", comment: ""), ansTitle2: localizedString("feedback_question3_answer2", comment: ""), ansTitle3: localizedString("feedback_question3_answer3", comment: ""), ansTitle4: nil, isInfoView: false),
+        FeedbackQuestion.init(5, quesTitle: localizedString("feedback_question3_title", comment: ""), ansTitle1: nil, ansTitle2: nil, ansTitle3: nil, ansTitle4: nil, isInfoView: true)]
         
         for feedbackQuestion in self.data {
             

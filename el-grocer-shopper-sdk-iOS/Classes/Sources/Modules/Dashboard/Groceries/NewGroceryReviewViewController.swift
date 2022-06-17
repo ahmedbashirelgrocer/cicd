@@ -46,7 +46,7 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("grocery_review_new_review_title", comment: "")
+        self.title = localizedString("grocery_review_new_review_title", comment: "")
         
         //register for keyboard notifications
         NotificationCenter.default.addObserver(self, selector: #selector(NewGroceryReviewViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: nil)
@@ -119,19 +119,19 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
                 
             } else if !reviewAlreadyAdded {
                 
-                ElGrocerAlertView.createAlert(NSLocalizedString("registration_error_alert", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("registration_error_alert", comment: ""),
                     description: nil,
-                    positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                    positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                     negativeButton: nil, buttonClickCallback: nil).show()
                 
             } else {
                 
                 //review already added, ask for override
 
-                ElGrocerAlertView.createAlert(NSLocalizedString("grocery_review_already_added_alert_title", comment: ""),
-                    description: NSLocalizedString("grocery_review_already_added_alert_description", comment: ""),
-                    positiveButton: NSLocalizedString("grocery_review_already_added_alert_confirm_button", comment: ""),
-                    negativeButton: NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("grocery_review_already_added_alert_title", comment: ""),
+                    description: localizedString("grocery_review_already_added_alert_description", comment: ""),
+                    positiveButton: localizedString("grocery_review_already_added_alert_confirm_button", comment: ""),
+                    negativeButton: localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),
                     buttonClickCallback: { (buttonIndex:Int) -> Void in
                         
                         if buttonIndex == 0 {
@@ -152,9 +152,9 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
                                     
                                 } else {
                                     
-                                    ElGrocerAlertView.createAlert(NSLocalizedString("registration_error_alert", comment: ""),
+                                    ElGrocerAlertView.createAlert(localizedString("registration_error_alert", comment: ""),
                                         description: nil,
-                                        positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                        positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                         negativeButton: nil, buttonClickCallback: nil).show()
                                 }
                                 
@@ -181,7 +181,7 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
     
     func setCommentTextFieldAppearance() {
         
-        self.commentTextField.placeholder = NSLocalizedString("grocery_review_comments_placeholder", comment: "")
+        self.commentTextField.placeholder = localizedString("grocery_review_comments_placeholder", comment: "")
         self.commentTextField.font = UIFont.bookFont(14.0)
         self.commentTextField.layer.cornerRadius = 10.0
         self.commentTextField.layer.borderColor = UIColor.borderGrayColor().cgColor
@@ -192,7 +192,7 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
     
     func setSendReviewButtonAppearance() {
         
-        self.sendReviewButton.setTitle(NSLocalizedString("grocery_review_send_review_button", comment: ""), for: UIControl.State())
+        self.sendReviewButton.setTitle(localizedString("grocery_review_send_review_button", comment: ""), for: UIControl.State())
         self.sendReviewButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.sendReviewButton.titleLabel?.font = UIFont.bookFont(19.0)
         self.sendReviewButton.backgroundColor = UIColor.navigationBarColor()
@@ -250,7 +250,7 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: kGroceryReviewRatingCellIdentifier, for: indexPath) as! GroceryReviewRatingCell
-        let label = NSLocalizedString(GroceryReviewCriteria.allValues[(indexPath as NSIndexPath).row].rawValue, comment: "")
+        let label = localizedString(GroceryReviewCriteria.allValues[(indexPath as NSIndexPath).row].rawValue, comment: "")
         
         cell.configureWithLabel(label, isLastRow: (indexPath as NSIndexPath).row == GroceryReviewCriteria.allValues.count - 1)
         
@@ -275,7 +275,7 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
     
     func textViewDidEndEditing(_ textView: UITextView) {
         
-        self.commentTextField.placeholder = self.commentTextView.text.isEmpty ? NSLocalizedString("grocery_review_comments_placeholder", comment: "") : nil
+        self.commentTextField.placeholder = self.commentTextView.text.isEmpty ? localizedString("grocery_review_comments_placeholder", comment: "") : nil
     }
     
     // MARK: Validation

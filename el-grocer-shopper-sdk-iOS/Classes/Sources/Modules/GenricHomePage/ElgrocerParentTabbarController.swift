@@ -30,8 +30,8 @@ class ElgrocerParentTabbarController: UITabBarController , UITabBarControllerDel
         }
         
         
-        self.tabBar.items?[0].title = NSLocalizedString("home_title", comment: "")
-        self.tabBar.items?[1].title = NSLocalizedString("Profile_Title", comment: "")
+        self.tabBar.items?[0].title = localizedString("home_title", comment: "")
+        self.tabBar.items?[1].title = localizedString("Profile_Title", comment: "")
         // color of background -> This works
         self.tabBar.barTintColor = UIColor.colorWithHexString(hexString: "ffffff")
         // This does not work

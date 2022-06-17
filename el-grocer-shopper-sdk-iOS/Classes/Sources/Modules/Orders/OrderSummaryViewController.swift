@@ -54,7 +54,7 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("order_payment_method_title", comment: "")
+        self.title = localizedString("order_payment_method_title", comment: "")
         
         addBackButton()
         
@@ -172,12 +172,12 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
             } else {
                 priceSum = priceSum - promoCodeValue.valueCents
             }
-            let countLabel = self.products.count == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+            let countLabel = self.products.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
 
             self.totalLabel.text = "Total of \(summaryCount - notAvailableCount) " + countLabel
-            self.summaryItemsCountLabel.text = NSLocalizedString("shopping_basket_summary_items_label" , comment: "")
+            self.summaryItemsCountLabel.text = localizedString("shopping_basket_summary_items_label" , comment: "")
         } else {
-            let countLabel = self.products.count == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+            let countLabel = self.products.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
             self.summaryItemsCountLabel.text = "\(summaryCount - notAvailableCount) " + countLabel
         }
         
@@ -204,7 +204,7 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
             self.totalPriceLabel.textColor = UIColor.redInfoColor()
             
             self.promotionDiscountLabel.textColor = UIColor.greenInfoColor()
-            self.promotionDiscountLabel.text = NSLocalizedString("shopping_basket_promotion_discount_price_label", comment: "")
+            self.promotionDiscountLabel.text = localizedString("shopping_basket_promotion_discount_price_label", comment: "")
             
             self.promotionDiscountPriceLabel.textColor = UIColor.greenInfoColor()
         }
@@ -217,12 +217,12 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
         
         self.infoLabel.textColor = UIColor.black
         self.infoLabel.font = UIFont.bookFont(13.0)
-        self.infoLabel.text = NSLocalizedString("order_confirmation_info_label", comment: "")
+        self.infoLabel.text = localizedString("order_confirmation_info_label", comment: "")
     }
     
     func setUpAddressAppearance() {
         
-        self.addressLabel.text = NSLocalizedString("order_confirmation_address_label", comment: "")
+        self.addressLabel.text = localizedString("order_confirmation_address_label", comment: "")
         self.addressLabel.font = UIFont.bookFont(11.0)
         self.addressLabel.textColor = UIColor.lightGray
         
@@ -232,7 +232,7 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
     
     func setUpPhoneAppearance() {
         
-        self.phoneLabel.text = NSLocalizedString("order_confirmation_phone_label", comment: "")
+        self.phoneLabel.text = localizedString("order_confirmation_phone_label", comment: "")
         self.phoneLabel.font = UIFont.bookFont(11.0)
         self.phoneLabel.textColor = UIColor.lightGray
         
@@ -249,8 +249,8 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
         self.itemQuantityLabel.font = UIFont.bookFont(11.0)
         self.itemCurrencyLabel.font = UIFont.bookFont(11.0)
         
-        self.itemNameLabel.text = NSLocalizedString("shopping_basket_item_label", comment: "")
-        self.itemQuantityLabel.text = NSLocalizedString("shopping_basket_quantity_label", comment: "")
+        self.itemNameLabel.text = localizedString("shopping_basket_item_label", comment: "")
+        self.itemQuantityLabel.text = localizedString("shopping_basket_quantity_label", comment: "")
         self.itemCurrencyLabel.text = CurrencyManager.getCurrentCurrency()
     }
     
@@ -265,7 +265,7 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
 
     func setUpContinueButtonAppearance() {
         
-        self.continueButton.setTitle(NSLocalizedString("order_confirmation_continue_button", comment: ""), for: UIControl.State())
+        self.continueButton.setTitle(localizedString("order_confirmation_continue_button", comment: ""), for: UIControl.State())
         self.continueButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17.0)
         self.continueButton.layer.cornerRadius = 4
         

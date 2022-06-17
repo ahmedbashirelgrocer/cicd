@@ -200,7 +200,7 @@ extension RecipeCategoriesList : RecipeDataHandlerDelegate {
         self.isLoading = !isLoading
         self.recipeCategoryDataList = categoryTotalA
         if recipeCategoryDataList.count > 0{
-            let category = RecipeCategoires.init(categoryID: nil, categoryName: NSLocalizedString("txt_All_Recipes", comment: ""), categorIymageURL: "")
+            let category = RecipeCategoires.init(categoryID: nil, categoryName: localizedString("txt_All_Recipes", comment: ""), categorIymageURL: "")
             self.recipeCategoryDataList.insert(category, at: 0)
             if categorySelected == nil{
                 self.categorySelected = recipeCategoryDataList[0]

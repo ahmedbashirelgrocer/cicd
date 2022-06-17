@@ -47,7 +47,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
     }
     @IBOutlet var btnConfirm: UIButton! {
         didSet {
-//            btnConfirm.setTitle(NSLocalizedString("lbl_confirm", comment: ""), for: .normal)
+//            btnConfirm.setTitle(localizedString("lbl_confirm", comment: ""), for: .normal)
         }
     }
     @IBOutlet var ViewNoProduct: AWView!
@@ -72,7 +72,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
     }
     @IBOutlet var btnCancel: UIButton! {
         didSet {
-            btnCancel.setTitle(NSLocalizedString("promo_code_alert_no", comment: ""), for: UIControl.State())
+            btnCancel.setTitle(localizedString("promo_code_alert_no", comment: ""), for: UIControl.State())
         }
     }
     
@@ -148,10 +148,10 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-//        self.viewMoreButton.setTitle(NSLocalizedString("view_more_title", comment: ""), for: .normal)
+//        self.viewMoreButton.setTitle(localizedString("view_more_title", comment: ""), for: .normal)
 //        self.viewMoreButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
-        self.lblViewAll.text = NSLocalizedString("view_more_title", comment: "")
-        self.lblNoProductFound.text = NSLocalizedString("No_Product_Found_Msg", comment: "")
+        self.lblViewAll.text = localizedString("view_more_title", comment: "")
+        self.lblNoProductFound.text = localizedString("No_Product_Found_Msg", comment: "")
         self.customCollectionView.backgroundColor = .textfieldBackgroundColor()
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.lblNoProductFound.textAlignment = .right

@@ -13,6 +13,7 @@ import FlagPhoneNumber
 import CoreLocation
 import IQKeyboardManagerSwift
 import CleverTapSDK
+
 enum MeduleInitializeFrom {
     
     case entry
@@ -27,7 +28,7 @@ class SignInViewController: RegistrationViewController, Form {
     // MARK: Outlets
     @IBOutlet var lbl_chooselocation: UIButton!{
         didSet{
-            lbl_chooselocation.setTitle(NSLocalizedString("lbl_chooselocation", comment: ""), for: .normal)
+            lbl_chooselocation.setTitle(localizedString("lbl_chooselocation", comment: ""), for: .normal)
         }
     }
     var userPersonalInfo: UserPersonalInfo!
@@ -50,7 +51,7 @@ class SignInViewController: RegistrationViewController, Form {
             phoneNumberTextField.layer.cornerRadius = 8.0
             inputTextFields.append(phoneNumberTextField)
             requiredInputTextFields.append(phoneNumberTextField)
-            phoneNumberTextField.placeholder = NSLocalizedString("enter_mobile_num_placeholder", comment: "")
+            phoneNumberTextField.placeholder = localizedString("enter_mobile_num_placeholder", comment: "")
             phoneNumberTextField.setFlag(for: FPNOBJCCountryKey.AE)
             //phoneNumberTextField.customDelegate = self
             //phoneNumberTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
@@ -84,7 +85,7 @@ class SignInViewController: RegistrationViewController, Form {
     
     @IBOutlet var lblExplore: UILabel! {
         didSet{
-            lblExplore.text = NSLocalizedString("lbl_WantToExplore", comment: "")
+            lblExplore.text = localizedString("lbl_WantToExplore", comment: "")
         }
     }
     @IBOutlet var btnChoosLocation: UIButton!
@@ -170,18 +171,18 @@ class SignInViewController: RegistrationViewController, Form {
         if !isForLogIn {
             
             self.segmentControl.selectedSegmentIndex = 0
-            self.lblTopTitle.text = NSLocalizedString("lbl_CreateAccount", comment: "")
-            self.lblDescription.text = NSLocalizedString("enter_phone_number", comment: "")
+            self.lblTopTitle.text = localizedString("lbl_CreateAccount", comment: "")
+            self.lblDescription.text = localizedString("enter_phone_number", comment: "")
             
             
             self.txtPassHeight.constant = 0
             self.txtForgetPasswordheight.constant = 0
             //self.spaceFromForgetPassword.constant = 0
-            self.usernameTextField.placeholder = NSLocalizedString("login_email_placeholder", comment: "")
+            self.usernameTextField.placeholder = localizedString("login_email_placeholder", comment: "")
             self.phoneNumberTextField.isHidden = false
             self.usernameTextField.isHidden = true
             self.passwordTextField.isHidden = true
-            self.submitButton.setTitle(NSLocalizedString("intro_next_button", comment: ""), for: .normal)
+            self.submitButton.setTitle(localizedString("intro_next_button", comment: ""), for: .normal)
             self.btnEye.isHidden = true
             self.forgotPasswordButton.isHidden = true
             self.phoneErrorLabel.isHidden = true
@@ -191,15 +192,15 @@ class SignInViewController: RegistrationViewController, Form {
             self.segmentControl.selectedSegmentIndex = 1
            
             
-            self.lblTopTitle.text = NSLocalizedString("welcome_back", comment: "")
-            self.lblDescription.text = NSLocalizedString("enter_registered_email", comment: "")
+            self.lblTopTitle.text = localizedString("welcome_back", comment: "")
+            self.lblDescription.text = localizedString("enter_registered_email", comment: "")
             self.txtPassHeight.constant = 56
             self.txtForgetPasswordheight.constant = 30
             //self.spaceFromForgetPassword.constant = 16
-            self.usernameTextField.placeholder = NSLocalizedString("login_email_placeholder", comment: "")
+            self.usernameTextField.placeholder = localizedString("login_email_placeholder", comment: "")
             self.phoneNumberTextField.isHidden = true
             self.usernameTextField.isHidden = false
-            self.submitButton.setTitle(NSLocalizedString("area_selection_login_button_title", comment: ""), for: .normal)
+            self.submitButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: .normal)
             self.btnEye.isHidden = false
             self.forgotPasswordButton.isHidden = false
             self.passwordTextField.isHidden = false
@@ -223,8 +224,8 @@ class SignInViewController: RegistrationViewController, Form {
         let titleTextAttributesUnselected = [NSAttributedString.Key.foregroundColor: UIColor.newBlackColor() , NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(14)]
         UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributesUnselected, for: .normal)
         
-        segmentControl.setTitle(NSLocalizedString("lbl_New_To_Elgrocer", comment: ""), forSegmentAt: 0)
-        segmentControl.setTitle(NSLocalizedString("lbl_Have_Account", comment: ""), forSegmentAt: 1)
+        segmentControl.setTitle(localizedString("lbl_New_To_Elgrocer", comment: ""), forSegmentAt: 0)
+        segmentControl.setTitle(localizedString("lbl_Have_Account", comment: ""), forSegmentAt: 1)
         
     }
     
@@ -236,18 +237,18 @@ class SignInViewController: RegistrationViewController, Form {
     
     func setupTitles() {
         
-        self.title  = NSLocalizedString("area_selection_login_button_title", comment: "")
+        self.title  = localizedString("area_selection_login_button_title", comment: "")
         
-        self.usernameTextField.placeholder = NSLocalizedString("login_email_placeholder", comment: "")
-        self.passwordTextField.placeholder = NSLocalizedString("login_password_placeholder", comment: "")
+        self.usernameTextField.placeholder = localizedString("login_email_placeholder", comment: "")
+        self.passwordTextField.placeholder = localizedString("login_password_placeholder", comment: "")
         
     
-        self.submitButton.setTitle(NSLocalizedString("area_selection_login_button_title", comment: ""), for:UIControl.State())
+        self.submitButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for:UIControl.State())
         
         // Setting Forgot Password Title with Underline
         let dictF       = [NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
         
-        let forgotTitle = NSMutableAttributedString(string:NSLocalizedString("btn_forget_password_title", comment: ""), attributes:dictF)
+        let forgotTitle = NSMutableAttributedString(string:localizedString("btn_forget_password_title", comment: ""), attributes:dictF)
         self.forgotPasswordButton.setAttributedTitle(forgotTitle, for: UIControl.State())
 
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
@@ -259,10 +260,10 @@ class SignInViewController: RegistrationViewController, Form {
         
         // Setting Forgot Password Title with Underline
         let dict1       = [NSAttributedString.Key.foregroundColor: UIColor.white,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(10.0)]
-        let leftPart    = NSMutableAttributedString(string:NSLocalizedString("new_here", comment: ""), attributes:dict1)
+        let leftPart    = NSMutableAttributedString(string:localizedString("new_here", comment: ""), attributes:dict1)
         
         let dict2       = [NSAttributedString.Key.foregroundColor: UIColor.white,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(10.0)]
-        let rightPart   = NSMutableAttributedString(string:NSLocalizedString("register_title", comment: ""), attributes:dict2)
+        let rightPart   = NSMutableAttributedString(string:localizedString("register_title", comment: ""), attributes:dict2)
         
         let buttonTitle = NSMutableAttributedString()
         buttonTitle.append(leftPart)
@@ -303,8 +304,8 @@ class SignInViewController: RegistrationViewController, Form {
             .bind { (loginState) -> Void in
                 switch loginState {
                 case .loginError(let errorMessage):
-                    self.usernameTextField.showError(message: NSLocalizedString(errorMessage, comment: ""))
-                    self.passwordTextField.showError(message: NSLocalizedString(errorMessage, comment: ""))
+                    self.usernameTextField.showError(message: localizedString(errorMessage, comment: ""))
+                    self.passwordTextField.showError(message: localizedString(errorMessage, comment: ""))
                 default: break
                 }
             }.disposed(by: disposeBag)
@@ -426,7 +427,7 @@ class SignInViewController: RegistrationViewController, Form {
                                 }
                                 
                                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: "") ,NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                                _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: "") ,localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
                                     if index == 0 {
                                          self.setHomeView()
                                     }else{
@@ -468,9 +469,9 @@ class SignInViewController: RegistrationViewController, Form {
         self.setState()
         DispatchQueue.main.async {
             if  self.isForLogIn {
-                self.title  = NSLocalizedString("area_selection_login_button_title", comment: "")
+                self.title  = localizedString("area_selection_login_button_title", comment: "")
             }else{
-                self.title  = NSLocalizedString("Sign_up", comment: "")
+                self.title  = localizedString("Sign_up", comment: "")
             }
             UIView.animate(withDuration: 0.15) {
                 self.view.layoutIfNeeded()
@@ -676,9 +677,9 @@ extension SignInViewController {
                                     
                                     self.isPhoneExsists = true
                                     phoneErrorLabel.isHidden = false
-                                    phoneErrorLabel.text = NSLocalizedString("registration_account_Phone_exists_error_alert", comment: "")
-                                    //self.usernameTextField.showError(message: NSLocalizedString("registration_account_Phone_exists_error_alert", comment: ""))
-//                                    ElGrocerAlertView.createAlert(NSLocalizedString("registration_account_Phone_exists_error_title", comment: ""),description:NSLocalizedString("registration_account_Phone_exists_error_alert", comment: ""),positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+                                    phoneErrorLabel.text = localizedString("registration_account_Phone_exists_error_alert", comment: "")
+                                    //self.usernameTextField.showError(message: localizedString("registration_account_Phone_exists_error_alert", comment: ""))
+//                                    ElGrocerAlertView.createAlert(localizedString("registration_account_Phone_exists_error_title", comment: ""),description:localizedString("registration_account_Phone_exists_error_alert", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),
 //                                                                  buttonClickCallback: { (buttonIndex:Int) -> Void in
 //
 //                                                                    if buttonIndex == 0 {
@@ -714,7 +715,7 @@ extension SignInViewController {
                     self.validatePhoneNumberAndSetPasswordTextFieldAppearance(!self.isPhoneExsists)
                 }else {
                     
-                    var errorMsgStr = NSLocalizedString("registration_account_Phone_exists_error_alert", comment: "")
+                    var errorMsgStr = localizedString("registration_account_Phone_exists_error_alert", comment: "")
                     if let errorDict = responseObject, let msgDict = errorDict["messages"] as? NSDictionary {
                         if let errorMsg = (msgDict["error_message"] as? String) {
                             errorMsgStr = errorMsg
@@ -851,4 +852,16 @@ extension SignInViewController : UITextFieldDelegate {
         return true
     }
     
+}
+
+func localizedString(_ named: String,
+                     tableName: String = "",
+                     bundle: Bundle = .resource,
+                     value: String = "",
+                     comment: String) -> String {
+    return NSLocalizedString(named,
+                             tableName: tableName,
+                             bundle: bundle,
+                             value: value,
+                             comment: comment)
 }

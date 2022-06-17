@@ -69,10 +69,10 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         hidetabbar()
         
         if self.controllerType == .viewAllStores {
-            self.title = NSLocalizedString("title_all_stores", comment: "")
+            self.title = localizedString("title_all_stores", comment: "")
             //self.addBackButton(isGreen: false)
         }else if self.controllerType == .viewAllStoresWithBack {
-            self.title = NSLocalizedString("txt_Shop_by_store_category", comment: "")
+            self.title = localizedString("txt_Shop_by_store_category", comment: "")
             self.addBackButton(isGreen: false)
         }else {
             self.title = self.controllerTitle
@@ -120,7 +120,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
     func setSegmentView() {
         
        
-        var segmentArray = [NSLocalizedString("all_store", comment: "")]
+        var segmentArray = [localizedString("all_store", comment: "")]
         var filterStoreTypeData : [StoreType] = []
         for data in self.groceryArray {
             let typeA = data.storeType

@@ -470,7 +470,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     // MARK: Appearance
     func setUpCategoriesBackButtonAppearance() {
         
-        self.categoriesBackButton.setTitle(NSLocalizedString("brands_list_categories_back_button", comment: ""), for: UIControl.State())
+        self.categoriesBackButton.setTitle(localizedString("brands_list_categories_back_button", comment: ""), for: UIControl.State())
         self.categoriesBackButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(16.0)
         
         let image = ElGrocerUtility.sharedInstance.getImageWithName("icBackGray")
@@ -488,7 +488,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     
     func setUpSearchViewAppearance() {
         
-        self.searchLabel.text = NSLocalizedString("search_products", comment: "")
+        self.searchLabel.text = localizedString("search_products", comment: "")
         self.searchLabel.font = UIFont.SFProDisplayNormalFont(14)
         self.searchLabel.textColor = UIColor.darkGrayTextColor()
         
@@ -508,8 +508,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         } else {
             
             if self.isFromBanner && self.products.count == 0 {
-               // self.emptyView?.titleLabel.text = NSLocalizedString("lbl_current_item_out_of_store", comment: "")
-               //  self.emptyView?.descriptionLabel.text = NSLocalizedString("lbl_select_AnotherStore", comment: "")
+               // self.emptyView?.titleLabel.text = localizedString("lbl_current_item_out_of_store", comment: "")
+               //  self.emptyView?.descriptionLabel.text = localizedString("lbl_select_AnotherStore", comment: "")
                 self.emptyView?.isHidden = false
                 self.checkEmptyView()
             }else {
@@ -723,7 +723,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                 }else{
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             //clear active basket and add product

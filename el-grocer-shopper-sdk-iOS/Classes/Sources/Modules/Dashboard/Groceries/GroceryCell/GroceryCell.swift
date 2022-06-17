@@ -93,13 +93,13 @@ class GroceryCell : UITableViewCell {
         self.lblIsScheduledDelivery.font    = UIFont.SFProDisplaySemiBoldFont(12.0)
         self.lblTiming.font                 = UIFont.SFProDisplaySemiBoldFont(11.0)
         
-        self.labelMinOrderAmount.text   = NSLocalizedString("min_order_amount", comment: "")
-        // self.labelDeliveryHours.text    = NSLocalizedString("delivery_hours", comment: "")
+        self.labelMinOrderAmount.text   = localizedString("min_order_amount", comment: "")
+        // self.labelDeliveryHours.text    = localizedString("delivery_hours", comment: "")
         
-        self.labelDeliveryHours.text    = NSLocalizedString("Next_Delivery_Slot", comment: "")
+        self.labelDeliveryHours.text    = localizedString("Next_Delivery_Slot", comment: "")
     
-        self.labelDeliveryWithin.text   = NSLocalizedString("service_price_title", comment: "")
-        self.labelPaymentMethod.text    = NSLocalizedString("payment_method", comment: "")
+        self.labelDeliveryWithin.text   = localizedString("service_price_title", comment: "")
+        self.labelPaymentMethod.text    = localizedString("payment_method", comment: "")
         
         self.setupDetailViewAppearance()
     }
@@ -202,11 +202,11 @@ class GroceryCell : UITableViewCell {
         self.lblPaymentMethod.text  = ElGrocerUtility.sharedInstance.getPaymentMethod(grocery) //self.getPaymentMethod(grocery)
         
         if grocery.isOpen.boolValue {
-            self.lblIsOpen.text = NSLocalizedString("open_now", comment: "")
+            self.lblIsOpen.text = localizedString("open_now", comment: "")
             self.isOpenStatusColorView.backgroundColor = UIColor.navigationBarColor()
             
         }else{
-            self.lblIsOpen.text = NSLocalizedString("closed_Now", comment: "")
+            self.lblIsOpen.text = localizedString("closed_Now", comment: "")
             self.isOpenStatusColorView.backgroundColor = UIColor.redInfoColor()
         }
         
@@ -298,22 +298,22 @@ class GroceryCell : UITableViewCell {
         if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.creditCard.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("cash_card_creditCard_delivery", comment: "")
+            paymentDescription = localizedString("cash_card_creditCard_delivery", comment: "")
             
         } else  if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("cash_card_delivery", comment: "")
+            paymentDescription = localizedString("cash_card_delivery", comment: "")
             
         } else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue == 0 {
             
             //only Cash
-            paymentDescription = NSLocalizedString("cash_delivery", comment: "")
+            paymentDescription = localizedString("cash_delivery", comment: "")
             
         } else if myGrocery.availablePayments.uint32Value & PaymentOption.cash.rawValue == 0 && myGrocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 {
             
             //only Card
-            paymentDescription = NSLocalizedString("card_delivery", comment: "")
+            paymentDescription = localizedString("card_delivery", comment: "")
         }
         return paymentDescription
     }
@@ -330,10 +330,10 @@ class GroceryCell : UITableViewCell {
             self.delegate?.groceryCellDidTouchFavourite(self, grocery: self.grocery)
         }else{
             
-            ElGrocerAlertView.createAlert(NSLocalizedString("store_favourite_alert_title", comment: ""),
-                                          description: NSLocalizedString("store_favourite_alert_description", comment: ""),
-                                          positiveButton: NSLocalizedString("store_favourite_alert_yes", comment: ""),
-                                          negativeButton: NSLocalizedString("store_favourite_alert_no", comment: ""),
+            ElGrocerAlertView.createAlert(localizedString("store_favourite_alert_title", comment: ""),
+                                          description: localizedString("store_favourite_alert_description", comment: ""),
+                                          positiveButton: localizedString("store_favourite_alert_yes", comment: ""),
+                                          negativeButton: localizedString("store_favourite_alert_no", comment: ""),
                                           buttonClickCallback: { (buttonIndex:Int) -> Void in
                                             
                                             if buttonIndex == 0 {

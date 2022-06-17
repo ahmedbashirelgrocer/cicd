@@ -69,17 +69,17 @@ class SubstitutionsCell: UITableViewCell {
         self.productPrice.font              = UIFont.SFProDisplayNormalFont(13.0)
         
         self.productQuantityLabel.font      = UIFont.SFProDisplayNormalFont(13.0)
-        self.productQuantityLabel.text      = NSLocalizedString("quantity_:", comment: "")
+        self.productQuantityLabel.text      = localizedString("quantity_:", comment: "")
         self.productQuantity.font           = UIFont.SFProDisplayNormalFont(13.0)
         
         self.productTotalPriceLabel.font    = UIFont.SFProDisplayNormalFont(13.0)
-        self.productTotalPriceLabel.text    = NSLocalizedString("total_:", comment: "")
+        self.productTotalPriceLabel.text    = localizedString("total_:", comment: "")
         self.productTotalPrice.font         = UIFont.SFProDisplayBoldFont(13.0)
         
-        self.chooseSubtituteButton.setTitle(NSLocalizedString("choose_substitution_button_title_new", comment: ""), for: UIControl.State())
+        self.chooseSubtituteButton.setTitle(localizedString("choose_substitution_button_title_new", comment: ""), for: UIControl.State())
         self.chooseSubtituteButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(10.0)
         
-        self.discardSubtituteButton.setTitle(NSLocalizedString("discard_substitution_button_title", comment: ""), for: UIControl.State())
+        self.discardSubtituteButton.setTitle(localizedString("discard_substitution_button_title", comment: ""), for: UIControl.State())
         self.discardSubtituteButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(10.0)
         
         self.imgClose.isHidden    = true

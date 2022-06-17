@@ -133,7 +133,7 @@ class OrderHistoryCell1 : UITableViewCell {
         self.deleteButton.backgroundColor = UIColor.redValidationErrorColor()
         self.deleteButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.deleteButton.titleLabel?.font = UIFont.boldFont(15.0)
-        self.deleteButton.setTitle(NSLocalizedString("dashboard_location_delete_button", comment: ""), for: UIControl.State())
+        self.deleteButton.setTitle(localizedString("dashboard_location_delete_button", comment: ""), for: UIControl.State())
     }
     
     // MARK: Data
@@ -141,11 +141,11 @@ class OrderHistoryCell1 : UITableViewCell {
     fileprivate func loadOrderStatusLabel(_ order: Order!) -> String {
         
         if order.deliverySlot != nil && order.status.intValue == 0{
-            return NSLocalizedString("order_status_schedule_order", comment: "")
+            return localizedString("order_status_schedule_order", comment: "")
         }else if order.status.intValue < OrderStatus.labels.count {
-            return NSLocalizedString(OrderStatus.labels[order.status.intValue], comment: "")
+            return localizedString(OrderStatus.labels[order.status.intValue], comment: "")
         } else {
-            return NSLocalizedString("order_status_unknown", comment: "")
+            return localizedString("order_status_unknown", comment: "")
         }
     }
     
@@ -203,7 +203,7 @@ class OrderHistoryCell1 : UITableViewCell {
         }
         
        // self.orderNumberLabel.text = "ORN: #\(order.dbID.integerValue)"
-        self.orderNumberLabel.text = String(format: "%@ %d",NSLocalizedString("orn_number", comment: ""),order.dbID.intValue)
+        self.orderNumberLabel.text = String(format: "%@ %d",localizedString("orn_number", comment: ""),order.dbID.intValue)
         self.orderDateLabel.text = self.dateFormatter.string(from: order.orderDate as Date)
         
         self.groceryNameLabel.text = order.grocery.name

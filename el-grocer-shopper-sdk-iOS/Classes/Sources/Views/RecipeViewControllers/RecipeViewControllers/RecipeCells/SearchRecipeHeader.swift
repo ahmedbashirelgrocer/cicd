@@ -27,7 +27,7 @@ class SearchRecipeHeader: UITableViewHeaderFooterView {
     func setUpApearance() {
 
         self.textFieldSearch.delegate = self
-        self.textFieldSearch.placeholder = NSLocalizedString("search_Field_PlaceHolder", comment: "")
+        self.textFieldSearch.placeholder = localizedString("search_Field_PlaceHolder", comment: "")
         self.textFieldSearch.attributedPlaceholder = NSAttributedString.init(string: self.textFieldSearch.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
         
     }

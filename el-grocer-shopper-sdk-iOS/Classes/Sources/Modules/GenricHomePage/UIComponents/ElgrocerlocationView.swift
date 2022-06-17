@@ -121,7 +121,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var txtSearchBar: UITextField!{
         didSet{
-            txtSearchBar.placeholder = NSLocalizedString("search_placeholder_store_header", comment: "")
+            txtSearchBar.placeholder = localizedString("search_placeholder_store_header", comment: "")
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
                 txtSearchBar.textAlignment = .right
             }else{
@@ -142,7 +142,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var btnlblShopping: UILabel!{
         didSet{
-            btnlblShopping.text = NSLocalizedString("btn_shopping_list_title", comment: "")
+            btnlblShopping.text = localizedString("btn_shopping_list_title", comment: "")
             btnlblShopping.setBody3SemiBoldYellowStyle()
         }
     }
@@ -153,7 +153,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var btnLblHelp: UILabel!{
         didSet{
-            btnLblHelp.text = NSLocalizedString("btn_help", comment: "")
+            btnLblHelp.text = localizedString("btn_help", comment: "")
             btnLblHelp.setBody3SemiBoldWhiteStyle()
         }
     }
@@ -294,8 +294,8 @@ class ElgrocerlocationView:  UIView  {
                 var slotString = slotStringData.slot
                 self.hideSlotImage(slotStringData.hideSlotImage)
                 if firstObj.isInstant.boolValue {
-//                    slotString = NSLocalizedString("today_title", comment: "") + " " +  NSLocalizedString("60_min", comment: "")  + "⚡️"
-                    slotString = NSLocalizedString("delivery_within_60_min", comment: "")
+//                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
+                    slotString = localizedString("delivery_within_60_min", comment: "")
                     let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
@@ -309,11 +309,11 @@ class ElgrocerlocationView:  UIView  {
                     
                     var data = slotString.components(separatedBy: " ")
                     if data.count > 0 {
-                        var dayName = NSLocalizedString("lbl_next_delivery", comment: "")
+                        var dayName = localizedString("lbl_next_delivery", comment: "")
                         if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayName = NSLocalizedString("lbl_next_delivery", comment: "")
+                            dayName = localizedString("lbl_next_delivery", comment: "")
                         }else {
-                            dayName = NSLocalizedString("lbl_next_self_collection", comment: "")
+                            dayName = localizedString("lbl_next_self_collection", comment: "")
                         }
                         let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
                         attributedString.append(attributedString2)
@@ -342,8 +342,8 @@ class ElgrocerlocationView:  UIView  {
                 var slotString = slotStringData.slot
                 self.hideSlotImage(slotStringData.hideSlotImage)
                 if firstObj.isInstant.boolValue {
-//                    slotString = NSLocalizedString("today_title", comment: "") + " " +  NSLocalizedString("60_min", comment: "")  + "⚡️"
-                    slotString = NSLocalizedString("delivery_within_60_min", comment: "")
+//                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
+                    slotString = localizedString("delivery_within_60_min", comment: "")
                     let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
@@ -357,11 +357,11 @@ class ElgrocerlocationView:  UIView  {
                 
                 var data = slotString.components(separatedBy: " ")
                 if data.count == 0 {
-                    var dayName = NSLocalizedString("lbl_next_delivery", comment: "")
+                    var dayName = localizedString("lbl_next_delivery", comment: "")
                     if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                        dayName = NSLocalizedString("lbl_next_delivery", comment: "")
+                        dayName = localizedString("lbl_next_delivery", comment: "")
                     }else {
-                        dayName = NSLocalizedString("lbl_next_self_collection", comment: "")
+                        dayName = localizedString("lbl_next_self_collection", comment: "")
                     }
                     let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
                     attributedString.append(attributedString2)
@@ -378,11 +378,11 @@ class ElgrocerlocationView:  UIView  {
                 
             }else{
                 debugPrint("")
-                self.lblSlot.text = NSLocalizedString("no_slots_available", comment: "")
+                self.lblSlot.text = localizedString("no_slots_available", comment: "")
                 self.hideSlotImage(true)
             }
         }else{
-             self.lblSlot.text = NSLocalizedString("no_slots_available", comment: "")
+             self.lblSlot.text = localizedString("no_slots_available", comment: "")
             self.hideSlotImage(true)
         }
     }
@@ -394,7 +394,7 @@ class ElgrocerlocationView:  UIView  {
             //debugPrint("check: NewValue : \(attributedString.string)")
             
             var isNeedToCallRefresh = false
-            isNeedToCallRefresh = !(self.lblSlot.attributedText?.string == attributedString.string || self.lblSlot.attributedText?.string == "---" || self.lblSlot.attributedText?.string == "--" || self.lblSlot.attributedText?.string == NSLocalizedString("no_slots_available", comment: ""))
+            isNeedToCallRefresh = !(self.lblSlot.attributedText?.string == attributedString.string || self.lblSlot.attributedText?.string == "---" || self.lblSlot.attributedText?.string == "--" || self.lblSlot.attributedText?.string == localizedString("no_slots_available", comment: ""))
             
             self.lblSlot.attributedText = attributedString
             if self.myGroceryName.text != ElGrocerUtility.sharedInstance.activeGrocery?.name {
@@ -459,7 +459,7 @@ class ElgrocerlocationView:  UIView  {
         self.widthMultiplier.setMultiplier(multiplier: FullWidth)
         self.setUpHeight(52)
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
-            self.lblAddress.text = NSLocalizedString("error_-6", comment: "")
+            self.lblAddress.text = localizedString("error_-6", comment: "")
             return
         }
         self.lblAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address
@@ -481,7 +481,7 @@ class ElgrocerlocationView:  UIView  {
         self.showLocationArrow.isHidden = true
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
-            self.lblAddress.text = NSLocalizedString("error_-6", comment: "")
+            self.lblAddress.text = localizedString("error_-6", comment: "")
             return
         }
         
@@ -598,14 +598,14 @@ class ElgrocerlocationView:  UIView  {
         
         if slot.isInstant.boolValue {
             self.hideSlotImage(true)
-            return  NSLocalizedString("today_title", comment: "") + " " + NSLocalizedString("60_min", comment: "") + "⚡️"
+            return  localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️"
         }else if  slot.isToday() {
             self.hideSlotImage(false)
-            let name =  NSLocalizedString("today_title", comment: "")
+            let name =  localizedString("today_title", comment: "")
             orderTypeDescription = String(format: "%@ %@", name ,orderTypeDescription)
         }else if slot.isTomorrow()  {
             self.hideSlotImage(false)
-            let name =    NSLocalizedString("tomorrow_title", comment: "")
+            let name =    localizedString("tomorrow_title", comment: "")
             orderTypeDescription = String(format: "%@ %@", name,orderTypeDescription)
         }else{
             self.hideSlotImage(false)

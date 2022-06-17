@@ -74,13 +74,13 @@ class LocationPopUp: UIView {
         
         self.titleLabel.font = UIFont.SFProDisplayBoldFont(17.0)
         self.titleLabel.textColor = UIColor.black
-        self.titleLabel.text = NSLocalizedString("location_services_title", comment: "")
+        self.titleLabel.text = localizedString("location_services_title", comment: "")
         self.titleLabel.sizeToFit()
         self.titleLabel.numberOfLines = 1
         
         self.descriptionLabel.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         self.descriptionLabel.textColor = UIColor.darkTextGrayColor()
-        self.descriptionLabel.text = NSLocalizedString("location_services_message", comment: "")
+        self.descriptionLabel.text = localizedString("location_services_message", comment: "")
         self.descriptionLabel.sizeToFit()
         self.descriptionLabel.numberOfLines = 3
     }
@@ -95,12 +95,12 @@ class LocationPopUp: UIView {
     private func setButtonAppearance(){
         
         self.doneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
-        self.doneButton.setTitle(NSLocalizedString("enable_location_services_title", comment: ""), for: UIControl.State())
+        self.doneButton.setTitle(localizedString("enable_location_services_title", comment: ""), for: UIControl.State())
         self.doneButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.doneButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         
         self.cancelButton.setBackgroundColor(UIColor.lightGrayBGColor(), forState: UIControl.State())
-        self.cancelButton.setTitle(NSLocalizedString("not_now_button_title", comment: ""), for: UIControl.State())
+        self.cancelButton.setTitle(localizedString("not_now_button_title", comment: ""), for: UIControl.State())
         self.cancelButton.setTitleColor(UIColor.gray, for: UIControl.State())
         self.cancelButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         
@@ -116,7 +116,7 @@ class LocationPopUp: UIView {
         
         
         
-        let view = Bundle(for: self).loadNibNamed("LocationPopUp", owner: nil, options: nil)![0] as! LocationPopUp
+        let view = Bundle.resource.loadNibNamed("LocationPopUp", owner: nil, options: nil)![0] as! LocationPopUp
         view.delegate = delegate
         view.alpha = 0
         

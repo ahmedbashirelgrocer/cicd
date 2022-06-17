@@ -104,27 +104,27 @@ class AddCreditCardViewController: UIViewController  {
     
     func setUpTextlocalization () {
         
-        self.lblTitle.text = NSLocalizedString("Add_New_Credit_Card_Title", comment: "")
-        self.lblNameTop.text = NSLocalizedString("Card_HolderName_Title", comment: "")
-        self.lblExpairyTop.text = NSLocalizedString("Card_ExpiryDate_Title", comment: "")
+        self.lblTitle.text = localizedString("Add_New_Credit_Card_Title", comment: "")
+        self.lblNameTop.text = localizedString("Card_HolderName_Title", comment: "")
+        self.lblExpairyTop.text = localizedString("Card_ExpiryDate_Title", comment: "")
         
         
         
-        self.txtCardNumber.placeholder = NSLocalizedString("Card_Number_Title", comment: "")
+        self.txtCardNumber.placeholder = localizedString("Card_Number_Title", comment: "")
         
-        self.lblMonth.placeholder = NSLocalizedString("Card_MM_Title", comment: "")
-        self.lblYear.placeholder = NSLocalizedString("Card_YY_Title", comment: "")
-        self.lblSecurityCode.placeholder = NSLocalizedString("Card_SecurityCode_Title", comment: "")
-        self.lblFirstName.placeholder = NSLocalizedString("Card_FirstName_Title", comment: "")
-        self.lblLastName.placeholder = NSLocalizedString("Card_LastName_Title", comment: "")
-        self.lblAcceptText.text = NSLocalizedString("Card_Terms_Title", comment: "")
-        self.userDisclaimerForOneAddCard.text = NSLocalizedString("Setting_Add_Card_User_Notification_Message", comment: "")
+        self.lblMonth.placeholder = localizedString("Card_MM_Title", comment: "")
+        self.lblYear.placeholder = localizedString("Card_YY_Title", comment: "")
+        self.lblSecurityCode.placeholder = localizedString("Card_SecurityCode_Title", comment: "")
+        self.lblFirstName.placeholder = localizedString("Card_FirstName_Title", comment: "")
+        self.lblLastName.placeholder = localizedString("Card_LastName_Title", comment: "")
+        self.lblAcceptText.text = localizedString("Card_Terms_Title", comment: "")
+        self.userDisclaimerForOneAddCard.text = localizedString("Setting_Add_Card_User_Notification_Message", comment: "")
         self.userDisclaimerForOneAddCard.isHidden = !isAddOnly
         if isAddOnly {
             
-             self.confirmButton.setTitle(NSLocalizedString("Card_AddCard_Title", comment: "") , for: .normal)
+             self.confirmButton.setTitle(localizedString("Card_AddCard_Title", comment: "") , for: .normal)
         }else{
-            self.confirmButton.setTitle(NSLocalizedString("confirm_order_button_title", comment: "") , for: .normal)
+            self.confirmButton.setTitle(localizedString("confirm_order_button_title", comment: "") , for: .normal)
         }
         
     }
@@ -140,7 +140,7 @@ class AddCreditCardViewController: UIViewController  {
         lblLastName.delegate = self
         
         
-        self.confirmButton.setTitle( NSLocalizedString("confirm_order_button_title", comment: "") , for: .normal)
+        self.confirmButton.setTitle( localizedString("confirm_order_button_title", comment: "") , for: .normal)
     }
 
     /*
@@ -162,7 +162,7 @@ class AddCreditCardViewController: UIViewController  {
 //        }else{
 
             guard self.switchFreshVarienace.isOn else {
-                let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description: "Please accept the payment terms.",positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+                let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description: "Please accept the payment terms.",positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
                 errorAlert.showPopUp()
                 return
             }
@@ -268,12 +268,12 @@ class AddCreditCardViewController: UIViewController  {
         SpinnerView.hideSpinnerView()
         if message == "Error while adding card" {
             self.dismiss(animated: true) {
-                let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+                let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
                 errorAlert.showPopUp()
             }
             return
         }
-        let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+        let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
         errorAlert.showPopUp()
         
         
@@ -337,7 +337,7 @@ extension AddCreditCardViewController : WKNavigationDelegate {
         SpinnerView.hideSpinnerView()
         webView.willMove(toWindow: nil)
         webView.removeFromSuperview()
-        let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description:error.localizedDescription ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+        let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:error.localizedDescription ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
         errorAlert.showPopUp()
         
     }

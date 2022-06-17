@@ -89,12 +89,12 @@ class OrderDeliveryLocationHeaderCell: UITableViewCell {
         self.itemQuantityLabel.font = UIFont.SFProDisplayNormalFont(12.0)
         self.itemCurrencyLabel.font = UIFont.SFProDisplayNormalFont(12.0)
         
-        self.itemNameLabel.text = NSLocalizedString("brand_items_count_label", comment: "")
-        self.itemQuantityLabel.text = NSLocalizedString("shopping_basket_quantity_label", comment: "")
-        self.itemCurrencyLabel.text = NSLocalizedString("aed", comment: "")
+        self.itemNameLabel.text = localizedString("brand_items_count_label", comment: "")
+        self.itemQuantityLabel.text = localizedString("shopping_basket_quantity_label", comment: "")
+        self.itemCurrencyLabel.text = localizedString("aed", comment: "")
         
-        self.orderNumberLable.text = NSLocalizedString("order_number_label_Full", comment: "")
-        self.dataLable.text = NSLocalizedString("order_date_label", comment: "")
+        self.orderNumberLable.text = localizedString("order_number_label_Full", comment: "")
+        self.dataLable.text = localizedString("order_date_label", comment: "")
         
         
         self.setUpDeliverySlotLabelAndDateAppearance()
@@ -133,16 +133,16 @@ class OrderDeliveryLocationHeaderCell: UITableViewCell {
         if order.deliverySlot != nil {
             
             self.hideOrderDeliverySlotView(false)
-            self.deliverySlotTitle.text = NSLocalizedString("schedule_title", comment: "") + ": "
+            self.deliverySlotTitle.text = localizedString("schedule_title", comment: "") + ": "
             var slotTimeStr = ""
             if let selectedSlot = order.deliverySlot {
                 slotTimeStr = selectedSlot.getSlotFormattedString(isDeliveryMode: order.isDeliveryOrder())
                 if  selectedSlot.isToday() {
-                    let name =    NSLocalizedString("today_title", comment: "") // + " " + ( selectedSlot.estimatedDeliveryDate!.dataMonthDateInUTCString() ?? "")
+                    let name =    localizedString("today_title", comment: "") // + " " + ( selectedSlot.estimatedDeliveryDate!.dataMonthDateInUTCString() ?? "")
                     slotTimeStr = String(format: "%@ (%@)", name ,slotTimeStr)
                 }else if selectedSlot.isTomorrow()  {
                     
-                    let name =    NSLocalizedString("tomorrow_title", comment: "") // + " " + ( selectedSlot.estimatedDeliveryDate!.dataMonthDateInUTCString() ?? "")
+                    let name =    localizedString("tomorrow_title", comment: "") // + " " + ( selectedSlot.estimatedDeliveryDate!.dataMonthDateInUTCString() ?? "")
                     slotTimeStr = String(format: "%@ (%@)", name,slotTimeStr)
                 }else{
                     slotTimeStr = String(format: "%@ (%@)", selectedSlot.start_time?.getDayName() ?? "" ,slotTimeStr)

@@ -21,13 +21,13 @@ class EntryViewController: UIViewController {
     // MARK: Outlets
     @IBOutlet var lblAlreadyHaveMsg: UILabel! {
         didSet{
-            lblAlreadyHaveMsg.text = NSLocalizedString("area_selection_already_have_an_account_label", comment: "")
+            lblAlreadyHaveMsg.text = localizedString("area_selection_already_have_an_account_label", comment: "")
             lblAlreadyHaveMsg.setH4BoldWhiteStyle()
         }
     }
     @IBOutlet var lblNewToElgrocer: UILabel!{
         didSet{
-            lblNewToElgrocer.text = NSLocalizedString("lbl_new_to_elgrocer", comment: "")
+            lblNewToElgrocer.text = localizedString("lbl_new_to_elgrocer", comment: "")
             lblNewToElgrocer.setH4BoldWhiteStyle()
         }
     }
@@ -40,7 +40,7 @@ class EntryViewController: UIViewController {
     @IBOutlet weak var lableDetialToUser: UILabel!
     @IBOutlet weak var orLable: UILabel! {
         didSet{
-            orLable.text = NSLocalizedString("lbl_or", comment: "")
+            orLable.text = localizedString("lbl_or", comment: "")
         }
         
     }
@@ -290,13 +290,13 @@ class EntryViewController: UIViewController {
             let currentSecond : Float64 = CMTimeGetSeconds(currentTime)
             if(currentSecond > 0 && currentSecond < 4.0){
                 self.bgView.isHidden = true
-                titleStr = NSLocalizedString("save_money", comment: "")
+                titleStr = localizedString("save_money", comment: "")
             }else if(currentSecond > 4.0 && currentSecond < 8.0){
-                titleStr = NSLocalizedString("save_time", comment: "")
+                titleStr = localizedString("save_time", comment: "")
             }else if(currentSecond > 8.0 && currentSecond < 12.0){
-                titleStr = NSLocalizedString("stay_healthy", comment: "")
+                titleStr = localizedString("stay_healthy", comment: "")
             }else {
-                titleStr = NSLocalizedString("have_fun", comment: "")
+                titleStr = localizedString("have_fun", comment: "")
             }
             
            // self.titleLabel.text = titleStr
@@ -375,22 +375,22 @@ class EntryViewController: UIViewController {
         
 //        skipButton.titleLabel?.font = UIFont.SFUIRegularFont(16.0)
 //        skipButton.setTitleColor(UIColor.white, for: UIControl.State())
-//        skipButton.setTitle(NSLocalizedString("entry_skip_button_title", comment: ""), for: UIControl.State())
+//        skipButton.setTitle(localizedString("entry_skip_button_title", comment: ""), for: UIControl.State())
 
 //        "entry_detect_my_location_button_title" = "DETECT MY LOCATION";
 //        "entry_maually_select_location_button_title" = "MANUALLY SELECT LOCATION";
         
         
-        lblNewToElgrocer.text = NSLocalizedString("lbl_new_to_elgrocer", comment: "")
+        lblNewToElgrocer.text = localizedString("lbl_new_to_elgrocer", comment: "")
         
         loginButton.layer.backgroundColor = UIColor.navigationBarColor().cgColor
         loginButton.setButton2SemiBoldWhiteStyle()
-        loginButton.setTitle("  " + NSLocalizedString("entry_detect_my_location_button_title", comment: ""), for: UIControl.State())
+        loginButton.setTitle("  " + localizedString("entry_detect_my_location_button_title", comment: ""), for: UIControl.State())
         
         
         signUpButton.layer.borderColor = UIColor.navigationBarColor().cgColor
         signUpButton.setH4SemiBoldGreenStyle()
-        signUpButton.setTitle(NSLocalizedString("area_selection_login_button_title", comment: ""), for: UIControl.State())
+        signUpButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: UIControl.State())
 
 
      
@@ -398,33 +398,33 @@ class EntryViewController: UIViewController {
 
 //        privacyButton.titleLabel?.font = UIFont.SFUIRegularFont(12.0)
 //        privacyButton.setTitleColor(UIColor.white, for: UIControl.State())
-//        privacyButton.setTitle(NSLocalizedString("area_selection_Privacy_Policy_button_title", comment: ""), for: UIControl.State())
+//        privacyButton.setTitle(localizedString("area_selection_Privacy_Policy_button_title", comment: ""), for: UIControl.State())
         
         lableDetialToUser.setBody2RegWhiteStyle()
-        lableDetialToUser.text = NSLocalizedString("user_detail_about_location_entryScreen", comment: "")
+        lableDetialToUser.text = localizedString("user_detail_about_location_entryScreen", comment: "")
 
     }
     
     private func setupLabelsAppearance() {
 
         self.orLable.setBody2BoldWhiteStyle()
-        self.orLable.text = NSLocalizedString("area_selection_OR_Lable", comment: "")
+        self.orLable.text = localizedString("area_selection_OR_Lable", comment: "")
         
         // logo Tag Label appearance
 //        self.logoTagLabel.textColor = UIColor.white
 //        self.logoTagLabel.font = UIFont.SFUIRegularFont(14.0)
-//        self.logoTagLabel.text = NSLocalizedString("groceries_to_your_door", comment: "")
+//        self.logoTagLabel.text = localizedString("groceries_to_your_door", comment: "")
         
         // title Label appearance
 //        self.titleLabel.textColor = UIColor.white
 //        self.titleLabel.font = UIFont.SFUIRegularFont(32.0)
-//        self.titleLabel.text = NSLocalizedString("save_money", comment: "")
+//        self.titleLabel.text = localizedString("save_money", comment: "")
         
         
         // logIn Or SignUp Label appearance
         
         //Step 1: Define a normal attributed string for non-link texts
-        let titleStr = String(format: "%@ %@ %@ %@",NSLocalizedString("click_here_to", comment: ""),NSLocalizedString("entry_login_button_title", comment: ""),NSLocalizedString("or_label_text", comment: ""),NSLocalizedString("register_title", comment: ""))
+        let titleStr = String(format: "%@ %@ %@ %@",localizedString("click_here_to", comment: ""),localizedString("entry_login_button_title", comment: ""),localizedString("or_label_text", comment: ""),localizedString("register_title", comment: ""))
         
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(16.0)]
         
@@ -435,7 +435,7 @@ class EntryViewController: UIViewController {
         let labelHandler = {
             (hyperLabel: FRHyperLabel?, substring: String?) -> Void in
             
-            if substring == NSLocalizedString("register_title", comment: "") {
+            if substring == localizedString("register_title", comment: "") {
                 
                 print("SignUp Tapped")
                 let registrationProfileController = ElGrocerViewControllers.registrationPersonalViewController()
@@ -460,7 +460,7 @@ class EntryViewController: UIViewController {
         }
         
         //Step 3: Add link substrings
-    //    self.logInOrSignUpLabel.setLinksForSubstrings([NSLocalizedString("entry_login_button_title", comment: ""), NSLocalizedString("register_title", comment: "")], withLinkHandler: labelHandler)
+    //    self.logInOrSignUpLabel.setLinksForSubstrings([localizedString("entry_login_button_title", comment: ""), localizedString("register_title", comment: "")], withLinkHandler: labelHandler)
     }
 
     @IBAction func signUp(_ sender: UIButton) {

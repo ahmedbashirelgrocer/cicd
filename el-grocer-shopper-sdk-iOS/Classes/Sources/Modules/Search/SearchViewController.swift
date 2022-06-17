@@ -32,7 +32,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     @IBOutlet weak var SearchBarTopDistance: NSLayoutConstraint!
     @IBOutlet var btnCancel: UIButton! {
         didSet{
-            btnCancel.setTitle(NSLocalizedString("account_setup_cancel", comment: ""), for: .normal)
+            btnCancel.setTitle(localizedString("account_setup_cancel", comment: ""), for: .normal)
         }
     }
     
@@ -60,14 +60,14 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     @IBOutlet var lblCreatShoppingList: UILabel! {
         
         didSet{
-            lblCreatShoppingList.text =      NSLocalizedString("lbl_shopping_list", comment: "Create your shopping list")
+            lblCreatShoppingList.text =      localizedString("lbl_shopping_list", comment: "Create your shopping list")
         }
         
     }
     @IBOutlet var lblSearchAndShop: UILabel!{
         
         didSet{
-            lblSearchAndShop.text = NSLocalizedString("lbl_search_shop", comment: "Search and shop products")
+            lblSearchAndShop.text = localizedString("lbl_search_shop", comment: "Search and shop products")
         }
         
     }
@@ -75,12 +75,12 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     
     @IBOutlet var lblOne: UILabel! {
         didSet {
-            lblOne.text = NSLocalizedString("lbl_One", comment: "")
+            lblOne.text = localizedString("lbl_One", comment: "")
         }
     }
     @IBOutlet var lblTwo: UILabel!{
         didSet {
-            lblTwo.text = NSLocalizedString("lbl_Two", comment: "")
+            lblTwo.text = localizedString("lbl_Two", comment: "")
         }
     }
     @IBOutlet weak var searchBgView: UIView!
@@ -120,11 +120,11 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         // Do any additional setup after loading the view.
         
         if isNavigateToSearch == true {
-            self.title = NSLocalizedString("search_placeholder", comment: "")
+            self.title = localizedString("search_placeholder", comment: "")
             self.addRightCrossButton(true)
            //  addBackButton()
         }else{
-            self.navigationController!.navigationBar.topItem!.title = NSLocalizedString("search_placeholder", comment: "")
+            self.navigationController!.navigationBar.topItem!.title = localizedString("search_placeholder", comment: "")
         }
    
       //  self.collectionView.backgroundColor = UIColor.white // removed while merging
@@ -155,7 +155,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.basketIconOverlay?.grocery = self.grocery
             self.refreshBasketIconStatus()
-            self.title = NSLocalizedString("Add_Shopping_list_Title", comment: "")
+            self.title = localizedString("Add_Shopping_list_Title", comment: "")
 
         }
         self.basketIconOverlay?.shouldShow = isFromShoppingListViewAll
@@ -476,8 +476,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.searchTextField.delegate = self
         
         self.searchTextField.font = UIFont.SFProDisplayNormalFont(14)
-        self.searchTextField.placeholder =  NSLocalizedString("search_products", comment: "")
-        self.searchTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("search_products", comment: "") ,
+        self.searchTextField.placeholder =  localizedString("search_products", comment: "")
+        self.searchTextField.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
                                                                attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
         self.searchTextField.textColor = UIColor.newBlackColor()
         self.searchTextField.clipsToBounds = false
@@ -528,7 +528,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     private func setTobaccoLabelAppearence() {
         
         self.tobaccoLabel.font = UIFont.SFProDisplaySemiBoldFont(14.0)
-        self.tobaccoLabel.text =  NSLocalizedString("tobacco_products_message", comment: "")
+        self.tobaccoLabel.text =  localizedString("tobacco_products_message", comment: "")
         self.tobaccoLabel.textColor = UIColor.darkGrayTextColor()
     }
     
@@ -593,7 +593,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
 //
 //                cell.titleLbl.font = UIFont.openSansRegularFont(16.0)
 //                cell.titleLbl.textColor = UIColor.black
-//                cell.configure(NSLocalizedString("trending_searches", comment: ""))
+//                cell.configure(localizedString("trending_searches", comment: ""))
 //                cell.selectionStyle = UITableViewCell.SelectionStyle.none
 //
 //            }else{
@@ -927,7 +927,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         if UserDefaults.isOrderInEdit() {
       
-        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_edit_Added", comment: ""), image: UIImage(name: "iconAddItemSuccess"), -1 , backButtonClicked: { [weak self] (sender , index , isUnDo) in
+        ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_edit_Added", comment: ""), image: UIImage(name: "iconAddItemSuccess"), -1 , backButtonClicked: { [weak self] (sender , index , isUnDo) in
             if isUnDo {
                 if let availableP = self?.selectedProduct {
                      self?.removeProductToBasketFromQuickRemove(availableP)

@@ -62,8 +62,8 @@ class StoreHeaderView: UIView {
     }
     @IBOutlet var txtSearchBar: UITextField!{
         didSet{
-            txtSearchBar.placeholder = NSLocalizedString("search_placeholder_store_header", comment: "")
-            txtSearchBar.setPlaceHolder(text: NSLocalizedString("search_placeholder_store_header", comment: ""))
+            txtSearchBar.placeholder = localizedString("search_placeholder_store_header", comment: "")
+            txtSearchBar.setPlaceHolder(text: localizedString("search_placeholder_store_header", comment: ""))
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
                 txtSearchBar.textAlignment = .right
             }else{
@@ -84,7 +84,7 @@ class StoreHeaderView: UIView {
     }
     @IBOutlet var btnlblShopping: UILabel!{
         didSet{
-            btnlblShopping.text = NSLocalizedString("btn_shopping_list_title", comment: "")
+            btnlblShopping.text = localizedString("btn_shopping_list_title", comment: "")
             btnlblShopping.setBody3SemiBoldYellowStyle()
         }
     }
@@ -95,7 +95,7 @@ class StoreHeaderView: UIView {
     }
     @IBOutlet var btnLblHelp: UILabel!{
         didSet{
-            btnLblHelp.text = NSLocalizedString("btn_help", comment: "")
+            btnLblHelp.text = localizedString("btn_help", comment: "")
             btnLblHelp.setBody3SemiBoldWhiteStyle()
         }
     }

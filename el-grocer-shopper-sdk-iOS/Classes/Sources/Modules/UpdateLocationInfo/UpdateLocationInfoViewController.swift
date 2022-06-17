@@ -61,10 +61,10 @@ class UpdateLocationInfoViewController: UIViewController {
     
     fileprivate func setLabelsAppearance() {
         
-        self.titleLabel.text = NSLocalizedString("update_location_info_title_label_text", comment: "")
+        self.titleLabel.text = localizedString("update_location_info_title_label_text", comment: "")
         self.titleLabel.font = UIFont.bookFont(17.0)
         self.titleLabel.textColor = UIColor.black
-        self.subtitleLabel.text = NSLocalizedString("update_location_info_subtitle_label_text", comment: "")
+        self.subtitleLabel.text = localizedString("update_location_info_subtitle_label_text", comment: "")
         self.subtitleLabel.font = UIFont.lightFont(14.0)
         self.subtitleLabel.textColor = UIColor.black
         
@@ -72,7 +72,7 @@ class UpdateLocationInfoViewController: UIViewController {
     
     fileprivate func setDoneButtonAppearance() {
         
-        self.doneButton.setTitle(NSLocalizedString("update_location_info_done_button_title", comment: ""), for: UIControl.State())
+        self.doneButton.setTitle(localizedString("update_location_info_done_button_title", comment: ""), for: UIControl.State())
         self.doneButton.backgroundColor = UIColor.greenInfoColor()
         self.doneButton.titleLabel?.font = UIFont.bookFont(20.0)
     }

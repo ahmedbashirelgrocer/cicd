@@ -50,7 +50,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
 
         // Do any additional setup after loading the view.
         
-        self.title = NSLocalizedString("wallet_navigation_bar_title", comment: "")
+        self.title = localizedString("wallet_navigation_bar_title", comment: "")
         
         addBackButton()
         
@@ -128,7 +128,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5.0
         paragraphStyle.alignment = NSTextAlignment.center
-        let titleStr = NSMutableAttributedString(string: NSLocalizedString("wallet_no_balance_text", comment: ""))
+        let titleStr = NSMutableAttributedString(string: localizedString("wallet_no_balance_text", comment: ""))
         titleStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, titleStr.length))
         self.inviteFriends.attributedText = titleStr
     }
@@ -137,7 +137,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
         self.inviteFriendsButton.layer.cornerRadius = 5
         self.inviteFriendsButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(18.0)
-        self.inviteFriendsButton.setTitle(NSLocalizedString("wallet_invite_friend", comment: ""), for: UIControl.State())
+        self.inviteFriendsButton.setTitle(localizedString("wallet_invite_friend", comment: ""), for: UIControl.State())
     }
     
     fileprivate func setHistoryViewLabelAppearance() {
@@ -150,19 +150,19 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
         self.walletCurrency.font = UIFont.SFProDisplaySemiBoldFont(16.0)
         self.walletCurrency.textColor = UIColor.black
-        self.walletCurrency.text = NSLocalizedString("aed", comment: "")
+        self.walletCurrency.text = localizedString("aed", comment: "")
         
         self.availableBalance.font = UIFont.SFProDisplaySemiBoldFont(14.0)
         self.availableBalance.textColor = UIColor.lightTextGrayColor()
-        self.availableBalance.text = NSLocalizedString("available_balance", comment: "")
+        self.availableBalance.text = localizedString("available_balance", comment: "")
         
         self.walletExpiry.font = UIFont.lightFont(14.0)
         self.walletExpiry.textColor = UIColor.black
-        self.walletExpiry.text = NSLocalizedString("balance_expire", comment: "")
+        self.walletExpiry.text = localizedString("balance_expire", comment: "")
         
         self.purchasingDetail.font = UIFont.SFProDisplaySemiBoldFont(16.0)
         self.purchasingDetail.textColor = UIColor.black
-        self.purchasingDetail.text = NSLocalizedString("balance_details", comment: "")
+        self.purchasingDetail.text = localizedString("balance_details", comment: "")
         
     }
     
@@ -206,7 +206,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
         let DateStr = dateFormatter.string(from: wallet.walletExpireDate! as Date)
         print(DateStr)
         
-        cell.configureCellWithPurchaseTitle(wallet.walletInfo!, withPurchaseDate: DateStr, withPurchaseAmount:wallet.walletAmount!, andWithCurrencyType: NSLocalizedString("aed", comment: ""))
+        cell.configureCellWithPurchaseTitle(wallet.walletInfo!, withPurchaseDate: DateStr, withPurchaseAmount:wallet.walletAmount!, andWithCurrencyType: localizedString("aed", comment: ""))
         
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         

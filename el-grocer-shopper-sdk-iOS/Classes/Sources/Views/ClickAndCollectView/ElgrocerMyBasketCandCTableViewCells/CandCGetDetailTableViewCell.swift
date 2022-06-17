@@ -40,7 +40,7 @@ class CandCGetDetailTableViewCell: UITableViewCell {
     @IBOutlet var btnChange: AWButton! {
         didSet{
             self.btnChange.setBody3BoldWhiteStyle()
-            self.btnChange.setTitle(NSLocalizedString("change_button_title", comment: ""), for: UIControl.State())
+            self.btnChange.setTitle(localizedString("change_button_title", comment: ""), for: UIControl.State())
         }
     }
     var currentCellType : detailCellType?
@@ -64,14 +64,14 @@ class CandCGetDetailTableViewCell: UITableViewCell {
         if cellType == .car {
             selectedTypeImage.image = UIImage(name: "MyBasket_Car_Detail")
             selectedTypeImage.changePngColorTo(color: UIColor.navigationBarWhiteColor())
-            lblCellType.text = NSLocalizedString("lbl_car_Details_heading", comment: "")
+            lblCellType.text = localizedString("lbl_car_Details_heading", comment: "")
             //setCarData()
             setCarData(dataHandler: dataHandler)
             
         }else{
             selectedTypeImage.image = UIImage(name: "MyBasket_Collector_Details")
             selectedTypeImage.changePngColorTo(color: UIColor.navigationBarWhiteColor())
-            lblCellType.text = NSLocalizedString("lbl_Order_Collector", comment: "")
+            lblCellType.text = localizedString("lbl_Order_Collector", comment: "")
             //setCollectorData()
             setCollectorData(dataHandler: dataHandler)
         }
@@ -110,10 +110,10 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                     lblCellCurrentValue.text = "\(String(describing: dataHandler.selectedCollector?.name ?? ""))" + "," + "\(String(describing: dataHandler.selectedCollector?.phonenNumber ?? ""))"
                 }
             }else{
-                lblCellCurrentValue.text = NSLocalizedString("lbl_enter_details", comment: "").uppercased()
+                lblCellCurrentValue.text = localizedString("lbl_enter_details", comment: "").uppercased()
             }
         }else{
-            lblCellCurrentValue.text = NSLocalizedString("lbl_enter_details", comment: "").uppercased()
+            lblCellCurrentValue.text = localizedString("lbl_enter_details", comment: "").uppercased()
         }
         
             
@@ -147,13 +147,13 @@ class CandCGetDetailTableViewCell: UITableViewCell {
                         }
                     }
                 }else{
-                    lblCellCurrentValue.text = NSLocalizedString("lbl_enter_details", comment: "").uppercased()
+                    lblCellCurrentValue.text = localizedString("lbl_enter_details", comment: "").uppercased()
                 }
             }else{
-                lblCellCurrentValue.text = NSLocalizedString("lbl_enter_details", comment: "").uppercased()
+                lblCellCurrentValue.text = localizedString("lbl_enter_details", comment: "").uppercased()
             }
         }else{
-            lblCellCurrentValue.text = NSLocalizedString("lbl_enter_details", comment: "").uppercased()
+            lblCellCurrentValue.text = localizedString("lbl_enter_details", comment: "").uppercased()
         }
     }
     

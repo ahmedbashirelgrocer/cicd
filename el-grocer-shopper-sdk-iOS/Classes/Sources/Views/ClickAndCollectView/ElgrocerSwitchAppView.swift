@@ -37,8 +37,8 @@ class ElgrocerSwitchAppView: UIView {
         let maskToBoundClickAndCollect = !isDelivery ? true : false
         self.isDeliverySelected = isDelivery
         UIView.performWithoutAnimation {
-            deliveryLable.text = NSLocalizedString("lbl_Delivery", comment: "")
-            cAndCLable.text = NSLocalizedString("dialog_CandC_Title", comment: "")
+            deliveryLable.text = localizedString("lbl_Delivery", comment: "")
+            cAndCLable.text = localizedString("dialog_CandC_Title", comment: "")
             deliveryView.backgroundColor = deliveryColor
             cAndCView.backgroundColor = cAndcColor
             deliveryView.layer.masksToBounds = maskToBoundDelivery

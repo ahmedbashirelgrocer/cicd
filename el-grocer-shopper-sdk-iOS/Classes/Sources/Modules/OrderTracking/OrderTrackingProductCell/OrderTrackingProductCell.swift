@@ -44,7 +44,7 @@ class OrderTrackingProductCell: UITableViewCell {
     func configureCell(_ products: Array<Product>){
         
         let totalQuantity = products.count
-        let countLabel = totalQuantity == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+        let countLabel = totalQuantity == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
         
         self.cartLabel.text   = String(format: "%d %@",totalQuantity,countLabel)
         

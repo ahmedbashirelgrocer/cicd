@@ -48,7 +48,7 @@ class ProductDetailsView : UIView {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let topView = appDelegate.window!.rootViewController!.view
         
-        let view = Bundle(for: self).loadNibNamed("ProductDetailsView", owner: nil, options: nil)![0] as! ProductDetailsView
+        let view = Bundle.resource.loadNibNamed("ProductDetailsView", owner: nil, options: nil)![0] as! ProductDetailsView
         view.frame = appDelegate.window!.frame
         view.blurredBackground.image = topView?.createBlurredSnapShot()
         view.delegate = delegate
@@ -115,7 +115,7 @@ class ProductDetailsView : UIView {
     
     fileprivate func setUpDoneButtonAppearance() {
         
-        self.doneButton.setTitle(NSLocalizedString("adding_products_done_button", comment: ""), for: UIControl.State())
+        self.doneButton.setTitle(localizedString("adding_products_done_button", comment: ""), for: UIControl.State())
         self.doneButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(16.0)
     }
     
@@ -210,10 +210,10 @@ class ProductDetailsView : UIView {
             self.favouriteIcon.image = product.isFavourite.boolValue ? UIImage(name: "heart_full") : UIImage(name: "heart_empty")
             self.delegate?.productDetailsViewProtocolDidTouchFavourite(self, product: self.product)
         } else {
-            ElGrocerAlertView.createAlert(NSLocalizedString("item_favourite_alert_title", comment: ""),
-                                          description: NSLocalizedString("item_favourite_alert_description", comment: ""),
-                                          positiveButton: NSLocalizedString("item_favourite_alert_yes", comment: ""),
-                                          negativeButton: NSLocalizedString("item_favourite_alert_no", comment: ""),
+            ElGrocerAlertView.createAlert(localizedString("item_favourite_alert_title", comment: ""),
+                                          description: localizedString("item_favourite_alert_description", comment: ""),
+                                          positiveButton: localizedString("item_favourite_alert_yes", comment: ""),
+                                          negativeButton: localizedString("item_favourite_alert_no", comment: ""),
                                           buttonClickCallback: { (buttonIndex:Int) -> Void in
                                             
                                             if buttonIndex == 0 {

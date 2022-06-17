@@ -28,7 +28,7 @@ class DeepLinkBottomGroceryVC: UIViewController , UITableViewDelegate , UITableV
     var selectedGrocery: ((_ grocery : Grocery)->Void)?
     @IBOutlet var lblheader: UILabel! {
         didSet {
-            lblheader.text = NSLocalizedString("No_Choose_The_Store", comment: "")
+            lblheader.text = localizedString("No_Choose_The_Store", comment: "")
         }
     }
     @IBOutlet var lblFoundStore: UILabel!
@@ -169,7 +169,7 @@ class DeepLinkBottomGroceryVC: UIViewController , UITableViewDelegate , UITableV
         if isNeedToShowFoundString   {
             
             let finalSearchString = " \"" + searchString + "\""
-            let finalTitle = NSLocalizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + NSLocalizedString("lbl_StorethatSell", comment: "") + finalSearchString
+            let finalTitle = localizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + localizedString("lbl_StorethatSell", comment: "") + finalSearchString
             let attributedString = NSMutableAttributedString(string: finalTitle, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14) , NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()])
             let nsRange = NSString(string: finalTitle).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
             if nsRange.location != NSNotFound {

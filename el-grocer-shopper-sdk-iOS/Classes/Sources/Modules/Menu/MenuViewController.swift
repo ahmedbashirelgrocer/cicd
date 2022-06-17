@@ -46,13 +46,13 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
         
         super.init(coder: aDecoder)
         
-        self.additionalMenuItems.append(MenuItem(title: NSLocalizedString("side_menu_orders", comment: "")))
-        self.additionalMenuItems.append(MenuItem(title: NSLocalizedString("setting_favourites", comment: "")))
-        self.additionalMenuItems.append(MenuItem(title: NSLocalizedString("side_menu_wallet", comment: "")))
-        self.additionalMenuItems.append(MenuItem(title: NSLocalizedString("side_menu_free_groceries", comment: "")))
-        self.additionalMenuItems.append(MenuItem(title: NSLocalizedString("setting_feedback", comment: "")))
-        self.additionalMenuItems.append(MenuItem(title: NSLocalizedString("side_meun_setting", comment: ""), canShowNotificationDot: true))
-        self.additionalMenuItems.append(MenuItem(title: NSLocalizedString("side_menu_login", comment: "")))
+        self.additionalMenuItems.append(MenuItem(title: localizedString("side_menu_orders", comment: "")))
+        self.additionalMenuItems.append(MenuItem(title: localizedString("setting_favourites", comment: "")))
+        self.additionalMenuItems.append(MenuItem(title: localizedString("side_menu_wallet", comment: "")))
+        self.additionalMenuItems.append(MenuItem(title: localizedString("side_menu_free_groceries", comment: "")))
+        self.additionalMenuItems.append(MenuItem(title: localizedString("setting_feedback", comment: "")))
+        self.additionalMenuItems.append(MenuItem(title: localizedString("side_meun_setting", comment: ""), canShowNotificationDot: true))
+        self.additionalMenuItems.append(MenuItem(title: localizedString("side_menu_login", comment: "")))
         
         if UserDefaults.isUserLoggedIn() {
             Images =  ["Shops","Order","Favorite","Wallet","Free Groceries","Live Chat","Settings"]
@@ -194,7 +194,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
         cell.configureCellWithMenuItem(menuItem, withImage: imageName, shouldShowNotificationDot: showNotification)
         if ((indexPath as NSIndexPath).row == 3) {
            cell.walletAmount.isHidden = false
-           let amountStr = String(format: "%@ %@",ElGrocerUtility.sharedInstance.walletTotal,NSLocalizedString("aed", comment: ""))
+           let amountStr = String(format: "%@ %@",ElGrocerUtility.sharedInstance.walletTotal,localizedString("aed", comment: ""))
            cell.walletAmount.text = amountStr
         }else{
             cell.walletAmount.isHidden = true

@@ -37,7 +37,7 @@ class UserInfoCell: UITableViewCell {
     }
     @IBOutlet var btnEditProfile: AWButton!{
         didSet{
-            btnEditProfile.setTitle(NSLocalizedString("btn_txt_edit", comment: ""), for: .normal)
+            btnEditProfile.setTitle(localizedString("btn_txt_edit", comment: ""), for: .normal)
             btnEditProfile.setTitleColor(.secondaryDarkGreenColor(), for: UIControl.State())
         }
     }

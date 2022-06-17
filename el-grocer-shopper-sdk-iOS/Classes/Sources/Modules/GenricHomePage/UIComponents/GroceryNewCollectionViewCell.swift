@@ -61,7 +61,7 @@ class GroceryNewCollectionViewCell: UICollectionViewCell {
         let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblDate.textColor]
         
         
-        let attributedString1 = NSMutableAttributedString(string: NSLocalizedString("lbl_MinOrder", comment: "") , attributes:attrs1 as [NSAttributedString.Key : Any])
+        let attributedString1 = NSMutableAttributedString(string: localizedString("lbl_MinOrder", comment: "") , attributes:attrs1 as [NSAttributedString.Key : Any])
         
         let attributedString2 = NSMutableAttributedString(string:"\n\(minOrderValue)", attributes:attrs2 as [NSAttributedString.Key : Any])
         

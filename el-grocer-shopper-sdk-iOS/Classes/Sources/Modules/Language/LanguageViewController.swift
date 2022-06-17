@@ -44,7 +44,7 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
         Images =  ["Uk-flag","UAE-flag"]
         
         if isFromSetting {
-            self.title = NSLocalizedString("setting_language", comment: "")
+            self.title = localizedString("setting_language", comment: "")
             //addBackButton()
             self.hideLogoAndLabel(true)
         }else{
@@ -91,7 +91,7 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
         
         self.confirmButton.layer.cornerRadius = 28
         self.confirmButton.setH4SemiBoldWhiteStyle()
-        self.confirmButton.setTitle(NSLocalizedString("confirm_button_title", comment: ""), for: UIControl.State())
+        self.confirmButton.setTitle(localizedString("confirm_button_title", comment: ""), for: UIControl.State())
         self.confirmButton.backgroundColor = UIColor.navigationBarColor()
     }
     

@@ -101,7 +101,7 @@ class GenericStoresViewController: BasketBasicViewController {
         didSet{
             if filterdGrocerA.count > 0 {
                 if let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
-                    FireBaseEventsLogger.trackStoreListingRows(NumberOfRow: filterdGrocerA.count > 5 ? "2" : "1" , NumberOfRetailers: "\(filterdGrocerA.count)", StoreCategoryID: String(describing: self.selectStoreType?.storeTypeid ?? 0 )  , StoreCategoryName: String(describing: self.selectStoreType?.name ?? NSLocalizedString("all_store", comment: "") ), newLocation: address)
+                    FireBaseEventsLogger.trackStoreListingRows(NumberOfRow: filterdGrocerA.count > 5 ? "2" : "1" , NumberOfRetailers: "\(filterdGrocerA.count)", StoreCategoryID: String(describing: self.selectStoreType?.storeTypeid ?? 0 )  , StoreCategoryName: String(describing: self.selectStoreType?.name ?? localizedString("all_store", comment: "") ), newLocation: address)
                 }
             }
         }
@@ -166,7 +166,7 @@ class GenericStoresViewController: BasketBasicViewController {
             controller.setProfileButtonHidden(false)
             controller.setCartButtonHidden(false)
                 //
-            controller.setSearchBarPlaceholderText(NSLocalizedString("search_products", comment: ""))
+            controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             if let nav = (self.navigationController as? ElGrocerNavigationController) {
                 if let bar = nav.navigationBar as? ElGrocerNavigationBar {
                     bar.chatButton.chatClick = {
@@ -304,7 +304,7 @@ class GenericStoresViewController: BasketBasicViewController {
     
     
     func setUpTitles() {
-        self.tabBarItem.title = NSLocalizedString("home_title", comment: "")
+        self.tabBarItem.title = localizedString("home_title", comment: "")
     }
     
     func setUpUIApearance() {
@@ -667,7 +667,7 @@ class GenericStoresViewController: BasketBasicViewController {
     @IBAction func cahngeLocationAction(_ sender: Any) {
         
         if sender is UIButton {
-            if (sender as! UIButton).titleLabel?.text == NSLocalizedString("lbl_Refresh", comment: "")  {
+            if (sender as! UIButton).titleLabel?.text == localizedString("lbl_Refresh", comment: "")  {
                 reloadAllData()
                 return
             }
@@ -871,9 +871,9 @@ extension GenericStoresViewController {
     
     fileprivate func goToSmileWithPermission() {
         
-        let alertDescription = NSLocalizedString("smile_login_permission_text", comment: "")
-        let positiveBtnText = NSLocalizedString("Yes", comment: "")
-        let negativeBtnText = NSLocalizedString("No", comment: "")
+        let alertDescription = localizedString("smile_login_permission_text", comment: "")
+        let positiveBtnText = localizedString("Yes", comment: "")
+        let negativeBtnText = localizedString("No", comment: "")
         let smileLoginAlert = ElGrocerAlertView.createAlert("", description: alertDescription, positiveButton: positiveBtnText, negativeButton: negativeBtnText) { btnTappedIndex in
             if btnTappedIndex == 0 {
                 self.gotToSmileLogin()
@@ -1467,7 +1467,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
         if indexPath.row == 0 {
             
             let cell : CenterLabelTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KCenterLabelTableViewCellIdentifier, for: indexPath) as! CenterLabelTableViewCell
-            cell.configureLabel(NSLocalizedString("txt_How_would_you_like_to_shop", comment: ""))
+            cell.configureLabel(localizedString("txt_How_would_you_like_to_shop", comment: ""))
             return cell
             
         } else if indexPath.row == 1 {
@@ -1648,7 +1648,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
 
             }
             
-            cell.configureCell(cellType: .Categories, dataA: self.homeDataHandler.categoryServiceA , NSLocalizedString("txt_Shop_by_store_category", comment: ""))
+            cell.configureCell(cellType: .Categories, dataA: self.homeDataHandler.categoryServiceA , localizedString("txt_Shop_by_store_category", comment: ""))
             return cell
             
         }else if indexPath.row == 5 {
@@ -1674,7 +1674,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             
         }else if indexPath.row == 6 {
             let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-            cell.configureCell(title: NSLocalizedString("lbl_featured_recepies_title", comment: "") , true)
+            cell.configureCell(title: localizedString("lbl_featured_recepies_title", comment: "") , true)
             cell.viewAllAction = {
                 ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric(source: FireBaseScreenName.GenericHome.rawValue)
                 self.goToRecipe(nil)
@@ -1694,7 +1694,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             return cell
         } else if indexPath.row == 8 {
             let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-            cell.configureCell(title: NSLocalizedString("Order_Title", comment: ""))
+            cell.configureCell(title: localizedString("Order_Title", comment: ""))
             return cell
         } else if indexPath.row == 9 {
             let cell : GenricHomeRecipeTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenricHomeRecipeTableViewCell , for: indexPath) as! GenricHomeRecipeTableViewCell
@@ -1783,7 +1783,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             
         }else if indexPath.row == 3 {
             let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-            cell.configureCell(title: NSLocalizedString("Stores_near_you", comment: ""))
+            cell.configureCell(title: localizedString("Stores_near_you", comment: ""))
             return cell
         }else if indexPath.row == 4 {
             let cell : ElgrocerCategorySelectTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "ElgrocerCategorySelectTableViewCell", for: indexPath) as! ElgrocerCategorySelectTableViewCell
@@ -1830,7 +1830,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                 }
                 let posstion = String((indexForNew ?? 0 ) + 1 )
                 
-                FireBaseEventsLogger.trackStoreListingStoreClick(OldStoreID: oldstore?.dbID ?? "" , OldStoreName: oldstore?.name ?? "" , NumberOfItemsOldStore: lastItemCount  , Position: posstion , RowView: self.filterGroceryArrayCount > 5 ? "2" : "1"  , NumberOfRetailers: String( describing: self.filterGroceryArrayCount), StoreCategoryID: String(describing: self.selectStoreType?.storeTypeid ?? 0 )  , StoreCategoryName: String(describing: self.selectStoreType?.name ?? NSLocalizedString("all_store", comment: "") ))
+                FireBaseEventsLogger.trackStoreListingStoreClick(OldStoreID: oldstore?.dbID ?? "" , OldStoreName: oldstore?.name ?? "" , NumberOfItemsOldStore: lastItemCount  , Position: posstion , RowView: self.filterGroceryArrayCount > 5 ? "2" : "1"  , NumberOfRetailers: String( describing: self.filterGroceryArrayCount), StoreCategoryID: String(describing: self.selectStoreType?.storeTypeid ?? 0 )  , StoreCategoryName: String(describing: self.selectStoreType?.name ?? localizedString("all_store", comment: "") ))
             }
             return cell
             
@@ -1839,7 +1839,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             return cell
         }else if indexPath.row == 7 {
             let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-            cell.configureCell(title: NSLocalizedString("Great_Deals", comment: ""))
+            cell.configureCell(title: localizedString("Great_Deals", comment: ""))
             return cell
         }else if indexPath.row == 8 {
             let cell : GenericBannersCell = self.tableView.dequeueReusableCell(withIdentifier: "GenericBannersCell", for: indexPath) as! GenericBannersCell
@@ -1866,7 +1866,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             
         }else if indexPath.row == 10 {
             let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-            cell.configureCell(title: NSLocalizedString("lbl_featured_recepies_title", comment: "") , true)
+            cell.configureCell(title: localizedString("lbl_featured_recepies_title", comment: "") , true)
             cell.viewAllAction = {
                 ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric(source: FireBaseScreenName.GenericHome.rawValue)
                 self.goToRecipe(nil)

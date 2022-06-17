@@ -60,9 +60,9 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "pinIcon")
-        self.lblTopMsg.text = NSLocalizedString("lbl_No_Grocey_in_Area", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("lbl_Chose_different_location", comment: "")
-        self.btnNoData.setTitle(NSLocalizedString("lbl_Chose_different_location", comment: ""), for: .normal)
+        self.lblTopMsg.text = localizedString("lbl_No_Grocey_in_Area", comment: "")
+        self.lblExtraDetail.text = localizedString("lbl_Chose_different_location", comment: "")
+        self.btnNoData.setTitle(localizedString("lbl_Chose_different_location", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
     }
@@ -72,9 +72,9 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "pinIcon")
-        self.lblTopMsg.text = NSLocalizedString("lbl_No_Grocey_in_Area", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("lbl_Chose_different_location", comment: "")
-        self.btnNoData.setTitle(NSLocalizedString("lbl_Chose_different_location", comment: ""), for: .normal)
+        self.lblTopMsg.text = localizedString("lbl_No_Grocey_in_Area", comment: "")
+        self.lblExtraDetail.text = localizedString("lbl_Chose_different_location", comment: "")
+        self.btnNoData.setTitle(localizedString("lbl_Chose_different_location", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
     }
@@ -83,9 +83,9 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSelectedStore")
-        self.lblTopMsg.text = NSLocalizedString("No_Selected_Store", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("No_Selected_Store_Detail", comment: "")
-        self.btnNoData.setTitle(NSLocalizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.lblTopMsg.text = localizedString("No_Selected_Store", comment: "")
+        self.lblExtraDetail.text = localizedString("No_Selected_Store_Detail", comment: "")
+        self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
     }
@@ -94,10 +94,10 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSelectedStoreForSHoppingList")
-        self.lblTopMsg.text = NSLocalizedString("No_Selected_Store_ShopingList", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("No_Selected_Store_Detail_Cart", comment: "")
+        self.lblTopMsg.text = localizedString("No_Selected_Store_ShopingList", comment: "")
+        self.lblExtraDetail.text = localizedString("No_Selected_Store_Detail_Cart", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle(NSLocalizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.state = .defaultAction
     }
     
@@ -105,10 +105,10 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSavedRecipeWhite") //"noSavedRecipe"
-        self.lblTopMsg.text = NSLocalizedString("no_saved_recipe_title", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("no_saved_recipe_description", comment: "")
+        self.lblTopMsg.text = localizedString("no_saved_recipe_title", comment: "")
+        self.lblExtraDetail.text = localizedString("no_saved_recipe_description", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle(NSLocalizedString("title_recipe_list", comment: ""), for: .normal)
+        self.btnNoData.setTitle(localizedString("title_recipe_list", comment: ""), for: .normal)
         self.state = .defaultAction
         self.backgroundColor = .tableViewBackgroundColor()
     }
@@ -117,8 +117,8 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSavedRecipeWhite") //"noSavedRecipe"
-        self.lblTopMsg.text = NSLocalizedString("no_recipe_title", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("no_recipe_description", comment: "")
+        self.lblTopMsg.text = localizedString("no_recipe_title", comment: "")
+        self.lblExtraDetail.text = localizedString("no_recipe_description", comment: "")
         self.btnNoData.isHidden = true
         self.state = .defaultAction
         self.backgroundColor = .tableViewBackgroundColor()
@@ -128,8 +128,8 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSavedCar")
-        self.lblTopMsg.text = NSLocalizedString("lbl_no_saved_car", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("lbl_no_saved_car_description", comment: "")
+        self.lblTopMsg.text = localizedString("lbl_no_saved_car", comment: "")
+        self.lblExtraDetail.text = localizedString("lbl_no_saved_car_description", comment: "")
         self.btnNoData.isHidden = true
         self.state = .defaultAction
     }
@@ -138,8 +138,8 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSavedCard")
-        self.lblTopMsg.text = NSLocalizedString("lbl_no_saved_card", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("lbl_no_saved_card_description", comment: "")
+        self.lblTopMsg.text = localizedString("lbl_no_saved_card", comment: "")
+        self.lblExtraDetail.text = localizedString("lbl_no_saved_card_description", comment: "")
         self.btnNoData.isHidden = true
         self.state = .defaultAction
     }
@@ -150,10 +150,10 @@ class NoStoreView: UIView {
         //You elGrocer cart is empty
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")
-        self.lblTopMsg.text = NSLocalizedString("No_Selected_Store_Cart", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("No_Selected_Store_Detail", comment: "")
+        self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
+        self.lblExtraDetail.text = localizedString("No_Selected_Store_Detail", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle(NSLocalizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.state = .defaultAction
     }
     
@@ -161,9 +161,9 @@ class NoStoreView: UIView {
         //You elGrocer cart is empty
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "SearchNoData")
-        self.lblTopMsg.text = NSLocalizedString("lbl_NoProductFound", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("No_Item_Cart", comment: "")
-        self.btnNoData.setTitle(NSLocalizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
+        self.lblTopMsg.text = localizedString("lbl_NoProductFound", comment: "")
+        self.lblExtraDetail.text = localizedString("No_Item_Cart", comment: "")
+        self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
         self.state = .defaultAction
         self.btnNoData.isHidden = false
         self.lblExtraDetail.isHidden = true
@@ -173,9 +173,9 @@ class NoStoreView: UIView {
         //You elGrocer cart is empty
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "SearchNoData")
-        self.lblTopMsg.text = NSLocalizedString("no_ticket_title", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("no_ticket_descr", comment: "")
-        self.btnNoData.setTitle(NSLocalizedString("btn_no_data_create_ticket", comment: ""), for: .normal)
+        self.lblTopMsg.text = localizedString("no_ticket_title", comment: "")
+        self.lblExtraDetail.text = localizedString("no_ticket_descr", comment: "")
+        self.btnNoData.setTitle(localizedString("btn_no_data_create_ticket", comment: ""), for: .normal)
         self.state = .defaultAction
         self.btnNoData.isHidden = false
     }
@@ -183,10 +183,10 @@ class NoStoreView: UIView {
         //You elGrocer cart is empty
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")
-        self.lblTopMsg.text = NSLocalizedString("No_Selected_Store_Cart", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("No_Item_Cart", comment: "")
+        self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
+        self.lblExtraDetail.text = localizedString("No_Item_Cart", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle(NSLocalizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
+        self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
         self.state = .defaultAction
     }
     
@@ -194,11 +194,11 @@ class NoStoreView: UIView {
         func setNoDataForLocation () {
             self.setUpApearence()
             
-            lblTopMsg.text = NSLocalizedString("lbl_No_Grocey_in_Area", comment: "")
+            lblTopMsg.text = localizedString("lbl_No_Grocey_in_Area", comment: "")
     
-            lblExtraDetail.text = NSLocalizedString("lbl_Chose_different_location", comment: "")
+            lblExtraDetail.text = localizedString("lbl_Chose_different_location", comment: "")
     
-            btnNoData.setTitle(NSLocalizedString("lbl_Chose_different_location", comment: "") , for: .normal)
+            btnNoData.setTitle(localizedString("lbl_Chose_different_location", comment: "") , for: .normal)
     
             self.state = .defaultAction
     
@@ -210,9 +210,9 @@ class NoStoreView: UIView {
     
             lblTopMsg.text = msg
     
-            lblExtraDetail.text = NSLocalizedString("error_10000", comment: "")
+            lblExtraDetail.text = localizedString("error_10000", comment: "")
     
-            btnNoData.setTitle(NSLocalizedString("lbl_Refresh", comment: "") , for: .normal)
+            btnNoData.setTitle(localizedString("lbl_Refresh", comment: "") , for: .normal)
     
             self.state = .RefreshAction
     
@@ -231,10 +231,10 @@ class NoStoreView: UIView {
             self.imgNoData.image = UIImage(name: "SearchNoData")
         }
         
-        self.lblTopMsg.text = NSLocalizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString  +  NSLocalizedString("lbl_atOurStores", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("lbl_NoDataSearch", comment: "")
+        self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString  +  localizedString("lbl_atOurStores", comment: "")
+        self.lblExtraDetail.text = localizedString("lbl_NoDataSearch", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle(NSLocalizedString("lbl_ReturnHome", comment: ""), for: .normal)
+        self.btnNoData.setTitle(localizedString("lbl_ReturnHome", comment: ""), for: .normal)
         
         let title = self.lblTopMsg.text ?? ""
         let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(20) , NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()])
@@ -258,10 +258,10 @@ class NoStoreView: UIView {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             imgNoData.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
-        self.lblTopMsg.text = NSLocalizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  NSLocalizedString("lbl_atOurStores", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("lbl_NoDataStoreSearch", comment: "")
+        self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  localizedString("lbl_atOurStores", comment: "")
+        self.lblExtraDetail.text = localizedString("lbl_NoDataStoreSearch", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle(" " + NSLocalizedString("btn_NoSearch_noDataView", comment: ""), for: .normal)
+        self.btnNoData.setTitle(" " + localizedString("btn_NoSearch_noDataView", comment: ""), for: .normal)
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             let flippedImage = UIImage(name: "searchButtonWhite")?.imageFlippedForRightToLeftLayoutDirection() ?? UIImage(name: "searchButtonWhite")
             self.btnNoData.setImage(flippedImage, for: UIControl.State())
@@ -290,10 +290,10 @@ class NoStoreView: UIView {
         self.setUpApearence()
         let finalSearchString = "\n \"" + searchString + "\"\n"
         self.imgNoData.image = UIImage(name: "SearchNoData")
-        self.lblTopMsg.text = NSLocalizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  NSLocalizedString("lbl_atOurStores", comment: "")
-        self.lblExtraDetail.text = NSLocalizedString("lbl_NoDataSearch", comment: "")
+        self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  localizedString("lbl_atOurStores", comment: "")
+        self.lblExtraDetail.text = localizedString("lbl_NoDataSearch", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle( NSLocalizedString("lbl_Contnue_shopping_s", comment: ""), for: .normal)
+        self.btnNoData.setTitle( localizedString("lbl_Contnue_shopping_s", comment: ""), for: .normal)
         self.btnNoData.setImage(UIImage(), for: .normal)
         self.btnNoData.tintColor = . white
         let title = self.lblTopMsg.text ?? ""

@@ -37,13 +37,13 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-         self.menuItem = MenuItem(title: NSLocalizedString("setting_favourites", comment: ""))
+         self.menuItem = MenuItem(title: localizedString("setting_favourites", comment: ""))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("setting_favourites", comment: "")
+        self.title = localizedString("setting_favourites", comment: "")
         self.view.backgroundColor = UIColor.productBGColor()
         
         addEmptyView()
@@ -163,20 +163,20 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
         
         if self.currentTabMode == .groceries {
             
-            self.emptyView = EmptyView.createAndAddEmptyView(NSLocalizedString("empty_view_favourites_grocery_title", comment: ""), description: NSLocalizedString("empty_view_favourites_grocery_description", comment: ""), addToView: self.view)
+            self.emptyView = EmptyView.createAndAddEmptyView(localizedString("empty_view_favourites_grocery_title", comment: ""), description: localizedString("empty_view_favourites_grocery_description", comment: ""), addToView: self.view)
             self.emptyView?.isHidden = (self.groceries.count > 0)
             
         } else {
             
-            self.emptyView = EmptyView.createAndAddEmptyView(NSLocalizedString("empty_view_favourites_product_title", comment: ""), description: NSLocalizedString("empty_view_favourites_product_description", comment: ""), addToView: self.view)
+            self.emptyView = EmptyView.createAndAddEmptyView(localizedString("empty_view_favourites_product_title", comment: ""), description: localizedString("empty_view_favourites_product_description", comment: ""), addToView: self.view)
             self.emptyView?.isHidden = (self.products.count > 0)
         }
     }
     
     func setUpTabsTexts() {
         
-        self.groceriesButton.setTitle(NSLocalizedString("favourites_groceries_tab", comment: ""), for: UIControl.State())
-        self.productsButton.setTitle(NSLocalizedString("favourites_products_tab", comment: ""), for: UIControl.State())
+        self.groceriesButton.setTitle(localizedString("favourites_groceries_tab", comment: ""), for: UIControl.State())
+        self.productsButton.setTitle(localizedString("favourites_products_tab", comment: ""), for: UIControl.State())
 
         self.groceriesButton.titleLabel?.font = UIFont.bookFont(16.0)
         self.productsButton.titleLabel?.font = UIFont.bookFont(16.0)
@@ -300,18 +300,18 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
                 if !selectedGrocery.isInRange.boolValue {
                     
                     print("Grocery is not in range of delivery Area.")
-                    ElGrocerAlertView.createAlert(NSLocalizedString("store_notinrange_alert_title", comment: ""),
-                                                  description:NSLocalizedString("store_notinrange_alert_message", comment: ""),
-                                                  positiveButton: NSLocalizedString("store_notinrange_alert_button", comment: ""),
+                    ElGrocerAlertView.createAlert(localizedString("store_notinrange_alert_title", comment: ""),
+                                                  description:localizedString("store_notinrange_alert_message", comment: ""),
+                                                  positiveButton: localizedString("store_notinrange_alert_button", comment: ""),
                                                   negativeButton: nil, buttonClickCallback: nil).show()
                     
                     
                 }else{
                 
                     print("Currently Grocery is closed.")
-                    ElGrocerAlertView.createAlert(NSLocalizedString("store_close_alert_title", comment: ""),
-                                                  description:NSLocalizedString("store_close_alert_message", comment: ""),
-                                                  positiveButton: NSLocalizedString("store_close_alert_button", comment: ""),
+                    ElGrocerAlertView.createAlert(localizedString("store_close_alert_title", comment: ""),
+                                                  description:localizedString("store_close_alert_message", comment: ""),
+                                                  positiveButton: localizedString("store_close_alert_button", comment: ""),
                                                   negativeButton: nil, buttonClickCallback: nil).show()
                 }
             }
@@ -354,9 +354,9 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
                 
                 self.addingToBasketInfoAlertShown = true
                 
-                ElGrocerAlertView.createAlert(NSLocalizedString("favourites_adding_to_basket_alert_title", comment: ""),
-                    description: NSLocalizedString("favourites_adding_to_basket_alert_description", comment: ""),
-                    positiveButton: NSLocalizedString("favourites_adding_to_basket_alert_button", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("favourites_adding_to_basket_alert_title", comment: ""),
+                    description: localizedString("favourites_adding_to_basket_alert_description", comment: ""),
+                    positiveButton: localizedString("favourites_adding_to_basket_alert_button", comment: ""),
                     negativeButton: nil, buttonClickCallback: nil).show()
             }
         }

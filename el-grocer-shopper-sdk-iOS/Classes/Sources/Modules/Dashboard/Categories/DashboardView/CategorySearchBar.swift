@@ -38,7 +38,7 @@ class CategorySearchBar: UIView {
 
     func setUpSearchViewAppearance() {
 
-        self.searchLabel.text = NSLocalizedString("search_products_add", comment: "")
+        self.searchLabel.text = localizedString("search_products_add", comment: "")
         self.searchLabel.font = UIFont.SFProDisplayNormalFont(14)
         self.searchLabel.textColor = UIColor.darkGrayTextColor()
 

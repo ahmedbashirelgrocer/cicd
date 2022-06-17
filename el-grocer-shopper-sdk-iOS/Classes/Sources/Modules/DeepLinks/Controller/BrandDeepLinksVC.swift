@@ -227,7 +227,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         }
         
         if self.grocery == nil {
-            self.titleLabel.text = NSLocalizedString("lbl_GoToHome", comment: "")
+            self.titleLabel.text = localizedString("lbl_GoToHome", comment: "")
         }
     }
     
@@ -575,10 +575,10 @@ extension BrandDeepLinksVC: UICollectionViewDelegate, UICollectionViewDataSource
         
         let cell = configureCellForUniversalSearchedProducts(indexPath)
         if self.grocery == nil{
-            cell.addToCartButton.setTitle(NSLocalizedString("lbl_ShopInStore", comment: ""), for: UIControl.State())
+            cell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: UIControl.State())
             cell.limitedStockBGView.isHidden = true
         }else{
-            cell.addToCartButton.setTitle(NSLocalizedString("addtocart_button_title", comment: ""), for: UIControl.State())
+            cell.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
         }
         
         cell.addToCartButton.isUserInteractionEnabled = true
@@ -791,7 +791,7 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
             
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
-                let title = scrollView.contentOffset.y > 40 ? NSLocalizedString("lbl_goToStore", comment: ""): ""
+                let title = scrollView.contentOffset.y > 40 ? localizedString("lbl_goToStore", comment: ""): ""
                 self.titleLabel.text = title
                     //self.addCustomTitleViewLeftSide(title)
                     // self.navigationController?.navigationBar.topItem?.title = title

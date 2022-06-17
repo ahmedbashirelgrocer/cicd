@@ -15,7 +15,7 @@ class AddAllIngrediantsCell: UITableViewCell {
     @IBOutlet var btnAddAllIngrediants: AWButton!{
         didSet{
             btnAddAllIngrediants.setH4SemiBoldWhiteStyle()
-            btnAddAllIngrediants.setTitle(NSLocalizedString("btn_add_all_ingrediants", comment: ""), for: UIControl.State())
+            btnAddAllIngrediants.setTitle(localizedString("btn_add_all_ingrediants", comment: ""), for: UIControl.State())
         }
     }
     

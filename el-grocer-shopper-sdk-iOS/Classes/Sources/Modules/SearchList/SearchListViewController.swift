@@ -19,7 +19,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     @IBOutlet var checkMarkCreateSHppingListProcess: UIImageView!
     @IBOutlet var txtCreateShoppingList: UILabel! {
         didSet{
-            txtCreateShoppingList.text = NSLocalizedString("lbl_shopping_list", comment: "Create your shopping list")
+            txtCreateShoppingList.text = localizedString("lbl_shopping_list", comment: "Create your shopping list")
         }
     }
     
@@ -29,19 +29,19 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     @IBOutlet var checkSearchAndShopProductsProcess: UIImageView!
     @IBOutlet var txtSearchAndShopProducts: UILabel!{
         didSet{
-            txtSearchAndShopProducts.text = NSLocalizedString("lbl_search_shop", comment: "Search and shop products")
+            txtSearchAndShopProducts.text = localizedString("lbl_search_shop", comment: "Search and shop products")
         }
     }
     
     
     @IBOutlet var lblOne: UILabel! {
         didSet {
-            lblOne.text = NSLocalizedString("lbl_One", comment: "")
+            lblOne.text = localizedString("lbl_One", comment: "")
         }
     }
     @IBOutlet var lblTwo: UILabel!{
         didSet {
-            lblTwo.text = NSLocalizedString("lbl_Two", comment: "")
+            lblTwo.text = localizedString("lbl_Two", comment: "")
         }
     }
     
@@ -170,18 +170,18 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     
     @IBAction func crossAction(_ sender: Any) {
         self.searchProductListingTextView.textColor = .navigationBarColor()
-        self.searchProductListingTextView.text =   NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")
+        self.searchProductListingTextView.text =   localizedString("shopping_PlaceHolder_Search_List", comment: "")
         self.btnCross.isHidden = true
         self.searchProductListingTextView.resignFirstResponder()
     }
     func setUpApearence() {
         
-        self.title = NSLocalizedString("Add_Shopping_list_Title", comment: "")
+        self.title = localizedString("Add_Shopping_list_Title", comment: "")
         
         IQKeyboardManager.shared.enableAutoToolbar = true
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 40
-        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = NSLocalizedString("lbl_ShopSearch", comment: "")
+        IQKeyboardManager.shared.toolbarDoneBarButtonItemText = localizedString("lbl_ShopSearch", comment: "")
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
        // [textField.keyboardToolbar.doneBarButton setTarget:self action:@selector(doneAction:)];
         self.searchProductListingTextView.keyboardToolbar.doneBarButton.tintColor = .navigationBarColor()
@@ -190,8 +190,8 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         
         self.searchProductListingTextView.delegate = self
         self.searchProductListingTextView.textColor = UIColor.navigationBarColor()
-        self.searchProductListingTextView.text = NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")
-        self.searchButton.setTitle(NSLocalizedString("lbl_ShopSearch", comment: ""), for: .normal)
+        self.searchProductListingTextView.text = localizedString("shopping_PlaceHolder_Search_List", comment: "")
+        self.searchButton.setTitle(localizedString("lbl_ShopSearch", comment: ""), for: .normal)
         self.setUIColor(self.searchProductListingTextView)
         
 //        locationHeader.configuredLocationAndGrocey(ElGrocerUtility.sharedInstance.activeGrocery)
@@ -204,7 +204,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         self.makeSearchAndShopModuleEnable(false)
         
         if  let lastSearchString = UserDefaults.getLastSearchList() {
-            if !lastSearchString.isEmpty &&   lastSearchString != NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "") {
+            if !lastSearchString.isEmpty &&   lastSearchString != localizedString("shopping_PlaceHolder_Search_List", comment: "") {
                 self.searchProductListingTextView.text = lastSearchString
                 self.searchProductListingTextView.textColor = .newBlackColor()
                 self.setUIColor(self.searchProductListingTextView)
@@ -267,7 +267,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
 
     @IBAction func searchButtonHandler(_ sender: Any) {
         
-        if self.searchProductListingTextView.text == NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "") {
+        if self.searchProductListingTextView.text == localizedString("shopping_PlaceHolder_Search_List", comment: "") {
             self.view.endEditing(true)
             return
         }
@@ -277,7 +277,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
             return
         }
         
-        guard !self.searchProductListingTextView.text.trimmingCharacters(in: .whitespaces).isEmpty && self.searchProductListingTextView.text.count > 0 && self.searchProductListingTextView.text != NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")  else {
+        guard !self.searchProductListingTextView.text.trimmingCharacters(in: .whitespaces).isEmpty && self.searchProductListingTextView.text.count > 0 && self.searchProductListingTextView.text != localizedString("shopping_PlaceHolder_Search_List", comment: "")  else {
             self.searchProductListingTextView.resignFirstResponder()
             return
         }
@@ -305,7 +305,7 @@ extension SearchListViewController : UITextViewDelegate {
         
         textView.tintColor = UIColor.darkTextGrayColor()
         
-        if textView.text == NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "") {
+        if textView.text == localizedString("shopping_PlaceHolder_Search_List", comment: "") {
             textView.text = nil
             textView.textColor = UIColor.newBlackColor()//colorWithHexString(hexString: "787878")
             self.setUIColor(textView)
@@ -318,7 +318,7 @@ extension SearchListViewController : UITextViewDelegate {
         self.setUIColor(textView)
         
         if textView.text.isEmpty {
-            textView.text = NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")
+            textView.text = localizedString("shopping_PlaceHolder_Search_List", comment: "")
             textView.textColor = UIColor.navigationBarColor()//lightTextGrayColor()
         }
        
@@ -330,7 +330,7 @@ extension SearchListViewController : UITextViewDelegate {
             UserDefaults.setLastSearchList(self.searchProductListingTextView.text)
         }
        
-        if textView.text == NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "") {
+        if textView.text == localizedString("shopping_PlaceHolder_Search_List", comment: "") {
             textView.text = nil
             textView.textColor = UIColor.newBlackColor()//colorWithHexString(hexString: "787878")
             self.btnCross.isHidden = true
@@ -363,10 +363,10 @@ extension SearchListViewController : UITextViewDelegate {
         self.searchButton.layer.cornerRadius = 29
         
         
-        if !textView.text.trimmingCharacters(in: .whitespaces).isEmpty && textView.text.count > 0 &&  (textView.text != NSLocalizedString("shopping_PlaceHolder_Search_List", comment: "")){
+        if !textView.text.trimmingCharacters(in: .whitespaces).isEmpty && textView.text.count > 0 &&  (textView.text != localizedString("shopping_PlaceHolder_Search_List", comment: "")){
             // self.searchButton.setImage(UIImage(name: "icSearchGreen"), for: .normal)
             textView.textColor = .newBlackColor()//UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-            self.searchButton.setTitle(NSLocalizedString("lbl_ShopSearch", comment: ""), for: .normal)
+            self.searchButton.setTitle(localizedString("lbl_ShopSearch", comment: ""), for: .normal)
             self.searchButton.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
             //   self.searchButton.setTitleColor(UIColor.lightGrayBGColor(), for: .normal)
             
@@ -377,7 +377,7 @@ extension SearchListViewController : UITextViewDelegate {
         }else{
             // self.searchButton.setImage(UIImage(name: "icSearch"), for: .normal)
             textView.textColor = .navigationBarColor()//UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.74)
-            self.searchButton.setTitle(NSLocalizedString("lbl_ShopSearch", comment: ""), for: .normal)
+            self.searchButton.setTitle(localizedString("lbl_ShopSearch", comment: ""), for: .normal)
             self.searchButton.setBackgroundColor(UIColor(red: 0.567, green: 0.567, blue: 0.567, alpha: 1) , forState: .normal)
             
             self.makeShopingListModuleEnable(true)

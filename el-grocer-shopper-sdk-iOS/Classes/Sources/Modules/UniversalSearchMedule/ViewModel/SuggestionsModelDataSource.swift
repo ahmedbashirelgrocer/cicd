@@ -103,7 +103,7 @@ class SuggestionsModelDataSource {
             guard curreentdata.count > 0 else {
                 return
             }
-            var modelA = [SuggestionsModelObj.init(type: .titleWithClearOption, title: NSLocalizedString("lblSearchHistory", comment: "").uppercased())]
+            var modelA = [SuggestionsModelObj.init(type: .titleWithClearOption, title: localizedString("lblSearchHistory", comment: "").uppercased())]
             for suggestionString in curreentdata {
                 modelA.append(SuggestionsModelObj.init(type: .searchHistory, title: suggestionString))
             }
@@ -127,7 +127,7 @@ class SuggestionsModelDataSource {
                             if let highlightResult = productDict["_highlightResult"] as? NSDictionary {
                                 if let query = highlightResult["query"] as? NSDictionary {
                                     if index == 0 {
-                                        modelA = [SuggestionsModelObj.init(type: .title, title: NSLocalizedString("title_in_recipies", comment: ""))]
+                                        modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("title_in_recipies", comment: ""))]
                                     }
                                     if let value = query["value"] as? String {
                                         let str = value.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
@@ -163,7 +163,7 @@ class SuggestionsModelDataSource {
                     var modelA = [SuggestionsModelObj]()
                     for (index , productDict) in algoliaObj.enumerated() {
                         if index == 0 {
-                            modelA = [SuggestionsModelObj.init(type: .title, title: NSLocalizedString("trending_searches", comment: "").uppercased())]
+                            modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("trending_searches", comment: "").uppercased())]
                         }
                         if let value = productDict["query"] as? String {
                             modelA.append(SuggestionsModelObj.init(type: .trendingSearch, title: value))
@@ -183,7 +183,7 @@ class SuggestionsModelDataSource {
                                 var mySuggestionDataArray: [SuggestionsModelObj] = []
                                 if let exact_matches = facets["exact_matches"] as? NSDictionary {
                                     if let categoryNameA = exact_matches["subcategories.name"] as? [NSDictionary] {
-                                        var modelA = [SuggestionsModelObj.init(type: .title, title: NSLocalizedString("lbl_InCategories", comment: "").uppercased() )]
+                                        var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
                                         for suggestionString  in categoryNameA {
                                             if let name = suggestionString["value"] as? String {
                                                 modelA.append(SuggestionsModelObj.init(type: .categoriesTitles, title: name))
@@ -197,7 +197,7 @@ class SuggestionsModelDataSource {
 
                                     }
                                     if let brandDataA = exact_matches["brand.name"] as? [NSDictionary] {
-                                        var modelA = [SuggestionsModelObj.init(type: .title , title: NSLocalizedString("lbl_InBrand", comment: "").uppercased() )]
+                                        var modelA = [SuggestionsModelObj.init(type: .title , title: localizedString("lbl_InBrand", comment: "").uppercased() )]
                                         for suggestionString  in brandDataA {
                                             if let name = suggestionString["value"] as? String {
                                                 modelA.append(SuggestionsModelObj.init(type: .brandTitles, title: name))
@@ -211,7 +211,7 @@ class SuggestionsModelDataSource {
                                     }
                                 }else{
                                     if let categoryA = objForBrandAndCare["subcategories.name"] {
-                                        var modelA = [SuggestionsModelObj.init(type: .title, title: NSLocalizedString("lbl_InCategories", comment: "").uppercased() )]
+                                        var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
                                         let categoryNameA = categoryA as? [String] ?? []
                                         for suggestionString in categoryNameA {
                                             modelA.append(SuggestionsModelObj.init(type: .categoriesTitles, title: suggestionString))
@@ -223,7 +223,7 @@ class SuggestionsModelDataSource {
                                         mySuggestionDataArray.append(contentsOf: modelA)
                                     }
                                     if let brandDataA = objForBrandAndCare["brand.name"] {
-                                        var modelA = [SuggestionsModelObj.init(type: .title , title: NSLocalizedString("lbl_InBrand", comment: "").uppercased() )]
+                                        var modelA = [SuggestionsModelObj.init(type: .title , title: localizedString("lbl_InBrand", comment: "").uppercased() )]
                                         let brandNameA = brandDataA as? [String] ?? []
                                         for suggestionString in brandNameA {
                                             modelA.append(SuggestionsModelObj.init(type: .brandTitles, title: suggestionString))

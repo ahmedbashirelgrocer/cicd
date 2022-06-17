@@ -91,13 +91,13 @@ class NotificationPopup: UIView {
         
         self.titleLabel.font = UIFont.SFProDisplaySemiBoldFont(17.0)
         self.titleLabel.textColor = UIColor.black
-        self.titleLabel.text = NSLocalizedString("stay_updated_title", comment: "")
+        self.titleLabel.text = localizedString("stay_updated_title", comment: "")
         self.titleLabel.sizeToFit()
         self.titleLabel.numberOfLines = 1
         
         self.descriptionLabel.font = UIFont.SFProDisplaySemiBoldFont(14.0)
         self.descriptionLabel.textColor = UIColor.darkTextGrayColor()
-        self.descriptionLabel.text = NSLocalizedString("enable_notifications_message", comment: "")
+        self.descriptionLabel.text = localizedString("enable_notifications_message", comment: "")
         self.descriptionLabel.sizeToFit()
         self.descriptionLabel.numberOfLines = 3
     }
@@ -123,12 +123,12 @@ class NotificationPopup: UIView {
         
         
         self.doneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
-        self.doneButton.setTitle(NSLocalizedString("enable_notifications_button_title", comment: ""), for: UIControl.State())
+        self.doneButton.setTitle(localizedString("enable_notifications_button_title", comment: ""), for: UIControl.State())
         self.doneButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.doneButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         
         self.cancelButton.setBackgroundColor(UIColor.lightGrayBGColor(), forState: UIControl.State())
-        self.cancelButton.setTitle(NSLocalizedString("not_now_button_title", comment: ""), for: UIControl.State())
+        self.cancelButton.setTitle(localizedString("not_now_button_title", comment: ""), for: UIControl.State())
         self.cancelButton.setTitleColor(UIColor.gray, for: UIControl.State())
         self.cancelButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
     }
@@ -163,7 +163,7 @@ class NotificationPopup: UIView {
 //        if Platform.isSimulator {
 //            return nil
 //        }
-        let view = Bundle(for: self).loadNibNamed("NotificationPopup", owner: nil, options: nil)![0] as! NotificationPopup
+        let view = Bundle.resource.loadNibNamed("NotificationPopup", owner: nil, options: nil)![0] as! NotificationPopup
         view.delegate = delegate
         view.alpha = 0
         view.topImageViewHeight.constant = 0
@@ -178,7 +178,7 @@ class NotificationPopup: UIView {
     
     class func showNotificationPopupWithImage( image : UIImage? , header : String , detail : String , _ leftTitle : String = "No" , _ RightTitle : String = "YES" , withView topView:UIView , _ isBothButtonBlack : Bool = false , _ isSingleButton : Bool = false , buttonClickCallback:((_ buttonIndex:Int) -> Void)?) -> NotificationPopup? {
         
-        let view = Bundle(for: self).loadNibNamed("NotificationPopup", owner: nil, options: nil)![0] as! NotificationPopup
+        let view = Bundle.resource.loadNibNamed("NotificationPopup", owner: nil, options: nil)![0] as! NotificationPopup
         if let imag = image {
             view.notificationImgView.image = imag
         }
@@ -223,7 +223,7 @@ class NotificationPopup: UIView {
         
         view.titleLabel.font = .SFProDisplayBoldFont(17)
         
-        if detail == NSLocalizedString("order_history_cancel_alert_message", comment: "") {
+        if detail == localizedString("order_history_cancel_alert_message", comment: "") {
             view.descriptionLabel.font = .SFProDisplayBoldFont(16)
         }
       

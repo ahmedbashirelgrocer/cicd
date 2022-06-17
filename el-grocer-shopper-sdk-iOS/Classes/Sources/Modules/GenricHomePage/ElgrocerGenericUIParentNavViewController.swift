@@ -116,7 +116,7 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
                 ElGrocerUtility.sharedInstance.resetBasketPresistence()
                 
-//                ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description:NSLocalizedString("basket_active_from_other_grocery_message", comment: ""),positiveButton: NSLocalizedString("clear_button_title", comment: ""),negativeButton: NSLocalizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
+//                ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description:localizedString("basket_active_from_other_grocery_message", comment: ""),positiveButton: localizedString("clear_button_title", comment: ""),negativeButton: localizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
 //                    if buttonIndex == 0 {
 //                        ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
 //                        DatabaseHelper.sharedInstance.saveDatabase()

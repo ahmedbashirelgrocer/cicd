@@ -32,7 +32,7 @@ class FreeGroceriesViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-        self.title = NSLocalizedString("free_groceries_navigation_bar_title", comment: "")
+        self.title = localizedString("free_groceries_navigation_bar_title", comment: "")
         
         addBackButton()
         
@@ -75,7 +75,7 @@ class FreeGroceriesViewController: UIViewController {
         
         self.freeGroceryTitle.font = UIFont.boldFont(15.0)
         self.freeGroceryTitle.textColor = UIColor.black
-        self.freeGroceryTitle.text = NSLocalizedString("earn_free_credits", comment: "")
+        self.freeGroceryTitle.text = localizedString("earn_free_credits", comment: "")
     }
     
     fileprivate func setFreeGroceryDescriptionLabelAppearance() {
@@ -85,7 +85,7 @@ class FreeGroceriesViewController: UIViewController {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5.0
-        let titleStr = NSMutableAttributedString(string: NSLocalizedString("free_groceries_description", comment: ""))
+        let titleStr = NSMutableAttributedString(string: localizedString("free_groceries_description", comment: ""))
         titleStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, titleStr.length))
         self.freeGroceryDescription.attributedText = titleStr
     }
@@ -94,7 +94,7 @@ class FreeGroceriesViewController: UIViewController {
         
         self.invitationLink.font = UIFont.bookFont(12.0)
         self.invitationLink.textColor = UIColor.meunGreenTextColor()
-        self.invitationLink.text = NSLocalizedString("free_groceries_invitation_link", comment: "")
+        self.invitationLink.text = localizedString("free_groceries_invitation_link", comment: "")
     }
     
     fileprivate func setInvitationViewAppearance() {
@@ -111,7 +111,7 @@ class FreeGroceriesViewController: UIViewController {
         
         self.inviteButton.titleLabel?.textColor = UIColor.meunGreenTextColor()
         
-        let text = NSLocalizedString("how_invite_work", comment: "")
+        let text = localizedString("how_invite_work", comment: "")
         let titleStr = NSMutableAttributedString(string: text)
         titleStr.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, text.count))
         self.inviteButton.setAttributedTitle(titleStr, for: UIControl.State())
@@ -119,14 +119,14 @@ class FreeGroceriesViewController: UIViewController {
         
         self.copyButton.titleLabel?.textColor = UIColor.meunGreenTextColor()
         self.copyButton.titleLabel?.font = UIFont.boldFont(12.0)
-        self.copyButton.setTitle(NSLocalizedString("copy", comment: ""), for: UIControl.State())
+        self.copyButton.setTitle(localizedString("copy", comment: ""), for: UIControl.State())
     }
     
     fileprivate func setSendInvitationButtonAppearance() {
         
         self.sendInvitationButton.layer.cornerRadius = 5
         self.sendInvitationButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(20.0)
-        self.sendInvitationButton.setTitle(NSLocalizedString("free_groceries_send_invite", comment: ""), for: UIControl.State())
+        self.sendInvitationButton.setTitle(localizedString("free_groceries_send_invite", comment: ""), for: UIControl.State())
     }
     
     // MARK: Button Actions
@@ -152,8 +152,8 @@ class FreeGroceriesViewController: UIViewController {
         //HelpshiftSupport.showSingleFAQ("36", with: self, withOptions: nil)
 
         let questionVC = ElGrocerViewControllers.questionViewController()
-        questionVC.titleStr = NSLocalizedString("how_invite_work_title", comment: "")
-        questionVC.descriptionStr = NSLocalizedString("how_invite_work_description", comment: "")
+        questionVC.titleStr = localizedString("how_invite_work_title", comment: "")
+        questionVC.descriptionStr = localizedString("how_invite_work_description", comment: "")
         self.navigationController?.pushViewController(questionVC, animated: true)
     }
     

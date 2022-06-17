@@ -85,12 +85,12 @@ class recipeDetailCell: UITableViewCell {
             }
             
             
-            self.lblServingCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(serving)") + " " + NSLocalizedString("lbl_serving_count", comment: "")
+            self.lblServingCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(serving)") + " " + localizedString("lbl_serving_count", comment: "")
             guard let ingrediantsCount = recipe.Ingredients?.count else{return}
-                self.lblIngrediantsCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(ingrediantsCount)") + " " + NSLocalizedString("lbl_ingrediant_count", comment: "")
+                self.lblIngrediantsCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(ingrediantsCount)") + " " + localizedString("lbl_ingrediant_count", comment: "")
             
             guard let timeToPrep = recipe.recipePrepTime else{return}
-                self.lblTimeToPrepare.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(timeToPrep)") + " " + NSLocalizedString("lbl_prep_time_min", comment: "")
+                self.lblTimeToPrepare.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(timeToPrep)") + " " + localizedString("lbl_prep_time_min", comment: "")
             
         }
     }

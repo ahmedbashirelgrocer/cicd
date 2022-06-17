@@ -30,13 +30,13 @@ class AWPickerViewController : UIViewController {
     @IBOutlet var activityIndication: UIActivityIndicatorView!
     @IBOutlet var btnConfirm: AWButton! {
         didSet {
-            btnConfirm.setTitle(NSLocalizedString("lbl_confirm_slot", comment: ""), for: .normal)
+            btnConfirm.setTitle(localizedString("lbl_confirm_slot", comment: ""), for: .normal)
         }
     }
     @IBOutlet var lblNoSlot: UILabel! {
         didSet {
             lblNoSlot.setCaptionOneRegLightStyle()
-            lblNoSlot.text = NSLocalizedString("no_slot_available_message", comment: "")
+            lblNoSlot.text = localizedString("no_slot_available_message", comment: "")
             lblNoSlot.isHidden = true
         }
     }
@@ -84,7 +84,7 @@ class AWPickerViewController : UIViewController {
         self.view.layer.cornerRadius = 5
         self.view.clipsToBounds = true
         self.view.backgroundColor = UIColor.clear
-        lblTitle.text = NSLocalizedString("lbl_change_delivery", comment: "")
+        lblTitle.text = localizedString("lbl_change_delivery", comment: "")
         lblTitle.setH4SemiBoldStyle()
         
     }
@@ -163,7 +163,7 @@ class AWPickerViewController : UIViewController {
             segmentOneDayNumber = NSNumber(value: date.weekday)
             segmentOneWeekNumber = NSNumber(value: date.weekOfYear)
             segmentOneDate = date
-            let slotTimeStr = NSLocalizedString("today_title", comment: "")
+            let slotTimeStr = localizedString("today_title", comment: "")
             titlesArray.append(slotTimeStr)
             let dateString =  date.dataMonthDateInStringWithFormatDDMM() ?? ""
             descArray.append(dateString)
@@ -184,12 +184,12 @@ class AWPickerViewController : UIViewController {
                 segmentOneWeekNumber = NSNumber(value: startTime.weekOfYear)
                 segmentOneDate = startTime
                 if slot.isToday() || slot.isInstant.boolValue {
-                    let slotTimeStr = NSLocalizedString("today_title", comment: "")
+                    let slotTimeStr = localizedString("today_title", comment: "")
                     titlesArray.append(slotTimeStr)
                     let dateString =  startTime.dataMonthDateInStringWithFormatDDMM()
                     descArray.append(dateString ?? "")
                 }else if slot.isTomorrow() {
-                    let slotTimeStr = NSLocalizedString("tomorrow_title", comment: "")
+                    let slotTimeStr = localizedString("tomorrow_title", comment: "")
                     titlesArray.append(slotTimeStr)
                     let dateString =  startTime.dataMonthDateInStringWithFormatDDMM()
                     descArray.append(dateString ?? "")
@@ -210,12 +210,12 @@ class AWPickerViewController : UIViewController {
                 segmentTwoWeekNumber = NSNumber(value: startTime.weekOfYear)
                 segmentTwoDate = startTime
                 if slot.isToday() {
-                    let slotTimeStr = NSLocalizedString("today_title", comment: "")
+                    let slotTimeStr = localizedString("today_title", comment: "")
                     titlesArray.append(slotTimeStr)
                     let dateString =  slot.start_time?.dataMonthDateInStringWithFormatDDMM()
                     descArray.append(dateString ?? "")
                 }else if slot.isTomorrow() {
-                    let slotTimeStr = NSLocalizedString("tomorrow_title", comment: "")
+                    let slotTimeStr = localizedString("tomorrow_title", comment: "")
                     titlesArray.append(slotTimeStr)
                     let dateString =  slot.start_time?.dataMonthDateInStringWithFormatDDMM()
                     descArray.append(dateString ?? "")
@@ -288,11 +288,11 @@ class AWPickerViewController : UIViewController {
         let calendarComponents = (calendar as NSCalendar).components(.weekday, from:Date())
         let weekDay = calendarComponents.weekday
         let nextDay = weekDay! + 1 == 8 ? 1 : weekDay! + 1
-        var dayTitle = NSLocalizedString("today_title", comment: "")
+        var dayTitle = localizedString("today_title", comment: "")
         if Int(truncating: (dayNumber)) == weekDay{
-            dayTitle = NSLocalizedString("today_title", comment: "")
+            dayTitle = localizedString("today_title", comment: "")
         }else if Int(truncating: (dayNumber)) == nextDay{
-            dayTitle = NSLocalizedString("tomorrow_title", comment: "")
+            dayTitle = localizedString("tomorrow_title", comment: "")
         }else{
             let formatter = DateFormatter()
             let daysA = formatter.standaloneWeekdaySymbols;

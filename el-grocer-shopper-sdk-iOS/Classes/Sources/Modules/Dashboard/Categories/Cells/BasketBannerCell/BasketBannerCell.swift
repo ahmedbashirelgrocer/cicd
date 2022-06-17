@@ -62,15 +62,15 @@ class BasketBannerCell: UITableViewCell {
         
         self.reOrderButton.layer.cornerRadius = 5
         self.reOrderButton.layer.masksToBounds = true
-        self.reOrderButton.setTitle(NSLocalizedString("reorder_banner_button_title", comment: ""), for: UIControl.State())
+        self.reOrderButton.setTitle(localizedString("reorder_banner_button_title", comment: ""), for: UIControl.State())
         self.reOrderButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
         self.reOrderButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(14.0)
     }
     
     // MARK: Data
     func configureCell(_ homeFeed: Home, currentRow:NSInteger){
-        self.titleLabel.text = NSLocalizedString("reorder_banner_title", comment: "")
-        self.descriptionLabel.text = NSLocalizedString("reorder_banner_description", comment: "")
+        self.titleLabel.text = localizedString("reorder_banner_title", comment: "")
+        self.descriptionLabel.text = localizedString("reorder_banner_description", comment: "")
         self.reOrderButton.tag = 200 + currentRow
         self.bgImgView.isHidden = true
     }
@@ -78,9 +78,9 @@ class BasketBannerCell: UITableViewCell {
     func configureRecipeCell(){
         
 
-        self.titleLabel.text = NSLocalizedString("recipe_Title", comment: "").uppercased()
-        self.descriptionLabel.text = NSLocalizedString("recipe_Decription", comment: "").uppercased()
-        self.reOrderButton.setTitle(NSLocalizedString("banner_button_title", comment: "").uppercased(), for: .normal)
+        self.titleLabel.text = localizedString("recipe_Title", comment: "").uppercased()
+        self.descriptionLabel.text = localizedString("recipe_Decription", comment: "").uppercased()
+        self.reOrderButton.setTitle(localizedString("banner_button_title", comment: "").uppercased(), for: .normal)
         
         
         

@@ -28,7 +28,7 @@ class OrderProductCell: UICollectionViewCell {
     }
     @IBOutlet var lblOutOfStock: UILabel! {
         didSet{
-            lblOutOfStock.text =   NSLocalizedString("out_of_stock_title", comment: "")
+            lblOutOfStock.text =   localizedString("out_of_stock_title", comment: "")
         }
     }
     
@@ -65,10 +65,10 @@ class OrderProductCell: UICollectionViewCell {
         if !isHidden{
             self.percentageBGView.isHidden = isHidden
             let stringPercent = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(value))
-            self.lblPercentage.text = "-" + stringPercent + NSLocalizedString("txt_off", comment: "")
+            self.lblPercentage.text = "-" + stringPercent + localizedString("txt_off", comment: "")
             self.saleView.isHidden = true
             if value < 1{
-                self.lblPercentage.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+                self.lblPercentage.text = localizedString("lbl_Special_Discount", comment: "")
                 self.saleView.isHidden = false
             }
         }else{

@@ -25,8 +25,8 @@ class AboutViewController : UIViewController, UITableViewDataSource, UITableView
                 
             case .about:
                 
-                self.title = NSLocalizedString("side_menu_about", comment: "")
-                self.menuItem = MenuItem(title: NSLocalizedString("side_menu_about", comment: ""))
+                self.title = localizedString("side_menu_about", comment: "")
+                self.menuItem = MenuItem(title: localizedString("side_menu_about", comment: ""))
             }
         }
     }
@@ -100,8 +100,8 @@ class AboutViewController : UIViewController, UITableViewDataSource, UITableView
         let titlesArray = self.titlesDictionary[self.controllerMode.rawValue]!
         let descriptionsArray = self.descriptionsDictionary[self.controllerMode.rawValue]!
         
-        let title = NSLocalizedString(titlesArray[(indexPath as NSIndexPath).row], comment: "")
-        let description = NSLocalizedString(descriptionsArray[(indexPath as NSIndexPath).row], comment: "")
+        let title = localizedString(titlesArray[(indexPath as NSIndexPath).row], comment: "")
+        let description = localizedString(descriptionsArray[(indexPath as NSIndexPath).row], comment: "")
         
         return AboutCell.calculateCellHeight(title, description: description, cellWidth:tableView.frame.size.width)
     }
@@ -120,8 +120,8 @@ class AboutViewController : UIViewController, UITableViewDataSource, UITableView
         let titlesArray = self.titlesDictionary[self.controllerMode.rawValue]!
         let descriptionsArray = self.descriptionsDictionary[self.controllerMode.rawValue]!
         
-        let title = NSLocalizedString(titlesArray[(indexPath as NSIndexPath).row], comment: "")
-        let description = NSLocalizedString(descriptionsArray[(indexPath as NSIndexPath).row], comment: "")
+        let title = localizedString(titlesArray[(indexPath as NSIndexPath).row], comment: "")
+        let description = localizedString(descriptionsArray[(indexPath as NSIndexPath).row], comment: "")
         
         cell.configure(title, description: description, position: (indexPath as NSIndexPath).row + 1)
         

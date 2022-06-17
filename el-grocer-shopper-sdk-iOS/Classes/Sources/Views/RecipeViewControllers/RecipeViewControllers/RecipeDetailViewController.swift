@@ -95,7 +95,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
     
     func setUpApearance(){
         
-        self.title = NSLocalizedString("title_recipe_list", comment: "")
+        self.title = localizedString("title_recipe_list", comment: "")
         
         if (self.recipe?.recipeName?.isEmpty)! {
             _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -113,7 +113,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
         self.btnAddToCart.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
         self.setAddCartButtonIntraction(false)
         
-        self.btnAddToCart.setTitle(NSLocalizedString("btn_Recipe_Add_To_Cart_Title", comment: ""), for: .normal)
+        self.btnAddToCart.setTitle(localizedString("btn_Recipe_Add_To_Cart_Title", comment: ""), for: .normal)
     
     }
     
@@ -202,7 +202,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
         if let recipeUse = self.recipe {
             if let _ = recipeUse.recipeChef {
                 
-                let recipeTitle = (self.recipe?.recipeName)! + " " + NSLocalizedString("recipe_share_by", comment: "") + " " + (self.recipe?.recipeChef?.chefName)! + NSLocalizedString("recipe_share_onElgrocer", comment: "")
+                let recipeTitle = (self.recipe?.recipeName)! + " " + localizedString("recipe_share_by", comment: "") + " " + (self.recipe?.recipeChef?.chefName)! + localizedString("recipe_share_onElgrocer", comment: "")
                 let items = [recipeTitle , URL(string: link)!] as [Any]
                 let ac = UIActivityViewController(activityItems: items, applicationActivities: nil)
                 present(ac, animated: true)
@@ -355,7 +355,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
                     _ = SpinnerView.showSpinnerViewInView(self.view)
                     self.dataHandler.addRecipeToCart(retailerID: self.grocery?.dbID , recipe: addToCartRecipe)
                     ElGrocerUtility.sharedInstance.delay(1.0) {
-                        let msg = NSLocalizedString("product_added_to_basket", comment: "")
+                        let msg = localizedString("product_added_to_basket", comment: "")
                         ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
                     }
                 }else{
@@ -424,7 +424,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
         
         
         ElGrocerUtility.sharedInstance.delay(1.0) {
-            let msg = NSLocalizedString("product_added_to_basket", comment: "")
+            let msg = localizedString("product_added_to_basket", comment: "")
             ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
         }
         
@@ -457,7 +457,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
                 _ = SpinnerView.showSpinnerViewInView(self.view)
                 dataHandler.addRecipeToCart(retailerID: self.grocery?.dbID , recipe: addToCartRecipe)
                 ElGrocerUtility.sharedInstance.delay(1.0) {
-                    let msg = NSLocalizedString("product_added_to_basket", comment: "")
+                    let msg = localizedString("product_added_to_basket", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
                 }
             }else{
@@ -777,7 +777,7 @@ extension RecipeDetailViewController {
                     let responseData = Grocery.insertGroceriesWithNotAvailableProducts(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     let groceries = responseData.groceries
                     if groceries.count == 0 {
-                        self.showBottomSheet(NSLocalizedString("No_Store_For_Recipe_title", comment: "") , grocery: [], isError: true)
+                        self.showBottomSheet(localizedString("No_Store_For_Recipe_title", comment: "") , grocery: [], isError: true)
                     }else{
                         self.showBottomSheet(self.recipe?.recipeName ?? "" , grocery: responseData.groceries )
                     }

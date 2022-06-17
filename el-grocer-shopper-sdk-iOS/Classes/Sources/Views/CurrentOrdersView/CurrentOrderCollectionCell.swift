@@ -14,14 +14,14 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
     @IBOutlet var trackingView: UIView!
     @IBOutlet var lblOrderTracking: UILabel! {
         didSet{
-            lblOrderTracking.text = NSLocalizedString("lbl_Order_tracking", comment: "")
+            lblOrderTracking.text = localizedString("lbl_Order_tracking", comment: "")
             lblOrderTracking.setBody3RegWhiteStyle()
         }
         
     }
     @IBOutlet var lblTrackYourOrder: UILabel!{
         didSet{
-            lblTrackYourOrder.text = NSLocalizedString("lbl_Track_your_order", comment: "")
+            lblTrackYourOrder.text = localizedString("lbl_Track_your_order", comment: "")
         }
     }
     
@@ -96,9 +96,9 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
         }
         
         if orderType == .delivery{
-            self.lblOrderType.text = NSLocalizedString("title_Estimated_delivery", comment: "")
+            self.lblOrderType.text = localizedString("title_Estimated_delivery", comment: "")
         }else{
-            self.lblOrderType.text = NSLocalizedString("lbl_self_collection_time", comment: "")
+            self.lblOrderType.text = localizedString("lbl_self_collection_time", comment: "")
         }
         
         self.lblStoreName.text = orderDict["retailer_company_name"] as? String
@@ -117,7 +117,7 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
         if let slot = orderDict["delivery_slot"] as? NSDictionary {
             self.lblDate.text = self.getDeliverySlotFormatterTimeStringWithDictionary(slot, isDelivery: orderType == .delivery)
         }else if let _  = orderDict["delivery_slot"] as? NSNull {
-            self.lblDate.text = NSLocalizedString("today_title", comment: "") + " " +  NSLocalizedString("60_min", comment: "")
+            self.lblDate.text = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")
         } else{
             self.lblDate.text = ""
         }
@@ -153,9 +153,9 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
                     self.spinnerView.animate(true)
                     
                     if orderType == .delivery{
-                        self.lblOrderType.text = NSLocalizedString("title_delivered", comment: "")
+                        self.lblOrderType.text = localizedString("title_delivered", comment: "")
                     }else{
-                        self.lblOrderType.text = NSLocalizedString("title_collected", comment: "")
+                        self.lblOrderType.text = localizedString("title_collected", comment: "")
                     }
                     
                 case OrderStatus.canceled.rawValue:
@@ -172,7 +172,7 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
                     self.lblOrderType.isHidden = false
                     self.lblDate.isHidden = false
                     self.spinnerView.isHidden = false
-                    // self.lblOrderType.text = NSLocalizedString("title_updated_delivery", comment: "")
+                    // self.lblOrderType.text = localizedString("title_updated_delivery", comment: "")
                     self.lblStatus.textColor = .navigationBarWhiteColor()
                     self.lblOrderType.textColor = .navigationBarWhiteColor()
                     self.spinnerView.animationColor = .navigationBarWhiteColor()
@@ -211,9 +211,9 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
     //MARK: Date helper
     
     func getDeliverySlotFormatterTimeStringWithDictionary (_ slotDict : NSDictionary ,  isDelivery : Bool ) -> String {
-        var groceryNextDeliveryString =  NSLocalizedString("lbl_no_timeSlot_available", comment: "")
+        var groceryNextDeliveryString =  localizedString("lbl_no_timeSlot_available", comment: "")
         if (slotDict["id"] as? String) == "0" {
-            groceryNextDeliveryString =  NSLocalizedString("today_title", comment: "") + "\n"  +  NSLocalizedString("60_min", comment: "")
+            groceryNextDeliveryString =  localizedString("today_title", comment: "") + "\n"  +  localizedString("60_min", comment: "")
         } else {
             
             var dayTitle = ""
@@ -221,11 +221,11 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
                 if let endDate = (slotDict["end_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
                     
                     if startDate.isToday {
-                        dayTitle = NSLocalizedString("today_title", comment: "")
+                        dayTitle = localizedString("today_title", comment: "")
                         let timeSlot = ( isDelivery ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString() ) + " - " + ( isDelivery ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
                         groceryNextDeliveryString =  "\(dayTitle)" + " " + "\(timeSlot)"
                     }else if startDate.isTomorrow {
-                        dayTitle = NSLocalizedString("s_tomorrow_title", comment: "")
+                        dayTitle = localizedString("s_tomorrow_title", comment: "")
                         let timeSlot = ( isDelivery ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString() ) + " - " + ( isDelivery ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
                         groceryNextDeliveryString =  "\(dayTitle)" + " " + "\(timeSlot)"
                     }else {

@@ -20,7 +20,7 @@ class QuestionViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.title = NSLocalizedString("setting_faq", comment: "")
+        self.title = localizedString("setting_faq", comment: "")
         addBackButton()
         
         self.setLabelAppearance()

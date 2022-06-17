@@ -100,18 +100,18 @@ class ElgrocerChannelController : SBUChannelViewController{
         
         if UserDefaults.isUserLoggedIn(){
             if self.orderId == "0" {
-                titleView.text = NSLocalizedString("support_sendBird_nav_title", comment: "")
+                titleView.text = localizedString("support_sendBird_nav_title", comment: "")
             }else{
-                titleView.text = NSLocalizedString("order_sendBird_nav_title", comment: "") + ": \(orderId)"
+                titleView.text = localizedString("order_sendBird_nav_title", comment: "") + ": \(orderId)"
             }
         }else{
-            titleView.text = NSLocalizedString("support_sendBird_nav_title", comment: "")
+            titleView.text = localizedString("support_sendBird_nav_title", comment: "")
         }
         
         if let text = titleView.text{
             if text.count > 0{
                 if text.lowercased().contains("proactive"){
-                    titleView.text = NSLocalizedString("title_proactive", comment: "")
+                    titleView.text = localizedString("title_proactive", comment: "")
                 }
             }
         }
@@ -177,7 +177,7 @@ extension ElgrocerChannelController {
         }
        
         
-        let alert = ElGrocerAlertView.createAlert("", description: message!.message, positiveButton: NSLocalizedString("store_favourite_alert_yes", comment: ""), negativeButton: NSLocalizedString("sign_out_alert_no", comment: "")) { index in
+        let alert = ElGrocerAlertView.createAlert("", description: message!.message, positiveButton: localizedString("store_favourite_alert_yes", comment: ""), negativeButton: localizedString("sign_out_alert_no", comment: "")) { index in
             self.isAlertVisible = false
             if index == 0 {
                 print("yes")

@@ -54,7 +54,7 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = NSLocalizedString("ios.ZDKRequests.requestList.title", comment: "")
+        self.title = localizedString("ios.ZDKRequests.requestList.title", comment: "")
         self.setSendbirdDelegate()
             // Add Refresh Control to Table View
         if #available(iOS 10.0, *) {
@@ -129,8 +129,8 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
         let titleTextAttributesUnselected = [NSAttributedString.Key.foregroundColor: UIColor.newBlackColor() , NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(14)]
         UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributesUnselected, for: .normal)
         
-        segmentControl.setTitle(NSLocalizedString("lbl_open_ticket", comment: ""), forSegmentAt: 0)
-        segmentControl.setTitle(NSLocalizedString("lbl_close_ticket", comment: ""), forSegmentAt: 1)
+        segmentControl.setTitle(localizedString("lbl_open_ticket", comment: ""), forSegmentAt: 0)
+        segmentControl.setTitle(localizedString("lbl_close_ticket", comment: ""), forSegmentAt: 1)
         
     }
     

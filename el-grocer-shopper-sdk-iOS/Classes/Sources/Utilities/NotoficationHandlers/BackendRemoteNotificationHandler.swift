@@ -154,7 +154,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         let shopperId = userInfo[shopperIdKey] as! NSNumber
         
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
                     if buttonIndex == 0 {
                         self.setCollectorStatus(orderId, shopperId: shopperId  , isOnTheWay: false )
                     }
@@ -172,7 +172,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         ElGrocerApi.sharedInstance.updateCollectorStatus(orderId: currentOrder.stringValue , collector_status: status, shopper_id: shopperId.stringValue , collector_id: "") { (result) in
             switch result {
                 case .success( _):
-                    let msg = NSLocalizedString("status_Update_Msg", comment: "")
+                    let msg = localizedString("status_Update_Msg", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
                 case .failure(let error):
                     error.showErrorAlert()
@@ -277,7 +277,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             return
         }
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("order_cancel_alert_title", comment: ""),description: message ,positiveButton: NSLocalizedString("continue_button_title", comment: ""),negativeButton: nil ,buttonClickCallback: { (buttonIndex:Int) -> Void in
+        ElGrocerAlertView.createAlert(localizedString("order_cancel_alert_title", comment: ""),description: message ,positiveButton: localizedString("continue_button_title", comment: ""),negativeButton: nil ,buttonClickCallback: { (buttonIndex:Int) -> Void in
                 NotificationCenter.default.post(name: Notification.Name(rawValue: KGoBackToOrderScreen), object: orderId)
              UserDefaults.resetEditOrder()
         }).show()
@@ -307,7 +307,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                 if let promo = userInfo["promocode"] as? String {promoCode = promo}
                 if let promo = userInfo["to_be_copied"] as? String {promoCode = promo}
             
-                ElGrocerAlertView.createAlert(title ,description: message ,positiveButton: promoCode.count > 0 ? NSLocalizedString("ALERT_ADD_COPY_PASTE_STRING", comment: "") :  NSLocalizedString("continue_button_title", comment: ""),negativeButton: nil ,buttonClickCallback: { (buttonIndex:Int) -> Void in
+                ElGrocerAlertView.createAlert(title ,description: message ,positiveButton: promoCode.count > 0 ? localizedString("ALERT_ADD_COPY_PASTE_STRING", comment: "") :  localizedString("continue_button_title", comment: ""),negativeButton: nil ,buttonClickCallback: { (buttonIndex:Int) -> Void in
                     if promoCode.count > 0 {
                         let pasteBoard = UIPasteboard.general
                         pasteBoard.string = promoCode
@@ -345,7 +345,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             if let titleInDict = apsData["title"] as? String {
                 title = titleInDict
             }
-            ElGrocerAlertView.createAlert(title ,description: message ,positiveButton:  NSLocalizedString("shopping_basket_title_label", comment: ""),negativeButton: NSLocalizedString("promo_code_alert_no", comment: "") ,buttonClickCallback: { (buttonIndex:Int) -> Void in
+            ElGrocerAlertView.createAlert(title ,description: message ,positiveButton:  localizedString("shopping_basket_title_label", comment: ""),negativeButton: localizedString("promo_code_alert_no", comment: "") ,buttonClickCallback: { (buttonIndex:Int) -> Void in
                 if buttonIndex == 0 {
                   //  let _ = SpinnerView.showSpinnerView()
                     if let topvc = UIApplication.topViewController() {
@@ -392,7 +392,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             if let titleInDict = apsData["title"] as? String {
                 title = titleInDict
             }
-            ElGrocerAlertView.createAlert(title ,description: message ,positiveButton:  NSLocalizedString("lbl_Order_Details", comment: ""),negativeButton: NSLocalizedString("promo_code_alert_no", comment: "") ,buttonClickCallback: { (buttonIndex:Int) -> Void in
+            ElGrocerAlertView.createAlert(title ,description: message ,positiveButton:  localizedString("lbl_Order_Details", comment: ""),negativeButton: localizedString("promo_code_alert_no", comment: "") ,buttonClickCallback: { (buttonIndex:Int) -> Void in
                 if buttonIndex == 0 {
                         //  let _ = SpinnerView.showSpinnerView()
                     if let topvc = UIApplication.topViewController() {

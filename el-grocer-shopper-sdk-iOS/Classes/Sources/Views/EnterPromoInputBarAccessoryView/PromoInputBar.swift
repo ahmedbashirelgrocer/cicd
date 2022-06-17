@@ -13,7 +13,7 @@ class PromoInputBar: UIView {
     @IBOutlet weak var textInputField: UITextField!
     var submitWithText: ((String)->Void)?
     override func awakeFromNib() {
-        self.textInputField.placeholder = NSLocalizedString("enter_promo_code", comment: "")
+        self.textInputField.placeholder = localizedString("enter_promo_code", comment: "")
         self.textInputField.delegate = self
     }
     @IBAction func submitAction(_ sender: Any) {

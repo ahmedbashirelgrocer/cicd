@@ -94,7 +94,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
         
         if  (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
             let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor]
-            let instantSlotString = "⚡️" + NSLocalizedString("today_title", comment: "") + " " + NSLocalizedString("60_min", comment: "")
+            let instantSlotString = "⚡️" + localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
             let attributedString2 = NSMutableAttributedString(string: instantSlotString, attributes:attrs2 as [NSAttributedString.Key : Any])
             self.lblSlot.attributedText = attributedString2
             hideSlotImage(isHidden: true)

@@ -82,7 +82,7 @@ open class OrderTrackingView: UIView {
     
      class func getOrderTarckingView() -> OrderTrackingView {
         
-        let view = Bundle(for: self).loadNibNamed("OrderTrackingView", owner: nil, options: nil)![0] as! OrderTrackingView
+        let view = Bundle.resource.loadNibNamed("OrderTrackingView", owner: nil, options: nil)![0] as! OrderTrackingView
         
         return view
     }

@@ -32,7 +32,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.menuItem = MenuItem(title: NSLocalizedString("side_menu_orders", comment: ""))
+        self.menuItem = MenuItem(title: localizedString("side_menu_orders", comment: ""))
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -80,8 +80,8 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
-        self.title = NSLocalizedString("orders_top_title", comment: "")
-        self.addCustomTitleViewWithTitleDarkShade(NSLocalizedString("orders_top_title", comment: "") , true)
+        self.title = localizedString("orders_top_title", comment: "")
+        self.addCustomTitleViewWithTitleDarkShade(localizedString("orders_top_title", comment: "") , true)
         
         self.switchMode.setDefaultStates()
         
@@ -230,7 +230,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         
         self.emptyView?.removeFromSuperview()
         
-        self.emptyView = EmptyView.createAndAddEmptyView(NSLocalizedString("empty_view_orders_title", comment: ""), description: NSLocalizedString("empty_view_orders_description", comment: ""), addToView: self.view)
+        self.emptyView = EmptyView.createAndAddEmptyView(localizedString("empty_view_orders_title", comment: ""), description: localizedString("empty_view_orders_description", comment: ""), addToView: self.view)
         self.emptyView?.isHidden = (self.filterOrders.count > 0)
     }
     
@@ -327,14 +327,14 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                         print("Order Address ID:%@",orderAddressId)
                         
                         guard defaultAddressId == orderAddressId else {
-                            ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("edit_Order_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                            ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                             return
                         }
                         
                     }
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             self.createBasketAndNavigateToViewForEditOrder(self.selectedOrder)
@@ -349,7 +349,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                         let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
                         print("Order Address ID:%@",orderAddressId)
                         guard defaultAddressId == orderAddressId else {
-                            ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("edit_Order_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                            ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                             return
                         }
                     }
@@ -400,14 +400,14 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     print("Order Address ID:%@",orderAddressId)
                     
                     guard defaultAddressId == orderAddressId else {
-                        ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("edit_Order_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                        ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                         return
                     }
                     
                 }
                
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                     
                     if buttonIndex == 1 {
                         self.createBasketAndNavigateToViewForEditOrder(self.selectedOrder)
@@ -422,7 +422,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
                     print("Order Address ID:%@",orderAddressId)
                     guard defaultAddressId == orderAddressId else {
-                        ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("edit_Order_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                        ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                         return
                     }
                 }
@@ -457,7 +457,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
             print("Order Address ID:%@",orderAddressId)
             
             guard defaultAddressId == orderAddressId else {
-                ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("edit_Order_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                 return
             }
         }
@@ -739,10 +739,10 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         let order = self.orders[(indexPath! as NSIndexPath).row]
         
         //show confirmation alert
-        ElGrocerAlertView.createAlert(NSLocalizedString("order_history_delete_alert_title", comment: ""),
-            description: NSLocalizedString("order_history_delete_alert_message", comment: ""),
-            positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),
-            negativeButton: NSLocalizedString("sign_out_alert_no", comment: "")) { (buttonIndex:Int) -> Void in
+        ElGrocerAlertView.createAlert(localizedString("order_history_delete_alert_title", comment: ""),
+            description: localizedString("order_history_delete_alert_message", comment: ""),
+            positiveButton: localizedString("sign_out_alert_yes", comment: ""),
+            negativeButton: localizedString("sign_out_alert_no", comment: "")) { (buttonIndex:Int) -> Void in
                 
                 if buttonIndex == 0 {
                 
@@ -771,9 +771,9 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                 
             } else {
                 
-                ElGrocerAlertView.createAlert(NSLocalizedString("order_history_delete_order_error", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("order_history_delete_order_error", comment: ""),
                     description: nil,
-                    positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                    positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                     negativeButton: nil, buttonClickCallback: nil).show()
             }
             

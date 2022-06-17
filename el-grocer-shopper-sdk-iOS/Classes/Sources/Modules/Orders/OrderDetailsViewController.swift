@@ -25,12 +25,12 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     @IBOutlet var lblNeedSupport: UILabel! {
         didSet{
-            lblNeedSupport.text = NSLocalizedString("need_assistance_lable", comment: "")
+            lblNeedSupport.text = localizedString("need_assistance_lable", comment: "")
         }
     }
     @IBOutlet var lblChatWithElgrocer: UILabel!{
         didSet{
-            lblChatWithElgrocer.text = NSLocalizedString("launch_live_chat_text", comment: "")
+            lblChatWithElgrocer.text = localizedString("launch_live_chat_text", comment: "")
         }
     }
     var mode : OrderDetailsViewControllerCloseMode  = .pop
@@ -67,19 +67,19 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     @IBOutlet var lbl_CurrentStatusMsg: UILabel! {
         didSet{
             lbl_CurrentStatusMsg.setH3SemiBoldStyle()
-            lbl_CurrentStatusMsg.text = NSLocalizedString("dialog_CandC_Msg", comment: "")
+            lbl_CurrentStatusMsg.text = localizedString("dialog_CandC_Msg", comment: "")
         }
     }
     @IBOutlet var btnAtTheStore: UIButton! {
         didSet{
             btnAtTheStore.setH4SemiBoldWhiteStyle()
-            btnAtTheStore.setTitle(NSLocalizedString("btn_at_the_store_txt", comment: ""), for: UIControl.State())
+            btnAtTheStore.setTitle(localizedString("btn_at_the_store_txt", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var btnOnMyWay: UIButton! {
         didSet{
             btnOnMyWay.setH4SemiBoldWhiteStyle()
-            btnOnMyWay.setTitle(NSLocalizedString("btn_on_my_way_txt", comment: ""), for: UIControl.State())
+            btnOnMyWay.setTitle(localizedString("btn_on_my_way_txt", comment: ""), for: UIControl.State())
         }
     }
     
@@ -98,7 +98,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("lbl_Order_Details", comment: "")
+        self.title = localizedString("lbl_Order_Details", comment: "")
         self.navigationItem.hidesBackButton = true
          addBackButton()
         self.setOrderLableAppearnace()
@@ -373,7 +373,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         ElGrocerApi.sharedInstance.updateCollectorStatus(orderId: currentOrder.dbID.stringValue , collector_status: status, shopper_id: currentOrder.shopperID?.stringValue ?? "" , collector_id: currentOrder.collector?.dbID.stringValue ?? "") { (result) in
             switch result {
                 case .success(let _):
-                    let msg = NSLocalizedString("status_Update_Msg", comment: "")
+                    let msg = localizedString("status_Update_Msg", comment: "")
                     if isOnTheWay {
                         self.btnOnMyWay.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
                         self.btnAtTheStore.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
@@ -407,7 +407,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //
 //            }
@@ -422,7 +422,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.setCollectorStatus(self.order, isOnTheWay: true, button: sender)
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
 //            }
@@ -465,7 +465,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                     
 //                    UIView.animate(withDuration: 0.33, animations: { () -> Void in
 //
-//                        self.deliveryStatus.text = NSLocalizedString(OrderStatus.labels[self.order.status.intValue], comment: "")
+//                        self.deliveryStatus.text = localizedString(OrderStatus.labels[self.order.status.intValue], comment: "")
 //                        self.deliveryIcon.image = self.order.status.intValue == OrderStatus.completed.rawValue ? UIImage(name: "status-complete-New") : UIImage(name: "status-pending-New")
 //
 //                        self.view.layoutIfNeeded()
@@ -512,7 +512,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             print("Order Address ID:%@",orderAddressId)
             
             guard defaultAddressId == orderAddressId else {
-                ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("edit_Order_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                 return
             }
             
@@ -526,7 +526,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
      
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
                 self.createBasketAndNavigateToViewForEditOrder()
@@ -675,7 +675,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         //sab
         
 //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "")  , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
 //            
 //            if buttonIndex == 1 {
 ////                self.cancelOrder(self.order.dbID.stringValue)
@@ -729,9 +729,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             switch result {
                 case .success(_):
                     
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                     
-//                    let notification = ElGrocerAlertView.createAlert(NSLocalizedString("order_cancel_alert_title", comment: ""),description: NSLocalizedString("order_cancel_success_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+//                    let notification = ElGrocerAlertView.createAlert(localizedString("order_cancel_alert_title", comment: ""),description: localizedString("order_cancel_success_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
 //                    notification.showPopUp()
                     
                     
@@ -811,7 +811,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 }
                 //let index = ElGrocerUtility.sharedInstance.cAndcRetailerList.firstIndex(of: groceryID)
                 if index == nil {
-                    ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("reorder_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                    ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("reorder_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                     return
                 }
                 FireBaseEventsLogger.trackReOrder(["OrderId" : order.dbID.stringValue])
@@ -827,7 +827,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 
                 guard defaultAddressId == orderAddressId else {
                     
-                    ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("reorder_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                    ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("reorder_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                     return
                 }
             }
@@ -846,7 +846,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     }
     
     func refreshMessageView(msg: String) {
-        ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("reorder_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+        ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("reorder_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
         return
     }
     
@@ -862,7 +862,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }
             //let index = ElGrocerUtility.sharedInstance.cAndcRetailerList.firstIndex(of: groceryID)
             if index == nil {
-                ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("reorder_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("reorder_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                 return
             }
             FireBaseEventsLogger.trackReOrder(["OrderId" : order.dbID.stringValue])
@@ -878,7 +878,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
         //let index = ElGrocerUtility.sharedInstance.cAndcRetailerList.firstIndex(of: groceryID)
         if index == nil {
-            ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("reorder_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+            ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("reorder_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
             return
         }
         ElGrocerUtility.sharedInstance.groceries = groceryA
@@ -1031,10 +1031,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     func showGroceryReviewAlert() {
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("grocery_review_alert_title", comment: ""),
-                                      description: NSLocalizedString("grocery_review_alert_description", comment: ""),
-                                      positiveButton: NSLocalizedString("grocery_review_alert_review_button", comment: ""),
-                                      negativeButton: NSLocalizedString("grocery_review_alert_cancel", comment: "")) { (buttonIndex:Int) -> Void in
+        ElGrocerAlertView.createAlert(localizedString("grocery_review_alert_title", comment: ""),
+                                      description: localizedString("grocery_review_alert_description", comment: ""),
+                                      positiveButton: localizedString("grocery_review_alert_review_button", comment: ""),
+                                      negativeButton: localizedString("grocery_review_alert_cancel", comment: "")) { (buttonIndex:Int) -> Void in
                                         
                                         if buttonIndex == 0 {
                                             //go to grocery review screen
@@ -1303,7 +1303,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //
 //
 //        self.deliveryStatusLable.font = UIFont.openSansRegularFont(12.0)
-//        self.deliveryStatusLable.text = NSLocalizedString("order_status", comment: "") + ": "
+//        self.deliveryStatusLable.text = localizedString("order_status", comment: "") + ": "
    
     }
     
@@ -1316,8 +1316,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //        self.itemQuantityLabel.font = UIFont.bookFont(11.0)
 //        self.itemCurrencyLabel.font = UIFont.bookFont(11.0)
 //
-//        self.itemNameLabel.text = NSLocalizedString("shopping_basket_item_label", comment: "")
-//        self.itemQuantityLabel.text = NSLocalizedString("shopping_basket_quantity_label", comment: "")
+//        self.itemNameLabel.text = localizedString("shopping_basket_item_label", comment: "")
+//        self.itemQuantityLabel.text = localizedString("shopping_basket_quantity_label", comment: "")
 //        self.itemCurrencyLabel.text = kProductCurrencyAEDName
     }
     
@@ -1383,9 +1383,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
 //        self.orderConfirmationLabel.textColor = UIColor.black
 //        self.orderConfirmationLabel.font = UIFont.mediumFont(12.0)
-//        self.orderConfirmationLabel.text = NSLocalizedString("order_history_order_confirmation_label", comment: "")
+//        self.orderConfirmationLabel.text = localizedString("order_history_order_confirmation_label", comment: "")
 //
-//        self.orderConfirmationButton.setTitle(NSLocalizedString("order_history_order_confirmation_button", comment: ""), for: UIControl.State())
+//        self.orderConfirmationButton.setTitle(localizedString("order_history_order_confirmation_button", comment: ""), for: UIControl.State())
 //        self.orderConfirmationButton.setTitleColor(UIColor.redTextColor(), for: UIControl.State())
 //        self.orderConfirmationButton.titleLabel?.font = UIFont.lightFont(14.0)
 //        self.orderConfirmationButton.layer.borderWidth = 1
@@ -1405,9 +1405,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
 //        self.groceryReviewLabel.textColor = UIColor.black
 //        self.groceryReviewLabel.font = UIFont.mediumFont(12.0)
-//        self.groceryReviewLabel.text = NSLocalizedString("order_history_grocery_review_label", comment: "")
+//        self.groceryReviewLabel.text = localizedString("order_history_grocery_review_label", comment: "")
 //
-//        self.groceryReviewButton.setTitle(NSLocalizedString("order_history_grocery_review_button", comment: ""), for: UIControl.State())
+//        self.groceryReviewButton.setTitle(localizedString("order_history_grocery_review_button", comment: ""), for: UIControl.State())
 //        self.groceryReviewButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
 //        self.groceryReviewButton.titleLabel?.font = UIFont.lightFont(14.0)
 //        self.groceryReviewButton.layer.borderWidth = 1
@@ -1427,10 +1427,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         self.tableView.backgroundColor = .white
         self.reorderButton.backgroundColor = UIColor.navigationBarColor()
-        self.reorderButton.setTitle(NSLocalizedString("lbl_repeat_order", comment: ""), for: UIControl.State())
+        self.reorderButton.setTitle(localizedString("lbl_repeat_order", comment: ""), for: UIControl.State())
         self.reorderButton.setH4SemiBoldWhiteStyle()
         
-//        self.changeOrderButton.setTitle(NSLocalizedString("order_history_change_order_button", comment: ""), for: UIControl.State())
+//        self.changeOrderButton.setTitle(localizedString("order_history_change_order_button", comment: ""), for: UIControl.State())
 //        self.changeOrderButton.titleLabel?.font = UIFont.bookFont(15.0)
         
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
@@ -1459,7 +1459,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //            self.totalPriceLabel.textColor = UIColor.redInfoColor()
             
 //            self.promotionDiscountLabel.textColor = UIColor.greenInfoColor()
-//            self.promotionDiscountLabel.text = NSLocalizedString("shopping_basket_promotion_discount_price_label", comment: "")
+//            self.promotionDiscountLabel.text = localizedString("shopping_basket_promotion_discount_price_label", comment: "")
 //
 //            self.promotionDiscountPriceLabel.textColor = UIColor.greenInfoColor()
      //   }else{
@@ -1475,14 +1475,14 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         
         if order.status.intValue == -1 {
-            return NSLocalizedString("lbl_Payment_Pending", comment: "")
+            return localizedString("lbl_Payment_Pending", comment: "")
         }
         if order.deliverySlot != nil && order.status.intValue == 0 {
-            return NSLocalizedString("order_status_schedule_order", comment: "")
+            return localizedString("order_status_schedule_order", comment: "")
         }else if ((order.status.intValue < OrderStatus.labels.count)) {
-            return NSLocalizedString(OrderStatus.labels[order.status.intValue], comment: "")
+            return localizedString(OrderStatus.labels[order.status.intValue], comment: "")
         } else {
-            return NSLocalizedString("order_status_unknown", comment: "")
+            return localizedString("order_status_unknown", comment: "")
         }
         
     }
@@ -1531,7 +1531,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }
         }
         //summary
-        //let countLabel = self.orderProducts.count == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+        //let countLabel = self.orderProducts.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
         let itemsVat = priceSum - (priceSum / ((100 + Double(truncating: self.currentGrocery!.vat))/100))
         let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: self.currentGrocery!, totalPrice:  priceSum)
         let serviceVat = serviceFee - (serviceFee / ((100 + Double(truncating: self.currentGrocery!.vat))/100))
@@ -1565,10 +1565,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             if let selectedSlot = order.deliverySlot {
                 slotTimeStr = selectedSlot.getSlotFormattedString(isDeliveryMode: order.isDeliveryOrder())
                 if  selectedSlot.isToday() {
-                    let name =    NSLocalizedString("today_title", comment: "")
+                    let name =    localizedString("today_title", comment: "")
                     slotTimeStr = String(format: "%@ (%@)", name ,slotTimeStr)
                 }else if selectedSlot.isTomorrow()  {
-                    let name =    NSLocalizedString("tomorrow_title", comment: "")
+                    let name =    localizedString("tomorrow_title", comment: "")
                     slotTimeStr = String(format: "%@ (%@)", name,slotTimeStr)
                 }else{
                     slotTimeStr = String(format: "%@ (%@)", selectedSlot.start_time?.getDayName() ?? "" ,slotTimeStr)
@@ -1829,7 +1829,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }else  if indexPath.row == 3 {
                 
                 let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: NSLocalizedString("lbl_Payment", comment: ""))
+                cell.configureCell(title: localizedString("lbl_Payment", comment: ""))
                 return cell
                 
             } else  if indexPath.row == 4 {
@@ -1842,7 +1842,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }else  if indexPath.row == 5 {
                 
                 let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: NSLocalizedString("lbl_Bought_items", comment: ""))
+                cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))
                 return cell
                 
             }
@@ -1982,34 +1982,34 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     func showSlotChangeSuccessAlert(){
         
-        var message = NSLocalizedString("change_slot_default_message", comment: "")
+        var message = localizedString("change_slot_default_message", comment: "")
         
         if self.currentDeliverySlot != nil{
             if Int(truncating: self.currentDeliverySlot.dbID) == asapDbId {
-                message = NSLocalizedString("scheduled_to_instant_message", comment: "")
+                message = localizedString("scheduled_to_instant_message", comment: "")
             }else{
                 
                 var slotTimeStr = ""
                 if let selectedSlot = currentDeliverySlot {
                     slotTimeStr = selectedSlot.getSlotFormattedString(isDeliveryMode: self.order.isDeliveryOrder())
                     if  selectedSlot.isToday() {
-                        let name =    NSLocalizedString("today_title", comment: "") 
+                        let name =    localizedString("today_title", comment: "") 
                         slotTimeStr = String(format: "%@ (%@)", name ,slotTimeStr)
                     }else if selectedSlot.isTomorrow()  {
                         
-                        let name =    NSLocalizedString("tomorrow_title", comment: "") 
+                        let name =    localizedString("tomorrow_title", comment: "") 
                         slotTimeStr = String(format: "%@ (%@)", name,slotTimeStr)
                     }else{
                         slotTimeStr = String(format: "%@ (%@)", selectedSlot.start_time?.getDayName() ?? "" ,slotTimeStr)
                     }
                 }
-                message = String(format: "%@  %@ %@",NSLocalizedString("delivery_slot_change_message", comment: ""),slotTimeStr,NSLocalizedString("delivery_slot_change_message2", comment: ""))
+                message = String(format: "%@  %@ %@",localizedString("delivery_slot_change_message", comment: ""),slotTimeStr,localizedString("delivery_slot_change_message2", comment: ""))
             }
         }
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("change_slot_alert_title", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("change_slot_alert_title", comment: ""),
                                       description: message,
-                                      positiveButton: NSLocalizedString("ok_button_title", comment: ""),
+                                      positiveButton: localizedString("ok_button_title", comment: ""),
                                       negativeButton: nil,
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         

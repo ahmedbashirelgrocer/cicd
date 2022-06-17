@@ -21,8 +21,8 @@ class FailureViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.lblErrorMsg.text = NSLocalizedString("error_wrong", comment: "")
-        self.btnReload.setTitle(NSLocalizedString("btn_reload_title", comment: ""), for: .normal)
+        self.lblErrorMsg.text = localizedString("error_wrong", comment: "")
+        self.btnReload.setTitle(localizedString("btn_reload_title", comment: ""), for: .normal)
     }
     override func viewDidAppear(_ animated: Bool) {
         

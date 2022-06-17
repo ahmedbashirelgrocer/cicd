@@ -33,10 +33,10 @@ class GenericRecipeTitleTableViewCell: UITableViewCell {
     func configureForRecipe() {
         self.backgroundColor = .clear
         self.lblTitle.setH3SemiBoldDarkStyle()
-        self.lblTitle.text = NSLocalizedString("Order_Title", comment: "")
+        self.lblTitle.text = localizedString("Order_Title", comment: "")
      
         self.lblButtonTitle.setBody3BoldUpperStyle()
-        self.lblButtonTitle.text = NSLocalizedString("lbl_View_All_Cap", comment: "")
+        self.lblButtonTitle.text = localizedString("lbl_View_All_Cap", comment: "")
  
     }
     

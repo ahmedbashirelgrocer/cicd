@@ -87,7 +87,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         
         if self.isCommingFromUniversalSearch {
             self.setDataSource()
-            self.buttomButtonTitle.text = NSLocalizedString("lbl_goToMain", comment: "")
+            self.buttomButtonTitle.text = localizedString("lbl_goToMain", comment: "")
             self.bottonViewHeight.constant = 77
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarText( universalSearchString ?? "")
             self.userManualSearch(searchData: universalSearchString ?? "")

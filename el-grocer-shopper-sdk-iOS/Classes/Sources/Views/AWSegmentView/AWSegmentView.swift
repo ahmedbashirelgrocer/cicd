@@ -34,7 +34,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     // MARK: Life cycle
     class func initSegmentView(_ frame: CGRect) -> AWSegmentView {
         
-        let view = Bundle(for: self).loadNibNamed("AWSegmentView", owner: nil, options: nil)![0] as! AWSegmentView
+        let view = Bundle.resource.loadNibNamed("AWSegmentView", owner: nil, options: nil)![0] as! AWSegmentView
         view.frame = frame
         view.commonInit()
         return view

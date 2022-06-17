@@ -13,7 +13,7 @@ class EGUserInfo: UIView {
     
     @IBOutlet var lblDeliveryDetails: UILabel!{
         didSet{
-            lblDeliveryDetails.text =   NSLocalizedString("dashboard_location_navigation_bar_title", comment: "")
+            lblDeliveryDetails.text =   localizedString("dashboard_location_navigation_bar_title", comment: "")
         }
     }
     @IBOutlet var lblDeliverySlot: UILabel!

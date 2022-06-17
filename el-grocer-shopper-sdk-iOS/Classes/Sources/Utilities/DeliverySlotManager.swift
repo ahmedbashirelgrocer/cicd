@@ -20,7 +20,7 @@ class DeliverySlotManager {
         var orderTypeDescription = ( isDeliveryMode ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString() ) + "-" + ( isDeliveryMode ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
         
         if slot.isInstant.boolValue {
-            return  (NSLocalizedString("today_title", comment: "") + " " + NSLocalizedString("60_min", comment: "") + "⚡️" , true)
+            return  (localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️" , true)
         }else if  slot.isToday() {
             hideSlotImage = false
             let name = (startDate.getDayName() ?? "")
@@ -48,14 +48,14 @@ class DeliverySlotManager {
         var orderTypeDescription = ( isDeliveryMode ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString() ) + "-" + ( isDeliveryMode ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
         
         if slot.isInstant.boolValue {
-            return  (NSLocalizedString("today_title", comment: "") + " " + NSLocalizedString("60_min", comment: "") + "⚡️" , true)
+            return  (localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️" , true)
         }else if  slot.isToday() {
             hideSlotImage = false
-            let name = NSLocalizedString("today_title", comment: "")
+            let name = localizedString("today_title", comment: "")
             orderTypeDescription = String(format: "%@ %@", name ,orderTypeDescription)
         }else if slot.isTomorrow() {
             hideSlotImage = false
-            let name = NSLocalizedString("tomorrow_title", comment: "")
+            let name = localizedString("tomorrow_title", comment: "")
             orderTypeDescription = String(format: "%@ %@", name,orderTypeDescription)
         }else{
             hideSlotImage = false
@@ -66,18 +66,18 @@ class DeliverySlotManager {
     }
     
     class func getStoreGenericSlotFormatterTimeStringWithDictionarySpecialityMarket (_ slotDict : NSDictionary, isDeliveryMode: Bool ) -> String {
-        var groceryNextDeliveryString =  NSLocalizedString("lbl_no_timeSlot_available", comment: "")
+        var groceryNextDeliveryString =  localizedString("lbl_no_timeSlot_available", comment: "")
         if (slotDict["id"] as? NSNumber)?.stringValue == "0" {
-            groceryNextDeliveryString =  NSLocalizedString("today_title", comment: "") + "\n"  +  NSLocalizedString("60_min", comment: "")
+            groceryNextDeliveryString =  localizedString("today_title", comment: "") + "\n"  +  localizedString("60_min", comment: "")
         } else {
             
             var dayTitle = ""
             if let startDate = (slotDict["start_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
                 if let endDate = (slotDict["end_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
                     if startDate.isToday {
-                        dayTitle = NSLocalizedString("today_title", comment: "")
+                        dayTitle = localizedString("today_title", comment: "")
                     }else if startDate.isTomorrow {
-                        dayTitle = NSLocalizedString("tomorrow_title", comment: "")
+                        dayTitle = localizedString("tomorrow_title", comment: "")
                     }else {
                         dayTitle = startDate.getDayName() ?? ""
                     }
@@ -90,9 +90,9 @@ class DeliverySlotManager {
     }
     
     class func getStoreGenericSlotFormatterTimeStringWithDictionary (_ slotDict : NSDictionary, isDeliveryMode: Bool ) -> String {
-        var groceryNextDeliveryString =  NSLocalizedString("lbl_no_timeSlot_available", comment: "")
+        var groceryNextDeliveryString =  localizedString("lbl_no_timeSlot_available", comment: "")
         if (slotDict["id"] as? NSNumber)?.stringValue == "0" {
-            groceryNextDeliveryString =  NSLocalizedString("today_title", comment: "") + "\n"  +  NSLocalizedString("60_min", comment: "")
+            groceryNextDeliveryString =  localizedString("today_title", comment: "") + "\n"  +  localizedString("60_min", comment: "")
         } else {
             
             var dayTitle = ""
@@ -101,16 +101,16 @@ class DeliverySlotManager {
                     let dayName = startDate.getDayName() ?? ""
                     if startDate.isToday {
                         if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayTitle = NSLocalizedString("lbl_next_delivery", comment: "")
+                            dayTitle = localizedString("lbl_next_delivery", comment: "")
                         }else {
-                            dayTitle = NSLocalizedString("lbl_next_self_collection", comment: "")
+                            dayTitle = localizedString("lbl_next_self_collection", comment: "")
                         }
                         
                     }else if startDate.isTomorrow {
                         if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayTitle = NSLocalizedString("lbl_next_delivery", comment: "")
+                            dayTitle = localizedString("lbl_next_delivery", comment: "")
                         }else {
-                            dayTitle = NSLocalizedString("lbl_next_self_collection", comment: "")
+                            dayTitle = localizedString("lbl_next_self_collection", comment: "")
                         }
                     }else {
                         dayTitle = startDate.getDayName() ?? ""

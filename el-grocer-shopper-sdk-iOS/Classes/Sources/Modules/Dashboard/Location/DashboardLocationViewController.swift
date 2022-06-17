@@ -20,14 +20,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     @IBOutlet var lbl_Note: UILabel! {
         didSet{
-            lbl_Note.text = NSLocalizedString("lbl_Note", comment: "")
+            lbl_Note.text = localizedString("lbl_Note", comment: "")
             lbl_Note.setCaptionOneRegDarkStyle()
         }
     }
     @IBOutlet var btnNewAddress: AWButton! {
         didSet{
             btnNewAddress.setButton2SemiBoldWhiteStyle()
-            btnNewAddress.setTitle(" " + NSLocalizedString("lbl_add_new_Address", comment: ""), for: .normal)
+            btnNewAddress.setTitle(" " + localizedString("lbl_add_new_Address", comment: ""), for: .normal)
         }
     }
     weak var delegate:DashboardLocationProtocol?
@@ -128,7 +128,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("dashboard_My_ddresses_navigation_bar_title", comment: "")
+        self.title = localizedString("dashboard_My_ddresses_navigation_bar_title", comment: "")
         
 //        if isRootController == false {
 //            addBackButton()
@@ -156,7 +156,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
       //  self.checkLocation()
         if   isFromNewHome ||  isFormCart {
             if isFormCart {
-                self.btnConfirmTitile.text = NSLocalizedString("intro_next_button", comment: "")
+                self.btnConfirmTitile.text = localizedString("intro_next_button", comment: "")
                 self.bottomViewHeight.constant = 77
                 removeBackButton()
             }else{
@@ -315,7 +315,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             SpinnerView.hideSpinnerView()
                             
                             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: ""),NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
                                 
                                 if index == 0 {
                                     ElGrocerUtility.sharedInstance.activeGrocery = nil
@@ -353,7 +353,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
 //            switch result {
 //            case .success(let result):
 //                if result == true {
-//                    let alert  = ElGrocerAlertView.createAlert(NSLocalizedString("thank_you", comment: ""), description: NSLocalizedString("delivery_location_request", comment: ""), positiveButton: NSLocalizedString("ok_button_title", comment: ""), negativeButton: "", buttonClickCallback: nil)
+//                    let alert  = ElGrocerAlertView.createAlert(localizedString("thank_you", comment: ""), description: localizedString("delivery_location_request", comment: ""), positiveButton: localizedString("ok_button_title", comment: ""), negativeButton: "", buttonClickCallback: nil)
 //                    alert.show()
 //                    print("Record update successfully.")
 //                    self.isNoCoverage = false
@@ -511,7 +511,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func setUpSearchTextFieldAppearance(){
         
-        self.searchTextField.placeholder = NSLocalizedString("dashboard_location_search_placeholder", comment: "")
+        self.searchTextField.placeholder = localizedString("dashboard_location_search_placeholder", comment: "")
         self.searchTextField.font = UIFont.bookFont(13.0)
         self.searchTextField.textColor = UIColor.darkTextGrayColor()
         self.searchTextField.backgroundColor = UIColor.lightGrayBGColor()
@@ -539,7 +539,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
 //        self.doneButton.titleLabel!.font = UIFont.mediumFont(18.0)
 //        self.doneButton.setTitleColor(UIColor.white, for: UIControl.State())
-//        self.doneButton.setTitle(NSLocalizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
+//        self.doneButton.setTitle(localizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
 //        self.doneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
 //
 //        self.doneButton.layer.cornerRadius = 5.0
@@ -555,14 +555,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             self.locationImgView.image = UIImage(name: "location-pin-selected")
             self.locationLabel.textColor = UIColor.meunGreenTextColor()
             
-            titleStr = NSMutableAttributedString(string: NSLocalizedString("dashboard_enable_location_services", comment: ""))
+            titleStr = NSMutableAttributedString(string: localizedString("dashboard_enable_location_services", comment: ""))
             
         }else{
             self.locationView.backgroundColor =  UIColor.redInfoColor()
             self.locationImgView.image = UIImage(name: "location-pin-white")
             self.locationLabel.textColor = UIColor.white
             
-            titleStr = NSMutableAttributedString(string: NSLocalizedString("dashboard_enable_location_services_2", comment: ""))
+            titleStr = NSMutableAttributedString(string: localizedString("dashboard_enable_location_services_2", comment: ""))
         }
         
         self.locationLabel.font = UIFont.SFProDisplaySemiBoldFont(13.0)
@@ -582,13 +582,13 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
         self.currentLabel.textColor = UIColor.darkTextGrayColor()
         self.currentLabel.font = UIFont.SFProDisplaySemiBoldFont(14.0)
-        self.currentLabel.text = NSLocalizedString("current_location_title", comment: "")
+        self.currentLabel.text = localizedString("current_location_title", comment: "")
         self.currentLabel.numberOfLines = 0
         self.currentLabel.sizeToFit()
         
         self.currentLocLabel.textColor = UIColor.darkTextGrayColor()
         self.currentLocLabel.font = UIFont.bookFont(13.0)
-        self.currentLocLabel.text = NSLocalizedString("finding_address_title", comment: "")
+        self.currentLocLabel.text = localizedString("finding_address_title", comment: "")
         self.currentLocLabel.numberOfLines = 0
         self.currentLocLabel.sizeToFit()
         
@@ -634,7 +634,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 
                 if let error = error {
                     print("Pick Place error: \(error.localizedDescription)")
-                    self.currentLocLabel.text = NSLocalizedString("failed_to_find_current_address_title", comment: "")
+                    self.currentLocLabel.text = localizedString("failed_to_find_current_address_title", comment: "")
                     return
                 }
                 if let placeLikelihoodList = placeLikelihoodList {
@@ -688,7 +688,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5.0
-        let titleStr = NSMutableAttributedString(string: NSLocalizedString("txt_not_cover_area_1", comment: ""))
+        let titleStr = NSMutableAttributedString(string: localizedString("txt_not_cover_area_1", comment: ""))
         titleStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, titleStr.length))
         
         self.noCoverageTitleLabel.attributedText = titleStr
@@ -698,14 +698,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         self.emailDoneButton.titleLabel!.font = UIFont.SFProDisplaySemiBoldFont(18.0)
         self.emailDoneButton.setTitleColor(UIColor.white, for: UIControl.State())
-        self.emailDoneButton.setTitle(NSLocalizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
+        self.emailDoneButton.setTitle(localizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
         self.emailDoneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
         
         self.emailDoneButton.layer.cornerRadius = 5.0
         self.emailDoneButton.clipsToBounds = true
         setEmailDoneButtonEnabled(false)
         
-        self.emailTextField.placeholder = NSLocalizedString("enter_email_placeholder_text", comment: "")
+        self.emailTextField.placeholder = localizedString("enter_email_placeholder_text", comment: "")
         self.emailTextField.font = UIFont.bookFont(13.0)
         self.emailTextField.textColor = UIColor.darkTextGrayColor()
         if UserDefaults.isUserLoggedIn(){
@@ -750,10 +750,10 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     // MARK: Enable location
     @objc func onEnableLocationClick() {
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("dashboard_enable_location_alert_title", comment: ""),
-                                      description: NSLocalizedString("dashboard_enable_location_services_3", comment: ""),
-                                      positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),
-                                      negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("dashboard_enable_location_alert_title", comment: ""),
+                                      description: localizedString("dashboard_enable_location_services_3", comment: ""),
+                                      positiveButton: localizedString("sign_out_alert_yes", comment: ""),
+                                      negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         
                                         if buttonIndex == 0 {
@@ -1117,9 +1117,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         guard allLocations.count > 1 else {
             
         
-            ElGrocerAlertView.createAlert(NSLocalizedString("dashboard_location_delete_alert_title", comment: ""),
-                  description: NSLocalizedString("dashboard_location_cant_delete_message", comment: ""),
-                  positiveButton: NSLocalizedString("dashboard_location_delete_alert_ok_button", comment: ""),
+            ElGrocerAlertView.createAlert(localizedString("dashboard_location_delete_alert_title", comment: ""),
+                  description: localizedString("dashboard_location_cant_delete_message", comment: ""),
+                  positiveButton: localizedString("dashboard_location_delete_alert_ok_button", comment: ""),
                   negativeButton: nil,
                   buttonClickCallback: nil).show()
             return
@@ -1128,16 +1128,16 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         // User cannot delete the active delivery address
         guard address.isActive.boolValue == false else {
             
-            ElGrocerAlertView.createAlert(NSLocalizedString("dashboard_location_delete_alert_title", comment: ""),
-                  description: NSLocalizedString("dashboard_location_cant_delete_active_location_error", comment: ""),
-                  positiveButton: NSLocalizedString("dashboard_location_delete_alert_ok_button", comment: ""),
+            ElGrocerAlertView.createAlert(localizedString("dashboard_location_delete_alert_title", comment: ""),
+                  description: localizedString("dashboard_location_cant_delete_active_location_error", comment: ""),
+                  positiveButton: localizedString("dashboard_location_delete_alert_ok_button", comment: ""),
                   negativeButton: nil,
                   buttonClickCallback: nil).show()
             return
         }
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: NSLocalizedString("dashboard_location_delete_alert_message", comment: ""),NSLocalizedString("sign_out_alert_yes", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (index) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (index) in
             
             if index == 0 {
                  self.removeUserLocation(cell)
@@ -1146,10 +1146,10 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             }
         }
     
-        /*ElGrocerAlertView.createAlert(NSLocalizedString("dashboard_location_delete_alert_title", comment: ""),
-          description: NSLocalizedString("dashboard_location_delete_alert_message", comment: ""),
-          positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),
-          negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+        /*ElGrocerAlertView.createAlert(localizedString("dashboard_location_delete_alert_title", comment: ""),
+          description: localizedString("dashboard_location_delete_alert_message", comment: ""),
+          positiveButton: localizedString("sign_out_alert_yes", comment: ""),
+          negativeButton: localizedString("sign_out_alert_no", comment: ""),
           buttonClickCallback: { (buttonIndex:Int) -> Void in
             
             if buttonIndex == 0 {
@@ -1188,14 +1188,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                     
                 } else {
                     
-                    var msgToDisplay = NSLocalizedString("dashboard_location_deletion_error", comment: "")
+                    var msgToDisplay = localizedString("dashboard_location_deletion_error", comment: "")
                     if msg.count > 0 {
                         msgToDisplay = msg
                     }
                     
                     ElGrocerAlertView.createAlert(msgToDisplay,
                                                   description: nil,
-                                                  positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                                  positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                                   negativeButton: nil, buttonClickCallback: nil).show()
                     
                 }
@@ -1341,7 +1341,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             let existingLocationIndex = self.locations.firstIndex(where: {String(format: "%.6f",$0.latitude) == selectedLocLatitude && String(format: "%.6f",$0.longitude) == selectedLocLongitude})
             if existingLocationIndex != nil {
                 if UserDefaults.isUserLoggedIn(){
-                    ElGrocerAlertView.createAlert(NSLocalizedString("exist_location_title", comment: ""),description: NSLocalizedString("exist_location_message", comment: ""),positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
+                    ElGrocerAlertView.createAlert(localizedString("exist_location_title", comment: ""),description: localizedString("exist_location_message", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
                         if buttonIndex == 0 {
                             let existingLocation = self.locations[existingLocationIndex!]
                             let editLocationController = ElGrocerViewControllers.editLocationViewController()
@@ -1353,7 +1353,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                     }).show()
                 }else{
                     self.refreshData()
-                    ElGrocerAlertView.createAlert( NSLocalizedString("add_location_title", comment: ""),description:NSLocalizedString("already_added_location_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil).showPopUp()
+                    ElGrocerAlertView.createAlert( localizedString("add_location_title", comment: ""),description:localizedString("already_added_location_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil).showPopUp()
                 }
                 SpinnerView.hideSpinnerView()
                 return
@@ -1445,9 +1445,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                     DatabaseHelper.sharedInstance.mainManagedObjectContext.delete(deliveryAddress)
                     DatabaseHelper.sharedInstance.saveDatabase()
                     
-                    ElGrocerAlertView.createAlert(NSLocalizedString("my_account_saving_error", comment: ""),
+                    ElGrocerAlertView.createAlert(localizedString("my_account_saving_error", comment: ""),
                                                   description: nil,
-                                                  positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                                  positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                                   negativeButton: nil, buttonClickCallback: nil).show()
                 }
             })
@@ -1591,9 +1591,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     private func showLocationErrorAlert(){
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("location_error_title", comment: ""),
-                                      description: NSLocalizedString("location_error_message", comment: ""),
-                                      positiveButton: NSLocalizedString("location_error_ok_button", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("location_error_title", comment: ""),
+                                      description: localizedString("location_error_message", comment: ""),
+                                      positiveButton: localizedString("location_error_ok_button", comment: ""),
                                       negativeButton: nil,
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         if buttonIndex == 0 {

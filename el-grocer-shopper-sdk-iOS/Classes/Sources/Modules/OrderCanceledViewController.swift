@@ -41,7 +41,7 @@ class OrderCanceledViewController : UIViewController {
     }
     
     fileprivate func setNavigationBarTitle() {
-        self.title = NSLocalizedString("title_order_canceled", comment: "")
+        self.title = localizedString("title_order_canceled", comment: "")
     }
     
     fileprivate func findGroceryName() -> String? {
@@ -60,18 +60,18 @@ class OrderCanceledViewController : UIViewController {
     }
     
     fileprivate func setLabelsText() {
-        self.labelWeAreSorry.text = NSLocalizedString("label_we_are_sorry", comment: "")
+        self.labelWeAreSorry.text = localizedString("label_we_are_sorry", comment: "")
         labelCancelMessage.text = self.message
-        labelProductsHaveBeenPutBack.text = NSLocalizedString("label_products_have_been_put_back", comment: "")
+        labelProductsHaveBeenPutBack.text = localizedString("label_products_have_been_put_back", comment: "")
         
         if let name = findGroceryName() {
-            labelOrderCanceled.text = String(format: NSLocalizedString("label_order_had_to_be_canceled", comment: ""), name)
+            labelOrderCanceled.text = String(format: localizedString("label_order_had_to_be_canceled", comment: ""), name)
         }
     }
     
     fileprivate func setButtonsText() {
-        btnOkOrder.setTitle(NSLocalizedString("btn_ok_order", comment: ""), for: UIControl.State())
-        btnNoThanks.setTitle(NSLocalizedString("btn_no_thanks", comment: ""), for: UIControl.State())
+        btnOkOrder.setTitle(localizedString("btn_ok_order", comment: ""), for: UIControl.State())
+        btnNoThanks.setTitle(localizedString("btn_no_thanks", comment: ""), for: UIControl.State())
     }
     
     override func backButtonClick() {

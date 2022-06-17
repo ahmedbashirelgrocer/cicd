@@ -58,7 +58,7 @@ class ElgrocerPopup: UIView {
     
     class func createAlert(_ title:String, description:String?) -> ElgrocerPopup {
         
-        let elGrocerPopup = Bundle(for: self).loadNibNamed("ElgrocerPopup", owner: nil, options: nil)![0] as! ElgrocerPopup
+        let elGrocerPopup = Bundle.resource.loadNibNamed("ElgrocerPopup", owner: nil, options: nil)![0] as! ElgrocerPopup
         elGrocerPopup.setDataInView(title, description: description)
         
         return elGrocerPopup

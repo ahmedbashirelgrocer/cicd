@@ -158,7 +158,7 @@ class IngrediantsCell: UITableViewCell {
                 if filterA.count > 0 {
                     showBottomSheet(recipe.recipeName ?? "", grocery: filterA , ingrediants: [ingrediant], recipe: recipe , view : view)
                     }else{
-                        showBottomSheet(NSLocalizedString("No_Store_For_Recipe_title", comment: "") , grocery: [], ingrediants: [ingrediant], recipe: recipe , view : view , isError: true)
+                        showBottomSheet(localizedString("No_Store_For_Recipe_title", comment: "") , grocery: [], ingrediants: [ingrediant], recipe: recipe , view : view , isError: true)
                     }
             }
             
@@ -355,7 +355,7 @@ class IngrediantsCell: UITableViewCell {
            // ElGrocerEventsLogger.sharedInstance.addToCart(product: selectedProduct , "", nil, false , -1 )
             
             ElGrocerUtility.sharedInstance.delay(1.0) {
-                let msg = NSLocalizedString("product_added_to_cart", comment: "")
+                let msg = localizedString("product_added_to_cart", comment: "")
                 ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
             }
             self.addIngrediant(true)
@@ -373,7 +373,7 @@ extension IngrediantsCell : RecipeDataHandlerDelegate{
     func addToCartCompleted() {
         ElGrocerUtility.sharedInstance.delay(1.0) {
             
-            let msg = NSLocalizedString("product_added_to_cart", comment: "")
+            let msg = localizedString("product_added_to_cart", comment: "")
             ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
         }
         self.addIngrediant(true)

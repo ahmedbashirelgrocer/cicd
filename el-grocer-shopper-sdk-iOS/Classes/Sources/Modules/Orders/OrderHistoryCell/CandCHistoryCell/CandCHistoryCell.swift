@@ -36,7 +36,7 @@ class CandCHistoryCell: UITableViewCell {
     @IBOutlet var lblViewDetails: UILabel!{
         didSet{
             lblViewDetails.setBody3BoldUpperStyle(true)
-            lblViewDetails.text = NSLocalizedString("lbl_Order_Details", comment: "")
+            lblViewDetails.text = localizedString("lbl_Order_Details", comment: "")
         }
     }
     @IBOutlet var progressView: UIProgressView!
@@ -48,7 +48,7 @@ class CandCHistoryCell: UITableViewCell {
     @IBOutlet var lblSelfCollection: UILabel!{
         didSet{
             lblSelfCollection.setBody3RegSecondaryDarkStyle()
-            lblSelfCollection.text = NSLocalizedString("lbl_self_collection_time", comment: "")
+            lblSelfCollection.text = localizedString("lbl_self_collection_time", comment: "")
         }
     }
     @IBOutlet var lblTime: UILabel!{
@@ -59,7 +59,7 @@ class CandCHistoryCell: UITableViewCell {
     @IBOutlet var lblFrom: UILabel!{
         didSet{
             lblFrom.setBody3RegSecondaryDarkStyle()
-            lblFrom.text = NSLocalizedString("from_title", comment: "")
+            lblFrom.text = localizedString("from_title", comment: "")
         }
     }
     @IBOutlet var lblStoreName: UILabel!{
@@ -70,7 +70,7 @@ class CandCHistoryCell: UITableViewCell {
     @IBOutlet var lblSelfCollectionPoint: UILabel!{
         didSet{
             lblSelfCollectionPoint.setBody3RegSecondaryDarkStyle()
-            lblSelfCollectionPoint.text = NSLocalizedString("title_self_collection_point_cc_history_cell", comment: "")
+            lblSelfCollectionPoint.text = localizedString("title_self_collection_point_cc_history_cell", comment: "")
         }
     }
     @IBOutlet var lblCollectionAddress: UILabel!{
@@ -81,7 +81,7 @@ class CandCHistoryCell: UITableViewCell {
     @IBOutlet var lblOrderCollectorDetails: UILabel!{
         didSet{
             lblOrderCollectorDetails.setBody3RegSecondaryDarkStyle()
-            lblOrderCollectorDetails.text = NSLocalizedString("title_order_collector_details", comment: "")
+            lblOrderCollectorDetails.text = localizedString("title_order_collector_details", comment: "")
         }
     }
     @IBOutlet var lblCollectorDetails: UILabel!{
@@ -92,7 +92,7 @@ class CandCHistoryCell: UITableViewCell {
     @IBOutlet var lblCarDetails: UILabel!{
         didSet{
             lblCarDetails.setBody3RegSecondaryDarkStyle()
-            lblCarDetails.text = NSLocalizedString("title_car_details", comment: "")
+            lblCarDetails.text = localizedString("title_car_details", comment: "")
         }
     }
     @IBOutlet var lblDetailsOfCar: UILabel!{
@@ -174,11 +174,11 @@ class CandCHistoryCell: UITableViewCell {
     func setButtonType (_ order : Order) {
         
         if order.status.intValue == OrderStatus.payment_pending.rawValue {
-            self.btnEditOrder.setTitle(NSLocalizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
+            self.btnEditOrder.setTitle(localizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
         }else if order.status.intValue == OrderStatus.inSubtitution.rawValue {
-            self.btnEditOrder.setTitle(NSLocalizedString("choose_substitutions_title", comment: ""), for: .normal)
+            self.btnEditOrder.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
         }else {
-            self.btnEditOrder.setTitle(NSLocalizedString("order_confirmation_Edit_order_button", comment: ""), for: .normal)
+            self.btnEditOrder.setTitle(localizedString("order_confirmation_Edit_order_button", comment: ""), for: .normal)
         }
     }
     
@@ -234,11 +234,11 @@ class CandCHistoryCell: UITableViewCell {
     
     func setOrderNumber() {
     
-        self.lblOrderNum.text = NSLocalizedString("order_lbl_numner", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: self.currentOrder!.dbID.stringValue)
+        self.lblOrderNum.text = localizedString("order_lbl_numner", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: self.currentOrder!.dbID.stringValue)
         let string = NSMutableAttributedString(string: self.lblOrderNum.text ?? "")
-        string.setColorForText(NSLocalizedString("order_lbl_numner", comment: "") , with: .secondaryBlackColor())
+        string.setColorForText(localizedString("order_lbl_numner", comment: "") , with: .secondaryBlackColor())
         string.setColorForText(" # " , with: .secondaryBlackColor())
-        string.setFontForText(NSLocalizedString("order_lbl_numner", comment: "") , with: .SFProDisplayNormalFont(14))
+        string.setFontForText(localizedString("order_lbl_numner", comment: "") , with: .SFProDisplayNormalFont(14))
         string.setFontForText(" # " , with: .SFProDisplayNormalFont(14))
         string.setColorForText(String(format: "%d",self.currentOrder!.dbID.intValue) , with: UIColor.newBlackColor())
         string.setFontForText(String(format: "%d",self.currentOrder!.dbID.intValue) , with: .SFProDisplaySemiBoldFont(14))
@@ -268,7 +268,7 @@ class CandCHistoryCell: UITableViewCell {
             self.lblTime.text  = slotTimeStr
         }else{
             self.lblTime.text = ""
-            self.lblTime.text  =   NSLocalizedString("60_min", comment: "")
+            self.lblTime.text  =   localizedString("60_min", comment: "")
         }
     }*/
     
@@ -301,7 +301,7 @@ class CandCHistoryCell: UITableViewCell {
                 }
             }
             //summary
-            let countLabel = summaryCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+            let countLabel = summaryCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
             self.lblItemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
 //            self.lblPrice.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() , grandTotal)
             self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
@@ -324,7 +324,7 @@ class CandCHistoryCell: UITableViewCell {
                 }
             }
             //summary
-            let countLabel = summaryCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+            let countLabel = summaryCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
             self.lblItemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
 //            self.lblPrice.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
             self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)

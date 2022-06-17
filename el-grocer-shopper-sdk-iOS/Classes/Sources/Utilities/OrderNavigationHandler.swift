@@ -82,7 +82,7 @@ class OrderNavigationHandler {
             print("Order Address ID:%@",orderAddressId)
             
             guard defaultAddressId == orderAddressId else {
-                ElGrocerAlertView.createAlert(NSLocalizedString("basket_active_from_other_grocery_title", comment: ""),description: NSLocalizedString("edit_Order_change_location_message", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
+                ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                 if let closure = self.editProcess , closure != nil {
                     closure!(false)
                 }
@@ -101,7 +101,7 @@ class OrderNavigationHandler {
         
         if self.processType != .editWithOutPopUp {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , detail: NSLocalizedString("edit_Notice", comment: ""),NSLocalizedString("promo_code_alert_no", comment: "") , NSLocalizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                 
                 if buttonIndex == 1 {
                     self.createBasketAndNavigateToViewForEditOrder()

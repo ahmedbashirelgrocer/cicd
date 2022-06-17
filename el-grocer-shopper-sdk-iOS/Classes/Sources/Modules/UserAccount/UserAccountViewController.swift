@@ -45,13 +45,13 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.menuItem = MenuItem(title: NSLocalizedString("setting_user_account", comment: ""))
+        self.menuItem = MenuItem(title: localizedString("setting_user_account", comment: ""))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("setting_user_account", comment: "")
+        self.title = localizedString("setting_user_account", comment: "")
         
        /* addMenuButton()
         
@@ -113,7 +113,7 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
      
         self.editProfileButton.layer.borderColor = UIColor.navigationBarColor().cgColor
         self.editProfileButton.layer.borderWidth = 1
-        self.editProfileButton.setTitle(NSLocalizedString("my_account_edit_profile_button", comment: ""), for: UIControl.State())
+        self.editProfileButton.setTitle(localizedString("my_account_edit_profile_button", comment: ""), for: UIControl.State())
         self.editProfileButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
         self.editProfileButton.titleLabel?.font = UIFont.lightFont(17.0)
     }
@@ -122,7 +122,7 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
         
         self.shopNowButton.layer.borderColor = UIColor.redTextColor().cgColor
         self.shopNowButton.layer.borderWidth = 1
-        self.shopNowButton.setTitle(NSLocalizedString("my_account_shop_now_button", comment: ""), for: UIControl.State())
+        self.shopNowButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: UIControl.State())
         self.shopNowButton.setTitleColor(UIColor.redTextColor(), for: UIControl.State())
         self.shopNowButton.titleLabel?.font = UIFont.lightFont(17.0)
     }
@@ -131,7 +131,7 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
         
         self.newAddressButton.layer.borderColor = UIColor.black.cgColor
         self.newAddressButton.layer.borderWidth = 1
-        self.newAddressButton.setTitle(NSLocalizedString("my_account_new_address_button", comment: ""), for: UIControl.State())
+        self.newAddressButton.setTitle(localizedString("my_account_new_address_button", comment: ""), for: UIControl.State())
         self.newAddressButton.setTitleColor(UIColor.black, for: UIControl.State())
         self.newAddressButton.titleLabel?.font = UIFont.lightFont(17.0)
     }
@@ -176,7 +176,7 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
         
         let cell:UserAccountCell = tableView.dequeueReusableCell(withIdentifier: kUserAccountCellIdentifier, for: indexPath) as! UserAccountCell
 
-        let placeholder = NSLocalizedString(UserAccountEditingOptions.labels[(indexPath as NSIndexPath).row], comment: "")
+        let placeholder = localizedString(UserAccountEditingOptions.labels[(indexPath as NSIndexPath).row], comment: "")
         
         cell.configure(placeholder, profile: self.userProfile, invoiceAddress: self.invoiceAddress, type: UserAccountEditingOptions(rawValue: (indexPath as NSIndexPath).row)!)
         

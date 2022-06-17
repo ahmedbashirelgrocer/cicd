@@ -33,7 +33,7 @@ class GenericHyperMarketHeader: UIView {
     @IBOutlet var lblBestFor: UILabel!{
         didSet{
             lblBestFor.setCaptionOneBoldUperCaseDarkGreenStyle()
-            lblBestFor.text = NSLocalizedString("lbl_Best_For", comment: "")
+            lblBestFor.text = localizedString("lbl_Best_For", comment: "")
         }
     }
     @IBOutlet var lblScheduledDelivery: UILabel!{
@@ -64,8 +64,8 @@ class GenericHyperMarketHeader: UIView {
     }
     @IBOutlet var txtSearchBar: UITextField!{
         didSet{
-            txtSearchBar.placeholder = NSLocalizedString("search_placeholder_hypermarket", comment: "")
-            txtSearchBar.setPlaceHolder(text: NSLocalizedString("search_placeholder_hypermarket", comment: ""))
+            txtSearchBar.placeholder = localizedString("search_placeholder_hypermarket", comment: "")
+            txtSearchBar.setPlaceHolder(text: localizedString("search_placeholder_hypermarket", comment: ""))
             txtSearchBar.setBody1RegStyle()
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
                 txtSearchBar.textAlignment = .right

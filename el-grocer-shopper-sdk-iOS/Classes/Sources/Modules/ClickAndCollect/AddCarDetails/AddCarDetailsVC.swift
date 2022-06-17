@@ -50,7 +50,7 @@ class AddCarDetailsVC: UIViewController {
     }
     @IBOutlet var plateNumTextfield: ElgrocerTextField!{
         didSet{
-            plateNumTextfield.placeholder = NSLocalizedString("placeholder_plate_num", comment: "")
+            plateNumTextfield.placeholder = localizedString("placeholder_plate_num", comment: "")
             plateNumTextfield.layer.cornerRadius = 8
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 plateNumTextfield.textAlignment = .right
@@ -60,7 +60,7 @@ class AddCarDetailsVC: UIViewController {
     }
     @IBOutlet var carModelTextfield: ElgrocerTextField!{
         didSet{
-            carModelTextfield.placeholder = NSLocalizedString("placeholder_Car_Model", comment: "")
+            carModelTextfield.placeholder = localizedString("placeholder_Car_Model", comment: "")
             carModelTextfield.layer.cornerRadius = 8
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 carModelTextfield.textAlignment = .right
@@ -78,13 +78,13 @@ class AddCarDetailsVC: UIViewController {
     @IBOutlet var btnCheckBox: UIButton!
     @IBOutlet var lbl_Save_car_details: UILabel!{
         didSet{
-            lbl_Save_car_details.text = NSLocalizedString("lbl_save_car_details", comment: "")
+            lbl_Save_car_details.text = localizedString("lbl_save_car_details", comment: "")
             lbl_Save_car_details.setBody3RegDarkStyle()
         }
     }
     @IBOutlet var btnAddCar: AWButton!{
         didSet{
-            btnAddCar.setTitle(NSLocalizedString("btn_Add_Car", comment: ""), for: .normal)
+            btnAddCar.setTitle(localizedString("btn_Add_Car", comment: ""), for: .normal)
             btnAddCar.setH4SemiBoldWhiteStyle()
         }
     }
@@ -132,7 +132,7 @@ class AddCarDetailsVC: UIViewController {
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
         //(self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        //self.title = NSLocalizedString("saved_cars_title", comment: "")
+        //self.title = localizedString("saved_cars_title", comment: "")
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.btnBack.transform = CGAffineTransform(scaleX: -1, y: 1)
                 self.carColorCollectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -181,20 +181,20 @@ class AddCarDetailsVC: UIViewController {
     func setupInitialAppearance(){
         switch carType {
         case .carDetails :
-            self.title = NSLocalizedString("lbl_Car_Details", comment: "")
-            self.lblHeading.text = NSLocalizedString("lbl_Car_Details", comment: "")
+            self.title = localizedString("lbl_Car_Details", comment: "")
+            self.lblHeading.text = localizedString("lbl_Car_Details", comment: "")
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.lblHeading.textAlignment = .right
             }else {
                 self.lblHeading.textAlignment = .left
             }
-            self.subHeadingLabel.text = NSLocalizedString("lbl_Car_Details", comment: "")
+            self.subHeadingLabel.text = localizedString("lbl_Car_Details", comment: "")
             self.btnBack.visibility = .goneX
         default:
-            self.title = NSLocalizedString("lbl_New_car_Details", comment: "")
-            self.lblHeading.text = NSLocalizedString("lbl_New_car_Details", comment: "")
+            self.title = localizedString("lbl_New_car_Details", comment: "")
+            self.lblHeading.text = localizedString("lbl_New_car_Details", comment: "")
             self.lblHeading.textAlignment = .center
-            self.subHeadingLabel.text = NSLocalizedString("lbl_New_car_Details", comment: "")
+            self.subHeadingLabel.text = localizedString("lbl_New_car_Details", comment: "")
             self.btnBack.visibility = .visible
         }
         self.subHeadingLabel.textAlignment = .natural
@@ -298,7 +298,7 @@ class AddCarDetailsVC: UIViewController {
     @IBAction func btnAddCarHandler(_ sender: Any) {
         
         guard self.plateNumTextfield.text?.count ?? 0 > 0 else {
-            self.plateNumTextfield.showError(message: NSLocalizedString("error_enter_plateNum", comment: ""))
+            self.plateNumTextfield.showError(message: localizedString("error_enter_plateNum", comment: ""))
             return
         }
         
@@ -328,7 +328,7 @@ class AddCarDetailsVC: UIViewController {
                             }
                             self.btnCrossHandler("")
                         }
-                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_added", comment: ""), "", image: UIImage(name: "carBlack"), -1, false) { sender, index, isUndo in
+                        ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("car_added", comment: ""), "", image: UIImage(name: "carBlack"), -1, false) { sender, index, isUndo in
                         }
                     case .failure(let error):
                         error.showErrorAlert()
@@ -354,7 +354,7 @@ class AddCarDetailsVC: UIViewController {
                             }
                             
                         }
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("car_updated", comment: ""), "", image: UIImage(name: "carBlack"), -1, false) { sender, index, isUndo in
+                    ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("car_updated", comment: ""), "", image: UIImage(name: "carBlack"), -1, false) { sender, index, isUndo in
                     }
                     case .failure(let error):
                         error.showErrorAlert()

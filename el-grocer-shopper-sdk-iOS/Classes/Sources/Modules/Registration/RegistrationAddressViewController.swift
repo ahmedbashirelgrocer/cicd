@@ -17,7 +17,7 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
     
     @IBOutlet weak var locationTextField: UITextField! {
         didSet {
-            locationTextField.placeholder = NSLocalizedString("registration_location_name_text_field_placeholder", comment: "")
+            locationTextField.placeholder = localizedString("registration_location_name_text_field_placeholder", comment: "")
             inputTextFields.append(locationTextField)
             requiredInputTextFields.append(locationTextField)
         }
@@ -25,7 +25,7 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
     
     @IBOutlet weak var addressTextField: UITextField! {
         didSet {
-            addressTextField.placeholder = NSLocalizedString("registration_address_text_field_placeholder", comment: "")
+            addressTextField.placeholder = localizedString("registration_address_text_field_placeholder", comment: "")
             inputTextFields.append(addressTextField)
             requiredInputTextFields.append(addressTextField)
         }
@@ -35,7 +35,7 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
     /** This text field holds the apartment or villa number */
     @IBOutlet weak var apartmentNumberTextField: UITextField! {
         didSet {
-            apartmentNumberTextField.placeholder = NSLocalizedString("registration_apartment_text_field_placeholder", comment: "")
+            apartmentNumberTextField.placeholder = localizedString("registration_apartment_text_field_placeholder", comment: "")
             inputTextFields.append(apartmentNumberTextField)
             //            requiredInputTextFields.append(apartmentNumberTextField)
         }
@@ -44,7 +44,7 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
     /** This text field holds either the building name or street number */
     @IBOutlet weak var buildingTextField: UITextField! {
         didSet {
-            buildingTextField.placeholder = NSLocalizedString("registration_building_name_text_field_placeholder", comment: "")
+            buildingTextField.placeholder = localizedString("registration_building_name_text_field_placeholder", comment: "")
             inputTextFields.append(buildingTextField)
             //            requiredInputTextFields.append(buildingTextField)
         }
@@ -53,7 +53,7 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
     /** This text field holds either the cluster or sub area information */
     @IBOutlet weak var streetTextField: UITextField! {
         didSet{
-            streetTextField.placeholder = NSLocalizedString("registration_street_text_field_placeholder", comment: "")
+            streetTextField.placeholder = localizedString("registration_street_text_field_placeholder", comment: "")
             inputTextFields.append(streetTextField)
             //            requiredInputTextFields.append(streetTextField)
         }
@@ -287,9 +287,9 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
                 completionHandler(userProfile)
                 
             } else {
-                let alertTitle = NSLocalizedString("alert_error_title", comment: "")
-                let alertMessage = NSLocalizedString("registration_update_personal_info_failed_error_message", comment: "")
-                let okButtonTitle = NSLocalizedString("ok_button_title", comment: "")
+                let alertTitle = localizedString("alert_error_title", comment: "")
+                let alertMessage = localizedString("registration_update_personal_info_failed_error_message", comment: "")
+                let okButtonTitle = localizedString("ok_button_title", comment: "")
                 let alert = ElGrocerAlertView.createAlert(alertTitle, description: alertMessage, positiveButton: okButtonTitle, negativeButton: nil, buttonClickCallback: nil)
                 alert.show()
             }
@@ -330,7 +330,7 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
                 
                 if accountExists {
                     
-                    ElGrocerAlertView.createAlert(NSLocalizedString("registration_account_exists_error_title", comment: ""),description:NSLocalizedString("registration_account_exists_error_alert", comment: ""),positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+                    ElGrocerAlertView.createAlert(localizedString("registration_account_exists_error_title", comment: ""),description:localizedString("registration_account_exists_error_alert", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                                   buttonClickCallback: { (buttonIndex:Int) -> Void in
                                                     
                                                     if buttonIndex == 0 {
@@ -352,9 +352,9 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
                     
                 } else {
                     
-                    ElGrocerAlertView.createAlert(NSLocalizedString("registration_error_alert", comment: ""),
+                    ElGrocerAlertView.createAlert(localizedString("registration_error_alert", comment: ""),
                                                   description: nil,
-                                                  positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                                  positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                                   negativeButton: nil, buttonClickCallback: nil).show()
                     
                 }
@@ -380,9 +380,9 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
                 
             } else {
                 
-                ElGrocerAlertView.createAlert(NSLocalizedString("registration_error_alert", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("registration_error_alert", comment: ""),
                                               description: nil,
-                                              positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                              positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                               negativeButton: nil, buttonClickCallback: nil).show()
                 
             }
@@ -415,9 +415,9 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
                 
                 
             } else {
-                ElGrocerAlertView.createAlert(NSLocalizedString("registration_error_alert", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("registration_error_alert", comment: ""),
                                               description: nil,
-                                              positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                              positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                               negativeButton: nil, buttonClickCallback: nil).show()
             }
         }

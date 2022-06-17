@@ -13,13 +13,13 @@ class shareCollectionDetailCell: UITableViewCell , UIActivityItemSource {
     @IBOutlet var lblSelfCollectionDetails: UILabel!{
         didSet{
             lblSelfCollectionDetails.setH3SemiBoldDarkStyle()
-            lblSelfCollectionDetails.text = NSLocalizedString("lbl_Self_collection_details", comment: "")
+            lblSelfCollectionDetails.text = localizedString("lbl_Self_collection_details", comment: "")
         }
     }
     @IBOutlet var lblShare: UILabel!{
         didSet{
             lblShare.setBody1BoldStyle()
-            lblShare.text = NSLocalizedString("lbl_Share", comment: "")
+            lblShare.text = localizedString("lbl_Share", comment: "")
         }
     }
     @IBOutlet var imgShare: UIImageView! {
@@ -70,7 +70,7 @@ class shareCollectionDetailCell: UITableViewCell , UIActivityItemSource {
         guard !orderID.isEmpty else {
             return ""
         }
-        let msg = String(format: NSLocalizedString("%@s asked you to help with the grocery collection from %@s. Follow this link to see the pickup details.", comment: ""), userProfile?.name ?? "" , self.currentOrder?.grocery.name ?? "" )
+        let msg = String(format: localizedString("%@s asked you to help with the grocery collection from %@s. Follow this link to see the pickup details.", comment: ""), userProfile?.name ?? "" , self.currentOrder?.grocery.name ?? "" )
         let shareLint =  "https://www.elgrocer.com/order/cc-collect/\(orderID)"
         let shareMsg = "\(msg) \(shareLint)"
         return shareMsg

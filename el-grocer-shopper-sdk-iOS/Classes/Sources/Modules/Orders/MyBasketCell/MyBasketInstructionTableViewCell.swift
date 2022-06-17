@@ -14,7 +14,7 @@ class MyBasketInstructionTableViewCell: UITableViewCell , GrowingTextViewDelegat
 
     @IBOutlet var lblYourinstruction: UILabel! {
         didSet{
-            lblYourinstruction.text = NSLocalizedString("lbl_insturution_text", comment: "Your instructions to the store")
+            lblYourinstruction.text = localizedString("lbl_insturution_text", comment: "Your instructions to the store")
             //lblYourinstruction.isHidden = true
         }
     }
@@ -24,9 +24,9 @@ class MyBasketInstructionTableViewCell: UITableViewCell , GrowingTextViewDelegat
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.txtNoteView.placeholder = NSLocalizedString("lbl_placeholder_text", comment: "type to leave us")
+        self.txtNoteView.placeholder = localizedString("lbl_placeholder_text", comment: "type to leave us")
 
-//        self.txtNoteView.placeholder = NSLocalizedString("instruction_textview_placeHolder", comment: "type to leave us")
+//        self.txtNoteView.placeholder = localizedString("instruction_textview_placeHolder", comment: "type to leave us")
         //self.txtNoteView.placeholderColor = .secondaryBlackColor()
         //self.btnCross.isHidden = (self.txtNoteView.text?.count == 0)
     }

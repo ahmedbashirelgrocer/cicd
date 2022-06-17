@@ -114,7 +114,7 @@ class PopImageViwerViewController: UIViewController {
         didSet{
             btnShopFromStore.cornarRadius = 28
             btnShopFromStore.setH4SemiBoldWhiteStyle()
-            btnShopFromStore.setTitle(NSLocalizedString("btn_add_from_store", comment: ""), for: UIControl.State())
+            btnShopFromStore.setTitle(localizedString("btn_add_from_store", comment: ""), for: UIControl.State())
         }
     }
     
@@ -400,9 +400,9 @@ class PopImageViwerViewController: UIViewController {
                     if !isNeedToShowPercentage{
                         self.lblOrignalPriceStrike.text = ""
                         self.lblOrignalPriceStrike.strikeThrough(false)
-                        self.lblDiscountPercent.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+                        self.lblDiscountPercent.text = localizedString("lbl_Special_Discount", comment: "")
                     }else{
-//                        self.lblOrignalPriceStrike.text = NSLocalizedString("aed", comment: "") + price.doubleValue.formateDisplayString()
+//                        self.lblOrignalPriceStrike.text = localizedString("aed", comment: "") + price.doubleValue.formateDisplayString()
                         self.lblOrignalPriceStrike.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: price.doubleValue)
                         self.lblOrignalPriceStrike.strikeThrough(true)
                     }
@@ -432,12 +432,12 @@ class PopImageViwerViewController: UIViewController {
             self.lblOrignalPriceStrike.visibility = .gone
             self.lblOrignalPriceStrike.attributedText = nil
             self.lblOrignalPriceStrike.text = ""
-            self.lblDiscountPercent.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+            self.lblDiscountPercent.text = localizedString("lbl_Special_Discount", comment: "")
             self.offerPercentView.isHidden = false
             self.strikeLblDistanceFromQtyLbl.constant = 23
             self.lblDistanceFromPercentageView.constant = 0
         }else{
-            self.lblDiscountPercent.text = "-" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(percentage)) + " " + NSLocalizedString("txt_off", comment: "")
+            self.lblDiscountPercent.text = "-" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(percentage)) + " " + localizedString("txt_off", comment: "")
             self.strikeLblDistanceFromQtyLbl.constant = 4
             self.lblDistanceFromPercentageView.constant = 10
         }
@@ -508,8 +508,8 @@ class PopImageViwerViewController: UIViewController {
     fileprivate func setUpApearance(){
         
         self.navigationController?.isNavigationBarHidden = true
-        self.lblOffer.text = NSLocalizedString("lbl_offer", comment: "")
-        self.btnAddToCart.setTitle(NSLocalizedString("btn_add_to_cart_product_zoom", comment: ""), for: UIControl.State())
+        self.lblOffer.text = localizedString("lbl_offer", comment: "")
+        self.btnAddToCart.setTitle(localizedString("btn_add_to_cart_product_zoom", comment: ""), for: UIControl.State())
         UpdateCountLabel()
         self.NoDataView.delegate = self
         //sab
@@ -662,11 +662,11 @@ class PopImageViwerViewController: UIViewController {
                     
                 }else if isPromoLimitReached {
                   
-                    let msg = String(format: NSLocalizedString("promotion_changed_alert_description", comment: ""), "\(self.product!.name ?? "")" , "\(self.product!.promoProductLimit ?? 0) ")
+                    let msg = String(format: localizedString("promotion_changed_alert_description", comment: ""), "\(self.product!.name ?? "")" , "\(self.product!.promoProductLimit ?? 0) ")
                     
-                    let notification = ElGrocerAlertView.createAlert(NSLocalizedString("quantity_changed_alert_title", comment: "") ,
+                    let notification = ElGrocerAlertView.createAlert(localizedString("quantity_changed_alert_title", comment: "") ,
                                                                      description: msg ,
-                                                                     positiveButton: NSLocalizedString("promo_code_alert_ok", comment: ""),
+                                                                     positiveButton: localizedString("promo_code_alert_ok", comment: ""),
                                                                      negativeButton: nil, buttonClickCallback: nil )
                     notification.show()
                     
@@ -677,11 +677,11 @@ class PopImageViwerViewController: UIViewController {
                     
                 } else if isQuantityReached {
                     
-                    let msg = String(format: NSLocalizedString("promotion_changed_alert_description", comment: ""), "\(self.product!.name ?? "")" , "\(self.product!.availableQuantity ) ")
+                    let msg = String(format: localizedString("promotion_changed_alert_description", comment: ""), "\(self.product!.name ?? "")" , "\(self.product!.availableQuantity ) ")
                     
-                    let notification = ElGrocerAlertView.createAlert(NSLocalizedString("quantity_changed_alert_title", comment: "") ,
+                    let notification = ElGrocerAlertView.createAlert(localizedString("quantity_changed_alert_title", comment: "") ,
                                                                      description: msg ,
-                                                                     positiveButton: NSLocalizedString("promo_code_alert_ok", comment: ""),
+                                                                     positiveButton: localizedString("promo_code_alert_ok", comment: ""),
                                                                      negativeButton: nil, buttonClickCallback: nil )
                     notification.show()
                     
@@ -841,8 +841,8 @@ class PopImageViwerViewController: UIViewController {
                 self.isAddedToCart = true
             }else{
                 print("show error adding more quantity then limit")
-                let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
-                let title = NSLocalizedString("msg_limited_stock_title", comment: "")
+                let msg = localizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + localizedString("msg_limited_stock_end", comment: "")
+                let title = localizedString("msg_limited_stock_title", comment: "")
                 ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                 
             }
@@ -876,8 +876,8 @@ class PopImageViwerViewController: UIViewController {
                     self.btnPlusButton.isEnabled = false
                     self.btnPlusButton.backgroundColor = .newBorderGreyColor()
                     
-                    let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
-                    let title = NSLocalizedString("msg_limited_stock_title", comment: "")
+                    let msg = localizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + localizedString("msg_limited_stock_end", comment: "")
+                    let title = localizedString("msg_limited_stock_title", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                     
                 }else{
@@ -894,8 +894,8 @@ class PopImageViwerViewController: UIViewController {
             if product?.promotion?.boolValue == true{
                 if (productCount >= selectedProduct.promoProductLimit!.intValue) && selectedProduct.promoProductLimit!.intValue > 0 {
                     
-                    let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
-                    let title = NSLocalizedString("msg_limited_stock_title", comment: "")
+                    let msg = localizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + localizedString("msg_limited_stock_end", comment: "")
+                    let title = localizedString("msg_limited_stock_title", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                     
                 }else{
@@ -967,7 +967,7 @@ class PopImageViwerViewController: UIViewController {
             ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: grocery, brandName: selectedProduct.brandNameEn , quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
             
 //            ElGrocerUtility.sharedInstance.delay(1.0) {
-//                let msg = NSLocalizedString("product_added_to_cart", comment: "")
+//                let msg = localizedString("product_added_to_cart", comment: "")
 //                ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
 //            }
 //            self.addIngrediant(true)

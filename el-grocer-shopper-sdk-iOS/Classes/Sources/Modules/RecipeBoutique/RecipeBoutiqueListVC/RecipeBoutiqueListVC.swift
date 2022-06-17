@@ -106,7 +106,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
         
-        self.navigationController!.navigationBar.topItem!.title = NSLocalizedString("title_recipe_list", comment: "")
+        self.navigationController!.navigationBar.topItem!.title = localizedString("title_recipe_list", comment: "")
 //        self.navigationController?.navigationBar.isTranslucent = false
 //        self.navigationController?.setNavigationBarHidden(false, animated: false)
 //        self.navigationController?.navigationBar.barTintColor = UIColor.white
@@ -125,7 +125,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-//            self.addCustomTitleViewWithTitleDarkShade( NSLocalizedString("title_recipe_list", comment: "") , true)
+//            self.addCustomTitleViewWithTitleDarkShade( localizedString("title_recipe_list", comment: "") , true)
         }
         
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
@@ -148,7 +148,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
     func setUpSearchApearance() {
 
         self.searchTextField.delegate = self
-        self.searchTextField.placeholder = NSLocalizedString("recipe_boutique_searchBar_txt", comment: "")
+        self.searchTextField.placeholder = localizedString("recipe_boutique_searchBar_txt", comment: "")
         self.searchTextField.attributedPlaceholder = NSAttributedString.init(string: self.searchTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryBlackColor()])
         
     }
@@ -300,7 +300,7 @@ extension RecipeBoutiqueListVC : UITableViewDelegate , UITableViewDataSource {
             
             let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
             
-            cell.configureCell(title: recipeCategoriesListView.categorySelected?.categoryName ?? NSLocalizedString("txt_All_Recipes", comment: ""))
+            cell.configureCell(title: recipeCategoriesListView.categorySelected?.categoryName ?? localizedString("txt_All_Recipes", comment: ""))
             return cell
             
         }

@@ -226,7 +226,7 @@ extension StoreFeeds {
         ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
             switch result {
                 case .success(let response):
-                    self?.saveResponseDataWithTitle(NSLocalizedString("previously_purchased_products_title", comment: "") , withServerResponse: response)
+                    self?.saveResponseDataWithTitle(localizedString("previously_purchased_products_title", comment: "") , withServerResponse: response)
                 case .failure(let error):
                     debugPrint(error.localizedMessage)
                     self?.isRunning = false
@@ -294,12 +294,12 @@ extension StoreFeeds {
         if let updateGrocery = Grocery.getGroceryById(grocery?.dbID ?? "", context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             if var categories = updateGrocery.categories.allObjects as? [Category] {
                 categories.sort { $0.sortID < $1.sortID}
-                self.data = Home.init(NSLocalizedString("lbl_Shop_Category", comment: ""), withCategory: categories, withType: .ListOfCategories)
+                self.data = Home.init(localizedString("lbl_Shop_Category", comment: ""), withCategory: categories, withType: .ListOfCategories)
             }
         }else{
             if var categories = grocery?.categories.allObjects as? [Category] {
                 categories.sort { $0.sortID < $1.sortID}
-                self.data = Home.init(NSLocalizedString("lbl_Shop_Category", comment: ""), withCategory: categories, withType: .ListOfCategories)
+                self.data = Home.init(localizedString("lbl_Shop_Category", comment: ""), withCategory: categories, withType: .ListOfCategories)
             }
         }
         

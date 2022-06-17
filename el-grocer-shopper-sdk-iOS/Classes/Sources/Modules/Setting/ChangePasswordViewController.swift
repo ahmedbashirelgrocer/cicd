@@ -34,13 +34,13 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
     @IBOutlet var lblPageTitle: UILabel!{
         didSet{
             lblPageTitle.setH4SemiBoldStyle()
-            lblPageTitle.text = NSLocalizedString("lbl_page_title", comment: "")
+            lblPageTitle.text = localizedString("lbl_page_title", comment: "")
         }
     }
     @IBOutlet var lblHeading: UILabel!{
         didSet{
             lblHeading.setH3SemiBoldDarkStyle()
-            lblHeading.text = NSLocalizedString("lbl_change_password_heading", comment: "")
+            lblHeading.text = localizedString("lbl_change_password_heading", comment: "")
         }
     }
     @IBOutlet var btnSaveTopConstraint: NSLayoutConstraint! {
@@ -78,10 +78,10 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
     
     func setupAppearance() {
         
-       self.oldPasswordTextField.placeholder = NSLocalizedString("old_Password_PlaceHolder", comment: "")
-       self.newPasswordTextField.placeholder = NSLocalizedString("new_Password_PlaceHolder", comment: "")
-       self.confirmPasswordTextField.placeholder = NSLocalizedString("confirm_Password_PlaceHolder", comment: "")
-        self.saveButton.setTitle(NSLocalizedString("save_button_title", comment: ""), for: .normal)
+       self.oldPasswordTextField.placeholder = localizedString("old_Password_PlaceHolder", comment: "")
+       self.newPasswordTextField.placeholder = localizedString("new_Password_PlaceHolder", comment: "")
+       self.confirmPasswordTextField.placeholder = localizedString("confirm_Password_PlaceHolder", comment: "")
+        self.saveButton.setTitle(localizedString("save_button_title", comment: ""), for: .normal)
        
        self.setSaveButtonEnabled(true)
         //self.imgLogo.changePngColorTo(color: .navigationBarColor())
@@ -134,7 +134,7 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationBarColor()
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
-        self.title = NSLocalizedString("lbl_page_title", comment: "")
+        self.title = localizedString("lbl_page_title", comment: "")
         if self.navigationController is ElGrocerNavigationController {
             (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
@@ -175,10 +175,10 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
                 }
                 
             }
-//            let notification = ElGrocerAlertView.createAlert(NSLocalizedString("Change_Password_alert_Title", comment: ""),description: isSuccess ?  NSLocalizedString("Change_Password_Success_Message", comment: "") : NSLocalizedString("Change_Password_Failure_Message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+//            let notification = ElGrocerAlertView.createAlert(localizedString("Change_Password_alert_Title", comment: ""),description: isSuccess ?  localizedString("Change_Password_Success_Message", comment: "") : localizedString("Change_Password_Failure_Message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
 //            notification.showPopUp()
             DispatchQueue.main.async {
-                self.oldPasswordTextField.showError(message: NSLocalizedString("error_wrong_pass", comment: ""))
+                self.oldPasswordTextField.showError(message: localizedString("error_wrong_pass", comment: ""))
             }
             
         }
@@ -194,15 +194,15 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
         
         if oldPasswordTextField.text != "" && newPasswordTextField.text != "" && confirmPasswordTextField.text != ""{
             guard (self.oldPasswordTextField.text?.isValidPassword())! else {
-                self.oldPasswordTextField.showError(message: NSLocalizedString("error_invalid_pass", comment: ""))
+                self.oldPasswordTextField.showError(message: localizedString("error_invalid_pass", comment: ""))
                 return
             }
             guard (self.newPasswordTextField.text?.isValidPassword())! else {
-                self.newPasswordTextField.showError(message: NSLocalizedString("error_invalid_pass", comment: ""))
+                self.newPasswordTextField.showError(message: localizedString("error_invalid_pass", comment: ""))
                 return
             }
             guard (self.confirmPasswordTextField.text?.isValidPassword())! else {
-                self.confirmPasswordTextField.showError(message: NSLocalizedString("error_invalid_pass", comment: ""))
+                self.confirmPasswordTextField.showError(message: localizedString("error_invalid_pass", comment: ""))
                 return
             }
             
@@ -210,8 +210,8 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
                  //self.setSaveButtonEnabled(true)
                 changePasswordCall()
             }else{
-                self.newPasswordTextField.showError(message: NSLocalizedString("error_enter_pass", comment: ""))
-                self.confirmPasswordTextField.showError(message: NSLocalizedString("error_pass_missmatch", comment: ""))
+                self.newPasswordTextField.showError(message: localizedString("error_enter_pass", comment: ""))
+                self.confirmPasswordTextField.showError(message: localizedString("error_pass_missmatch", comment: ""))
             }
         }
         

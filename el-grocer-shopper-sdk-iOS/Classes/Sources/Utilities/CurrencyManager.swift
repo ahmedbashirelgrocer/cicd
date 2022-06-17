@@ -11,6 +11,6 @@ class CurrencyManager {
     
     
     public static func getCurrentCurrency() -> String {
-        return NSLocalizedString("aed", comment: "")
+        return localizedString("aed", comment: "")
     }
 }

@@ -15,7 +15,7 @@ class NextCell: UICollectionViewCell {
     @IBOutlet weak var nextImgView: UIImageView!
     @IBOutlet var lblViewAll: UILabel!{
         didSet{
-            lblViewAll.text = NSLocalizedString("txt_see_more", comment: "")
+            lblViewAll.text = localizedString("txt_see_more", comment: "")
             lblViewAll.setCaptionOneBoldUperCaseGreenStyle()
         }
     }
@@ -29,9 +29,9 @@ class NextCell: UICollectionViewCell {
         
         
         if isForPreference{
-            lblViewAll.text = NSLocalizedString("search_more_replacement", comment: "").uppercased()
+            lblViewAll.text = localizedString("search_more_replacement", comment: "").uppercased()
         }else{
-            lblViewAll.text = NSLocalizedString("txt_see_more", comment: "")
+            lblViewAll.text = localizedString("txt_see_more", comment: "")
         }
         
         

@@ -45,7 +45,7 @@ class ContactInfoViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         //Add title of nav bar
-        self.title = NSLocalizedString("checkout_Profile_title", comment: "")
+        self.title = localizedString("checkout_Profile_title", comment: "")
         
         if self.navigationController is ElGrocerNavigationController {
             //Hide Seach bar in Nav bar
@@ -86,7 +86,7 @@ class ContactInfoViewController: UIViewController {
     func setUpContactLabelAppearance() {
         self.contactLabel.font = UIFont.SFProDisplayBoldFont(16.0)
         self.contactLabel.textColor = UIColor.black
-        self.contactLabel.text = NSLocalizedString("contact_information", comment: "")
+        self.contactLabel.text = localizedString("contact_information", comment: "")
     }
     
     func setUpTextFieldAppearance() {
@@ -98,7 +98,7 @@ class ContactInfoViewController: UIViewController {
     
         self.nameTextField.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         self.nameTextField.textColor = UIColor.black
-        self.nameTextField.attributedPlaceholder = NSAttributedString(string:NSLocalizedString("name", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        self.nameTextField.attributedPlaceholder = NSAttributedString(string:localizedString("name", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         self.nameTextField.addTarget(self, action: #selector(ContactInfoViewController.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         
@@ -119,7 +119,7 @@ class ContactInfoViewController: UIViewController {
         
         self.phoneTextField.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         self.phoneTextField.textColor = UIColor.black
-        self.phoneTextField.attributedPlaceholder = NSAttributedString(string:NSLocalizedString("phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        self.phoneTextField.attributedPlaceholder = NSAttributedString(string:localizedString("phone", comment: ""), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         self.phoneTextField.addTarget(self, action: #selector(ContactInfoViewController.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         
@@ -135,7 +135,7 @@ class ContactInfoViewController: UIViewController {
     func setUpNextButtonAppearance() {
         self.nextButton.backgroundColor = UIColor.navigationBarColor()
         self.nextButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(16.0)
-        self.nextButton.setTitle(NSLocalizedString("intro_next_button", comment: ""), for: UIControl.State())
+        self.nextButton.setTitle(localizedString("intro_next_button", comment: ""), for: UIControl.State())
     }
     
     // MARK: Data

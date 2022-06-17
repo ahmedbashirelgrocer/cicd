@@ -58,7 +58,7 @@ let KCancelOldAllCalls = "CancelDataCalls"
 
 open class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
     
-    static var shared = AppDelegate()
+    static var shared: AppDelegate { return UIApplication.shared.delegate as! AppDelegate }
     
     var appStartTime : Date?
     var window: UIWindow?
@@ -654,11 +654,11 @@ func checkAdvertPermission () {
         let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
 
         let vcData: [(UIViewController, UIImage , String)] = [
-            (homeViewEmpty, UIImage(name: "TabbarHome")!,NSLocalizedString("Home_Title", comment: "")),
-            (storeMain, UIImage(name: "icStore")!,NSLocalizedString("Store_Title", comment: "")),
-            (searchController, UIImage(name: "icTabBarshoppingList")! ,NSLocalizedString("Shopping_list_Titile", comment: "")),
-            (settingController, UIImage(name: "TabbarProfile")!   ,NSLocalizedString("more_title", comment: "")),
-            (myBasketViewController, UIImage(name: "TabbarCart")!   ,NSLocalizedString("Cart_Title", comment: ""))
+            (homeViewEmpty, UIImage(name: "TabbarHome")!,localizedString("Home_Title", comment: "")),
+            (storeMain, UIImage(name: "icStore")!,localizedString("Store_Title", comment: "")),
+            (searchController, UIImage(name: "icTabBarshoppingList")! ,localizedString("Shopping_list_Titile", comment: "")),
+            (settingController, UIImage(name: "TabbarProfile")!   ,localizedString("more_title", comment: "")),
+            (myBasketViewController, UIImage(name: "TabbarCart")!   ,localizedString("Cart_Title", comment: ""))
         ]
         
         let vcs = vcData.map { (viewController, image , title) -> UINavigationController in
@@ -1174,7 +1174,7 @@ func checkAdvertPermission () {
     
     fileprivate func createLocalNotificationWithFireTime(fireTimeMinutes:TimeInterval) -> UILocalNotification {
         
-        let message = NSLocalizedString("abandoned_cart_notification_message", comment: "")
+        let message = localizedString("abandoned_cart_notification_message", comment: "")
         
         let localNotification = UILocalNotification()
         localNotification.userInfo = nil
@@ -1188,7 +1188,7 @@ func checkAdvertPermission () {
     
     fileprivate func createLocalNotificationWith24HourFireTime(fireTimeMinutes:TimeInterval) -> UILocalNotification {
         
-        let message = NSLocalizedString("abandoned_cart_notification_message_24_Hour", comment: "")
+        let message = localizedString("abandoned_cart_notification_message_24_Hour", comment: "")
         
         let localNotification = UILocalNotification()
         var dict = NSDictionary()
@@ -1204,7 +1204,7 @@ func checkAdvertPermission () {
     
     fileprivate func createLocalNotificationWith72HourFireTime(fireTimeMinutes:TimeInterval) -> UILocalNotification {
         
-        let message = NSLocalizedString("abandoned_cart_notification_message_72_Hour", comment: "")
+        let message = localizedString("abandoned_cart_notification_message_72_Hour", comment: "")
         
         let localNotification = UILocalNotification()
         var dict = NSDictionary()
@@ -1417,7 +1417,7 @@ extension AppDelegate : UITabBarControllerDelegate {
                                 
                                 
                                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                                     
                                     if buttonIndex == 1 {
                                         

@@ -54,9 +54,9 @@ class OrderCancelationVC: UIViewController {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
             if cancelationType == .cancelOrder{
-                (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = NSLocalizedString("order_history_cancel_alert_title", comment: "")
+                (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("order_history_cancel_alert_title", comment: "")
             }else{
-                (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = NSLocalizedString("delete_account", comment: "")
+                (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("delete_account", comment: "")
             }
             self.addBackButton()
         }
@@ -123,11 +123,11 @@ class OrderCancelationVC: UIViewController {
         
         if self.selectedOptionIndex > -1 {
             
-            if self.questionsArray[self.selectedOptionIndex].reasonString.lowercased() == NSLocalizedString("cell_Title_Other", comment: "").lowercased() {
+            if self.questionsArray[self.selectedOptionIndex].reasonString.lowercased() == localizedString("cell_Title_Other", comment: "").lowercased() {
                 
                 if insCell?.txtNoteView.text.count ?? 0 == 0 {
                     insCell?.txtNoteView.becomeFirstResponder()
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("write_reason_alert", comment: "") , image: UIImage(name: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
+                    ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("write_reason_alert", comment: "") , image: UIImage(name: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
                 }else{
                     self.delegate?.startCancellationProcess(self.orderID , reason: self.questionsArray[self.selectedOptionIndex].reasonKey , improvement: insCell?.txtNoteView.text ?? "" , reasonString : self.questionsArray[self.selectedOptionIndex].reasonString)
                 }
@@ -137,7 +137,7 @@ class OrderCancelationVC: UIViewController {
             }
             
         }else{
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("select_one_option", comment: "") , image: UIImage(name: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
+            ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("select_one_option", comment: "") , image: UIImage(name: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
         }
     }
    
@@ -160,9 +160,9 @@ extension OrderCancelationVC : UITableViewDelegate , UITableViewDataSource{
             if indexPath.row == 0{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TitleTableViewCell") as! TitleTableViewCell
                     if cancelationType == .cancelOrder{
-                        cell.configureTitle(title: NSLocalizedString("question_cancel_order", comment: ""))
+                        cell.configureTitle(title: localizedString("question_cancel_order", comment: ""))
                     }else{
-                        cell.configureTitle(title: NSLocalizedString("question_delete_account", comment: ""))
+                        cell.configureTitle(title: localizedString("question_delete_account", comment: ""))
                     }
                 return cell
             }
@@ -187,19 +187,19 @@ extension OrderCancelationVC : UITableViewDelegate , UITableViewDataSource{
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "instructionsTableCell", for: indexPath) as! instructionsTableCell
                 if cancelationType == .cancelOrder{
-                    cell.setData(tableView: tableView, placeHolder: NSLocalizedString("instruction_placeholder_order_cancelation", comment: ""))
+                    cell.setData(tableView: tableView, placeHolder: localizedString("instruction_placeholder_order_cancelation", comment: ""))
                 }else{
                     
-                    cell.setData(tableView: tableView, placeHolder: NSLocalizedString("instruction_placeholder_delete_account", comment: ""))
+                    cell.setData(tableView: tableView, placeHolder: localizedString("instruction_placeholder_delete_account", comment: ""))
                 }
                 return cell
             }else{
                 let cell : SubsitutionActionButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SubsitutionActionButtonTableViewCell" , for: indexPath) as! SubsitutionActionButtonTableViewCell
                 cell.configure(true)
                 if cancelationType == .cancelOrder{
-                    cell.configureTitle(title: NSLocalizedString("Confirm_order_cancelation", comment: ""))
+                    cell.configureTitle(title: localizedString("Confirm_order_cancelation", comment: ""))
                 }else{
-                    cell.configureTitle(title: NSLocalizedString("confirm_deletion", comment: ""))
+                    cell.configureTitle(title: localizedString("confirm_deletion", comment: ""))
                 }
                 cell.buttonclicked = { [weak self] (isCancel) in
                     if isCancel{

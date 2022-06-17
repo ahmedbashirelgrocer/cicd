@@ -218,7 +218,7 @@ class MyBasket  {
                 let slot = self.deliverySlotsA[0]
                 currentSlots = [slot]
             }else{
-                orderTypeDescription =  NSLocalizedString("no_slots_available", comment: "")
+                orderTypeDescription =  localizedString("no_slots_available", comment: "")
             }
         }
         if slotId != 0 {
@@ -260,10 +260,10 @@ class MyBasket  {
                 if  instantSlots.count > 0 {
                     
                     self.activeDeliverySlot = instantSlots[0]
-                    orderTypeDescription =   NSLocalizedString("today_title", comment: "") + " "   +  NSLocalizedString("60_min", comment: "")
+                    orderTypeDescription =   localizedString("today_title", comment: "") + " "   +  localizedString("60_min", comment: "")
 
                 } else {
-                    orderTypeDescription = NSLocalizedString("choose_slot", comment: "")
+                    orderTypeDescription = localizedString("choose_slot", comment: "")
                 }
                 
             }else{
@@ -272,7 +272,7 @@ class MyBasket  {
                     orderTypeDescription = self.activeDeliverySlot!.getSlotFormattedString(true, isDeliveryMode: ElGrocerUtility.sharedInstance.isDeliveryMode)
                     
                 }else{
-                    orderTypeDescription = NSLocalizedString("choose_slot", comment: "")
+                    orderTypeDescription = localizedString("choose_slot", comment: "")
                 }
             }
         }
@@ -513,7 +513,7 @@ extension MyBasket {
         }
         
         if isPromoChanged && promotionalItemChangedMessage.count > 0 {
-            let msg = promotionalItemChangedMessage //NSLocalizedString("promotion_changed_alert_title", comment: "")
+            let msg = promotionalItemChangedMessage //localizedString("promotion_changed_alert_title", comment: "")
             ElGrocerUtility.sharedInstance.showTopMessageView( msg , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
         }
         

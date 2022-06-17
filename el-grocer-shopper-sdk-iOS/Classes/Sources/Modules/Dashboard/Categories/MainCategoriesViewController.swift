@@ -128,7 +128,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.menuItem = MenuItem(title: NSLocalizedString("side_menu_dashboard", comment: ""))
+        self.menuItem = MenuItem(title: localizedString("side_menu_dashboard", comment: ""))
         self.shouldShowGroceryActiveBasket = true
     }
     
@@ -727,7 +727,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             if indexPath.row == 0 {
     
                 let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: NSLocalizedString("lbl_featured_recepies_title", comment: "") , true)
+                cell.configureCell(title: localizedString("lbl_featured_recepies_title", comment: "") , true)
                 cell.viewAllAction = {
                     ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric(source: FireBaseScreenName.Home.rawValue)
                     let recipeStory = ElGrocerViewControllers.recipesBoutiqueListVC()
@@ -949,7 +949,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-            self.title = NSLocalizedString("Store_Title", comment: "")
+            self.title = localizedString("Store_Title", comment: "")
             
         }else{
             self.tableViewCategories.backgroundView = UIView()
@@ -981,10 +981,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             SKStoreReviewController.requestReview()
         } else {
             // Fallback on earlier versions
-            ElGrocerAlertView.createAlert(NSLocalizedString("rate_us_title", comment: ""),
-                                          description: NSLocalizedString("rate_us_message", comment: ""),
-                                          positiveButton: NSLocalizedString("rate_us_ok_title", comment: ""),
-                                          negativeButton: NSLocalizedString("rate_us_cancel_title", comment: ""),
+            ElGrocerAlertView.createAlert(localizedString("rate_us_title", comment: ""),
+                                          description: localizedString("rate_us_message", comment: ""),
+                                          positiveButton: localizedString("rate_us_ok_title", comment: ""),
+                                          negativeButton: localizedString("rate_us_cancel_title", comment: ""),
                                           buttonClickCallback: { (buttonIndex:Int) -> Void in
                                             if buttonIndex == 0 {
                                                 let reviewUrl = "https://itunes.apple.com/us/app/el-grocer-home-delivery-app/id1040399641?mt=8?action=write-review"
@@ -1047,7 +1047,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     @objc func deepLinkErrorHandle() {
         
-        let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""),description: NSLocalizedString("store_is_unavailable", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+        let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description: localizedString("store_is_unavailable", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
         errorAlert.showPopUp()
     }
     
@@ -1401,7 +1401,7 @@ extension MainCategoriesViewController: HomeCellDelegate {
                     
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             //clear active basket and add product
@@ -1573,7 +1573,7 @@ extension MainCategoriesViewController {
                 }else{
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.window?.rootViewController?.present(failureCase, animated: true) {
-                        //failureCase.lblErrorMsg.text = NSLocalizedString("error_wrong", comment: "")
+                        //failureCase.lblErrorMsg.text = localizedString("error_wrong", comment: "")
                     }
                 }
             }

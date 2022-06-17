@@ -43,7 +43,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     // MARK: Outlets
     @IBOutlet weak var welcomeLabel: UILabel! {
         didSet {
-            welcomeLabel.text = NSLocalizedString("lbl_signUp_Add_title", comment: "")
+            welcomeLabel.text = localizedString("lbl_signUp_Add_title", comment: "")
             welcomeLabel.setBody2RegDarkStyle()
         }
     }
@@ -59,7 +59,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         didSet {
             inputTextFields.append(nameTextField)
             requiredInputTextFields.append(nameTextField)
-            nameTextField.placeholder = NSLocalizedString("my_account_name_field_label", comment: "")
+            nameTextField.placeholder = localizedString("my_account_name_field_label", comment: "")
         }
     }
     
@@ -69,7 +69,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
             emailTextField.layer.cornerRadius = 8
             inputTextFields.append(emailTextField)
             requiredInputTextFields.append(emailTextField)
-            //            emailTextField.placeholder = NSLocalizedString("my_account_email_field_label", comment: "")
+            //            emailTextField.placeholder = localizedString("my_account_email_field_label", comment: "")
         }
     }
     
@@ -83,7 +83,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
             mobileNumberTextField.layer.cornerRadius = 5.0
             inputTextFields.append(mobileNumberTextField)
            // requiredInputTextFields.append(mobileNumberTextField)
-            mobileNumberTextField.placeholder = NSLocalizedString("my_account_phone_field_label", comment: "")
+            mobileNumberTextField.placeholder = localizedString("my_account_phone_field_label", comment: "")
             mobileNumberTextField.setFlag(for: FPNOBJCCountryKey.AE)
             mobileNumberTextField.customDelegate = self
             mobileNumberTextField.font = UIFont.SFProDisplayNormalFont(14.0)
@@ -97,7 +97,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         didSet {
             passwordTextField.layer.cornerRadius = 8
             inputTextFields.append(passwordTextField)
-            //            passwordTextField.placeholder = NSLocalizedString("my_account_password_field_label", comment: "")
+            //            passwordTextField.placeholder = localizedString("my_account_password_field_label", comment: "")
             switch self.registrationMode {
             case .signUp:
                 requiredInputTextFields.append(passwordTextField)
@@ -110,7 +110,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     
     @IBOutlet weak var submitButton: UIButton! {
         didSet {
-            submitButton.setTitle(NSLocalizedString("user_profile_completion_save_button", comment: ""), for: UIControl.State())
+            submitButton.setTitle(localizedString("user_profile_completion_save_button", comment: ""), for: UIControl.State())
         }
     }
     
@@ -284,10 +284,10 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     
     func setupTitles() {
         
-        self.title  = NSLocalizedString("Sign_up", comment: "")
+        self.title  = localizedString("Sign_up", comment: "")
         
-        self.emailTextField.placeholder      = NSLocalizedString("login_email_placeholder", comment: "")
-        self.passwordTextField.placeholder   = NSLocalizedString("login_password_placeholder", comment: "")
+        self.emailTextField.placeholder      = localizedString("login_email_placeholder", comment: "")
+        self.passwordTextField.placeholder   = localizedString("login_password_placeholder", comment: "")
         
         self.emailTextField.attributedPlaceholder = NSAttributedString.init(string: self.emailTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
         self.passwordTextField.attributedPlaceholder = NSAttributedString.init(string: self.passwordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
@@ -296,13 +296,13 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         
         
         
-        self.submitButton.setTitle(NSLocalizedString("intro_next_button", comment: ""), for:UIControl.State())
+        self.submitButton.setTitle(localizedString("intro_next_button", comment: ""), for:UIControl.State())
         
         let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.white,NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(16.0)]
         
-        let partOne = NSMutableAttributedString(string:NSLocalizedString("have_an_account", comment: ""), attributes:dict1)
+        let partOne = NSMutableAttributedString(string:localizedString("have_an_account", comment: ""), attributes:dict1)
         
-        let partTwo = NSLocalizedString("entry_login_button_title", comment: "")
+        let partTwo = localizedString("entry_login_button_title", comment: "")
         
         let titleStr = NSMutableAttributedString(string:partTwo, attributes:dict1)
         titleStr.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, partTwo.count))
@@ -665,8 +665,8 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
             } else {
                 
                 if accountExists {
-                    self.emailTextField.showError(message: NSLocalizedString("registration_account_exists_error_alert_textField", comment: ""))
-//                    ElGrocerAlertView.createAlert(NSLocalizedString("registration_account_exists_error_title", comment: ""),description:NSLocalizedString("registration_account_exists_error_alert", comment: ""),positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+                    self.emailTextField.showError(message: localizedString("registration_account_exists_error_alert_textField", comment: ""))
+//                    ElGrocerAlertView.createAlert(localizedString("registration_account_exists_error_title", comment: ""),description:localizedString("registration_account_exists_error_alert", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),
 //                                                  buttonClickCallback: { (buttonIndex:Int) -> Void in
 //
 //                                                    if buttonIndex == 0 {
@@ -686,9 +686,9 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                     
                 } else {
                     
-                    ElGrocerAlertView.createAlert(NSLocalizedString("registration_error_alert", comment: ""),
+                    ElGrocerAlertView.createAlert(localizedString("registration_error_alert", comment: ""),
                                                   description: nil,
-                                                  positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                                  positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                                   negativeButton: nil, buttonClickCallback: nil).show()
                     
                 }
@@ -721,9 +721,9 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                 completionHandler()
                 
             } else {
-                ElGrocerAlertView.createAlert(NSLocalizedString("registration_error_alert", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("registration_error_alert", comment: ""),
                                               description: nil,
-                                              positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                              positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                               negativeButton: nil, buttonClickCallback: nil).show()
             }
         }
@@ -743,8 +743,8 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                 if result == true {
                     let status = responseObject!["status"] as! String
                     if status ==  "success"{
-                        self.emailTextField.showError(message: NSLocalizedString("registration_account_exists_error_alert_textField", comment: ""))
-//                        ElGrocerAlertView.createAlert(NSLocalizedString("registration_account_exists_error_title", comment: ""),description:NSLocalizedString("registration_account_exists_error_alert", comment: ""),positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+                        self.emailTextField.showError(message: localizedString("registration_account_exists_error_alert_textField", comment: ""))
+//                        ElGrocerAlertView.createAlert(localizedString("registration_account_exists_error_title", comment: ""),description:localizedString("registration_account_exists_error_alert", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),
 //                                                      buttonClickCallback: { (buttonIndex:Int) -> Void in
 //
 //                                                        if buttonIndex == 0 {
@@ -791,7 +791,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                                 if isPhoneExsists ?? false {
                                     
                                       self.isPhoneExsists = true
-                                 ElGrocerAlertView.createAlert(NSLocalizedString("registration_account_Phone_exists_error_title", comment: ""),description:NSLocalizedString("registration_account_Phone_exists_error_alert", comment: ""),positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+                                 ElGrocerAlertView.createAlert(localizedString("registration_account_Phone_exists_error_title", comment: ""),description:localizedString("registration_account_Phone_exists_error_alert", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                                                   buttonClickCallback: { (buttonIndex:Int) -> Void in
                                                                     
                                                                     if buttonIndex == 0 {

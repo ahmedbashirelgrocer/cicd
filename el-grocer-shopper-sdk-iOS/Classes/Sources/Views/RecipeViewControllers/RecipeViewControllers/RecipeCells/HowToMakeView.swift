@@ -20,7 +20,7 @@ class HowToMakeView: UITableViewHeaderFooterView {
     }
     */
     override func awakeFromNib() {
-        self.lblHowToMake.text = NSLocalizedString("lbl_HowToMake", comment: "")
+        self.lblHowToMake.text = localizedString("lbl_HowToMake", comment: "")
     }
 
 }

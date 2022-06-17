@@ -83,7 +83,7 @@ class ClickAndCollectMapViewController: UIViewController {
     @IBOutlet var lblDetailOrderInfo: UILabel!
     @IBOutlet var btnViewOrderInfo: UIButton!{
         didSet{
-            btnViewOrderInfo.setTitle(NSLocalizedString("btn_view_title_caps", comment: ""), for: UIControl.State())
+            btnViewOrderInfo.setTitle(localizedString("btn_view_title_caps", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var viewOrderHeight: NSLayoutConstraint!
@@ -187,7 +187,7 @@ class ClickAndCollectMapViewController: UIViewController {
             (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
             
             self.navigationItem.hidesBackButton = true
-            self.title = self.controllerTitle ?? NSLocalizedString("lbl_CAndC", comment: "")
+            self.title = self.controllerTitle ?? localizedString("lbl_CAndC", comment: "")
             self.addRightCrossButton(true)
         }
     }
@@ -216,7 +216,7 @@ class ClickAndCollectMapViewController: UIViewController {
     func setVeriableAllocationAndDelgation() {
         self.storeDataSource = StoresDataHandler()
         self.storeDataSource.delegate = self
-        self.txtLocation.placeholder = NSLocalizedString("lbl_collectionNear", comment: "")
+        self.txtLocation.placeholder = localizedString("lbl_collectionNear", comment: "")
         self.txtLocation.setBody3RegStyle()
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.txtLocation.textAlignment = .right
@@ -267,7 +267,7 @@ class ClickAndCollectMapViewController: UIViewController {
                             if let orderID = orderDict["order_id"] as? NSNumber {
                                 self.orderId = orderID
                                 if let retailer_name = orderDict["retailer_name"] as? String {
-                                    self.lblDetailOrderInfo.text = NSLocalizedString("lbl_Order_From_Info", comment: "") + " " + retailer_name
+                                    self.lblDetailOrderInfo.text = localizedString("lbl_Order_From_Info", comment: "") + " " + retailer_name
                                 }
                                 self.setViewOrderHeight(true)
                             }
@@ -478,7 +478,7 @@ extension ClickAndCollectMapViewController : GMSAutocompleteViewControllerDelega
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        _ = ElGrocerAlertView.createAlert(error.localizedDescription, description: nil, positiveButton: NSLocalizedString("common_ok_button_title", comment: ""), negativeButton: nil) { (buttonIndex) in
+        _ = ElGrocerAlertView.createAlert(error.localizedDescription, description: nil, positiveButton: localizedString("common_ok_button_title", comment: ""), negativeButton: nil) { (buttonIndex) in
             viewController.presentingViewController?.dismiss(animated: true, completion: nil)
         }
     }

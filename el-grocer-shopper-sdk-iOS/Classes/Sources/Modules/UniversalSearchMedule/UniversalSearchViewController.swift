@@ -62,7 +62,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var btnCancel: UIButton! {
         didSet {
-            btnCancel.setTitle(NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""), for: .normal)
+            btnCancel.setTitle(localizedString("grocery_review_already_added_alert_cancel_button", comment: ""), for: .normal)
             btnCancel.setTitleColor(.white, for: UIControl.State())
         }
     }
@@ -149,14 +149,14 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setNavigationBarHidden(true, animated: true)
         self.txtSearch.font = UIFont.SFProDisplayNormalFont(14)
-        self.txtSearch.placeholder =  NSLocalizedString("search_products", comment: "")
+        self.txtSearch.placeholder =  localizedString("search_products", comment: "")
         
         if self.searchFor == .isForStoreSearch {
-            self.txtSearch.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("search_products", comment: "") ,
+            self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
         }else{
             
-            self.txtSearch.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("lbl_SearchInAllStore", comment: "") ,
+            self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
   
         }
@@ -317,7 +317,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                     var segmentTitleList = result?.1 ?? []
                     
                     // var segmentTitleList = self.productsDict.keys.map({ $0 })
-                    segmentTitleList.insert(NSLocalizedString("all_cate", comment: ""), at: 0)
+                    segmentTitleList.insert(localizedString("all_cate", comment: ""), at: 0)
                     self.showSubcateList(segmentTitleList)
                 }else{
                     let key = self.segmenntCollectionView.segmentTitles[selectedIndex]
@@ -372,7 +372,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                         var segmentTitleList = result?.1 ?? []
                        
                        // var segmentTitleList = self.productsDict.keys.map({ $0 })
-                        segmentTitleList.insert(NSLocalizedString("all_cate", comment: ""), at: 0)
+                        segmentTitleList.insert(localizedString("all_cate", comment: ""), at: 0)
                         Thread.OnMainThread {
                             self.showSubcateList(segmentTitleList)
                         }
@@ -602,7 +602,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     }
     func noDataButtonDelegateClick(_ state: actionState) -> Void {
         GenericClass.print("Button clicked")
-        if self.NoDataView.btnNoData.titleLabel?.text?.trimmingCharacters(in: .whitespacesAndNewlines) == NSLocalizedString("lbl_NoSearch", comment: ""){
+        if self.NoDataView.btnNoData.titleLabel?.text?.trimmingCharacters(in: .whitespacesAndNewlines) == localizedString("lbl_NoSearch", comment: ""){
             self.searchInOtherStore()
             return
         }
@@ -1135,7 +1135,7 @@ extension UniversalSearchViewController : ProductCellProtocol {
                     
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             
@@ -1188,7 +1188,7 @@ extension UniversalSearchViewController : ProductCellProtocol {
         
         if UserDefaults.isOrderInEdit() {
             
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_edit_Added", comment: ""), image: UIImage(name: "iconAddItemSuccess"), -1 , backButtonClicked: { [weak self] (sender , index , isUnDo) in
+            ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_edit_Added", comment: ""), image: UIImage(name: "iconAddItemSuccess"), -1 , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                 if isUnDo {
                     if let availableP = self?.selectedProduct {
                         self?.removeProductToBasketFromQuickRemove(availableP)

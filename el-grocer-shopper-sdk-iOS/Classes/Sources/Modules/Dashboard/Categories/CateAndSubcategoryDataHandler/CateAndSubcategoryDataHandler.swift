@@ -122,9 +122,9 @@ class CateAndSubcategoryView {
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
         if currentLang == "ar" {
             self.titlesArray = self.titlesArray.reversed()
-            self.titlesArray.insert(NSLocalizedString("all_cate", comment: ""), at: 0)
+            self.titlesArray.insert(localizedString("all_cate", comment: ""), at: 0)
         }else{
-            self.titlesArray.insert(NSLocalizedString("all_cate", comment: ""), at: 0)
+            self.titlesArray.insert(localizedString("all_cate", comment: ""), at: 0)
         }
     }
     func getSubCategoriesTitleArray() -> [String] {

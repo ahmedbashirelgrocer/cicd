@@ -106,8 +106,8 @@ class BasketIconOverlayView : UIView {
         self.cartView.layer.shadowOpacity = 0.5
         self.cartView.layer.shadowRadius = 3.0
         
-        self.totalLabel.text = NSLocalizedString("shopping_free_price_title", comment: "")
-        self.priceTitle.text = NSLocalizedString("shopping_free_delivey_title", comment: "")
+        self.totalLabel.text = localizedString("shopping_free_price_title", comment: "")
+        self.priceTitle.text = localizedString("shopping_free_delivey_title", comment: "")
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.cartTotalPriceLabel.textAlignment = .right
@@ -215,18 +215,18 @@ class BasketIconOverlayView : UIView {
                     
                     
                     
-                    var toolTipStr = NSLocalizedString("product_added_to_basket", comment: "")
+                    var toolTipStr = localizedString("product_added_to_basket", comment: "")
                     
-                    //let itemString = itemsCount == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+                    //let itemString = itemsCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
                     
-                    var descritptionStr = NSLocalizedString("free_delivery", comment: "")
+                    var descritptionStr = localizedString("free_delivery", comment: "")
                     
                     if priceSum < (self.grocery?.minBasketValue)!{
                         
                         let remainingPrice = (self.grocery?.minBasketValue)! - priceSum
                         let remainingValue = String(format:"%.2f",remainingPrice)
-                        descritptionStr = String(format:"%@ %@ %@ %@",NSLocalizedString("add_title", comment: ""),CurrencyManager.getCurrentCurrency(),remainingValue,NSLocalizedString("to_reach_minimum_order", comment: ""))
-                        toolTipStr = String(format:"%@ %@",NSLocalizedString("product_added_to_basket", comment: ""),descritptionStr)
+                        descritptionStr = String(format:"%@ %@ %@ %@",localizedString("add_title", comment: ""),CurrencyManager.getCurrentCurrency(),remainingValue,localizedString("to_reach_minimum_order", comment: ""))
+                        toolTipStr = String(format:"%@ %@",localizedString("product_added_to_basket", comment: ""),descritptionStr)
                     }
                     
                     if priceSum < self.grocery?.minBasketValue ?? 0 {
@@ -235,15 +235,15 @@ class BasketIconOverlayView : UIView {
                         var remainingValue = "0.00"
                         let remainingPrice = (self.grocery?.minBasketValue)! - priceSum
                         remainingValue = String(format:"%.2f",remainingPrice)
-                        //self.minOrderLabel.text = "\(NSLocalizedString("lbl_Add", comment: "")) " + remainingValue + " \(CurrencyManager.getCurrentCurrency()) " + "\(NSLocalizedString("to_reach_minimum_order", comment: "")) "
+                        //self.minOrderLabel.text = "\(localizedString("lbl_Add", comment: "")) " + remainingValue + " \(CurrencyManager.getCurrentCurrency()) " + "\(localizedString("to_reach_minimum_order", comment: "")) "
                         self.minOrderLabel.attributedText =  NSMutableAttributedString()
-                            .normal(NSLocalizedString("lbl_Add", comment: ""),
+                            .normal(localizedString("lbl_Add", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
                                     color: .secondaryDarkGreenColor())
                             .normal(" " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: remainingPrice) + " ",
                                     UIFont.SFProDisplayBoldFont(12),
                                     color: .secondaryDarkGreenColor())
-                            .normal(NSLocalizedString("to_reach_minimum_order", comment: ""),
+                            .normal(localizedString("to_reach_minimum_order", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
                                     color: .secondaryDarkGreenColor())
                         self.minOrderImageView.image = UIImage(name: "cart-addmore")
@@ -251,7 +251,7 @@ class BasketIconOverlayView : UIView {
                         self.minOrderProgressView.setProgress(progressValue, animated: true)
                     }else{
                         // Order amount more then or eqaul to minimum basket amount
-                        self.minOrderLabel.text = "\(NSLocalizedString("lbl_congrtz", comment: "")) "
+                        self.minOrderLabel.text = "\(localizedString("lbl_congrtz", comment: "")) "
                         self.minOrderImageView.image = UIImage(name: "cart-price")
                         self.minOrderProgressView.setProgress(1.0, animated: true)
                     }
@@ -312,7 +312,7 @@ class BasketIconOverlayView : UIView {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.rightArrowView.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
-        self.cartLabel.text = NSLocalizedString("Cart_Title_Basket_overlay", comment: "")
+        self.cartLabel.text = localizedString("Cart_Title_Basket_overlay", comment: "")
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: KRefreshView) , object: nil )
         

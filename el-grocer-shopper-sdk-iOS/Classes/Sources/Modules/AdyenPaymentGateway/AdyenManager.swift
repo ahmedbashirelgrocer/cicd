@@ -129,7 +129,7 @@ class AdyenManager {
             component.payment = Payment(amount: Amount(value: amount.decimalValue,currencyCode: "AED"), countryCode: "AE")
             if adyenObj.isZeroAuth {
                 //if zero auth component is presented in full screen as there are no pre filled card details
-                component.viewController.title = NSLocalizedString("Add_New_Card_Title", comment: "")
+                component.viewController.title = localizedString("Add_New_Card_Title", comment: "")
                 let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                 navigationController.hideSeparationLine()
                 navigationController.viewControllers = [component.viewController]
@@ -179,9 +179,9 @@ class AdyenManager {
            // let error = ElGrocerError.genericError()
            // error.showErrorAlert()
             SpinnerView.hideSpinnerView()
-            let cancelButtonTitle = NSLocalizedString("ok_button_title", comment: "")
-            let message = NSLocalizedString("error_NoCard_ApplePay", comment: "")
-            let errorAlert = ElGrocerAlertView.createAlert(NSLocalizedString("sorry_title", comment: ""), description:message ,positiveButton:NSLocalizedString("title_SetUp_with_apple_pay", comment: "") ,negativeButton:cancelButtonTitle,buttonClickCallback: { buttonIndex in
+            let cancelButtonTitle = localizedString("ok_button_title", comment: "")
+            let message = localizedString("error_NoCard_ApplePay", comment: "")
+            let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""), description:message ,positiveButton:localizedString("title_SetUp_with_apple_pay", comment: "") ,negativeButton:cancelButtonTitle,buttonClickCallback: { buttonIndex in
                 if buttonIndex == 0 {
                 let passLibrary = PKPassLibrary()
                 passLibrary.openPaymentSetup()
@@ -327,12 +327,12 @@ extension AdyenManager {
         return amount
     }
     
-    class func showErrorAlert(title: String = NSLocalizedString("alert_error_title", comment: ""), descr: String) {
+    class func showErrorAlert(title: String = localizedString("alert_error_title", comment: ""), descr: String) {
         
         SpinnerView.hideSpinnerView()
         
         let errorTitle = title
-        let okButtonTitle = NSLocalizedString("ok_button_title", comment: "")
+        let okButtonTitle = localizedString("ok_button_title", comment: "")
         
         let alert = ElGrocerAlertView.createAlert(errorTitle, description: descr, positiveButton: okButtonTitle, negativeButton: nil, buttonClickCallback: nil)
         

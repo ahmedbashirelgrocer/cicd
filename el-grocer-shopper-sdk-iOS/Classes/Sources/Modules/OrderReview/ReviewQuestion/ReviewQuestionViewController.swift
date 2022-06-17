@@ -144,12 +144,12 @@ class ReviewQuestionViewController: UIViewController {
             self.additionalFeedbackTextView.font = UIFont.SFProDisplaySemiBoldFont(15.0)
              self.additionalFeedbackTextView.backgroundColor = UIColor.white
             self.additionalFeedbackTextView.textColor = UIColor.lightTextGrayColor()
-            self.additionalFeedbackTextView.text = NSLocalizedString("suggestions_placeholder_text", comment: "")
+            self.additionalFeedbackTextView.text = localizedString("suggestions_placeholder_text", comment: "")
             
             self.leaveFeedbackButton.layer.cornerRadius = 3
             self.leaveFeedbackButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(15.0)
             self.leaveFeedbackButton.setTitleColor(UIColor.white, for: UIControl.State())
-            self.leaveFeedbackButton.setTitle(NSLocalizedString("leave_feedback_title", comment: ""), for: UIControl.State())
+            self.leaveFeedbackButton.setTitle(localizedString("leave_feedback_title", comment: ""), for: UIControl.State())
             self.leaveFeedbackButton.backgroundColor = UIColor.navigationBarColor()
             
             
@@ -256,7 +256,7 @@ class ReviewQuestionViewController: UIViewController {
     @IBAction func leaveFeedbackHandler(_ sender: Any) {
         
         var commentStr = ""
-        if self.additionalFeedbackTextView.text != NSLocalizedString("suggestions_placeholder_text", comment: "") {
+        if self.additionalFeedbackTextView.text != localizedString("suggestions_placeholder_text", comment: "") {
             commentStr = self.additionalFeedbackTextView.text
         }
         self.delegate?.feedbackHandler(commentStr)
@@ -266,7 +266,7 @@ class ReviewQuestionViewController: UIViewController {
 extension ReviewQuestionViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == NSLocalizedString("suggestions_placeholder_text", comment: "") {
+        if textView.text == localizedString("suggestions_placeholder_text", comment: "") {
             textView.text = nil
             textView.textColor = UIColor.lightBlackColor()
         }
@@ -274,7 +274,7 @@ extension ReviewQuestionViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = NSLocalizedString("suggestions_placeholder_text", comment: "")
+            textView.text = localizedString("suggestions_placeholder_text", comment: "")
             textView.textColor = UIColor.lightTextGrayColor()
         }
     }

@@ -39,25 +39,25 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     @IBOutlet var promoCallActivity: UIActivityIndicatorView!
     @IBOutlet var txtPromo: UITextField! {
         didSet{
-            txtPromo.placeholder = NSLocalizedString("enter_promo_code", comment: "")
+            txtPromo.placeholder = localizedString("enter_promo_code", comment: "")
         }
     }
     @IBOutlet var lblpromoMessage: UILabel!
     
     @IBOutlet var lblServiceFeeTitle: UILabel! {
         didSet {
-            lblServiceFeeTitle.text = NSLocalizedString("service_price", comment: "")
+            lblServiceFeeTitle.text = localizedString("service_price", comment: "")
         }
     }
     @IBOutlet var lblGrandTotalPrice: UILabel! {
         didSet {
-            lblGrandTotalPrice.text = NSLocalizedString("grand_total", comment: "")
+            lblGrandTotalPrice.text = localizedString("grand_total", comment: "")
         }
     }
     
     @IBOutlet var lblFInalBillAmount: UILabel! {
         didSet {
-            lblFInalBillAmount.text = NSLocalizedString("total_bill_amount", comment: "")
+            lblFInalBillAmount.text = localizedString("total_bill_amount", comment: "")
         }
     }
     // bill amount
@@ -104,7 +104,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     @IBOutlet weak var lblSmilesPoints: UILabel!{
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
-            lblSmilesPoints.text = NSLocalizedString("txt_smile_point", comment: "")
+            lblSmilesPoints.text = localizedString("txt_smile_point", comment: "")
         lblSmilesPoints.textColor = .navigationBarColor()
         }
     }
@@ -121,7 +121,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.btnChange.setTitle(NSLocalizedString("change_button_title", comment: ""), for: .normal)
+        self.btnChange.setTitle(localizedString("change_button_title", comment: ""), for: .normal)
         self.txtPromo.attributedPlaceholder = NSAttributedString.init(string: self.txtPromo.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
         showPromotion()
         //hide smiles points by default
@@ -257,9 +257,9 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         
         
         self.lblDiscounttxt.setBodyRegulrGreenStyle()
-        self.lblDiscounttxt.text = NSLocalizedString("promotion_discount_aed", comment: "")
-        lblPriceCount.text  =  NSLocalizedString("total_price", comment: "") + " \(totalProductCount)" + " " + NSLocalizedString("brand_items_count_label", comment: "")
-        lblPriceCount.highlight(searchedText: "\(totalProductCount) " + NSLocalizedString("brand_items_count_label", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
+        self.lblDiscounttxt.text = localizedString("promotion_discount_aed", comment: "")
+        lblPriceCount.text  =  localizedString("total_price", comment: "") + " \(totalProductCount)" + " " + localizedString("brand_items_count_label", comment: "")
+        lblPriceCount.highlight(searchedText: "\(totalProductCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
         lblTotalPriceAmount.text = totalAmount
         lblServiceFeeAmount.text  =  service
         
@@ -284,7 +284,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             self.lblDiscounttxt.text = ""
         } else {
 
-            self.lblDiscounttxt.text = NSLocalizedString("promotion_discount_aed", comment: "")
+            self.lblDiscounttxt.text = localizedString("promotion_discount_aed", comment: "")
             self.lblPromoValue.text = "-" + promoCode
         }
       
@@ -314,7 +314,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         
 //         lblTotalPriceAmount.text  =  "\(CurrencyManager.getCurrentCurrency()) " + ((NSString(format: "%.2f", priceSum) as String) as String)
         lblTotalPriceAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: priceSum)
-       // let countLabel = orderController.orderProducts.count == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+       // let countLabel = orderController.orderProducts.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
 
         let itemsVat = priceSum - (priceSum / ((100 + Double(truncating: orderController.order.grocery.vat))/100))
         print("Value Added Tax Value:",itemsVat)
@@ -348,7 +348,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             
             if promoCodeValue > 0 {
                 self.lblDiscounttxt.setBodyRegulrGreenStyle()
-                self.lblDiscounttxt.text = NSLocalizedString("promotion_discount_aed", comment: "")
+                self.lblDiscounttxt.text = localizedString("promotion_discount_aed", comment: "")
 //                self.lblPromoValue.text = "-" +  ("\(CurrencyManager.getCurrentCurrency()) " + String(format: "%.2f", promoCodeValue) as String)
                 self.lblPromoValue.text = "-" + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: promoCodeValue)
                 isPromo = true
@@ -369,7 +369,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             grandTotal = grandTotal + price
          
             if price > 0 {
-                self.lblPriceVarience.text = NSLocalizedString("Card_Price_Variance_Title", comment: "")
+                self.lblPriceVarience.text = localizedString("Card_Price_Variance_Title", comment: "")
 //                self.lblpriceValueAmount.text  = "\(CurrencyManager.getCurrentCurrency()) " + (NSString(format: "%.2f", price) as String)
                 self.lblpriceValueAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: price)
                 self.paymentDetailBackGroundHeightConstraint.constant =  175 + (isPromo ? 15 : 0)
@@ -422,8 +422,8 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             lblFinaBillAmountAmount.text = lblGrandTotalAmount.text
         }
         
-        lblPriceCount.text  =  NSLocalizedString("total_price", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(summaryCount)") + " " + NSLocalizedString("brand_items_count_label_orderDetails", comment: "")
-        lblPriceCount.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(summaryCount) ") + NSLocalizedString("brand_items_count_label_orderDetails", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
+        lblPriceCount.text  =  localizedString("total_price", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(summaryCount)") + " " + localizedString("brand_items_count_label_orderDetails", comment: "")
+        lblPriceCount.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(summaryCount) ") + localizedString("brand_items_count_label_orderDetails", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
 
     }
     
@@ -431,22 +431,22 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
   
     func setPaymentFromOrder (_ order : Order) {
         
-        self.lblPaymentType.text = NSLocalizedString("setting_PayementMethod", comment: "")
+        self.lblPaymentType.text = localizedString("setting_PayementMethod", comment: "")
         if order.payementType?.intValue == Int(PaymentOption.creditCard.rawValue),let _ = order.refToken {
             if order.cardType == "7" || order.cardType == "8" {
-                self.lblPaymentMethod.text  = NSLocalizedString("pay_via_Apple_pay", comment: "")
+                self.lblPaymentMethod.text  = localizedString("pay_via_Apple_pay", comment: "")
             }else {
-                self.lblPaymentMethod.text  = NSLocalizedString("lbl_Card_ending_in", comment: "") + (order.cardLast ?? "")
+                self.lblPaymentMethod.text  = localizedString("lbl_Card_ending_in", comment: "") + (order.cardLast ?? "")
             }
         }else{
             if order.payementType?.intValue == Int(PaymentOption.cash.rawValue) {
-                 self.lblPaymentMethod.text = NSLocalizedString("cash_On_Delivery_string", comment: "")
+                 self.lblPaymentMethod.text = localizedString("cash_On_Delivery_string", comment: "")
             }else if order.payementType?.intValue == Int(PaymentOption.card.rawValue) {
-                 self.lblPaymentMethod.text = NSLocalizedString("pay_via_card", comment: "")
+                 self.lblPaymentMethod.text = localizedString("pay_via_card", comment: "")
             }else if order.payementType?.intValue == Int(PaymentOption.creditCard.rawValue) {
-                self.lblPaymentMethod.text = NSLocalizedString("pay_via_CreditCard", comment: "")
+                self.lblPaymentMethod.text = localizedString("pay_via_CreditCard", comment: "")
             }else if order.payementType?.intValue == Int(PaymentOption.smilePoints.rawValue){
-                self.lblPaymentMethod.text = NSLocalizedString("pay_via_smiles_points", comment: "")
+                self.lblPaymentMethod.text = localizedString("pay_via_smiles_points", comment: "")
             }else{
                 self.lblPaymentMethod.text = ""
             }
@@ -465,8 +465,8 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     func configPaymentType (selectedController :  MyBasketViewController ) {
         self.selectedController = selectedController
         guard selectedController.paymentMethodA.count > 0 else {
-            self.lblPaymentType.text = NSLocalizedString("setting_PayementMethod", comment: "")
-            self.lblPaymentMethod.text = NSLocalizedString("payment_method_title", comment: "")
+            self.lblPaymentType.text = localizedString("setting_PayementMethod", comment: "")
+            self.lblPaymentMethod.text = localizedString("payment_method_title", comment: "")
             self.cvvWidth.constant = 0
             self.promoCallActivity.isHidden = true
             setPaymentDetails()
@@ -499,7 +499,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     @IBAction func applyPromoAction(_ sender: Any) {
         /*
         guard self.selectedController?.selectedPaymentOption != nil else {
-            self.setAnimatedFailureState(NSLocalizedString("shopping_basket_payment_info_label", comment: ""))
+            self.setAnimatedFailureState(localizedString("shopping_basket_payment_info_label", comment: ""))
             self.paymentDetailBackGroundHeightConstraint.constant = 210
             return
         }
@@ -512,7 +512,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             self.lblpromoMessage.text = ""
             self.paymentDetailBackGroundHeightConstraint.constant = 215
             self.txtPromo.text = ""
-            self.btnApplyPromo.setTitle(NSLocalizedString("promo_code_alert_yes", comment: ""), for: .normal)
+            self.btnApplyPromo.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: .normal)
             self.btnApplyPromo.setImage(nil, for: .normal)
             return
         }
@@ -547,10 +547,10 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     
                 if discountedPriceIs > 0 {
                     showPromotion(false,true)
-                    lblPercentValue.text = NSLocalizedString("aed", comment: "") + discountedPriceIs.formateDisplayString() + " " + NSLocalizedString("txt_Saved", comment: "")
+                    lblPercentValue.text = localizedString("aed", comment: "") + discountedPriceIs.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
                     // for cart above place order button
                     vc.savedAmountBGView.isHidden = false
-                    vc.lblSavedAmount.text = NSLocalizedString("aed", comment: "") + discountedPriceIs.formateDisplayString() + " " + NSLocalizedString("txt_Saved", comment: "")
+                    vc.lblSavedAmount.text = localizedString("aed", comment: "") + discountedPriceIs.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
                     vc.savedAmountBGView.layoutIfNeeded()
                 }
             }else{
@@ -558,13 +558,13 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
                 if discountedPriceIs > 0{
                     showPromotion(false,false)
                     
-//                    lblPercentValue.text = NSLocalizedString("aed", comment: "") + discountedPriceIs.formateDisplayString() + " " + NSLocalizedString("txt_Saved", comment: "")
-                    lblPercentValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: discountedPriceIs) + " " + NSLocalizedString("txt_Saved", comment: "")
+//                    lblPercentValue.text = localizedString("aed", comment: "") + discountedPriceIs.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
+                    lblPercentValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: discountedPriceIs) + " " + localizedString("txt_Saved", comment: "")
                     // for cart above place order button
                     
                     vc.savedAmountBGView.isHidden = false
-//                    vc.lblSavedAmount.text = NSLocalizedString("aed", comment: "") + discountedPriceIs.formateDisplayString() + " " + NSLocalizedString("txt_Saved", comment: "")
-                    vc.lblSavedAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: discountedPriceIs) + " " + NSLocalizedString("txt_Saved", comment: "")
+//                    vc.lblSavedAmount.text = localizedString("aed", comment: "") + discountedPriceIs.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
+                    vc.lblSavedAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: discountedPriceIs) + " " + localizedString("txt_Saved", comment: "")
                     vc.savedAmountBGView.layoutIfNeeded()
                 }
             }
@@ -578,24 +578,24 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         
 
         
-         let countLabel = self.selectedController?.products.count == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+         let countLabel = self.selectedController?.products.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
         
         if let itemCount = self.selectedController?.purchasedItemCount{
             
             
             if itemCount == 1{
                 
-                lblPriceCount.text =  NSLocalizedString("total_price", comment: "") + " " + ("\(itemCount)") + " " + NSLocalizedString("shopping_basket_items_count_singular", comment: "")
-                lblPriceCount.highlight(searchedText: "\(itemCount) " + NSLocalizedString("shopping_basket_items_count_singular", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
+                lblPriceCount.text =  localizedString("total_price", comment: "") + " " + ("\(itemCount)") + " " + localizedString("shopping_basket_items_count_singular", comment: "")
+                lblPriceCount.highlight(searchedText: "\(itemCount) " + localizedString("shopping_basket_items_count_singular", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
             }else if itemCount > 1{
-                lblPriceCount.text =  NSLocalizedString("total_price", comment: "") + " " + ("\(itemCount)") + " " + NSLocalizedString("shopping_basket_items_count_plural", comment: "")
-                lblPriceCount.highlight(searchedText: "\(itemCount) " + NSLocalizedString("shopping_basket_items_count_plural", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
+                lblPriceCount.text =  localizedString("total_price", comment: "") + " " + ("\(itemCount)") + " " + localizedString("shopping_basket_items_count_plural", comment: "")
+                lblPriceCount.highlight(searchedText: "\(itemCount) " + localizedString("shopping_basket_items_count_plural", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
             }
             
         }
             self.lblDiscounttxt.setBodyRegulrGreenStyle()
         if let promoCodeValue = UserDefaults.getPromoCodeValue() {
-            self.lblDiscounttxt.text = NSLocalizedString("promotion_discount_aed", comment: "")
+            self.lblDiscounttxt.text = localizedString("promotion_discount_aed", comment: "")
 //            self.lblPromoValue.text = "-" +  String(format:"%@ %.2f", CurrencyManager.getCurrentCurrency() ,  promoCodeValue.valueCents )
             lblPromoValue.text = "-" + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: promoCodeValue.valueCents)
         } else {
@@ -620,7 +620,7 @@ extension MyBasketPromoAndPaymentTableViewCell {
             self.btnApplyPromo.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
             return
         }
-        self.btnApplyPromo.setTitle(NSLocalizedString("promo_code_alert_yes", comment: ""), for: .normal)
+        self.btnApplyPromo.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: .normal)
         self.btnApplyPromo.setImage(nil, for: .normal)
         
         self.promoCallActivity.isHidden = true
@@ -742,7 +742,7 @@ extension MyBasketPromoAndPaymentTableViewCell {
 //            }
 //            self.lblpromoMessage.isHidden = true
 //            self.lblpromoMessage.text = ""
-//            self.btnApplyPromo.setTitle(NSLocalizedString("promo_code_alert_yes", comment: ""), for: .normal)
+//            self.btnApplyPromo.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: .normal)
 //            self.btnApplyPromo.setImage(nil, for: .normal)
 //        }
     }
@@ -767,7 +767,7 @@ extension MyBasketPromoAndPaymentTableViewCell {
         
        // self.selectedController?.setPaymentState()
         DispatchQueue.main.async {
-            self.lblPaymentType.text = NSLocalizedString("setting_PayementMethod", comment: "")
+            self.lblPaymentType.text = localizedString("setting_PayementMethod", comment: "")
            // self.lblPaymentMethod.text = self.changeSegmentAccordingToPaymentSelection(selectPaymentType)
             self.lblpromoMessage.isHidden = true
             self.lblpromoMessage.text = ""
@@ -780,15 +780,15 @@ extension MyBasketPromoAndPaymentTableViewCell {
     }
     /*
     private func changeSegmentAccordingToPaymentSelection (_ payment : PaymentOption?) -> String {
-        var findSegment  = NSLocalizedString("payment_method_title", comment: "")
+        var findSegment  = localizedString("payment_method_title", comment: "")
         
         if let selectedOption = payment {
             if selectedOption.rawValue == PaymentOption.cash.rawValue {
-                findSegment = NSLocalizedString("cash_On_Delivery_string", comment: "")
+                findSegment = localizedString("cash_On_Delivery_string", comment: "")
                 self.imagePayment.image = UIImage(name: "cash-List-white")
                 self.cvvWidth.constant = 0
             }else if selectedOption.rawValue == PaymentOption.card.rawValue {
-                findSegment = NSLocalizedString("pay_via_card", comment: "")
+                findSegment = localizedString("pay_via_card", comment: "")
                 self.imagePayment.image = UIImage(name: "CardOnDelivery-white")
                 self.cvvWidth.constant = 0
             }else if selectedOption.rawValue == PaymentOption.creditCard.rawValue {
@@ -801,8 +801,8 @@ extension MyBasketPromoAndPaymentTableViewCell {
                     }
                     if cardSelected?.count ?? 0 > 0 {
                         self.selectedController?.selectedCreditCard = cardSelected![0]
-                        let cardNumber = NSLocalizedString("lbl_Card_ending_in", comment: "") + (selectedController?.selectedCreditCard?.last4 ?? "")
-                        findSegment =  (cardNumber == NSLocalizedString("lbl_Card_ending_in", comment: "")) ? NSLocalizedString("payment_method_title", comment: "") : cardNumber
+                        let cardNumber = localizedString("lbl_Card_ending_in", comment: "") + (selectedController?.selectedCreditCard?.last4 ?? "")
+                        findSegment =  (cardNumber == localizedString("lbl_Card_ending_in", comment: "")) ? localizedString("payment_method_title", comment: "") : cardNumber
                         self.cvvWidth.constant = 56
                     }else{
                         self.cvvWidth.constant = 0
@@ -883,7 +883,7 @@ extension MyBasketPromoAndPaymentTableViewCell {
     
     func setViewAccordingToSelectedCreditCard (card : CreditCard) {
         
-        self.lblPaymentMethod.text = NSLocalizedString("card_title", comment: "") + ": **** **** **** " + card.last4.convertEngNumToPersianNum()
+        self.lblPaymentMethod.text = localizedString("card_title", comment: "") + ": **** **** **** " + card.last4.convertEngNumToPersianNum()
       
     }
 
@@ -893,7 +893,7 @@ extension MyBasketPromoAndPaymentTableViewCell : UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == self.txtPromo {
-            self.btnApplyPromo.setTitle(NSLocalizedString("promo_code_alert_yes", comment: ""), for: .normal)
+            self.btnApplyPromo.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: .normal)
             self.btnApplyPromo.setImage(nil, for: .normal)
         }
        

@@ -87,14 +87,14 @@ class ShoppingBasketCell : UITableViewCell {
     
     fileprivate func setUpNotAvailableLabel() {
         
-        self.notAvailableLabel.text = NSLocalizedString("shopping_basket_item_substituted", comment: "")
+        self.notAvailableLabel.text = localizedString("shopping_basket_item_substituted", comment: "")
         self.notAvailableLabel.textColor = UIColor.black
         self.notAvailableLabel.font = UIFont.SFProDisplaySemiBoldFont(10.5)
     }
     
     fileprivate func setUpNotSubstitutedLabel() {
         
-        self.notSubstitutedLabel.text = NSLocalizedString("shopping_basket_item_not_available", comment: "")
+        self.notSubstitutedLabel.text = localizedString("shopping_basket_item_not_available", comment: "")
         self.notSubstitutedLabel.textColor = UIColor.black
         self.notSubstitutedLabel.font = UIFont.SFProDisplaySemiBoldFont(13.0)
     }

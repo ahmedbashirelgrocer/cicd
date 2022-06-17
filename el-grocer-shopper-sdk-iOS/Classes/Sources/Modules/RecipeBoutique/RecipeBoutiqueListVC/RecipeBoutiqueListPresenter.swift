@@ -386,7 +386,7 @@ extension RecipeBoutiqueListPresenter: InteractorToPresenterRecipeListProtocol {
                         cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
                         self.recipeListArray?[index].isSaved = true
                     }
-                    let msg = NSLocalizedString("recipe_save_success", comment: "")
+                    let msg = localizedString("recipe_save_success", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
                 }
             }else{

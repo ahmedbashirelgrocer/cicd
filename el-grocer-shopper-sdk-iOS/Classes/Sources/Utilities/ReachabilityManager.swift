@@ -103,9 +103,9 @@ class ReachabilityManager {
     
     func showNoInternetConnectionAlert() {
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("no_internet_connection_available", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("no_internet_connection_available", comment: ""),
             description: nil,
-            positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+            positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
             negativeButton: nil, buttonClickCallback: nil).show()
     }
 

@@ -67,7 +67,7 @@ class OrderDetailStateTableViewCell: UITableViewCell {
     @IBOutlet var lblOrderTracking: UILabel!
     @IBOutlet var lblTrackYourOrder: UILabel!{
         didSet{
-            lblTrackYourOrder.text = NSLocalizedString("lbl_Track_your_order", comment: "")
+            lblTrackYourOrder.text = localizedString("lbl_Track_your_order", comment: "")
         }
     }
     @IBAction func trackYourOrderAction(_ sender: Any) {
@@ -134,13 +134,13 @@ extension OrderDetailStateTableViewCell {
     func setButtonType (_ order : Order) {
 
         if order.status.intValue == OrderStatus.payment_pending.rawValue {
-            self.btnChoose.setTitle(NSLocalizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
+            self.btnChoose.setTitle(localizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
         }else if order.status.intValue == OrderStatus.inSubtitution.rawValue {
-            self.btnChoose.setTitle(NSLocalizedString("choose_substitutions_title", comment: ""), for: .normal)
+            self.btnChoose.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
         }else if ((order.status.intValue == OrderStatus.pending.rawValue) || (order.status.intValue == OrderStatus.inEdit.rawValue)) {
-             self.btnChoose.setTitle(NSLocalizedString("order_confirmation_Edit_order_button", comment: ""), for: .normal)
+             self.btnChoose.setTitle(localizedString("order_confirmation_Edit_order_button", comment: ""), for: .normal)
         }else{
-              self.btnChoose.setTitle(NSLocalizedString("lbl_repeat_order", comment: ""), for: .normal)
+              self.btnChoose.setTitle(localizedString("lbl_repeat_order", comment: ""), for: .normal)
         }
     }
     
@@ -160,17 +160,17 @@ extension OrderDetailStateTableViewCell {
     
     func setOrderDetails(_ order : Order?  , orderProducts : [Product]? , orderItems : [ShoppingBasketItem]?  ) {
         
-        let string = NSMutableAttributedString(string: NSLocalizedString("order_lbl_numner", comment: "") +  ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: order?.dbID.stringValue ?? ""))
-        string.setColorForText( NSLocalizedString("order_lbl_numner", comment: "") , with: .disableButtonColor())
-        string.setFontForText( NSLocalizedString("order_lbl_numner", comment: "") , with: .SFProDisplayNormalFont(12))
+        let string = NSMutableAttributedString(string: localizedString("order_lbl_numner", comment: "") +  ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: order?.dbID.stringValue ?? ""))
+        string.setColorForText( localizedString("order_lbl_numner", comment: "") , with: .disableButtonColor())
+        string.setFontForText( localizedString("order_lbl_numner", comment: "") , with: .SFProDisplayNormalFont(12))
         string.setColorForText(order?.dbID.stringValue ?? ""  , with: UIColor.newBlackColor())
         string.setFontForText(order?.dbID.stringValue ?? "" , with: .SFProDisplaySemiBoldFont(12))
         self.lblOrder.attributedText = string
         //order status
 //        if order?.status.intValue == -1 {
-//            self.lblOrderStatus.text = NSLocalizedString("lbl_Payment_Pending", comment: "")
+//            self.lblOrderStatus.text = localizedString("lbl_Payment_Pending", comment: "")
 //        }else{
-//            self.lblOrderStatus.text = NSLocalizedString(OrderStatus.labels[order?.status.intValue ?? 7], comment: "")
+//            self.lblOrderStatus.text = localizedString(OrderStatus.labels[order?.status.intValue ?? 7], comment: "")
 //        }
 //        self.lblOrderStatus.text =  self.lblOrderStatus.text?.uppercased()
 //
@@ -182,7 +182,7 @@ extension OrderDetailStateTableViewCell {
 //            lblOrderType.text = ""
 //        }else{
 //            self.lblOrderStatus.textColor = .navigationBarColor()
-//            lblOrderType.text = NSLocalizedString("title_estimated_delivery", comment: "")
+//            lblOrderType.text = localizedString("title_estimated_delivery", comment: "")
 //        }
         
         //sab
@@ -200,16 +200,16 @@ extension OrderDetailStateTableViewCell {
         let data = status.getStatusKeyLogic()
         
         if data.service_id.intValue == Int(OrderType.delivery.rawValue){
-            self.lblOrderType.text = NSLocalizedString("title_Estimated_delivery", comment: "")
+            self.lblOrderType.text = localizedString("title_Estimated_delivery", comment: "")
         }else{
-            self.lblOrderType.text = NSLocalizedString("lbl_self_collection_time", comment: "")
+            self.lblOrderType.text = localizedString("lbl_self_collection_time", comment: "")
         }
 
         if data.status_id.intValue == OrderStatus.inSubtitution.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
             self.lblOrderStatus.textColor = status.color
             self.progressView.progressTintColor = status.color
-           // self.lblOrderType.text = NSLocalizedString("title_Estimated_delivery", comment: "")
+           // self.lblOrderType.text = localizedString("title_Estimated_delivery", comment: "")
         }else if data.status_id.intValue == OrderStatus.canceled.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
             self.lblOrderStatus.textColor = status.color
@@ -217,7 +217,7 @@ extension OrderDetailStateTableViewCell {
             self.lblDate.isHidden = true
             self.lblOrderType.isHidden = true
         }else if data.status_id.intValue == OrderStatus.enRoute.rawValue{
-           // self.lblOrderType.text = NSLocalizedString("title_updated_delivery", comment: "")
+           // self.lblOrderType.text = localizedString("title_updated_delivery", comment: "")
           //  self.lblOrderType.textColor = .elGrocerYellowColor()
             self.lblOrderStatus.textColor = status.color
         }else{
@@ -252,7 +252,7 @@ extension OrderDetailStateTableViewCell {
                 }
             }
         }
-        let countLabel = orderProducts.count == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+        let countLabel = orderProducts.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
         self.lblNumberOfItems.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
         let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: order!.grocery, totalPrice: priceSum)
             priceSum = priceSum + serviceFee
@@ -273,7 +273,7 @@ extension OrderDetailStateTableViewCell {
         if order!.deliverySlot != nil  ,  order?.deliverySlot?.dbID != nil {
             self.lblDate.text  = order!.deliverySlot!.getSlotDisplayStringOnOrder(order!.grocery)
         }else{
-            self.lblDate.text =  NSLocalizedString("60_min", comment: "")
+            self.lblDate.text =  localizedString("60_min", comment: "")
         }
        
     }

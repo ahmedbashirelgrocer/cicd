@@ -37,8 +37,8 @@ class PromoCodePopUp: UIView,UITextFieldDelegate {
         
         self.txtPromoCode.delegate = self
         
-        self.promoTitle.text = NSLocalizedString("promo_code_title", comment: "")
-        self.txtPromoCode.placeholder = NSLocalizedString("enter_promo_code", comment: "")
+        self.promoTitle.text = localizedString("promo_code_title", comment: "")
+        self.txtPromoCode.placeholder = localizedString("enter_promo_code", comment: "")
     }
     
     fileprivate func addTapGesture() {
@@ -50,7 +50,7 @@ class PromoCodePopUp: UIView,UITextFieldDelegate {
     
     class func showPromoCodePopUp(_ delegate:PromoCodePopUpViewProtocol?, topView:UIView) -> PromoCodePopUp {
         
-        let view = Bundle(for: self).loadNibNamed("PromoCodePopUp", owner: nil, options: nil)![0] as! PromoCodePopUp
+        let view = Bundle.resource.loadNibNamed("PromoCodePopUp", owner: nil, options: nil)![0] as! PromoCodePopUp
         view.delegate = delegate
         view.imgBlured.image = topView.createBlurredSnapShot()
         view.alpha = 0
@@ -72,7 +72,7 @@ class PromoCodePopUp: UIView,UITextFieldDelegate {
     
     fileprivate func setButtonAppearance(){
         self.btnSave.layer.cornerRadius = 5
-        self.btnSave.setTitle(NSLocalizedString("save_button_title", comment: ""), for: UIControl.State())
+        self.btnSave.setTitle(localizedString("save_button_title", comment: ""), for: UIControl.State())
     }
     
     //MARK: Remove PopUp

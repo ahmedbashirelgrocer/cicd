@@ -37,8 +37,8 @@ class NeedCustomerSupportView: UITableViewCell {
     }
     
     func initialValues(){
-        self.lblNeedMoreSupport.text = NSLocalizedString("need_assistance_lable", comment: "")
-        self.lblChatWithElgrocer.text = NSLocalizedString("launch_live_chat_text", comment: "")
+        self.lblNeedMoreSupport.text = localizedString("need_assistance_lable", comment: "")
+        self.lblChatWithElgrocer.text = localizedString("launch_live_chat_text", comment: "")
         self.backgroundColor = UIColor.navigationBarWhiteColor()
     }
     

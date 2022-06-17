@@ -108,7 +108,7 @@ class CategoryHeaderView: UICollectionReusableView {
         
         if grocery.openingTime != nil {
             let groceryTime = self.getGroceryTimeString(grocery.openingTime!)
-            let timeStr = self.getAttributedString(NSLocalizedString("timing_title", comment: ""), description:groceryTime)
+            let timeStr = self.getAttributedString(localizedString("timing_title", comment: ""), description:groceryTime)
             self.timeLabel.attributedText = timeStr
         }
         
@@ -116,16 +116,16 @@ class CategoryHeaderView: UICollectionReusableView {
         var deliveryDescription = ""
         if grocery.deliveryTypeId == "0"{
             //Instant
-            deliveryDescription = NSLocalizedString("instant_title", comment: "")
+            deliveryDescription = localizedString("instant_title", comment: "")
         }else if grocery.deliveryTypeId == "1"{
             //Schedule
-            deliveryDescription = NSLocalizedString("schedule_title", comment: "")
+            deliveryDescription = localizedString("schedule_title", comment: "")
         }else if grocery.deliveryTypeId == "2"{
             //Both Instant & Schedule
-            deliveryDescription = NSLocalizedString("instant_schedule_title", comment: "")
+            deliveryDescription = localizedString("instant_schedule_title", comment: "")
         }
         
-        let deliveryStr = self.getAttributedString(NSLocalizedString("delivery_title", comment: ""), description:deliveryDescription)
+        let deliveryStr = self.getAttributedString(localizedString("delivery_title", comment: ""), description:deliveryDescription)
         self.deliveryLabel.attributedText = deliveryStr
         
         /* ---------- Set View for available payment types ---------- */
@@ -133,20 +133,20 @@ class CategoryHeaderView: UICollectionReusableView {
         if grocery.availablePayments.unsignedIntValue & PaymentOption.Cash.rawValue > 0 && grocery.availablePayments.unsignedIntValue & PaymentOption.Card.rawValue > 0 {
             
             //both payments are available
-            paymentDescription = NSLocalizedString("cash_card_delivery", comment: "")
+            paymentDescription = localizedString("cash_card_delivery", comment: "")
             
         } else if grocery.availablePayments.unsignedIntValue & PaymentOption.Cash.rawValue > 0 && grocery.availablePayments.unsignedIntValue & PaymentOption.Card.rawValue == 0 {
             
             //only Cash
-            paymentDescription = NSLocalizedString("cash_delivery", comment: "")
+            paymentDescription = localizedString("cash_delivery", comment: "")
             
         } else if grocery.availablePayments.unsignedIntValue & PaymentOption.Cash.rawValue == 0 && grocery.availablePayments.unsignedIntValue & PaymentOption.Card.rawValue > 0 {
             
             //only Card
-           paymentDescription = NSLocalizedString("card_delivery", comment: "")
+           paymentDescription = localizedString("card_delivery", comment: "")
         }
         
-        let paymentStr = self.getAttributedString(NSLocalizedString("payment_title", comment: ""), description:paymentDescription)
+        let paymentStr = self.getAttributedString(localizedString("payment_title", comment: ""), description:paymentDescription)
         self.paymentLabel.attributedText = paymentStr
         
         /* ---------- Set Grocery Image ---------- */

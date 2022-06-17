@@ -35,7 +35,7 @@ class OrderCollectorDetailsVC: UIViewController {
     @IBOutlet var imgSomeoneElse: UIImageView!
     @IBOutlet var lbl_Someone_else: UILabel!{
         didSet{
-            lbl_Someone_else.text = NSLocalizedString("lbl_Someone_else", comment: "")
+            lbl_Someone_else.text = localizedString("lbl_Someone_else", comment: "")
         }
     }
     @IBOutlet var btnAddNew: UIButton!{
@@ -47,7 +47,7 @@ class OrderCollectorDetailsVC: UIViewController {
     }
     @IBOutlet var btnConfirm: AWButton!{
         didSet{
-            btnConfirm.setTitle(NSLocalizedString("confirm_button_title", comment: ""), for: .normal)
+            btnConfirm.setTitle(localizedString("confirm_button_title", comment: ""), for: .normal)
         }
     }
     @IBOutlet var backGroundView: UIView!
@@ -81,15 +81,15 @@ class OrderCollectorDetailsVC: UIViewController {
     func setupInitialAppearance(){
         switch detailsType {
         case .orderCollector :
-            self.lblHeading.text = NSLocalizedString("lbl_Order_Detail_Collector", comment: "")
+            self.lblHeading.text = localizedString("lbl_Order_Detail_Collector", comment: "")
             self.imgSomeoneElse.image = UIImage(name: "CartCollectorProfileIcon")
-            self.lbl_Someone_else.text = NSLocalizedString("lbl_Someone_else", comment: "")
+            self.lbl_Someone_else.text = localizedString("lbl_Someone_else", comment: "")
         default:
-            self.lblHeading.text = NSLocalizedString("lbl_Car_Detail_Collector", comment: "")
+            self.lblHeading.text = localizedString("lbl_Car_Detail_Collector", comment: "")
             self.imgSomeoneElse.image = UIImage(name: "CarDetailsProfileIcon")
-            self.lbl_Someone_else.text = NSLocalizedString("lbl_Different_Car", comment: "")
+            self.lbl_Someone_else.text = localizedString("lbl_Different_Car", comment: "")
         }
-        self.btnAddNew.setTitle(NSLocalizedString("lbl_add_new", comment: ""), for: UIControl.State())
+        self.btnAddNew.setTitle(localizedString("lbl_add_new", comment: ""), for: UIControl.State())
         self.btnAddNew.setH4SemiBoldWhiteStyle(true)
     }
     func setupFontsAndColors(){
@@ -310,10 +310,10 @@ extension OrderCollectorDetailsVC : UITableViewDelegate , UITableViewDataSource 
         }
         
         
-        let more = UITableViewRowAction(style: .normal, title: NSLocalizedString("dashboard_location_delete_button", comment: "")) { action, index in
+        let more = UITableViewRowAction(style: .normal, title: localizedString("dashboard_location_delete_button", comment: "")) { action, index in
         
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "MyBasket_Collector_Details") , header: "", detail: NSLocalizedString("remove_Collector_alert_message", comment: ""),NSLocalizedString("sign_out_alert_yes", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "MyBasket_Collector_Details") , header: "", detail: localizedString("remove_Collector_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                 
                 if buttonIndex == 0 {
                     if self.detailsType == .orderCollector {
@@ -328,7 +328,7 @@ extension OrderCollectorDetailsVC : UITableViewDelegate , UITableViewDataSource 
             }
 
         }
-        let edit = UITableViewRowAction(style: .normal, title: NSLocalizedString("dashboard_location_edit_button", comment: "")) { action, index in
+        let edit = UITableViewRowAction(style: .normal, title: localizedString("dashboard_location_edit_button", comment: "")) { action, index in
             
             if self.detailsType == .orderCollector{
                 let rowCollector = self.dataList[indexPath.row]

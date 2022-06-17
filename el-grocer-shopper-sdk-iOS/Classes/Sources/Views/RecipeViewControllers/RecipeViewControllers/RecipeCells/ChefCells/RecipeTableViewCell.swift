@@ -363,7 +363,7 @@ class RecipeTableViewCell: UITableViewCell {
     func setRecipe(_ recipe : Recipe) {
         self.selectedRecipe = recipe
         self.lblRecipeName.text = recipe.recipeName
-        self.lblRecipeChefName.text = NSLocalizedString("by", comment: "") + " " + (recipe.recipeChef?.chefName ?? "")
+        self.lblRecipeChefName.text = localizedString("by", comment: "") + " " + (recipe.recipeChef?.chefName ?? "")
         self.setImage(recipe.recipeImageURL)
         if let isSaved = recipe.isSaved as? Bool{
             setSaveFilled(isSaved)
@@ -505,7 +505,7 @@ class RecipeTableViewCell: UITableViewCell {
 //        self.viewAdd.backgroundColor = UIColor.navigationBarColor()
 //        self.lblAdd.textColor = UIColor.white
 //        self.imageViewBacket.image = UIImage(name: "shopping-basketWhite")//
-//        self.lblAdd.text = NSLocalizedString("lbl_Add_Text", comment: "")
+//        self.lblAdd.text = localizedString("lbl_Add_Text", comment: "")
 //        self.imageCheckMark.image = UIImage(name: "checkMark-GreenButton")
 //        self.imageCheckMark.isHidden = false
 //        self.viewAdd.setNeedsLayout()
@@ -521,7 +521,7 @@ class RecipeTableViewCell: UITableViewCell {
 //        self.viewAdd.backgroundColor = UIColor.white
 //        self.lblAdd.textColor = UIColor.navigationBarColor()
 //        self.imageViewBacket.image = UIImage(name: "backGreen")
-//        self.lblAdd.text = NSLocalizedString("lbl_Add_Text", comment: "")
+//        self.lblAdd.text = localizedString("lbl_Add_Text", comment: "")
 //        self.imageCheckMark.image = UIImage(name: "checkMark-GreenButton")
 //        self.imageCheckMark.isHidden = true
 //        self.viewAdd.setNeedsLayout()
@@ -573,7 +573,7 @@ class RecipeTableViewCell: UITableViewCell {
             if Done {
                 
                 if isSave {
-                    let msg = NSLocalizedString("recipe_save_success", comment: "")
+                    let msg = localizedString("recipe_save_success", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
                 }
                 

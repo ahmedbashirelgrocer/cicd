@@ -74,13 +74,13 @@ class AddNoteViewController: UIViewController {
     }
     
     func styleButtons() {
-        doneButton.setTitle(NSLocalizedString("delivery_note_done_button_title", comment: ""), for: UIControl.State())
+        doneButton.setTitle(localizedString("delivery_note_done_button_title", comment: ""), for: UIControl.State())
         doneButton.layer.cornerRadius = 5
         doneButton.clipsToBounds = true
     }
     
     func styleViews() {
-        addNoteLabel.text = NSLocalizedString("order_add_edit_note_button_title", comment: "")
+        addNoteLabel.text = localizedString("order_add_edit_note_button_title", comment: "")
         noteView.layer.cornerRadius = 5
     }
 }

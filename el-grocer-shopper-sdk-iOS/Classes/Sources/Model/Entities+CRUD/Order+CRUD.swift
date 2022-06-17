@@ -1058,15 +1058,15 @@ extension Order {
         
         if self.deliverySlot == nil {
             
-            var prefixText = isCandC ? NSLocalizedString("lbl_Self_Collection", comment: "") : NSLocalizedString("lbl_Arring_Slot", comment: "")
+            var prefixText = isCandC ? localizedString("lbl_Self_Collection", comment: "") : localizedString("lbl_Arring_Slot", comment: "")
             prefixText = prefixText + ": "
             
-            let timeSlot = NSLocalizedString("order_schedule_InstantTime_lable", comment: "")
+            let timeSlot = localizedString("order_schedule_InstantTime_lable", comment: "")
             let scheduleStr = self.getAttributedString(prefixText: prefixText, SuffixBold: timeSlot  , attachedImage: nil)
             return scheduleStr
         }else{
             let slotTimeStr =  self.deliverySlot?.getSlotFormattedString(isDeliveryMode: self.isDeliveryOrder()) ?? ""
-            var prefixText = isCandC ? NSLocalizedString("lbl_Self_Collection", comment: "") : NSLocalizedString("lbl_Arring_Slot", comment: "")
+            var prefixText = isCandC ? localizedString("lbl_Self_Collection", comment: "") : localizedString("lbl_Arring_Slot", comment: "")
             prefixText = prefixText + ": "
             let scheduleStr =   self.getAttributedString(prefixText: prefixText, SuffixBold: slotTimeStr  , attachedImage: nil)
             return scheduleStr

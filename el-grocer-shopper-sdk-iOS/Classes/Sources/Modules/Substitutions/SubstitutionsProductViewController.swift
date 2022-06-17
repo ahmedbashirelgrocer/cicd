@@ -131,8 +131,8 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var lblTotalPriceVAT: UILabel!{
         didSet{
             lblTotalPriceVAT.setBody3RegDarkStyle()
-            lblTotalPriceVAT.text = NSLocalizedString("total_price_incl_VAT", comment: "") + " 6 " + NSLocalizedString("brand_items_count_label", comment: "")
-            lblTotalPriceVAT.highlight(searchedText: " 6 " + NSLocalizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+            lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " 6 " + localizedString("brand_items_count_label", comment: "")
+            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
             
         }
     }
@@ -144,7 +144,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var lblServiceFee: UILabel!{
         didSet{
             lblServiceFee.setBody3RegGreyStyle()
-            lblServiceFee.text = NSLocalizedString("service_price", comment: "")
+            lblServiceFee.text = localizedString("service_price", comment: "")
         }
     }
     @IBOutlet var lblServiceFeeValue: UILabel!{
@@ -155,7 +155,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var lblPromoDiscount: UILabel!{
         didSet{
             lblPromoDiscount.setBody3RegGreenStyle()
-            lblPromoDiscount.text = NSLocalizedString("promotion_discount_aed", comment: "")
+            lblPromoDiscount.text = localizedString("promotion_discount_aed", comment: "")
         }
     }
     @IBOutlet var lblPromoDiscountValue: UILabel!{
@@ -166,7 +166,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var lblGrandTotal: UILabel!{
         didSet{
             lblGrandTotal.setBody3RegDarkStyle()
-            lblGrandTotal.text = NSLocalizedString("lbl_Grand_total", comment: "")
+            lblGrandTotal.text = localizedString("lbl_Grand_total", comment: "")
         }
     }
     @IBOutlet var lblGrandTotalValue: UILabel!{
@@ -177,7 +177,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var lblFinalAmount: UILabel!{
         didSet{
             lblFinalAmount.setBodyBoldGreenStyle()
-            lblFinalAmount.text = NSLocalizedString("total_bill_amount", comment: "")
+            lblFinalAmount.text = localizedString("total_bill_amount", comment: "")
         }
     }
     @IBOutlet var lblFinalAmountValue: UILabel!{
@@ -237,7 +237,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     //MARK:CheckoutView Promo
     @IBOutlet var btnAddPromo: UIButton!{
         didSet{
-            btnAddPromo.setTitle(NSLocalizedString("btn_enter_promoCode", comment: ""), for: UIControl.State())
+            btnAddPromo.setTitle(localizedString("btn_enter_promoCode", comment: ""), for: UIControl.State())
             btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
             btnAddPromo.setCaptionBoldGreenStyle()
             btnAddPromo.isHidden = true
@@ -245,7 +245,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     }
     @IBOutlet var btnShowBillDetails: UIButton!{
         didSet{
-            btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
+            btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
             btnShowBillDetails.setImage(UIImage(name: "billDetailsIcon"), for: UIControl.State())
             btnShowBillDetails.semanticContentAttribute = .forceLeftToRight
             btnShowBillDetails.setCaptionBoldSecondaryGreenStyle()
@@ -268,7 +268,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var lblPlaceOrderTitle: UILabel!{
         didSet{
             lblPlaceOrderTitle.setBody2BoldWhiteStyle()
-            lblPlaceOrderTitle.text = NSLocalizedString("place_order_title_label", comment: "")
+            lblPlaceOrderTitle.text = localizedString("place_order_title_label", comment: "")
         }
     }
     @IBOutlet var btnCheckout: UIButton!
@@ -280,7 +280,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var lblPayUsingTitle: UILabel!{
         didSet{
             lblPayUsingTitle.setCaptionOneBoldDarkStyle()
-            lblPayUsingTitle.text = NSLocalizedString("lbl_PayUsing", comment: "")
+            lblPayUsingTitle.text = localizedString("lbl_PayUsing", comment: "")
         }
     }
     @IBOutlet var lblSelectedPayment: UILabel!{
@@ -290,7 +290,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     }
     @IBOutlet var txtCVV: UITextField!{
         didSet{
-            txtCVV.placeholder = NSLocalizedString("lbl_placeholder_cvv", comment: "")
+            txtCVV.placeholder = localizedString("lbl_placeholder_cvv", comment: "")
             txtCVV.setBody3RegStyle()
             txtCVV.layer.cornerRadius = 8
             txtCVV.layer.borderWidth = 1
@@ -306,7 +306,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var lblPayWithApplePay: UILabel!{
         didSet{
             lblPayWithApplePay.setApplePayWhiteStyle()
-            lblPayWithApplePay.text = NSLocalizedString("title_pay_with_apple_pay", comment: "")
+            lblPayWithApplePay.text = localizedString("title_pay_with_apple_pay", comment: "")
         }
     }
     @IBOutlet var btnPayUsing: UIButton!
@@ -315,7 +315,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet weak var lblSmilesPoints: UILabel!{
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
-        lblSmilesPoints.text = NSLocalizedString("txt_smile_point", comment: "")
+        lblSmilesPoints.text = localizedString("txt_smile_point", comment: "")
         lblSmilesPoints.textColor = .navigationBarColor()
     }
 }
@@ -336,7 +336,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("shopping_OOS_title_label", comment: "")
+        self.title = localizedString("shopping_OOS_title_label", comment: "")
         
         
         addBackButtonWithCrossIconRightSide(.white)
@@ -457,9 +457,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         if self.order.status.intValue != OrderStatus.inSubtitution.rawValue {
             
             
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+            ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
             
-//            let notification = ElGrocerAlertView.createAlert(NSLocalizedString("order_cancel_alert_title", comment: ""),description: NSLocalizedString("Msg_Not_InSubsitution", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+//            let notification = ElGrocerAlertView.createAlert(localizedString("order_cancel_alert_title", comment: ""),description: localizedString("Msg_Not_InSubsitution", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
 //            notification.showPopUp()
             
             self.backButtonClick()
@@ -505,7 +505,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             self.selectAlternateButton.isHidden   = true
         }
         
-        let countLabel = totalQuantity == 1 ? NSLocalizedString("shopping_basket_items_count_singular", comment: "") : NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+        let countLabel = totalQuantity == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
     
         self.lblQuantity.text   = String(format: "%d %@",totalQuantity,countLabel)
         self.lblTotalPrice.text = String(format: "%@ %.2f",CurrencyManager.getCurrentCurrency() ,  totalPrice)
@@ -521,7 +521,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             spinner?.removeFromSuperview()
             switch result {
             case .success(_):
-                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                 self.perform(#selector(self.dismissView), with: nil, afterDelay: 1.0)
                 
             case .failure(let error):
@@ -565,7 +565,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: NSLocalizedString("order_history_cancel_alert_message", comment: ""),NSLocalizedString("sign_out_alert_no", comment: "")  , NSLocalizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
 //                self.cancelOrder()
@@ -575,10 +575,10 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         }
         
         
-//        ElGrocerAlertView.createAlert(NSLocalizedString("order_history_cancel_alert_title", comment: ""),
-//                                      description: NSLocalizedString("order_history_cancel_alert_message", comment: ""),
-//                                      positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),
-//                                      negativeButton: NSLocalizedString("sign_out_alert_no", comment: "")) { (buttonIndex:Int) -> Void in
+//        ElGrocerAlertView.createAlert(localizedString("order_history_cancel_alert_title", comment: ""),
+//                                      description: localizedString("order_history_cancel_alert_message", comment: ""),
+//                                      positiveButton: localizedString("sign_out_alert_yes", comment: ""),
+//                                      negativeButton: localizedString("sign_out_alert_no", comment: "")) { (buttonIndex:Int) -> Void in
 //
 //                                        if buttonIndex == 0 {
 //                                            self.cancelOrder()
@@ -629,7 +629,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     
                     if self.order.status.intValue != OrderStatus.inSubtitution.rawValue {
                         
-                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                         
                         self.backButtonClick()
                         return
@@ -640,7 +640,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     
                 case .failure(let error):
                     if error.code == 500 {
-                        ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                     }else{
                         error.showErrorAlert()
                     }
@@ -698,9 +698,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     
     func showErrorAlert(message: String) {
         
-        ElGrocerAlertView.createAlert(NSLocalizedString(message, comment: ""),
+        ElGrocerAlertView.createAlert(localizedString(message, comment: ""),
             description: nil,
-            positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+            positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
             negativeButton: nil, buttonClickCallback: nil).show()
     }
     
@@ -767,7 +767,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     self.backButtonClick()
                     
                     ElGrocerUtility.sharedInstance.delay(1) {
-                        let msg = NSLocalizedString("lbl_OOS_Msg", comment: "")
+                        let msg = localizedString("lbl_OOS_Msg", comment: "")
                         ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "White-info") , -1 , false) { (sender , index , isUnDo) in  }
                     }
                     
@@ -837,13 +837,13 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     
     func setUpButtonAppearance() {
         
-        self.selectAlternateButton.setTitle(NSLocalizedString("select_alternate_button_title_new", comment: ""), for: UIControl.State())
+        self.selectAlternateButton.setTitle(localizedString("select_alternate_button_title_new", comment: ""), for: UIControl.State())
         self.selectAlternateButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(14.0)
         
-        self.btnContinue.setTitle(NSLocalizedString("select_alternate_button_title_new", comment: ""), for: UIControl.State())
+        self.btnContinue.setTitle(localizedString("select_alternate_button_title_new", comment: ""), for: UIControl.State())
         self.btnContinue.titleLabel?.font = UIFont.SFProDisplayBoldFont(14.0)
         
-        self.cancelOrderButton.setTitle(NSLocalizedString("cancel_order_button_title_new", comment: ""), for: UIControl.State())
+        self.cancelOrderButton.setTitle(localizedString("cancel_order_button_title_new", comment: ""), for: UIControl.State())
         self.cancelOrderButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(14.0)
         
         self.bottomViewHeight.constant = .leastNonzeroMagnitude
@@ -864,11 +864,11 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     func setupLabelAppearance() {
         
         self.quantityLabel.font     = UIFont.SFProDisplaySemiBoldFont(12.0)
-        self.quantityLabel.text     = NSLocalizedString("quantity_:", comment: "")
+        self.quantityLabel.text     = localizedString("quantity_:", comment: "")
         self.lblQuantity.font       = UIFont.SFProDisplaySemiBoldFont(14.0)
         
         self.totalPriceLabel.font   = UIFont.SFProDisplaySemiBoldFont(12.0)
-        self.totalPriceLabel.text   = NSLocalizedString("total_price_:", comment: "")
+        self.totalPriceLabel.text   = localizedString("total_price_:", comment: "")
         self.lblTotalPrice.font     = UIFont.SFProDisplaySemiBoldFont(17.0)
         
         if let containerStackView = pointsEarnedView.superview {
@@ -1065,15 +1065,15 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     let isSmilesSupportedOrder = (self.order.payementType?.intValue ?? 0) == PaymentOption.smilePoints.rawValue
                     
                     if isSmilesSupportedOrder {
-                        cell.lblCardNumber.text = NSLocalizedString("pay_via_smiles_points", comment: "")
+                        cell.lblCardNumber.text = localizedString("pay_via_smiles_points", comment: "")
                         cell.txtCvv.isHidden = true
                     }else if self.order.cardType == "8" || self.order.cardType == "7" {
-                        cell.lblCardNumber.text = NSLocalizedString("pay_via_Apple_pay", comment: "")
+                        cell.lblCardNumber.text = localizedString("pay_via_Apple_pay", comment: "")
                         cell.txtCvv.isHidden = true
                     }else if let _ = self.order.refToken {
-                        cell.lblCardNumber.text  = NSLocalizedString("lbl_Card_ending_in", comment: "") + (self.order.cardLast ?? "")
+                        cell.lblCardNumber.text  = localizedString("lbl_Card_ending_in", comment: "") + (self.order.cardLast ?? "")
                     }else if self.order.payementType?.uint32Value == PaymentOption.creditCard.rawValue && self.order.cardID == nil {
-                        cell.lblCardNumber.text = NSLocalizedString("pay_via_Apple_pay", comment: "")
+                        cell.lblCardNumber.text = localizedString("pay_via_Apple_pay", comment: "")
                         cell.txtCvv.isHidden = true
                     }else{
                         cell.lblCardNumber.text = ""
@@ -1231,7 +1231,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     ElGrocerUtility.sharedInstance.delay(1) {
                        self.discardProductInBasketWithProductIndex(selectedProduct)
                     }
-                    ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
+                    ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                         if isUnDo {
                             Thread.OnMainThread {
                                 ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery:self?.order.grocery, brandName:nil, quantity: 1, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -1560,7 +1560,7 @@ extension SubstitutionsProductViewController {
                 self.lblSmilesPointsValue.visibility = .goneY
                 
                 let earnedpopints = SmilesManager.getEarnPointsFromAed(currentOrderTotaleValue)
-                self.pointsEarnedValueLabel.text = NSLocalizedString("txt_earn", comment: "") + " \(earnedpopints) " + NSLocalizedString("txt_smile_point", comment: "")
+                self.pointsEarnedValueLabel.text = localizedString("txt_earn", comment: "") + " \(earnedpopints) " + localizedString("txt_smile_point", comment: "")
             }
         } else {
             // smiles not supported
@@ -1658,26 +1658,26 @@ extension SubstitutionsProductViewController {
         }
         
         
-         self.lblMessage.attributedText = NSMutableAttributedString().normal(NSLocalizedString("Msg_Cart_Initial", comment: ""), UIFont.SFProDisplayNormalFont(12) , color: .newBlackColor()).bold( NSLocalizedString("Msg_Cart_OUTOFSTOCK", comment: "") , UIFont.SFProDisplaySemiBoldFont(12) , color: .textfieldErrorColor()).normal( " " + NSLocalizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplayNormalFont(12), color: .newBlackColor())
+         self.lblMessage.attributedText = NSMutableAttributedString().normal(localizedString("Msg_Cart_Initial", comment: ""), UIFont.SFProDisplayNormalFont(12) , color: .newBlackColor()).bold( localizedString("Msg_Cart_OUTOFSTOCK", comment: "") , UIFont.SFProDisplaySemiBoldFont(12) , color: .textfieldErrorColor()).normal( " " + localizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplayNormalFont(12), color: .newBlackColor())
         
         
         
         let isReplacmentAvailable = self.checkForNoReplacmentSuggestedProducts()
         
         if isReplacmentAvailable {
-            self.lblbottomButtonReplaceOrCancel.text = NSLocalizedString("btn_Confirm_Replacement", comment: "")
+            self.lblbottomButtonReplaceOrCancel.text = localizedString("btn_Confirm_Replacement", comment: "")
             self.btnBottomButtonView.backgroundColor = .navigationBarColor()
             
            
         }else{
-            self.lblbottomButtonReplaceOrCancel.text = NSLocalizedString("order_history_cancel_alert_title", comment: "")
+            self.lblbottomButtonReplaceOrCancel.text = localizedString("order_history_cancel_alert_title", comment: "")
             self.btnBottomButtonView.backgroundColor = .redInfoColor()
-            self.lblMessage.attributedText = NSMutableAttributedString().normal(NSLocalizedString("msg_All_item_not_available", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor()).bold( NSLocalizedString("msg_OOS_Not_Available", comment: "") , UIFont.SFProDisplaySemiBoldFont(11) , color: .redInfoColor())
+            self.lblMessage.attributedText = NSMutableAttributedString().normal(localizedString("msg_All_item_not_available", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor()).bold( localizedString("msg_OOS_Not_Available", comment: "") , UIFont.SFProDisplaySemiBoldFont(11) , color: .redInfoColor())
         }
         self.hideBottomCheckoutView(ishidden: !isReplacmentAvailable)
         
         if subtitutedProducts.count == orderProducts.count {
-              self.lblMessage.attributedText = NSMutableAttributedString().normal(NSLocalizedString("msg_All_item_not_available", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor()).bold( NSLocalizedString("Msg_Cart_OUTOFSTOCK", comment: "") , UIFont.SFProDisplaySemiBoldFont(11) , color: .redInfoColor()).normal( " " + NSLocalizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor())
+              self.lblMessage.attributedText = NSMutableAttributedString().normal(localizedString("msg_All_item_not_available", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor()).bold( localizedString("Msg_Cart_OUTOFSTOCK", comment: "") , UIFont.SFProDisplaySemiBoldFont(11) , color: .redInfoColor()).normal( " " + localizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor())
         }
         
 
@@ -1880,19 +1880,19 @@ extension SubstitutionsProductViewController{
         if viewStyle == .normal {
             self.billDetailsBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = false
-            self.btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
+            self.btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
             self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
         } else if viewStyle == .showBillDetails{
             self.billDetailsBGView.visibility = .visible
             self.checkOutDetaailsLineView.isHidden = true
             
-            self.btnShowBillDetails.setTitle(NSLocalizedString("btn_hide_bill_details", comment: ""), for: UIControl.State())
+            self.btnShowBillDetails.setTitle(localizedString("btn_hide_bill_details", comment: ""), for: UIControl.State())
             self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
             
         } else {
             self.billDetailsBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = true
-            self.btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
+            self.btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
             self.btnAddPromo.setImage(UIImage(name: "arrowUp16"), for: UIControl.State())
         }
         
@@ -1952,8 +1952,8 @@ extension SubstitutionsProductViewController{
         
         if savedAmount > 0{
             self.savedAmountBGView.isHidden = false
-//            self.lblSavedAmount.text = CurrencyManager.getCurrentCurrency() + savedAmount.formateDisplayString() + " " + NSLocalizedString("txt_Saved", comment: "")
-            self.lblSavedAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: savedAmount) + " " + NSLocalizedString("txt_Saved", comment: "")
+//            self.lblSavedAmount.text = CurrencyManager.getCurrentCurrency() + savedAmount.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
+            self.lblSavedAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: savedAmount) + " " + localizedString("txt_Saved", comment: "")
         }else{
             self.savedAmountBGView.isHidden = true
         }
@@ -1997,9 +1997,9 @@ extension SubstitutionsProductViewController{
     func configureCheckoutButtonData(itemsNum : Int , totalBill : String) {
         
         if itemsNum > 1{
-            self.lblItemCount.text = "(\(itemsNum) " + NSLocalizedString("shopping_basket_items_count_plural", comment: "") + ")"
+            self.lblItemCount.text = "(\(itemsNum) " + localizedString("shopping_basket_items_count_plural", comment: "") + ")"
         }else{
-            self.lblItemCount.text = "(\(itemsNum) " + NSLocalizedString("shopping_basket_items_count_singular", comment: "") + ")"
+            self.lblItemCount.text = "(\(itemsNum) " + localizedString("shopping_basket_items_count_singular", comment: "") + ")"
         }
         
         if let totalBill = Double(totalBill) {
@@ -2056,34 +2056,34 @@ extension SubstitutionsProductViewController{
         
         if paymentType == PaymentOption.none{
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("payment_method_title", comment: "")
+            self.lblSelectedPayment.text = localizedString("payment_method_title", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPayment")
             showCVV(false)
         }else if paymentType == .cash {
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("cash_delivery", comment: "")
+            self.lblSelectedPayment.text = localizedString("cash_delivery", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentC")
             showCVV(false)
         }else if paymentType == .card {
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("pay_via_card", comment: "")
+            self.lblSelectedPayment.text = localizedString("pay_via_card", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCD")
             showCVV(false)
         }else if paymentType == .applePay {
             setApplePayAppearence(true)
-            self.lblSelectedPayment.text = NSLocalizedString("pay_via_Apple_pay", comment: "")
+            self.lblSelectedPayment.text = localizedString("pay_via_Apple_pay", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "payWithApple")
             showCVV(false)
         }else if paymentType == .smilePoints {
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("pay_via_smiles_points", comment: "")
+            self.lblSelectedPayment.text = localizedString("pay_via_smiles_points", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
         }else{
             //credit card
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("lbl_Card_ending_in", comment: "") + (creditCardNum ?? "")
+            self.lblSelectedPayment.text = localizedString("lbl_Card_ending_in", comment: "") + (creditCardNum ?? "")
             
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
         }

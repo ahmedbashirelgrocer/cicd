@@ -67,7 +67,7 @@ class ShopByCategoriesViewController: UIViewController {
         
         self.view.backgroundColor = .textfieldBackgroundColor()
         self.navigationItem.hidesBackButton = true
-        self.title = NSLocalizedString("txt_Shop_by_store_category", comment: "")
+        self.title = localizedString("txt_Shop_by_store_category", comment: "")
         self.addRightCrossButton(true)
 //        self.addBackButton(isGreen: false)
         
@@ -103,7 +103,7 @@ class ShopByCategoriesViewController: UIViewController {
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            self.searchBarHeader.txtSearchBar.placeholder = NSLocalizedString("search_placeholder_view_allstore_categories", comment: "")
+            self.searchBarHeader.txtSearchBar.placeholder = localizedString("search_placeholder_view_allstore_categories", comment: "")
             self.searchBarHeader.setNeedsLayout()
             self.searchBarHeader.layoutIfNeeded()
             self.searchBarHeader.setInitialUI(type: .specialityStore)

@@ -73,14 +73,14 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
     @IBOutlet var lbl_CollectionDetail: UILabel! {
         
         didSet{
-            lbl_CollectionDetail.text = NSLocalizedString("lbl_Self_collection_details_order_details", comment: "")
+            lbl_CollectionDetail.text = localizedString("lbl_Self_collection_details_order_details", comment: "")
             lbl_CollectionDetail.setH3SemiBoldStyle()
         }
 
     }
     @IBOutlet var lblShare: UILabel! {
         didSet{
-            lblShare.text = NSLocalizedString("lbl_Share", comment: "")
+            lblShare.text = localizedString("lbl_Share", comment: "")
             lblShare.setBody1BoldStyle()
         }
     }
@@ -112,14 +112,14 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
     //MARK: Appearence
     func setupInitialAppearance(){
         //buttons
-        self.btnGetDirections.setTitle(NSLocalizedString("btn_get_Directions", comment: ""), for: .normal)
+        self.btnGetDirections.setTitle(localizedString("btn_get_Directions", comment: ""), for: .normal)
         //labels
         self.assignAlertValue()
-        self.lblSelfCollection.text = NSLocalizedString("lbl_self_collection_heading", comment: "")
-        self.lblCollectionLocation.text = NSLocalizedString("title_self_collection_point", comment: "")
-        self.lblOrderPlacedBy.text = NSLocalizedString("lbl_Order_Placed_by_heading", comment: "")
-        self.lblOrderCollectorDetails.text = NSLocalizedString("lbl_Order_Collector_Details_heading", comment: "")
-        self.lblCarDetails.text = NSLocalizedString("lbl_car_Details_heading", comment: "")
+        self.lblSelfCollection.text = localizedString("lbl_self_collection_heading", comment: "")
+        self.lblCollectionLocation.text = localizedString("title_self_collection_point", comment: "")
+        self.lblOrderPlacedBy.text = localizedString("lbl_Order_Placed_by_heading", comment: "")
+        self.lblOrderCollectorDetails.text = localizedString("lbl_Order_Collector_Details_heading", comment: "")
+        self.lblCarDetails.text = localizedString("lbl_car_Details_heading", comment: "")
     }
     func setupFontsAndColors(){
         //Labels
@@ -140,7 +140,7 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
         self.btnGetDirections.titleLabel?.textColor = UIColor.white
     }
     func assignAlertValue(){
-        lblAlert.attributedText = setBoldForText(CompleteValue: NSLocalizedString("lbl_Alert_Arrive_on_time", comment: ""), textForAttribute: NSLocalizedString("lbl_Bold_Alert_Arrive_on_time", comment: ""))
+        lblAlert.attributedText = setBoldForText(CompleteValue: localizedString("lbl_Alert_Arrive_on_time", comment: ""), textForAttribute: localizedString("lbl_Bold_Alert_Arrive_on_time", comment: ""))
     }
     //for setting multiple font in a label
     func setBoldForText(CompleteValue : String , textForAttribute: String) -> NSMutableAttributedString {
@@ -167,21 +167,21 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
             self.lblSelfCollection.text = ""
         }
   
-        if let locationHeading =  order?.getAttributedString(prefixText: NSLocalizedString("title_self_collection_point", comment: "") + ":\n", SuffixBold: order?.pickUp?.details ?? "", attachedImage: nil) {
+        if let locationHeading =  order?.getAttributedString(prefixText: localizedString("title_self_collection_point", comment: "") + ":\n", SuffixBold: order?.pickUp?.details ?? "", attachedImage: nil) {
             self.lblCollectionLocation.attributedText = locationHeading
         }else{
             self.lblCollectionLocation.text = ""
         }
         
         
-        if let orderPlaceBy =  order?.getAttributedString(prefixText: NSLocalizedString("lbl_Order_Placed_by_heading", comment: "") + ":\n", SuffixBold: order?.shopperName ?? "", attachedImage: nil , ", " + (order?.shopperPhone ?? "")  ) {
+        if let orderPlaceBy =  order?.getAttributedString(prefixText: localizedString("lbl_Order_Placed_by_heading", comment: "") + ":\n", SuffixBold: order?.shopperName ?? "", attachedImage: nil , ", " + (order?.shopperPhone ?? "")  ) {
             self.lblOrderPlacedBy.attributedText = orderPlaceBy
         }else{
             self.lblOrderPlacedBy.text = ""
         }
         
         
-        if let collectionDetail =  order?.getAttributedString(prefixText: NSLocalizedString("lbl_Order_Collector_Details_heading", comment: "") + ":\n", SuffixBold: order?.collector?.name ?? "", attachedImage: nil , ", " + (order?.collector?.phone_number ?? "") ) {
+        if let collectionDetail =  order?.getAttributedString(prefixText: localizedString("lbl_Order_Collector_Details_heading", comment: "") + ":\n", SuffixBold: order?.collector?.name ?? "", attachedImage: nil , ", " + (order?.collector?.phone_number ?? "") ) {
             self.lblOrderCollectorDetails.attributedText = collectionDetail
         }else{
             self.lblOrderCollectorDetails.text = ""
@@ -192,7 +192,7 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
         vehicleDetails = vehicleDetails  + ", " +  (order?.vehicleDetail?.company ?? "")
         vehicleDetails = vehicleDetails  + ", " +  (order?.vehicleDetail?.color_name ?? "")
         
-        if let carDetail =  order?.getAttributedString(prefixText: NSLocalizedString("lbl_car_Details_heading", comment: "") + ":\n", SuffixBold: order?.vehicleDetail?.plate_number ?? "", attachedImage: nil , vehicleDetails  ) {
+        if let carDetail =  order?.getAttributedString(prefixText: localizedString("lbl_car_Details_heading", comment: "") + ":\n", SuffixBold: order?.vehicleDetail?.plate_number ?? "", attachedImage: nil , vehicleDetails  ) {
             self.lblCarDetails.attributedText = carDetail
         }else{
             self.lblCarDetails.text = ""
@@ -263,7 +263,7 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
         guard !orderID.isEmpty else {
             return ""
         }
-        let msg = String(format: NSLocalizedString("%@s asked you to help with the grocery collection from %@s. Follow this link to see the pickup details.", comment: ""), userProfile?.name ?? "" , self.currentOrder?.grocery.name ?? "" )
+        let msg = String(format: localizedString("%@s asked you to help with the grocery collection from %@s. Follow this link to see the pickup details.", comment: ""), userProfile?.name ?? "" , self.currentOrder?.grocery.name ?? "" )
         let shareLint =  "https://www.elgrocer.com/order/cc-collect/\(orderID)"
         let shareMsg = "\(msg) \(shareLint)"
         return shareMsg

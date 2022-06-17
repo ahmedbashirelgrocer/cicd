@@ -27,21 +27,21 @@ class loginCell: UITableViewCell {
     @IBOutlet var signUpButton: AWButton!{
         didSet{
             signUpButton.setSubHead1SemiBoldGreenStyle()
-            signUpButton.setTitle(NSLocalizedString("Sign_up", comment: ""), for: .normal)
+            signUpButton.setTitle(localizedString("Sign_up", comment: ""), for: .normal)
             signUpButton.setTitleColor(.secondaryDarkGreenColor(), for: UIControl.State())
         }
     }
     @IBOutlet var signInButton: AWButton!{
         didSet{
             signInButton.setSubHead1SemiBoldGreenStyle()
-            signInButton.setTitle(NSLocalizedString("area_selection_login_button_title", comment: ""), for: .normal)
+            signInButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: .normal)
             signInButton.setTitleColor(.secondaryDarkGreenColor(), for: UIControl.State())
         }
     }
     @IBOutlet var lblHello: UILabel!{
         didSet{
             lblHello.setH3SemiBoldWhiteStyle()
-            lblHello.text = NSLocalizedString("lbl_hello", comment: "")
+            lblHello.text = localizedString("lbl_hello", comment: "")
         }
     }
     

@@ -61,7 +61,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("place_order_title_label", comment: "")
+        self.title = localizedString("place_order_title_label", comment: "")
         
         addBackButton()
         
@@ -81,7 +81,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
 
         registerTableViewCell()
         
-        titles =  [NSLocalizedString("pay_via_wallet", comment: "")]
+        titles =  [localizedString("pay_via_wallet", comment: "")]
         Images =  ["Wallet"]
         
         /* ---------- Check for available payment types ---------- */
@@ -92,20 +92,20 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
 //        }
         
         if self.grocery.availablePayments.uint32Value & PaymentOption.cash.rawValue > 0 {
-            titles.append(NSLocalizedString("pay_via_cash", comment: ""))
+            titles.append(localizedString("pay_via_cash", comment: ""))
             Images.append("Cash")
             if ( self.selectedPaymentOption == PaymentOption.cash) {
-                self.lastSelection = IndexPath(row: 0, section: titles.firstIndex(of: NSLocalizedString("pay_via_cash", comment: ""))!)
+                self.lastSelection = IndexPath(row: 0, section: titles.firstIndex(of: localizedString("pay_via_cash", comment: ""))!)
                 self.setConfirmButtonEnabled(true)
             }
         }
         
         if self.grocery.availablePayments.uint32Value & PaymentOption.card.rawValue > 0 {
             
-            titles.append(NSLocalizedString("pay_via_card", comment: ""))
+            titles.append(localizedString("pay_via_card", comment: ""))
             Images.append("Card")
             if ( self.selectedPaymentOption == PaymentOption.card ) {
-                self.lastSelection = IndexPath(row: 0, section: titles.firstIndex(of: NSLocalizedString("pay_via_card", comment: ""))!)
+                self.lastSelection = IndexPath(row: 0, section: titles.firstIndex(of: localizedString("pay_via_card", comment: ""))!)
                 self.setConfirmButtonEnabled(true)
             }
         }
@@ -113,21 +113,21 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
        /* if self.grocery.availablePayments.unsignedIntValue & PaymentOption.Cash.rawValue > 0 && self.grocery.availablePayments.unsignedIntValue & PaymentOption.Card.rawValue > 0 {
             
             //both payments are available
-            titles.append(NSLocalizedString("pay_via_cash", comment: ""))
+            titles.append(localizedString("pay_via_cash", comment: ""))
             Images.append("Cash")
-            titles.append(NSLocalizedString("pay_via_card", comment: ""))
+            titles.append(localizedString("pay_via_card", comment: ""))
             Images.append("Card")
 
         } else if self.grocery.availablePayments.unsignedIntValue & PaymentOption.Cash.rawValue > 0 && self.grocery.availablePayments.unsignedIntValue & PaymentOption.Card.rawValue == 0 {
             
             //only cash
-            titles.append(NSLocalizedString("pay_via_cash", comment: ""))
+            titles.append(localizedString("pay_via_cash", comment: ""))
             Images.append("Cash")
 
             
         } else if self.grocery.availablePayments.unsignedIntValue & PaymentOption.Cash.rawValue == 0 && self.grocery.availablePayments.unsignedIntValue & PaymentOption.Card.rawValue > 0 {
             
-            titles.append(NSLocalizedString("pay_via_card", comment: ""))
+            titles.append(localizedString("pay_via_card", comment: ""))
             Images.append("Card")
         }*/
         
@@ -166,7 +166,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
     
     fileprivate func setUpConfirmButtonAppearance() {
         
-        self.confirmPaymentButton.setTitle(NSLocalizedString("confirm_payment_button_title", comment: ""), for: UIControl.State())
+        self.confirmPaymentButton.setTitle(localizedString("confirm_payment_button_title", comment: ""), for: UIControl.State())
         self.confirmPaymentButton.setH4SemiBoldWhiteStyle()
         self.confirmPaymentButton.layer.cornerRadius = 5
         self.setConfirmButtonEnabled(false)
@@ -186,11 +186,11 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
         
         self.paymentMethodLabel.font = UIFont.SFProDisplaySemiBoldFont(16.0)
         self.paymentMethodLabel.textColor = UIColor(red:(57.0/255.0), green:(57.0/255.0), blue:(57.0/255.0), alpha: 1.0)
-        self.paymentMethodLabel.text = NSLocalizedString("payment_method_title", comment: "")
+        self.paymentMethodLabel.text = localizedString("payment_method_title", comment: "")
         
      //   self.payLabel.font = UIFont.bookFont(12.0)
       //  self.payLabel.textColor = UIColor(red:(143.0/255.0), green:(143.0/255.0), blue:(143.0/255.0), alpha: 1.0)
-      //  self.payLabel.text = NSLocalizedString("paying_with_title", comment: "")
+      //  self.payLabel.text = localizedString("paying_with_title", comment: "")
     }
     
     
@@ -230,7 +230,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
             
             let dict2 = [NSAttributedString.Key.foregroundColor: UIColor.lightBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(12.0)]
             
-            let titlePart = NSMutableAttributedString(string:NSLocalizedString("payment_method_for_remaining_amount", comment: ""), attributes:dict1)
+            let titlePart = NSMutableAttributedString(string:localizedString("payment_method_for_remaining_amount", comment: ""), attributes:dict1)
             
             let amontPart = NSMutableAttributedString(string:String(format:" %0.2f",remainingAmount), attributes:dict2)
             
@@ -311,7 +311,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
                 
                 print("Empty Wallet.")
                 
-                let notification = ElGrocerAlertView.createAlert(NSLocalizedString("wallet_navigation_bar_title", comment: ""),description: NSLocalizedString("empty_wallet", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
+                let notification = ElGrocerAlertView.createAlert(localizedString("wallet_navigation_bar_title", comment: ""),description: localizedString("empty_wallet", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
                 notification.showPopUp()
             }
             
@@ -322,7 +322,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
                 lastSelectedCell.checkedImgView.isHidden = true
             }
             
-            if titles[(indexPath as NSIndexPath).section] == NSLocalizedString("pay_via_cash", comment: "") {
+            if titles[(indexPath as NSIndexPath).section] == localizedString("pay_via_cash", comment: "") {
                 self.selectedPaymentOption = .cash
                 ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_selected_cash")
             }else{

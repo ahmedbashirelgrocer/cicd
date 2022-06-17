@@ -97,10 +97,10 @@ class SubtitutionBasketCell: UITableViewCell {
         }
         
         self.quantityLabel.font         = UIFont.SFProDisplayNormalFont(14.0)
-        self.quantityLabel.text         = NSLocalizedString("quantity_:", comment: "")
+        self.quantityLabel.text         = localizedString("quantity_:", comment: "")
         if self.productPrice2 != nil {
             self.quantityLabel2.font        = UIFont.SFProDisplayNormalFont(14.0)
-            self.quantityLabel2.text        = NSLocalizedString("quantity_:", comment: "")
+            self.quantityLabel2.text        = localizedString("quantity_:", comment: "")
         }
         
         self.lblQuantity.font           = UIFont.SFProDisplayNormalFont(14.0)
@@ -110,11 +110,11 @@ class SubtitutionBasketCell: UITableViewCell {
         
         
         self.totalLabel.font            = UIFont.SFProDisplayNormalFont(14.0)
-        self.totalLabel.text            = NSLocalizedString("total_:", comment: "")
+        self.totalLabel.text            = localizedString("total_:", comment: "")
         
         if self.totalLabel2 != nil {
             self.totalLabel2.font           = UIFont.SFProDisplayNormalFont(14.0)
-            self.totalLabel2.text           = NSLocalizedString("total_:", comment: "")
+            self.totalLabel2.text           = localizedString("total_:", comment: "")
         }
         
         self.productTotalPrice.font     = UIFont.SFProDisplaySemiBoldFont(14.0)
@@ -231,7 +231,7 @@ class SubtitutionBasketCell: UITableViewCell {
 
     func configureCancelledCellWithShoppingBasketItem(_ shoppingItem:ShoppingBasketItem, product:Product,currentRow:NSInteger){
         // Cancelled Item
-        self.lblBanner.text = NSLocalizedString("item_cancelled", comment: "").uppercased()
+        self.lblBanner.text = localizedString("item_cancelled", comment: "").uppercased()
         self.populateCommonDataInCellWithProduct(shoppingItem, product: product, currentRow: currentRow)
         
          self.saleViewCancel.isHidden   = !product.isPromotion.boolValue
@@ -241,7 +241,7 @@ class SubtitutionBasketCell: UITableViewCell {
     
 //    ShoppingBasketItem
     func configureWithSubstitutionBasketItem(_ product1:Product, shoppingItem1:ShoppingBasketItem, product2:Product, shoppingItem2:SubstitutionBasketItem ,currentRow:NSInteger) {
-        self.lblBanner.text = NSLocalizedString("item_replaced", comment: "").uppercased()
+        self.lblBanner.text = localizedString("item_replaced", comment: "").uppercased()
         self.populateCommonDataInCellWithProduct(shoppingItem1, product: product1, currentRow: currentRow)
         self.populateSubstitutionWithProduct(product2, shoppingItem: shoppingItem2, currentRow: currentRow)
         self.salesViewReplace.isHidden   = !product1.isPromotion.boolValue

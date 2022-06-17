@@ -27,7 +27,7 @@ class ReviewPopUp: UIView {
     @IBOutlet weak var viewYPosition: NSLayoutConstraint!
     @IBOutlet var doneButton: UIButton! {
         didSet{
-            doneButton.setTitle(NSLocalizedString("delivery_note_done_button_title", comment: ""), for: UIControl.State())
+            doneButton.setTitle(localizedString("delivery_note_done_button_title", comment: ""), for: UIControl.State())
             doneButton.setButton2SemiBoldDarkStyle()
         }
     }
@@ -52,12 +52,12 @@ class ReviewPopUp: UIView {
     private func setUpLabelAppearance(){
         
         self.titleLabel.setH4SemiBoldStyle()
-        self.titleLabel.text = NSLocalizedString("feedback_thanks_title", comment: "")
+        self.titleLabel.text = localizedString("feedback_thanks_title", comment: "")
         self.titleLabel.sizeToFit()
         self.titleLabel.numberOfLines = 1
         
         self.descriptionLabel.setBody2RegDarkStyle()
-        self.descriptionLabel.text = NSLocalizedString("feedback_thanks_message", comment: "")
+        self.descriptionLabel.text = localizedString("feedback_thanks_message", comment: "")
         self.descriptionLabel.sizeToFit()
         self.descriptionLabel.numberOfLines = 3
     }
@@ -67,7 +67,7 @@ class ReviewPopUp: UIView {
     
     class func createReviewPopUp() -> ReviewPopUp {
         
-        let view = Bundle(for: self).loadNibNamed("ReviewPopUp", owner: nil, options: nil)![0] as! ReviewPopUp
+        let view = Bundle.resource.loadNibNamed("ReviewPopUp", owner: nil, options: nil)![0] as! ReviewPopUp
         return view
     }
     

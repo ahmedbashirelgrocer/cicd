@@ -41,7 +41,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet var lbl_LocationInfo: UILabel! {
         
         didSet{
-            lbl_LocationInfo.text = NSLocalizedString("lbl_location_info", comment: "")
+            lbl_LocationInfo.text = localizedString("lbl_location_info", comment: "")
         }
         
     }
@@ -114,7 +114,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var locNameTextField: UITextField! {
         
         didSet {
-            self.locNameTextField.placeholder = NSLocalizedString("lbl_Map_Selection", comment: "")
+            self.locNameTextField.placeholder = localizedString("lbl_Map_Selection", comment: "")
             self.locNameTextField.attributedPlaceholder = NSAttributedString.init(string: self.locNameTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor()])
         }
         
@@ -318,23 +318,23 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if editScreenState == .isForSignUp {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
             self.addBackButtonWithCrossIconRightSide()
-            self.title = NSLocalizedString("Sign_up", comment: "")
-            self.lblTopMessage.text = NSLocalizedString("lbl_add_Address_msg", comment: "")
+            self.title = localizedString("Sign_up", comment: "")
+            self.lblTopMessage.text = localizedString("lbl_add_Address_msg", comment: "")
         }else if editScreenState == .isForAddNew {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
-            self.title = NSLocalizedString("add_address_alert_title", comment: "")
-             self.lblTopMessage.text = NSLocalizedString("lbl_add_Address_msg", comment: "")
+            self.title = localizedString("add_address_alert_title", comment: "")
+             self.lblTopMessage.text = localizedString("lbl_add_Address_msg", comment: "")
         }else if editScreenState == .isFromEdit {
             // self.navigationItem.hidesBackButton = true
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
-             self.title = NSLocalizedString("dashboard_location_edit_location_title", comment: "")
-             self.lblTopMessage.text = NSLocalizedString("lbl_Edit_Address_msg", comment: "")
+             self.title = localizedString("dashboard_location_edit_location_title", comment: "")
+             self.lblTopMessage.text = localizedString("lbl_Edit_Address_msg", comment: "")
         }else {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             self.navigationItem.hidesBackButton = true
             self.addBackButtonWithCrossIconRightSide()
-            self.title = NSLocalizedString("dashboard_location_edit_location_title", comment: "")
-            self.lblTopMessage.text = NSLocalizedString("lbl_Edit_Address_msg", comment: "")
+            self.title = localizedString("dashboard_location_edit_location_title", comment: "")
+            self.lblTopMessage.text = localizedString("lbl_Edit_Address_msg", comment: "")
         }
         self.navigationItem.backBarButtonItem?.title = ""
         
@@ -437,7 +437,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     fileprivate func setUpBuildingTextFieldAppearance() {
         
         
-        self.buildingTextField.placeholder = NSLocalizedString("lbl_building", comment: "")
+        self.buildingTextField.placeholder = localizedString("lbl_building", comment: "")
         
           self.buildingTextField.attributedPlaceholder = NSAttributedString.init(string: self.buildingTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor()])
         
@@ -453,7 +453,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     fileprivate func setUpFloorTextFieldAppearance() {
         
-        self.floorTextField.placeholder = NSLocalizedString("lbl_Floor", comment: "")
+        self.floorTextField.placeholder = localizedString("lbl_Floor", comment: "")
          self.floorTextField.attributedPlaceholder = NSAttributedString.init(string: self.floorTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor()])
         
     //    self.floorTextField.font = UIFont.mediumFont(15.0)
@@ -468,7 +468,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     fileprivate func setUpApartmentNumberTextFieldAppearance() {
         
-        self.apartmentNumberTextField.placeholder = NSLocalizedString("lbl_Apartment", comment: "")
+        self.apartmentNumberTextField.placeholder = localizedString("lbl_Apartment", comment: "")
          self.apartmentNumberTextField.attributedPlaceholder = NSAttributedString.init(string: self.apartmentNumberTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor()])
         
        // self.apartmentNumberTextField.font = UIFont.mediumFont(15.0)
@@ -483,7 +483,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     fileprivate func setUpStreetTextFieldAppearance() {
         
-        self.streetTextField.placeholder = NSLocalizedString("lbl_AreaStreet", comment: "")
+        self.streetTextField.placeholder = localizedString("lbl_AreaStreet", comment: "")
           self.streetTextField.attributedPlaceholder = NSAttributedString.init(string: self.streetTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor()])
      //   self.streetTextField.font = UIFont.mediumFont(15.0)
         self.streetTextField.textColor = UIColor.black
@@ -496,7 +496,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     fileprivate func setUpAdditionalDirectionTextFieldAppearance() {
         
-        self.additionalDirectionTextField.placeholder = NSLocalizedString("lbl_placeholder_text", comment: "")
+        self.additionalDirectionTextField.placeholder = localizedString("lbl_placeholder_text", comment: "")
         
          self.additionalDirectionTextField.attributedPlaceholder = NSAttributedString.init(string: self.additionalDirectionTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor()])
         
@@ -517,7 +517,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         
       //  self.updateButton.titleLabel!.font = UIFont.mediumFont(18.0)
         self.updateButton.setTitleColor(UIColor.white, for: UIControl.State())
-        self.updateButton.setTitle(NSLocalizedString("force_update_button_title", comment: ""), for:UIControl.State())
+        self.updateButton.setTitle(localizedString("force_update_button_title", comment: ""), for:UIControl.State())
         self.updateButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
         
         self.updateButton.layer.cornerRadius = 5.0
@@ -619,7 +619,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     func setUpSearchTextFieldAppearance(){
         
-//        self.searchTextField.placeholder = NSLocalizedString("dashboard_location_search_placeholder", comment: "")
+//        self.searchTextField.placeholder = localizedString("dashboard_location_search_placeholder", comment: "")
 //        self.searchTextField.font = UIFont.bookFont(13.0)
 //        self.searchTextField.textColor = UIColor.darkTextGrayColor()
 //        self.searchTextField.backgroundColor = UIColor.lightGrayBGColor()
@@ -638,14 +638,14 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
 //            self.locationImgView.image = UIImage(name: "location-pin-selected")
 //            self.locationLabel.textColor = UIColor.meunGreenTextColor()
             
-            titleStr = NSMutableAttributedString(string: NSLocalizedString("dashboard_enable_location_services", comment: ""))
+            titleStr = NSMutableAttributedString(string: localizedString("dashboard_enable_location_services", comment: ""))
             
         }else{
 //            self.locationView.backgroundColor =  UIColor.redInfoColor()
 //            self.locationImgView.image = UIImage(name: "location-pin-white")
 //            self.locationLabel.textColor = UIColor.white
 //
-            titleStr = NSMutableAttributedString(string: NSLocalizedString("dashboard_enable_location_services_2", comment: ""))
+            titleStr = NSMutableAttributedString(string: localizedString("dashboard_enable_location_services_2", comment: ""))
         }
         
 //        self.locationLabel.font = UIFont.mediumFont(13.0)
@@ -677,7 +677,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5.0
-        let titleStr = NSMutableAttributedString(string: NSLocalizedString("txt_not_cover_area_1", comment: ""))
+        let titleStr = NSMutableAttributedString(string: localizedString("txt_not_cover_area_1", comment: ""))
         titleStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, titleStr.length))
         
 //        self.noCoverageTitleLabel.attributedText = titleStr
@@ -687,14 +687,14 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
 //
 //        self.emailDoneButton.titleLabel!.font = UIFont.mediumFont(18.0)
 //        self.emailDoneButton.setTitleColor(UIColor.white, for: UIControl.State())
-//        self.emailDoneButton.setTitle(NSLocalizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
+//        self.emailDoneButton.setTitle(localizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
 //        self.emailDoneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
 //
 //        self.emailDoneButton.layer.cornerRadius = 5.0
 //        self.emailDoneButton.clipsToBounds = true
         setEmailDoneButtonEnabled(false)
         
-//        self.emailTextField.placeholder = NSLocalizedString("enter_email_placeholder_text", comment: "")
+//        self.emailTextField.placeholder = localizedString("enter_email_placeholder_text", comment: "")
 //        self.emailTextField.font = UIFont.bookFont(13.0)
 //        self.emailTextField.textColor = UIColor.darkTextGrayColor()
         if UserDefaults.isUserLoggedIn(){
@@ -760,7 +760,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             if self.floorTextField.text!.count == 0 {
                 //self.floorView.layer.borderWidth = 1
                 //self.floorView.layer.borderColor = UIColor.redInfoColor().cgColor
-                self.floorTextField.showError(message: NSLocalizedString("error_enter_Floor", comment: ""))
+                self.floorTextField.showError(message: localizedString("error_enter_Floor", comment: ""))
             }else{
                 self.floorView.layer.borderWidth = 0
             }
@@ -768,7 +768,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             if self.buildingTextField.text!.count == 0 {
                 //self.buildingView.layer.borderWidth = 1
                 //self.buildingView.layer.borderColor = UIColor.redInfoColor().cgColor
-                self.buildingTextField.showError(message: NSLocalizedString("error_enter_building", comment: ""))
+                self.buildingTextField.showError(message: localizedString("error_enter_building", comment: ""))
             }else{
                 self.buildingView.layer.borderWidth = 0
             }
@@ -786,7 +786,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if self.apartmentNumberTextField.text!.count == 0 {
             //self.apartmenttxtView.layer.borderWidth = 1
             //self.apartmenttxtView.layer.borderColor = UIColor.redInfoColor().cgColor
-            self.apartmentNumberTextField.showError(message: NSLocalizedString("error_enter_apartment", comment: ""))
+            self.apartmentNumberTextField.showError(message: localizedString("error_enter_apartment", comment: ""))
         }else{
             self.apartmenttxtView.layer.borderWidth = 0
         }
@@ -794,7 +794,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if self.streetTextField.text!.count == 0 {
             //self.streetView.layer.borderWidth = 1
            // self.streetView.layer.borderColor = UIColor.redInfoColor().cgColor
-            self.streetTextField.showError(message: NSLocalizedString("error_enter_street", comment: ""))
+            self.streetTextField.showError(message: localizedString("error_enter_street", comment: ""))
         }else{
             self.streetView.layer.borderWidth = 0
         }
@@ -894,10 +894,10 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     // MARK: Enable location
     @objc func onEnableLocationClick() {
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("dashboard_enable_location_alert_title", comment: ""),
-                                      description: NSLocalizedString("dashboard_enable_location_services_3", comment: ""),
-                                      positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),
-                                      negativeButton: NSLocalizedString("sign_out_alert_no", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("dashboard_enable_location_alert_title", comment: ""),
+                                      description: localizedString("dashboard_enable_location_services_3", comment: ""),
+                                      positiveButton: localizedString("sign_out_alert_yes", comment: ""),
+                                      negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         
                                         if buttonIndex == 0 {
@@ -976,9 +976,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     func setLocationDataInView() {
         
-        self.apartmentLabel.text = NSLocalizedString("apartment", comment: "")
-        self.houseLabel.text = NSLocalizedString("house", comment: "")
-        self.officeLabel.text = NSLocalizedString("office", comment: "")
+        self.apartmentLabel.text = localizedString("apartment", comment: "")
+        self.houseLabel.text = localizedString("house", comment: "")
+        self.officeLabel.text = localizedString("office", comment: "")
         
         self.deliveryAddressLocation = CLLocation(latitude: self.deliveryAddress.latitude, longitude: self.deliveryAddress.longitude)
     
@@ -1075,18 +1075,18 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     func setLabelTitles() {
         
-        self.buildingLabel.text = NSLocalizedString("building", comment: "")
-        self.floorLabel.text = NSLocalizedString("floor", comment: "")
+        self.buildingLabel.text = localizedString("building", comment: "")
+        self.floorLabel.text = localizedString("floor", comment: "")
         
         if self.addressType == "0" {
-             self.apartmentNumberLabel.text = NSLocalizedString("apartment_no", comment: "")
+             self.apartmentNumberLabel.text = localizedString("apartment_no", comment: "")
         }else if self.addressType == "1"{
-             self.apartmentNumberLabel.text = NSLocalizedString("house", comment: "")
+             self.apartmentNumberLabel.text = localizedString("house", comment: "")
         }else{
-            self.apartmentNumberLabel.text = NSLocalizedString("office_no", comment: "")
+            self.apartmentNumberLabel.text = localizedString("office_no", comment: "")
         }
-        self.streetLabel.text = NSLocalizedString("street", comment: "")
-        self.additionalDirectionLabel.text = NSLocalizedString("additional_direction", comment: "")
+        self.streetLabel.text = localizedString("street", comment: "")
+        self.additionalDirectionLabel.text = localizedString("additional_direction", comment: "")
     }
     
     // MARK: UITableView
@@ -1374,9 +1374,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         
         self.setTableViewHeader()
         
-        self.apartmentNumberTextField.placeholder = NSLocalizedString("lbl_Apartment", comment: "")
-//        self.floorTextField.placeholder = NSLocalizedString("lbl_Floor", comment: "")
-//        self.streetTextField.placeholder =  NSLocalizedString("lbl_AreaStreet", comment: "")
+        self.apartmentNumberTextField.placeholder = localizedString("lbl_Apartment", comment: "")
+//        self.floorTextField.placeholder = localizedString("lbl_Floor", comment: "")
+//        self.streetTextField.placeholder =  localizedString("lbl_AreaStreet", comment: "")
     }
     
     @IBAction func houseHandler(_ sender: AnyObject) {
@@ -1407,7 +1407,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         self.setTableViewHeader(540)
         
         
-       self.apartmentNumberTextField.placeholder =  NSLocalizedString("houseTxt", comment: "")
+       self.apartmentNumberTextField.placeholder =  localizedString("houseTxt", comment: "")
         
         
     }
@@ -1447,7 +1447,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
      //   _ = self.validateLocationFields()
           self.setTableViewHeader()
         
-        self.apartmentNumberTextField.placeholder = NSLocalizedString("office_no", comment: "")
+        self.apartmentNumberTextField.placeholder = localizedString("office_no", comment: "")
     }
     
     @IBAction func updateButtonHandler(_ sender: Any) {
@@ -1552,9 +1552,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 
                 DatabaseHelper.sharedInstance.mainManagedObjectContext.rollback()
                 
-                ElGrocerAlertView.createAlert(NSLocalizedString("my_account_saving_error", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("my_account_saving_error", comment: ""),
                     description: nil,
-                    positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                    positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                     negativeButton: nil, buttonClickCallback: nil).show()
             }
         })

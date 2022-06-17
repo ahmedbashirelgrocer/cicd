@@ -14,7 +14,7 @@ class ForgotPasswordViewController : UIViewController, UITextFieldDelegate {
     @IBOutlet var imgLogo: UIImageView!
     @IBOutlet var detailLable: UILabel! {
         didSet {
-            detailLable.text = NSLocalizedString("lbl_userforgetmsg", comment: "")
+            detailLable.text = localizedString("lbl_userforgetmsg", comment: "")
             detailLable.setBody2RegDarkStyle()
             
         }
@@ -36,13 +36,13 @@ class ForgotPasswordViewController : UIViewController, UITextFieldDelegate {
     
     @IBOutlet var lblNeedSupport: UILabel! {
         didSet{
-            lblNeedSupport.text = NSLocalizedString("need_assistance_lable", comment: "")
+            lblNeedSupport.text = localizedString("need_assistance_lable", comment: "")
             lblNeedSupport.setBodyBoldDarkStyle()
         }
     }
     @IBOutlet var lblChatWithElgrocer: UILabel!{
         didSet{
-            lblChatWithElgrocer.text = NSLocalizedString("launch_live_chat_text", comment: "")
+            lblChatWithElgrocer.text = localizedString("launch_live_chat_text", comment: "")
             lblChatWithElgrocer.setBody3SemiBoldGreenStyle()
         }
     }
@@ -110,10 +110,10 @@ override func rightBackButtonClicked() {
     func setupTitles() {
         
      
-        self.title = NSLocalizedString("lbl_resetPass", comment: "")
-        self.descriptionLabel.text = NSLocalizedString("lbl_resetyouPass", comment: "")
-        self.emailTextField.placeholder = NSLocalizedString("login_email_placeholder", comment: "")
-        self.submitButton.setTitle(NSLocalizedString("lbl_resetPass", comment: ""), for: UIControl.State())
+        self.title = localizedString("lbl_resetPass", comment: "")
+        self.descriptionLabel.text = localizedString("lbl_resetyouPass", comment: "")
+        self.emailTextField.placeholder = localizedString("login_email_placeholder", comment: "")
+        self.submitButton.setTitle(localizedString("lbl_resetPass", comment: ""), for: UIControl.State())
         
         
            self.emailTextField.attributedPlaceholder = NSAttributedString.init(string: self.emailTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
@@ -158,16 +158,16 @@ override func rightBackButtonClicked() {
                 self.successIconHeight.constant = 48
                 self.topTitleSpace.constant = 16
                 self.emailFieldHeight.constant = 0
-                self.submitButton.setTitle(NSLocalizedString("area_selection_login_button_title", comment: ""), for: .normal)
+                self.submitButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: .normal)
                 self.isNeedToSignIn = true
-                self.descriptionLabel.text = NSLocalizedString("lbl_instruction", comment: "")
-                self.detailLable.text = NSLocalizedString("lbl_instruction_msg", comment: "")
+                self.descriptionLabel.text = localizedString("lbl_instruction", comment: "")
+                self.detailLable.text = localizedString("lbl_instruction_msg", comment: "")
 //                let checkEmailController = ElGrocerViewControllers.checkEmailViewController()
 //                self.navigationController?.pushViewController(checkEmailController, animated: true)
                 
             } else {
                 
-                self.emailTextField.showError(message: NSLocalizedString("forgot_password_error_alert_description", comment: ""))
+                self.emailTextField.showError(message: localizedString("forgot_password_error_alert_description", comment: ""))
 
             }
         })

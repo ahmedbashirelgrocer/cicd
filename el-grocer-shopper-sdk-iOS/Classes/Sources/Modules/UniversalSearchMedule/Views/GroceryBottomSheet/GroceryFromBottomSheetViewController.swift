@@ -21,7 +21,7 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
     var selectedGrocery: ((_ grocery : Grocery)->Void)?
     @IBOutlet var lblheader: UILabel! {
         didSet {
-            lblheader.text = NSLocalizedString("No_Choose_The_Store", comment: "")
+            lblheader.text = localizedString("No_Choose_The_Store", comment: "")
             lblheader.setH4SemiBoldStyle()
         }
     }
@@ -95,7 +95,7 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
         self.dataA = groceryA
         self.tableView.reloadData()
         let finalSearchString = " \"" + searchString + "\""
-        let finalTitle = NSLocalizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + NSLocalizedString("lbl_StorethatSell", comment: "") //+ finalSearchString
+        let finalTitle = localizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + localizedString("lbl_StorethatSell", comment: "") //+ finalSearchString
         let attributedString1 = NSMutableAttributedString(string: finalTitle, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14) , NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()])
         let attributedString2 = NSMutableAttributedString(string: finalSearchString, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14) , NSAttributedString.Key.foregroundColor : UIColor.navigationBarColor()])
         attributedString1.append(attributedString2)
@@ -117,13 +117,13 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
     func configureForRecipe (_ groceryA : [Grocery] , searchString : String) {
         
         self.lblError.isHidden = true
-        lblheader.text = NSLocalizedString("grocery_selection_From_Recipe_screen_title", comment: "")
+        lblheader.text = localizedString("grocery_selection_From_Recipe_screen_title", comment: "")
         
         self.dataA = groceryA
         self.tableView.reloadData()
         //let finalSearchString = " \"" + searchString + "\""
-        //let finalTitle = NSLocalizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + NSLocalizedString("lbl_StorethatSell", comment: "") + finalSearchString + " " + NSLocalizedString("lbl_Ingredients", comment: "")
-        let finalTitle = NSLocalizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + NSLocalizedString("lbl_StorethatSell", comment: "") + " " + NSLocalizedString("lbl_Ingredients", comment: "")
+        //let finalTitle = localizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + localizedString("lbl_StorethatSell", comment: "") + finalSearchString + " " + localizedString("lbl_Ingredients", comment: "")
+        let finalTitle = localizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + localizedString("lbl_StorethatSell", comment: "") + " " + localizedString("lbl_Ingredients", comment: "")
         let attributedString = NSMutableAttributedString(string: finalTitle, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14) , NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()])
         /*
         let nsRange = NSString(string: finalTitle).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
@@ -193,7 +193,7 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
                 return grocer.dbID == grocery.dbID
             }
             let posstion = String((indexForNew ?? 0 ) + 1 )
-            FireBaseEventsLogger.trackStoreListingStoreClick(OldStoreID: oldstore?.dbID ?? "" , OldStoreName: oldstore?.name ?? "" , NumberOfItemsOldStore: lastItemCount  , Position: posstion , RowView:  "1"  , NumberOfRetailers: "\(self.dataA.count)" , StoreCategoryID: String(describing:  0 )  , StoreCategoryName: NSLocalizedString("all_store", comment: "") )
+            FireBaseEventsLogger.trackStoreListingStoreClick(OldStoreID: oldstore?.dbID ?? "" , OldStoreName: oldstore?.name ?? "" , NumberOfItemsOldStore: lastItemCount  , Position: posstion , RowView:  "1"  , NumberOfRetailers: "\(self.dataA.count)" , StoreCategoryID: String(describing:  0 )  , StoreCategoryName: localizedString("all_store", comment: "") )
             
             if let clouser = self.selectedGrocery {
                 clouser(grocery)

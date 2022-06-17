@@ -42,8 +42,8 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var lblTotalPriceVAT: UILabel!{
         didSet{
             lblTotalPriceVAT.setBody3RegDarkStyle()
-            lblTotalPriceVAT.text = NSLocalizedString("total_price_incl_VAT", comment: "") + " 6 " + NSLocalizedString("brand_items_count_label", comment: "")
-            lblTotalPriceVAT.highlight(searchedText: " 6 " + NSLocalizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+            lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " 6 " + localizedString("brand_items_count_label", comment: "")
+            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
             
         }
     }
@@ -55,7 +55,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var lblServiceFee: UILabel!{
         didSet{
             lblServiceFee.setBody3RegGreyStyle()
-            lblServiceFee.text = NSLocalizedString("service_price", comment: "")
+            lblServiceFee.text = localizedString("service_price", comment: "")
             lblServiceFee.textColor = .secondaryBlackColor()
         }
     }
@@ -68,7 +68,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var lblPromoDiscount: UILabel!{
         didSet{
             lblPromoDiscount.setBody3RegDarkStyle()//.setBody3RegGreenStyle()
-            lblPromoDiscount.text = NSLocalizedString("promotion_discount_aed", comment: "")
+            lblPromoDiscount.text = localizedString("promotion_discount_aed", comment: "")
         }
     }
     @IBOutlet var lblPromoDiscountValue: UILabel!{
@@ -79,7 +79,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var lblGrandTotal: UILabel!{
         didSet{
             lblGrandTotal.setBody3RegDarkStyle()
-            lblGrandTotal.text = NSLocalizedString("lbl_Grand_total", comment: "")
+            lblGrandTotal.text = localizedString("lbl_Grand_total", comment: "")
         }
     }
     @IBOutlet var lblGrandTotalValue: UILabel!{
@@ -90,7 +90,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var lblFinalAmount: UILabel!{
         didSet{
             lblFinalAmount.setBodyBoldDarkStyle()
-            lblFinalAmount.text = NSLocalizedString("total_bill_amount", comment: "")
+            lblFinalAmount.text = localizedString("total_bill_amount", comment: "")
         }
     }
     @IBOutlet var lblFinalAmountValue: UILabel!{
@@ -136,12 +136,12 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var promoTextField: UITextField!{
         didSet{
             promoTextField.setBody3RegStyle()
-            promoTextField.setPlaceHolder(text: NSLocalizedString("promo_textfield_placeholder", comment: ""))
+            promoTextField.setPlaceHolder(text: localizedString("promo_textfield_placeholder", comment: ""))
         }
     }
     @IBOutlet var btnPromoApply: AWButton!{
         didSet{
-            btnPromoApply.setTitle(NSLocalizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
+            btnPromoApply.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var promoActivityIndicator: UIActivityIndicatorView!{
@@ -167,14 +167,14 @@ class MyBasketPlaceOrderVC: UIViewController {
     //MARK:CheckoutView Promo
     @IBOutlet var btnAddPromo: UIButton!{
         didSet{
-            btnAddPromo.setTitle(NSLocalizedString("btn_enter_promoCode", comment: ""), for: UIControl.State())
+            btnAddPromo.setTitle(localizedString("btn_enter_promoCode", comment: ""), for: UIControl.State())
             btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
             btnAddPromo.setCaptionBoldGreenStyle()
         }
     }
     @IBOutlet var btnShowBillDetails: UIButton!{
         didSet{
-            btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
+            btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
             btnShowBillDetails.setImage(UIImage(name: "billDetailsIcon"), for: UIControl.State())
             btnShowBillDetails.semanticContentAttribute = .forceLeftToRight
             btnShowBillDetails.setCaptionBoldSecondaryGreenStyle()
@@ -197,7 +197,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var lblPlaceOrderTitle: UILabel!{
         didSet{
             lblPlaceOrderTitle.setBody2BoldWhiteStyle()
-            lblPlaceOrderTitle.text = NSLocalizedString("place_order_title_label", comment: "")
+            lblPlaceOrderTitle.text = localizedString("place_order_title_label", comment: "")
         }
     }
     @IBOutlet var btnCheckout: UIButton!
@@ -209,18 +209,18 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var lblPayUsingTitle: UILabel!{
         didSet{
             lblPayUsingTitle.setCaptionOneBoldDarkStyle()
-            lblPayUsingTitle.text = NSLocalizedString("lbl_PayUsing", comment: "")
+            lblPayUsingTitle.text = localizedString("lbl_PayUsing", comment: "")
         }
     }
     @IBOutlet var lblSelectedPayment: UILabel!{
         didSet{
             lblSelectedPayment.setBody3BoldUpperStyle(true)
-            self.lblSelectedPayment.text = NSLocalizedString("payment_method_title", comment: "")
+            self.lblSelectedPayment.text = localizedString("payment_method_title", comment: "")
         }
     }
     @IBOutlet var txtCVV: UITextField!{
         didSet{
-            txtCVV.placeholder = NSLocalizedString("lbl_placeholder_cvv", comment: "")
+            txtCVV.placeholder = localizedString("lbl_placeholder_cvv", comment: "")
             txtCVV.setBody3RegStyle()
             txtCVV.layer.cornerRadius = 8
             txtCVV.layer.borderWidth = 1
@@ -236,13 +236,13 @@ class MyBasketPlaceOrderVC: UIViewController {
     @IBOutlet var lblPayWithApplePay: UILabel!{
         didSet{
             lblPayWithApplePay.setApplePayWhiteStyle()
-            lblPayWithApplePay.text = NSLocalizedString("title_pay_with_apple_pay", comment: "")
+            lblPayWithApplePay.text = localizedString("title_pay_with_apple_pay", comment: "")
         }
     }
     @IBOutlet weak var lblSmilesPoints: UILabel!{
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
-        lblSmilesPoints.text = NSLocalizedString("txt_smile_point", comment: "")
+        lblSmilesPoints.text = localizedString("txt_smile_point", comment: "")
         lblSmilesPoints.textColor = .navigationBarColor()
     }
 }
@@ -435,14 +435,14 @@ class MyBasketPlaceOrderVC: UIViewController {
         
         self.navigationItem.hidesBackButton = true
         self.view.backgroundColor = .navigationBarWhiteColor()
-        self.title = NSLocalizedString("title_checkout_screen", comment: "")
+        self.title = localizedString("title_checkout_screen", comment: "")
         
         if self.navigationController is ElGrocerNavigationController {
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
-            //(self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = NSLocalizedString("order_CheckOut_label", comment: "")
+            //(self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("order_CheckOut_label", comment: "")
             self.addBackButton(isGreen: false)
         }
         
@@ -504,13 +504,13 @@ class MyBasketPlaceOrderVC: UIViewController {
         
         let paymentNetworks = [ PKPaymentNetwork.masterCard,  PKPaymentNetwork.visa]
         if   PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) && isVisible {
-            self.lblSelectedPayment.text = NSLocalizedString("pay_via_Apple_pay", comment: "")
+            self.lblSelectedPayment.text = localizedString("pay_via_Apple_pay", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "payWithApple")
-            self.lblPayWithApplePay.text = NSLocalizedString("title_pay_with_apple_pay", comment: "")
+            self.lblPayWithApplePay.text = localizedString("title_pay_with_apple_pay", comment: "")
         } else {
            
-            self.lblPayWithApplePay.text = NSLocalizedString("title_SetUp_with_apple_pay", comment: "")
-            self.lblSelectedPayment.text = NSLocalizedString("pay_via_Apple_pay", comment: "")
+            self.lblPayWithApplePay.text = localizedString("title_SetUp_with_apple_pay", comment: "")
+            self.lblSelectedPayment.text = localizedString("pay_via_Apple_pay", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "payWithApple")
         }
         
@@ -583,18 +583,18 @@ class MyBasketPlaceOrderVC: UIViewController {
         
         if !ElGrocerUtility.sharedInstance.isDeliveryMode {
             if self.dataHandler.selectedCar == nil {
-                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_Msg_carDetail", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_Msg_carDetail", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
                 return
             }
             if self.dataHandler.selectedCollector == nil {
-                ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("lbl_Msg_CollectorDetail", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+                ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_Msg_CollectorDetail", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
                 return
             }
         }
         
         
         guard let slot = self.secondCheckOutDataHandler!.activeDeliverySlot else {
-            ElGrocerUtility.sharedInstance.showTopMessageView(NSLocalizedString("no_slot_available_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("no_slot_available_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
             return
         }
         
@@ -605,7 +605,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         }
         
         guard self.selectedPaymentOption != PaymentOption.none , self.selectedPaymentOption != nil else {
-            self.lblCVVError.text = NSLocalizedString("shopping_basket_payment_info_label", comment: "")
+            self.lblCVVError.text = localizedString("shopping_basket_payment_info_label", comment: "")
             return
         }
         
@@ -628,12 +628,12 @@ class MyBasketPlaceOrderVC: UIViewController {
             
             if selectedPaymentOption == .creditCard {
                 guard self.selectedCreditCard != nil else {
-                    self.lblCVVError.text = NSLocalizedString("shopping_basket_payment_info_label", comment: "")
+                    self.lblCVVError.text = localizedString("shopping_basket_payment_info_label", comment: "")
                     self.txtCVV.layer.borderColor = UIColor.redInfoColor().cgColor
                     return
                 }
 //                guard self.txtCVV.text?.count ?? 0 == 3 else {
-//                    self.lblCVVError.text = NSLocalizedString("cvv_alert_msg", comment: "")
+//                    self.lblCVVError.text = localizedString("cvv_alert_msg", comment: "")
 //                    self.txtCVV.layer.borderColor = UIColor.redInfoColor().cgColor
 //                    return
 //                }
@@ -791,7 +791,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                         if let message = error.message {
                             if !message.isEmpty {
                                 if let orderID = self.secondCheckOutDataHandler?.order?.dbID.stringValue {
-                                    ElGrocerAlertView.createAlert(NSLocalizedString("order_confirmation_Edit_order_button", comment: ""),description:NSLocalizedString("edit_Order_TimePassed", comment: ""),positiveButton: NSLocalizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),negativeButton: NSLocalizedString("setting_feedback", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
+                                    ElGrocerAlertView.createAlert(localizedString("order_confirmation_Edit_order_button", comment: ""),description:localizedString("edit_Order_TimePassed", comment: ""),positiveButton: localizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),negativeButton: localizedString("setting_feedback", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         UserDefaults.resetEditOrder(false)
                                         self.secondCheckOutDataHandler?.order?.status = NSNumber(value: OrderStatus.pending.rawValue)
                                         if buttonIndex == 0 {
@@ -811,7 +811,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                     // qunatity check
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
                         if buttonIndex == 1 {
                             
                             if let data = error.jsonValue?["data"] as? [NSDictionary] {
@@ -841,9 +841,9 @@ class MyBasketPlaceOrderVC: UIViewController {
     
     func showErrorAlert(message: String) {
         
-        ElGrocerAlertView.createAlert(NSLocalizedString(message, comment: ""),
+        ElGrocerAlertView.createAlert(localizedString(message, comment: ""),
             description: nil,
-            positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+            positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
             negativeButton: nil, buttonClickCallback: nil).show()
     }
     
@@ -1153,21 +1153,21 @@ extension MyBasketPlaceOrderVC {
             self.billDetailsBGView.visibility = .gone
             self.promoBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = false
-            self.btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
+            self.btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
             self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
         } else if viewStyle == .showBillDetails{
             self.billDetailsBGView.visibility = .visible
             self.promoBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = true
             
-            self.btnShowBillDetails.setTitle(NSLocalizedString("btn_hide_bill_details", comment: ""), for: UIControl.State())
+            self.btnShowBillDetails.setTitle(localizedString("btn_hide_bill_details", comment: ""), for: UIControl.State())
             self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
             
         } else {
             self.billDetailsBGView.visibility = .gone
             self.promoBGView.visibility = .visible
             self.checkOutDetaailsLineView.isHidden = true
-            self.btnShowBillDetails.setTitle(NSLocalizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
+            self.btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
             self.btnAddPromo.setImage(UIImage(name: "arrowUp16"), for: UIControl.State())
         }
         
@@ -1222,7 +1222,7 @@ extension MyBasketPlaceOrderVC {
         }
         if savedAmount > 0{
             self.savedAmountBGView.isHidden = false
-            self.lblSavedAmount.text = CurrencyManager.getCurrentCurrency() + savedAmount.formateDisplayString() + " " + NSLocalizedString("txt_Saved", comment: "")
+            self.lblSavedAmount.text = CurrencyManager.getCurrentCurrency() + savedAmount.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
         }else{
             self.savedAmountBGView.isHidden = true
         }
@@ -1249,7 +1249,7 @@ extension MyBasketPlaceOrderVC {
             if totalRedeemableAmount > currentOrderTotaleAmount {
                 points = SmilesManager.getBurnPointsFromAed(currentOrderTotaleAmount)
             }
-            let amount  = NSLocalizedString("aed", comment: "") + " \(currentOrderTotaleAmount)"
+            let amount  = localizedString("aed", comment: "") + " \(currentOrderTotaleAmount)"
              self.lblSmilesPointsValue.text = "-\(amount)"
             self.pointsSpentForAnalytics = points ?? 0
         } else {
@@ -1277,7 +1277,7 @@ extension MyBasketPlaceOrderVC {
         let earnedpopints = SmilesManager.getEarnPointsFromAed(currentOrderTotaleAmount) //Int(currentOrderTotaleAmount * smilesConfig.earning)
         if !isPayingBySmilePoints {
             self.pointsEarnedView.isHidden = false
-            self.pointsEarnedValueLabel.text = NSLocalizedString("txt_earn", comment: "") + " \(earnedpopints) " + NSLocalizedString("txt_smile_point", comment: "")
+            self.pointsEarnedValueLabel.text = localizedString("txt_earn", comment: "") + " \(earnedpopints) " + localizedString("txt_smile_point", comment: "")
             pointsEarnedForAnalytics = earnedpopints
         }else{
             self.pointsEarnedView.isHidden = true
@@ -1300,8 +1300,8 @@ extension MyBasketPlaceOrderVC {
 //        self.lblServiceFeeValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,serviceFee)
 //        self.lblGrandTotalValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
 //        self.lblFinalAmountValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
-        lblTotalPriceVAT.text = NSLocalizedString("total_price_incl_VAT", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(itemCount) ") + NSLocalizedString("brand_items_count_label", comment: "")
-        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + NSLocalizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+        lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(itemCount) ") + localizedString("brand_items_count_label", comment: "")
+        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
         
         self.lblTotalPriceVATValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalPrice)
         self.lblServiceFeeValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: serviceFee)
@@ -1313,9 +1313,9 @@ extension MyBasketPlaceOrderVC {
     func configureCheckoutButtonData(itemsNum : Int , totalBill : Double) {
         
         if itemsNum > 1{
-            self.lblItemCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsNum) ") + NSLocalizedString("shopping_basket_items_count_plural", comment: "") + ")"
+            self.lblItemCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsNum) ") + localizedString("shopping_basket_items_count_plural", comment: "") + ")"
         }else{
-            self.lblItemCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsNum) ") + NSLocalizedString("shopping_basket_items_count_singular", comment: "") + ")"
+            self.lblItemCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsNum) ") + localizedString("shopping_basket_items_count_singular", comment: "") + ")"
         }
         
 //        self.lblItemsTotalPrice.text = CurrencyManager.getCurrentCurrency() + totalBill.formateDisplayString()
@@ -1575,19 +1575,19 @@ extension MyBasketPlaceOrderVC {
         
         if paymentType == PaymentOption.none{
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("payment_method_title", comment: "")
+            self.lblSelectedPayment.text = localizedString("payment_method_title", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPayment")
             self.btnCheckoutBGView.backgroundColor = .disableButtonColor()
             showCVV(false)
         }else if paymentType == .cash {
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("cash_delivery", comment: "")
+            self.lblSelectedPayment.text = localizedString("cash_delivery", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentC")
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
         }else if paymentType == .card {
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("pay_via_card", comment: "")
+            self.lblSelectedPayment.text = localizedString("pay_via_card", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCD")
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
@@ -1600,7 +1600,7 @@ extension MyBasketPlaceOrderVC {
             //lblItemsTotalPrice
             //lblItemCount
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("pay_via_smiles_points", comment: "")
+            self.lblSelectedPayment.text = localizedString("pay_via_smiles_points", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
@@ -1608,7 +1608,7 @@ extension MyBasketPlaceOrderVC {
             //credit card
             setApplePayAppearence(false)
             if let card = self.selectedCreditCard {
-                self.lblSelectedPayment.text = NSLocalizedString("lbl_Card_ending_in", comment: "") + card.last4
+                self.lblSelectedPayment.text = localizedString("lbl_Card_ending_in", comment: "") + card.last4
                 self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
                 self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
                 showCVV(false)
@@ -1680,11 +1680,11 @@ extension MyBasketPlaceOrderVC {
     func checkPromoCode(_ text : String , _ orderID : String? = nil ) {
         
         guard let grocery = self.secondCheckOutDataHandler?.activeGrocery else {
-            showPromoError(false, message: NSLocalizedString("error_10000", comment: ""))
+            showPromoError(false, message: localizedString("error_10000", comment: ""))
             return
         }
         guard self.selectedPaymentOption != nil else {
-            showPromoError(false, message: NSLocalizedString("error_10009", comment: ""))
+            showPromoError(false, message: localizedString("error_10009", comment: ""))
             return
         }
         
@@ -1780,7 +1780,7 @@ extension MyBasketPlaceOrderVC {
     func showOutOfStockAlert () {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("title_checkout_screen", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("title_checkout_screen", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             if buttonIndex == 0 {
                 self.backButtonClick()
             }else if buttonIndex == 1 {
@@ -1824,9 +1824,9 @@ extension MyBasketPlaceOrderVC {
 //            }
 //        }
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("slot_expired_title", comment: ""),
-                                      description:NSLocalizedString("slot_expired_message", comment: ""),
-                                      positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("slot_expired_title", comment: ""),
+                                      description:localizedString("slot_expired_message", comment: ""),
+                                      positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                       negativeButton: nil, buttonClickCallback: nil).show()
         
     }
@@ -1897,7 +1897,7 @@ extension MyBasketPlaceOrderVC {
                 //self.showPaymentDetails(paymentType: self.selectedPaymentOption)
                 
                 let defiPoints = SmilesManager.getBurnPointsFromAed(currentOrderTotaleAmount-totalRedeemableAmount)
-                let errorMsg = NSLocalizedString("not_enough_smile_point_initial", comment: "") + " \(defiPoints) " + NSLocalizedString("not_enough_smile_point_end", comment: "")
+                let errorMsg = localizedString("not_enough_smile_point_initial", comment: "") + " \(defiPoints) " + localizedString("not_enough_smile_point_end", comment: "")
                 
                 //SmilesEventsLogger.smilesToggleErrorEvent(orderValue: currentOrderTotaleAmount, isSmilesCheck: isSmileOn, smilePoints: availablePoints, message: errorMsg)
                 SmilesEventsLogger.smilesToggleErrorEvent(orderValue: currentOrderTotaleAmount, smilePoints: availablePoints, message: errorMsg)
@@ -1982,12 +1982,12 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
             }
             if indexPath.row == 0{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "warningAlertCell", for: indexPath) as! warningAlertCell
-                let text = NSLocalizedString("order_note_label_complete", comment: "") //+ NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: "") + NSLocalizedString("order_Note_reason", comment: "")
-                cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+                let text = localizedString("order_note_label_complete", comment: "") //+ localizedString("order_Note_Bold_Price_May_Vary", comment: "") + localizedString("order_Note_reason", comment: "")
+                cell.ConfigureCell(text: text, highlightedText: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
                 return cell
             }else if indexPath.row == 1{
                 let cell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell, for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: NSLocalizedString("dashboard_location_navigation_bar_title", comment: "s"))
+                cell.configureCell(title: localizedString("dashboard_location_navigation_bar_title", comment: "s"))
                 return cell
             }else if indexPath.row == 2{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "deliverySlotCell", for: indexPath) as! deliverySlotCell
@@ -1998,7 +1998,7 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
                 return cell
             }else if indexPath.row == 3{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "instructionsTableCell", for: indexPath) as! instructionsTableCell
-                cell.setData(tableView: tableView, placeHolder: NSLocalizedString("checkout_instruction_placeHolder", comment: "") , self.instructionText,isFromCart: true)
+                cell.setData(tableView: tableView, placeHolder: localizedString("checkout_instruction_placeHolder", comment: "") , self.instructionText,isFromCart: true)
                 cell.instructionsText = { [weak self] (text) in
                     self?.instructionText = text ?? ""
                 }
@@ -2019,18 +2019,18 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
             
             if indexPath.row == 0{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "warningAlertCell", for: indexPath) as! warningAlertCell
-                let text = NSLocalizedString("order_note_label_complete", comment: "") //+ NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: "") + NSLocalizedString("order_Note_reason", comment: "")
-                cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+                let text = localizedString("order_note_label_complete", comment: "") //+ localizedString("order_Note_Bold_Price_May_Vary", comment: "") + localizedString("order_Note_reason", comment: "")
+                cell.ConfigureCell(text: text, highlightedText: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
                 return cell
             }else if indexPath.row == 1{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "warningAlertCell", for: indexPath) as! warningAlertCell
-                let text = NSLocalizedString("lbl-collection-detail-alert", comment: "")
-                cell.ConfigureCell(text: text, highlightedText: NSLocalizedString("lbl_collection_detail_alert_highlight", comment: ""))
+                let text = localizedString("lbl-collection-detail-alert", comment: "")
+                cell.ConfigureCell(text: text, highlightedText: localizedString("lbl_collection_detail_alert_highlight", comment: ""))
                 return cell
             }else if indexPath.row == 2{
                 let cell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell, for: indexPath) as! GenericViewTitileTableViewCell
 
-                cell.configureCell(title: NSLocalizedString("lbl_Self_collection_details_checkout", comment: "s"))
+                cell.configureCell(title: localizedString("lbl_Self_collection_details_checkout", comment: "s"))
                 return cell
             }else if indexPath.row == 3{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "deliverySlotCell", for: indexPath) as! deliverySlotCell
@@ -2040,14 +2040,14 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
                 return cell
             }else if indexPath.row == 4{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "instructionsTableCell", for: indexPath) as! instructionsTableCell
-                cell.setData(tableView: tableView, placeHolder: NSLocalizedString("checkout_instruction_placeHolder", comment: ""), self.instructionText,isFromCart: true)
+                cell.setData(tableView: tableView, placeHolder: localizedString("checkout_instruction_placeHolder", comment: ""), self.instructionText,isFromCart: true)
                 cell.instructionsText = { [weak self] (text) in
                     self?.instructionText = text ?? ""
                 }
                 return cell
             }else if indexPath.row == 5 + smilePointSection{
                 let cell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell, for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: NSLocalizedString("Which_car_is_collecting_the_order", comment: "s"))
+                cell.configureCell(title: localizedString("Which_car_is_collecting_the_order", comment: "s"))
                 return cell
                                
             }else if indexPath.row == 6 + smilePointSection{
@@ -2093,7 +2093,7 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
                 return cell
             }else if indexPath.row == 8 + smilePointSection{
                 let cell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell, for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: NSLocalizedString("Someone_else_is_collectiing", comment: "s"))
+                cell.configureCell(title: localizedString("Someone_else_is_collectiing", comment: "s"))
                 return cell
             }else if indexPath.row == 9 + smilePointSection{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "CandCGetDetailTableViewCell", for: indexPath) as! CandCGetDetailTableViewCell
@@ -2171,9 +2171,9 @@ extension MyBasketPlaceOrderVC : MyBasketCheckOut {
         
         
         if let overLimitProduct = self.secondCheckOutDataHandler?.checkIsOverLimitProductAvailable() {
-                let msg = String(format: NSLocalizedString("promotion_changed_alert_description", comment: ""), "\(overLimitProduct.name ?? "")" , "\(overLimitProduct.promoProductLimit ?? 0) ")
+                let msg = String(format: localizedString("promotion_changed_alert_description", comment: ""), "\(overLimitProduct.name ?? "")" , "\(overLimitProduct.promoProductLimit ?? 0) ")
                 
-            let notification = ElGrocerAlertView.createAlert(NSLocalizedString("quantity_changed_alert_title", comment: "") , description: msg , positiveButton: NSLocalizedString("promo_code_alert_ok", comment: "") , negativeButton: nil) { (index) in
+            let notification = ElGrocerAlertView.createAlert(localizedString("quantity_changed_alert_title", comment: "") , description: msg , positiveButton: localizedString("promo_code_alert_ok", comment: "") , negativeButton: nil) { (index) in
                     
                     self.backButtonClick()
                 }

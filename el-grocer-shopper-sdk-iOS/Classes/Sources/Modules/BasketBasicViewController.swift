@@ -129,7 +129,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
         
         self.emptyView?.removeFromSuperview()
         
-        self.emptyView = EmptyView.createAndAddEmptyView(NSLocalizedString("empty_view_products_search_title", comment: ""), description: NSLocalizedString("empty_view_products_search_description", comment: ""), addToView: self.view)
+        self.emptyView = EmptyView.createAndAddEmptyView(localizedString("empty_view_products_search_title", comment: ""), description: localizedString("empty_view_products_search_description", comment: ""), addToView: self.view)
         self.emptyView?.isHidden = true
         if let emptyView = self.emptyView {
             self.view.sendSubviewToBack(emptyView)
@@ -654,7 +654,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                     
                     
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             
@@ -689,8 +689,8 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                     ElGrocerUtility.sharedInstance.resetBasketPresistence()
                    // self.addProductToBasketFromQuickAdd(product)
                 }else{
-                    ElGrocerAlertView.createAlert(NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""),description: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),positiveButton: NSLocalizedString("products_adding_different_grocery_alert_confirm_button", comment: ""),
-                                                  negativeButton: NSLocalizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
+                    ElGrocerAlertView.createAlert(localizedString("products_adding_different_grocery_alert_title", comment: ""),description: localizedString("products_adding_different_grocery_alert_message", comment: ""),positiveButton: localizedString("products_adding_different_grocery_alert_confirm_button", comment: ""),
+                                                  negativeButton: localizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
                                                     if buttonIndex == 0 {
                                                         
                                                         //clear active basket and add product

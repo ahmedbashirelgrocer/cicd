@@ -23,7 +23,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
     @IBOutlet weak var nextButton: AWButton! {
         
         didSet {
-            nextButton.setTitle(NSLocalizedString("intro_next_button", comment: ""), for: UIControl.State())
+            nextButton.setTitle(localizedString("intro_next_button", comment: ""), for: UIControl.State())
         }
         
     }
@@ -83,7 +83,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         
         viewModel.timeLeft.bind { [weak self] timeleft in
             
-            let resendTxt = NSLocalizedString("resend_otp_in", comment: "") + "\(timeleft)" + NSLocalizedString("sec", comment: "")
+            let resendTxt = localizedString("resend_otp_in", comment: "") + "\(timeleft)" + localizedString("sec", comment: "")
             self?.resendOTPLabel.text = resendTxt
         }
         
@@ -110,11 +110,11 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         
         let userProfile: UserProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
 
-        self.title = NSLocalizedString("txt_smile_point", comment: "")
+        self.title = localizedString("txt_smile_point", comment: "")
         loginLabel.setH3SemiBoldDarkStyle()
         otpInstriuctionsLabel.setBody2RegDarkStyle()
-        loginLabel.text = NSLocalizedString("smile_login", comment: "")
-        otpInstriuctionsLabel.text = NSLocalizedString("smile_otp_instructions", comment: "") + " " + (userProfile.phone ?? "+971*********")
+        loginLabel.text = localizedString("smile_login", comment: "")
+        otpInstriuctionsLabel.text = localizedString("smile_otp_instructions", comment: "") + " " + (userProfile.phone ?? "+971*********")
         
         self.setPolicyLabel()
         nextButton.isUserInteractionEnabled = false
@@ -165,11 +165,11 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         //self.addBackButton()
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
-        self.title = NSLocalizedString("txt_smile_point", comment: "")
+        self.title = localizedString("txt_smile_point", comment: "")
         
         resendOTPLabel.isHidden = true
         resendOTPLabel.setBody2RegDarkStyle()
-        resendOtpButton.setTitle(NSLocalizedString("resend_otp", comment: ""), for: UIControl.State())
+        resendOtpButton.setTitle(localizedString("resend_otp", comment: ""), for: UIControl.State())
     }
 
     func setupPinField() {

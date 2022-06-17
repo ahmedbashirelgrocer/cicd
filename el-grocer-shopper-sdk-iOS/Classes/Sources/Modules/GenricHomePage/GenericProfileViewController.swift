@@ -24,7 +24,7 @@ class GenericProfileViewController: UIViewController {
         
     }
     func setUpTitles() {
-        self.tabBarItem.title = NSLocalizedString("Profile_Title", comment: "")
+        self.tabBarItem.title = localizedString("Profile_Title", comment: "")
     }
     
     @objc

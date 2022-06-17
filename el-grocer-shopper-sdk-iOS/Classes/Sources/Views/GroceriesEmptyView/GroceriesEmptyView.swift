@@ -65,13 +65,13 @@ class GroceriesEmptyView: UIView {
         switch self.mode {
         case .noPartnerGrocery:
             
-            //titleLabel.text = NSLocalizedString("no_partner_grocery", comment: "")
-            titleLabel.text = NSLocalizedString("no_groceries_sorry_message", comment: "")
+            //titleLabel.text = localizedString("no_partner_grocery", comment: "")
+            titleLabel.text = localizedString("no_groceries_sorry_message", comment: "")
             topImageView.image = UIImage(name: "img_shops")
             
         case .offline:
             
-            titleLabel.text = NSLocalizedString("no_groceries_sorry_message", comment: "")
+            titleLabel.text = localizedString("no_groceries_sorry_message", comment: "")
             topImageView.image = UIImage(name: "shops_offline")
         }
         
@@ -89,7 +89,7 @@ class GroceriesEmptyView: UIView {
         self.titleLabel.textColor = UIColor.redInfoColor()
         self.subtitleLabel.font = UIFont.lightFont(13)
         self.subtitleLabel.textColor = UIColor.black
-        self.subtitleLabel.text = NSLocalizedString("no_groceries_subtitle_label_title", comment: "")
+        self.subtitleLabel.text = localizedString("no_groceries_subtitle_label_title", comment: "")
         
         
         let buttonsCornerRadius: CGFloat = 5.0
@@ -100,14 +100,14 @@ class GroceriesEmptyView: UIView {
         self.agentChatBtn.backgroundColor = UIColor.greenInfoColor()
         self.agentChatBtn.titleLabel?.font = buttonsFont
         self.agentChatBtn.setTitleColor(UIColor.white, for: UIControl.State())
-        self.agentChatBtn.setTitle(NSLocalizedString("agentchat_button", comment: ""), for: UIControl.State())
+        self.agentChatBtn.setTitle(localizedString("agentchat_button", comment: ""), for: UIControl.State())
         
         // location button appearance
         self.changeLocationBtn.layer.cornerRadius = buttonsCornerRadius
         self.changeLocationBtn.backgroundColor = UIColor.greenInfoColor()
         self.changeLocationBtn.titleLabel?.font = buttonsFont
         self.changeLocationBtn.setTitleColor(UIColor.white, for: UIControl.State())
-        self.changeLocationBtn.setTitle(NSLocalizedString("changelocation_button", comment: ""), for: UIControl.State())
+        self.changeLocationBtn.setTitle(localizedString("changelocation_button", comment: ""), for: UIControl.State())
         
 //        self.agentChatBtn.layer.cornerRadius = self.agentChatBtn.frame.size.height / 2
 //        self.agentChatBtn.layer.borderColor = UIColor.navigationBarColor().CGColor
@@ -121,7 +121,7 @@ class GroceriesEmptyView: UIView {
 //        self.changeLocationBtn.layer.borderColor = UIColor.navigationBarColor().CGColor
 //        self.changeLocationBtn.layer.borderWidth = 1
 //        self.changeLocationBtn.backgroundColor = UIColor.navigationBarColor()
-//        self.changeLocationBtn.setTitle(NSLocalizedString("changelocation_button", comment: ""), forState: UIControlState.Normal)
+//        self.changeLocationBtn.setTitle(localizedString("changelocation_button", comment: ""), forState: UIControlState.Normal)
 //        self.changeLocationBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
 //        self.changeLocationBtn.titleLabel?.font = UIFont.lightFont(17.0)
 

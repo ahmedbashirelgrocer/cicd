@@ -91,7 +91,7 @@ class Order: NSManagedObject, DBEntity {
         if let deliverySlot =  self.deliverySlot , self.deliverySlot?.dbID != nil{
             return deliverySlot.getSlotFormattedString( isDeliveryMode: self.isDeliveryOrder())
         }else{
-            return NSLocalizedString("today_title", comment: "") + " " +  NSLocalizedString("60_min", comment: "")
+            return localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")
         }
         
         

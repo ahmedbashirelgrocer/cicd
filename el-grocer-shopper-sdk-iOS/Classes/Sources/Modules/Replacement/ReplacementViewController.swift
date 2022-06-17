@@ -27,12 +27,12 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
     @IBOutlet var chooseButton: UIButton!
     @IBOutlet var lblSearchForReplacment: UILabel! {
         didSet{
-            lblSearchForReplacment.text = NSLocalizedString("lbl_Search_Replacment", comment: "")
+            lblSearchForReplacment.text = localizedString("lbl_Search_Replacment", comment: "")
         }
     }
     @IBOutlet var lblConfirmReplacment: UILabel! {
         didSet{
-            lblConfirmReplacment.text =    NSLocalizedString("btn_Confirm_Replacement", comment: "")
+            lblConfirmReplacment.text =    localizedString("btn_Confirm_Replacement", comment: "")
             
         }
     }
@@ -79,8 +79,8 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        //self.title = NSLocalizedString("alternatives_title", comment: "")
-        self.title = NSLocalizedString("alternatives_New_title", comment: "")
+        //self.title = localizedString("alternatives_title", comment: "")
+        self.title = localizedString("alternatives_New_title", comment: "")
         
         addBackButton()
         
@@ -163,7 +163,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         self.searchTextField.delegate = self
         
         self.searchTextField.font = UIFont.SFProDisplaySemiBoldFont(16.0)
-        self.searchTextField.placeholder =  NSLocalizedString("search_products_replace", comment: "")
+        self.searchTextField.placeholder =  localizedString("search_products_replace", comment: "")
         
         
         
@@ -193,7 +193,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         
         let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14.0), NSAttributedString.Key.foregroundColor : UIColor.lightTextGrayColor()]
         
-        let attributedString1 = NSMutableAttributedString(string: String(format:"%@ ",NSLocalizedString("select_alternative_title", comment: "")), attributes:attrs1)
+        let attributedString1 = NSMutableAttributedString(string: String(format:"%@ ",localizedString("select_alternative_title", comment: "")), attributes:attrs1)
         
         let attributedString2 = NSMutableAttributedString(string:product.name!, attributes:attrs2)
         
@@ -262,7 +262,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         let product = self.alternativeProducts[(indexPath as NSIndexPath).row]
         cell.configureWithProduct(product, grocery: self.cartGrocery, cellIndex: indexPath)
         UIView.performWithoutAnimation {
-            cell.addToCartButton.setTitle(NSLocalizedString("btn_Choose_title", comment: ""), for: UIControl.State())
+            cell.addToCartButton.setTitle(localizedString("btn_Choose_title", comment: ""), for: UIControl.State())
             cell.addToCartButton.layoutIfNeeded()
         }
         cell.delegate = self

@@ -131,15 +131,15 @@ extension DeliverySlot {
     func getSlotFormattedWithNewLineString(_ isNeedToAddToString : Bool = false , isDeliveryMode : Bool ) -> String {
         
         guard let startDate =  self.start_time , let endDate =  self.end_time else { return ""}
-        var orderTypeDescription = ( isDeliveryMode ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString() ) + ( isNeedToAddToString ? " \(NSLocalizedString("to_title", comment: "")) " : " - ") + ( isDeliveryMode ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
+        var orderTypeDescription = ( isDeliveryMode ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString() ) + ( isNeedToAddToString ? " \(localizedString("to_title", comment: "")) " : " - ") + ( isDeliveryMode ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
         
         if self.isInstant.boolValue  {
-            return  NSLocalizedString("today_title", comment: "") + "\n" + NSLocalizedString("60_min", comment: "")
+            return  localizedString("today_title", comment: "") + "\n" + localizedString("60_min", comment: "")
         }else if  self.isToday() {
-            let name =    NSLocalizedString("today_title", comment: "")
+            let name =    localizedString("today_title", comment: "")
             orderTypeDescription = String(format: "%@ \n %@", name ,orderTypeDescription)
         }else if self.isTomorrow()  {
-            let name =    NSLocalizedString("tomorrow_title", comment: "")
+            let name =    localizedString("tomorrow_title", comment: "")
             orderTypeDescription = String(format: "%@ \n %@", name,orderTypeDescription)
         }else{
             orderTypeDescription =  (startDate.getDayName() ?? "") + " \n " + orderTypeDescription
@@ -151,20 +151,20 @@ extension DeliverySlot {
     
     func getSlotFormattedString(_ isNeedToAddToString : Bool = false , isDeliveryMode : Bool ) -> String {
         guard self.dbID != nil  else {
-            return  NSLocalizedString("today_title", comment: "") + " " + NSLocalizedString("60_min", comment: "")
+            return  localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
         }
         
         guard let startDate =  self.start_time, let endDate = self.end_time else { return "" }
         
-        var orderTypeDescription = ( (isDeliveryMode ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString())) + ( isNeedToAddToString ? " \(NSLocalizedString("to_title", comment: "")) " : " - ") + ( isDeliveryMode ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
+        var orderTypeDescription = ( (isDeliveryMode ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString())) + ( isNeedToAddToString ? " \(localizedString("to_title", comment: "")) " : " - ") + ( isDeliveryMode ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
         
         if self.isInstant.boolValue {
-            return  NSLocalizedString("today_title", comment: "") + " " + NSLocalizedString("60_min", comment: "")
+            return  localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
         }else if  self.isToday() {
-            let name =    NSLocalizedString("today_title", comment: "")
+            let name =    localizedString("today_title", comment: "")
             orderTypeDescription = String(format: "%@ %@", name ,orderTypeDescription)
         }else if self.isTomorrow()  {
-            let name =    NSLocalizedString("tomorrow_title", comment: "")
+            let name =    localizedString("tomorrow_title", comment: "")
             orderTypeDescription = String(format: "%@ %@", name,orderTypeDescription)
         }else{
             orderTypeDescription =  (startDate.getDayName() ?? "") + " " + orderTypeDescription

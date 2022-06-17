@@ -325,11 +325,11 @@ class  PushWooshTracking {
                 let proddcutBrandIds  = product.brandId
                 productBrandIds.append(proddcutBrandIds?.stringValue ?? "")
             }
-        var findSegment = NSLocalizedString("cash", comment: "")
+        var findSegment = localizedString("cash", comment: "")
         if order.payementType ?? NSNumber(value: PaymentOption.cash.rawValue) == NSNumber(value: PaymentOption.card.rawValue) {
-            findSegment = NSLocalizedString("pay_via_card", comment: "")
+            findSegment = localizedString("pay_via_card", comment: "")
         }else if order.payementType ?? NSNumber(value: PaymentOption.cash.rawValue) == NSNumber(value: PaymentOption.creditCard.rawValue) {
-            findSegment = NSLocalizedString("pay_via_CreditCard", comment: "")
+            findSegment = localizedString("pay_via_CreditCard", comment: "")
         }
         
         let parameters = ["Order_Id": "\(order.dbID)","Order_Date": "\(order.orderDate)","Store_Id": storeId ,"Product_Id": productIds ,"Product_Name": productNames , "Brand_Name" : productBrandNames, "Brand_Id" : productBrandIds , "__amount" : totalPrice , "__currency" : currency , "Payment_Method" : findSegment ] as [String : Any]

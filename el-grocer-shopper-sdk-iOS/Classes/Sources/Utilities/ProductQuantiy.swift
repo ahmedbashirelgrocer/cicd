@@ -273,11 +273,11 @@ class ProductQuantiy {
                 
             }else if isPromoLimitReached {
                 
-                let msg = String(format: NSLocalizedString("promotion_changed_alert_description", comment: ""), "\(selectedProduct.name ?? "")" , "\(selectedProduct.promoProductLimit ?? 0) ")
+                let msg = String(format: localizedString("promotion_changed_alert_description", comment: ""), "\(selectedProduct.name ?? "")" , "\(selectedProduct.promoProductLimit ?? 0) ")
                 
-                let notification = ElGrocerAlertView.createAlert(NSLocalizedString("quantity_changed_alert_title", comment: "") ,
+                let notification = ElGrocerAlertView.createAlert(localizedString("quantity_changed_alert_title", comment: "") ,
                                                                  description: msg ,
-                                                                 positiveButton: NSLocalizedString("promo_code_alert_ok", comment: ""),
+                                                                 positiveButton: localizedString("promo_code_alert_ok", comment: ""),
                                                                  negativeButton: nil, buttonClickCallback: nil )
                 notification.show()
                 
@@ -285,11 +285,11 @@ class ProductQuantiy {
                 
             } else if isQuantityReached {
                 
-                let msg = String(format: NSLocalizedString("promotion_changed_alert_description", comment: ""), "\(selectedProduct.name ?? "")" , "\(selectedProduct.availableQuantity ) ")
+                let msg = String(format: localizedString("promotion_changed_alert_description", comment: ""), "\(selectedProduct.name ?? "")" , "\(selectedProduct.availableQuantity ) ")
                 
-                let notification = ElGrocerAlertView.createAlert(NSLocalizedString("quantity_changed_alert_title", comment: "") ,
+                let notification = ElGrocerAlertView.createAlert(localizedString("quantity_changed_alert_title", comment: "") ,
                                                                  description: msg ,
-                                                                 positiveButton: NSLocalizedString("promo_code_alert_ok", comment: ""),
+                                                                 positiveButton: localizedString("promo_code_alert_ok", comment: ""),
                                                                  negativeButton: nil, buttonClickCallback: nil )
                 notification.show()
                 
@@ -304,8 +304,8 @@ class ProductQuantiy {
             if ProductQuantiy.checkPromoLimitReached(selectedProduct, count: counter) {
                 
 
-                let msg = selectedProduct.promotion?.boolValue == true ? (NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")) : ""
-                let title = selectedProduct.promotion?.boolValue == true ? NSLocalizedString("msg_limited_stock_title", comment: "") : "Item has limited items stock."
+                let msg = selectedProduct.promotion?.boolValue == true ? (localizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + localizedString("msg_limited_stock_end", comment: "")) : ""
+                let title = selectedProduct.promotion?.boolValue == true ? localizedString("msg_limited_stock_title", comment: "") : "Item has limited items stock."
                 ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                 return false
             }
@@ -318,8 +318,8 @@ class ProductQuantiy {
     public static func checkLimitForDisplayMsgs( selectedProduct : Product , counter : Int) {
         
         func showOverLimitMsg() {
-            let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + NSLocalizedString("msg_limited_stock_end", comment: "")
-            let title = NSLocalizedString("msg_limited_stock_title", comment: "")
+            let msg = localizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + localizedString("msg_limited_stock_end", comment: "")
+            let title = localizedString("msg_limited_stock_title", comment: "")
             ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
         }
         
@@ -333,8 +333,8 @@ class ProductQuantiy {
         
         if selectedProduct.availableQuantity >= 0 && selectedProduct.availableQuantity.intValue <= counter {
             func showOverLimitMsg() {
-                let msg = NSLocalizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.availableQuantity)" + NSLocalizedString("msg_limited_stock_end", comment: "")
-                let title = NSLocalizedString("msg_limited_stock_Quantity_title", comment: "")
+                let msg = localizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.availableQuantity)" + localizedString("msg_limited_stock_end", comment: "")
+                let title = localizedString("msg_limited_stock_Quantity_title", comment: "")
                 ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
             }
             showOverLimitMsg()

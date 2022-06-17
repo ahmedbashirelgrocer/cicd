@@ -31,7 +31,7 @@ class SearchSuggestionCell: UITableViewCell {
         
         let attributedString1 = NSMutableAttributedString(string:searchText, attributes:attrs1)
         
-        let attributedString2 = NSMutableAttributedString(string:String(format:" %@ %@",NSLocalizedString("in_title", comment: ""),suggestionText), attributes:attrs2)
+        let attributedString2 = NSMutableAttributedString(string:String(format:" %@ %@",localizedString("in_title", comment: ""),suggestionText), attributes:attrs2)
         
         attributedString1.append(attributedString2)
         self.titleLbl.attributedText = attributedString1
@@ -42,7 +42,7 @@ class SearchSuggestionCell: UITableViewCell {
     func configureCellWithSearchText(_ searchText: String){
         self.titleLbl.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         self.titleLbl.textColor = UIColor.navigationBarColor()
-        self.titleLbl.text = String(format:"%@ %@",NSLocalizedString("search_for_title", comment: ""),searchText)
+        self.titleLbl.text = String(format:"%@ %@",localizedString("search_for_title", comment: ""),searchText)
         self.titleLbl.isHidden = false
         self.searchImgView.isHidden = false
     }

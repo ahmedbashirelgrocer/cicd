@@ -31,7 +31,7 @@ class NavigationBarSearchView : UIView, UITextFieldDelegate {
     
     class func loadViewFromNib() -> NavigationBarSearchView {
         
-       return Bundle(for: self).loadNibNamed("NavigationBarSearchView", owner: nil, options: nil)![0] as! NavigationBarSearchView
+        return Bundle.resource.loadNibNamed("NavigationBarSearchView", owner: nil, options: nil)![0] as! NavigationBarSearchView
     }
     
     // MARK: Life cycle
@@ -66,7 +66,7 @@ class NavigationBarSearchView : UIView, UITextFieldDelegate {
         self.searchTextField.font = UIFont.SFProDisplayNormalFont(14)
         self.searchTextField.textColor = UIColor.black
         self.searchTextField.textAlignment = .justified
-        self.searchPlaceholder.text = NSLocalizedString("search_products", comment: "")
+        self.searchPlaceholder.text = localizedString("search_products", comment: "")
         self.searchPlaceholder.font = UIFont.SFProDisplayNormalFont(14)
         self.searchPlaceholder.textColor = UIColor.searchPlaceholderTextColor()
         self.searchTextField.clearButtonMode = .unlessEditing

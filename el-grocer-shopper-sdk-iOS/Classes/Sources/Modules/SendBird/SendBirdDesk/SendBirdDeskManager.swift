@@ -712,9 +712,9 @@ extension SBDError {
     func showSBDErrorAlert() {
         return
         
-        let errorTitle = NSLocalizedString("alert_error_title", comment: "")
-        let okButtonTitle = NSLocalizedString("ok_button_title", comment: "")
-        let errorMsg = NSLocalizedString("registration_error_alert", comment: "")
+        let errorTitle = localizedString("alert_error_title", comment: "")
+        let okButtonTitle = localizedString("ok_button_title", comment: "")
+        let errorMsg = localizedString("registration_error_alert", comment: "")
         let alert = ElGrocerAlertView.createAlert(errorTitle, description: errorMsg, positiveButton: okButtonTitle, negativeButton: nil, buttonClickCallback: nil)
         alert.show()
         

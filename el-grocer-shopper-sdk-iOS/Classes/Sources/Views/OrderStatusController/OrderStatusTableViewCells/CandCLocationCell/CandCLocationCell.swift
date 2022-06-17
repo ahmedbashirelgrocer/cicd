@@ -19,7 +19,7 @@ class CandCLocationCell: UITableViewCell {
 
     @IBOutlet var btnGetDirections: AWButton!{
         didSet{
-            btnGetDirections.setTitle(NSLocalizedString("btn_get_Directions", comment: ""), for: UIControl.State())
+            btnGetDirections.setTitle(localizedString("btn_get_Directions", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var collectionMap: AWImageView!

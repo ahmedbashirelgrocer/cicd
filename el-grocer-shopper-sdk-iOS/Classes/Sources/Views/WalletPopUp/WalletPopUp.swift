@@ -79,7 +79,7 @@ class WalletPopUp: UIView,UITextFieldDelegate {
     
     class func showWalletPopUp(_ delegate:WalletPopUpViewProtocol?, withTopView topView:UIView, andWithTotalBillAmount totalBill:Double) -> WalletPopUp {
         
-        let view = Bundle(for: self).loadNibNamed("WalletPopUp", owner: nil, options: nil)![0] as! WalletPopUp
+        let view = Bundle.resource.loadNibNamed("WalletPopUp", owner: nil, options: nil)![0] as! WalletPopUp
         view.delegate = delegate
         view.imgBlured.image = topView.createBlurredSnapShot()
         view.alpha = 0
@@ -89,7 +89,7 @@ class WalletPopUp: UIView,UITextFieldDelegate {
         UIView.animate(withDuration: 0.33, animations: { () -> Void in
             view.alpha = 1
             view.totalAmountLabel.text = view.referralObject!.walletTotal!
-            view.billLabel.text = String(format: "%@ %0.2f",NSLocalizedString("order_bill", comment: ""),totalBill)
+            view.billLabel.text = String(format: "%@ %0.2f",localizedString("order_bill", comment: ""),totalBill)
             view.billAmount = totalBill
         }, completion: { (result:Bool) -> Void in
         }) 
@@ -126,7 +126,7 @@ class WalletPopUp: UIView,UITextFieldDelegate {
         
         self.balanceAmountLabel.font = UIFont.bookFont(17.0)
         self.balanceAmountLabel.textColor = UIColor.navigationBarColor()
-        self.balanceAmountLabel.text = NSLocalizedString("wallet_balance", comment: "")
+        self.balanceAmountLabel.text = localizedString("wallet_balance", comment: "")
         
         self.totalAmountLabel.font = UIFont.SFProDisplaySemiBoldFont(18.0)
         self.totalAmountLabel.textColor = UIColor.black
@@ -139,13 +139,13 @@ class WalletPopUp: UIView,UITextFieldDelegate {
         
         self.walletTextField.font = UIFont.bookFont(13.0)
         self.walletTextField.textColor = UIColor.lightTextGrayColor()
-        self.walletTextField.placeholder = NSLocalizedString("amount_pay_from_wallet", comment: "")
+        self.walletTextField.placeholder = localizedString("amount_pay_from_wallet", comment: "")
     }
     
     fileprivate func setButtonAppearance(){
         
         self.payButton.layer.cornerRadius = 5
-        self.payButton.setTitle(NSLocalizedString("pay_button_title", comment: ""), for: UIControl.State())
+        self.payButton.setTitle(localizedString("pay_button_title", comment: ""), for: UIControl.State())
         self.setPayButtonEnabled(false)
     }
     

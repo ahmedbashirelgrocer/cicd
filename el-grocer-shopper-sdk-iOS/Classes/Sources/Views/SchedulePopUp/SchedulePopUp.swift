@@ -36,7 +36,7 @@ class SchedulePopUp: UIView {
         
         self.deliveryImgView.image = UIImage(name: "instant-delivery-icon")
         
-        var message = NSLocalizedString("instant_delivery_message", comment: "")
+        var message = localizedString("instant_delivery_message", comment: "")
         
         self.titleLabel.font = UIFont.SFProDisplaySemiBoldFont(13.0)
         self.titleLabel.textColor = UIColor.black
@@ -51,12 +51,12 @@ class SchedulePopUp: UIView {
                 
                 self.deliveryImgView.tintColor = UIColor.navigationBarColor()
                 
-                message = NSLocalizedString("instant_delivery_message", comment: "")
+                message = localizedString("instant_delivery_message", comment: "")
                 
             }else{
                 
                self.deliveryImgView.image = UIImage(name: "schedule-delivery-icon")
-               message = NSLocalizedString("scheduled_delivery_message", comment: "")
+               message = localizedString("scheduled_delivery_message", comment: "")
             }
         }
         
@@ -77,7 +77,7 @@ class SchedulePopUp: UIView {
     
     class func createSchedulePopUpWithGrocery(_ grocery:Grocery?) -> SchedulePopUp {
         
-        let view = Bundle(for: self).loadNibNamed("SchedulePopUp", owner: nil, options: nil)![0] as! SchedulePopUp
+        let view = Bundle.resource.loadNibNamed("SchedulePopUp", owner: nil, options: nil)![0] as! SchedulePopUp
         view.grocery = grocery
         view.setDataInView()
        // let appDelegate = UIApplication.shared.delegate as! AppDelegate

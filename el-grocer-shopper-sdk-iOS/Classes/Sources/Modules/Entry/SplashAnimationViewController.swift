@@ -182,7 +182,8 @@ extension SplashAnimationViewController {
     }
     
     private func callSetUpApis() {
-        self.checkClientVersion()
+        // Fix ME: 
+        // self.checkClientVersion()
         self.setLanguage()
         
     }

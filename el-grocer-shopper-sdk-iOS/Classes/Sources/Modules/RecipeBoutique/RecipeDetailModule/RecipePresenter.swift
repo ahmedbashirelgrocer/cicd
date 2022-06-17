@@ -49,9 +49,9 @@ class RecipePresenter: ViewToPresenterRecipeProtocol {
     func updateItemsCount() {
         
         let itemCount =  ElGrocerUtility.sharedInstance.getCurrentActionGroceryItemCount(grocery: self.view.grocery)
-        var itemsString = NSLocalizedString("shopping_basket_items_count_singular", comment: "")
+        var itemsString = localizedString("shopping_basket_items_count_singular", comment: "")
         if itemCount > 1 {
-            itemsString = NSLocalizedString("shopping_basket_items_count_plural", comment: "")
+            itemsString = localizedString("shopping_basket_items_count_plural", comment: "")
         }
         self.view.setButtonState(enabled: (itemCount > 0))
         if itemCount == 0 {
@@ -168,7 +168,7 @@ class RecipePresenter: ViewToPresenterRecipeProtocol {
                 self.showBottomSheet(addToCartRecipe.recipeName ?? "" , grocery: filterA, ingredients: ingrediants)
                 return
             }else{
-                self.showBottomSheet( NSLocalizedString("No_Store_For_Recipe_title", comment: "") , grocery: [] , isError: true, ingredients: [])
+                self.showBottomSheet( localizedString("No_Store_For_Recipe_title", comment: "") , grocery: [] , isError: true, ingredients: [])
                 return
             }
             self.showBottomSheet(addToCartRecipe.recipeName ?? "" , grocery: [], ingredients: [] )
@@ -314,7 +314,7 @@ class RecipePresenter: ViewToPresenterRecipeProtocol {
                         _ = SpinnerView.showSpinnerViewInView(self.view.view)
                         self.interactor.dataHandler.addRecipeToCart(retailerID: self.view.grocery?.dbID , recipe: addToCartRecipe)
                         ElGrocerUtility.sharedInstance.delay(1.0) {
-                            let msg = NSLocalizedString("product_added_to_basket", comment: "")
+                            let msg = localizedString("product_added_to_basket", comment: "")
                             ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "BasketAvailable") , -1 , false) { (sender , index , isUnDo) in  }
                         }
                         self.view.addToCartCompleted()
@@ -390,7 +390,7 @@ extension RecipePresenter: InteractorToPresenterRecipeProtocol {
                 view.btnSave.setImage(UIImage(name: "saveFilled"), for: .normal)
                 recipe?.isSaved = true
                 //cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
-                let msg = NSLocalizedString("recipe_save_success", comment: "")
+                let msg = localizedString("recipe_save_success", comment: "")
                 ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
             }else{
                 //cell.saveRecipeImageView.image = UIImage(name: "saveUnfilled")

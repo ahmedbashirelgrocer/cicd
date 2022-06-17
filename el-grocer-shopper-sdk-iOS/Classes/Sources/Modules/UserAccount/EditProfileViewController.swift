@@ -35,7 +35,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     @IBOutlet var lblHeading: UILabel!{
         didSet{
             lblHeading.setH4SemiBoldStyle()
-            lblHeading.text = NSLocalizedString("lbl_heading_my_account", comment: "")
+            lblHeading.text = localizedString("lbl_heading_my_account", comment: "")
         }
     }
     
@@ -44,7 +44,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
 //            phoneTextField.hasPhoneNumberExample = false // true by default
 //            phoneTextField.parentViewController = self
 //            phoneTextField.layer.cornerRadius = 8.0
-//            phoneTextField.placeholder = NSLocalizedString("my_account_phone_field_label", comment: "")
+//            phoneTextField.placeholder = localizedString("my_account_phone_field_label", comment: "")
 //            phoneTextField.customDelegate = self
 //            phoneTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
 //        }
@@ -66,7 +66,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("my_account_edit_your_profile", comment: "")
+        self.title = localizedString("my_account_edit_your_profile", comment: "")
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
          (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
          (self.navigationController as? ElGrocerNavigationController)?.hideBorder(true)
@@ -211,9 +211,9 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     
     func showErrorAlert() {
         
-        ElGrocerAlertView.createAlert(NSLocalizedString("my_account_saving_error", comment: ""),
+        ElGrocerAlertView.createAlert(localizedString("my_account_saving_error", comment: ""),
             description: nil,
-            positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+            positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
             negativeButton: nil, buttonClickCallback: nil).show()
     }
     
@@ -221,17 +221,17 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     
     func setInitialControllerAppearance() {
         
-        setTextFieldAppearance(self.usernameTextField, placeholder: NSLocalizedString("my_account_name_field_label", comment: ""))
-        setTextFieldAppearance(self.emailTextField, placeholder: NSLocalizedString("my_account_email_field_label", comment: ""))
-        setTextFieldAppearance(self.phoneTextField, placeholder: NSLocalizedString("my_account_phone_field_label", comment: ""))
+        setTextFieldAppearance(self.usernameTextField, placeholder: localizedString("my_account_name_field_label", comment: ""))
+        setTextFieldAppearance(self.emailTextField, placeholder: localizedString("my_account_email_field_label", comment: ""))
+        setTextFieldAppearance(self.phoneTextField, placeholder: localizedString("my_account_phone_field_label", comment: ""))
         setFlagImageInTextField()
 //        setLeftPaddingPoints()
         //sab
-//        setTextFieldAppearance(self.locationName, placeholder: NSLocalizedString("registration_location_name_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-//        setTextFieldAppearance(self.locationAddressTextField, placeholder: NSLocalizedString("registration_address_text_field_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-//        setTextFieldAppearance(self.streetTextField, placeholder: NSLocalizedString("registration_location_street_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-//        setTextFieldAppearance(self.buildingTextField, placeholder: NSLocalizedString("registration_location_building_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-//        setTextFieldAppearance(self.apartmentTextField, placeholder: NSLocalizedString("registration_location_apartment_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
+//        setTextFieldAppearance(self.locationName, placeholder: localizedString("registration_location_name_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
+//        setTextFieldAppearance(self.locationAddressTextField, placeholder: localizedString("registration_address_text_field_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
+//        setTextFieldAppearance(self.streetTextField, placeholder: localizedString("registration_location_street_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
+//        setTextFieldAppearance(self.buildingTextField, placeholder: localizedString("registration_location_building_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
+//        setTextFieldAppearance(self.apartmentTextField, placeholder: localizedString("registration_location_apartment_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
         
         self.setUpUpdateButtonAppearance()
         usernameTextField.dtLayer.backgroundColor = UIColor.white.cgColor
@@ -274,13 +274,13 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     
     func setUpUpdateButtonAppearance() {
         //sab
-//        let submitString = NSMutableAttributedString(string: NSLocalizedString("my_account_update_button", comment: ""))
+//        let submitString = NSMutableAttributedString(string: localizedString("my_account_update_button", comment: ""))
 //        submitString.addKernSpacing(2.0, font:UIFont.lightFont(20), fontSize: 20.0, fontColor: UIColor.white)
 //
 //        self.updateButton.setAttributedTitle(submitString, for: UIControl.State())
         self.updateButton.layer.cornerRadius = 28
         self.updateButton.clipsToBounds = true
-        self.updateButton.setTitle(NSLocalizedString("my_account_update_button", comment: ""), for: UIControl.State())
+        self.updateButton.setTitle(localizedString("my_account_update_button", comment: ""), for: UIControl.State())
         self.updateButton.setH4SemiBoldWhiteStyle()
 //        self.updateButton.layer.borderWidth = 1
 //        self.updateButton.layer.borderColor = UIColor.white.cgColor
@@ -406,7 +406,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                         if (data["is_phone_exists"] as? Bool) != nil {
                             let isPhoneExsists = data["is_phone_exists"] as? Bool
                             if isPhoneExsists ?? false {
-                                ElGrocerAlertView.createAlert(NSLocalizedString("registration_account_Phone_exists_error_title", comment: ""),description:NSLocalizedString("phone_exsist_text", comment: ""),positiveButton: NSLocalizedString("ok_button_title", comment: "") ,negativeButton: nil,
+                                ElGrocerAlertView.createAlert(localizedString("registration_account_Phone_exists_error_title", comment: ""),description:localizedString("phone_exsist_text", comment: ""),positiveButton: localizedString("ok_button_title", comment: "") ,negativeButton: nil,
                                                               buttonClickCallback: { (buttonIndex:Int) -> Void in
                                                                 if buttonIndex == 0 {}
                                 }).show()
@@ -436,7 +436,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                 }
             } else {
                 
-                var errorMsgStr = NSLocalizedString("registration_account_Phone_exists_error_alert", comment: "")
+                var errorMsgStr = localizedString("registration_account_Phone_exists_error_alert", comment: "")
                 if let errorDict = responseObject, let msgDict = errorDict["messages"] as? NSDictionary {
                     if let errorMsg = (msgDict["error_message"] as? String) {
                         errorMsgStr = errorMsg

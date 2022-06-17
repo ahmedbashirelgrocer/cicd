@@ -13,9 +13,9 @@ class InValidSessionNavigation {
     class func CheckErrorCase(_ error : ElGrocerError) -> Bool  {
         if error.code == 401 {
             if UserDefaults.isUserLoggedIn() {
-                ElGrocerAlertView.createAlert(NSLocalizedString("sign_out_alert_title", comment: ""),
-                                              description: NSLocalizedString("Msg_InvalidSession", comment: ""),
-                                              positiveButton: NSLocalizedString("sign_out_alert_yes", comment: ""),
+                ElGrocerAlertView.createAlert(localizedString("sign_out_alert_title", comment: ""),
+                                              description: localizedString("Msg_InvalidSession", comment: ""),
+                                              positiveButton: localizedString("sign_out_alert_yes", comment: ""),
                                               negativeButton:nil,
                                               buttonClickCallback: { (buttonIndex:Int) -> Void in
                                                     let appDelegate = UIApplication.shared.delegate as! AppDelegate

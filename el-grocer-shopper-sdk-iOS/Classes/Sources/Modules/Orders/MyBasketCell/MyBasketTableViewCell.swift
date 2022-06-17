@@ -95,7 +95,7 @@ class MyBasketTableViewCell: UITableViewCell {
         didSet{
             lblLimitedStock.setCaptionOneBoldWhiteStyle()
             lblLimitedStock.transform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2)
-            lblLimitedStock.text = NSLocalizedString("lbl_limited_Stock", comment: "")
+            lblLimitedStock.text = localizedString("lbl_limited_Stock", comment: "")
         }
     }
     
@@ -136,8 +136,8 @@ class MyBasketTableViewCell: UITableViewCell {
     
     fileprivate func setupDetailAppearance(){
         
-        self.quantityLabel.text         = NSLocalizedString("quantity_:", comment: "")
-        self.totalLabel.text            = NSLocalizedString("total_:", comment: "")
+        self.quantityLabel.text         = localizedString("quantity_:", comment: "")
+        self.totalLabel.text            = localizedString("total_:", comment: "")
         
         self.productDescription.setCaptionOneRegDarkStyle()
         self.quantityLabel.font         = UIFont.SFProDisplayNormalFont(14.0)
@@ -152,7 +152,7 @@ class MyBasketTableViewCell: UITableViewCell {
     
     fileprivate func setUpNotAvailableLabel() {
         
-        self.notAvailableLabel.text = NSLocalizedString("shopping_basket_item_not_available", comment: "")
+        self.notAvailableLabel.text = localizedString("shopping_basket_item_not_available", comment: "")
         self.notAvailableLabel.textColor = UIColor.black
         self.notAvailableLabel.font = UIFont.SFProDisplayMediumFont(17.0)
         
@@ -160,10 +160,10 @@ class MyBasketTableViewCell: UITableViewCell {
     
     fileprivate func setUpOutOfStockLabelAppearance() {
         
-        self.outOfStockLabel.text = NSLocalizedString("out_of_stock_title", comment: "")
+        self.outOfStockLabel.text = localizedString("out_of_stock_title", comment: "")
         self.outOfStockLabel.textColor = UIColor.white
         self.outOfStockLabel.font = UIFont.SFProDisplayMediumFont(17.0)
-        self.chooseReplacmentBtn.setTitle(NSLocalizedString("choose_alternatives_title", comment: ""), for: UIControl.State())
+        self.chooseReplacmentBtn.setTitle(localizedString("choose_alternatives_title", comment: ""), for: UIControl.State())
         self.chooseReplacmentBtn.titleLabel?.font = UIFont.SFProDisplayBoldFont(14.0)
         self.chooseReplacmentBtn.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
     }
@@ -190,7 +190,7 @@ class MyBasketTableViewCell: UITableViewCell {
         if product.promotion?.boolValue == true {
             
             self.lblStrikePrice.visibility = .visible
-            self.lblStrikePrice.text = NSLocalizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
+            self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
             self.lblStrikePrice.strikeThrough(true)
             
 //            let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
@@ -204,11 +204,11 @@ class MyBasketTableViewCell: UITableViewCell {
             self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: product.promoPrice!.doubleValue)
             if isNeedToShowPercentage{
                 let stringPercent = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(ProductQuantiy.getPercentage(product: product)))
-                self.lblPercent.text = "-" + stringPercent + NSLocalizedString("txt_off", comment: "")
+                self.lblPercent.text = "-" + stringPercent + localizedString("txt_off", comment: "")
                 self.salesView.isHidden = true
             }else{
                 self.lblStrikePrice.visibility = .goneX
-                self.lblPercent.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+                self.lblPercent.text = localizedString("lbl_Special_Discount", comment: "")
                 self.salesView.isHidden = false
                 self.percentOffBGView.isHidden = false
                 self.limitedStockBGView.isHidden = true
@@ -239,7 +239,7 @@ class MyBasketTableViewCell: UITableViewCell {
         }else if product.availableQuantity != -1 {
             
             self.lblStrikePrice.visibility = .visible
-//            self.lblStrikePrice.text = NSLocalizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
+//            self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()
             self.lblStrikePrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: product.price.doubleValue)
             self.lblStrikePrice.strikeThrough(true)
             
@@ -254,11 +254,11 @@ class MyBasketTableViewCell: UITableViewCell {
             self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: product.promoPrice!.doubleValue)
             if isNeedToShowPercentage{
                 let stringPercent = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(ProductQuantiy.getPercentage(product: product)))
-                self.lblPercent.text = "-" + stringPercent + NSLocalizedString("txt_off", comment: "")
+                self.lblPercent.text = "-" + stringPercent + localizedString("txt_off", comment: "")
                 self.salesView.isHidden = true
             }else{
                 self.lblStrikePrice.visibility = .goneX
-                self.lblPercent.text = NSLocalizedString("lbl_Special_Discount", comment: "")
+                self.lblPercent.text = localizedString("lbl_Special_Discount", comment: "")
                 self.salesView.isHidden = false
                 self.percentOffBGView.isHidden = false
                 self.limitedStockBGView.isHidden = true
@@ -298,7 +298,7 @@ class MyBasketTableViewCell: UITableViewCell {
             
         } else{
             
-//            self.lblStrikePrice.text = NSLocalizedString("aed", comment: "") + " " + String(describing: product.price)
+//            self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + String(describing: product.price)
 //            self.lblStrikePrice.strikeThrough(true)
             
 //            let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
@@ -311,7 +311,7 @@ class MyBasketTableViewCell: UITableViewCell {
 //            self.productPrice.attributedText = attributedString1
             self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: product.price.doubleValue)
             let stringPercent = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(ProductQuantiy.getPercentage(product: product)))
-            self.lblPercent.text = "-" + stringPercent + NSLocalizedString("txt_off", comment: "")
+            self.lblPercent.text = "-" + stringPercent + localizedString("txt_off", comment: "")
             self.percentOffBGView.isHidden = false
             
             self.plusBtn.isEnabled = true
@@ -453,7 +453,7 @@ class MyBasketTableViewCell: UITableViewCell {
 //                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:" %.2f",promoPriceSum), attributes:priceDict))
 //                    self.productPrice.attributedText = attStringProductTotalPriceFinal
                     self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: promoPriceSum)
-//                    self.lblStrikePrice.text = NSLocalizedString("aed", comment: "") + " " + priceSum.formateDisplayString()
+//                    self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + priceSum.formateDisplayString()
                     self.lblStrikePrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: priceSum)
                     self.lblStrikePrice.strikeThrough(true)
                 }else{

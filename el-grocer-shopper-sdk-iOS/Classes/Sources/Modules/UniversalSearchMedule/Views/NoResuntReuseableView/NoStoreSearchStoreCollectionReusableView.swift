@@ -19,12 +19,12 @@ class NoStoreSearchStoreCollectionReusableView: UICollectionReusableView {
     }
     @IBOutlet var lblTitle: UILabel! {
         didSet {
-            lblTitle.text = NSLocalizedString("lbl_DidNotFind", comment: "")
+            lblTitle.text = localizedString("lbl_DidNotFind", comment: "")
         }
     }
     @IBOutlet var lblBtnText: UILabel! {
         didSet {
-            lblBtnText.text = NSLocalizedString("lbl_NoSearch", comment: "")
+            lblBtnText.text = localizedString("lbl_NoSearch", comment: "")
             lblBtnText.textColor = UIColor.navigationBarWhiteColor()
             
         }

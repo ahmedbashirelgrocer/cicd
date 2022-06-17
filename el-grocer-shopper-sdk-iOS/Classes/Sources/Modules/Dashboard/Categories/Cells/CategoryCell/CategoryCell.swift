@@ -32,7 +32,7 @@ class CategoryCell: UITableViewCell {
     @IBOutlet weak var rightArrowImageView: UIImageView!
     @IBOutlet var btnViewAll: AWButton! {
         didSet{
-            btnViewAll.setTitle(NSLocalizedString("view_more_title", comment: "view_more_title"), for: .normal)
+            btnViewAll.setTitle(localizedString("view_more_title", comment: "view_more_title"), for: .normal)
             btnViewAll.titleLabel?.font = UIFont.SFProDisplayBoldFont(14).withWeight(UIFont.Weight(700))
             //btnViewAll.setCaption1BoldWhiteStyle()
         }
@@ -101,8 +101,8 @@ class CategoryCell: UITableViewCell {
     
     func configureCell() {
         
-        self.lblTitle.text  =  NSLocalizedString("top_selling_title", comment: "")
-        self.lblSubtitle.text = NSLocalizedString("top_selling_description", comment: "")
+        self.lblTitle.text  =  localizedString("top_selling_title", comment: "")
+        self.lblSubtitle.text = localizedString("top_selling_description", comment: "")
         self.loadingIndicator.isHidden = true
         
         var allImageName = "AllProducts"

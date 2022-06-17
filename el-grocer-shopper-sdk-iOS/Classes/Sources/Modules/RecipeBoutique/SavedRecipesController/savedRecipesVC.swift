@@ -76,7 +76,7 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
-        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("title_saved_recipes", comment: "")
+        self.navigationController?.navigationBar.topItem?.title = localizedString("title_saved_recipes", comment: "")
         self.navigationController?.navigationBar.isHidden = false
         
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
@@ -199,7 +199,7 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
                         cell.saveRecipeImageView.image = UIImage(name: "saveFilled")
                         self.recipeListArray[index].isSaved = true
                     }
-                    let msg = NSLocalizedString("recipe_save_success", comment: "")
+                    let msg = localizedString("recipe_save_success", comment: "")
                     ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "saveFilled") , -1 , false) { (sender , index , isUnDo) in  }
                 }
             }else{
