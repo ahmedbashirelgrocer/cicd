@@ -19,11 +19,11 @@
     "ios": "12.0"
   },
   "swift_versions": "4.2",
-  "source_files": "el-grocer-shopper-sdk-iOS/Classes/**/*.*",
+  "source_files": "el-grocer-shopper-sdk-iOS/Classes/**/*.{m,h,swift}",
   "exclude_files": "Classes/Exclude",
   "resource_bundles": {
     "el-grocer-shopper-sdk-iOS": [
-      "el-grocer-shopper-sdk-iOS/Assets/**/*.*"
+      "el-grocer-shopper-sdk-iOS/**/{R-SupportingFiles/*.*,*.storyboard,*.xib,*.xcassets,*.xcdatamodeld,*.m4r,*.otf,*.ttf,*.json,*.strings}"
     ]
   },
   "frameworks": [
