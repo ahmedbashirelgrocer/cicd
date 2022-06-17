@@ -532,7 +532,14 @@ func checkAdvertPermission () {
     }
     
     fileprivate func productionFirebaseSetting() {
-         FirebaseApp.configure() // defualt info plist
+         // FirebaseApp.configure() // defualt info plist
+        
+        var filePath:String!
+        filePath = Bundle.resource.path(forResource: "GoogleService-Info", ofType: "plist")
+        let projectName = "elgrocer"
+        let options = FirebaseOptions.init(contentsOfFile: filePath)!
+        FirebaseApp.configure(options: options)
+        
     }
     
     
