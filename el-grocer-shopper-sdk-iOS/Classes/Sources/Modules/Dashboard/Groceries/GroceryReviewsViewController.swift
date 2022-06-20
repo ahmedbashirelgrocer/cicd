@@ -108,7 +108,7 @@ class GroceryReviewsViewController : UIViewController, UITableViewDataSource, UI
             self.navigationController?.pushViewController(controller, animated: true)
         } else {
             
-            (UIApplication.shared.delegate as! SDKManager).showEntryView()
+            (SDKManager.shared).showEntryView()
             
         }
     }

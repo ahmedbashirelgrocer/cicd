@@ -325,7 +325,7 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
             
             let loadedGroceryId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
             if (loadedGroceryId != selectedGrocery.dbID){
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 if SDKManager.window!.rootViewController as? UITabBarController != nil {
                     if let tababarController = SDKManager.window!.rootViewController as? UITabBarController {
                         if  let main : ElGrocerNavigationController =  tababarController.viewControllers?[1] as? ElGrocerNavigationController {

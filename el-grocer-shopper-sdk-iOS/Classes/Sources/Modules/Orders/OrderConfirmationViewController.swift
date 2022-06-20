@@ -327,10 +327,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         
         
-        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-            SDKManager.window?.rootViewController?.dismiss(animated: false, completion: nil)
-            (SDKManager.window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-        }
+        // if let SDKManager = SDKManager.shared {
+        SDKManager.shared.window?.rootViewController?.dismiss(animated: false, completion: nil)
+        (SDKManager.shared.window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+        // }
         if let tab = ((getSDKManager().window?.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
             tab.selectedIndex = 0
@@ -747,7 +747,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         self.setCollectorStatus(self.order, isOnTheWay: false, button: sender)
         
-//        let SDKManager = UIApplication.shared.delegate as! SDKManager
+//        let SDKManager = SDKManager.shared
 //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
@@ -762,7 +762,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         self.setCollectorStatus(self.order, isOnTheWay: true , button: sender)
         
-//        let SDKManager = UIApplication.shared.delegate as! SDKManager
+//        let SDKManager = SDKManager.shared
 //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //
@@ -1212,7 +1212,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 guard let self = self else {return}
                // debugPrint(self)
                 
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 if let nav = SDKManager.window!.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
@@ -1222,7 +1222,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                         }
                     }
                 }
-//                let SDKManager = UIApplication.shared.delegate as! SDKManager
+//                let SDKManager = SDKManager.shared
 //                if SDKManager.window!.rootViewController as? UITabBarController != nil {
 //                    let tababarController = SDKManager.window!.rootViewController as! UITabBarController
 //                    tababarController.selectedIndex = 4
@@ -1281,7 +1281,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         ElGrocerUtility.sharedInstance.delay(1) {
             let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
             if isRegisteredForRemoteNotifications == false {
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
             }
         }
@@ -1350,7 +1350,7 @@ extension OrderConfirmationViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
         //UIApplication.shared.openURL(NSURL(string: UIApplicationOpenSettingsURLString)! as URL)
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         SDKManager.registerForNotifications()
     }
 }

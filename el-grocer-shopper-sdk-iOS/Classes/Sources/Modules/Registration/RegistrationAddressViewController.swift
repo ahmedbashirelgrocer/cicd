@@ -260,7 +260,7 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
                 // If it was shown after checkout, we should just dismiss it and show the basket
                 switch self.dismissMode {
                 case .dismissModal: self.presentingViewController?.dismiss(animated: true, completion: nil)
-                case .navigateHome: (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
+                case .navigateHome: (SDKManager.shared).showAppWithMenu()
                 }
                 //self.delegate?.registrationControllerDidRegisterUser(self)
                 

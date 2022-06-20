@@ -493,7 +493,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
                  self.shopByItemGrocery = grocery
                  self.notAvailableItems = notAvailableItems
                  self.availableProductsPrices = availableProductsPrices
-                 (UIApplication.shared.delegate as! SDKManager).showEntryView()
+                 (SDKManager.shared).showEntryView()
                  
                  } else {
                  

@@ -810,7 +810,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                 }else if error.code == 4069 {
                     // qunatity check
                     
-                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                    let SDKManager = SDKManager.shared
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("lbl_go_to_cart_upperCase", comment: "") , withView: SDKManager.window! , true , true) { (buttonIndex) in
                         if buttonIndex == 1 {
                             
@@ -1779,7 +1779,7 @@ extension MyBasketPlaceOrderVC {
     
     func showOutOfStockAlert () {
         
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("title_checkout_screen", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
             if buttonIndex == 0 {
                 self.backButtonClick()

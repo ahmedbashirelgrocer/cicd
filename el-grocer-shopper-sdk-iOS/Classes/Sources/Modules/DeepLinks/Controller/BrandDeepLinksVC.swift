@@ -357,8 +357,8 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     }
     
     func callToChangeStoreAfterAllDataSet() {
-        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-            if let currentTabBar = SDKManager.currentTabBar {
+        //if let SDKManager = SDKManager.shared {
+            if let currentTabBar = SDKManager.shared.currentTabBar {
                 ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
                 if self.grocery != nil{
                     currentTabBar.selectedIndex = 1
@@ -367,7 +367,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                 }
                 
             }
-        }
+        //}
         
     }
     

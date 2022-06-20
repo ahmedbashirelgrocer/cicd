@@ -21,7 +21,7 @@ class HelpshiftLocalNotificationHandler: LocalNotificationHandlerType {
         
         // The notification is a helpshift notification so we can handle it
         
-        /*guard let SDKManager = UIApplication.shared.delegate as? SDKManager else {
+        /*guard let SDKManager = SDKManager.shared else {
             return false
         }
         

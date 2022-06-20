@@ -426,7 +426,7 @@ class SignInViewController: RegistrationViewController, Form {
                                     }
                                 }
                                 
-                                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                                let SDKManager = SDKManager.shared
                                 _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: "") ,localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: SDKManager.window!) { (index) in
                                     if index == 0 {
                                          self.setHomeView()
@@ -491,9 +491,9 @@ class SignInViewController: RegistrationViewController, Form {
          ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
         
         let signInView = self
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        // let SDKManager = SDKManager.shared
         
-        if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+        if let nav = SDKManager.shared.window!.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -522,7 +522,7 @@ class SignInViewController: RegistrationViewController, Form {
                 }}}
 
         self.navigationController?.dismiss(animated: true, completion: {  })
-        (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
+        SDKManager.shared.showAppWithMenu()
         
         /*
         
@@ -541,7 +541,7 @@ class SignInViewController: RegistrationViewController, Form {
             tababarController.present(SDKManager.getParentNav(), animated: false, completion: nil)
         }else{
             self.navigationController?.dismiss(animated: true, completion: {  })
-            (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
+            (SDKManager.shared).showAppWithMenu()
             
         }
         */

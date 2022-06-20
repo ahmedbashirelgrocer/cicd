@@ -39,7 +39,7 @@ class LocationAlertView: UIView {
     
     // MARK: Show view
     class func showLocationAlert(_ delegate:LocationAlertViewProtocol?) -> LocationAlertView {
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         let topView = SDKManager.window!.rootViewController!.view
         
         let view = Bundle.resource.loadNibNamed("LocationAlertView", owner: nil, options: nil)![0] as! LocationAlertView

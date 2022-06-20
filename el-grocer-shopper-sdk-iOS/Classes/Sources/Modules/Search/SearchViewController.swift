@@ -450,7 +450,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         }else{
             
             
-            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            let SDKManager = SDKManager.shared
             if let nav = SDKManager.window!.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {

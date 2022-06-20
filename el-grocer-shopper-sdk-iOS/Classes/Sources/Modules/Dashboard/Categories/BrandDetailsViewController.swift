@@ -421,7 +421,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         if (isFromBanner == true){
             
-            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            let SDKManager = SDKManager.shared
             if let nav = SDKManager.window!.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
@@ -434,7 +434,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             
         }else if isFromDynamicLink == true {
             
-            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            let SDKManager = SDKManager.shared
             if let nav = SDKManager.window!.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
@@ -722,7 +722,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                     
                 }else{
                     
-                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                    let SDKManager = SDKManager.shared
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
@@ -840,7 +840,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         self.setCollectionViewBottomConstraint()
         
         //schedule notification
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         SDKManager.scheduleAbandonedBasketNotification()
         //Hunain 27Dec16
         SDKManager.scheduleAbandonedBasketNotificationAfter24Hour()

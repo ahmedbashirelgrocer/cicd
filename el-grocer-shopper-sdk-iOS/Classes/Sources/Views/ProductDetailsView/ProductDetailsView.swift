@@ -45,7 +45,7 @@ class ProductDetailsView : UIView {
     
     class func showWithProduct(_ product:Product, shoppingItem:ShoppingBasketItem?, grocery:Grocery?, delegate:ProductDetailsViewProtocol?) {
         
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         let topView = SDKManager.window!.rootViewController!.view
         
         let view = Bundle.resource.loadNibNamed("ProductDetailsView", owner: nil, options: nil)![0] as! ProductDetailsView
@@ -217,7 +217,7 @@ class ProductDetailsView : UIView {
                                           buttonClickCallback: { (buttonIndex:Int) -> Void in
                                             
                                             if buttonIndex == 0 {
-                                                (UIApplication.shared.delegate as! SDKManager).showEntryView()
+                                                (SDKManager.shared).showEntryView()
                                             }
             }).show()
         }

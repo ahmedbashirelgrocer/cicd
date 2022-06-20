@@ -314,7 +314,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             
                             SpinnerView.hideSpinnerView()
                             
-                            let SDKManager = UIApplication.shared.delegate as! SDKManager
+                            let SDKManager = SDKManager.shared
                             let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: SDKManager.window!) { (index) in
                                 
                                 if index == 0 {
@@ -1136,7 +1136,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             return
         }
         
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: SDKManager.window!) { (index) in
             
             if index == 0 {
@@ -1259,13 +1259,13 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             mainca?.viewWillAppear(true)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
                     }else{
-                        (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
+                        (SDKManager.shared).showAppWithMenu()
                     }
                     
                 }
                 
             } else{
-                (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
+                (SDKManager.shared).showAppWithMenu()
             }
         }
     }
@@ -1526,15 +1526,15 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func showGenericStoreUI() {
 
-       if  let SDKManager = UIApplication.shared.delegate as? SDKManager {
-             SDKManager.showAppWithMenu()
-        }else {
-        let entryController =  ElGrocerViewControllers.ElgrocerParentTabbarController()
-        let navController = ElgrocerGenericUIParentNavViewController(navigationBarClass: ElgrocerWhilteLogoBar.self, toolbarClass: nil)
-        navController.viewControllers = [entryController]
-        navController.modalPresentationStyle = .fullScreen
-            self.present(navController, animated: true, completion: nil)
-        }
+//       if  let SDKManager = SDKManager.shared {
+        SDKManager.shared.showAppWithMenu()
+//        }else {
+//        let entryController =  ElGrocerViewControllers.ElgrocerParentTabbarController()
+//        let navController = ElgrocerGenericUIParentNavViewController(navigationBarClass: ElgrocerWhilteLogoBar.self, toolbarClass: nil)
+//        navController.viewControllers = [entryController]
+//        navController.modalPresentationStyle = .fullScreen
+//            self.present(navController, animated: true, completion: nil)
+//        }
 
     }
     

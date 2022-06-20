@@ -94,7 +94,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     
     class func showShoppingBasket(_ delegate:ShoppingBasketViewProtocol?, shouldShowGroceryActiveBasket:Bool, selectedGroceryForItems:Grocery?, notAvailableProducts:[Int]?, availableProductsPrices:NSDictionary?) -> ShoppingBasketView {
         
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         let topView = SDKManager.window!.rootViewController!.view
         
         let view = Bundle.resource.loadNibNamed("ShoppingBasketView", owner: nil, options: nil)![0] as! ShoppingBasketView
@@ -386,7 +386,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
         if let userInfo = (notification as NSNotification).userInfo {
             if let keyboardSize =  (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 keyboardHeight = keyboardSize.height
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 let topView = SDKManager.window!.rootViewController!.view
                 
                 UIView.animate(withDuration: 0.33, animations: {
@@ -401,7 +401,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         let topView = SDKManager.window!.rootViewController!.view
         
         // when a physical keyboard is connected to the device the keyboard is never shown but the hide keyboard notification is activated on touch.
@@ -420,7 +420,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     
     
     @objc func dismissKeyboardAndCheckCode() {
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         let topView = SDKManager.window!.rootViewController!.view
         
        // self.checkPromoCode()

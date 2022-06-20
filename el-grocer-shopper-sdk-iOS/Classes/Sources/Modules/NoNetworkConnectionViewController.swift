@@ -67,7 +67,7 @@ class NoNetworkConnectionViewController : UIViewController , NavigationBarProtoc
     @IBAction func onRefreshButtonClick(_ sender: AnyObject) {
         
         
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         SDKManager.networkStatusDidChanged(nil)
     }
     

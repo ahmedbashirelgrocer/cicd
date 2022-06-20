@@ -453,7 +453,7 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
         refreshBasketIconStatus()
         
         //schedule notification
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         SDKManager.scheduleAbandonedBasketNotification()
         //Hunain 27Dec16
         SDKManager.scheduleAbandonedBasketNotificationAfter24Hour()

@@ -104,7 +104,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 guard let self = self else {return}
                 debugPrint(self)
                 
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 if let nav = SDKManager.window!.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
@@ -962,7 +962,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                                       negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         if buttonIndex == 0 {
-                                             let SDKManager = UIApplication.shared.delegate as! SDKManager
+                                             let SDKManager = SDKManager.shared
                                             if UIApplication.topViewController() is GenericProfileViewController {
                                                 SDKManager.currentTabBar?.dismiss(animated: false, completion: {
                                                     SDKManager.logoutAndShowEntryView()

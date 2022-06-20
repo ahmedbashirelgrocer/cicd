@@ -250,12 +250,12 @@ extension HomePageData {
     }
     
     private func getHomeVc () -> GenericStoresViewController? {
-        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-            let tabVc = SDKManager.getTabbarController(isNeedToShowChangeStoreByDefault: false)
+        //if let SDKManager = SDKManager.shared {
+            let tabVc = SDKManager.shared.getTabbarController(isNeedToShowChangeStoreByDefault: false)
             if tabVc.viewControllers.count > 0 ,  let tabbar = (tabVc.viewControllers[0] as? UITabBarController) , let tabController = (tabbar.viewControllers?[0] as? ElGrocerNavigationController) , tabController.viewControllers.count > 0 ,  let HomeVc = (tabController.viewControllers[0] as? GenericStoresViewController) {
                 return HomeVc
             }
-        }
+        //}
         return nil
     }
     

@@ -46,13 +46,13 @@ open class SDKManager: NSObject  {
     
     var parentTabNav  : ElgrocerGenericUIParentNavViewController?
     
-    public static var shared: SDKManager = SDKManager.init()
+    public static var shared: SDKManager = SDKManager()
   
     // MARK: Initializers
     private override init() {
         super.init()
         window = .key
-        configure()
+        DispatchQueue.main.async { [weak self] in self?.configure() }
     }
     
     public func start() {

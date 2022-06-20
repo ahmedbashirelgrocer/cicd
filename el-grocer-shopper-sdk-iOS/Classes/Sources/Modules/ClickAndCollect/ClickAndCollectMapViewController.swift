@@ -166,7 +166,7 @@ class ClickAndCollectMapViewController: UIViewController {
                         ElGrocerUtility.sharedInstance.groceries  = []
                     }
                    
-                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                    let SDKManager = SDKManager.shared
                     if let tab = SDKManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                     }
@@ -328,9 +328,9 @@ class ClickAndCollectMapViewController: UIViewController {
                 
                 self.dismiss(animated: false)
                 
-                if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                    if let navtabbar = SDKManager.window?.rootViewController as? UINavigationController  {
-                        if !(SDKManager.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                // if let SDKManager = SDKManager.shared {
+                    if let navtabbar = SDKManager.shared.window?.rootViewController as? UINavigationController  {
+                        if !(SDKManager.shared.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                             if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                                 if ((tabbar.viewControllers?[1] as? UINavigationController) != nil) {
                                     let nav = tabbar.viewControllers?[1] as! UINavigationController
@@ -359,7 +359,7 @@ class ClickAndCollectMapViewController: UIViewController {
                         // debugPrint(self.grocerA[12312321])
                         FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                     }
-                }
+                //}
 
             }
        

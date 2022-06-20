@@ -203,7 +203,7 @@ class GenericStoresViewController: BasketBasicViewController {
         if ElGrocerUtility.sharedInstance.isDeliveryMode == false {
             ElGrocerUtility.sharedInstance.isDeliveryMode = true
             ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
-            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            let SDKManager = SDKManager.shared
             if let tab = SDKManager.currentTabBar  {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
             }
@@ -372,7 +372,7 @@ class GenericStoresViewController: BasketBasicViewController {
                 self.clickController.removeFromParent()
                 ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
                 ElGrocerUtility.sharedInstance.isNeedToRefreshBannerA = false
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 if let tab = SDKManager.currentTabBar  {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 }
@@ -385,7 +385,7 @@ class GenericStoresViewController: BasketBasicViewController {
             self.switchMode.clickAndCollectSelect  = { [weak self] (isDelivery) in
                 guard let self = self else {return}
                 ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 if let tab = SDKManager.currentTabBar  {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 }
@@ -595,7 +595,7 @@ class GenericStoresViewController: BasketBasicViewController {
         let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
         if isRegisteredForRemoteNotifications == false {
             if !(UserDefaults.getIsPopAlreadyDisplayed() ?? false) {
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
                 UserDefaults.setIsPopAlreadyDisplayed(true)
             }
@@ -715,9 +715,9 @@ extension GenericStoresViewController {
         self.goToBasketScreen()
     }
     func goToBasketScreen() {
-        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-            if let navtabbar = SDKManager.window?.rootViewController as? UINavigationController  {
-                if !(SDKManager.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+        //if let SDKManager = SDKManager.shared {
+            if let navtabbar = SDKManager.shared.window?.rootViewController as? UINavigationController  {
+                if !(SDKManager.shared.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
                         self.dismiss(animated: false, completion: nil)
@@ -732,8 +732,8 @@ extension GenericStoresViewController {
                         
                     }
                 }
-                let navtabbar = SDKManager.getTabbarController(isNeedToShowChangeStoreByDefault: false )
-                SDKManager.makeRootViewController(controller: navtabbar)
+                let navtabbar = SDKManager.shared.getTabbarController(isNeedToShowChangeStoreByDefault: false )
+                SDKManager.shared.makeRootViewController(controller: navtabbar)
                 if navtabbar.viewControllers.count > 0 {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
@@ -751,7 +751,7 @@ extension GenericStoresViewController {
                 
             }
             
-        }
+        // }
         
     }
     
@@ -794,10 +794,10 @@ extension GenericStoresViewController {
         self.makeActiveTopGroceryOfArray()
             //let currentSelf = self;
         DispatchQueue.main.async {
-            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                if let navtabbar = SDKManager.window?.rootViewController as? UINavigationController  {
+            // if let SDKManager = SDKManager.shared {
+                if let navtabbar = SDKManager.shared.window?.rootViewController as? UINavigationController  {
                     
-                    if !(SDKManager.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(SDKManager.shared.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {
@@ -839,7 +839,7 @@ extension GenericStoresViewController {
                         // debugPrint(self.grocerA[12312321])
                     FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                 }
-            }
+            //}
         }
     }
     func goToRecipe (_ grocery : Grocery?) {
@@ -1559,7 +1559,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                 }else if type is ClickAndCollectService {
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "click&collect", tileType: "Store Type", nextScreen: nil)
                     ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
-                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                    let SDKManager = SDKManager.shared
                     if let tab = SDKManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                     }
@@ -1908,7 +1908,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
 extension GenericStoresViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         SDKManager.registerForNotifications()
     }
 }
@@ -1966,7 +1966,7 @@ extension GenericStoresViewController : LocationMapViewControllerDelegate {
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?) {
         guard let location = location, let name = name else {return}
         addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
-            (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
+            (SDKManager.shared).showAppWithMenu()
         }
     }
     

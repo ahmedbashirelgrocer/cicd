@@ -250,10 +250,10 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         self.makeActiveTopGroceryOfArray()
             //let currentSelf = self;
         DispatchQueue.main.async {
-            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                if let navtabbar = SDKManager.window?.rootViewController as? UINavigationController  {
+            // if let SDKManager = SDKManager.shared {
+                if let navtabbar = SDKManager.shared.window?.rootViewController as? UINavigationController  {
                     
-                    if !(SDKManager.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(SDKManager.shared.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {
@@ -295,7 +295,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
                         // debugPrint(self.grocerA[12312321])
                     FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                 }
-            }
+            // }
         }
     }
     

@@ -70,11 +70,11 @@ extension StorylyAds : StorylyDelegate {
             
         
             
-            if let SDKManager = UIApplication.shared.delegate as? SDKManager, let actionUrlString = story.media.actionUrl, let url = URL(string: actionUrlString) {
+            if let actionUrlString = story.media.actionUrl, let url = URL(string: actionUrlString) {
                 
                 if let clouser = self.actionClicked {clouser(actionUrlString)}
                 /*
-                if !SDKManager.application(UIApplication.shared, open: url, sourceApplication: "Storyly", annotation: "") {
+                if !SDKManager.shared.application(UIApplication.shared, open: url, sourceApplication: "Storyly", annotation: "") {
                     if let clouser = self.actionClicked {clouser(actionUrlString)}
                 }else {
                     if let clouser = self.actionClicked {clouser("")}

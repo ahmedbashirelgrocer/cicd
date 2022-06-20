@@ -69,13 +69,13 @@ class DynamicLinksHelper {
         
         
         var delayTime = 1.0
-        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-            if let dataAvailable = SDKManager.sdkStartTime {
-                if dataAvailable.timeIntervalSinceNow > -5 {
-                    delayTime = 2.0
-                }
+        // if let SDKManager = SDKManager.shared {
+        if let dataAvailable = SDKManager.shared.sdkStartTime {
+            if dataAvailable.timeIntervalSinceNow > -5 {
+                delayTime = 2.0
             }
         }
+        // }
         if ElGrocerUtility.sharedInstance.groceries.count == 0 {
             ElGrocerUtility.sharedInstance.delay(2) {
                 handleIncomingDynamicLinksWithUrl(dynamicLinkURL)
@@ -578,7 +578,7 @@ class DynamicLinksHelper {
                 navigationController.viewControllers = [recipeStory]
                 navigationController.modalPresentationStyle = .fullScreen
                 topController.navigationController?.present(navigationController, animated: true, completion: {
-                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                    let SDKManager = SDKManager.shared
                     if let tab = SDKManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                         tab.selectedIndex = 1
@@ -618,7 +618,7 @@ class DynamicLinksHelper {
                             navRecipeDetailController.modalPresentationStyle = .fullScreen
                             if let topVC = UIApplication.topViewController() {
                                 topVC.present(navRecipeDetailController, animated: true, completion: {
-                                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                                    let SDKManager = SDKManager.shared
                                     if let tab = SDKManager.currentTabBar  {
                                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                                         tab.selectedIndex = 1
@@ -712,12 +712,12 @@ class DynamicLinksHelper {
         }
         
         func callToChangeStoreAfterAllDataSet() {
-            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                if let currentTabBar = SDKManager.currentTabBar {
+            // if let SDKManager = SDKManager.shared {
+                if let currentTabBar = SDKManager.shared.currentTabBar {
                     ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
                     currentTabBar.selectedIndex = 1
                 }
-            }
+            // }
             
         }
         

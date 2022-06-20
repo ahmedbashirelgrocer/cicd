@@ -44,7 +44,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate let slideMenuController: SlideMenuViewController? = {
         
-        guard let SDKManager = UIApplication.shared.delegate as? SDKManager, let slideController = SDKManager.window?.rootViewController as? SlideMenuViewController else {
+        guard let slideController = SDKManager.shared.window?.rootViewController as? SlideMenuViewController else {
             return nil
         }
         
@@ -153,7 +153,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         let orderId = userInfo[pushOrderIdKey] as! NSNumber
         let shopperId = userInfo[shopperIdKey] as! NSNumber
         
-                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let SDKManager = SDKManager.shared
                 let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
                     if buttonIndex == 0 {
                         self.setCollectorStatus(orderId, shopperId: shopperId  , isOnTheWay: false )

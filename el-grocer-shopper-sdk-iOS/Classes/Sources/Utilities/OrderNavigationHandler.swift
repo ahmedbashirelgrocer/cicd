@@ -100,7 +100,7 @@ class OrderNavigationHandler {
         }
         
         if self.processType != .editWithOutPopUp {
-            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            let SDKManager = SDKManager.shared
             let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                 
                 if buttonIndex == 1 {

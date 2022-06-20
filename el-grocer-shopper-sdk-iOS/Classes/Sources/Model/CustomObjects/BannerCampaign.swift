@@ -129,7 +129,7 @@ class BannerCampaign: NSObject {
     
     func changeStoreForBanners (currentActive : Grocery?  , retailers: [Grocery] ) {
         if let grocery = self.getRetailer(currentActive: currentActive , retailers: retailers , banner: self) {
-            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            let SDKManager = SDKManager.shared
             if let tab = SDKManager.currentTabBar  {
                 if !Grocery.isSameGrocery(currentActive, rhs: ElGrocerUtility.sharedInstance.activeGrocery){
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)

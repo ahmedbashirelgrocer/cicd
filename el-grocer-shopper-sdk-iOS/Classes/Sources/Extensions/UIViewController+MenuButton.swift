@@ -175,7 +175,7 @@ extension UIViewController {
     
     
     func getSDKManager () -> SDKManager {
-        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let SDKManager = SDKManager.shared
         return SDKManager
     }
     

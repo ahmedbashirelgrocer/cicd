@@ -312,7 +312,7 @@ extension OrderCollectorDetailsVC : UITableViewDelegate , UITableViewDataSource 
         
         let more = UITableViewRowAction(style: .normal, title: localizedString("dashboard_location_delete_button", comment: "")) { action, index in
         
-            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            let SDKManager = SDKManager.shared
             let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "MyBasket_Collector_Details") , header: "", detail: localizedString("remove_Collector_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                 
                 if buttonIndex == 0 {

@@ -70,13 +70,13 @@ extension SDKManager {
         
         if let _ = userInfo["sendbird"] as? NSDictionary {
             var delayTimeSendBird = 0.0
-            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                if let dataAvailable = SDKManager.sdkStartTime {
+            // if let SDKManager = SDKManager.shared {
+                if let dataAvailable = SDKManager.shared.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         delayTimeSendBird = 6.0
                     }
                 }
-            }
+            // }
             if delayTimeSendBird == 0 && UIApplication.shared.applicationState == .inactive {
                 delayTimeSendBird = 0.2
             }
@@ -102,13 +102,13 @@ extension SDKManager {
             if let type = data["type"] as? String {
                 if type.count > 0 {
                     var delayTime = 1.0
-                    if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                        if let dataAvailable = SDKManager.sdkStartTime {
+                    // if let SDKManager = SDKManager.shared {
+                        if let dataAvailable = SDKManager.shared.sdkStartTime {
                             if dataAvailable.timeIntervalSinceNow > -5 {
                                 delayTime = 4.0
                             }
                         }
-                    }
+                    //}
                     ElGrocerUtility.sharedInstance.delay(delayTime) {
                         if let msgDict = userInfo["aps"] as? NSDictionary {
                             if let alert = msgDict["alert"] as? NSDictionary {
@@ -129,13 +129,13 @@ extension SDKManager {
             let requestID = userInfo["ticket_id"] as! String
             
             var delayTime = 1.0
-            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                if let dataAvailable = SDKManager.sdkStartTime {
+            // if let SDKManager = SDKManager.shared {
+                if let dataAvailable = SDKManager.shared.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -5 {
                         delayTime = 4.0
                     }
                 }
-            }
+            // }
             ElGrocerUtility.sharedInstance.delay(delayTime) {
                 self.zendeskNotifcationHandling(requestID)
             }
@@ -154,13 +154,13 @@ extension SDKManager {
         }
         
         var delayTime = 1.0
-        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-            if let dataAvailable = SDKManager.sdkStartTime {
+        // if let SDKManager = SDKManager.shared {
+            if let dataAvailable = SDKManager.shared.sdkStartTime {
                 if dataAvailable.timeIntervalSinceNow > -10 {
                     delayTime = 8.0
                 }
             }
-        }
+        // }
         
         ElGrocerUtility.sharedInstance.delay(delayTime) {
             _ = RemoteNotificationHandler()
