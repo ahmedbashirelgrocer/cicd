@@ -50,6 +50,7 @@ Pod::Spec.new do |s|
   s.swift_versions = '4.2'
 
   s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*.{m,h,swift}'
+  spec.ios.source_files   = 'el-grocer-shopper-sdk-iOS/Classes/**/*.{m,h,swift}'
   s.exclude_files = "Classes/Exclude"
    
   s.resource_bundles = {

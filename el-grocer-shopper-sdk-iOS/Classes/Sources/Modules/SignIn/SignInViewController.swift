@@ -45,20 +45,7 @@ class SignInViewController: RegistrationViewController, Form {
     var finalPhoneNumber : String = ""
     var finalFormatedPhoneNumber : String = ""
     
-    @IBOutlet var phoneNumberTextField: FPNTextField! {
-        didSet {
-            phoneNumberTextField.hasPhoneNumberExample = false // true by default
-            phoneNumberTextField.parentViewController = self
-            phoneNumberTextField.layer.cornerRadius = 8.0
-            inputTextFields.append(phoneNumberTextField)
-            requiredInputTextFields.append(phoneNumberTextField)
-            phoneNumberTextField.placeholder = localizedString("enter_mobile_num_placeholder", comment: "")
-            phoneNumberTextField.setFlag(for: FPNOBJCCountryKey.AE)
-            phoneNumberTextField.customDelegate = self
-            phoneNumberTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
-        }
-    }
-    
+    @IBOutlet var phoneNumberTextField: FPNTextField?
     @IBOutlet var phoneErrorLabel: UILabel!{
         didSet{
             phoneErrorLabel.setCaptionOneRegErrorStyle()
@@ -120,6 +107,7 @@ class SignInViewController: RegistrationViewController, Form {
         super.viewDidLoad()
         
         self.inputTextFields = [usernameTextField, passwordTextField]
+        self.setUpPhoneTextField()
         self.setupAppearance()
         self.setBindings()
         (self.navigationController as? ElGrocerNavigationController)?.hideNavigationBar(false)
@@ -182,7 +170,7 @@ class SignInViewController: RegistrationViewController, Form {
             self.txtForgetPasswordheight.constant = 0
             //self.spaceFromForgetPassword.constant = 0
             self.usernameTextField.placeholder = localizedString("login_email_placeholder", comment: "")
-            self.phoneNumberTextField.isHidden = false
+            self.phoneNumberTextField?.isHidden = false
             self.usernameTextField.isHidden = true
             self.passwordTextField.isHidden = true
             self.submitButton.setTitle(localizedString("intro_next_button", comment: ""), for: .normal)
@@ -201,7 +189,7 @@ class SignInViewController: RegistrationViewController, Form {
             self.txtForgetPasswordheight.constant = 30
             //self.spaceFromForgetPassword.constant = 16
             self.usernameTextField.placeholder = localizedString("login_email_placeholder", comment: "")
-            self.phoneNumberTextField.isHidden = true
+            self.phoneNumberTextField?.isHidden = true
             self.usernameTextField.isHidden = false
             self.submitButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: .normal)
             self.btnEye.isHidden = false
@@ -279,18 +267,27 @@ class SignInViewController: RegistrationViewController, Form {
 
         self.usernameTextField.setBody1RegStyle()
         self.passwordTextField.setBody1RegStyle()
-        self.phoneNumberTextField.setBody1RegStyle()
-        
+        self.phoneNumberTextField?.setBody1RegStyle()
         self.submitButton.setH4SemiBoldWhiteStyle()
         self.lblDescription.setBody2RegDarkStyle()
         
-//        self.usernameTextField.attributedPlaceholder = NSAttributedString.init(string: self.usernameTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-//        self.passwordTextField.attributedPlaceholder = NSAttributedString.init(string: self.passwordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+    }
+    
+    private func setUpPhoneTextField() {
         
-        
-        
-//        self.phoneNumberTextField.attributedPlaceholder = NSAttributedString.init(string: self.phoneNumberTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-  
+        self.phoneNumberTextField?.hasPhoneNumberExample = false // true by default
+        self.phoneNumberTextField?.parentViewController = self
+        self.phoneNumberTextField?.layer.cornerRadius = 8.0
+        if let phoneNumberTextField = self.phoneNumberTextField  {
+            self.inputTextFields.append(phoneNumberTextField)
+            self.requiredInputTextFields.append(phoneNumberTextField)
+        }
+        self.phoneNumberTextField?.placeholder = localizedString("enter_mobile_num_placeholder", comment: "")
+        self.phoneNumberTextField?.setFlag(for: FPNOBJCCountryKey.AE)
+        self.phoneNumberTextField?.customDelegate = self
+        self.phoneNumberTextField?.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
+
+       
     }
     
     
@@ -725,8 +722,8 @@ extension SignInViewController {
                         }
                     }
                     self.isPhoneExsists = true
-                    self.phoneNumberTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-                    self.phoneNumberTextField.layer.borderWidth = 1
+                    self.phoneNumberTextField?.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+                    self.phoneNumberTextField?.layer.borderWidth = 1
                     phoneErrorLabel.isHidden = false
                     phoneErrorLabel.text = errorMsgStr
                 }
@@ -738,11 +735,11 @@ extension SignInViewController {
     func validatePhoneNumberAndSetPasswordTextFieldAppearance(_ isValid : Bool=false) {
         // self.mobileNumberTextField.text?.isValidPhoneNumber() ?? false == false ||
         if  isValid == false {
-            self.phoneNumberTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-            self.phoneNumberTextField.layer.borderWidth = 1
+            self.phoneNumberTextField?.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+            self.phoneNumberTextField?.layer.borderWidth = 1
         } else {
-            self.phoneNumberTextField.layer.borderColor = UIColor.green.cgColor
-            self.phoneNumberTextField.layer.borderWidth = 0
+            self.phoneNumberTextField?.layer.borderColor = UIColor.green.cgColor
+            self.phoneNumberTextField?.layer.borderWidth = 0
             phoneErrorLabel.isHidden = true
         }
         
@@ -780,7 +777,7 @@ extension SignInViewController : FPNTextFieldCustomDelegate {
     func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
         print(name, dialCode, code) // Output "France", "+33", "FR"
         ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
-            self.phoneNumberTextField.becomeFirstResponder()
+            self.phoneNumberTextField?.becomeFirstResponder()
         }
         
     }
