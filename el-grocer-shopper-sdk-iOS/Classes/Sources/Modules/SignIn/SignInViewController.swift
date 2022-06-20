@@ -44,6 +44,7 @@ class SignInViewController: RegistrationViewController, Form {
     var isPhoneExsists : Bool = true
     var finalPhoneNumber : String = ""
     var finalFormatedPhoneNumber : String = ""
+    
     @IBOutlet var phoneNumberTextField: FPNTextField! {
         didSet {
             phoneNumberTextField.hasPhoneNumberExample = false // true by default
@@ -57,11 +58,13 @@ class SignInViewController: RegistrationViewController, Form {
             phoneNumberTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
         }
     }
+    
     @IBOutlet var phoneErrorLabel: UILabel!{
         didSet{
             phoneErrorLabel.setCaptionOneRegErrorStyle()
         }
     }
+    
     @IBOutlet weak var passwordTextField: ElgrocerTextField!{
         didSet{
             passwordTextField.layer.cornerRadius = 8
