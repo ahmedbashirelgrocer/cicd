@@ -8,7 +8,7 @@
 import Foundation
 import SendBirdUIKit
 
-extension SDKManager : SBDConnectionDelegate, SBDUserEventDelegate {
+extension SDKManager : SBDConnectionDelegate, SBDUserEventDelegate, SBDChannelDelegate {
     
     func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
         debugPrint("\(message.requestId)")

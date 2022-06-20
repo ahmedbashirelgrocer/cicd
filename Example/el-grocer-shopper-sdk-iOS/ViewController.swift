@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import el_grocer_shopper_sdk_iOS
 
 class ViewController: UIViewController {
 
@@ -19,5 +20,9 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    @IBAction func btnGoToSDK(_ sender: Any) {
+        SDKManager.shared.start()
+    }
+    
 }

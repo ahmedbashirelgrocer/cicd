@@ -16,27 +16,25 @@ import IQKeyboardManagerSwift
 import CleverTapSDK
 import AdSupport
 import AppsFlyerLib
-import FBSDKCoreKit
+// import FBSDKCoreKit
 import FirebaseCore
 import Messages
 // import AFNetworkActivityLogger
 import SendBirdUIKit
 import SwiftDate
 import Adyen
-import FirebaseDynamicLinks
-import FirebaseAuth
-import FirebaseMessaging
+// import FirebaseDynamicLinks
+// import FirebaseAuth
+// import FirebaseMessaging
 
-open class SDKManager: NSObject, SBDChannelDelegate  {
-    
-    static var shared: SDKManager = SDKManager()
+open class SDKManager: NSObject  {
     
     var sdkStartTime : Date?
+    
     var window: UIWindow?
     
     var backgroundUpdateTask: UIBackgroundTaskIdentifier! = .invalid
     var bgtimer : Timer?
-    
     lazy var backgroundURLSession : URLSession = {
         let configuration = URLSessionConfiguration.background(withIdentifier: "com.elgorcer.background")
         configuration.isDiscretionary = true
@@ -46,14 +44,22 @@ open class SDKManager: NSObject, SBDChannelDelegate  {
     
     var  currentTabBar  : UITabBarController?
     
-     var parentTabNav  : ElgrocerGenericUIParentNavViewController?
+    var parentTabNav  : ElgrocerGenericUIParentNavViewController?
+    
+    public static var shared: SDKManager = SDKManager.init()
   
     // MARK: Initializers
     private override init() {
         super.init()
+        window = .key
+        configure()
     }
     
-    func configure(_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
+    public func start() {
+        showAnimatedSplashView()
+    }
+    
+    private func configure() { //_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
         
         SwiftDate.defaultRegion = Region.getCurrentRegion()
         self.sdkStartTime = Date()
@@ -64,92 +70,16 @@ open class SDKManager: NSObject, SBDChannelDelegate  {
         _ = ReachabilityManager.sharedInstance
        
         self.refreshSessionStatesForEditOrder()
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.makeKeyAndVisible()
-        self.showAnimatedSplashView()
+        // self.window = UIWindow(frame: UIScreen.main.bounds)
+        // self.window?.makeKeyAndVisible()
         
-        Thread.sleep(forTimeInterval: 0.2)
+        // Thread.sleep(forTimeInterval: 0.2)
         self.setSendbirdDelegate()
-        self.initializeExternalServices(application, didFinishLaunchingWithOptions: launchOptions)
+        self.initializeExternalServices() //application, didFinishLaunchingWithOptions: launchOptions)
         ElGrocerUtility.sharedInstance.resetBasketPresistence()
-        self.checkForNotificationAtAppLaunch(application, userInfo: launchOptions)
+        // self.checkForNotificationAtAppLaunch(application, userInfo: launchOptions)
         self.checkNotifcation()
         self.logApiError()
-    }
-    
-
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.portrait
-    }
-    
-    @objc
-    func refreshSessionStatesForEditOrder() {
-        if UserDefaults.isNeedToClearEditOrder() {
-            UserDefaults.setClearEditOrder(false)
-            ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
-            UserDefaults.removeOrderFromEdit()
-            if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
-                self.deleteBasketFromServerWithGrocery(grocery)
-            }
-        }
-    }
-   
-    @objc
-    func configuredElgrocerEventLogger(_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
-        
-        ElGrocerUtility.sharedInstance.delay(5) {
-                    self.checkAdvertPermission ()
-        }
-        
-        //Google Analytics
-        GoogleAnalyticsHelper.configureGoogleAnalytics()
-        self.initiliazeMarketingCampaignTrackingServices()
-        CleverTapEventsLogger.startCleverTapSDK()
-        self.logApiError()
-        ElGrocerEventsLogger.sharedInstance.firstOpen()
-        //AppsFlyer
-        AppsFlyerLib.shared().appsFlyerDevKey = "fFWrKTcB3XBybYmSgAcLnP"
-        AppsFlyerLib.shared().appleAppID = "1040399641"
-       // AppsFlyerLib.shared().delegate = self
-        if Platform.isDebugBuild {
-            AppsFlyerLib.shared().isDebug = true
-        }
-        AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
-        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
-        AlgoliaApi.sharedInstance.reStartInsights()
-        ElGrocerUtility.sharedInstance.delay(2) {
-            self.startChatFeature()
-        }
-        
- 
-    }
-
-func checkAdvertPermission () {
-// FixMe Arch Error Fix
-//    MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
-//        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
-//    }
-    
-// FixMe SDK Update
-//    Settings.isAdvertiserIDCollectionEnabled = true
-//    Settings.setAdvertiserTrackingEnabled(true)
-//    Settings.isAutoLogAppEventsEnabled = true
-//    Analytics.setAnalyticsCollectionEnabled(true)
-    
-}
-   
-    func startChatFeature() {
-        
-     //   self.configureZenDesk()
-        
-    }
-    
-    func scheduleAppRefresh() {
-
-    }
-   
-    @available(iOS 13.0, *)
-    func handleAppRefresh(task: BGAppRefreshTask) {
     }
 
     fileprivate func checkNotifcation() {
@@ -281,127 +211,9 @@ func checkAdvertPermission () {
         }
     }
     
-  
-    // They will han
-    func open(_ url: URL, options: [String : Any] = [:],
-              completionHandler completion: ((Bool) -> Swift.Void)? = nil) {
-        CleverTap.sharedInstance()?.handleOpen(url, sourceApplication: nil)
-        completion?(false)
-    }
-    
-    
-    
-    // They will do this
-        // Respond to URI scheme links
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-        
-        if Auth.auth().canHandle(url) {
-            return true
-        }
-        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url){
-            print("I'm Handling a link through the OpenURL method.")
-            print("Your Imcomming Url Parameter is:%@",dynamicLink.url ?? "DynamicLink URL is Null")
-            if let urlString = dynamicLink.url?.absoluteString {
-                ElGrocerUtility.sharedInstance.deepLinkURL = urlString
-                ElGrocerUtility.sharedInstance.deepLinkShotURL = url.absoluteString
-                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
-                FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "EG_DeepLink", parameter: ["url" : urlString , "DeepLink" : url.absoluteString])
-            }
-            return true
-        }
-        
-        
-        
-        return application(app, open: url,
-                           sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                           annotation: "") || RedirectComponent.applicationDidOpen(from: url)
-    }
-    
-    
-    
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        
-        if Auth.auth().canHandle(url) {
-            return true
-        }
-      
-        
-        
-        let dynamicLinksss = DynamicLinks.dynamicLinks()
-        let _ = dynamicLinksss.handleUniversalLink(url) { (dynamiclink, error) in
-            if let dynamiclink = dynamiclink, let _ = dynamiclink.url {
-                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
-                NotificationCenter.default.post(name: Notification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
-            }
-        }
-        CleverTap.sharedInstance()?.handleOpen(url, sourceApplication: sourceApplication)
-        
-        return ApplicationDelegate.shared.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation) || RedirectComponent.applicationDidOpen(from: url)
-    }
-    
-
-    
-    
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
-                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        
-        let dynamicLinks = DynamicLinks.dynamicLinks()
-        let urlCameFrom = userActivity.webpageURL?.getQueryItemValueForKey("_osl")
-        let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
-            
-            if let dynamiclink = dynamiclink, let urlString = dynamiclink.url {
-                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
-                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
-                DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
-                ElGrocerUtility.sharedInstance.deepLinkShotURL = urlCameFrom ?? urlString.absoluteString
-                
-                FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "EG_DeepLink", parameter: ["url" : urlString.absoluteString , "DeepLink" : urlCameFrom ?? urlString.absoluteString])
-            }
-        }
-        return handled
-        
-    }
-    
-  
-//    @available(iOS 13.0, *)
-//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-//        guard let _ = (scene as? UIWindowScene) else { return }
-//
-//        if let userActivity = connectionOptions.userActivities.first {
-//            if let incomingURL = userActivity.webpageURL {
-//                _ = DynamicLinks.dynamicLinks()?.handleUniversalLink(incomingURL) { (dynamicLink, error) in
-//                    guard error == nil else { return }
-//                    if let dynamicLink = dynamicLink {
-//                        //your code for handling the dynamic link goes here
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
-    
-    // Respond to Universal Links
-     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
-                      restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-        
-        let dynamicLinks = DynamicLinks.dynamicLinks()
-        
-        let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
-            
-            if let dynamiclink = dynamiclink, let _ = dynamiclink.url {
-                print("Your Imcomming Url Parameter is:%@",dynamiclink.url ?? "NUll")
-                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
-                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
-                NotificationCenter.default.post(name: Notification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
-            }
-        }
-        
-        return handled
-    }
     
     // MARK: Methods
-    func initializeExternalServices(_ application: UIApplication, didFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+    func initializeExternalServices() { //_ application: UIApplication, didFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         
         
         //crashlitics
@@ -446,7 +258,7 @@ func checkAdvertPermission () {
         // Google Maps
         GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
         GMSServices.provideAPIKey(kGoogleMapsApiKey)
-        self.configuredElgrocerEventLogger(didFinishLaunchingWithOptions)
+        self.configuredElgrocerEventLogger() //didFinishLaunchingWithOptions)
         
 //        let action1 = UNNotificationAction(identifier: "action_1", title: "Back", options: [])
 //        let action2 = UNNotificationAction(identifier: "action_2", title: "Next", options: [])
@@ -884,17 +696,6 @@ func checkAdvertPermission () {
             }
         }
     }
-    
-    func application(_ application: UIApplication,
-                     shouldSaveApplicationState coder: NSCoder) -> Bool {
-        return true
-    }
-    
-    func application(_ application: UIApplication,
-                     shouldRestoreApplicationState coder: NSCoder) -> Bool {
-        return false
-    }
-    
 
 }
 
@@ -930,5 +731,198 @@ extension SDKManager {
 extension SDKManager {
     func setSendbirdDelegate () {
         SBDMain.add(self as SBDChannelDelegate, identifier: "UNIQUE_DELEGATE_ID")
+    }
+}
+
+// MARK: Supporting methods
+fileprivate extension SDKManager {
+    @objc
+    func refreshSessionStatesForEditOrder() {
+        if UserDefaults.isNeedToClearEditOrder() {
+            UserDefaults.setClearEditOrder(false)
+            ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+            UserDefaults.removeOrderFromEdit()
+            if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+                self.deleteBasketFromServerWithGrocery(grocery)
+            }
+        }
+    }
+   
+    @objc
+    func configuredElgrocerEventLogger() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+        
+        ElGrocerUtility.sharedInstance.delay(5) {
+            self.checkAdvertPermission ()
+        }
+        
+        //Google Analytics
+        GoogleAnalyticsHelper.configureGoogleAnalytics()
+        self.initiliazeMarketingCampaignTrackingServices()
+        CleverTapEventsLogger.startCleverTapSDK()
+        self.logApiError()
+        ElGrocerEventsLogger.sharedInstance.firstOpen()
+        //AppsFlyer
+        AppsFlyerLib.shared().appsFlyerDevKey = "fFWrKTcB3XBybYmSgAcLnP"
+        AppsFlyerLib.shared().appleAppID = "1040399641"
+       // AppsFlyerLib.shared().delegate = self
+        if Platform.isDebugBuild {
+            AppsFlyerLib.shared().isDebug = true
+        }
+        AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
+        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
+        AlgoliaApi.sharedInstance.reStartInsights()
+        ElGrocerUtility.sharedInstance.delay(2) {
+            self.startChatFeature()
+        }
+    }
+    
+    func startChatFeature() {
+        
+     //   self.configureZenDesk()
+        
+    }
+    
+    func scheduleAppRefresh() {
+
+    }
+   
+    @available(iOS 13.0, *)
+    func handleAppRefresh(task: BGAppRefreshTask) { }
+    
+     func checkAdvertPermission () {
+    // FixMe Arch Error Fix
+    //    MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
+    //        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
+    //    }
+        
+    // FixMe SDK Update
+    //    Settings.isAdvertiserIDCollectionEnabled = true
+    //    Settings.setAdvertiserTrackingEnabled(true)
+    //    Settings.isAutoLogAppEventsEnabled = true
+    //    Analytics.setAnalyticsCollectionEnabled(true)
+        
+    }
+    
+}
+
+// MARK: Other life cycle methods
+extension SDKManager {
+//    func application(_ application: UIApplication,
+//                     shouldSaveApplicationState coder: NSCoder) -> Bool {
+//        return true
+//    }
+//
+//    func application(_ application: UIApplication,
+//                     shouldRestoreApplicationState coder: NSCoder) -> Bool {
+//        return false
+//    }
+//
+//    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+//        return UIInterfaceOrientationMask.portrait
+//    }
+
+
+//    // They will han
+//    func open(_ url: URL, options: [String : Any] = [:],
+//              completionHandler completion: ((Bool) -> Swift.Void)? = nil) {
+//        CleverTap.sharedInstance()?.handleOpen(url, sourceApplication: nil)
+//        completion?(false)
+//    }
+//
+//
+//    // Respond to Universal Links
+//     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+//                      restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+//
+//        let dynamicLinks = DynamicLinks.dynamicLinks()
+//
+//        let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+//
+//            if let dynamiclink = dynamiclink, let _ = dynamiclink.url {
+//                print("Your Imcomming Url Parameter is:%@",dynamiclink.url ?? "NUll")
+//                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
+//                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
+//                NotificationCenter.default.post(name: Notification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
+//            }
+//        }
+//
+//        return handled
+//    }
+    
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+//
+//        if Auth.auth().canHandle(url) {
+//            return true
+//        }
+//        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url){
+//            print("I'm Handling a link through the OpenURL method.")
+//            print("Your Imcomming Url Parameter is:%@",dynamicLink.url ?? "DynamicLink URL is Null")
+//            if let urlString = dynamicLink.url?.absoluteString {
+//                ElGrocerUtility.sharedInstance.deepLinkURL = urlString
+//                ElGrocerUtility.sharedInstance.deepLinkShotURL = url.absoluteString
+//                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
+//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
+//                FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "EG_DeepLink", parameter: ["url" : urlString , "DeepLink" : url.absoluteString])
+//            }
+//            return true
+//        }
+//
+//
+//
+//        return application(app, open: url,
+//                           sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+//                           annotation: "") || RedirectComponent.applicationDidOpen(from: url)
+//    }
+//
+//
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//
+//        if Auth.auth().canHandle(url) {
+//            return true
+//        }
+//
+//
+//
+//        let dynamicLinksss = DynamicLinks.dynamicLinks()
+//        let _ = dynamicLinksss.handleUniversalLink(url) { (dynamiclink, error) in
+//            if let dynamiclink = dynamiclink, let _ = dynamiclink.url {
+//                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
+//                NotificationCenter.default.post(name: Notification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
+//            }
+//        }
+//        CleverTap.sharedInstance()?.handleOpen(url, sourceApplication: sourceApplication)
+//
+//        return ApplicationDelegate.shared.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation) || RedirectComponent.applicationDidOpen(from: url)
+//    }
+//
+//
+//    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+//                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+//
+//        let dynamicLinks = DynamicLinks.dynamicLinks()
+//        let urlCameFrom = userActivity.webpageURL?.getQueryItemValueForKey("_osl")
+//        let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+//
+//            if let dynamiclink = dynamiclink, let urlString = dynamiclink.url {
+//                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
+//                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
+//                DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
+//                ElGrocerUtility.sharedInstance.deepLinkShotURL = urlCameFrom ?? urlString.absoluteString
+//
+//                FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "EG_DeepLink", parameter: ["url" : urlString.absoluteString , "DeepLink" : urlCameFrom ?? urlString.absoluteString])
+//            }
+//        }
+//        return handled
+//
+//    }
+}
+
+extension UIWindow {
+    static var key: UIWindow! {
+        if #available(iOS 13, *) {
+            return UIApplication.shared.windows.first { $0.isKeyWindow }
+        } else {
+            return UIApplication.shared.keyWindow
+        }
     }
 }

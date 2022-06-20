@@ -455,7 +455,8 @@ class GenericStoresViewController: BasketBasicViewController {
         self.storlyAds?.actionClicked = { [weak self] (url) in
             guard let self = self else {return}
             if let finalURl = URL(string: url ?? "") {
-              let _ = self.getSDKManager().application(UIApplication.shared, open: finalURl, options: [ : ])
+                // FixMe: SDK Update
+                // let _ = self.getSDKManager().application(UIApplication.shared, open: finalURl, options: [ : ])
             }
         }
     }
