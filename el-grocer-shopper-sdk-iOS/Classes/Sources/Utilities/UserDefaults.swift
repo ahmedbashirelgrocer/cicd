@@ -410,8 +410,8 @@ class UserDefaults {
     //MARK:- Over18
     class func setOver18 (_ over18 : Bool , _ isFirstTime : Bool = false) {
         Foundation.UserDefaults.standard.set(over18 , forKey: "isUserSelectOver18")
-        if let appDelegate = UIApplication.shared.delegate {
-            if let winDowsView = appDelegate.window {
+        if let SDKManager = UIApplication.shared.delegate {
+            if let winDowsView = SDKManager.window {
                 if let _ = winDowsView?.viewWithTag(KtobbacoViewTag) {
                     FireBaseEventsLogger.trackAbove18(over18)
                     DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {

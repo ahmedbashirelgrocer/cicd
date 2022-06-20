@@ -203,8 +203,8 @@ class GenericStoresViewController: BasketBasicViewController {
         if ElGrocerUtility.sharedInstance.isDeliveryMode == false {
             ElGrocerUtility.sharedInstance.isDeliveryMode = true
             ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            if let tab = appDelegate.currentTabBar  {
+            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            if let tab = SDKManager.currentTabBar  {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
             }
         }
@@ -372,8 +372,8 @@ class GenericStoresViewController: BasketBasicViewController {
                 self.clickController.removeFromParent()
                 ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
                 ElGrocerUtility.sharedInstance.isNeedToRefreshBannerA = false
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                if let tab = appDelegate.currentTabBar  {
+                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                if let tab = SDKManager.currentTabBar  {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 }
                 if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -385,8 +385,8 @@ class GenericStoresViewController: BasketBasicViewController {
             self.switchMode.clickAndCollectSelect  = { [weak self] (isDelivery) in
                 guard let self = self else {return}
                 ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                if let tab = appDelegate.currentTabBar  {
+                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                if let tab = SDKManager.currentTabBar  {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 }
                 if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -455,7 +455,7 @@ class GenericStoresViewController: BasketBasicViewController {
         self.storlyAds?.actionClicked = { [weak self] (url) in
             guard let self = self else {return}
             if let finalURl = URL(string: url ?? "") {
-              let _ = self.getAppDelegate().application(UIApplication.shared, open: finalURl, options: [ : ])
+              let _ = self.getSDKManager().application(UIApplication.shared, open: finalURl, options: [ : ])
             }
         }
     }
@@ -594,8 +594,8 @@ class GenericStoresViewController: BasketBasicViewController {
         let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
         if isRegisteredForRemoteNotifications == false {
             if !(UserDefaults.getIsPopAlreadyDisplayed() ?? false) {
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                _ = NotificationPopup.showNotificationPopup(self, withView: appDelegate.window!)
+                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
                 UserDefaults.setIsPopAlreadyDisplayed(true)
             }
             
@@ -714,9 +714,9 @@ extension GenericStoresViewController {
         self.goToBasketScreen()
     }
     func goToBasketScreen() {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            if let navtabbar = appDelegate.window?.rootViewController as? UINavigationController  {
-                if !(appDelegate.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+            if let navtabbar = SDKManager.window?.rootViewController as? UINavigationController  {
+                if !(SDKManager.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
                         self.dismiss(animated: false, completion: nil)
@@ -731,8 +731,8 @@ extension GenericStoresViewController {
                         
                     }
                 }
-                let navtabbar = appDelegate.getTabbarController(isNeedToShowChangeStoreByDefault: false )
-                appDelegate.makeRootViewController(controller: navtabbar)
+                let navtabbar = SDKManager.getTabbarController(isNeedToShowChangeStoreByDefault: false )
+                SDKManager.makeRootViewController(controller: navtabbar)
                 if navtabbar.viewControllers.count > 0 {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
@@ -793,10 +793,10 @@ extension GenericStoresViewController {
         self.makeActiveTopGroceryOfArray()
             //let currentSelf = self;
         DispatchQueue.main.async {
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                if let navtabbar = appDelegate.window?.rootViewController as? UINavigationController  {
+            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+                if let navtabbar = SDKManager.window?.rootViewController as? UINavigationController  {
                     
-                    if !(appDelegate.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(SDKManager.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {
@@ -1558,8 +1558,8 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                 }else if type is ClickAndCollectService {
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "click&collect", tileType: "Store Type", nextScreen: nil)
                     ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    if let tab = appDelegate.currentTabBar  {
+                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                    if let tab = SDKManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                     }
                     if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -1907,8 +1907,8 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
 extension GenericStoresViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.registerForNotifications()
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        SDKManager.registerForNotifications()
     }
 }
 
@@ -1965,7 +1965,7 @@ extension GenericStoresViewController : LocationMapViewControllerDelegate {
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?) {
         guard let location = location, let name = name else {return}
         addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
-            (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu()
+            (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
         }
     }
     

@@ -104,8 +104,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 guard let self = self else {return}
                 debugPrint(self)
                 
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                if let nav = appDelegate.window!.rootViewController as? UINavigationController {
+                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                if let nav = SDKManager.window!.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
                             let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -962,13 +962,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                                       negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         if buttonIndex == 0 {
-                                             let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                             let SDKManager = UIApplication.shared.delegate as! SDKManager
                                             if UIApplication.topViewController() is GenericProfileViewController {
-                                                appDelegate.currentTabBar?.dismiss(animated: false, completion: {
-                                                    appDelegate.logoutAndShowEntryView()
+                                                SDKManager.currentTabBar?.dismiss(animated: false, completion: {
+                                                    SDKManager.logoutAndShowEntryView()
                                                 })
                                             }else {
-                                                appDelegate.logoutAndShowEntryView()
+                                                SDKManager.logoutAndShowEntryView()
                                             }
                                            
                                         }else{

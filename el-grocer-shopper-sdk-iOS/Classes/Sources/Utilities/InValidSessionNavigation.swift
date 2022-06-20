@@ -18,14 +18,14 @@ class InValidSessionNavigation {
                                               positiveButton: localizedString("sign_out_alert_yes", comment: ""),
                                               negativeButton:nil,
                                               buttonClickCallback: { (buttonIndex:Int) -> Void in
-                                                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                                    let SDKManager = UIApplication.shared.delegate as! SDKManager
                                                     if UIApplication.topViewController() is GenericProfileViewController {
-                                                        appDelegate.currentTabBar?.dismiss(animated: false, completion: {
-                                                            appDelegate.logoutAndShowEntryView()
+                                                        SDKManager.currentTabBar?.dismiss(animated: false, completion: {
+                                                            SDKManager.logoutAndShowEntryView()
                                                             
                                                         })
                                                     }else {
-                                                        appDelegate.logoutAndShowEntryView()
+                                                        SDKManager.logoutAndShowEntryView()
                                                     }
                                               }).show()
                 return false

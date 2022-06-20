@@ -315,7 +315,7 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
                 let  controller = self.navigationController?.viewControllers[0] as!  MainCategoriesViewController
                 controller.refreshViewWithGrocery(self.selectedGrocery)
             }else{
-                (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu(true)
+                (UIApplication.shared.delegate as! SDKManager).showAppWithMenu(true)
             }
             
             
@@ -323,7 +323,7 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
             /*
             if (self.loadedGroceryId != self.selectedGrocery.dbID){
                 if  self.navigationController?.viewControllers[0]  is  EntryViewController {
-                    (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu(true)
+                    (UIApplication.shared.delegate as! SDKManager).showAppWithMenu(true)
                 }else if self.navigationController?.viewControllers[0]  is  MainCategoriesViewController {
                     let  controller = self.navigationController?.viewControllers[0] as!  MainCategoriesViewController
                     controller.grocerySelectedIndex = (indexPath as NSIndexPath).row
@@ -362,9 +362,9 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
     
     func resetRecipeView () {
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.window!.rootViewController as? UITabBarController != nil {
-            if let tababarController = appDelegate.window!.rootViewController as? UITabBarController {
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        if SDKManager.window!.rootViewController as? UITabBarController != nil {
+            if let tababarController = SDKManager.window!.rootViewController as? UITabBarController {
                 let main : ElGrocerNavigationController =  tababarController.viewControllers![3] as! ElGrocerNavigationController
                 if let  controller = main.viewControllers[0] as? RecipesListViewController {
                     controller.navigationController?.popToRootViewController(animated: true)
@@ -538,7 +538,7 @@ extension GroceriesViewController: LocationMapViewControllerDelegate {
         if !UserDefaults.isUserLoggedIn() {
             addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
             
-            (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu()
+            (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
             
             }
         }else{
@@ -554,7 +554,7 @@ extension GroceriesViewController: LocationMapViewControllerDelegate {
                     SpinnerView.hideSpinnerView()
                     if result {
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu()
+                        (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
                     } else {
                         SpinnerView.hideSpinnerView()
                         DatabaseHelper.sharedInstance.mainManagedObjectContext.rollback()

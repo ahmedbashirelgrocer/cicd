@@ -174,7 +174,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
     
     func addImages(){
         
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let window = appDelegate.window {
+        if let SDKManager = UIApplication.shared.delegate as? SDKManager, let window = SDKManager.window {
             let image =  UIImage.init(named: "Store page-Main")
             let windowFrame = CGRect.init(x: 0, y: 0, width: image?.size.width ?? 375, height: image?.size.height ?? 2275)
             let imageView = UIImageView(frame: windowFrame)

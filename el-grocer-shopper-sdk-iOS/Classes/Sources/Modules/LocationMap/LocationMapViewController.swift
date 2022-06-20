@@ -213,8 +213,8 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             var locShopId =  self.lastCoverageDict!["location_without_shop_id"]
             
             //Bellow code is to show GroceriesPopUp
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            self.groceriesPopUpView = GroceriesPopUp.showGroceriesPopUp(self,topView: appDelegate.window!, shopId:locShopId as? NSNumber ?? 0)
+            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            self.groceriesPopUpView = GroceriesPopUp.showGroceriesPopUp(self,topView: SDKManager.window!, shopId:locShopId as? NSNumber ?? 0)
             return
         }
        
@@ -245,8 +245,8 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                             }
                     }
                         
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                        let SDKManager = UIApplication.shared.delegate as! SDKManager
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: SDKManager.window!) { (index) in
                             
                             if index == 0 {
                                 ElGrocerUtility.sharedInstance.activeGrocery = nil
@@ -395,7 +395,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                             }else{
                                 
                                 self.addDeliveryAddressForAnonymousUser(withLocation: location, locationName: self.locName, locationAddress: self.locAddress,buildingName: self.buildingName, cityName: cityName) { (deliveryAddress) in
-                                    (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu()
+                                    (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
                                 }
                             }
                         }

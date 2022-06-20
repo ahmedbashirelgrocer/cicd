@@ -67,8 +67,8 @@ class NoNetworkConnectionViewController : UIViewController , NavigationBarProtoc
     @IBAction func onRefreshButtonClick(_ sender: AnyObject) {
         
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.networkStatusDidChanged(nil)
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        SDKManager.networkStatusDidChanged(nil)
     }
     
     class func checkInternet(showLoader: Bool = true, completionHandler:@escaping (_ internet:Bool) -> Void)

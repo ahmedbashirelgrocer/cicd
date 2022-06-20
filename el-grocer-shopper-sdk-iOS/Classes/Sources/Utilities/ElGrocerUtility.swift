@@ -505,7 +505,7 @@ class ElGrocerUtility {
         //AppEvents.ParameterName.contentID: clearProductID ,
         let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
         
-        /// TO DO: Need update SDK
+        /// FixMe Need update SDK
 //        if let facebookParams = facebookParams as? [AppEvents.ParameterName : Any] {
 //            AppEvents.logEvent(AppEvents.Name.addedToCart, valueToSum: Double(truncating: product.price), parameters: facebookParams)
 //        }
@@ -669,9 +669,9 @@ class ElGrocerUtility {
 
     func resetRecipeView () {
 
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.window!.rootViewController as? UITabBarController != nil {
-            if let tababarController = appDelegate.window!.rootViewController as? UITabBarController {
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        if SDKManager.window!.rootViewController as? UITabBarController != nil {
+            if let tababarController = SDKManager.window!.rootViewController as? UITabBarController {
                 let main : ElGrocerNavigationController =  tababarController.viewControllers![3] as! ElGrocerNavigationController
                 if let  controller = main.viewControllers[0] as? RecipesListViewController {
                     if controller.tableView != nil {
@@ -976,8 +976,8 @@ class ElGrocerUtility {
                 ElGrocerUtility.sharedInstance.resetBasketPresistence()
                completionHandler(true)
             }else{
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                     
                     if buttonIndex == 1 {
                         //clear active basket and add product

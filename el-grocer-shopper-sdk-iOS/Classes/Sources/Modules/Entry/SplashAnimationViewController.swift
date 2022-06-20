@@ -16,7 +16,7 @@ class SplashAnimationViewController: UIViewController {
 
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView!
-    lazy var delegate = getAppDelegate()
+    lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
         
     override func viewDidLoad() {
@@ -86,7 +86,7 @@ class SplashAnimationViewController: UIViewController {
         
         if self.isAnimationCompleted {
             
-            if let dataAvailable = getAppDelegate().appStartTime {
+            if let dataAvailable = getSDKManager().appStartTime {
                 if dataAvailable.timeIntervalSinceNow > -3 {
                     self.animationCompletedSetRootVc()
                     return
@@ -182,7 +182,7 @@ extension SplashAnimationViewController {
     }
     
     private func callSetUpApis() {
-        // Fix ME: 
+        // FixMe: 
         // self.checkClientVersion()
         self.setLanguage()
         

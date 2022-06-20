@@ -135,9 +135,9 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
     
     @objc
     func goToBasketScreen() {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            if let navtabbar = appDelegate.window?.rootViewController as? UINavigationController  {
-                if !(appDelegate.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+            if let navtabbar = SDKManager.window?.rootViewController as? UINavigationController  {
+                if !(SDKManager.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
                         self.dismiss(animated: false, completion: nil)
@@ -151,8 +151,8 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
                         }
                     }
                 }
-                let navtabbar = appDelegate.getTabbarController(isNeedToShowChangeStoreByDefault: false )
-                appDelegate.makeRootViewController(controller: navtabbar)
+                let navtabbar = SDKManager.getTabbarController(isNeedToShowChangeStoreByDefault: false )
+                SDKManager.makeRootViewController(controller: navtabbar)
                 if navtabbar.viewControllers.count > 0 {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1

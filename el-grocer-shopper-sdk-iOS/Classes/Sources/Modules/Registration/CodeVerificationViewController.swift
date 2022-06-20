@@ -293,8 +293,8 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         
 //        let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
 //        if isRegisteredForRemoteNotifications == false {
-//            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//            _ = NotificationPopup.showNotificationPopup(self, withView: appDelegate.window!)
+//            let SDKManager = UIApplication.shared.delegate as! SDKManager
+//            _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
 //        }else{
 //            if token == nil {
 //                self.presentPhoneNumberViewController()
@@ -699,8 +699,8 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
 extension CodeVerificationViewController : NotificationPopupProtocol {
     
     func enableUserPushNotification() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.registerForNotifications()
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        SDKManager.registerForNotifications()
     }
 }
 extension CodeVerificationViewController : PhoneNumberViewControllerDelegate {

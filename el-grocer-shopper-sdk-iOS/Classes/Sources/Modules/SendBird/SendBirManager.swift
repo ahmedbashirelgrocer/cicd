@@ -484,8 +484,8 @@ class SendBirdManager {
         if let channel = sendBirdData["channel"] as? NSDictionary{
             
             var isAppStart = false
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                if let dataAvailable = appDelegate.appStartTime {
+            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+                if let dataAvailable = SDKManager.appStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         isAppStart = true
                     }

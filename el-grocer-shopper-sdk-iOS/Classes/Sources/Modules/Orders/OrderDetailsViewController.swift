@@ -406,8 +406,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
         
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let SDKManager = UIApplication.shared.delegate as! SDKManager
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //
 //            }
@@ -421,8 +421,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         self.setCollectorStatus(self.order, isOnTheWay: true, button: sender)
         
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+//        let SDKManager = UIApplication.shared.delegate as! SDKManager
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
 //            }
@@ -525,8 +525,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             return
         }
      
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
                 self.createBasketAndNavigateToViewForEditOrder()
@@ -674,8 +674,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.cancelOrderHandler(self.order.dbID.stringValue)
         //sab
         
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+//        let SDKManager = UIApplication.shared.delegate as! SDKManager
+//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
 //            
 //            if buttonIndex == 1 {
 ////                self.cancelOrder(self.order.dbID.stringValue)
@@ -700,11 +700,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             UserDefaults.resetEditOrder()
            // self.backButtonClick()
             
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                appDelegate.window?.rootViewController?.dismiss(animated: false, completion: nil)
-                (appDelegate.window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+                SDKManager.window?.rootViewController?.dismiss(animated: false, completion: nil)
+                (SDKManager.window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             }
-            if let tab = ((getAppDelegate().window?.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+            if let tab = ((getSDKManager().window?.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 tab.selectedIndex = 1
             }
@@ -982,8 +982,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if let nav = appDelegate.window!.rootViewController as? UINavigationController {
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        if let nav = SDKManager.window!.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController

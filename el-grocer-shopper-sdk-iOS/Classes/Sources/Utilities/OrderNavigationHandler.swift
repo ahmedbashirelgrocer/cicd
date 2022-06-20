@@ -100,8 +100,8 @@ class OrderNavigationHandler {
         }
         
         if self.processType != .editWithOutPopUp {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                 
                 if buttonIndex == 1 {
                     self.createBasketAndNavigateToViewForEditOrder()

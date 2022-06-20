@@ -325,9 +325,9 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
             
             let loadedGroceryId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
             if (loadedGroceryId != selectedGrocery.dbID){
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                if appDelegate.window!.rootViewController as? UITabBarController != nil {
-                    if let tababarController = appDelegate.window!.rootViewController as? UITabBarController {
+                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                if SDKManager.window!.rootViewController as? UITabBarController != nil {
+                    if let tababarController = SDKManager.window!.rootViewController as? UITabBarController {
                         if  let main : ElGrocerNavigationController =  tababarController.viewControllers?[1] as? ElGrocerNavigationController {
                             if let  controller = main.viewControllers[0] as? MainCategoriesViewController {
                                 let result =     ElGrocerUtility.sharedInstance.completeGroceries.filter({ $0.dbID == selectedGrocery.dbID })
@@ -342,8 +342,8 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
                         }
                     }
                 }
-                /*else if appDelegate.window!.rootViewController as? ElgrocerGenericUIParentNavViewController != nil {
-                 debugPrint((appDelegate.window!.rootViewController as? ElgrocerGenericUIParentNavViewController)?.viewControllers)
+                /*else if SDKManager.window!.rootViewController as? ElgrocerGenericUIParentNavViewController != nil {
+                 debugPrint((SDKManager.window!.rootViewController as? ElgrocerGenericUIParentNavViewController)?.viewControllers)
                  }*/
             }
             let _ = SpinnerView.showSpinnerViewInView(self.view)

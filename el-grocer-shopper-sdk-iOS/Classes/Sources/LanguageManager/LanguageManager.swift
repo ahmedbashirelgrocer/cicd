@@ -101,14 +101,14 @@ class LanguageManager: NSObject {
     }
     
     
-    func languageButtonAction(selectedLanguage : String , appdelegates : AppDelegate , updateRootViewController : Bool = false) {
+    func languageButtonAction(selectedLanguage : String , SDKManagers : SDKManager , updateRootViewController : Bool = false) {
         
         updateUserLanguage(selectedLanguage)
         Bundle.setLanguage(selectedLanguage)
         if selectedLanguage == "ar" {
             UISearchBar.appearance().semanticContentAttribute = .forceRightToLeft
             UINavigationBar.appearance().semanticContentAttribute = .forceRightToLeft
-            appdelegates.window?.semanticContentAttribute    = .forceRightToLeft
+            SDKManagers.window?.semanticContentAttribute    = .forceRightToLeft
             UIView.appearance().semanticContentAttribute = .forceRightToLeft
             UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
             LanguageManager.sharedInstance.setLocale("ar")
@@ -116,7 +116,7 @@ class LanguageManager: NSObject {
         }else{
             UISearchBar.appearance().semanticContentAttribute = .forceLeftToRight
             UINavigationBar.appearance().semanticContentAttribute = .forceLeftToRight
-            appdelegates.window?.semanticContentAttribute    = .forceLeftToRight
+            SDKManagers.window?.semanticContentAttribute    = .forceLeftToRight
             UIView.appearance().semanticContentAttribute = .forceLeftToRight
             UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
             LanguageManager.sharedInstance.setLocale("Base")
@@ -124,8 +124,8 @@ class LanguageManager: NSObject {
         
         if updateRootViewController {
             
-            appdelegates.showAnimatedSplashView()
-           // appdelegates.showAppWithMenu()
+            SDKManagers.showAnimatedSplashView()
+           // SDKManagers.showAppWithMenu()
         }
        
     }

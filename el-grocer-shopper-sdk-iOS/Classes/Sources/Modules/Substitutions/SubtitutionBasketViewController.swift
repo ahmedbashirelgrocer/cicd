@@ -580,8 +580,8 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
         //show confirmation alert
         
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
                 FireBaseEventsLogger.trackSubstitutionConfirmationEvents("CancelOrder")

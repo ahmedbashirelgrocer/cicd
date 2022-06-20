@@ -1,4 +1,4 @@
-//  AppDelegate.swift
+//  SDKManager.swift
 //  ElGrocerShopper
 //
 //  Created by Awais Arshad Chatha on 01.07.2015.
@@ -56,9 +56,14 @@ let kGoogleMapsApiKey   =   "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" // forlive
 let KGoToBasket = "gotoBackFromTabBar"
 let KCancelOldAllCalls = "CancelDataCalls"
 
-open class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
+
+// Notification
+// Force update
+// Sandbird (Fix latter)
+
+open class SDKManager: NSObject, SBDChannelDelegate  {
     
-    static var shared: AppDelegate { return UIApplication.shared.delegate as! AppDelegate }
+    static var shared: SDKManager = SDKManager()
     
     var appStartTime : Date?
     var window: UIWindow?
@@ -76,14 +81,19 @@ open class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  
     
      var parentTabNav  : ElgrocerGenericUIParentNavViewController?
   
-    // MARK: App lifecycle
-    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    // MARK: Initializers
+    private override init() {
+        super.init()
+    }
+    
+    func configure(_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
         
         SwiftDate.defaultRegion = Region.getCurrentRegion()
         self.appStartTime = Date()
         
         //init network state monitoring
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotification), object: nil)
+        //FixMe:
+        //NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotification), object: nil)
         _ = ReachabilityManager.sharedInstance
        
         self.refreshSessionStatesForEditOrder()
@@ -98,8 +108,6 @@ open class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  
         self.checkForNotificationAtAppLaunch(application, userInfo: launchOptions)
         self.checkNotifcation()
         self.logApiError()
-        
-        return true
     }
     
 
@@ -150,12 +158,12 @@ open class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  
     }
 
 func checkAdvertPermission () {
-// TO DO: Arch Error Fix
+// FixMe Arch Error Fix
 //    MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
 //        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
 //    }
     
-// TO DO: SDK Update
+// FixMe SDK Update
 //    Settings.isAdvertiserIDCollectionEnabled = true
 //    Settings.setAdvertiserTrackingEnabled(true)
 //    Settings.isAutoLogAppEventsEnabled = true
@@ -193,7 +201,7 @@ func checkAdvertPermission () {
     
     fileprivate func logApiError () {
      
-        NotificationCenter.default.addObserver(self,selector: #selector(AppDelegate.logToCrashleytics(_:)), name: NSNotification.Name(rawValue: "api-error"), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(SDKManager.logToCrashleytics(_:)), name: NSNotification.Name(rawValue: "api-error"), object: nil)
         
     }
     
@@ -251,6 +259,7 @@ func checkAdvertPermission () {
        // scheduleAppRefresh()
     }
     
+    // Ignored
     func applicationWillEnterForeground(_ application: UIApplication) {
         
         if let timer = self.bgtimer {
@@ -266,7 +275,7 @@ func checkAdvertPermission () {
         UIApplication.shared.applicationIconBadgeNumber = 0
       
         AppsFlyerLib.shared().start()
-        // TO DO: SDK Update
+        // FixMe SDK Update
         //AppEvents.activateApp()
        
         
@@ -278,6 +287,7 @@ func checkAdvertPermission () {
 
     }
    
+    // Do it latter
     func applicationWillTerminate(_ application: UIApplication) {
         
         
@@ -322,7 +332,7 @@ func checkAdvertPermission () {
     }
     
   
-    
+    // They will han
     func open(_ url: URL, options: [String : Any] = [:],
               completionHandler completion: ((Bool) -> Swift.Void)? = nil) {
         CleverTap.sharedInstance()?.handleOpen(url, sourceApplication: nil)
@@ -331,7 +341,7 @@ func checkAdvertPermission () {
     
     
     
-    
+    // They will do this
         // Respond to URI scheme links
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         
@@ -480,7 +490,8 @@ func checkAdvertPermission () {
         
         
         // Initialize Facebook SDK
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
+        // FixMe:
+        // ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
         
         // Google Maps
         GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
@@ -522,7 +533,7 @@ func checkAdvertPermission () {
             FirebaseApp.configure(options: options)
         }
         
-// FIX ME: SDK Update
+// FixMe: SDK Update
 //        let networkLogger = AFNetworkActivityLogger.shared()
 //        networkLogger?.startLogging()
 //        networkLogger?.setLogLevel(.AFLoggerLevelDebug)
@@ -544,7 +555,7 @@ func checkAdvertPermission () {
     
     
     func initiliazeMarketingCampaignTrackingServices() {
-        // TO DO: Arch Error 
+        // FixMe Arch Error
         //MarketingCampaignTrackingHelper.sharedInstance.initializeMarketingCampaignTrackingServices()
     }
     
@@ -919,8 +930,8 @@ func checkAdvertPermission () {
         
         if let _ = userInfo["sendbird"] as? NSDictionary {
             var delayTimeSendBird = 0.0
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                if let dataAvailable = appDelegate.appStartTime {
+            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+                if let dataAvailable = SDKManager.appStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         delayTimeSendBird = 6.0
                     }
@@ -951,8 +962,8 @@ func checkAdvertPermission () {
             if let type = data["type"] as? String {
                 if type.count > 0 {
                     var delayTime = 1.0
-                    if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                        if let dataAvailable = appDelegate.appStartTime {
+                    if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+                        if let dataAvailable = SDKManager.appStartTime {
                             if dataAvailable.timeIntervalSinceNow > -5 {
                                 delayTime = 4.0
                             }
@@ -978,8 +989,8 @@ func checkAdvertPermission () {
             let requestID = userInfo["ticket_id"] as! String
             
             var delayTime = 1.0
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                if let dataAvailable = appDelegate.appStartTime {
+            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+                if let dataAvailable = SDKManager.appStartTime {
                     if dataAvailable.timeIntervalSinceNow > -5 {
                         delayTime = 4.0
                     }
@@ -1003,8 +1014,8 @@ func checkAdvertPermission () {
         }
         
         var delayTime = 1.0
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            if let dataAvailable = appDelegate.appStartTime {
+        if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+            if let dataAvailable = SDKManager.appStartTime {
                 if dataAvailable.timeIntervalSinceNow > -10 {
                     delayTime = 8.0
                 }
@@ -1057,7 +1068,7 @@ func checkAdvertPermission () {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
         
-        print("APPDELEGATE: didReceiveResponseWithCompletionHandler \(notification.request.content.userInfo)")
+        print("SDKManager: didReceiveResponseWithCompletionHandler \(notification.request.content.userInfo)")
         
         // If you wish CleverTap to record the notification click and fire any deep links contained in the payload.
         CleverTap.sharedInstance()?.handleNotification(withData: notification.request.content.userInfo, openDeepLinksInForeground: true)
@@ -1250,7 +1261,7 @@ func checkAdvertPermission () {
                 UserDefaults.setCurrentLanguage("Base")
                 phoneLanguage = "Base"
             }
-            LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: phoneLanguage!, appdelegates: self , updateRootViewController: false)
+            LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: phoneLanguage!, SDKManagers: self , updateRootViewController: false)
         }
     }
     
@@ -1315,7 +1326,7 @@ func checkAdvertPermission () {
 
 }
 
-extension AppDelegate {
+extension SDKManager {
     
     func beginBackgroundUpdateTask() {
         self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
@@ -1343,7 +1354,7 @@ extension AppDelegate {
     
 }
 
-extension AppDelegate : CleverTapInAppNotificationDelegate {
+extension SDKManager : CleverTapInAppNotificationDelegate {
 
     func inAppNotificationButtonTapped(withCustomExtras customExtras: [AnyHashable : Any]!) {
       
@@ -1359,7 +1370,7 @@ extension AppDelegate : CleverTapInAppNotificationDelegate {
     
 }
 
-extension AppDelegate : UITabBarControllerDelegate {
+extension SDKManager : UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
         if let viewC = (viewController as? ElGrocerNavigationController)?.viewControllers {
@@ -1423,8 +1434,8 @@ extension AppDelegate : UITabBarControllerDelegate {
                             }else{
                                 
                                 
-                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                                     
                                     if buttonIndex == 1 {
                                         
@@ -1489,7 +1500,7 @@ extension StringProtocol where Index == String.Index {
     }
 }
 
-extension AppDelegate : SBDConnectionDelegate, SBDUserEventDelegate {
+extension SDKManager : SBDConnectionDelegate, SBDUserEventDelegate {
     
     
     func setSendbirdDelegate () {

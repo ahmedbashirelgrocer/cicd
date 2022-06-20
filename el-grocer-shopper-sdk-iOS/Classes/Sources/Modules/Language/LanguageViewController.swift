@@ -200,7 +200,7 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         UserDefaults.setCurrentLanguage(selectedLanguage)
-        LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: selectedLanguage, appdelegates: getAppDelegate() , updateRootViewController: true)
+        LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: selectedLanguage, SDKManagers: getSDKManager() , updateRootViewController: true)
     }
     
     fileprivate func updateUserLanguage(_ selectedLanguage:String){

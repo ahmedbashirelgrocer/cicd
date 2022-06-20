@@ -22,8 +22,8 @@ class CleverTapEventsLogger  {
         #endif
         CleverTap.autoIntegrate()
         CleverTap.sharedInstance()?.enableDeviceNetworkInfoReporting(true)
-        if  let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            CleverTap.sharedInstance()?.setInAppNotificationDelegate(appDelegate)
+        if  let SDKManager = UIApplication.shared.delegate as? SDKManager {
+            CleverTap.sharedInstance()?.setInAppNotificationDelegate(SDKManager)
         }
         
     }

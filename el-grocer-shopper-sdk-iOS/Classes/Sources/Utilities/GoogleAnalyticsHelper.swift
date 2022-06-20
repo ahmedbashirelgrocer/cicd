@@ -191,7 +191,7 @@ class GoogleAnalyticsHelper {
 
     class func logEventWith ( category : String , action : String , _ lable : String? = nil , value : Int? = 1) {
         
-// TO DO: Fix Me
+// FixMe FixMe
 //       //  let tracker = GAI.sharedInstance().defaultTracker
 //          let params = GAIDictionaryBuilder.createEvent(withCategory: category, action: action , label: lable, value: 1)
 //        // tracker?.send(params?.build() as? [AnyHashable: Any])
@@ -216,7 +216,7 @@ class GoogleAnalyticsHelper {
 //        }
         
     
-// TO DO: Fix Me
+// FixMe FixMe
 //        guard let gai = GAI.sharedInstance() else {
 //            assert(false, "Google Analytics not configured correctly")
 //        }
@@ -240,7 +240,7 @@ class GoogleAnalyticsHelper {
 
     // MARK: Screen tracking
     class func trackScreenWithName(_ name:String , _ value: String = "") {
-// TO DO: Fix Me
+// FixMe FixMe
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        tracker?.set(kGAIScreenName, value: name)
 //        if !value.isEmpty {
@@ -259,7 +259,7 @@ class GoogleAnalyticsHelper {
     class func trackDeliveryLocationAction(_ actionType:DeliveryLocationActionType) {
         
         //get tracker and set params
-// TO DO: Fix Me
+// FixMe FixMe
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        let params = GAIDictionaryBuilder.createEvent(withCategory: kDeliveryLocationEvent, action: actionType.rawValue, label: nil, value: 1)
 //        //tracker?.send(params?.build() as! [AnyHashable: Any])
@@ -267,7 +267,7 @@ class GoogleAnalyticsHelper {
     }
     
     class func trackProductsSearchPhrase(_ phrase:String) {
-        // TO DO: Fix Me
+        // FixMe FixMe
         //get tracker and set params
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsSearchEvent, action: phrase, label: nil, value: 1)
@@ -276,7 +276,7 @@ class GoogleAnalyticsHelper {
     }
     
     class func trackEventCategoryName(_ categoryName : String ) {
-        // TO DO: Fix Me
+        // FixMe FixMe
         //get tracker and set params
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: nil , label: nil, value: 1)
@@ -285,7 +285,7 @@ class GoogleAnalyticsHelper {
     }
     
     class func trackEventName(_ categoryName : String , _ name:String) {
-        // TO DO: Fix Me
+        // FixMe FixMe
         //get tracker and set params
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: name, label: nil, value: 1)
@@ -293,7 +293,7 @@ class GoogleAnalyticsHelper {
 //        tracker?.send(params?.build() as? [AnyHashable: Any])
     }
     class func trackEventNameWithLable(_ categoryName : String , _ name:String ,_ lable : String) {
-        // TO DO: Fix Me
+        // FixMe FixMe
         //get tracker and set params
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        let params = GAIDictionaryBuilder.createEvent(withCategory: categoryName , action: name, label: lable, value: 1)
@@ -302,7 +302,7 @@ class GoogleAnalyticsHelper {
     }
     
     class func trackReorderProductsAction() {
-        // TO DO: Fix Me
+        // FixMe FixMe
 //        //get tracker and set params
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsReorderEvent, action: "Reorder button touched", label: nil, value: 1)
@@ -347,7 +347,7 @@ class GoogleAnalyticsHelper {
     // class func trackProductQuickAddAction(_ screenName : String , productName : String , brandName : String , categoryName : String , subcategoryName : String)
     
     class func trackProductQuickAddAction() {
-        // TO DO: Fix Me
+        // FixMe FixMe
         //get tracker and set params
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        let params = GAIDictionaryBuilder.createEvent(withCategory: kProductsQuickAddEvent, action: "Product quick add button touched", label: nil, value: 1)
@@ -356,7 +356,7 @@ class GoogleAnalyticsHelper {
     }
     
     class func trackOrderPaymentType(_ paymentType:PaymentOption) {
-        // TO DO: Fix Me
+        // FixMe FixMe
         //get tracker and set params
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        let params = GAIDictionaryBuilder.createEvent(withCategory: kOrderPaymentTypeEvent, action: "Order placed with payment type", label: paymentType == PaymentOption.cash ? "Cash" : "Card", value: 1)
@@ -368,7 +368,7 @@ class GoogleAnalyticsHelper {
     @discardableResult
     class func trackPlacedOrderForEcommerce(_ order:Order, orderItems:[ShoppingBasketItem], products:[Product], productsPrices:NSDictionary?, IsSmiles: Bool) -> [[AnyHashable : Any]] {
         return []
-// TO DO: Fix Me
+// FixMe FixMe
 //        //get tracker
 //        let tracker = GAI.sharedInstance().defaultTracker
 //

@@ -10,7 +10,7 @@ import UIKit
 import el_grocer_shopper_sdk_iOS
 
 @UIApplicationMain
-class AppDelegate: el_grocer_shopper_sdk_iOS.AppDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
  
 //    var window: UIWindow?
 //

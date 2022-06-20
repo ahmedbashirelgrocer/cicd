@@ -306,13 +306,13 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
             
             if (indexPath as NSIndexPath).row == 0 {
                 
-                // (UIApplication.sharedApplication().delegate as! AppDelegate).showEntryView()
+                // (UIApplication.sharedApplication().delegate as! SDKManager).showEntryView()
                 
                 let registrationProfileController = ElGrocerViewControllers.registrationPersonalViewController()
                 let navController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                 navController.viewControllers = [registrationProfileController]
                 navController.modalPresentationStyle = .fullScreen
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let slideController = appDelegate.window?.rootViewController as? SlideMenuViewController else {
+                guard let SDKManager = UIApplication.shared.delegate as? SDKManager, let slideController = SDKManager.window?.rootViewController as? SlideMenuViewController else {
                     return
                 }
                 

@@ -21,7 +21,7 @@ class HelpshiftLocalNotificationHandler: LocalNotificationHandlerType {
         
         // The notification is a helpshift notification so we can handle it
         
-        /*guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+        /*guard let SDKManager = UIApplication.shared.delegate as? SDKManager else {
             return false
         }
         
@@ -29,7 +29,7 @@ class HelpshiftLocalNotificationHandler: LocalNotificationHandlerType {
         HelpshiftCore.initialize(with: HelpshiftAll.sharedInstance())
         HelpshiftCore.install(forApiKey: kHelpShiftApiKey, domainName: kHelpShiftDomainName, appID:kHelpShiftAppId)
         
-         HelpshiftCore.handle(notification, with: appDelegate.window?.rootViewController)*/
+         HelpshiftCore.handle(notification, with: SDKManager.window?.rootViewController)*/
         
         return true
     }

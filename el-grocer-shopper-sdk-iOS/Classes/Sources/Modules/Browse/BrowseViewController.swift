@@ -163,7 +163,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     
     func addImages(){
         
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let window = appDelegate.window {
+        if let SDKManager = UIApplication.shared.delegate as? SDKManager, let window = SDKManager.window {
             let image =  UIImage.init(named: "Store page-Main")
             let windowFrame = CGRect.init(x: 0, y: 20, width: image?.size.width ?? 360, height: image?.size.height ?? 824)
             let imageView = UIImageView(frame: windowFrame)

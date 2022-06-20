@@ -19,11 +19,11 @@ extension UIViewController {
         if itemsBasket.count + groceryBasket.count > 0 {
             
             //schedule notification
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.scheduleAbandonedBasketNotification()
+            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            SDKManager.scheduleAbandonedBasketNotification()
             //Hunain 27Dec16
-            appDelegate.scheduleAbandonedBasketNotificationAfter24Hour()
-            appDelegate.scheduleAbandonedBasketNotificationAfter72Hour()
+            SDKManager.scheduleAbandonedBasketNotificationAfter24Hour()
+            SDKManager.scheduleAbandonedBasketNotificationAfter72Hour()
             
         } else {
             

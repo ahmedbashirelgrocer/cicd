@@ -1053,9 +1053,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     @objc func naviagteToRecipe(){
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        if appDelegate.window!.rootViewController as? UITabBarController != nil {
-            let tababarController = appDelegate.window!.rootViewController as! UITabBarController
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        if SDKManager.window!.rootViewController as? UITabBarController != nil {
+            let tababarController = SDKManager.window!.rootViewController as! UITabBarController
             tababarController.selectedIndex = 0
         }
         
@@ -1120,8 +1120,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                             if let topVC = UIApplication.topViewController() {
                                 topVC.present(navRecipeDetailController, animated: true, completion: {
                                     
-                                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                    if let nav = appDelegate.window!.rootViewController as? UINavigationController {
+                                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                                    if let nav = SDKManager.window!.rootViewController as? UINavigationController {
                                         if nav.viewControllers.count > 0 {
                                             if  nav.viewControllers[0] as? UITabBarController != nil {
                                                 let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1361,8 +1361,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
         if isRegisteredForRemoteNotifications == false {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            _ = NotificationPopup.showNotificationPopup(self, withView: appDelegate.window!)
+            let SDKManager = UIApplication.shared.delegate as! SDKManager
+            _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
         }
     }
     
@@ -1400,8 +1400,8 @@ extension MainCategoriesViewController: HomeCellDelegate {
                 }else{
                     
                     
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             //clear active basket and add product
@@ -1571,8 +1571,8 @@ extension MainCategoriesViewController {
                 if topVC is FailureViewController  {
                     debugPrint("already present")
                 }else{
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    appDelegate.window?.rootViewController?.present(failureCase, animated: true) {
+                    let SDKManager = UIApplication.shared.delegate as! SDKManager
+                    SDKManager.window?.rootViewController?.present(failureCase, animated: true) {
                         //failureCase.lblErrorMsg.text = localizedString("error_wrong", comment: "")
                     }
                 }
@@ -1764,8 +1764,8 @@ extension MainCategoriesViewController: BannerCellDelegate {
 extension MainCategoriesViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.registerForNotifications()
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        SDKManager.registerForNotifications()
     }
 }
 

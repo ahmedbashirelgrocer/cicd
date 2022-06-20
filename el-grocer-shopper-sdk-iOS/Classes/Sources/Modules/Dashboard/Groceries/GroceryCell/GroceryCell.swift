@@ -338,8 +338,8 @@ class GroceryCell : UITableViewCell {
                                             
                                             if buttonIndex == 0 {
                                                 
-                                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                                appDelegate.showEntryView()
+                                                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                                                SDKManager.showEntryView()
                                             }
             }).show()
             

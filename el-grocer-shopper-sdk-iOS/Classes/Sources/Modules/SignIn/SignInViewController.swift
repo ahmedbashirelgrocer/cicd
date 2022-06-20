@@ -426,8 +426,8 @@ class SignInViewController: RegistrationViewController, Form {
                                     }
                                 }
                                 
-                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: "") ,localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                                _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: "") ,localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: SDKManager.window!) { (index) in
                                     if index == 0 {
                                          self.setHomeView()
                                     }else{
@@ -491,9 +491,9 @@ class SignInViewController: RegistrationViewController, Form {
          ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
         
         let signInView = self
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
         
-        if let nav = appDelegate.window!.rootViewController as? UINavigationController {
+        if let nav = SDKManager.window!.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -505,7 +505,7 @@ class SignInViewController: RegistrationViewController, Form {
                         }else{
                             if let top = UIApplication.topViewController() {
                                 if top is ElgrocerGenericUIParentNavViewController {}else{
-                                 //   tababarController.present(appDelegate.getParentNav(), animated: false, completion: nil)
+                                 //   tababarController.present(SDKManager.getParentNav(), animated: false, completion: nil)
                                 }
                             }
                         }
@@ -522,12 +522,12 @@ class SignInViewController: RegistrationViewController, Form {
                 }}}
 
         self.navigationController?.dismiss(animated: true, completion: {  })
-        (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu()
+        (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
         
         /*
         
-        if appDelegate.window!.rootViewController as? UITabBarController != nil {
-            let tababarController = appDelegate.window!.rootViewController as! UITabBarController
+        if SDKManager.window!.rootViewController as? UITabBarController != nil {
+            let tababarController = SDKManager.window!.rootViewController as! UITabBarController
             let select = tababarController.selectedIndex // if come from setting screen then go to home screen
                 if select == 4 {
                     tababarController.selectedIndex = 0
@@ -538,10 +538,10 @@ class SignInViewController: RegistrationViewController, Form {
                  NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
                 NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
             })
-            tababarController.present(appDelegate.getParentNav(), animated: false, completion: nil)
+            tababarController.present(SDKManager.getParentNav(), animated: false, completion: nil)
         }else{
             self.navigationController?.dismiss(animated: true, completion: {  })
-            (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu()
+            (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
             
         }
         */

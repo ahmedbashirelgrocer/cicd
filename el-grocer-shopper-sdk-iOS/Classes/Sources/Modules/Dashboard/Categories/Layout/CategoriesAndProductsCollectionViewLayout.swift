@@ -119,7 +119,7 @@ class CategoriesAndProductsCollectionViewLayout : UICollectionViewLayout {
             height = self.maxLayoutHeight
         }
         
-        // TO DO: Fix content size with header
+        // FixMe Fix content size with header
         
         if shouldShowHeaderView {
             height += kBrandHeaderCellHeight + self.productCellSpacing * 3

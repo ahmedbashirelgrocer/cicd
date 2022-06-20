@@ -174,13 +174,13 @@ extension UIViewController {
     }
     
     
-    func getAppDelegate () -> AppDelegate {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate
+    func getSDKManager () -> SDKManager {
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        return SDKManager
     }
     
 }
 
-//class AppDelegate: UIResponder, UIApplicationDelegate {
-//    static var shared = AppDelegate()
+//class SDKManager: UIResponder, UIApplicationDelegate {
+//    static var shared = SDKManager()
 //}

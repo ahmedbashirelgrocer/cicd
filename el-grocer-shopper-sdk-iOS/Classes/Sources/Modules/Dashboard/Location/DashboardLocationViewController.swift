@@ -314,8 +314,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             
                             SpinnerView.hideSpinnerView()
                             
-                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+                            let SDKManager = UIApplication.shared.delegate as! SDKManager
+                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: SDKManager.window!) { (index) in
                                 
                                 if index == 0 {
                                     ElGrocerUtility.sharedInstance.activeGrocery = nil
@@ -1136,8 +1136,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             return
         }
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: appDelegate.window!) { (index) in
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: SDKManager.window!) { (index) in
             
             if index == 0 {
                  self.removeUserLocation(cell)
@@ -1259,13 +1259,13 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             mainca?.viewWillAppear(true)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
                     }else{
-                        (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu()
+                        (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
                     }
                     
                 }
                 
             } else{
-                (UIApplication.shared.delegate as! AppDelegate).showAppWithMenu()
+                (UIApplication.shared.delegate as! SDKManager).showAppWithMenu()
             }
         }
     }
@@ -1526,8 +1526,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func showGenericStoreUI() {
 
-       if  let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-             appDelegate.showAppWithMenu()
+       if  let SDKManager = UIApplication.shared.delegate as? SDKManager {
+             SDKManager.showAppWithMenu()
         }else {
         let entryController =  ElGrocerViewControllers.ElgrocerParentTabbarController()
         let navController = ElgrocerGenericUIParentNavViewController(navigationBarClass: ElgrocerWhilteLogoBar.self, toolbarClass: nil)

@@ -168,10 +168,10 @@ class StoreDetailViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let SDKManager = UIApplication.shared.delegate as! SDKManager
         //let height = ElGrocerUtility.sharedInstance.isStoreDetailsShowing ? 260.0 : 160.0
         let height = ElGrocerUtility.sharedInstance.isStoreDetailsShowing ? kCollectionViewExpendedHeight : kCollectionViewNonExpendedHeight
-        return CGSize(width: (appDelegate.window?.frame.size.width)!, height: CGFloat(height))
+        return CGSize(width: (SDKManager.window?.frame.size.width)!, height: CGFloat(height))
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

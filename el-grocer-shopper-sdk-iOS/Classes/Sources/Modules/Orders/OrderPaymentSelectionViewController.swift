@@ -304,8 +304,8 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
             
             if (Double(referralObject!.walletTotal!)! > 0) {
                 
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                _ = WalletPopUp.showWalletPopUp(self, withTopView: appDelegate.window!, andWithTotalBillAmount: priceSum)
+                let SDKManager = UIApplication.shared.delegate as! SDKManager
+                _ = WalletPopUp.showWalletPopUp(self, withTopView: SDKManager.window!, andWithTotalBillAmount: priceSum)
                 ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_selected_wallet")
             }else{
                 

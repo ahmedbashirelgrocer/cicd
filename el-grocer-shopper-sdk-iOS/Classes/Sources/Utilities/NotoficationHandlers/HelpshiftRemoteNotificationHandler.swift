@@ -21,7 +21,7 @@ class HelpshiftRemoteNotificationHandler: RemoteNotificationHandlerType {
         
         // The notification is a helpshift notification so we can handle it
         
-        guard let _ = UIApplication.shared.delegate as? AppDelegate else {
+        guard let _ = UIApplication.shared.delegate as? SDKManager else {
             return false
         }
         
@@ -29,7 +29,7 @@ class HelpshiftRemoteNotificationHandler: RemoteNotificationHandlerType {
         /*HelpshiftCore.initialize(with: HelpshiftAll.sharedInstance())
         HelpshiftCore.install(forApiKey: kHelpShiftApiKey, domainName: kHelpShiftDomainName, appID:kHelpShiftAppId)
         
-        HelpshiftCore.handleRemoteNotification(notification, with: appDelegate.window?.rootViewController)*/
+        HelpshiftCore.handleRemoteNotification(notification, with: SDKManager.window?.rootViewController)*/
         
         if UIApplication.shared.applicationState == UIApplication.State.active {
             

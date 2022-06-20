@@ -173,10 +173,10 @@ class HyperMarketViewController: UIViewController {
         self.makeActiveTopGroceryOfArray()
             //let currentSelf = self;
         DispatchQueue.main.async {
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                if let navtabbar = appDelegate.window?.rootViewController as? UINavigationController  {
+            if let SDKManager = UIApplication.shared.delegate as? SDKManager {
+                if let navtabbar = SDKManager.window?.rootViewController as? UINavigationController  {
                     
-                    if !(appDelegate.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(SDKManager.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {
