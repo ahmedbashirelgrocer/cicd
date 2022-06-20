@@ -31,7 +31,7 @@ open class SDKManager: NSObject, SBDChannelDelegate  {
     
     static var shared: SDKManager = SDKManager()
     
-    var appStartTime : Date?
+    var sdkStartTime : Date?
     var window: UIWindow?
     var backgroundUpdateTask: UIBackgroundTaskIdentifier! = .invalid
     var bgtimer : Timer?
@@ -55,7 +55,7 @@ open class SDKManager: NSObject, SBDChannelDelegate  {
     func configure(_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
         
         SwiftDate.defaultRegion = Region.getCurrentRegion()
-        self.appStartTime = Date()
+        self.sdkStartTime = Date()
         
         //init network state monitoring
         //FixMe:
@@ -897,7 +897,7 @@ func checkAdvertPermission () {
         if let _ = userInfo["sendbird"] as? NSDictionary {
             var delayTimeSendBird = 0.0
             if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                if let dataAvailable = SDKManager.appStartTime {
+                if let dataAvailable = SDKManager.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         delayTimeSendBird = 6.0
                     }
@@ -929,7 +929,7 @@ func checkAdvertPermission () {
                 if type.count > 0 {
                     var delayTime = 1.0
                     if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                        if let dataAvailable = SDKManager.appStartTime {
+                        if let dataAvailable = SDKManager.sdkStartTime {
                             if dataAvailable.timeIntervalSinceNow > -5 {
                                 delayTime = 4.0
                             }
@@ -956,7 +956,7 @@ func checkAdvertPermission () {
             
             var delayTime = 1.0
             if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-                if let dataAvailable = SDKManager.appStartTime {
+                if let dataAvailable = SDKManager.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -5 {
                         delayTime = 4.0
                     }
@@ -981,7 +981,7 @@ func checkAdvertPermission () {
         
         var delayTime = 1.0
         if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-            if let dataAvailable = SDKManager.appStartTime {
+            if let dataAvailable = SDKManager.sdkStartTime {
                 if dataAvailable.timeIntervalSinceNow > -10 {
                     delayTime = 8.0
                 }
