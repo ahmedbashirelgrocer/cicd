@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import BBBadgeBarButtonItem
 
 
 protocol NavigationBarProtocol : class {
@@ -278,10 +277,11 @@ class ElGrocerNavigationController : UINavigationController {
     
     func updateBasketItemsCount(_ ItemsCount:String){
         
-        let barButton =  self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
-        barButton?.badge.layer.borderColor  = UIColor.navigationBarColor().cgColor
-        barButton?.badge.layer.borderWidth = 1.0;
-        barButton?.badgeValue = ItemsCount
+//          FIXME: Badge library discontinue. Verify before release
+//        let barButton =  self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
+//        barButton?.badge.layer.borderColor  = UIColor.navigationBarColor().cgColor
+//        barButton?.badge.layer.borderWidth = 1.0;
+//        barButton?.badgeValue = ItemsCount
     }
     
    

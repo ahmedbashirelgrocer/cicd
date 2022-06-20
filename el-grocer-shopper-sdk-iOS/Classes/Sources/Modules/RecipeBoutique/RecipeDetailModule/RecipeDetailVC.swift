@@ -9,7 +9,7 @@
 import UIKit
 import NBBottomSheet
 import Storyly
-import BBBadgeBarButtonItem
+// import BBBadgeBarButtonItem
 
 
 class RecipeDetailVC: BasketBasicViewController {
@@ -179,8 +179,9 @@ class RecipeDetailVC: BasketBasicViewController {
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.refreshBasketIconStatus()
         }else{
-            let barButton = self.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
-            barButton?.badgeValue = "0"
+//          FIXME: Badge library discontinue. Verify before release
+//            let barButton = self.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
+//            barButton?.badgeValue = "0"
             self.tabBarController?.tabBar.items?[4].badgeValue = nil
         }
     }

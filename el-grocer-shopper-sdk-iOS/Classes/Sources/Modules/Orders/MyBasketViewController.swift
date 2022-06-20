@@ -16,7 +16,7 @@ import MaterialComponents.MaterialBottomSheet
 import NBBottomSheet
 import FirebaseCrashlytics
 import RxSwift
-import BBBadgeBarButtonItem
+// import BBBadgeBarButtonItem
 
 protocol MyBasketViewProtocol : class {
     
@@ -1761,8 +1761,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         self.refreshBasketIcon()
         if self.purchasedItemCount > 0 {
-            let barButton = self.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
-            barButton?.badgeValue = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(self.purchasedItemCount)".changeToArabic() : "\(self.purchasedItemCount)"
+//          FIXME: Badge library discontinue. Verify before release
+//            let barButton = self.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
+//            barButton?.badgeValue = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(self.purchasedItemCount)".changeToArabic() : "\(self.purchasedItemCount)"
             self.tabBarController?.tabBar.items?[4].badgeValue = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(self.purchasedItemCount)".changeToArabic() : "\(self.purchasedItemCount)"
         }
         

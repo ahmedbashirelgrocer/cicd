@@ -8,7 +8,7 @@
 
 import UIKit
 import JDFTooltips
-import BBBadgeBarButtonItem
+// import BBBadgeBarButtonItem
 
 class RecipesListViewController: BasketBasicViewController {
     
@@ -307,13 +307,15 @@ class RecipesListViewController: BasketBasicViewController {
         
         if toolTipView == nil {
             let toolTipStr = localizedString("product_added_to_basket", comment: "")
-            if let barButton = self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem {
+            
+                //          FIXME: Badge library discontinue. Verify before release
+            /*if let barButton = self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem {
                 self.toolTipView = JDFTooltipView.init(targetBarButtonItem: barButton, hostView: self.view.window, tooltipText: toolTipStr, arrowDirection: JDFTooltipViewArrowDirection.up, width:  self.view.bounds.width)
                 self.toolTipView!.tooltipBackgroundColour = UIColor.lightGreenColor()
                 self.toolTipView!.font = UIFont.SFProDisplaySemiBoldFont(14.0)
                 self.toolTipView!.textColour = UIColor.mediumGreenColor()
                 
-            }
+            }*/
         }
         guard self.toolTipView != nil else { return }
         self.setProductNumber()

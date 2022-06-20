@@ -47,7 +47,6 @@ PODS:
   - AppsFlyerFramework (6.6.1):
     - AppsFlyerFramework/Main (= 6.6.1)
   - AppsFlyerFramework/Main (6.6.1)
-  - BBBadgeBarButtonItem (1.2)
   - BetterSegmentedControl (2.0.1)
   - CCValidator (1.2.0)
   - CHDropDownTextField (1.0.0)
@@ -55,13 +54,12 @@ PODS:
     - SDWebImage (~> 5.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (0.1.7):
+  - el-grocer-shopper-sdk-iOS (0.1.8):
     - Adyen
     - AFNetworking (~> 4.0)
     - AlgoliaSearchClient (~> 8.0)
     - AnimatedGradientView
     - AppsFlyerFramework
-    - BBBadgeBarButtonItem (~> 1.2)
     - BetterSegmentedControl
     - CCValidator
     - CHDropDownTextField (~> 1.0.0)
@@ -335,7 +333,6 @@ SPEC REPOS:
     - AlgoliaSearchClient
     - AnimatedGradientView
     - AppsFlyerFramework
-    - BBBadgeBarButtonItem
     - BetterSegmentedControl
     - CCValidator
     - CHDropDownTextField
@@ -411,14 +408,13 @@ SPEC CHECKSUMS:
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
   AnimatedGradientView: f249740238c6b491a10d505ab06bb98d897ca3a7
   AppsFlyerFramework: 5e4b385a27dc6179e132b1617f76809412eb2f88
-  BBBadgeBarButtonItem: c2fbca0bff18e21b70defc9438a8a5048008e7ca
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
   CCValidator: 19c090b536c0152863795aa291bf7be3ffccf457
   CHDropDownTextField: d8a2843acbdd75b5b8d26b27dca9e07c2b1ae5e1
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 360dcdc5c1ed82ee86a33453d1912d17e81fed1c
+  el-grocer-shopper-sdk-iOS: f037eb109cb0fdb733a21de1b8ca85f1c1879b52
   FBSDKCoreKit: b3ca27e124dae67122d3bb47c8f96800b39986a6
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
@@ -476,6 +472,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: 7db304f7ab77e50293795dbbc00c4c1702f12ea1
+PODFILE CHECKSUM: cfb668433c02afcdad65cd3aaf4e67d6939e6073
 
 COCOAPODS: 1.11.3

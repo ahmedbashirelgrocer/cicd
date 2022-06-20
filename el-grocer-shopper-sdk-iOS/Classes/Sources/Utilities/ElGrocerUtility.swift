@@ -20,7 +20,6 @@ import SwiftMessages
 import AppsFlyerLib
 import SafariServices
 import SwiftDate
-import BBBadgeBarButtonItem
 
 private let SharedInstance = ElGrocerUtility()
 let productPlaceholderPhoto = UIImage(name: "product_placeholder")!
@@ -1407,11 +1406,12 @@ class ElGrocerUtility {
     
     func resetTabbarIcon(_ controller : UIViewController) {
         
-        DispatchQueue.main.async {
-            let barButton = controller.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
-            barButton?.badgeValue = "0"
-            controller.tabBarController?.tabBar.items?[4].badgeValue = nil
-        }
+//          FIXME: Badge library discontinue. Verify before release
+//        DispatchQueue.main.async {
+//            let barButton = controller.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
+//            barButton?.badgeValue = "0"
+//            controller.tabBarController?.tabBar.items?[4].badgeValue = nil
+//        }
         
     }
     

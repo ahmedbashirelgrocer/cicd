@@ -49,7 +49,7 @@ extension Hit: Codable {
     self.snippetResult = try container.decodeIfPresent(TreeModel<SnippetResult>.self, forKey: .snippetResult)
     self.highlightResult = try container.decodeIfPresent(TreeModel<HighlightResult>.self, forKey: .highlightResult)
     self.rankingInfo = try container.decodeIfPresent(RankingInfo.self, forKey: .rankingInfo)
-    self.geolocation = try? container.decodeIfPresent(SingleOrList<Point>.self, forKey: .geolocation)
+    self.geolocation = try! container.decodeIfPresent(SingleOrList<Point>.self, forKey: .geolocation)
     self.answer = try container.decodeIfPresent(forKey: .answer)
   }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import BBBadgeBarButtonItem
+// import BBBadgeBarButtonItem
 import Darwin
 import AnimatedGradientView
 
@@ -180,13 +180,14 @@ extension UIViewController {
         basketBtn.setImage(UIImage(name: "newBusket"), for:  UIControl.State.highlighted)
         basketBtn.addTarget(self, action: #selector(UIViewController().basketButtonClick), for: UIControl.Event.touchUpInside)
         
-        let barButton = BBBadgeBarButtonItem.init(customUIButton: basketBtn)
-        barButton?.badgeOriginX = 21.0
-        barButton?.badgeOriginY = -1.0
-        barButton?.badgeBGColor = UIColor(red: 255.0 / 255.0, green: 114.0 / 255.0, blue: 101.0 / 255.0, alpha: 1)
-        barButton?.badgeFont = UIFont.SFProDisplaySemiBoldFont(10.0)
-        barButton?.shouldHideBadgeAtZero = true
-        self.navigationItem.rightBarButtonItem = barButton
+            //          FIXME: Badge library discontinue. Verify before release
+//        let barButton = BBBadgeBarButtonItem.init(customUIButton: basketBtn)
+//        barButton?.badgeOriginX = 21.0
+//        barButton?.badgeOriginY = -1.0
+//        barButton?.badgeBGColor = UIColor(red: 255.0 / 255.0, green: 114.0 / 255.0, blue: 101.0 / 255.0, alpha: 1)
+//        barButton?.badgeFont = UIFont.SFProDisplaySemiBoldFont(10.0)
+//        barButton?.shouldHideBadgeAtZero = true
+//        self.navigationItem.rightBarButtonItem = barButton
     }
     
     @objc func basketButtonClick() {/*implement in controller*/}

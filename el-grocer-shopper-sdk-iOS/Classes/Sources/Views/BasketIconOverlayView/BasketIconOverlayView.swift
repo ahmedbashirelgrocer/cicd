@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import BBBadgeBarButtonItem
 import JDFTooltips
 
 protocol BasketIconOverlayViewProtocol : class {
@@ -144,12 +143,16 @@ class BasketIconOverlayView : UIView {
         }
         
         var itemsCountStr = "\(itemsCount)"
+        
+//          FIXME: Badge library discontinue. Verify before release
+        /*
         let barButton = parentController.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
         
         if let badgeIs =  barButton?.badge {
             badgeIs.layer.borderWidth = 1
             badgeIs.layer.borderColor = UIColor.navigationBarColor().cgColor
         }
+        */
         
         print("update cart icon from here")
         if let topVc = UIApplication.topViewController() {
@@ -269,6 +272,8 @@ class BasketIconOverlayView : UIView {
                     
                     let toolTipWidth:CGFloat = self.bounds.width
                     
+//          FIXME: Badge library discontinue. Verify before release
+                    /*
                     if barButton != nil {
                         let barButtonView = barButton!.value(forKey: "view") as? UIView
                         let targetSuperview = barButtonView?.superview
@@ -290,7 +295,7 @@ class BasketIconOverlayView : UIView {
                                 self.toolTipView!.hide(animated: true)
                             }
                         }
-                    }
+                    }*/
                    
                     
                     ElGrocerUtility.sharedInstance.lastItemsCount = itemsCount
@@ -300,7 +305,8 @@ class BasketIconOverlayView : UIView {
         
         ElGrocerUtility.sharedInstance.badgeCurrentValue = itemsCountStr
     
-        barButton?.badgeValue = ElGrocerUtility.sharedInstance.isArabicSelected() ?  itemsCountStr.changeToArabic() : itemsCountStr.changeToEnglish()
+//          FIXME: Badge library discontinue. Verify before release
+       // barButton?.badgeValue = ElGrocerUtility.sharedInstance.isArabicSelected() ?  itemsCountStr.changeToArabic() : itemsCountStr.changeToEnglish()
         if let topVc = UIApplication.topViewController() {
                 if itemsCountStr == "0" || itemsCountStr == "x" {
                     topVc.tabBarController?.tabBar.items?[4].badgeValue = nil

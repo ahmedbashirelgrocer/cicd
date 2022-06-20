@@ -15,7 +15,7 @@ import AppsFlyerLib
 import FBSDKCoreKit
 import FirebaseCore
 import CoreLocation
-import BBBadgeBarButtonItem
+// import BBBadgeBarButtonItem
     // import MaterialShowcase
 
 let kfeaturedCategoryId : Int64 = 0 // Platform.isSimulator ? 12 : 0 // 12 for staging server
@@ -467,9 +467,11 @@ class GenericStoresViewController: BasketBasicViewController {
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.refreshBasketIconStatus()
         }else{
-            let barButton = self.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
-            barButton?.badgeValue = "0"
-            self.tabBarController?.tabBar.items?[4].badgeValue = nil
+            
+//          FIXME: Badge library discontinue. Verify before release
+//            let barButton = self.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
+//            barButton?.badgeValue = "0"
+//            self.tabBarController?.tabBar.items?[4].badgeValue = nil
         }
     }
     @objc

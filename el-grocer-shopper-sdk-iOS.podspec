@@ -99,7 +99,7 @@ Pod::Spec.new do |s|
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   #s.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => 'el-grocer-shopper-sdk-iOS/Bridging-Header.h' }
   
-#  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'AdSupport', 'AppTrackingTransparency', 'SystemConfiguration'
+  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'CoreGraphics', 'QuartzCore', 'CommonCrypto', 'Swift'
   
  # s.ios.vendored_frameworks = 'AppsFlyerLib.xcframework'
   
@@ -150,7 +150,7 @@ Pod::Spec.new do |s|
   s.dependency 'JDFTooltips', '~> 1.1'
     
   s.dependency 'DoneCancelNumberPadToolbar', '~> 0.6'
-  s.dependency 'BBBadgeBarButtonItem', '~> 1.2'
+  #s.dependency 'BBBadgeBarButtonItem', '~> 1.2'
   #s.dependency 'PageControl' #, '~> 1.0'
   s.dependency 'Shimmer', '~> 1.0'
   s.dependency 'BetterSegmentedControl'
