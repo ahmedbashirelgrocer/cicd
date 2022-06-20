@@ -70,7 +70,7 @@ class DynamicLinksHelper {
         
         var delayTime = 1.0
         if let SDKManager = UIApplication.shared.delegate as? SDKManager {
-            if let dataAvailable = SDKManager.appStartTime {
+            if let dataAvailable = SDKManager.sdkStartTime {
                 if dataAvailable.timeIntervalSinceNow > -5 {
                     delayTime = 2.0
                 }

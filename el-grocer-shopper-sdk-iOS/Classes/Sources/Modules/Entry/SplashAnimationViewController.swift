@@ -86,7 +86,7 @@ class SplashAnimationViewController: UIViewController {
         
         if self.isAnimationCompleted {
             
-            if let dataAvailable = getSDKManager().appStartTime {
+            if let dataAvailable = getSDKManager().sdkStartTime {
                 if dataAvailable.timeIntervalSinceNow > -3 {
                     self.animationCompletedSetRootVc()
                     return
