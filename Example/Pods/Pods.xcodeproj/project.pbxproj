@@ -545,6 +545,11 @@
 		178B340AC1A17751FB97BC13BCA56617 /* CleverTapTrackedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 302D44CDA65CBF615683998440CE4901 /* CleverTapTrackedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		179209ED14CA7F089017E7F0E08F3194 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 478558BAD9A9192B8B09E6A9E4B9ECD5 /* View.xib */; };
 		17A4836C0829FA8BA2E15A3B91FCB895 /* FIRCLSDataCollectionArbiter.m in Sources */ = {isa = PBXBuildFile; fileRef = E0AC62B0E8C0465B392BB3CD69DF5841 /* FIRCLSDataCollectionArbiter.m */; };
+		17AEBFFC28609BE200D39E1F /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AEBFFB28609BE200D39E1F /* String+Extension.swift */; };
+		17AEBFFE28609C0E00D39E1F /* UITapGestureRecognizer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AEBFFD28609C0E00D39E1F /* UITapGestureRecognizer+Extension.swift */; };
+		17AEC00028609C5A00D39E1F /* SDKManager+UITabBarControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AEBFFF28609C5A00D39E1F /* SDKManager+UITabBarControllerDelegate.swift */; };
+		17AEC00228609C8700D39E1F /* SDKManager+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AEC00128609C8700D39E1F /* SDKManager+Notification.swift */; };
+		17AEC00428609CAF00D39E1F /* SDKManager+CleverTapInAppNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AEC00328609CAF00D39E1F /* SDKManager+CleverTapInAppNotificationDelegate.swift */; };
 		17B1F1B0C8D45CE07569C4593262BA7C /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8CE9316DE6AD51D00E658F1D1C9D60 /* ForgotPasswordViewController.swift */; };
 		17C1D52A897901872F30302B5ED43E1A /* BehaviorRelay+Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F9F55726DDFAC429CDA2C2E756A709 /* BehaviorRelay+Driver.swift */; };
 		17D61450A648FA747D2A77FAE227E835 /* FBLPromise+Catch.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = EE01C7D2A47B470DF13EC100350D67FB /* FBLPromise+Catch.h */; };
@@ -6471,6 +6476,11 @@
 		177CBCB79F3ABE47922694932C6F9744 /* CTCoverImageViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CTCoverImageViewController.h; path = CleverTapSDK/InApps/CTCoverImageViewController.h; sourceTree = "<group>"; };
 		179B91FA1CCF4E6AD039AE1E2BBEA14D /* CleverTap+FeatureFlags.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CleverTap+FeatureFlags.h"; path = "CleverTapSDK/CleverTap+FeatureFlags.h"; sourceTree = "<group>"; };
 		17AA95795F55E3A573ED3457B9878AB9 /* FDLURLComponents.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FDLURLComponents.m; path = FirebaseDynamicLinks/Sources/FDLURLComponents/FDLURLComponents.m; sourceTree = "<group>"; };
+		17AEBFFB28609BE200D39E1F /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		17AEBFFD28609C0E00D39E1F /* UITapGestureRecognizer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+Extension.swift"; sourceTree = "<group>"; };
+		17AEBFFF28609C5A00D39E1F /* SDKManager+UITabBarControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SDKManager+UITabBarControllerDelegate.swift"; sourceTree = "<group>"; };
+		17AEC00128609C8700D39E1F /* SDKManager+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SDKManager+Notification.swift"; sourceTree = "<group>"; };
+		17AEC00328609CAF00D39E1F /* SDKManager+CleverTapInAppNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SDKManager+CleverTapInAppNotificationDelegate.swift"; sourceTree = "<group>"; };
 		17B553071D88AB6354D31A7A77618D96 /* MDCPathGenerator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MDCPathGenerator.h; path = components/Shapes/src/MDCPathGenerator.h; sourceTree = "<group>"; };
 		17C0133256CC3F57535BF0373B41CC2F /* ViewStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ViewStyle.swift; path = Adyen/UI/Styles/ViewStyle.swift; sourceTree = "<group>"; };
 		17CB2723C092B7642FF03ADF416F2531 /* CleverTap.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CleverTap.m; path = CleverTapSDK/CleverTap.m; sourceTree = "<group>"; };
@@ -13322,6 +13332,9 @@
 			isa = PBXGroup;
 			children = (
 				DCDF167E8175C97AD6F9A9B23C92E83F /* SDKManager.swift */,
+				17AEC00128609C8700D39E1F /* SDKManager+Notification.swift */,
+				17AEC00328609CAF00D39E1F /* SDKManager+CleverTapInAppNotificationDelegate.swift */,
+				17AEBFFF28609C5A00D39E1F /* SDKManager+UITabBarControllerDelegate.swift */,
 				B1376020B9018ADF19F8A56363DF1C3C /* Constants.swift */,
 				9C205B40B9E1F7C5F5AF9F3743ECE625 /* SDKManager+SBDUserEventDelegate.swift */,
 			);
@@ -19054,6 +19067,7 @@
 				7DD3DE008255234CE43B9B90E4DE38BA /* Application+Extension.swift */,
 				2B7BAF0F1E179FB475D2402A9957B16A /* Bundle+Extension.swift */,
 				BB6F79122E2FFE5450AB487C7ACFBCDB /* BundleExtension.swift */,
+				17AEBFFD28609C0E00D39E1F /* UITapGestureRecognizer+Extension.swift */,
 				91616CF4E0066AEADBE60ABC33B91C45 /* CAGradientLayer+Extension.swift */,
 				BE923EF76399D8E51171C20839516D33 /* CustomTextField.swift */,
 				4E7E1E59D0F51998D96D24E42A6F58D0 /* Date+DateFormating.swift */,
@@ -19079,6 +19093,7 @@
 				2DA52102232935A4ECA0589EB31AAFF5 /* UIView+BlurredSnapShot.swift */,
 				2BDB0F86DD2594F40F5C975FDC351AFF /* UIView+ElGrocer.swift */,
 				9A62D6751E7AF741F2CBCE5C5A09569B /* UIView+Visibility.swift */,
+				17AEBFFB28609BE200D39E1F /* String+Extension.swift */,
 				914B67B15DD5785ECC4EA7C6FE735B3B /* UIViewController+AbandonedBasketNotification.swift */,
 				037298E96AF696DD19DD54CF3C9F56C4 /* UIViewController+BackButton.swift */,
 				56345043E096155A01160F79F40AE9C5 /* UIViewController+BasketIcon.swift */,
@@ -27513,6 +27528,7 @@
 				45BAE956CD412F35356114A263C2D0C6 /* FMBlurable.swift in Sources */,
 				428A8E706727950DDB8357CD5B9CCB01 /* ForceUpdateViewController.swift in Sources */,
 				17B1F1B0C8D45CE07569C4593262BA7C /* ForgotPasswordViewController.swift in Sources */,
+				17AEC00028609C5A00D39E1F /* SDKManager+UITabBarControllerDelegate.swift in Sources */,
 				CFCB3FCE90B0EFCB49B799F9E043D1E0 /* Form.swift in Sources */,
 				FCAC8A22437038CFC233DBFB7E3EABF3 /* FreeGroceriesViewController.swift in Sources */,
 				88146054EA6E901B47856F74293D08D1 /* FRHyperLabel.m in Sources */,
@@ -27539,6 +27555,7 @@
 				7F36F69166F28D6C797BA6271C028741 /* GMSAddress+ElGrocer.swift in Sources */,
 				12CE3E3236C8345B2646D2EFFE52F56E /* GoogleAnalyticsHelper.swift in Sources */,
 				F59C6E1DA15B7EC63B681F97E2D1FDEC /* GradientView.swift in Sources */,
+				17AEBFFE28609C0E00D39E1F /* UITapGestureRecognizer+Extension.swift in Sources */,
 				CEEA241829CE1A9911953B2702D94A89 /* GroceriesAndProductsCollectionViewLayout.swift in Sources */,
 				EF9959C66386D8011B61127320C7523B /* GroceriesEmptyView.swift in Sources */,
 				2344828426F66172A8A8D8AF1ADE9E93 /* GroceriesPopUp.swift in Sources */,
@@ -27548,6 +27565,7 @@
 				7FF153BC5802E07A9FA4B4FD67EDE626 /* GroceryBrand.swift in Sources */,
 				9E02D84D05AB921174EAC2970EEC5F66 /* GroceryCategoryBrands.swift in Sources */,
 				18EC488152FAF4927D1A683DB519964A /* GroceryCategoryBrands+CRUD.swift in Sources */,
+				17AEC00428609CAF00D39E1F /* SDKManager+CleverTapInAppNotificationDelegate.swift in Sources */,
 				2B16B80B2C036A627BA9B06CF0A5D4B5 /* GroceryCell.swift in Sources */,
 				D0C3170488CF6A944A13F0301FCDF732 /* GroceryCollectionCell.swift in Sources */,
 				F18182580B655DD0C721464C69B71F62 /* GroceryDetailCell.swift in Sources */,
@@ -27613,6 +27631,7 @@
 				AA4CDA56569FE467E7CE0F8E09B33F0C /* MyBasketCarousalTableViewCell.swift in Sources */,
 				24DE87453BF52F67A24AB31124F9F4C5 /* MyBasketDeliveryDetailCandCTableViewCell.swift in Sources */,
 				569981FB4680FA44B6F1ACDC7C9CE0D3 /* MyBasketDeliveryDetailsTableViewCell.swift in Sources */,
+				17AEC00228609C8700D39E1F /* SDKManager+Notification.swift in Sources */,
 				9562576FAE239DB58B009AE1497009C2 /* MyBasketInstructionTableViewCell.swift in Sources */,
 				B27BE12D1D3AC405B758CE3DF9E9B180 /* MyBasketOutOfStockInfo.swift in Sources */,
 				3B062D33E0D1DB2313C625D735AFC5AB /* MyBasketPlaceOrderVC.swift in Sources */,
@@ -27796,6 +27815,7 @@
 				A0EEFE5AD05B27DA51F642EA42B6C0AC /* StickyHeadersCollectionViewFlowLayout.swift in Sources */,
 				7C9CCDFC6FC4695E9E5A2C62BA86B62F /* StoreDetailViewCell.swift in Sources */,
 				3E26CC7F8627622C323FCC3D77CED335 /* StoreFeeds.swift in Sources */,
+				17AEBFFC28609BE200D39E1F /* String+Extension.swift in Sources */,
 				DEC70DF8DAA740B7E070BCD13AA129D9 /* StoreFeedsHandler.swift in Sources */,
 				195E10FBA3E4355538F382513A7D700A /* StoreHeaderView.swift in Sources */,
 				4C64C62F4C89F65A901D95C59BD052D6 /* StoreList.swift in Sources */,
