@@ -50,7 +50,6 @@ Pod::Spec.new do |s|
   s.swift_versions = '4.2'
 
   s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*.{m,h,swift}'
-  spec.ios.source_files   = 'el-grocer-shopper-sdk-iOS/Classes/**/*.{m,h,swift}'
   s.exclude_files = "Classes/Exclude"
    
   s.resource_bundles = {
@@ -100,7 +99,7 @@ Pod::Spec.new do |s|
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   #s.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => 'el-grocer-shopper-sdk-iOS/Bridging-Header.h' }
   
-  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'CoreGraphics', 'QuartzCore', 'CommonCrypto', 'Swift'
+  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'CoreGraphics', 'QuartzCore', 'Swift'
   
  # s.ios.vendored_frameworks = 'AppsFlyerLib.xcframework'
   

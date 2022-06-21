@@ -31,7 +31,9 @@
     "Foundation",
     "CoreData",
     "CoreGraphics",
-    "QuartzCore"
+    "QuartzCore",
+    "CommonCrypto",
+    "Swift"
   ],
   "dependencies": {
     "AFNetworking": [
