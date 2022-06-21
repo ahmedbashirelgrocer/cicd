@@ -168,7 +168,7 @@ public class KAPinField : UITextField {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        self.bringSubview(toFront: self.invisibleField)
+        self.bringSubviewToFront(self.invisibleField)
         self.invisibleField.frame = self.bounds
         
         guard !self.isAnimating, !self.isDynamicLength else {
@@ -368,7 +368,7 @@ public class KAPinField : UITextField {
             let v = UIView()
             backViews.append(v)
             self.addSubview(v)
-            self.sendSubview(toBack: v)
+            self.sendSubviewToBack(v)
         }
         
         // Delay fixes kerning offset issue
