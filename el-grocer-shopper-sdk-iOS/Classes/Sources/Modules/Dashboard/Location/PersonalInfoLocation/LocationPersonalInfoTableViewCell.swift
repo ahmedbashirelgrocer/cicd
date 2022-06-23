@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FlagPhoneNumber
+// import FlagPhoneNumber
 class LocationPersonalInfoTableViewCell: UITableViewCell , AWSegmentViewProtocol {
     
     var indexSelected: ((Int)->Void)?

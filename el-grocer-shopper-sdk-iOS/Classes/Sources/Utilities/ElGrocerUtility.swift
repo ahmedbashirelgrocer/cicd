@@ -20,7 +20,7 @@ import SwiftMessages
 import AppsFlyerLib
 import SafariServices
 import SwiftDate
-import BBBadgeBarButtonItem
+//import BBBadgeBarButtonItem
 
 private let SharedInstance = ElGrocerUtility()
 let productPlaceholderPhoto = UIImage(name: "product_placeholder")!

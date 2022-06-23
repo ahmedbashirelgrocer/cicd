@@ -11,7 +11,7 @@ import CoreLocation
 import FBSDKCoreKit
 import AppsFlyerLib
 import FirebaseCrashlytics
-import FlagPhoneNumber
+// import FlagPhoneNumber
 import IQKeyboardManagerSwift
 enum RegistrationMode {
     

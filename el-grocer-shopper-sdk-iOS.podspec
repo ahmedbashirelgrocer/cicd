@@ -108,7 +108,8 @@ Pod::Spec.new do |s|
   s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps'
   s.dependency 'GooglePlaces'
-  s.dependency 'FlagPhoneNumber', '~> 0.7.6'
+  #s.dependency 'FlagPhoneNumber', '~> 0.7.6'
+  s.dependency 'libPhoneNumber-iOS'
   s.dependency 'PinCodeTextField' ###
 
   # Add the pod for Firebase Crashlytics
@@ -146,8 +147,8 @@ Pod::Spec.new do |s|
   s.dependency 'JDFTooltips', '~> 1.1'
     
   s.dependency 'DoneCancelNumberPadToolbar', '~> 0.6'
-  s.dependency 'BBBadgeBarButtonItem', '~> 1.2'
-  s.dependency 'PageControl' #, '~> 1.0'
+  #s.dependency 'BBBadgeBarButtonItem', '~> 1.2'
+  #s.dependency 'PageControl' #, '~> 1.0'
   s.dependency 'Shimmer', '~> 1.0'
   s.dependency 'BetterSegmentedControl'
   s.dependency 'AlgoliaSearchClient', '~> 8.0'
@@ -166,7 +167,7 @@ Pod::Spec.new do |s|
   s.dependency 'SwiftMessages'
 
   s.dependency 'GrowingTextView'#, '0.6.1'
-  s.dependency 'KAPinField' ###
+  #s.dependency 'KAPinField' ###
   s.dependency 'NBBottomSheet'
 
       # Pods for RateView

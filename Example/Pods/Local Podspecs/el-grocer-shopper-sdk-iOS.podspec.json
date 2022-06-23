@@ -53,8 +53,8 @@
     "GooglePlaces": [
 
     ],
-    "FlagPhoneNumber": [
-      "~> 0.7.6"
+    "libPhoneNumber-iOS": [
+
     ],
     "PinCodeTextField": [
 
@@ -113,12 +113,6 @@
     "DoneCancelNumberPadToolbar": [
       "~> 0.6"
     ],
-    "BBBadgeBarButtonItem": [
-      "~> 1.2"
-    ],
-    "PageControl": [
-
-    ],
     "Shimmer": [
       "~> 1.0"
     ],
@@ -162,9 +156,6 @@
 
     ],
     "GrowingTextView": [
-
-    ],
-    "KAPinField": [
 
     ],
     "NBBottomSheet": [

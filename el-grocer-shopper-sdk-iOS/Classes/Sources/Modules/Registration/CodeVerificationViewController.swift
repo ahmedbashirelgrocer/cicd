@@ -10,7 +10,7 @@ import UIKit
 import UserNotifications
 import PinCodeTextField
 import FirebaseCrashlytics
-import KAPinField
+//import KAPinField
 protocol PhoneVerifedProtocol : class {
     func phoneVerified(_ phoneNumber : String, _ otp: String) -> Void
 }

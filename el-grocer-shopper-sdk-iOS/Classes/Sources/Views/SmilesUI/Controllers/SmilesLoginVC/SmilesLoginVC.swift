@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import KAPinField
+//import KAPinField
 
 class SmilesLoginVC: UIViewController, NavigationBarProtocol {
 

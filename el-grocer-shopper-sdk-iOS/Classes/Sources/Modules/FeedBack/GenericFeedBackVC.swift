@@ -8,7 +8,7 @@
 
 import UIKit
 import FloatRatingView
-import PageControl
+//import PageControl
 import SDWebImage
 
 enum feedBackType {

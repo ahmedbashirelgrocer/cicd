@@ -8,7 +8,7 @@
 
 import UIKit
 import SDWebImage
-import PageControl
+//import PageControl
 
 
 let kRatingViewId: Int  = 1
