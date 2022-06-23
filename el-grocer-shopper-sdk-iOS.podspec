@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '0.1.5'
+  s.version          = '0.1.9'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -104,10 +104,7 @@ Pod::Spec.new do |s|
   s.dependency 'AFNetworking' , '~> 4.0'
   
   s.dependency 'MSPeekCollectionViewDelegateImplementation'
-  s.dependency 'GoogleAnalytics'
-  s.dependency 'GoogleIDFASupport'
-  s.dependency 'GoogleMaps'
-  s.dependency 'GooglePlaces'
+ 
   #s.dependency 'FlagPhoneNumber', '~> 0.7.6'
   s.dependency 'libPhoneNumber-iOS'
   s.dependency 'PinCodeTextField' ###
@@ -177,7 +174,15 @@ Pod::Spec.new do |s|
   s.dependency 'SendBirdDesk'
       # add file
   s.dependency 'Adyen'
-  s.dependency 'AppsFlyerFramework'
+  
   s.dependency 'SDWebImage'
+  
+  
+  
+#  s.dependency 'GoogleAnalytics'
+#  s.dependency 'GoogleIDFASupport'
+#  s.dependency 'GoogleMaps'
+#  s.dependency 'GooglePlaces'
+#  s.dependency 'AppsFlyerFramework'
 
 end

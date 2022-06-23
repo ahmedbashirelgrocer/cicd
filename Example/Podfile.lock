@@ -44,9 +44,6 @@ PODS:
   - AlgoliaSearchClient (8.14.0):
     - Logging
   - AnimatedGradientView (3.1.0)
-  - AppsFlyerFramework (6.6.1):
-    - AppsFlyerFramework/Main (= 6.6.1)
-  - AppsFlyerFramework/Main (6.6.1)
   - BadgeControl (1.2.1)
   - BetterSegmentedControl (2.0.1)
   - CCValidator (1.2.0)
@@ -55,12 +52,11 @@ PODS:
     - SDWebImage (~> 5.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (0.1.5):
+  - el-grocer-shopper-sdk-iOS (0.1.9):
     - Adyen
     - AFNetworking (~> 4.0)
     - AlgoliaSearchClient (~> 8.0)
     - AnimatedGradientView
-    - AppsFlyerFramework
     - BadgeControl
     - BetterSegmentedControl
     - CCValidator
@@ -77,10 +73,6 @@ PODS:
     - Firebase/Performance
     - FloatRatingView (~> 4)
     - FXPageControl
-    - GoogleAnalytics
-    - GoogleIDFASupport
-    - GoogleMaps
-    - GooglePlaces
     - GrowingTextView
     - HMSegmentedControl
     - InstantSearch/Insights (~> 7.7)
@@ -202,7 +194,6 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 7.0)"
   - FloatRatingView (4.0)
   - FXPageControl (1.5)
-  - GoogleAnalytics (3.20.0)
   - GoogleAppMeasurement (7.5.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/MethodSwizzler (~> 7.0)
@@ -213,13 +204,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30907.0)
     - PromisesObjC (~> 1.2)
-  - GoogleIDFASupport (3.14.0)
-  - GoogleMaps (6.2.1):
-    - GoogleMaps/Maps (= 6.2.1)
-  - GoogleMaps/Base (6.2.1)
-  - GoogleMaps/Maps (6.2.1):
-    - GoogleMaps/Base
-  - GooglePlaces (6.2.1)
   - GoogleUtilities/AppDelegateSwizzler (7.7.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -334,7 +318,6 @@ SPEC REPOS:
     - AFNetworking
     - AlgoliaSearchClient
     - AnimatedGradientView
-    - AppsFlyerFramework
     - BadgeControl
     - BetterSegmentedControl
     - CCValidator
@@ -359,12 +342,8 @@ SPEC REPOS:
     - FirebaseRemoteConfig
     - FloatRatingView
     - FXPageControl
-    - GoogleAnalytics
     - GoogleAppMeasurement
     - GoogleDataTransport
-    - GoogleIDFASupport
-    - GoogleMaps
-    - GooglePlaces
     - GoogleUtilities
     - GrowingTextView
     - GTMSessionFetcher
@@ -410,7 +389,6 @@ SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
   AnimatedGradientView: f249740238c6b491a10d505ab06bb98d897ca3a7
-  AppsFlyerFramework: 5e4b385a27dc6179e132b1617f76809412eb2f88
   BadgeControl: 67036e7f586930bba15084dbf89ebce7aa2f2bc2
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
   CCValidator: 19c090b536c0152863795aa291bf7be3ffccf457
@@ -418,7 +396,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 50dca05b725c5a449903acf0c7a7bd363e82b306
+  el-grocer-shopper-sdk-iOS: c88781a11bff5109415f3d41d6a5c6605237b11a
   FBSDKCoreKit: b3ca27e124dae67122d3bb47c8f96800b39986a6
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
@@ -436,12 +414,8 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: 0ea30de5fb0231df8c1bdcdf3b6c23bdc5066131
   FloatRatingView: bb6bdddfbeec51b1d387b4bd50abc27b4dfccd48
   FXPageControl: 97620412515365d10a3282ec0660f49f6401a8f0
-  GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   GoogleAppMeasurement: 65a1071e5f52f63ab03d0a4d814a54fd762d885a
   GoogleDataTransport: 8b0e733ea77c9218778e5a9e34ba9508b8328939
-  GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
-  GoogleMaps: 20d7b12be49a14287f797e88e0e31bc4156aaeb4
-  GooglePlaces: 94974aa119573d5acc2a35a699948dac838abd73
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba

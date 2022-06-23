@@ -6,6 +6,7 @@
 //  Copyright (c) 2017 Aurélien Grifasi. All rights reserved.
 //
 import UIKit
+import Foundation
 import libPhoneNumber_iOS
 
 open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
@@ -47,7 +48,7 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
     }
     /// Present in the placeholder an example of a phone number according to the selected country code.
     /// If false, you can set your own placeholder. Set to true by default.
-    @objc public var hasPhoneNumberExample: Bool = true {
+    @objc var hasPhoneNumberExample: Bool = true {
         didSet {
             if hasPhoneNumberExample == false {
                 placeholder = nil
