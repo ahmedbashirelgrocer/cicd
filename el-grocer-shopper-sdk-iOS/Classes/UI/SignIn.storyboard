@@ -65,7 +65,7 @@
                                                 </connections>
                                             </segmentedControl>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log in to elGrocer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDz-M2-gDJ">
-                                                <rect key="frame" x="92" y="0.0" width="136.5" height="0.0"/>
+                                                <rect key="frame" x="84" y="0.0" width="152.5" height="0.0"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" id="DSo-D7-DFq"/>
                                                 </constraints>
@@ -73,8 +73,8 @@
                                                 <color key="textColor" red="0.25882352939999997" green="0.59999999999999998" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JXn-cY-eCh" userLabel="PhoneNumber" customClass="FPNTextField" customModule="FlagPhoneNumber">
-                                                <rect key="frame" x="16" y="264.5" width="288" height="56"/>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JXn-cY-eCh" userLabel="PhoneNumber" customClass="FPNTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                                <rect key="frame" x="16" y="265" width="288" height="56"/>
                                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -96,7 +96,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nBJ-ca-f4l" customClass="ElgrocerTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="264.5" width="288" height="56"/>
+                                                <rect key="frame" x="16" y="265" width="288" height="56"/>
                                                 <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -121,7 +121,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZIA-Ci-rQQ" customClass="ElgrocerTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="336.5" width="288" height="56"/>
+                                                <rect key="frame" x="16" y="337" width="288" height="56"/>
                                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -146,7 +146,7 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lT7-FY-mLe">
-                                                <rect key="frame" x="16" y="408.5" width="135" height="20"/>
+                                                <rect key="frame" x="16" y="409" width="130" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="68K-S0-LtP"/>
                                                 </constraints>
@@ -159,7 +159,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-UU-yfm" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="452.5" width="288" height="56"/>
+                                                <rect key="frame" x="16" y="453" width="288" height="56"/>
                                                 <color key="backgroundColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="56" id="GrL-0n-Dk9"/>
@@ -258,7 +258,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpl-V8-Qw7">
-                                                <rect key="frame" x="264" y="352.5" width="24" height="24"/>
+                                                <rect key="frame" x="264" y="353" width="24" height="24"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="eyeGray"/>
                                                 <connections>
@@ -285,7 +285,7 @@
                                                 <rect key="frame" x="68" y="644.5" width="125" height="1"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome back!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROd-M5-vVD">
-                                                <rect key="frame" x="91.5" y="188" width="137.5" height="28"/>
+                                                <rect key="frame" x="92" y="188" width="136" height="28"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="28" id="wS2-MM-Eu7"/>
                                                 </constraints>
@@ -294,7 +294,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Want to explore the app first?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fm1-ge-Va3">
-                                                <rect key="frame" x="47.5" y="532.5" width="225" height="20"/>
+                                                <rect key="frame" x="51" y="533" width="218.5" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="6kC-ly-5q8"/>
                                                 </constraints>
@@ -303,13 +303,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your registered email and password" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="bIw-J4-PbP">
-                                                <rect key="frame" x="16" y="232" width="288" height="16.5"/>
+                                                <rect key="frame" x="16" y="232" width="288" height="17"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vnl-N2-MwG">
-                                                <rect key="frame" x="79" y="553.5" width="162" height="20"/>
+                                                <rect key="frame" x="80.5" y="554" width="159" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="t89-ue-3OA"/>
                                                 </constraints>
@@ -322,7 +322,7 @@
                                                 </connections>
                                             </button>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YXk-kE-zgu">
-                                                <rect key="frame" x="32" y="320.5" width="31" height="15"/>
+                                                <rect key="frame" x="32" y="321" width="31" height="15"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -442,13 +442,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Groceries To Your Door" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9h9-zA-LfP">
-                                <rect key="frame" x="60" y="135" width="200" height="19"/>
+                                <rect key="frame" x="60" y="135" width="200" height="22"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gaz-Tv-QpD">
-                                <rect key="frame" x="12.5" y="204" width="295" height="21"/>
+                                <rect key="frame" x="12.5" y="207" width="295" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="UX1-Kn-OIp"/>
                                 </constraints>
@@ -457,7 +457,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EcM-1f-cah" customClass="CustomTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="12.5" y="227" width="295" height="40"/>
+                                <rect key="frame" x="12.5" y="230" width="295" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="rjf-U1-VmK"/>
@@ -481,7 +481,7 @@
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdR-KX-wft">
-                                <rect key="frame" x="12.5" y="277" width="295" height="21"/>
+                                <rect key="frame" x="12.5" y="280" width="295" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="6zg-jo-fjL"/>
                                 </constraints>
@@ -490,7 +490,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KrP-H4-tgT" customClass="CustomTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="12.5" y="300" width="295" height="40"/>
+                                <rect key="frame" x="12.5" y="303" width="295" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="295" id="GAc-lc-5xN"/>
@@ -514,7 +514,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1eC-Zc-Imj">
-                                <rect key="frame" x="273.5" y="308" width="24" height="24"/>
+                                <rect key="frame" x="273.5" y="311" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="2kF-sq-oIr"/>
                                     <constraint firstAttribute="height" constant="24" id="Jf0-Ik-xvr"/>
@@ -525,7 +525,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0U2-9p-RdD">
-                                <rect key="frame" x="151.5" y="343" width="156" height="25"/>
+                                <rect key="frame" x="151.5" y="346" width="156" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="156" id="sWb-0d-pOK"/>
                                     <constraint firstAttribute="height" constant="25" id="ye2-JT-Phm"/>
@@ -539,7 +539,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="24c-J4-tRs" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="12.5" y="389" width="295" height="40"/>
+                                <rect key="frame" x="12.5" y="392" width="295" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="20"/>
                                 <state key="normal" title="LOG IN">
@@ -585,7 +585,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCU-fT-Sbv">
-                                <rect key="frame" x="30.5" y="439" width="259" height="30"/>
+                                <rect key="frame" x="30.5" y="442" width="259" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="259" id="bQU-1a-aVx"/>
                                 </constraints>
@@ -598,7 +598,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NC2-Uz-vZj" userLabel="Social View">
-                                <rect key="frame" x="12.5" y="474" width="295" height="100"/>
+                                <rect key="frame" x="12.5" y="477" width="295" height="100"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hHf-bX-kqk" userLabel="Left View">
                                         <rect key="frame" x="20" y="7.5" width="115" height="0.5"/>
@@ -627,17 +627,17 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign in with social networks" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZRy-Ct-2GB">
-                                        <rect key="frame" x="48" y="25" width="199" height="19"/>
+                                        <rect key="frame" x="40.5" y="25" width="214" height="22"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tJ9-KR-M5R">
-                                        <rect key="frame" x="104" y="49" width="7" height="22"/>
+                                        <rect key="frame" x="104" y="52" width="7" height="22"/>
                                         <state key="normal" image="facebook_icon"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Kv-ZU-N7S">
-                                        <rect key="frame" x="141" y="49" width="7" height="22"/>
+                                        <rect key="frame" x="141" y="52" width="7" height="22"/>
                                         <state key="normal" image="google_icon"/>
                                     </button>
                                 </subviews>
@@ -749,14 +749,14 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat with elGrocer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmY-vY-ZOg">
-                                        <rect key="frame" x="163" y="12" width="117" height="17"/>
+                                        <rect key="frame" x="162" y="12" width="118" height="17"/>
                                         <color key="tintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="14"/>
                                         <color key="textColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LiveChatIcon" translatesAutoresizingMaskIntoConstraints="NO" id="JUq-u9-9zH">
-                                        <rect key="frame" x="137" y="8.5" width="24" height="24"/>
+                                        <rect key="frame" x="136" y="8.5" width="24" height="24"/>
                                         <color key="tintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
                                 </subviews>
@@ -1068,7 +1068,7 @@ to set new password</string>
     </scenes>
     <designables>
         <designable name="24c-J4-tRs">
-            <size key="intrinsicContentSize" width="67" height="36"/>
+            <size key="intrinsicContentSize" width="73" height="32"/>
         </designable>
         <designable name="7Dt-Sk-fz6">
             <size key="intrinsicContentSize" width="315" height="50"/>
@@ -1080,13 +1080,13 @@ to set new password</string>
             <size key="intrinsicContentSize" width="4" height="17"/>
         </designable>
         <designable name="jxB-JB-1se">
-            <size key="intrinsicContentSize" width="30" height="32"/>
+            <size key="intrinsicContentSize" width="30" height="29"/>
         </designable>
         <designable name="sqM-RQ-9ZY">
-            <size key="intrinsicContentSize" width="64" height="32"/>
+            <size key="intrinsicContentSize" width="62" height="33"/>
         </designable>
         <designable name="uwq-UU-yfm">
-            <size key="intrinsicContentSize" width="57" height="32"/>
+            <size key="intrinsicContentSize" width="54" height="33"/>
         </designable>
     </designables>
     <resources>
