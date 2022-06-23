@@ -73,6 +73,8 @@ PODS:
     - Firebase/Performance
     - FloatRatingView (~> 4)
     - FXPageControl
+    - GoogleMaps
+    - GooglePlaces
     - GrowingTextView
     - HMSegmentedControl
     - InstantSearch/Insights (~> 7.7)
@@ -204,6 +206,12 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30907.0)
     - PromisesObjC (~> 1.2)
+  - GoogleMaps (6.2.1):
+    - GoogleMaps/Maps (= 6.2.1)
+  - GoogleMaps/Base (6.2.1)
+  - GoogleMaps/Maps (6.2.1):
+    - GoogleMaps/Base
+  - GooglePlaces (6.2.1)
   - GoogleUtilities/AppDelegateSwizzler (7.7.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -344,6 +352,8 @@ SPEC REPOS:
     - FXPageControl
     - GoogleAppMeasurement
     - GoogleDataTransport
+    - GoogleMaps
+    - GooglePlaces
     - GoogleUtilities
     - GrowingTextView
     - GTMSessionFetcher
@@ -396,7 +406,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: c88781a11bff5109415f3d41d6a5c6605237b11a
+  el-grocer-shopper-sdk-iOS: 9c657d28671187d0d3bfa942d1abb461f55f5791
   FBSDKCoreKit: b3ca27e124dae67122d3bb47c8f96800b39986a6
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
@@ -416,6 +426,8 @@ SPEC CHECKSUMS:
   FXPageControl: 97620412515365d10a3282ec0660f49f6401a8f0
   GoogleAppMeasurement: 65a1071e5f52f63ab03d0a4d814a54fd762d885a
   GoogleDataTransport: 8b0e733ea77c9218778e5a9e34ba9508b8328939
+  GoogleMaps: 20d7b12be49a14287f797e88e0e31bc4156aaeb4
+  GooglePlaces: 94974aa119573d5acc2a35a699948dac838abd73
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba

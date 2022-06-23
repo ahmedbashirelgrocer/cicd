@@ -11,7 +11,7 @@ import CoreLocation
 import AdSupport
 import CleverTapSDK
 import AdSupport
-import AppsFlyerLib
+//import AppsFlyerLib
 import FBSDKCoreKit
 import FirebaseCore
 import CoreLocation

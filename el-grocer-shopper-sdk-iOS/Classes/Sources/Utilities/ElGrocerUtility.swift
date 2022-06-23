@@ -17,7 +17,7 @@ import GooglePlaces
 import StoreKit
 import SDWebImage
 import SwiftMessages
-import AppsFlyerLib
+//import AppsFlyerLib
 import SafariServices
 import SwiftDate
 //import BBBadgeBarButtonItem
@@ -523,10 +523,12 @@ class ElGrocerUtility {
                   finalBrandName = name
             }
         }
-        let appsFlyerParams : [String : Any] = [AFEventParamContent: paramsString ,AFEventParamContentType: "product" ,AFEventParamCurrency:kProductCurrencyEngAEDName ,AFEventParamPrice:product.price] as [String: Any]
-        AppsFlyerLib.shared().logEvent(name: AFEventAddToCart, values: appsFlyerParams) { (data, error) in
-            debugPrint("data");debugPrint(data)
-        }
+        
+            // MARK:- TODO fixappsflyer
+//        let appsFlyerParams : [String : Any] = [AFEventParamContent: paramsString ,AFEventParamContentType: "product" ,AFEventParamCurrency:kProductCurrencyEngAEDName ,AFEventParamPrice:product.price] as [String: Any]
+//        AppsFlyerLib.shared().logEvent(name: AFEventAddToCart, values: appsFlyerParams) { (data, error) in
+//            debugPrint("data");debugPrint(data)
+//        }
         //AppsFlyerLib.shared().trackEvent(AFEventAddToCart, withValues:appsFlyerParams)
         
         /* ---------- AppsFlyer Search Event ----------*/

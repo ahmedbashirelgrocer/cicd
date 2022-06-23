@@ -80,7 +80,7 @@ open class FPNCountryPicker: UIPickerView, UIPickerViewDelegate, UIPickerViewDat
 	// Populates the metadata from the included json file resource
 
 	private func getAllCountries() -> [FPNCountry] {
-		let bundle: Bundle = Bundle.FlagPhoneNumber()
+        let bundle: Bundle = .resource
 		let resource: String = "countryCodes"
 		let jsonPath = bundle.path(forResource: resource, ofType: "json")
 

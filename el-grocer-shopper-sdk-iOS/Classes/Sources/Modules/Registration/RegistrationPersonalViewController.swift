@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 import FBSDKCoreKit
-import AppsFlyerLib
+//import AppsFlyerLib
 import FirebaseCrashlytics
 // import FlagPhoneNumber
 import IQKeyboardManagerSwift
@@ -507,8 +507,9 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                             /* ---------- Facebook Registration Event ----------*/
                         AppEvents.logEvent(AppEvents.Name.completedRegistration, parameters:  [AppEvents.ParameterName.registrationMethod.rawValue: "iOS"  , AppEvents.ParameterName.success.rawValue:true , AppEvents.ParameterName.currency.rawValue : kProductCurrencyEngAEDName ])
                             
+                                // MARK:- TODO fixappsflyer
                             /* ---------- AppsFlyer Registration Event ----------*/
-                            AppsFlyerLib.shared().logEvent(name: AFEventCompleteRegistration, values: [AFEventParamRegistrationMethod: "iOS" , AFEventParamSuccess : true] , completionHandler: nil)
+                           // AppsFlyerLib.shared().logEvent(name: AFEventCompleteRegistration, values: [AFEventParamRegistrationMethod: "iOS" , AFEventParamSuccess : true] , completionHandler: nil)
                       //  AppsFlyerLib.shared().trackEvent(AFEventCompleteRegistration, withValues:[AFEventParamRegistrationMethod: "iOS" , AFEventParamSuccess : true])
                             
                             /* ---------- Fabric Registration Event ----------*/
@@ -554,8 +555,9 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                 /* ---------- Facebook Registration Event ----------*/
                 AppEvents.logEvent(AppEvents.Name.completedRegistration, parameters:  [AppEvents.ParameterName.registrationMethod.rawValue: "iOS"  , AppEvents.ParameterName.success.rawValue:true])
                 
+                    // MARK:- TODO fixappsflyer
                 /* ---------- AppsFlyer Registration Event ----------*/
-                AppsFlyerLib.shared().logEvent(name: AFEventCompleteRegistration , values: [AFEventParamRegistrationMethod: "iOS" , AFEventParamSuccess : true] , completionHandler: nil)
+               // AppsFlyerLib.shared().logEvent(name: AFEventCompleteRegistration , values: [AFEventParamRegistrationMethod: "iOS" , AFEventParamSuccess : true] , completionHandler: nil)
               //  AppsFlyerLib.shared().trackEvent(AFEventCompleteRegistration, withValues:[AFEventParamRegistrationMethod: "iOS" , AFEventParamSuccess : true])
                 
                 /* ---------- Fabric Registration Event ----------*/

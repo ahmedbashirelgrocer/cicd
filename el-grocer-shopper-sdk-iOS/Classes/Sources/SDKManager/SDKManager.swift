@@ -15,7 +15,7 @@ import BackgroundTasks
 import IQKeyboardManagerSwift
 import CleverTapSDK
 import AdSupport
-import AppsFlyerLib
+//import AppsFlyerLib
 // import FBSDKCoreKit
 import FirebaseCore
 import Messages
@@ -761,16 +761,19 @@ fileprivate extension SDKManager {
         CleverTapEventsLogger.startCleverTapSDK()
         self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
+        
+        // MARK:- TODO fixappsflyer
         //AppsFlyer
-        AppsFlyerLib.shared().appsFlyerDevKey = "fFWrKTcB3XBybYmSgAcLnP"
-        AppsFlyerLib.shared().appleAppID = "1040399641"
-       // AppsFlyerLib.shared().delegate = self
+        //AppsFlyerLib.shared().appsFlyerDevKey = "fFWrKTcB3XBybYmSgAcLnP"
+       // AppsFlyerLib.shared().appleAppID = "1040399641"
+      // // AppsFlyerLib.shared().delegate = self
         if Platform.isDebugBuild {
-            AppsFlyerLib.shared().isDebug = true
+           // AppsFlyerLib.shared().isDebug = true
         }
-        AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
-        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
-        AlgoliaApi.sharedInstance.reStartInsights()
+        //AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
+        // MARK:- TODO fixappsflyer
+        //AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
+        //AlgoliaApi.sharedInstance.reStartInsights()
         ElGrocerUtility.sharedInstance.delay(2) {
             self.startChatFeature()
         }

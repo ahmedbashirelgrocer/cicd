@@ -9,7 +9,7 @@
 import UIKit
 import NBBottomSheet
 import FBSDKCoreKit
-import AppsFlyerLib
+//import AppsFlyerLib
 import STPopup
 import IQKeyboardManagerSwift
 enum searchType {
@@ -981,7 +981,8 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             AppEvents.logEvent(AppEvents.Name.searched, parameters: [AppEvents.Name.searched.rawValue:self.searchString])
             /* ---------- AppsFlyer Search Event ----------*/
             
-            AppsFlyerLib.shared().logEvent(name: AFEventSearch, values: [AFEventParamSearchString:self.searchString], completionHandler: nil)
+                // MARK:- TODO fixappsflyer
+           // AppsFlyerLib.shared().logEvent(name: AFEventSearch, values: [AFEventParamSearchString:self.searchString], completionHandler: nil)
             //AppsFlyerLib.shared().trackEvent(AFEventSearch, withValues:[AFEventParamSearchString:self.searchString])
             /* ---------- Fabric Search Event ----------*/
             // Answers.Search(withQuery: self.searchString,customAttributes: nil)

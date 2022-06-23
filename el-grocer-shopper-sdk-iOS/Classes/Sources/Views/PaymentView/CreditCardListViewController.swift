@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 import FBSDKCoreKit
-import AppsFlyerLib
+//import AppsFlyerLib
 import NBBottomSheet
 import Adyen
 /*
@@ -570,8 +570,9 @@ class CreditCardListViewController: UIViewController {
         /* ---------- Facebook PaymentInfo Event ----------*/
         AppEvents.logEvent(AppEvents.Name.addedPaymentInfo, parameters:  [AppEvents.ParameterName.success.rawValue:true])
         
+            // MARK:- TODO fixappsflyer
         /* ---------- AppsFlyer PaymentInfo Event ----------*/
-        AppsFlyerLib.shared().logEvent(name: AFEventAddPaymentInfo, values: [AFEventParamRegistrationMethod:true], completionHandler: nil)
+       // AppsFlyerLib.shared().logEvent(name: AFEventAddPaymentInfo, values: [AFEventParamRegistrationMethod:true], completionHandler: nil)
        // AppsFlyerLib.shared().trackEvent(AFEventAddPaymentInfo, withValues:[AFEventParamRegistrationMethod:true])
         let storeId = ElGrocerUtility.sharedInstance.cleanGroceryID(self.selectedGrocery.dbID)
         

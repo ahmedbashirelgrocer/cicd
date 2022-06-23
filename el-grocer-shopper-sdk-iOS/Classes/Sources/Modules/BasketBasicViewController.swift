@@ -11,7 +11,7 @@ import UIKit
 import FBSDKCoreKit
 import FirebaseAnalytics
 import FirebaseCrashlytics
-import AppsFlyerLib
+//import AppsFlyerLib
 enum ShouldShowBasket : Int {
     case False = 0
     case ShopByItemsBasket = 1
@@ -528,8 +528,8 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
             /* ---------- Facebook Search Event ----------*/
             AppEvents.logEvent(AppEvents.Name.searched, parameters: [AppEvents.Name.searched.rawValue:self.searchString])
             /* ---------- AppsFlyer Search Event ----------*/
-            
-            AppsFlyerLib.shared().logEvent(name: AFEventSearch, values: [AFEventParamSearchString:self.searchString], completionHandler: nil)
+                // MARK:- TODO fixappsflyer
+           // AppsFlyerLib.shared().logEvent(name: AFEventSearch, values: [AFEventParamSearchString:self.searchString], completionHandler: nil)
             //AppsFlyerLib.shared().trackEvent(AFEventSearch, withValues:[AFEventParamSearchString:self.searchString])
             /* ---------- Fabric Search Event ----------*/
             // Answers.Search(withQuery: self.searchString,customAttributes: nil)

@@ -11,7 +11,7 @@ import FirebaseCore
 import MapKit
 import FBSDKCoreKit
 import CleverTapSDK
-import AppsFlyerLib
+//import AppsFlyerLib
 import FirebaseRemoteConfig
 
 struct EventDestination {
@@ -315,7 +315,8 @@ extension  ElGrocerEventsLogger   {
     
     func setUserProfile (_ userProfile : UserProfile , _ locationName : String? = nil) {
         CleverTapEventsLogger.setUserProfile(userProfile)
-        AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
+            // MARK:- TODO fixappsflyer
+        //AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
         //ZohoChat.loginZohoWith(userProfile.dbID.stringValue)
         // PushWooshTracking.setUserID(userID: userProfile.dbID.stringValue)
         FireBaseEventsLogger.setUserID(userProfile.dbID.stringValue)
@@ -495,11 +496,12 @@ extension  ElGrocerEventsLogger   {
         if isfirebase != nil {
             FireBaseEventsLogger.trackCheckOut( eventName : isfirebase! , coupon: coupon, currency: currency, value: value, isEdit: isEdit)
         }
+            // MARK:- TODO fixappsflyer
         
-        let param = [AFEventParamPrice: value , AFEventParamCurrency : kProductCurrencyEngAEDName , AFEventParamQuantity : itemsCount  , AFEventParamContentType : "product" , AFEventParamContentId : productIds , AFEventParamPaymentInfoAvailable : availablePayments  , AppEvents.ParameterName.content : appFlayerJsonString ] as! [String : Any]
-        AppsFlyerLib.shared().logEvent(name: AFEventInitiatedCheckout, values: param) { (data, error) in
-            debugPrint(data)
-        }
+//        let param = [AFEventParamPrice: value , AFEventParamCurrency : kProductCurrencyEngAEDName , AFEventParamQuantity : itemsCount  , AFEventParamContentType : "product" , AFEventParamContentId : productIds , AFEventParamPaymentInfoAvailable : availablePayments  , AppEvents.ParameterName.content : appFlayerJsonString ] as! [String : Any]
+//        AppsFlyerLib.shared().logEvent(name: AFEventInitiatedCheckout, values: param) { (data, error) in
+//            debugPrint(data)
+//        }
        // AppsFlyerLib.shared().trackEvent(AFEventInitiatedCheckout, withValues:param)
         
         
@@ -572,8 +574,10 @@ extension  ElGrocerEventsLogger   {
                 finalBrandName = name
             }
         }
-        let appsFlyerParams = [AFEventParamContent: paramsString ,AFEventParamContentType: "product" ,AFEventParamCurrency:kProductCurrencyEngAEDName ,AFEventParamPrice:product.price] as [String: Any]
-        AppsFlyerLib.shared().logEvent(name: AFEventAddToCart, values: appsFlyerParams, completionHandler: nil)
+        
+            // MARK:- TODO fixappsflyer
+//        let appsFlyerParams = [AFEventParamContent: paramsString ,AFEventParamContentType: "product" ,AFEventParamCurrency:kProductCurrencyEngAEDName ,AFEventParamPrice:product.price] as [String: Any]
+//        AppsFlyerLib.shared().logEvent(name: AFEventAddToCart, values: appsFlyerParams, completionHandler: nil)
        // AppsFlyerLib.shared().trackEvent(AFEventAddToCart, withValues:appsFlyerParams)
         
        
@@ -622,8 +626,9 @@ extension  ElGrocerEventsLogger   {
         // AFEventParamReceiptId : self.order.dbID.stringValue
         
         
-        let param = [AFEventParamRevenue:priceSum, AFEventParamCurrency:kProductCurrencyEngAEDName  , AFEventParamContentType : "product"  , AFEventParamContentId : idStr , AFEventParamContent: paramsString, "IsSmiles": IsSmiles ] as [String: Any]
-        AppsFlyerLib.shared().logEvent(name: AFEventPurchase, values: param, completionHandler: nil)
+            // MARK:- TODO fixappsflyer
+//        let param = [AFEventParamRevenue:priceSum, AFEventParamCurrency:kProductCurrencyEngAEDName  , AFEventParamContentType : "product"  , AFEventParamContentId : idStr , AFEventParamContent: paramsString, "IsSmiles": IsSmiles ] as [String: Any]
+//        AppsFlyerLib.shared().logEvent(name: AFEventPurchase, values: param, completionHandler: nil)
        // AppsFlyerLib.shared().trackEvent(AFEventPurchase, withValues:param)
         
         FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "PurchaseValue", parameter: ["PurchaseValue" : priceSum ])
