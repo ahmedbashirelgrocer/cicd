@@ -37,6 +37,7 @@ Pod::Spec.new do |s|
   s.author           = { 'ABM' => 'abubaker@elgrocer.com' }
   s.source           = { :git => 'https://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@github.com/elgrocer/el-grocer-shopper-sdk-iOS.git', :tag => s.version.to_s }
 
+  
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
