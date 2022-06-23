@@ -422,6 +422,7 @@
 		101B06F884773492DC59D4C39BE3699C /* CreditCardViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A32F126DE7209B58CF94DD5A5C4E08 /* CreditCardViewTableViewCell.swift */; };
 		103F3E13CBAEDAC8B52D5F689496AE3E /* NSData+FIRBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = B19756076ED7FAB6EBAF56293C3DC82D /* NSData+FIRBase64.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		104C3CF2BC614AD5E61C5F3F5B199B6E /* TransportContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8AA9DFF0E91C65E1C10AE889DBC7297 /* TransportContainer.swift */; };
+		104EAD8028645E3B009B56E0 /* GeneratePhoneNumberHeader.sh in Resources */ = {isa = PBXBuildFile; fileRef = 104EAD7F28645E3A009B56E0 /* GeneratePhoneNumberHeader.sh */; };
 		1062EDD2C5C3B8D7A91592F639600D74 /* MDFInternationalization.h in Headers */ = {isa = PBXBuildFile; fileRef = A1B2B8869C814F08D347D807E3B7A074 /* MDFInternationalization.h */; };
 		1066955487958CCAAC58902BB7FB9C73 /* SDImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 73681C3E6752659901BAAED4C746F09C /* SDImageTransformer.m */; };
 		10754E0172FF4B75C40AC35D3801D76F /* GPBWrappers.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ABC3B2831AACC80460D98D616BFE00E /* GPBWrappers.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -6232,6 +6233,7 @@
 		102D8318DCD90832F31DF99EB7EE55D1 /* FIRCLSReportManager_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRCLSReportManager_Private.h; path = Crashlytics/Crashlytics/Controllers/FIRCLSReportManager_Private.h; sourceTree = "<group>"; };
 		10460AABBBAA1F7CFD241D78F90BC4EA /* GDTCORLifecycle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GDTCORLifecycle.h; path = GoogleDataTransport/GDTCORLibrary/Internal/GDTCORLifecycle.h; sourceTree = "<group>"; };
 		104A8106D5C98C3D5B4448474B1E390E /* GenericHomePageSearchHeader.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = GenericHomePageSearchHeader.xib; sourceTree = "<group>"; };
+		104EAD7F28645E3A009B56E0 /* GeneratePhoneNumberHeader.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = GeneratePhoneNumberHeader.sh; sourceTree = "<group>"; };
 		1057C9A72F3818DB7828BECACD51A14A /* ObservableType+PrimitiveSequence.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ObservableType+PrimitiveSequence.swift"; path = "RxSwift/Traits/ObservableType+PrimitiveSequence.swift"; sourceTree = "<group>"; };
 		105FF45E6C5F1907752ED18F439B3863 /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		106AA191D7505EC095149014CE4DF1E6 /* GPBCodedInputStream_PackagePrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GPBCodedInputStream_PackagePrivate.h; path = objectivec/GPBCodedInputStream_PackagePrivate.h; sourceTree = "<group>"; };
@@ -18754,6 +18756,7 @@
 				66BC356F3637AEF62EBE646758C21532 /* FPNTextFieldDelegate.swift */,
 				A2B1C8FB45253862653F7C138784E5D8 /* NBAsYouTypeFormatter.h */,
 				C48BB41A71897990ADB6B376B5441D5D /* NBAsYouTypeFormatter.m */,
+				104EAD7F28645E3A009B56E0 /* GeneratePhoneNumberHeader.sh */,
 				1852EE8FF3D9E372811F8F0B89964F3F /* NBGeneratedPhoneNumberMetaData.h */,
 				EFBD5859FFBC48070BD91C71FDA93969 /* NBMetadataHelper.h */,
 				321FBD98B0FF1469325DFAE41DD2714A /* NBMetadataHelper.m */,
@@ -24983,6 +24986,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				104EAD8028645E3B009B56E0 /* GeneratePhoneNumberHeader.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -86,6 +86,7 @@ Pod::Spec.new do |s|
 
   # spec.library   = "iconv"
   # spec.libraries = "iconv", "xml2"
+  
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -99,7 +100,7 @@ Pod::Spec.new do |s|
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   #s.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => 'el-grocer-shopper-sdk-iOS/Bridging-Header.h' }
   
-  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'CoreGraphics', 'QuartzCore', 'Swift'
+  s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'CoreGraphics', 'QuartzCore'
   
  # s.ios.vendored_frameworks = 'AppsFlyerLib.xcframework'
   

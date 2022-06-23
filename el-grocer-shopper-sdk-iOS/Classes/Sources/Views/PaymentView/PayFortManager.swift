@@ -67,7 +67,6 @@ extension DynamicOrderStatus {
         let status = data.status_id
         let deliveryType = data.delivery_type //MARK: 0 for instant , 1 for scheduled
         let OrderType = data.service_id //MARK: 1 for delivery , 2 for C&C
-        
         var returnedName : String = ""
         var returnedColour : UIColor = .navigationBarColor()
         
