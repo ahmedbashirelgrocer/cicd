@@ -179,7 +179,6 @@ Pod::Spec.new do |s|
   s.dependency 'SDWebImage'
   
   s.static_framework   = true
-  
   #s.dependency 'GoogleAnalytics'
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps'

@@ -406,7 +406,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 9c657d28671187d0d3bfa942d1abb461f55f5791
+  el-grocer-shopper-sdk-iOS: 869bb256d72ed909dec57f6368d75ad58f1992af
   FBSDKCoreKit: b3ca27e124dae67122d3bb47c8f96800b39986a6
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
@@ -462,6 +462,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: b8c4acd63dd95718afaa7ab626eb139f96bf96d4
+PODFILE CHECKSUM: dae70baa733b477d04f1a33b7ec0cc62d2974792
 
 COCOAPODS: 1.11.3
