@@ -1,6 +1,0 @@
-framework module el_grocer_shopper_sdk_iOS {
-  umbrella header "el-grocer-shopper-sdk-iOS-umbrella.h"
-
-  export *
-  module * { export * }
-}
