@@ -22,7 +22,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func btnGoToSDK(_ sender: Any) {
-        SDKManager.shared.start()
+        
+        self.startSDK()
+        
     }
     
+    
+    @objc func startSDK() {
+        SDKManager.shared.start()
+    }
 }

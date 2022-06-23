@@ -43,10 +43,9 @@ open class SDKManager: NSObject  {
     }()
     
     var  currentTabBar  : UITabBarController?
-    
     var parentTabNav  : ElgrocerGenericUIParentNavViewController?
-    
     public static var shared: SDKManager = SDKManager()
+    var isFromSmile : Bool = true
   
     // MARK: Initializers
     private override init() {
@@ -63,21 +62,11 @@ open class SDKManager: NSObject  {
         
         SwiftDate.defaultRegion = Region.getCurrentRegion()
         self.sdkStartTime = Date()
-        
-        //init network state monitoring
-        //FixMe:
-        //NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotification), object: nil)
         _ = ReachabilityManager.sharedInstance
-       
         self.refreshSessionStatesForEditOrder()
-        // self.window = UIWindow(frame: UIScreen.main.bounds)
-        // self.window?.makeKeyAndVisible()
-        
-        // Thread.sleep(forTimeInterval: 0.2)
         self.setSendbirdDelegate()
-        self.initializeExternalServices() //application, didFinishLaunchingWithOptions: launchOptions)
+        self.initializeExternalServices()
         ElGrocerUtility.sharedInstance.resetBasketPresistence()
-        // self.checkForNotificationAtAppLaunch(application, userInfo: launchOptions)
         self.checkNotifcation()
         self.logApiError()
     }
@@ -270,6 +259,13 @@ open class SDKManager: NSObject  {
     
     func configureFireBase(){
     // ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/"
+        
+        
+        guard !self.isFromSmile  else{
+            smileSDKFireBaseSetting()
+            return
+        }
+        
         #if DEBUG
            debugFirebaseSetting()
         #else
@@ -301,6 +297,17 @@ open class SDKManager: NSObject  {
 //        networkLogger?.setLogLevel(.AFLoggerLevelDebug)
         
 
+        
+    }
+    
+    
+    fileprivate func smileSDKFireBaseSetting() {
+        
+        var filePath:String!
+        filePath = Bundle.resource.path(forResource: "GoogleService-Info", ofType: "plist")
+        let projectName = "elgrocer"
+        let options = FirebaseOptions.init(contentsOfFile: filePath)!
+        FirebaseApp.configure(options: options)
         
     }
     

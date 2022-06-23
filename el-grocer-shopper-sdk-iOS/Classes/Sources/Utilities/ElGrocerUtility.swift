@@ -733,6 +733,11 @@ class ElGrocerUtility {
             let sourceImage = UIImage(name: imageName)
             flippedImage = UIImage(cgImage: sourceImage!.cgImage!, scale: (sourceImage?.scale)!, orientation: .upMirrored)
         }
+        
+        if flippedImage == nil {
+            flippedImage = UIImage()
+        }
+        
         return flippedImage!
     }
     
