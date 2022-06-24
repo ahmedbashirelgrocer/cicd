@@ -104,22 +104,22 @@ Pod::Spec.new do |s|
   
  # s.dependency 'AFNetworking' , '~> 4.0'
   
-  s.dependency 'MSPeekCollectionViewDelegateImplementation'
+  s.dependency 'MSPeekCollectionViewDelegateImplementation', '~> 3.2.0'
  
   #s.dependency 'FlagPhoneNumber', '~> 0.7.6'
-  s.dependency 'libPhoneNumber-iOS'
-  s.dependency 'PinCodeTextField' ###
+  s.dependency 'libPhoneNumber-iOS', '~> 0.9.15'
+  s.dependency 'PinCodeTextField', '~> 0.1.0'
 
   # Add the pod for Firebase Crashlytics
-  s.dependency 'Firebase/Crashlytics'
+  s.dependency 'Firebase/Crashlytics', '~> 8.11.0'
   #s.dependency 'Crashlytics' # please dont delete this for now it will causing crashes need fixes
   # Recommended: Add the Firebase pod for Google Analytics
   # s.dependency 'Firebase/Analytics', '~> 7.5.0'
-  s.dependency 'Firebase/Auth'
-  s.dependency 'Firebase/Core', '~> 7.5.0'
-  s.dependency 'Firebase/Messaging'
-  s.dependency 'Firebase/DynamicLinks'
-  s.dependency 'Firebase/Performance'
+  s.dependency 'Firebase/Core', '~> 8.11.0'
+  s.dependency 'Firebase/Auth', '~> 8.11.0'
+  s.dependency 'Firebase/Messaging', '~> 8.11.0'
+  s.dependency 'Firebase/DynamicLinks', '~> 8.11.0'
+  s.dependency 'Firebase/Performance', '~> 8.11.0'
   # s.dependency 'Firebase/Storage'
   # s.dependency 'Firebase/Database'
   # s.dependency 'Firebase'
@@ -133,14 +133,14 @@ Pod::Spec.new do |s|
   s.dependency 'FBSDKCoreKit', '~> 12.3.1'
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
-  s.dependency 'SwiftDate'
-  s.dependency 'CleverTap-iOS-SDK'
+  s.dependency 'SwiftDate', '~> 6.3.1'
+  s.dependency 'CleverTap-iOS-SDK', '~> 4.0.1'
   s.dependency 'Storyly', '~> 1.19.3'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
-  s.dependency 'FXPageControl'
+  s.dependency 'FXPageControl', '~> 1.5'
   s.dependency 'RxSwift', '~>5.1.1'
   s.dependency 'RxCocoa', '~>5.1.1'
-  s.dependency 'HMSegmentedControl'
+  s.dependency 'HMSegmentedControl', '~> 1.5.6'
   s.dependency 'KLCPopup', '~> 1.0'
   s.dependency 'JDFTooltips', '~> 1.1'
     
@@ -148,41 +148,41 @@ Pod::Spec.new do |s|
   #s.dependency 'BBBadgeBarButtonItem', '~> 1.2'
   #s.dependency 'PageControl' #, '~> 1.0'
   s.dependency 'Shimmer', '~> 1.0'
-  s.dependency 'BetterSegmentedControl'
+  s.dependency 'BetterSegmentedControl', '~> 2.0.1'
   s.dependency 'AlgoliaSearchClient', '~> 8.0'
-  s.dependency 'InstantSearch/Insights', '~> 7.7'
-  s.dependency 'STPopup'
-  s.dependency 'MaterialComponents/BottomSheet'
-  s.dependency 'MaterialComponents/ActivityIndicator'
-  s.dependency 'AnimatedGradientView'
+  s.dependency 'InstantSearch/Insights', '~> 7.17.0'
+  s.dependency 'STPopup', '~> 1.8.7'
+  s.dependency 'MaterialComponents/BottomSheet', '~> 124.2.0'
+  s.dependency 'MaterialComponents/ActivityIndicator', '~> 124.2.0'
+  s.dependency 'AnimatedGradientView', '~> 3.1.0'
   s.dependency 'SkyFloatingLabelTextField', '~> 3.0'
-  s.dependency 'IQKeyboardManagerSwift'#, '6.3.0'
+  s.dependency 'IQKeyboardManagerSwift', '~> 6.5.9'
     
-  s.dependency 'CCValidator'
-  s.dependency 'BadgeControl'
-  s.dependency 'DisplaySwitcher' #, '~> 2.0'
+  s.dependency 'CCValidator', '~> 1.2.0'
+  s.dependency 'BadgeControl', '~> 1.2.1'
+  s.dependency 'DisplaySwitcher', '~> 2.0'
   #s.dependency 'PMAlertController' ###
-  s.dependency 'SwiftMessages'
+  s.dependency 'SwiftMessages', '~> 9.0.6'
 
-  s.dependency 'GrowingTextView'#, '0.6.1'
+  s.dependency 'GrowingTextView', '~> 0.7.2'
   #s.dependency 'KAPinField' ###
-  s.dependency 'NBBottomSheet'
+  s.dependency 'NBBottomSheet', '~> 1.2.0'
 
       # Pods for RateView
-  s.dependency 'FloatRatingView', '~> 4'
+  s.dependency 'FloatRatingView', '~> 4.0'
       # sendBird chat
-  s.dependency 'SendBirdUIKit'
-  s.dependency 'SendBirdDesk'
+  s.dependency 'SendBirdUIKit', '~> 2.1.16'
+  s.dependency 'SendBirdDesk', '~> 1.0.17'
       # add file
-  s.dependency 'Adyen'
+  s.dependency 'Adyen', '~> 4.7.3'
   
-  s.dependency 'SDWebImage'
+  s.dependency 'SDWebImage', '~> 5.12.3'
   
   s.static_framework   = true
   #s.dependency 'GoogleAnalytics'
   #s.dependency 'GoogleIDFASupport'
-  s.dependency 'GoogleMaps'
-  s.dependency 'GooglePlaces'
+  s.dependency 'GoogleMaps', '~> 4.2.0'
+  s.dependency 'GooglePlaces', '~> 4.2.0'
 #s.dependency 'AppsFlyerFramework'
 
 
