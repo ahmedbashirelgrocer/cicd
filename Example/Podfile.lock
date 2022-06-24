@@ -52,7 +52,7 @@ PODS:
     - SDWebImage (~> 5.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (0.1.9):
+  - el-grocer-shopper-sdk-iOS (0.1.10):
     - Adyen
     - AFNetworking (~> 4.0)
     - AlgoliaSearchClient (~> 8.0)
@@ -64,7 +64,6 @@ PODS:
     - CleverTap-iOS-SDK
     - DisplaySwitcher
     - DoneCancelNumberPadToolbar (~> 0.6)
-    - FBSDKCoreKit (~> 8.1.0)
     - Firebase/Auth
     - Firebase/Core (~> 7.5.0)
     - Firebase/Crashlytics
@@ -98,12 +97,6 @@ PODS:
     - STPopup
     - SwiftDate
     - SwiftMessages
-  - FBSDKCoreKit (8.1.0):
-    - FBSDKCoreKit/Basics (= 8.1.0)
-    - FBSDKCoreKit/Core (= 8.1.0)
-  - FBSDKCoreKit/Basics (8.1.0)
-  - FBSDKCoreKit/Core (8.1.0):
-    - FBSDKCoreKit/Basics
   - FBSnapshotTestCase (2.1.4):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
   - FBSnapshotTestCase/Core (2.1.4)
@@ -333,7 +326,6 @@ SPEC REPOS:
     - CleverTap-iOS-SDK
     - DisplaySwitcher
     - DoneCancelNumberPadToolbar
-    - FBSDKCoreKit
     - FBSnapshotTestCase
     - Firebase
     - FirebaseABTesting
@@ -406,8 +398,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 869bb256d72ed909dec57f6368d75ad58f1992af
-  FBSDKCoreKit: b3ca27e124dae67122d3bb47c8f96800b39986a6
+  el-grocer-shopper-sdk-iOS: 85f15305760696f30cb5ced07a30162733e78685
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
   FirebaseABTesting: e66f1f80747792630d9b292966de206d5df9853b

@@ -130,7 +130,7 @@ Pod::Spec.new do |s|
   # s.dependency 'AFNetworkActivityLogger' #, :git => 'https://github.com/ToshMeston/AFNetworkActivityLogger.git'
 
   # pod 'mopub-ios-sdk' #, '~>4.6.0'
-  s.dependency 'FBSDKCoreKit', '~> 8.1.0'
+  s.dependency 'FBSDKCoreKit', '~> 12.3.1'
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate'
