@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import AFNetworking
+// import AFNetworking
 
 private let SharedInstance = ReachabilityManager()
 

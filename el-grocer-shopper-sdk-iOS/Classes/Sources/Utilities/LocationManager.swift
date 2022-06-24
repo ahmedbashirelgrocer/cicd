@@ -11,7 +11,7 @@ import CoreLocation
 import GoogleMaps
 import RxSwift
 import RxCocoa
-import AFNetworking
+// import AFNetworking
 
 let KLocationChange = "kLocationSharedMangerLocationChangedNotification"
 

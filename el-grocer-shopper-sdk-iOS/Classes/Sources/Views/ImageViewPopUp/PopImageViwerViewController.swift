@@ -1024,8 +1024,8 @@ class PopImageViwerViewController: UIViewController {
         let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
         
         let facebookParams = [AppEvents.ParameterName.contentID: clearProductID ,AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency: kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
-        
-        AppEvents.logEvent(AppEvents.Name.viewedContent, valueToSum: Double(truncating: productIS.price), parameters: facebookParams as! [String : Any])
+            //MARK:- Fix fix it later with sdk version
+       // AppEvents.logEvent(AppEvents.Name.viewedContent, valueToSum: Double(truncating: productIS.price), parameters: facebookParams as! [String : Any])
         FireBaseEventsLogger.trackViewItem(productIS)
         AlgoliaApi.sharedInstance.viewItemAlgolia(product: productIS)
         

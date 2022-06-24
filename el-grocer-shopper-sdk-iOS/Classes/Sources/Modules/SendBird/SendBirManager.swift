@@ -8,7 +8,7 @@
 
 import UIKit
 import SendBirdUIKit
-import AFNetworking
+// import AFNetworking
 import CloudKit
 
 enum sendBirdApiEndPoint: String{

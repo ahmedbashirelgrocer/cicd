@@ -10,7 +10,7 @@ import FirebaseCrashlytics
 import GoogleMaps
 import GooglePlaces
 import UserNotifications
-import AFNetworking
+// import AFNetworking
 import BackgroundTasks
 import IQKeyboardManagerSwift
 import CleverTapSDK

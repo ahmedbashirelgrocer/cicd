@@ -526,7 +526,8 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
             }
             
             /* ---------- Facebook Search Event ----------*/
-            AppEvents.logEvent(AppEvents.Name.searched, parameters: [AppEvents.Name.searched.rawValue:self.searchString])
+            //MARK:- Fix fix it later with sdk version
+            //AppEvents.logEvent(AppEvents.Name.searched, parameters: [AppEvents.Name.searched.rawValue:self.searchString])
             /* ---------- AppsFlyer Search Event ----------*/
                 // MARK:- TODO fixappsflyer
            // AppsFlyerLib.shared().logEvent(name: AFEventSearch, values: [AFEventParamSearchString:self.searchString], completionHandler: nil)

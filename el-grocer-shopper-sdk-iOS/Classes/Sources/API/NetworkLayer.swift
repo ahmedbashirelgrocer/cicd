@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import AFNetworking
+// import AFNetworking
 
 
 typealias callProgress =  ((_ progress : Progress) -> ())?

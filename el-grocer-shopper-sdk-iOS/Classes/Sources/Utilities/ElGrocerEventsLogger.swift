@@ -510,7 +510,8 @@ extension  ElGrocerEventsLogger   {
         let iscleverTapC = resultCheckOutTime.1
         let isfirebaseC = resultCheckOutTime.2
         if isfacebookC != nil {
-            AppEvents.logEvent(AppEvents.Name(rawValue: isfacebookC!), parameters: ["Date" : Date.dataInGST(Date())])
+                //MARK:- Fix fix it later with sdk version
+            //AppEvents.logEvent(AppEvents.Name(rawValue: isfacebookC!), parameters: ["Date" : Date.dataInGST(Date())])
         }
         if iscleverTapC != nil {
             CleverTapEventsLogger.trackCheckOutTime(eventName: iscleverTapC!)
@@ -553,8 +554,8 @@ extension  ElGrocerEventsLogger   {
            
             //AppEvents.ParameterName.contentID: clearProductID ,
             let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
-            
-            AppEvents.logEvent(AppEvents.Name(rawValue: isfacebookC!), valueToSum: Double(truncating: product.price), parameters: facebookParams as! [String : Any])
+                //MARK:- Fix fix it later with sdk version
+           // AppEvents.logEvent(AppEvents.Name(rawValue: isfacebookC!), valueToSum: Double(truncating: product.price), parameters: facebookParams as! [String : Any])
         }
         GoogleAnalyticsHelper.trackAddToProduct(product: product)
         AlgoliaApi.sharedInstance.addItemToAlgolia(product: product, possitionIndex: (cellIndex?.row ?? nil) )

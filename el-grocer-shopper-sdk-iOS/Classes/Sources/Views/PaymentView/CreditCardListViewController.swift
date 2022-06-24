@@ -567,8 +567,9 @@ class CreditCardListViewController: UIViewController {
             return
         }
     
+            //MARK:- Fix fix it later with sdk version
         /* ---------- Facebook PaymentInfo Event ----------*/
-        AppEvents.logEvent(AppEvents.Name.addedPaymentInfo, parameters:  [AppEvents.ParameterName.success.rawValue:true])
+        //AppEvents.logEvent(AppEvents.Name.addedPaymentInfo, parameters:  [AppEvents.ParameterName.success.rawValue:true])
         
             // MARK:- TODO fixappsflyer
         /* ---------- AppsFlyer PaymentInfo Event ----------*/

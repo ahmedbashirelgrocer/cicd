@@ -504,8 +504,9 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                             
                             AlgoliaApi.sharedInstance.reStartInsights()
                             
+                                //MARK:- Fix fix it later with sdk version
                             /* ---------- Facebook Registration Event ----------*/
-                        AppEvents.logEvent(AppEvents.Name.completedRegistration, parameters:  [AppEvents.ParameterName.registrationMethod.rawValue: "iOS"  , AppEvents.ParameterName.success.rawValue:true , AppEvents.ParameterName.currency.rawValue : kProductCurrencyEngAEDName ])
+                        //AppEvents.logEvent(AppEvents.Name.completedRegistration, parameters:  [AppEvents.ParameterName.registrationMethod.rawValue: "iOS"  , AppEvents.ParameterName.success.rawValue:true , AppEvents.ParameterName.currency.rawValue : kProductCurrencyEngAEDName ])
                             
                                 // MARK:- TODO fixappsflyer
                             /* ---------- AppsFlyer Registration Event ----------*/
@@ -552,8 +553,9 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                 
                 AlgoliaApi.sharedInstance.reStartInsights()
                 
+                    //MARK:- Fix fix it later with sdk version
                 /* ---------- Facebook Registration Event ----------*/
-                AppEvents.logEvent(AppEvents.Name.completedRegistration, parameters:  [AppEvents.ParameterName.registrationMethod.rawValue: "iOS"  , AppEvents.ParameterName.success.rawValue:true])
+              //  AppEvents.logEvent(AppEvents.Name.completedRegistration, parameters:  [AppEvents.ParameterName.registrationMethod.rawValue: "iOS"  , AppEvents.ParameterName.success.rawValue:true])
                 
                     // MARK:- TODO fixappsflyer
                 /* ---------- AppsFlyer Registration Event ----------*/

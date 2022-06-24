@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import AFNetworking
+// import AFNetworking
 import CoreLocation
 import FirebaseCrashlytics
 import JavaScriptCore

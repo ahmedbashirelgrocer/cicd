@@ -977,8 +977,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 FireBaseEventsLogger.trackSearch(self.txtSearch.text ?? self.searchString , topControllerName: searchVC.navigationFromControllerName , isFromUniversalSearch: self.searchFor == .isForUniversalSearch)
             }
             
+                //MARK:- Fix fix it later with sdk version
             /* ---------- Facebook Search Event ----------*/
-            AppEvents.logEvent(AppEvents.Name.searched, parameters: [AppEvents.Name.searched.rawValue:self.searchString])
+            //AppEvents.logEvent(AppEvents.Name.searched, parameters: [AppEvents.Name.searched.rawValue:self.searchString])
             /* ---------- AppsFlyer Search Event ----------*/
             
                 // MARK:- TODO fixappsflyer

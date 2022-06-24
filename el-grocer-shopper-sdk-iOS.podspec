@@ -102,7 +102,7 @@ Pod::Spec.new do |s|
   
   s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'AdSupport', 'AppTrackingTransparency', 'SystemConfiguration'
   
-  s.dependency 'AFNetworking' , '~> 4.0'
+ # s.dependency 'AFNetworking' , '~> 4.0'
   
   s.dependency 'MSPeekCollectionViewDelegateImplementation'
  
