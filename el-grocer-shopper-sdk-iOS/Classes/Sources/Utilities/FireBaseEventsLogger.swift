@@ -473,16 +473,19 @@ class FireBaseEventsLogger  {
             
         }
     
+        
         FireBaseEventsLogger.logEventToFirebaseWithEventName( "", eventName: AnalyticsEventAddToCart , parameter: [
             AnalyticsParameterCurrency: kProductCurrencyEngAEDName,
             AnalyticsParameterPrice: product.price ,
             AnalyticsParameterQuantity: quantity,
             AnalyticsParameterItemCategory: categoryName,
             AnalyticsParameterItemID:  cleanProductID ,
-            AnalyticsParameterItemLocationID: defaultAddressId,
+            AnalyticsParameterLocationID: defaultAddressId,
             AnalyticsParameterItemName: productName ,
             AnalyticsParameterValue: product.price
         ])
+        
+        
         
         if UIApplication.topViewController() is SearchViewController {
             if let isSpons = product.isSponsored {
@@ -1117,7 +1120,8 @@ class FireBaseEventsLogger  {
             AnalyticsParameterValue: Double(value) ?? 0,
             ] as [String : Any]
         
-        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: AnalyticsEventEcommercePurchase, parameter:parms)
+        
+        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: AnalyticsEventPurchase, parameter:parms)
         
             if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
                 let finalParms = [

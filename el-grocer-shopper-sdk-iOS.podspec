@@ -110,16 +110,22 @@ Pod::Spec.new do |s|
   s.dependency 'libPhoneNumber-iOS'
   s.dependency 'PinCodeTextField' ###
 
-  # Add the pod for Firebase Crashlytics
-  s.dependency 'Firebase/Crashlytics'
+  
   #s.dependency 'Crashlytics' # please dont delete this for now it will causing crashes need fixes
   # Recommended: Add the Firebase pod for Google Analytics
   # s.dependency 'Firebase/Analytics', '~> 7.5.0'
+  
+  
+  # Add the pod for Firebase Crashlytics
+  s.dependency 'Firebase/Crashlytics'
   s.dependency 'Firebase/Auth'
-  s.dependency 'Firebase/Core', '~> 7.5.0'
+  s.dependency 'Firebase/Core', '~> 9.2.0'
   s.dependency 'Firebase/Messaging'
   s.dependency 'Firebase/DynamicLinks'
   s.dependency 'Firebase/Performance'
+  
+  
+  
   # s.dependency 'Firebase/Storage'
   # s.dependency 'Firebase/Database'
   # s.dependency 'Firebase'
