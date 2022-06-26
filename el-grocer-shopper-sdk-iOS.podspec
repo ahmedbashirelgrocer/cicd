@@ -51,7 +51,6 @@ Pod::Spec.new do |s|
   s.swift_versions = '4.2'
 
   s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*.{m,h,swift}'
-#  s.vendored_libraries = 'el-grocer-shopper-sdk-iOS/Classes/libAFNetworking.a'
   s.exclude_files = "Classes/Exclude"
    
   s.resource_bundles = {
