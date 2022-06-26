@@ -11,34 +11,46 @@ import CleverTapSDK
 import FirebaseAnalytics
 class CleverTapEventsLogger  {
     
+    public static var shared: CleverTapEventsLogger = CleverTapEventsLogger()
+    var cleverTapApp : CleverTap? = nil
     class func getCTProfileId() -> String? {
-        return CleverTap.sharedInstance()?.profileGetAttributionIdentifier()
+        return CleverTapEventsLogger.shared.cleverTapApp?.profileGetAttributionIdentifier()
     }
+    
+    func startCleverTapSharedSDK () {
+        
+        let config = CleverTapInstanceConfig.init(accountId: "675-6KZ-RW6Z", accountToken: "136-5a6")
+        let app = CleverTap.instance(with: config)
+        app.enableDeviceNetworkInfoReporting(true)
+        app.setInAppNotificationDelegate(SDKManager.shared)
+        self.cleverTapApp = app
+    }
+    
+    
     
     class func startCleverTapSDK () {
     
         #if DEBUG
         CleverTap.setDebugLevel(CleverTapLogLevel.off.rawValue)
         #endif
+        
         CleverTap.autoIntegrate()
         CleverTap.sharedInstance()?.enableDeviceNetworkInfoReporting(true)
-        // if  let SDKManager = SDKManager.shared {
         CleverTap.sharedInstance()?.setInAppNotificationDelegate(SDKManager.shared)
-        // }
         
     }
     
     class func registerFor(_ deviceToken: Data ) {
-          CleverTap.sharedInstance()?.setPushToken(deviceToken)
+          CleverTapEventsLogger.shared.cleverTapApp?.setPushToken(deviceToken)
     }
 
     class func recordEvent(_ name : String , properties : [AnyHashable : Any]?) {
         
 
         if let dataToSend = properties {
-            CleverTap.sharedInstance()?.recordEvent(name, withProps: dataToSend)
+            CleverTapEventsLogger.shared.cleverTapApp?.recordEvent(name, withProps: dataToSend)
         }else{
-            CleverTap.sharedInstance()?.recordEvent(name)
+            CleverTapEventsLogger.shared.cleverTapApp?.recordEvent(name)
         }
         
         
@@ -46,7 +58,7 @@ class CleverTapEventsLogger  {
        // debugPrint("*CleverTap Logs*  *EventName *: \(name)   * properties *: \(String(describing: properties))  *****")
     }
     class func recordScreenName(_ name : String) {
-        CleverTap.sharedInstance()?.recordScreenView(name)
+        CleverTapEventsLogger.shared.cleverTapApp?.recordScreenView(name)
     }
     
 }
@@ -80,32 +92,32 @@ extension CleverTapEventsLogger {
             "activeStoreId" : ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "",
             FireBaseParmName.UserFrom.rawValue : SDKManager.shared.isFromSmile
         ]
-        CleverTap.sharedInstance()?.onUserLogin(profile)
+        CleverTapEventsLogger.shared.cleverTapApp?.onUserLogin(profile)
         if StoreIDs.count > 0{
-            CleverTap.sharedInstance()?.profileAddMultiValues(StoreIDs, forKey: "StoreIDs")
+            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(StoreIDs, forKey: "StoreIDs")
         }
         if ParentIDs.count > 0 {
-            CleverTap.sharedInstance()?.profileAddMultiValues(ParentIDs, forKey: "ParentIDs")
+            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(ParentIDs, forKey: "ParentIDs")
         }
         if ZoneIDs.count > 0 {
-            CleverTap.sharedInstance()?.profileAddMultiValues(ZoneIDs, forKey: "ZoneIDs")
+            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(ZoneIDs, forKey: "ZoneIDs")
         }
         if retailerGroup_Ids.count > 0 {
-            CleverTap.sharedInstance()?.profileAddMultiValues(retailerGroup_Ids, forKey: "retailerGroupIDs")
+            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(retailerGroup_Ids, forKey: "retailerGroupIDs")
         }
-       // CleverTap.sharedInstance()?.profilePush(profile)
+       // CleverTapEventsLogger.shared.cleverTapApp?.profilePush(profile)
     }
     
     class func setUserLocationName (_ locationName : String) {
         let profile: Dictionary<String, Any> = [
             "Location": locationName ]
-        CleverTap.sharedInstance()?.profilePush(profile)
+        CleverTapEventsLogger.shared.cleverTapApp?.profilePush(profile)
        
     }
     
     
     class func pushMoreProfileData (_ data : Dictionary<String, Any>) {
-        CleverTap.sharedInstance()?.profilePush(data)
+        CleverTapEventsLogger.shared.cleverTapApp?.profilePush(data)
     }
     
     class func setUserLocationCoardinatedName (_ coordinate : CLLocationCoordinate2D ) {
@@ -115,7 +127,7 @@ extension CleverTapEventsLogger {
     
  
     class func setUserlocation (_ location : CLLocationCoordinate2D) {
-       CleverTap.sharedInstance()?.setLocation(location)
+       CleverTapEventsLogger.shared.cleverTapApp?.setLocation(location)
     }
 
     class func appLaunch (_ name : String) {

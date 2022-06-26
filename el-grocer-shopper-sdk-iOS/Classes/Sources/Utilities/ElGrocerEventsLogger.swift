@@ -713,7 +713,7 @@ extension  ElGrocerEventsLogger   {
         }else  if payment == PaymentOption.card {
             paymentstr = "PayCardOnDelivery"
         }
-        CleverTap.sharedInstance()?.recordChargedEvent(withDetails: ["Amount" : priceSum , "PaymentMode" : paymentstr , "ChargedID" : finalOrder.dbID.stringValue, "IsSmiles": IsSmiles ], andItems: cleverTap)
+        CleverTapEventsLogger.shared.cleverTapApp?.recordChargedEvent(withDetails: ["Amount" : priceSum , "PaymentMode" : paymentstr , "ChargedID" : finalOrder.dbID.stringValue, "IsSmiles": IsSmiles ], andItems: cleverTap)
 
     }
     

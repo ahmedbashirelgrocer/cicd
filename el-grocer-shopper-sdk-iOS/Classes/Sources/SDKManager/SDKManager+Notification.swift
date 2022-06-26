@@ -87,8 +87,8 @@ extension SDKManager {
             return
         }
         
-        if CleverTap.sharedInstance()?.isCleverTapNotification(userInfo) ?? false {
-            CleverTap.sharedInstance()?.handleNotification(withData: userInfo , openDeepLinksInForeground: false)
+        if CleverTapEventsLogger.shared.cleverTapApp?.isCleverTapNotification(userInfo) ?? false {
+            CleverTapEventsLogger.shared.cleverTapApp?.handleNotification(withData: userInfo , openDeepLinksInForeground: false)
             completionHandler(.noData)
           //  return
         }
@@ -211,7 +211,7 @@ extension SDKManager {
         print("SDKManager: didReceiveResponseWithCompletionHandler \(notification.request.content.userInfo)")
         
         // If you wish CleverTap to record the notification click and fire any deep links contained in the payload.
-        CleverTap.sharedInstance()?.handleNotification(withData: notification.request.content.userInfo, openDeepLinksInForeground: true)
+        CleverTapEventsLogger.shared.cleverTapApp?.handleNotification(withData: notification.request.content.userInfo, openDeepLinksInForeground: true)
         
         completionHandler([.sound])
     }

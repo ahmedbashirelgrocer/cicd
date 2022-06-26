@@ -96,6 +96,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>elgrocer</string>
+		<string>googlechromes</string>
+		<string>comgooglemaps</string>
 		<string>elGrocer</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
@@ -114,11 +116,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need to access your camera to take a picture/record a video to share</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>"This is required to show you supermarkets and products around you"</string>
+	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>"This is required to show you supermarkets and products around you"</string>
+	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>"This is required to show you supermarkets and products around you"</string>
+	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We would like to access device microphone to record audio.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

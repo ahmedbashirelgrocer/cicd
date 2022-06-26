@@ -23,7 +23,7 @@ class  CleverTapConfig : NSObject {
     var storyValue = "Storyly"
     
     
-    var productConfig: CleverTapProductConfig? = CleverTap.sharedInstance()?.productConfig
+    var productConfig: CleverTapProductConfig? = CleverTapEventsLogger.shared.cleverTapApp?.productConfig
     var startTime : Date = Date().getUTCDate()
     var isStorylyBannerEnableHomeTiar1 : Bool = false {
         didSet{
@@ -32,22 +32,22 @@ class  CleverTapConfig : NSObject {
     }
     
     func reset(){
-        CleverTap.sharedInstance()?.productConfig.reset()
+        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.reset()
     }
     
     func setInitialData() {
         
         
-        CleverTap.sharedInstance()?.productConfig.setDefaultsFromPlistFileName("ProductConfigDefaults")
+        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.setDefaultsFromPlistFileName("ProductConfigDefaults")
         let defaults = NSMutableDictionary()
         defaults.setValue("Default", forKey: HomeBannerLocation1ConfigKey)
-        CleverTap.sharedInstance()?.productConfig.setDefaults(defaults as? [String : NSObject])
+        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.setDefaults(defaults as? [String : NSObject])
     }
     
     func fetchConfig() {
-//        CleverTap.sharedInstance()?.productConfig.delegate = self;
-//        CleverTap.sharedInstance()?.productConfig.fetch(withMinimumInterval: 5)
-//        CleverTap.sharedInstance()?.productConfig.fetch()
+//        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.delegate = self;
+//        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.fetch(withMinimumInterval: 5)
+//        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.fetch()
         self.isStorylyBannerEnableHomeTiar1  = true
     }
     
@@ -57,18 +57,18 @@ class  CleverTapConfig : NSObject {
     
     func resetAndFetchNewConfig() {
         self.isStorylyBannerEnableHomeTiar1  = true
-//        CleverTap.sharedInstance()?.productConfig.reset()
-//        CleverTap.sharedInstance()?.productConfig.fetch(withMinimumInterval: 5)
-//        CleverTap.sharedInstance()?.productConfig.fetch()
+//        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.reset()
+//        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.fetch(withMinimumInterval: 5)
+//        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.fetch()
     }
     
     func fetchFeatureData() {
         
-        CleverTap.sharedInstance()?.featureFlags.delegate = self;
+        CleverTapEventsLogger.shared.cleverTapApp?.featureFlags.delegate = self;
     }
     
     func updateFeatureAbData() {
-        if let featureFlag = CleverTap.sharedInstance()?.featureFlags.get( HomeBannerLocation1ABKey , withDefaultValue:false) {
+        if let featureFlag = CleverTapEventsLogger.shared.cleverTapApp?.featureFlags.get( HomeBannerLocation1ABKey , withDefaultValue:false) {
             self.isStorylyBannerEnableHomeTiar1 = featureFlag
         }
     }
@@ -79,7 +79,7 @@ class  CleverTapConfig : NSObject {
 extension CleverTapConfig :  CleverTapProductConfigDelegate , CleverTapFeatureFlagsDelegate {
     
     func ctFeatureFlagsUpdated() {
-        if let featureFlag = CleverTap.sharedInstance()?.featureFlags.get( HomeBannerLocation1ABKey , withDefaultValue:false) {
+        if let featureFlag = CleverTapEventsLogger.shared.cleverTapApp?.featureFlags.get( HomeBannerLocation1ABKey , withDefaultValue:false) {
             self.isStorylyBannerEnableHomeTiar1 = featureFlag
         }
     }
@@ -87,11 +87,11 @@ extension CleverTapConfig :  CleverTapProductConfigDelegate , CleverTapFeatureFl
     func ctProductConfigInitialized() { }
     
     func ctProductConfigFetched() {
-        CleverTap.sharedInstance()?.productConfig.activate()
+        CleverTapEventsLogger.shared.cleverTapApp?.productConfig.activate()
     }
     
     func ctProductConfigActivated() {
-        if let value = CleverTap.sharedInstance()?.productConfig.get(HomeBannerLocation1ConfigKey)?.stringValue {
+        if let value = CleverTapEventsLogger.shared.cleverTapApp?.productConfig.get(HomeBannerLocation1ConfigKey)?.stringValue {
             self.isStorylyBannerEnableHomeTiar1 = (value == storyValue)
         }
     }
