@@ -26,6 +26,21 @@ PODS:
   - Adyen/Encryption (4.7.3)
   - Adyen3DS2 (2.2.6)
   - AdyenNetworking (1.0.0)
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
+    - AFNetworking/NSURLSession
   - AlgoliaSearchClient (8.14.0):
     - Logging
   - AnimatedGradientView (3.1.0)
@@ -320,6 +335,7 @@ PODS:
   - SwiftMessages/App (9.0.6)
 
 DEPENDENCIES:
+  - AFNetworking (~> 3.2.1)
   - el-grocer-shopper-sdk-iOS (from `../`)
   - FBSnapshotTestCase (~> 2.1.4)
 
@@ -328,6 +344,7 @@ SPEC REPOS:
     - Adyen
     - Adyen3DS2
     - AdyenNetworking
+    - AFNetworking
     - AlgoliaSearchClient
     - AnimatedGradientView
     - BadgeControl
@@ -400,6 +417,7 @@ SPEC CHECKSUMS:
   Adyen: 0c6a07071c872876641790f3a8bc77a2c735506a
   Adyen3DS2: e683a519946e99a78adec8d89459e6eec53b0a4f
   AdyenNetworking: 14567bd00c00ba2e2580a904708c7ba5f010b1f9
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
   AnimatedGradientView: f249740238c6b491a10d505ab06bb98d897ca3a7
   BadgeControl: 67036e7f586930bba15084dbf89ebce7aa2f2bc2
@@ -409,7 +427,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 23a8e49678b387d562a1024b0442bb4229dc9c15
+  el-grocer-shopper-sdk-iOS: a588326228f7b233cbc6fb65f9cad9211ee7c6a4
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -465,6 +483,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: dae70baa733b477d04f1a33b7ec0cc62d2974792
+PODFILE CHECKSUM: df39b0f9c0443ee384bf9b5439d0c9c0a1302d9d
 
 COCOAPODS: 1.11.3

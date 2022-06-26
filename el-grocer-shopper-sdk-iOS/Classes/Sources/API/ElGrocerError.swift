@@ -136,7 +136,7 @@ struct ElGrocerError {
     /** Initialize error from API response */
     init(error: NSError) {
         
-        guard let data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? Data, let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:Any] else {
+        guard let data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKeyCustom] as? Data, let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:Any] else {
             self.code = error.code
             self.message = error.localizedDescription
             return
@@ -149,7 +149,7 @@ struct ElGrocerError {
     
         
         var errorCode = error.code
-        if let httpresponse = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? HTTPURLResponse {
+        if let httpresponse = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKeyCustom] as? HTTPURLResponse {
             errorCode = httpresponse.statusCode
         }
         

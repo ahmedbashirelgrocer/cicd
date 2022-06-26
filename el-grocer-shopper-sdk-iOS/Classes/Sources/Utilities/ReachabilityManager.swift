@@ -11,7 +11,7 @@ import Foundation
 
 private let SharedInstance = ReachabilityManager()
 
-let kReachabilityManagerNetworkStatusChangedNotification = "kReachabilityManagerNetworkStatusChangedNotification"
+let kReachabilityManagerNetworkStatusChangedNotificationCustom = "kReachabilityManagerNetworkStatusChangedNotificationCustom"
 
 class ReachabilityManager {
     
@@ -23,20 +23,20 @@ class ReachabilityManager {
     init() {
         
         
-       
-        AFNetworkReachabilityManager.shared().setReachabilityStatusChange { (status:AFNetworkReachabilityStatus) -> Void in
+ 
+        AFNetworkReachabilityManagerCustom.sharedManager().setReachabilityStatusChange { status in
             
             switch (status) {
                 
             case .reachableViaWiFi, .reachableViaWWAN:
                 
                 print("Network reachable")
-                NotificationCenter.default.post(name: Notification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotification), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
                 
             case .notReachable:
                 
                 print("Network not reachable")
-                NotificationCenter.default.post(name: Notification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotification), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
                 
             case .unknown:
                 
@@ -46,14 +46,14 @@ class ReachabilityManager {
             }
         }
         
-        AFNetworkReachabilityManager.shared().startMonitoring()
+        AFNetworkReachabilityManagerCustom.sharedManager().startMonitoring()
     }
     
     // MARK: Network status
     
     func isNetworkAvailable() -> Bool {
         
-        return AFNetworkReachabilityManager.shared().isReachable
+        return AFNetworkReachabilityManagerCustom.sharedManager().isReachable
     }
     
     func isConnectedToNetwork() -> Bool {
@@ -90,7 +90,7 @@ class ReachabilityManager {
     
     func isNetworkAvailable(_ shouldShowAlert:Bool) -> Bool {
         
-        let reachable = AFNetworkReachabilityManager.shared().isReachable
+        let reachable = AFNetworkReachabilityManagerCustom.sharedManager().isReachable
         
         if !reachable && shouldShowAlert {
             showNoInternetConnectionAlert()

@@ -755,7 +755,7 @@ extension SendBirdManager{
         
         
         let headerToSend = ["Content-Type": contentType, "Api-Token": ApiToken]
-        let manager = AFHTTPSessionManager.init()
+        let manager = AFHTTPSessionManagerCustom.init()
         
         manager.get(
             url + userId,
@@ -782,8 +782,8 @@ extension SendBirdManager{
     func createUser(userId: String, name: String , completion: @escaping(String?)-> Void){
         let url = baseUrl + sendBirdApiEndPoint.createUser.rawValue
         let params = ["user_id" : userId, "nickname": name,"profile_url": ""]
-        let manager = AFHTTPSessionManager.init()
-        manager.requestSerializer = AFJSONRequestSerializer()
+        let manager = AFHTTPSessionManagerCustom.init()
+        manager.requestSerializer = AFJSONRequestSerializerCustom()
         manager.requestSerializer.setValue(contentType, forHTTPHeaderField: "Content-Type")
         manager.requestSerializer.setValue(ApiToken, forHTTPHeaderField: "Api-Token")
 
@@ -806,8 +806,8 @@ extension SendBirdManager{
     func updateUser(userIdToUpdate: String, nameToUpdate: String, completion: @escaping(String?)-> Void){
         let url = baseUrl + sendBirdApiEndPoint.viewUser.rawValue + userIdToUpdate
         let params = ["nickname": nameToUpdate,"profile_url": ""]
-        let manager = AFHTTPSessionManager.init()
-        manager.requestSerializer = AFJSONRequestSerializer()
+        let manager = AFHTTPSessionManagerCustom.init()
+        manager.requestSerializer = AFJSONRequestSerializerCustom()
         manager.requestSerializer.setValue(contentType, forHTTPHeaderField: "Content-Type")
         manager.requestSerializer.setValue(ApiToken, forHTTPHeaderField: "Api-Token")
         
@@ -833,8 +833,8 @@ extension SendBirdManager{
         let tokenType = "apns"
         let url = baseUrl + sendBirdApiEndPoint.viewUser.rawValue + userId + "/push/" + tokenType
         let params = ["apns_device_token" : UserDefaults.getDevicePushToken() ?? ""]
-        let manager = AFHTTPSessionManager.init()
-        manager.requestSerializer = AFJSONRequestSerializer()
+        let manager = AFHTTPSessionManagerCustom.init()
+        manager.requestSerializer = AFJSONRequestSerializerCustom()
         manager.requestSerializer.setValue(contentType, forHTTPHeaderField: "Content-Type")
         manager.requestSerializer.setValue(ApiToken, forHTTPHeaderField: "Api-Token")
         
@@ -889,8 +889,8 @@ extension SendBirdManager{
         let params = ["":""]
 
 
-        let manager = AFHTTPSessionManager.init()
-        manager.requestSerializer = AFJSONRequestSerializer()
+        let manager = AFHTTPSessionManagerCustom.init()
+        manager.requestSerializer = AFJSONRequestSerializerCustom()
         manager.requestSerializer.setValue(contentType, forHTTPHeaderField: "Content-Type")
         manager.requestSerializer.setValue(ApiToken, forHTTPHeaderField: "Api-Token")
 
@@ -932,8 +932,8 @@ extension SendBirdManager{
         let url = baseUrl + "/users/" + userId + "/push/apns"
         
      
-        let manager = AFHTTPSessionManager.init()
-        manager.requestSerializer = AFJSONRequestSerializer()
+        let manager = AFHTTPSessionManagerCustom.init()
+        manager.requestSerializer = AFJSONRequestSerializerCustom()
         manager.requestSerializer.setValue(contentType, forHTTPHeaderField: "Content-Type")
         manager.requestSerializer.setValue(ApiToken, forHTTPHeaderField: "Api-Token")
         
@@ -961,7 +961,7 @@ extension SendBirdManager{
     
         
         let headerToSend = ["Content-Type": contentType, "Api-Token": ApiToken]
-        let manager = AFHTTPSessionManager.init()
+        let manager = AFHTTPSessionManagerCustom.init()
         
         manager.get(
             url,
@@ -996,8 +996,8 @@ extension SendBirdManager{
         let configuration = URLSessionConfiguration.default
         
 
-        let manager = AFHTTPSessionManager.init()
-        manager.requestSerializer = AFJSONRequestSerializer()
+        let manager = AFHTTPSessionManagerCustom.init()
+        manager.requestSerializer = AFJSONRequestSerializerCustom()
         manager.requestSerializer.setValue(contentType, forHTTPHeaderField: "Content-Type")
         manager.requestSerializer.setValue(deskApiToken, forHTTPHeaderField: "SENDBIRDDESKAPITOKEN")
         

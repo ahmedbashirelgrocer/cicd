@@ -8,13 +8,10 @@
 
 import Foundation
 import UIKit
-// import AFNetworking
 import CoreLocation
 import FirebaseCrashlytics
 import JavaScriptCore
 import AlgoliaSearchClient
-
-
 private let SharedInstance = ElGrocerApi()
 private let NonBaseURLSharedInstance = ElgrocerAPINonBase()
 
@@ -194,7 +191,7 @@ enum ElGrocerApiEndpoint : String {
  
  class ElgrocerAPINonBase  {
     
-     var requestManager : AFHTTPSessionManager!
+     var requestManager : AFHTTPSessionManagerCustom!
     
     class var sharedInstance : ElgrocerAPINonBase {
         return NonBaseURLSharedInstance
@@ -202,11 +199,11 @@ enum ElGrocerApiEndpoint : String {
     
     init() {
         
-        self.requestManager = AFHTTPSessionManager.init()
+        self.requestManager = AFHTTPSessionManagerCustom.init()
         //self.requestManager.requestSerializer.timeoutInterval = 300
         //self.requestManager.requestSerializer = AFJSONRequestSerializer((writingOptions: JSONSerialization.WritingOptions.prettyPrinted))
        // self.requestManager.responseSerializer.acceptableContentTypes = Set(["text/html; charset=UTF-8"])
-        self.requestManager.responseSerializer  = AFHTTPResponseSerializer()
+        self.requestManager.responseSerializer  = AFHTTPResponseSerializerCustom()
         self.requestManager.securityPolicy.allowInvalidCertificates = true
         self.requestManager.securityPolicy.validatesDomainName = false
         
@@ -224,7 +221,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     
         let finalUrl = PayFortCredintials.development.mainURLCheckOut + PathAPI.pageAPI.getAPIString()
         let parameters = PayFortManager.getMapsForCreditCardToken(creditCard: creditCart)
-        let sesssionmanger =  AFHTTPSessionManager.init()
+        let sesssionmanger =  AFHTTPSessionManagerCustom.init()
         sesssionmanger.responseSerializer.acceptableContentTypes = Set(["text/html;charset=UTF-8"])
         sesssionmanger.requestSerializer.setValue("application/x-www-form-urlencoded; charset=utf-8" , forHTTPHeaderField: "Content-Type")
     sesssionmanger.post(finalUrl, parameters: parameters, headers: nil , progress: { (progress) in
@@ -307,8 +304,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
        // let finalUrl = PayFortCredintials.development.mainURLCheckOut + PathAPI.pageAPI.getAPIString()
         let finalUrl = PayFortCredintials.development.mainURLPayment + PathAPI.paymentAPI.getAPIString()
         let parameters = PayFortManager.getAuthorizationMap(cvv: cvv , token: token, email: email, amountToHold: amountToHold, ip: ip , isNeedToExtraFromServer)
-        let sesssionmanger =  AFHTTPSessionManager.init()
-        sesssionmanger.requestSerializer = AFJSONRequestSerializer()
+        let sesssionmanger =  AFHTTPSessionManagerCustom.init()
+        sesssionmanger.requestSerializer = AFJSONRequestSerializerCustom()
        // sesssionmanger.responseSerializer.acceptableContentTypes = Set(["text/html;charset=UTF-8"])
         sesssionmanger.requestSerializer.setValue("application/json" , forHTTPHeaderField: "Content-Type")
         sesssionmanger.post(finalUrl, parameters: parameters, headers: nil , progress: { (progress) in
@@ -353,8 +350,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         // let finalUrl = PayFortCredintials.development.mainURLCheckOut + PathAPI.pageAPI.getAPIString()
         let finalUrl = PayFortCredintials.development.mainURLPayment + PathAPI.paymentAPI.getAPIString()
         let parameters = PayFortManager.getVoidAuthorizationMap(fortId: fortID)
-        let sesssionmanger =  AFHTTPSessionManager.init()
-        sesssionmanger.requestSerializer = AFJSONRequestSerializer()
+        let sesssionmanger =  AFHTTPSessionManagerCustom.init()
+        sesssionmanger.requestSerializer = AFJSONRequestSerializerCustom()
         // sesssionmanger.responseSerializer.acceptableContentTypes = Set(["text/html;charset=UTF-8"])
         sesssionmanger.requestSerializer.setValue("application/json" , forHTTPHeaderField: "Content-Type")
         sesssionmanger.post(finalUrl, parameters: parameters, headers: nil , progress: { (progress) in
@@ -404,7 +401,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
  typealias elgrocerCompletionHandler = (_ result: Either<NSDictionary>) -> Void
   var baseApiPath: String!
-  var requestManager : AFHTTPSessionManager!
+  var requestManager : AFHTTPSessionManagerCustom!
   
  //  private var productsSearchOperation:URLSessionDataTask?
  //  private var basketFetchOperation:URLSessionDataTask?
@@ -442,13 +439,14 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             //self.baseApiPath =  "http://192.168.5.21:3000/api/"
             GenericClass.print(self.baseApiPath ?? "")
         }
-        self.requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
-        self.requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.prettyPrinted)
+        self.requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
+        
+        self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
       //  self.requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
         self.requestManager.securityPolicy.allowInvalidCertificates = true
         self.requestManager.securityPolicy.validatesDomainName = false
         self.requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
-        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
+        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: AFSSLPinningModeCustom.none)
         securitypolicy.allowInvalidCertificates = true
         securitypolicy.validatesDomainName = false
         self.requestManager.securityPolicy = securitypolicy
@@ -886,7 +884,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     
     let nerror = error as NSError
     
-    guard let data = nerror.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? Data, let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:Any] else {
+    guard let data = nerror.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKeyCustom] as? Data, let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:Any] else {
         completionHandler(false, "")
         return
     }

@@ -90,21 +90,16 @@ class NetworkLayer {
         return requestManager
     }()
      */
-    lazy private(set) var  requestManager : AFHTTPSessionManager = {
-        let  requestManager : AFHTTPSessionManager
+    lazy private(set) var  requestManager : AFHTTPSessionManagerCustom = {
+        let  requestManager : AFHTTPSessionManagerCustom
         self.baseApiPath = EnvironmentVariables.sharedInstance.getBackendUrl()
-        requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
-        if #available(iOS 11.0, *) {
-            requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.sortedKeys)
-        } else {
-            // Fallback on earlier versions
-            requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.prettyPrinted)
-        }
+        requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
+        requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
         //requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection") //  keep-alive
         requestManager.securityPolicy.allowInvalidCertificates = true
         requestManager.securityPolicy.validatesDomainName = false
         requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
-        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
+        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: AFSSLPinningModeCustom.none)
         securitypolicy.allowInvalidCertificates = true
         securitypolicy.validatesDomainName = false
         requestManager.securityPolicy = securitypolicy
@@ -199,13 +194,14 @@ class NetworkLayer {
         }
         ElGrocerUtility.sharedInstance.isTokenCalling = true
         let baseurl = EnvironmentVariables.sharedInstance.getBackendUrl()
-        let requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: baseurl)! as URL)
-        requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.prettyPrinted)
+        let requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: baseurl)! as URL)
+        requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
        // requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
         requestManager.securityPolicy.allowInvalidCertificates = true
         requestManager.securityPolicy.validatesDomainName = false
         requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
-        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
+        
+        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: AFSSLPinningModeCustom.none)
         securitypolicy.allowInvalidCertificates = true
         securitypolicy.validatesDomainName = false
         requestManager.securityPolicy = securitypolicy
@@ -238,7 +234,7 @@ class NetworkLayer {
           //  UIApplication.shared.isNetworkActivityIndicatorVisible = false
             ElGrocerUtility.sharedInstance.isTokenCalling = false
             if let finalerror  =  error as? NSError {
-                if let response = finalerror.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] as? HTTPURLResponse {
+                if let response = finalerror.userInfo[AFNetworkingOperationFailingURLResponseErrorKeyCustom] as? HTTPURLResponse {
                     print(response.statusCode)
                     if response.statusCode == 404 {
                         let fakeDict = ["access_token" : "fakeToken" , "created_at" : Date().timeIntervalSinceNow , "expires_in" : 300 , "scope" : "public" , "token_type" : "Bearer"] as [String : Any]
