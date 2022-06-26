@@ -43,8 +43,8 @@ class CallObj {
     
     func startNetWorkLayerCall (_ layerCall : NetworkLayer ) {
         
-        debugPrint("AF: URLString \(self.URLString)")
-        debugPrint("AF: parameters \(String(describing: self.parameters))")
+       // debugPrint("AF: URLString \(self.URLString)")
+       // debugPrint("AF: parameters \(String(describing: self.parameters))")
         
         if self.type == .get {
             layerCall.get(self.URLString, parameters: self.parameters , progress: self.progress! , success: self.success, failure: self.failure)
@@ -280,6 +280,7 @@ class NetworkLayer {
         self.setLocale()
         self.setDateTimeOffset()
         self.setAuthenticationToken()
+        self.setUserAgent()
     }
     
     func setAuthenticationToken() {
@@ -301,6 +302,13 @@ class NetworkLayer {
     
         self.requestManager.requestSerializer.setValue(TimeZone.getCurrentTimeZoneIdentifier(), forHTTPHeaderField: "DateTimeOffset")
     }
+    
+    func setUserAgent() {
+        
+        self.requestManager.requestSerializer.setValue("smileSDK", forHTTPHeaderField: "user-agent")
+    }
+    
+    
 
 }
 

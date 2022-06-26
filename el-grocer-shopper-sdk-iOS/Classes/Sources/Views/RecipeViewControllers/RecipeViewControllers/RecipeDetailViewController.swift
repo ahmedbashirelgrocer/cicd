@@ -484,37 +484,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
             })
         }
         return
-        //dismiss grocery selection controller
-        DispatchQueue.main.async {
-            controller.dismiss(animated: true, completion: { () -> Void in
-                /*  if !UserDefaults.isUserLoggedIn() {
-                 
-                 self.shouldShowBasket = .ShopByItemsBasket
-                 self.shopByItemGrocery = grocery
-                 self.notAvailableItems = notAvailableItems
-                 self.availableProductsPrices = availableProductsPrices
-                 (SDKManager.shared).showEntryView()
-                 
-                 } else {
-                 
-                 //show basket with selected grocery and prices, with items markes as unavailable
-                 let basketController = ElGrocerViewControllers.myBasketViewController()
-                 basketController.showShoppingBasket(delegate: self, shouldShowGroceryActiveBasket: false, selectedGroceryForItems: grocery, notAvailableProducts: notAvailableItems, availableProductsPrices: availableProductsPrices)
-                 self.navigationController?.pushViewController(basketController, animated: true)
-                 
-                 /* ---------- Hide below code because now we are not showing old basket view ---------- */
-                 /* self.shoppingBasketView = ShoppingBasketView.showShoppingBasket(self, shouldShowGroceryActiveBasket: false, selectedGroceryForItems: grocery, notAvailableProducts: notAvailableItems, availableProductsPrices: availableProductsPrices)*/
-                 
-                 //tutorial
-                 /* if !UserDefaults.wasTutorialImageShown(TutorialView.TutorialImage.Basket) {
-                 
-                 TutorialView.showTutorialView(withImage: TutorialView.TutorialImage.Basket)
-                 UserDefaults.setTutorialImageAsShown(TutorialView.TutorialImage.Basket)
-                 }*/
-                 } */
-            })
-        }
-        
+       
     }
     
   /*  func showGrocerySelectionController() {

@@ -305,15 +305,23 @@ open class SDKManager: NSObject  {
         
         var filePath:String!
         filePath = Bundle.resource.path(forResource: "GoogleService-Info", ofType: "plist")
-        let projectName = "elgrocer"
+        //let projectName = "ShopperSmile"
         let options = FirebaseOptions.init(contentsOfFile: filePath)!
+        options.googleAppID = "1:793956033248:ios:0bea4a41f785ab7201a685"
+        options.clientID = "793956033248-94r5vl24meiq6c8fod92759q2nvoabvl.apps.googleusercontent.com"
+        options.bundleID = "Etisalat.House"
+        options.apiKey = "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0"
+        options.trackingID = "UA-64355049-2"
         FirebaseApp.configure(options: options)
+        
+      //  FirebaseApp.configure(name: projectName, options: options)
+        
+       
         
     }
     
     fileprivate func productionFirebaseSetting() {
-         // FirebaseApp.configure() // defualt info plist
-        
+        // FirebaseApp.configure() // defualt info plist
         var filePath:String!
         filePath = Bundle.resource.path(forResource: "GoogleService-Info", ofType: "plist")
         let projectName = "elgrocer"

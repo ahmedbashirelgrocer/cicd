@@ -32,7 +32,7 @@ let KGoToMayBasket = "LoadMyBasketVC"
 let KGoBackToOrderScreen = "PendingStageReactiveted"
 let kBasketUpdateForEditNotificationKey = "UpdateBasketForEditNotification"
 let kStartCheckOutProcessKey = "allDataDonenPleaseStartCheckoutProcessFromMYBasketScreen"
-let kGoogleMapsApiKey   =   "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" // forlive
+let kGoogleMapsApiKey   =   "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0" // forlive
 
 let KGoToBasket = "gotoBackFromTabBar"
 let KCancelOldAllCalls = "CancelDataCalls"

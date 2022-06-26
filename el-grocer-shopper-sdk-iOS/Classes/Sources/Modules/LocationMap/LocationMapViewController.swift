@@ -1028,6 +1028,8 @@ extension LocationMapViewController: UITextFieldDelegate {
 
 extension LocationMapViewController: GMSAutocompleteViewControllerDelegate {
     
+    
+    
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         self.isNeedToUpdateManual = true
         self.fetchDeliveryAddressFromEntry = nil

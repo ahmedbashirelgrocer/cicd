@@ -77,7 +77,8 @@ extension CleverTapEventsLogger {
             "retailerGroupIDs" : retailerGroup_Ids,
             "language" : UserDefaults.getCurrentLanguage() ?? "" ,
             "sessionId" : ElGrocerUtility.sharedInstance.getGenericSessionID(),
-            "activeStoreId" : ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+            "activeStoreId" : ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "",
+            FireBaseParmName.UserFrom.rawValue : SDKManager.shared.isFromSmile
         ]
         CleverTap.sharedInstance()?.onUserLogin(profile)
         if StoreIDs.count > 0{

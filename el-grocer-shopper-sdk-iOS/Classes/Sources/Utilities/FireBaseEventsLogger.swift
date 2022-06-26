@@ -140,6 +140,7 @@ enum FireBaseParmName : String {
     case UserId = "User_id"
     case Userlatlon = "User_latlon"
     case UserPlatform = "User_platform"
+    case UserFrom = "User_SmileSDK"
     case PickerID = "PickerId"
     case OrderStatusID = "OrderStausId"
     
@@ -163,6 +164,7 @@ enum FireBaseParmName : String {
     case StoreId = "StoreId"
     case BrandId = "BrandId"
     case SelectedStoreId = "SelectedStoreId"
+    
 
 }
 
@@ -303,7 +305,8 @@ class FireBaseEventsLogger  {
             newParms?["ZoneID"] = ElGrocerUtility.sharedInstance.activeGrocery?.deliveryZoneId ?? "0"
         }
         
-         newParms?[FireBaseParmName.UserPlatform.rawValue] = "ios"
+        newParms?[FireBaseParmName.UserFrom.rawValue] = SDKManager.shared.isFromSmile
+        newParms?[FireBaseParmName.UserPlatform.rawValue] = "ios"
         
         if let newLocation = ElGrocerUtility.sharedInstance.activeAddress {
             newParms?[FireBaseParmName.LocationId.rawValue] = newLocation.dbID.count > 0 ? newLocation.dbID : "1"

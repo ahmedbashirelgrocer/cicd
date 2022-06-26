@@ -9,7 +9,7 @@
 	<key>ANDROID_CLIENT_ID</key>
 	<string>793956033248-3ibj3tu9l71u6vf5aflp3nfrsandro5l.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBWHul-ZoG5mcMp5PQbf-JGitsgaIN0ov8</string>
+	<string>AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0</string>
 	<key>GCM_SENDER_ID</key>
 	<string>793956033248</string>
 	<key>PLIST_VERSION</key>
@@ -21,18 +21,20 @@
 	<key>STORAGE_BUCKET</key>
 	<string>elgrocer-v2.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<true/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:793956033248:ios:0bea4a41f785ab7201a685</string>
 	<key>DATABASE_URL</key>
 	<string>https://elgrocer-v2.firebaseio.com</string>
+	<key>TRACKING_ID</key>
+	<string>UA-64355049-2</string>
 </dict>
 </plist>
