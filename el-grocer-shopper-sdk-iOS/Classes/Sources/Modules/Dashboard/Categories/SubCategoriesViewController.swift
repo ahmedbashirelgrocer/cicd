@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import HMSegmentedControl
+//import HMSegmentedControl
 import FirebaseAnalytics
 import FBSDKCoreKit
 import FirebaseCrashlytics

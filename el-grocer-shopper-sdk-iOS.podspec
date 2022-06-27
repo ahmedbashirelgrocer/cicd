@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '0.1.19'
+  s.version          = '0.1.20'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -143,7 +143,7 @@ Pod::Spec.new do |s|
   s.dependency 'FXPageControl', '~> 1.5'
   s.dependency 'RxSwift', '~>5.1.1'
   s.dependency 'RxCocoa', '~>5.1.1'
-  s.dependency 'HMSegmentedControl', '~> 1.5.6'
+  #s.dependency 'HMSegmentedControl', '~> 1.5.6'
   s.dependency 'KLCPopup', '~> 1.0'
   s.dependency 'JDFTooltips', '~> 1.1'
     
