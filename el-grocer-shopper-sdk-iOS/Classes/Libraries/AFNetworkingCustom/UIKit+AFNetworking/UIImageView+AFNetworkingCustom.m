@@ -27,11 +27,11 @@
 
 #import "AFImageDownloaderCustom.h"
 
-@interface UIImageView (_AFNetworking)
+@interface UIImageView (AFNetworkingCustom)
 @property (readwrite, nonatomic, strong, setter = af_setActiveImageDownloadReceipt:) AFImageDownloadReceiptCustom *af_activeImageDownloadReceipt;
 @end
 
-@implementation UIImageView (_AFNetworking)
+@implementation UIImageView (_AFNetworkingCustom)
 
 - (AFImageDownloadReceiptCustom *)af_activeImageDownloadReceipt {
     return (AFImageDownloadReceiptCustom *)objc_getAssociatedObject(self, @selector(af_activeImageDownloadReceipt));
@@ -41,11 +41,11 @@
     objc_setAssociatedObject(self, @selector(af_activeImageDownloadReceipt), imageDownloadReceipt, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-@end
+//@end
+//
+//#pragma mark -
 
-#pragma mark -
-
-@implementation UIImageView (AFNetworking)
+//@implementation UIImageView (_AFNetworkingCustom)
 
 + (AFImageDownloaderCustom *)sharedImageDownloader {
     return objc_getAssociatedObject([UIImageView class], @selector(sharedImageDownloader)) ?: [AFImageDownloaderCustom defaultInstance];

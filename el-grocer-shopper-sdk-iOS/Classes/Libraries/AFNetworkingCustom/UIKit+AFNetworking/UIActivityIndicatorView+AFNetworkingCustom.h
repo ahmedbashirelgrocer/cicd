@@ -30,7 +30,7 @@
 /**
  This category adds methods to the UIKit framework's `UIActivityIndicatorView` class. The methods in this category provide support for automatically starting and stopping animation depending on the loading state of a session task.
  */
-@interface UIActivityIndicatorView (AFNetworking)
+@interface UIActivityIndicatorView (_AFNetworkingCustom)
 
 ///----------------------------------
 /// @name Animating for Session Tasks

@@ -29,11 +29,11 @@
 #import "AFURLResponseSerializationCustom.h"
 #import "AFURLRequestSerializationCustom.h"
 
-@interface WKWebView (_AFNetworking)
+@interface WKWebView (AFNetworkingCustom)
 @property (readwrite, nonatomic, strong, setter = af_setURLSessionTask:) NSURLSessionDataTask *af_URLSessionTask;
 @end
 
-@implementation WKWebView (_AFNetworking)
+@implementation WKWebView (_AFNetworkingCustom)
 
 - (NSURLSessionDataTask *)af_URLSessionTask {
     return (NSURLSessionDataTask *)objc_getAssociatedObject(self, @selector(af_URLSessionTask));
@@ -43,11 +43,11 @@
     objc_setAssociatedObject(self, @selector(af_URLSessionTask), af_URLSessionTask, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-@end
-
-#pragma mark -
-
-@implementation WKWebView (AFNetworking)
+//@end
+//
+//#pragma mark -
+//
+//@implementation WKWebView
 
 - (AFHTTPSessionManagerCustom *)sessionManager {
     static AFHTTPSessionManagerCustom *_af_defaultHTTPSessionManager = nil;

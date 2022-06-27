@@ -22,8 +22,8 @@
 
 #import <TargetConditionals.h>
 
-#ifndef _UIKIT_AFNETWORKING_
-    #define _UIKIT_AFNETWORKING_
+#ifndef _UIKIT_el-grocer-shopper-sdk-iOS_
+    #define _UIKIT_el-grocer-shopper-sdk-iOS_
 
 #if TARGET_OS_IOS || TARGET_OS_TV
     #import "AFAutoPurgingImageCacheCustom.h"

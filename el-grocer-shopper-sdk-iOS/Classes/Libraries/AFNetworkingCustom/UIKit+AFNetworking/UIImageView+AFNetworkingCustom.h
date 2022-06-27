@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This category adds methods to the UIKit framework's `UIImageView` class. The methods in this category provide support for loading remote images asynchronously from a URL.
  */
-@interface UIImageView (AFNetworking)
+@interface UIImageView (AFNetworkingCustom)
 
 ///------------------------------------
 /// @name Accessing the Image Downloader

@@ -28,10 +28,10 @@
 #import "UIImageView+AFNetworkingCustom.h"
 #import "AFImageDownloaderCustom.h"
 
-@interface UIButton (_AFNetworking)
+@interface UIButton (_AFNetworkingCustom)
 @end
 
-@implementation UIButton (_AFNetworking)
+@implementation UIButton (_AFNetworkingCustom)
 
 #pragma mark -
 
@@ -99,7 +99,7 @@ static const char * af_backgroundImageDownloadReceiptKeyForState(UIControlState 
 
 #pragma mark -
 
-@implementation UIButton (AFNetworking)
+@implementation UIButton (AFNetworkingCustom)
 
 + (AFImageDownloaderCustom *)sharedImageDownloader {
 

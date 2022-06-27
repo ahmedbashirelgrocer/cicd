@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class AFHTTPSessionManagerCustom;
 
-@interface WKWebView (AFNetworking)
+@interface WKWebView (_AFNetworkingCustom)
 
 /**
  The session manager used to download all request

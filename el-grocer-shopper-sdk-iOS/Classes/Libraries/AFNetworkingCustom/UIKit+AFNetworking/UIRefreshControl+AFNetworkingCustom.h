@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This category adds methods to the UIKit framework's `UIRefreshControl` class. The methods in this category provide support for automatically beginning and ending refreshing depending on the loading state of a session task.
  */
-@interface UIRefreshControl (AFNetworking)
+@interface UIRefreshControl (_AFNetworkingCustom)
 
 ///-----------------------------------
 /// @name Refreshing for Session Tasks

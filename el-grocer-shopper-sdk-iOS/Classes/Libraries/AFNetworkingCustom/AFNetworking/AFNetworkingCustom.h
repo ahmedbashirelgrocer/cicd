@@ -24,18 +24,19 @@
 #import <Availability.h>
 #import <TargetConditionals.h>
 
-#ifndef _AFNETWORKING_
-    #define _AFNETWORKING_
+#ifndef _el-grocer-shopper-sdk-iOS_
+    #define _el-grocer-shopper-sdk-iOS_
 
     #import "AFURLRequestSerializationCustom.h"
     #import "AFURLResponseSerializationCustom.h"
     #import "AFSecurityPolicyCustom.h"
+    #import "AFURLSessionManagerCustom.h"
+    #import "AFHTTPSessionManagerCustom.h"
 
 #if !TARGET_OS_WATCH
     #import "AFNetworkReachabilityManagerCustom.h"
 #endif
 
-    #import "AFURLSessionManagerCustom.h"
-    #import "AFHTTPSessionManagerCustom.h"
+    
 
 #endif /* _AFNETWORKING_ */

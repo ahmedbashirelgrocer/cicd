@@ -35,7 +35,7 @@
 
 @end
 
-@implementation UIRefreshControl (AFNetworking)
+@implementation UIRefreshControl (_AFNetworkingCustom)
 
 - (AFRefreshControlNotificationObserverCustom *)af_notificationObserver {
     AFRefreshControlNotificationObserverCustom *notificationObserver = objc_getAssociatedObject(self, @selector(af_notificationObserver));

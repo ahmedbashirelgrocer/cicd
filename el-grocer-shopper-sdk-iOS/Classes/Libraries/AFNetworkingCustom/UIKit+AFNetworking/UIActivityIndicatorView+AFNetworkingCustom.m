@@ -34,7 +34,7 @@
 
 @end
 
-@implementation UIActivityIndicatorView (AFNetworking)
+@implementation UIActivityIndicatorView (_AFNetworkingCustom)
 
 - (AFActivityIndicatorViewNotificationObserverCustom *)af_notificationObserver {
     AFActivityIndicatorViewNotificationObserverCustom *notificationObserver = objc_getAssociatedObject(self, @selector(af_notificationObserver));

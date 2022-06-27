@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @warning Compound values for control `state` (such as `UIControlStateHighlighted | UIControlStateDisabled`) are unsupported.
  */
-@interface UIButton (AFNetworking)
+@interface UIButton (AFNetworkingCustom)
 
 ///------------------------------------
 /// @name Accessing the Image Downloader

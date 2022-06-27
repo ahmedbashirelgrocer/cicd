@@ -32,7 +32,7 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
 
 #pragma mark -
 
-@implementation UIProgressView (AFNetworking)
+@implementation UIProgressView (_AFNetworkingCustom)
 
 - (BOOL)af_uploadProgressAnimated {
     return [(NSNumber *)objc_getAssociatedObject(self, @selector(af_uploadProgressAnimated)) boolValue];
