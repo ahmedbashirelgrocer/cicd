@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param imageDownloader The shared image downloader used to download images.
  */
-+ (void)setSharedImageDownloader:(AFImageDownloaderCustom *)imageDownloader;
++ (void)setSharedImageDownloaderCustom:(AFImageDownloaderCustom *)imageDownloader;
 
 /**
  The shared image downloader used to download images.

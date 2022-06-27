@@ -106,7 +106,7 @@ static const char * af_backgroundImageDownloadReceiptKeyForState(UIControlState 
     return objc_getAssociatedObject([UIButton class], @selector(sharedImageDownloader)) ?: [AFImageDownloaderCustom defaultInstance];
 }
 
-+ (void)setSharedImageDownloader:(AFImageDownloaderCustom *)imageDownloader {
++ (void)setSharedImageDownloaderCustom:(AFImageDownloaderCustom *)imageDownloader {
     objc_setAssociatedObject([UIButton class], @selector(sharedImageDownloader), imageDownloader, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

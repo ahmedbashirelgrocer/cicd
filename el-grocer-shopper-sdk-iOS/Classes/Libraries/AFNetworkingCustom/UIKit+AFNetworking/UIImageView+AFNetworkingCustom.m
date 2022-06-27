@@ -51,7 +51,7 @@
     return objc_getAssociatedObject([UIImageView class], @selector(sharedImageDownloader)) ?: [AFImageDownloaderCustom defaultInstance];
 }
 
-+ (void)setSharedImageDownloader:(AFImageDownloaderCustom *)imageDownloader {
++ (void)setSharedImageDownloaderCustom:(AFImageDownloaderCustom *)imageDownloader {
     objc_setAssociatedObject([UIImageView class], @selector(sharedImageDownloader), imageDownloader, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
