@@ -111,15 +111,18 @@ Pod::Spec.new do |s|
   s.dependency 'PinCodeTextField', '~> 0.1.0'
 
   # Add the pod for Firebase Crashlytics
-  s.dependency 'Firebase/Crashlytics', '~> 8.11.0'
+  s.dependency 'Firebase/Crashlytics'
+  s.dependency 'Firebase/Core', '~> 9.2.0'
+  s.dependency 'Firebase/Auth'
+  s.dependency 'Firebase/Messaging'
+  s.dependency 'Firebase/DynamicLinks'
+  s.dependency 'Firebase/Performance'
+  
+  
   #s.dependency 'Crashlytics' # please dont delete this for now it will causing crashes need fixes
   # Recommended: Add the Firebase pod for Google Analytics
   # s.dependency 'Firebase/Analytics', '~> 7.5.0'
-  s.dependency 'Firebase/Core', '~> 8.11.0'
-  s.dependency 'Firebase/Auth', '~> 8.11.0'
-  s.dependency 'Firebase/Messaging', '~> 8.11.0'
-  s.dependency 'Firebase/DynamicLinks', '~> 8.11.0'
-  s.dependency 'Firebase/Performance', '~> 8.11.0'
+ 
   # s.dependency 'Firebase/Storage'
   # s.dependency 'Firebase/Database'
   # s.dependency 'Firebase'
