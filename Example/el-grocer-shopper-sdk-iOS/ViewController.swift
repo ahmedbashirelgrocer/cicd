@@ -29,6 +29,6 @@ class ViewController: UIViewController {
     
     
     @objc func startSDK() {
-        SDKManager.shared.start()
+        ElGrocer.startEngine()
     }
 }
