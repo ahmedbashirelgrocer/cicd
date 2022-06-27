@@ -52,7 +52,7 @@ PODS:
     - SDWebImage (~> 5.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (0.1.16):
+  - el-grocer-shopper-sdk-iOS (0.1.20):
     - Adyen (~> 4.7.3)
     - AlgoliaSearchClient (~> 8.0)
     - AnimatedGradientView (~> 3.1.0)
@@ -75,7 +75,6 @@ PODS:
     - GoogleMaps (~> 4.2.0)
     - GooglePlaces (~> 4.2.0)
     - GrowingTextView (~> 0.7.2)
-    - HMSegmentedControl (~> 1.5.6)
     - InstantSearch/Insights (~> 7.17.0)
     - IQKeyboardManagerSwift (~> 6.5.9)
     - JDFTooltips (~> 1.1)
@@ -258,7 +257,6 @@ PODS:
     - GoogleUtilities/Logger
   - GrowingTextView (0.7.2)
   - GTMSessionFetcher/Core (2.0.0)
-  - HMSegmentedControl (1.5.6)
   - InstantSearch/Insights (7.17.0):
     - AlgoliaSearchClient (~> 8.13)
   - IQKeyboardManagerSwift (6.5.10)
@@ -383,7 +381,6 @@ SPEC REPOS:
     - GoogleUtilities
     - GrowingTextView
     - GTMSessionFetcher
-    - HMSegmentedControl
     - InstantSearch
     - IQKeyboardManagerSwift
     - JDFTooltips
@@ -431,7 +428,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 225cef475380a75b057af0521f4a0586b34f8128
+  el-grocer-shopper-sdk-iOS: 2cee05b25965967695e09a293a35667dea6207b9
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -458,7 +455,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
   GTMSessionFetcher: 681175626052e03fdde7952f7e9c7a9785719506
-  HMSegmentedControl: 34c1f54d822d8308e7b24f5d901ec674dfa31352
   InstantSearch: 0dc2bd57df9af6b123d4c4c019d94f3f6f841d52
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   JDFTooltips: 24d6077730d28b8374c2ef03587044ecf9db19c7
