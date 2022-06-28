@@ -339,6 +339,7 @@ DEPENDENCIES:
   - AFNetworking (~> 3.2.1)
   - el-grocer-shopper-sdk-iOS (from `../`)
   - FBSnapshotTestCase (~> 2.1.4)
+  - IQKeyboardManagerSwift
 
 SPEC REPOS:
   trunk:
@@ -484,6 +485,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: df39b0f9c0443ee384bf9b5439d0c9c0a1302d9d
+PODFILE CHECKSUM: 5a8c07c059362d8087e4645f4123a31881f05a4b
 
 COCOAPODS: 1.11.3

@@ -8,12 +8,28 @@
 
 import UIKit
 import el_grocer_shopper_sdk_iOS
+import Firebase
 
 class ViewController: UIViewController {
-
+    
+    
+    @IBOutlet weak var txtAccountNumber: UITextField!
+    @IBOutlet weak var txtLat: UITextField!
+    @IBOutlet weak var txtLong: UITextField!
+    @IBOutlet weak var txtLoyalityID: UITextField!
+    @IBOutlet weak var txtEmail: UITextField!
+    @IBOutlet weak var txtPushPayload: UITextField!
+    @IBOutlet weak var txtDLPayload: UITextField!
+    @IBOutlet weak var txtLanguage: UITextField!
+    @IBOutlet weak var btnLaunchSDK: UIButton!{ didSet {
+        btnLaunchSDK.backgroundColor = #colorLiteral(red: 0.2550396025, green: 0.2953681946, blue: 0.6989088655, alpha: 1)
+        btnLaunchSDK.layer.cornerRadius = 5
+        btnLaunchSDK.setTitleColor(UIColor.white, for: .normal)
+        btnLaunchSDK.tintColor = .white
+    } }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,6 +45,7 @@ class ViewController: UIViewController {
     
     
     @objc func startSDK() {
-        ElGrocer.startEngine()
+        // ElGrocer.startEngine()
+        SDKManager.shared.start()
     }
 }
