@@ -38,7 +38,14 @@ class ViewController: UIViewController {
         picker.delegate = self
         return picker
     }()
+    
     fileprivate lazy var pickerData: [String] = { ["English", "Arabic"] }()
+    
+    lazy var locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.delegate = self
+        return manager
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +59,11 @@ class ViewController: UIViewController {
     @objc func startSDK() {
         //ElGrocer.startEngine()
         SDKManager.shared.start()
+    }
+    
+    func updateLocation(_ location: CLLocation!) {
+        txtLong.text = "\(location.coordinate.longitude)"
+        txtLat.text = "\(location.coordinate.latitude)"
     }
 }
 
@@ -81,6 +93,31 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
+extension ViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) { if #available(iOS 14.0, *) {
+        switch manager.authorizationStatus {
+        case .notDetermined, .restricted, .denied:  break
+        case .authorizedAlways, .authorizedWhenInUse: manager.requestLocation()
+        }
+    }}
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined, .restricted, .denied:  break
+        case .authorizedAlways, .authorizedWhenInUse: manager.requestLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        self.updateLocation(locations.first)
+        manager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+}
+
 extension ViewController {
     func requestAccess() {
         // Camera Video
@@ -92,7 +129,6 @@ extension ViewController {
             print(status)
         }
         // Location
-        let locationManager = CLLocationManager()
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestAlwaysAuthorization()
         // Tracking
