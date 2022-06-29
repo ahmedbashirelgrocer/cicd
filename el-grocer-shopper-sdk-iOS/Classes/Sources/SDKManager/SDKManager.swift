@@ -27,7 +27,7 @@ import Adyen
 // import FirebaseAuth
 // import FirebaseMessaging
 
-open class SDKManager: NSObject  {
+class SDKManager: NSObject  {
     
     var sdkStartTime : Date?
     
@@ -44,7 +44,7 @@ open class SDKManager: NSObject  {
     
     var  currentTabBar  : UITabBarController?
     var parentTabNav  : ElgrocerGenericUIParentNavViewController?
-    public static var shared: SDKManager = SDKManager()
+    static var shared: SDKManager = SDKManager()
     var isFromSmile : Bool = true
   
     // MARK: Initializers
@@ -54,7 +54,7 @@ open class SDKManager: NSObject  {
         DispatchQueue.main.async { [weak self] in self?.configure() }
     }
     
-    public func start() {
+    func start() {
         showAnimatedSplashView()
     }
     

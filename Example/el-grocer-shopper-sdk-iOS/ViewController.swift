@@ -57,8 +57,7 @@ class ViewController: UIViewController {
     }
     
     @objc func startSDK() {
-        //ElGrocer.startEngine()
-        SDKManager.shared.start()
+        ElGrocer.startEngine()
     }
     
     func updateLocation(_ location: CLLocation!) {
