@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import AVFoundation
+import CoreLocation
+import AppTrackingTransparency
 import el_grocer_shopper_sdk_iOS
 
 class ViewController: UIViewController {
@@ -37,12 +40,17 @@ class ViewController: UIViewController {
     }()
     fileprivate lazy var pickerData: [String] = { ["English", "Arabic"] }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.requestAccess()
+    }
+    
     @IBAction func btnGoToSDK(_ sender: Any) {
         self.startSDK()
     }
     
     @objc func startSDK() {
-        // ElGrocer.startEngine()
+        //ElGrocer.startEngine()
         SDKManager.shared.start()
     }
 }
@@ -70,5 +78,30 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 extension ViewController: UITextFieldDelegate {
     @objc func textFieldDidEndEditing() {
         txtLanguage.text = pickerData[languagePicker.selectedRow(inComponent: 0)]
+    }
+}
+
+extension ViewController {
+    func requestAccess() {
+        // Camera Video
+        AVCaptureDevice.requestAccess(for: .video) { status in
+            print(status)
+        }
+        // Mic audio
+        AVCaptureDevice.requestAccess(for: .audio) { status in
+            print(status)
+        }
+        // Location
+        let locationManager = CLLocationManager()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
+        // Tracking
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                print(status)
+            }
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }
