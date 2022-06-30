@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   ElGrocerShopper
 
@@ -1947,6 +1947,7 @@ Oreo";
 //MARK: popimageViewController
 "btn_add_to_cart_product_zoom" = "Add to cart";
 
+
 //MARK: ticketList
 "no_ticket_title" = "We couldn't find any ticket.";
 "no_ticket_descr" = "We couldn't find any ticket would you like to create one by pressing \"Create Ticket\"";
@@ -1961,7 +1962,7 @@ Oreo";
 //MARK: Smile Pints
 "txt_smile_point" = "Smiles Points ";
 "txt_bracket_login" = "(Login)";
-"txt_earn_smiles" = "Earn smiles points now";
+"txt_earn_smiles" = "Earn Smiles points now";
 "txt_paid_with_smile" = "Successfully paid with Smiles Points!";
 "txt_pay_with_smile" = "Pay with Smiles Points";
 "txt_available_points" = "Available: ";
@@ -1970,7 +1971,7 @@ Oreo";
 "not_enough_smile_point_initial" = "Not enough Smiles Points! You need at least";
 "not_enough_smile_point_end" = "Smiles Points to pay for this order in full.";
 "txt_earn" = "Earn";
-"txt_benifits" = "Benifits";
+"txt_benifits" = "Benefits";
 "Your_balance" = "Your balance";
 "smile_login" = "Login";
 "smile_otp_instructions" = "Enter 5-digit verification code sent to registered elGrocer mobile number";
@@ -1982,3 +1983,13 @@ Oreo";
 "Yes" = "Yes";
 "No" = "No";
 "lbl_StartShopping" = "Start Shopping";
+//MARK: Apply promoCode controller
+"title_apply_promo" = "Apply Promocode";
+"title_available_promo" = "Available Promocodes";
+"txt_view_details" = "View details";
+"txt_hide_details" = "Hide details";
+"txt_btn_apply" = "APPLY";
+"txt_add_to_use_initial" = "Add";
+"txt_add_to_use_end" = "to use";
+"txt_btn_applied" = "APPLIED";
+"txt_no_promo_found" = "Your active vouchers will be displayed here.";
