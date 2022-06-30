@@ -387,12 +387,19 @@ class SDKManager: NSObject  {
     
     
      func showEntryView() {
-        
-       
-        let entryController =  ElGrocerViewControllers.entryViewController()
-        let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
-        navEntryController.hideNavigationBar(true)
-        self.replaceRootControllerWith(navEntryController)
+         let manager = SDKLoginManager()
+         manager.loginFlowForSDK("+923416973339") { isSuccess, errorMessage in
+             if isSuccess == false {
+                 print(errorMessage)
+             }
+         }
+         
+         return
+         
+         let entryController =  ElGrocerViewControllers.entryViewController()
+         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
+         navEntryController.hideNavigationBar(true)
+         self.replaceRootControllerWith(navEntryController)
     }
     
    

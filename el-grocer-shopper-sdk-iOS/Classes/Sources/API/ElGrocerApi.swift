@@ -4356,7 +4356,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     
   // MARK: Utils
   
-      private func extractAccessToken(_ response:NSDictionary) {
+      func extractAccessToken(_ response:NSDictionary) {
       
       let userDictionary = (response["data"] as! NSDictionary)["shopper"] as! NSDictionary
       let accessToken = userDictionary["authentication_token"] as! String
