@@ -46,6 +46,7 @@ class SDKManager: NSObject  {
     var parentTabNav  : ElgrocerGenericUIParentNavViewController?
     static var shared: SDKManager = SDKManager()
     var isFromSmile : Bool = true
+    var launchOptions: LaunchOptions? = nil
   
     // MARK: Initializers
     private override init() {
@@ -54,8 +55,9 @@ class SDKManager: NSObject  {
         DispatchQueue.main.async { [weak self] in self?.configure() }
     }
     
-    func start() {
-        showAnimatedSplashView()
+    func start(with launchOptions: LaunchOptions?) {
+        self.launchOptions = launchOptions
+        self.showAnimatedSplashView()
     }
     
     private func configure() { //_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
@@ -387,28 +389,28 @@ class SDKManager: NSObject  {
     
     
      func showEntryView() {
-         let manager = SDKLoginManager()
-         manager.loginFlowForSDK("+923416973339") { isSuccess, errorMessage in
-             if isSuccess {
-                 manager.setHomeView()
-             } else {
-                 ElGrocerAlertView
-                     .createAlert(
-                        localizedString("registration_error_alert", comment: ""),
-                        description: nil,
-                        positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
-                        negativeButton: nil,
-                        buttonClickCallback: nil
-                     ).show()
+         if let launchOptions = launchOptions { // Entry point for SDK
+             let manager = SDKLoginManager(launchOptions: launchOptions)
+             manager.loginFlowForSDK() { isSuccess, errorMessage in
+                 let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
+                 if isSuccess {
+                     manager.setHomeView()
+                 } else {
+                     ElGrocerAlertView
+                         .createAlert(errorMessage,
+                                      description: nil,
+                                      positiveButton: positiveButton,
+                                      negativeButton: nil,
+                                      buttonClickCallback: nil)
+                         .show()
+                 }
              }
+         } else {
+             let entryController =  ElGrocerViewControllers.entryViewController()
+             let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
+             navEntryController.hideNavigationBar(true)
+             self.replaceRootControllerWith(navEntryController)
          }
-         
-         return
-         
-         let entryController =  ElGrocerViewControllers.entryViewController()
-         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
-         navEntryController.hideNavigationBar(true)
-         self.replaceRootControllerWith(navEntryController)
     }
     
    

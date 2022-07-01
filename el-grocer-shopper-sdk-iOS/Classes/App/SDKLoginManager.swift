@@ -10,11 +10,13 @@ import Foundation
 
 struct SDKLoginManager {
     
+    var launchOptions: LaunchOptions
+    
     typealias CompletionHandler = (_ isSuccess: Bool, _ errorMessage: String) -> Void
     
-    func loginFlowForSDK(_ phoneNumber: String, _ completionHandler:@escaping CompletionHandler) {
+    func loginFlowForSDK(_ completionHandler:@escaping CompletionHandler) {
         // if from SDK
-        loginRegisterUser(phoneNumber) { isSuccess, errorMessage in
+        loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage in
             if isSuccess {
                 ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
                 FireBaseEventsLogger.trackSignIn()
@@ -154,8 +156,8 @@ struct SDKLoginManager {
         newDeliveryAddress.street = ""
         newDeliveryAddress.userProfile = userProfile
         newDeliveryAddress.address = ""
-        newDeliveryAddress.latitude = 25.276987
-        newDeliveryAddress.longitude = 55.296249
+        newDeliveryAddress.latitude = launchOptions.latitude ?? 0
+        newDeliveryAddress.longitude = launchOptions.longitude ?? 0
         newDeliveryAddress.isActive = NSNumber(value: true)
         
         self.addAddressFromDeliveryAddress(newDeliveryAddress, forUser: userProfile) { isSuccess, errorMessage in

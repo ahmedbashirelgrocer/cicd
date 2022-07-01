@@ -57,7 +57,18 @@ class ViewController: UIViewController {
     }
     
     @objc func startSDK() {
-        ElGrocer.startEngine()
+        let launchOptions = LaunchOptions(
+            accountNumber: txtAccountNumber.text,
+            latitude: ((txtLat.text ?? "0") as NSString).doubleValue,
+            longitude: ((txtLong.text ?? "0") as NSString).doubleValue,
+            loyalityID: txtLoyalityID.text,
+            email: txtEmail.text,
+            pushNotificationPayload: ["data" : txtPushPayload.text],
+            deepLinkpayload: txtDLPayload.text,
+            language: txtLanguage.text
+        )
+        
+        ElGrocer.startEngine(with: launchOptions)
     }
     
     func updateLocation(_ location: CLLocation!) {

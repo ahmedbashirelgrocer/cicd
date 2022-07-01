@@ -12,8 +12,8 @@ import UIKit
 
 public final class ElGrocer {
     // elgrocer
-    public static func startEngine(with options: LaunchOptions? = nil) {
-        SDKManager.shared.start()
+    public static func startEngine(with launchOptions: LaunchOptions? = nil) {
+        SDKManager.shared.start(with: launchOptions)
     }
 }
 
@@ -26,4 +26,24 @@ public struct LaunchOptions {
     var pushNotificationPayload: [String: AnyHashable]?
     var deepLinkpayload: String?
     var language: String?
+    
+    public init(accountNumber: String? = nil,
+                latitude: Double? = nil,
+                longitude: Double? = nil,
+                loyalityID: String? = nil,
+                email: String? = nil,
+                pushNotificationPayload: [String: AnyHashable]? = nil,
+                deepLinkpayload: String? = nil,
+                language: String? = nil) {
+        
+        self.accountNumber = accountNumber
+        self.latitude = latitude
+        self.longitude = longitude
+        self.loyalityID = loyalityID
+        self.email = email
+        self.pushNotificationPayload = pushNotificationPayload
+        self.deepLinkpayload = deepLinkpayload
+        self.language = language
+        
+    }
 }
