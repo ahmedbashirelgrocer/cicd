@@ -155,7 +155,7 @@ struct SDKLoginManager {
         newDeliveryAddress.building = ""
         newDeliveryAddress.street = ""
         newDeliveryAddress.userProfile = userProfile
-        newDeliveryAddress.address = ""
+        newDeliveryAddress.address = launchOptions.address ?? ""
         newDeliveryAddress.latitude = launchOptions.latitude ?? 0
         newDeliveryAddress.longitude = launchOptions.longitude ?? 0
         newDeliveryAddress.isActive = NSNumber(value: true)

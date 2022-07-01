@@ -21,16 +21,18 @@ public struct LaunchOptions {
     var accountNumber: String?
     var latitude: Double?
     var longitude: Double?
+    var address: String?
     var loyalityID: String?
     var email: String?
     var pushNotificationPayload: [String: AnyHashable]?
     var deepLinkpayload: String?
     var language: String?
     
-    public init(accountNumber: String? = nil,
-                latitude: Double? = nil,
-                longitude: Double? = nil,
-                loyalityID: String? = nil,
+    public init(accountNumber: String?,
+                latitude: Double?,
+                longitude: Double?,
+                address: String?,
+                loyalityID: String?,
                 email: String? = nil,
                 pushNotificationPayload: [String: AnyHashable]? = nil,
                 deepLinkpayload: String? = nil,
@@ -39,6 +41,7 @@ public struct LaunchOptions {
         self.accountNumber = accountNumber
         self.latitude = latitude
         self.longitude = longitude
+        self.address = address
         self.loyalityID = loyalityID
         self.email = email
         self.pushNotificationPayload = pushNotificationPayload
