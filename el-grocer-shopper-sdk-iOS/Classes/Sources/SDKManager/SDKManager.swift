@@ -390,7 +390,16 @@ class SDKManager: NSObject  {
          let manager = SDKLoginManager()
          manager.loginFlowForSDK("+923416973339") { isSuccess, errorMessage in
              if isSuccess == false {
-                 print(errorMessage)
+                 manager.setHomeView()
+             } else {
+                 ElGrocerAlertView
+                     .createAlert(
+                        localizedString("registration_error_alert", comment: ""),
+                        description: nil,
+                        positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
+                        negativeButton: nil,
+                        buttonClickCallback: nil
+                     ).show()
              }
          }
          
