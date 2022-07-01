@@ -389,7 +389,7 @@ class SDKManager: NSObject  {
      func showEntryView() {
          let manager = SDKLoginManager()
          manager.loginFlowForSDK("+923416973339") { isSuccess, errorMessage in
-             if isSuccess == false {
+             if isSuccess {
                  manager.setHomeView()
              } else {
                  ElGrocerAlertView
