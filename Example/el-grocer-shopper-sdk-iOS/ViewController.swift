@@ -62,11 +62,11 @@ class ViewController: UIViewController {
             latitude: 25.276987, //((txtLat.text ?? "0") as NSString).doubleValue,
             longitude: 55.296249, // ((txtLong.text ?? "0") as NSString).doubleValue,
             address: "Cluster D, United Arab Emirates",
-            loyalityID: txtLoyalityID.text,
+            loyaltyID: txtLoyalityID.text,
             email: txtEmail.text,
             pushNotificationPayload: ["data" : txtPushPayload.text],
-            deepLinkpayload: txtDLPayload.text,
-            language: txtLanguage.text
+            deepLinkPayload: txtDLPayload.text,
+            language: txtLanguage.text, isSmileSDK: true
         )
         
         ElGrocer.startEngine(with: launchOptions)

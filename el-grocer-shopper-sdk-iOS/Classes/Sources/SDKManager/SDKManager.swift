@@ -45,7 +45,7 @@ class SDKManager: NSObject  {
     var  currentTabBar  : UITabBarController?
     var parentTabNav  : ElgrocerGenericUIParentNavViewController?
     static var shared: SDKManager = SDKManager()
-    var isFromSmile : Bool = true
+    //var isFromSmile : Bool = fals
     var launchOptions: LaunchOptions? = nil
   
     // MARK: Initializers
@@ -263,7 +263,7 @@ class SDKManager: NSObject  {
     // ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/"
         
         
-        guard !self.isFromSmile  else{
+        guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else{
             smileSDKFireBaseSetting()
             return
         }
@@ -384,6 +384,14 @@ class SDKManager: NSObject  {
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
+         if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
+             if topVC.navigationController != nil {
+                 topVC.navigationController?.pushViewController(navEntryController, animated: true)
+             }else {
+                 topVC.present(navEntryController, animated: true) {  }
+             }
+             return
+         }
         self.replaceRootControllerWith(navEntryController)
     }
     
@@ -396,13 +404,18 @@ class SDKManager: NSObject  {
                  if isSuccess {
                      manager.setHomeView()
                  } else {
-                     ElGrocerAlertView
-                         .createAlert(errorMessage,
-                                      description: nil,
-                                      positiveButton: positiveButton,
-                                      negativeButton: nil,
-                                      buttonClickCallback: nil)
-                         .show()
+                  let alert = ElGrocerAlertView.createAlert(errorMessage, description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
+                         Thread.OnMainThread {
+                             if let topVC = UIApplication.topViewController() {
+                                 if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
+                                     navVc.popViewController(animated: true)
+                                 } else {
+                                     topVC.dismiss(animated: true, completion: nil)
+                                 }
+                             }
+                         }
+                     }
+                     alert.show()
                  }
              }
          } else {
@@ -421,6 +434,15 @@ class SDKManager: NSObject  {
     }
     
     func showAppWithMenu(_ isNeedToShowChangeStoreByDefault : Bool = false) {
+        
+        let smileSDK = SDKManager.shared.launchOptions?.isSmileSDK ?? false
+        guard !smileSDK else {
+            let tabVC = self.getTabbarController(isNeedToShowChangeStoreByDefault: false)
+            if let topVC = UIApplication.topViewController() {
+                topVC.navigationController?.pushViewControllerFromLeft(controller: tabVC)
+            }
+            return
+        }
     
         if let rootVC = self.window?.rootViewController {
             rootVC.navigationController?.popToRootViewController(animated: false)

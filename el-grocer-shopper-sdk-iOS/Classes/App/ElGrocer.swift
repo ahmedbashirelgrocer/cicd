@@ -22,31 +22,33 @@ public struct LaunchOptions {
     var latitude: Double?
     var longitude: Double?
     var address: String?
-    var loyalityID: String?
+    var loyaltyID: String?
     var email: String?
     var pushNotificationPayload: [String: AnyHashable]?
-    var deepLinkpayload: String?
+    var deepLinkPayload: String?
     var language: String?
+    var isSmileSDK: Bool
     
     public init(accountNumber: String?,
                 latitude: Double?,
                 longitude: Double?,
                 address: String?,
-                loyalityID: String?,
+                loyaltyID: String?,
                 email: String? = nil,
                 pushNotificationPayload: [String: AnyHashable]? = nil,
-                deepLinkpayload: String? = nil,
-                language: String? = nil) {
+                deepLinkPayload: String? = nil,
+                language: String? = nil, isSmileSDK: Bool) {
         
         self.accountNumber = accountNumber
         self.latitude = latitude
         self.longitude = longitude
         self.address = address
-        self.loyalityID = loyalityID
+        self.loyaltyID = loyaltyID
         self.email = email
         self.pushNotificationPayload = pushNotificationPayload
-        self.deepLinkpayload = deepLinkpayload
+        self.deepLinkPayload = deepLinkPayload
         self.language = language
+        self.isSmileSDK = isSmileSDK
         
     }
 }
