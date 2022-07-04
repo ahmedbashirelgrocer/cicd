@@ -37,7 +37,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
     }
     
     
-    func backButtonClickedHandler(){
+    @objc func backButtonClickedHandler(){
         
     }
     

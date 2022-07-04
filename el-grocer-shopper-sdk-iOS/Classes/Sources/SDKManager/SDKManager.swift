@@ -397,7 +397,7 @@ class SDKManager: NSObject  {
     
     
      func showEntryView() {
-         if let launchOptions = launchOptions { // Entry point for SDK
+         if let launchOptions = launchOptions, launchOptions.isSmileSDK { // Entry point for SDK
              let manager = SDKLoginManager(launchOptions: launchOptions)
              manager.loginFlowForSDK() { isSuccess, errorMessage in
                  let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")

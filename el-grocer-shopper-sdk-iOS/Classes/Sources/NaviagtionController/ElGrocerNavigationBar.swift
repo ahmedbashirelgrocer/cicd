@@ -201,8 +201,22 @@ class ElGrocerNavigationBar : UINavigationBar {
             NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
         }
         
-        if self.profileButton != nil {
-            
+        
+        if self.backButton?.isHidden == false  && self.profileButton != nil {
+            self.profileButton.frame = CGRect(x: 16 + (self.backButton.frame.size.width + 2),
+                                              y: (self.frame.size.height*0.5)-13 ,
+                                              width: 24,
+                                              height: 24)
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                let x = self.frame.size.width - 16 - 24 - (self.backButton.frame.size.width + 2)
+                self.profileButton.frame = CGRect(x: x,
+                                                  y: (self.frame.size.height*0.5)-13,
+                                                  width: 24,
+                                                  height: 24)
+                self.profileButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.profileButton.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+            }
+        } else if self.profileButton != nil {
             self.profileButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-13 , width: 24, height: 24)
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.profileButton.frame = CGRect(x: self.frame.size.width-16-24  , y: (self.frame.size.height*0.5)-13, width: 24, height: 24)
