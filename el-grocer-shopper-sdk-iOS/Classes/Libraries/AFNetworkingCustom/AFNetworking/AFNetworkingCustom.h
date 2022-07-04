@@ -24,8 +24,8 @@
 #import <Availability.h>
 #import <TargetConditionals.h>
 
-#ifndef _el-grocer-shopper-sdk-iOS_
-    #define _el-grocer-shopper-sdk-iOS_
+#ifndef _el-grocer-shopper-sdk-iOS
+    #define _el-grocer-shopper-sdk-iOS
 
     #import "AFURLRequestSerializationCustom.h"
     #import "AFURLResponseSerializationCustom.h"

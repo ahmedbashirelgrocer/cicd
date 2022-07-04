@@ -209,7 +209,6 @@ class GenericStoresViewController: BasketBasicViewController {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
             }
         }
-        
         /*if self.switchMode.isDeliverySelected != ElGrocerUtility.sharedInstance.isDeliveryMode {
             self.updateAppMode()
         }*/

@@ -380,7 +380,6 @@ class SDKManager: NSObject  {
     
      func showAnimatedSplashView() {
         
-        
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
@@ -388,6 +387,7 @@ class SDKManager: NSObject  {
              if topVC.navigationController != nil {
                  topVC.navigationController?.pushViewController(navEntryController, animated: true)
              }else {
+                 navEntryController.modalPresentationStyle = .fullScreen
                  topVC.present(navEntryController, animated: true) {  }
              }
              return
@@ -439,7 +439,11 @@ class SDKManager: NSObject  {
         guard !smileSDK else {
             let tabVC = self.getTabbarController(isNeedToShowChangeStoreByDefault: false)
             if let topVC = UIApplication.topViewController() {
-                topVC.navigationController?.pushViewControllerFromLeft(controller: tabVC)
+                if tabVC.viewControllers.count > 0  {
+                    if let tabController = tabVC.viewControllers[0] as? UITabBarController {
+                        topVC.navigationController?.pushViewControllerFromLeft(controller: tabController)
+                    }
+                }
             }
             return
         }
