@@ -240,8 +240,9 @@ class GenericStoresViewController: BasketBasicViewController {
     // Back
     override func backButtonClickedHandler() {
         super.backButtonClickedHandler()
-        self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true)
+        //self.navigationController?.popViewController(animated: true)
+        //self.dismiss(animated: true)
+        self.tabBarController?.dismiss(animated: true)
     }
     
         // MARK:- OpenOrders
