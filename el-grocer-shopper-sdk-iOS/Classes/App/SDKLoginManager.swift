@@ -43,7 +43,11 @@ struct SDKLoginManager {
                 if result {
                     let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     if (locations.count > 0 && locations[0].address.count > 0) {
-                        self.updateProfileAndData(responseObject!, completionHandler: completionHandler)
+                        self.updateProfileAndData(responseObject!)
+                        ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult) in
+                            UserDefaults.setDidUserSetAddress(true)
+                            completionHandler(true, "")
+                        }
                     }else{
                         self.getUserDeliveryAddresses(responseObject!, completionHandler: completionHandler)
                     }
@@ -55,14 +59,13 @@ struct SDKLoginManager {
             }
     }
     
-    private func updateProfileAndData(_ responseObject:NSDictionary?,completionHandler:@escaping CompletionHandler) {
+    private func updateProfileAndData(_ responseObject:NSDictionary?) {
         
         // Set the user profile
         let userProfile = UserProfile.createOrUpdateUserProfile(responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile)
         UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
         FireBaseEventsLogger.setUserID(userProfile.dbID.stringValue)
-        completionHandler(true, "")
     }
     
     private func getUserDeliveryAddresses(_ responseObject:NSDictionary?, completionHandler:@escaping CompletionHandler){
@@ -79,7 +82,7 @@ struct SDKLoginManager {
             if result {
                 let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if deliveryAddress.count == 0 {
-                    self.createNewUser(for: userProfile, completion: completionHandler)
+                    self.createNewDefaultAddressForNewUser(for: userProfile, completion: completionHandler)
                 } else {
                     completionHandler(true, "")
                 }
@@ -92,7 +95,7 @@ struct SDKLoginManager {
         })
     }
     
-    private func createNewUser(for userProfile: UserProfile, completion: @escaping CompletionHandler ) {
+    private func createNewDefaultAddressForNewUser(for userProfile: UserProfile, completion: @escaping CompletionHandler ) {
         
         let newDeliveryAddress: DeliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         newDeliveryAddress.locationName = ""
