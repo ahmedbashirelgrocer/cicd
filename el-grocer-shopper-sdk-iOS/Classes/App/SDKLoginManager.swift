@@ -21,6 +21,9 @@ struct SDKLoginManager {
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         guard userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0 else {
+            UserDefaults.setLogInUserID(userProfile?.dbID.stringValue ?? "")
+            FireBaseEventsLogger.setUserID(userProfile?.dbID.stringValue)
+            UserDefaults.setDidUserSetAddress(true)
             completionHandler(true, "")
             return
         }
@@ -84,6 +87,7 @@ struct SDKLoginManager {
                 if deliveryAddress.count == 0 {
                     self.createNewDefaultAddressForNewUser(for: userProfile, completion: completionHandler)
                 } else {
+                    UserDefaults.setDidUserSetAddress(true)
                     completionHandler(true, "")
                 }
     
