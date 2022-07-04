@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var txtAccountNumber: UITextField!
     @IBOutlet weak var txtLat: UITextField!
     @IBOutlet weak var txtLong: UITextField!
+    @IBOutlet weak var txtAddress: UITextField!
     @IBOutlet weak var txtLoyalityID: UITextField!
     @IBOutlet weak var txtEmail: UITextField!
     @IBOutlet weak var txtPushPayload: UITextField!
@@ -50,18 +51,31 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.requestAccess()
+        self.setDefaultData()
     }
     
     @IBAction func btnGoToSDK(_ sender: Any) {
         self.startSDK()
     }
     
+    func setDefaultData() {
+        txtAccountNumber.text = "+923416973310"
+        txtLat.text = "\(25.276987)"
+        txtLong.text = "\(55.296249)"
+        txtAddress.text = "Cluster D, United Arab Emirates"
+        txtLoyalityID.text = ""
+        txtEmail.text = ""
+        txtPushPayload.text = ""
+        txtDLPayload.text = ""
+        txtLanguage.text = "English"
+    }
+    
     @objc func startSDK() {
         let launchOptions = LaunchOptions(
             accountNumber: txtAccountNumber.text,
-            latitude: 25.276987, //((txtLat.text ?? "0") as NSString).doubleValue,
-            longitude: 55.296249, // ((txtLong.text ?? "0") as NSString).doubleValue,
-            address: "Cluster D, United Arab Emirates",
+            latitude: ((txtLat.text ?? "0") as NSString).doubleValue,
+            longitude: ((txtLong.text ?? "0") as NSString).doubleValue,
+            address: txtAddress.text,
             loyaltyID: txtLoyalityID.text,
             email: txtEmail.text,
             pushNotificationPayload: ["data" : txtPushPayload.text],
@@ -108,7 +122,7 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) { if #available(iOS 14.0, *) {
         switch manager.authorizationStatus {
         case .notDetermined, .restricted, .denied:  break
-        case .authorizedAlways, .authorizedWhenInUse: manager.requestLocation()
+        case .authorizedAlways, .authorizedWhenInUse: break //manager.requestLocation()
         }
     }}
     
