@@ -264,7 +264,8 @@ class SDKManager: NSObject  {
         
         
         guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else{
-            smileSDKFireBaseSetting()
+            // Fixme: Firebase disabled
+            // smileSDKFireBaseSetting()
             return
         }
         
@@ -383,15 +384,17 @@ class SDKManager: NSObject  {
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
-         if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
-             if topVC.navigationController != nil {
-                 topVC.navigationController?.pushViewController(navEntryController, animated: true)
-             }else {
-                 navEntryController.modalPresentationStyle = .fullScreen
-                 topVC.present(navEntryController, animated: true) {  }
-             }
+        if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
+            if let navigationController = topVC.navigationController {
+                navigationController.setNavigationBarHidden(true, animated: true)
+                entryController.hidesBottomBarWhenPushed = true
+                navigationController.pushViewController(entryController, animated: true)
+            } else {
+                navEntryController.modalPresentationStyle = .fullScreen
+                topVC.present(navEntryController, animated: true) {  }
+            }
              return
-         }
+        }
         self.replaceRootControllerWith(navEntryController)
     }
     
