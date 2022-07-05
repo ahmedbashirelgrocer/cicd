@@ -102,6 +102,8 @@ class SplashAnimationViewController: UIViewController {
     
     @objc
     private func setRootVc() {
+        
+
         guard let topVc = UIApplication.topViewController() , topVc is ForceUpdateViewController else {
             if !(SDKManager.shared.launchOptions?.isSmileSDK == true) && (UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress()) {
                 let tabVC = self.delegate.getTabbarController(isNeedToShowChangeStoreByDefault: false)

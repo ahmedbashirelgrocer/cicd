@@ -20,9 +20,11 @@ struct SDKLoginManager {
         
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        guard userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0 else {
+        guard userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0  else {
+            ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile!)
             UserDefaults.setLogInUserID(userProfile?.dbID.stringValue ?? "")
             FireBaseEventsLogger.setUserID(userProfile?.dbID.stringValue)
+            UserDefaults.setUserLoggedIn(true)
             UserDefaults.setDidUserSetAddress(true)
             completionHandler(true, "")
             return
