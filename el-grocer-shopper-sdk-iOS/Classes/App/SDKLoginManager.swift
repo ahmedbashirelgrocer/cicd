@@ -19,6 +19,8 @@ struct SDKLoginManager {
         
         
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        debugPrint(userProfile?.phone)
+        debugPrint(launchOptions.accountNumber)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         guard userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0  else {
             ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile!)
@@ -29,6 +31,9 @@ struct SDKLoginManager {
             completionHandler(true, "")
             return
         }
+        
+        UserProfile.clearEntity()
+        DeliveryAddress.clearDeliveryAddressEntity()
         
         loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage in
             if isSuccess {
@@ -50,8 +55,10 @@ struct SDKLoginManager {
                     if (locations.count > 0 && locations[0].address.count > 0) {
                         self.updateProfileAndData(responseObject!)
                         ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult) in
-                            UserDefaults.setDidUserSetAddress(true)
-                            completionHandler(true, "")
+                            if isResult {
+                                UserDefaults.setDidUserSetAddress(true)
+                                completionHandler(true, "")
+                            }
                         }
                     }else{
                         self.getUserDeliveryAddresses(responseObject!, completionHandler: completionHandler)

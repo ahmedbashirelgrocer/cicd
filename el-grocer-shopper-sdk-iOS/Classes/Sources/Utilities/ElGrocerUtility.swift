@@ -1075,7 +1075,7 @@ class ElGrocerUtility {
         
         if formatted.isEmpty {
             if let location = locations {
-              formatted = location.locationName + "\n" + location.address
+                formatted = location.locationName.count > 0 ? (location.locationName + "\n" + location.address): location.address
             }
         }
         
