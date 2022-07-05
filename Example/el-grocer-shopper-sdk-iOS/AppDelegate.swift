@@ -2,9 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //
-//  Created by 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 on 06/10/2022.
-//  Copyright (c) 2022 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. All rights reserved.
-//
+//  release branch
 
 import UIKit
 import IQKeyboardManagerSwift
