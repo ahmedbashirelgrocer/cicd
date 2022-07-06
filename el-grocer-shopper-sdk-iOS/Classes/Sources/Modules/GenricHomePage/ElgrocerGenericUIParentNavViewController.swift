@@ -136,8 +136,8 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
     @objc
     func goToBasketScreen() {
         // if let SDKManager = SDKManager.shared {
-            if let navtabbar = SDKManager.shared.window?.rootViewController as? UINavigationController  {
-                if !(SDKManager.shared.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+            if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
+                if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
                         self.dismiss(animated: false, completion: nil)

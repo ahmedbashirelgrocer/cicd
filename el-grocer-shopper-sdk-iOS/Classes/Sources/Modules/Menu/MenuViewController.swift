@@ -312,7 +312,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 let navController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                 navController.viewControllers = [registrationProfileController]
                 navController.modalPresentationStyle = .fullScreen
-                guard let slideController = SDKManager.shared.window?.rootViewController as? SlideMenuViewController else {
+                guard let slideController = SDKManager.shared.rootViewController as? SlideMenuViewController else {
                     return
                 }
                 

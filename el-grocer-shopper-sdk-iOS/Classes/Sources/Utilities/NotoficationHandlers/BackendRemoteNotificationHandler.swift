@@ -44,7 +44,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate let slideMenuController: SlideMenuViewController? = {
         
-        guard let slideController = SDKManager.shared.window?.rootViewController as? SlideMenuViewController else {
+        guard let slideController = SDKManager.shared.rootViewController as? SlideMenuViewController else {
             return nil
         }
         

@@ -611,7 +611,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
         // let SDKManager = SDKManager.shared
-        if let nav = SDKManager.shared.window!.rootViewController as? UINavigationController {
+        if let nav = SDKManager.shared.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController

@@ -329,8 +329,8 @@ class ClickAndCollectMapViewController: UIViewController {
                 self.dismiss(animated: false)
                 
                 // if let SDKManager = SDKManager.shared {
-                    if let navtabbar = SDKManager.shared.window?.rootViewController as? UINavigationController  {
-                        if !(SDKManager.shared.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
+                        if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
                             if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                                 if ((tabbar.viewControllers?[1] as? UINavigationController) != nil) {
                                     let nav = tabbar.viewControllers?[1] as! UINavigationController

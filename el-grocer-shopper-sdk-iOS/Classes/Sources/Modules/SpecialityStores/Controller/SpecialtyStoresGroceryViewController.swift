@@ -251,9 +251,9 @@ class SpecialtyStoresGroceryViewController: UIViewController {
             //let currentSelf = self;
         DispatchQueue.main.async {
             // if let SDKManager = SDKManager.shared {
-                if let navtabbar = SDKManager.shared.window?.rootViewController as? UINavigationController  {
+                if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
                     
-                    if !(SDKManager.shared.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {

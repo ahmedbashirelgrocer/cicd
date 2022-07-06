@@ -301,14 +301,13 @@ class BasketIconOverlayView : UIView {
         ElGrocerUtility.sharedInstance.badgeCurrentValue = itemsCountStr
     
         barButton?.badgeValue = ElGrocerUtility.sharedInstance.isArabicSelected() ?  itemsCountStr.changeToArabic() : itemsCountStr.changeToEnglish()
-        if let topVc = UIApplication.topViewController() {
-                if itemsCountStr == "0" || itemsCountStr == "x" {
-                    topVc.tabBarController?.tabBar.items?[4].badgeValue = nil
-                }else{
-                    
-                    topVc.tabBarController?.tabBar.items?[4].badgeValue =   ElGrocerUtility.sharedInstance.isArabicSelected() ?  itemsCountStr.changeToArabic() : itemsCountStr.changeToEnglish()
-                }
-        }
+//        if let topVc = UIApplication.topViewController() {
+//                if itemsCountStr == "0" || itemsCountStr == "x" {
+//                    topVc.tabBarController?.tabBar.items?[4].badgeValue = nil
+//                } else {
+//                    topVc.tabBarController?.tabBar.items?[4].badgeValue =   ElGrocerUtility.sharedInstance.isArabicSelected() ?  itemsCountStr.changeToArabic() : itemsCountStr.changeToEnglish()
+//                }
+//        }
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.rightArrowView.transform = CGAffineTransform(scaleX: -1, y: 1)
         }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>793956033248-ge0k1s62eja1q5f6tkfeavo99puo7pvn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.793956033248-ge0k1s62eja1q5f6tkfeavo99puo7pvn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA-Jy2eoBVeRqc1pjjytrayOyVZGn1occE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>793956033248</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>elgrocer.com.ElGrocerShopper</string>
+	<key>PROJECT_ID</key>
+	<string>elgrocer-v2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>elgrocer-v2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<true/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<false/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<false/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:793956033248:ios:c0c93475c169984b01a685</string>
+	<key>DATABASE_URL</key>
+	<string>https://elgrocer-v2.firebaseio.com</string>
+	<key>TRACKING_ID</key>
+	<string>UA-64355049-2</string>
+</dict>
+</plist>
