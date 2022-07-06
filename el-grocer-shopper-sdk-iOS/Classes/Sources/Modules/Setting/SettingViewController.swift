@@ -347,7 +347,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if UserDefaults.isUserLoggedIn() {
-            return 5 + smilePointSection
+            return 4 + smilePointSection
         }else{
             return 3
         }

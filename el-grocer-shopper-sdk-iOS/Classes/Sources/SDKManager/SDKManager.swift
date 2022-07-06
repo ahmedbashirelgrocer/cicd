@@ -32,6 +32,8 @@ class SDKManager: NSObject  {
     var sdkStartTime : Date?
     
     var window: UIWindow?
+    var rootViewController: UIViewController?
+    var rootContext: UIViewController?
     
     var backgroundUpdateTask: UIBackgroundTaskIdentifier! = .invalid
     var bgtimer : Timer?
@@ -57,6 +59,7 @@ class SDKManager: NSObject  {
     
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
+        self.rootContext = UIApplication.topViewController()
         self.showAnimatedSplashView()
     }
     
@@ -264,6 +267,7 @@ class SDKManager: NSObject  {
         
         
         guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else{
+            // Fixme: Firebase disabled
             smileSDKFireBaseSetting()
             return
         }
@@ -314,9 +318,12 @@ class SDKManager: NSObject  {
         options.bundleID = "Etisalat.House"
         options.apiKey = "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0"
         options.trackingID = "UA-64355049-2"
-        FirebaseApp.configure(options: options)
         
-      //  FirebaseApp.configure(name: projectName, options: options)
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure(options: options)
+        } else {
+            FirebaseApp.configure(name: "elGrocer", options: options)
+        }
         
        
         
@@ -383,15 +390,19 @@ class SDKManager: NSObject  {
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
-         if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
-             if topVC.navigationController != nil {
-                 topVC.navigationController?.pushViewController(navEntryController, animated: true)
-             }else {
-                 navEntryController.modalPresentationStyle = .fullScreen
-                 topVC.present(navEntryController, animated: true) {  }
-             }
-             return
-         }
+        if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
+//          if let navigationController = rootContext?.navigationController {
+//          navigationController.setNavigationBarHidden(true, animated: true)
+//          // entryController.hidesBottomBarWhenPushed = true
+//          navigationController.pushViewController(entryController, animated: true)
+//          rootViewController = navigationController
+//          } else {
+            navEntryController.modalPresentationStyle = .fullScreen
+            topVC.present(navEntryController, animated: true) {  }
+            rootViewController = navEntryController
+//          }
+            return
+        }
         self.replaceRootControllerWith(navEntryController)
     }
     
@@ -441,7 +452,7 @@ class SDKManager: NSObject  {
             if let topVC = UIApplication.topViewController() {
                 if tabVC.viewControllers.count > 0  {
                     if let tabController = tabVC.viewControllers[0] as? UITabBarController {
-                        topVC.navigationController?.pushViewControllerFromLeft(controller: tabController)
+                        topVC.navigationController?.pushViewControllerFromLeftAndSetRoot(controller: tabController)
                     }
                 }
             }

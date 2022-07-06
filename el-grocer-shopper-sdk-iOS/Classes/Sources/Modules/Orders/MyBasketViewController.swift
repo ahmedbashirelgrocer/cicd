@@ -2896,8 +2896,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.finalRemoveCall();
             if self.isNeedToHideBackButton {
                 // if let SDKManager = SDKManager.shared {
-                SDKManager.shared.window?.rootViewController?.dismiss(animated: false, completion: nil)
-                (SDKManager.shared.window?.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+                SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
+                (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
                 // }
                 if let tab = ((getSDKManager().window?.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)

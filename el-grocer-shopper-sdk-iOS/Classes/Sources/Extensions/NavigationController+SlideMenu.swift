@@ -30,6 +30,19 @@ extension UINavigationController {
             popToViewController(vc, animated: animated)
         }
     }
+    
+    func pushViewControllerFromLeftAndSetRoot(controller: UIViewController){
+        let transition = CATransition()
+        transition.duration = 0.35
+        transition.type = CATransitionType.moveIn
+        transition.subtype = CATransitionSubtype.fromLeft
+        transition.timingFunction = CAMediaTimingFunction(name:CAMediaTimingFunctionName.easeInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        //present(controller, animated: false)
+        //pushViewController(controller, animated: false)
+        //viewControllers = [controller]
+        setViewControllers([controller], animated: false)
+    }
 
     func pushViewControllerFromLeft(controller: UIViewController){
         let transition = CATransition()
