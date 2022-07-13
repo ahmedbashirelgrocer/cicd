@@ -73,12 +73,13 @@ class LanguageManager: NSObject {
         }*/
         
         
-        if let bundle = Bundle.resource.path(forResource: lprojBasePath, ofType: "lproj"){
-            return Bundle(path: bundle)!
-        }else{
-            // return NSBundle.resourceBundle()
-            fatalError("lproj files not found on project directory. /n Hint:Localize your strings file")
-        }
+//        if let bundle = Bundle.resource.path(forResource: lprojBasePath, ofType: "lproj"){
+//            return Bundle(path: bundle)!
+//        }else{
+//            // return NSBundle.resourceBundle()
+//            fatalError("lproj files not found on project directory. /n Hint:Localize your strings file")
+//        }
+        return Bundle.resource
     }
     
     func setLocale(_ langCode:String){
