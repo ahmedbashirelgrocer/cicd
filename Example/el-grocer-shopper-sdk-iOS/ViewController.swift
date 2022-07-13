@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         return picker
     }()
     
-    fileprivate lazy var pickerData: [String] = { ["English", "Arabic"] }()
+    fileprivate lazy var pickerData: [String] = { ["Base", "ar"] }()
     
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()

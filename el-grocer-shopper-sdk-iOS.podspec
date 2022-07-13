@@ -54,7 +54,7 @@ Pod::Spec.new do |s|
   s.exclude_files = "Classes/Exclude"
    
   s.resource_bundles = {
-      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/**/{R-SupportingFiles/*.*,*.storyboard,*.xib,*.xcassets,*.xcdatamodeld,*.m4r,*.otf,*.ttf,*.json,*.strings}']
+      'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/**/{R-SupportingFiles/*.*,*.storyboard,*.xib,*.xcassets,*.xcdatamodeld,*.m4r,*.otf,*.ttf,*.json,*.strings,*.lproj/*.strings}']
   }
   
   #.{png,xcassets,xcdatamodeld,plist,strings,json,m4r}

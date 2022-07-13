@@ -26,4 +26,20 @@ extension Bundle {
     static var source_files: Bundle { return Bundle(for: GetBundleClass.self) }
 }
 
+
+//extension Bundle {
+//
+//        /// The main bundle of the framework.
+//    private static let langBundle: Bundle = .init(for: GetBundleClass.self)
+//
+//        /// The bundle in which the framework's resources are located.
+//    internal static var langInternalResources: Bundle {
+//        let url = langBundle.url(forResource: "adyenAr", withExtension: "strings")
+//        let bundle = url.flatMap { Bundle(url: $0) }
+//        return bundle ?? langBundle
+//    }
+//
+//}
+
+
 private final class GetBundleClass { }

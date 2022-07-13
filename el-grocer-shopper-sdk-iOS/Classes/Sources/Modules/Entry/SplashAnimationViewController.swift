@@ -177,17 +177,18 @@ extension SplashAnimationViewController {
     }
     
     
-    private func setLanguage() {
-        DispatchQueue.global(qos: .background).async {
-            self.delegate.setupLanguage()
-        }
-    }
     
+    @objc
     private func callSetUpApis() {
         // FixMe: 
         // self.checkClientVersion()
         self.setLanguage()
         
+    }
+    @objc
+    private func setLanguage() {
+        SDKManager.shared.setupLanguage()
+            // self.delegate.setupLanguage()
     }
     
 }
