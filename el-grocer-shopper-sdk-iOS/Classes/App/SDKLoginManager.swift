@@ -14,13 +14,12 @@ struct SDKLoginManager {
     
     typealias CompletionHandler = (_ isSuccess: Bool, _ errorMessage: String) -> Void
     
+
     func loginFlowForSDK(_ completionHandler:@escaping CompletionHandler) {
         // if from SDK
         
         
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        debugPrint(userProfile?.phone)
-        debugPrint(launchOptions.accountNumber)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         guard userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0  else {
             ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile!)
