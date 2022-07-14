@@ -248,7 +248,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+        if SDKManager.isSmileSDK {
             return 40
         }
         
@@ -269,7 +269,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+        if SDKManager.isSmileSDK {
             if section == 1 {
                 return  localizedString("cell_Title_Account", comment: "")
             }else if section == 2 {
@@ -338,7 +338,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+        if SDKManager.isSmileSDK {
             if indexPath.section == 0 {
                 return kUserInfoCellHeight
             }
@@ -367,7 +367,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+        if SDKManager.isSmileSDK {
             return 2 + smilePointSection
             // -1 for Benifits
             // -1 for logout
@@ -383,7 +383,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+        if SDKManager.isSmileSDK {
             if section == 0 {
                 return 1
             } else if section == 1 {
@@ -419,7 +419,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+        if SDKManager.isSmileSDK {
             return
         }
         
@@ -436,7 +436,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+        if SDKManager.isSmileSDK {
             if indexPath.section == 0 {
                 let cell:UserInfoCell = tableView.dequeueReusableCell(withIdentifier: kUserInfoCellIdentifier, for: indexPath) as! UserInfoCell
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -597,7 +597,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+        if SDKManager.isSmileSDK {
         
             switch indexPath.section {
             case 1:
