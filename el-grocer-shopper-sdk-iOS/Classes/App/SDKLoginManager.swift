@@ -110,6 +110,7 @@ struct SDKLoginManager {
     private func createNewDefaultAddressForNewUser(for userProfile: UserProfile, completion: @escaping CompletionHandler ) {
         
         let newDeliveryAddress: DeliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        //newDeliveryAddress.addressType = "1"
         newDeliveryAddress.locationName = ""
         newDeliveryAddress.apartment = ""
         newDeliveryAddress.building = ""
@@ -119,6 +120,7 @@ struct SDKLoginManager {
         newDeliveryAddress.latitude = launchOptions.latitude ?? 0
         newDeliveryAddress.longitude = launchOptions.longitude ?? 0
         newDeliveryAddress.isActive = NSNumber(value: true)
+        newDeliveryAddress.addressType = "1"
         
         self.addAddressFromDeliveryAddress(newDeliveryAddress, forUser: userProfile) { isSuccess, errorMessage in
             if isSuccess {

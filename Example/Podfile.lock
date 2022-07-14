@@ -52,7 +52,7 @@ PODS:
     - SDWebImage (~> 5.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (0.1.21):
+  - el-grocer-shopper-sdk-iOS (0.1.25):
     - Adyen (~> 4.7.3)
     - AlgoliaSearchClient (~> 8.0)
     - AnimatedGradientView (~> 3.1.0)
@@ -429,7 +429,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: c1a90e5f45b354c497e94a911b890fe898db1b60
+  el-grocer-shopper-sdk-iOS: c49d3c44ced152260cff9f42438491a1ab6eeb31
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148

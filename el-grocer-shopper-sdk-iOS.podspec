@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '0.1.25'
+  s.version          = '0.1.26'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
