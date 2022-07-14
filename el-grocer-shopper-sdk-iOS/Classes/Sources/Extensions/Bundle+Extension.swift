@@ -24,7 +24,33 @@ extension Bundle {
     }
     
     static var source_files: Bundle { return Bundle(for: GetBundleClass.self) }
+    
+    
+    static var languageResource : Bundle {
+        
+        let bundleName = RESOURCE_NAME
+        let bundlePath = Bundle(for: GetBundleClass.self)
+            .path(forResource: bundleName, ofType: "bundle")
+        let bundlee = bundlePath != nil ? Bundle(path: bundlePath!) : Bundle.main
+        return bundlee as? Bundle ?? Bundle.main
+    }
+    
 }
+
+extension Bundle {
+    
+        /// The main bundle of the framework.
+    internal static let appCore: Bundle = .init(for: GetBundleClass.self)
+    
+        /// The bundle in which the framework's resources are located.
+    internal static let coreInternalResources: Bundle = {
+        let url = appCore.url(forResource: "Adyen", withExtension: "bundle")
+        let bundle = url.flatMap { Bundle(url: $0) }
+        return bundle ?? appCore
+    }()
+    
+}
+
 
 
 //extension Bundle {

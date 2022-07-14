@@ -856,7 +856,7 @@ extension SignInViewController : UITextFieldDelegate {
 
 func localizedString(_ named: String,
                      tableName: String = "",
-                     bundle: Bundle = .resource,
+                     bundle: Bundle = .languageResource,
                      value: String = "",
                      comment: String) -> String {
     return NSLocalizedString(named,
