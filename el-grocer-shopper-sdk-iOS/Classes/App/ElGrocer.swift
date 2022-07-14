@@ -39,7 +39,7 @@ public struct LaunchOptions {
                 deepLinkPayload: String? = nil,
                 language: String? = nil, isSmileSDK: Bool) {
         
-        self.accountNumber = accountNumber
+        self.accountNumber = "+971543934549" // accountNumber
         self.latitude = latitude
         self.longitude = longitude
         self.address = address
