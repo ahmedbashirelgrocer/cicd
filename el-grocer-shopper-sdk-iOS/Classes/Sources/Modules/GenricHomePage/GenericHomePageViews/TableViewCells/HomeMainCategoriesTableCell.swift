@@ -64,8 +64,13 @@ class HomeMainCategoriesTableCell: UITableViewCell {
     
     func configureCell(cellType: MainCategoryCellType , dataA : [[MainCategoryCellType : Any]] , _ title : String = ""){
         
+        if SDKManager.isSmileSDK {
+            self.dataA = dataA.filter { $0[.Recipe] == nil && $0[.ClickAndCollect] == nil }
+        } else {
+            self.dataA = dataA
+        }
+        
         self.cellType = cellType
-        self.dataA = dataA
         self.setCellTitle(title)
         self.categoryCollectionView.reloadDataOnMainThread()
         

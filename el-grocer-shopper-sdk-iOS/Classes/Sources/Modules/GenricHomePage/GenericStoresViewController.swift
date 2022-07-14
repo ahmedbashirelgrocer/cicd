@@ -1286,7 +1286,11 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
         }
         
         if section == 0 {
-            return 1
+            if SDKManager.isSmileSDK { // remove smiles optoin
+                return 0
+            } else {
+                return 1
+            }
         }
         
         return 10
