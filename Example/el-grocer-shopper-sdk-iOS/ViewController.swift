@@ -80,7 +80,7 @@ class ViewController: UIViewController {
             UIView.appearance().semanticContentAttribute = .forceRightToLeft
             UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
             UserDefaults.setCurrentLanguage("ar")
-            LanguageManager.sharedInstance.setLocale("ar")
+           // LanguageManager.sharedInstance.setLocale("ar")
             
         }else{
             
@@ -90,8 +90,8 @@ class ViewController: UIViewController {
                 appDelegate.window?.semanticContentAttribute    = .forceLeftToRight
                 UIView.appearance().semanticContentAttribute = .forceLeftToRight
                 UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
-                LanguageManager.sharedInstance.setLocale("Base")
-                UserDefaults.setCurrentLanguage("Base")
+               // LanguageManager.sharedInstance.setLocale("Base")
+                  UserDefaults.setCurrentLanguage("Base")
             }
             
         }

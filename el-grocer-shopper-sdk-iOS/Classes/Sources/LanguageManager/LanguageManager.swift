@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class LanguageManager: NSObject {
+class LanguageManager: NSObject {
     
     
     var availableLocales = [CustomLocale]()
