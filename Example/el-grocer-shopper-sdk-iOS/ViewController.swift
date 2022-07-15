@@ -66,7 +66,7 @@ class ViewController: UIViewController {
         txtLoyalityID.text = ""
         txtEmail.text = ""
         txtPushPayload.text = ""
-        txtDLPayload.text = ""
+        txtDLPayload.text = "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "English"
     }
     
@@ -104,12 +104,10 @@ class ViewController: UIViewController {
             loyaltyID: txtLoyalityID.text,
             email: txtEmail.text,
             pushNotificationPayload: ["data" : txtPushPayload.text],
-            deepLinkPayload: txtDLPayload.text,
+            deepLinkPayload:  txtDLPayload.text,
             language: txtLanguage.text, isSmileSDK: true
         )
-        
-        let url = URL.init(string: "https://www.elgrocer.com/deeplinking?parentID=16")
-        ElGrocer.startEngine(with: launchOptions,url)
+        ElGrocer.startEngine(with: launchOptions)
     }
     
     func updateLocation(_ location: CLLocation!) {

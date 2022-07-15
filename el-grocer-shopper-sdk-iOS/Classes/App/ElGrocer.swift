@@ -20,6 +20,9 @@ public final class ElGrocer {
             ElGrocer.isSDKLoaded = true
         }
         SDKManager.shared.start(with: launchOptions)
+        if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+            ElGrocerDynamicLink.handleDeepLink(url)
+        }
     }
     public static func startEngine(with launchOptions: LaunchOptions? = nil, _ deepLink : URL?) {
         

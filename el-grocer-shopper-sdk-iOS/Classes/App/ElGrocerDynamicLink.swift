@@ -17,14 +17,31 @@ public class ElGrocerDynamicLink {
         guard let url = url else {
             return
         }
+        
+        
+        
+        
         let urlString = url.absoluteString
-        ElGrocerUtility.sharedInstance.deepLinkURL = urlString
+        
+        let components = urlString.components(separatedBy: ",")
+        var dictionary: [String : String] = [:]
+        
+        for component in components {
+            let pair = component.components(separatedBy: "=")
+            dictionary[pair[0]] = pair[1]
+        }
+        
+        
+        let stringA = urlString.components(separatedBy: "elgrocer://")
+        var finalURL =  "https://www.elgrocer.com?"  + (stringA.last ?? "")
+        finalURL = finalURL.replacingOccurrences(of: ",", with: "&")
+        ElGrocerUtility.sharedInstance.deepLinkURL = finalURL
         ElGrocerUtility.sharedInstance.deepLinkShotURL = url.absoluteString
         print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
-       //NotificationCenter.default.post(name: NSNotification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
         DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
         FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "EG_DeepLink", parameter: ["url" : urlString , "DeepLink" : url.absoluteString])
-        
+
     }
     
     
