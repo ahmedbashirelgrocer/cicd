@@ -394,6 +394,7 @@ class SDKManager: NSObject  {
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
+         LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions?.language ?? "en", SDKManagers: self)
         if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
             navEntryController.modalPresentationStyle = .fullScreen
             topVC.present(navEntryController, animated: true) {  }

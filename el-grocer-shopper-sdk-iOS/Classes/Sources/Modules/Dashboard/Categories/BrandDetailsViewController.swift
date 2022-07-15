@@ -422,7 +422,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         if (isFromBanner == true){
             
             let SDKManager = SDKManager.shared
-            if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+            if let nav = SDKManager.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
                         let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -435,10 +435,10 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         }else if isFromDynamicLink == true {
             
             let SDKManager = SDKManager.shared
-            if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+            if let nav = SDKManager.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
-                let tababarController = SDKManager.window!.rootViewController as! UITabBarController
+                let tababarController = SDKManager.rootViewController as! UITabBarController
                 tababarController.selectedIndex = 2
                     }
                 }

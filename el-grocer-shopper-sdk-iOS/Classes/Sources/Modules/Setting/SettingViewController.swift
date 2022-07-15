@@ -105,7 +105,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 debugPrint(self)
                 
                 let SDKManager = SDKManager.shared
-                if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+                if let nav = SDKManager.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
                             let tababarController = nav.viewControllers[0] as! UITabBarController

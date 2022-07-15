@@ -111,7 +111,7 @@ class LanguageManager: NSObject {
         if selectedLanguage == "ar" {
             UISearchBar.appearance().semanticContentAttribute = .forceRightToLeft
             UINavigationBar.appearance().semanticContentAttribute = .forceRightToLeft
-            SDKManagers.window?.semanticContentAttribute    = .forceRightToLeft
+            SDKManagers.rootViewController?.view?.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
             UIView.appearance().semanticContentAttribute = .forceRightToLeft
             UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
             LanguageManager.sharedInstance.setLocale("ar")
@@ -120,7 +120,7 @@ class LanguageManager: NSObject {
             Thread.OnMainThread {
                 UISearchBar.appearance().semanticContentAttribute = .forceLeftToRight
                 UINavigationBar.appearance().semanticContentAttribute = .forceLeftToRight
-                SDKManagers.window?.semanticContentAttribute    = .forceLeftToRight
+                SDKManagers.rootViewController?.view?.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
                 UIView.appearance().semanticContentAttribute = .forceLeftToRight
                 UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
                 LanguageManager.sharedInstance.setLocale("Base")

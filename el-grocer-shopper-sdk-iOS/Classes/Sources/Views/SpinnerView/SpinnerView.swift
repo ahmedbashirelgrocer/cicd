@@ -68,7 +68,7 @@ class SpinnerView : UIView {
             
             //add blur background
             let SDKManager = SDKManager.shared
-            let topView = SDKManager.window!.rootViewController!.view
+            let topView = SDKManager.rootViewController!.view
             spinnerView.blurredBackground.image = topView?.createBlurredSnapShot()
             
             UIApplication.shared.keyWindow?.addSubview(spinnerView)
