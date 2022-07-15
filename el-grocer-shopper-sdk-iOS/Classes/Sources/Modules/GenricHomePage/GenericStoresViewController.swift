@@ -453,7 +453,10 @@ class GenericStoresViewController: BasketBasicViewController {
                 }
             }
         }
-        DispatchQueue.global(qos: .utility).async(execute: cAndcItem!)
+        
+        if SDKManager.isSmileSDK {
+            DispatchQueue.global(qos: .utility).async(execute: cAndcItem!)
+        }
         
     }
     func setUpInitailizers() {
