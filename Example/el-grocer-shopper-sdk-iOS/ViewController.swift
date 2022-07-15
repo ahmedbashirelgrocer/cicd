@@ -71,30 +71,6 @@ class ViewController: UIViewController {
     }
     
     @objc func startSDK() {
-        
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        if txtLanguage.text == "ar" {
-//            UISearchBar.appearance().semanticContentAttribute = .forceRightToLeft
-//            UINavigationBar.appearance().semanticContentAttribute = .forceRightToLeft
-//            appDelegate.window?.semanticContentAttribute    = .forceRightToLeft
-//            UIView.appearance().semanticContentAttribute = .forceRightToLeft
-//            UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
-//            UserDefaults.setCurrentLanguage("ar")
-//           // LanguageManager.sharedInstance.setLocale("ar")
-//
-//        }else{
-//
-//            DispatchQueue.main.async {
-//                UISearchBar.appearance().semanticContentAttribute = .forceLeftToRight
-//                UINavigationBar.appearance().semanticContentAttribute = .forceLeftToRight
-//                appDelegate.window?.semanticContentAttribute    = .forceLeftToRight
-//                UIView.appearance().semanticContentAttribute = .forceLeftToRight
-//                UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
-//               // LanguageManager.sharedInstance.setLocale("Base")
-//                  UserDefaults.setCurrentLanguage("Base")
-//            }
-//
-//        }
    
         let launchOptions = LaunchOptions(
             accountNumber: txtAccountNumber.text,
@@ -139,6 +115,31 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 extension ViewController: UITextFieldDelegate {
     @objc func textFieldDidEndEditing() {
         txtLanguage.text = pickerData[languagePicker.selectedRow(inComponent: 0)]
+        
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if txtLanguage.text == "ar" {
+            UISearchBar.appearance().semanticContentAttribute = .forceRightToLeft
+            UINavigationBar.appearance().semanticContentAttribute = .forceRightToLeft
+            appDelegate.window?.semanticContentAttribute    = .forceRightToLeft
+            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+            UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
+            UserDefaults.setCurrentLanguage("ar")
+           // LanguageManager.sharedInstance.setLocale("ar")
+
+        }else{
+
+            DispatchQueue.main.async {
+                UISearchBar.appearance().semanticContentAttribute = .forceLeftToRight
+                UINavigationBar.appearance().semanticContentAttribute = .forceLeftToRight
+                appDelegate.window?.semanticContentAttribute    = .forceLeftToRight
+                UIView.appearance().semanticContentAttribute = .forceLeftToRight
+                UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
+               // LanguageManager.sharedInstance.setLocale("Base")
+                  UserDefaults.setCurrentLanguage("Base")
+            }
+
+        }
     }
 }
 
