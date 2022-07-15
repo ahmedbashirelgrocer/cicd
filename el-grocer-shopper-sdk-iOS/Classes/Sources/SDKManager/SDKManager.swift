@@ -395,16 +395,9 @@ class SDKManager: NSObject  {
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
         if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
-//          if let navigationController = rootContext?.navigationController {
-//          navigationController.setNavigationBarHidden(true, animated: true)
-//          // entryController.hidesBottomBarWhenPushed = true
-//          navigationController.pushViewController(entryController, animated: true)
-//          rootViewController = navigationController
-//          } else {
             navEntryController.modalPresentationStyle = .fullScreen
             topVC.present(navEntryController, animated: true) {  }
             rootViewController = navEntryController
-//          }
             return
         }
         self.replaceRootControllerWith(navEntryController)
@@ -715,8 +708,6 @@ class SDKManager: NSObject  {
     }
     
     func setupLanguage() {
-        
-       // let phoneLanguage = (Locale.current as NSLocale).object(forKey: NSLocale.Key.languageCode) as? String
         
         var phoneLanguage = UserDefaults.getCurrentLanguage()
         

@@ -28,7 +28,7 @@ override func localizedString(forKey key: String,
 
 extension Bundle {
 
-class func setLanguage(_ language: String) {
+ public class func setLanguage(_ language: String) {
 
     defer {
 

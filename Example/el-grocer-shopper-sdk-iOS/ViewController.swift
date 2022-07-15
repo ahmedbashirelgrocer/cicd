@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         return picker
     }()
     
-    fileprivate lazy var pickerData: [String] = { ["English", "Arabic"] }()
+    fileprivate lazy var pickerData: [String] = { ["Base", "ar"] }()
     
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -71,6 +71,31 @@ class ViewController: UIViewController {
     }
     
     @objc func startSDK() {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if txtLanguage.text == "ar" {
+            UISearchBar.appearance().semanticContentAttribute = .forceRightToLeft
+            UINavigationBar.appearance().semanticContentAttribute = .forceRightToLeft
+            appDelegate.window?.semanticContentAttribute    = .forceRightToLeft
+            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+            UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
+            UserDefaults.setCurrentLanguage("ar")
+           // LanguageManager.sharedInstance.setLocale("ar")
+            
+        }else{
+            
+            DispatchQueue.main.async {
+                UISearchBar.appearance().semanticContentAttribute = .forceLeftToRight
+                UINavigationBar.appearance().semanticContentAttribute = .forceLeftToRight
+                appDelegate.window?.semanticContentAttribute    = .forceLeftToRight
+                UIView.appearance().semanticContentAttribute = .forceLeftToRight
+                UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
+               // LanguageManager.sharedInstance.setLocale("Base")
+                  UserDefaults.setCurrentLanguage("Base")
+            }
+            
+        }
+   
         let launchOptions = LaunchOptions(
             accountNumber: txtAccountNumber.text,
             latitude: ((txtLat.text ?? "0") as NSString).doubleValue,

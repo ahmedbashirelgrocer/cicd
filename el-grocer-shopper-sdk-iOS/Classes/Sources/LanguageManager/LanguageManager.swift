@@ -12,7 +12,7 @@ class LanguageManager: NSObject {
     
     
     var availableLocales = [CustomLocale]()
-    static let sharedInstance = LanguageManager()
+    public static let sharedInstance = LanguageManager()
     var lprojBasePath = String()
     
     override init() {
@@ -82,7 +82,7 @@ class LanguageManager: NSObject {
         return Bundle.resource
     }
     
-    func setLocale(_ langCode:String){
+    public func setLocale(_ langCode:String){
         
        /* UserDefaults.standard.set([langCode], forKey: "AppleLanguages")//replaces Locale.preferredLanguages
         UserDefaults.standard.synchronize()*/
