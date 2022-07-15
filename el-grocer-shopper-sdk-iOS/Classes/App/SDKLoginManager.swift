@@ -14,6 +14,7 @@ struct SDKLoginManager {
     
     typealias CompletionHandler = (_ isSuccess: Bool, _ errorMessage: String) -> Void
     
+
     func loginFlowForSDK(_ completionHandler:@escaping CompletionHandler) {
         // if from SDK
         

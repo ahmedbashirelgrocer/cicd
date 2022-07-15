@@ -108,7 +108,8 @@ class ViewController: UIViewController {
             language: txtLanguage.text, isSmileSDK: true
         )
         
-        ElGrocer.startEngine(with: launchOptions)
+        let url = URL.init(string: "https://www.elgrocer.com/deeplinking?parentID=16")
+        ElGrocer.startEngine(with: launchOptions,url)
     }
     
     func updateLocation(_ location: CLLocation!) {
