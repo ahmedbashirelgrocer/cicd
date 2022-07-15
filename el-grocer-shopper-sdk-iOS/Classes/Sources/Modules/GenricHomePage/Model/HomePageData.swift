@@ -369,6 +369,7 @@ extension HomePageData : RecipeDataHandlerDelegate {
     }
     
     private func addRecipeInServices(chefTotalA : [CHEF]) {
+        if SDKManager.isSmileSDK { return }
         
         if chefTotalA.count > 0 {
         let recipe = RecipeService.init(isRecipeEnable: true, priority: 6)

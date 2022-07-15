@@ -27,6 +27,10 @@ import Adyen
 // import FirebaseAuth
 // import FirebaseMessaging
 
+extension SDKManager {
+    static var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
+}
+
 class SDKManager: NSObject  {
     
     var sdkStartTime : Date?
