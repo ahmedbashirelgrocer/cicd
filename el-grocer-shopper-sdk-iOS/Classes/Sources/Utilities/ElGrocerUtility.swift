@@ -1638,7 +1638,7 @@ extension DispatchQueue {
 
 extension UIViewController {
     
-    func hidetabbar() {
+    func hideTabBar() {
         self.tabBarController?.tabBar.isHidden = true
         self.presentingViewController?.tabBarController?.tabBar.isHidden = true
         self.extendedLayoutIncludesOpaqueBars = true

@@ -90,13 +90,13 @@ class ElGrocerNavigationController : UINavigationController {
         let settingController = ElGrocerViewControllers.settingViewController()
         self.pushViewController(settingController, animated: true)
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
     }
     
     @objc func cartButtonClick() {
         print("cartButtonClick")
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
         
         let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
         self.pushViewController(myBasketViewController, animated: true)

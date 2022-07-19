@@ -42,7 +42,7 @@ class HyperMarketViewController: UIViewController {
         
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
     }
     
     func setNavigationBarAppearence() {

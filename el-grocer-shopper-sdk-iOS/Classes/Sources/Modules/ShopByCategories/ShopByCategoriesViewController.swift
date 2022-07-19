@@ -63,7 +63,7 @@ class ShopByCategoriesViewController: UIViewController {
         
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
         
         self.view.backgroundColor = .textfieldBackgroundColor()
         self.navigationItem.hidesBackButton = true

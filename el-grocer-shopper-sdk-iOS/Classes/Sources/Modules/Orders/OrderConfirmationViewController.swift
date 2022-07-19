@@ -1185,7 +1185,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.tabBarController?.selectedIndex = 0
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        self.hidetabbar()
+        self.hideTabBar()
         if let vcNav = self.navigationController?.viewControllers {
             if vcNav.count > 0 {
                 if vcNav[0] is OrdersViewController {

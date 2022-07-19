@@ -151,7 +151,7 @@ class GenericStoresViewController: BasketBasicViewController {
         super.viewWillAppear(animated)
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        self.hidetabbar()
+        self.hideTabBar()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setLogoHidden(false)
