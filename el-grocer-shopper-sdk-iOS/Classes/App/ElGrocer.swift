@@ -26,16 +26,25 @@ public final class ElGrocer {
                 let manager = SDKLoginManager(launchOptions: launchOptions)
                 manager.setHomeView()
             }
-            if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+            if let _ = launchOptions?.pushNotificationPayload {
+                ElGrocerNotification.handlePushNotification(launchOptions)
+            }else if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
                 ElGrocerDynamicLink.handleDeepLink(url)
+                return
             }
+            
             return
+            
         }
         
         SDKManager.shared.start(with: launchOptions)
-        if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+        
+        if let _ = launchOptions?.pushNotificationPayload {
+            ElGrocerNotification.handlePushNotification(launchOptions)
+        } else if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
             ElGrocerDynamicLink.handleDeepLink(url)
         }
+       
     }
     public static func startEngine(with launchOptions: LaunchOptions? = nil, _ deepLink : URL?) {
         
@@ -63,7 +72,7 @@ public final class ElGrocer {
   
 }
 
-public struct LaunchOptions {
+public struct LaunchOptions  {
     var accountNumber: String?
     var latitude: Double?
     var longitude: Double?

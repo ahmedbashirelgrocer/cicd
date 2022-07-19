@@ -181,6 +181,3 @@ extension UIViewController {
     
 }
 
-//class SDKManager: UIResponder, UIApplicationDelegate {
-//    static var shared = SDKManager()
-//}
