@@ -10,15 +10,28 @@ import Foundation
 
 import UIKit
 
+
 public final class ElGrocer {
     // elgrocer
-    
+
     static var isSDKLoaded = false
     
     public static func startEngine(with launchOptions: LaunchOptions? = nil) {
         defer {
             ElGrocer.isSDKLoaded = true
         }
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            
+            if let launchOptions = launchOptions {
+                let manager = SDKLoginManager(launchOptions: launchOptions)
+                manager.setHomeView()
+            }
+            if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+                ElGrocerDynamicLink.handleDeepLink(url)
+            }
+            return
+        }
+        
         SDKManager.shared.start(with: launchOptions)
         if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
             ElGrocerDynamicLink.handleDeepLink(url)
@@ -30,7 +43,13 @@ public final class ElGrocer {
             ElGrocer.isSDKLoaded = true
         }
         
-        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else{
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            
+            if let launchOptions = launchOptions {
+                let manager = SDKLoginManager(launchOptions: launchOptions)
+                manager.setHomeView()
+            }
+            
             if let url = deepLink {
                 ElGrocerDynamicLink.handleDeepLink(url)
             }
@@ -41,9 +60,7 @@ public final class ElGrocer {
             ElGrocerDynamicLink.handleDeepLink(url)
         }
     }
-    
-    
-    
+  
 }
 
 public struct LaunchOptions {
