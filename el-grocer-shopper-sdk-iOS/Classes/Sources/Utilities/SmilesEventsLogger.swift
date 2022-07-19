@@ -21,6 +21,8 @@ enum SmilesEventsName : String {
     case SmilesToggleOn = "SmilesToggleOn"
     case SmilesToggleOff = "SmilesToggleOff"
     case SmilesError = "SmilesError"
+    case SmilesCheckoutError = "Checkout_SmilesToggleError"
+    case SmilesSubstitutionError = "Substitution_SmilesError"
     case PurchaseOrder = "PurchaseOrder"
     case SmilesViewed = "SmilesViewed"
 
@@ -123,28 +125,51 @@ class SmilesEventsLogger  {
         SmilesEventsLogger.trackSmilesToggleEvent(eventName, params: params)
     }
     
-    //TODO: use this function is response for checkout api when updated
-    class func smilesToggleErrorEvent( orderValue:Any, isSmilesCheck:Bool=false, smilePoints:Any, message:Any ) {
+    class func smilesErrorEvent( orderValue:Any, smilePoints:Any, message:Any ) {
         
-        var eventName: String = isSmilesCheck ? SmilesEventsName.SmilesToggleOn.rawValue : SmilesEventsName.SmilesToggleOff.rawValue
+        let eventName: String = SmilesEventsName.SmilesError.rawValue
         
         let params: [String : Any]? = [
-            //"clickedEvent": SmilesEventsName.SmilesToggle.rawValue,
             "clickedEvent": eventName,
-            SmilesEventsParmName.IsSmile.rawValue: isSmilesCheck,
             SmilesEventsParmName.OrderValue.rawValue: orderValue,
             SmilesEventsParmName.Points.rawValue: smilePoints,
             SmilesEventsParmName.errorMessage.rawValue: message
             ]
         
-        
-        if !isSmilesCheck {
-            eventName = SmilesEventsName.SmilesError.rawValue
-            SmilesEventsLogger.trackSmilesErrorEvent(eventName, params: params)
-        } else {
-            SmilesEventsLogger.trackSmilesErrorEvent(eventName, params: params)
-        }
+        SmilesEventsLogger.trackSmilesErrorEvent(eventName, params: params)
+
     }
+    
+    //not beign used righ now
+    class func smilesCheckoutErrorEvent( orderValue:Any, smilePoints:Any, message:Any ) {
+        
+        let eventName: String = SmilesEventsName.SmilesCheckoutError.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            SmilesEventsParmName.OrderValue.rawValue: orderValue,
+            SmilesEventsParmName.Points.rawValue: smilePoints,
+            SmilesEventsParmName.errorMessage.rawValue: message
+            ]
+        
+        SmilesEventsLogger.trackSmilesErrorEvent(eventName, params: params)
+    }
+    
+    class func smilesSubstitutionErrorEvent( orderValue:Any, smilePoints:Any, message:Any ) {
+        
+        let eventName: String = SmilesEventsName.SmilesSubstitutionError.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            SmilesEventsParmName.OrderValue.rawValue: orderValue,
+            SmilesEventsParmName.Points.rawValue: smilePoints,
+            SmilesEventsParmName.errorMessage.rawValue: message
+            ]
+        
+        SmilesEventsLogger.trackSmilesErrorEvent(eventName, params: params)
+    }
+    
+    
     
     class func smilesPurchaseOrderEvent( orderValue:Int, pointsEarned:Int, pointsBurned:Int, isSmilesCheck:Bool, smilePoints:Int ) {
 

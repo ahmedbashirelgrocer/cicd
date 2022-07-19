@@ -40,6 +40,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     let settingsSectionCells = 1
     let informationSectionCells = 3
     var smilePointSection: Int = 1
+    let deleteAccountCell: Int = 1
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13, *) {
@@ -104,8 +105,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 guard let self = self else {return}
                 debugPrint(self)
                 
-                let SDKManager = SDKManager.shared
-                if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+                let appDelegate = SDKManager.shared
+                if let nav = appDelegate.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
                             let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -135,11 +136,12 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                        localizedString("payment_methods", comment: ""),
                        localizedString("password_settings", comment: ""),
                        localizedString("language_settings", comment: ""),
+                       localizedString("delete_account", comment: ""),
                        localizedString("terms_settings", comment: ""),
                        localizedString("privacy_policy", comment: ""),
                        localizedString("FAQ_settings", comment: "")]
             
-            Images =  ["liveChatSettings" , "ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" ,"paymentMethodSettings","passwordSettings","languageSettings","termsSettings","privacyPolicySettings" , "faqSettings"]
+            Images =  ["liveChatSettings" , "ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" ,"paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings" , "faqSettings"]
          
             
          
@@ -226,17 +228,17 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func registerTableViewCell() {
         
-        let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: Bundle.resource)
+        let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: .resource)
         self.tableView.register(userInfoCellNib, forCellReuseIdentifier: kUserInfoCellIdentifier)
         
-        let loginCellNib  = UINib(nibName: "loginCell", bundle: Bundle.resource)
+        let loginCellNib  = UINib(nibName: "loginCell", bundle: .resource)
         self.tableView.register(loginCellNib, forCellReuseIdentifier: KloginCellIdentifier)
         
-        let settingCellNib = UINib(nibName: "SettingCell", bundle: Bundle.resource)
+        let settingCellNib = UINib(nibName: "SettingCell", bundle: .resource)
         self.tableView.register(settingCellNib, forCellReuseIdentifier: kSettingCellIdentifier)
         
         
-        let SignOutCellNib = UINib(nibName: "SignOutCell", bundle: Bundle.resource)
+        let SignOutCellNib = UINib(nibName: "SignOutCell", bundle: .resource)
         self.tableView.register(SignOutCellNib, forCellReuseIdentifier: kSignOutCellIdentifier)
         
         
@@ -347,7 +349,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if UserDefaults.isUserLoggedIn() {
-            return 4 + smilePointSection
+            return 5 + smilePointSection
         }else{
             return 3
         }
@@ -364,7 +366,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             }else if section == 1 + smilePointSection {
                 return accountSectionCells
             }else if section == 2 + smilePointSection{
-                return settingsSectionCells
+                return settingsSectionCells + deleteAccountCell
             }
             return informationSectionCells
         }else{
@@ -457,7 +459,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
                 if indexPath.row < titles.count {
-                    let addForIndex = accountSectionCells + settingsSectionCells
+                    let addForIndex = accountSectionCells + settingsSectionCells + deleteAccountCell
                     let title = titles[(indexPath as NSIndexPath).row + addForIndex]
                     let imageName = Images[(indexPath as NSIndexPath).row + addForIndex]
                     cell.configureCellWithTitle(title, withImage: imageName)
@@ -621,6 +623,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 0:
                     print("Language Selection")
                     self.showLanguageSelectionVC()
+                    break
+                case 1:
+                    print("delete account selection")
+                    self.showDeleteAccountVC()
                     break
                 default:
                     break
@@ -811,6 +817,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         self.navigationController?.pushViewController(languageController, animated: true)
     }
+    fileprivate func showDeleteAccountVC() {
+        ElGrocerEventsLogger.sharedInstance.trackSettingClicked("DeleteAccount")
+        let deleteAccountVC = ElGrocerViewControllers.getAccountDeletionReasonsVC()
+        self.navigationController?.pushViewController(deleteAccountVC, animated: true)
+    }
     
     fileprivate func showOrderVC(){
         
@@ -962,13 +973,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                                       negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         if buttonIndex == 0 {
-                                             let SDKManager = SDKManager.shared
-                                            if UIApplication.topViewController() is GenericProfileViewController {
-                                                SDKManager.currentTabBar?.dismiss(animated: false, completion: {
-                                                    SDKManager.logoutAndShowEntryView()
+                                            let appDelegate = SDKManager.shared
+                                        if UIApplication.topViewController() is GenericProfileViewController {
+                                                appDelegate.currentTabBar?.dismiss(animated: false, completion: {
+                                                    appDelegate.logoutAndShowEntryView()
                                                 })
                                             }else {
-                                                SDKManager.logoutAndShowEntryView()
+                                                appDelegate.logoutAndShowEntryView()
                                             }
                                            
                                         }else{

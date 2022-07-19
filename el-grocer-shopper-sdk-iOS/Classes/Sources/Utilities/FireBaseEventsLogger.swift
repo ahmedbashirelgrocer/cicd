@@ -60,6 +60,7 @@ enum FireBaseScreenName: String {
     
     case CancelReason = "CancelReason"
     case ProductDetailView = "ProductDetailView"
+    case ApplyPromoVC = "PromoList"
     
 }
 
@@ -164,7 +165,10 @@ enum FireBaseParmName : String {
     case StoreId = "StoreId"
     case BrandId = "BrandId"
     case SelectedStoreId = "SelectedStoreId"
-    
+
+    case PromoCode = "Promo"
+    case PromoIndex = "Index"
+    case StoreSearch = "StoreSearch"
 
 }
 
@@ -228,6 +232,7 @@ enum FireBaseEventsName : String {
     case ProductClicked = "ProductClicked"
     case ProductStoreListViewed = "ProductStoreListViewed"
     case ProductStoreSelection = "ProductStoreSelection"
+    case PromoApplyClicked = "PromoApplyClicked"
 
 }
 
@@ -382,7 +387,7 @@ class FireBaseEventsLogger  {
                 debugPrint("*Firebase Logs*  *EventName*: \(eventNameToSend)  *Parms*: \(newParms as Any)  *****")
                 debugPrint("=====================*Firebase Logs event Name*=========================")
             }
-        }  
+        }
     }
     
     class func setScreenName (_ screenName : String?  , screenClass : String? ) {
@@ -475,8 +480,8 @@ class FireBaseEventsLogger  {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.AddItem.rawValue + (UserDefaults.isOrderInEdit() ? "Edited" : "")  , parameter: [FireBaseParmName.ProductName.rawValue :  productName , FireBaseParmName.BrandName.rawValue : brandName , FireBaseParmName.CategoryName.rawValue : categoryName , FireBaseParmName.SubCategoryName.rawValue : subCategoryName , FireBaseParmName.recipeId.rawValue : Int(recipeName) ?? -1 , FireBaseParmName.ChefName.rawValue : Int(chefName ?? "-1") ?? ""   , FireBaseParmName.CurrentScreen.rawValue : topControllerName , AnalyticsParameterCurrency.capitalized: kProductCurrencyEngAEDName, FireBaseParmName.ItemPrice.rawValue : product.price , AnalyticsParameterQuantity.capitalized: quantity , FireBaseParmName.ItemId.rawValue : cleanProductID  , FireBaseParmName.IsSponsored.rawValue : product.isSponsored ?? NSNumber(integerLiteral: 0) , FireBaseParmName.ItemSize.rawValue : product.descr ?? "" , FireBaseParmName.isPromotion.rawValue : product.promotion?.boolValue ?? false  , FireBaseParmName.isCarousel.rawValue : isCarousel , FireBaseParmName.AvailableQuantity.rawValue : product.availableQuantity.intValue, FireBaseParmName.DeepLink.rawValue : deepLink   ])
             
         }
-    
         
+    
         FireBaseEventsLogger.logEventToFirebaseWithEventName( "", eventName: AnalyticsEventAddToCart , parameter: [
             AnalyticsParameterCurrency: kProductCurrencyEngAEDName,
             AnalyticsParameterPrice: product.price ,
@@ -487,8 +492,6 @@ class FireBaseEventsLogger  {
             AnalyticsParameterItemName: productName ,
             AnalyticsParameterValue: product.price
         ])
-        
-        
         
         if UIApplication.topViewController() is SearchViewController {
             if let isSpons = product.isSponsored {
@@ -1025,6 +1028,23 @@ class FireBaseEventsLogger  {
     }
     
     
+    class func trackRetailerSearch (_ searchTerm : String , topControllerName : String = FireBaseEventsName.Search.rawValue , isFromUniversalSearch : Bool = false, retailId : String? ) {
+        
+        let parms =  [AnalyticsParameterSearchTerm :  searchTerm , AnalyticsParameterStartDate : "\(Date())"]
+        FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: AnalyticsEventSearch , parameter: parms)
+        FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: AnalyticsEventViewSearchResults , parameter: parms)
+        var currentScreenName =  FireBaseEventsName.Search.rawValue + "_" +  topControllerName
+        if topControllerName == FireBaseEventsName.Search.rawValue {
+            currentScreenName = FireBaseEventsName.Search.rawValue  + "_" + "Main"
+        }
+        
+        let finalParms =  [FireBaseParmName.CurrentScreen.rawValue : currentScreenName  ,  FireBaseParmName.SearchTerm.rawValue :  searchTerm , "SearchDate" : "\(Date())" , "isUniversal" : isFromUniversalSearch ? "1" : "0" , FireBaseParmName.StoreSearch.rawValue : (retailId != nil) ] as [String : Any]
+        FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.Search.rawValue , parameter: finalParms )// EG_Search_Go
+        debugPrint(topControllerName)
+        
+    }
+    
+    
     class func trackRecipeSearch (_ searchTerm : String) {
         
         
@@ -1122,7 +1142,6 @@ class FireBaseEventsLogger  {
             AnalyticsParameterTransactionID: transactionID ,
             AnalyticsParameterValue: Double(value) ?? 0,
             ] as [String : Any]
-        
         
         FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: AnalyticsEventPurchase, parameter:parms)
         
@@ -1870,7 +1889,16 @@ class FireBaseEventsLogger  {
         
     }
     
-
+    //promo vc
+    class func ApplyPromoClick (index : Int ,  code : String) {
+        
+        var finalParms = [String:Any]()
+        finalParms[FireBaseParmName.PromoIndex.rawValue] = index
+        finalParms[FireBaseParmName.PromoCode.rawValue] = code
+        finalParms[FireBaseParmName.CurrentScreen.rawValue] = FireBaseEventsLogger.gettopViewControllerName()
+        FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.PromoApplyClicked.rawValue  , parameter: finalParms )
+        
+    }
 
     //ProductStoreSelection
     
@@ -1926,9 +1954,9 @@ class FireBaseEventsLogger  {
         
 //        if controller is SpecialtyStoresGroceryViewController {
 //            let vc = controller as! SpecialtyStoresGroceryViewController
-//            //vc.title = 
+//            //vc.title =
 //            title = FireBaseScreenName.CheckOut.rawValue
-//            
+//
 //        }
 //
         if controller is  ShopByCategoriesViewController {

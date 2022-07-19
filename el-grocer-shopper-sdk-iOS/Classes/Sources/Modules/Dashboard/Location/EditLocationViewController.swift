@@ -167,7 +167,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var updateButton: UIButton!
     
     
-    @IBOutlet var locationView: AWView! 
+    @IBOutlet var locationView: AWView!
     @IBOutlet var apartmenttxtView: AWView! {
         didSet {
             apartmenttxtView.backgroundColor = UIColor.textfieldBackgroundColor()
@@ -317,7 +317,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         
         if editScreenState == .isForSignUp {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
-            self.addBackButtonWithCrossIconRightSide()
+            self.addBackButtonWithCrossIconRightSide(.navigationBarWhiteColor())
             self.title = localizedString("Sign_up", comment: "")
             self.lblTopMessage.text = localizedString("lbl_add_Address_msg", comment: "")
         }else if editScreenState == .isForAddNew {
@@ -332,7 +332,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         }else {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             self.navigationItem.hidesBackButton = true
-            self.addBackButtonWithCrossIconRightSide()
+            self.addBackButtonWithCrossIconRightSide(.navigationBarWhiteColor())
             self.title = localizedString("dashboard_location_edit_location_title", comment: "")
             self.lblTopMessage.text = localizedString("lbl_Edit_Address_msg", comment: "")
         }
@@ -956,7 +956,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
 //     //   tableViewTopToSearchView.constant = hidden ? 0 : 60
 //        tableViewTopToSearchView.priority = hidden ? UILayoutPriority.defaultHigh : UILayoutPriority.defaultLow
 //        tableViewTopToLocationView.priority = hidden ? UILayoutPriority.defaultLow : UILayoutPriority.defaultHigh
-//        
+//
 //        editLocScrollViewTopToSearchView.constant = hidden ? 0 : 60
 //        editLocScrollViewTopToLocationView.priority = hidden ? UILayoutPriority.defaultHigh : UILayoutPriority.defaultLow
 //        editLocScrollViewTopToSearchView.priority = hidden ? UILayoutPriority.defaultLow : UILayoutPriority.defaultHigh

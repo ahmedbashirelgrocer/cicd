@@ -22,26 +22,38 @@ enum AlgoliaEventName : String {
     
 }
 
+enum AlgoliaIndexName : String {
+    
+    case productSuggestion = "Product_query_suggestions"
+    case RetailerSuggestions = "Retailer_query_suggestions"
+    
+}
+
 class AlgoliaApi {
     
     
     typealias responseBlock = (_ content: [String: Any]?, _ error: Error?) -> ()
-    
-    
-   
+
      private var algoliaAddToCartProducts : Dictionary <String, [String]> = [:]
    
     var algoliaApplicationID  =  ApplicationID(rawValue: "AS47I7FT15")
     private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
+    private let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
+    
  //   private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "ProductReplica")
     private let algoliaRecipeIndexName  = IndexName.init(stringLiteral: "RecipeBoutique")
     private let algoliaProductSuggestionIndexName = IndexName.init(stringLiteral: "Product_query_suggestions")
     private let algoliaRecipeSuggestionIndexName = IndexName.init(stringLiteral: "RecipeBoutique_query_suggestions")
+    private let algoliaRetailerSuggestionIndexName  = IndexName.init(stringLiteral: "Retailer_query_suggestions")
+    
+    var client : SearchClient
     var algoliaProductIndex : AlgoliaSearchClient.Index
+    var algoliaRetailerIndex : AlgoliaSearchClient.Index
     var algoliaProductBrowserIndex : AlgoliaSearchClient.Index
     var algoliaRecipeIndex : AlgoliaSearchClient.Index
     var algoliaSearchSuggestionIndex : AlgoliaSearchClient.Index
     var algoliaRecipeSuggestionIndex : AlgoliaSearchClient.Index
+    var algoliaRetailerSuggestionIndex : AlgoliaSearchClient.Index
     //var insight : Insights?
     
     let OROperator = " OR "
@@ -50,7 +62,7 @@ class AlgoliaApi {
     
     init() {
         
-        var client = SearchClient(appID:  algoliaApplicationID , apiKey: "f64accc4672a9125533fc1d64baf93ab")
+         client = SearchClient(appID:  algoliaApplicationID , apiKey: "f64accc4672a9125533fc1d64baf93ab")
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
            algoliaApplicationID = "3LIB7IY3OL"
            client = SearchClient(appID: algoliaApplicationID , apiKey: "688bccc1dcc7f10e040c36ec148557b6")
@@ -59,6 +71,9 @@ class AlgoliaApi {
         self.algoliaRecipeIndex =  client.index(withName: algoliaRecipeIndexName )
         self.algoliaSearchSuggestionIndex = client.index(withName: algoliaProductSuggestionIndexName )
         self.algoliaRecipeSuggestionIndex =  client.index(withName: algoliaRecipeSuggestionIndexName )
+        
+        self.algoliaRetailerIndex  = client.index(withName: algoliaRetailerIndexName )
+        self.algoliaRetailerSuggestionIndex  = client.index(withName: algoliaRetailerSuggestionIndexName )
         
         let browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: "7c36787b0c09ef094db8a3ba93871ce7")
         self.algoliaProductBrowserIndex =  browserClient.index(withName:  algoliadefaultIndexName)
@@ -221,6 +236,116 @@ class AlgoliaApi {
         }
  
     }
+    
+    
+    func searchProductQueryWithMultiStoreMultiIndex (_ searchText : String , storeIDs : [String] , _ pageNumber : Int = 0 , _ hitsPerPage : UInt = 100 , _ brand : String = "" , _ category : String = "" , searchType: String  , completion : @escaping responseBlock ) -> Void {
+        
+        
+        var filterString = ""
+        
+        for storeID in storeIDs{
+            let facetFiltersForCurrentStoreID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+            if filterString.count == 0 {
+                filterString.append(facetFiltersForCurrentStoreID)
+            }else{
+                filterString.append(OROperator)
+                filterString.append(facetFiltersForCurrentStoreID)
+            }
+        }
+        
+        for storeID in storeIDs{
+            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+            if filterString.count == 0 {
+                filterString.append(facetFiltersForCurrentStoreID)
+            }else{
+                filterString.append(OROperator)
+                filterString.append(facetFiltersForCurrentStoreID)
+            }
+        }
+        if brand.count > 0 {
+            let facetFiltersForCurrentStoreID : String = "brand.name:'\(brand)'"
+            if filterString.count == 0 {
+                filterString.append(facetFiltersForCurrentStoreID)
+            }else{
+                filterString.append(ANDOperator)
+                filterString.append(facetFiltersForCurrentStoreID)
+            }
+        }
+        if category.count > 0 {
+            let facetFiltersForCurrentStoreID : String = "subcategories.name:'\(category)'"
+            if filterString.count == 0 {
+                filterString.append(facetFiltersForCurrentStoreID)
+            }else{
+                filterString.append(ANDOperator)
+                filterString.append(facetFiltersForCurrentStoreID)
+            }
+        }
+        
+        var query = Query(searchText)
+            .set(\.filters, to: filterString)
+            .set(\.clickAnalytics, to: true)
+            .set(\.getRankingInfo, to: true)
+            .set(\.analytics, to: true)
+            .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: storeIDs.count > 1 , searchType: searchType))
+      
+        query.page = pageNumber
+        query.hitsPerPage = Int(hitsPerPage)
+        
+        
+        
+        var filterStringRetailer = ""
+        
+        for storeID in storeIDs{
+            let facetFiltersForCurrentStoreID : String = "id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+            if filterStringRetailer.count == 0 {
+                filterStringRetailer.append(facetFiltersForCurrentStoreID)
+            }else{
+                filterStringRetailer.append(OROperator)
+                filterStringRetailer.append(facetFiltersForCurrentStoreID)
+            }
+        }
+        
+        
+        var retailerQuery = Query(searchText)
+            .set(\.filters, to: filterStringRetailer)
+            .set(\.clickAnalytics, to: true)
+            .set(\.getRankingInfo, to: true)
+            .set(\.analytics, to: true)
+            .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: storeIDs.count > 1 , searchType: searchType))
+            
+        retailerQuery.page = pageNumber
+        retailerQuery.hitsPerPage = Int(hitsPerPage)
+        
+        
+        let queries: [IndexedQuery] = [
+            IndexedQuery.init(indexName: algoliadefaultIndexName, query: query),
+            IndexedQuery.init(indexName: algoliaRetailerIndexName, query: retailerQuery),
+        ]
+        
+        var requestOptions = RequestOptions()
+        requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
+        
+        client.multipleQueries(queries: queries) { result in
+            
+            if case .success(let response) = result {
+                completion(response.convertHits() , nil)
+            }else if case .failure (let error) = result{
+                completion(nil , error)
+            }
+        }
+        
+//        client.multipleQueries(queries: queries, strategy: MultipleQueriesStrategy.init(rawValue: ""), requestOptions: requestOptions) { result in
+//
+//            if case .success(let response) = result {
+//                debugPrint("Response: \(response)")
+//            }else if case .failure (let error) = result{
+//                completion(nil , error)
+//            }
+//
+//        }
+ 
+    }
+    
     
     func searchRecipeQueryWithMultiStore (_ searchText : String , storeIDs : [String] , typeIDs : [String] , groupIds : [String]  , _ pageNumber : Int = 0 , _ hitsPerPage : UInt = 100 , _ brand : String = "" , _ category : String = "" , searchType: String  , completion : @escaping responseBlock ) -> Void {
         
@@ -392,9 +517,44 @@ class AlgoliaApi {
             .set(\.getRankingInfo, to: true)
             .set(\.analytics, to: true)
             .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: isUniversal  , searchType: "suggestion"))
-        query.hitsPerPage =  searchText.count > 0 ? 6 : 12
+        query.hitsPerPage =  searchText.count > 0 ? 3 : 4
+        
+        
+        
         var requestOptions = RequestOptions()
         requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
+        
+        guard !isUniversal else {
+            
+            
+            var queryRetailerSuggestion = Query(searchText)
+                .set(\.clickAnalytics, to: true)
+                .set(\.getRankingInfo, to: true)
+                .set(\.analytics, to: true)
+                .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: isUniversal  , searchType: "suggestion"))
+            query.hitsPerPage =  searchText.count > 0 ? 3 : 4
+            
+            
+            let queries: [IndexedQuery] = [
+                IndexedQuery.init(indexName: algoliaProductSuggestionIndexName, query: query),
+                IndexedQuery.init(indexName: algoliaRetailerSuggestionIndexName, query: queryRetailerSuggestion)
+            ]
+            
+            var requestOptions = RequestOptions()
+            requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
+            
+            client.multipleQueries(queries: queries) { result in
+                
+                if case .success(let response) = result {
+                    completion(response.convertHits() , nil)
+                }else if case .failure (let error) = result{
+                    completion(nil , error)
+                }
+            }
+            
+           return
+            
+        }
         
        
         self.algoliaSearchSuggestionIndex.search(query: query, requestOptions: requestOptions ) { (content) -> Void in
@@ -675,17 +835,25 @@ extension AlgoliaApi {
 
 // MARK: Helpers
 
+extension SearchesResponse {
+    func convertHits() -> [String: Any]? {
+        return self.dictionary
+    }
+}
+
 extension SearchResponse {
     func convertHits() -> [String: Any]? {
         return self.dictionary
     }
 }
+
 extension Encodable {
     var dictionary: [String: Any]? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
         return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
     }
 }
+
 
 
 
@@ -786,3 +954,65 @@ extension AlgoliaApi {
     
     
 }
+
+
+extension AlgoliaApi {
+    
+    
+    
+    
+    func getSuggestionForRelatableProducts (_ objectID : String, stores : [String] , type : ModelType , completion : @escaping responseBlock ) -> Void {
+       
+        let semaphore = DispatchSemaphore (value: 0)
+        
+        let idIs = objectID
+        var facetFiltersForCurrentShopsID : String = ""
+        for (index, store) in stores.enumerated() {
+            if index > 0 {
+                facetFiltersForCurrentShopsID.append(",")
+            }
+            facetFiltersForCurrentShopsID.append("shops.retailer_id:\(store)")
+        }
+  
+        let postData = "{\n    \"requests\": [\n        {\n            \"indexName\": \"Product\",\n            \"objectID\": \"\(idIs)\",\n            \"model\": \"\(type.rawValue)\",\n            \"threshold\": 0,\n            \"queryParameters\" : { \"facetFilters\" : [\"\(facetFiltersForCurrentShopsID)\"]}\n        }\n    ]\n}".data(using: .utf8)
+   
+        var request = URLRequest(url: URL(string: "https://AS47I7FT15-dsn.algolia.net/1/indexes/*/recommendations")!,timeoutInterval: Double.infinity)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("AS47I7FT15", forHTTPHeaderField: "X-Algolia-Application-Id")
+        request.addValue("f64accc4672a9125533fc1d64baf93ab", forHTTPHeaderField: "X-Algolia-API-Key")
+        
+        request.httpMethod = "POST"
+        request.httpBody = postData
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                print(String(describing: error))
+                completion(nil , error)
+                semaphore.signal()
+                return
+            }
+            print(String(data: data, encoding: .utf8)!)
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
+                completion(json , nil)
+            } catch let error {
+                print("erroMsg")
+                completion(nil , error)
+            }
+            semaphore.signal()
+        }
+        
+        task.resume()
+        semaphore.wait()
+
+       
+    }
+    
+    
+}
+
+public enum ModelType : String {
+    
+    case RelatedProducts = "related-products"
+    case BoughtTogether = "bought-together"
+    }

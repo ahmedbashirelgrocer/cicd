@@ -421,8 +421,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         if (isFromBanner == true){
             
-            let SDKManager = SDKManager.shared
-            if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+            let appDelegate = SDKManager.shared
+            if let nav = appDelegate.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
                         let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -434,11 +434,11 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             
         }else if isFromDynamicLink == true {
             
-            let SDKManager = SDKManager.shared
-            if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+            let appDelegate = SDKManager.shared
+            if let nav = appDelegate.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
-                let tababarController = SDKManager.window!.rootViewController as! UITabBarController
+                let tababarController = appDelegate.window!.rootViewController as! UITabBarController
                 tababarController.selectedIndex = 2
                     }
                 }
@@ -584,7 +584,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             }else{
                 
                 let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kBrandHeaderCellIdentifier, for: indexPath) as! BrandHeaderCell
-                  headerView.configureWithBrand(self.brand, itemsCount: 0)
+                  headerView.configureWithBrand(self.brand, itemsCount: 0, isForBrandDeepLink: false)
                 //headerView.configureWithBrand(self.bannerCampaign ?? [] , self.grocery ,  self.brand)
                 return headerView
                 
@@ -642,7 +642,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     
     
     
-    //MARK: - Scrolling 
+    //MARK: - Scrolling
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -722,8 +722,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                     
                 }else{
                     
-                    let SDKManager = SDKManager.shared
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
+                    let appDelegate = SDKManager.shared
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             //clear active basket and add product
@@ -840,11 +840,11 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         self.setCollectionViewBottomConstraint()
         
         //schedule notification
-        let SDKManager = SDKManager.shared
-        SDKManager.scheduleAbandonedBasketNotification()
+        let appDelegate = SDKManager.shared
+        appDelegate.scheduleAbandonedBasketNotification()
         //Hunain 27Dec16
-        SDKManager.scheduleAbandonedBasketNotificationAfter24Hour()
-        SDKManager.scheduleAbandonedBasketNotificationAfter72Hour()
+        appDelegate.scheduleAbandonedBasketNotificationAfter24Hour()
+        appDelegate.scheduleAbandonedBasketNotificationAfter72Hour()
     }
     
     // MARK: Product quick Remove

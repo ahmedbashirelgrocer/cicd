@@ -310,8 +310,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         }
     }
     @IBOutlet var btnPayUsing: UIButton!
-    
-    // smiles burn points labels outlets for bill details
+        // smiles burn points labels outlets for bill details
     @IBOutlet weak var lblSmilesPoints: UILabel!{
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
@@ -319,6 +318,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         lblSmilesPoints.textColor = .navigationBarColor()
     }
 }
+    var checkoutViewStyle : checkOutViewStyle = .normal
+    var isPromoApplied: Bool = false
+    var promoCode: PromotionCode?
     
     @IBOutlet weak var lblSmilesPointsValue: UILabel!{
         didSet{
@@ -330,7 +332,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     var smileUser: SmileUser?
     var isPaidBySmilepoinst: Bool = false
     
-    var checkoutViewStyle : checkOutViewStyle = .normal
     var smileLoginSection: Int = 0
     var isfirst = true
     override func viewDidLoad() {
@@ -465,8 +466,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             self.backButtonClick()
         }
         
-         self.getTotalPrice()
+        self.getTotalPrice()
         self.setBillDetails()
+        self.validatePromoCode {}
         
     }
     
@@ -564,8 +566,8 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
         
-        let SDKManager = SDKManager.shared
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
+        let appDelegate = SDKManager.shared
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
 //                self.cancelOrder()
@@ -611,8 +613,17 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             self.cancelOrderHandler(self.order.dbID.stringValue)
             return
         }
-        
-        self.continueHandler(sender)
+        if let _ = self.order.promoCode {
+            if !isPromoApplied {
+                self.validatePromoCode {
+                    self.continueHandler(sender)
+                }
+            }else {
+                self.continueHandler(sender)
+            }
+        }else {
+            self.continueHandler(sender)
+        }
     }
     
     
@@ -778,7 +789,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                 case .failure(let error):
                     spinner?.removeFromSuperview()
                 let availablePoints = self.smileUser?.availablePoints ?? 0
-                SmilesEventsLogger.smilesToggleErrorEvent(orderValue: amountoHold, smilePoints: availablePoints, message: error.getErrorMessageStr())
+                SmilesEventsLogger.smilesSubstitutionErrorEvent(orderValue: amountoHold, smilePoints: availablePoints, message: error.getErrorMessageStr())
                    // self.setSendButtonEnabled(true)
                     error.showErrorAlert()
             }
@@ -1313,6 +1324,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
 
         self.reloadCollectionViewFor(product)
         self.setBillDetails()
+        self.validatePromoCode {}
 
     }
     
@@ -1350,6 +1362,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
         self.setBillDetails()
+        self.validatePromoCode {}
         return
         
         
@@ -1422,6 +1435,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     
         self.reloadCollectionViewFor(product)
         self.setBillDetails()
+        self.validatePromoCode {}
 //        if let index  =  self.orderProducts.firstIndex(of: product) {
 //            self.tableView.reloadRows(at: [(NSIndexPath.init(row: index , section: 0) as IndexPath)], with: .fade)
 //        }else{
@@ -1464,6 +1478,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             self.tableView.reloadData()
         }
         self.setBillDetails()
+        self.validatePromoCode {}
         
     }
     
@@ -1689,6 +1704,73 @@ extension SubstitutionsProductViewController {
         
     }
     
+    func validatePromoCode(completion: @escaping ()-> Void?){
+        
+        if let promocode = self.order.promoCode {
+            self.checkPromoCode(promocode.code, self.order.dbID.stringValue) {
+                completion()
+            }
+        }
+    }
+    func checkPromoCode(_ text : String , _ orderID : String? = nil, completion: @escaping ()-> Void ) {
+        
+
+        guard let paymentOption = self.order.payementType?.uint32Value else {
+            completion()
+            return
+        }
+        
+        
+        var selectPaymentMethod = PaymentOption(rawValue: paymentOption)
+        if selectPaymentMethod == .applePay{
+            selectPaymentMethod = .creditCard
+        }
+        
+        DispatchQueue.main.async {
+            self.view.endEditing(true)
+        }
+        
+        var deliveryFee = 0.0
+        var riderFee = 0.0
+        
+        if self.order.totalValue < self.order.grocery.minBasketValue {
+            deliveryFee = self.order.grocery.deliveryFee
+        }else{
+            riderFee = self.order.grocery.riderFee
+        }
+        let basketItemDict = (self.getProductCountInOrder()).1
+//        self.promoActivityIndicator.startAnimating()
+//        self.btnPromoApply.isHidden = true
+
+        ElGrocerApi.sharedInstance.checkAndRealizePromotionCode(text , grocery: self.order.grocery, basketItems: [],withPaymentType: selectPaymentMethod!, deliveryFee: String(format:"%f", deliveryFee) , riderFee: String(format:"%f", riderFee), orderID: orderID, basketItemDict: basketItemDict ) { (result) -> Void in
+            SpinnerView.hideSpinnerView()
+            
+            switch result {
+                case .success(let promoCode):
+                    do {
+                        self.promoCode = promoCode
+                        self.isPromoApplied = true
+                        self.setBillDetails()
+                        FireBaseEventsLogger.trackPromoCode(text)
+                        completion()
+                    }catch(let error){
+                        debugPrint(error)
+                        self.promoCode = nil
+                        self.isPromoApplied = false
+                        completion()
+                    }
+                    break
+                case .failure(let error):
+                
+                    self.promoCode = nil
+                    self.isPromoApplied = false
+                    self.setBillDetails()
+                    completion()
+            }
+            
+        }
+        
+    }
     
     
     @discardableResult
@@ -1699,12 +1781,14 @@ extension SubstitutionsProductViewController {
         var promoCodeValue : Double = 0.0
         if self.order != nil {
             serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: self.order.grocery, totalPrice: totalAmount)
-            if let promoCode = self.order.promoCode {
+            if let promoCode = self.promoCode {
                 promoCodeValue = promoCode.valueCents  as Double
             }
         }
-
-        let finalAmount = (totalAmount + serviceFee) - promoCodeValue
+        var finalAmount = (totalAmount + serviceFee) - promoCodeValue
+        if finalAmount < 0 {
+            finalAmount = 0
+        }
         let totalpriceString = addAED ? ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalAmount) : "\(totalAmount)"
         let serviceFeeString = addAED ? ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: serviceFee) : "\(serviceFee)"
         let finalPriceString = addAED ?ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: finalAmount) : "\(finalAmount)"
@@ -1713,14 +1797,15 @@ extension SubstitutionsProductViewController {
 
     }
     
-    
-    func getProductCountInOrder() -> Int {
+    ///returns total count and array of product dict to send for promo realization
+    func getProductCountInOrder() -> (Int,[[String: Int]]) {
         
         var productCount = 0
         
         let subtitutedProducts = OrderSubstitution.getSubtitutedProductsForOrderBasket(order, grocery: nil, context:DatabaseHelper.sharedInstance.mainManagedObjectContext)
         var productsA = [Product]()
         var suggestedProductA = [Product]()
+        var productsArrayDict = [[String: Int]]()
         
         for product in subtitutedProducts {
             let basketItem = OrderSubstitution.getBasketItemForOrder(self.order, product: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -1752,16 +1837,26 @@ extension SubstitutionsProductViewController {
         for product in productsA {
             if let notNilItem = OrderSubstitution.getBasketItemForOrder(self.order, product: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
              productCount += notNilItem.count.intValue
+                let productDict: [String: Int] = [
+                "amount": notNilItem.count.intValue,
+                "product_id": Product.getCleanProductId(fromId: notNilItem.productId)
+                ]
+                productsArrayDict.append(productDict)
             }
         }
         
         for product in suggestedProductA {
             if let notNilItem = self.substitutionItemForProduct(product) {
                 productCount += notNilItem.count.intValue
+                let productDict: [String: Int] = [
+                "amount": notNilItem.count.intValue,
+                "product_id": Product.getCleanProductId(fromId: notNilItem.productId)
+                ]
+                productsArrayDict.append(productDict)
             }
         }
      
-        return productCount
+        return (productCount, productsArrayDict)
     }
     
     @discardableResult
@@ -1843,7 +1938,7 @@ extension SubstitutionsProductViewController {
         }
         
         if self.order != nil {
-            if let promoValue = self.order.promoCode {
+            if let promoValue = self.promoCode {
                 Discount += promoValue.valueCents
             }
         }
@@ -1910,15 +2005,16 @@ extension SubstitutionsProductViewController{
         let discount = getDiscountedPrice()
         let isNeedToShowDiscount = discount.0
         let discountValue = discount.1
-        let totalProductCount = self.getProductCountInOrder()
+        let totalProductCount = (self.getProductCountInOrder()).0
         
         if isNeedToShowDiscount {
             assignTotalSavingAmount(savedAmount: discountValue)
         }else{
             self.savedAmountBGView.isHidden = true
         }
-       
-        assignBillDetails(totalPrice: totalAmount, serviceFee: serviceFee , promoValue: promoAmount, grandTotal: FinalAmount, isPromo: isNeedToShowDiscount)
+
+        let isNeedToShowPromo = promoAmount.count > 0
+        assignBillDetails(totalPrice: totalAmount, serviceFee: serviceFee , promoValue: promoAmount, grandTotal: FinalAmount, isPromo: isNeedToShowPromo, itemCount: totalProductCount)
         configureCheckoutButtonData(itemsNum: totalProductCount , totalBill: FinalAmount)
         
         self.setCheckOutEnable(totalProductCount>0)
@@ -1959,7 +2055,7 @@ extension SubstitutionsProductViewController{
         }
     }
     
-    func assignBillDetails(totalPrice : String , serviceFee : String , promoValue : String , grandTotal : String,isPromo: Bool){
+    func assignBillDetails(totalPrice : String , serviceFee : String , promoValue : String , grandTotal : String,isPromo: Bool,itemCount: Int){
         
         if isPromo {
             self.lblPromoDiscount.visibility = .visible
@@ -1967,6 +2063,7 @@ extension SubstitutionsProductViewController{
             
             self.lblPromoDiscountValue.text = promoValue
         }else{
+            self.lblPromoDiscount.isHidden = !isPromo
             self.lblPromoDiscount.visibility = .gone
             self.lblPromoDiscountValue.visibility = .gone
         }
@@ -1991,7 +2088,8 @@ extension SubstitutionsProductViewController{
         if let totalValue = Double(grandTotal) {
             self.assignSmilePointsInBillDetails(totalValue)
         }
-
+        lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " \(itemCount) " + localizedString("brand_items_count_label", comment: "")
+        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
     }
     
     func configureCheckoutButtonData(itemsNum : Int , totalBill : String) {

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="211" id="QI0-en-Axs" customClass="StoreListGlobalSearchCell" customModule="ElGrocerShopper" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="211"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QI0-en-Axs" id="ZvX-Mp-xIn">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="211"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stores with the name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sU0-PM-hZg">
+                        <rect key="frame" x="16" y="16" width="161" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="dOu-Gb-5wF">
+                        <rect key="frame" x="16" y="61" width="382" height="105"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="105" id="fvG-pS-LSv"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="4aU-87-Vtv">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Qpu-At-Ifc">
+                        <rect key="frame" x="129.5" y="166" width="155.5" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="wnk-4G-iEL"/>
+                        </constraints>
+                        <color key="pageIndicatorTintColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="currentPageIndicatorTintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                    </pageControl>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMG-U1-sLo">
+                        <rect key="frame" x="180" y="16" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="KMG-U1-sLo" firstAttribute="leading" secondItem="sU0-PM-hZg" secondAttribute="trailing" constant="3" id="5fz-pS-pWC"/>
+                    <constraint firstItem="dOu-Gb-5wF" firstAttribute="top" secondItem="sU0-PM-hZg" secondAttribute="bottom" constant="24" id="83G-bh-h0b"/>
+                    <constraint firstItem="Qpu-At-Ifc" firstAttribute="centerX" secondItem="dOu-Gb-5wF" secondAttribute="centerX" id="BZ6-Zx-PV8"/>
+                    <constraint firstItem="Qpu-At-Ifc" firstAttribute="top" secondItem="dOu-Gb-5wF" secondAttribute="bottom" id="I40-SN-KYp"/>
+                    <constraint firstItem="sU0-PM-hZg" firstAttribute="leading" secondItem="ZvX-Mp-xIn" secondAttribute="leading" constant="16" id="ZPQ-ha-yhq"/>
+                    <constraint firstItem="sU0-PM-hZg" firstAttribute="top" secondItem="ZvX-Mp-xIn" secondAttribute="top" constant="16" id="ZWy-wz-DMn"/>
+                    <constraint firstAttribute="trailing" secondItem="dOu-Gb-5wF" secondAttribute="trailing" constant="16" id="Zj6-Ue-M9a"/>
+                    <constraint firstItem="KMG-U1-sLo" firstAttribute="centerY" secondItem="sU0-PM-hZg" secondAttribute="centerY" id="l8s-HT-4az"/>
+                    <constraint firstItem="dOu-Gb-5wF" firstAttribute="leading" secondItem="ZvX-Mp-xIn" secondAttribute="leading" constant="16" id="y1T-Oc-koX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblStoreSearchedName" destination="KMG-U1-sLo" id="Eqm-4r-2HY"/>
+                <outlet property="lblTextStoresWithName" destination="sU0-PM-hZg" id="LLE-T0-YrQ"/>
+                <outlet property="pageControl" destination="Qpu-At-Ifc" id="Wxi-2i-t9T"/>
+                <outlet property="storeCollectionView" destination="dOu-Gb-5wF" id="W5n-iq-L3e"/>
+            </connections>
+            <point key="canvasLocation" x="53.623188405797109" y="115.51339285714285"/>
+        </tableViewCell>
+    </objects>
+</document>

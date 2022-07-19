@@ -311,7 +311,7 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
     private func remove(dialCode: String, in phoneNumber: String) -> String {
         return phoneNumber.replacingOccurrences(of: "\(dialCode) ", with: "").replacingOccurrences(of: "\(dialCode)", with: "")
     }
-    private func showSearchController() {
+    public func showSearchController() {
         if let countries = countryPicker.countries {
             let searchCountryViewController = FPNSearchCountryViewController(countries: countries)
             let navigationViewController = UINavigationController(rootViewController: searchCountryViewController)

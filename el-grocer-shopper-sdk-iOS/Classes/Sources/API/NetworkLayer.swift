@@ -71,7 +71,7 @@ class NetworkLayer {
     lazy private(set) var  mocRequestManager : AFHTTPSessionManager = {
         let  requestManager : AFHTTPSessionManager
         self.baseApiPath = EnvironmentVariables.sharedInstance.getMocBackendUrl()
-        requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
+        requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
         if #available(iOS 11.0, *) {
             requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.sortedKeys)
         } else {

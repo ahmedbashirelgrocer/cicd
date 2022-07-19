@@ -249,9 +249,9 @@ class GenericStoresViewController: BasketBasicViewController {
     
     private func getSmileUserInfo() {
         
-        guard UserDefaults.getIsSmileUser() == true else {
-            return
-        }
+//        guard UserDefaults.getIsSmileUser() == true else {
+//            return
+//        }
         
         SmilesManager.getCachedSmileUser { (smileUser) in
             if let user = smileUser {

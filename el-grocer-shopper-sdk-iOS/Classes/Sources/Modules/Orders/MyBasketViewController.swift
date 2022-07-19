@@ -10,13 +10,11 @@ import UIKit
 import FBSDKCoreKit
 import FirebaseAnalytics
 import IQKeyboardManagerSwift
-// import PMAlertController
 import STPopup
 import MaterialComponents.MaterialBottomSheet
 import NBBottomSheet
 import FirebaseCrashlytics
 import RxSwift
-//import BBBadgeBarButtonItem
 
 protocol MyBasketViewProtocol : class {
     
@@ -207,7 +205,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     var availableProductsPrices:NSDictionary = [:]
     var selectedProduct:Product!
     var grocery:Grocery?
-    
+    var groceryFetchRetry: Int = 0
     
         //MARK: String var
     var orderTypeDescription = ""
@@ -284,7 +282,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.isComingFromReplacement = true
             return
         }
-        
+        updateGroceryData()
         self.myBasketDataObj.getReasons()
         self.isItemOOSCellsNeedToExpand = self.myBasketDataObj.getSelectedReason() == nil
         if UserDefaults.isUserLoggedIn() {
@@ -477,6 +475,20 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
         }
         
+    }
+    
+    func updateGroceryData() {
+        
+        if let retailer = ElGrocerUtility.sharedInstance.activeGrocery,let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
+            let groceryChangeObj = GroceryChangeHandler()
+            groceryChangeObj.delegate = self
+            SpinnerView.showSpinnerView()
+            if ElGrocerUtility.sharedInstance.isDeliveryMode {
+                groceryChangeObj.updateDeliveryGroceryData(retailerId: retailer.getCleanGroceryID(), lat: "\(address.latitude)", lng: "\(address.longitude)")
+            }else {
+                groceryChangeObj.updateCandCGroceryData(retailerId: retailer.getCleanGroceryID(), lat: "\(address.latitude)", lng: "\(address.longitude)")
+            }
+        }
     }
     
     
@@ -1049,8 +1061,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     func goToHomeScreen() {
         
         ElGrocerUtility.sharedInstance.tabBarSelectedIndex = 1
-        let SDKManager = SDKManager.shared
-        if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+        let appDelegate = SDKManager.shared
+        if let nav = appDelegate.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1328,8 +1340,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         
         
-        let SDKManager = SDKManager.shared
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("title_checkout_screen", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
+        let appDelegate = SDKManager.shared
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("title_checkout_screen", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
                 self.removeOutOfStockProductsFromBasket()
@@ -2895,11 +2907,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             UserDefaults.resetEditOrder()
             self.finalRemoveCall();
             if self.isNeedToHideBackButton {
-                // if let SDKManager = SDKManager.shared {
-                SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
-                (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-                // }
-                if let tab = ((getSDKManager().window?.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+                if let appDelegate = SDKManager.shared as? SDKManager{
+                    appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
+                    (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+                }
+                if let tab = ((SDKManager.shared.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                     tab.selectedIndex = 1
                 }
@@ -4308,4 +4320,22 @@ extension MyBasketViewController: NavigationBarProtocol {
         
     }
     
+}
+extension MyBasketViewController: GroceryChangeProtocol {
+    func groceryDataUpdated(grocery: Grocery) {
+        self.grocery = grocery
+        self.groceryFetchRetry = 0
+    }
+    func groceryDataUpdationFaliure(error: ElGrocerError) {
+        if groceryFetchRetry < 3 {
+            if error.code == 10000 {
+                self.updateGroceryData()
+            }else {
+                self.updateGroceryData()
+                self.groceryFetchRetry = groceryFetchRetry + 1
+            }
+        }else {
+            SpinnerView.hideSpinnerView()
+        }
+    }
 }

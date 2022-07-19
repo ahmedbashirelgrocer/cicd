@@ -47,7 +47,8 @@ class UserDefaults {
         var loadedPromotionCode : PromotionCode? = nil
         if let loadedData = Foundation.UserDefaults().data(forKey: "promoCodeValue") {
             do {
-                let promotionCode = try NSKeyedUnarchiver.unarchivedObject(ofClass: PromotionCode.self, from: loadedData)
+//                let promotionCode = try NSKeyedUnarchiver.unarchivedObject(ofClass: PromotionCode.self, from: loadedData)
+                let promotionCode = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [PromotionCode.self,NSArray.self,NSDictionary.self], from: loadedData) as? PromotionCode
                 loadedPromotionCode = promotionCode
             } catch (let error) {
                 debugPrint("error: \(error.localizedDescription)")
@@ -63,7 +64,18 @@ class UserDefaults {
         Foundation.UserDefaults.standard.set(value, forKey: "promoCodeValue")
         Foundation.UserDefaults.standard.synchronize()
     }
-    
+
+    class func setPromoCodeIsFromText(_ value: Bool?) {
+        Foundation.UserDefaults.standard.set(value, forKey: "promoCodeIsFromText")
+        Foundation.UserDefaults.standard.synchronize()
+    }
+    class func getPromoCodeIsFromText() -> Bool? {
+        if let isFromText = Foundation.UserDefaults.standard.bool(forKey: "promoCodeIsFromText") as? Bool {
+            return isFromText
+        }
+        return false
+    }
+
     
 
     // MARK: Did user set address
@@ -410,8 +422,8 @@ class UserDefaults {
     //MARK:- Over18
     class func setOver18 (_ over18 : Bool , _ isFirstTime : Bool = false) {
         Foundation.UserDefaults.standard.set(over18 , forKey: "isUserSelectOver18")
-        if let SDKManager = UIApplication.shared.delegate {
-            if let winDowsView = SDKManager.window {
+        if let appDelegate = UIApplication.shared.delegate {
+            if let winDowsView = appDelegate.window {
                 if let _ = winDowsView?.viewWithTag(KtobbacoViewTag) {
                     FireBaseEventsLogger.trackAbove18(over18)
                     DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {

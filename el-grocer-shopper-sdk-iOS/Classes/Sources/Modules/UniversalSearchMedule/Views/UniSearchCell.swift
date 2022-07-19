@@ -61,8 +61,6 @@ class UniSearchCell: UITableViewCell {
            self.title.attributedText = attributedString
         }
         
-        
-      
         if obj?.modelType == SearchResultSuggestionType.trendingSearch {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 imgView.image = UIImage(name: "trendingSearch")?.imageFlippedForRightToLeftLayoutDirection()
@@ -77,12 +75,15 @@ class UniSearchCell: UITableViewCell {
             imgView.image = UIImage(name: "universalSearch")
         }else if obj?.modelType == SearchResultSuggestionType.recipeTitles {
             imgView.image = UIImage(name: "recipeImageSearch")
+        }else if obj?.modelType == SearchResultSuggestionType.retailer {
+            imgView.assignImage(imageUrl: self.currentObj?.retailerImageUrl)
+            //imgView.image =   UIImage(name: "trendingSearch")
         }
-        
-        
-        
+       
         self.btnSearchCross.isHidden = (obj?.modelType != SearchResultSuggestionType.searchHistory )
     }
+    
+    
     
     @IBAction func btnSearchCrossAction(_ sender: Any) {
         

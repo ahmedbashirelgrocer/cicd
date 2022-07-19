@@ -54,7 +54,6 @@ class Product: NSManagedObject, DBEntity {
     @NSManaged var availableQuantity: NSNumber
     @NSManaged var shops : String?
     @NSManaged var promotionalShops : String?
-  
-   // @NSManaged var promotionalShops:  Set<ProductShops>?
-   
+    @NSManaged var objectId : String?
+    
 }

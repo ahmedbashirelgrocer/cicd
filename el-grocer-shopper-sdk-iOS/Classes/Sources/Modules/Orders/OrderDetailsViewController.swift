@@ -103,7 +103,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
          addBackButton()
         self.setOrderLableAppearnace()
         self.setOrderData()
-        self.setUpInitailizers() 
+        self.setUpInitailizers()
         
         ElGrocerUtility.sharedInstance.delay(0.5) {
             self.getDeliverySlots()
@@ -700,11 +700,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             UserDefaults.resetEditOrder()
            // self.backButtonClick()
             
-            // if let SDKManager = SDKManager.shared {
-            SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
-            (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-            // }
-            if let tab = ((getSDKManager().window?.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+            if let appDelegate = SDKManager.shared as? SDKManager {
+                appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
+                (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+            }
+            if let tab = ((SDKManager.shared.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 tab.selectedIndex = 1
             }
@@ -886,7 +886,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.createBasketAndNavigateToView()
     }
     
-    private func createBasketAndNavigateToView(){
+    private func createBasketAndNavigateToView() {
+        
+        guard self.order != nil else {
+            return
+        }
         
         func processDataForDeliveryMode() {
             let groceryID = ElGrocerUtility.sharedInstance.cleanGroceryID(order.grocery.dbID)
@@ -964,6 +968,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }
         }
         
+        
+        
         GoogleAnalyticsHelper.trackReorderProductsAction()
         if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
             self.deleteBasketFromServerWithGrocery(grocery)
@@ -982,8 +988,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         
         
-        let SDKManager = SDKManager.shared
-        if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+        let appDelegate = SDKManager.shared
+        if let nav = appDelegate.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1993,11 +1999,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 if let selectedSlot = currentDeliverySlot {
                     slotTimeStr = selectedSlot.getSlotFormattedString(isDeliveryMode: self.order.isDeliveryOrder())
                     if  selectedSlot.isToday() {
-                        let name =    localizedString("today_title", comment: "") 
+                        let name =    localizedString("today_title", comment: "")
                         slotTimeStr = String(format: "%@ (%@)", name ,slotTimeStr)
                     }else if selectedSlot.isTomorrow()  {
                         
-                        let name =    localizedString("tomorrow_title", comment: "") 
+                        let name =    localizedString("tomorrow_title", comment: "")
                         slotTimeStr = String(format: "%@ (%@)", name,slotTimeStr)
                     }else{
                         slotTimeStr = String(format: "%@ (%@)", selectedSlot.start_time?.getDayName() ?? "" ,slotTimeStr)

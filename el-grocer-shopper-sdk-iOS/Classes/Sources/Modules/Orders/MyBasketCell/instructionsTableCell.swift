@@ -27,6 +27,7 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
         }
     }
     @IBOutlet var btnCross: UIButton!
+    @IBOutlet var superBGView: AWView!
     var tblView : UITableView!
     
     override func awakeFromNib() {
@@ -49,8 +50,8 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
                 self.txtNoteView.text = text
             }
         }
-        self.txtNoteView.superview?.layer.borderWidth = isFromCart ? 1 : 0
-        self.txtNoteView.superview?.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.superBGView.borderWidth = isFromCart ? 1 : 0
+        self.superBGView.borderColor = isFromCart ? UIColor.navigationBarColor() : UIColor.clear
     }
     
     @IBAction func crossAction(_ sender: Any) {
