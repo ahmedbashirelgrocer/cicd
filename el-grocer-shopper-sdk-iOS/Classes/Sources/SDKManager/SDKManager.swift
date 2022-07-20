@@ -223,7 +223,8 @@ class SDKManager: NSObject  {
 //        Fabric.with([Crashlytics.self(), Answers.self()])
         #endif
         
-
+        //MARK: swizzling view will appear call for screen name event logging
+        UIViewController.swizzleViewDidAppear()
         
         //Firebase Analytics
        // FirebaseApp.configure()
@@ -238,7 +239,9 @@ class SDKManager: NSObject  {
         
         // Marketing
         self.initiliazeMarketingCampaignTrackingServices()
-        
+        //MARK: Mispanel Initialization
+        MixpanelManager.configMixpanel()
+    
         //MARK: sendBird
 
         

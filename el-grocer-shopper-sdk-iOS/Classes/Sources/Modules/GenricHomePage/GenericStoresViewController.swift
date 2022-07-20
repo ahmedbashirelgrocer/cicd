@@ -534,7 +534,7 @@ class GenericStoresViewController: BasketBasicViewController {
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return
         }
-        if !((self.locationHeader.loadedAddress?.latitude == address.latitude) && (self.locationHeader.loadedAddress?.longitude == address.longitude)){
+        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)){
             self.selectStoreType = nil
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
@@ -1335,7 +1335,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             }
             return  minCellHeight
         } else if indexPath.row == 4 {
-            return self.homeDataHandler.categoryServiceA.count < 4 ? 170 : 305+15 //37 for heading
+            return self.homeDataHandler.categoryServiceA.count < 4 ? 170 : 305+30 //37 for heading
         } else if indexPath.row == 5 {
                 //location 2 banners
             if self.homeDataHandler.locationTwoBanners?.count ?? 0 > 0 {
@@ -1487,12 +1487,18 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     guard let self = self  else {   return   }
                     if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                         ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
+                        MixpanelEventLogger.trackHomeBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "1")
                     }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
                         banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.homeDataHandler.groceryA ?? [])
+                        MixpanelEventLogger.trackHomeBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "1")
                     }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
                         banner.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
+                        MixpanelEventLogger.trackHomeBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "1")
                     }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
                         banner.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
+                        if let retailerId = banner.retailerIds?[0],let groceryDict = self.homeDataHandler.genericAllStoreDictionary?["\(retailerId)"] as? [String: Any] {
+                            MixpanelEventLogger.trackHomeFeaturedStoreBannerClick(storeId: "\(retailerId)", storeName: groceryDict["name"] as? String ?? "")
+                        }
                     }
                 }
             return cell
@@ -1514,6 +1520,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                         vc.type = data
                         vc.controllerTitle = data.name ?? ""
                         FireBaseEventsLogger.trackHomeTileClicked(tileId: "\(data.dbId)", tileName: vc.controllerTitle, tileType: "Store Type", nextScreen: vc)
+                        MixpanelEventLogger.trackHomeShoppingCategory(categoryName: data.getRetailerName(), categoryId: "\(data.dbId)")
 //                        self.navigationController?.pushViewController(vc, animated: true)
                         let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                         navController.viewControllers = [vc]
@@ -1528,7 +1535,9 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                         vc.controllerType = .specialty
                         vc.groceryArray = self.homeDataHandler.specialityStoreA ?? []
                         vc.availableStoreTypeA = self.homeDataHandler.storeTypeA ?? []
+                        vc.retailerType = data
                         FireBaseEventsLogger.trackHomeTileClicked(tileId: "\(data.dbId)", tileName: vc.controllerTitle, tileType: "Store Type", nextScreen: vc)
+                        MixpanelEventLogger.trackHomeShoppingCategory(categoryName: data.getRetailerName(), categoryId: "\(data.dbId)")
 //                        self.navigationController?.pushViewController(vc, animated: true)
                         
                         let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
@@ -1546,7 +1555,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                         vc.controllerTitle = data.name ?? ""
                       //  vc.availableStoreTypeA = self.homeDataHandler.storeTypeA ?? []
                         FireBaseEventsLogger.trackHomeTileClicked(tileId: "\(data.dbId)", tileName: vc.controllerTitle, tileType: "Store Type", nextScreen: vc)
-                        
+                        MixpanelEventLogger.trackHomeShoppingCategory(categoryName: data.getRetailerName(), categoryId: "\(data.dbId)")
                        // self.navigationController?.pushViewController(vc, animated: true)
                         let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                         navController.viewControllers = [vc]
@@ -1561,11 +1570,13 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "recipe", tileType: "Store Type", nextScreen: nil)
                     ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric(source: FireBaseScreenName.GenericHome.rawValue)
+                    MixpanelEventLogger.trackHomeShoppingCategory(categoryName: "recipe", categoryId: "-1")
                     self.goToRecipe(nil)
                     return
                     
                 }else if type is ClickAndCollectService {
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "click&collect", tileType: "Store Type", nextScreen: nil)
+                    MixpanelEventLogger.trackHomeShoppingCategory(categoryName: "click&collect", categoryId: "-1")
                     ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
                     let SDKManager = SDKManager.shared
                     if let tab = SDKManager.currentTabBar  {
@@ -1588,6 +1599,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     
                 } else if type is StorylyDeals {
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "storylydeals", tileType: "Store Type", nextScreen: nil)
+                    MixpanelEventLogger.trackHomeShoppingCategory(categoryName: "storylydeals", categoryId: "-1")
                     for group in self.storlyAds?.storyGroupList ?? [] {
                         _ = self.storlyAds?.storylyView.openStory(storyGroupId: group.id)
                     }
@@ -1608,12 +1620,18 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     guard let self = self  else {   return   }
                     if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                         ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
+                        MixpanelEventLogger.trackHomeBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "2")
                     }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
                         banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.homeDataHandler.groceryA ?? [])
+                        MixpanelEventLogger.trackHomeBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "2")
                     }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
                         banner.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
+                        MixpanelEventLogger.trackHomeBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "2")
                     }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
                         banner.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
+                        if let retailerId = banner.retailerIds?[0],let groceryDict = self.homeDataHandler.genericAllStoreDictionary?["\(retailerId)"] as? [String: Any] {
+                            MixpanelEventLogger.trackHomeFeaturedStoreBannerClick(storeId: "\(retailerId)", storeName: groceryDict["name"] as? String ?? "")
+                        }
                     }
                 }
             }
@@ -1633,6 +1651,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     vc.availableStoreTypeA = self.homeDataHandler.storeTypeA ?? []
                     // vc.selectStoreType = data // https://elgrocerdxb.atlassian.net/browse/EG-1408
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "\(data.storeTypeid)", tileName: data.name!, tileType: "Store Category", nextScreen: vc)
+                    MixpanelEventLogger.trackHomeStoreCategory(categoryName: data.name ?? "", categoryId: "\(data.storeTypeid)")
 //                    self.navigationController?.pushViewController(vc, animated: true)
                     let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                     navController.viewControllers = [vc]
@@ -1646,6 +1665,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     let vc = ElGrocerViewControllers.getShopByCategoriesViewController()
                     vc.storeCategoryA = self.homeDataHandler.storeTypeA ?? []
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "View all category", tileType: "Store Category", nextScreen: vc)
+                    MixpanelEventLogger.trackHomeStoreCategory(categoryName: "View all category", categoryId: "-1")
                     //self.navigationController?.pushViewController(vc, animated: true)
                     
                     let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
@@ -1677,6 +1697,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
                         banner.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
                     }
+                    MixpanelEventLogger.trackHomeBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "")
                 }
             }
             return cell

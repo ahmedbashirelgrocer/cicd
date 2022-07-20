@@ -412,7 +412,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                 self.saveResponseData(orderDict)
             case .failure(let error):
                // error.showErrorAlert()
-                self.backButtonClick()
+                self.backBtnClick()
             }
         }
         
@@ -463,7 +463,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
 //            let notification = ElGrocerAlertView.createAlert(localizedString("order_cancel_alert_title", comment: ""),description: localizedString("Msg_Not_InSubsitution", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
 //            notification.showPopUp()
             
-            self.backButtonClick()
+            self.backBtnClick()
         }
         
         self.getTotalPrice()
@@ -536,19 +536,24 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         self.order.status = NSNumber(value: OrderStatus.canceled.rawValue as Int)
         DatabaseHelper.sharedInstance.saveDatabase()
-        self.backButtonClick()
+        self.backBtnClick()
         NotificationCenter.default.post(name: Notification.Name(rawValue: kOrderUpdateNotificationKey), object: nil)
     }
     
     // MARK: Actions
     
     override func crossButtonClick() {
-        //backButtonClick()
+        //backBtnClick()
+        MixpanelEventLogger.trackSubstitutionCancelOrder(orderId: self.orderId)
         self.dismiss(animated: true, completion: nil)
     }
     
     override func backButtonClick() {
-        
+        MixpanelEventLogger.trackSubstitutionClose()
+        backBtnClick()
+    }
+    
+    func backBtnClick() {
         if isViewPresent{
             if self.presentingViewController != nil {
                  self.presentingViewController?.dismiss(animated: true, completion: nil)
@@ -568,7 +573,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         let appDelegate = SDKManager.shared
         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
-            
+            MixpanelEventLogger.trackSubstitutionCancelOrder(orderId: self.orderId)
             if buttonIndex == 1 {
 //                self.cancelOrder()
                 self.cancelOrderHandler(self.order.dbID.stringValue)
@@ -629,7 +634,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     
     @IBAction func continueHandler(_ sender: Any) {
         
-        
+        MixpanelEventLogger.trackSubstitutionConfirmClicked()
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
         ElGrocerApi.sharedInstance.getOrderProductSubtitutionWithOrderId(self.orderId) { (result) -> Void in
@@ -642,7 +647,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                         
                         ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("Msg_Not_InSubsitution", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
                         
-                        self.backButtonClick()
+                        self.backBtnClick()
                         return
                     }else{
                         self.startProceeOFSub(sender)
@@ -655,7 +660,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     }else{
                         error.showErrorAlert()
                     }
-                    self.backButtonClick()
+                    self.backBtnClick()
             }
         }
         
@@ -775,7 +780,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
 //                        self.navigationController?.dismiss(animated: true, completion: nil)
 //                    }
                     
-                    self.backButtonClick()
+                    self.backBtnClick()
                     
                     ElGrocerUtility.sharedInstance.delay(1) {
                         let msg = localizedString("lbl_OOS_Msg", comment: "")
@@ -1113,9 +1118,11 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                 cell.buttonclicked = { [weak self] (isCancel) in
                     
                     if isCancel {
+                        MixpanelEventLogger.trackSubstitutionCancelOrder(orderId: self?.orderId ?? "")
 //                         self?.cancelOrderHandler("")
                         self?.cancelOrderHandler(self?.order.dbID.stringValue ?? "")
                     }else{
+                        MixpanelEventLogger.trackSubstitutitonRemoveAllClicked()
                         for prod in self?.orderProducts ?? [] {
                              self?.discardProductInBasketWithProductIndex(prod)
                         }
@@ -1180,6 +1187,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             cell.productUpdated = { [weak self ] ( oldProduct , selectedProduct  ) in
                 guard let self = self else { return }
                 self.subsituteReplacementSelected(oldProdct: oldProduct, newProduct: selectedProduct, nil )
+                MixpanelEventLogger.trackSubstitutionSubstitutionSelected(product: selectedProduct, OOSProduct: oldProduct)
                 
             }
             
@@ -1571,8 +1579,8 @@ extension SubstitutionsProductViewController {
             } else {
                 //showe earning points
                 self.pointsEarnedView.isHidden = false
-                self.lblSmilesPoints.visibility = .goneY
-                self.lblSmilesPointsValue.visibility = .goneY
+                self.lblSmilesPoints.visibility = .gone
+                self.lblSmilesPointsValue.visibility = .gone
                 
                 let earnedpopints = SmilesManager.getEarnPointsFromAed(currentOrderTotaleValue)
                 self.pointsEarnedValueLabel.text = localizedString("txt_earn", comment: "") + " \(earnedpopints) " + localizedString("txt_smile_point", comment: "")
@@ -1580,8 +1588,8 @@ extension SubstitutionsProductViewController {
         } else {
             // smiles not supported
             self.pointsEarnedView.isHidden = true
-            self.lblSmilesPoints.visibility = .goneY
-            self.lblSmilesPointsValue.visibility = .goneY
+            self.lblSmilesPoints.visibility = .gone
+            self.lblSmilesPointsValue.visibility = .gone
         }
     }
     
@@ -2085,7 +2093,8 @@ extension SubstitutionsProductViewController{
         }
     
         
-        if let totalValue = Double(grandTotal) {
+        let totalValueDoubleString: String = grandTotal.replacingOccurrences(of: CurrencyManager.getCurrentCurrency() + "  " , with: "")
+        if let totalValue = Double(totalValueDoubleString) {
             self.assignSmilePointsInBillDetails(totalValue)
         }
         lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " \(itemCount) " + localizedString("brand_items_count_label", comment: "")

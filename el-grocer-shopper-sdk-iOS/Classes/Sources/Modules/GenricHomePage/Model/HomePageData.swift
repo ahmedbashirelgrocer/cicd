@@ -54,8 +54,13 @@ class HomePageData  {
     lazy var categoryServiceA : [[MainCategoryCellType : Any]] = []
     lazy var storeTypeA : [StoreType]? = nil
     lazy var retailerTypeA : [RetailerType]? = nil
-    lazy var groceryA : [Grocery]? = nil
+    lazy var groceryA : [Grocery]? = nil {
+        didSet {
+            self.createGenericStoresDictionary()
+        }
+    }
          var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
+    var genericAllStoreDictionary: [String: Any]? // key against each grocery is its id.
     
     lazy var hyperMarketA : [Grocery]? = nil
     lazy var superMarketA : [Grocery]? = nil
@@ -489,6 +494,19 @@ extension HomePageData : StoresDataHandlerDelegate {
         self.startFetching()
     }
     
+    func createGenericStoresDictionary() {
+        guard let groceryA = self.groceryA else{
+            return
+        }
+        var dict: [String: Any] = [:]
+        for grocery in groceryA {
+            let groceryDict = ["id": grocery.getCleanGroceryID(),
+                               "name": grocery.name ?? "",
+                               "image": grocery.imageUrl ?? ""]
+            dict[grocery.getCleanGroceryID()] = groceryDict
+        }
+        self.genericAllStoreDictionary = dict
+    }
     
 
     

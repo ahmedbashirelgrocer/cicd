@@ -44,6 +44,7 @@ class GlobalSearchResultsViewController: UIViewController {
         self.registerTableViewObject()
         self.setDataSource()
         self.setTableViewHeader()
+        self.LogEvents()
         
     }
     
@@ -62,6 +63,10 @@ class GlobalSearchResultsViewController: UIViewController {
         self.edgesForExtendedLayout = UIRectEdge.bottom
     }
    
+    func LogEvents() {
+        MixpanelEventLogger.trackHomeSearchSubmit(keyWord: self.keyWord)
+    }
+    
     func setApearance() {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)

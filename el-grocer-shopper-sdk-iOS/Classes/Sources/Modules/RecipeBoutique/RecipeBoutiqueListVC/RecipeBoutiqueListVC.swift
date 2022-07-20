@@ -143,6 +143,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
         
     }
     override func rightBackButtonClicked(){
+        MixpanelEventLogger.trackRecipesClose()
         self.dismiss(animated: true, completion: nil)
     }
     func setUpSearchApearance() {
@@ -169,6 +170,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
     
     override func crossButtonClick() {
         self.dismiss(animated: true, completion: nil)
+        MixpanelEventLogger.trackRecipesClose()
     }
     
     override func backButtonClick() {
@@ -371,6 +373,7 @@ extension RecipeBoutiqueListVC : UITableViewDelegate , UITableViewDataSource {
                 GoogleAnalyticsHelper.trackRecipeWithName(trackeventAction)
                 if let recipeName = selectedRecipe?.recipeName {
                     ElGrocerEventsLogger.sharedInstance.trackRecipeDetailNav(selectedRecipe?.recipeChef?.chefName ?? "", recipeName: recipeName)
+                    MixpanelEventLogger.trackRecipesRecipeClick(recipeId: "\(selectedRecipe?.recipeID ?? -1)", recipeName: selectedRecipe?.recipeName ?? "", chefId: "\(selectedRecipe?.recipeChef?.chefID ?? -1)", chefName: selectedRecipe?.recipeChef?.chefName ?? "")
                 }
                 
                 topVC.navigationController?.pushViewController(recipeDetail, animated: true)
@@ -407,6 +410,7 @@ extension RecipeBoutiqueListVC : UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
 
         self.isSearching = true
+        MixpanelEventLogger.trackRecipesSearch()
         return true
     }
 

@@ -321,6 +321,7 @@ class BasketIconOverlayView : UIView {
     @IBAction func cartButtonTapped(_ sender: UIButton) {
         if let topVc = UIApplication.topViewController() {
             if topVc.navigationController is ElGrocerNavigationController {
+                MixpanelEventLogger.trackStoreCart()
                 let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
                 topVc.navigationController?.pushViewController(myBasketViewController, animated: true)
             }

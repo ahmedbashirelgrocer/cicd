@@ -832,6 +832,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         navigationController.hideSeparationLine()
         navigationController.viewControllers = [ordersController]
         navigationController.modalPresentationStyle = .fullScreen
+        MixpanelEventLogger.trackProfileMyOrders()
         self.navigationController?.present(navigationController, animated: true, completion: { });
  
     }

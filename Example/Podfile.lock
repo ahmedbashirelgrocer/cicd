@@ -82,6 +82,7 @@ PODS:
     - libPhoneNumber-iOS (~> 0.9.15)
     - MaterialComponents/ActivityIndicator (~> 124.2.0)
     - MaterialComponents/BottomSheet (~> 124.2.0)
+    - Mixpanel-swift
     - MSPeekCollectionViewDelegateImplementation (~> 3.2.0)
     - NBBottomSheet (~> 1.2.0)
     - PinCodeTextField (~> 0.1.0)
@@ -300,6 +301,9 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
   - MDFInternationalization (3.0.0)
+  - Mixpanel-swift (3.5.1):
+    - Mixpanel-swift/Complete (= 3.5.1)
+  - Mixpanel-swift/Complete (3.5.1)
   - MotionAnimator (4.0.1):
     - MotionInterchange (~> 3.0)
   - MotionInterchange (3.0.0)
@@ -390,6 +394,7 @@ SPEC REPOS:
     - Logging
     - MaterialComponents
     - MDFInternationalization
+    - Mixpanel-swift
     - MotionAnimator
     - MotionInterchange
     - MSPeekCollectionViewDelegateImplementation
@@ -429,7 +434,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: c1a90e5f45b354c497e94a911b890fe898db1b60
+  el-grocer-shopper-sdk-iOS: 6160fddc3f668699bdb29e0e532f3f96dea1afa8
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -464,6 +469,7 @@ SPEC CHECKSUMS:
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
+  Mixpanel-swift: 89d88f4d3dd1b4b3b69bd05060756eb1248b76f0
   MotionAnimator: 5f99d7c9592928c0f28a66283eda9c3b657dc480
   MotionInterchange: 13adae439b377e31d1674cc165539d50e1d1566a
   MSPeekCollectionViewDelegateImplementation: be35a217bd302976a9e4476151be992c1f150127

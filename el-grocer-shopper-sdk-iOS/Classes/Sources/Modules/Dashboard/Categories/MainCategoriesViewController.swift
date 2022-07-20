@@ -258,6 +258,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     override func backButtonClick() {
         self.backButtonClickedHandler()
+        MixpanelEventLogger.trackStoreClose()
     }
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
@@ -777,10 +778,13 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                             guard let self = self  else {   return   }
                             if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                                 ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
+                                MixpanelEventLogger.trackStoreBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "1")
                             }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
                                 banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: ElGrocerUtility.sharedInstance.groceries)
+                                MixpanelEventLogger.trackStoreBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "1")
                             }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  ||  banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
                                 banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: ElGrocerUtility.sharedInstance.groceries)
+                                MixpanelEventLogger.trackStoreBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "1")
                             }
                         }
                     }
@@ -1310,6 +1314,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         // ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(selectedProduct)
         self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
+        MixpanelEventLogger.trackStoreAddItem(product: selectedProduct)
     }
     
     func removeProductToBasketFromQuickRemove(_ selectedProduct: Product, homeObj: Home, collectionVeiw productCollectionVeiw:UICollectionView){
@@ -1325,6 +1330,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         if productQuantity < 0 {return}
         
         self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
+        MixpanelEventLogger.trackStoreRemoveItem(product: selectedProduct)
     }
     
     func updateProductsQuantity(_ quantity: Int, selectedProduct: Product, homeObj: Home, collectionVeiw productCollectionVeiw:UICollectionView) {
@@ -1443,7 +1449,7 @@ extension MainCategoriesViewController: HomeCellDelegate {
         if homeObj.category != nil {
             // Navigate to Subcategories
             self.selectedCategory = homeObj.category
-            
+            MixpanelEventLogger.trackStoreProductsViewAll(categoryId: homeObj.category?.dbID.stringValue ?? "", categoryName: homeObj.category?.nameEn ?? "")
             self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
             
         }else{
@@ -1463,6 +1469,7 @@ extension MainCategoriesViewController: HomeCellDelegate {
     func navigateToSubCategoryFrom( category: Category) {
         self.selectedSubCategory = nil
         self.selectedCategory = category
+        MixpanelEventLogger.trackStoreCategoryClick(categoryId: category.dbID.stringValue, categoryName: category.nameEn ?? "")
         self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
     }
     

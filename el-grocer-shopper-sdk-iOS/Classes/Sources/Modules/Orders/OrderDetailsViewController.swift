@@ -137,6 +137,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             if let bar = nav.navigationBar as? ElGrocerNavigationBar {
                 bar.chatButton.chatClick = {
 //                    ZohoChat.showChat(self.order.dbID.stringValue)
+                    MixpanelEventLogger.trackOrderDetailshelp()
                     let groceryID = self.order.grocery.getCleanGroceryID()
                     let sendbirdManager = SendBirdDeskManager(controller: self,orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
                     sendbirdManager.setUpSenBirdDeskWithCurrentUser()
@@ -437,6 +438,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     
     override func backButtonClick() {
+        MixpanelEventLogger.trackOrderDetailsclose()
         if isCommingFromOrderConfirmationScreen {
             self.navigationController?.popToRootViewController(animated: true)
 //            self.tabBarController?.tabBar.isHidden = false
@@ -494,6 +496,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     @IBAction func chatAction(_ sender: Any) {
 //        ZohoChat.showChat(self.order.dbID.stringValue)
+        MixpanelEventLogger.trackOrderDetailshelp()
         let groceryID = self.order.grocery.getCleanGroceryID()
         let sendBirdManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
         sendBirdManager.setUpSenBirdDeskWithCurrentUser()
@@ -503,7 +506,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     @objc
     func orderEditHandler() {
         
-        
+        MixpanelEventLogger.trackOrderDetailsEditOrderClicked(oId: self.order.dbID.stringValue)
         if !self.order.isCandCOrder() {
             
             let currentAddress = getCurrentDeliveryAddress()
@@ -689,6 +692,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     }
     func cancelOrderHandler(_ orderId : String){
         guard !orderId.isEmpty else {return}
+        MixpanelEventLogger.trackOrderDetailsCancelOrderClicked(oId: orderId)
         let cancelationHandler = OrderCancelationHandler.init { (isCancel) in
             self.orderCancelled(isSuccess: isCancel)
         }

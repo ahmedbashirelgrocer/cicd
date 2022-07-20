@@ -87,6 +87,7 @@ class ElGrocerNavigationController : UINavigationController {
     
     @objc func profileButtonClick() {
         print("profileButtonClick")
+        MixpanelEventLogger.trackNavBarProfile()
         let settingController = ElGrocerViewControllers.settingViewController()
         self.pushViewController(settingController, animated: true)
         //hide tabbar
@@ -97,7 +98,7 @@ class ElGrocerNavigationController : UINavigationController {
         print("cartButtonClick")
         //hide tabbar
         hidetabbar()
-        
+        MixpanelEventLogger.trackNavBarCart()
         let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
         self.pushViewController(myBasketViewController, animated: true)
     }

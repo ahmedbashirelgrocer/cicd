@@ -1001,7 +1001,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             return
         }
         
-        
+        MixpanelEventLogger.trackCartclose()
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         self.navigationController?.popViewController(animated: true)
     }
@@ -2190,6 +2190,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 cell.configureCellWithEditOrder(title: localizedString("If_items_are_out_of_stock_unselected", comment: ""))
                 cell.viewAll.isHidden = !(self.myBasketDataObj.getSelectedReason() != nil)
                 cell.viewAllAction = { [weak self] in
+                    if self?.orderToReplace ?? false{
+                        MixpanelEventLogger.trackEditCartEditOOSInstruction()
+                    }else {
+                        MixpanelEventLogger.trackCartEditOOSInstruction()
+                    }
+                    
                     self?.isItemOOSCellsNeedToExpand = !(self?.isItemOOSCellsNeedToExpand ?? false)
                     self?.tblBasket.reloadDataOnMain()
                 }
@@ -2200,6 +2206,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 let cell : QuestionareCell = tableView.dequeueReusableCell(withIdentifier: "QuestionareCell") as! QuestionareCell
                 cell.buttonClicked = { [weak self] (selectedReason , index) in
                     guard self?.tblBasket != nil , index != nil else {return }
+                    let reason: String = (selectedReason as? Reasons)?.reasonString ?? ""
+                    if self?.orderToReplace ?? false {
+                        MixpanelEventLogger.trackEditCartOOSInstructionSelected(reason: reason)
+                    }else {
+                        MixpanelEventLogger.trackCartOOSInstructionSelected(instruction: reason)
+                    }
                     self?.tableView(self!.tblBasket, didSelectRowAt: index!)
                 }
                 let reasonIndex = indexPath.row - 1
@@ -2292,6 +2304,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     //loadShoppingBasketData()
                 self.loadShoppingBasketDataRefreshed( oldProduct: oldProduct , newProduct: selectedProduct )
                 ElGrocerEventsLogger.sharedInstance.addToCart(product: selectedProduct , "", "",  false,  nil)
+                MixpanelEventLogger.trackCartOOSSelected(product: selectedProduct, OOSProduct: oldProduct)
                 
             }
             
@@ -2892,6 +2905,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     func cancelOrderHandler(_ orderId : String){
         guard !orderId.isEmpty else {return}
+        MixpanelEventLogger.trackEditCartCancelOrderClicked(oId: orderId)
         let cancelationHandler = OrderCancelationHandler.init { (isCancel) in
             debugPrint("")
             self.orderCancelled(isSuccess: isCancel)
@@ -3099,6 +3113,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 }
                 self.loadShoppingBasketDataRefreshed( oldProduct: currentAlternativeProduct , newProduct: selectedProduct )
                 ElGrocerEventsLogger.sharedInstance.addToCart(product: selectedProduct , "", "",  false,  nil)
+                MixpanelEventLogger.trackCartOOSSelected(product: selectedProduct, OOSProduct: currentAlternativeProduct)
             }
             
             self.tblBasket.reloadDataOnMain()
@@ -3149,7 +3164,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     
                     ShoppingBasketItem.removeProductFromBasket(productToDelete, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     DatabaseHelper.sharedInstance.saveDatabase()
-                    
+                    if self.orderToReplace {
+                        MixpanelEventLogger.trackEditCartRemoveItem(product: productToDelete)
+                    }else {
+                        MixpanelEventLogger.trackCartRemoveItem(product: productToDelete)
+                    }
                     if let indexRow = self.products.firstIndex(of: productToDelete) {
                         self.products.remove(at: indexRow)
                     }
@@ -3184,7 +3203,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 ShoppingBasketItem.removeProductFromBasket(productToDelete, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 DatabaseHelper.sharedInstance.saveDatabase()
-                
+                if self.orderToReplace {
+                    MixpanelEventLogger.trackEditCartRemoveItem(product: productToDelete)
+                }else {
+                    MixpanelEventLogger.trackCartRemoveItem(product: productToDelete)
+                }
                 let indexPath = IndexPath(row:index, section: 0)
                 
                     //remove product from table
@@ -3205,6 +3228,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         guard index > -1 , index < self.availableProducts.count else {return}
         ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("increase_quantity_at_my_basket_screen")
         self.selectedProduct = self.availableProducts[index]
+        if self.orderToReplace {
+            MixpanelEventLogger.trackEditCartAddItem(product: self.selectedProduct)
+        }else {
+            MixpanelEventLogger.trackCartAddItem(product: self.selectedProduct)
+        }
         var counter = self.getItemCounterWithProduct(self.selectedProduct)
         ProductQuantiy.canAddProduct(selectedProduct: selectedProduct, counter: counter) {[weak self] limitAvailable in
             guard let self = self else {return}
@@ -3281,6 +3309,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 self.updateSelectedProductsQuantity(counter, andWithProductIndex: index)
                 
             }
+            if self.orderToReplace {
+                MixpanelEventLogger.trackEditCartRemoveItem(product: self.selectedProduct)
+            }else {
+                MixpanelEventLogger.trackCartRemoveItem(product: self.selectedProduct)
+            }
+            
         }
         
         
@@ -3563,6 +3597,7 @@ extension MyBasketViewController : CategorySearchBarDelegate {
         let searchController = ElGrocerViewControllers.searchViewController()
         searchController.isNavigateToSearch = true
         searchController.navigationFromControllerName = FireBaseScreenName.MyBasket.rawValue
+        MixpanelEventLogger.trackEditCartSearchClick()
         if let topName = FireBaseEventsLogger.gettopViewControllerName() {
             searchController.navigationFromControllerName = topName
         }
@@ -4036,6 +4071,11 @@ extension MyBasketViewController {
         let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
         
         ElGrocerEventsLogger.sharedInstance.trackCheckOut(coupon: productIds.joined(separator: ","), currency: kProductCurrencyEngAEDName, value: self.itemsSummaryValue , isEdit: UserDefaults.isOrderInEdit(), itemsCount: self.itemsCount.text ?? "", productIds: productIds.joined(separator: ","), appFlayerJsonString: paramsString )
+        if self.orderToReplace {
+            MixpanelEventLogger.trackEditCartBeginCheckout(value: "\(self.itemsSummaryValue)")
+        }else {
+            MixpanelEventLogger.trackCartBeginCheckout(value: "\(self.itemsSummaryValue)")
+        }
         
         setRecipeCartAnalyticsAndRemoveRecipe()
         

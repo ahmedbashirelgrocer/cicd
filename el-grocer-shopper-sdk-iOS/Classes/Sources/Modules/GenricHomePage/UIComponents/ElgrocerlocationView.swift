@@ -250,6 +250,7 @@ class ElgrocerlocationView:  UIView  {
         guard let vc = UIApplication.topViewController() else {
             return
         }
+        MixpanelEventLogger.trackStoreHelp()
         let sendBirdDeskManager = SendBirdDeskManager(controller: vc, orderId: "0", type: .agentSupport)
         sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
     }
@@ -258,7 +259,7 @@ class ElgrocerlocationView:  UIView  {
         guard let vc = UIApplication.topViewController() else {
             return
         }
-        
+        MixpanelEventLogger.trackStoreShoppingList()
         let controller : SearchListViewController = ElGrocerViewControllers.getSearchListViewController()
         controller.isFromHeader = true
         let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
@@ -276,6 +277,7 @@ class ElgrocerlocationView:  UIView  {
         
         let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
         ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
+        MixpanelEventLogger.trackStoreSearch()
         searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
         searchController.searchFor = .isForStoreSearch
         vc.navigationController?.modalTransitionStyle = .crossDissolve

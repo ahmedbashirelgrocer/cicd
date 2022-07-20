@@ -13,6 +13,7 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
     
     
     var instructionsText : ((_ text : String?) -> Void)?
+    var controller: UIViewController?
     @IBOutlet var lblRemaining: UILabel! {
         didSet {
             self.lblRemaining.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "0/100")
@@ -116,6 +117,11 @@ extension instructionsTableCell : UITextViewDelegate {
         self.tblView.endUpdates()
     }
     func textViewDidEndEditing (_ textView: UITextView) {
+        if self.controller is MyBasketPlaceOrderVC {
+            if textView.text?.count ?? 0 > 0 {
+                MixpanelEventLogger.trackCheckoutInstructionAdded(instruction: textView.text ?? "")
+            }
+        }
         if let clouser = self.instructionsText {
             clouser(textView.text)
         }

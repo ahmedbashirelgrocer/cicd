@@ -72,6 +72,7 @@ class deliverySlotCell: UITableViewCell {
             // popupController.backgroundView = UIVisualEffectView(effect: blurEffect)
         }
         //  popupController.backgroundView?.alpha = 0.8
+        MixpanelEventLogger.trackCheckoutDeliverySlotClicked()
         popupController.navigationBarHidden = true
         popupController.transitioning = self
         popupController.style = .bottomSheet

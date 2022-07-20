@@ -518,6 +518,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     
     override func backButtonClick() {
         self.navigationController?.popViewController(animated: true)
+        MixpanelEventLogger.trackCheckoutClose()
        // self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
@@ -615,6 +616,8 @@ class MyBasketPlaceOrderVC: UIViewController {
             let paymentNetworks = [ PKPaymentNetwork.masterCard,  PKPaymentNetwork.visa]
             if   PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) {
                 self.placeOrder()
+                let finalAmount = secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode().finalAmount ?? 0.0
+                MixpanelEventLogger.trackCheckoutConfirmOrderClicked(value: "\(finalAmount)")
             }else {
                 let passLibrary = PKPassLibrary()
                 passLibrary.openPaymentSetup()
@@ -640,6 +643,8 @@ class MyBasketPlaceOrderVC: UIViewController {
             }
             
             self.placeOrder()
+            let finalAmount = secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode().finalAmount ?? 0.0
+            MixpanelEventLogger.trackCheckoutConfirmOrderClicked(value: "\(finalAmount)")
         }
         
         
@@ -1006,7 +1011,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         }else{
             navigation.view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         }
-        
+        MixpanelEventLogger.trackCheckoutPaymentMethodClicked()
         creditVC.paymentMethodSelection = { [weak self] (methodSelect) in
             guard let self = self else {return}
             self.isPayingBySmilePoints = false
@@ -1019,6 +1024,10 @@ class MyBasketPlaceOrderVC: UIViewController {
             }
             self.setPaymentState ()
             self.setBillDetails()
+            self.checkPromoAdded()
+            if let method = methodSelect as? PaymentOption {
+                MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(method.rawValue)")
+            }
         }
         creditVC.goToAddNewCard = { [weak self] (credit) in
             guard let self = self else {return}
@@ -1050,7 +1059,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             creditVC.dismiss(animated: true) {}
             self.isPayingBySmilePoints = false
             self.setPaymentState ()
-            
+            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.creditCard.rawValue)", cardId: creditCardSelected?.cardID ?? "")
         }
         
         creditVC.applePaySelected = { [weak self] (applePaySelected) in
@@ -1060,7 +1069,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             creditVC.dismiss(animated: true) {}
             self.isPayingBySmilePoints = false
             self.setPaymentState ()
-            
+            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.applePay.rawValue)")
         }
         
         creditVC.creditCardDeleted = { [weak self] (creditCardSelected) in
@@ -1091,12 +1100,13 @@ class MyBasketPlaceOrderVC: UIViewController {
         //showPromoError(false, message: "error message \n multi \n line")
         if self.promoTextField.text != ""{
             checkPromoCode(self.promoTextField.text!)
+            MixpanelEventLogger.trackCheckoutPromocodeApplied(code: promoTextField.text ?? "")
         }
         
     }
     @IBAction func btnEnterPromoHandler(_ sender: Any) {
         
-        
+        MixpanelEventLogger.trackCheckoutPromocodeClicked()
         let vc = ElGrocerViewControllers.getApplyPromoVC()
         vc.previousGrocery = self.secondCheckOutDataHandler?.activeGrocery
         vc.priviousPaymentOption = self.selectedPaymentOption
@@ -1129,9 +1139,11 @@ class MyBasketPlaceOrderVC: UIViewController {
                 if self.checkoutViewStyle == .showBillDetails{
                     self.checkoutViewStyle = .normal
                     self.handleViewStyle(viewStyle: self.checkoutViewStyle)
+                    MixpanelEventLogger.trackCheckoutShowBillDetails(isVisible: false)
                 }else{
                     self.checkoutViewStyle = .showBillDetails
                     self.handleViewStyle(viewStyle: self.checkoutViewStyle)
+                    MixpanelEventLogger.trackCheckoutShowBillDetails(isVisible: true)
                 }
                 
             }
@@ -1737,6 +1749,7 @@ extension MyBasketPlaceOrderVC {
                     do {
                         let promoCodeObjData = try NSKeyedArchiver.archivedData(withRootObject: promoCode , requiringSecureCoding: false)
                         UserDefaults.setPromoCodeValue(promoCodeObjData)
+                        MixpanelEventLogger.trackCheckoutPromoApplied(promoCode: promoCode)
                         self.setBillDetails()
                         self.showPromoError(true, message: "")
                         self.animateSuccessForPromo()
@@ -1747,6 +1760,7 @@ extension MyBasketPlaceOrderVC {
                     }catch(let error){
                         debugPrint(error)
                         UserDefaults.setPromoCodeValue(nil)
+                        MixpanelEventLogger.trackCheckoutPromoError(promoCode: text, error: error.localizedDescription)
                         self.showPromoError(true, message: "")
                         self.animateSuccessForPromo()
                         if self.selectedPaymentOption == PaymentOption.smilePoints {
@@ -1762,6 +1776,7 @@ extension MyBasketPlaceOrderVC {
                     }else{
                         alertDescription = error.getErrorMessageStr()
                     }
+                MixpanelEventLogger.trackCheckoutPromoError(promoCode: text, error: error.message ?? error.getErrorMessageStr())
                 self.showPromoError(false, message: alertDescription)
                 self.animateFailureForPromo()
                     ElGrocerUtility.sharedInstance.showTopMessageView(alertDescription , image: UIImage(name: "MyBasketOutOfStockStatusBar") , -1 , false) { (sender , index , isUnDo) in  }
@@ -2018,6 +2033,7 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
                 return cell
             }else if indexPath.row == 3{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "instructionsTableCell", for: indexPath) as! instructionsTableCell
+                cell.controller = self
                 cell.setData(tableView: tableView, placeHolder: localizedString("checkout_instruction_placeHolder", comment: "") , self.instructionText,isFromCart: true)
                 cell.instructionsText = { [weak self] (text) in
                     self?.instructionText = text ?? ""
@@ -2060,6 +2076,7 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
                 return cell
             }else if indexPath.row == 4{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "instructionsTableCell", for: indexPath) as! instructionsTableCell
+                cell.controller = self
                 cell.setData(tableView: tableView, placeHolder: localizedString("checkout_instruction_placeHolder", comment: ""), self.instructionText,isFromCart: true)
                 cell.instructionsText = { [weak self] (text) in
                     self?.instructionText = text ?? ""

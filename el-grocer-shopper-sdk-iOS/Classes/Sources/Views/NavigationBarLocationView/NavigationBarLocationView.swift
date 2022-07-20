@@ -50,6 +50,7 @@ class NavigationBarLocationView: UIView {
         if let clouser = locationClick {
             clouser()
         }
+        MixpanelEventLogger.trackHomeAddressClick()
     }
     func changeLocation() {
         

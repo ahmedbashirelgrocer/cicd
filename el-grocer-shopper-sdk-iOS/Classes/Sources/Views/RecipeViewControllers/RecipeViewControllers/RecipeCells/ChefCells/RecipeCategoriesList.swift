@@ -153,6 +153,7 @@ extension RecipeCategoriesList : UICollectionViewDelegate , UICollectionViewData
             GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsRecipeCategoryScreen)
             ElGrocerEventsLogger.sharedInstance.trackRecipeCatNav(catName: catName)
             FireBaseEventsLogger.setScreenName("Recipe_Cat_" + catName , screenClass: String(describing: self.classForCoder))
+            MixpanelEventLogger.trackRecipesCategoryFilter(categoryId: "\(selectedCategory.categoryID ?? -1)", categoryName: catName)
         }
         
     }
