@@ -166,6 +166,13 @@ class ElGrocerNavigationController : UINavigationController {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setProfileButtonHidden(hidden)
     }
+    
+    func setSideMenuButtonHidden(_ hidden:Bool) {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setSideMenuButtonHidden(hidden)
+    }
+    // sideMenu
+    
     func setCartButtonHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setCartButtonHidden(hidden)
