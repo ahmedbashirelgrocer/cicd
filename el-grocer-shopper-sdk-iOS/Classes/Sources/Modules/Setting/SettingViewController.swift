@@ -141,9 +141,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                        localizedString("privacy_policy", comment: ""),
                        localizedString("FAQ_settings", comment: "")]
             
-            Images =  ["liveChatSettings" , "ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" ,"paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings" , "faqSettings"]
-         
-            
+            Images = ["liveChatSettings","ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" , "paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings", "faqSettings"]
          
 
         }else{
@@ -228,17 +226,17 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func registerTableViewCell() {
         
-        let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: .resource)
+        let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: Bundle.resource)
         self.tableView.register(userInfoCellNib, forCellReuseIdentifier: kUserInfoCellIdentifier)
         
-        let loginCellNib  = UINib(nibName: "loginCell", bundle: .resource)
+        let loginCellNib  = UINib(nibName: "loginCell", bundle: Bundle.resource)
         self.tableView.register(loginCellNib, forCellReuseIdentifier: KloginCellIdentifier)
         
-        let settingCellNib = UINib(nibName: "SettingCell", bundle: .resource)
+        let settingCellNib = UINib(nibName: "SettingCell", bundle: Bundle.resource)
         self.tableView.register(settingCellNib, forCellReuseIdentifier: kSettingCellIdentifier)
         
         
-        let SignOutCellNib = UINib(nibName: "SignOutCell", bundle: .resource)
+        let SignOutCellNib = UINib(nibName: "SignOutCell", bundle: Bundle.resource)
         self.tableView.register(SignOutCellNib, forCellReuseIdentifier: kSignOutCellIdentifier)
         
         
@@ -370,8 +368,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if SDKManager.isSmileSDK {
-            return 2 + smilePointSection
-            // -1 for Benifits
+            return 3
+            // -1 for Benifits (Smile points)
             // -1 for logout
             // -1 for settings language change option
         }
@@ -465,7 +463,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
                 if indexPath.row < titles.count {
-                    let addForIndex = accountSectionCells + settingsSectionCells
+                    let addForIndex = accountSectionCells + settingsSectionCells + deleteAccountCell
                     let title = titles[(indexPath as NSIndexPath).row + addForIndex]
                     let imageName = Images[(indexPath as NSIndexPath).row + addForIndex]
                     cell.configureCellWithTitle(title, withImage: imageName)
@@ -1080,13 +1078,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                                       negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         if buttonIndex == 0 {
-                                            let appDelegate = SDKManager.shared
-                                        if UIApplication.topViewController() is GenericProfileViewController {
-                                                appDelegate.currentTabBar?.dismiss(animated: false, completion: {
-                                                    appDelegate.logoutAndShowEntryView()
+                                             let SDKManager = SDKManager.shared
+                                            if UIApplication.topViewController() is GenericProfileViewController {
+                                                SDKManager.currentTabBar?.dismiss(animated: false, completion: {
+                                                    SDKManager.logoutAndShowEntryView()
                                                 })
                                             }else {
-                                                appDelegate.logoutAndShowEntryView()
+                                                SDKManager.logoutAndShowEntryView()
                                             }
                                            
                                         }else{
