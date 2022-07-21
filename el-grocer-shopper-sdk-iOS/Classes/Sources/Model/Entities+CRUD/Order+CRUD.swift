@@ -677,7 +677,7 @@ extension Order {
         if let promotionCodeRealization = orderDict["promotion_code_realization"] as? NSDictionary {
             if let promoCodeDict = promotionCodeRealization["promotion_code"] as? NSDictionary {
                 if let code = promoCodeDict["code"] as? String, let valueCents = promoCodeDict["value_cents"] as? Double, let valueCurrency = promoCodeDict["value_currency"] as? String   {
-                    promoCode = PromotionCode(valueCents: valueCents, valueCurrency: valueCurrency, code: code, promotionCodeRealizationId: nil)
+                    promoCode = PromotionCode(valueCents: valueCents, valueCurrency: valueCurrency, code: code, promotionCodeRealizationId: nil, precentageOff: 0, maxCapValue: NSNumber(0), title: "", detail: "", allBrands: false, minBasketValue: NSNumber(0), id: 0, brands: [] )
                 }
             }
         }

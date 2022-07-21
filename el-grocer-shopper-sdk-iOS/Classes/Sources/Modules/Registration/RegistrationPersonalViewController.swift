@@ -193,6 +193,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     }
     
     override func crossButtonClick() {
+        MixpanelEventLogger.trackSignupClose()
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
@@ -235,7 +236,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         guard self.validateInputFields() else {
             return
         }
-         
+        MixpanelEventLogger.trackSignUpNextClick()
         userPersonalInfo = UserPersonalInfo(name: "", email: emailTextField.text!, phone: finalPhoneNumber  , password: passwordTextField.text, isPhoneVerified: true )
         
         self.createNewUser()
@@ -893,7 +894,13 @@ extension RegistrationPersonalViewController {
         return false
     }
     
-    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == self.emailTextField {
+            MixpanelEventLogger.trackSignUpEmailEntered()
+        }else if textField == self.passwordTextField {
+            MixpanelEventLogger.trackSignUpPasswordEntered()
+        }
+    }
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField == self.emailTextField {
             if let textFieldText = textField.text {

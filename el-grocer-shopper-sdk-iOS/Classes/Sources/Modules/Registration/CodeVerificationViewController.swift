@@ -689,6 +689,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
     
     @IBAction func chatAction(_ sender: Any) {
          // ZohoChat.showChat()
+        MixpanelEventLogger.trackOTPHelp()
        let sendBirdManager = SendBirdDeskManager(controller: self, orderId: "0", type: .agentSupport)
         sendBirdManager.setUpSenBirdDeskWithCurrentUser()
     }
@@ -730,6 +731,7 @@ extension CodeVerificationViewController : KAPinFieldDelegate {
                                            negativeButton: nil, buttonClickCallback: nil).show()
             return
         }
+        MixpanelEventLogger.trackOTPOTPEntered(otp: englishNumber)
         self.codeVerifcation(code: englishNumber , token: self.token)
         
         

@@ -344,8 +344,9 @@ class AWPickerViewController : UIViewController {
         }
         let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.backgroundManagedObjectContext, forGroceryID: currentGrocery?.dbID ?? "-1")
         if let firstObj  = slots.first(where: {$0.dbID == self.slotsCollectionView.selectedSlotID }) {
-           UserDefaults.setCurrentSelectedDeliverySlotId(firstObj.dbID)
-           UserDefaults.setEditOrderSelectedDelivery(nil)
+            UserDefaults.setCurrentSelectedDeliverySlotId(firstObj.dbID)
+            UserDefaults.setEditOrderSelectedDelivery(nil)
+            MixpanelEventLogger.trackCheckoutDeliverySlotSelected(slot: firstObj)
         }
         self.dismiss(animated: true) { }
         

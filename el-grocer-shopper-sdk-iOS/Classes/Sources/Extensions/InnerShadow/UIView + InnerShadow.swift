@@ -101,6 +101,40 @@ extension UIView {
         shapeLayer.path = path
         layer.addSublayer(shapeLayer)
     }
+    func addDashedBorderAroundView(color: UIColor) {
+        
+        
+        
+        let color = color.cgColor
+        var shapeLayer : CAShapeLayer?
+        if let layersA = self.layer.sublayers {
+            for shape in layersA {
+                if shape is CAShapeLayer {
+                    shapeLayer = shape as? CAShapeLayer
+                    break
+                }
+            }
+        }
+        if shapeLayer == nil {
+            shapeLayer = CAShapeLayer()
+        }
+        let frameSize = self.frame.size
+        let shapeRect = CGRect(x: 0, y: 0, width: frameSize.width, height: frameSize.height)
+
+        shapeLayer?.bounds = shapeRect
+        shapeLayer?.position = CGPoint(x: frameSize.width/2, y: frameSize.height/2)
+        shapeLayer?.fillColor = UIColor.clear.cgColor
+        shapeLayer?.strokeColor = color
+        shapeLayer?.lineWidth = 2
+        shapeLayer?.lineJoin = CAShapeLayerLineJoin.round
+        shapeLayer?.lineDashPattern = [6,3]
+        shapeLayer?.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 5).cgPath
+        
+        if let layerIs = shapeLayer {
+            self.layer.addSublayer(layerIs)
+        }
+       
+    }
     
     open func roundTopWithTopShadow(radius : CGFloat){
         self.layer.shadowOffset = CGSize(width: 0, height: -2)

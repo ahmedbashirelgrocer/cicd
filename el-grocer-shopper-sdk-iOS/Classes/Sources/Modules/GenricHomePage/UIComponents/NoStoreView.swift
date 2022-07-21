@@ -144,7 +144,17 @@ class NoStoreView: UIView {
         self.state = .defaultAction
     }
  
-    
+    func configureAccountDeletedSuccess() {
+        
+        self.setUpApearence()
+        self.imgNoData.image = UIImage(name: "AccountDeleteSuccess") //"noSavedRecipe"
+        self.lblTopMsg.text = localizedString("we_are_sorry_to_see_you_go_title", comment: "")
+        self.lblExtraDetail.text = localizedString("we_are_sorry_to_see_you_go_descr", comment: "")
+        self.btnNoData.isHidden = false
+        self.btnNoData.setTitle(localizedString("we_are_sorry_to_see_you_go_btn_title", comment: ""), for: .normal)
+        self.state = .defaultAction
+        self.backgroundColor = .tableViewBackgroundColor()
+    }
     
     func configureNoDefaultSelectedStoreCart() {
         //You elGrocer cart is empty

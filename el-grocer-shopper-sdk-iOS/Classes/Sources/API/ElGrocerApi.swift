@@ -12,6 +12,8 @@ import CoreLocation
 import FirebaseCrashlytics
 import JavaScriptCore
 import AlgoliaSearchClient
+
+
 private let SharedInstance = ElGrocerApi()
 private let NonBaseURLSharedInstance = ElgrocerAPINonBase()
 
@@ -92,7 +94,9 @@ enum ElGrocerApiEndpoint : String {
     case FavouriteGroceries = "v1/favourite/retailers"
     case Feedback = "v1/feedbacks.json"
     case PromotionCode = "v3/promotion_codes/create_realization"
-    
+    case deleteAccountReason = "v1/shoppers/reasons"
+    case deleteAccountSendOTP = "v1/shoppers/deletion_otp"
+    case verifyDeleteAccountOTP = "v1/shoppers/delete"
     
     //sab
     //case CategoryProducts = "v2/categories/products.json"
@@ -135,8 +139,7 @@ enum ElGrocerApiEndpoint : String {
     case ScreenProducts = "v1/screens/screen_products"
     case OrderPaymentDetails = "v1/orders/online_payment_details"
     case getRetailerDetail = "v2/retailers/delivery/show"
-    
-    
+    case getPromoList = "v1/promotion_codes/list"    
     case genericCustomBanners = "v1/banners/show"
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     // Dark store new UI Changes 10nov https://elgrocerdxb.atlassian.net/wiki/spaces/CNC/pages/1270218754/Launching+Dark+Store+w+New+UI
@@ -440,13 +443,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             GenericClass.print(self.baseApiPath ?? "")
         }
         self.requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
-        
+        //fixme with self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer(with: JSONSerialization.WritingOptions.prettyPrinted)
         self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
       //  self.requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
         self.requestManager.securityPolicy.allowInvalidCertificates = true
         self.requestManager.securityPolicy.validatesDomainName = false
         self.requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
-        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: AFSSLPinningModeCustom.none)
+        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: .none)
         securitypolicy.allowInvalidCertificates = true
         securitypolicy.validatesDomainName = false
         self.requestManager.securityPolicy = securitypolicy
@@ -2135,6 +2138,74 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
         }
   }
+      
+      func deleteAccountReasons(completionHandler:@escaping (Either<NSDictionary>) -> Void) {
+    
+    
+          setAccessToken()
+          
+            NetworkCall.get(ElGrocerApiEndpoint.deleteAccountReason.rawValue, parameters: nil,progress: { (progress) in
+                // debugPrint("Progress for API :  \(progress)")
+            }, success: { (operation  , response: Any) -> Void in
+          
+              guard let response = response as? NSDictionary else {
+              completionHandler(Either.failure(ElGrocerError.parsingError()))
+              return
+              }
+              completionHandler(Either.success(response))
+          
+          }) { (operation  , error: Error) -> Void in
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                            
+                            completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+    }
+      func deleteAccountSendOtp(phoneNum: String ,completionHandler:@escaping (Either<NSDictionary>) -> Void) {
+    
+    
+          setAccessToken()
+          let parameters = ["phone_number" : phoneNum]
+            NetworkCall.post(ElGrocerApiEndpoint.deleteAccountSendOTP.rawValue, parameters: parameters,progress: { (progress) in
+                // debugPrint("Progress for API :  \(progress)")
+            }, success: { (operation  , response: Any) -> Void in
+          
+              guard let response = response as? NSDictionary else {
+              completionHandler(Either.failure(ElGrocerError.parsingError()))
+              return
+              }
+              completionHandler(Either.success(response))
+          
+          }) { (operation  , error: Error) -> Void in
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                            
+                            completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+    }
+      
+      func deleteAccountVerifyOtp(code: String ,reason: String,completionHandler:@escaping (Either<NSDictionary>) -> Void) {
+    
+    
+          setAccessToken()
+          let parameters = ["reason" : reason, "otp": code]
+            NetworkCall.post(ElGrocerApiEndpoint.verifyDeleteAccountOTP.rawValue, parameters: parameters,progress: { (progress) in
+                // debugPrint("Progress for API :  \(progress)")
+            }, success: { (operation  , response: Any) -> Void in
+          
+              guard let response = response as? NSDictionary else {
+              completionHandler(Either.failure(ElGrocerError.parsingError()))
+              return
+              }
+              completionHandler(Either.success(response))
+          
+          }) { (operation  , error: Error) -> Void in
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                            
+                            completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+    }
   
   func checkAvailableGroceriesForProducts(_ products:[Product], andForLocation location:DeliveryAddress, completionHandler: @escaping (_ response: Either<NSDictionary>) -> Void) {
   
@@ -2299,20 +2370,25 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   // MARK: Promotion Code
   
-    func checkAndRealizePromotionCode(_ promoCode:String, grocery:Grocery, basketItems: [ShoppingBasketItem],withPaymentType payment:PaymentOption , deliveryFee : String , riderFee : String , orderID : String? ,  completionHandler:@escaping (_ result: Either<PromotionCode>) -> Void) {
+      func checkAndRealizePromotionCode(_ promoCode:String, grocery:Grocery, basketItems: [ShoppingBasketItem],withPaymentType payment:PaymentOption , deliveryFee : String , riderFee : String , orderID : String?, basketItemDict: [[String: Int]]? = nil ,  completionHandler:@escaping (_ result: Either<PromotionCode>) -> Void) {
   setAccessToken()
   
   let groceryId = Grocery.getGroceryIdForGrocery(grocery)
   
   var productsArray = [[String: Int]]()
   
-  for basketItem in basketItems {
-  let productDict: [String: Int] = [
-  "amount": Int(truncating: basketItem.count),
-  "product_id": Product.getCleanProductId(fromId: basketItem.productId)
-  ]
-  productsArray.append(productDict)
-  }
+          if basketItemDict != nil {
+              productsArray = basketItemDict!
+          }else {
+              for basketItem in basketItems {
+              let productDict: [String: Int] = [
+              "amount": Int(truncating: basketItem.count),
+              "product_id": Product.getCleanProductId(fromId: basketItem.productId)
+              ]
+              productsArray.append(productDict)
+              }
+          }
+  
         
         var paymentType = Int(payment.rawValue)
         if payment == PaymentOption.applePay {
@@ -2346,22 +2422,28 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     NetworkCall.post(ElGrocerApiEndpoint.PromotionCode.rawValue, parameters: parameters, progress: { (progress) in
         // debugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
-  
-  guard let promoCode = PromotionCode(fromResponse: response as AnyObject) else {
-  completionHandler(Either.failure(ElGrocerError.parsingError()))
-  return
-  }
-       // debugPrint("promoApi response : \(response)")
-  completionHandler(Either.success(promoCode))
-  
-  }) { (operation  , error: Error) -> Void in
-  
-  // // print("SERVER Response:%@",operation.response ?? "Response is Some Null Value")
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
-  }
+        
+        guard let response = response as? NSDictionary else {
+            return
+        }
+        guard let promoData = response["data"] as? NSDictionary else {
+            return
+        }
+      guard let promoCode = PromotionCode(fromResponse: promoData as AnyObject) else {
+      completionHandler(Either.failure(ElGrocerError.parsingError()))
+      return
+      }
+           // debugPrint("promoApi response : \(response)")
+      completionHandler(Either.success(promoCode))
+      
+      }) { (operation  , error: Error) -> Void in
+      
+      // // print("SERVER Response:%@",operation.response ?? "Response is Some Null Value")
+      if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                    
+                    completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+                }
+      }
   }
   
   // MARK: Search
@@ -4043,7 +4125,34 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
     }
     
-    
+    //MARK: promoCode
+      func getPromoList(limmit: Int, Offset: Int, grocery:String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+        
+        setAccessToken()
+        let parameters = NSMutableDictionary()
+        parameters["retailer_id"] = grocery
+        parameters["limit"] = limmit
+        parameters["offset"] = Offset
+        NetworkCall.get(ElGrocerApiEndpoint.getPromoList.rawValue, parameters: parameters, progress: { (progress) in
+            // debugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response: Any) -> Void in
+            
+            guard let response = response as? NSDictionary else {
+                completionHandler(Either.failure(ElGrocerError.genericError()))
+                return
+            }
+            
+            completionHandler(Either.success(response))
+            
+        }) { (operation  , error: Error) -> Void in
+            
+            
+            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                
+                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            }
+        }
+    }
     
     //
     

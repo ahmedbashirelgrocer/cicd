@@ -97,6 +97,8 @@ struct SDKLoginManager {
                     self.createNewDefaultAddressForNewUser(for: userProfile, completion: completionHandler)
                 } else {
                     UserDefaults.setDidUserSetAddress(true)
+                    UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
+                    UserDefaults.setUserLoggedIn(true)
                     completionHandler(true, "")
                 }
     

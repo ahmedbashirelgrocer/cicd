@@ -672,6 +672,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     }
     override func rightBackButtonClicked() {
         backButtonClickedHandler()
+        MixpanelEventLogger.trackChooseLocationClose()
     }
     func backButtonClickedHandler(){
         self.backButtonClick()
@@ -1020,6 +1021,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 ElGrocerUtility.sharedInstance.resetRecipeView()
                 
             }
+            
+            let location = self.locations[indexPath.row]
+            MixpanelEventLogger.trackChooseLocationSelected(locAddress: location.address, locId: location.dbID)
 
         }else{
             
@@ -1097,6 +1101,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func dashboardLocationCellDidTouchEditButton(_ cell: DashboardLocationCell) {
         
+        MixpanelEventLogger.trackChooseLocationEditClick()
         let indexPath = self.tableView.indexPath(for: cell)
         let location = self.locations[(indexPath! as NSIndexPath).row]
         
@@ -1108,6 +1113,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func dashboardLocationCellDidTouchDeleteButton(_ cell: DashboardLocationCell) {
         
+        MixpanelEventLogger.trackChooseLocationDeleteClick()
         let indexPath = self.tableView.indexPath(for: cell)
         let address = self.locations[(indexPath! as NSIndexPath).row]
         
@@ -1610,6 +1616,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     @IBAction func addNewAddressAction(_ sender: Any) {
         
+        MixpanelEventLogger.trackChooseLocationAddAddressClick()
         let locationMapController = ElGrocerViewControllers.locationMapViewController()
         locationMapController.delegate = self
         locationMapController.isFromCart = self.isFormCart

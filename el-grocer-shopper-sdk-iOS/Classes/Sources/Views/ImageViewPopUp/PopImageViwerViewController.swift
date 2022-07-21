@@ -10,7 +10,6 @@ import UIKit
 import FBSDKCoreKit
 import NBBottomSheet
 import SDWebImage
-import SDWebImage
 
 enum PopImageControllerType{
     case productDeepLink
@@ -118,11 +117,26 @@ class PopImageViwerViewController: UIViewController {
         }
     }
     
+    @IBOutlet var topScrollView: UIScrollView!
+    @IBOutlet var boughtItemView: CustomCollectionView!
+    
+    lazy var boughtItems : [Product] = []
+    lazy var relatedItems : [Product] = []
+    
+    @IBOutlet var lblFrequentlyBought: UILabel!
+    @IBOutlet var lblReatedTogether: UILabel!
+    @IBOutlet var relatedItemView: CustomCollectionView!
+    
     lazy var NoDataView : NoStoreView = {
         let noStoreView = NoStoreView.loadFromNib()
         noStoreView?.configureNoProducts()
         return noStoreView!
     }()
+    private lazy var productDelegate : ProductDelegate = {
+        let productsD = ProductDelegate()
+        productsD.delegate = self
+        return productsD
+      }()
     
     var didDissmiss: ((Bool, _ products: [Product],_ grocery: Grocery,_ brandId: String) -> Void)?
     var controllerType: PopImageControllerType = .productCell
@@ -189,7 +203,19 @@ class PopImageViwerViewController: UIViewController {
         }else{
             searchAlgolia()
         }
+        
+        let productCellNib = UINib(nibName: "ProductCell", bundle: .resource)
+        boughtItemView.collectionView?.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
+        relatedItemView.collectionView?.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
+        boughtItemView.collectionView?.dataSource = self
+        boughtItemView.collectionView?.delegate = self
+        relatedItemView.collectionView?.dataSource = self
+        relatedItemView.collectionView?.delegate = self
+        self.getBoughtItems()
+        self.getRelatedItems()
+        //self.getRelatedItems()()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setDeepLinkBottom()
@@ -484,6 +510,7 @@ class PopImageViwerViewController: UIViewController {
         let viewHeight: CGFloat = self.zoomView.bounds.size.height
         let viewWidth: CGFloat = self.zoomView.bounds.size.width
         let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0 , width: viewWidth, height: viewHeight))
+        scrollView.tag = -1212
         var xPostion: CGFloat = 0
         let view = UIView(frame: CGRect(x: xPostion, y: 0, width: viewWidth, height: viewHeight))
         xPostion += viewWidth
@@ -498,7 +525,7 @@ class PopImageViwerViewController: UIViewController {
         view.addSubview(imageView)
         scrollView.addSubview(view)
 
-        scrollView.contentSize = CGSize(width: xPostion, height: viewHeight)
+        scrollView.contentSize = CGSize(width: xPostion, height: 1000)
         self.zoomView.addSubview(scrollView)
        
         
@@ -1024,8 +1051,8 @@ class PopImageViwerViewController: UIViewController {
         let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
         
         let facebookParams = [AppEvents.ParameterName.contentID: clearProductID ,AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency: kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
-            //MARK:- Fix fix it later with sdk version
-       // AppEvents.logEvent(AppEvents.Name.viewedContent, valueToSum: Double(truncating: productIS.price), parameters: facebookParams as! [String : Any])
+        
+        AppEvents.logEvent(AppEvents.Name.viewedContent, valueToSum: Double(truncating: productIS.price), parameters: facebookParams as! [AppEvents.ParameterName : Any])
         FireBaseEventsLogger.trackViewItem(productIS)
         AlgoliaApi.sharedInstance.viewItemAlgolia(product: productIS)
         
@@ -1263,7 +1290,6 @@ open class ImageViewZoom: UIScrollView {
              zoomView = UIImageView(image: image)
             zoomView!.isUserInteractionEnabled = true
             addSubview(zoomView!)
-            
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ImageViewZoom.doubleTapGestureRecognizer(_:)))
             tapGesture.numberOfTapsRequired = 2
             zoomView!.addGestureRecognizer(tapGesture)
@@ -1447,4 +1473,118 @@ extension PopImageViwerViewController : NoStoreViewDelegate {
     func noDataButtonDelegateClick(_ state : actionState) -> Void{
         self.crossAction("")
     }
+}
+
+
+extension PopImageViwerViewController {
+    
+    
+    func getBoughtItems () {
+        
+        AlgoliaApi.sharedInstance.getSuggestionForRelatableProducts(self.product?.objectId ?? "", stores: self.product?.groceryId != nil ? [self.product!.groceryId] : [] , type : ModelType.BoughtTogether , completion: { [weak self](responseObject, error) in
+            
+            if let response = responseObject?["results"] {
+                if let data = response as? NSArray, data.count > 0, let final = data[0] as? NSDictionary {
+                    Thread.OnMainThread {
+                        let newProducts = Product.insertOrReplaceProductsFromDictionary(final, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        
+                        self?.lblFrequentlyBought.isHidden = (newProducts.count == 0)
+                        
+                        
+                        if newProducts.count > 0 {
+                            self?.boughtItems = newProducts
+                           // self?.topScrollView.contentSize = CGSize(width: ScreenSize.SCREEN_WIDTH, height: 1000)
+                            self?.boughtItemView.visibility = .visible
+                        }else {
+                            self?.boughtItemView.visibility = .gone
+                        }
+                        self?.boughtItemView.collectionView?.reloadDataOnMainThread()
+                    }
+                }
+            }
+        })
+    }
+    
+    
+    func getRelatedItems () {
+        
+        AlgoliaApi.sharedInstance.getSuggestionForRelatableProducts(self.product?.objectId ?? "", stores: self.product?.groceryId != nil ? [self.product!.groceryId] : [] , type : ModelType.RelatedProducts , completion: { [weak self](responseObject, error) in
+            
+            if let response = responseObject?["results"] {
+                if let data = response as? NSArray, data.count > 0, let final = data[0] as? NSDictionary {
+                    Thread.OnMainThread {
+                        let newProducts = Product.insertOrReplaceProductsFromDictionary(final, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        
+                        self?.lblReatedTogether.isHidden = (newProducts.count == 0)
+                        
+                        if newProducts.count > 0 {
+                            self?.relatedItems = newProducts
+                                // self?.topScrollView.contentSize = CGSize(width: ScreenSize.SCREEN_WIDTH, height: 1000)
+                            self?.relatedItemView.visibility = .visible
+                        }else {
+                            self?.relatedItemView.visibility = .goneY
+                        }
+                        self?.relatedItemView.collectionView?.reloadDataOnMainThread()
+                    }
+                }
+            }
+        })
+    }
+    
+    
+    
+}
+extension PopImageViwerViewController : ProductUpdationDelegate {
+  func productUpdated(_ product : Product?) {
+    DispatchQueue.main.async {
+        self.boughtItemView.reloadData()
+        self.relatedItemView.reloadData()
+//        self.refreshBasketIconStatus()
+    }
+  }
+}
+
+extension PopImageViwerViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == boughtItemView.collectionView {
+            return boughtItems.count
+        }
+        return relatedItems.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductCellIdentifier, for: indexPath) as! ProductCell
+        if collectionView == boughtItemView.collectionView {
+            let product =  boughtItems[indexPath.row]
+            productCell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
+            
+        }else {
+            let product =  relatedItems[indexPath.row]
+            productCell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
+        }
+        let grocery = ElGrocerUtility.sharedInstance.activeGrocery
+        productCell.delegate = productDelegate.setGrocery(grocery)
+       // productCell.productPriceLabel.isHidden = true
+        return productCell
+    }
+}
+extension PopImageViwerViewController: UICollectionViewDelegateFlowLayout  {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            // create a cell size from the image size, and return the size
+        let height = kProductCellHeight
+        var cellSize:CGSize = CGSize(width: kProductCellWidth, height: height)
+        return cellSize
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+       
+        return UIEdgeInsets(top: -5, left: 8 , bottom: 0 , right: 16)
+    }
+    
+    
+    
 }

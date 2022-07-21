@@ -184,7 +184,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         super.viewWillAppear(animated)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         self.navigationItem.hidesBackButton = true
-        addBackButton(isGreen: false)
+        addBackButton(isGreen: true)
        // self.setUpBottomView()
     }
     
@@ -194,6 +194,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsLocationMap)
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.Map.rawValue, screenClass: String(describing: self.classForCoder))
         self.setUpBottomView()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {return}
+            self.configureMapView()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -221,6 +225,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         guard let location = self.viewModel.selectedLocation.value else {return}
         
          FireBaseEventsLogger.trackSelectLocationEvents("Confirm")
+        self.logMixpanelConfirmClick(location)
         
         guard !isFromCart else {
             
@@ -265,6 +270,21 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             return
         }
         self.updateAddress(location)
+    }
+    
+    func logMixpanelConfirmClick (_ location : CLLocation )  {
+        
+        self.viewModel.updateAddressForLocation(location) { (result, returnLocation) in
+            var addressString = ""
+            if result {
+                if (self.viewModel.selectedAddress.value?.formattedAddress) != nil {
+                    if self.manualTextField.text?.count ?? 0 > 0 {
+                        addressString = self.viewModel.selectedAddress.value?.formattedAddress ?? "Current Location"
+                    }
+                }
+                MixpanelEventLogger.trackCreateLocationConfirmClick(addressText: addressString)
+            }
+        }
     }
     
     func updateAddress(_ location : CLLocation )  {
@@ -451,6 +471,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     }
     
     override func backButtonClick() {
+        MixpanelEventLogger.trackCreateLocationClose()
         delegate?.locationMapViewControllerDidTouchBackButton(self)
     }
     
@@ -964,12 +985,13 @@ extension LocationMapViewController: UITextFieldDelegate {
 //            if  (self.viewModel.locationName.value == localizedString("lbl_use_current_location", comment: "")  || self.viewModel.locationName.value == "") {
 //                 showLocationCustomPopUp()
 //            }
+            MixpanelEventLogger.trackCreateLocationSearchClick()
             showLocationCustomPopUp()
             return false
         }
         
         let isServiceEnabled = self.checkLocationService()
-        
+        MixpanelEventLogger.trackCreateLocationCurrentLocationClick()
        
         
         let searchController = GMSAutocompleteViewController()

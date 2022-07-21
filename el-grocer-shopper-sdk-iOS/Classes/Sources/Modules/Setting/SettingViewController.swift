@@ -40,6 +40,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     let settingsSectionCells = 1
     let informationSectionCells = 3
     var smilePointSection: Int = 1
+    let deleteAccountCell: Int = 1
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13, *) {
@@ -135,13 +136,12 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                        localizedString("payment_methods", comment: ""),
                        localizedString("password_settings", comment: ""),
                        localizedString("language_settings", comment: ""),
+                       localizedString("delete_account", comment: ""),
                        localizedString("terms_settings", comment: ""),
                        localizedString("privacy_policy", comment: ""),
                        localizedString("FAQ_settings", comment: "")]
             
-            Images =  ["liveChatSettings" , "ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" ,"paymentMethodSettings","passwordSettings","languageSettings","termsSettings","privacyPolicySettings" , "faqSettings"]
-         
-            
+            Images = ["liveChatSettings","ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" , "paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings", "faqSettings"]
          
 
         }else{
@@ -368,15 +368,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if SDKManager.isSmileSDK {
-            return 2 + smilePointSection
-            // -1 for Benifits
+            return 3
+            // -1 for Benifits (Smile points)
             // -1 for logout
             // -1 for settings language change option
         }
         
         if UserDefaults.isUserLoggedIn() {
             return 5 + smilePointSection
-        } else{
+        } else {
             return 3
         }
     }
@@ -403,7 +403,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             }else if section == 1 + smilePointSection {
                 return accountSectionCells
             }else if section == 2 + smilePointSection{
-                return settingsSectionCells
+                return settingsSectionCells + deleteAccountCell
             }
             return informationSectionCells
         }else{
@@ -463,7 +463,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
                 if indexPath.row < titles.count {
-                    let addForIndex = accountSectionCells + settingsSectionCells
+                    let addForIndex = accountSectionCells + settingsSectionCells + deleteAccountCell
                     let title = titles[(indexPath as NSIndexPath).row + addForIndex]
                     let imageName = Images[(indexPath as NSIndexPath).row + addForIndex]
                     cell.configureCellWithTitle(title, withImage: imageName)
@@ -538,7 +538,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
                 if indexPath.row < titles.count {
-                    let addForIndex = accountSectionCells + settingsSectionCells
+                    let addForIndex = accountSectionCells + settingsSectionCells + deleteAccountCell
                     let title = titles[(indexPath as NSIndexPath).row + addForIndex]
                     let imageName = Images[(indexPath as NSIndexPath).row + addForIndex]
                     cell.configureCellWithTitle(title, withImage: imageName)
@@ -727,6 +727,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 0:
                     print("Language Selection")
                     self.showLanguageSelectionVC()
+                    break
+                case 1:
+                    print("delete account selection")
+                    self.showDeleteAccountVC()
                     break
                 default:
                     break
@@ -917,6 +921,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         self.navigationController?.pushViewController(languageController, animated: true)
     }
+    fileprivate func showDeleteAccountVC() {
+        ElGrocerEventsLogger.sharedInstance.trackSettingClicked("DeleteAccount")
+        let deleteAccountVC = ElGrocerViewControllers.getAccountDeletionReasonsVC()
+        self.navigationController?.pushViewController(deleteAccountVC, animated: true)
+    }
     
     fileprivate func showOrderVC(){
         
@@ -927,6 +936,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         navigationController.hideSeparationLine()
         navigationController.viewControllers = [ordersController]
         navigationController.modalPresentationStyle = .fullScreen
+        MixpanelEventLogger.trackProfileMyOrders()
         self.navigationController?.present(navigationController, animated: true, completion: { });
  
     }

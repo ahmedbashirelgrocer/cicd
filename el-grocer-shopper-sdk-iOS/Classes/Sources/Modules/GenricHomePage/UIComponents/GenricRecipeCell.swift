@@ -178,6 +178,7 @@ extension GenricRecipeCell : UICollectionViewDelegate , UICollectionViewDataSour
             GoogleAnalyticsHelper.trackRecipeWithName(trackeventAction)
             if let recipeName = selectedRecipe.recipeName {
                 ElGrocerEventsLogger.sharedInstance.trackRecipeDetailNav(selectedRecipe.recipeChef?.chefName ?? "", recipeName: recipeName)
+                MixpanelEventLogger.trackHomeRecipesClick(recipeName: recipeName, recipeId: "\(selectedRecipe.recipeID)", chefId: "\(selectedRecipe.recipeChef?.chefID ?? -1)", chefName: selectedRecipe.recipeChef?.chefName ?? "")
             }
             
             let navRecipeDetailController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)

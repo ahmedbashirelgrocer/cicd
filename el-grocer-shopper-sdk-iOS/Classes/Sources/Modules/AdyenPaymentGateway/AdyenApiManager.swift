@@ -101,6 +101,8 @@ class AdyenApiManager {
         params["channel"] = "iOS"
         params["amount"] = amountDict
         params["reference"] = isForZeroAuth ? shopperRefernceInitial + userID : orderRefernceInitial + orderNum
+        params["shopperInteraction"] = isForZeroAuth ? "Ecommerce" : "ContAuth"
+        params["recurringProcessingModel"] = "CardOnFile"
         params["storePaymentMethod"] = true
         params["shopperReference"] = userID
         params["return_url"] = "elgrocer.com.ElGrocerShopper://"

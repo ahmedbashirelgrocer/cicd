@@ -47,6 +47,7 @@ class LocationPersonalInfoTableViewCell: UITableViewCell , AWSegmentViewProtocol
     }
     @IBOutlet var viewName: AWView!
     @IBOutlet var viewPhoneNumber: AWView!
+    var editScreenState : editLocationState?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -81,7 +82,7 @@ class LocationPersonalInfoTableViewCell: UITableViewCell , AWSegmentViewProtocol
         self.txtMobileNumber.attributedPlaceholder = NSAttributedString.init(string: self.txtMobileNumber.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
         self.txtShopperName.attributedPlaceholder = NSAttributedString.init(string: self.txtShopperName.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
         
-        
+        self.editScreenState = editScreenState
         if editScreenState == .isForSignUp {
             self.btnDone.setTitle(localizedString("btn_add_address_alert_title", comment: ""), for: .normal)
         }else if editScreenState == .isForAddNew {
@@ -143,5 +144,18 @@ extension LocationPersonalInfoTableViewCell : UITextFieldDelegate {
         
     }
     
-    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if editScreenState == .isForAddNew {
+            MixpanelEventLogger.trackAddAddressInformationEntered(
+                name: txtShopperName.text ?? "",
+                number: txtMobileNumber.text ?? "" )
+        } else if editScreenState == .isFromEdit {
+            MixpanelEventLogger.trackEditAddressInformationEntered(
+                name: txtShopperName.text ?? "",
+                number: txtMobileNumber.text ?? "" )
+        }
+        
+    }
+
 }

@@ -71,7 +71,7 @@ class ElGrocerViewControllers {
 
     class func forgotPasswordViewController() -> ForgotPasswordViewController {
         
-        let storyboard = UIStoryboard(name: "SignIn", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "SignIn", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "ForgotPasswordViewController") as! ForgotPasswordViewController
     }
     
@@ -83,7 +83,7 @@ class ElGrocerViewControllers {
     
     class func menuController() -> MenuViewController {
         
-        let storyboard = UIStoryboard(name: "Menu", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Menu", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
     }
     
@@ -91,13 +91,13 @@ class ElGrocerViewControllers {
     
     class func dashboardLocationViewController() -> DashboardLocationViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "DashboardLocationViewController") as! DashboardLocationViewController
     }
     
     class func SubCategoriesViewController( dataHandler : CateAndSubcategoryView?) -> SubCategoriesViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         let subCate = storyboard.instantiateViewController(withIdentifier: "SubCategoriesVC") as! SubCategoriesViewController
         if let handler = dataHandler {
             subCate.viewHandler = handler
@@ -107,7 +107,7 @@ class ElGrocerViewControllers {
     }
     class func SubCategoryProductListingViewController( dataHandler : CateAndSubcategoryView?) -> SubCategoryProductListingViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         let subCate = storyboard.instantiateViewController(withIdentifier: "SubCategoryProductListingViewController") as! SubCategoryProductListingViewController
 //        if let handler = dataHandler {
 //            subCate.viewHandler = handler
@@ -122,61 +122,61 @@ class ElGrocerViewControllers {
     
     class func groceriesViewController() -> GroceriesViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "GroceriesViewController") as! GroceriesViewController
     }
     
     class func mainCategoriesViewController() -> MainCategoriesViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "CategoriesVC") as! MainCategoriesViewController
     }
     
     class func groceryReviewsViewController() -> GroceryReviewsViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "GroceryReviewsViewController") as! GroceryReviewsViewController
     }
     
     class func newGroceryReviewViewController() -> NewGroceryReviewViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "NewGroceryReviewViewController") as! NewGroceryReviewViewController
     }
     
     class func editLocationViewController() -> EditLocationViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "EditLocationViewController") as! EditLocationViewController
     }
     
     class func browseViewController() -> BrowseViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "BrowseVC") as! BrowseViewController
     }
     
     class func productsViewController() -> ProductsViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "ProductsVC") as! ProductsViewController
     }
     
     class func groceryLoaderViewController() -> GroceryLoaderViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "GroceryLoaderVC") as! GroceryLoaderViewController
     }
     
     class func bannerDetailsViewController() -> BannerDetailsViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "BannerDetailsVC") as! BannerDetailsViewController
     }
     
     class func brandDetailsViewController() -> BrandDetailsViewController {
         
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "BrandDetailsViewController") as! BrandDetailsViewController
     }
     
@@ -184,30 +184,30 @@ class ElGrocerViewControllers {
     
     class func ordersViewController() -> OrdersViewController {
         
-        let storyboard = UIStoryboard(name: "Orders", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Orders", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
     }
     
     class func orderSummaryViewController() -> OrderSummaryViewController {
         
-        let storyboard = UIStoryboard(name: "Orders", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Orders", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "OrderSummaryViewController") as! OrderSummaryViewController
     }
     
     class func orderPaymentSelectionViewController() -> OrderPaymentSelectionViewController {
         
-        let storyboard = UIStoryboard(name: "Orders", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Orders", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "OrderPaymentSelectionViewController") as! OrderPaymentSelectionViewController
     }
     
     class func orderConfirmationViewController() -> OrderConfirmationViewController {
         
-        let storyboard = UIStoryboard(name: "Orders", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Orders", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "OrderConfirmationViewController") as! OrderConfirmationViewController
     }
     
     class func orderCanceledViewController(_ orderId: Int!, cancelMessage: String!) -> OrderCanceledViewController {
-        let storyboard = UIStoryboard(name: "Dashboard", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Dashboard", bundle: .resource)
         let controller = storyboard.instantiateViewController(withIdentifier: "OrderCanceledViewController") as! OrderCanceledViewController
         controller.setCanceledOrderId(orderId)
         controller.setCancelMessage(cancelMessage)
@@ -220,7 +220,7 @@ class ElGrocerViewControllers {
     
     class func myBasketViewController() -> MyBasketViewController {
         
-        let storyboard = UIStoryboard(name: "Orders", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Orders", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "MyBasketViewController") as! MyBasketViewController
     }
     
@@ -228,7 +228,7 @@ class ElGrocerViewControllers {
     
     class func favouritesViewController() -> FavouritesViewController {
         
-        let storyboard = UIStoryboard(name: "Favourites", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Favourites", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
     }
     
@@ -236,25 +236,25 @@ class ElGrocerViewControllers {
     
     class func userAccountViewController() -> UserAccountViewController {
         
-        let storyboard = UIStoryboard(name: "UserAccount", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "UserAccount", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "UserAccountViewController") as! UserAccountViewController
     }
     
     class func editProfileViewController() -> EditProfileViewController {
         
-        let storyboard = UIStoryboard(name: "UserAccount", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "UserAccount", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
     }
     
     class func contactInfoViewController() -> ContactInfoViewController {
         
-        let storyboard = UIStoryboard(name: "UserAccount", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "UserAccount", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "ContactInfoVC") as! ContactInfoViewController
     }
     
     class func deliveryInfoViewController() -> DeliveryInfoViewController {
         
-        let storyboard = UIStoryboard(name: "UserAccount", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "UserAccount", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "DeliveryInfoVC") as! DeliveryInfoViewController
     }
    
@@ -262,7 +262,7 @@ class ElGrocerViewControllers {
     
     class func aboutViewController() -> AboutViewController {
         
-        let storyboard = UIStoryboard(name: "About", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "About", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "AboutViewController") as! AboutViewController
     }
     
@@ -270,7 +270,7 @@ class ElGrocerViewControllers {
     
     class func searchViewController() -> SearchViewController {
         
-        let storyboard = UIStoryboard(name: "Common", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
     }
 
@@ -282,31 +282,31 @@ class ElGrocerViewControllers {
     
     class func requestsViewController() -> RequestsViewController {
         
-        let storyboard = UIStoryboard(name: "Common", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "RequestsViewController") as! RequestsViewController
     }
     
     class func getEmbededPaymentWebViewController() -> EmbededPaymentWebViewController {
         
-        let storyboard = UIStoryboard(name: "Common", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "EmbededPaymentWebViewController") as! EmbededPaymentWebViewController
     }
     
     class func grocerySelectionViewController() -> GrocerySelectionViewController {
         
-        let storyboard = UIStoryboard(name: "Common", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "GrocerySelectionViewController") as! GrocerySelectionViewController
     }
     
     class func noNetworkConnectionViewController() -> NoNetworkConnectionViewController {
         
-        let storyboard = UIStoryboard(name: "Common", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "NoNetworkConnectionViewController") as!  NoNetworkConnectionViewController
     }
     
     class func replacementViewController() -> ReplacementViewController {
         
-        let storyboard = UIStoryboard(name: "Common", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "ReplacementVC") as! ReplacementViewController
     }
     
@@ -372,13 +372,13 @@ class ElGrocerViewControllers {
     
     class func faqViewController() -> FAQViewController {
         
-        let storyboard = UIStoryboard(name: "About", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "About", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
     }
     
     class func questionViewController() -> QuestionViewController {
         
-        let storyboard = UIStoryboard(name: "About", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "About", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "QuestionViewController") as! QuestionViewController
     }
     
@@ -405,6 +405,19 @@ class ElGrocerViewControllers {
         let cancelVc : OrderCancelationVC =  ElGrocerViewControllers.initializeControllerFromStoryboard("SecondCheckOut", storyboardControllerId: "OrderCancelationVC")
         cancelVc.delegate = delegate
         return cancelVc
+    }
+    //MARK: Account deletion
+    class func getAccountDeletionReasonsVC() -> AccountDeletionReasonsVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("DeleteAccount", storyboardControllerId: "AccountDeletionReasonsVC")
+    }
+    class func getDeleteAccountAddNumberVC() -> DeleteAccountAddNumberVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("DeleteAccount", storyboardControllerId: "DeleteAccountAddNumberVC")
+    }
+    class func getDeleteAccountVerifyCodeVC() -> DeleteAccountVerifyCodeVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("DeleteAccount", storyboardControllerId: "DeleteAccountVerifyCodeVC")
+    }
+    class func getAccountDeletionSuccessVC() -> AccountDeletionSuccessVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("DeleteAccount", storyboardControllerId: "AccountDeletionSuccessVC")
     }
     
     // MARK: Privacy Policy
@@ -463,12 +476,12 @@ class ElGrocerViewControllers {
     // advert
     
     class func getAdvertBrandViewController() -> AdvertBrandViewController {
-        let storyboard = UIStoryboard(name: "AdvertBanners", bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "AdvertBanners", bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "AdvertBrandViewController") as! AdvertBrandViewController
     }
     
     
-    // MARK: GenericView New UI 
+    // MARK: GenericView New UI
     
     class func ElgrocerParentTabbarController() -> ElgrocerParentTabbarController {
         
@@ -506,37 +519,37 @@ class ElGrocerViewControllers {
     
     class func getUniversalSearchViewController() -> UniversalSearchViewController {
         
-        let storyboard = UIStoryboard(name: "Common" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "UniversalSearchViewController") as! UniversalSearchViewController
     }
     
     class func getBrandDeepLinksVC() -> BrandDeepLinksVC {
         
-        let storyboard = UIStoryboard(name: "Common" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "BrandDeepLinksVC") as! BrandDeepLinksVC
     }
     
     class func getGlobalSearchResultsViewController() -> GlobalSearchResultsViewController {
         
-        let storyboard = UIStoryboard(name: "Common" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "GlobalSearchResultsViewController") as! GlobalSearchResultsViewController
     }
     
     
     
     class func getGroceryFromBottomSheetViewController() -> GroceryFromBottomSheetViewController {
-        let storyboard = UIStoryboard(name: "Common" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "GroceryFromBottomSheetViewController") as! GroceryFromBottomSheetViewController
     }
     
     class func getElgrocerClickAndCollectGroceryDetailViewController() -> ElgrocerClickAndCollectGroceryDetailViewController {
-        let storyboard = UIStoryboard(name: "Common" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "Common" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "ElgrocerClickAndCollectGroceryDetailViewController") as! ElgrocerClickAndCollectGroceryDetailViewController
     }
     
     //MARK: DeepLink
     class func getDeepLinkBottomGroceryVC() -> DeepLinkBottomGroceryVC {
-        let storyboard = UIStoryboard(name: "DeepLink" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "DeepLink" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "DeepLinkBottomGroceryVC") as! DeepLinkBottomGroceryVC
     }
     
@@ -550,16 +563,16 @@ class ElGrocerViewControllers {
     //MARK: new home UI
     //hyperMarketVC
     class func getHyperMarketViewController() -> HyperMarketViewController {
-        let storyboard = UIStoryboard(name: "GenericStoreView" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "GenericStoreView" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "HyperMarketViewController") as! HyperMarketViewController
     }
     class func getSpecialtyStoresGroceryViewController() -> SpecialtyStoresGroceryViewController {
-        let storyboard = UIStoryboard(name: "GenericStoreView" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "GenericStoreView" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "SpecialtyStoresGroceryViewController") as! SpecialtyStoresGroceryViewController
     }
 
     class func getShopByCategoriesViewController() -> ShopByCategoriesViewController {
-        let storyboard = UIStoryboard(name: "GenericStoreView" , bundle: Bundle.resource)
+        let storyboard = UIStoryboard(name: "GenericStoreView" , bundle: .resource)
         return storyboard.instantiateViewController(withIdentifier: "ShopByCategoriesViewController") as! ShopByCategoriesViewController
     }
 
@@ -567,6 +580,12 @@ class ElGrocerViewControllers {
     
     class func getDeskListVc() -> SendBirdListViewController {
         return ElGrocerViewControllers.initializeControllerFromStoryboard("SendBird", storyboardControllerId: "SendBirdListViewController")
+    }
+    
+    //MARK: promo code
+    class func getApplyPromoVC() -> ApplyPromoVC {
+        let storyboard = UIStoryboard(name: "WalletAndVouchers" , bundle: .resource)
+        return storyboard.instantiateViewController(withIdentifier: "ApplyPromoVC") as! ApplyPromoVC
     }
 
     // MARK: SmilePointsViewController

@@ -69,7 +69,7 @@ extension StorylyAds : StorylyDelegate {
         storylyView.dismiss(animated: true) {
             
         
-            
+            MixpanelEventLogger.trackDealsOffersButton(dealId: "\(story.id)")
             if let actionUrlString = story.media.actionUrl, let url = URL(string: actionUrlString) {
                 
                 if let clouser = self.actionClicked {clouser(actionUrlString)}

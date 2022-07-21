@@ -475,7 +475,7 @@ class EntryViewController: UIViewController {
 //        navController.viewControllers = [registrationProfileController]
 //        self.present(navController, animated: true, completion: nil)
 //
-        
+        MixpanelEventLogger.trackWelcomeSigninInClicked()
         let signInController = ElGrocerViewControllers.signInViewController()
         signInController.dismissMode = .dismissModal
         signInController.isCommingFrom = .entry
@@ -490,6 +490,7 @@ class EntryViewController: UIViewController {
     
     @IBAction func loginAction(_ sender: UIButton) {
         
+        MixpanelEventLogger.trackWelcomeDetectLocationClick()
         self.showLocationCustomPopUp();
       //  ElGrocerEventsLogger.sharedInstance.trackDetectMyLocationClicked()
         // FireBaseEventsLogger.trackDetectMyLocationClicked()

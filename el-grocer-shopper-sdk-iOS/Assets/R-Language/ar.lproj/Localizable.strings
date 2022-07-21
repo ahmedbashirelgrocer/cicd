@@ -1948,8 +1948,8 @@
 "txt_available_points" = "متوفر: ";
 "smile_point_unit" = "نقاط";
 "smile_point_required" = "سيتم استبدال نقاط بسمات بدفع فاتورة الطلب";
-"not_enough_smile_point_initial" = "لا توجد نقاط بسمات كافية! تحتاج على الأقل";
-"not_enough_smile_point_end" = "نقاط بسمات لدفع فاتورة هذا الطلب بالكامل.";
+"not_enough_smile_point_initial" = "لا توجد نقاط Smiles كافية! أنت بحاجة إلى";
+"not_enough_smile_point_end" =  "نقطة Smiles إضافية لدفع هذا الطلب بالكامل";
 "txt_earn" = "اكسب";
 "txt_benifits" = "الفوائد";
 "Your_balance" = "رصيدك";
@@ -1974,4 +1974,18 @@
 "txt_add_to_use_end" = "للاستخدام";
 "txt_btn_applied" = "مطبق";
 "txt_no_promo_found" = "سيتم عرض قسائمك النشطة هنا.";
-
+"txt_remove" = "احذف";
+"txt_enjoy_promo" = "استمتع بالخصم الخاص بك!";
+//MARK: Account deletion
+"lbl_warning_acount_deletion" = "سيتم إلغاء جميع طلباتك النشطة بسبب حذف الحساب!";
+"delete_account_placeholder_instructions" = "اكتب لتترك لنا ملاحظة";
+"lbl_confirm_mobile_num" = "تأكيد رقم الهاتفك المحمول";
+"lbl_please_enter_mobile" = "الرجاء إدخال رقم هاتفك المحمول لتأكيد حذف الحساب.";
+"btn_continue_delete_account_add_num" = "المتابعة";
+"lbl_enter_otp" = "رمز التحقق OTP";
+"lbl_please_enter_otp" = "الرجاء إدخال رمز التحقق المرسل إلى رقم هاتفك المحمول ";
+"resend_code" = "أعد إرسال الرسالة";
+"resend_code_in_time" = " إعادة إرسال الرمز بعد";
+"we_are_sorry_to_see_you_go_title" = "نأسف على مغادرتك ، وسيتم حذف حسابك في غضون ٤٨ ساعة.";
+"we_are_sorry_to_see_you_go_descr" = "ستتم إعادة توجيهك إلى صفحة تسجيل الدخول";
+"we_are_sorry_to_see_you_go_btn_title" = "المتابعة";

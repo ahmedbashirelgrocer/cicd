@@ -9,7 +9,6 @@
 import UIKit
 import NBBottomSheet
 import Storyly
-//import BBBadgeBarButtonItem
 
 
 class RecipeDetailVC: BasketBasicViewController {
@@ -176,7 +175,7 @@ class RecipeDetailVC: BasketBasicViewController {
         if ElGrocerUtility.sharedInstance.activeGrocery != nil {
             addBasketIconOverlay(self, grocery: ElGrocerUtility.sharedInstance.activeGrocery, shouldShowGroceryActiveBasket:  ElGrocerUtility.sharedInstance.activeGrocery != nil)
             self.basketIconOverlay?.grocery = ElGrocerUtility.sharedInstance.activeGrocery
-            self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
+//            self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.refreshBasketIconStatus()
         }else{
             let barButton = self.tabBarController?.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
@@ -606,7 +605,7 @@ class RecipeDetailVC: BasketBasicViewController {
     func getProductListFromIngrediats(ingrediant : [RecipeIngredients]? , completion :  ([Product]) -> Void) {
         
         var isCurrentSelected = false
-        let groceryA =  self.getRetailersListForIngreadients(self.grocery) 
+        let groceryA =  self.getRetailersListForIngreadients(self.grocery)
         if groceryA.count > 0 {
             let currentGrocey = self.grocery
             let selectGrocey = groceryA[0]
@@ -1105,7 +1104,7 @@ extension RecipeDetailVC: PresenterToViewRecipeProtocol{
     }
     func setProductNumber(){
         
-        self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
+//        self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
         self.basketIconOverlay?.grocery = self.grocery
     }
     
