@@ -14,13 +14,13 @@ struct SDKLoginManager {
     
     typealias CompletionHandler = (_ isSuccess: Bool, _ errorMessage: String) -> Void
     
+
     func loginFlowForSDK(_ completionHandler:@escaping CompletionHandler) {
         // if from SDK
         
         
+        self.setLanguageWithLunchOptions()
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        debugPrint(userProfile?.phone)
-        debugPrint(launchOptions.accountNumber)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         guard userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0  else {
             ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile!)
@@ -113,6 +113,7 @@ struct SDKLoginManager {
     private func createNewDefaultAddressForNewUser(for userProfile: UserProfile, completion: @escaping CompletionHandler ) {
         
         let newDeliveryAddress: DeliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        //newDeliveryAddress.addressType = "1"
         newDeliveryAddress.locationName = ""
         newDeliveryAddress.apartment = ""
         newDeliveryAddress.building = ""
@@ -122,6 +123,7 @@ struct SDKLoginManager {
         newDeliveryAddress.latitude = launchOptions.latitude ?? 0
         newDeliveryAddress.longitude = launchOptions.longitude ?? 0
         newDeliveryAddress.isActive = NSNumber(value: true)
+        newDeliveryAddress.addressType = "1"
         
         self.addAddressFromDeliveryAddress(newDeliveryAddress, forUser: userProfile) { isSuccess, errorMessage in
             if isSuccess {
@@ -175,4 +177,22 @@ extension SDKLoginManager {
         }
         SDKManager.shared.showAppWithMenu()
     }
+}
+
+// MARK:- Helpers
+
+extension SDKLoginManager {
+    
+    
+    private func setLanguageWithLunchOptions() {
+        
+        if SDKManager.shared.launchOptions?.isSmileSDK == true && (SDKManager.shared.launchOptions?.language?.count ?? 0) > 0 {
+            if let smileLanguage = SDKManager.shared.launchOptions?.language {
+                UserDefaults.setCurrentLanguage(smileLanguage)
+            }
+        }
+        
+    }
+    
+    
 }

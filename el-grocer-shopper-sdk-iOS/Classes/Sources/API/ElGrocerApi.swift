@@ -815,7 +815,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   addressParameters["latitude"] = address.latitude as AnyObject
   addressParameters["longitude"] = address.longitude as AnyObject
   addressParameters["default_address"] = address.isActive.boolValue as AnyObject
-  addressParameters["address_type_id"] = address.addressType as AnyObject
+      if !address.addressType.isEmptyStr {
+          addressParameters["address_type_id"] = address.addressType as AnyObject
+      }
+      
     
 
   if address.street != nil {

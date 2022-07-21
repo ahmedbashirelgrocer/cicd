@@ -12,7 +12,7 @@ class LanguageManager: NSObject {
     
     
     var availableLocales = [CustomLocale]()
-    static let sharedInstance = LanguageManager()
+    public static let sharedInstance = LanguageManager()
     var lprojBasePath = String()
     
     override init() {
@@ -82,7 +82,7 @@ class LanguageManager: NSObject {
         return Bundle.resource
     }
     
-    func setLocale(_ langCode:String){
+    public func setLocale(_ langCode:String){
         
        /* UserDefaults.standard.set([langCode], forKey: "AppleLanguages")//replaces Locale.preferredLanguages
         UserDefaults.standard.synchronize()*/
@@ -102,35 +102,44 @@ class LanguageManager: NSObject {
     }
     
     
-    func languageButtonAction(selectedLanguage : String , SDKManagers : SDKManager , updateRootViewController : Bool = false) {
+    func languageButtonAction(selectedLanguage : String , SDKManagers : SDKManager? = nil , updateRootViewController : Bool = false) {
         
         updateUserLanguage(selectedLanguage)
         Bundle.setLanguage(selectedLanguage)
         
-        
-        if selectedLanguage == "ar" {
-            UISearchBar.appearance().semanticContentAttribute = .forceRightToLeft
-            UINavigationBar.appearance().semanticContentAttribute = .forceRightToLeft
-            SDKManagers.window?.semanticContentAttribute    = .forceRightToLeft
-            UIView.appearance().semanticContentAttribute = .forceRightToLeft
-            UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
-            LanguageManager.sharedInstance.setLocale("ar")
-
-        }else{
-            Thread.OnMainThread {
-                UISearchBar.appearance().semanticContentAttribute = .forceLeftToRight
-                UINavigationBar.appearance().semanticContentAttribute = .forceLeftToRight
-                SDKManagers.window?.semanticContentAttribute    = .forceLeftToRight
-                UIView.appearance().semanticContentAttribute = .forceLeftToRight
-                UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
-                LanguageManager.sharedInstance.setLocale("Base")
+        if SDKManager.isSmileSDK {
+            if selectedLanguage == "ar" {
+                LanguageManager.sharedInstance.setLocale("ar")
+            }else{
+                Thread.OnMainThread {
+                    LanguageManager.sharedInstance.setLocale("Base")
+                }
             }
-            
+        } else {
+            if selectedLanguage == "ar" {
+                UISearchBar.appearance().semanticContentAttribute = .forceRightToLeft
+                UINavigationBar.appearance().semanticContentAttribute = .forceRightToLeft
+                SDKManagers?.rootViewController?.view?.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+                UIView.appearance().semanticContentAttribute = .forceRightToLeft
+                UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
+                LanguageManager.sharedInstance.setLocale("ar")
+
+            }else{
+                Thread.OnMainThread {
+                    UISearchBar.appearance().semanticContentAttribute = .forceLeftToRight
+                    UINavigationBar.appearance().semanticContentAttribute = .forceLeftToRight
+                    SDKManagers?.rootViewController?.view?.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+                    UIView.appearance().semanticContentAttribute = .forceLeftToRight
+                    UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
+                    LanguageManager.sharedInstance.setLocale("Base")
+                }
+                
+            }
         }
         
         if updateRootViewController {
             
-            SDKManagers.showAnimatedSplashView()
+            SDKManagers?.showAnimatedSplashView()
            // SDKManagers.showAppWithMenu()
         }
        

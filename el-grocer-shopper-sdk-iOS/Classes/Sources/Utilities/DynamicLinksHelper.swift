@@ -441,14 +441,19 @@ class DynamicLinksHelper {
     }
     
     func loadGroceryAlreadySelected() {
-                    if let topvc = UIApplication.topViewController() {
-                        if topvc is MainCategoriesViewController {
-                            topvc.viewDidAppear(true)
-                        }else{
-                            topvc.tabBarController?.selectedIndex = 1
-                        }
-                        
-                    }
+        
+        guard ((SDKManager.shared.launchOptions?.isSmileSDK) ?? false) else {
+            if let topvc = UIApplication.topViewController() {
+                if topvc is MainCategoriesViewController {
+                    topvc.viewDidAppear(true)
+                }else{
+                    topvc.tabBarController?.selectedIndex = 1
+                }
+                
+            }
+            return
+        }
+        SDKManager.shared.showEntryView()
     }
     
     

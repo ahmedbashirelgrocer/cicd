@@ -1061,8 +1061,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     func goToHomeScreen() {
         
         ElGrocerUtility.sharedInstance.tabBarSelectedIndex = 1
-        let appDelegate = SDKManager.shared
-        if let nav = appDelegate.rootViewController as? UINavigationController {
+        let SDKManager = SDKManager.shared
+        if let nav = SDKManager.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -2921,11 +2921,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             UserDefaults.resetEditOrder()
             self.finalRemoveCall();
             if self.isNeedToHideBackButton {
-                if let appDelegate = SDKManager.shared as? SDKManager{
-                    appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
-                    (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-                }
-                if let tab = ((SDKManager.shared.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+                // if let SDKManager = SDKManager.shared {
+                SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
+                (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+                // }
+                if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                     tab.selectedIndex = 1
                 }

@@ -105,8 +105,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 guard let self = self else {return}
                 debugPrint(self)
                 
-                let appDelegate = SDKManager.shared
-                if let nav = appDelegate.rootViewController as? UINavigationController {
+                let SDKManager = SDKManager.shared
+                if let nav = SDKManager.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
                             let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -250,6 +250,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if SDKManager.isSmileSDK {
+            return 40
+        }
+        
         if UserDefaults.isUserLoggedIn() {
             if section > 0 && section != 4 + smilePointSection{
                 return 40
@@ -266,6 +270,16 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if SDKManager.isSmileSDK {
+            if section == 1 {
+                return  localizedString("cell_Title_Account", comment: "")
+            }else if section == 2 {
+                return localizedString("Information_heading", comment: "")
+            } else {
+                return ""
+            }
+        }
         
         //Setting screen new text
         if UserDefaults.isUserLoggedIn() {
@@ -326,6 +340,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
+        if SDKManager.isSmileSDK {
+            if indexPath.section == 0 {
+                return kUserInfoCellHeight
+            }
+            return kSettingCellHeight
+        }
+        
         if UserDefaults.isUserLoggedIn() {
             if indexPath.section == 0 {
                 return kUserInfoCellHeight
@@ -348,14 +369,32 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        if SDKManager.isSmileSDK {
+            return 2 + smilePointSection
+            // -1 for Benifits
+            // -1 for logout
+            // -1 for settings language change option
+        }
+        
         if UserDefaults.isUserLoggedIn() {
             return 5 + smilePointSection
-        }else{
+        } else {
             return 3
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if SDKManager.isSmileSDK {
+            if section == 0 {
+                return 1
+            } else if section == 1 {
+                return accountSectionCells - 2
+                // -1 for recipes
+                // -1 for change password
+            }
+            return informationSectionCells
+        }
         
         if UserDefaults.isUserLoggedIn() {
             if section == 1 && smilePointSection == 1 {
@@ -382,6 +421,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
+        if SDKManager.isSmileSDK {
+            return
+        }
+        
         if UserDefaults.isUserLoggedIn() {
             if indexPath.section == 1 && smilePointSection == 1 {
                 if UserDefaults.getIsSmileUser() {
@@ -394,6 +437,44 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if SDKManager.isSmileSDK {
+            if indexPath.section == 0 {
+                let cell:UserInfoCell = tableView.dequeueReusableCell(withIdentifier: kUserInfoCellIdentifier, for: indexPath) as! UserInfoCell
+                let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                cell.configureCellWithTitle(userProfile?.name ?? "", withPhoneNumber:userProfile?.phone ?? "" , andWithEmail: userProfile?.email ?? "")
+                cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                cell.btnEditProfile.addTarget(self, action: #selector(self.editPressed(sender:)), for: .touchUpInside)
+                return cell
+            } else  if indexPath.section == 1  {
+
+                let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
+                
+                let row = indexPath.row >= 2 ? (indexPath.row + 1) : indexPath.row // Skip recipie cell
+                
+                if  row < titles.count {
+                    let title = titles[row]
+                    let imageName = Images[row]
+                    cell.configureCellWithTitle(title, withImage: imageName)
+                }
+                
+                cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                
+                return cell
+            } else {
+                
+                let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
+                if indexPath.row < titles.count {
+                    let addForIndex = accountSectionCells + settingsSectionCells
+                    let title = titles[(indexPath as NSIndexPath).row + addForIndex]
+                    let imageName = Images[(indexPath as NSIndexPath).row + addForIndex]
+                    cell.configureCellWithTitle(title, withImage: imageName)
+                }
+                cell.selectionStyle = UITableViewCell.SelectionStyle.none
+                
+                return cell
+            }
+        }
         
         
         if UserDefaults.isUserLoggedIn() {
@@ -516,8 +597,33 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if SDKManager.isSmileSDK {
+        
+            switch indexPath.section {
+            case 1:
+                switch (indexPath as NSIndexPath).row {
+                case 0: self.showLiveChat()
+                case 1: self.showOrderVC()
+                //case 2: self.goToSavedRecipesVC()
+                case 2: self.goToSavedCarsVC()
+                case 3: self.locationHeader.changeLocation()
+                case 4: self.goToSavedCardsVC()
+                default: break
+                }
+            case 2:
+                switch (indexPath as NSIndexPath).row {
+                case 0: self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
+                case 1: self.navigateToPrivacyPolicyViewControllerWithTermsEnable()
+                case 2: self.showFAQs()
+                default: break
+                }
+            default: return
+            }
+            
+            return
+        }
        
         if UserDefaults.isUserLoggedIn() {
 

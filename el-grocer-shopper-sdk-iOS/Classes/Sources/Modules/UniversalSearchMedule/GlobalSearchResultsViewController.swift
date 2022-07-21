@@ -12,7 +12,14 @@ var minCellHeight =  CGFloat.leastNormalMagnitude + 0.01
 class GlobalSearchResultsViewController: UIViewController {
     
    
-    var dataSource : GlobalSearchResultDataSource = GlobalSearchResultDataSource()
+    var dataSource : GlobalSearchResultDataSource = GlobalSearchResultDataSource() {
+        didSet {
+            if SDKManager.isSmileSDK {
+                self.dataSource.recipeList = nil
+                // removed in case of smiles SDK
+            }
+        }
+    }
     var presentingVC : UIViewController?
     var keyWord : String = ""
     var filterData  : Dictionary<String, Array<Product>> = [:]

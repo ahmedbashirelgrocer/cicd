@@ -363,8 +363,8 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
     func resetRecipeView () {
         
         let SDKManager = SDKManager.shared
-        if SDKManager.window!.rootViewController as? UITabBarController != nil {
-            if let tababarController = SDKManager.window!.rootViewController as? UITabBarController {
+        if SDKManager.rootViewController as? UITabBarController != nil {
+            if let tababarController = SDKManager.rootViewController as? UITabBarController {
                 let main : ElGrocerNavigationController =  tababarController.viewControllers![3] as! ElGrocerNavigationController
                 if let  controller = main.viewControllers[0] as? RecipesListViewController {
                     controller.navigationController?.popToRootViewController(animated: true)

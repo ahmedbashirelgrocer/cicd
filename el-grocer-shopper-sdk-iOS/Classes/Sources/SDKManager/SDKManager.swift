@@ -28,6 +28,10 @@ import Adyen
 // import FirebaseAuth
 // import FirebaseMessaging
 
+extension SDKManager {
+    static var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
+}
+
 class SDKManager: NSObject  {
     
     var sdkStartTime : Date?
@@ -394,17 +398,11 @@ class SDKManager: NSObject  {
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
+         LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions?.language ?? "en", SDKManagers: self)
         if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
-//          if let navigationController = rootContext?.navigationController {
-//          navigationController.setNavigationBarHidden(true, animated: true)
-//          // entryController.hidesBottomBarWhenPushed = true
-//          navigationController.pushViewController(entryController, animated: true)
-//          rootViewController = navigationController
-//          } else {
             navEntryController.modalPresentationStyle = .fullScreen
             topVC.present(navEntryController, animated: true) {  }
             rootViewController = navEntryController
-//          }
             return
         }
         self.replaceRootControllerWith(navEntryController)
@@ -715,8 +713,6 @@ class SDKManager: NSObject  {
     }
     
     func setupLanguage() {
-        
-       // let phoneLanguage = (Locale.current as NSLocale).object(forKey: NSLocale.Key.languageCode) as? String
         
         var phoneLanguage = UserDefaults.getCurrentLanguage()
         

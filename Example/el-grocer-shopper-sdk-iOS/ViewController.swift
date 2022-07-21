@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         return picker
     }()
     
-    fileprivate lazy var pickerData: [String] = { ["English", "Arabic"] }()
+    fileprivate lazy var pickerData: [String] = { ["Base", "ar"] }()
     
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -65,12 +65,22 @@ class ViewController: UIViewController {
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = ""
         txtEmail.text = ""
-        txtPushPayload.text = ""
-        txtDLPayload.text = ""
-        txtLanguage.text = "English"
+        txtPushPayload.text = "{\"push_type\":106,\"message\":\"orderinsubstitution\",\"origin\":\"el-grocer-api\",\"message_type\":1}"
+        txtDLPayload.text = "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
+        txtLanguage.text = "Base"
     }
     
     @objc func startSDK() {
+        
+        var pushData : [String: AnyHashable] = [:]
+        if let data = txtPushPayload.text?.data(using: .utf8) {
+            do {
+                pushData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyHashable] ?? [:]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
         let launchOptions = LaunchOptions(
             accountNumber: txtAccountNumber.text,
             latitude: ((txtLat.text ?? "0") as NSString).doubleValue,
@@ -78,11 +88,10 @@ class ViewController: UIViewController {
             address: txtAddress.text,
             loyaltyID: txtLoyalityID.text,
             email: txtEmail.text,
-            pushNotificationPayload: ["data" : txtPushPayload.text],
-            deepLinkPayload: txtDLPayload.text,
+            pushNotificationPayload: pushData,
+            deepLinkPayload:  txtDLPayload.text,
             language: txtLanguage.text, isSmileSDK: true
         )
-        
         ElGrocer.startEngine(with: launchOptions)
     }
     
@@ -115,6 +124,31 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 extension ViewController: UITextFieldDelegate {
     @objc func textFieldDidEndEditing() {
         txtLanguage.text = pickerData[languagePicker.selectedRow(inComponent: 0)]
+        
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if txtLanguage.text == "ar" {
+            UISearchBar.appearance().semanticContentAttribute = .forceRightToLeft
+            UINavigationBar.appearance().semanticContentAttribute = .forceRightToLeft
+            appDelegate.window?.semanticContentAttribute    = .forceRightToLeft
+            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+            UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
+            UserDefaults.setCurrentLanguage("ar")
+           // LanguageManager.sharedInstance.setLocale("ar")
+
+        }else{
+
+            DispatchQueue.main.async {
+                UISearchBar.appearance().semanticContentAttribute = .forceLeftToRight
+                UINavigationBar.appearance().semanticContentAttribute = .forceLeftToRight
+                appDelegate.window?.semanticContentAttribute    = .forceLeftToRight
+                UIView.appearance().semanticContentAttribute = .forceLeftToRight
+                UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
+               // LanguageManager.sharedInstance.setLocale("Base")
+                  UserDefaults.setCurrentLanguage("Base")
+            }
+
+        }
     }
 }
 

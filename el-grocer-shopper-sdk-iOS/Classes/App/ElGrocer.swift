@@ -10,14 +10,69 @@ import Foundation
 
 import UIKit
 
+
 public final class ElGrocer {
     // elgrocer
+
+    static var isSDKLoaded = false
+    
     public static func startEngine(with launchOptions: LaunchOptions? = nil) {
+        defer {
+            ElGrocer.isSDKLoaded = true
+        }
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            
+            if let launchOptions = launchOptions {
+                let manager = SDKLoginManager(launchOptions: launchOptions)
+                manager.setHomeView()
+            }
+            if let _ = launchOptions?.pushNotificationPayload {
+                ElGrocerNotification.handlePushNotification(launchOptions)
+            }else if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+                ElGrocerDynamicLink.handleDeepLink(url)
+                return
+            }
+            
+            return
+            
+        }
+        
         SDKManager.shared.start(with: launchOptions)
+        
+        if let _ = launchOptions?.pushNotificationPayload {
+            ElGrocerNotification.handlePushNotification(launchOptions)
+        } else if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+            ElGrocerDynamicLink.handleDeepLink(url)
+        }
+       
     }
+    public static func startEngine(with launchOptions: LaunchOptions? = nil, _ deepLink : URL?) {
+        
+        defer {
+            ElGrocer.isSDKLoaded = true
+        }
+        
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            
+            if let launchOptions = launchOptions {
+                let manager = SDKLoginManager(launchOptions: launchOptions)
+                manager.setHomeView()
+            }
+            
+            if let url = deepLink {
+                ElGrocerDynamicLink.handleDeepLink(url)
+            }
+            return
+        }
+        SDKManager.shared.start(with: launchOptions)
+        if let url = deepLink {
+            ElGrocerDynamicLink.handleDeepLink(url)
+        }
+    }
+  
 }
 
-public struct LaunchOptions {
+public struct LaunchOptions  {
     var accountNumber: String?
     var latitude: Double?
     var longitude: Double?

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class UserDefaults {
+public class UserDefaults {
     
     // MARK: Login state
     
@@ -288,7 +288,7 @@ class UserDefaults {
     class func getCurrentLanguage() -> String? {
         return Foundation.UserDefaults.standard.string(forKey: "CurrentLanguage")
     }
-    class func setCurrentLanguage(_ currentLang:String?) {
+    public class func setCurrentLanguage(_ currentLang:String?) {
         Foundation.UserDefaults.standard.setValue(currentLang, forKey: "CurrentLanguage")
         Foundation.UserDefaults.standard.synchronize()
     }

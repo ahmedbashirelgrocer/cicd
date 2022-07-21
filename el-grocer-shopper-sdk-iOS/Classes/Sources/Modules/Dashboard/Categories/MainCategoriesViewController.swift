@@ -1058,8 +1058,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     @objc func naviagteToRecipe(){
         
         let SDKManager = SDKManager.shared
-        if SDKManager.window!.rootViewController as? UITabBarController != nil {
-            let tababarController = SDKManager.window!.rootViewController as! UITabBarController
+        if SDKManager.rootViewController as? UITabBarController != nil {
+            let tababarController = SDKManager.rootViewController as! UITabBarController
             tababarController.selectedIndex = 0
         }
         
@@ -1125,7 +1125,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                                 topVC.present(navRecipeDetailController, animated: true, completion: {
                                     
                                     let SDKManager = SDKManager.shared
-                                    if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+                                    if let nav = SDKManager.rootViewController as? UINavigationController {
                                         if nav.viewControllers.count > 0 {
                                             if  nav.viewControllers[0] as? UITabBarController != nil {
                                                 let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1579,7 +1579,7 @@ extension MainCategoriesViewController {
                     debugPrint("already present")
                 }else{
                     let SDKManager = SDKManager.shared
-                    SDKManager.window?.rootViewController?.present(failureCase, animated: true) {
+                    SDKManager.rootViewController?.present(failureCase, animated: true) {
                         //failureCase.lblErrorMsg.text = localizedString("error_wrong", comment: "")
                     }
                 }

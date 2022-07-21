@@ -453,7 +453,10 @@ class GenericStoresViewController: BasketBasicViewController {
                 }
             }
         }
-        DispatchQueue.global(qos: .utility).async(execute: cAndcItem!)
+        
+        if SDKManager.isSmileSDK {
+            DispatchQueue.global(qos: .utility).async(execute: cAndcItem!)
+        }
         
     }
     func setUpInitailizers() {
@@ -1286,7 +1289,11 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
         }
         
         if section == 0 {
-            return 1
+            if SDKManager.isSmileSDK { // remove smiles optoin
+                return 0
+            } else {
+                return 1
+            }
         }
         
         return 10
