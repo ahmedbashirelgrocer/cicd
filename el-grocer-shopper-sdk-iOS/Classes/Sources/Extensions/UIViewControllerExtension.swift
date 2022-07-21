@@ -42,7 +42,7 @@ func localizedString(_ named: String,
                      bundle: Bundle = .resource,
                      value: String = "",
                      comment: String) -> String {
-    return localizedString(named,
+    return NSLocalizedString(named,
                              tableName: tableName,
                              bundle: bundle,
                              value: value,
