@@ -33,6 +33,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var lastSelectType : StoreType? = nil
     var controllerTitle: String = ""
     var selectStoreType : StoreType? = nil
+    var separatorCount = 2
     
     @IBOutlet var tableView: UITableView!
     
@@ -41,6 +42,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.registerCellsAndSetDelegates()
+        self.setSegmentView()
         
     }
     
@@ -52,7 +54,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.appTabBarCustomization()
         self.showDataLoaderIfRequiredForHomeHandler()
         self.checkIFDataNotLoadedAndCall()
-        self.setSegmentView()
+       
         
         
     }
@@ -417,16 +419,28 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 2
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0 {
-            return 1
+        
+        switch section {
+                
+            case 0:
+                return 1
+            case 1:
+                return self.filteredGroceryArray.count > separatorCount ? 3 : self.filteredGroceryArray.count
+            case 2:
+                return 1
+            case 3:
+                return self.filteredGroceryArray.count > separatorCount ? self.filteredGroceryArray.count - separatorCount : 0
+            default:
+                return 0
+                
+                
         }
         
-        return self.filteredGroceryArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -440,27 +454,45 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             if let banners = self.homeDataHandler.locationOneBanners {
                 cell.configured(banners)
             }
-            
-                //            cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
-                //                guard let self = self  else {   return   }
-                //                Thread.OnMainThread {
-                //                    self.dismiss(animated: true) {
-                //                        if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
-                //                            ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
-                //                        }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
-                //                            banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
-                //                        }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
-                //                            banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
-                //                        }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
-                //                            banner.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
-                //                        }
-                //                    }
-                //                }
-                //            }
+            self.bannerClicked(cell)
             return cell
+        } else if indexPath.section == 2 {
+            
+            let cell : GenericBannersCell = self.tableView.dequeueReusableCell(withIdentifier: "GenericBannersCell", for: indexPath) as! GenericBannersCell
+            cell.contentView.backgroundColor = .clear
+            cell.bgView.backgroundColor = .clear
+            cell.bannerList.backgroundColor = .clear
+            cell.bannerList.collectionView?.backgroundColor = .clear
+            if let banners = self.homeDataHandler.locationTwoBanners {
+                cell.configured(banners)
+            }
+            self.bannerClicked(cell)
+            
+            return cell
+            
+        } else if indexPath.section == 1 {
+           
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
+            if self.filteredGroceryArray.count > 0 {
+                cell.configureCell(grocery: self.filteredGroceryArray[indexPath.row])
+            }
+            return cell
+            
+        } else if indexPath.section == 3 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
+            var indexPathRow = indexPath.row
+            
+            if self.filteredGroceryArray.count > separatorCount {
+                indexPathRow = indexPathRow + separatorCount
+            }
+            
+            cell.configureCell(grocery: self.filteredGroceryArray[indexPathRow])
+            return cell
+            
         }
         
-        
+       
         let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
         if self.filteredGroceryArray.count > 0 {
             cell.configureCell(grocery: self.filteredGroceryArray[indexPath.row])
@@ -476,9 +508,34 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+        } else if indexPath.section == 2 {
+            return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.filteredGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+            
         }
         
+        
+       
+        
         return UITableView.automaticDimension
+    }
+    
+    
+    private func bannerClicked(_ cell : GenericBannersCell) {
+        
+        cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
+            guard let self = self  else {   return   }
+            Thread.OnMainThread {
+                if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
+                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
+                }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
+                    banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
+                    banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
+                    banner.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+                }
+            }
+        }
     }
 }
 extension SmileSdkHomeVC: UIScrollViewDelegate {
