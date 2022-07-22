@@ -300,7 +300,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
    
         //hide tabbar
-        self.hidetabbar()
+        self.hideTabBar()
         self.navigationItem.hidesBackButton = true
         self.basketIconOverlay?.shouldShow = false
     }
@@ -343,7 +343,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         let _ = self.getFinalAmount()
         
         //hide tabbar
-        self.hidetabbar()
+        self.hideTabBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

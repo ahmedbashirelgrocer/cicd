@@ -264,7 +264,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        self.hidetabbar()
+        self.hideTabBar()
         
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)

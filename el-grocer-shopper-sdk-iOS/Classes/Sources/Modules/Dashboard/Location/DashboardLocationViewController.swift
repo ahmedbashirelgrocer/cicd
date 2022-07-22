@@ -1253,24 +1253,27 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }
         
         self.dismiss(animated: true) {
-            if UIApplication.topViewController() is GenericStoresViewController {
-//                ElGrocerUtility.sharedInstance.delay(0.5) {
-//                     NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
-//                }
-            }else if UIApplication.topViewController() is MainCategoriesViewController{
+            
+            if SDKManager.isSmileSDK {
+                
+            } else if UIApplication.topViewController() is GenericStoresViewController {
+
+            } else if UIApplication.topViewController() is MainCategoriesViewController {
+                
                 UIApplication.topViewController()?.tabBarController?.selectedIndex = 0;
                 ElGrocerUtility.sharedInstance.delay(0.2){
                     if UIApplication.topViewController() is MainCategoriesViewController{
                         let mainca = UIApplication.topViewController()
                             mainca?.viewWillAppear(true)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
-                    }else{
+                    } else {
                         (SDKManager.shared).showAppWithMenu()
                     }
                     
                 }
                 
-            } else{
+            } else {
+                
                 (SDKManager.shared).showAppWithMenu()
             }
         }

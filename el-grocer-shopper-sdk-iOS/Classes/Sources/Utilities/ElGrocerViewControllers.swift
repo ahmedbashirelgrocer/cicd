@@ -600,4 +600,20 @@ class ElGrocerViewControllers {
 }
 
 
+// MARK:- SmileVC
+extension ElGrocerViewControllers {
+    
+    
+    class func getSmileHomeVC(_ homeHandler : HomePageData? = nil) -> SmileSdkHomeVC {
+        
+        let smileHomeVc : SmileSdkHomeVC = ElGrocerViewControllers.initializeControllerFromStoryboard("Smile", storyboardControllerId: "SmileSdkHomeVC")
+        if let handlerAvailable = homeHandler {
+            smileHomeVc.homeDataHandler = handlerAvailable
+        }
+        return smileHomeVc
+    }
+    
+    
+}
+
 

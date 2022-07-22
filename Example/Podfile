@@ -7,7 +7,6 @@ target 'el-grocer-shopper-sdk-iOS_Example' do
   pod 'IQKeyboardManagerSwift'
   
   
-
   target 'el-grocer-shopper-sdk-iOS_Tests' do
     inherit! :search_paths
 

@@ -310,7 +310,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                     self.navigationController?.pushViewController(controller, animated: true)
                     //self.presentingViewController?.tabBarController?.tabBar.isHidden = false
                     //hide tabbar
-                    self.hidetabbar()
+                    self.hideTabBar()
 
                 }
                 
@@ -368,7 +368,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                     self.navigationController?.pushViewController(controller, animated: true)
                     //self.presentingViewController?.tabBarController?.tabBar.isHidden = false
                     //hide tabbar
-                    self.hidetabbar()
+                    self.hideTabBar()
                 }
             }else if self.searchFor == .isForStoreSearch {
                 

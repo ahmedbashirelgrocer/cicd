@@ -159,7 +159,7 @@ class RecipeDetailVC: BasketBasicViewController {
         presenter.viewDidAppear(view: self)
         // self.tabBarController?.tabBar.isHidden = true
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
         if self.isCommingFromSignIn {
             self.isCommingFromSignIn = false
             presenter.loadRecipeDetailData()

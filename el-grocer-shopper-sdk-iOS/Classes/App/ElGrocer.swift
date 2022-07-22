@@ -22,26 +22,31 @@ public final class ElGrocer {
         }
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             
-            if let launchOptions = launchOptions {
-                let manager = SDKLoginManager(launchOptions: launchOptions)
-                manager.setHomeView()
+            
+            func basicHomeViewSetUp() {
+                if let launchOptions = launchOptions {
+                    let manager = SDKLoginManager(launchOptions: launchOptions)
+                    manager.setHomeView()
+                }
             }
-            if let _ = launchOptions?.pushNotificationPayload {
+            
+            if let _ = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 {
+                basicHomeViewSetUp()
                 ElGrocerNotification.handlePushNotification(launchOptions)
-            }else if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+            }else if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
+                basicHomeViewSetUp()
                 ElGrocerDynamicLink.handleDeepLink(url)
                 return
+            }else {
+                SDKManager.shared.start(with: launchOptions)
             }
-            
             return
-            
         }
         
         SDKManager.shared.start(with: launchOptions)
-        
-        if let _ = launchOptions?.pushNotificationPayload {
+        if let _ = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 {
             ElGrocerNotification.handlePushNotification(launchOptions)
-        } else if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+        } else if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
             ElGrocerDynamicLink.handleDeepLink(url)
         }
        

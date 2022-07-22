@@ -72,7 +72,7 @@ class SmilesManager {
                 
                 case .failure(let error):
                     debugPrint(error.localizedMessage)
-                    error.showErrorAlert()
+                    //error.showErrorAlert()
                     UserDefaults.setIsSmileUser(false)
                     UserDefaults.setSmilesPoints( 0 )
                     completion(nil)

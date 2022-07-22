@@ -66,7 +66,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
         
         if self.controllerType == .viewAllStores {
             self.title = localizedString("title_all_stores", comment: "")

@@ -301,9 +301,9 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
   - MDFInternationalization (3.0.0)
-  - Mixpanel-swift (3.5.1):
-    - Mixpanel-swift/Complete (= 3.5.1)
-  - Mixpanel-swift/Complete (3.5.1)
+  - Mixpanel-swift (3.3.0):
+    - Mixpanel-swift/Complete (= 3.3.0)
+  - Mixpanel-swift/Complete (3.3.0)
   - MotionAnimator (4.0.1):
     - MotionInterchange (~> 3.0)
   - MotionInterchange (3.0.0)
@@ -469,7 +469,7 @@ SPEC CHECKSUMS:
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
-  Mixpanel-swift: 89d88f4d3dd1b4b3b69bd05060756eb1248b76f0
+  Mixpanel-swift: 6ffe368bcfc3b538f540f31372bc798afd90c1ad
   MotionAnimator: 5f99d7c9592928c0f28a66283eda9c3b657dc480
   MotionInterchange: 13adae439b377e31d1674cc165539d50e1d1566a
   MSPeekCollectionViewDelegateImplementation: be35a217bd302976a9e4476151be992c1f150127
@@ -491,6 +491,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: 5a8c07c059362d8087e4645f4123a31881f05a4b
+PODFILE CHECKSUM: 0035a4727b4a9359c8069628e52b71a0fa05672f
 
 COCOAPODS: 1.11.3

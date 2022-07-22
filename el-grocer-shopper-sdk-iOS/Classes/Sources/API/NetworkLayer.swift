@@ -305,58 +305,15 @@ class NetworkLayer {
     
     func setUserAgent() {
         
-        self.requestManager.requestSerializer.setValue("smileSDK", forHTTPHeaderField: "user-agent")
-    }
-    
-    
-
-}
-
-//MARK: moc get and post
-//====================moc requests=========================
-/*
- // not being used right now
-extension NetworkLayer {
-    
-    @discardableResult
-    func mocGet( _ URLString: String, parameters: Any?, progress :  callProgress ,  success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
-//        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
-//        guard mins > 0  else {
-//            queue.enqueue(CallObj.init(type: .get, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
-//            self.getToken()
-//            return nil
-//        }
-        self.setAuthriztionToken()
-        return self.mocRequestManager.get(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , progress: progress, success: success, failure: failure )
-    }
-    
-    @discardableResult
-    func mocPost( _ URLString: String, parameters: Any?, progress :   callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
+        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ?  "smileSDK" : "elgrocerShopperApp", forHTTPHeaderField: "user-agent")
+        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
+        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "Sdk-Version")
         
-//        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
-//        guard  mins > 0  else {
-//            queue.enqueue(CallObj.init(type: .post, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
-//            self.getToken()
-//            return nil
-//        }
-        self.setAuthriztionToken()
-        return self.mocRequestManager.post(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , progress: progress, success: success, failure: failure )
-    }
     
-    func mocPut(_ URLString: String, parameters: Any? , success : @escaping SuccessCase , failure : @escaping FailureCase) {
-//        let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
-//        guard  mins > 0  else {
-//            queue.enqueue(CallObj.init(type: .put, URLString: URLString , parameters: parameters, progress: nil  , success: success, failure: failure))
-//            self.getToken()
-//            return
-//        }
-        self.setAuthriztionToken()
-        self.mocRequestManager.put(URLString, parameters: parameters,headers: self.requestManager.requestSerializer.httpRequestHeaders , success: success, failure: failure)
     }
     
 }
- */
-//================================================================================
+
 
 struct ScopeDetail {
     

@@ -90,7 +90,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.Profile.rawValue, screenClass: String(describing: self.classForCoder))
         
         //hide tabbar
-        self.hidetabbar()
+        self.hideTabBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
