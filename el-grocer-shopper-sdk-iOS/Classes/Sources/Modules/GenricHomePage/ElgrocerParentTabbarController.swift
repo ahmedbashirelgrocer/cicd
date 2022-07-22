@@ -14,15 +14,17 @@ class ElgrocerParentTabbarController: UITabBarController , UITabBarControllerDel
         super.viewDidLoad()
         self.delegate = self
         
-        UITabBarItem.appearance().setTitleTextAttributes(
-            [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
-             NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")],
-            for: .normal)
-        
-        UITabBarItem.appearance().setTitleTextAttributes(
-            [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
-             NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor()],
-            for: .selected)
+        if SDKManager.isSmileSDK == false {
+            UITabBarItem.appearance().setTitleTextAttributes(
+                [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
+                 NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")],
+                for: .normal)
+            
+            UITabBarItem.appearance().setTitleTextAttributes(
+                [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
+                 NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor()],
+                for: .selected)
+        }
         
         if #available(iOS 10.0, *) {
             self.tabBar.unselectedItemTintColor = UIColor.colorWithHexString(hexString: "595959")
