@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Bold.otf">
+            <string>SFProDisplay-Bold</string>
+        </array>
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Apply PromoVC-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="ApplyPromoVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="ApplyPromoVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="xYU-HW-86G">
+                                <rect key="frame" x="0.0" y="100.5" width="414" height="761.5"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iF5-LU-W1y">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="253"/>
+                                        <subviews>
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RTA-d7-w98" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                <rect key="frame" x="16" y="5" width="382" height="45"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MybasketEnterPromo" translatesAutoresizingMaskIntoConstraints="NO" id="gxY-H2-gLW">
+                                                        <rect key="frame" x="16" y="12.5" width="20" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="7yd-6c-sqd"/>
+                                                            <constraint firstAttribute="width" constant="20" id="GVx-If-viw"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RXw-Ka-JU3" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                        <rect key="frame" x="323" y="8.5" width="43" height="28"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="28" id="j5z-oE-Ln1"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
+                                                        <state key="normal" title="APPLY">
+                                                            <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                                                <real key="value" value="10"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="btnApplyPromoHandler:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="1hJ-MZ-MTh"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lsp-QW-MoY" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                        <rect key="frame" x="316" y="8.5" width="57" height="28"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="28" id="1St-GS-U5X"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
+                                                        <state key="normal" title="REMOVE">
+                                                            <color key="titleColor" red="0.59607843137254901" green="0.047058823529411764" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                                                <real key="value" value="10"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="btnPromoRemoveHandler:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="lws-RF-sxn"/>
+                                                        </connections>
+                                                    </button>
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter coupon code" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L7s-dC-EJl">
+                                                        <rect key="frame" x="44" y="5" width="269" height="34"/>
+                                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="pvr-hH-kyC">
+                                                        <rect key="frame" x="334.5" y="12.5" width="20" height="20"/>
+                                                        <color key="color" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </activityIndicatorView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="L7s-dC-EJl" firstAttribute="top" secondItem="RTA-d7-w98" secondAttribute="top" constant="5" id="6qO-fy-F2f"/>
+                                                    <constraint firstItem="pvr-hH-kyC" firstAttribute="centerX" secondItem="RXw-Ka-JU3" secondAttribute="centerX" id="71l-5y-Kyn"/>
+                                                    <constraint firstItem="gxY-H2-gLW" firstAttribute="leading" secondItem="RTA-d7-w98" secondAttribute="leading" constant="16" id="IKd-f7-I12"/>
+                                                    <constraint firstItem="gxY-H2-gLW" firstAttribute="centerY" secondItem="RTA-d7-w98" secondAttribute="centerY" id="L3F-f8-utZ"/>
+                                                    <constraint firstItem="L7s-dC-EJl" firstAttribute="leading" secondItem="gxY-H2-gLW" secondAttribute="trailing" constant="8" id="MU4-cx-Vfy"/>
+                                                    <constraint firstAttribute="bottom" secondItem="L7s-dC-EJl" secondAttribute="bottom" constant="6" id="TA3-Kp-glo"/>
+                                                    <constraint firstItem="RXw-Ka-JU3" firstAttribute="centerY" secondItem="RTA-d7-w98" secondAttribute="centerY" id="UYq-q5-q8h"/>
+                                                    <constraint firstItem="Lsp-QW-MoY" firstAttribute="centerX" secondItem="RXw-Ka-JU3" secondAttribute="centerX" id="bPK-bp-ogp"/>
+                                                    <constraint firstItem="pvr-hH-kyC" firstAttribute="centerY" secondItem="RXw-Ka-JU3" secondAttribute="centerY" id="bev-GA-ruI"/>
+                                                    <constraint firstAttribute="trailing" secondItem="RXw-Ka-JU3" secondAttribute="trailing" constant="16" id="p6W-5k-6Vu"/>
+                                                    <constraint firstItem="RXw-Ka-JU3" firstAttribute="leading" secondItem="L7s-dC-EJl" secondAttribute="trailing" constant="10" id="pgA-mS-BzT"/>
+                                                    <constraint firstItem="Lsp-QW-MoY" firstAttribute="centerY" secondItem="RXw-Ka-JU3" secondAttribute="centerY" id="uoz-DZ-TDM"/>
+                                                    <constraint firstAttribute="height" constant="45" id="zn3-Gy-bbG"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                                        <real key="value" value="23"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                        <color key="value" red="0.89411764705882346" green="0.89411764705882346" blue="0.89411764705882346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGb-mA-BnA">
+                                                <rect key="frame" x="32" y="54" width="366" height="195"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" systemColor="systemRedColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="RTA-d7-w98" firstAttribute="leading" secondItem="iF5-LU-W1y" secondAttribute="leading" constant="16" id="HpL-67-JXg"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="55" id="IbW-Qw-9Gp"/>
+                                            <constraint firstItem="hGb-mA-BnA" firstAttribute="leading" secondItem="gxY-H2-gLW" secondAttribute="leading" id="KFW-Xy-DU0"/>
+                                            <constraint firstItem="hGb-mA-BnA" firstAttribute="top" secondItem="RTA-d7-w98" secondAttribute="bottom" constant="4" id="VyB-t5-5ym"/>
+                                            <constraint firstItem="RTA-d7-w98" firstAttribute="top" secondItem="iF5-LU-W1y" secondAttribute="top" constant="5" id="bYi-6J-Ta0"/>
+                                            <constraint firstAttribute="trailing" secondItem="RTA-d7-w98" secondAttribute="trailing" constant="16" id="cdL-7x-83S"/>
+                                            <constraint firstAttribute="bottom" secondItem="hGb-mA-BnA" secondAttribute="bottom" constant="4" id="nHx-Cd-va6"/>
+                                            <constraint firstItem="hGb-mA-BnA" firstAttribute="trailing" secondItem="RTA-d7-w98" secondAttribute="trailing" id="zie-Mi-hTC"/>
+                                        </constraints>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ghk-Iw-6Fa">
+                                        <rect key="frame" x="0.0" y="253" width="414" height="508.5"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apply Promo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dA-Tw-CCs">
+                                <rect key="frame" x="16" y="60" width="98" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g94-Mc-Akg">
+                                <rect key="frame" x="374" y="58.5" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="82F-HF-3lJ"/>
+                                    <constraint firstAttribute="height" constant="24" id="KXo-lR-PCh"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="CrossGreen" title=""/>
+                                <connections>
+                                    <action selector="btnCloseHandler:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qle-qj-5h1"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="xYU-HW-86G" secondAttribute="bottom" id="6Dy-3v-1be"/>
+                            <constraint firstItem="5dA-Tw-CCs" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="JL1-Rt-Jfx"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="g94-Mc-Akg" secondAttribute="trailing" constant="16" id="KPc-wm-E9e"/>
+                            <constraint firstItem="g94-Mc-Akg" firstAttribute="centerY" secondItem="5dA-Tw-CCs" secondAttribute="centerY" id="Moa-rs-A5P"/>
+                            <constraint firstItem="xYU-HW-86G" firstAttribute="top" secondItem="5dA-Tw-CCs" secondAttribute="bottom" constant="20" id="VnF-ra-iL0"/>
+                            <constraint firstItem="xYU-HW-86G" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="Ww1-pr-DcH"/>
+                            <constraint firstItem="5dA-Tw-CCs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="X64-gB-iaf"/>
+                            <constraint firstItem="xYU-HW-86G" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="kV6-Jq-clM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnClose" destination="g94-Mc-Akg" id="rMG-Ok-l3e"/>
+                        <outlet property="btnPromoApply" destination="RXw-Ka-JU3" id="9WT-SV-s5j"/>
+                        <outlet property="btnPromoRemove" destination="Lsp-QW-MoY" id="Bxl-Yu-b3L"/>
+                        <outlet property="lblPromoError" destination="hGb-mA-BnA" id="vWH-Tl-oaL"/>
+                        <outlet property="lblVCTitle" destination="5dA-Tw-CCs" id="3BB-1X-vKA"/>
+                        <outlet property="promoActivityIndicator" destination="pvr-hH-kyC" id="Ng8-YE-8GY"/>
+                        <outlet property="promoBGView" destination="iF5-LU-W1y" id="sXm-3n-9g8"/>
+                        <outlet property="promoBGViewHeightConstraint" destination="IbW-Qw-9Gp" id="fmw-KI-1Ik"/>
+                        <outlet property="promoTextField" destination="L7s-dC-EJl" id="SgB-Zg-131"/>
+                        <outlet property="promoTxtFieldBGView" destination="RTA-d7-w98" id="GgI-Pg-i9l"/>
+                        <outlet property="tblView" destination="ghk-Iw-6Fa" id="mHG-dh-dq0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="21.739130434782609" y="72.991071428571431"/>
+        </scene>
+    </scenes>
+    <designables>
+        <designable name="Lsp-QW-MoY">
+            <size key="intrinsicContentSize" width="57" height="29"/>
+        </designable>
+        <designable name="RXw-Ka-JU3">
+            <size key="intrinsicContentSize" width="43" height="29"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="CrossGreen" width="24" height="24"/>
+        <image name="MybasketEnterPromo" width="20" height="20"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

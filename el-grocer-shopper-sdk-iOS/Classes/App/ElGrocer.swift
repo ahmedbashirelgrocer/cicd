@@ -10,19 +10,46 @@ import Foundation
 
 import UIKit
 
+
 public final class ElGrocer {
     // elgrocer
-    
+
     static var isSDKLoaded = false
     
     public static func startEngine(with launchOptions: LaunchOptions? = nil) {
         defer {
             ElGrocer.isSDKLoaded = true
         }
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            
+            
+            func basicHomeViewSetUp() {
+                if let launchOptions = launchOptions {
+                    let manager = SDKLoginManager(launchOptions: launchOptions)
+                    manager.setHomeView()
+                }
+            }
+            
+            if let _ = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 {
+                basicHomeViewSetUp()
+                ElGrocerNotification.handlePushNotification(launchOptions)
+            }else if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
+                basicHomeViewSetUp()
+                ElGrocerDynamicLink.handleDeepLink(url)
+                return
+            }else {
+                SDKManager.shared.start(with: launchOptions)
+            }
+            return
+        }
+        
         SDKManager.shared.start(with: launchOptions)
-        if let url = URL(string: launchOptions?.deepLinkPayload ?? "") {
+        if let _ = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 {
+            ElGrocerNotification.handlePushNotification(launchOptions)
+        } else if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
             ElGrocerDynamicLink.handleDeepLink(url)
         }
+       
     }
     public static func startEngine(with launchOptions: LaunchOptions? = nil, _ deepLink : URL?) {
         
@@ -30,7 +57,13 @@ public final class ElGrocer {
             ElGrocer.isSDKLoaded = true
         }
         
-        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else{
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            
+            if let launchOptions = launchOptions {
+                let manager = SDKLoginManager(launchOptions: launchOptions)
+                manager.setHomeView()
+            }
+            
             if let url = deepLink {
                 ElGrocerDynamicLink.handleDeepLink(url)
             }
@@ -41,12 +74,10 @@ public final class ElGrocer {
             ElGrocerDynamicLink.handleDeepLink(url)
         }
     }
-    
-    
-    
+  
 }
 
-public struct LaunchOptions {
+public struct LaunchOptions  {
     var accountNumber: String?
     var latitude: Double?
     var longitude: Double?

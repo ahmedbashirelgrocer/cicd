@@ -83,6 +83,7 @@ class GenericHyperMarketHeader: UIView {
     var headerType: GenericHyperMarketHeaderType = .hyperMarket
     let headerMinimumHeight: CGFloat = 95
     let headerMaximumHeight: CGFloat = 189
+    var retailerType: RetailerType? = nil
     var searchBarTapped: (()->Void)?
     
     class func loadFromNib() -> GenericHyperMarketHeader? {
@@ -134,7 +135,9 @@ class GenericHyperMarketHeader: UIView {
         vc.present(navigationController, animated: true, completion: nil)
         
         ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "1" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
-        
+        if let id = self.retailerType?.dbId, let name = self.retailerType?.getRetailerName() {
+            MixpanelEventLogger.trackStoreListingSearch(storeListCategoryId: "\(id)", storeListCategoryName: name)
+        }
         ElGrocerUtility.sharedInstance.delay(1.0) {
             if searchController.txtSearch != nil {
                 searchController.txtSearch.becomeFirstResponder()

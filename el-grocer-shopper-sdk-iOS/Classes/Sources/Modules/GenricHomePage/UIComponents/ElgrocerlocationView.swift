@@ -21,7 +21,11 @@ extension UIViewController : SlotChangeRefreshing {
 protocol SlotChangeRefreshing {
     func refreshSlotChange ()
 }
-
+struct LocalDeliverAddress {
+    var lat: Double
+    var lng: Double
+    var address: String
+}
 class ElgrocerlocationView:  UIView  {
     
     
@@ -35,8 +39,12 @@ class ElgrocerlocationView:  UIView  {
     }
     var currentSelectedSlot : DeliverySlot?
     
-   
-    var loadedAddress : DeliveryAddress?
+    var localLoadedAddress: LocalDeliverAddress?
+    var loadedAddress : DeliveryAddress? {
+        didSet {
+            print("loaded Address: \(loadedAddress)")
+        }
+    }
     let halfWidth : CGFloat = 0.445
     let FullWidth : CGFloat = 0.9
     
@@ -242,6 +250,7 @@ class ElgrocerlocationView:  UIView  {
         guard let vc = UIApplication.topViewController() else {
             return
         }
+        MixpanelEventLogger.trackStoreHelp()
         let sendBirdDeskManager = SendBirdDeskManager(controller: vc, orderId: "0", type: .agentSupport)
         sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
     }
@@ -250,7 +259,7 @@ class ElgrocerlocationView:  UIView  {
         guard let vc = UIApplication.topViewController() else {
             return
         }
-        
+        MixpanelEventLogger.trackStoreShoppingList()
         let controller : SearchListViewController = ElGrocerViewControllers.getSearchListViewController()
         controller.isFromHeader = true
         let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
@@ -268,6 +277,7 @@ class ElgrocerlocationView:  UIView  {
         
         let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
         ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
+        MixpanelEventLogger.trackStoreSearch()
         searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
         searchController.searchFor = .isForStoreSearch
         vc.navigationController?.modalTransitionStyle = .crossDissolve
@@ -332,7 +342,7 @@ class ElgrocerlocationView:  UIView  {
                         }
                         let attributedString2 = NSMutableAttributedString(string:slotName as String , attributes:attrs2 as [NSAttributedString.Key : Any])
                         attributedString.append(attributedString2)
-                    } 
+                    }
                 
                 self.setAttributedValueForSlotOnMainThread(attributedString)
             }else if slots.count > 0 {
@@ -464,6 +474,8 @@ class ElgrocerlocationView:  UIView  {
         }
         self.lblAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address
          self.loadedAddress = address
+        self.localLoadedAddress = LocalDeliverAddress(lat: address.latitude, lng: address.longitude, address: address.locationName)
+        
         
        
   
@@ -486,7 +498,7 @@ class ElgrocerlocationView:  UIView  {
         }
         
         self.loadedAddress = address
-        
+        self.localLoadedAddress = LocalDeliverAddress(lat: address.latitude, lng: address.longitude, address: address.locationName)
         self.lblAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address
         
         self.configureCell(grocery!)
@@ -505,7 +517,7 @@ class ElgrocerlocationView:  UIView  {
             self.myGroceryImage.image = productPlaceholderPhoto
         }
 //        self.myGroceryImage.layer.cornerRadius = self.myGroceryImage.frame.size.height / 2
-        self.setSlotData()  
+        self.setSlotData()
     }
     
     func configureCellForBrand (_ brand : GroceryBrand) {

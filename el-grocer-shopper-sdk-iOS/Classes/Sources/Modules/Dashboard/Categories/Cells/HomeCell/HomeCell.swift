@@ -264,6 +264,7 @@ class HomeCell: UITableViewCell {
         if let homeFeed =  self.homeFeed {
             FireBaseEventsLogger.trackViewMoreClick(["Name" : homeFeed.title])
             if homeFeed.type == .ListOfCategories {
+                MixpanelEventLogger.trackStoreCategoryClick(categoryId: "-1", categoryName: "View All")
                 self.delegate?.navigateToCategories(homeFeed.categories)
             }else if homeFeed.type == .universalSearchProducts {
                 self.delegate?.navigateToGrocery(homeFeed.attachGrocery, homeFeed: self.homeFeed)
@@ -442,6 +443,7 @@ extension HomeCell: UICollectionViewDelegate {
                 var index = indexPath.row
                 if indexPath.row == 0 && self.isNeedToShowRecipe {
                     ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric(source: FireBaseScreenName.Home.rawValue)
+                    MixpanelEventLogger.trackStoreCategoryClick(categoryId: "recipe", categoryName: "-1")
                     let recipeStory = ElGrocerViewControllers.recipesBoutiqueListVC()
                     recipeStory.isNeedToShowCrossIcon = true
                     let grocerA : [Grocery] =  [self.grocery!]

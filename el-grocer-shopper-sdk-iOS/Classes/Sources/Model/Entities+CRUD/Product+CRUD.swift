@@ -421,7 +421,7 @@ extension Product {
               //  let productDict = responseDict["_source"] as! NSDictionary
                 var is_P = false
                 let product = Product.createProductForSearchFromDictionary(productDict, context: context,searchString: searchString, queryID)
-                
+               
                 if let shopsA = productDict["shops"] as? [NSDictionary]{
                     let finalData =  shopsA.filter { (dict) -> Bool in
                         let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
@@ -704,10 +704,10 @@ extension Product {
             product.promotionalShops = product.jsonToString(json: shopsList as AnyObject)
         }
         
-//        if let shopsList = productDict["promotional_shops"] as? [NSDictionary] {
-//            product.promotionalShops = ProductShops.insertOrReplaceShopsFromList(shopsList, context: context)
-//        }
-        
+        if let objectID = productDict["objectID"] as? String {
+            product.objectId = objectID
+        }
+ 
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
         if currentLang == "ar" {
             if let arabicProductName = productDict["name_ar"] as? String {

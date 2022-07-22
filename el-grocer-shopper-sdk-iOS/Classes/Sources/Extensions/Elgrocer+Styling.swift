@@ -241,6 +241,10 @@ extension UILabel {
         self.font = UIFont.SFProDisplayBoldFont(12)
         self.textColor = UIColor.newBlackColor()
     }
+    func setCaptionOneBoldGreyStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(12)
+        self.textColor = UIColor.lightGreyColor()
+    }
     func setCaptionOneBoldWhiteStyle() {
         self.font = UIFont.SFProDisplayBoldFont(12)
         self.textColor = UIColor.navigationBarWhiteColor()
@@ -367,11 +371,11 @@ extension UIButton {
     
     func setBody3RegGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayNormalFont(14)
-        self.setTitleColor(UIColor.navigationBarColor(), for: .normal)
+        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
     }
     func setBody3BoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
-        self.setTitleColor(UIColor.navigationBarColor(), for: .normal)
+        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
     }
     func setBody3BoldWhiteStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
@@ -405,7 +409,7 @@ extension UIButton {
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
         if isBackTransparent {
             self.backgroundColor = .clear
-            self.setTitleColor(UIColor.navigationBarColor() , for: UIControl.State())
+            self.setTitleColor(UIColor.navigationBarWhiteColor() , for: UIControl.State())
         }else{
             self.setTitleColor(UIColor.navigationBarWhiteColor() , for: UIControl.State())
             self.backgroundColor = .navigationBarColor()

@@ -162,6 +162,7 @@ extension ChefListView : UICollectionViewDelegate , UICollectionViewDataSource {
             ElGrocerEventsLogger.sharedInstance.trackChefFromRecipe(chefName)
             FireBaseEventsLogger.trackRecipeFilterClick(chef: selectedChef, source: "")
             FireBaseEventsLogger.setScreenName( "Chef " + chefName , screenClass: String(describing: self.classForCoder))
+            MixpanelEventLogger.trackRecipesBrandClick(chefId: "\(selectedChef.chefID)", chefName: chefName)
         }
         if let availableChefClouser = self.chefSelected {
             availableChefClouser(selectedChef)

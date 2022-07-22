@@ -120,8 +120,12 @@ class SmilesNetworkManager {
     func getCachedUserInfo ( completionHandler: @escaping (Either<NSDictionary>) -> Void) {
         // getCachedMemberInfo
         
-        var params = [String : AnyObject]()
+        let params = [String : AnyObject]()
         
+        if SDKManager.isSmileSDK, let loyaltyId = SDKManager.shared.launchOptions?.loyaltyID, loyaltyId.count > 0 {
+            NetworkCall.requestManager.requestSerializer.setValue(loyaltyId, forHTTPHeaderField: "Loyalty-Id")
+        }
+    
         NetworkCall.get(APIEndpoint.getCachedMemberInfo, parameters: params) { (progress) in
             // debugPrint("Progress for API :  \(progress)")
         } success: { (operation  , response: Any) -> Void in

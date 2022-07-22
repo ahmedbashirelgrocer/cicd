@@ -42,7 +42,7 @@ class HyperMarketViewController: UIViewController {
         
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
     }
     
     func setNavigationBarAppearence() {
@@ -83,6 +83,7 @@ class HyperMarketViewController: UIViewController {
     func setTableViewHeader() {
         DispatchQueue.main.async(execute: {
             [weak self] in
+            
             guard let self = self else {return}
     
             self.searchBarHeader.setNeedsLayout()
@@ -100,6 +101,7 @@ class HyperMarketViewController: UIViewController {
                 }
             }
            // self.searchBarHeader.frame = CGRect.init(origin: CGPoint.zero, size: isNeedToShowMsgs ? CGSize.init(width: self.searchBarHeader.frame.size.width, height: 100) : CGSize.init(width: self.searchBarHeader.frame.size.width, height: 200))
+            self.searchBarHeader.retailerType = self.type
             self.tableView.tableHeaderView = self.searchBarHeader
             self.tableView.layoutTableHeaderView()
             self.tableView.reloadData()
@@ -139,6 +141,9 @@ class HyperMarketViewController: UIViewController {
     override func rightBackButtonClicked() {
 //        self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true)
+        if let type = type {
+            MixpanelEventLogger.trackStoreListingClose(storeListCategoryId: "\(type.dbId ?? -1)", storeListCategoryName: type.getRetailerName() ?? "")
+        }
        
     }
     
@@ -171,6 +176,9 @@ class HyperMarketViewController: UIViewController {
 //            ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
         }
         self.makeActiveTopGroceryOfArray()
+        if let type = type {
+            MixpanelEventLogger.trackStoreListingStoreSelected(storeListCategoryId: "\(type.dbId ?? -1)", storeListCategoryName: type.getRetailerName() ?? "", storeId: grocery.dbID, storeName: grocery.name ?? "")
+        }
             //let currentSelf = self;
         DispatchQueue.main.async {
             // if let SDKManager = SDKManager.shared {

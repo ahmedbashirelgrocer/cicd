@@ -21,7 +21,7 @@ class SuggestionsModelDataSource {
     var displayList : ((_ dataList : [SuggestionsModelObj])->Void)?
     var productListNotFound : ((_ searchString : String)->Void)?
     var productListData : ((_ data : [Product] , _ searchString : String)->Void)?
-    var productListDataWithRecipes : ((_ data : [Product] , _ searchString : String , _ recipes : [Recipe])->Void)?
+    var productListDataWithRecipes : ((_ data : [Product] , _ searchString : String , _ recipes : [Recipe] , _ groceryA : [Grocery]? )->Void)?
     var groceryListData : ((_ data :  Dictionary<String, Array<Product>>  ,  _ searchString : String)->Void)?
     var NoResultForGrocery : (( _ searchString : String)->Void)?
     var MakeIncrementalIndexZero : ((_ index : Int?)->Void)?
@@ -142,12 +142,97 @@ class SuggestionsModelDataSource {
             }
             
         }
-        
-        
-        
-        
-        
+       
         AlgoliaApi.sharedInstance.gettrendingSearch(self.currentGrocery != nil ? nil : nil , searchText: currentSearchString, isUniversal: currentGrocery == nil  ) { (data, error) in
+            
+            
+            func addProductSuggestion (_ algoliaObj  : [ NSDictionary], isNeedToShowBrand : Bool, currentString : String ) {
+                
+                var modelA = [SuggestionsModelObj]()
+                for (index , productDict) in algoliaObj.enumerated() {
+                    if index == 0 {
+                        modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("trending_searches", comment: "").uppercased())]
+                    }
+                    if let value = productDict["query"] as? String {
+                        modelA.append(SuggestionsModelObj.init(type: .trendingSearch, title: value))
+                    }
+                }
+                
+                self.model.append(contentsOf: modelA)
+                
+                guard isNeedToShowBrand else {
+                    callForRecipe(currentString)
+                    return
+                }
+                if algoliaObj.count > 0 {
+                    let objForBrandAndCare = algoliaObj[0]
+                    if let Product : NSDictionary = objForBrandAndCare["Product"] as? NSDictionary {
+                        if let facets = Product["facets"] as? NSDictionary {
+                            var mySuggestionDataArray: [SuggestionsModelObj] = []
+                            if let exact_matches = facets["exact_matches"] as? NSDictionary {
+                                if let categoryNameA = exact_matches["subcategories.name"] as? [NSDictionary] {
+                                    var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
+                                    for suggestionString  in categoryNameA {
+                                        if let name = suggestionString["value"] as? String {
+                                            modelA.append(SuggestionsModelObj.init(type: .categoriesTitles, title: name))
+                                        }
+                                        if modelA.count == self.maxBrandAndCateListCount + 1 {
+                                            break
+                                        }
+                                    }
+                                        //self.model.append(contentsOf: modelA)
+                                    mySuggestionDataArray.append(contentsOf: modelA)
+                                }
+                                if let brandDataA = exact_matches["brand.name"] as? [NSDictionary] {
+                                    var modelA = [SuggestionsModelObj.init(type: .title , title: localizedString("lbl_InBrand", comment: "").uppercased() )]
+                                    for suggestionString  in brandDataA {
+                                        if let name = suggestionString["value"] as? String {
+                                            modelA.append(SuggestionsModelObj.init(type: .brandTitles, title: name))
+                                        }
+                                        if modelA.count == self.maxBrandAndCateListCount + 1 {
+                                            break
+                                        }
+                                    }
+                                        //self.model.append(contentsOf: modelA)
+                                    mySuggestionDataArray.append(contentsOf: modelA)
+                                }
+                            }else{
+                                if let categoryA = objForBrandAndCare["subcategories.name"] {
+                                    var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
+                                    let categoryNameA = categoryA as? [String] ?? []
+                                    for suggestionString in categoryNameA {
+                                        modelA.append(SuggestionsModelObj.init(type: .categoriesTitles, title: suggestionString))
+                                        if modelA.count == self.maxBrandAndCateListCount + 1 {
+                                            break
+                                        }
+                                    }
+                                        //self.model.append(contentsOf: modelA)
+                                    mySuggestionDataArray.append(contentsOf: modelA)
+                                }
+                                if let brandDataA = objForBrandAndCare["brand.name"] {
+                                    var modelA = [SuggestionsModelObj.init(type: .title , title: localizedString("lbl_InBrand", comment: "").uppercased() )]
+                                    let brandNameA = brandDataA as? [String] ?? []
+                                    for suggestionString in brandNameA {
+                                        modelA.append(SuggestionsModelObj.init(type: .brandTitles, title: suggestionString))
+                                        if modelA.count == self.maxBrandAndCateListCount + 1 {
+                                            break
+                                        }
+                                    }
+                                        //self.model.append(contentsOf: modelA)
+                                    mySuggestionDataArray.append(contentsOf: modelA)
+                                }
+                                self.model.append(contentsOf: mySuggestionDataArray)
+                                
+                            }
+                        }
+                    }
+                    callForRecipe(currentString)
+                }
+                
+                
+            }
+            
+            
             if data != nil {
                 let isNeedToShowBrand = self.currentSearchString.count > 0
                 let currentString = self.currentSearchString
@@ -158,89 +243,64 @@ class SuggestionsModelDataSource {
                         self.papulateUsersearchedData()
                     }
                 }
-                if let algoliaObj = data!["hits"] as? [NSDictionary] {
+                
+                if let mainIndex = data!["results"] as? [NSDictionary] {
                     
-                    var modelA = [SuggestionsModelObj]()
-                    for (index , productDict) in algoliaObj.enumerated() {
-                        if index == 0 {
-                            modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("trending_searches", comment: "").uppercased())]
-                        }
-                        if let value = productDict["query"] as? String {
-                            modelA.append(SuggestionsModelObj.init(type: .trendingSearch, title: value))
-                        }
-                    }
-                    
-                    self.model.append(contentsOf: modelA)
-                    
-                    guard isNeedToShowBrand else {
-                        callForRecipe(currentString)
-                        return
-                    }
-                    if algoliaObj.count > 0 {
-                        let objForBrandAndCare = algoliaObj[0]
-                        if let Product : NSDictionary = objForBrandAndCare["Product"] as? NSDictionary {
-                            if let facets = Product["facets"] as? NSDictionary {
-                                var mySuggestionDataArray: [SuggestionsModelObj] = []
-                                if let exact_matches = facets["exact_matches"] as? NSDictionary {
-                                    if let categoryNameA = exact_matches["subcategories.name"] as? [NSDictionary] {
-                                        var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
-                                        for suggestionString  in categoryNameA {
-                                            if let name = suggestionString["value"] as? String {
-                                                modelA.append(SuggestionsModelObj.init(type: .categoriesTitles, title: name))
-                                            }
-                                            if modelA.count == self.maxBrandAndCateListCount + 1 {
-                                                break
-                                            }
-                                        }
-                                        //self.model.append(contentsOf: modelA)
-                                        mySuggestionDataArray.append(contentsOf: modelA)
-
-                                    }
-                                    if let brandDataA = exact_matches["brand.name"] as? [NSDictionary] {
-                                        var modelA = [SuggestionsModelObj.init(type: .title , title: localizedString("lbl_InBrand", comment: "").uppercased() )]
-                                        for suggestionString  in brandDataA {
-                                            if let name = suggestionString["value"] as? String {
-                                                modelA.append(SuggestionsModelObj.init(type: .brandTitles, title: name))
-                                            }
-                                            if modelA.count == self.maxBrandAndCateListCount + 1 {
-                                                break
-                                            }
-                                        }
-                                        //self.model.append(contentsOf: modelA)
-                                        mySuggestionDataArray.append(contentsOf: modelA)
-                                    }
-                                }else{
-                                    if let categoryA = objForBrandAndCare["subcategories.name"] {
-                                        var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
-                                        let categoryNameA = categoryA as? [String] ?? []
-                                        for suggestionString in categoryNameA {
-                                            modelA.append(SuggestionsModelObj.init(type: .categoriesTitles, title: suggestionString))
-                                            if modelA.count == self.maxBrandAndCateListCount + 1 {
-                                                break
+                    for dict in mainIndex {
+                        if let indexName = dict["index"] as? String {
+                            if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
+                                if let algoliaObj = dict["hits"] as? [NSDictionary] {
+                                    addProductSuggestion(algoliaObj, isNeedToShowBrand: isNeedToShowBrand, currentString: currentString)
+                                }
+                            }else if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
+                                if let algoliaObj = dict["hits"] as? [NSDictionary] {
+                                    debugPrint(algoliaObj)
+                                    
+                                    var mySuggestionDataArray: [SuggestionsModelObj] = []
+                                   
+                                    for (_, retailer) in algoliaObj.enumerated() {
+                                        if let query = retailer["query"] as? String {
+                                            if let idDict  =  ((((retailer["Retailer"] as? NSDictionary)?["facets"] as? NSDictionary)?["exact_matches"] as? NSDictionary)?["id"] as? [NSDictionary]) {
+                                                for data in idDict {
+                                                    if let valueString =  data["value"] as? String {
+                                                        let value : NSNumber = NSNumber(integerLiteral: Int(valueString) ?? -999)
+                                                        let retailers = HomePageData.shared.groceryA?.filter({ grocery in
+                                                            return grocery.getCleanGroceryID() == value.stringValue
+                                                        })
+                                                        if retailers != nil {
+                                                            if  mySuggestionDataArray.count == 0 {
+                                                                let modelA = [SuggestionsModelObj.init(type: .title , title: "Stores".uppercased() )]
+                                                                mySuggestionDataArray.append(contentsOf: modelA)
+                                                            }
+                                                            for data in retailers! {
+                                                                
+                                                                if mySuggestionDataArray.filter({ mode in
+                                                                    return mode.retailerId == data.dbID
+                                                                }).count > 0 {
+                                                                    continue;
+                                                                }
+                                                                if mySuggestionDataArray.count > 3 {
+                                                                    break
+                                                                }
+                                                                mySuggestionDataArray.append(SuggestionsModelObj.init(type: .retailer, title: data.name ?? query , retailerId: value.stringValue, retailerImageUrl: data.smallImageUrl))
+                                                            }
+                                                            
+                                                        }
+                                                    }
+                                                    
+                                                }
                                             }
                                         }
-                                        //self.model.append(contentsOf: modelA)
-                                        mySuggestionDataArray.append(contentsOf: modelA)
-                                    }
-                                    if let brandDataA = objForBrandAndCare["brand.name"] {
-                                        var modelA = [SuggestionsModelObj.init(type: .title , title: localizedString("lbl_InBrand", comment: "").uppercased() )]
-                                        let brandNameA = brandDataA as? [String] ?? []
-                                        for suggestionString in brandNameA {
-                                            modelA.append(SuggestionsModelObj.init(type: .brandTitles, title: suggestionString))
-                                            if modelA.count == self.maxBrandAndCateListCount + 1 {
-                                                break
-                                            }
-                                        }
-                                        //self.model.append(contentsOf: modelA)
-                                        mySuggestionDataArray.append(contentsOf: modelA)
                                     }
                                     self.model.append(contentsOf: mySuggestionDataArray)
-                                    
                                 }
                             }
                         }
-                        callForRecipe(currentString)
                     }
+                    
+                    
+                }else if let algoliaObj = data!["hits"] as? [NSDictionary] {
+                    addProductSuggestion(algoliaObj, isNeedToShowBrand: isNeedToShowBrand, currentString: currentString)
                 }
             }
         }
@@ -298,14 +358,47 @@ class SuggestionsModelDataSource {
             return
         }
         self.isProductApiCalling = true
-        let dbIDs = storeIds 
+        let dbIDs = storeIds
         var spiner : SpinnerView?
         if let topVc = UIApplication.topViewController() {
             spiner =  SpinnerView.showSpinnerViewInView(topVc.view)
         }
+        
+        func addProductData(_ responseObject : NSDictionary , recipeList : [Recipe] , groceryA : [Grocery]? ) {
+            
+            Thread.OnMainThread {
+                let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                if newProducts.count > 0 {
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    if let clouser = self.productListDataWithRecipes {
+                        clouser(newProducts, searchString, recipeList, groceryA)
+                    }
+                }else if recipeList.count > 0 {
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    if let clouser = self.productListDataWithRecipes {
+                        clouser([], searchString, recipeList, groceryA)
+                    }
+                }else if groceryA?.count ?? 0 > 0 {
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    if let clouser = self.productListDataWithRecipes {
+                        clouser([], searchString, recipeList, groceryA)
+                    }
+                }else{
+                    if let clouser = self.productListNotFound {
+                        clouser(searchString)
+                    }
+                }
+            }
+            
+        }
+        
         self.getRecipeData(isNeedToClear , searchString: searchString, nil, nil, storeIds: storeIds, typeIds: typeIds, groupIds: groupIds) { (recipeList) in
-           
-            AlgoliaApi.sharedInstance.searchProductQueryWithMultiStore(searchString, storeIDs: dbIDs, 0, 100 , brandId ?? "" , categoryID ?? "", searchType: "single_search")  { (data, error) in
+            
+            
+            AlgoliaApi.sharedInstance.searchProductQueryWithMultiStoreMultiIndex(searchString, storeIDs: dbIDs, 0, 100 , brandId ?? "" , categoryID ?? "", searchType: "single_search")  { (data, error) in
+                
+                
                 self.isProductApiCalling  = false
                 DispatchQueue.main.async {
                     spiner?.removeFromSuperview()
@@ -317,26 +410,36 @@ class SuggestionsModelDataSource {
                     }
                     return
                 }
-                if  let responseObject : NSDictionary = data as NSDictionary? {
-                    Thread.OnMainThread {
-                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    
-                    if newProducts.count > 0 {
-                        DatabaseHelper.sharedInstance.saveDatabase()
-                        if let clouser = self.productListDataWithRecipes {
-                            clouser(newProducts, searchString, recipeList)
-                        }
-                    }else if recipeList.count > 0 {
-                        DatabaseHelper.sharedInstance.saveDatabase()
-                        if let clouser = self.productListDataWithRecipes {
-                            clouser([], searchString, recipeList)
-                        }
-                    }else{
-                        if let clouser = self.productListNotFound {
-                            clouser(searchString)
+                
+                
+                if let dataA = data?["results"] as? NSArray {
+                    var productsDictionary : NSDictionary = [:]
+                    for data in dataA {
+                        if let response = (data as? NSDictionary), (response["index"] as? String) == "Product" {
+                            productsDictionary  = response
+                        }else if let response = (data as? NSDictionary), (response["index"] as? String) == "Retailer" {
+                            Thread.OnMainThread {
+                            var responseGroceryIDA : [String] = []
+                            if let responseObjects = response["hits"] as? [NSDictionary] {
+                                    for responseDict in responseObjects {
+                                        if  let groceryIntId = responseDict["id"] as? Int {
+                                            responseGroceryIDA.append("\(groceryIntId)")
+                                        }
+                                    }
+                                }
+                                let groceryA = HomePageData.shared.groceryA?.filter({ grocery in
+                                    return  responseGroceryIDA.filter { searchID in
+                                        return searchID == grocery.dbID
+                                    }.count > 0
+                                })
+                                addProductData(productsDictionary, recipeList: recipeList, groceryA: groceryA )
+                            }
+                           
                         }
                     }
-                }
+                    return
+                }else if  let responseObject : NSDictionary = data as NSDictionary? {
+                    addProductData(responseObject, recipeList: recipeList, groceryA: nil)
                 }
             }
             

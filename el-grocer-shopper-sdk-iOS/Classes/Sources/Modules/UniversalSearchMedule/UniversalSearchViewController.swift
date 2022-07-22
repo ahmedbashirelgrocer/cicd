@@ -12,6 +12,7 @@ import FBSDKCoreKit
 //import AppsFlyerLib
 import STPopup
 import IQKeyboardManagerSwift
+
 enum searchType {
     
     case isForUniversalSearch
@@ -49,6 +50,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     var selectedProduct:Product!
     var commingFromVc : UIViewController?
     
+    
     //Banner Handling
     var increamentIndexPathRow = 0
     var showBannerAtIndex = 5
@@ -74,6 +76,10 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         }
     }
     
+    
+    
+    
+    
     //MARK:-  Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +87,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.registerCells ()
         self.setDataSource()
         self.dataSource?.getDefaultSearchData()
+        addBasketOverlay()
     }
     override func viewWillAppear(_ animated: Bool) {
         (self.navigationController as? ElGrocerNavigationController)?.setNavigationBarHidden(true, animated: true)
@@ -125,6 +132,21 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.commingFromVc = UIApplication.topViewController()
     }
     
+    private func addBasketOverlay() {
+        addBasketIconOverlay(self, grocery: self.dataSource?.currentGrocery, shouldShowGroceryActiveBasket: true)
+    }
+    
+    @IBAction func voiceSearchAction(_ sender: Any) {
+        self.txtSearch.resignFirstResponder()
+        self.searchBarView.layer.borderColor = UIColor.navigationBarColor().cgColor
+        if self.searchFor == .isForStoreSearch {
+            self.tableView.backgroundView = nil
+            self.showCollectionView(false)
+        }
+        
+    }
+    
+    
     ///To adjust the bottom constraint for basketIconOverlay appear/disappear
     func setCollectionViewBottomConstraint() {
         /*
@@ -168,16 +190,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.tableView.backgroundColor = .tableViewBackgroundColor()//.white
         self.collectionView.backgroundColor = .tableViewBackgroundColor()
         self.storeNameViewHeight.constant = 0
-        
-        if self.searchFor == .isForStoreSearch {
-            addBasketIconOverlay(self, grocery: ElGrocerUtility.sharedInstance.activeGrocery, shouldShowGroceryActiveBasket:  ElGrocerUtility.sharedInstance.activeGrocery != nil)
-            self.basketIconOverlay?.grocery = ElGrocerUtility.sharedInstance.activeGrocery
-            self.basketIconOverlay?.shouldShow = true
-            self.refreshBasketIconStatus()
-            return
-        }
         self.setCollectionViewBottomConstraint()
-        
     }
     
     
@@ -280,7 +293,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             self.showNowDataView(noDataString)
         }
         
-        self.dataSource?.productListDataWithRecipes = { [weak self] (productList , searchString , recipes) in
+        self.dataSource?.productListDataWithRecipes = { [weak self] (productList , searchString , recipes , groceryA) in
             guard let self = self else {return}
             if self.searchFor == .isForUniversalSearch {
                 
@@ -288,6 +301,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                     let controller = ElGrocerViewControllers.getGlobalSearchResultsViewController()
                     controller.dataSource.recipeList = recipes
                     controller.dataSource.productList = productList
+                    controller.dataSource.matchedGroceryList = groceryA
                     controller.keyWord = searchString
                     controller.presentingVC = self.presentingVC
                     if !ElGrocerUtility.sharedInstance.isDeliveryMode {
@@ -296,7 +310,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                     self.navigationController?.pushViewController(controller, animated: true)
                     //self.presentingViewController?.tabBarController?.tabBar.isHidden = false
                     //hide tabbar
-                    self.hidetabbar()
+                    self.hideTabBar()
 
                 }
                 
@@ -354,7 +368,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                     self.navigationController?.pushViewController(controller, animated: true)
                     //self.presentingViewController?.tabBarController?.tabBar.isHidden = false
                     //hide tabbar
-                    self.hidetabbar()
+                    self.hideTabBar()
                 }
             }else if self.searchFor == .isForStoreSearch {
                 
@@ -977,13 +991,12 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 FireBaseEventsLogger.trackSearch(self.txtSearch.text ?? self.searchString , topControllerName: searchVC.navigationFromControllerName , isFromUniversalSearch: self.searchFor == .isForUniversalSearch)
             }
             
-                //MARK:- Fix fix it later with sdk version
             /* ---------- Facebook Search Event ----------*/
-            //AppEvents.logEvent(AppEvents.Name.searched, parameters: [AppEvents.Name.searched.rawValue:self.searchString])
-            /* ---------- AppsFlyer Search Event ----------*/
-            
-                // MARK:- TODO fixappsflyer
-           // AppsFlyerLib.shared().logEvent(name: AFEventSearch, values: [AFEventParamSearchString:self.searchString], completionHandler: nil)
+            //Fixme : uncomment facebook event logging
+//            AppEvents.logEvent(AppEvents.Name.searched, parameters: [AppEvents.Name.searched.rawValue : self.searchString])
+//            /* ---------- AppsFlyer Search Event ----------*/
+//
+//            AppsFlyerLib.shared().logEvent(name: AFEventSearch, values: [AFEventParamSearchString:self.searchString], completionHandler: nil)
             //AppsFlyerLib.shared().trackEvent(AFEventSearch, withValues:[AFEventParamSearchString:self.searchString])
             /* ---------- Fabric Search Event ----------*/
             // Answers.Search(withQuery: self.searchString,customAttributes: nil)
@@ -1058,6 +1071,31 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             return
         }
         self.dataSource?.setUsersearchData(searchData)
+        
+        
+        if  model?.modelType == .retailer  {
+            FireBaseEventsLogger.trackRetailerSearch(self.txtSearch.text ?? self.searchString , topControllerName: self.navigationFromControllerName , isFromUniversalSearch: self.searchFor == .isForUniversalSearch, retailId: model?.retailerId)
+            
+            if let grocery = HomePageData.shared.groceryA?.first(where: { groceryObj in
+                return groceryObj.getCleanGroceryID() == model?.retailerId
+            }) {
+                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                if currentAddress != nil  {
+                    UserDefaults.setGroceryId(grocery.dbID , WithLocationId: (currentAddress?.dbID)!)
+                }
+                Thread.OnMainThread { [weak self] in
+                    self?.presentingVC?.navigationController?.dismiss(animated: false, completion: {
+                        UIApplication.topViewController()?.navigationController?.dismiss(animated: false, completion: {
+                            UIApplication.topViewController()?.tabBarController?.selectedIndex = 1
+                        })
+                    })
+                    
+                }
+                return
+            }
+        
+        }
         
         guard self.searchFor != .isForStoreSearch  else {
             var StringToSearch = searchData
@@ -1136,8 +1174,8 @@ extension UniversalSearchViewController : ProductCellProtocol {
                 }else{
                     
                     
-                    let SDKManager = SDKManager.shared
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
+                    let sdkManager = SDKManager.shared
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
                             

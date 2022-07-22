@@ -103,7 +103,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
          addBackButton()
         self.setOrderLableAppearnace()
         self.setOrderData()
-        self.setUpInitailizers() 
+        self.setUpInitailizers()
         
         ElGrocerUtility.sharedInstance.delay(0.5) {
             self.getDeliverySlots()
@@ -137,6 +137,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             if let bar = nav.navigationBar as? ElGrocerNavigationBar {
                 bar.chatButton.chatClick = {
 //                    ZohoChat.showChat(self.order.dbID.stringValue)
+                    MixpanelEventLogger.trackOrderDetailshelp()
                     let groceryID = self.order.grocery.getCleanGroceryID()
                     let sendbirdManager = SendBirdDeskManager(controller: self,orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
                     sendbirdManager.setUpSenBirdDeskWithCurrentUser()
@@ -437,6 +438,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     
     override func backButtonClick() {
+        MixpanelEventLogger.trackOrderDetailsclose()
         if isCommingFromOrderConfirmationScreen {
             self.navigationController?.popToRootViewController(animated: true)
 //            self.tabBarController?.tabBar.isHidden = false
@@ -494,6 +496,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     @IBAction func chatAction(_ sender: Any) {
 //        ZohoChat.showChat(self.order.dbID.stringValue)
+        MixpanelEventLogger.trackOrderDetailshelp()
         let groceryID = self.order.grocery.getCleanGroceryID()
         let sendBirdManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
         sendBirdManager.setUpSenBirdDeskWithCurrentUser()
@@ -503,7 +506,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     @objc
     func orderEditHandler() {
         
-        
+        MixpanelEventLogger.trackOrderDetailsEditOrderClicked(oId: self.order.dbID.stringValue)
         if !self.order.isCandCOrder() {
             
             let currentAddress = getCurrentDeliveryAddress()
@@ -689,6 +692,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     }
     func cancelOrderHandler(_ orderId : String){
         guard !orderId.isEmpty else {return}
+        MixpanelEventLogger.trackOrderDetailsCancelOrderClicked(oId: orderId)
         let cancelationHandler = OrderCancelationHandler.init { (isCancel) in
             self.orderCancelled(isSuccess: isCancel)
         }
@@ -886,7 +890,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.createBasketAndNavigateToView()
     }
     
-    private func createBasketAndNavigateToView(){
+    private func createBasketAndNavigateToView() {
+        
+        guard self.order != nil else {
+            return
+        }
         
         func processDataForDeliveryMode() {
             let groceryID = ElGrocerUtility.sharedInstance.cleanGroceryID(order.grocery.dbID)
@@ -964,6 +972,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }
         }
         
+        
+        
         GoogleAnalyticsHelper.trackReorderProductsAction()
         if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
             self.deleteBasketFromServerWithGrocery(grocery)
@@ -979,8 +989,6 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     private func naviagteToGroceryView(){
        
-        
-        
         
         let SDKManager = SDKManager.shared
         if let nav = SDKManager.rootViewController as? UINavigationController {
@@ -1993,11 +2001,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 if let selectedSlot = currentDeliverySlot {
                     slotTimeStr = selectedSlot.getSlotFormattedString(isDeliveryMode: self.order.isDeliveryOrder())
                     if  selectedSlot.isToday() {
-                        let name =    localizedString("today_title", comment: "") 
+                        let name =    localizedString("today_title", comment: "")
                         slotTimeStr = String(format: "%@ (%@)", name ,slotTimeStr)
                     }else if selectedSlot.isTomorrow()  {
                         
-                        let name =    localizedString("tomorrow_title", comment: "") 
+                        let name =    localizedString("tomorrow_title", comment: "")
                         slotTimeStr = String(format: "%@ (%@)", name,slotTimeStr)
                     }else{
                         slotTimeStr = String(format: "%@ (%@)", selectedSlot.start_time?.getDayName() ?? "" ,slotTimeStr)

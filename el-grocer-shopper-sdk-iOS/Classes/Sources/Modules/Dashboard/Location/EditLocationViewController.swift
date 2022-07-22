@@ -167,7 +167,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var updateButton: UIButton!
     
     
-    @IBOutlet var locationView: AWView! 
+    @IBOutlet var locationView: AWView!
     @IBOutlet var apartmenttxtView: AWView! {
         didSet {
             apartmenttxtView.backgroundColor = UIColor.textfieldBackgroundColor()
@@ -317,7 +317,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         
         if editScreenState == .isForSignUp {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
-            self.addBackButtonWithCrossIconRightSide()
+            self.addBackButtonWithCrossIconRightSide(.navigationBarWhiteColor())
             self.title = localizedString("Sign_up", comment: "")
             self.lblTopMessage.text = localizedString("lbl_add_Address_msg", comment: "")
         }else if editScreenState == .isForAddNew {
@@ -332,7 +332,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         }else {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             self.navigationItem.hidesBackButton = true
-            self.addBackButtonWithCrossIconRightSide()
+            self.addBackButtonWithCrossIconRightSide(.navigationBarWhiteColor())
             self.title = localizedString("dashboard_location_edit_location_title", comment: "")
             self.lblTopMessage.text = localizedString("lbl_Edit_Address_msg", comment: "")
         }
@@ -956,7 +956,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
 //     //   tableViewTopToSearchView.constant = hidden ? 0 : 60
 //        tableViewTopToSearchView.priority = hidden ? UILayoutPriority.defaultHigh : UILayoutPriority.defaultLow
 //        tableViewTopToLocationView.priority = hidden ? UILayoutPriority.defaultLow : UILayoutPriority.defaultHigh
-//        
+//
 //        editLocScrollViewTopToSearchView.constant = hidden ? 0 : 60
 //        editLocScrollViewTopToLocationView.priority = hidden ? UILayoutPriority.defaultHigh : UILayoutPriority.defaultLow
 //        editLocScrollViewTopToSearchView.priority = hidden ? UILayoutPriority.defaultLow : UILayoutPriority.defaultHigh
@@ -1120,10 +1120,24 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         let cell:LocationPersonalInfoTableViewCell = tableView.dequeueReusableCell(withIdentifier: "LocationPersonalInfoTableViewCell", for: indexPath) as! LocationPersonalInfoTableViewCell
         cell.configureView(self.addressTag as! [Dictionary<String, Any>], index: self.selectIndexPath, editScreenState: self.editScreenState)
         cell.buttonClick = {[weak self] in
+            if self?.editScreenState == .isForAddNew {
+                MixpanelEventLogger.trackAddAddressNextClick()
+            } else if self?.editScreenState == .isFromEdit {
+                MixpanelEventLogger.trackEditAddressNextClick()
+            }
             self?.updateButtonHandler("")
         }
         cell.indexSelected = {[weak self] (ind) in
             self?.selectIndexPath = NSIndexPath.init(row: ind , section: 0)
+            if let obj =  self?.addressTag[ind] as? NSDictionary {
+                let id = obj["id"] as? NSNumber ?? NSNumber(-1)
+                let name: String = obj["name"] as? String ?? ""
+                if self?.editScreenState == .isForAddNew {
+                    MixpanelEventLogger.trackAddAddressAddressFilterSelect(filterName: name, filterId: id.stringValue)
+                } else if self?.editScreenState == .isFromEdit {
+                    MixpanelEventLogger.trackEditAddressAddressFilterSelect(filterName: name, filterId: id.stringValue)
+                }
+            }
         }
         if cell.txtShopperName.text?.count == 0 {
             cell.txtShopperName.text = self.deliveryAddress.shopperName
@@ -1317,10 +1331,19 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     // MARK: Button Actions
     
     override func crossButtonClick() {
+        if self.editScreenState == .isFromEdit {
+            MixpanelEventLogger.trackChooseLocationClose()
+        }
         self.backButtonClick()
     }
     
     func backButtonClickedHandler() {
+        
+        if self.editScreenState == .isForAddNew {
+            MixpanelEventLogger.trackAddAddressClose()
+        } else if self.editScreenState == .isFromEdit {
+            MixpanelEventLogger.trackEditAddressClose()
+        }
         self.backButtonClick()
     }
     
@@ -1375,8 +1398,15 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         self.setTableViewHeader()
         
         self.apartmentNumberTextField.placeholder = localizedString("lbl_Apartment", comment: "")
-//        self.floorTextField.placeholder = localizedString("lbl_Floor", comment: "")
-//        self.streetTextField.placeholder =  localizedString("lbl_AreaStreet", comment: "")
+//        self.floorTextField.placeholder = NSLocalizedString("lbl_Floor", comment: "")
+//        self.streetTextField.placeholder =  NSLocalizedString("lbl_AreaStreet", comment: "")
+        
+        if editScreenState == .isForAddNew {
+            MixpanelEventLogger.trackAddAddressAddressTypeSelect(addressType: "Apartment")
+        } else if editScreenState == .isFromEdit {
+            MixpanelEventLogger.trackEditAddressAddressTypeSelect(addressType: "Apartment")
+        }
+        
     }
     
     @IBAction func houseHandler(_ sender: AnyObject) {
@@ -1409,7 +1439,11 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         
        self.apartmentNumberTextField.placeholder =  localizedString("houseTxt", comment: "")
         
-        
+        if editScreenState == .isForAddNew {
+            MixpanelEventLogger.trackAddAddressAddressTypeSelect(addressType: "House")
+        } else if editScreenState == .isFromEdit {
+            MixpanelEventLogger.trackEditAddressAddressTypeSelect(addressType: "House")
+        }
     }
     
     func setUpTextFieldConstraints() {
@@ -1448,6 +1482,12 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
           self.setTableViewHeader()
         
         self.apartmentNumberTextField.placeholder = localizedString("office_no", comment: "")
+        
+        if editScreenState == .isForAddNew {
+            MixpanelEventLogger.trackAddAddressAddressTypeSelect(addressType: "Office")
+        } else if editScreenState == .isFromEdit {
+            MixpanelEventLogger.trackEditAddressAddressTypeSelect(addressType: "Office")
+        }
     }
     
     @IBAction func updateButtonHandler(_ sender: Any) {
@@ -1670,6 +1710,13 @@ extension EditLocationViewController: UITextFieldDelegate , UITextViewDelegate{
 //        }
         
         if textField == self.locNameTextField {
+            
+            if editScreenState == .isForAddNew {
+                MixpanelEventLogger.trackAddAddressLocationFieldClick()
+            } else if editScreenState == .isFromEdit {
+                MixpanelEventLogger.trackEditAddressLocationFieldClick()
+            }
+            
             let locationMapController = ElGrocerViewControllers.locationMapViewController()
             locationMapController.delegate = self
             
@@ -1787,6 +1834,36 @@ extension EditLocationViewController: UITextFieldDelegate , UITextViewDelegate{
         
         return isEnableToChangeText
     }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        
+        if editScreenState == .isForAddNew {
+            MixpanelEventLogger.trackAddAddressAditionalInformationEntered(info: textView.text ?? "")
+        } else if editScreenState == .isFromEdit {
+            MixpanelEventLogger.trackEditAddressAditionalInformationEntered(info: textView.text ?? "")
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if textField == self.locNameTextField {
+            /*
+            if editScreenState == .isForAddNew {
+                MixpanelEventLogger.trackAddAddressLocationFieldClick()
+            } else if editScreenState == .isFromEdit {
+                MixpanelEventLogger.trackEditAddressLocationFieldClick()
+            }*/
+        } else {
+            if editScreenState == .isForAddNew {
+                MixpanelEventLogger.trackAddAddressAddressFieldsEntered(addressText: textField.text ?? "")
+            } else if editScreenState == .isFromEdit {
+                MixpanelEventLogger.trackEditAddressAddressFieldsEntered(addressText: textField.text ?? "")
+            }
+        }
+
+        
+    }
+    
 }
 
 // MARK: GMSAutocompleteFetcherDelegate

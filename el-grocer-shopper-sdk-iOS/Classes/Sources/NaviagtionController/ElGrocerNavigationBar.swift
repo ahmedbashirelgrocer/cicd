@@ -43,6 +43,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         setChatButtonHidden(true)
         setLocationHidden(true)
         self.addProfileButton()
+        self.addSideMenuButton()
         self.addCartButton()
         NotificationCenter.default.addObserver(self, selector: #selector(ElGrocerNavigationBar.chatStateChange(notification:)), name: KChatNotifcation, object: nil)
     }
@@ -445,6 +446,15 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
     }
     
+    func setSideMenuButtonHidden(_ hidden:Bool) {
+        
+        if let profileBtn = self.profileButton {
+            profileBtn.isHidden = hidden
+        }
+    }
+    
+    
+    
     func setNavBarHidden(_ hidden:Bool) {
         
         if hidden{
@@ -563,6 +573,14 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.profileButton.setImage(image, for: .normal)
         self.addSubview(self.profileButton)
         setProfileButtonHidden(true)
+    }
+    
+    fileprivate func addSideMenuButton() {
+        let image = UIImage(name: "sideMenu")
+        self.profileButton  = UIButton(type: .custom)
+        self.profileButton.setImage(image, for: .normal)
+        self.addSubview(self.profileButton)
+        setSideMenuButtonHidden(true)
     }
     
     fileprivate func addCartButton() {

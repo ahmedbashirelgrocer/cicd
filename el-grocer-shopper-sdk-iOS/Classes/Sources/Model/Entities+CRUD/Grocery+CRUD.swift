@@ -113,6 +113,40 @@ extension Grocery {
         return resultGroceries
     }
     
+    class func insertOrReplaceGroceriesFromAlgoliaDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext , _ isDelivery : Bool = true) -> [Grocery] {
+        
+        var resultGroceries = [Grocery]()
+        
+        if let responseObjects = dictionary["retailers"] as? [NSDictionary] {
+            for responseDict in responseObjects {
+                let grocery = createGroceryFromDictionary(responseDict, context: context , isDelivery )
+                resultGroceries.append(grocery)
+            }
+        }else{
+            if let data = (dictionary["data"] as? NSDictionary) {
+                if let responseObjects = data["retailers"] as? [NSDictionary] {
+                    for responseDict in responseObjects {
+                        let grocery = createGroceryFromDictionary(responseDict, context: context , isDelivery )
+                        resultGroceries.append(grocery)
+                    }
+                }else if let data = (dictionary["data"] as? NSDictionary)  {
+                    if (data["id"] as? Int) != nil {
+                        let grocery = createGroceryFromDictionary(data, context: context , isDelivery )
+                        resultGroceries.append(grocery)
+                    }
+                }
+            }
+        }
+            //TODO: Make sure that data is saving after this
+        do {
+            try context.save()
+        } catch (let error) {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        }
+        
+        return resultGroceries
+    }
+    
     class func insertGroceriesWithNotAvailableProducts(_ dictionary:NSDictionary, context:NSManagedObjectContext) -> (groceries:[Grocery], notAvailableProducts:[[Int]], availableProductsPrices:NSDictionary) {
         
         var resultGroceries = [Grocery]()

@@ -33,6 +33,7 @@ class AdyenManager {
     //
     static let applePayMerchantIdentifier = ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.staging.description() : AppleMerchantIdentifier.live.description()
     static let merchantAccount = "ElGrocerUAE-online"
+    static let KEY_SHOPPER_INTERACTION = "shopperInteraction"
     
     let apiContext = APIContext(environment: ElGrocerUtility.sharedInstance.isTesting() ? Environment.test : Environment.live , clientKey: clientKey)
     static let sharedInstance = AdyenManager()
@@ -110,18 +111,15 @@ class AdyenManager {
         var configurations = CardComponent.Configuration()
         configurations.showsStorePaymentMethodField = false
         configurations.showsHolderNameField = true
-        
-      //  let localizationParameters = LocalizationParameters.init(bundle: Bundle.resource, tableName: nil, keySeparator: "=", locale: "base")
-      
-        
+        var stored = StoredCardConfiguration.init()
+        stored.showsSecurityCodeField = false
+        configurations.stored = stored
+     
         let style = FormComponentStyle(tintColor: .navigationBarColor())
-     //   style.mainButtonItem = FormButtonItemStyle.secondary(font: .HelveticaBoldFont(17), textColor: .white)
+     
         
         self.cardComponent = CardComponent(paymentMethod: paymentMethod, apiContext: self.apiContext, configuration: configurations, style: style)
-      //  let view = UIView.init(frame: style.mainButtonItem.button.borderColor?.accessibilityFrame ?? .zero)
-       // view.backgroundColor = .navigationBarColor()
-        
-        
+     
         if let component = self.cardComponent{
             component.delegate = self
             component.cardComponentDelegate = self

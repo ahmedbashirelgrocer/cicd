@@ -1968,7 +1968,7 @@ Oreo";
 "txt_available_points" = "Available: ";
 "smile_point_unit" = "pts";
 "smile_point_redeem" = "Smiles Points will be redeemed to pay for this order";
-"not_enough_smile_point_initial" = "Not enough Smiles Points! You need at least";
+"not_enough_smile_point_initial" = "Not enough Smiles Points! You need additional";
 "not_enough_smile_point_end" = "Smiles Points to pay for this order in full.";
 "txt_earn" = "Earn";
 "txt_benifits" = "Benefits";
@@ -1983,6 +1983,7 @@ Oreo";
 "Yes" = "Yes";
 "No" = "No";
 "lbl_StartShopping" = "Start Shopping";
+
 //MARK: Apply promoCode controller
 "title_apply_promo" = "Apply Promocode";
 "title_available_promo" = "Available Promocodes";
@@ -1993,3 +1994,20 @@ Oreo";
 "txt_add_to_use_end" = "to use";
 "txt_btn_applied" = "APPLIED";
 "txt_no_promo_found" = "Your active vouchers will be displayed here.";
+"txt_remove" = "REMOVE";
+"txt_enjoy_promo" = "Enjoy your discount!";
+
+//MARK: Account deletion
+"lbl_warning_acount_deletion" = "All of your active orders will be canceled due to account deletion!";
+"delete_account_placeholder_instructions" = "Do you have any extra feedback for us? (Optional)";
+"lbl_confirm_mobile_num" = "Confirm your mobile number";
+"lbl_please_enter_mobile" = "Please enter your mobile number to confirm account deletion.";
+"btn_continue_delete_account_add_num" = "Confirm";
+"lbl_enter_otp" = "Enter OTP";
+"lbl_please_enter_otp" = "Please enter verification code sent to your mobile number ";
+"resend_code" = "Resend Code";
+"resend_code_in_time" = "Resend code in ";
+"we_are_sorry_to_see_you_go_title" = "We're sorry to see you go, and your account should be deleted within 48 hours.";
+"we_are_sorry_to_see_you_go_descr" = "You will be redirected to the login page";
+"we_are_sorry_to_see_you_go_btn_title" = "OK";
+

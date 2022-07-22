@@ -18,6 +18,7 @@ class BrandHeaderCell : UICollectionReusableView {
     @IBOutlet weak var brandName: UILabel!
     @IBOutlet var brandImage: UIImageView!
     @IBOutlet var customCollectionViewWithBanners: CustomCollectionViewWithBanners!
+    @IBOutlet var imageAspectRatio: NSLayoutConstraint!
     
     
     var placeholderPhoto = UIImage(name: "product_placeholder")!
@@ -53,15 +54,16 @@ class BrandHeaderCell : UICollectionReusableView {
 //    }
     
     
-    func configureWithBrand(_ brand:GroceryBrand, itemsCount:Int) {
+    func configureWithBrand(_ brand:GroceryBrand, itemsCount:Int, isForBrandDeepLink: Bool = true) {
 
         self.brandName.text = brand.name
-
 //        let countString = itemsCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
 //        self.brandItemsCount.text = "\(itemsCount) \(countString)"
 
         var brandImageUrl = ""
-
+        if !isForBrandDeepLink {
+            imageAspectRatio.setMultiplier(multiplier: 2.0)
+        }
         if brand.products.count > 0 {
 
             let product =  brand.products[0]

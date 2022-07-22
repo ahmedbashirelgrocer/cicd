@@ -87,17 +87,18 @@ class ElGrocerNavigationController : UINavigationController {
     
     @objc func profileButtonClick() {
         print("profileButtonClick")
+        MixpanelEventLogger.trackNavBarProfile()
         let settingController = ElGrocerViewControllers.settingViewController()
         self.pushViewController(settingController, animated: true)
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
     }
     
     @objc func cartButtonClick() {
         print("cartButtonClick")
         //hide tabbar
-        hidetabbar()
-        
+        hideTabBar()
+        MixpanelEventLogger.trackNavBarCart()
         let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
         self.pushViewController(myBasketViewController, animated: true)
     }
@@ -166,6 +167,13 @@ class ElGrocerNavigationController : UINavigationController {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setProfileButtonHidden(hidden)
     }
+    
+    func setSideMenuButtonHidden(_ hidden:Bool) {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setSideMenuButtonHidden(hidden)
+    }
+    // sideMenu
+    
     func setCartButtonHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setCartButtonHidden(hidden)

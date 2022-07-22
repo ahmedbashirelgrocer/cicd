@@ -40,7 +40,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
     var lastSelectType : StoreType? = nil
     var controllerTitle: String = ""
     var selectStoreType : StoreType? = nil
-    
+    var retailerType: RetailerType? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,7 +66,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        hidetabbar()
+        hideTabBar()
         
         if self.controllerType == .viewAllStores {
             self.title = localizedString("title_all_stores", comment: "")
@@ -200,6 +200,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
             let heightConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 90)
             let weidthConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
             self.view.addConstraints([heightConstraint,weidthConstraint])
+            self.searchBarHeader.retailerType = self.retailerType
             self.searchBarHeader.setNeedsLayout()
             self.searchBarHeader.layoutIfNeeded()
             self.tableViewTopConstraint.constant = self.searchBarHeader.frame.size.height
@@ -209,6 +210,9 @@ class SpecialtyStoresGroceryViewController: UIViewController {
     override func rightBackButtonClicked() {
 //        self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: true)
+        if self.retailerType?.getRetailerType() == GroceryRetailerMarketType.speciality || self.retailerType?.getRetailerType() == GroceryRetailerMarketType.supermarket{
+            MixpanelEventLogger.trackStoreListingClose(storeListCategoryId: "\(self.retailerType?.dbId ?? -1)" , storeListCategoryName: self.retailerType?.getRetailerName() ?? "")
+        }
         /*
         if  self.navigationController?.viewControllers.count == 1 {
             self.navigationController?.dismiss(animated: true, completion: nil)
@@ -248,6 +252,9 @@ class SpecialtyStoresGroceryViewController: UIViewController {
 //            ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
         }
         self.makeActiveTopGroceryOfArray()
+        if let retailerType = retailerType {
+            MixpanelEventLogger.trackStoreListingStoreSelected(storeListCategoryId: "\(retailerType.dbId ?? -1)", storeListCategoryName: retailerType.getRetailerName() ?? "", storeId: grocery.dbID, storeName: grocery.name ?? "")
+        }
             //let currentSelf = self;
         DispatchQueue.main.async {
             // if let SDKManager = SDKManager.shared {
@@ -455,6 +462,9 @@ extension SpecialtyStoresGroceryViewController: AWSegmentViewProtocol {
        
         
         guard selectedSegmentIndex > 0 else {
+            if let retailerType = self.retailerType {
+                MixpanelEventLogger.trackStoreListingCategoryFilter(storeListCategoryId: "\(retailerType.dbId)", storeListCategoryName: retailerType.getRetailerName(), selectedCatId: "-1", selectedCatName: "All Stores")
+            }
             self.filteredGroceryArray = self.groceryArray
             self.tableView.reloadDataOnMain()
             return
@@ -476,6 +486,9 @@ extension SpecialtyStoresGroceryViewController: AWSegmentViewProtocol {
         self.tableView.reloadDataOnMain()
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
+        if let retailerType = self.retailerType {
+            MixpanelEventLogger.trackStoreListingCategoryFilter(storeListCategoryId: "\(retailerType.dbId)", storeListCategoryName: retailerType.getRetailerName(), selectedCatId: "\(selectedType.storeTypeid)", selectedCatName: selectedType.name ?? "")
+        }
         self.lastSelectType = selectedType
         
     }

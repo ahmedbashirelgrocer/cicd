@@ -13,6 +13,7 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
     
     
     var instructionsText : ((_ text : String?) -> Void)?
+    var controller: UIViewController?
     @IBOutlet var lblRemaining: UILabel! {
         didSet {
             self.lblRemaining.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "0/100")
@@ -27,6 +28,7 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
         }
     }
     @IBOutlet var btnCross: UIButton!
+    @IBOutlet var superBGView: AWView!
     var tblView : UITableView!
     
     override func awakeFromNib() {
@@ -49,8 +51,8 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
                 self.txtNoteView.text = text
             }
         }
-        self.txtNoteView.superview?.layer.borderWidth = isFromCart ? 1 : 0
-        self.txtNoteView.superview?.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.superBGView.borderWidth = isFromCart ? 1 : 0
+        self.superBGView.borderColor = isFromCart ? UIColor.navigationBarColor() : UIColor.clear
     }
     
     @IBAction func crossAction(_ sender: Any) {
@@ -115,6 +117,11 @@ extension instructionsTableCell : UITextViewDelegate {
         self.tblView.endUpdates()
     }
     func textViewDidEndEditing (_ textView: UITextView) {
+        if self.controller is MyBasketPlaceOrderVC {
+            if textView.text?.count ?? 0 > 0 {
+                MixpanelEventLogger.trackCheckoutInstructionAdded(instruction: textView.text ?? "")
+            }
+        }
         if let clouser = self.instructionsText {
             clouser(textView.text)
         }

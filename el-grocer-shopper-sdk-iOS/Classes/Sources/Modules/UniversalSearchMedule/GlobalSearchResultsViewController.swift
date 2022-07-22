@@ -7,7 +7,8 @@
 //
 
 import UIKit
-var minCellHeight =  CGFloat.leastNormalMagnitude + 0.01  
+import SwiftMessages
+var minCellHeight =  CGFloat.leastNormalMagnitude + 0.01
 class GlobalSearchResultsViewController: UIViewController {
     
    
@@ -50,6 +51,7 @@ class GlobalSearchResultsViewController: UIViewController {
         self.registerTableViewObject()
         self.setDataSource()
         self.setTableViewHeader()
+        self.LogEvents()
         
     }
     
@@ -68,6 +70,10 @@ class GlobalSearchResultsViewController: UIViewController {
         self.edgesForExtendedLayout = UIRectEdge.bottom
     }
    
+    func LogEvents() {
+        MixpanelEventLogger.trackHomeSearchSubmit(keyWord: self.keyWord)
+    }
+    
     func setApearance() {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -92,32 +98,42 @@ class GlobalSearchResultsViewController: UIViewController {
     func registerTableViewObject() {
         
         self.tableView.backgroundColor = .tableViewBackgroundColor()//.white
-        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource)
+        let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: .resource)
         self.tableView.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
-        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: Bundle.resource)
+        let ElgrocerCategorySelectTableViewCell = UINib(nibName: KElgrocerCategorySelectTableViewCell , bundle: .resource)
         self.tableView.register(ElgrocerCategorySelectTableViewCell, forCellReuseIdentifier: KElgrocerCategorySelectTableViewCell)
         
-        let homeCellNib = UINib(nibName: "HomeCell", bundle: Bundle.resource)
+        
+        let StoreListGlobalSearchCell = UINib(nibName: "StoreListGlobalSearchCell" , bundle: .resource)
+        self.tableView.register(StoreListGlobalSearchCell, forCellReuseIdentifier: "StoreListGlobalSearchCell")
+        
+        let homeCellNib = UINib(nibName: "HomeCell", bundle: .resource)
         self.tableView.register(homeCellNib, forCellReuseIdentifier: kHomeCellIdentifier)
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: .resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
-        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
+        let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: .resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
         
-        let genricHomeRecipeTableViewCell = UINib(nibName: KGenricHomeRecipeTableViewCell , bundle: Bundle.resource)
+        let genricHomeRecipeTableViewCell = UINib(nibName: KGenricHomeRecipeTableViewCell , bundle: .resource)
         self.tableView.register(genricHomeRecipeTableViewCell, forCellReuseIdentifier: KGenricHomeRecipeTableViewCell )
         
-        let genericRecipeTitleTableViewCell = UINib(nibName: "GenericRecipeTitleTableViewCell" , bundle: Bundle.resource)
+        let genericRecipeTitleTableViewCell = UINib(nibName: "GenericRecipeTitleTableViewCell" , bundle: .resource)
         self.tableView.register(genericRecipeTitleTableViewCell, forCellReuseIdentifier: "GenericRecipeTitleTableViewCell" )
+        
+        if #available(iOS 15.0, *) {
+            self.tableView.sectionHeaderTopPadding = 0
+        }
          
-        let categoryTextOnlyCell = UINib(nibName: "CarBrandCollectionCell" , bundle: Bundle.resource)
+        let categoryTextOnlyCell = UINib(nibName: "CarBrandCollectionCell" , bundle: .resource)
         self.segmentsCollectionView!.register(categoryTextOnlyCell, forCellWithReuseIdentifier: "CarBrandCollectionCell")
         self.segmentsCollectionView.delegate = self
         self.segmentsCollectionView.dataSource = self
+        
+        
     }
     func setDataSource() {
         self.dataSource.searchString = self.keyWord
@@ -279,27 +295,15 @@ extension GlobalSearchResultsViewController : NavigationBarProtocol , Navigation
 extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        /*
+     
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                return 40
-            }
-            if indexPath.row == 1 {
-                if self.groceryAndBannersList.count > 0 {
-                    let final =  singleTypeRowHeight
-                    return CGFloat(final)
-                }else {
-                    return .leastNormalMagnitude + 0.01
-                }
-              
-            }
-        }*/
+            return (self.dataSource.matchedGroceryList?.count ?? 0) > 0 ? ((self.dataSource.matchedGroceryList?.count ?? 0) == 1 ? 175 : 210) : .leastNonzeroMagnitude
+        }
         
         if indexPath.section == 2 {
             return 40
         }
-        
-        
+    
         if indexPath.row < self.groceryAndBannersList.count {
             let homeFeed = self.groceryAndBannersList[indexPath.row]
             if homeFeed.type == .Banner {
@@ -317,15 +321,12 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1//2//3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-//        if section == 0 {
-//            return 2
-//        }
-        if section == 1 {
+        if section == 0 {
             return 1
         }
         
@@ -337,10 +338,38 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
         return self.groceryAndBannersList.count + (isRecipeAvailable ? 2 : 0)
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 {
+            return 40
+        }
+        return .leastNonzeroMagnitude
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 1 && self.dataSource.productList?.count ?? 0 > 0  {
+            
+            let myLabel = UILabel()
+            myLabel.frame = CGRect(x: 20, y: 8, width: 320, height: 30)
+            myLabel.setBody3BoldUpperStyle(false)
+            myLabel.text = "Stores that sell ‘ \(self.keyWord)’".uppercased()
+            myLabel.highlight(searchedText: "‘ \(self.keyWord)’".uppercased(), color: .navigationBarColor(), size: 14)
+            let headerView = UIView()
+            headerView.backgroundColor = .tableViewBackgroundColor()
+            headerView.addSubview(myLabel)
+            return headerView
+        }
+        return UIView()
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 1 {
-            let cell : SpaceTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "SpaceTableViewCell", for: indexPath) as! SpaceTableViewCell
+        if indexPath.section == 0 {
+            let cell : StoreListGlobalSearchCell  = self.tableView.dequeueReusableCell(withIdentifier: "StoreListGlobalSearchCell", for: indexPath) as! StoreListGlobalSearchCell
+            if let groceries = self.dataSource.matchedGroceryList {
+                cell.configureCell(groceryA: groceries, searchString: self.keyWord)
+            }
+            cell.groceryClicked = { [weak self] (grocery) in
+                self?.navigateToGrocery(grocery, homeFeed: nil, false)
+            }
             return cell
         }
         /*
@@ -379,7 +408,6 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
             }
         }*/
         
-        
         if indexPath.row < self.groceryAndBannersList.count {
             let homeFeed = self.groceryAndBannersList[indexPath.row]
             if homeFeed.type == .Banner {
@@ -405,8 +433,8 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
                 return cell
             }
             let homeCell = tableView.dequeueReusableCell(withIdentifier: kHomeCellIdentifier) as! HomeCell
-            homeCell.configureCell(homeFeed, grocery: homeFeed.attachGrocery)
             homeCell.delegate = self
+            homeCell.configureCell(homeFeed, grocery: homeFeed.attachGrocery)
             homeCell.backgroundColor = .tableViewBackgroundColor()
             return homeCell
             
@@ -462,8 +490,11 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
         ElGrocerUtility.sharedInstance.clickedBannerUniversalSearch = banner
         self.navigateToGrocery(grocery, homeFeed: homeFeed)
     }
-
     func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home? ) {
+        self.navigateToGrocery(grocery, homeFeed: homeFeed, true)
+    }
+    func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home?, _ isCommingFromUniversalSearch : Bool
+     = true) {
         
        
                 
@@ -474,20 +505,37 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
         func goToMain (_ grocery : Grocery) {
             SpinnerView.hideSpinnerView()
             ElGrocerUtility.sharedInstance.activeGrocery = grocery
-            ElGrocerUtility.sharedInstance.isCommingFromUniversalSearch = true
+            ElGrocerUtility.sharedInstance.isCommingFromUniversalSearch = isCommingFromUniversalSearch
             ElGrocerUtility.sharedInstance.searchFromUniversalSearch = homeFeed
             ElGrocerUtility.sharedInstance.searchString = self.keyWord
             self.navigationController?.dismiss(animated: false, completion: {
-                if let tabbar = self.presentingVC?.tabBarController {
-                    if  let navMain  = tabbar.viewControllers?[1] as? UINavigationController  {
-                        if navMain.viewControllers.count > 0 {
-                            if let mainVC =   navMain.viewControllers[0] as? MainCategoriesViewController {
-                                mainVC.navigationController?.popToRootViewController(animated: false)
+                if let vc = self.presentingVC as? HyperMarketViewController {
+                    self.presentingVC?.dismiss(animated: false, completion: {
+                        vc.goToGrocery(grocery, nil)
+                        self.presentingVC?.tabBarController?.selectedIndex = 1
+                    })
+                }else if let vc = self.presentingVC as? SpecialtyStoresGroceryViewController {
+                    self.presentingVC?.dismiss(animated: false, completion: {
+                        vc.goToGrocery(grocery, nil)
+                        self.presentingVC?.tabBarController?.selectedIndex = 1
+                    })
+                }else if let vc = self.presentingVC as? ShopByCategoriesViewController {
+                    self.presentingVC?.dismiss(animated: false, completion: {
+//                        vc.goToGrocery(grocery, nil)
+                        self.presentingVC?.tabBarController?.selectedIndex = 1
+                    })
+                }else {
+                    if let tabbar = self.presentingVC?.tabBarController {
+                        if  let navMain  = tabbar.viewControllers?[1] as? UINavigationController  {
+                            if navMain.viewControllers.count > 0 {
+                                if let mainVC =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                    mainVC.navigationController?.popToRootViewController(animated: false)
+                                }
                             }
                         }
                     }
+                    self.presentingVC?.tabBarController?.selectedIndex = 1
                 }
-                self.presentingVC?.tabBarController?.selectedIndex = 1
             })
         }
     
@@ -562,7 +610,7 @@ extension GlobalSearchResultsViewController : UICollectionViewDelegate , UIColle
         storeCell.setDesSelected()
         
         if indexPath.item == 0 {
-            storeCell.lblBrandName.text = "All stores" // TODO: localization
+            storeCell.lblBrandName.text = "All stores".uppercased() // TODO: localization
             if self.selectedSegment == nil {
                 storeCell.setSelected()
             }

@@ -27,11 +27,6 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     //sab
     @IBOutlet var btnSaveBottomConstraint: NSLayoutConstraint!
     @IBOutlet var btnSaveTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var phoneTextField: ElgrocerTextField! {
-        didSet {
-            phoneTextField.text = "+971"
-        }
-    }
     @IBOutlet var lblHeading: UILabel!{
         didSet{
             lblHeading.setH4SemiBoldStyle()
@@ -39,22 +34,20 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         }
     }
     
-//    @IBOutlet var phoneTextField: FPNTextField! {
-//        didSet {
-//            phoneTextField.hasPhoneNumberExample = false // true by default
-//            phoneTextField.parentViewController = self
-//            phoneTextField.layer.cornerRadius = 8.0
-//            phoneTextField.placeholder = localizedString("my_account_phone_field_label", comment: "")
-//            phoneTextField.customDelegate = self
-//            phoneTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
-//        }
-//    }
-
-    @IBOutlet weak var locationName: UITextField!
-    @IBOutlet weak var locationAddressTextField: UITextField!
-    @IBOutlet weak var streetTextField: UITextField!
-    @IBOutlet weak var buildingTextField: UITextField!
-    @IBOutlet weak var apartmentTextField: UITextField!
+    @IBOutlet var phoneTextField: FPNTextField! {
+        didSet {
+            phoneTextField.hasPhoneNumberExample = false // true by default
+            phoneTextField.parentViewController = self
+            phoneTextField.layer.cornerRadius = 8.0
+            phoneTextField.placeholder = localizedString("my_account_phone_field_label", comment: "")
+            phoneTextField.customDelegate = self
+            phoneTextField.flagSize = CGSize.init(width: 24, height: 24)
+            phoneTextField.flagButtonEdgeInsets = UIEdgeInsets.init(top: 0, left: -16, bottom: 0, right: 8)
+            if SDKManager.shared.launchOptions?.isSmileSDK == true {
+                phoneTextField.isEnabled = false
+            }
+        }
+    }
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var updateButton: UIButton!
@@ -79,14 +72,10 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         //register for keyboard notifications
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: nil)
-        //sab
-        //self.deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         self.setInitialControllerAppearance()
         
         self.setProfileDataInView()
-        //sab
-        //self.setLocationDataInView()
         
         //tap gesture
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.dismissKeyboard))
@@ -94,8 +83,6 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         
         //validation
         _ = validateFields()
-        
-        //self.designPhoneTextField()
     }
     
     deinit {
@@ -109,14 +96,6 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsEditProfileScreen)
         FireBaseEventsLogger.setScreenName( kGoogleAnalyticsEditProfileScreen , screenClass: String(describing: self.classForCoder))
     }
-    
-    func designPhoneTextField(){
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 32 + 24 + 8, height: self.phoneTextField.frame.height))
-        phoneTextField.leftView = paddingView
-        phoneTextField.leftViewMode = UITextField.ViewMode.always
-        //phoneTextField.setCustomFloatLabelAlignment(xDistance: 32 + 24 + 8)
-    }
-    
     func backButtonClickedHandler() {
         backButtonClick()
     }
@@ -154,50 +133,16 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         //update objects state
         self.userProfile.name = self.usernameTextField.text!
         self.userProfile.email = self.emailTextField.text!
-        self.userProfile.phone = self.phoneTextField.text!
-        //sab
-//        self.deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-//        self.deliveryAddress.locationName =  self.locationName.text!
-//
-//        self.deliveryAddress.street = self.streetTextField.text!
-//        self.deliveryAddress.building = self.buildingTextField.text!
-//        self.deliveryAddress.apartment = self.apartmentTextField.text!
-//        self.deliveryAddress.address = self.locationAddressTextField.text!
-//        self.deliveryAddress.latitude = self.deliveryAddressLocation!.coordinate.latitude
-//        self.deliveryAddress.longitude = self.deliveryAddressLocation!.coordinate.longitude
+        self.userProfile.phone = self.finalPhoneNumber//self.phoneTextField.text!
         
         ElGrocerApi.sharedInstance.updateUserProfile(self.userProfile.name!, email: self.userProfile.email, phone: self.userProfile.phone!) { (result:Bool) -> Void in
             
             if result {
-                
-                // IntercomeHelper.updateUserProfileInfoToIntercom()
-                // PushWooshTracking.updateUserProfileInfo()
                 SpinnerView.hideSpinnerView()
                 DatabaseHelper.sharedInstance.saveDatabase()
                 // PushWooshTracking.updateUserAddressInfo()
                 ElGrocerUtility.sharedInstance.isUserProfileUpdated = true
                 self.navigationController?.popToRootViewController(animated: true)
-                //sab
-//                ElGrocerApi.sharedInstance.updateDeliveryAddress(self.deliveryAddress, completionHandler: { (result:Bool) -> Void in
-//
-//                    SpinnerView.hideSpinnerView()
-//
-//                    if result {
-//
-//                        DatabaseHelper.sharedInstance.saveDatabase()
-//                        // IntercomeHelper.updateUserAddressInfoToIntercom()
-//                        // PushWooshTracking.updateUserAddressInfo()
-//                        ElGrocerUtility.sharedInstance.isUserProfileUpdated = true
-//                        self.navigationController?.popToRootViewController(animated: true)
-//
-//                    } else {
-//
-//                        DatabaseHelper.sharedInstance.mainManagedObjectContext.rollback()
-//                        self.showErrorAlert()
-//                        self.setUpdateButtonEnabled(true)
-//                    }
-//                    NotificationCenter.default.post(name: Notification.Name(rawValue: KCheckPhoneNumber), object: nil)
-//                })
                 
             } else {
                 
@@ -224,19 +169,9 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         setTextFieldAppearance(self.usernameTextField, placeholder: localizedString("my_account_name_field_label", comment: ""))
         setTextFieldAppearance(self.emailTextField, placeholder: localizedString("my_account_email_field_label", comment: ""))
         setTextFieldAppearance(self.phoneTextField, placeholder: localizedString("my_account_phone_field_label", comment: ""))
-        setFlagImageInTextField()
-//        setLeftPaddingPoints()
-        //sab
-//        setTextFieldAppearance(self.locationName, placeholder: localizedString("registration_location_name_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-//        setTextFieldAppearance(self.locationAddressTextField, placeholder: localizedString("registration_address_text_field_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-//        setTextFieldAppearance(self.streetTextField, placeholder: localizedString("registration_location_street_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-//        setTextFieldAppearance(self.buildingTextField, placeholder: localizedString("registration_location_building_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-//        setTextFieldAppearance(self.apartmentTextField, placeholder: localizedString("registration_location_apartment_placeholder", comment: ""), borderColor: UIColor.borderGrayColor())
-        
         self.setUpUpdateButtonAppearance()
         usernameTextField.dtLayer.backgroundColor = UIColor.white.cgColor
         emailTextField.dtLayer.backgroundColor = UIColor.white.cgColor
-        phoneTextField.dtLayer.backgroundColor = UIColor.white.cgColor
         
     }
     func setSaveButtonPosition(isKeyBoardVisible: Bool) {
@@ -247,20 +182,6 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
             btnSaveBottomConstraint.isActive = true
             btnSaveTopConstraint.isActive = false
         }
-    }
-    
-    func setFlagImageInTextField() {
-//        phoneTextField.paddingX = 50
-        phoneTextField.setInitialPadding(leftPadding: 50)
-        
-//        let imageView = UIImageView(frame: CGRect(x: 16, y: 16, width: 24, height: 24))
-//        let image = UIImage(name: "flagUAE")
-//        imageView.image = image
-//        imageView.contentMode = .scaleAspectFit
-//        let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: phoneTextField.frame.height))
-//        iconContainerView.addSubview(imageView)
-//        phoneTextField.leftView = iconContainerView
-//        phoneTextField.leftViewMode = .always
     }
     func setTextFieldAppearance(_ textField:UITextField, placeholder:String) {
         
@@ -273,80 +194,28 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     }
     
     func setUpUpdateButtonAppearance() {
-        //sab
-//        let submitString = NSMutableAttributedString(string: localizedString("my_account_update_button", comment: ""))
-//        submitString.addKernSpacing(2.0, font:UIFont.lightFont(20), fontSize: 20.0, fontColor: UIColor.white)
-//
-//        self.updateButton.setAttributedTitle(submitString, for: UIControl.State())
         self.updateButton.layer.cornerRadius = 28
         self.updateButton.clipsToBounds = true
         self.updateButton.setTitle(localizedString("my_account_update_button", comment: ""), for: UIControl.State())
-        self.updateButton.setH4SemiBoldWhiteStyle()
-//        self.updateButton.layer.borderWidth = 1
-//        self.updateButton.layer.borderColor = UIColor.white.cgColor
-    }
+        self.updateButton.setH4SemiBoldWhiteStyle()    }
 
     // MARK: Data
-    
-    func setLocationDataInView() {
-        
-        self.locationName.text = self.deliveryAddress.locationName
-        self.streetTextField.text = self.deliveryAddress.street
-        self.buildingTextField.text = self.deliveryAddress.building
-        self.apartmentTextField.text = self.deliveryAddress.apartment
-        self.locationAddressTextField.text = self.deliveryAddress.address
-        self.deliveryAddressLocation = CLLocation(latitude: self.deliveryAddress.latitude, longitude: self.deliveryAddress.longitude)
-    }
-    
     func setProfileDataInView() {
-        
         self.usernameTextField.text = self.userProfile.name
         self.emailTextField.text = self.userProfile.email
-        if self.userProfile.phone?.contains("+971") ?? false {
-            self.phoneTextField.text = self.userProfile.phone
-        }else {
-            self.phoneTextField.text?.append(self.userProfile.phone ?? "")
-        }
-        
-        //self.phoneTextField.isUserInteractionEnabled = self.phoneTextField.text?.isEmpty ?? true
+        self.phoneTextField.set(phoneNumber: self.userProfile.phone ?? "")
     }
-    
     // MARK: Keyboard handling
-    
     @objc func keyboardWillShow(_ notification: Notification) {
-        
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-        
-//            self.scrollViewBottomSpaceConstraint.constant = CGFloat(keyboardSize.height + kSubmitButtonBottomConstraint)
-            
-//            UIView.animateWithDuration(0.33, animations: { () -> Void in
-//                
-//                self.view.layoutIfNeeded()
-//            })
-//        }
     }
-    
     @objc func keyboardWillHide(_ notification: Notification) {
         self.scrollView.setContentOffset(CGPoint.zero, animated: true)
-        
-        DispatchQueue.main.async {
-//            self.scrollViewBottomSpaceConstraint.constant = kSubmitButtonBottomConstraint
-//            UIView.animateWithDuration(0.33, animations: { () -> Void in
-//                
-//                self.view.layoutIfNeeded()
-//                self.view.layoutSubviews()
-//            })
-            
-        }
     }
-    
     @objc func dismissKeyboard() {
         
         self.view.endEditing(true)
     }
-    
     // MARK: View scrolling
-    
     fileprivate func scrollViewWhenEditingTextField(_ textField:UITextField, preferredScrollDistance:CGFloat?) {
         
         // this is magic constant because keyboard notification is called after textfield delegate method (to get keyboard height)
@@ -357,18 +226,12 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
             self.scrollView.setContentOffset(CGPoint(x: 0, y: textField.frame.origin.y - scrollDistance), animated: true)
         }
     }
-    
     // MARK: Validation
-    
     func validateFields() -> Bool {
         
         let enableSubmitButton = !self.usernameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && self.emailTextField.text!.isValidEmail()
             && !self.phoneTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-        //sab
-//            && !self.locationName.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-//            && !self.locationAddressTextField.text!.isEmpty
-//            && self.deliveryAddressLocation != nil
 
         setUpdateButtonEnabled(enableSubmitButton)
         
@@ -391,12 +254,6 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
             
         }
         
-//        if Platform.isSimulator {
-//            
-//            let phone = phoneNumber.replacingOccurrences(of: "+971", with: "+92")
-//            phoneNumber = phone
-//        }
-        
         ElGrocerApi.sharedInstance.checkPhoneExistence( phoneNumber , completionHandler: { (result, responseObject) in
             if result == true {
                 let status = responseObject!["status"] as! String
@@ -411,11 +268,6 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                                                                 if buttonIndex == 0 {}
                                 }).show()
                             }else{
-                                
-//                                if let _ = data["phoneNumber"] as? String {
-                                    
-//                                    let newProfile : userProfile = userProfile self.userProfile
-//                                    newProfile?.phone = phoneNumber
                                     let phoneNumberVC = ElGrocerViewControllers.registrationCodeVerifcationViewController()
                                     phoneNumberVC.phoneNumber = phoneNumber
                                     phoneNumberVC.userProfile = self.userProfile
@@ -428,8 +280,6 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                                     self.navigationController?.present(navigationController, animated: true) {
                                         debugPrint("VC Presented")
                                     }
-                                    
-//                                }
                             }
                         }
                     }
@@ -442,10 +292,16 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                         errorMsgStr = errorMsg
                     }
                 }
+                DispatchQueue.main.async {
+                    ElGrocerAlertView.createAlert(errorMsgStr,
+                        description: nil,
+                        positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
+                        negativeButton: nil, buttonClickCallback: nil).show()
+                }
             
-                self.phoneTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-                self.phoneTextField.layer.borderWidth = 1
-                self.phoneTextField.showError(message: errorMsgStr)
+//                self.phoneTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+//                self.phoneTextField.layer.borderWidth = 1
+//                self.phoneTextField.showError(message: errorMsgStr)
                
                 
             }
@@ -481,104 +337,46 @@ extension EditProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let newText = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
-        if textField == phoneTextField {
-            if newText.count >= 4 {
-                return true
-            }else {
-                return false
-            }
-        }else {
-            textField.text = newText
-        }
-        
+        textField.text = newText
         _ = validateFields()
-        
         return false
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        //sab
-//        if textField == self.locationAddressTextField {
-//
-//            let mapController = ElGrocerViewControllers.locationMapViewController()
-//            mapController.delegate = self
-//            self.navigationController?.pushViewController(mapController, animated: true)
-//            return false
-//        }
-        
         return true
     }
 }
-//sab
-//extension EditProfileViewController: LocationMapViewControllerDelegate {
-//
-//    func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) {
-//
-//        self.navigationController?.popViewController(animated: true)
-//    }
-//
-//    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?){
-//        self.locationAddressTextField.text = address
-//        self.deliveryAddressLocation = location
-//        if let buildingtext = building {
-//            self.buildingTextField.text = buildingtext.isEmpty == false ?  buildingtext  : ""
-//        }
-//        _ = self.validateFields()
-//        self.navigationController?.popViewController(animated: true)
-//    }
-//
-//    //Hunain 26Dec16
-//    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?) {
-//
-//        self.locationAddressTextField.text = name
-//        self.deliveryAddressLocation = location
-//        _ = self.validateFields()
-//        self.navigationController?.popViewController(animated: true)
-//    }
-//}
 extension EditProfileViewController : PhoneVerifedProtocol {
     func phoneVerified(_ phoneNumber: String, _ otp: String) {
-        self.userProfile.phone = self.phoneTextField.text
+        self.userProfile.phone = self.finalPhoneNumber//self.phoneTextField.text
     }
     
     func phoneVerified() {
-        self.userProfile.phone = self.phoneTextField.text
+        self.userProfile.phone = self.finalPhoneNumber//self.phoneTextField.text
     }
 
 }
-//sab new
-//extension EditProfileViewController : FPNTextFieldCustomDelegate {
-//
-//    func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
-//        print(name, dialCode, code) // Output "France", "+33", "FR"
-//        ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
-//            self.phoneTextField.becomeFirstResponder()
-//            if let code = self.phoneTextField.selectedCountry?.code{
-//                self.phoneTextField.setFlag(for: code)
-//            }
-//
-//        }
-//
-//    }
-//
-//    func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool) {
-//        if isValid {
-//            // Do something...
-//            self.finalPhoneNumber =   textField.getFormattedPhoneNumber(format: .E164) ?? ""
-//            self.finalFormatedPhoneNumber = textField.getFormattedPhoneNumber(format: .International) ?? ""
-//            //self.isPhoneExsists = true
-//            textField.resignFirstResponder()
-//            self.checkPhoneExistense()
-//
-//        } else {
-//            // Do something...
-//            self.finalPhoneNumber = ""
-//        }
-//        //self.validatePhoneNumberAndSetPasswordTextFieldAppearance(isValid)
-//        //self.validateInputFieldsAndSetsubmitButtonAppearance()
-//
-//        debugPrint(isValid)
-//        //debugPrint(finalPhoneNumber)
-//    }
-//
-//}
+extension EditProfileViewController : FPNTextFieldCustomDelegate {
+
+    func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
+        print(name, dialCode, code) // Output "France", "+33", "FR"
+        ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
+        }
+        
+    }
+    func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool) {
+        if isValid {
+            // Do something...
+            self.finalPhoneNumber =   textField.getFormattedPhoneNumber(format: .E164) ?? ""
+            self.finalFormatedPhoneNumber = textField.getFormattedPhoneNumber(format: .International) ?? ""
+            textField.resignFirstResponder()
+            
+        } else {
+            // Do something...
+            self.finalPhoneNumber = ""
+        }
+        _ = validateFields()
+        debugPrint(isValid)
+        debugPrint(finalPhoneNumber)
+    }
+}

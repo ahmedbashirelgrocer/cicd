@@ -24,7 +24,7 @@ extension UIColor {
     }
 
     class func navigationBarColor() -> UIColor {
-        return #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1) //05bc66  
+        return #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1) //05bc66
     }
     class func unselectedPageControl() -> UIColor {
         return #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1) //c3efda
@@ -91,11 +91,17 @@ extension UIColor {
     class func smilePrimaryOrangeColor() -> UIColor {
         return #colorLiteral(red: 0.8784313725, green: 0.2392156863, blue: 0.1490196078, alpha: 1) //"E03D26"
     }
-    
-    
-    
-    
-    
+
+    class func dashedBorderDefaultColor()-> UIColor {
+        return #colorLiteral(red: 0.9529411765, green: 0.9529411765, blue: 0.9529411765, alpha: 1)
+    }
+    class func aletBackgroundColor()-> UIColor {
+        return #colorLiteral(red: 1, green: 0.9490196078, blue: 0.7294117647, alpha: 1)
+    }
+    class func lightGreyColor()-> UIColor {
+        return #colorLiteral(red: 0.568627451, green: 0.568627451, blue: 0.568627451, alpha: 1) // 919191
+    }
+
     class func moreBGColor() -> UIColor {
         return UIColor.colorWithHexString(hexString: "F8F8FA")
     }

@@ -3,6 +3,7 @@
 //
 //  Created by Awais Arshad Chatha on 01.07.2015.
 //  Copyright (c) 2015 RST IT. All rights reserved.
+// from Development commit = pod lock file updated Commit: c9b40a3d3af6b7cf628a8acd300c83df76ebbaff
 
 import UIKit
 import CoreData
@@ -226,7 +227,8 @@ class SDKManager: NSObject  {
 //        Fabric.with([Crashlytics.self(), Answers.self()])
         #endif
         
-
+        //MARK: swizzling view will appear call for screen name event logging
+        UIViewController.swizzleViewDidAppear()
         
         //Firebase Analytics
        // FirebaseApp.configure()
@@ -241,7 +243,9 @@ class SDKManager: NSObject  {
         
         // Marketing
         self.initiliazeMarketingCampaignTrackingServices()
-        
+        //MARK: Mispanel Initialization
+        MixpanelManager.configMixpanel()
+    
         //MARK: sendBird
 
         
@@ -446,7 +450,7 @@ class SDKManager: NSObject  {
         
         let smileSDK = SDKManager.shared.launchOptions?.isSmileSDK ?? false
         guard !smileSDK else {
-            let tabVC = self.getTabbarController(isNeedToShowChangeStoreByDefault: false)
+            let tabVC = self.getTabbarController(isNeedToShowChangeStoreByDefault: false, selectedGrocery: nil, nil, true)
             if let topVC = UIApplication.topViewController() {
                 if tabVC.viewControllers.count > 0  {
                     if let tabController = tabVC.viewControllers[0] as? UITabBarController {
@@ -488,13 +492,18 @@ class SDKManager: NSObject  {
         
     }
     
-    func getTabbarController(isNeedToShowChangeStoreByDefault : Bool , selectedGrocery : Grocery? = nil ,_  selectedBannerLink : BannerLink? = nil ) -> UINavigationController {
+    func getTabbarController(isNeedToShowChangeStoreByDefault : Bool , selectedGrocery : Grocery? = nil ,_  selectedBannerLink : BannerLink? = nil, _ isSmile: Bool = false ) -> UINavigationController {
         
         
         
         let tabController = UITabBarController()
         tabController.delegate = self
         let homeViewEmpty =  ElGrocerViewControllers.getGenericStoresViewController(HomePageData.shared)
+        var smileHomeVc : SmileSdkHomeVC? = nil
+        if isSmile {
+            smileHomeVc =  ElGrocerViewControllers.getSmileHomeVC(HomePageData.shared)
+        }
+        
         let storeMain = ElGrocerViewControllers.mainCategoriesViewController()
         storeMain.selectedBannerLink = selectedBannerLink
         let searchController = ElGrocerViewControllers.getSearchListViewController()
@@ -502,7 +511,7 @@ class SDKManager: NSObject  {
         let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
 
         let vcData: [(UIViewController, UIImage , String)] = [
-            (homeViewEmpty, UIImage(name: "TabbarHome")!,localizedString("Home_Title", comment: "")),
+            (isSmile ? smileHomeVc! : homeViewEmpty, UIImage(name: "TabbarHome")!,localizedString("Home_Title", comment: "")),
             (storeMain, UIImage(name: "icStore")!,localizedString("Store_Title", comment: "")),
             (searchController, UIImage(name: "icTabBarshoppingList")! ,localizedString("Shopping_list_Titile", comment: "")),
             (settingController, UIImage(name: "TabbarProfile")!   ,localizedString("more_title", comment: "")),

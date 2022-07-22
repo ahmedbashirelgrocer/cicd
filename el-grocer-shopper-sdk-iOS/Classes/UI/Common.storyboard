@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1124,13 +1124,26 @@ with our partner to add for your next shopping experience.</string>
                                                         </constraints>
                                                     </imageView>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search products…" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="VdU-HL-5bL">
-                                                        <rect key="frame" x="48" y="1" width="162" height="34"/>
+                                                        <rect key="frame" x="48" y="1" width="178" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="Vap-qF-0kq" id="2Le-aj-08L"/>
                                                         </connections>
                                                     </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MjY-tg-IXJ">
+                                                        <rect key="frame" x="226" y="5.5" width="0.0" height="25"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="25" id="aJU-Q4-trr"/>
+                                                            <constraint firstAttribute="width" id="tAh-s7-JmE"/>
+                                                        </constraints>
+                                                        <color key="tintColor" red="0.14117647059999999" green="0.84313725490000002" blue="0.41960784309999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" image="mic" catalog="system" title=" " subtitle=" "/>
+                                                        <connections>
+                                                            <action selector="voiceSearchAction:" destination="Vap-qF-0kq" eventType="touchUpInside" id="EUD-PK-o1Q"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -1138,9 +1151,12 @@ with our partner to add for your next shopping experience.</string>
                                                     <constraint firstAttribute="height" constant="36" id="KRT-Ol-0e8"/>
                                                     <constraint firstAttribute="bottom" secondItem="fCY-EK-Q2X" secondAttribute="bottom" constant="6" id="LND-TK-X6u"/>
                                                     <constraint firstItem="fCY-EK-Q2X" firstAttribute="centerY" secondItem="M8T-5k-fE4" secondAttribute="centerY" id="MNf-3I-r3P"/>
+                                                    <constraint firstItem="MjY-tg-IXJ" firstAttribute="leading" secondItem="VdU-HL-5bL" secondAttribute="trailing" id="W8Y-9F-YY6"/>
                                                     <constraint firstItem="VdU-HL-5bL" firstAttribute="centerY" secondItem="fCY-EK-Q2X" secondAttribute="centerY" id="ZOd-gj-Nnq"/>
                                                     <constraint firstItem="VdU-HL-5bL" firstAttribute="top" secondItem="M8T-5k-fE4" secondAttribute="top" constant="1" id="k32-BK-VA9"/>
+                                                    <constraint firstAttribute="trailing" secondItem="MjY-tg-IXJ" secondAttribute="trailing" id="mNf-3g-VeE"/>
                                                     <constraint firstItem="fCY-EK-Q2X" firstAttribute="top" secondItem="M8T-5k-fE4" secondAttribute="top" constant="6" id="mYh-wS-kXn"/>
+                                                    <constraint firstItem="MjY-tg-IXJ" firstAttribute="centerY" secondItem="fCY-EK-Q2X" secondAttribute="centerY" id="ns7-mn-GQT"/>
                                                     <constraint firstItem="fCY-EK-Q2X" firstAttribute="leading" secondItem="M8T-5k-fE4" secondAttribute="leading" constant="16" id="vSa-F6-41g"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
@@ -1184,7 +1200,6 @@ with our partner to add for your next shopping experience.</string>
                                             <constraint firstItem="2Ic-yZ-gt5" firstAttribute="leading" secondItem="M8T-5k-fE4" secondAttribute="trailing" id="55I-oa-28I"/>
                                             <constraint firstItem="2Ic-yZ-gt5" firstAttribute="top" secondItem="hJw-7T-lnQ" secondAttribute="top" constant="10" id="Pfe-M3-jAU"/>
                                             <constraint firstAttribute="bottom" secondItem="2Ic-yZ-gt5" secondAttribute="bottom" constant="10" id="RkH-3r-yMS"/>
-                                            <constraint firstItem="2Ic-yZ-gt5" firstAttribute="leading" secondItem="VdU-HL-5bL" secondAttribute="trailing" constant="16" id="YQk-CU-m8e"/>
                                             <constraint firstItem="M8T-5k-fE4" firstAttribute="centerY" secondItem="hJw-7T-lnQ" secondAttribute="centerY" id="cLl-ku-70r"/>
                                             <constraint firstItem="f9h-82-CM7" firstAttribute="leading" secondItem="M8T-5k-fE4" secondAttribute="trailing" constant="12" id="nsn-WV-spM"/>
                                             <constraint firstItem="M8T-5k-fE4" firstAttribute="leading" secondItem="hJw-7T-lnQ" secondAttribute="leading" constant="16" id="qZb-DA-59H"/>
@@ -1860,10 +1875,10 @@ with our partner to add for your next shopping experience.</string>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hqL-Xo-mNL">
-                                <rect key="frame" x="0.0" y="90" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="90" width="320" height="0.0"/>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="vo6-j0-S8n"/>
+                                    <constraint firstAttribute="height" id="vo6-j0-S8n"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aIt-1l-cOm">
                                     <size key="itemSize" width="128" height="128"/>
@@ -1873,8 +1888,8 @@ with our partner to add for your next shopping experience.</string>
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MXj-lJ-YP3">
-                                <rect key="frame" x="0.0" y="150" width="320" height="315"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="MXj-lJ-YP3">
+                                <rect key="frame" x="0.0" y="90" width="320" height="375"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
@@ -1925,6 +1940,7 @@ with our partner to add for your next shopping experience.</string>
         <image name="ShoppingListCheck" width="24" height="24"/>
         <image name="cross" width="24" height="24"/>
         <image name="icCloseBlack" width="17" height="17"/>
+        <image name="mic" catalog="system" width="108" height="128"/>
         <image name="refresh" width="30" height="31"/>
         <image name="sCross" width="16" height="16"/>
         <image name="sad_wifi" width="159" height="133"/>

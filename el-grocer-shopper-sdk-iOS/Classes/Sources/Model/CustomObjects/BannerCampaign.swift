@@ -23,7 +23,9 @@ enum BannerLocation : Int {
     case in_search_tier_1 = 5
     case post_checkout = 6
     case in_search_tier_2 = 9
-    case subCategory_tier_1 = 7;
+    case subCategory_tier_1 = 7
+    case sdk_Home_tier_1 = 17
+    case sdk_Home_tier_2 = 18
 }
 
 struct bannerCategories {

@@ -13,6 +13,7 @@ class GlobalSearchResultDataSource {
     var displayList : ((_ filterList : Dictionary<String, Array<Product>> , _ homeList : [Home] , _ filterGroceryList : [Grocery] )->Void)?
     var recipeList : [Recipe]?
     var productList : [Product]?
+    var matchedGroceryList : [Grocery]?
     var filterData  : Dictionary<String, Array<Product>> = [:]
     var groceryAndBannersList : [Home] = []
     var filterGroceryList  : [Grocery] = ElGrocerUtility.sharedInstance.groceries

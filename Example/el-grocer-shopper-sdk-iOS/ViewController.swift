@@ -65,13 +65,22 @@ class ViewController: UIViewController {
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = ""
         txtEmail.text = ""
-        txtPushPayload.text = ""
+        txtPushPayload.text = "{\"push_type\":106,\"message\":\"orderinsubstitution\",\"origin\":\"el-grocer-api\",\"message_type\":1}"
         txtDLPayload.text = "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "Base"
     }
     
     @objc func startSDK() {
-   
+        
+        var pushData : [String: AnyHashable] = [:]
+        if let data = txtPushPayload.text?.data(using: .utf8) {
+            do {
+                pushData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyHashable] ?? [:]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        
         let launchOptions = LaunchOptions(
             accountNumber: txtAccountNumber.text,
             latitude: ((txtLat.text ?? "0") as NSString).doubleValue,
@@ -79,7 +88,7 @@ class ViewController: UIViewController {
             address: txtAddress.text,
             loyaltyID: txtLoyalityID.text,
             email: txtEmail.text,
-            pushNotificationPayload: ["data" : txtPushPayload.text],
+            pushNotificationPayload: pushData,
             deepLinkPayload:  txtDLPayload.text,
             language: txtLanguage.text, isSmileSDK: true
         )

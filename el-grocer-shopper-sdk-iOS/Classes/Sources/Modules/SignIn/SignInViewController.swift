@@ -54,6 +54,7 @@ class SignInViewController: RegistrationViewController, Form {
             phoneNumberTextField.placeholder = localizedString("enter_mobile_num_placeholder", comment: "")
             phoneNumberTextField.setFlag(for: FPNOBJCCountryKey.AE)
             phoneNumberTextField.customDelegate = self
+            phoneNumberTextField.delegate = self
             phoneNumberTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
         }
     }
@@ -158,6 +159,7 @@ class SignInViewController: RegistrationViewController, Form {
     }
     
     override func rightBackButtonClicked() {
+        MixpanelEventLogger.trackWelcomeClose()
         self.crossButtonHandler("")
     }
     
@@ -349,7 +351,7 @@ class SignInViewController: RegistrationViewController, Form {
         
         
         if self.isForLogIn {
-            
+            MixpanelEventLogger.trackWelcomeSigninInClicked()
             let emailID = self.usernameTextField.text ?? ""
             guard emailID.isValidEmail() else {
                 self.usernameTextField.showError(message: "Please enter valid email id")
@@ -454,6 +456,7 @@ class SignInViewController: RegistrationViewController, Form {
             navigationController.viewControllers = [phoneNumberVC]
             navigationController.setLogoHidden(true)
             navigationController.modalPresentationStyle = .fullScreen
+            MixpanelEventLogger.trackCreateAccountNextClick()
             self.present(navigationController, animated: false) {
                 debugPrint("VC Presented")
             }
@@ -467,6 +470,11 @@ class SignInViewController: RegistrationViewController, Form {
         
         self.isForLogIn = (sender.selectedSegmentIndex == 1)
         self.setState()
+        if isForLogIn {
+            MixpanelEventLogger.trackWelcomeHaveAnAccount()
+        }else {
+            MixpanelEventLogger.trackWelcomeNewToElgrocer()
+        }
         DispatchQueue.main.async {
             if  self.isForLogIn {
                 self.title  = localizedString("area_selection_login_button_title", comment: "")
@@ -565,6 +573,7 @@ class SignInViewController: RegistrationViewController, Form {
     
     @IBAction func forgotPasswordHandler(_ sender: Any) {
         FireBaseEventsLogger.trackForgotPasswordClicked()
+        MixpanelEventLogger.trackWelcomeForgotPassword()
         let forgotPasswordController = ElGrocerViewControllers.forgotPasswordViewController()
         self.navigationController?.pushViewController(forgotPasswordController, animated: true)
     }
@@ -610,6 +619,7 @@ class SignInViewController: RegistrationViewController, Form {
         navigationController.viewControllers = [locationMapController]
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
+        MixpanelEventLogger.trackWelcomeChooseLocation()
         self.present(navigationController, animated: false) {
             debugPrint("VC Presented")
         }
@@ -851,17 +861,13 @@ extension SignInViewController : UITextFieldDelegate {
            }
         return true
     }
-    
-}
-
-func localizedString(_ named: String,
-                     tableName: String = "",
-                     bundle: Bundle = .resource,
-                     value: String = "",
-                     comment: String) -> String {
-    return NSLocalizedString(named,
-                             tableName: tableName,
-                             bundle: bundle,
-                             value: value,
-                             comment: comment)
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == self.usernameTextField {
+            MixpanelEventLogger.trackWelcomeEmailEntered(email: textField.text ?? "")
+        }else if textField == self.passwordTextField {
+            MixpanelEventLogger.trackWelcomePasswordEntered()
+        }else if textField == self.phoneNumberTextField {
+            MixpanelEventLogger.trackCreateAccountNumberEntered(number: textField.text ?? "")
+        }
+    }
 }

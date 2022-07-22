@@ -672,6 +672,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     }
     override func rightBackButtonClicked() {
         backButtonClickedHandler()
+        MixpanelEventLogger.trackChooseLocationClose()
     }
     func backButtonClickedHandler(){
         self.backButtonClick()
@@ -1020,6 +1021,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 ElGrocerUtility.sharedInstance.resetRecipeView()
                 
             }
+            
+            let location = self.locations[indexPath.row]
+            MixpanelEventLogger.trackChooseLocationSelected(locAddress: location.address, locId: location.dbID)
 
         }else{
             
@@ -1097,6 +1101,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func dashboardLocationCellDidTouchEditButton(_ cell: DashboardLocationCell) {
         
+        MixpanelEventLogger.trackChooseLocationEditClick()
         let indexPath = self.tableView.indexPath(for: cell)
         let location = self.locations[(indexPath! as NSIndexPath).row]
         
@@ -1108,6 +1113,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func dashboardLocationCellDidTouchDeleteButton(_ cell: DashboardLocationCell) {
         
+        MixpanelEventLogger.trackChooseLocationDeleteClick()
         let indexPath = self.tableView.indexPath(for: cell)
         let address = self.locations[(indexPath! as NSIndexPath).row]
         
@@ -1247,24 +1253,27 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }
         
         self.dismiss(animated: true) {
-            if UIApplication.topViewController() is GenericStoresViewController {
-//                ElGrocerUtility.sharedInstance.delay(0.5) {
-//                     NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
-//                }
-            }else if UIApplication.topViewController() is MainCategoriesViewController{
+            
+            if SDKManager.isSmileSDK {
+                
+            } else if UIApplication.topViewController() is GenericStoresViewController {
+
+            } else if UIApplication.topViewController() is MainCategoriesViewController {
+                
                 UIApplication.topViewController()?.tabBarController?.selectedIndex = 0;
                 ElGrocerUtility.sharedInstance.delay(0.2){
                     if UIApplication.topViewController() is MainCategoriesViewController{
                         let mainca = UIApplication.topViewController()
                             mainca?.viewWillAppear(true)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
-                    }else{
+                    } else {
                         (SDKManager.shared).showAppWithMenu()
                     }
                     
                 }
                 
-            } else{
+            } else {
+                
                 (SDKManager.shared).showAppWithMenu()
             }
         }
@@ -1610,6 +1619,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     @IBAction func addNewAddressAction(_ sender: Any) {
         
+        MixpanelEventLogger.trackChooseLocationAddAddressClick()
         let locationMapController = ElGrocerViewControllers.locationMapViewController()
         locationMapController.delegate = self
         locationMapController.isFromCart = self.isFormCart

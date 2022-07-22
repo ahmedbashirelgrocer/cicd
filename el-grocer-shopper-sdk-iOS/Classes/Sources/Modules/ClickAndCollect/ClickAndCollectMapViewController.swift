@@ -194,6 +194,7 @@ class ClickAndCollectMapViewController: UIViewController {
     
     @objc override func rightBackButtonClicked() {
         self.dismiss(animated: true)
+        MixpanelEventLogger.trackClickAndCollectClose()
     }
     
     func setViewOrderHeight (_ isNeedToShow : Bool = false) {
@@ -401,7 +402,7 @@ class ClickAndCollectMapViewController: UIViewController {
         if let nav = searchController.navigationController {
             nav.navigationBar.barTintColor = UIColor.navigationBarColor()
         }
-        
+        MixpanelEventLogger.trackClickAndCollectSearch()
         if isServiceEnabled{
             
             if let location = LocationManager.sharedInstance.currentLocation.value {
@@ -559,6 +560,7 @@ extension ClickAndCollectMapViewController : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let selectedGrocery = marker.userData as? Grocery {
             self.showGroceryFromBottomSheet(grocery: selectedGrocery)
+            MixpanelEventLogger.trackClickAndCollectStoreSelected(storeId: selectedGrocery.dbID, storeName: selectedGrocery.name ?? "")
            // self.getGroceryDeliverySlots(selectedGrocery)
              self.storeDataSource.getClickAndCollectionRetailerDetail(for: selectedGrocery.latitude, and: selectedGrocery.longitude, dbID: selectedGrocery.dbID, parentId: selectedGrocery.parentID.stringValue)
         }
@@ -641,6 +643,7 @@ extension ClickAndCollectMapViewController :  UITableViewDelegate , UITableViewD
             }
             self.setMapPins( self.filterdGrocerA , true)
             self.tableView.reloadData()
+            MixpanelEventLogger.trackClickAndCollectCategoryFilter(filterId: "\(selectedStoreType?.storeTypeid ?? -1)", filterName: selectedStoreType?.name ?? "")
         }
         return cell
     }

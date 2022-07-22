@@ -81,6 +81,8 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         self.tabBarController?.selectedIndex = 0
     }
     
+   
+    
     @IBOutlet var searchProductListingTextView: UITextView!{
         didSet{
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -214,11 +216,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
         
     }
-    
-    
-    
-    
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         IQKeyboardManager.shared.enableAutoToolbar = true
         IQKeyboardManager.shared.enable = true
@@ -296,7 +294,16 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         self.navigationController?.pushViewController(shoppingListVc, animated: true)
         
     }
+    //MARK: Voice recognition Handling
+    @IBAction func voiceSearchAction(_ sender: Any) {
+        self.searchProductListingTextView.resignFirstResponder()
+    }
     
+   
+    
+    func replaceSpaceWithNewLine(text: String) -> String {
+        return text.replacingOccurrences(of: " ", with: "\n")
+    }
 
 }
 extension SearchListViewController : UITextViewDelegate {
