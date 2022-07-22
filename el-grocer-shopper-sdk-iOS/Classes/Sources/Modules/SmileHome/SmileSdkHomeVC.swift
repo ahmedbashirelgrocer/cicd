@@ -62,6 +62,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.checkAddressValidation()
+            //to refresh smiles point
+        self.getSmileUserInfo()
     }
     
         // MARK: - UI Customization
@@ -308,6 +310,23 @@ class SmileSdkHomeVC: BasketBasicViewController {
             self.tableView.reloadDataOnMain()
         }
         
+    }
+    
+    var smileRetryTime = 0
+    private func getSmileUserInfo() {
+        
+        guard smileRetryTime < 3 else { return }
+        guard (UserDefaults.getIsSmileUser() == true || SDKManager.isSmileSDK) else {
+            return
+        }
+        SmilesManager.getCachedSmileUser { [weak self] (smileUser) in
+            if smileUser == nil {
+                self?.smileRetryTime += 1
+                self?.getSmileUserInfo()
+            }else {
+                self?.smileRetryTime  = 0
+            }
+        }
     }
     
         // MARK: - ButtonAction
