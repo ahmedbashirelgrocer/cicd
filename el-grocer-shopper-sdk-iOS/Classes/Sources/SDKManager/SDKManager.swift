@@ -548,18 +548,21 @@ class SDKManager: NSObject  {
 //
 //
         
-        UITabBarItem.appearance().setTitleTextAttributes(
-            [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
-             NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")],
-            for: .normal)
+        if SDKManager.isSmileSDK == false {
+            UITabBarItem.appearance().setTitleTextAttributes(
+                [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
+                 NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")],
+                for: .normal
+            )
         
-        UITabBarItem.appearance().setTitleTextAttributes(
-            [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
-             NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor()],
-            for: .selected)
+            UITabBarItem.appearance().setTitleTextAttributes(
+                [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
+                 NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor()],
+                for: .selected
+            )
         
-        UITabBar.appearance().barTintColor = UIColor.colorWithHexString(hexString: "ffffff")
-        
+            UITabBar.appearance().barTintColor = UIColor.colorWithHexString(hexString: "ffffff")
+        }
      
             tabController.tabBar.shadowImage =  UIImage.colorForNavBar(color: .colorWithHexString(hexString: "e4e4e4"))
         
@@ -605,7 +608,7 @@ class SDKManager: NSObject  {
         
     }
     
-    func logout() {
+    func logout(completion: (() -> Void)? = nil) {
         
         SendBirdManager().logout { success in
             if success{
@@ -642,7 +645,7 @@ class SDKManager: NSObject  {
         
         ElGrocerUtility.sharedInstance.delay(1) {
             
-        DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             
             //cancel all previously scheduled notifications
             UIApplication.shared.cancelAllLocalNotifications()
@@ -658,7 +661,7 @@ class SDKManager: NSObject  {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kRemoveAllNotifcationObserver), object: nil)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: KResetGenericStoreLocalChacheNotifcation), object: nil)
             
-            
+            completion?()
         }
        
     }

@@ -32,17 +32,19 @@ struct SDKLoginManager {
             return
         }
         
-        UserProfile.clearEntity()
-        DeliveryAddress.clearDeliveryAddressEntity()
-        
-        loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage in
-            if isSuccess {
-                ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
-                FireBaseEventsLogger.trackSignIn()
-                SendBirdManager().createNewUserAndDeActivateOld()
-                
+        //UserProfile.clearEntity()
+        //DeliveryAddress.clearDeliveryAddressEntity()
+        //DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        SDKManager.shared.logout() {
+            loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage in
+                if isSuccess {
+                    ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
+                    FireBaseEventsLogger.trackSignIn()
+                    SendBirdManager().createNewUserAndDeActivateOld()
+                    
+                }
+                completionHandler(isSuccess, errorMessage)
             }
-            completionHandler(isSuccess, errorMessage)
         }
     }
     
