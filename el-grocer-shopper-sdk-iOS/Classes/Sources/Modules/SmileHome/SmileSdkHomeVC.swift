@@ -153,7 +153,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                     if let _ = filterStoreTypeData.first(where: { type in
                         return type.storeTypeid == obj.storeTypeid
                     }) {
-                        debugPrint("available")
+                        elDebugPrint("available")
                     }else {
                         filterStoreTypeData.append(obj)
                     }
@@ -240,9 +240,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
             
             switch state! {
                 case LocationManager.State.fetchingLocation:
-                    debugPrint("")
+                    elDebugPrint("")
                 case LocationManager.State.initial:
-                    debugPrint("")
+                    elDebugPrint("")
                 default:
                     self?.checkforDifferentDeliveryLocation()
                     LocationManager.sharedInstance.stopUpdatingCurrentLocation()
@@ -396,7 +396,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                     }
                 }
             }else{
-                    // debugPrint(self.grocerA[12312321])
+                    // elDebugPrint(self.grocerA[12312321])
                 FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
             }
                 //}
@@ -581,7 +581,7 @@ extension SmileSdkHomeVC: LocationMapViewControllerDelegate {
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: false) {
-            debugPrint("VC Presented")
+            elDebugPrint("VC Presented")
         }
         
     }

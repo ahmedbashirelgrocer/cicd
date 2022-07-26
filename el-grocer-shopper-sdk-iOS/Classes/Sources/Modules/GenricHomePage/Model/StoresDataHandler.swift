@@ -128,20 +128,20 @@ class GenericStoreMeduleAPI : ElGrocerApi {
    
     func getGenricBanners( retailerIds : String , success : @escaping SuccessCase , failure : @escaping FailureCase  ) {
         NetworkCall.get( ElGrocerApiEndpoint.genericCustomBanners.rawValue , parameters:  ["limit" : "10000" , "offset" : "0" , "retailer_ids" : retailerIds ], progress: { (progress) in
-            debugPrint("Calling \(progress)")
+            elDebugPrint("Calling \(progress)")
         }, success: success, failure: failure)
     }
     // "next_slot" : true  ,
     func getAllretailers( latitude : Double , longitude : Double , success : @escaping SuccessCase , failure : @escaping FailureCase  ) {
         //
         NetworkCall.get( ElGrocerApiEndpoint.genericRetailersList.rawValue , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true ], progress: { (progress) in
-            debugPrint("Calling \(progress)")
+            elDebugPrint("Calling \(progress)")
         }, success: success, failure: failure)
     }
     //store_type_ids=2,3&retailer_group_ids
     func getGreatDealsBanners( retailerIds : String , storeTypeIds : String , retailerGroupIds : String , locationIds : String , success : @escaping SuccessCase , failure : @escaping FailureCase  ) {
         NetworkCall.get( ElGrocerApiEndpoint.genericBanners.rawValue , parameters:  ["limit" : "10000" , "offset" : "0" , "retailer_ids" : retailerIds , "store_type_ids" : storeTypeIds , "retailer_group_ids" : retailerGroupIds , "locations" : locationIds , "date_filter" : true  ], progress: { (progress) in
-            debugPrint("Calling \(progress)")
+            elDebugPrint("Calling \(progress)")
         }, success: success, failure: failure)
     }
     
@@ -214,7 +214,7 @@ class StoresDataHandler {
                 self.delegate?.refreshMessageView(msg: localizedString("error_wrong", comment: ""))
             }
         }) { (task, error) in
-            debugPrint(error.localizedDescription)
+            elDebugPrint(error.localizedDescription)
              self.delegate?.refreshMessageView(msg: error.localizedDescription)
         }
     }
@@ -245,7 +245,7 @@ class StoresDataHandler {
                 }
             }
         }) { (task, error) in
-             debugPrint(error.localizedDescription)
+             elDebugPrint(error.localizedDescription)
             self.delegate?.genericBannersList(list: [])
         }
         */
@@ -263,7 +263,7 @@ class StoresDataHandler {
                     let bannerA = BannerCampaign.getBannersFromResponse(response)
                     self.delegate?.getGreatDealsBannersList(list: bannerA)
                 case.failure(let error):
-                    //debugPrint(error.localizedDescription)
+                    //elDebugPrint(error.localizedDescription)
                     self.delegate?.getGreatDealsBannersList(list: [])
             }
         }
@@ -295,7 +295,7 @@ extension StoresDataHandler {
                             }
                         }
                 case .failure(let _):
-                    debugPrint("")
+                    elDebugPrint("")
                    // error.showErrorAlert()
             }
         }

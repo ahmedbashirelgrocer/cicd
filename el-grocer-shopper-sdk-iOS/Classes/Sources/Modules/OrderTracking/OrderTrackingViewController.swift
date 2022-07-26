@@ -158,10 +158,10 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
         let valueAddedTaxStr = String(format:"%@ %@",localizedString("vat_title", comment: ""),"(\(self.order.grocery.vat)%)")
         
         let itemsVat = priceSum - (priceSum / ((100 + Double(truncating: self.order.grocery.vat))/100))
-        print("Value Added Tax Value:",itemsVat)
+       elDebugPrint("Value Added Tax Value:",itemsVat)
         
         let serviceVat = serviceFee - (serviceFee / ((100 + Double(truncating: self.order.grocery.vat))/100))
-        print("Value Added Tax Value:",serviceVat)
+       elDebugPrint("Value Added Tax Value:",serviceVat)
         
         let vatTotal = itemsVat + serviceVat
         

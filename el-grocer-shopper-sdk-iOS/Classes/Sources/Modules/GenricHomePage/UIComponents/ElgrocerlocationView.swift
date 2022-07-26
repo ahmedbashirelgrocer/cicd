@@ -42,7 +42,7 @@ class ElgrocerlocationView:  UIView  {
     var localLoadedAddress: LocalDeliverAddress?
     var loadedAddress : DeliveryAddress? {
         didSet {
-            print("loaded Address: \(loadedAddress)")
+           elDebugPrint("loaded Address: \(loadedAddress)")
         }
     }
     let halfWidth : CGFloat = 0.445
@@ -269,7 +269,7 @@ class ElgrocerlocationView:  UIView  {
     }
 
     func navigationBarSearchTapped() {
-        print("Implement in controller")
+       elDebugPrint("Implement in controller")
         
         guard let vc = UIApplication.topViewController() else {
             return
@@ -387,7 +387,7 @@ class ElgrocerlocationView:  UIView  {
                
                 
             }else{
-                debugPrint("")
+                elDebugPrint("")
                 self.lblSlot.text = localizedString("no_slots_available", comment: "")
                 self.hideSlotImage(true)
             }
@@ -400,8 +400,8 @@ class ElgrocerlocationView:  UIView  {
     func setAttributedValueForSlotOnMainThread(_ attributedString : NSMutableAttributedString) {
         
         DispatchQueue.main.async {
-            //debugPrint("check: oldValue : \(self.lblSlot.attributedText?.string)")
-            //debugPrint("check: NewValue : \(attributedString.string)")
+            //elDebugPrint("check: oldValue : \(self.lblSlot.attributedText?.string)")
+            //elDebugPrint("check: NewValue : \(attributedString.string)")
             
             var isNeedToCallRefresh = false
             isNeedToCallRefresh = !(self.lblSlot.attributedText?.string == attributedString.string || self.lblSlot.attributedText?.string == "---" || self.lblSlot.attributedText?.string == "--" || self.lblSlot.attributedText?.string == localizedString("no_slots_available", comment: ""))
@@ -417,8 +417,8 @@ class ElgrocerlocationView:  UIView  {
                         topVc.refreshSlotChange()
                     }
                 }
-                debugPrint("refreshCalled: controller : \(UIApplication.gettopViewControllerName())")
-                //debugPrint("check: refreshCalled")
+                elDebugPrint("refreshCalled: controller : \(UIApplication.gettopViewControllerName())")
+                //elDebugPrint("check: refreshCalled")
             }
         }
         
@@ -441,7 +441,7 @@ class ElgrocerlocationView:  UIView  {
     }
     
     override func willMove(toWindow newWindow: UIWindow?) {
-        debugPrint("")
+        elDebugPrint("")
        // setSlotData()
         if (newWindow == nil) {
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: KUpdateGenericSlotView), object: nil)

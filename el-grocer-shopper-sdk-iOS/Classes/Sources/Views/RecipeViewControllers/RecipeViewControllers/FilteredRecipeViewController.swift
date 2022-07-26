@@ -31,7 +31,7 @@ class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelega
     var isCellLoaded = false
     func noDataButtonDelegateClick(_ state: actionState) {
         //self.tabBarController?.selectedIndex = 0
-        print("show recipe boutique")
+       elDebugPrint("show recipe boutique")
         //
 //        ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric()
 //        if ElGrocerUtility.sharedInstance.activeGrocery != nil {
@@ -441,12 +441,12 @@ extension FilteredRecipeViewController : UITableViewDelegate , UITableViewDataSo
             
         }else if indexPath.section == 1{
             if indexPath.row == 0{
-                print("heading")
+               elDebugPrint("heading")
                 let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
                 cell.configureCell(title: localizedString("lbl_preparation_Highlight", comment: ""))
                 return cell
             }else{
-                // print("storyly Collection view")
+                //elDebugPrint("storyly Collection view")
                 let cell : StorlyTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KStorlyTableViewCell , for: indexPath) as! StorlyTableViewCell
                 if self.chef.chefStorlySlug.count > 0 {
                     if !isCellLoaded {
@@ -594,7 +594,7 @@ extension FilteredRecipeViewController : StorylyDelegate {
   
     
     func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
-        debugPrint("")
+        elDebugPrint("")
         if storyGroupList.count > 0 {
             storlyCellHeight = 140
         }
@@ -602,7 +602,7 @@ extension FilteredRecipeViewController : StorylyDelegate {
     }
     
     func storylyLoadFailed(_ storylyView: StorylyView, errorMessage: String) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     

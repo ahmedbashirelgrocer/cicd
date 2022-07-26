@@ -47,7 +47,7 @@ class GroceryBrand {
             
             let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
             brand.products = newProduct
-            print("Brands Product Count:%d",brand.products.count)
+           elDebugPrint("Brands Product Count:%d",brand.products.count)
         })
         
         return brand
@@ -91,7 +91,7 @@ class GroceryBrand {
      
      let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
      self.products = newProduct
-     print("Brands Product Count:%d",self.products.count)
+    elDebugPrint("Brands Product Count:%d",self.products.count)
      })
      }*/
 }

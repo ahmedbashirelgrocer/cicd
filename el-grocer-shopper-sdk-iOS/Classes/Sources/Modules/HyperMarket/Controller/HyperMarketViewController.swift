@@ -223,7 +223,7 @@ class HyperMarketViewController: UIViewController {
                         }
                     }
                 }else{
-                        // debugPrint(self.grocerA[12312321])
+                        // elDebugPrint(self.grocerA[12312321])
                     FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                 }
             // }
@@ -293,7 +293,7 @@ extension HyperMarketViewController: UITableViewDelegate, UITableViewDataSource 
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+       elDebugPrint(indexPath.row)
 //        let vc = ElGrocerViewControllers.getSpecialtyStoresGroceryViewController()
 //        self.navigationController?.pushViewController(vc, animated: true)
 

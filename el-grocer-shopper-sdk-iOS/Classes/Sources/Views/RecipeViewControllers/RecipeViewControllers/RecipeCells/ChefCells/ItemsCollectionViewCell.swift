@@ -32,8 +32,8 @@ class ItemsCollectionViewCell: UICollectionViewCell {
 //        self.lableIngredeiantsQuantity.text = "\(ItemsCollectionViewCell.convertToHumanReadable(ingredeiants.recipeIngredientsQuantity ?? 0.0)) \(String(describing: ingredeiants.recipeIngredientsQuantityUnit ?? ""))"
         self.lableIngredeiantsQuantity.text = "\(ingredeiants.recipeIngredientsQuantity) \(String(describing: ingredeiants.recipeIngredientsQuantityUnit ?? ""))"
 
-        // debugPrint("convert value is : ")
-        // debugPrint(convertToHumanReadable(ingredeiants.recipeIngredientsQuantity ?? 0.0))
+        // elDebugPrint("convert value is : ")
+        // elDebugPrint(convertToHumanReadable(ingredeiants.recipeIngredientsQuantity ?? 0.0))
 
     }
     

@@ -27,7 +27,7 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
     }()
     func noDataButtonDelegateClick(_ state: actionState) {
         //self.tabBarController?.selectedIndex = 0
-        print("show recipe boutique")
+       elDebugPrint("show recipe boutique")
         //
         ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric(source: FireBaseScreenName.SavedRecipes.rawValue)
         if ElGrocerUtility.sharedInstance.activeGrocery != nil {
@@ -98,7 +98,7 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
             
             if let id = UserDefaults.getLogInUserID() as? String{
                 if let catId = selectedCategory?.categoryID{
-                    print("categ : \(catId)")
+                   elDebugPrint("categ : \(catId)")
                     
                     self.dataHandler.getSavedRecipeList(shopperId: id , categoryId: "\(catId)")
                 }else{
@@ -286,7 +286,7 @@ extension savedRecipesVC : UITableViewDelegate , UITableViewDataSource{
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+       elDebugPrint(indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
 
         if recipeListArray.count > 0{

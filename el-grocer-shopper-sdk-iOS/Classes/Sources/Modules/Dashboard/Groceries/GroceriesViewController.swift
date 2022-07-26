@@ -152,7 +152,7 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
             case .success(let response):
                 
                 let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                print(response)
+               elDebugPrint(response)
                 let arrayGrocery = Grocery.insertOrReplaceGroceriesFromDictionary(response, context: context)
                 ElGrocerUtility.sharedInstance.completeGroceries = arrayGrocery
                 let filteredArray = arrayGrocery.filter() {($0.isOpen.boolValue && Int($0.deliveryTypeId!) != 1) || ($0.isSchedule.boolValue && Int($0.deliveryTypeId!) != 0)}
@@ -352,7 +352,7 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
             
         }else{
             
-            print("Currently Grocery is closed")
+           elDebugPrint("Currently Grocery is closed")
             ElGrocerAlertView.createAlert(localizedString("store_close_alert_title", comment: ""),
                                           description:localizedString("store_close_alert_message", comment: ""),
                                           positiveButton: localizedString("store_close_alert_button", comment: ""),
@@ -428,7 +428,7 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
         
         if segue.identifier == "GroceriesToMainCategories" {
             
-            print("Categories Count:",self.selectedGrocery.categories.count)
+           elDebugPrint("Categories Count:",self.selectedGrocery.categories.count)
             
             let controller = segue.destination as! MainCategoriesViewController
             controller.grocery = self.selectedGrocery

@@ -70,7 +70,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         
         viewModel.userOtp.bind { [weak self] userOtp in
             self?.currentOtp = userOtp
-            print("currentOtp",userOtp)
+           elDebugPrint("currentOtp",userOtp)
         }
         
         viewModel.smilePoints.bind { [weak self] points in
@@ -202,7 +202,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
     
 
     @IBAction func resendOtpBtnTapped(_ sender: AWButton) {
-        print("resendOtpBtnTapped tapped")
+       elDebugPrint("resendOtpBtnTapped tapped")
         //viewModel.retryOtp()
         self.setOtpButtonEnable(isEnable: false, withOtpLabel: false)
         viewModel.generateSmilesOtp()
@@ -211,7 +211,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
     }
     
     @IBAction func nextBtnTapped(_ sender: AWButton) {
-        print("next tapped")
+       elDebugPrint("next tapped")
 //            viewModel.otpAuthenticate {
 //                //check this
 //                self.showSmilePoints()
@@ -246,7 +246,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
 
 extension SmilesLoginVC : KAPinFieldDelegate {
     func pinField(_ field: KAPinField, didFinishWith code: String) {
-        print("didFinishWith : \(code)")
+       elDebugPrint("didFinishWith : \(code)")
         
         let stringNumber : String  = field.text ?? ""
         let englishNumber = self.convertToEnglish(stringNumber)

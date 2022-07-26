@@ -449,7 +449,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         OrderStatusMedule().getOrderDetailWithCustomTracking(orderID) { (result) in
             switch result {
                 case .success(let response):
-                    // debugPrint(response)
+                    // elDebugPrint(response)
                     if let orderDict = response["data"] as? NSDictionary {
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         self.order = latestOrderObj
@@ -500,7 +500,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         ElGrocerApi.sharedInstance.getorderDetails(orderId: self.order.dbID.stringValue ) { (result) in
             switch result {
                 case .success(let response):
-                   // debugPrint(response)
+                   // elDebugPrint(response)
                     if let orderDict = (response["data"] as? NSDictionary)?["order"] as? NSDictionary {
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         self.order = latestOrderObj
@@ -901,7 +901,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             let defaultAddressId = currentAddress?.dbID
             
             let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.order.deliveryAddress)
-            print("Order Address ID:%@",orderAddressId)
+           elDebugPrint("Order Address ID:%@",orderAddressId)
             
             guard defaultAddressId == orderAddressId else {
                 ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
@@ -1171,7 +1171,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     func shoppingBasketViewCheckOutTapped(_ isGroceryBasket:Bool, grocery: Grocery?, notAvailableItems:[Int]?, availableProductsPrices:NSDictionary?) {
         
-        debugPrint("")
+        elDebugPrint("")
     }
     
     @IBAction func editOrderHandler(_ sender: AnyObject) {
@@ -1210,7 +1210,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             }
             ElGrocerUtility.sharedInstance.delay(0.2) { [weak self] in
                 guard let self = self else {return}
-               // debugPrint(self)
+               // elDebugPrint(self)
                 
                 let SDKManager = SDKManager.shared
                 if let nav = SDKManager.rootViewController as? UINavigationController {
@@ -1293,9 +1293,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         ElGrocerApi.sharedInstance.deleteBasketFromServerWithGrocery(grocery) { (result) in
             switch result {
             case .success(let responseDict):
-                print("Delete Basket Response:%@",responseDict)
+               elDebugPrint("Delete Basket Response:%@",responseDict)
             case .failure(let error):
-                print("Delete Basket Error:%@",error.localizedMessage)
+               elDebugPrint("Delete Basket Error:%@",error.localizedMessage)
             }
         }
         

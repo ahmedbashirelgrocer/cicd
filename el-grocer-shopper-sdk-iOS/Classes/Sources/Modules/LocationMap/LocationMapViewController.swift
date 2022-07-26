@@ -330,7 +330,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 
                 case .success(let response):
                     
-                    print("Success")
+                   elDebugPrint("Success")
                     
                     let dataDict = response["data"] as? NSDictionary
                     let isCovered = dataDict!["is_covered"] as? Bool
@@ -387,10 +387,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                         
                       
                         
-                        print("Location Name:%@",self.locName)
-                        print("Location Address:%@",self.locAddress)
-                        print("building Address:%@",self.buildingName)
-                        print("cityName Address:%@", cityName)
+                       elDebugPrint("Location Name:%@",self.locName)
+                       elDebugPrint("Location Address:%@",self.locAddress)
+                       elDebugPrint("building Address:%@",self.buildingName)
+                       elDebugPrint("cityName Address:%@", cityName)
                         
                         //Hunain 7Jan17
                         if UserDefaults.isUserLoggedIn(){
@@ -575,7 +575,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                     self.viewModel.selectedAddress.asObservable().observeOn(MainScheduler.instance)
                         .bind { [unowned self](address) in
                             guard let address = address else {return}
-                            print("Address:%@",address)
+                           elDebugPrint("Address:%@",address)
                             
                             let streetName = address.lines![0]
                             if(self.addressTextField.text == nil || (self.addressTextField.text?.isEmpty)!){
@@ -602,7 +602,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 let fetchedFormattedAddress = finalAddress
                 self.viewModel.locationAddress.value = fetchedFormattedAddress
                 
-                print("self.viewModel.locationAddress.value:%@",self.viewModel.locationAddress.value ?? "NULL Address")
+               elDebugPrint("self.viewModel.locationAddress.value:%@",self.viewModel.locationAddress.value ?? "NULL Address")
                 
                 let locationName = fetchedFormattedAddress.components(separatedBy: "-").dropLast().joined(separator: "-")
                 self.viewModel.locationName.value = locationName
@@ -615,7 +615,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                     self.viewModel.locationName.value = fetchedFormattedAddress
                 }*/
                 
-                print("self.viewModel.locationName.value:%@",self.viewModel.locationName.value ?? "NULL Location Name")
+               elDebugPrint("self.viewModel.locationName.value:%@",self.viewModel.locationName.value ?? "NULL Location Name")
                 
                 self.addressLabel.text = fetchedFormattedAddress
                 self.addressTitleLabel.text = fetchedFormattedAddress
@@ -659,11 +659,11 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             switch(CLLocationManager.authorizationStatus()) {
                 
             case .notDetermined, .restricted, .denied:
-                   print("No Access to Location services")
+                  elDebugPrint("No Access to Location services")
                    //self.showLocationDisableAlert()
                 
             case .authorizedAlways, .authorizedWhenInUse:
-                   print("Have Location services Access")
+                  elDebugPrint("Have Location services Access")
                    LocationManager.sharedInstance.requestLocationAuthorization()
                    LocationManager.sharedInstance.fetchCurrentLocation()
             }
@@ -686,7 +686,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
            
         } else {
             
-            print("Location services are not enabled")
+           elDebugPrint("Location services are not enabled")
             
             if let location = self.viewModel.selectedLocation.value {
                 
@@ -703,16 +703,16 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 let countryCode = (Locale.current as NSLocale).object(forKey: NSLocale.Key.countryCode) as! String
                 let country = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: countryCode)
                 if let countyName = country {
-                    print("Country Name:%@",countyName)
+                   elDebugPrint("Country Name:%@",countyName)
                     LocationManager.sharedInstance.getLocationCoordinatesFromLocationName(countyName,withCompletionHandler: { (status, success,location) -> Void in
                         
                         if success {
-                            print(status)
+                           elDebugPrint(status)
                             self.locationCurrentCoordinates = location!
                             let camera = GMSCameraPosition.camera(withTarget: self.locationCurrentCoordinates, zoom: 5)
                             self.mapView.camera = camera
                         }else {
-                            print("Location Coordinates not found.")
+                           elDebugPrint("Location Coordinates not found.")
                         }
                     })
                 }
@@ -888,14 +888,14 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             switch(CLLocationManager.authorizationStatus()) {
                 
             case .notDetermined, .restricted, .denied:
-                print("No Access to Location services")
+               elDebugPrint("No Access to Location services")
                 isCurrentLocationEnabled = false
                 
             case .authorizedAlways, .authorizedWhenInUse:
-                print("Have Location services Access")
+               elDebugPrint("Have Location services Access")
                 isCurrentLocationEnabled = true
                 @unknown default:
-                print("Have Location services Access")
+               elDebugPrint("Have Location services Access")
             }
         }
         return isCurrentLocationEnabled
@@ -911,7 +911,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 case .restricted , .denied:
                     LocationManager.sharedInstance.requestLocationAuthorization()
                 case .authorizedAlways, .authorizedWhenInUse:
-                    print("Have Location services Access")
+                   elDebugPrint("Have Location services Access")
                     LocationManager.sharedInstance.requestLocationAuthorization()
                     LocationManager.sharedInstance.fetchCurrentLocation()
                     if LocationManager.sharedInstance.currentLocation.value != nil {
@@ -947,7 +947,7 @@ extension LocationMapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         
-        print(position.target)
+       elDebugPrint(position.target)
         let location = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
         if CLLocationCoordinate2DIsValid(location.coordinate) && (location.coordinate.latitude != 0 && location.coordinate.longitude != 0){
             if self.shouldUpdatePinUpdate {

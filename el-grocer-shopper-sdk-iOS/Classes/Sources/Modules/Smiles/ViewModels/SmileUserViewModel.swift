@@ -29,7 +29,7 @@ public class SmileUserViewModel {
         SmilesNetworkManager.sharedInstance().getUserInfo() { result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     let dataDict = response["data"]
                     //let brand = GroceryBrand.createGroceryBrandFromDictionary(dataDict as! NSDictionary)
                     
@@ -37,17 +37,17 @@ public class SmileUserViewModel {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict, options: .prettyPrinted)
 
                         let smileUser = try JSONDecoder().decode(SmileUser.self, from: jsonData)
-                        print(smileUser)
+                       elDebugPrint(smileUser)
                         self.user.value = smileUser
                         self.smilePoints.value = Int64(smileUser.availablePoints ?? 0)
                         UserDefaults.setIsSmileUser(true)
                         UserDefaults.setSmilesPoints(smileUser.availablePoints ?? 0)
                     } catch {
-                        print(error)
+                       elDebugPrint(error)
                     }
                 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                     UserDefaults.setIsSmileUser(false)
             }
         }

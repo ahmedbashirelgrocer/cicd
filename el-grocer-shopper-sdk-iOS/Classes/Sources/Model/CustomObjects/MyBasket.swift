@@ -211,7 +211,7 @@ class MyBasket  {
         let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
         if (self.activeGrocery?.deliveryTypeId != nil && (self.activeGrocery?.deliveryTypeId == "1" || (self.activeGrocery?.deliveryTypeId == "2" && self.activeGrocery?.isOpen.boolValue == false))) {
             
-                //  print("Delivery Slots Array Count:%d",self.deliverySlotsArray.count)
+                // elDebugPrint("Delivery Slots Array Count:%d",self.deliverySlotsArray.count)
             
             if (self.deliverySlotsA.count > 0) {
                 var currentSlots : [DeliverySlot] = []
@@ -233,9 +233,9 @@ class MyBasket  {
                     // self.updateSlotsAndChooseNextAvailable()
                 let currentSlotIndex = self.deliverySlotsA.firstIndex(where: {$0.dbID == self.activeDeliverySlot?.dbID})
                 if (currentSlotIndex != nil) {
-                        //  print("Current Slot Index:%d",currentSlotIndex!)
+                        // elDebugPrint("Current Slot Index:%d",currentSlotIndex!)
                     let nextAvailableSlotIndex = currentSlotIndex! + 1
-                        // print("Next Available Slot Index:%d",nextAvailableSlotIndex)
+                        //elDebugPrint("Next Available Slot Index:%d",nextAvailableSlotIndex)
                     if(nextAvailableSlotIndex < self.deliverySlotsA.count){
                         self.activeDeliverySlot = self.deliverySlotsA[nextAvailableSlotIndex]
                     }else{
@@ -310,9 +310,9 @@ class MyBasket  {
                     // self.updateSlotsAndChooseNextAvailable()
                 let currentSlotIndex = self.deliverySlotsA.firstIndex(where: {$0.dbID == self.activeDeliverySlot?.dbID})
                 if (currentSlotIndex != nil) {
-                        //  print("Current Slot Index:%d",currentSlotIndex!)
+                        // elDebugPrint("Current Slot Index:%d",currentSlotIndex!)
                     let nextAvailableSlotIndex = currentSlotIndex! + 1
-                        // print("Next Available Slot Index:%d",nextAvailableSlotIndex)
+                        //elDebugPrint("Next Available Slot Index:%d",nextAvailableSlotIndex)
                     if(nextAvailableSlotIndex < self.deliverySlotsA.count){
                         selectedSlot = self.deliverySlotsA[nextAvailableSlotIndex]
                     }else{
@@ -408,7 +408,7 @@ extension MyBasket  {
                 case .success(let data):
                     self.handleReasonApiResponse(data["data"] as? [NSDictionary])
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                     ElGrocerUtility.sharedInstance.delay(0.5) {
                         self.getReasons()
                     }
@@ -445,7 +445,7 @@ extension MyBasket {
         ElGrocerApi.sharedInstance.fetchBasketFromServerWithGrocery(grocery) { (result) in
             switch result {
                 case .success(let responseDict):
-                    print("Fetch Basket Response:%@",responseDict)
+                   elDebugPrint("Fetch Basket Response:%@",responseDict)
                     self.saveResponseData(responseDict, andWithGrocery: grocery)
                 case .failure(_ ):
                     self.delegate?.basketDataUpdateFailed()

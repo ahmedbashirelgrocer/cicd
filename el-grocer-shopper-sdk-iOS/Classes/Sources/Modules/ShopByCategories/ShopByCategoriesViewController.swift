@@ -136,7 +136,7 @@ extension ShopByCategoriesViewController : UICollectionViewDelegate , UICollecti
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.item)
+       elDebugPrint(indexPath.item)
         let data = storeCategoryA[indexPath.item]
         let vc = ElGrocerViewControllers.getSpecialtyStoresGroceryViewController()
         vc.controllerTitle = data.name ?? ""

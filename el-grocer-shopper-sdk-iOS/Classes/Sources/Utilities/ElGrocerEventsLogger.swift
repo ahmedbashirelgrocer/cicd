@@ -189,8 +189,8 @@ class ElGrocerEventsLogger  {
             var data : NSDictionary =  [ "isZenDesk" : 1  ]
             
             if status == .success {
-                print("Config fetched!")
-                self.remoteConfig.activate { (data , error)  in debugPrint("remoteConfig")}
+               elDebugPrint("Config fetched!")
+                self.remoteConfig.activate { (data , error)  in elDebugPrint("remoteConfig")}
                 let configureValues =  self.remoteConfig.configValue(forKey: self.configKeyForChat)
                
                 if configureValues.jsonValue is NSArray {
@@ -228,8 +228,8 @@ class ElGrocerEventsLogger  {
                 if let jsonResult = jsonResult as? NSArray{
                     self.prepareMap(data: jsonResult)
                     return true
-                }else{self.isNeedToByPassData = true; print("local Config not fetched"); return false}
-            } catch { self.isNeedToByPassData = true; print("localConfig not fetched") ; return false }
+                }else{self.isNeedToByPassData = true;elDebugPrint("local Config not fetched"); return false}
+            } catch { self.isNeedToByPassData = true;elDebugPrint("localConfig not fetched") ; return false }
         }
         return false
     }
@@ -249,7 +249,7 @@ class ElGrocerEventsLogger  {
             mapA[obj.egName ?? ""] = obj
         }
         self.isNeedToByPassData = false
-          debugPrint("Map Done")
+          elDebugPrint("Map Done")
     }
     
     
@@ -500,7 +500,7 @@ extension  ElGrocerEventsLogger   {
         
 //        let param = [AFEventParamPrice: value , AFEventParamCurrency : kProductCurrencyEngAEDName , AFEventParamQuantity : itemsCount  , AFEventParamContentType : "product" , AFEventParamContentId : productIds , AFEventParamPaymentInfoAvailable : availablePayments  , AppEvents.ParameterName.content : appFlayerJsonString ] as! [String : Any]
 //        AppsFlyerLib.shared().logEvent(name: AFEventInitiatedCheckout, values: param) { (data, error) in
-//            debugPrint(data)
+//            elDebugPrint(data)
 //        }
        // AppsFlyerLib.shared().trackEvent(AFEventInitiatedCheckout, withValues:param)
         
@@ -599,9 +599,9 @@ extension  ElGrocerEventsLogger   {
         let facebookParams = [ AppEvents.ParameterName.contentType:"product", AppEvents.ParameterName.content : paramsString ] as [AnyHashable: Any]
        
         ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("AppEvents.Name.logPurchase", facebookParams as? [String : Any])
-        debugPrint("facebook eventName : logPurchase")
-        debugPrint("facebook Parm price : \(priceSum)")
-        debugPrint("facebook Parm Print : \(facebookParams)")
+        elDebugPrint("facebook eventName : logPurchase")
+        elDebugPrint("facebook Parm price : \(priceSum)")
+        elDebugPrint("facebook Parm Print : \(facebookParams)")
         
         
         /* ---------- AppsFlyer Purchase Event ----------*/

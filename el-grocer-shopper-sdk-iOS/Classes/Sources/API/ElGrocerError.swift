@@ -219,7 +219,7 @@ struct ElGrocerError {
                 else{
                     
                     if errorMsgDict.allKeys.count > 0 {
-                        print("Error Keys:%@",errorMsgDict.allKeys)
+                       elDebugPrint("Error Keys:%@",errorMsgDict.allKeys)
                         var errorKey = errorMsgDict.allKeys[0] as! String
                         
                         for errKey in errorMsgDict.allKeys {
@@ -231,7 +231,7 @@ struct ElGrocerError {
                                 }
                             }
                         }
-                        print("Current Error Key:%@",errorKey)
+                       elDebugPrint("Current Error Key:%@",errorKey)
                         var genericError = ""
                         if let errorArray = errorMsgDict[errorKey] as? NSArray{
                             genericError = errorArray.componentsJoined(by: "")

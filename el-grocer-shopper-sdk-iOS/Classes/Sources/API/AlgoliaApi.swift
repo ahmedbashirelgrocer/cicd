@@ -340,7 +340,7 @@ class AlgoliaApi {
 //        client.multipleQueries(queries: queries, strategy: MultipleQueriesStrategy.init(rawValue: ""), requestOptions: requestOptions) { result in
 //
 //            if case .success(let response) = result {
-//                debugPrint("Response: \(response)")
+//                elDebugPrint("Response: \(response)")
 //            }else if case .failure (let error) = result{
 //                completion(nil , error)
 //            }
@@ -561,7 +561,7 @@ class AlgoliaApi {
         
        
         self.algoliaSearchSuggestionIndex.search(query: query, requestOptions: requestOptions ) { (content) -> Void in
-            debugPrint(content)
+            elDebugPrint(content)
             if case .success(let response) = content {
                 completion(response.convertHits() , nil)
             }else if case .failure (let error) = content{
@@ -629,7 +629,7 @@ extension AlgoliaApi {
          let data = UserDefaults.getAddToCartInAlgolia(groceryID: cleanGroceryID)
         for queryID  in productQueryIDsList {
             if let productIDs =  data[queryID] {
-                debugPrint(productIDs)
+                elDebugPrint(productIDs)
                 let objectIDs = productIDsList.filter(productIDs.contains)
                 if objectIDs.count > 0 {
                     var objIdsA : [ObjectID] = []
@@ -709,7 +709,7 @@ extension AlgoliaApi {
             finalTags.append(dataToAdd)
         }
         
-        if Platform.isDebugBuild {debugPrint("ALgolia Insights Tags: \(finalTags)")}
+        if Platform.isDebugBuild {elDebugPrint("ALgolia Insights Tags: \(finalTags)")}
         return finalTags
     }
 
@@ -989,17 +989,17 @@ extension AlgoliaApi {
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+               elDebugPrint(String(describing: error))
                 completion(nil , error)
                 semaphore.signal()
                 return
             }
-            print(String(data: data, encoding: .utf8)!)
+           elDebugPrint(String(data: data, encoding: .utf8)!)
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any]
                 completion(json , nil)
             } catch let error {
-                print("erroMsg")
+               elDebugPrint("erroMsg")
                 completion(nil , error)
             }
             semaphore.signal()

@@ -267,7 +267,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         }else {
             return
         }
-        debugPrint("PageNumber of algolia: \(pageNumber)")
+        elDebugPrint("PageNumber of algolia: \(pageNumber)")
         
         guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
             
@@ -276,7 +276,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                 switch result {
                         
                     case .success(let response):
-                        print("SERVER Response:%@",response)
+                       elDebugPrint("SERVER Response:%@",response)
                         self.saveResponseData(response)
                     case .failure(let error):
                         SpinnerView.hideSpinnerView()
@@ -327,7 +327,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                         }
                     }
                 }
-                print("Products Array Count:%@",self.products.count)
+               elDebugPrint("Products Array Count:%@",self.products.count)
                 DispatchQueue.main.async {
                     self.refreshData()
                     self.isGettingProducts = false
@@ -900,7 +900,7 @@ extension BrandDetailsViewController {
         ElGrocerApi.sharedInstance.getBrandDetailsForBrandId(String(self.brand.brandId)) { result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     let dataDict = response["data"]
                     let brand = GroceryBrand.createGroceryBrandFromDictionary(dataDict as! NSDictionary)
                     if brand.imageURL != "" {
@@ -910,7 +910,7 @@ extension BrandDetailsViewController {
                         }
                     }
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
             }
         }
     }
@@ -927,7 +927,7 @@ extension BrandDetailsViewController {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: clearGroceryId)
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                 // error.showErrorAlert()
             }
         }

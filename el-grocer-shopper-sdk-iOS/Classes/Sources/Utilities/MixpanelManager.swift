@@ -17,7 +17,11 @@ class MixpanelManager {
         
         Mixpanel.initialize(token: MIXPANEL_TOKEN)
         //TODO: set this to false when release
-        Mixpanel.mainInstance().loggingEnabled = true
+        loggingEnabled(SDKManager.shared.launchOptions?.isLoggingEnabled == true)
+    }
+    
+    class func loggingEnabled(_ value: Bool) {
+        Mixpanel.mainInstance().loggingEnabled = value
     }
     
     class func trackEvent(_ eventName : String , params :  [String : Any]? = nil) {
@@ -32,7 +36,7 @@ class MixpanelManager {
         
         Mixpanel.mainInstance().track(event: eventName, properties: finalParms)
         Mixpanel.mainInstance().flush {
-            if Platform.isSimulator {  debugPrint("MixPanel : debug: \(eventName): done") }
+            if Platform.isSimulator {  elDebugPrint("MixPanel : debug: \(eventName): done") }
         }
     }
 }

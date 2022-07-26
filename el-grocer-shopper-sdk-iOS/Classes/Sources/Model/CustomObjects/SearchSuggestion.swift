@@ -23,7 +23,7 @@ class SearchSuggestion: NSObject {
         let aggregationDict = dataDict["aggregation"] as! NSDictionary
         
         var suggestionCount = 0
-        print("Suggestion Count At Start:%d",suggestionCount)
+       elDebugPrint("Suggestion Count At Start:%d",suggestionCount)
         
       /*  let responseCategories = aggregationDict["categories"] as! [NSDictionary]
         for responseDict in responseCategories {
@@ -38,7 +38,7 @@ class SearchSuggestion: NSObject {
             break
         }
         
-        print("Suggestion Count after categories:%d",suggestionCount)*/
+       elDebugPrint("Suggestion Count after categories:%d",suggestionCount)*/
         
         let responseSubcategories = aggregationDict["subcategories"] as! [NSDictionary]
         for responseDict in responseSubcategories {
@@ -52,7 +52,7 @@ class SearchSuggestion: NSObject {
             if(suggestionCount == 6){break}
         }
         
-        print("Suggestion Count after SubCategories:%d",suggestionCount)
+       elDebugPrint("Suggestion Count after SubCategories:%d",suggestionCount)
         
         let responseBrands = aggregationDict["brands"] as! [NSDictionary]
         for responseDict in responseBrands {
@@ -66,7 +66,7 @@ class SearchSuggestion: NSObject {
             if(suggestionCount == 10){break}
         }
         
-        print("Suggestion Count after Brands:%d",suggestionCount)
+       elDebugPrint("Suggestion Count after Brands:%d",suggestionCount)
         
         return searchSuggestions
     }

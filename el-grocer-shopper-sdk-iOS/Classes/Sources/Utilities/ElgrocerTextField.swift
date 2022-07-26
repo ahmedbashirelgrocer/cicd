@@ -430,7 +430,7 @@ public class ElgrocerTextField: UITextField {
         self.borderColor = self.activeFieldColor
         
         if self.isEditing{
-            print("editing")
+           elDebugPrint("editing")
         }else{
             self.resignFirstResponder()
         }

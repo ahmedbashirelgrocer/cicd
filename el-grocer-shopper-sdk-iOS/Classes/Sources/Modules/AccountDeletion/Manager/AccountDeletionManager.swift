@@ -26,10 +26,10 @@ class AccountDeletionManager {
         ElGrocerApi.sharedInstance.deleteAccountReasons( completionHandler: { (result) -> Void in
             switch result {
             case .success(let responseDict):
-                print(responseDict)
+               elDebugPrint(responseDict)
                 completion(responseDict)
             case .failure(let error):
-                print(error.localizedMessage)
+               elDebugPrint(error.localizedMessage)
                 completion(["":""])
             }
         })
@@ -40,10 +40,10 @@ class AccountDeletionManager {
         ElGrocerApi.sharedInstance.deleteAccountSendOtp(phoneNum: phoneNum) { (result) -> Void in
             switch result {
             case .success(let responseDict):
-                print(responseDict)
+               elDebugPrint(responseDict)
                 completion(responseDict)
             case .failure(let error):
-                print(error.localizedMessage)
+               elDebugPrint(error.localizedMessage)
                 error.showErrorAlert()
                 completion(["":""])
             }
@@ -55,10 +55,10 @@ class AccountDeletionManager {
         ElGrocerApi.sharedInstance.deleteAccountVerifyOtp(code: code, reason: reason) { (result) -> Void in
             switch result {
             case .success(let responseDict):
-                print(responseDict)
+               elDebugPrint(responseDict)
                 completion(Either.success(responseDict))
             case .failure(let error):
-                print(error.localizedMessage)
+               elDebugPrint(error.localizedMessage)
                 completion(Either.failure(error))
             }
         }
@@ -85,7 +85,7 @@ class AccountDeletionManager {
                     completion(nil,nil)
                 }
            }, failure: { (operation, error) in
-                print("Error: " + error.localizedDescription)
+               elDebugPrint("Error: " + error.localizedDescription)
                completion(nil,nil)
        })
     }
@@ -103,12 +103,12 @@ class AccountDeletionManager {
             success: { (operation, responseObject) in
 
                  if let dic = responseObject as? [String: Any]{
-                      print(dic)
+                     elDebugPrint(dic)
                  }else{
                      completion(nil,nil)
                  }
             }, failure: { (operation, error) in
-                 print("Error: " + error.localizedDescription)
+                elDebugPrint("Error: " + error.localizedDescription)
                 completion(nil,nil)
         })
     }
@@ -126,12 +126,12 @@ class AccountDeletionManager {
             success: { (operation, responseObject) in
 
                  if let dic = responseObject as? [String: Any]{
-                      print(dic)
+                     elDebugPrint(dic)
                  }else{
                      completion(nil,nil)
                  }
             }, failure: { (operation, error) in
-                 print("Error: " + error.localizedDescription)
+                elDebugPrint("Error: " + error.localizedDescription)
                 completion(nil,nil)
         })
     }

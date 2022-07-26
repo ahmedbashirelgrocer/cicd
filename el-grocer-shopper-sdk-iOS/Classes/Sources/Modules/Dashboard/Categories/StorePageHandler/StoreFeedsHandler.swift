@@ -19,7 +19,7 @@ class StoreFeedsHandler {
     var grocery : Grocery?
     var type : ListLoadingOrder {
         didSet {
-            debugPrint("test")
+            elDebugPrint("test")
         }
     }
     //Mark:- init
@@ -51,7 +51,7 @@ class StoreFeedsHandler {
         self.feeds.append(StoreFeeds.init(type: .ListOfCategories , index : tableCellIndex, grocery : self.grocery , delegate: delegate))
         tableCellIndex += 1
         self.feeds.append(StoreFeeds.init(type: .Purchased , index : tableCellIndex, grocery : self.grocery ,  delegate: delegate))
-        debugPrint("FeedCount : \(self.feeds.count)")
+        elDebugPrint("FeedCount : \(self.feeds.count)")
     }
     
     func setCategoriesForStorePage(_ categories : [Category]?) {
@@ -78,7 +78,7 @@ class StoreFeedsHandler {
             }
             
         }
-        debugPrint("FeedCount : \(self.feeds.count)")
+        elDebugPrint("FeedCount : \(self.feeds.count)")
         
         
     }
@@ -91,6 +91,6 @@ class StoreFeedsHandler {
         for (index , category) in self.categories.enumerated() {
             self.feeds.append(StoreFeeds.init(type: .TopSelling, category: category  , index : index, grocery: self.grocery , delegate: delegate))
         }
-        debugPrint("FeedCount : \(self.feeds.count)")
+        elDebugPrint("FeedCount : \(self.feeds.count)")
     }
 }

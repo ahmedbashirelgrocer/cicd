@@ -118,13 +118,13 @@ class DeleteAccountVerifyCodeVC: UIViewController, NavigationBarProtocol {
         self.btnResendOTP.alpha = 0
         self.btnResendOTP.isUserInteractionEnabled = false
         AccountDeletionManager.sendOTP(phoneNum: priviousPhoneNum) { responseDict in
-            print(responseDict)
+           elDebugPrint(responseDict)
             let success = responseDict["status"] as? String ?? ""
             if success.elementsEqual("success") {
                 let data = responseDict["data"] as? NSDictionary ?? [:]
                 let message = data["message"] as? String ?? ""
                 if message.elementsEqual("ok") {
-                    print("otp sent")
+                   elDebugPrint("otp sent")
                     Thread.OnMainThread {
                         self.pinField.text = ""
                         self.pinField.isUserInteractionEnabled = true
@@ -141,24 +141,24 @@ class DeleteAccountVerifyCodeVC: UIViewController, NavigationBarProtocol {
         let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         AccountDeletionManager.deleteCleverTapUser { error, data in
-            print("error: \(error), data : \(data)")
+           elDebugPrint("error: \(error), data : \(data)")
             if let data = data {
                 if data.elementsEqual("success") {
-                    print("user deleted successfully")
+                   elDebugPrint("user deleted successfully")
                 }
             }else {
-                print("User deletion unsuccessfull")
+               elDebugPrint("User deletion unsuccessfull")
             }
         }
         
         AccountDeletionManager.deleteSendBirdUser(userId: "s_" + (user?.dbID.stringValue ?? "")) { error, data in
-            print("error: \(error), data : \(data)")
+           elDebugPrint("error: \(error), data : \(data)")
             if let data = data {
                 if data.elementsEqual("success") {
-                    print("user deleted successfully")
+                   elDebugPrint("user deleted successfully")
                 }
             }else {
-                print("User deletion unsuccessfull")
+               elDebugPrint("User deletion unsuccessfull")
             }
         }
         
@@ -182,7 +182,7 @@ class DeleteAccountVerifyCodeVC: UIViewController, NavigationBarProtocol {
 }
 extension DeleteAccountVerifyCodeVC : KAPinFieldDelegate {
     func pinField(_ field: KAPinField, didFinishWith code: String) {
-        print("didFinishWith : \(code)")
+       elDebugPrint("didFinishWith : \(code)")
         
         let stringNumber : String  = field.text ?? ""
         let englishNumber = self.convertToEnglish(stringNumber)
@@ -205,7 +205,7 @@ extension DeleteAccountVerifyCodeVC : KAPinFieldDelegate {
             SpinnerView.hideSpinnerView()
             switch result {
             case .success(let responseDict):
-                print(responseDict)
+               elDebugPrint(responseDict)
                 self.btnResendOTP.isHidden = true
                 self.pinField.animateSuccess(with: "👍") {
                     self.deleteAllUserDataForEventsAndSDKs()
@@ -214,7 +214,7 @@ extension DeleteAccountVerifyCodeVC : KAPinFieldDelegate {
                     }
                 }
             case .failure(let error):
-                print(error.localizedMessage)
+               elDebugPrint(error.localizedMessage)
                 self.pinField.isUserInteractionEnabled = true
                 self.btnResendOTP.isHidden = false
                 self.pinField.animateFailure {

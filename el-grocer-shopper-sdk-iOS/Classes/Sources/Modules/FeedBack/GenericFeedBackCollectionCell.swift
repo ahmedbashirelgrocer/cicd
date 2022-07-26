@@ -493,7 +493,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
 }
 extension GenericFeedBackCollectionCell: FloatRatingViewDelegate {
     func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
-        print(String(format: "%.2f", ratingView.rating))
+       elDebugPrint(String(format: "%.2f", ratingView.rating))
         self.collectionView?.isScrollEnabled = true
         
         if self.tag == 1{

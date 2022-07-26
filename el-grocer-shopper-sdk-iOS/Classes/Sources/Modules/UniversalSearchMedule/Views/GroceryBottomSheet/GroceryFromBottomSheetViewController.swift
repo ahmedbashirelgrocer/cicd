@@ -172,7 +172,7 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        print("cell height for collction \(tableView.frame.height)")
+       elDebugPrint("cell height for collction \(tableView.frame.height)")
         return self.tableView.bounds.height
     }
     

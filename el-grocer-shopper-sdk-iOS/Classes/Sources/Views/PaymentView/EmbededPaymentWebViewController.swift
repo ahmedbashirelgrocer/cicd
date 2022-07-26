@@ -446,9 +446,9 @@ class EmbededPaymentWebViewController: UIViewController, NavigationBarProtocol {
         ElGrocerApi.sharedInstance.deleteBasketFromServerWithGrocery(grocery) { (result) in
             switch result {
                 case .success(let responseDict):
-                    print("Delete Basket Response:%@",responseDict)
+                   elDebugPrint("Delete Basket Response:%@",responseDict)
                 case .failure(let error):
-                    print("Delete Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Delete Basket Error:%@",error.localizedMessage)
             }
         }
     }
@@ -467,7 +467,7 @@ extension EmbededPaymentWebViewController: WKScriptMessageHandler,  WKUIDelegate
             let _ = SpinnerView.showSpinnerViewInView(self.view)
         }
         if message.name == KisFormValidated {
-            print(message.body)
+           elDebugPrint(message.body)
             if message.body is Bool {
                 isFormValidate =  message.body as! Bool
             }
@@ -477,11 +477,11 @@ extension EmbededPaymentWebViewController: WKScriptMessageHandler,  WKUIDelegate
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        debugPrint(error)
+        elDebugPrint(error)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-       // debugPrint(webView.url)
+       // elDebugPrint(webView.url)
         if webView.url?.absoluteString.contains("/FortAPI/paymentPage") ?? false {
             
         }else if webView.url?.absoluteString.contains("return3DsTnxStatus") ?? false {

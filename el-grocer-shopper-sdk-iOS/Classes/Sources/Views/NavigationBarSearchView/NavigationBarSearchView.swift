@@ -96,7 +96,7 @@ class NavigationBarSearchView : UIView, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-        print("Tap on text field")
+       elDebugPrint("Tap on text field")
         if self.delegate is SearchViewController  {
             self.isSearchBarEdited = true
         }

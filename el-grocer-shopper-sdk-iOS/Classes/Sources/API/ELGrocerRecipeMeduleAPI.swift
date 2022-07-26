@@ -74,23 +74,23 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }
         
 //        if Platform.isDebugBuild {
-//            debugPrint("Service : \(urlStr)")
-//            debugPrint(offset)
-//            debugPrint("to")
-//            debugPrint(Limit)
-//            debugPrint("& ID : (in case available to add)")
-//            debugPrint(chefID ?? "")
+//            elDebugPrint("Service : \(urlStr)")
+//            elDebugPrint(offset)
+//            elDebugPrint("to")
+//            elDebugPrint(Limit)
+//            elDebugPrint("& ID : (in case available to add)")
+//            elDebugPrint(chefID ?? "")
 //
 //        }
         
         NetworkCall.recipeApiOperation = NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(String(describing: response))")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(String(describing: response))")
 //            }
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -102,9 +102,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
             
         }, failure: { (operation, error) in
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(error.localizedDescription)")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -125,18 +125,18 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
      let urlStr = ElGrocerRecipeApiEndpoint.GET_Chef.rawValue
      let parameters = ["offset" : "0" , "limit" : "1" , "id" :  chefID ]
      if Platform.isDebugBuild {
-     debugPrint("Service : \(urlStr)")
-     debugPrint("0")
-     debugPrint("to")
-     debugPrint("1")
-     debugPrint("& ID")
-     debugPrint(chefID)
+     elDebugPrint("Service : \(urlStr)")
+     elDebugPrint("0")
+     elDebugPrint("to")
+     elDebugPrint("1")
+     elDebugPrint("& ID")
+     elDebugPrint(chefID)
      }
      self.recipeApiOperation = self.requestManager.get(urlStr, parameters: parameters, success: { (operation: AFHTTPRequestOperation!, response: Any) -> Void in
      if Platform.isDebugBuild {
-     debugPrint("API NAME : \(urlStr)")
-     debugPrint("PARAMS NAME : \(parameters)")
-     debugPrint("resPonse : \(response)")
+     elDebugPrint("API NAME : \(urlStr)")
+     elDebugPrint("PARAMS NAME : \(parameters)")
+     elDebugPrint("resPonse : \(response)")
      }
      guard let response = response as? NSDictionary else {
      completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -146,9 +146,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
      
      }) { (operation: AFHTTPRequestOperation!, error: Error) -> Void in
      if Platform.isDebugBuild {
-     debugPrint("API NAME : \(urlStr)")
-     debugPrint("PARAMS NAME : \(parameters)")
-     debugPrint("resPonse : \(error.localizedDescription)")
+     elDebugPrint("API NAME : \(urlStr)")
+     elDebugPrint("PARAMS NAME : \(parameters)")
+     elDebugPrint("resPonse : \(error.localizedDescription)")
      }
      if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -174,19 +174,19 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //        let urlStr = ElGrocerRecipeApiEndpoint.GET_CategoryList.rawValue
 //        let parameters = ["limit" : Limit , "offset" : offset]
 //        if Platform.isDebugBuild {
-//            debugPrint("Service : \(urlStr)")
-//            debugPrint(offset)
-//            debugPrint("to")
-//            debugPrint(Limit)
+//            elDebugPrint("Service : \(urlStr)")
+//            elDebugPrint(offset)
+//            elDebugPrint("to")
+//            elDebugPrint(Limit)
 //        }
 //        NetworkCall.recipeApiOperation = NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-//              // debugPrint("Progress for API :  \(progress)")
+//              // elDebugPrint("Progress for API :  \(progress)")
 //        }, success: { (operation, response) in
 //
 ////            if Platform.isDebugBuild {
-////                debugPrint("API NAME : \(urlStr)")
-////                debugPrint("PARAMS NAME : \(parameters)")
-////                debugPrint("resPonse : \(String(describing: response))")
+////                elDebugPrint("API NAME : \(urlStr)")
+////                elDebugPrint("PARAMS NAME : \(parameters)")
+////                elDebugPrint("resPonse : \(String(describing: response))")
 ////            }
 //            guard let response = response as? NSDictionary else {
 //                completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -198,9 +198,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //        }, failure: { (operation, error) in
 ////
 ////            if Platform.isDebugBuild {
-////                debugPrint("API NAME : \(urlStr)")
-////                debugPrint("PARAMS NAME : \(parameters)")
-////                debugPrint("resPonse : \(error.localizedDescription)")
+////                elDebugPrint("API NAME : \(urlStr)")
+////                elDebugPrint("PARAMS NAME : \(parameters)")
+////                elDebugPrint("resPonse : \(error.localizedDescription)")
 ////            }
              //   InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError))
   //completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
@@ -220,19 +220,19 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
             parameters["shopper_id"] = shoperID
         }
         if Platform.isDebugBuild {
-            debugPrint("Service : \(urlStr)")
-            debugPrint(offset)
-            debugPrint("to")
-            debugPrint(Limit)
+            elDebugPrint("Service : \(urlStr)")
+            elDebugPrint(offset)
+            elDebugPrint("to")
+            elDebugPrint(Limit)
         }
         NetworkCall.recipeApiOperation = NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(String(describing: response))")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(String(describing: response))")
 //            }
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -244,9 +244,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }, failure: { (operation, error) in
 //
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(error.localizedDescription)")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -277,19 +277,19 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
             parameters["id"] = recID
         }
 //        if Platform.isDebugBuild {
-//            debugPrint("API NAME : \(urlStr)")
-//            debugPrint("PARAMS NAME : \(parameters)")
+//            elDebugPrint("API NAME : \(urlStr)")
+//            elDebugPrint("PARAMS NAME : \(parameters)")
 //        }
         
         
        NetworkCall.get(urlStr, parameters: parameters , progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(String(describing: response))")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(String(describing: response))")
 //            }
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -301,9 +301,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }, failure: { (operation, error) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(error.localizedDescription)")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -338,19 +338,19 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }
         
 //        if Platform.isDebugBuild {
-//            debugPrint("API NAME : \(urlStr)")
-//            debugPrint("PARAMS NAME : \(parameters)")
+//            elDebugPrint("API NAME : \(urlStr)")
+//            elDebugPrint("PARAMS NAME : \(parameters)")
 //        }
         
         
        NetworkCall.get(urlStr, parameters: parameters , progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(String(describing: response))")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(String(describing: response))")
 //            }
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -362,9 +362,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }, failure: { (operation, error) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(error.localizedDescription)")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -388,19 +388,19 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
                 
         
 //        if Platform.isDebugBuild {
-//            debugPrint("API NAME : \(urlStr)")
-//            debugPrint("PARAMS NAME : \(parameters)")
+//            elDebugPrint("API NAME : \(urlStr)")
+//            elDebugPrint("PARAMS NAME : \(parameters)")
 //        }
         
         
        NetworkCall.get(urlStr, parameters: parameters , progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(String(describing: response))")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(String(describing: response))")
 //            }
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -412,9 +412,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }, failure: { (operation, error) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(error.localizedDescription)")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -444,7 +444,7 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         
         
         NetworkCall.post(urlStr, parameters: parameters, progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
             guard let response = response as? NSDictionary else {
@@ -473,7 +473,7 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
     self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
     
     var currentLang = LanguageManager.sharedInstance.getSelectedLocale()
-    // // print("Current Language:%@",currentLang)
+    // //elDebugPrint("Current Language:%@",currentLang)
     
     if currentLang == "Base" {
     currentLang = "en"
@@ -495,13 +495,13 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         
 
         NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(String(describing: response))")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(String(describing: response))")
 //            }
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -512,9 +512,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }, failure: { (operation, error) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(error.localizedDescription)")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -547,17 +547,17 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
             parameters["chef_id"] = chef
         }
         if Platform.isDebugBuild {
-            debugPrint("API NAME : \(urlStr)")
-            debugPrint("PARAMS NAME : \(parameters)")
+            elDebugPrint("API NAME : \(urlStr)")
+            elDebugPrint("PARAMS NAME : \(parameters)")
         }
         NetworkCall.recipeApiOperation = NetworkCall.post(urlStr, parameters: parameters, progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(String(describing: response))")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(String(describing: response))")
 //            }
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -569,9 +569,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }, failure: { (operation, error) in
 //
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(error.localizedDescription)")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -616,13 +616,13 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
      
         setAccessToken()
         NetworkCall.recipeApiOperation = NetworkCall.post(urlStr, parameters: parameters, progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(String(describing: response))")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(String(describing: response))")
 //            }
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -634,9 +634,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
         }, failure: { (operation, error) in
             
 //            if Platform.isDebugBuild {
-//                debugPrint("API NAME : \(urlStr)")
-//                debugPrint("PARAMS NAME : \(parameters)")
-//                debugPrint("resPonse : \(error.localizedDescription)")
+//                elDebugPrint("API NAME : \(urlStr)")
+//                elDebugPrint("PARAMS NAME : \(parameters)")
+//                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 

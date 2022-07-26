@@ -163,7 +163,7 @@ extension HomeMainCategoriesTableCell : UICollectionViewDelegate , UICollectionV
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.item)
+       elDebugPrint(indexPath.item)
         guard indexPath.row < self.dataA.count else { return }
         let typeData = self.dataA[indexPath.row]
         var type  = MainCategoryCellType.Services
@@ -178,7 +178,7 @@ extension HomeMainCategoriesTableCell : UICollectionViewDelegate , UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        debugPrint("")
+        elDebugPrint("")
         guard indexPath.row < self.dataA.count else { return }
         let typeData = self.dataA[indexPath.row]
         var type  = MainCategoryCellType.Services

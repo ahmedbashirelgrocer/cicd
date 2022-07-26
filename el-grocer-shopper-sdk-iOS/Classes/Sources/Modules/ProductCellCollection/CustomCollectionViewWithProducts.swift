@@ -145,7 +145,7 @@ class CustomCollectionViewWithProducts: CustomCollectionView {
 extension CustomCollectionViewWithProducts : UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    //    print(indexPath)
+    //   elDebugPrint(indexPath)
         if indexPath.row == collectionA.count {
             if self.viewMoreCalled != nil {
                 self.viewMoreCalled!()
@@ -323,8 +323,8 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                         productCell.imageCrossState.isHidden = true
                         
                         if let product = SubstitutionBasketItem.checkIfProductIsInSubstitutionBasket(currentProduct! , grocery: orderIs.grocery, order: orderIs , context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                            debugPrint("checktest product item: \(product.count)")
-                            debugPrint("checktest currentProduct: \(currentProduct?.name)")
+                            elDebugPrint("checktest product item: \(product.count)")
+                            elDebugPrint("checktest currentProduct: \(currentProduct?.name)")
                             productCell.addToCartButton.isHidden = true
                             productCell.buttonsView.isHidden = false
                             productCell.productContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
@@ -355,7 +355,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             }
                             
                             func setPlusButtonState(_ isEnable : Bool){
-                                debugPrint("Name: \(currentProduct?.name) , isEnable : \(isEnable)")
+                                elDebugPrint("Name: \(currentProduct?.name) , isEnable : \(isEnable)")
                                 if isEnable {
                                     
                                     productCell.plusButton.isEnabled = true
@@ -387,8 +387,8 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                 setPlusButtonState(true)
                             }
                         }else{
-                            debugPrint("checktest product item: Nil")
-                            debugPrint("checktest currentProduct: \(currentProduct?.name)")
+                            elDebugPrint("checktest product item: Nil")
+                            elDebugPrint("checktest currentProduct: \(currentProduct?.name)")
                             productCell.imageCrossState.image = UIImage(name: "Product Plus")
                             productCell.imageCrossState.backgroundColor = UIColor.lightGreenColor()
                             productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
@@ -436,8 +436,8 @@ extension CustomCollectionViewWithProducts : UICollectionViewDelegateFlowLayout 
             if collectionView.frame.size.height > 70 {
                 cellSize = CGSize(width: kProductCellWidth , height: kProductCellHeight)//collectionView.frame.size.height)
             }
-//            debugPrint(indexPath)
-//            debugPrint(cellSize)
+//            elDebugPrint(indexPath)
+//            elDebugPrint(cellSize)
             if indexPath.row == self.collectionA.count {
                //  cellSize = CGSize(width: 82, height: kProductCellHeight)
                  cellSize = CGSize(width: 82 , height: kProductCellHeight)//collectionView.frame.size.height)

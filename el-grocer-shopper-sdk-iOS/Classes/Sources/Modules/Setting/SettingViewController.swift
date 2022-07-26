@@ -103,7 +103,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         if UserDefaults.isUserLoggedIn() {
             ElGrocerUtility.sharedInstance.delay(0.1) { [weak self] in
                 guard let self = self else {return}
-                debugPrint(self)
+                elDebugPrint(self)
                 
                 let SDKManager = SDKManager.shared
                 if let nav = SDKManager.rootViewController as? UINavigationController {
@@ -631,32 +631,32 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                  switch (indexPath as NSIndexPath).row {
                     case 0:
-                        print("Show Live Chat")
+                       elDebugPrint("Show Live Chat")
                         self.showLiveChat()
                         break
                     case 1:
-                        print("show Order")
+                       elDebugPrint("show Order")
                         self.showOrderVC()
                         break
                     case 2:
-                        print("saved recipes")
+                       elDebugPrint("saved recipes")
                         self.goToSavedRecipesVC()
                         break
                     case 3:
-                        print("saved cars")
+                       elDebugPrint("saved cars")
                         self.goToSavedCarsVC()
                         break
                     case 4:
-                        print("addresses")
+                       elDebugPrint("addresses")
                         self.locationHeader.changeLocation()
                         break
                     case 5:
-                        print("show card list")
+                       elDebugPrint("show card list")
                         self.goToSavedCardsVC()
                         //self.showManageCard()
                         break
                     case 6:
-                        print("change Passowrd")
+                       elDebugPrint("change Passowrd")
                         self.goToChangePasswordVC();
                         break
                     
@@ -672,7 +672,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 switch (indexPath as NSIndexPath).row {
                 case 0:
                     //call api here
-                    print("Show smiles point view")
+                   elDebugPrint("Show smiles point view")
                     if UserDefaults.getIsSmileUser() {
                         let smilepoints = UserDefaults.getSmilesPoints()//100
                         SmilesEventsLogger.smilePointsClickedEvent(isSmileslogin: true, smilePoints: smilepoints)
@@ -689,32 +689,32 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 1 + smilePointSection:
                 switch (indexPath as NSIndexPath).row {
                 case 0:
-                    print("Show Live Chat")
+                   elDebugPrint("Show Live Chat")
                     self.showLiveChat()
                     break
                 case 1:
-                    print("show Order")
+                   elDebugPrint("show Order")
                     self.showOrderVC()
                     break
                 case 2:
-                    print("saved recipes")
+                   elDebugPrint("saved recipes")
                     self.goToSavedRecipesVC()
                     break
                 case 3:
-                    print("saved cars")
+                   elDebugPrint("saved cars")
                     self.goToSavedCarsVC()
                     break
                 case 4:
-                    print("addresses")
+                   elDebugPrint("addresses")
                     self.locationHeader.changeLocation()
                     break
                 case 5:
-                    print("show card list")
+                   elDebugPrint("show card list")
                     self.goToSavedCardsVC()
                     //self.showManageCard()
                     break
                 case 6:
-                    print("change Passowrd")
+                   elDebugPrint("change Passowrd")
                     self.goToChangePasswordVC();
                     break
                 
@@ -725,11 +725,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 switch (indexPath as NSIndexPath).row {
                     
                 case 0:
-                    print("Language Selection")
+                   elDebugPrint("Language Selection")
                     self.showLanguageSelectionVC()
                     break
                 case 1:
-                    print("delete account selection")
+                   elDebugPrint("delete account selection")
                     self.showDeleteAccountVC()
                     break
                 default:
@@ -739,15 +739,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 switch (indexPath as NSIndexPath).row {
                     
                 case 0:
-                    print("Terms Conditions")
+                   elDebugPrint("Terms Conditions")
                         self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
                     break
                 case 1:
-                    print("Privacy Policy")
+                   elDebugPrint("Privacy Policy")
                         self.navigateToPrivacyPolicyViewControllerWithTermsEnable()
                     break
                 case 2:
-                    print("FAQ's")
+                   elDebugPrint("FAQ's")
                         self.showFAQs()
                     break
                 default:
@@ -764,7 +764,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     switch (indexPath as NSIndexPath).row {
                         
                     case 0:
-                        print("Language Selection")
+                       elDebugPrint("Language Selection")
                         self.showLanguageSelectionVC()
                         break
                     default:
@@ -774,15 +774,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     switch (indexPath as NSIndexPath).row {
                         
                     case 0:
-                        print("Terms Conditions")
+                       elDebugPrint("Terms Conditions")
                             self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
                         break
                     case 1:
-                        print("Privacy Policy")
+                       elDebugPrint("Privacy Policy")
                             self.navigateToPrivacyPolicyViewControllerWithTermsEnable()
                         break
                     case 2:
-                        print("FAQ's")
+                       elDebugPrint("FAQ's")
                             self.showFAQs()
                         break
                     default:

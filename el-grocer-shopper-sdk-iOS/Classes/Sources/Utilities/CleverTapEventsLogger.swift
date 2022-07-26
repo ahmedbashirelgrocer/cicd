@@ -55,7 +55,7 @@ class CleverTapEventsLogger  {
         
         
         
-       // debugPrint("*CleverTap Logs*  *EventName *: \(name)   * properties *: \(String(describing: properties))  *****")
+       // elDebugPrint("*CleverTap Logs*  *EventName *: \(name)   * properties *: \(String(describing: properties))  *****")
     }
     class func recordScreenName(_ name : String) {
         CleverTapEventsLogger.shared.cleverTapApp?.recordScreenView(name)

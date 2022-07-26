@@ -147,7 +147,7 @@ class DeleteAccountAddNumberVC: UIViewController, NavigationBarProtocol {
     func sendOTP(phoneNum: String) {
         let _ = SpinnerView.showSpinnerViewInView(self.view)
         AccountDeletionManager.sendOTP(phoneNum: phoneNum) { responseDict in
-            print(responseDict)
+           elDebugPrint(responseDict)
             SpinnerView.hideSpinnerView()
             let success = responseDict["status"] as? String ?? ""
             if success.elementsEqual("success") {
@@ -182,7 +182,7 @@ class DeleteAccountAddNumberVC: UIViewController, NavigationBarProtocol {
 extension DeleteAccountAddNumberVC : FPNTextFieldCustomDelegate {
 
     func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
-        print(name, dialCode, code) // Output "France", "+33", "FR"
+       elDebugPrint(name, dialCode, code) // Output "France", "+33", "FR"
         ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.lblFlagCountryCode.text =  dialCode + " " + self.getFlag(from: code)
@@ -206,7 +206,7 @@ extension DeleteAccountAddNumberVC : FPNTextFieldCustomDelegate {
         }
         self.validatePhoneNumberAndSetPasswordTextFieldAppearance(isValid)
         
-        debugPrint(isValid)
-        debugPrint(finalPhoneNumber)
+        elDebugPrint(isValid)
+        elDebugPrint(finalPhoneNumber)
     }
 }

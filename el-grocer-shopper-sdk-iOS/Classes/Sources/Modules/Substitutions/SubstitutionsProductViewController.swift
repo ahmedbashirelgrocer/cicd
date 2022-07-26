@@ -408,7 +408,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             SpinnerView.hideSpinnerView()
             switch result {
             case .success(let orderDict):
-                print("Order Dict:%@",orderDict)
+               elDebugPrint("Order Dict:%@",orderDict)
                 self.saveResponseData(orderDict)
             case .failure(let error):
                // error.showErrorAlert()
@@ -597,18 +597,18 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     func cancelOrderHandler(_ orderId : String){
         guard !orderId.isEmpty else {return}
         let cancelationHandler = OrderCancelationHandler.init { (isCancel) in
-            debugPrint("")
+            elDebugPrint("")
             self.orderCancelled(isSuccess: isCancel)
         }
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
     }
     func orderCancelled(isSuccess: Bool) {
-        print(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
+       elDebugPrint(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
         if isSuccess{
             self.perform(#selector(self.dismissView), with: nil, afterDelay: 1.0)
 
         }else{
-            print("protocol fuction called Error")
+           elDebugPrint("protocol fuction called Error")
         }
     }
     
@@ -684,7 +684,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             //            substitutionsController.order = self.order
             //            self.navigationController?.pushViewController(substitutionsController, animated: true)
         }else{
-            print("No Replacment Available")
+           elDebugPrint("No Replacment Available")
             self.updateOrderToServer()
         }
         
@@ -696,14 +696,14 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             self.applePaymentHandler.paymentDetailsHandler = {
                 (paymentDetails) in
                 // payment querry params recieved sucessfully
-                print(paymentDetails)
+               elDebugPrint(paymentDetails)
                 self.appleQueryItem = paymentDetails
                 completion(true)
             }
             let totalAmount = self.finalAmmountWithSubItems()
             applePaymentHandler.startPayment(totalAmount: String(totalAmount), completion: { (success) in
                 if success {
-                    print("order placed successfully")
+                   elDebugPrint("order placed successfully")
                 }
             })
         } else if result.canSetupCards {
@@ -768,7 +768,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             switch result {
                 case .success(let responseDict):
                     spinner?.removeFromSuperview()
-                    print("Subtitution Response Dict:%@",responseDict)
+                   elDebugPrint("Subtitution Response Dict:%@",responseDict)
                     
 //                    UserDefaults.removeMarchentRef(userID: self.userProfile.dbID.stringValue ?? "")
 //                    UserDefaults.removeAmmountRef(userID: self.userProfile.dbID.stringValue ?? "")
@@ -817,7 +817,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             }
         }
         
-        print("Not Subtituted Products Count:%d",notSubtitutedProducts.count)
+       elDebugPrint("Not Subtituted Products Count:%d",notSubtitutedProducts.count)
         
         let spinner = SpinnerView.showSpinnerViewInView(self.view)
         ElGrocerApi.sharedInstance.updateNoReplacmentForOrder(self.order, withProducts: notSubtitutedProducts,completionHandler: { (result) -> Void in
@@ -825,7 +825,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             switch result {
             case .success(let responseDict):
                 spinner?.removeFromSuperview()
-                print("Subtitution Response Dict:%@",responseDict)
+               elDebugPrint("Subtitution Response Dict:%@",responseDict)
                 if(ElGrocerUtility.sharedInstance.isNavigationForSubstitution == true){
                     ElGrocerUtility.sharedInstance.isNavigationForSubstitution = false
                     self.navigationController?.popToRootViewController(animated: true)
@@ -1057,7 +1057,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             let cell : smilePointTableCell = self.tableView.dequeueReusableCell(withIdentifier: "smilePointTableCell", for: indexPath) as! smilePointTableCell
             cell.configureShowSmiles(nil)
             cell.smilePointClickHandler = {[weak self] () in
-                print("gotToSmileLoginView")
+               elDebugPrint("gotToSmileLoginView")
                 //guard let self = self else {return}
                 self?.gotToSmileLogin()
             }
@@ -1303,7 +1303,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             SubstitutionBasketItem.clearAvailableSuggestionsForSubtitutedProduct(self.order, subtitutedProduct: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         }
         
-        print("Is Other Suggestion Available:%d",isOtherSuggestionIsAvailable)
+       elDebugPrint("Is Other Suggestion Available:%d",isOtherSuggestionIsAvailable)
    
         var productQuantity = 1
         
@@ -1384,7 +1384,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             SubstitutionBasketItem.clearAvailableSuggestionsForSubtitutedProduct(self.order, subtitutedProduct: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         }
         
-        print("Is Other Suggestion Available:%d",isOtherSuggestionIsAvailable)
+       elDebugPrint("Is Other Suggestion Available:%d",isOtherSuggestionIsAvailable)
         
         var productQuantity = 1
         
@@ -1762,7 +1762,7 @@ extension SubstitutionsProductViewController {
                         FireBaseEventsLogger.trackPromoCode(text)
                         completion()
                     }catch(let error){
-                        debugPrint(error)
+                        elDebugPrint(error)
                         self.promoCode = nil
                         self.isPromoApplied = false
                         completion()

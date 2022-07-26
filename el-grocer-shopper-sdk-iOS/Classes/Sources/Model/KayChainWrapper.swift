@@ -40,7 +40,7 @@ public class KeychainService: NSObject {
             if (status != errSecSuccess) {
                 if #available(iOS 11.3, *) {
                     if let err = SecCopyErrorMessageString(status, nil) {
-                        print("Read failed: \(err)")
+                       elDebugPrint("Read failed: \(err)")
                     }
                 } else {
                     // Fallback on earlier versions
@@ -60,7 +60,7 @@ public class KeychainService: NSObject {
         if (status != errSecSuccess) {
             if #available(iOS 11.3, *) {
                 if let err = SecCopyErrorMessageString(status, nil) {
-                    print("Remove failed: \(err)")
+                   elDebugPrint("Remove failed: \(err)")
                 }
             } else {
                 // Fallback on earlier versions
@@ -84,7 +84,7 @@ public class KeychainService: NSObject {
             else if (status != errSecSuccess) {    // Always check the status
                 if #available(iOS 11.3, *) {
                     if let err = SecCopyErrorMessageString(status, nil) {
-                        print("Write failed: \(err)")
+                       elDebugPrint("Write failed: \(err)")
                     }
                 } else {
                     // Fallback on earlier versions
@@ -111,7 +111,7 @@ public class KeychainService: NSObject {
                 contentsOfKeychain = String(data: retrievedData, encoding: String.Encoding.utf8)
             }
         } else {
-            print("Nothing was retrieved from the keychain. Status code \(status)")
+           elDebugPrint("Nothing was retrieved from the keychain. Status code \(status)")
         }
 
         return contentsOfKeychain

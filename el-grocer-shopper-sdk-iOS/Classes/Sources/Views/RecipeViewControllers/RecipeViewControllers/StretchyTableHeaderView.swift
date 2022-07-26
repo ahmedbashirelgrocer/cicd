@@ -94,10 +94,10 @@ class StretchyTableHeaderView: UIView {
 //            imageViewBottom.constant = (offsetY >= 0 ? 0 : -offsetY / 2)
 //            imageViewHeight.constant = max(offsetY + scrollView.contentInset.top,scrollView.contentInset.top)
 //        }
-        print("content ofset y : \(scrollView.contentOffset.y)")
-        print("container height: \(containerViewHeight.constant)")
-        print("imageviewbottom ofset: \(imageViewBottom.constant)")
-        print("imageViewHeight.constant : \(imageViewHeight.constant)")
+       elDebugPrint("content ofset y : \(scrollView.contentOffset.y)")
+       elDebugPrint("container height: \(containerViewHeight.constant)")
+       elDebugPrint("imageviewbottom ofset: \(imageViewBottom.constant)")
+       elDebugPrint("imageViewHeight.constant : \(imageViewHeight.constant)")
         
 //        let y = -scrollView.contentOffset.y
 //        let height = max(y, 60)

@@ -53,7 +53,7 @@ class OTPFireBaseHelper {
             completion(false)
         } else {
             if let userData = authData {
-                debugPrint(userData.user)
+                elDebugPrint(userData.user)
             }
             completion(true)
         }

@@ -468,7 +468,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
             navigationController.setLogoHidden(true)
             navigationController.modalPresentationStyle = .fullScreen
             self.present(navigationController, animated: false) {
-                debugPrint("VC Presented") }
+                elDebugPrint("VC Presented") }
          
             return
         }
@@ -477,7 +477,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         
         createUserFromPersonalInfo(userPersonalInfo: userPersonalInfo, completionHandler: { (userProfile) -> Void in
             
-            print(userProfile)
+           elDebugPrint(userProfile)
             let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             
             
@@ -743,7 +743,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
         backgroundQueue.async(execute: {
             
-            print("This is run on the background queue")
+           elDebugPrint("This is run on the background queue")
             ElGrocerApi.sharedInstance.checkEmailExistence( emailText , completionHandler: { (result, responseObject) in
                 if result == true {
                     let status = responseObject!["status"] as! String
@@ -784,7 +784,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
         backgroundQueue.async(execute: { [unowned self] in
     
-            print("This is run on the background queue")
+           elDebugPrint("This is run on the background queue")
             ElGrocerApi.sharedInstance.checkPhoneExistence( self.finalPhoneNumber , completionHandler: { (result, responseObject) in
                 if result == true {
                     let status = responseObject!["status"] as! String
@@ -1027,7 +1027,7 @@ extension RegistrationPersonalViewController : PhoneVerifedProtocol {
 //extension RegistrationPersonalViewController: FPNTextFieldDelegate  {
 //
 //    func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
-//        print(name, dialCode, code) // Output "France", "+33", "FR"
+//       elDebugPrint(name, dialCode, code) // Output "France", "+33", "FR"
 //    }
 //
 //
@@ -1035,7 +1035,7 @@ extension RegistrationPersonalViewController : PhoneVerifedProtocol {
 extension RegistrationPersonalViewController : FPNTextFieldCustomDelegate {
     
         func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
-            print(name, dialCode, code) // Output "France", "+33", "FR"
+           elDebugPrint(name, dialCode, code) // Output "France", "+33", "FR"
             ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
                 self.mobileNumberTextField.becomeFirstResponder()
             }
@@ -1055,8 +1055,8 @@ extension RegistrationPersonalViewController : FPNTextFieldCustomDelegate {
          self.validatePhoneNumberAndSetPasswordTextFieldAppearance(isValid)
          self.validateInputFieldsAndSetsubmitButtonAppearance()
     
-        debugPrint(isValid)
-        debugPrint(finalPhoneNumber)
+        elDebugPrint(isValid)
+        elDebugPrint(finalPhoneNumber)
     }
     
 }

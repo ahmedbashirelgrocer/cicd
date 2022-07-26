@@ -76,13 +76,13 @@ class AccountDeletionReasonsVC: UIViewController, NavigationBarProtocol {
     func fetchReason(){
         AccountDeletionManager.deleteAccountReasons { (response) in
             if response != ["":""]{
-                print(response)
+               elDebugPrint(response)
                 self.saveReasonsAndReloadData(response: response)
             }
         }
     }
     func saveReasonsAndReloadData(response : NSDictionary) {
-        print("save response called reasons = \(response)")
+       elDebugPrint("save response called reasons = \(response)")
         
         if let data = response["data"] as? [NSDictionary]{
             for reason in data {

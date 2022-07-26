@@ -415,7 +415,7 @@ extension CateAndSubcategoryView {
             }else {
                 return
             }
-            debugPrint("PageNumber of algolia: \(pageNumber)")
+            elDebugPrint("PageNumber of algolia: \(pageNumber)")
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
               
@@ -472,7 +472,7 @@ extension CateAndSubcategoryView {
         }else {
             return
         }
-        debugPrint("PageNumber of algolia: \(pageNumber)")
+        elDebugPrint("PageNumber of algolia: \(pageNumber)")
         
         guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
            
@@ -684,7 +684,7 @@ class CateAndSubcategoryDataHandler {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId)
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
             }
         }
         
@@ -710,7 +710,7 @@ class CateAndSubcategoryDataHandler {
                                                     parentCategory: parentCategory , forGrocery: grocery) { (result) -> Void in
             switch result {
                 case .success(let response):
-                    debugPrint("\(response)")
+                    elDebugPrint("\(response)")
                     self.saveAllSubCategoriesFromResponse(response, spinner)
                 case .failure(let error):
                     error.showErrorAlert()

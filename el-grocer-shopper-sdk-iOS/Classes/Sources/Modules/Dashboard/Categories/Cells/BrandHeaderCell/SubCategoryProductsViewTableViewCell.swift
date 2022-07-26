@@ -200,7 +200,7 @@ extension SubCategoryProductsViewTableViewCell : UITableViewDelegate , UITableVi
             cell.delegate = self
             cell.selectionStyle = UITableViewCell.SelectionStyle.none
         } else {
-            print("tableViewCell :) Sorry")
+           elDebugPrint("tableViewCell :) Sorry")
         }
         
         return cell
@@ -301,7 +301,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     if isAllProducts {
         return configureCellForAllProducts(indexPath, collectionView: collectionView)
     }else if isFruitOrVegetable{
-        //   print("configureCellForFruitOrVegetableProducts")
+        //  elDebugPrint("configureCellForFruitOrVegetableProducts")
         return configureCellForFruitOrVegetableProducts(indexPath, collectionView: collectionView)
     }else{
         return configureCellForAllCategoryProducts(indexPath, collectionView: collectionView)
@@ -321,7 +321,7 @@ func configureCellForSearchedProducts(_ indexPath:IndexPath , collectionView: UI
         cell.delegate = self
         
     } else {
-        //  print("Empty All Search Products Cell :) Sorry")
+        // elDebugPrint("Empty All Search Products Cell :) Sorry")
     }
     
     return cell
@@ -338,7 +338,7 @@ func configureCellForAllProducts(_ indexPath:IndexPath , collectionView: UIColle
         cell.delegate = self
         
     } else {
-        // print("Empty All Products Cell :) Sorry")
+        //elDebugPrint("Empty All Products Cell :) Sorry")
     }
     
     return cell
@@ -352,7 +352,7 @@ func configureCellForAllCategoryProducts(_ indexPath:IndexPath , collectionView:
         cell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
         cell.delegate = self
     } else {
-        //  print("Empty All Category Products Cell :) Sorry")
+        // elDebugPrint("Empty All Category Products Cell :) Sorry")
     }
     return cell
 }
@@ -365,7 +365,7 @@ func configureCellForFruitOrVegetableProducts(_ indexPath:IndexPath , collection
         cell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
         cell.delegate = self
     } else {
-        //  print("Empty FruitOrVegetable Products Cell :) Sorry")
+        // elDebugPrint("Empty FruitOrVegetable Products Cell :) Sorry")
     }
     
     return cell

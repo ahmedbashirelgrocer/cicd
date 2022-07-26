@@ -462,7 +462,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
     
     @objc 
     func navigationBarSearchTapped() {
-        print("Implement in controller")
+       elDebugPrint("Implement in controller")
         
         let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
         ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
@@ -535,7 +535,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
             /* ---------- Fabric Search Event ----------*/
             // Answers.Search(withQuery: self.searchString,customAttributes: nil)
             
-           debugPrint("search call : \(self.searchString)")
+           elDebugPrint("search call : \(self.searchString)")
         }
     }
     
@@ -561,12 +561,12 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
         AlgoliaApi.sharedInstance.searchQueryWithCurrentStoreItems(self.searchString, storeID: dbToSend, pageNumber: self.currentSearchPage , seachSuggestion: seachSuggestion, searchType: "alternate" ) { (content, error) in
             
             if error != nil {
-                debugPrint("==============")
-                debugPrint(error as Any)
+                elDebugPrint("==============")
+                elDebugPrint(error as Any)
             
             }else if  content != nil{
                 
-                //  debugPrint(content as Any)
+                //  elDebugPrint(content as Any)
                 
                 if shouldClearProductsArray {
                     self.searchedProducts = [Product]()
@@ -585,7 +585,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                         
                         if product.brandId == nil {
                             let removedObjectIndex = self.searchedProducts.firstIndex(of: product)!
-                            //  print("Object Remove Index:%@",removedObjectIndex)
+                            // elDebugPrint("Object Remove Index:%@",removedObjectIndex)
                             self.searchedProducts.remove(at: removedObjectIndex)
                         }
                     }
@@ -604,7 +604,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                             }
                         }
                         self.searchedProducts = filteredResults
-                        //   print("searched Products Array After Filtering Product ID:%@",self.searchedProducts.count)
+                        //  elDebugPrint("searched Products Array After Filtering Product ID:%@",self.searchedProducts.count)
                     }
                     
                     

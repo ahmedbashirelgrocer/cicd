@@ -52,7 +52,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     }()
     
     func handleRemoteNotification(_ notification: [AnyHashable: Any]) -> Bool {
-        debugPrint("notification : \(notification)")
+        elDebugPrint("notification : \(notification)")
         guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey) else {
             return false
         }
@@ -62,7 +62,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             return false
         }
         guard let pushTypeInt = notification[pushTypeKey] as? Int, let pushType = PushNotificationType(rawValue: pushTypeInt) else {
-            print("Could not get push type for backend notification")
+           elDebugPrint("Could not get push type for backend notification")
             return false
         }
       
@@ -125,26 +125,26 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             case .walletEmpty: break
             case .orderInSubstitution:
                 self.presentSubstitutionsView(notification)
-                print("order In Substitution")
+               elDebugPrint("order In Substitution")
                 break
             case .orderBackToPending:
                 self.handleTakeOrderToPendingStage(notification)
-                print("order back to pending")
+               elDebugPrint("order back to pending")
                 break
                 case .Alert :
                     self.handleAlert(notification)
-                    print("Simple Alert")
+                   elDebugPrint("Simple Alert")
                     break
                 case .AlertPromo :
                     self.handleAlert(notification)
-                    print("Promo alert")
+                   elDebugPrint("Promo alert")
                     break
                 case .PendingPaymentState:
                     self.handlePaymentPendingAlert(notification)
                 case .PendingPaymentStateAdyen:
                     self.handlePaymentAdyenPendingAlert(notification)
                 
-                print("Promo alert")
+               elDebugPrint("Promo alert")
         }
     }
     

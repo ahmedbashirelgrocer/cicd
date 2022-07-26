@@ -58,7 +58,7 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
         return noStoreView!
     }()
     func noDataButtonDelegateClick(_ state: actionState) {
-        print("button clicked")
+       elDebugPrint("button clicked")
        
     }
     
@@ -230,11 +230,11 @@ extension savedCarsVC{
         if saveType == .addNewCar{
             let indx = sender.tag
             if indx >= 0{
-                print(indx)
+               elDebugPrint(indx)
                 self.editCarDetail(index: indx)
             }
         }else{
-            print("delete card functionality")
+           elDebugPrint("delete card functionality")
             let indx = sender.tag
             if indx >= 0 {
                 
@@ -353,9 +353,9 @@ extension savedCarsVC {
         AdyenManager.sharedInstance.performZeroTokenization(controller: self)
         AdyenManager.sharedInstance.isNewCardAdded = { (error , response) in
             if error {
-                print("error in authorization")
+               elDebugPrint("error in authorization")
                 if let resultCode = response["resultCode"] as? String {
-                    print(resultCode)
+                   elDebugPrint(resultCode)
                     AdyenManager.showErrorAlert(descr: resultCode)
                 }
             }else{
@@ -396,7 +396,7 @@ extension savedCarsVC {
             self.creditCardA.removeAll()
             
             if let paymentMethod = paymentMethods {
-                print(paymentMethods)
+               elDebugPrint(paymentMethods)
                 for method in paymentMethod.stored {
                     if method is StoredCardPaymentMethod {
                         
@@ -442,7 +442,7 @@ extension savedCarsVC {
                         self.tableView.reloadData()
                         //self.setViewAccordingToSelectedCreditCard(card: self.selectedCreditCard!)
                     }else{
-                        print("no card")
+                       elDebugPrint("no card")
                         self.tableView.reloadData()
                         self.tableView.backgroundView = self.NoCardView
                     }
@@ -492,7 +492,7 @@ extension savedCarsVC {
                                     self.tableView.reloadData()
                                     //self.setViewAccordingToSelectedCreditCard(card: self.selectedCreditCard!)
                                 }else{
-                                    print("no card")
+                                   elDebugPrint("no card")
                                     self.tableView.reloadData()
                                     self.tableView.backgroundView = self.NoCardView
                                 }
@@ -582,7 +582,7 @@ extension savedCarsVC : UITableViewDelegate , UITableViewDataSource{
                 }
             }
         }else{
-            print("card selected")
+           elDebugPrint("card selected")
             if let cell = tableView.cellForRow(at: indexPath) as? savedCarCell{
                 if self.creditCardA.count > 0{
                     self.makeCardSelected(creditCardA[indexPath.row])

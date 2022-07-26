@@ -30,19 +30,19 @@ class ReachabilityManager {
                 
             case .reachableViaWiFi, .reachableViaWWAN:
                 
-                print("Network reachable")
+               elDebugPrint("Network reachable")
                 NotificationCenter.default.post(name: Notification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
                 
             case .notReachable:
                 
-                print("Network not reachable")
+               elDebugPrint("Network not reachable")
                 NotificationCenter.default.post(name: Notification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
                 
             case .unknown:
                 
-                print("Network status unknown")
+               elDebugPrint("Network status unknown")
                 @unknown default:
-                    print("Network status unknown")
+                   elDebugPrint("Network status unknown")
             }
         }
         

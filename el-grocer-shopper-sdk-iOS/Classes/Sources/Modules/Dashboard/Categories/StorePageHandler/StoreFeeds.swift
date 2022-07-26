@@ -52,7 +52,7 @@ class StoreFeeds {
         self.data?.category = category
         self.isLoaded.asObservable().bind { (state) -> Void in
             if state {
-                debugPrint("reload tableview data Loaded")
+                elDebugPrint("reload tableview data Loaded")
                 self.delegate?.fetchingCompleted(self.index)
             }
             
@@ -124,7 +124,7 @@ extension StoreFeeds {
                  case .success(let response):
                  self?.saveResponseDataOfCategoryWithTitle( response, category: self?.data?.category ?? nil)
                  case .failure(let error):
-                 debugPrint(error.localizedMessage)
+                 elDebugPrint(error.localizedMessage)
                  }
                  }
                 
@@ -228,7 +228,7 @@ extension StoreFeeds {
                 case .success(let response):
                     self?.saveResponseDataWithTitle(localizedString("previously_purchased_products_title", comment: "") , withServerResponse: response)
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                     self?.isRunning = false
                     self?.isLoaded.value = true
                     
@@ -288,7 +288,7 @@ extension StoreFeeds {
                 Category.insertOrUpdateCategoriesForGrocery(groceryBgContext, categoriesArray: categoryArray, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 DatabaseHelper.sharedInstance.saveDatabase()
             }else{
-                debugPrint("check here");
+                elDebugPrint("check here");
             }
         }
         if let updateGrocery = Grocery.getGroceryById(grocery?.dbID ?? "", context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {

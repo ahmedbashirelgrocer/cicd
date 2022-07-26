@@ -17,7 +17,7 @@ extension Brand {
     
     class func getBrandForProduct(_ product:Product, context:NSManagedObjectContext) -> Brand? {
         
-        print("Product Brand Id:%@",product.brandId ?? "NULL")
+       elDebugPrint("Product Brand Id:%@",product.brandId ?? "NULL")
         if let brandId = product.brandId {
             let predicate = NSPredicate(format: "dbID == %@", brandId)
             let brand = DatabaseHelper.sharedInstance.getEntitiesWithName(BrandEntity, sortKey: nil, predicate: predicate, ascending: false, context: context).first as? Brand

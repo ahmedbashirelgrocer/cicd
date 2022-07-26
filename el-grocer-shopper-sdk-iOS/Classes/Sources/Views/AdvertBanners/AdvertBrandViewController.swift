@@ -92,7 +92,7 @@ extension AdvertBrandViewController {
         if let banLink = self.bannerlinks {
              parameters["screen_id"]  = banLink.bannerLinkId
         }
-        debugPrint("activeGrocery : retailer_id API : \(String(describing: parameters["retailer_id"]))")
+        elDebugPrint("activeGrocery : retailer_id API : \(String(describing: parameters["retailer_id"]))")
         ElGrocerApi.sharedInstance.getCustomProductsOfGrocery(parameters) { (result) in
             switch result {
                 case .success(let response):
@@ -114,7 +114,7 @@ extension AdvertBrandViewController {
         let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
         context.performAndWait({ () -> Void in
             newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context)
-            print("New ungrouped Products Array Count:",newProduct.count)
+           elDebugPrint("New ungrouped Products Array Count:",newProduct.count)
             
         })
         self.tblList += newProduct

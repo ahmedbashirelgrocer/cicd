@@ -34,7 +34,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
     var reference : String   {
         get {
             let refValue = String(format: "%.0f", Date.timeIntervalSinceReferenceDate)
-            //debugPrint("refGetcall: \(refValue)")
+            //elDebugPrint("refGetcall: \(refValue)")
             return refValue  }
     }
     
@@ -285,7 +285,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
             productId = String(format: "%@_%@_%@",productIds[0],productIds[1],productIds[2])
         }
         
-        print("ProductId:%@",productId)
+       elDebugPrint("ProductId:%@",productId)
         
         for item in self.orderItems {
             
@@ -355,7 +355,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
                     self.callForReplacement(marchentRef , amountoHold: self.finalAmmountWithSubItems())
                     return
                 }else{
-                    debugPrint("diff")
+                    elDebugPrint("diff")
                     voidAuthCall(marchentRef)
                     return
                 }
@@ -414,7 +414,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
             switch result {
                 case .success(let responseDict):
                     spinner?.removeFromSuperview()
-                    print("Subtitution Response Dict:%@",responseDict)
+                   elDebugPrint("Subtitution Response Dict:%@",responseDict)
                     
                     UserDefaults.removeMerchantRef(userID: self.userProfile?.dbID.stringValue ?? "")
                     UserDefaults.removeAmountRef(userID: self.userProfile?.dbID.stringValue ?? "")
@@ -460,7 +460,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
             if isSuccess {
                 
                 ElgrocerAPINonBase.sharedInstance.authorization(cvv: cvv , token: tokenName, email: email , amountToHold: self.finalAmmountWithSubItems()  , ip: ip ?? "") { (isSuccess, dataDict) in
-                    debugPrint(isSuccess)
+                    elDebugPrint(isSuccess)
                     SpinnerView.hideSpinnerView()
                     if isSuccess {
                         if let urlds = dataDict?["3ds_url"] as? String {
@@ -610,18 +610,18 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
     func cancelOrderHandler(_ orderId : String){
         guard !orderId.isEmpty else {return}
         let cancelationHandler = OrderCancelationHandler.init { (isCancel) in
-            debugPrint("")
+            elDebugPrint("")
             self.orderCancelled(isSuccess: isCancel)
         }
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
     }
     func orderCancelled(isSuccess: Bool) {
-        print(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
+       elDebugPrint(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
          if isSuccess{
              self.perform(#selector(self.dismissView), with: nil, afterDelay: 3.0)
  
          }else{
-             print("protocol fuction called Error")
+            elDebugPrint("protocol fuction called Error")
          }
     }
     
@@ -734,7 +734,7 @@ extension SubtitutionBasketViewController : WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        debugPrint(error)
+        elDebugPrint(error)
         hideSpineer()
         SpinnerView.hideSpinnerView()
         webView.willMove(toWindow: nil)
@@ -744,7 +744,7 @@ extension SubtitutionBasketViewController : WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        debugPrint(webView)
+        elDebugPrint(webView)
         hideSpineer()
         
         
@@ -816,12 +816,12 @@ extension SubtitutionBasketViewController : WKNavigationDelegate {
 }
 //extension SubtitutionBasketViewController : OrderCancelationHandlerProtocol{
 //    func checkIfOrderCancelled(isSuccess: Bool) {
-//        print(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
+//       elDebugPrint(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
 //        if isSuccess{
 //            self.perform(#selector(self.dismissView), with: nil, afterDelay: 3.0)
 //            
 //        }else{
-//            print("protocol fuction called Error")
+//           elDebugPrint("protocol fuction called Error")
 //        }
 //    }
 //}

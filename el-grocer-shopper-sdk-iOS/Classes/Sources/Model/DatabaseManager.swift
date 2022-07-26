@@ -61,7 +61,7 @@ class DatabaseManager : NSObject {
                     } catch let error as NSError {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                         //At this point app is seriously broken and should not work properly, stop execution
-                        print("Error:%@",error.localizedDescription)
+                       elDebugPrint("Error:%@",error.localizedDescription)
                         fatalError()
                     }
                 }
@@ -208,7 +208,7 @@ class DatabaseManager : NSObject {
                 try self.mainManagedObjectContext.save()
             } catch let error as NSError {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                print("Error: \(error.localizedDescription)")
+               elDebugPrint("Error: \(error.localizedDescription)")
                 
             } catch {
                 fatalError()
@@ -221,7 +221,7 @@ class DatabaseManager : NSObject {
                     
                 } catch let error as NSError {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                    print("Error: \(error.localizedDescription)")
+                   elDebugPrint("Error: \(error.localizedDescription)")
 
                 } catch {
                     fatalError()
@@ -261,11 +261,11 @@ class DatabaseManager : NSObject {
                 object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
                 object.setValue(entityDbId, forKey: keyId)
                 if entityName == ProductEntity {
-                    debugPrint("Test-Product NewAddIndb : \(entityDbId)")
+                    elDebugPrint("Test-Product NewAddIndb : \(entityDbId)")
                 }
             } else {
                 if entityName == ProductEntity {
-                    debugPrint("Test-Product AlreadyIndb : \(entityDbId)")
+                    elDebugPrint("Test-Product AlreadyIndb : \(entityDbId)")
                 }
             }
         }
@@ -340,7 +340,7 @@ class DatabaseManager : NSObject {
                 results = (try context.fetch(request)) as! [NSManagedObject]
             } catch (let error) {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                debugPrint("%@",error.localizedDescription)
+                elDebugPrint("%@",error.localizedDescription)
             }
         }
         
@@ -370,7 +370,7 @@ class DatabaseManager : NSObject {
                results = (try context.fetch(request)) as! [NSManagedObject]
             } catch (let error) {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                debugPrint("%@",error.localizedDescription)
+                elDebugPrint("%@",error.localizedDescription)
             }
         //}
 
@@ -399,7 +399,7 @@ class DatabaseManager : NSObject {
                 results = (try context.fetch(request)) as! [NSManagedObject]
             } catch (let error) {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                debugPrint("%@",error.localizedDescription)
+                elDebugPrint("%@",error.localizedDescription)
             }
             
            

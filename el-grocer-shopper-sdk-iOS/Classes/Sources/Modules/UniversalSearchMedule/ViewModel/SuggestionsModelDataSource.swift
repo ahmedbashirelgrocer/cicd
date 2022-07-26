@@ -254,7 +254,7 @@ class SuggestionsModelDataSource {
                                 }
                             }else if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
-                                    debugPrint(algoliaObj)
+                                    elDebugPrint(algoliaObj)
                                     
                                     var mySuggestionDataArray: [SuggestionsModelObj] = []
                                    
@@ -540,7 +540,7 @@ extension SuggestionsModelDataSource {
     func getUserSearchData() -> [String]? {
         let data = UserDefaults.getUserSearchData()
         if self.isDebugOn {
-            debugPrint("SuggestionsModel Current Saved Data in usersearch : \(String(describing: data))")
+            elDebugPrint("SuggestionsModel Current Saved Data in usersearch : \(String(describing: data))")
         }
         return data
     }
@@ -671,7 +671,7 @@ extension SuggestionsModelDataSource {
                 case .success(let response):
                     self.saveBannersTierTwoResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId, searchInput: searchInput)
                 case.failure(let _):
-                    debugPrint("banner failure")
+                    elDebugPrint("banner failure")
             }
         }
         

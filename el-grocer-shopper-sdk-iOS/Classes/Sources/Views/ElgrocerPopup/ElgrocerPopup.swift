@@ -90,11 +90,11 @@ class ElgrocerPopup: UIView {
     @objc func dismiss() {
         
         /*UIView.animate(withDuration: 0.5, delay: 0, options: UIView.AnimationOptions(rawValue: UIView.AnimationOptions.RawValue(kAnimationOptionCurveIOS7)), animations: {
-            print("View Center Y Point:%f",self.center.y)
+           elDebugPrint("View Center Y Point:%f",self.center.y)
             self.centerYConstraint.constant = 1000
             self.layoutIfNeeded()
         }) { (isAnimation) in
-            print("Animation is Done")
+           elDebugPrint("Animation is Done")
             self.removeFromSuperview()
             self.alpha = 0
         }*/
@@ -120,11 +120,11 @@ class ElgrocerPopup: UIView {
         
         
         /*UIView.animate(withDuration: 0.5, delay: 0, options: UIView.AnimationOptions(rawValue: UIView.AnimationOptions.RawValue(kAnimationOptionCurveIOS7)), animations: {
-            print("View Center Y Point:%f",self.center.y)
+           elDebugPrint("View Center Y Point:%f",self.center.y)
              self.popupInnerView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
             self.layoutIfNeeded()
         }) { (isAnimation) in
-            print("Animation is Done")
+           elDebugPrint("Animation is Done")
         }*/
     }
     

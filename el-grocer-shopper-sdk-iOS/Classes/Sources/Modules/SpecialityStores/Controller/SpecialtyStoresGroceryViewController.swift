@@ -132,7 +132,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
                     if let _ = filterStoreTypeData.first(where: { type in
                         return type.storeTypeid == obj.storeTypeid
                     }) {
-                        debugPrint("available")
+                        elDebugPrint("available")
                     }else {
                         filterStoreTypeData.append(obj)
                     }
@@ -299,7 +299,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
                         }
                     }
                 }else{
-                        // debugPrint(self.grocerA[12312321])
+                        // elDebugPrint(self.grocerA[12312321])
                     FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                 }
             // }
@@ -431,7 +431,7 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
         
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+       elDebugPrint(indexPath.row)
 //        let vc = ElGrocerViewControllers.getShopByCategoriesViewController()
 //        self.navigationController?.pushViewController(vc, animated: true)
         self.dismiss(animated: true) {
@@ -455,7 +455,7 @@ extension SpecialtyStoresGroceryViewController: AWSegmentViewProtocol {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         
-        debugPrint(selectedSegmentIndex)
+        elDebugPrint(selectedSegmentIndex)
         
        
         

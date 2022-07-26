@@ -188,7 +188,7 @@ extension BannerCell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        debugPrint(indexPath)
+        elDebugPrint(indexPath)
     }
     
 }

@@ -9,6 +9,7 @@ import Foundation
 
 
 import UIKit
+import FirebaseCore
 
 
 public final class ElGrocer {
@@ -88,6 +89,9 @@ public struct LaunchOptions  {
     var deepLinkPayload: String?
     var language: String?
     var isSmileSDK: Bool
+    var isLoggingEnabled = false {
+        didSet { MixpanelManager.loggingEnabled(isLoggingEnabled) }
+    }
     
     public init(accountNumber: String?,
                 latitude: Double?,
@@ -97,7 +101,9 @@ public struct LaunchOptions  {
                 email: String? = nil,
                 pushNotificationPayload: [String: AnyHashable]? = nil,
                 deepLinkPayload: String? = nil,
-                language: String? = nil, isSmileSDK: Bool) {
+                language: String? = nil,
+                isSmileSDK: Bool,
+                isLoggingEnabled: Bool = false) {
         
         self.accountNumber = accountNumber
         self.latitude = latitude
@@ -109,6 +115,29 @@ public struct LaunchOptions  {
         self.deepLinkPayload = deepLinkPayload
         self.language = language
         self.isSmileSDK = isSmileSDK
+        self.isLoggingEnabled = isLoggingEnabled
         
     }
+}
+
+func elDebugPrint(_ items: Any...,
+                  separator: String = " ",
+                  terminator: String = "\n",
+                  line: Int = #line,
+                  column: Int = #column,
+                  function: String = #function,
+                  file: String = #file) {
+    #if DEBUG
+    if SDKManager.shared.launchOptions?.isLoggingEnabled == true {
+        var index = items.startIndex
+        let end = items.endIndex
+        // Swift.debugPrint("==> File: \(file), Function: \(function) <==")
+        repeat {
+            Swift.debugPrint("elGrocer: Debug: \(items[index])",
+                             separator: separator,
+                             terminator: index == (end - 1) ? terminator : separator)
+            index += 1
+        } while index < end
+    }
+    #endif
 }

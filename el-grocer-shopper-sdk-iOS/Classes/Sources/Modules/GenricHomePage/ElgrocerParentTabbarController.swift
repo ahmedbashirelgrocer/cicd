@@ -51,7 +51,7 @@ class ElgrocerParentTabbarController: UITabBarController , UITabBarControllerDel
     
     // UITabBarDelegate
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        print("Selected item")
+       elDebugPrint("Selected item")
       //  self.dismiss(animated: true, completion: nil)
     }
     
@@ -59,7 +59,7 @@ class ElgrocerParentTabbarController: UITabBarController , UITabBarControllerDel
     
     // UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        print("Selected view controller")
+       elDebugPrint("Selected view controller")
     }
     
     func setCart () {}

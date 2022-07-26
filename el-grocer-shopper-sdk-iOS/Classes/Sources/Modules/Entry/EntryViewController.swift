@@ -90,7 +90,7 @@ class EntryViewController: UIViewController {
 //
 //        //Starts animation
 //        revealingSplashView.startAnimation(){
-//            print("Completed")
+//           elDebugPrint("Completed")
 //        }
 //
 //
@@ -172,7 +172,7 @@ class EntryViewController: UIViewController {
 //                  let SDKManager = SDKManager.shared
 //                  _ = LocationPopUp.showLocationPopUp(self, withView: SDKManager.window!)
             case .authorizedAlways, .authorizedWhenInUse:
-                  print("Have Location services Access")
+                 elDebugPrint("Have Location services Access")
                   LocationManager.sharedInstance.requestLocationAuthorization()
                   LocationManager.sharedInstance.fetchCurrentLocation()
                   if LocationManager.sharedInstance.currentLocation.value != nil {
@@ -262,7 +262,7 @@ class EntryViewController: UIViewController {
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: false) {
-            debugPrint("VC Presented")
+            elDebugPrint("VC Presented")
         }
         
     }
@@ -270,7 +270,7 @@ class EntryViewController: UIViewController {
     private func playVideo() {
         
         guard let videoURL = Bundle.resource.url(forResource: "Intro", withExtension: "mp4") else {
-            debugPrint("Intro.mp4 not found")
+            elDebugPrint("Intro.mp4 not found")
             return
         }
         
@@ -437,7 +437,7 @@ class EntryViewController: UIViewController {
             
             if substring == localizedString("register_title", comment: "") {
                 
-                print("SignUp Tapped")
+               elDebugPrint("SignUp Tapped")
                 let registrationProfileController = ElGrocerViewControllers.registrationPersonalViewController()
                 let navController = self.elGrocerNavigationController
                 navController.viewControllers = [registrationProfileController]
@@ -446,7 +446,7 @@ class EntryViewController: UIViewController {
                 
             }else{
                 
-                print("Login Tapped")
+               elDebugPrint("Login Tapped")
                 let signInController = ElGrocerViewControllers.signInViewController()
                 let navController = self.elGrocerNavigationController
                 navController.viewControllers = [signInController]
@@ -465,11 +465,11 @@ class EntryViewController: UIViewController {
 
     @IBAction func signUp(_ sender: UIButton) {
     
-        print("\(sender.titleLabel?.text ?? "signup action") Tapped")
+       elDebugPrint("\(sender.titleLabel?.text ?? "signup action") Tapped")
       //  ElGrocerEventsLogger.sharedInstance.trackDetectManuallySelectLocationClicked()
        // self.findStoreHandler(self.skipButton as Any)
         
-//        print("SignUp Tapped")
+//       elDebugPrint("SignUp Tapped")
 //        let registrationProfileController = ElGrocerViewControllers.registrationPersonalViewController()
 //        let navController = self.elGrocerNavigationController
 //        navController.viewControllers = [registrationProfileController]

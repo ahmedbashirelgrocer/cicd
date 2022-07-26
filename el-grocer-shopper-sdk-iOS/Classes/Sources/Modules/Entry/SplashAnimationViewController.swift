@@ -171,7 +171,7 @@ extension SplashAnimationViewController {
                         break
                 }
             }) { () -> Void in
-                print("Error checking client version")
+               elDebugPrint("Error checking client version")
             }
         }
     }

@@ -237,7 +237,7 @@ class CreditCardListViewController: UIViewController {
             Thread.OnMainThread {
                 
                 if let paymentMethod = paymentMethods {
-                    print(paymentMethods)
+                   elDebugPrint(paymentMethods)
                     
                     for method in paymentMethod.regular{
                         if method.type.elementsEqual("scheme") {
@@ -841,9 +841,9 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
         AdyenManager.sharedInstance.performZeroTokenization(controller: self)
         AdyenManager.sharedInstance.isNewCardAdded = {(error, response) in
             if error {
-                print("error is tokenization")
+               elDebugPrint("error is tokenization")
                 if let resultCode = response["resultCode"] as? String {
-                    print(resultCode)
+                   elDebugPrint(resultCode)
                     AdyenManager.showErrorAlert(descr: resultCode)
                 }
             }else {
@@ -881,7 +881,7 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        debugPrint("printed")
+        elDebugPrint("printed")
         let card = paymentMethodA[indexPath.row]
         
         if card is String {
@@ -1020,7 +1020,7 @@ extension CreditCardListViewController : WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        debugPrint(error)
+        elDebugPrint(error)
         self.removeWebAndShowAlert(webView,localizedString("my_account_saving_error", comment: ""))
     }
     
@@ -1051,7 +1051,7 @@ extension CreditCardListViewController : WKNavigationDelegate {
                     return
                 }
             }else{
-                debugPrint(finalURl)
+                elDebugPrint(finalURl)
                 if finalURl.absoluteString.contains("FortAPI/paymentPage") {
                     createSpinnerView()
                 }

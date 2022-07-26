@@ -117,7 +117,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
             view.grocery = selectedGroceryForItems
         }
         
-        print("Minimum Basket Value:%@",view.grocery?.minBasketValue as Any)
+       elDebugPrint("Minimum Basket Value:%@",view.grocery?.minBasketValue as Any)
     
 
         view.loadShoppingBasketData()
@@ -446,7 +446,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
         var promoCode = self.promoCodeLabel.text
         promoCode = promoCode?.lowercaseString
         
-        print("PromoCode Str:%@",promoCode)
+       elDebugPrint("PromoCode Str:%@",promoCode)
         
         self.promoCodeLabel.text = promoCode
         
@@ -611,13 +611,13 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
                    - User Address
                  */
                 
-               /* print("Store Address:%@",self.grocery?.address)
-                print("Store Minimum Basket limit:%@",self.grocery?.minBasketValue)
+               /*elDebugPrint("Store Address:%@",self.grocery?.address)
+               elDebugPrint("Store Minimum Basket limit:%@",self.grocery?.minBasketValue)
                 
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                print("UserId:%@",userProfile.dbID)
+               elDebugPrint("UserId:%@",userProfile.dbID)
                 let invoiceAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                print("User Address:%@",invoiceAddress?.address)
+               elDebugPrint("User Address:%@",invoiceAddress?.address)
                 
                 let params = [
                     "shopping_cart_value"          : self.itemsSummaryValue as NSObject,

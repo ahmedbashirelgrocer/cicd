@@ -65,7 +65,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
         dateFormatter.dateFormat = "dd MMM, yyyy"
         
         walletArray = referralObject!.referralWallet.allObjects as! [ReferralWallet]
-        print("Wallet Array Count:%d",walletArray.count)
+       elDebugPrint("Wallet Array Count:%d",walletArray.count)
         
         if self.controllerMode == .walletEmpty {
             
@@ -204,7 +204,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
         let wallet = walletArray[(indexPath as NSIndexPath).row]
         
         let DateStr = dateFormatter.string(from: wallet.walletExpireDate! as Date)
-        print(DateStr)
+       elDebugPrint(DateStr)
         
         cell.configureCellWithPurchaseTitle(wallet.walletInfo!, withPurchaseDate: DateStr, withPurchaseAmount:wallet.walletAmount!, andWithCurrencyType: localizedString("aed", comment: ""))
         

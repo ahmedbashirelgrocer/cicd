@@ -210,7 +210,7 @@ extension BrandAndProductCell: UICollectionViewDataSource {
         }
         
         if(indexPath.row == brand.products.count - 2 && brand.isNextProducts == true && self.isGettingProducts == false){
-            print("Pagination Logic is called")
+           elDebugPrint("Pagination Logic is called")
             self.currentPaginationbrand = brand
             self.getProductsForSelectedBrand()
         }

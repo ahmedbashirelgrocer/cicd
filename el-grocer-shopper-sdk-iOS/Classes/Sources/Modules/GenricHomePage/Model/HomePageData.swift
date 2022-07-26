@@ -30,7 +30,7 @@ enum loadingType {
 
 extension HomePageData : HomePageDataLoadingComplete {
     func loadingDataComplete(type : loadingType?) {
-        debugPrint("DataLoaded: \(String(describing: type)) : \(String(describing: self.delegate))")
+        elDebugPrint("DataLoaded: \(String(describing: type)) : \(String(describing: self.delegate))")
     }
 }
 
@@ -112,7 +112,7 @@ class HomePageData  {
         guard self.fetchOrder.count > 0 else {
             self.isDataLoading = false
             if self.isFetchingTimeLogEnable { self.endFetchFetchingTime = Date()
-                debugPrint("DataLoaded: Home Page Call time Duration : \(self.endFetchFetchingTime.timeIntervalSince(self.startFetchingTime))")
+                elDebugPrint("DataLoaded: Home Page Call time Duration : \(self.endFetchFetchingTime.timeIntervalSince(self.startFetchingTime))")
             }
             return
         }

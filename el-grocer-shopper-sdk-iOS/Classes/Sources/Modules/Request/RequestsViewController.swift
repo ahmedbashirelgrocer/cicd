@@ -128,7 +128,7 @@ class RequestsViewController: UIViewController {
         }
         
         self.tagsView.tapBlock = {(tagText:String, idx:Int) -> Void in
-            print("Tapped Tag:%@",tagText)
+           elDebugPrint("Tapped Tag:%@",tagText)
         }
     }
     
@@ -186,7 +186,7 @@ class RequestsViewController: UIViewController {
             
             switch result {
             case .success(_):
-                print("Request Product Successfully")
+               elDebugPrint("Request Product Successfully")
                 self.showRequestSuccessAlert()
                 
             case .failure(let error):

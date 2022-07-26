@@ -55,15 +55,15 @@ class MarketingCampaignTrackingHelper {
                     case .authorized:
                         // Tracking authorization dialog was shown
                         // and we are authorized
-                        print("Authorized")
-                        print(ASIdentifierManager.shared().advertisingIdentifier)
+                       elDebugPrint("Authorized")
+                       elDebugPrint(ASIdentifierManager.shared().advertisingIdentifier)
                         completionHandler(true)
                         // Now that we are authorized we can get the IDFA
                        
                     case .denied:
                         // Tracking authorization dialog was
                         // shown and permission is denied
-                        print("Denied")
+                       elDebugPrint("Denied")
                         completionHandler(false)
                     case .notDetermined:
                         // Tracking authorization dialog has not been shown

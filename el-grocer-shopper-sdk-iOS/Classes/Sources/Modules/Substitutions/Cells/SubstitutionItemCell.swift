@@ -64,11 +64,11 @@ class SubstitutionItemCell: UITableViewCell {
     func configureWithProduct(_ shoppingItem:ShoppingBasketItem, product:Product, shouldHidePrice:Bool, isProductAvailable:Bool, isSubstitutionAvailable:Bool, priceDictFromGrocery:NSDictionary?) {
         
         if product.name != nil {
-            print("Product Name:%@",product.name ?? "Product Name NULL")
+           elDebugPrint("Product Name:%@",product.name ?? "Product Name NULL")
             self.lblProductName.text = product.name
         }
         if product.descr != nil {
-            print("Product Description:%@",product.descr ?? "Product Description NULL")
+           elDebugPrint("Product Description:%@",product.descr ?? "Product Description NULL")
             self.lblProductDescription.text = product.descr
         }
         

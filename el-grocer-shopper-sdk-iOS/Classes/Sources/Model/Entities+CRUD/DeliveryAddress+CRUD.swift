@@ -82,7 +82,7 @@ extension DeliveryAddress {
         do {
             try context.save()
         } catch (let error) {
-            debugPrint(error.localizedDescription)
+            elDebugPrint(error.localizedDescription)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
             //FireBaseEventsLogger.cu
         }

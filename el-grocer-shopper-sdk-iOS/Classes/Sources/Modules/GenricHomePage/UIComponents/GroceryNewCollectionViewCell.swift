@@ -74,13 +74,13 @@ class GroceryNewCollectionViewCell: UICollectionViewCell {
         if url != nil && url?.range(of: "http") != nil {
             
             self.groceryImage.sd_setImage(with: URL(string: url!), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 7), completed: {[weak self] (image, error, cacheType, imageURL) in
-               // debugPrint("Imagese: \(self)")
+               // elDebugPrint("Imagese: \(self)")
 //                if cacheType == SDImageCacheType.none {
 //                    self?.groceryImage.image = image
 //
-//                    debugPrint("Imagese: Cached: lfconsition \(imageURL)")
+//                    elDebugPrint("Imagese: Cached: lfconsition \(imageURL)")
 //                }else{
-//                    debugPrint("Imagese: elseChache: lfconsition \(imageURL)")
+//                    elDebugPrint("Imagese: elseChache: lfconsition \(imageURL)")
 //                }
                 self?.setAspects()
                 self?.layoutIfNeeded()

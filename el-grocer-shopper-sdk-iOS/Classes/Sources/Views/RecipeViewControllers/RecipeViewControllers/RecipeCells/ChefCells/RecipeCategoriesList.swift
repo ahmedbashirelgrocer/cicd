@@ -190,7 +190,7 @@ extension RecipeCategoriesList : UIScrollViewDelegate {
         if maximumOffset - currentOffset <= 10.0 {
             //getCategoryData()
         }
-        // debugPrint(page)
+        // elDebugPrint(page)
     }
 }
 

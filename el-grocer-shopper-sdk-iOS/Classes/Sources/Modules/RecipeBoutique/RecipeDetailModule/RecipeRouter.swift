@@ -14,7 +14,7 @@ class RecipeRouter: PresenterToRouterRecipeProtocol {
 //    // MARK: Static methods
 //    static func createModule() -> UINavigationController {
 //
-//        print("QuotesRouter creates the Quotes module.")
+//       elDebugPrint("QuotesRouter creates the Quotes module.")
 //        let viewController = QuotesViewController()
 //        let navigationController = UINavigationController(rootViewController: viewController)
 //
@@ -31,7 +31,7 @@ class RecipeRouter: PresenterToRouterRecipeProtocol {
 //
 //    // MARK: - Navigation
 //    func pushToQuoteDetail(on view: PresenterToViewQuotesProtocol, with quote: Quote) {
-//        print("QuotesRouter is instructed to push QuoteDetailViewController onto the navigation stack.")
+//       elDebugPrint("QuotesRouter is instructed to push QuoteDetailViewController onto the navigation stack.")
 //        let quoteDetailViewController = QuoteDetailRouter.createModule(with: quote)
 //
 //        let viewController = view as! QuotesViewController

@@ -75,15 +75,15 @@ class LocationMapViewModel {
         LocationManager.sharedInstance.geocodeAddress(location, withCompletionHandler: { (status, success,address) -> Void in
             
             if !success {
-                print(status)
+               elDebugPrint(status)
                 if status == "ZERO_RESULTS" {
-                    print("The location could not be found.")
+                   elDebugPrint("The location could not be found.")
                 }
                 
                 LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
                     
                     self.selectedAddress.value = address
-                    print(address.thoroughfare ?? "Unknown")
+                   elDebugPrint(address.thoroughfare ?? "Unknown")
                     
                 }) { (error) in
                     
@@ -92,7 +92,7 @@ class LocationMapViewModel {
                 }
             }
             else {
-                print("Location found.")
+               elDebugPrint("Location found.")
                 self.userAddress.value = address
             }
         })
@@ -106,7 +106,7 @@ class LocationMapViewModel {
         LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
             
             self.selectedAddress.value = address
-            print(address.thoroughfare ?? "Unknown")
+           elDebugPrint(address.thoroughfare ?? "Unknown")
             completion(true, location)
             
         }) { (error) in
@@ -120,15 +120,15 @@ class LocationMapViewModel {
         LocationManager.sharedInstance.geocodeAddress(location, withCompletionHandler: { (status, success,address) -> Void in
             
             if !success {
-                print(status)
+               elDebugPrint(status)
                 if status == "ZERO_RESULTS" {
-                    print("The location could not be found.")
+                   elDebugPrint("The location could not be found.")
                 }
                 
                 LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
                     
                     self.selectedAddress.value = address
-                    print(address.thoroughfare ?? "Unknown")
+                   elDebugPrint(address.thoroughfare ?? "Unknown")
                     completion(true, location)
                     
                 }) { (error) in
@@ -138,7 +138,7 @@ class LocationMapViewModel {
                 }
             }
             else {
-                print("Location found.")
+               elDebugPrint("Location found.")
                 self.userAddress.value = address
                 completion(true, location)
             }

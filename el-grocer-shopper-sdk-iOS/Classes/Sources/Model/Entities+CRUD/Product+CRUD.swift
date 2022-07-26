@@ -307,17 +307,17 @@ extension Product {
                     }
                 }
 
-               // print("Result Products Array Count %@ Before Filtering Brand ID",resultProducts.count)
+               //elDebugPrint("Result Products Array Count %@ Before Filtering Brand ID",resultProducts.count)
 
                 for product in resultProducts {
 
                     if product.brandId == nil {
                         let removedObjectIndex = resultProducts.firstIndex(of: product)!
-                       // print("Object Remove Index:%@",removedObjectIndex)
+                       //elDebugPrint("Object Remove Index:%@",removedObjectIndex)
                         resultProducts.remove(at: removedObjectIndex)
                     }
                 }
-              //  print("Result Products Array Count is %@ After Filtering Brand ID",resultProducts.count)
+              // elDebugPrint("Result Products Array Count is %@ After Filtering Brand ID",resultProducts.count)
 
 
                 do {
@@ -376,7 +376,7 @@ extension Product {
             try context.save()
         } catch (let error) {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-            debugPrint(error.localizedDescription)
+            elDebugPrint(error.localizedDescription)
         }
         
         return resultProducts
@@ -779,7 +779,7 @@ extension Product {
             product.promotion = 1
             if let promoPrice = promotion["price"] as? Double{
                 product.promoPrice = NSNumber(value: promoPrice)
-                print("product.promoprice: \(product.promoPrice) , promoPrice : \(promoPrice) , final price  :\(0)")
+               elDebugPrint("product.promoprice: \(product.promoPrice) , promoPrice : \(promoPrice) , final price  :\(0)")
             }else{
                 product.promoPrice = NSNumber(0)
             }
@@ -867,7 +867,7 @@ extension Product {
         
         
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
-           // debugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
+           // elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
             if let promoted = _rankingInfo["promoted"] as? Bool {
                 if promoted {
                     product.isSponsored = NSNumber(booleanLiteral: promoted)
@@ -918,7 +918,7 @@ extension Product {
         var resultProducts = [Product]()
         var jsonProductsIds = [String]()
         
-      //  print("Response Dict:%@",dictionary)
+      // elDebugPrint("Response Dict:%@",dictionary)
         
         let dataDict = dictionary["data"] as! NSDictionary
         let productDict = dataDict["products"] as! NSDictionary
@@ -1060,7 +1060,7 @@ extension Product {
             product.isSponsored =  0  // product.isSponsored != nil ?  product.isSponsored :
         }
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
-            //debugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
+            //elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
             if let promoted = _rankingInfo["promoted"] as? Bool {
                 if promoted {
                     product.isSponsored = NSNumber(booleanLiteral: promoted)
@@ -1248,7 +1248,7 @@ extension Product {
             return convertedString! // <-- here is ur string
             
         } catch let myJSONError {
-            print(myJSONError)
+           elDebugPrint(myJSONError)
         }
         
         return ""
@@ -1261,7 +1261,7 @@ extension Product {
                 
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [NSDictionary]
             } catch {
-                print(error.localizedDescription)
+               elDebugPrint(error.localizedDescription)
             }
         }
         return nil

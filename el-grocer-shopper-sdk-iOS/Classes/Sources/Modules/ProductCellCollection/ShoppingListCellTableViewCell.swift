@@ -118,7 +118,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
                         let bannerID = banner.bannerId.stringValue
                         let topVCName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
                         if !UserDefaults.isBannerDisplayed(bannerID , topControllerName: topVCName ) {
-                            debugPrint("banner.bannerId : \(banner.bannerId.stringValue)")
+                            elDebugPrint("banner.bannerId : \(banner.bannerId.stringValue)")
                             let isSingle =   banner.bannerGroup.int32Value != KRecipeBannerID
                             for bannerLink in banner.bannerLinks {
                                 FireBaseEventsLogger.trackBannerView(isSingle: isSingle , brandName: ElGrocerUtility.sharedInstance.isArabicSelected() ? bannerLink.bannerBrand?.nameEn ?? "" : bannerLink.bannerBrand?.name ?? "" , bannerLink.bannerCategory?.nameEn ?? bannerLink.bannerCategory?.name ?? ""  , bannerLink.bannerSubCategory?.subCategoryNameEn ?? bannerLink.bannerSubCategory?.subCategoryName ?? "", link: bannerLink )
@@ -303,7 +303,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
                 self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId)
 
             case .failure(let error):
-                debugPrint(error.localizedMessage)
+                elDebugPrint(error.localizedMessage)
                // error.showErrorAlert()
             }
         }
@@ -315,12 +315,12 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
 
             //self.isProcessingBanners = true
             let banners = Banner.getBannersFromResponse(responseObject)
-            //  print("Banners Array Count:%d",banners.count)
+            // elDebugPrint("Banners Array Count:%d",banners.count)
 
            // ElGrocerUtility.sharedInstance.bannerGroups = banners.group(by: {$0.bannerGroup})
 
             let keys = ElGrocerUtility.sharedInstance.bannerGroups.keys
-            //  print("Banner Keys:%@",keys)
+            // elDebugPrint("Banner Keys:%@",keys)
             let groupKeys = keys // .sorted(by: <)
 
             for key in groupKeys {

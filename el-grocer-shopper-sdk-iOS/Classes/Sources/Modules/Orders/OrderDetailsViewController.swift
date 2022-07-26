@@ -324,7 +324,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         ElGrocerApi.sharedInstance.getorderDetails(orderId: orderID) { (result) in
             switch result {
                 case .success(let response):
-                   // debugPrint(response)
+                   // elDebugPrint(response)
                     if let orderDict = response["data"] as? NSDictionary {
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         self.order = latestOrderObj
@@ -512,7 +512,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             let currentAddress = getCurrentDeliveryAddress()
             let defaultAddressId = currentAddress?.dbID
             let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.order.deliveryAddress)
-            print("Order Address ID:%@",orderAddressId)
+           elDebugPrint("Order Address ID:%@",orderAddressId)
             
             guard defaultAddressId == orderAddressId else {
                 ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
@@ -569,7 +569,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         let navigator = OrderNavigationHandler.init(orderId: order.dbID , topVc: self, processType: .editWithOutPopUp)
         navigator.startEditNavigationProcess { (isNavigationDone) in
-            debugPrint("Navigation Completed")
+            elDebugPrint("Navigation Completed")
         }
         /*
         func processDataForDeliveryMode() {
@@ -699,7 +699,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
     }
     func orderCancelled(isSuccess: Bool) {
-        print(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
+       elDebugPrint(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
         if isSuccess{
             UserDefaults.resetEditOrder()
            // self.backButtonClick()
@@ -716,7 +716,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             
 
         }else{
-            print("protocol fuction called Error")
+           elDebugPrint("protocol fuction called Error")
         }
     }
 
@@ -759,9 +759,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 guard self == self  else {return }
                 switch state! {
                     case LocationManager.State.fetchingLocation:
-                        debugPrint("")
+                        elDebugPrint("")
                     case LocationManager.State.initial:
-                        debugPrint("")
+                        elDebugPrint("")
                     default:
                         LocationManager.sharedInstance.stopUpdatingCurrentLocation()
                         if LocationManager.sharedInstance.currentLocation.value != nil {
@@ -827,7 +827,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 let defaultAddressId = currentAddress?.dbID
                 
                 let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.order.deliveryAddress)
-                print("Order Address ID:%@",orderAddressId)
+               elDebugPrint("Order Address ID:%@",orderAddressId)
                 
                 guard defaultAddressId == orderAddressId else {
                     
@@ -921,7 +921,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                                             }
                                             ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: self.currentGrocery!, brandName:item?.brandName, quantity: itemCount  , context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                                         }else{
-                                            debugPrint("")
+                                            elDebugPrint("")
                                         }
                                     }
                                     DatabaseHelper.sharedInstance.saveDatabase()
@@ -1934,11 +1934,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             switch result {
                 
                 case .success(let response):
-                    print("SERVER Response:%@",response)
+                   elDebugPrint("SERVER Response:%@",response)
                     self.saveResponseData(response)
                 
                 case .failure(let error):
-                    print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                   elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
             }
         })
     }
@@ -1979,7 +1979,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             
             switch result {
                 case .success(_):
-                    print("Slot Changed Successfully")
+                   elDebugPrint("Slot Changed Successfully")
                     self.showSlotChangeSuccessAlert()
                 case .failure(let error):
                     error.showErrorAlert()
@@ -2035,10 +2035,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         ElGrocerApi.sharedInstance.deleteBasketFromServerWithGrocery(grocery) { (result) in
             switch result {
                 case .success(let responseDict):
-                    print("Delete Basket Response:%@",responseDict)
+                   elDebugPrint("Delete Basket Response:%@",responseDict)
                 
                 case .failure(let error):
-                    print("Delete Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Delete Basket Error:%@",error.localizedMessage)
             }
         }
     }

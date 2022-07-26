@@ -83,7 +83,7 @@ class ChefListView: CustomCollectionView {
         self.scrollViewDidEndDecelerating = {[weak self] (scrollview) in
             guard let self = self else{ return }
             guard let scroll = scrollview else{ return }
-            debugPrint(scroll)
+            elDebugPrint(scroll)
             
         }
          */
@@ -219,7 +219,7 @@ extension ChefListView : UIScrollViewDelegate {
         if maximumOffset - currentOffset <= 10.0 {
             //getChefData()
         }
-       // debugPrint(page)
+       // elDebugPrint(page)
     }
 }
   */

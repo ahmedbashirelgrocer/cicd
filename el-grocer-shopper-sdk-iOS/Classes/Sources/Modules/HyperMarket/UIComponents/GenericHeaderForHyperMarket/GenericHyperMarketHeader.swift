@@ -119,7 +119,7 @@ class GenericHyperMarketHeader: UIView {
     }
     
     func navigationBarSearchTapped() {
-        print("Implement in controller")
+       elDebugPrint("Implement in controller")
         guard let vc = UIApplication.topViewController() else {return}
         let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
         searchController.navigationFromControllerName = FireBaseScreenName.GenericHome.rawValue

@@ -41,7 +41,7 @@ class CustomSubCategoryInCategoryViewCell: UICollectionViewCell {
                         })
                     }
             lblSubCategoryName.text = subCategorySelect.subCategoryName
-           // debugPrint(subCategorySelect.subCategoryNameEn)
+           // elDebugPrint(subCategorySelect.subCategoryNameEn)
         }
         
     }

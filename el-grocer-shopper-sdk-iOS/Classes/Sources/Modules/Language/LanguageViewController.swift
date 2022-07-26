@@ -213,7 +213,7 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
         _ = SpinnerView.showSpinnerViewInView(self.view)
         ElGrocerApi.sharedInstance.updateUserLanguageToServer(selectedLanguage) { (result, responseObject) in
             SpinnerView.hideSpinnerView()
-            print("Language Change Successfully")
+           elDebugPrint("Language Change Successfully")
             let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             userProfile?.language = selectedLanguage
             DatabaseHelper.sharedInstance.saveDatabase()

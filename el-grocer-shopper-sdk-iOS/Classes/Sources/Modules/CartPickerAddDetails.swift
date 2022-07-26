@@ -161,7 +161,7 @@ class CartPickerAddDetails: UIViewController {
                 self.btnConfirm.hideLoading()
                 switch result {
                     case .success(let response):
-                       debugPrint(response)
+                       elDebugPrint(response)
                     
                         let newCreatedCollector = collector.init(name: self.contactNameTextfield.text ?? "" , phonenNumber: self.mobileNumTextfield.text ?? "" , dbID: ((response["data"] as? NSDictionary)?["id"] as? Int) ?? -1)
                     
@@ -200,7 +200,7 @@ class CartPickerAddDetails: UIViewController {
                 self.btnConfirm.hideLoading()
                 switch result {
                     case .success(let response):
-                       debugPrint(response)
+                       elDebugPrint(response)
                     let newCreatedCollector = collector.init(name: self.contactNameTextfield.text ?? "" , phonenNumber: self.mobileNumTextfield.text ?? "" , dbID: id)
                     /*
                         if self.currentVc is MyBasketViewController {

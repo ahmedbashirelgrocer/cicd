@@ -35,22 +35,22 @@ class ElGrocerUtility {
     var isTokenCalling: Bool = false
     var isDeliveryMode: Bool = true {
         didSet{
-            debugPrint("isDeliveryMode: \(isDeliveryMode)")
+            elDebugPrint("isDeliveryMode: \(isDeliveryMode)")
         }
     }
     
     var currrentSelectedSlotMilis: String? = nil {
 
         didSet{
-            debugPrint("currrentSelectedSlotMilis: \(ElGrocerUtility.sharedInstance.currrentSelectedSlotMilis)")
-            debugPrint("NewSelectedSlotMilis: \(ElGrocerUtility.sharedInstance.NewSelectedSlotMilis)")
+            elDebugPrint("currrentSelectedSlotMilis: \(ElGrocerUtility.sharedInstance.currrentSelectedSlotMilis)")
+            elDebugPrint("NewSelectedSlotMilis: \(ElGrocerUtility.sharedInstance.NewSelectedSlotMilis)")
         }
     }
     var NewSelectedSlotMilis: String? = nil{
         
         didSet{
-            debugPrint("currrentSelectedSlotMilis: \(ElGrocerUtility.sharedInstance.currrentSelectedSlotMilis)")
-            debugPrint("NewSelectedSlotMilis: \(ElGrocerUtility.sharedInstance.NewSelectedSlotMilis)")
+            elDebugPrint("currrentSelectedSlotMilis: \(ElGrocerUtility.sharedInstance.currrentSelectedSlotMilis)")
+            elDebugPrint("NewSelectedSlotMilis: \(ElGrocerUtility.sharedInstance.NewSelectedSlotMilis)")
         }
     }
     
@@ -74,7 +74,7 @@ class ElGrocerUtility {
     var completeGroceries:[Grocery] = []
     var groceries:[Grocery] = [] {
         didSet {
-            debugPrint("groceryaseeee")
+            elDebugPrint("groceryaseeee")
             
         }
     }
@@ -90,15 +90,15 @@ class ElGrocerUtility {
                    // PushWooshTracking.trackStoreParentID(parnetID)
             }
              SDImageCache.shared.removeImage(forKey: promoTagLink, fromDisk: true)
-            debugPrint("activeGrocery: \(String(describing: activeGrocery?.dbID ?? ""))")
+            elDebugPrint("activeGrocery: \(String(describing: activeGrocery?.dbID ?? ""))")
             let dataS = self.cAndcRetailerList.map { (grocery) -> String in
                 return grocery.dbID
             }
             let groceryDelivery = self.groceries.map { (grocery) -> String in
                 return grocery.dbID
             }
-            debugPrint("candc A activeGrocery: \(dataS))")
-            debugPrint("groceryDelivery A activeGrocery: \(groceryDelivery))")
+            elDebugPrint("candc A activeGrocery: \(dataS))")
+            elDebugPrint("groceryDelivery A activeGrocery: \(groceryDelivery))")
             
         }
     }
@@ -320,7 +320,7 @@ class ElGrocerUtility {
     /*
     func getCurrentMillis() -> Int64 {
         defer {
-            debugPrint("SlotReturnDiff: \(start.timeIntervalSince(Date.getCurrentDate()))")
+            elDebugPrint("SlotReturnDiff: \(start.timeIntervalSince(Date.getCurrentDate()))")
         }
         let start = Date.getCurrentDate()
         let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
@@ -329,12 +329,12 @@ class ElGrocerUtility {
         if slotId != 0 && slotId != -1 {
             let index = slots.firstIndex(where: { $0.dbID == slotId })
             if (index != nil) {
-                debugPrint("Slot  Time is : \(slots[index!].time_milli)")
+                elDebugPrint("Slot  Time is : \(slots[index!].time_milli)")
                 return Int64(truncating: slots[index!].time_milli)
             }else{
                 let firstObj  = slots.first
                 if firstObj != nil {
-                    //debugPrint("Slot  Time is : \(slots[index!].timeStamp)")
+                    //elDebugPrint("Slot  Time is : \(slots[index!].timeStamp)")
                     if firstObj?.dbID.intValue ?? 0 > 0 {
                         return Int64(truncating: firstObj!.time_milli)
                     }
@@ -344,13 +344,13 @@ class ElGrocerUtility {
         }else{
             let firstObj  = slots.first
             if firstObj != nil {
-                debugPrint("Slot  Time is : \(firstObj!.time_milli)")
+                elDebugPrint("Slot  Time is : \(firstObj!.time_milli)")
                 if firstObj?.dbID.intValue ?? 0 > 0 {
                     return Int64(truncating: firstObj!.time_milli)
                 }
             }
         }
-        debugPrint("Slot  Time is : \(Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)) Instant")
+        elDebugPrint("Slot  Time is : \(Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)) Instant")
         return Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
     }*/
 
@@ -405,14 +405,14 @@ class ElGrocerUtility {
                 let weekdayStr = String(format:"%d",myComponents.weekday!)
                 
                 if weekDays.contains(weekdayStr) {
-                    print("Today is weekday")
+                   elDebugPrint("Today is weekday")
                     closingTime = closingHours[0] as! String
                     
                 }else if (weekDay == 5){
-                    print("Today is Thursday")
+                   elDebugPrint("Today is Thursday")
                     closingTime = closingHours[1] as! String
                 }else{
-                    print("Today is Friday")
+                   elDebugPrint("Today is Friday")
                     closingTime = closingHours[2] as! String
                 }
                 
@@ -449,7 +449,7 @@ class ElGrocerUtility {
                 
             } catch let error as NSError {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                print(error)
+               elDebugPrint(error)
             }
         }
         
@@ -476,9 +476,9 @@ class ElGrocerUtility {
         
         branchUniversalObject.getShortUrl(with: linkProperties, andCallback:  { (url, error) in
             if error == nil {
-                print("Branch link: %@", url ?? "may be url is null")
+               elDebugPrint("Branch link: %@", url ?? "may be url is null")
             }else{
-                print("Error While Creating Branch link:%@",error?.localizedDescription ?? "Error")
+               elDebugPrint("Error While Creating Branch link:%@",error?.localizedDescription ?? "Error")
             }
         })
         
@@ -512,9 +512,9 @@ class ElGrocerUtility {
         
         ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("AppEvents.Name.addedToCart", facebookParams as? [String : Any])
         
-        debugPrint("facebook eventName : \(AppEvents.Name.addedToCart)")
-        debugPrint("facebook Parm Print : \(product.price)")
-        debugPrint("facebook Parm Print : \(paramsString)")
+        elDebugPrint("facebook eventName : \(AppEvents.Name.addedToCart)")
+        elDebugPrint("facebook Parm Print : \(product.price)")
+        elDebugPrint("facebook Parm Print : \(paramsString)")
 
         /* ---------- AppsFlyer Search Event ----------*/
         var finalBrandName = brandName
@@ -527,7 +527,7 @@ class ElGrocerUtility {
             // MARK:- TODO fixappsflyer
 //        let appsFlyerParams : [String : Any] = [AFEventParamContent: paramsString ,AFEventParamContentType: "product" ,AFEventParamCurrency:kProductCurrencyEngAEDName ,AFEventParamPrice:product.price] as [String: Any]
 //        AppsFlyerLib.shared().logEvent(name: AFEventAddToCart, values: appsFlyerParams) { (data, error) in
-//            debugPrint("data");debugPrint(data)
+//            elDebugPrint("data");elDebugPrint(data)
 //        }
         //AppsFlyerLib.shared().trackEvent(AFEventAddToCart, withValues:appsFlyerParams)
         
@@ -562,14 +562,14 @@ class ElGrocerUtility {
                         
                         if(location.isActive.boolValue == true){
                             
-                            print("%@ is an Active Location",location.locationName)
+                           elDebugPrint("%@ is an Active Location",location.locationName)
                             let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                            print("Locations Count:%d",locations.count)
+                           elDebugPrint("Locations Count:%d",locations.count)
                             
                             for tempLoc in locations {
                                 
-                                print("tempLoc.dbID:%@",tempLoc.dbID)
-                                print("location.dbID:%@",location.dbID)
+                               elDebugPrint("tempLoc.dbID:%@",tempLoc.dbID)
+                               elDebugPrint("location.dbID:%@",location.dbID)
                                 if tempLoc.dbID == location.dbID{
                                     tempLoc.isActive = NSNumber(value: true as Bool)
                                 }else{
@@ -584,17 +584,17 @@ class ElGrocerUtility {
                                     completionHandler(true)
                                     
                                 }else{
-                                    print("Error while setting default location on Server.")
+                                   elDebugPrint("Error while setting default location on Server.")
                                     completionHandler(false)
                                 }
                             })
                         }else{
-                            print("%@ is Not an Active Location",location.locationName)
+                           elDebugPrint("%@ is Not an Active Location",location.locationName)
                             completionHandler(false)
                         }
                         
                     }else{
-                        print("Error while add location on Server.")
+                       elDebugPrint("Error while add location on Server.")
                         completionHandler(false)
                     }
                 })
@@ -611,7 +611,7 @@ class ElGrocerUtility {
         let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
         
         backgroundQueue.async(execute: {
-            print("This is run on the background queue")
+           elDebugPrint("This is run on the background queue")
             
             let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             
@@ -632,14 +632,14 @@ class ElGrocerUtility {
                         
                         if(location.isActive.boolValue == true){
                             
-                            print("%@ is an Active Location",location.locationName)
+                           elDebugPrint("%@ is an Active Location",location.locationName)
                             let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                            print("Locations Count:%d",locations.count)
+                           elDebugPrint("Locations Count:%d",locations.count)
                             
                             for tempLoc in locations {
                                 
-                                print("tempLoc.dbID:%@",tempLoc.dbID)
-                                print("location.dbID:%@",location.dbID)
+                               elDebugPrint("tempLoc.dbID:%@",tempLoc.dbID)
+                               elDebugPrint("location.dbID:%@",location.dbID)
                                 if tempLoc.dbID == location.dbID{
                                     tempLoc.isActive = NSNumber(value: true as Bool)
                                 }else{
@@ -654,15 +654,15 @@ class ElGrocerUtility {
                                     
                                     
                                 }else{
-                                    print("Error while setting default location on Server.")
+                                   elDebugPrint("Error while setting default location on Server.")
                                 }
                             })
                         }else{
-                            print("%@ is Not an Active Location",location.locationName)
+                           elDebugPrint("%@ is Not an Active Location",location.locationName)
                         }
                         
                     }else{
-                        print("Error while add location on Server.")
+                       elDebugPrint("Error while add location on Server.")
                     }
                 })
             }
@@ -799,7 +799,7 @@ class ElGrocerUtility {
         }
          return descPayment
         
-       // debugPrint(descPayment)
+       // elDebugPrint(descPayment)
         
         
         
@@ -1205,7 +1205,7 @@ class ElGrocerUtility {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             } catch (let error) {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                print(error.localizedDescription)
+               elDebugPrint(error.localizedDescription)
             }
         }
         return nil
@@ -1424,7 +1424,7 @@ class ElGrocerUtility {
     
     func cleanGroceryID (_ idObj : Any?) -> String  {
         
-       // debugPrint("groceryID Comming: \(String(describing: idObj))")
+       // elDebugPrint("groceryID Comming: \(String(describing: idObj))")
         var groceryId = "0"
         guard idObj != nil else {
             return groceryId
@@ -1434,7 +1434,7 @@ class ElGrocerUtility {
         if grocerySplittedIds.count > 0 {
             groceryId = grocerySplittedIds.count == 1 ? grocerySplittedIds[0] : grocerySplittedIds[1]
         }
-        //debugPrint("groceryID: \(groceryId)")
+        //elDebugPrint("groceryID: \(groceryId)")
         return  groceryId
     }
     

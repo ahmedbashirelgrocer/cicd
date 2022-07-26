@@ -346,7 +346,7 @@ class BannerCampaign: NSObject {
                         navigationController.viewControllers = [productsVC]
                         navigationController.setLogoHidden(true)
                         UIApplication.topViewController()?.present(navigationController, animated: false) {
-                            debugPrint("VC Presented") }
+                            elDebugPrint("VC Presented") }
                     }
                 }
             }
@@ -367,7 +367,7 @@ class BannerCampaign: NSObject {
                         }
                    // }
                 case .failure(let _):
-                    debugPrint("failure")
+                    elDebugPrint("failure")
                     completionHandler([])
             }
         }

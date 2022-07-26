@@ -187,7 +187,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
             switch result {
                 case .success(let orderDict):
                     if Platform.isDebugBuild {
-                        debugPrint("ORder : \(orderDict)")
+                        elDebugPrint("ORder : \(orderDict)")
                     }
                     Order.insertOrReplaceOrdersFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, isShowHud)
                      DatabaseHelper.sharedInstance.saveDatabase()
@@ -330,7 +330,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                         let defaultAddressId = currentAddress?.dbID
                         
                         let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
-                        print("Order Address ID:%@",orderAddressId)
+                       elDebugPrint("Order Address ID:%@",orderAddressId)
                         
                         guard defaultAddressId == orderAddressId else {
                             ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
@@ -353,7 +353,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                         let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()
                         let defaultAddressId = currentAddress?.dbID
                         let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
-                        print("Order Address ID:%@",orderAddressId)
+                       elDebugPrint("Order Address ID:%@",orderAddressId)
                         guard defaultAddressId == orderAddressId else {
                             ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                             return
@@ -403,7 +403,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     let defaultAddressId = currentAddress?.dbID
                     
                     let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
-                    print("Order Address ID:%@",orderAddressId)
+                   elDebugPrint("Order Address ID:%@",orderAddressId)
                     
                     guard defaultAddressId == orderAddressId else {
                         ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
@@ -426,7 +426,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()
                     let defaultAddressId = currentAddress?.dbID
                     let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
-                    print("Order Address ID:%@",orderAddressId)
+                   elDebugPrint("Order Address ID:%@",orderAddressId)
                     guard defaultAddressId == orderAddressId else {
                         ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                         return
@@ -460,7 +460,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
             let defaultAddressId = currentAddress?.dbID
             
             let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
-            print("Order Address ID:%@",orderAddressId)
+           elDebugPrint("Order Address ID:%@",orderAddressId)
             
             guard defaultAddressId == orderAddressId else {
                 ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
@@ -542,7 +542,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
       
         let navigator = OrderNavigationHandler.init(orderId: order.dbID , topVc: self, processType: .editWithOutPopUp)
         navigator.startEditNavigationProcess { (isNavigationDone) in
-            debugPrint("Navigation Completed")
+            elDebugPrint("Navigation Completed")
         }
         
         /*
@@ -727,10 +727,10 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         ElGrocerApi.sharedInstance.deleteBasketFromServerWithGrocery(grocery) { (result) in
             switch result {
                 case .success(let responseDict):
-                    print("Delete Basket Response:%@",responseDict)
+                   elDebugPrint("Delete Basket Response:%@",responseDict)
                 
                 case .failure(let error):
-                    print("Delete Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Delete Basket Error:%@",error.localizedMessage)
             }
         }
     }
@@ -790,7 +790,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         let kLoadingDistance = 2 * kProductCellHeight + 8
         let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
         if y + kLoadingDistance > scrollView.contentSize.height && self.isGettingProducts == false {
-            debugPrint("getlist")
+            elDebugPrint("getlist")
             self.getOrderHistoryFromServer(false)
         }
     }

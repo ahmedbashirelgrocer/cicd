@@ -84,7 +84,7 @@ class StoreDetailViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
                 self.selectedIndex = 0
             }
             
-            print("Current Grocery Selected Index:%d",self.selectedIndex)
+           elDebugPrint("Current Grocery Selected Index:%d",self.selectedIndex)
             self.collectionViewGroceries.reloadData()
             
             self.scrollToObjectAtIndex(self.selectedIndex, withAnimation: false)
@@ -279,7 +279,7 @@ class StoreDetailViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     }
     
     func didTapOnGroceryImageToLoadGroceries(){
-        print("Tap on Grocery Image and label")
+       elDebugPrint("Tap on Grocery Image and label")
         self.delegate.presentGroceriesView()
     }
 }

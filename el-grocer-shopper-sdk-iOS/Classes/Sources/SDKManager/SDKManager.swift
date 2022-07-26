@@ -85,10 +85,10 @@ class SDKManager: NSObject  {
         
         let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
         if isRegisteredForRemoteNotifications {
-            debugPrint("User is registered for notification")
+            elDebugPrint("User is registered for notification")
             self.registerForNotifications()
         } else {
-            debugPrint("Show alert user is not registered for notification")
+            elDebugPrint("Show alert user is not registered for notification")
             
         }
         
@@ -202,10 +202,10 @@ class SDKManager: NSObject  {
         ElGrocerApi.sharedInstance.deleteBasketFromServerWithGrocery(grocery) { (result) in
             switch result {
                 case .success(let responseDict):
-                    print("Delete Basket Response:%@",responseDict)
+                   elDebugPrint("Delete Basket Response:%@",responseDict)
                 
                 case .failure(let error):
-                    print("Delete Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Delete Basket Error:%@",error.localizedMessage)
             }
         }
     }
@@ -612,9 +612,9 @@ class SDKManager: NSObject  {
         
         SendBirdManager().logout { success in
             if success{
-                print("logout successfull")
+               elDebugPrint("logout successfull")
             }else{
-                print("error")
+               elDebugPrint("error")
             }
         }
         
@@ -727,7 +727,7 @@ class SDKManager: NSObject  {
         if phoneLanguage == nil {
             
             let deviceLanguage = (Locale.current as NSLocale).object(forKey: NSLocale.Key.languageCode) as? String
-            print("Current Device Language:%@",deviceLanguage ?? "NULL Language")
+           elDebugPrint("Current Device Language:%@",deviceLanguage ?? "NULL Language")
             
             if(deviceLanguage != nil){
                 UserDefaults.setCurrentLanguage(deviceLanguage)
@@ -764,13 +764,13 @@ class SDKManager: NSObject  {
         
         ElGrocerApi.sharedInstance.updateUserLanguageToServer(selectedLanguage) { (result, responseObject) in
             if result == true {
-                print("Language Change Successfully")
+               elDebugPrint("Language Change Successfully")
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 userProfile?.language = selectedLanguage
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
             }else{
-                print("Some Issue orrcus while changing language")
+               elDebugPrint("Some Issue orrcus while changing language")
             }
         }
     }
@@ -798,7 +798,7 @@ extension SDKManager {
     func endProgress() {
         
         if let activeGrocery = ElGrocerUtility.sharedInstance.activeGrocery?.name {
-            debugPrint("active grocer name is : \(activeGrocery)")
+            elDebugPrint("active grocer name is : \(activeGrocery)")
         }
     }
    
@@ -920,9 +920,9 @@ extension SDKManager {
 //        let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
 //
 //            if let dynamiclink = dynamiclink, let _ = dynamiclink.url {
-//                print("Your Imcomming Url Parameter is:%@",dynamiclink.url ?? "NUll")
+//               elDebugPrint("Your Imcomming Url Parameter is:%@",dynamiclink.url ?? "NUll")
 //                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
-//                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
+//               elDebugPrint("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
 //                NotificationCenter.default.post(name: Notification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
 //            }
 //        }
@@ -936,12 +936,12 @@ extension SDKManager {
 //            return true
 //        }
 //        if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url){
-//            print("I'm Handling a link through the OpenURL method.")
-//            print("Your Imcomming Url Parameter is:%@",dynamicLink.url ?? "DynamicLink URL is Null")
+//           elDebugPrint("I'm Handling a link through the OpenURL method.")
+//           elDebugPrint("Your Imcomming Url Parameter is:%@",dynamicLink.url ?? "DynamicLink URL is Null")
 //            if let urlString = dynamicLink.url?.absoluteString {
 //                ElGrocerUtility.sharedInstance.deepLinkURL = urlString
 //                ElGrocerUtility.sharedInstance.deepLinkShotURL = url.absoluteString
-//                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
+//               elDebugPrint("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
 //                NotificationCenter.default.post(name: NSNotification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
 //                FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "EG_DeepLink", parameter: ["url" : urlString , "DeepLink" : url.absoluteString])
 //            }
@@ -986,7 +986,7 @@ extension SDKManager {
 //
 //            if let dynamiclink = dynamiclink, let urlString = dynamiclink.url {
 //                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
-//                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
+//               elDebugPrint("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
 //                DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
 //                ElGrocerUtility.sharedInstance.deepLinkShotURL = urlCameFrom ?? urlString.absoluteString
 //

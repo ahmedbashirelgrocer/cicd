@@ -259,25 +259,25 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
                         let str = html
                         let pattern = "[^A-Za-z0-9]+:"
                         let result = str.replacingOccurrences(of: pattern, with: "", options: [.regularExpression])
-                        print(result) // => abc
+                       elDebugPrint(result) // => abc
            
                         let leftSideString = "token_name"
                         let rightSideString = "card_bin"
                         guard let leftSideRange = result.range(of: leftSideString)
                             else {
-                                print("couldn't find left range")
+                               elDebugPrint("couldn't find left range")
                                 completionHandler(false, nil)
                                 return
                           }
                         guard let rightSideRange = result.range(of: rightSideString)
                             else {
-                                print("couldn't find right range")
+                               elDebugPrint("couldn't find right range")
                                 completionHandler(false, nil)
                                 return
                         }
                         let rangeOfTheData = leftSideRange.upperBound..<rightSideRange.lowerBound
                         var token_name = result[rangeOfTheData]
-                        print(token_name)
+                       elDebugPrint(token_name)
                        
                         if token_name.count > 0  {
                             
@@ -470,7 +470,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ]
     
     NetworkCall.post(ElGrocerApiEndpoint.ClientVersion.rawValue , parameters: params, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
         guard let response = response as? NSDictionary, let data = response["data"] as? NSDictionary, let action = data["action"] as? Int else {
             errorHandler()
@@ -515,7 +515,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
         setAccessToken()
         NetworkCall.get(ElGrocerApiEndpoint.getAllPaymentMethods.rawValue, parameters: ["retailer_id" :  ElGrocerUtility.sharedInstance.cleanGroceryID(retailer_id) ] , progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             
             guard let response = response as? NSDictionary else {
@@ -572,7 +572,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   
     NetworkCall.post( ElGrocerApiEndpoint.Registration.rawValue , parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
         self.extractAccessToken(response as! NSDictionary)
         
@@ -598,7 +598,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
 
       setAccessToken()
       NetworkCall.post(ElGrocerApiEndpoint.verifyOtp.rawValue, parameters: params , progress: { (progress) in
-          // debugPrint("Progress for API :  \(progress)")
+          // elDebugPrint("Progress for API :  \(progress)")
       }, success: { (operation  , response) in
           
           guard let response = response as? NSDictionary else {
@@ -638,7 +638,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   
     NetworkCall.post(ElGrocerApiEndpoint.Login.rawValue , parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
         
         self.extractAccessToken(response as! NSDictionary)
@@ -677,11 +677,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   NetworkCall.put(ElGrocerApiEndpoint.ChangePassword.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
-  // // print(response)
+  // //elDebugPrint(response)
   completionHandler(true, response as? NSDictionary)
   
   }) { (operation  , error: Error) -> Void in
-  // print(error.localizedDescription)
+  //elDebugPrint(error.localizedDescription)
   completionHandler(false, nil)
   }
   }
@@ -698,7 +698,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   "phone_number" : phone
   ]
   
-  // print(parameters)
+  //elDebugPrint(parameters)
   
   NetworkCall.put(ElGrocerApiEndpoint.ProfileUpdate.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
@@ -718,10 +718,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   let parameters = [
   "email" : email
   ]
-  // print(parameters)
+  //elDebugPrint(parameters)
     
     NetworkCall.post( ElGrocerApiEndpoint.EmailExist.rawValue , parameters: parameters , progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
         completionHandler(true, response as? NSDictionary)
     }) { (operation, error) in
@@ -738,9 +738,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   let parameters = [
   "phone_number" : phone
   ]
-  // print(parameters)
+  //elDebugPrint(parameters)
     NetworkCall.post(ElGrocerApiEndpoint.PhoneExist.rawValue  , parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
         completionHandler(true, response as? NSDictionary)
     }) { (operation, error) in
@@ -765,7 +765,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   "email" : email
   ]
     NetworkCall.post(ElGrocerApiEndpoint.ForgotPassword.rawValue , parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
          completionHandler(true)
     }) { (operation, error) in
@@ -779,7 +779,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
     setAccessToken()
     NetworkCall.get(ElGrocerApiEndpoint.DeliveryAddress.rawValue, parameters: nil , progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         completionHandler(true, response as? NSDictionary)
     }) { (operation  , error) in
@@ -853,12 +853,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   addressParameters["name"] = address.userProfile.name as AnyObject
   }
   
-  // // print("Parameters Address Name:%@",addressParameters["address_name"] ?? "Null")
-  // // print("Address Parameters:%@",addressParameters)
-  // // print("Add Address Url Str:%@",ElGrocerApiEndpoint.DeliveryAddressV2.rawValue)
+  // //elDebugPrint("Parameters Address Name:%@",addressParameters["address_name"] ?? "Null")
+  // //elDebugPrint("Address Parameters:%@",addressParameters)
+  // //elDebugPrint("Add Address Url Str:%@",ElGrocerApiEndpoint.DeliveryAddressV2.rawValue)
     
     NetworkCall.post( ElGrocerApiEndpoint.DeliveryAddressV2.rawValue , parameters: addressParameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
         completionHandler(true, response as? NSDictionary)
     }) { (operation, error) in
@@ -972,7 +972,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   func setDefaultDeliveryAddress(_ address: DeliveryAddress, completionHandler: @escaping (_ result: Bool) -> Void) {
   
   setAccessToken()
-  // print(address.dbID)
+  //elDebugPrint(address.dbID)
   let parameters = [
   "address_id": address.dbID,
   "default_address": true
@@ -1019,7 +1019,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         
         NetworkCall.get(ElGrocerApiEndpoint.getRetailerDetail.rawValue, parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             
             guard let response = response as? NSDictionary else {
@@ -1067,7 +1067,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         
         NetworkCall.get(ElGrocerApiEndpoint.getRetailerDetail.rawValue, parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             
             guard let response = response as? NSDictionary else {
@@ -1112,11 +1112,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
     
   
-  // // print("Parameters:%@",parameters)
-  // // print("URL STR:%@",ElGrocerApiEndpoint.Groceries.rawValue)
+  // //elDebugPrint("Parameters:%@",parameters)
+  // //elDebugPrint("URL STR:%@",ElGrocerApiEndpoint.Groceries.rawValue)
     //
     NetworkCall.get(ElGrocerApiEndpoint.Groceries.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         
         guard let response = response as? NSDictionary else {
@@ -1144,7 +1144,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ]
   
     NetworkCall.get(ElGrocerApiEndpoint.GroceryAvailabillityCheck.rawValue , parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         guard let response = response as? NSDictionary else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -1171,9 +1171,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     
   ] as [String : Any]
   
-  // // print("Parameters:%@",parameters)
+  // //elDebugPrint("Parameters:%@",parameters)
   
-  // // print("URL Str:%@",ElGrocerApiEndpoint.GroceryRequest.rawValue)
+  // //elDebugPrint("URL Str:%@",ElGrocerApiEndpoint.GroceryRequest.rawValue)
   
   NetworkCall.put(ElGrocerApiEndpoint.GroceryRequest.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
@@ -1204,11 +1204,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   "longitude": address.longitude
   ]
   
-  // // print("Parameters:%@",parameters)
+  // //elDebugPrint("Parameters:%@",parameters)
   
-  // // print("URL Str:%@",ElGrocerApiEndpoint.GroceriesStatus.rawValue)
+  // //elDebugPrint("URL Str:%@",ElGrocerApiEndpoint.GroceriesStatus.rawValue)
     NetworkCall.get(ElGrocerApiEndpoint.GroceriesStatus.rawValue , parameters: parameters , progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         guard let response = response as? NSDictionary, let status = response["data"] as? Bool else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -1241,7 +1241,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
 
   
     NetworkCall.get(ElGrocerApiEndpoint.GroceryReviews.rawValue , parameters: parameters , progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         completionHandler(true, response as? NSDictionary)
     }) { (operation  , error) in
@@ -1267,7 +1267,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ] as [String : Any]
     parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])
     NetworkCall.post( ElGrocerApiEndpoint.GroceryReviews.rawValue , parameters: parameters , progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
          completionHandler(true, false, response as? NSDictionary)
     }) { (operation, error) in
@@ -1329,14 +1329,14 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         parameters["delivery_time"] = time as AnyObject
   
   
-  // // print("Patameters:%@",parameters)
+  // //elDebugPrint("Patameters:%@",parameters)
   //sab
   let urlStr = ElGrocerApiEndpoint.Categories.rawValue
         //sab new
         //let urlStr = ElGrocerApiEndpoint.TopProducts.rawValue
-  // // print("URL Str:%@",urlStr)
+  // //elDebugPrint("URL Str:%@",urlStr)
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         guard let response = response as? NSDictionary else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -1373,9 +1373,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     let urlStr = ElGrocerApiEndpoint.TopProducts.rawValue
     
    
-    print("test: \(parameters)")
+   elDebugPrint("test: \(parameters)")
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         guard let response = response as? NSDictionary else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -1413,9 +1413,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     parameters["delivery_time"] = time as AnyObject
     
   let urlStr = ElGrocerApiEndpoint.CarouselProductsApi.rawValue
-  // // print("URL Str:%@",urlStr)
+  // //elDebugPrint("URL Str:%@",urlStr)
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         guard let response = response as? NSDictionary else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -1456,9 +1456,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   //sab
   //let urlStr = ElGrocerApiEndpoint.CategoryProducts.rawValue
     let urlStr = ElGrocerApiEndpoint.TopProducts.rawValue
-  // // print("URL Str:%@",urlStr)
+  // //elDebugPrint("URL Str:%@",urlStr)
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         guard let response = response as? NSDictionary else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -1497,9 +1497,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   //sab
  // let urlStr = ElGrocerApiEndpoint.GroceryProducts.rawValue
     let urlStr = ElGrocerApiEndpoint.TopProducts.rawValue
-  // // print("URL Str:%@",urlStr)
+  // //elDebugPrint("URL Str:%@",urlStr)
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         guard let response = response as? NSDictionary else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -1542,10 +1542,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
  
 //  let urlStr = ElGrocerApiEndpoint.Brands.rawValue
     let urlStr = ElGrocerApiEndpoint.CategoryProducts.rawValue
-  // // print("URL Str:%@",urlStr)
-    print("test: \(parameters)")
+  // //elDebugPrint("URL Str:%@",urlStr)
+   elDebugPrint("test: \(parameters)")
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         guard let response = response as? NSDictionary else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -1584,7 +1584,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     
 
     NetworkCall.get(ElGrocerApiEndpoint.Brands.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         completionHandler(true, response as? NSDictionary)
     }) { (operation  , error) in
@@ -1641,14 +1641,14 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
     parameters["delivery_time"] = time
 
-  // // print("Patameters:%@",parameters)
+  // //elDebugPrint("Patameters:%@",parameters)
     //sab
     //let urlStr = ElGrocerApiEndpoint.GroceryProducts.rawValue
   let urlStr = ElGrocerApiEndpoint.BrandProducts.rawValue
-  // // print("URL Str:%@",urlStr)
-    print("test: \(parameters)")
+  // //elDebugPrint("URL Str:%@",urlStr)
+   elDebugPrint("test: \(parameters)")
     NetworkCall.get(urlStr, parameters: parameters,progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let result = response as? NSDictionary else {
@@ -1681,7 +1681,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ] as [String : Any]
   
     NetworkCall.get(ElGrocerApiEndpoint.Products.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let result = response as? NSDictionary else {
@@ -1711,7 +1711,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
        
         
         NetworkCall.get(ElGrocerApiEndpoint.newOrderList.rawValue, parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response: Any) -> Void in
             
             guard let ordersDict = ((response as? NSDictionary)?["data"] as? [NSDictionary])  else {
@@ -1739,7 +1739,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             url.append(orderNumber)
         }
     NetworkCall.get(url, parameters: nil, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let ordersDict = ((response as? NSDictionary)?["data"] as? NSDictionary)?["orders"] as? [NSDictionary] else {
@@ -1765,7 +1765,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         let url = ElGrocerApiEndpoint.OrderPossitions.rawValue
     
         NetworkCall.get(url, parameters: ["order_ids" : orderNumber] , progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response: Any) -> Void in
             
             guard let ordersDict = ((response as? NSDictionary)?["data"] as? NSDictionary)  else {
@@ -1862,7 +1862,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   //  FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters : \(products.description)")
 
     NetworkCall.post(ElGrocerApiEndpoint.OrderList.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
@@ -2122,7 +2122,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         setAccessToken()
         
           NetworkCall.get(ElGrocerApiEndpoint.cancelOrderReason.rawValue, parameters: nil,progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
         
             guard let response = response as? NSDictionary else {
@@ -2145,7 +2145,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           setAccessToken()
           
             NetworkCall.get(ElGrocerApiEndpoint.deleteAccountReason.rawValue, parameters: nil,progress: { (progress) in
-                // debugPrint("Progress for API :  \(progress)")
+                // elDebugPrint("Progress for API :  \(progress)")
             }, success: { (operation  , response: Any) -> Void in
           
               guard let response = response as? NSDictionary else {
@@ -2167,7 +2167,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           setAccessToken()
           let parameters = ["phone_number" : phoneNum]
             NetworkCall.post(ElGrocerApiEndpoint.deleteAccountSendOTP.rawValue, parameters: parameters,progress: { (progress) in
-                // debugPrint("Progress for API :  \(progress)")
+                // elDebugPrint("Progress for API :  \(progress)")
             }, success: { (operation  , response: Any) -> Void in
           
               guard let response = response as? NSDictionary else {
@@ -2190,7 +2190,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           setAccessToken()
           let parameters = ["reason" : reason, "otp": code]
             NetworkCall.post(ElGrocerApiEndpoint.verifyDeleteAccountOTP.rawValue, parameters: parameters,progress: { (progress) in
-                // debugPrint("Progress for API :  \(progress)")
+                // elDebugPrint("Progress for API :  \(progress)")
             }, success: { (operation  , response: Any) -> Void in
           
               guard let response = response as? NSDictionary else {
@@ -2222,14 +2222,14 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   parameters["products"] = productsIds
   
-  // // print("Parameters:%@",parameters)
+  // //elDebugPrint("Parameters:%@",parameters)
   
-  // // print("URL Str:%@",ElGrocerApiEndpoint.OrderAvailabillityCheck.rawValue)
+  // //elDebugPrint("URL Str:%@",ElGrocerApiEndpoint.OrderAvailabillityCheck.rawValue)
   
   
   
     NetworkCall.post(ElGrocerApiEndpoint.OrderAvailabillityCheck.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
@@ -2255,7 +2255,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   setAccessToken()
   
     NetworkCall.get(ElGrocerApiEndpoint.FavouriteProducts.rawValue, parameters: nil,progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, response as? NSDictionary)
@@ -2275,7 +2275,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ]
   
     NetworkCall.post(ElGrocerApiEndpoint.FavouriteProducts.rawValue, parameters: parameters,progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true)
@@ -2315,11 +2315,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["latitude"] = deliveryAddress!.latitude
   parameters["longitude"] = deliveryAddress!.longitude
   
-  // // print("Parameters:%@",parameters)
-  // // print("Favourite Groceries URL:%@",ElGrocerApiEndpoint.FavouriteGroceriesGet.rawValue)
+  // //elDebugPrint("Parameters:%@",parameters)
+  // //elDebugPrint("Favourite Groceries URL:%@",ElGrocerApiEndpoint.FavouriteGroceriesGet.rawValue)
   
     NetworkCall.get(ElGrocerApiEndpoint.FavouriteGroceriesGet.rawValue, parameters: parameters,progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, response as? NSDictionary)
@@ -2339,7 +2339,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ]
     parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])
     NetworkCall.post(ElGrocerApiEndpoint.FavouriteGroceries.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     },success: { (operation  , response: Any) -> Void in
   
   completionHandler(true)
@@ -2417,10 +2417,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
         parameters["delivery_time"] = time as AnyObject
         
-        debugPrint("promoApi callData : \(parameters)")
+        elDebugPrint("promoApi callData : \(parameters)")
   
     NetworkCall.post(ElGrocerApiEndpoint.PromotionCode.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
         
         guard let response = response as? NSDictionary else {
@@ -2433,12 +2433,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       completionHandler(Either.failure(ElGrocerError.parsingError()))
       return
       }
-           // debugPrint("promoApi response : \(response)")
+           // elDebugPrint("promoApi response : \(response)")
       completionHandler(Either.success(promoCode))
       
       }) { (operation  , error: Error) -> Void in
       
-      // // print("SERVER Response:%@",operation.response ?? "Response is Some Null Value")
+      // //elDebugPrint("SERVER Response:%@",operation.response ?? "Response is Some Null Value")
       if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                     
                     completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
@@ -2480,7 +2480,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
 
   
     NetworkCall.productsSearchOperation = NetworkCall.post(ElGrocerApiEndpoint.ProductsSearch.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, response as? NSDictionary)
@@ -2506,12 +2506,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])
   }
   
-  // // print("Search Parameters:%@",parameters)
+  // //elDebugPrint("Search Parameters:%@",parameters)
   
-  // // print("Search Suggestion URL Str:%@",ElGrocerApiEndpoint.SearchSuggestions.rawValue)
+  // //elDebugPrint("Search Suggestion URL Str:%@",ElGrocerApiEndpoint.SearchSuggestions.rawValue)
   
     NetworkCall.productsSearchOperation = NetworkCall.post(ElGrocerApiEndpoint.SearchSuggestions.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, response as? NSDictionary)
@@ -2533,7 +2533,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ]
   
     NetworkCall.post(ElGrocerApiEndpoint.Feedback.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     },success: { (operation  , response: Any) -> Void in
   
   completionHandler(true)
@@ -2558,7 +2558,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ] as [String : Any]
   
     NetworkCall.post(ElGrocerApiEndpoint.DeliveryFeedback.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     },success: { (operation  , response: Any) -> Void in
   
   completionHandler(Either.success(true))
@@ -2611,7 +2611,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ]
   
     NetworkCall.get(ElGrocerApiEndpoint.Wallet.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let result = response as? NSDictionary else {
@@ -2648,7 +2648,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   
   let orderItems = ShoppingBasketItem.getBasketItemsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-  // // print("Ordered Items Count:%d",orderItems.count)
+  // //elDebugPrint("Ordered Items Count:%d",orderItems.count)
   var itemsCount = 0
   for item in orderItems {
   itemsCount += item.count.intValue
@@ -2663,7 +2663,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     }
 
     NetworkCall.get(url, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let result = response as? NSDictionary else {
@@ -2689,7 +2689,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   setAccessToken()
 
     NetworkCall.get(ElGrocerApiEndpoint.OrderTracking.rawValue, parameters:nil, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let result = response as? NSDictionary else {
@@ -2715,16 +2715,16 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   setAccessToken()
   
-  //    // // print("Order API URl:%@",ElGrocerApiEndpoint.Order.rawValue)
+  //    // //elDebugPrint("Order API URl:%@",ElGrocerApiEndpoint.Order.rawValue)
   
   let subtitutionUrl = String(format: "%@",ElGrocerApiEndpoint.orderDetail.rawValue)
   
-  //    // // print("Subtitution Url:%@",subtitutionUrl)
+  //    // //elDebugPrint("Subtitution Url:%@",subtitutionUrl)
         var parameter : [String : Any] = [:]
         parameter["order_id"] = orderId
         
         NetworkCall.get(subtitutionUrl, parameters: parameter , progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
         guard let ordersDict = ((response as? NSDictionary)?["data"] as? NSDictionary) else {
@@ -2760,11 +2760,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   for product in productsArray {
   
-  //       // // print("ProductId Before Cleaning:%@",product.dbID)
+  //       // //elDebugPrint("ProductId Before Cleaning:%@",product.dbID)
   
   let productId = Product.getCleanProductId(fromId:product.dbID)
   
-  //    // // print("ProductId After Cleaning:%d",productId)
+  //    // //elDebugPrint("ProductId After Cleaning:%d",productId)
   
   let basketItem = OrderSubstitution.getBasketItemForOrder(order, product: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
   
@@ -2772,15 +2772,15 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   let substitutionBasketItem = SubstitutionBasketItem.getSubstitutionBasketItemForSubtitutedProduct(order, subtitutedProduct: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
   
-  // // // print("SubstitutingProductId Before Cleaning:%@",substitutionBasketItem.productId)
+  // // //elDebugPrint("SubstitutingProductId Before Cleaning:%@",substitutionBasketItem.productId)
   
   let substitutingProductId = Product.getCleanProductId(fromId:substitutionBasketItem.productId)
   
-  // // // print("SubstitutingProductId After Cleaning:%d",substitutingProductId)
+  // // //elDebugPrint("SubstitutingProductId After Cleaning:%d",substitutingProductId)
   
   let itemCount = Int(truncating: substitutionBasketItem.count)
   
-  // // // print("Items Count:%d",itemCount)
+  // // //elDebugPrint("Items Count:%d",itemCount)
   
   let productDict = [
   "product_id" : productId,
@@ -2821,7 +2821,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ]
   
     NetworkCall.get(ElGrocerApiEndpoint.OrderSubstitutionNotification.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(Either.success(true))
@@ -2862,11 +2862,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   parameters["products"] = products
   
-  // // // print("Parameters:%@",parameters)
-  // // print("API URL:%@",ElGrocerApiEndpoint.ProductSuggestions.rawValue)
+  // // //elDebugPrint("Parameters:%@",parameters)
+  // //elDebugPrint("API URL:%@",ElGrocerApiEndpoint.ProductSuggestions.rawValue)
   
     NetworkCall.post(ElGrocerApiEndpoint.ProductSuggestions.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(Either.success(true))
@@ -2886,15 +2886,15 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   "language" : currentLanguage
   ]
   
-  // // print("Parameters:%@",parameters)
-  // // print("API URL:%@",ElGrocerApiEndpoint.ChangeLanguage.rawValue)
+  // //elDebugPrint("Parameters:%@",parameters)
+  // //elDebugPrint("API URL:%@",ElGrocerApiEndpoint.ChangeLanguage.rawValue)
   
   NetworkCall.put(ElGrocerApiEndpoint.ChangeLanguage.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
-  // print(response)
+  //elDebugPrint(response)
   completionHandler(true, response as? NSDictionary)
   
   }) { (operation  , error: Error) -> Void in
-  // print(error.localizedDescription)
+  //elDebugPrint(error.localizedDescription)
   completionHandler(false, nil)
   }
   }
@@ -2911,9 +2911,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   for product in productsArray {
   
-  // // print("ProductId Before Cleaning:%@",product.dbID)
+  // //elDebugPrint("ProductId Before Cleaning:%@",product.dbID)
   let productId = Product.getCleanProductId(fromId:product.dbID)
-  // // print("ProductId After Cleaning:%d",productId)
+  // //elDebugPrint("ProductId After Cleaning:%d",productId)
   
   let productDict = [
   "product_id" : productId,
@@ -2967,7 +2967,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
     parameters["delivery_time"] = time as AnyObject
     NetworkCall.post(ElGrocerApiEndpoint.BasketProductUpdate.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
@@ -3014,12 +3014,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       }
       
       
-  debugPrint("Parameters:%@","fetchBasketFromServerWithGrocery")
-  debugPrint("Parameters:%@",parameters)
+  elDebugPrint("Parameters:%@","fetchBasketFromServerWithGrocery")
+  elDebugPrint("Parameters:%@",parameters)
 
     NetworkCall.basketFetchOperation = NetworkCall.get(ElGrocerApiEndpoint.getUserBasket.rawValue, parameters: parameters, progress: { (progress) in
 
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
@@ -3050,9 +3050,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["retailer_id"] = groceryId
     parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])
   
-  // // print("Parameters:%@",parameters)
+  // //elDebugPrint("Parameters:%@",parameters)
   
-  // // print("URL Str:%@",ElGrocerApiEndpoint.BasketProductUpdate.rawValue)
+  // //elDebugPrint("URL Str:%@",ElGrocerApiEndpoint.BasketProductUpdate.rawValue)
   
   NetworkCall.delete(ElGrocerApiEndpoint.BasketProductDelete.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
@@ -3084,7 +3084,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   ]
   
   NetworkCall.put(ElGrocerApiEndpoint.DeviceRegister.rawValue, parameters: params, success: { (operation  , response: Any!) -> Void in
-  // print(response)
+  //elDebugPrint(response)
   completionHandler(true, response as? NSDictionary)
   
   }) { (operation  , error: Error!) -> Void in
@@ -3115,12 +3115,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["product_id"] = productId
   }
   
-  // // print("Product Replacement Parameters:%@",parameters)
+  // //elDebugPrint("Product Replacement Parameters:%@",parameters)
   
-  // // print("Substitution Search URL Str:%@",ElGrocerApiEndpoint.SubstitutionSearch.rawValue)
+  // //elDebugPrint("Substitution Search URL Str:%@",ElGrocerApiEndpoint.SubstitutionSearch.rawValue)
   
     NetworkCall.productsSearchOperation = NetworkCall.post(ElGrocerApiEndpoint.SubstitutionSearch.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, response as? NSDictionary)
@@ -3153,12 +3153,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["product_id"] = productId
   }
   
-  // // print("Product Replacement Parameters:%@",parameters)
+  // //elDebugPrint("Product Replacement Parameters:%@",parameters)
   
-  // // print("Substitution Search URL Str:%@",ElGrocerApiEndpoint.SubstitutionSearch.rawValue)
+  // //elDebugPrint("Substitution Search URL Str:%@",ElGrocerApiEndpoint.SubstitutionSearch.rawValue)
   
     NetworkCall.productsSearchOperation = NetworkCall.post(ElGrocerApiEndpoint.SubstitutionSearch.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, response as? NSDictionary)
@@ -3198,12 +3198,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   parameters["is_food"] =  "true"
   
-  // // print("Product Replacement Parameters:%@",parameters)
+  // //elDebugPrint("Product Replacement Parameters:%@",parameters)
   
-  // // print("Substitution Search URL Str:%@",ElGrocerApiEndpoint.SubstitutionSearch.rawValue)
+  // //elDebugPrint("Substitution Search URL Str:%@",ElGrocerApiEndpoint.SubstitutionSearch.rawValue)
   
     NetworkCall.productsSearchOperation = NetworkCall.post(ElGrocerApiEndpoint.SubstitutionSearch.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     },success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, response as? NSDictionary)
@@ -3235,11 +3235,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["product_id"] = productId
   }
   
-  // // print("Product Replacement Parameters:%@",parameters)
-  // // print("Substitution Search URL Str:%@",ElGrocerApiEndpoint.SubstitutionSearch.rawValue)
+  // //elDebugPrint("Product Replacement Parameters:%@",parameters)
+  // //elDebugPrint("Substitution Search URL Str:%@",ElGrocerApiEndpoint.SubstitutionSearch.rawValue)
   
     NetworkCall.productsSearchOperation = NetworkCall.post(ElGrocerApiEndpoint.SubstitutionSearch.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, response as? NSDictionary)
@@ -3257,7 +3257,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
         var parameters = [String : AnyObject]()
         parameters["id"] = grocerID as AnyObject
-        // print("Top Selling API Patameters:%@",parameters)
+        //elDebugPrint("Top Selling API Patameters:%@",parameters)
         let urlStr = ElGrocerApiEndpoint.getRetailerDetail.rawValue
         if lat.count > 0 && lat != "-1" {
             parameters["latitude"] = lat as AnyObject
@@ -3267,7 +3267,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         
         NetworkCall.get(urlStr, parameters: parameters , progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response: Any) -> Void in
             
             guard let response = response as? NSDictionary else {
@@ -3294,18 +3294,18 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   setAccessToken()
   
-  // print("Top Selling API Patameters:%@",parameters)
+  //elDebugPrint("Top Selling API Patameters:%@",parameters)
   
   var urlStr = ElGrocerApiEndpoint.PriviouslyPurchased.rawValue
         //sab new
         if isTopProductSearch{
             urlStr = ElGrocerApiEndpoint.TopProducts.rawValue
         }
-  // // print("Top Selling API URL Str:%@",urlStr)
+  // //elDebugPrint("Top Selling API URL Str:%@",urlStr)
     
   
     NetworkCall.get(urlStr, parameters: parameters,progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
@@ -3328,13 +3328,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
         setAccessToken()
         
-        // print("Top Selling API Patameters:%@",parameters)
+        //elDebugPrint("Top Selling API Patameters:%@",parameters)
         
         let urlStr = ElGrocerApiEndpoint.ScreenProducts.rawValue
-        // // print("Top Selling API URL Str:%@",urlStr)
+        // //elDebugPrint("Top Selling API URL Str:%@",urlStr)
         
         NetworkCall.get(urlStr, parameters: parameters,progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response: Any) -> Void in
             
             guard let response = response as? NSDictionary else {
@@ -3359,13 +3359,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   setAccessToken()
   
-  // // print("Featured API Patameters:%@",parameters)
+  // //elDebugPrint("Featured API Patameters:%@",parameters)
   
   let urlStr = ElGrocerApiEndpoint.Featured.rawValue
-  // // print("Featured API URL Str:%@",urlStr)
+  // //elDebugPrint("Featured API URL Str:%@",urlStr)
   
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
@@ -3390,11 +3390,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   setAccessToken()
   
-  // // print("Get Order API Patameters:%@",parameters)
-  // // print("Order API URL Str:%@",ElGrocerApiEndpoint.Order.rawValue)
+  // //elDebugPrint("Get Order API Patameters:%@",parameters)
+  // //elDebugPrint("Order API URL Str:%@",ElGrocerApiEndpoint.Order.rawValue)
   
     NetworkCall.get(ElGrocerApiEndpoint.Order.rawValue, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let ordersDict = ((response as? NSDictionary)?["data"] as? NSDictionary)?["orders"] as? [NSDictionary] else {
@@ -3422,9 +3422,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     
     let newParm = parameters
     newParm.setValue(true, forKey: "is_show")
-    // // print("Banners API URL Str:%@",urlStr)
+    // //elDebugPrint("Banners API URL Str:%@",urlStr)
     NetworkCall.get(urlStr, parameters: newParm, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
         guard let response = response as? NSDictionary else {
             completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -3462,7 +3462,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         newParm.setValue(true , forKey: "date_filter")
         NetworkCall.get(urlStr, parameters: newParm, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response: Any) -> Void in
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -3494,13 +3494,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   setAccessToken()
   
-  // // print("Banner Products API Patameters:%@",parameters)
+  // //elDebugPrint("Banner Products API Patameters:%@",parameters)
   
   let urlStr = ElGrocerApiEndpoint.GroceryProducts.rawValue
-  // // print("Banner Products API URL Str:%@",urlStr)
-    print("test: \(parameters)")
+  // //elDebugPrint("Banner Products API URL Str:%@",urlStr)
+   elDebugPrint("test: \(parameters)")
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
-        // debugPrint("Progress for API :  \(progress)")
+        // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
@@ -3526,9 +3526,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         setAccessToken()
         
         let urlStr = ElGrocerApiEndpoint.GetCreditCard.rawValue
-        // // print("URL Str:%@",urlStr)
+        // //elDebugPrint("URL Str:%@",urlStr)
         NetworkCall.get(urlStr, parameters: nil , progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -3561,9 +3561,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             map["trans_ref"] =  creditCard.transRef
        
         let urlStr = ElGrocerApiEndpoint.GetCreditCard.rawValue
-        // // print("URL Str:%@",urlStr)
+        // //elDebugPrint("URL Str:%@",urlStr)
         NetworkCall.post(urlStr, parameters: map , progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -3620,9 +3620,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
         
         let urlStr = ElGrocerApiEndpoint.agreeMent.rawValue
-        // // print("URL Str:%@",urlStr)
+        // //elDebugPrint("URL Str:%@",urlStr)
         NetworkCall.post(urlStr, parameters: map , progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -3653,7 +3653,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             parameters["shopper_id"] = userProfile?.dbID
         }
         NetworkCall.get(ElGrocerApiEndpoint.cAndcAvailability.rawValue, parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             
             guard let response = response as? NSDictionary else {
@@ -3681,7 +3681,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             parameters["shopper_id"] = userProfile?.dbID
         }
         NetworkCall.get(ElGrocerApiEndpoint.retailerscAndc.rawValue, parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             
             guard let response = response as? NSDictionary else {
@@ -3717,7 +3717,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             parameters["shopper_id"] = userProfile?.dbID
         }
         NetworkCall.get(ElGrocerApiEndpoint.retailerDetail.rawValue, parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             
             guard let response = response as? NSDictionary else {
@@ -4105,7 +4105,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
    
         // NetworkCall.mocPost(ElGrocerApiEndpoint.PlaceOrder.rawValue, parameters: parameters,
         NetworkCall.post(ElGrocerApiEndpoint.PlaceOrder.rawValue, parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response: Any) -> Void in
             
             guard let response = response as? NSDictionary else {
@@ -4134,7 +4134,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         parameters["limit"] = limmit
         parameters["offset"] = Offset
         NetworkCall.get(ElGrocerApiEndpoint.getPromoList.rawValue, parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response: Any) -> Void in
             
             guard let response = response as? NSDictionary else {
@@ -4190,7 +4190,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     func updateCollectorStatus(orderId : String , collector_status : String , shopper_id : String , collector_id : String , completionHandler: @escaping elgrocerCompletionHandler ) {
         
         setAccessToken()
-        // print(address.dbID)
+        //elDebugPrint(address.dbID)
         let parameters = [
             "order_id": orderId,
             "collector_status": collector_status,
@@ -4303,14 +4303,14 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
         setAccessToken()
         
-        // print("Top Selling API Patameters:%@",parameters)
+        //elDebugPrint("Top Selling API Patameters:%@",parameters)
         
         let urlStr = ElGrocerApiEndpoint.campaignProductsApi.rawValue
-        // // print("Top Selling API URL Str:%@",urlStr)
+        // //elDebugPrint("Top Selling API URL Str:%@",urlStr)
         
         
         NetworkCall.get(urlStr, parameters: parameters,progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response: Any) -> Void in
             
             guard let response = response as? NSDictionary else {
@@ -4355,13 +4355,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       func getPaymentMethods(_ parameters:NSDictionary, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
           
           setAccessToken()
-          // print("Top Selling API Patameters:%@",parameters)
+          //elDebugPrint("Top Selling API Patameters:%@",parameters)
           let urlStr = AdyenApiEndPoints.getPaymentMethods.rawValue
-          // // print("Top Selling API URL Str:%@",urlStr)
+          // //elDebugPrint("Top Selling API URL Str:%@",urlStr)
           
           
           NetworkCall.post(urlStr, parameters: parameters,progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {
@@ -4384,13 +4384,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       func makePayment(_ parameters:NSDictionary, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
           
           setAccessToken()
-          // print("Top Selling API Patameters:%@",parameters)
+          //elDebugPrint("Top Selling API Patameters:%@",parameters)
           let urlStr = AdyenApiEndPoints.makeInitialPayment.rawValue
-          // // print("Top Selling API URL Str:%@",urlStr)
+          // //elDebugPrint("Top Selling API URL Str:%@",urlStr)
           
           
           NetworkCall.post(urlStr, parameters: parameters,progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {
@@ -4412,13 +4412,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       func handlePaymentAction(_ parameters:NSDictionary, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
           
           setAccessToken()
-          // print("Top Selling API Patameters:%@",parameters)
+          //elDebugPrint("Top Selling API Patameters:%@",parameters)
           let urlStr = AdyenApiEndPoints.submitAdditionalPaymentDetails.rawValue
-          // // print("Top Selling API URL Str:%@",urlStr)
+          // //elDebugPrint("Top Selling API URL Str:%@",urlStr)
           
           
           NetworkCall.post(urlStr, parameters: parameters,progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {
@@ -4440,13 +4440,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       func deleteAdyenCreditCard(_ parameters:NSDictionary, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
           
           setAccessToken()
-          // print("Top Selling API Patameters:%@",parameters)
+          //elDebugPrint("Top Selling API Patameters:%@",parameters)
           let urlStr = AdyenApiEndPoints.deleteAdyenCreditCard.rawValue
-          // // print("Top Selling API URL Str:%@",urlStr)
+          // //elDebugPrint("Top Selling API URL Str:%@",urlStr)
           
           
           NetworkCall.post(urlStr, parameters: parameters,progress: { (progress) in
-              // debugPrint("Progress for API :  \(progress)")
+              // elDebugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {
@@ -4518,11 +4518,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   return
   }
   completionHandler(Either.success(response))
-  // // print(response)
+  // //elDebugPrint(response)
   //completionHandler(true, response as? NSDictionary)
   
   }) { (operation  , error: Error) -> Void in
-  // print(error.localizedDescription)
+  //elDebugPrint(error.localizedDescription)
     
   if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
@@ -4558,7 +4558,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         NetworkCall.post(finalURL, parameters: parameters, progress: { (progress) in
         }, success: { (operation, response: Any) in
 
-            debugPrint("apple pay response : \(response)")
+            elDebugPrint("apple pay response : \(response)")
             guard let response = response as? NSDictionary else {
             completionHandler(false, Either.failure(ElGrocerError.parsingError()))
             return

@@ -43,8 +43,8 @@ class CallObj {
     
     func startNetWorkLayerCall (_ layerCall : NetworkLayer ) {
         
-       // debugPrint("AF: URLString \(self.URLString)")
-       // debugPrint("AF: parameters \(String(describing: self.parameters))")
+       // elDebugPrint("AF: URLString \(self.URLString)")
+       // elDebugPrint("AF: parameters \(String(describing: self.parameters))")
         
         if self.type == .get {
             layerCall.get(self.URLString, parameters: self.parameters , progress: self.progress! , success: self.success, failure: self.failure)
@@ -223,19 +223,19 @@ class NetworkLayer {
                 
                 while !self.queue.isEmpty() {
                     if  let call : CallObj =  self.queue.dequeue() {
-                        //debugPrint("dequeue call\(call.URLString) && \(call.parameters ?? "")")
+                        //elDebugPrint("dequeue call\(call.URLString) && \(call.parameters ?? "")")
                        call.startNetWorkLayerCall(self)
                     }
                 }
                 ElGrocerUtility.sharedInstance.isTokenCalling = false
             }
         }) { (task, error) in
-           // debugPrint(error)
+           // elDebugPrint(error)
           //  UIApplication.shared.isNetworkActivityIndicatorVisible = false
             ElGrocerUtility.sharedInstance.isTokenCalling = false
             if let finalerror  =  error as? NSError {
                 if let response = finalerror.userInfo[AFNetworkingOperationFailingURLResponseErrorKeyCustom] as? HTTPURLResponse {
-                    print(response.statusCode)
+                   elDebugPrint(response.statusCode)
                     if response.statusCode == 404 {
                         let fakeDict = ["access_token" : "fakeToken" , "created_at" : Date().timeIntervalSinceNow , "expires_in" : 300 , "scope" : "public" , "token_type" : "Bearer"] as [String : Any]
                         ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: fakeDict)

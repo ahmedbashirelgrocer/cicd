@@ -21,12 +21,12 @@ class CustomRatingViewDelegateHandler: UIView {
 extension CustomRatingViewDelegateHandler: FloatRatingViewDelegate {
 
     func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
-        print(String(format: "%.2f", ratingView.rating))
+       elDebugPrint(String(format: "%.2f", ratingView.rating))
         self.rating = rating
         self.delegate.didUpdateRating(rating: rating)
     }
 
     func floatRatingView(_ ratingView: FloatRatingView, isUpdating rating: Float){
-        print(String(format: "%.2f", ratingView.rating))
+       elDebugPrint(String(format: "%.2f", ratingView.rating))
     }
 }

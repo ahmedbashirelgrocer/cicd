@@ -309,7 +309,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
                 ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_selected_wallet")
             }else{
                 
-                print("Empty Wallet.")
+               elDebugPrint("Empty Wallet.")
                 
                 let notification = ElGrocerAlertView.createAlert(localizedString("wallet_navigation_bar_title", comment: ""),description: localizedString("empty_wallet", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
                 notification.showPopUp()
@@ -364,7 +364,7 @@ extension OrderPaymentSelectionViewController: WalletPopUpViewProtocol {
     
     func walletDidPayTapped(_ walletPopUp:WalletPopUp, paidAmount:String) {
         
-        print("Paid Amount from Wallet:%@",paidAmount)
+       elDebugPrint("Paid Amount from Wallet:%@",paidAmount)
         
         walletPaidAmount = Double(paidAmount)!
         if (Double(paidAmount) < priceSum) {

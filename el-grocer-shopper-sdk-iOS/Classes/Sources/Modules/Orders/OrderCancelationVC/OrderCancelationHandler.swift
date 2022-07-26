@@ -37,10 +37,10 @@ class OrderCancelationHandler : NSObject {
             ElGrocerApi.sharedInstance.orderCancelationReasons( completionHandler: { (result) -> Void in
                 switch result {
                 case .success(let responseDict):
-                    print(responseDict)
+                   elDebugPrint(responseDict)
                     completion(responseDict)
                 case .failure(let error):
-                    print(error.localizedMessage)
+                   elDebugPrint(error.localizedMessage)
                     completion(["":""])
                 }
             })

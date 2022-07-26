@@ -101,7 +101,7 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
     }
     
     override func backButtonClick() {
-        debugPrint("")
+        elDebugPrint("")
         self.popViewController(animated: true)
     }
     @objc
@@ -176,6 +176,6 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
 }
 extension ElgrocerGenericUIParentNavViewController : MyBasketViewProtocol {
     func shoppingBasketViewCheckOutTapped(_ isGroceryBasket: Bool, grocery: Grocery?, notAvailableItems: [Int]?, availableProductsPrices: NSDictionary?) {
-        debugPrint("data")
+        elDebugPrint("data")
     }
 }
