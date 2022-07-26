@@ -707,7 +707,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                 }
             }
             
-            ElGrocerApi.sharedInstance.editOrder(shoppingItemsA , inGrocery: grocery , atAddress: address , withNote: note , withPaymentType: paymentOption , walletPaidAmount: 0.0 , riderFee: riderFee , deliveryFee: deliveryFee , andWithDeliverySlot: slot , orderID: orderID , "", cardID, finalAmountStr , selectedCar: selectedCar, selectedCollector: selectedCollector, pickUpLocation: pickUpLocation, selectedPrefernce: selectedPreference,isSameCard: isSameCard) { (result) in
+            ElGrocerApi.sharedInstance.editOrder(shoppingItemsA , inGrocery: grocery , atAddress: address , withNote: note , withPaymentType: paymentOption , walletPaidAmount: 0.0 , riderFee: riderFee , deliveryFee: deliveryFee , andWithDeliverySlot: slot , orderID: orderID , "", cardID, finalAmountStr , selectedCar: selectedCar, selectedCollector: selectedCollector, pickUpLocation: pickUpLocation, selectedPrefernce: selectedPreference,isSameCard: isSameCard, foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false) { (result) in
                 self.finalHandlerResult(result: result , finalOrderItems: shoppingItemsA , activeGrocery: grocery , finalProducts: products , orderID: nil , finalOrderAmount: finalAmountDouble )
             }
             
@@ -719,7 +719,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             }
                   
             //TODO: update this
-            ElGrocerApi.sharedInstance.placeOrder(shoppingItemsA , inGrocery: grocery , atAddress: address , withNote: self.instructionText , withPaymentType: paymentOption , walletPaidAmount: 0 , riderFee: riderFee, deliveryFee: deliveryFee , andWithDeliverySlot: slot , "", cardID , ammount: finalAmountStr, selectedCar: selectedCar , selectedCollector: selectedCollector , pickUpLocation: pickUpLocation , selectedPrefernce: selectedPreference) { (result) in
+            ElGrocerApi.sharedInstance.placeOrder(shoppingItemsA , inGrocery: grocery , atAddress: address , withNote: self.instructionText , withPaymentType: paymentOption , walletPaidAmount: 0 , riderFee: riderFee, deliveryFee: deliveryFee , andWithDeliverySlot: slot , "", cardID , ammount: finalAmountStr, selectedCar: selectedCar , selectedCollector: selectedCollector , pickUpLocation: pickUpLocation , selectedPrefernce: selectedPreference, foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false) { (result) in
                 self.finalHandlerResult(result: result , finalOrderItems: shoppingItemsA , activeGrocery: grocery , finalProducts: products , orderID: nil , finalOrderAmount: finalAmountDouble )
             }
      
@@ -1335,7 +1335,12 @@ extension MyBasketPlaceOrderVC {
         lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
         
         self.lblTotalPriceVATValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalPrice)
-        self.lblServiceFeeValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: serviceFee)
+        self.smileUser?.foodSubscriptionStatus = true
+        if self.smileUser?.foodSubscriptionStatus ?? false {
+            self.lblServiceFeeValue.text = localizedString("txt_free", comment: "")
+        }else {
+            self.lblServiceFeeValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: serviceFee)
+        }
         self.lblGrandTotalValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
         self.lblFinalAmountValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
         
