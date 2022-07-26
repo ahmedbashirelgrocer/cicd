@@ -12,6 +12,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - DataHandler
     var homeDataHandler : HomePageData = HomePageData.shared
+    private lazy var orderStatus : OrderStatusMedule = {
+        return OrderStatusMedule()
+    }()
     
         // MARK: - CustomViews
     lazy var locationHeader : ElgrocerlocationView = {
@@ -24,6 +27,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         return searchHeader!
     }()
     private (set) var header : SegmentHeader? = nil
+   
     
         // MARK: - Properties
     var groceryArray: [Grocery] = []
@@ -34,8 +38,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var controllerTitle: String = ""
     var selectStoreType : StoreType? = nil
     var separatorCount = 2
+    private var openOrders : [NSDictionary] = []
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var currentOrderCollectionView: UICollectionView!
+    @IBOutlet var currentOrderCollectionViewHeightConstraint: NSLayoutConstraint!
     
     
         // MARK: - LifeCycle
@@ -106,6 +113,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
+        let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
+        self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
+        
     }
     
     private func appTabBarCustomization() {
@@ -115,6 +125,13 @@ class SmileSdkHomeVC: BasketBasicViewController {
     private func showDataLoaderIfRequiredForHomeHandler() {
         if self.homeDataHandler.isDataLoading {
             let _ = SpinnerView.showSpinnerViewInView(self.view)
+        }
+        if ElGrocerUtility.sharedInstance.appConfigData == nil {
+            ElGrocerUtility.sharedInstance.delay(5) {
+                self.getOpenOrders()
+            }
+        }else{
+            self.getOpenOrders()
         }
     }
     
@@ -200,6 +217,36 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 }
             }
         }
+    }
+    
+    func getOpenOrders() {
+        
+        orderStatus.orderWorkItem  = DispatchWorkItem {
+            self.orderStatus.getOpenOrders { (data) in
+                switch data {
+                    case .success(let response):
+                        if let dataA = response["data"] as? [NSDictionary]{
+                            self.openOrders = dataA
+                            DispatchQueue.main.async {
+                                self.view.layoutIfNeeded()
+                                self.view.setNeedsLayout()
+                                if self.openOrders.count > 0 {
+                                    self.currentOrderCollectionViewHeightConstraint.constant = KCurrentOrderCollectionViewHeight
+                                }else{
+                                    self.currentOrderCollectionViewHeightConstraint.constant = 0
+                                }
+                                self.currentOrderCollectionView.reloadDataOnMainThread()
+                                
+                                    // self.reloadAllData()
+                            }
+                            
+                        }
+                    case .failure(let error):
+                        debugPrint(error.localizedMessage)
+                }            }
+        }
+        DispatchQueue.global(qos: .background).async(execute: orderStatus.orderWorkItem!)
+        
     }
     
         // MARK: - ValidationSupport
@@ -770,3 +817,86 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
     
 }
 
+    //MARK: Improvement : make signle view to handle current order on delivery and C&C mode
+extension SmileSdkHomeVC : UICollectionViewDelegate , UICollectionViewDataSource{
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return openOrders.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CurrentOrderCollectionCell", for: indexPath) as! CurrentOrderCollectionCell
+        cell.ordersPageControl.numberOfPages = collectionView.numberOfItems(inSection: 0)
+        if indexPath.row < openOrders.count {
+            cell.loadOrderStatusLabel(status: indexPath.row  , orderDict: openOrders[indexPath.row])
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let order = openOrders[indexPath.row]
+        let key = DynamicOrderStatus.getKeyFrom(status_id: order["status_id"] as? NSNumber ?? -1000, service_id: order["retailer_service_id"]  as? NSNumber ?? -1000 , delivery_type: order["delivery_type_id"]  as? NSNumber ?? -1000)
+        if let orderNumber = order["id"] as? NSNumber {
+            let statusId = order["status_id"] as? NSNumber ?? -1000
+            ElGrocerEventsLogger.OrderStatusCardClick(orderId: orderNumber.stringValue, statusID: statusId.stringValue)
+        }
+        let status_id : DynamicOrderStatus? = ElGrocerUtility.sharedInstance.appConfigData.orderStatus[key]
+        if status_id?.getStatusKeyLogic().status_id.intValue == OrderStatus.inEdit.rawValue {
+            let navigator = OrderNavigationHandler.init(orderId: order["id"] as! NSNumber, topVc: self, processType: .editWithOutPopUp)
+            navigator.startEditNavigationProcess { (isNavigationDone) in
+                debugPrint("Navigation Completed")
+            }
+            return
+        }
+        
+        let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
+        orderConfirmationController.orderDict = order
+        orderConfirmationController.isNeedToRemoveActiveBasket = false
+        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.hideSeparationLine()
+        navigationController.viewControllers = [orderConfirmationController]
+        orderConfirmationController.modalPresentationStyle = .fullScreen
+        navigationController.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(navigationController, animated: true, completion: {  })
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let currentCell = cell as? CurrentOrderCollectionCell {
+            currentCell.ordersPageControl.currentPage = indexPath.row
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard indexPath.row < openOrders.count else {return}
+        let order = openOrders[indexPath.row]
+        if let orderNumber = order["id"] as? NSNumber {
+            let statusID = order["status_id"] as? NSNumber ?? -1000
+            ElGrocerEventsLogger.trackOrderStatusCardView(orderId: orderNumber.stringValue, statusID: statusID.stringValue)
+        }
+    }
+    
+}
+extension SmileSdkHomeVC : UICollectionViewDelegateFlowLayout{
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        
+        
+        var cellSize = CGSize(width: collectionView.frame.size.width , height: collectionView.frame.height)
+        
+        
+        if cellSize.width > collectionView.frame.width {
+            cellSize.width = collectionView.frame.width
+        }
+        
+        if cellSize.height > collectionView.frame.height {
+            cellSize.height = collectionView.frame.height
+        }
+        debugPrint("cell Size is : \(cellSize)")
+        return cellSize
+        
+            //  return CGSize(width: 320, height: 78)
+        
+    }
+    
+}
