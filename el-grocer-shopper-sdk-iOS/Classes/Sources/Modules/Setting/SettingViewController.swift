@@ -387,7 +387,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             if section == 0 {
                 return 1
             } else if section == 1 {
-                return accountSectionCells - 2
+                return accountSectionCells - 3
                 // -1 for recipes
                 // -1 for change password
             }
@@ -448,7 +448,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
                 
-                let row = indexPath.row >= 2 ? (indexPath.row + 1) : indexPath.row // Skip recipie cell
+                let row = (indexPath.row >= 2 || indexPath.row >= 3) ? (indexPath.row + 2) : indexPath.row // Skip recipie cell
                 
                 if  row < titles.count {
                     let title = titles[row]
@@ -605,9 +605,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 0: self.showLiveChat()
                 case 1: self.showOrderVC()
                 //case 2: self.goToSavedRecipesVC()
-                case 2: self.goToSavedCarsVC()
-                case 3: self.locationHeader.changeLocation()
-                case 4: self.goToSavedCardsVC()
+//                case 2: self.goToSavedCarsVC()
+                case 2: self.locationHeader.changeLocation()
+                case 3: self.goToSavedCardsVC()
                 default: break
                 }
             case 2:
