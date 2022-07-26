@@ -214,14 +214,17 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     @objc func editPressed(sender : UIButton){
         if UserDefaults.isUserLoggedIn(){
             let editProfileVC = ElGrocerViewControllers.editProfileViewController()
-            let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            editProfileVC.userProfile = userProfile
-            self.navigationController?.pushViewController(editProfileVC, animated: true)
-            return
-        
+            editProfileVC.userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [editProfileVC]
+            navigationController.modalPresentationStyle = .fullScreen
+            //(navigationController.navigationBar as? ElGrocerNavigationBar)?.backButton.addTarget(editProfileVC, action: #selector(editProfileVC.backButtonClick), for: <#T##UIControl.Event#>)
+            self.navigationController?.present(navigationController, animated: true, completion: nil)
+            //self.navigationController?.pushViewController(editProfileVC, animated: true)
         }
     }
-    
     //MARK: TableView Data Source
     
     func registerTableViewCell() {

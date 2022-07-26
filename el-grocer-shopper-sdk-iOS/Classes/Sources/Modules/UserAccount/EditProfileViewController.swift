@@ -102,8 +102,8 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     
     
     override func backButtonClick() {
-        
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
+        //self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: Actions
