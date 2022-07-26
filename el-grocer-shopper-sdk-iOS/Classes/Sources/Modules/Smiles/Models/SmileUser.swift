@@ -45,11 +45,13 @@ struct SmileUser: Codable {
     let name: String?
     let availablePoints: Int?
     let isBlocked: Bool
+    var foodSubscriptionStatus: Bool?
     
     enum CodingKeys: String, CodingKey {
         case name = "name"
         case availablePoints = "available_points"
         case isBlocked = "is_blocked"
+        case foodSubscriptionStatus = "food_subscription_status"
     }
 
 }

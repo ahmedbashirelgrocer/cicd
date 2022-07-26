@@ -1883,7 +1883,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   
   
-      func editOrder (_ basketItems:[ShoppingBasketItem], inGrocery grocery:Grocery, atAddress address:DeliveryAddress, withNote note: String?, withPaymentType payment:PaymentOption,walletPaidAmount:Double,riderFee:Double, deliveryFee:Double, andWithDeliverySlot deliverySlot:DeliverySlot? , orderID : NSNumber? = nil , _ ref : String? , _ cardID : String? , _ ammount : String? , selectedCar : Car? , selectedCollector : collector? , pickUpLocation : PickUpLocation? , selectedPrefernce: Int?,isSameCard: Bool, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+      func editOrder (_ basketItems:[ShoppingBasketItem], inGrocery grocery:Grocery, atAddress address:DeliveryAddress, withNote note: String?, withPaymentType payment:PaymentOption,walletPaidAmount:Double,riderFee:Double, deliveryFee:Double, andWithDeliverySlot deliverySlot:DeliverySlot? , orderID : NSNumber? = nil , _ ref : String? , _ cardID : String? , _ ammount : String? , selectedCar : Car? , selectedCollector : collector? , pickUpLocation : PickUpLocation? , selectedPrefernce: Int?,isSameCard: Bool,foodSubscriptionStatus: Bool, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()
   
@@ -1902,6 +1902,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["rider_fee"] = riderFee
   parameters["vat"] = grocery.vat
   parameters["device_type"] = 1
+  parameters["food_subscription_status"] = foodSubscriptionStatus
     if let merref = ref {
         if merref.count > 0 {
             parameters["merchant_reference"] = merref
@@ -4020,7 +4021,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
    
     
     
-      func placeOrder(_ basketItems:[ShoppingBasketItem], inGrocery grocery: Grocery, atAddress address: DeliveryAddress, withNote note: String?, withPaymentType payment: PaymentOption, walletPaidAmount: Double, riderFee: Double, deliveryFee: Double,  andWithDeliverySlot deliverySlot: DeliverySlot?, _ ref: String?, _ cardID: String?, ammount: String?, selectedCar: Car?, selectedCollector: collector?, pickUpLocation: PickUpLocation?, selectedPrefernce: Int?, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+      func placeOrder(_ basketItems:[ShoppingBasketItem], inGrocery grocery: Grocery, atAddress address: DeliveryAddress, withNote note: String?, withPaymentType payment: PaymentOption, walletPaidAmount: Double, riderFee: Double, deliveryFee: Double,  andWithDeliverySlot deliverySlot: DeliverySlot?, _ ref: String?, _ cardID: String?, ammount: String?, selectedCar: Car?, selectedCollector: collector?, pickUpLocation: PickUpLocation?, selectedPrefernce: Int?,foodSubscriptionStatus: Bool, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         
         setAccessToken()
         
@@ -4038,6 +4039,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         parameters["rider_fee"] = riderFee
         parameters["vat"] = grocery.vat
         parameters["device_type"] = 1
+          parameters["food_subscription_status"] = foodSubscriptionStatus
         if let merref = ref {
             if merref.count > 0 {
                 parameters["merchant_reference"] = merref

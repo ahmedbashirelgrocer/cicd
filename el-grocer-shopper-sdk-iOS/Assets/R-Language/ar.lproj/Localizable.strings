@@ -1989,3 +1989,5 @@
 "we_are_sorry_to_see_you_go_title" = "نأسف على مغادرتك ، وسيتم حذف حسابك في غضون ٤٨ ساعة.";
 "we_are_sorry_to_see_you_go_descr" = "ستتم إعادة توجيهك إلى صفحة تسجيل الدخول";
 "we_are_sorry_to_see_you_go_btn_title" = "المتابعة";
+//MARK: mybasket place order
+"txt_free" = "Free";
