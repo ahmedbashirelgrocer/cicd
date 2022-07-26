@@ -17,7 +17,11 @@ class MixpanelManager {
         
         Mixpanel.initialize(token: MIXPANEL_TOKEN)
         //TODO: set this to false when release
-        Mixpanel.mainInstance().loggingEnabled = true
+        loggingEnabled(ElGrocer.isLoggingEnabled)
+    }
+    
+    class func loggingEnabled(_ value: Bool) {
+        Mixpanel.mainInstance().loggingEnabled = ElGrocer.isLoggingEnabled
     }
     
     class func trackEvent(_ eventName : String , params :  [String : Any]? = nil) {

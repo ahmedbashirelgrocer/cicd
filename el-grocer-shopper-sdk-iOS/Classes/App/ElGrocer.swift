@@ -9,6 +9,7 @@ import Foundation
 
 
 import UIKit
+import FirebaseCore
 
 
 public final class ElGrocer {
@@ -16,7 +17,9 @@ public final class ElGrocer {
 
     static var isSDKLoaded = false
     
-    public static var isLoggingEnabled = true
+    public static var isLoggingEnabled = true { didSet {
+        MixpanelManager.loggingEnabled(ElGrocer.isLoggingEnabled)
+    } }
     
     public static func startEngine(with launchOptions: LaunchOptions? = nil) {
         defer {
