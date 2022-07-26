@@ -1655,6 +1655,9 @@ extension MainCategoriesViewController {
     func checkForRecipeCategory() {
         
         self.isRecipeAvailable = false
+        if SDKManager.isSmileSDK {
+            return
+        }
         if let item = self.recipeListCall {
             item.cancel()
         }
