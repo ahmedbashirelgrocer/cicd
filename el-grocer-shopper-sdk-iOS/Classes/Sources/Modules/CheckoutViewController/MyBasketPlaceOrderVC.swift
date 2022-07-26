@@ -1335,7 +1335,6 @@ extension MyBasketPlaceOrderVC {
         lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
         
         self.lblTotalPriceVATValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalPrice)
-        self.smileUser?.foodSubscriptionStatus = true
         if self.smileUser?.foodSubscriptionStatus ?? false {
             self.lblServiceFeeValue.text = localizedString("txt_free", comment: "")
         }else {
