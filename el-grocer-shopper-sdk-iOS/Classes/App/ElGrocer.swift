@@ -17,10 +17,6 @@ public final class ElGrocer {
 
     static var isSDKLoaded = false
     
-    public static var isLoggingEnabled = false { didSet {
-        MixpanelManager.loggingEnabled(ElGrocer.isLoggingEnabled)
-    } }
-    
     public static func startEngine(with launchOptions: LaunchOptions? = nil) {
         defer {
             ElGrocer.isSDKLoaded = true
@@ -93,6 +89,9 @@ public struct LaunchOptions  {
     var deepLinkPayload: String?
     var language: String?
     var isSmileSDK: Bool
+    var isLoggingEnabled = false {
+        didSet { MixpanelManager.loggingEnabled(isLoggingEnabled) }
+    }
     
     public init(accountNumber: String?,
                 latitude: Double?,
@@ -102,7 +101,9 @@ public struct LaunchOptions  {
                 email: String? = nil,
                 pushNotificationPayload: [String: AnyHashable]? = nil,
                 deepLinkPayload: String? = nil,
-                language: String? = nil, isSmileSDK: Bool) {
+                language: String? = nil,
+                isSmileSDK: Bool,
+                isLoggingEnabled: Bool = false) {
         
         self.accountNumber = accountNumber
         self.latitude = latitude
@@ -114,6 +115,7 @@ public struct LaunchOptions  {
         self.deepLinkPayload = deepLinkPayload
         self.language = language
         self.isSmileSDK = isSmileSDK
+        self.isLoggingEnabled = isLoggingEnabled
         
     }
 }
@@ -125,8 +127,8 @@ func elDebugPrint(_ items: Any...,
                   column: Int = #column,
                   function: String = #function,
                   file: String = #file) {
-#if DEBUG
-    if ElGrocer.isLoggingEnabled {
+    #if DEBUG
+    if SDKManager.shared.launchOptions?.isLoggingEnabled == true {
         var index = items.startIndex
         let end = items.endIndex
         // Swift.debugPrint("==> File: \(file), Function: \(function) <==")
@@ -137,5 +139,5 @@ func elDebugPrint(_ items: Any...,
             index += 1
         } while index < end
     }
-#endif
+    #endif
 }

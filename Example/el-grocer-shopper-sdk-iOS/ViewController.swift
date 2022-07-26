@@ -90,10 +90,11 @@ class ViewController: UIViewController {
             email: txtEmail.text,
             pushNotificationPayload: pushData,
             deepLinkPayload:  txtDLPayload.text,
-            language: txtLanguage.text, isSmileSDK: true
+            language: txtLanguage.text,
+            isSmileSDK: true,
+            isLoggingEnabled: true
         )
         ElGrocer.startEngine(with: launchOptions)
-        ElGrocer.isLoggingEnabled = true
     }
     
     func updateLocation(_ location: CLLocation!) {
