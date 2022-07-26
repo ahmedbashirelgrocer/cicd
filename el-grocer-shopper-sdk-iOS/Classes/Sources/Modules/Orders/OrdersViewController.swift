@@ -14,7 +14,13 @@ import UIKit
 class OrdersViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, OrderHistoryCellProtocol , NavigationBarProtocol {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet var switchMode: ElgrocerSwitchAppView!
+    @IBOutlet var switchMode: ElgrocerSwitchAppView! {
+        didSet {
+            if SDKManager.isSmileSDK {
+                switchMode.visibility = .gone
+            }
+        }
+    }
     
     var emptyView:EmptyView?
     var filterOrders = [Order]()
