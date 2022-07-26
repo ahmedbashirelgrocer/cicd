@@ -309,7 +309,7 @@ class HomeCell: UITableViewCell {
                 self.saveResponseData(response, andWithHomeFeed: homeObj)
                 
             case .failure(let error):
-                print("Error While Calling Top Selling Pagination:%@",error.localizedMessage)
+               elDebugPrint("Error While Calling Top Selling Pagination:%@",error.localizedMessage)
             }
         }
     }
@@ -328,7 +328,7 @@ class HomeCell: UITableViewCell {
             let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
             context.performAndWait({ () -> Void in
                 let newProducts = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-                print("New Products Count:%d",newProducts.count)
+               elDebugPrint("New Products Count:%d",newProducts.count)
                 homeObj.products += newProducts
             })
             
@@ -504,13 +504,13 @@ extension HomeCell: UICollectionViewDelegate {
                         
                         let cancel = PMAlertAction(title: localizedString("less_over_18", comment: ""), style: .cancel, action: { () -> Void in
                             UserDefaults.setOver18(false)
-                            print("Capture action Cancel")
+                           elDebugPrint("Capture action Cancel")
                         })
                         cancel.setTitleColor(.redInfoColor(), for: UIControl.State())
                         alertVC.addAction(cancel)
                         
                         alertVC.addAction(PMAlertAction(title: localizedString("promo_code_alert_no", comment: ""), style: .cancel, action: { () -> Void in
-                            print("Capture action Cancel")
+                           elDebugPrint("Capture action Cancel")
                         }))
                         
 
@@ -594,6 +594,6 @@ extension HomeCell: ProductCellProtocol {
     }
     
     func productCellOnFavouriteClick(_ productCell: ProductCell, product: Product) {
-        print("Product Favourite Click Handler")
+       elDebugPrint("Product Favourite Click Handler")
     }
 }

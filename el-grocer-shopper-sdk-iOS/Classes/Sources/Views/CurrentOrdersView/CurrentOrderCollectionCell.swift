@@ -187,7 +187,7 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
                     self.spinnerView.animationColor = .elGrocerYellowColor()
                     self.spinnerView.animate()
                 default:
-                    print("default")
+                   elDebugPrint("default")
                     self.lblOrderType.isHidden = false
                     self.lblDate.isHidden = false
                     self.spinnerView.isHidden = false

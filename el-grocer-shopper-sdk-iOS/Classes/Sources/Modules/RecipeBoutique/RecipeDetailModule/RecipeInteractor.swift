@@ -57,7 +57,7 @@ class RecipeInteractor: PresenterToInteractorRecipeProtocol {
 extension RecipeInteractor : RecipeDataHandlerDelegate {
     
     func recipeDetial(_ recipe: Recipe) {
-        print("interactor")
+       elDebugPrint("interactor")
         self.presenter.fetchResponceSuccess(recipe: recipe)
         SpinnerView.hideSpinnerView()
     }

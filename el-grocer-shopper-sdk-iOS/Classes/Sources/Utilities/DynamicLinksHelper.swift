@@ -65,7 +65,7 @@ class DynamicLinksHelper {
     
     
     class func handleIncomingDynamicLinksWithUrl(_ dynamicLinkURL:String){
-        print("Dynamic Link URL:%@",dynamicLinkURL)
+       elDebugPrint("Dynamic Link URL:%@",dynamicLinkURL)
         
         
         var delayTime = 1.0
@@ -222,7 +222,7 @@ class DynamicLinksHelper {
             ElGrocerUtility.sharedInstance.deepLinkURL = ""
         }
         
-        debugPrint("dynamicLinkURL:\(dynamicLinkURL)")
+        elDebugPrint("dynamicLinkURL:\(dynamicLinkURL)")
         
         
         /*
@@ -256,36 +256,36 @@ class DynamicLinksHelper {
         self.productId = ""
         
         let serviceID = dUrl?.getQueryItemValueForKey("serviceID")
-        // print("tmpParent  is:%@", serviceID ?? "nil")
+        //elDebugPrint("tmpParent  is:%@", serviceID ?? "nil")
         if serviceID != nil {
             self.serviceId = serviceID!
         }
         let tmpParentId = dUrl?.getQueryItemValueForKey("parentID")
-        // print("tmpParent  is:%@",tmpParentId ?? "nil")
+        //elDebugPrint("tmpParent  is:%@",tmpParentId ?? "nil")
         if tmpParentId != nil {
             self.parentId = tmpParentId!
         }
         let tmpParentIds = dUrl?.getQueryItemValueForKey("parentIDs")
-        // print("tmpParent  is:%@",tmpParentId ?? "nil")
+        //elDebugPrint("tmpParent  is:%@",tmpParentId ?? "nil")
         if tmpParentIds != nil {
             self.parentIds = tmpParentIds!
         }
         
         let tmpGroceryId = dUrl?.getQueryItemValueForKey("StoreID")
-        // print("Grocery Id is:%@",tmpGroceryId ?? "nil")
+        //elDebugPrint("Grocery Id is:%@",tmpGroceryId ?? "nil")
         if tmpGroceryId != nil {
             self.groceryId = tmpGroceryId!
         }
         
         let tempProductId = dUrl?.getQueryItemValueForKey("productId")
-        // print("tmpParent  is:%@", tempProductBarCode ?? "nil")
+        //elDebugPrint("tmpParent  is:%@", tempProductBarCode ?? "nil")
         if tempProductId != nil {
             self.productId = tempProductId!
             self.gotoProductZoomController()
             return
         }
         let tempProductBarCode = dUrl?.getQueryItemValueForKey("barcode")
-        // print("tmpParent  is:%@", tempProductBarCode ?? "nil")
+        //elDebugPrint("tmpParent  is:%@", tempProductBarCode ?? "nil")
         if tempProductBarCode != nil {
             self.productBarcode = tempProductBarCode!
             self.gotoProductZoomController()
@@ -293,7 +293,7 @@ class DynamicLinksHelper {
         }
         self.brandId = ""
         let tmpBrandId = dUrl?.getQueryItemValueForKey("BrandID")
-        // print("Brand Id is:%@",tmpBrandId ?? "nil")
+        //elDebugPrint("Brand Id is:%@",tmpBrandId ?? "nil")
         if tmpBrandId != nil {
             self.brandId = tmpBrandId!
             self.navigateToScreen( isBrand: true , isSubCatogryOrCategory: false)
@@ -327,7 +327,7 @@ class DynamicLinksHelper {
             return
         }
         let tmpPage = dUrl?.getQueryItemValueForKey("page")
-        print("Page is:%@",tmpPage ?? "nil")
+       elDebugPrint("Page is:%@",tmpPage ?? "nil")
         if tmpPage != nil && tmpPage == "orders"{
             self.goToOrders()
             return
@@ -498,7 +498,7 @@ class DynamicLinksHelper {
                 }
                 completionHandler(false)
             }) { (task, error) in
-                debugPrint(error.localizedDescription)
+                elDebugPrint(error.localizedDescription)
                 completionHandler(false)
             }
         }else{
@@ -686,18 +686,18 @@ class DynamicLinksHelper {
     
     func navigateToScreen( isBrand : Bool = false , isSubCatogryOrCategory : Bool = false){
         
-        debugPrint("self.parentId")
-        debugPrint(self.parentId)
-        debugPrint("self.parentIds")
-        debugPrint(self.parentIds)
-        debugPrint("self.parentIds")
-        debugPrint(self.parentIds)
-        debugPrint("self.groceryId")
-        debugPrint(self.groceryId)
-        debugPrint("self.categoryId")
-        debugPrint(self.categoryId)
-        debugPrint("self.subcategoryId")
-        debugPrint(self.subcategoryId)
+        elDebugPrint("self.parentId")
+        elDebugPrint(self.parentId)
+        elDebugPrint("self.parentIds")
+        elDebugPrint(self.parentIds)
+        elDebugPrint("self.parentIds")
+        elDebugPrint(self.parentIds)
+        elDebugPrint("self.groceryId")
+        elDebugPrint(self.groceryId)
+        elDebugPrint("self.categoryId")
+        elDebugPrint(self.categoryId)
+        elDebugPrint("self.subcategoryId")
+        elDebugPrint(self.subcategoryId)
         
         if isBrand {
             
@@ -916,7 +916,7 @@ class DynamicLinksHelper {
                                 }
                                 // SpinnerView.hideSpinnerView()
                             case.failure(let error):
-                                debugPrint(error.localizedMessage)
+                                elDebugPrint(error.localizedMessage)
                                 // SpinnerView.hideSpinnerView()
                         }
                     }
@@ -947,9 +947,9 @@ class DynamicLinksHelper {
                 }
                 switch state! {
                     case LocationManager.State.fetchingLocation:
-                        debugPrint("")
+                        elDebugPrint("")
                     case LocationManager.State.initial:
-                        debugPrint("")
+                        elDebugPrint("")
                     default:
                         LocationManager.sharedInstance.stopUpdatingCurrentLocation()
                         if LocationManager.sharedInstance.currentLocation.value != nil {
@@ -1085,11 +1085,11 @@ class DynamicLinksHelper {
             switch result {
                 
                 case .success(let response):
-                    print("SERVER Response:%@",response)
+                   elDebugPrint("SERVER Response:%@",response)
                     self.saveResponseData(response)
                     
                 case .failure(let error):
-                    print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                   elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
             }
         })
     }
@@ -1134,9 +1134,9 @@ class DynamicLinksHelper {
         linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.el_grocer.shopper")
         linkBuilder?.androidParameters?.fallbackURL = (NSURL(string: instagramURL)! as URL)
         guard let longDynamicLink = linkBuilder?.url else { completetion("") ; return  }
-        print("The long URL is: \(longDynamicLink)")
+       elDebugPrint("The long URL is: \(longDynamicLink)")
         guard linkBuilder?.url != nil else {  completetion("") ; return }
-        debugPrint(longDynamicLink)
+        elDebugPrint(longDynamicLink)
         let options = DynamicLinkComponentsOptions()
         options.pathLength = .short
         linkBuilder?.options = options
@@ -1145,7 +1145,7 @@ class DynamicLinksHelper {
                  completetion("")
                 return
             }
-            print("The short URL is: \(url)")
+           elDebugPrint("The short URL is: \(url)")
             completetion(url.absoluteString)
         }
     }

@@ -76,7 +76,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
     }()
     func noDataButtonDelegateClick(_ state: actionState) {
         //self.tabBarController?.selectedIndex = 0
-        print("show recipe boutique")
+       elDebugPrint("show recipe boutique")
         
     }
     
@@ -443,7 +443,7 @@ extension RecipeBoutiqueListVC : UITextFieldDelegate {
     }
     @objc
     func performSearch(textField: UITextField) {
-        print("Hints for textField: \(textField)")
+       elDebugPrint("Hints for textField: \(textField)")
         if self.searchTextField.text?.count ?? 0 > 1 {
                 self.startSearchProcess()
             

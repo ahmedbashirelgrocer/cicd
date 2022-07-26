@@ -186,7 +186,7 @@ extension ApplyPromoVC {
         promoHandler.grocery = self.previousGrocery
         isGettingPromo = true
         let offset = self.promoCodeArray.count
-        print("offset: \(offset)")
+       elDebugPrint("offset: \(offset)")
         promoHandler.getPromoList (limmit: 10, offset: offset){ promoCodeArray, error in
             self.isGettingPromo = false
             self.isFirstTime = false
@@ -379,7 +379,7 @@ extension ApplyPromoVC: UIScrollViewDelegate {
         let kLoadingDistance = 2 * kProductCellHeight + 8
         let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
         if y + kLoadingDistance > scrollView.contentSize.height && self.isGettingPromo == false {
-            debugPrint("getlist")
+            elDebugPrint("getlist")
             self.getPromoCodeList()
         }
     }

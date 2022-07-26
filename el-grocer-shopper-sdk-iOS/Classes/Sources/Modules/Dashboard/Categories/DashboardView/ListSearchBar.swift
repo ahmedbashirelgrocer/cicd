@@ -199,7 +199,7 @@ extension ListSearchBar : UITextViewDelegate {
         self.previousRect = self.previousRect.origin.y == 0.0 ? currentRect : previousRect
         if(currentRect.origin.y > previousRect.origin.y){
             //new line reached, write your code
-            print("Started New Line")
+           elDebugPrint("Started New Line")
           self.adjustUITextViewHeight(self.searchProductListingTextView , isNewLine: true)
         }else{
         self.adjustUITextViewHeight(self.searchProductListingTextView , isNewLine: false)

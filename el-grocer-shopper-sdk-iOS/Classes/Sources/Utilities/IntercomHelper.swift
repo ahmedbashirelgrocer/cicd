@@ -31,8 +31,8 @@ class IntercomeHelper {
             
             favouriteItems = products.map { $0.name! }.joined(separator: ",")
             
-            print("Favourite Groceries:%@",favouriteGroceries)
-            print("Favourite Items:%@",favouriteItems)
+           elDebugPrint("Favourite Groceries:%@",favouriteGroceries)
+           elDebugPrint("Favourite Items:%@",favouriteItems)
             
             let userAttributes = ICMUserAttributes()
             userAttributes.customAttributes = ["favourites_groceries":favouriteGroceries,"favourites_items":  favouriteItems]
@@ -50,7 +50,7 @@ class IntercomeHelper {
                 if let grocer = order.grocery.name {
                 uniqueStories.insert(grocer)
                 }
-               // print("Grocery Name:%@",order.grocery.name!)
+               //elDebugPrint("Grocery Name:%@",order.grocery.name!)
             }
             let userAttributes = ICMUserAttributes()
             userAttributes.customAttributes = ["stories_purchased_from":uniqueStories.joined(separator: ", ")]
@@ -69,7 +69,7 @@ class IntercomeHelper {
                 for product in orderProducts {
                     if let brandName = product.brandName {
                          uniqueBrands.insert(brandName)
-                         print("Product brand Name:%@",brandName)
+                        elDebugPrint("Product brand Name:%@",brandName)
                     }
                    
                 }
@@ -89,7 +89,7 @@ class IntercomeHelper {
             
             switch result {
             case .success(let ordersDict):
-                print("Number Of Orders:%@",ordersDict.count)
+               elDebugPrint("Number Of Orders:%@",ordersDict.count)
                 let userAttributes = ICMUserAttributes()
                 userAttributes.customAttributes = ["number_of_orders":ordersDict.count]
                 // Intercom.updateUser(userAttributes)
@@ -106,9 +106,9 @@ class IntercomeHelper {
         LocationManager.sharedInstance.geocodeAddress(location, withCompletionHandler: { (status, success,address) -> Void in
             
             if !success {
-                print(status)
+               elDebugPrint(status)
                 if status == "ZERO_RESULTS" {
-                    print("The location could not be found.")
+                   elDebugPrint("The location could not be found.")
                 }
                 
                 LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
@@ -120,7 +120,7 @@ class IntercomeHelper {
                 }
                 
             }else {
-                print("Location found.")
+               elDebugPrint("Location found.")
                 let userAttributes = ICMUserAttributes()
                 userAttributes.customAttributes = ["area":address ?? "UnKnown"]
                 // Intercom.updateUser(userAttributes)
@@ -182,7 +182,7 @@ class IntercomeHelper {
         
         let browsedCategories = ElGrocerUtility.sharedInstance.browsedCategories.joined(separator: ",")
         
-        print("Browsed Categories:%@",browsedCategories)
+       elDebugPrint("Browsed Categories:%@",browsedCategories)
         
         let userAttributes = ICMUserAttributes()
         userAttributes.customAttributes = ["Browsed_Categories": browsedCategories]
@@ -197,7 +197,7 @@ class IntercomeHelper {
         
         let browsedSubcategories = ElGrocerUtility.sharedInstance.browsedSubcategories.joined(separator: ",")
         
-        print("Browsed Subcategories:%@",browsedSubcategories)
+       elDebugPrint("Browsed Subcategories:%@",browsedSubcategories)
         
         let userAttributes = ICMUserAttributes()
         userAttributes.customAttributes = ["Browsed_SubCategories": browsedSubcategories]
@@ -212,7 +212,7 @@ class IntercomeHelper {
         
         let browsedGroceries = ElGrocerUtility.sharedInstance.browsedGroceries.joined(separator: ",")
         
-        print("Browsed Stores:%@",browsedGroceries)
+       elDebugPrint("Browsed Stores:%@",browsedGroceries)
         
         let userAttributes = ICMUserAttributes()
         userAttributes.customAttributes = ["Stores_Opened": browsedGroceries]

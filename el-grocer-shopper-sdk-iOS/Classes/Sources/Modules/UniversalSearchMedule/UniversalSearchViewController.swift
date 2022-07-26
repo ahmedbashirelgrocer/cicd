@@ -772,7 +772,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
             return configureCellForSearchedProducts(getNewIndexPathAfterBanner(oldIndexPath: indexPath))
         }
         if getBannerIndex(oldIndexPath: indexPath).row - 1 == 1 {
-            debugPrint("check here")
+            elDebugPrint("check here")
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasketBannerCollectionViewCellIdentifier, for: indexPath) as! BasketBannerCollectionViewCell
         cell.grocery  = self.dataSource?.currentGrocery
@@ -791,7 +791,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
             cell.configureWithProduct(product, grocery: self.dataSource?.currentGrocery , cellIndex: indexPath)
             cell.delegate = self
         }else{
-            debugPrint(indexPath)
+            elDebugPrint(indexPath)
         }
         cell.productContainer.isHidden = !(indexPath.row < self.loadedProductList.count)
         return cell
@@ -817,10 +817,10 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
     
     fileprivate func getNewIndexPathAfterBanner(oldIndexPath : IndexPath) -> IndexPath {
         
-        //debugPrint("oldIndexPath : \(oldIndexPath)")
+        //elDebugPrint("oldIndexPath : \(oldIndexPath)")
         var newIndexPath = oldIndexPath
         newIndexPath.row = oldIndexPath.row - getIncrementedIndexNumber(oldIndexPath : oldIndexPath)
-        // debugPrint("newIndexPath : \(newIndexPath)")
+        // elDebugPrint("newIndexPath : \(newIndexPath)")
         return newIndexPath
     }
     
@@ -1001,7 +1001,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             /* ---------- Fabric Search Event ----------*/
             // Answers.Search(withQuery: self.searchString,customAttributes: nil)
             
-            debugPrint("search call : \(self.searchString)")
+            elDebugPrint("search call : \(self.searchString)")
         }
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -1295,11 +1295,11 @@ extension UniversalSearchViewController {
             switch result {
 
                 case .success(let response):
-                    print("SERVER Response:%@",response)
+                   elDebugPrint("SERVER Response:%@",response)
                     self.saveResponseData(response)
                     
                 case .failure(let error):
-                    print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                   elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
             }
         })
     }
@@ -1341,18 +1341,18 @@ extension UniversalSearchViewController {
             FireBaseEventsLogger.setUserName(name: phone)
         }
         
-        //  print("Fetching User Basket from Server")
+        // elDebugPrint("Fetching User Basket from Server")
         ElGrocerApi.sharedInstance.fetchBasketFromServerWithGrocery(grocery) { (result) in
             
            
             
             switch result {
                 case .success(let responseDict):
-                    //  print("Fetch Basket Response:%@",responseDict)
+                    // elDebugPrint("Fetch Basket Response:%@",responseDict)
                     self.saveResponseData(responseDict, andWithGrocery: grocery)
                     
                 case .failure(let error):
-                    print("Fetch Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
             }
         }
     }

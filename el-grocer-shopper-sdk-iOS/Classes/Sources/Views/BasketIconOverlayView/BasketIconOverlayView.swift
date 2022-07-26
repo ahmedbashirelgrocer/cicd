@@ -151,7 +151,7 @@ class BasketIconOverlayView : UIView {
             badgeIs.layer.borderColor = UIColor.navigationBarColor().cgColor
         }
         
-        print("update cart icon from here")
+       elDebugPrint("update cart icon from here")
         if let topVc = UIApplication.topViewController() {
             if topVc.navigationController is ElGrocerNavigationController {
                 (topVc.navigationController as? ElGrocerNavigationController)?.setCartButtonActive(false)
@@ -260,7 +260,7 @@ class BasketIconOverlayView : UIView {
                     self.cartItemsCountLabel.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(itemsCount)) 
                     showBasketOverlay(shouldShow: self.shouldShow, itemCount: itemsCount)
                     
-                    print("update cart icon from here")
+                   elDebugPrint("update cart icon from here")
                     if let topVc = UIApplication.topViewController() {
                         if topVc.navigationController is ElGrocerNavigationController {
                             (topVc.navigationController as? ElGrocerNavigationController)?.setCartButtonActive(priceSum>0.0)

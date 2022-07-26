@@ -257,7 +257,7 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
                 }
             }
             
-            print("closed Tickets: \(tickets?.count)")
+           elDebugPrint("closed Tickets: \(tickets?.count)")
             self.closedTicketList =  self.closedTicketList?.uniqued()
             
             if hasNext {
@@ -444,7 +444,7 @@ extension SendBirdListViewController {
 extension SendBirdListViewController : SBDConnectionDelegate, SBDUserEventDelegate, SBDChannelDelegate {
     
     func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
-      //  debugPrint("\(sender.unrea)")
+      //  elDebugPrint("\(sender.unrea)")
         
         if UIApplication.shared.applicationState == .active {
             self.tableView.reloadData()
@@ -453,59 +453,59 @@ extension SendBirdListViewController : SBDConnectionDelegate, SBDUserEventDelega
     }
     
     func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ channel: SBDBaseChannel, didReceiveMention message: SBDBaseMessage) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channelWasChanged(_ sender: SBDBaseChannel) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channelWasFrozen(_ sender: SBDBaseChannel) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channelWasUnfrozen(_ sender: SBDBaseChannel) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ sender: SBDBaseChannel, createdMetaData: [String : String]?) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ sender: SBDBaseChannel, updatedMetaData: [String : String]?) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ sender: SBDBaseChannel, deletedMetaDataKeys: [String]?) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ sender: SBDBaseChannel, createdMetaCounters: [String : NSNumber]?) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ sender: SBDBaseChannel, updatedMetaCounters: [String : NSNumber]?) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ sender: SBDBaseChannel, deletedMetaCountersKeys: [String]?) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channelWasHidden(_ sender: SBDGroupChannel) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func channel(_ sender: SBDGroupChannel, didReceiveInvitation invitees: [SBDUser]?, inviter: SBDUser?) {
@@ -528,7 +528,7 @@ extension SendBirdListViewController : SBDConnectionDelegate, SBDUserEventDelega
     
     func channelDidUpdateTypingStatus(_ sender: SBDGroupChannel) {
         
-        debugPrint("unreadMentionCount\(sender.unreadMentionCount)")
+        elDebugPrint("unreadMentionCount\(sender.unreadMentionCount)")
     }
     
     func channel(_ sender: SBDOpenChannel, userDidEnter user: SBDUser) {

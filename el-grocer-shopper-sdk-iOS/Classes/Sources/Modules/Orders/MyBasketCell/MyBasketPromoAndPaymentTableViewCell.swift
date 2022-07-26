@@ -317,7 +317,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
        // let countLabel = orderController.orderProducts.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
 
         let itemsVat = priceSum - (priceSum / ((100 + Double(truncating: orderController.order.grocery.vat))/100))
-        print("Value Added Tax Value:",itemsVat)
+       elDebugPrint("Value Added Tax Value:",itemsVat)
         
         
         
@@ -327,7 +327,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         priceSum = priceSum + serviceFee
         
         let serviceVat = serviceFee - (serviceFee / ((100 + Double(truncating: orderController.order.grocery.vat))/100))
-        print("Value Added Tax Value:",serviceVat)
+       elDebugPrint("Value Added Tax Value:",serviceVat)
         
         let vatTotal = itemsVat + serviceVat
         

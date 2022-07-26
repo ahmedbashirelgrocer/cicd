@@ -93,7 +93,7 @@ class OrderReviewViewController: UIViewController {
         
         for feedbackQuestion in self.data {
             
-            print("Question Title:%@",feedbackQuestion.questionTitle)
+           elDebugPrint("Question Title:%@",feedbackQuestion.questionTitle)
             let reviewQuestion = ReviewQuestionViewController()
             reviewQuestion.feedbackQuestion = feedbackQuestion
             reviewQuestion.delegate = self
@@ -403,7 +403,7 @@ extension OrderReviewViewController: ReviewQuestionDelegate {
     
     func feedbackHandler(_ commentStr: String?){
         
-        print("Submit Feedback")
+       elDebugPrint("Submit Feedback")
         // ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("deliver_feedback")
        
         
@@ -427,7 +427,7 @@ extension OrderReviewViewController: ReviewQuestionDelegate {
             
             switch result {
             case .success(_):
-                print("Submit Feedback Success")
+               elDebugPrint("Submit Feedback Success")
                 let reviewPopup = ReviewPopUp.createReviewPopUp()
                 reviewPopup.showPopUp()
                 self.perform(#selector(self.dismissView), with: nil, afterDelay: 3.0)
@@ -450,7 +450,7 @@ extension OrderReviewViewController: ReviewQuestionDelegate {
     
     private func sendFeedbackToServer(){
         
-        print("Submit Feedback")
+       elDebugPrint("Submit Feedback")
         ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("deliver_feedback")
         FireBaseEventsLogger.trackReviewEvents(screenName: "Send_Feeback", eventName: "LeaveFeedback", params:[ "OrderId" : self.orderTracking.orderId.stringValue])
         
@@ -462,11 +462,11 @@ extension OrderReviewViewController: ReviewQuestionDelegate {
             
             switch result {
             case .success(_):
-                print("Submit Feedback Success")
+               elDebugPrint("Submit Feedback Success")
                 break
                 
             case .failure(let error):
-                print("Error While Updating Feedback to Server:%@",error.localizedMessage)
+               elDebugPrint("Error While Updating Feedback to Server:%@",error.localizedMessage)
                 break
             }
         }))

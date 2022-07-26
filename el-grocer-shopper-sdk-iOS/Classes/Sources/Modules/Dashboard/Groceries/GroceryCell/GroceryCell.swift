@@ -249,16 +249,16 @@ class GroceryCell : UITableViewCell {
                 let weekdayStr = String(format:"%d",myComponents.weekday!)
                 
                 if weekDays.contains(weekdayStr) {
-                    print("Today is weekday")
+                   elDebugPrint("Today is weekday")
                     openingStr = openingHours[0] as! String
                     closingStr = closingHours[0] as! String
                     
                 }else if (weekDay == 5){
-                    print("Today is Thursday")
+                   elDebugPrint("Today is Thursday")
                     openingStr = openingHours[1] as! String
                     closingStr = closingHours[1] as! String
                 }else{
-                    print("Today is Friday")
+                   elDebugPrint("Today is Friday")
                     openingStr = openingHours[2] as! String
                     closingStr = closingHours[2] as! String
                 }
@@ -285,7 +285,7 @@ class GroceryCell : UITableViewCell {
                 
             } catch let error as NSError {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                print(error)
+               elDebugPrint(error)
             }
         }
         

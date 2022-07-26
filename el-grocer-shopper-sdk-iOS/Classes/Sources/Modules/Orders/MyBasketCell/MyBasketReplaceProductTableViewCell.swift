@@ -44,7 +44,7 @@ class MyBasketReplaceProductTableViewCell: UITableViewCell {
     func addClouser() {
         
         self.customCollectionView.productCellOnProductQuickRemoveButtonClick = { (cell , newProduct) in
-        //    debugPrint(newProduct.name as Any)
+        //    elDebugPrint(newProduct.name as Any)
             
             var productQuantity = 1
             
@@ -75,7 +75,7 @@ class MyBasketReplaceProductTableViewCell: UITableViewCell {
         
         
         self.customCollectionView.productCellOnProductQuickAddButtonClick = { (cell , newProduct) in
-           // debugPrint(newProduct.name as Any)
+           // elDebugPrint(newProduct.name as Any)
             
             //subStituteItemID
             

@@ -93,10 +93,10 @@ extension CarouselProductsView {
             switch result {
                 
             case .success(let response):
-               // debugPrint(response)
+               // elDebugPrint(response)
                 self.saveCarouselProductResponseForCategory(response)
             case .failure(let error):
-                debugPrint(error.localizedMessage)
+                elDebugPrint(error.localizedMessage)
                 self.productsLoaded()
             }
         }

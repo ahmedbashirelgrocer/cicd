@@ -34,7 +34,7 @@ class ShoopingListDataHandler {
             return
         }
         guard self.grocery != nil else {
-            debugPrint("No grocery set")
+            elDebugPrint("No grocery set")
             return
         }
        
@@ -81,7 +81,7 @@ class ShoopingListDataHandler {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: clearnGroceryID, searchString: searchInput)
                 case.failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
             }
         }
    
@@ -94,7 +94,7 @@ class ShoopingListDataHandler {
                 self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId, searchString: searchInput)
 
             case .failure(let error):
-                debugPrint(error.localizedMessage)
+                elDebugPrint(error.localizedMessage)
                 // error.showErrorAlert()
             }
         }*/
@@ -110,7 +110,7 @@ class ShoopingListDataHandler {
             }
             let dict = ["value" : searchString , searchString : homeFeed as Any]
             self.bannerArray.append(dict as NSDictionary)
-            debugPrint(self.bannerArray)
+            elDebugPrint(self.bannerArray)
             self.delegate?.receivedBannerDataOfSearchString(bannerSearchString : searchString)
         }
 

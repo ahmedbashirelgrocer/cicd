@@ -16,6 +16,8 @@ public final class ElGrocer {
 
     static var isSDKLoaded = false
     
+    public static var isLoggingEnabled = true
+    
     public static func startEngine(with launchOptions: LaunchOptions? = nil) {
         defer {
             ElGrocer.isSDKLoaded = true
@@ -111,4 +113,26 @@ public struct LaunchOptions  {
         self.isSmileSDK = isSmileSDK
         
     }
+}
+
+func elDebugPrint(_ items: Any...,
+                  separator: String = " ",
+                  terminator: String = "\n",
+                  line: Int = #line,
+                  column: Int = #column,
+                  function: String = #function,
+                  file: String = #file) {
+#if DEBUG
+    if ElGrocer.isLoggingEnabled {
+        var index = items.startIndex
+        let end = items.endIndex
+        // Swift.debugPrint("==> File: \(file), Function: \(function) <==")
+        repeat {
+            Swift.debugPrint("elGrocer: Debug: \(items[index])",
+                             separator: separator,
+                             terminator: index == (end - 1) ? terminator : separator)
+            index += 1
+        } while index < end
+    }
+#endif
 }

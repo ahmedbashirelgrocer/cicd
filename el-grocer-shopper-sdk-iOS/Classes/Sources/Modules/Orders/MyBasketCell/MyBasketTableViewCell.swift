@@ -381,7 +381,7 @@ class MyBasketTableViewCell: UITableViewCell {
     
     @IBAction func chooseReplacementHandler(_ sender: Any) {
         let button = sender as! UIButton
-        print("Choose Replacment Button Tag: ",button.tag)
+       elDebugPrint("Choose Replacment Button Tag: ",button.tag)
         let index = button.tag - 6000
         self.delegate?.chooseReplacementWithProductIndex(index)
     }
@@ -413,8 +413,8 @@ class MyBasketTableViewCell: UITableViewCell {
         self.minusBtn.tag                 = currentRow + 500
         self.deleteBtn.tag                = currentRow + 5000
         self.chooseReplacmentBtn.tag      = currentRow + 6000
-        //        print("Basket Product Name:",product.name ?? "nil")
-        //        print("Choose Replacment Tag: ",self.chooseReplacmentBtn.tag)
+        //       elDebugPrint("Basket Product Name:",product.name ?? "nil")
+        //       elDebugPrint("Choose Replacment Tag: ",self.chooseReplacmentBtn.tag)
         self.lblQuantity.text   = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(describing: shoppingItem.count))
         self.lblCounter.text    = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(describing: shoppingItem.count))
         

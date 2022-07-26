@@ -534,7 +534,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                 return configureCellForUniversalSearchedProducts(getNewIndexPathAfterBanner(oldIndexPath: indexPath))
             }
             if getBannerIndex(oldIndexPath: indexPath).row - 1 == 1 {
-                debugPrint("check here")
+                elDebugPrint("check here")
             }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasketBannerCollectionViewCellIdentifier, for: indexPath) as! BasketBannerCollectionViewCell
             cell.grocery  = self.dataSource?.currentGrocery
@@ -566,7 +566,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             cell.configureWithProduct(product, grocery: self.dataSource?.currentGrocery , cellIndex: indexPath)
             cell.delegate = self
         }else{
-            debugPrint(indexPath)
+            elDebugPrint(indexPath)
         }
         cell.productContainer.isHidden = !(indexPath.row < self.productsArray.count)
         return cell
@@ -592,10 +592,10 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     
     fileprivate func getNewIndexPathAfterBanner(oldIndexPath : IndexPath) -> IndexPath {
         
-        //debugPrint("oldIndexPath : \(oldIndexPath)")
+        //elDebugPrint("oldIndexPath : \(oldIndexPath)")
         var newIndexPath = oldIndexPath
         newIndexPath.row = oldIndexPath.row - getIncrementedIndexNumber(oldIndexPath : oldIndexPath)
-        // debugPrint("newIndexPath : \(newIndexPath)")
+        // elDebugPrint("newIndexPath : \(newIndexPath)")
         return newIndexPath
     }
     

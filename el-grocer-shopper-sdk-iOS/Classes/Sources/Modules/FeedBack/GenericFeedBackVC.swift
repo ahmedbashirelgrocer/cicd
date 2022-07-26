@@ -222,7 +222,7 @@ class GenericFeedBackVC: UIViewController {
     
     func feedbacApiCall(speed : String , delivery : Int , price : String , accuracy : String , Comment : String , backButton : Bool){
         
-        print("Submit Feedback")
+       elDebugPrint("Submit Feedback")
         self.feedBackDone = true
         let spinner = SpinnerView.showSpinnerViewInView(self.view)
         let orderId = orderTracking.orderId.stringValue
@@ -232,9 +232,9 @@ class GenericFeedBackVC: UIViewController {
             
             switch result {
             case .success(_):
-                print("Submit Feedback Success")
+               elDebugPrint("Submit Feedback Success")
                 if backButton{
-                    print("Submit Feedback Success")
+                   elDebugPrint("Submit Feedback Success")
                 }else{
                     let reviewPopup = ReviewPopUp.createReviewPopUp()
                     reviewPopup.showPopUp()
@@ -245,7 +245,7 @@ class GenericFeedBackVC: UIViewController {
                 
                 
             case .failure(let error):
-                print(error)
+               elDebugPrint(error)
             }
         }))
     }

@@ -101,7 +101,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
             ElGrocerUtility.sharedInstance.isHomeSelected = false
         }
         
-        print("Last Selection:%d",self.lastSelection.row)
+       elDebugPrint("Last Selection:%d",self.lastSelection.row)
         self.tableView.reloadData()
         
         //Helpshift

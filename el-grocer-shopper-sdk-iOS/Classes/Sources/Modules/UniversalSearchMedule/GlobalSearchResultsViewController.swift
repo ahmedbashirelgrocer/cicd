@@ -183,7 +183,7 @@ class GlobalSearchResultsViewController: UIViewController {
                     if let _ = filterStoreTypeData.first(where: { type in
                         return type.storeTypeid == obj.storeTypeid
                     }) {
-                        debugPrint("available")
+                        elDebugPrint("available")
                     }else {
                         filterStoreTypeData.append(obj)
                     }

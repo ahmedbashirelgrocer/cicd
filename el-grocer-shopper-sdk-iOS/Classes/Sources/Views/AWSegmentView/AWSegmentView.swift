@@ -152,7 +152,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
-        print("Selected Index:%d",(indexPath as NSIndexPath).row)
+       elDebugPrint("Selected Index:%d",(indexPath as NSIndexPath).row)
         
         if self.lastSelection != indexPath {
             self.lastSelection = indexPath

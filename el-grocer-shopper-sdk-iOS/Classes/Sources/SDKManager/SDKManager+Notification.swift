@@ -65,7 +65,7 @@ extension SDKManager {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         
-        print("push notif data: \(userInfo)")
+       elDebugPrint("push notif data: \(userInfo)")
         
         
         if let _ = userInfo["sendbird"] as? NSDictionary {
@@ -187,7 +187,7 @@ extension SDKManager {
                     newMsg.append("...")
                 }
                 ElGrocerUtility.sharedInstance.showTopMessageView(newMsg, image: UIImage(name: "chat-White") , -1 , false  ) { (data, index, isShow) in
-                    debugPrint("msg")
+                    elDebugPrint("msg")
                     //ZohoChat.showChat()
                     NotificationCenter.default.post(name: KChatNotifcation, object: false)
                     
@@ -208,7 +208,7 @@ extension SDKManager {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
         
-        print("SDKManager: didReceiveResponseWithCompletionHandler \(notification.request.content.userInfo)")
+       elDebugPrint("SDKManager: didReceiveResponseWithCompletionHandler \(notification.request.content.userInfo)")
         
         // If you wish CleverTap to record the notification click and fire any deep links contained in the payload.
         CleverTapEventsLogger.shared.cleverTapApp?.handleNotification(withData: notification.request.content.userInfo, openDeepLinksInForeground: true)
@@ -234,7 +234,7 @@ extension SDKManager {
         
         
         let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("Device Token String: \(deviceTokenString)")
+       elDebugPrint("Device Token String: \(deviceTokenString)")
         
         self.updateDeviceTokenToServer(deviceTokenString)
         //ZohoSalesIQ.enablePush( deviceTokenString , isTestDevice: false , mode: .production)
@@ -247,7 +247,7 @@ extension SDKManager {
         DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {
             SendBirdManager().registerPushNotification(deviceToken){ isSuccess in
                 if isSuccess{
-                    print("sendBird token registered")
+                   elDebugPrint("sendBird token registered")
                 }
             }
         }
@@ -255,7 +255,7 @@ extension SDKManager {
 //        SendBirdDeskManager(type: .agentSupport).registerPushNotification(deviceToken){
 //            isSuccess in
 //            if isSuccess{
-//                print("sendBird Desk token registered")
+//               elDebugPrint("sendBird Desk token registered")
 //            }
 //        }
         
@@ -287,7 +287,7 @@ extension SDKManager {
     
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("Firebase registration token: \(fcmToken)")
+       elDebugPrint("Firebase registration token: \(fcmToken)")
         
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
@@ -296,7 +296,7 @@ extension SDKManager {
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Error While Register For Remote Notifications:%@",error.localizedDescription)
+       elDebugPrint("Error While Register For Remote Notifications:%@",error.localizedDescription)
       //  PushNotificationManager.push().handlePushRegistrationFailure(error)
     }
     
@@ -382,9 +382,9 @@ extension SDKManager {
         
         ElGrocerApi.sharedInstance.registerDeviceToServerWithToken(deviceToken: deviceTokenString) { (result:Bool, responseObject:NSDictionary?) in
             if result {
-                print("SERVER Response:%@",responseObject ?? "Dictionary Error")
+               elDebugPrint("SERVER Response:%@",responseObject ?? "Dictionary Error")
             } else {
-                print("Error from SERVER While register device on SERVER")
+               elDebugPrint("Error from SERVER While register device on SERVER")
             }
         }
     }

@@ -553,14 +553,14 @@ class MyBasketPlaceOrderVC: UIViewController {
             self.applePaymentHandler.paymentDetailsHandler = {
                 (paymentDetails) in
                 // payment querry params recieved sucessfully
-                print(paymentDetails)
+               elDebugPrint(paymentDetails)
                 self.appleQueryItem = paymentDetails
                 completion(true)
             }
             let totalAmount = self.secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode()
             applePaymentHandler.startPayment(totalAmount: String(totalAmount?.finalAmount ?? 0.0), completion: { (success) in
                 if success {
-                    print("order placed successfully")
+                   elDebugPrint("order placed successfully")
                 }
             })
         } else if result.canSetupCards {
@@ -886,7 +886,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                        print(resultCode)
+                       elDebugPrint(resultCode)
                         if let reason = response["refusalReason"] as? String {
                             AdyenManager.showErrorAlert(descr: reason)
                         }
@@ -931,7 +931,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String,  resultCode.count > 0 {
-                        print(resultCode)
+                       elDebugPrint(resultCode)
                         let refusalReason =  (response["refusalReason"] as? String) ?? resultCode
                         AdyenManager.showErrorAlert(descr: refusalReason)
                     }
@@ -974,7 +974,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     private func resetLocalDBData(_ order: Order) {
         ElGrocerUtility.sharedInstance.resetBasketPresistence()
         ElGrocerApi.sharedInstance.deleteBasketFromServerWithGrocery(order.grocery) { (result) in
-            debugPrint(result)
+            elDebugPrint(result)
         }
     }
     
@@ -986,7 +986,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         
        
         
-        debugPrint("All analytics work done")
+        elDebugPrint("All analytics work done")
     }
 
 
@@ -1037,7 +1037,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             AdyenManager.sharedInstance.isNewCardAdded = { (error, response) in
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                        print(resultCode)
+                       elDebugPrint(resultCode)
                         AdyenManager.showErrorAlert(descr: resultCode)
                     }
                 }else{
@@ -1378,7 +1378,7 @@ extension MyBasketPlaceOrderVC {
             }
             Thread.OnMainThread {
                 if let paymentMethod = paymentMethods {
-                    print(paymentMethods)
+                   elDebugPrint(paymentMethods)
                     for method in paymentMethod.regular{
                         if method.type.elementsEqual("scheme") {
 
@@ -1447,7 +1447,7 @@ extension MyBasketPlaceOrderVC {
             SpinnerView.hideSpinnerView()
             switch result {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     if let dataDict = response["data"] as? NSDictionary {
                         if let paymentTypesA = dataDict["payment_types"]  as? [NSDictionary] {
                             self.paymentMethodA.removeAll()
@@ -1758,7 +1758,7 @@ extension MyBasketPlaceOrderVC {
                             self.checkouTableView.reloadDataOnMain()
                         }
                     }catch(let error){
-                        debugPrint(error)
+                        elDebugPrint(error)
                         UserDefaults.setPromoCodeValue(nil)
                         MixpanelEventLogger.trackCheckoutPromoError(promoCode: text, error: error.localizedDescription)
                         self.showPromoError(true, message: "")
@@ -1850,9 +1850,9 @@ extension MyBasketPlaceOrderVC {
 //        let currentSlotIndex = self.deliverySlotsArray.firstIndex(where: {$0.dbID == self.currentDeliverySlot.dbID})
 //        if (currentSlotIndex != nil) {
 //            self.deliverySlotsArray.sort { $0.start_time ?? Date() < $1.start_time ?? Date() }
-//            print("Current Slot Index:%d",currentSlotIndex!)
+//           elDebugPrint("Current Slot Index:%d",currentSlotIndex!)
 //            let nextAvailableSlotIndex = currentSlotIndex! + 1
-//            print("Next Available Slot Index:%d",nextAvailableSlotIndex)
+//           elDebugPrint("Next Available Slot Index:%d",nextAvailableSlotIndex)
 //            if(nextAvailableSlotIndex < self.deliverySlotsArray.count){
 //                self.currentDeliverySlot = self.deliverySlotsArray[nextAvailableSlotIndex]
 //            }

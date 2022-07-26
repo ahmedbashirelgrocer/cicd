@@ -278,7 +278,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                                     navigationController.setLogoHidden(true)
                                     navigationController.modalPresentationStyle = .fullScreen
                                     self.navigationController?.present(navigationController, animated: true) {
-                                        debugPrint("VC Presented")
+                                        elDebugPrint("VC Presented")
                                     }
                             }
                         }
@@ -359,7 +359,7 @@ extension EditProfileViewController : PhoneVerifedProtocol {
 extension EditProfileViewController : FPNTextFieldCustomDelegate {
 
     func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
-        print(name, dialCode, code) // Output "France", "+33", "FR"
+       elDebugPrint(name, dialCode, code) // Output "France", "+33", "FR"
         ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
         }
         
@@ -376,7 +376,7 @@ extension EditProfileViewController : FPNTextFieldCustomDelegate {
             self.finalPhoneNumber = ""
         }
         _ = validateFields()
-        debugPrint(isValid)
-        debugPrint(finalPhoneNumber)
+        elDebugPrint(isValid)
+        elDebugPrint(finalPhoneNumber)
     }
 }

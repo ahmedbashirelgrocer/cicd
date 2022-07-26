@@ -40,14 +40,14 @@ class OrderNavigationHandler {
             SpinnerView.hideSpinnerView()
             switch result {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     if let orderDict = response["data"] as? NSDictionary {
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         self.order = latestOrderObj
                         self.orderEditHandler()
                     }
                 case .failure(let error):
-                    debugPrint("error : \(error.localizedMessage)")
+                    elDebugPrint("error : \(error.localizedMessage)")
                     if let closure = self.editProcess , closure != nil {
                         closure!(false)
                     }
@@ -79,7 +79,7 @@ class OrderNavigationHandler {
             let defaultAddressId = currentAddress?.dbID
             
             let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.order.deliveryAddress)
-            print("Order Address ID:%@",orderAddressId)
+           elDebugPrint("Order Address ID:%@",orderAddressId)
             
             guard defaultAddressId == orderAddressId else {
                 ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
@@ -284,10 +284,10 @@ class OrderNavigationHandler {
         ElGrocerApi.sharedInstance.deleteBasketFromServerWithGrocery(grocery) { (result) in
             switch result {
                 case .success(let responseDict):
-                    print("Delete Basket Response:%@",responseDict)
+                   elDebugPrint("Delete Basket Response:%@",responseDict)
                     
                 case .failure(let error):
-                    print("Delete Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Delete Basket Error:%@",error.localizedMessage)
             }
         }
     }

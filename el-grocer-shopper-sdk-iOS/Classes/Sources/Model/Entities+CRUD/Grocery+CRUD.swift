@@ -157,7 +157,7 @@ extension Grocery {
         for responseDict in responseObjects {
             var groceryDict : NSDictionary = NSDictionary()
             if let data = responseDict["retailer"] as? NSDictionary {
-                debugPrint("groceryDict")
+                elDebugPrint("groceryDict")
                 groceryDict = data
             }else{
                 groceryDict = responseDict
@@ -204,7 +204,7 @@ extension Grocery {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject]
             } catch let error as NSError {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                print(error)
+               elDebugPrint(error)
             }
         }
         return nil
@@ -712,7 +712,7 @@ extension Grocery {
             return convertedString! // <-- here is ur string
             
         } catch let myJSONError {
-            print(myJSONError)
+           elDebugPrint(myJSONError)
         }
         
         return ""
@@ -725,7 +725,7 @@ extension Grocery {
                 
                 return try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
             } catch {
-                print(error.localizedDescription)
+               elDebugPrint(error.localizedDescription)
             }
         }
         return nil

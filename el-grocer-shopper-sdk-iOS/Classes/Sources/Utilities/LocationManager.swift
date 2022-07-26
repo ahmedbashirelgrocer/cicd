@@ -94,7 +94,7 @@ class LocationManager: NSObject {
     override init() {
         super.init()
         self.setupBindings()
-        print("Location Manager init called")
+       elDebugPrint("Location Manager init called")
     }
     
     // MARK: Methods
@@ -173,7 +173,7 @@ class LocationManager: NSObject {
             
             for addressObj in geocodingResponse.results()! {
                 // Address object
-                print("Address Object:%@",addressObj)
+               elDebugPrint("Address Object:%@",addressObj)
             }
             
             successHandler(result)
@@ -209,7 +209,7 @@ class LocationManager: NSObject {
         }
             
        
-        print("fetchCurrentLocation")
+       elDebugPrint("fetchCurrentLocation")
         state.value = .fetchingLocation
         self.locationManager.startUpdatingLocation()
         
@@ -239,7 +239,7 @@ class LocationManager: NSObject {
             if UIApplication.shared.canOpenURL(settingsUrl) {
                 if #available(iOS 10.0, *) {
                     UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                        print("Settings opened: \(success)")
+                       elDebugPrint("Settings opened: \(success)")
                     })
                 } else {
                     UIApplication.shared.openURL(settingsUrl)
@@ -279,16 +279,16 @@ class LocationManager: NSObject {
                 if(geocodingResultsData != nil){
                     
                     guard let dictionary = try! JSONSerialization.jsonObject(with: geocodingResultsData!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any] else {
-                        print("Not JSON format expected")
-                        print(String(data: geocodingResultsData!, encoding: .utf8) ?? "Not string?!?")
+                       elDebugPrint("Not JSON format expected")
+                       elDebugPrint(String(data: geocodingResultsData!, encoding: .utf8) ?? "Not string?!?")
                         completionHandler("", false,nil)
                         return
                     }
                     
                     guard let allResults = dictionary["results"] as? [[String: Any]],
                         let status = dictionary["status"] as? String, status == "OK" else {
-                            print("no results")
-                            print(String(describing: dictionary))
+                           elDebugPrint("no results")
+                           elDebugPrint(String(describing: dictionary))
                             completionHandler("", false,nil)
                             return
                     }
@@ -299,7 +299,7 @@ class LocationManager: NSObject {
                     let addressComponents = lookupAddressResults["address_components"] as! Array<Dictionary<NSObject, AnyObject>>
                     
                     var fetchedFormattedAddress = ""
-                    print("Address Components Count:%d",addressComponents.count)
+                   elDebugPrint("Address Components Count:%d",addressComponents.count)
                     var loopLimit = addressComponents.count
                     if (addressComponents.count > 2){
                         loopLimit = addressComponents.count - 2
@@ -322,14 +322,14 @@ class LocationManager: NSObject {
                         }
                     }
                     
-                    print("Fetched Formatted Address:",fetchedFormattedAddress)
+                   elDebugPrint("Fetched Formatted Address:",fetchedFormattedAddress)
                     
                     if(fetchedFormattedAddress.isEmpty){
                         // Keep the most important values.
                         fetchedFormattedAddress = lookupAddressResults["formatted_address"] as! String
                     }
                     
-                    print("Fetched Formatted Address:",fetchedFormattedAddress)
+                   elDebugPrint("Fetched Formatted Address:",fetchedFormattedAddress)
                     
                     completionHandler(status, true,fetchedFormattedAddress)
                 }else{
@@ -354,16 +354,16 @@ class LocationManager: NSObject {
             do {
                 
                 guard let dictionary = try JSONSerialization.jsonObject(with: geocodingResultsData!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any] else {
-                    print("Not JSON format expected")
-                    print(String(data: geocodingResultsData!, encoding: .utf8) ?? "Not string?!?")
+                   elDebugPrint("Not JSON format expected")
+                   elDebugPrint(String(data: geocodingResultsData!, encoding: .utf8) ?? "Not string?!?")
                     completionHandler("", false,nil)
                     return
                 }
                 
                 guard let allResults = dictionary["results"] as? [[String: Any]],
                     let status = dictionary["status"] as? String, status == "OK" else {
-                        print("no results")
-                        print(String(describing: dictionary))
+                       elDebugPrint("no results")
+                       elDebugPrint(String(describing: dictionary))
                         completionHandler("", false,nil)
                         return
                 }
@@ -404,23 +404,23 @@ class LocationManager: NSObject {
             
             guard geocodingResultsData != nil else {
                 
-                print("no results")
+               elDebugPrint("no results")
                 completionHandler("", false,nil)
                 return
                 
             }
             
             guard let dictionary = try! JSONSerialization.jsonObject(with: geocodingResultsData!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any] else {
-                print("Not JSON format expected")
-                print(String(data: geocodingResultsData!, encoding: .utf8) ?? "Not string?!?")
+               elDebugPrint("Not JSON format expected")
+               elDebugPrint(String(data: geocodingResultsData!, encoding: .utf8) ?? "Not string?!?")
                 completionHandler("", false,nil)
                 return
             }
             
             guard let allResults = dictionary["results"] as? [[String: Any]],
                 let status = dictionary["status"] as? String, status == "OK" else {
-                    print("no results")
-                    print(String(describing: dictionary))
+                   elDebugPrint("no results")
+                   elDebugPrint(String(describing: dictionary))
                     completionHandler("", false,nil)
                     return
             }
@@ -443,7 +443,7 @@ extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
-        print("DidUpdateLocations Called")
+       elDebugPrint("DidUpdateLocations Called")
         
         if var currentLocation = locations.last {
           
@@ -469,7 +469,7 @@ extension LocationManager: CLLocationManagerDelegate {
                     }
                     
                     if let city = placemark.addressDictionary!["City"] as? NSString {
-                      //  print("Current Location City",city)
+                      // elDebugPrint("Current Location City",city)
                         self.cityName = city as String
                     }
                     
@@ -481,7 +481,7 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("location Manager Fail With Error:%@",error.localizedDescription)
+       elDebugPrint("location Manager Fail With Error:%@",error.localizedDescription)
     }
     
     
@@ -494,14 +494,14 @@ extension LocationManager: CLLocationManagerDelegate {
             switch(CLLocationManager.authorizationStatus()) {
                 
                 case .notDetermined, .restricted, .denied:
-                    print("No Access to Location services")
+                   elDebugPrint("No Access to Location services")
                     isCurrentLocationEnabled = false
                     
                 case .authorizedAlways, .authorizedWhenInUse:
-                    print("Have Location services Access")
+                   elDebugPrint("Have Location services Access")
                     isCurrentLocationEnabled = true
                 @unknown default:
-                    print("Have Location services Access")
+                   elDebugPrint("Have Location services Access")
             }
         }
         return isCurrentLocationEnabled

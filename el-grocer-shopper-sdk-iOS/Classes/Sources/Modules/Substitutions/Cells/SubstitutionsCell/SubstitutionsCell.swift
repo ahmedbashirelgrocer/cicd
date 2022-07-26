@@ -98,11 +98,11 @@ class SubstitutionsCell: UITableViewCell {
         self.discardSubtituteButton.tag = kButtonTagOffSet + (currentRow)
         
         if product.name != nil {
-            print("Product Name:%@",product.name ?? "Name is NULL")
+           elDebugPrint("Product Name:%@",product.name ?? "Name is NULL")
             self.productName.text = product.name
         }
         if product.descr != nil {
-            print("Product Description:%@",product.descr ?? "Description is NULL")
+           elDebugPrint("Product Description:%@",product.descr ?? "Description is NULL")
             self.productDescription.text = product.descr
         }
         

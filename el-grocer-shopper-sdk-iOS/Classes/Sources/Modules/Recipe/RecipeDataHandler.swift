@@ -75,7 +75,7 @@ class RecipeDataHandler {
         if isForceZeroIndex {
             startingIndex = "0"
         }
-        debugPrint("callforchef: \(retailerString)")
+        elDebugPrint("callforchef: \(retailerString)")
         apiHandler.getChefList(offset: startingIndex , Limit: "1000", chefID: "" , retailerIDs: retailerString) { [weak self](result) in
             guard let self = self else {return}
             switch result {
@@ -212,7 +212,7 @@ class RecipeDataHandler {
         if isForceZeroIndex {
             startingIndex = "0"
         }
-        debugPrint("callforrecipe:\(retailersId)")
+        elDebugPrint("callforrecipe:\(retailersId)")
         apiHandler.getRecipeListNew(offset: startingIndex, Limit: limit, recipeID: nil, ChefID: nil, shopperID: nil, categoryID: categroryId, retailerIDs: retailersId) {
             [weak self] (result) in
             guard let self = self else {return}
@@ -366,7 +366,7 @@ class RecipeDataHandler {
                 }
                 
             case .failure(let error):
-                print(error)
+               elDebugPrint(error)
                 spinerView?.removeFromSuperview()
                 completionHandler(false)
             }
@@ -386,7 +386,7 @@ class RecipeDataHandler {
             } else if content != nil {
            
                 if let categoryData = content?["hits"] as? [NSDictionary] {
-                     debugPrint(categoryData)
+                     elDebugPrint(categoryData)
                     if isNeedToReset { self.resetRecipeList() ; self.resetCategoryList() }
                     
                     if (categoryData.count) > 0 {

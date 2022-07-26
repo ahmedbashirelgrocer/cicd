@@ -130,7 +130,7 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
     //Hunain 23Jan17
     fileprivate func setPopUpsConstraints(){
         
-        print("self.topConstraintViewLocation.constant",self.topConstraintViewLocation.constant)
+       elDebugPrint("self.topConstraintViewLocation.constant",self.topConstraintViewLocation.constant)
         
         UIView.animate(withDuration: 0.5, delay:0.0, options:UIView.AnimationOptions.transitionFlipFromTop, animations: {
             
@@ -153,7 +153,7 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
         
         view.locWithoutShopId = shopId ?? 0
         
-        print("Location Without ShopId:%@",view.locWithoutShopId)
+       elDebugPrint("Location Without ShopId:%@",view.locWithoutShopId)
         
         UIView.animate(withDuration: 0.33, animations: { () -> Void in
             
@@ -214,9 +214,9 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
                 if result == true {
                     let alert  = ElGrocerAlertView.createAlert(localizedString("thank_you", comment: ""), description: localizedString("delivery_location_request", comment: ""), positiveButton: localizedString("ok_button_title", comment: ""), negativeButton: "", buttonClickCallback: nil)
                     alert.show()
-                    print("Record update successfully.")
+                   elDebugPrint("Record update successfully.")
                 } else {
-                    print("Error from server.")
+                   elDebugPrint("Error from server.")
                 }
             case .failure(let error):
                 error.showErrorAlert()

@@ -158,7 +158,7 @@ class CategoriesAndProductsCollectionViewLayout : UICollectionViewLayout {
         
         self.productsCellsCount += 1
         
-        print("Products Cells Count:%d",self.productsCellsCount)
+       elDebugPrint("Products Cells Count:%d",self.productsCellsCount)
         
         if self.productsCellsCount % 3 == 0 && self.productsCellsCount > 1 {
             self.maxLayoutHeight += size.height + self.productCellSpacing

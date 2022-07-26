@@ -140,7 +140,7 @@ class SuggestedProductCell : UICollectionViewCell {
     
     func configureWithProduct(_ product: Product, grocery:Grocery?, order:Order) {
         
-        print("Product DbId:%@",product.dbID)
+       elDebugPrint("Product DbId:%@",product.dbID)
         
         self.product = product
         

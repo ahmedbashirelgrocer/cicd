@@ -235,7 +235,7 @@ class BannerDetailsViewController: BasketBasicViewController,UICollectionViewDat
                 self.productsArray += newProduct
             })
             
-            print("Products Array Count:%@",self.productsArray.count)
+           elDebugPrint("Products Array Count:%@",self.productsArray.count)
             
             DispatchQueue.main.async(execute: {
                 self.isGettingProducts = false

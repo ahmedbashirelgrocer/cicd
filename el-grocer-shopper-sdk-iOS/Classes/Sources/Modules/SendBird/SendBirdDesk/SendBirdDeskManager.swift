@@ -75,7 +75,7 @@ class SendBirdDeskManager{
         initialise()
         if isWithChat{
             self.logIn(isWithChat: isWithChat) {
-                print("login called")
+               elDebugPrint("login called")
             }
         }else{
             SendBirdManager().setUpCurrentUserWithPlatform()
@@ -98,7 +98,7 @@ class SendBirdDeskManager{
                 if let token = UserDefaults.getDevicePushTokenData(){
                     self.registerPushNotification(token) { (success) in
                         if success{
-                            print("registered")
+                           elDebugPrint("registered")
                         }
                     }
                 }
@@ -130,7 +130,7 @@ class SendBirdDeskManager{
                     if let token = UserDefaults.getDevicePushTokenData(){
                         self.registerPushNotification(token) { (success) in
                             if success{
-                                print("registered")
+                               elDebugPrint("registered")
                             }
                         }
                     }
@@ -186,7 +186,7 @@ class SendBirdDeskManager{
                                 if let token = UserDefaults.getDevicePushTokenData(){
                                     self.registerPushNotification(token) { (success) in
                                         if success{
-                                            print("registered")
+                                           elDebugPrint("registered")
                                         }
                                     }
                                 }
@@ -212,7 +212,7 @@ class SendBirdDeskManager{
                             if let token = UserDefaults.getDevicePushTokenData(){
                                 self.registerPushNotification(token) { (success) in
                                     if success{
-                                        print("registered")
+                                       elDebugPrint("registered")
                                     }
                                 }
                             }
@@ -267,7 +267,7 @@ class SendBirdDeskManager{
                                     if let token = UserDefaults.getDevicePushTokenData(){
                                         self.registerPushNotification(token) { (success) in
                                             if success{
-                                                print("registered")
+                                               elDebugPrint("registered")
                                             }
                                         }
                                     }
@@ -292,7 +292,7 @@ class SendBirdDeskManager{
                                 if let token = UserDefaults.getDevicePushTokenData(){
                                     self.registerPushNotification(token) { (success) in
                                         if success{
-                                            print("registered")
+                                           elDebugPrint("registered")
                                         }
                                     }
                                 }
@@ -456,11 +456,11 @@ class SendBirdDeskManager{
         SBDSKTicket.getClosedList(withOffset: self.closeOffset, customFieldFilter: customFieldFilter) { (tickets, hasNext, error) in
             guard error == nil else {
                 // Handle error.
-                print(error)
+               elDebugPrint(error)
                 completion(found, nil,0)
                 return
             }
-            print("closed Tickets: \(tickets?.count)")
+           elDebugPrint("closed Tickets: \(tickets?.count)")
             if let ticketsRecived = tickets{
                 if ticketsRecived.count > 0{
                     if self.closeOffset == 0{
@@ -494,7 +494,7 @@ class SendBirdDeskManager{
         ticket.close(withComment: "") { (ticket, error) in
             guard error == nil else {
                 // Handle error.
-                print(error)
+               elDebugPrint(error)
                 return
             }
 
@@ -506,7 +506,7 @@ class SendBirdDeskManager{
         ticket.reopen { (ticket, error) in
             guard error == nil else {
                 // Handle error.
-                print(error)
+               elDebugPrint(error)
                 completion(nil)
                 return
             }
@@ -529,7 +529,7 @@ class SendBirdDeskManager{
         SBDSKMain.setCustomerCustomFields(customFields) { (error) in
             guard error == nil else {
                 // Handle error.
-                print(error)
+               elDebugPrint(error)
                 return
             }
         }
@@ -687,7 +687,7 @@ class SendBirdDeskManager{
                 // If you want to unregister the current device only, invoke this method.
                 SBDMain.unregisterPushToken(token, completionHandler: { (response, error) in
                     guard error == nil else{
-                        print(error)
+                       elDebugPrint(error)
                         return
                     }
                     UserDefaults.setIsDevicePushTokenRegistered(false)

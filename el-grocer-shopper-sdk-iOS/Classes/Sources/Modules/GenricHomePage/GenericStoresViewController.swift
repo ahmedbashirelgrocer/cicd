@@ -133,7 +133,7 @@ class GenericStoresViewController: BasketBasicViewController {
     
     
     deinit {
-        debugPrint("deinitcalled")
+        elDebugPrint("deinitcalled")
     }
     
     override func viewDidLoad() {
@@ -255,10 +255,10 @@ class GenericStoresViewController: BasketBasicViewController {
         
         SmilesManager.getCachedSmileUser { (smileUser) in
             if let user = smileUser {
-                print(smileUser)
+               elDebugPrint(smileUser)
                 self.tableView.reloadSections([0], with: .automatic)
             } else {
-                print("something went wrong")
+               elDebugPrint("something went wrong")
             }
         }
     }
@@ -286,7 +286,7 @@ class GenericStoresViewController: BasketBasicViewController {
                             
                         }
                     case .failure(let error):
-                        debugPrint(error.localizedMessage)
+                        elDebugPrint(error.localizedMessage)
                 }            }
         }
         DispatchQueue.global(qos: .background).async(execute: orderStatus.orderWorkItem!)
@@ -341,9 +341,9 @@ class GenericStoresViewController: BasketBasicViewController {
             
             switch state! {
                 case LocationManager.State.fetchingLocation:
-                    debugPrint("")
+                    elDebugPrint("")
                 case LocationManager.State.initial:
-                    debugPrint("")
+                    elDebugPrint("")
                 default:
                     self?.setUpSwitchMode()
                     self?.checkforDifferentDeliveryLocation()
@@ -448,7 +448,7 @@ class GenericStoresViewController: BasketBasicViewController {
                             return
                         }
                     case .failure(let error):
-                        debugPrint(error.localizedMessage)
+                        elDebugPrint(error.localizedMessage)
                        // self.setUpSwitchMode()
                 }
             }
@@ -627,7 +627,7 @@ class GenericStoresViewController: BasketBasicViewController {
                     if (index != nil) {
                         grocerySelectedIndex = index!
                     }else{
-                        debugPrint(groceryId ?? "")
+                        elDebugPrint(groceryId ?? "")
                     }
                 }else {
                     if ElGrocerUtility.sharedInstance.activeGrocery != nil {
@@ -690,7 +690,7 @@ class GenericStoresViewController: BasketBasicViewController {
     }
     
     override func navigationBarSearchTapped() {
-        print("Implement in controller")
+       elDebugPrint("Implement in controller")
         
         let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
         searchController.navigationFromControllerName = FireBaseScreenName.GenericHome.rawValue
@@ -847,7 +847,7 @@ extension GenericStoresViewController {
                         }
                     }
                 }else{
-                        // debugPrint(self.grocerA[12312321])
+                        // elDebugPrint(self.grocerA[12312321])
                     FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                 }
             //}
@@ -1149,7 +1149,7 @@ extension GenericStoresViewController {
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
         UIApplication.topViewController()?.present(navigationController, animated: false) {
-            debugPrint("VC Presented") }
+            elDebugPrint("VC Presented") }
     }
     
     
@@ -1978,7 +1978,7 @@ extension GenericStoresViewController : LocationMapViewControllerDelegate {
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: false) {
-            debugPrint("VC Presented")
+            elDebugPrint("VC Presented")
         }
         
     }
@@ -2065,7 +2065,7 @@ extension GenericStoresViewController : UICollectionViewDelegate , UICollectionV
         if status_id?.getStatusKeyLogic().status_id.intValue == OrderStatus.inEdit.rawValue {
             let navigator = OrderNavigationHandler.init(orderId: order["id"] as! NSNumber, topVc: self, processType: .editWithOutPopUp)
             navigator.startEditNavigationProcess { (isNavigationDone) in
-                debugPrint("Navigation Completed")
+                elDebugPrint("Navigation Completed")
             }
             return
         }
@@ -2112,7 +2112,7 @@ extension GenericStoresViewController : UICollectionViewDelegateFlowLayout{
         if cellSize.height > collectionView.frame.height {
             cellSize.height = collectionView.frame.height
         }
-        debugPrint("cell Size is : \(cellSize)")
+        elDebugPrint("cell Size is : \(cellSize)")
         return cellSize
         
             //  return CGSize(width: 320, height: 78)

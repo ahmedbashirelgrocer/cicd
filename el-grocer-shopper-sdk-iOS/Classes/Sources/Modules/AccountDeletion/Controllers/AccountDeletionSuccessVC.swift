@@ -18,7 +18,7 @@ class AccountDeletionSuccessVC: UIViewController, NoStoreViewDelegate {
         return noStoreView!
     }()
     func noDataButtonDelegateClick(_ state: actionState) {
-        print("go to entry view controller")
+       elDebugPrint("go to entry view controller")
         let vc = ElGrocerViewControllers.entryViewController()
         UIApplication.shared.windows.first?.rootViewController = vc
         UIApplication.shared.windows.first?.makeKeyAndVisible()

@@ -312,7 +312,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                         self.filterProducts(dataArray: dataProducts)
                         self.productsArray = newProducts
                     }else{
-                        print("no product found")
+                       elDebugPrint("no product found")
                         
                     }
                     self.checkNoDataView()
@@ -380,7 +380,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
             cell.configureWithProduct(product, grocery: self.grocery , cellIndex: indexPath)
             cell.delegate = self
         }else{
-            debugPrint(indexPath)
+            elDebugPrint(indexPath)
         }
         cell.productContainer.isHidden = !(indexPath.row < self.filteredProductsArray.count)
         return cell
@@ -479,11 +479,11 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                 switch result {
                         
                     case .success(let response):
-                        print("SERVER Response:%@",response)
+                       elDebugPrint("SERVER Response:%@",response)
                         self.saveResponseData(response, product)
                         
                     case .failure(let error):
-                        print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                       elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
                 }
             })
             
@@ -537,7 +537,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                         self.collectionView.reloadDataOnMainThread()
                         
                     }else{
-                        print("no product found")
+                       elDebugPrint("no product found")
                         self.checkNoDataView()
                         
                     }
@@ -680,11 +680,11 @@ extension BrandDeepLinksVC: UICollectionViewDelegateFlowLayout{
 }
 extension BrandDeepLinksVC: ProductCellProtocol{
     func productCellOnFavouriteClick(_ productCell: ProductCell, product: Product) {
-        print(product)
+       elDebugPrint(product)
     }
     
     func productCellOnProductQuickAddButtonClick(_ productCell: ProductCell , product: Product) {
-        print(product)
+       elDebugPrint(product)
         if self.grocery == nil{
             Thread.OnMainThread {
                 let shopIdsA = product.shopIds
@@ -715,7 +715,7 @@ extension BrandDeepLinksVC: ProductCellProtocol{
     }
     
     func productCellOnProductQuickRemoveButtonClick(_ productCell: ProductCell, product: Product) {
-        print(product)
+       elDebugPrint(product)
         var productQuantity = 0
         
             // If the product already is in the basket, just increment its quantity by 1
@@ -730,7 +730,7 @@ extension BrandDeepLinksVC: ProductCellProtocol{
     }
     
     func chooseReplacementWithProduct(_ product: Product) {
-        print(product)
+       elDebugPrint(product)
     }
     
     func updateProductQuantity(_ quantity: Int) {

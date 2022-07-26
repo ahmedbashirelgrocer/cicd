@@ -563,7 +563,7 @@ class ProductCell : UICollectionViewCell {
                             self.plusButton.isEnabled = true
                             self.plusButton.backgroundColor = UIColor.navigationBarColor()
                             callDelegateAndAnalytics()
-                           // debugPrint("minus button plus buttonenable")
+                           // elDebugPrint("minus button plus buttonenable")
                         }
                     }else{
                         
@@ -591,7 +591,7 @@ class ProductCell : UICollectionViewCell {
                     if let item = subVc.substitutionItemForProduct(self.product) {
                         if self.product.promotion?.boolValue == true{
                             if item.count.intValue >= self.product.promoProductLimit as! Int && self.product.promoProductLimit?.intValue ?? 0 > 0 {
-                                debugPrint("exceedlimits");
+                                elDebugPrint("exceedlimits");
                             }else{
                                 let count = item.count.intValue - 1
                                 proceedWithCount(count: count)
@@ -662,7 +662,7 @@ class ProductCell : UICollectionViewCell {
                                 itemCurrentCount = item.count.intValue
                                 if self.product.promotion?.boolValue == true{
                                     if item.count.intValue >= self.product.promoProductLimit as! Int && self.product.promoProductLimit?.intValue ?? 0 > 0 {
-                                        debugPrint("exceedlimits");
+                                        elDebugPrint("exceedlimits");
                                     }else{
                                         count = item.count.intValue + 1
                                     }
@@ -1079,7 +1079,7 @@ class ProductCell : UICollectionViewCell {
                                                 options: [], range: NSMakeRange(0, nsString.length))
             return results.map { nsString.substring(with: $0.range)}
         } catch let error as NSError {
-            print("invalid regex: \(error.localizedDescription)")
+           elDebugPrint("invalid regex: \(error.localizedDescription)")
             return []
         }
     }

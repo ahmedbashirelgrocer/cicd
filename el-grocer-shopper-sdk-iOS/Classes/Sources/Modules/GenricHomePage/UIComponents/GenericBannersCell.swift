@@ -128,7 +128,7 @@ class GenericBannersCell: UITableViewCell {
     
     func trackViewBanners (_ bannersList : [Banner] ) {
         for banner in bannersList {
-        //    debugPrint("banner.bannerLinks[0].isDeals \(banner.bannerLinks[0].isDeals)")
+        //    elDebugPrint("banner.bannerLinks[0].isDeals \(banner.bannerLinks[0].isDeals)")
             let bannerID = banner.bannerId.stringValue
             let topVCName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
             if !UserDefaults.isBannerDisplayed(bannerID , topControllerName: topVCName ) {

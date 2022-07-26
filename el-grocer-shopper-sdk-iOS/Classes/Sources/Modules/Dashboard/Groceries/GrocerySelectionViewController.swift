@@ -166,7 +166,7 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
                 
             case .success(let response):
                 
-                print("Response:%@",response)
+               elDebugPrint("Response:%@",response)
                 
                 let responseData = Grocery.insertGroceriesWithNotAvailableProducts(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
@@ -343,7 +343,7 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
                     }
                 }
                 /*else if SDKManager.window!.rootViewController as? ElgrocerGenericUIParentNavViewController != nil {
-                 debugPrint((SDKManager.window!.rootViewController as? ElgrocerGenericUIParentNavViewController)?.viewControllers)
+                 elDebugPrint((SDKManager.window!.rootViewController as? ElgrocerGenericUIParentNavViewController)?.viewControllers)
                  }*/
             }
             let _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -360,7 +360,7 @@ class GrocerySelectionViewController : UIViewController, GrocerySelectionCellPro
            
         }else{
             
-            print("Currently Grocery is closed")
+           elDebugPrint("Currently Grocery is closed")
             ElGrocerAlertView.createAlert(localizedString("store_close_alert_title", comment: ""),
                                           description:localizedString("store_close_alert_message", comment: ""),
                                           positiveButton: localizedString("store_close_alert_button", comment: ""),

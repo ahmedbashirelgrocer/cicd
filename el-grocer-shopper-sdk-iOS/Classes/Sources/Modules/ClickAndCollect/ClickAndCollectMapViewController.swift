@@ -109,13 +109,13 @@ class ClickAndCollectMapViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        debugPrint(#function)
+        elDebugPrint(#function)
         self.setViewOrderHeight(false)
         self.getData(false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        debugPrint(#function)
+        elDebugPrint(#function)
 //        if let item = self.orderItem{
 //            item.cancel()
 //        }
@@ -146,7 +146,7 @@ class ClickAndCollectMapViewController: UIViewController {
                             }
                         }
                     case .failure(let error):
-                        debugPrint(error.localizedMessage)
+                        elDebugPrint(error.localizedMessage)
                 }
             }
         }
@@ -154,7 +154,7 @@ class ClickAndCollectMapViewController: UIViewController {
         
     }
     override func viewWillDisappear(_ animated: Bool) {
-        debugPrint(#function)
+        elDebugPrint(#function)
         self.orderId = nil
         ElGrocerUtility.sharedInstance.delay(1) {
             if let topVc = UIApplication.topViewController() {
@@ -261,7 +261,7 @@ class ClickAndCollectMapViewController: UIViewController {
         ElGrocerApi.sharedInstance.getOpenOrderDetails { (result) in
             switch result {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     if let orderA = response["data"] as? [NSDictionary] {
                         if orderA.count > 0 {
                             let orderDict = orderA[0]
@@ -275,7 +275,7 @@ class ClickAndCollectMapViewController: UIViewController {
                         }
                     }
                 case .failure(let error):
-                    debugPrint("Failure: \(error)")
+                    elDebugPrint("Failure: \(error)")
             }
         }
     }
@@ -357,7 +357,7 @@ class ClickAndCollectMapViewController: UIViewController {
                             }
                         }
                     }else{
-                        // debugPrint(self.grocerA[12312321])
+                        // elDebugPrint(self.grocerA[12312321])
                         FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                     }
                 //}
@@ -450,7 +450,7 @@ class ClickAndCollectMapViewController: UIViewController {
             SpinnerView.hideSpinnerView()
             switch result {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     if let orderDict = (response["data"] as? NSDictionary)?["order"] as? NSDictionary {
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         let controller = ElGrocerViewControllers.orderDetailsViewController()
@@ -459,7 +459,7 @@ class ClickAndCollectMapViewController: UIViewController {
                         self.navigationController?.pushViewController(controller, animated: true)
                     }
                 case .failure(let error):
-                    debugPrint("error : \(error.localizedMessage)")
+                    elDebugPrint("error : \(error.localizedMessage)")
             }
         }
     }
@@ -551,7 +551,7 @@ extension ClickAndCollectMapViewController : GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        print(position.target)
+       elDebugPrint(position.target)
         self.currentLocation = CLLocation.init(latitude: position.target.latitude, longitude: position.target.longitude)
         self.defaultZoomLevel = mapView.camera.zoom
         self.getData(false)
@@ -575,11 +575,11 @@ extension ClickAndCollectMapViewController : GMSMapViewDelegate {
             switch result {
                 
                 case .success(let response):
-                    print("SERVER Response:%@",response)
+                   elDebugPrint("SERVER Response:%@",response)
                     self.saveResponseData(response, grocery: grocery)
                     
                 case .failure(let error):
-                    print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                   elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
             }
         })
     }
@@ -653,7 +653,7 @@ extension ClickAndCollectMapViewController :  UITableViewDelegate , UITableViewD
 extension ClickAndCollectMapViewController :  StoresDataHandlerDelegate {
     
     func storeCategoryData(storeTypeA : [StoreType]) -> Void  {
-        debugPrint(storeTypeA)
+        elDebugPrint(storeTypeA)
         self.storeTypeA = storeTypeA
         if self.storeTypeA.count > 0 {
             if  self.selectStoreType == nil {
@@ -716,7 +716,7 @@ extension ClickAndCollectMapViewController : UICollectionViewDelegate , UICollec
         if status_id?.getStatusKeyLogic().status_id.intValue == OrderStatus.inEdit.rawValue {
             let navigator = OrderNavigationHandler.init(orderId: order["id"] as! NSNumber, topVc: self, processType: .editWithOutPopUp)
             navigator.startEditNavigationProcess { (isNavigationDone) in
-                debugPrint("Navigation Completed")
+                elDebugPrint("Navigation Completed")
             }
             return
         }

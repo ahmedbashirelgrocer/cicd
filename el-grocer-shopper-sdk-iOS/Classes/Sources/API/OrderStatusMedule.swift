@@ -20,7 +20,7 @@ class OrderStatusMedule : ElGrocerApi {
         guard UserDefaults.isUserLoggedIn() else {return}
         setAccessToken()
         NetworkCall.get(openOrdersUrl, parameters: nil , progress: { (progress) in
-           //  debugPrint("Progress for API :  \(progress)")
+           //  elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))

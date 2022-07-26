@@ -57,7 +57,7 @@ class SubstitutionsProductCell: UITableViewCell {
             self.productsCollectionView.reloadData()
         }
         
-        print("Is Other Suggestion Available:%d",isOtherSuggestionIsAvailable)
+       elDebugPrint("Is Other Suggestion Available:%d",isOtherSuggestionIsAvailable)
         
         var productQuantity = 1
         
@@ -161,14 +161,14 @@ extension SubstitutionsProductCell: SuggestedProductCellProtocol {
     
     func productCellOnProductQuickAddButtonClick(_ productCell: SuggestedProductCell, product: Product) {
         
-        print("Add Button Clicked")
+       elDebugPrint("Add Button Clicked")
         
         self.addProductToBasketFromQuickAdd(product)
     }
     
     func productCellOnProductQuickRemoveButtonClick(_ productCell:SuggestedProductCell, product:Product){
         
-        print("Remove Button Clicked")
+       elDebugPrint("Remove Button Clicked")
         self.removeProductToBasketFromQuickRemove(product)
     }
 }

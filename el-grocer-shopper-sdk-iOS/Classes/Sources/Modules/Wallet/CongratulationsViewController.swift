@@ -113,7 +113,7 @@ class CongratulationsViewController: UIViewController {
         UIPasteboard.general.string = self.invitationCode.text
         
         if let copyText = UIPasteboard.general.string {
-            print("Clip Board Copy Text:%@",copyText)
+           elDebugPrint("Clip Board Copy Text:%@",copyText)
         }
     }
     

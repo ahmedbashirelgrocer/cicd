@@ -200,7 +200,7 @@ class GoogleAnalyticsHelper {
 //        }
 
         if Platform.isDebugBuild {
-            debugPrint("category : \(category) ,  action : \(action) , lable : \(lable ?? " ") , value : \(value ?? -1)")
+            elDebugPrint("category : \(category) ,  action : \(action) , lable : \(lable ?? " ") , value : \(value ?? -1)")
         }
 
     }
@@ -210,7 +210,7 @@ class GoogleAnalyticsHelper {
 //        GGLContext.sharedInstance().configureWithError(&configureError)
 //        if configureError != nil {
 //            #if DEBUG
-//            print("Error configuring the Google context: %@",configureError?.localizedDescription ?? "Null")
+//           elDebugPrint("Error configuring the Google context: %@",configureError?.localizedDescription ?? "Null")
 //            fatalError("Error configuring the Google context")
 //            #endif
 //        }
@@ -233,7 +233,7 @@ class GoogleAnalyticsHelper {
 //        GAI.sharedInstance().defaultTracker.allowIDFACollection = true
 //        #if DEBUG
 //        // Prevent analytics from sending any data if the build is in debug mode
-//        print("Debug build - Google Analytics disabled")
+//       elDebugPrint("Debug build - Google Analytics disabled")
 //        GAI.sharedInstance().dryRun = true
 //        #endif
     }
@@ -339,7 +339,7 @@ class GoogleAnalyticsHelper {
             else {
                 GoogleAnalyticsHelper.trackEventNameWithLable( brandName , kProductsAddEvent,  topControllerName)
             }
-           debugPrint(topControllerName)
+           elDebugPrint(topControllerName)
         }
        
     }

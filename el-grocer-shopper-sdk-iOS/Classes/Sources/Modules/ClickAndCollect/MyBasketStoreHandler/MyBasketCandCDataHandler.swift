@@ -79,7 +79,7 @@ class MyBasketCandCDataHandler {
     var collectorList : [collector] = []
     var carList : [Car] = [] {
         didSet{
-            debugPrint(carList.count)
+            elDebugPrint(carList.count)
         }
     }
     var selectedCollector : collector?
@@ -96,7 +96,7 @@ class MyBasketCandCDataHandler {
         ElGrocerApi.sharedInstance.getCarDetail { (result) in
             switch result {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     if let data = response["data"] as? [NSDictionary] {
                         self.carList = []
                         for carDict in data {
@@ -150,7 +150,7 @@ class MyBasketCandCDataHandler {
         ElGrocerApi.sharedInstance.getPickUpLocations(retailId: retailId) { (result) in
             switch result {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     if let data = response["data"] as? [NSDictionary] {
                         for dict in data {
                             self.pickUpLocation = PickUpLocation.init(details: (dict["details"] as? String) ?? "", dbId: (dict["id"] as? Int) ?? -1, latitude: (dict["latitude"] as? String) ?? "", longitude: (dict["longitude"] as? String) ?? "", photo_url: (dict["photo_url"] as? String) ?? "", retailer_id: (dict["retailer_id"] as? Int) ?? -1)

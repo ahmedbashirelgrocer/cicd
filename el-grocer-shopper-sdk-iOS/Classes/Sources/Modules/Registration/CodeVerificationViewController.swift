@@ -415,7 +415,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
     }
     
     @IBAction func collectionButtonClick(_ sender: UIButton) {
-        debugPrint(sender.tag)
+        elDebugPrint(sender.tag)
         
         if sender.tag == 1000 {
             // delete
@@ -474,7 +474,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
             
             switch result {
             case .success(let responseDict):
-                print(responseDict)
+               elDebugPrint(responseDict)
                 if let success = responseDict["status"] as? String {
                     if success == "success" {
                         //otp verified
@@ -502,7 +502,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
                     }
                 }
             case .failure(let error):
-             //   print(error)
+             //  elDebugPrint(error)
              // error.showErrorAlert()
                     var errorMsgStr = localizedString("error_PinCode", comment: "")
                     if let errorDict = error.jsonValue, let msgDict = errorDict["messages"] as? NSDictionary {
@@ -574,7 +574,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         
         
                /* OTPFireBaseHelper.verifyCode(verificationID: token , testVerificationCode: code , completion: { (isSuccess) in
-                    debugPrint(isSuccess)
+                    elDebugPrint(isSuccess)
                     
                     if isSuccess {
                         self.updateUserData()
@@ -717,8 +717,8 @@ extension CodeVerificationViewController : PhoneNumberViewControllerDelegate {
 }
 extension CodeVerificationViewController : KAPinFieldDelegate {
     func pinField(_ field: KAPinField, didFinishWith code: String) {
-        print("didFinishWith : \(code)")
-        print("randomstr : \(String(describing: self.randomString))")
+       elDebugPrint("didFinishWith : \(code)")
+       elDebugPrint("randomstr : \(String(describing: self.randomString))")
         
         
         let stringNumber : String  = field.text ?? ""

@@ -376,7 +376,7 @@ extension OrderCollectorDetailsVC : UITableViewDelegate , UITableViewDataSource 
             }
             
             
-            print("edit pressed")
+           elDebugPrint("edit pressed")
 
         }
         more.backgroundColor = UIColor.redValidationErrorColor()

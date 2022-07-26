@@ -50,14 +50,14 @@ class StorylyAds  {
 extension StorylyAds : StorylyDelegate {
     
     func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
-        debugPrint("load")
-        print(self.storyGroupList.count)
+        elDebugPrint("load")
+       elDebugPrint(self.storyGroupList.count)
         self.storylyView = storylyView
         self.storyGroupList = storyGroupList
         
     }
     func storylyLoadFailed(_ storylyView: StorylyView, errorMessage: String) {
-        debugPrint("failde")
+        elDebugPrint("failde")
     }
     
     func storylyEvent(_ storylyView: StorylyView, event: StorylyEvent, storyGroup: StoryGroup?, story: Story?, storyComponent: StoryComponent?) {

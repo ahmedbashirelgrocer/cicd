@@ -77,7 +77,7 @@ open class GTProgressBar: UIView {
             
             self._progress = min(max(newValue,0), 1)
             
-            print("Progress:%f",self._progress)
+           elDebugPrint("Progress:%f",self._progress)
             self.setNeedsLayout()
         }
     }

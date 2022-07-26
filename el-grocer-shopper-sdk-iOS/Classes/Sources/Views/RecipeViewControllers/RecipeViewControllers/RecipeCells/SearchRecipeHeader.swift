@@ -66,7 +66,7 @@ extension SearchRecipeHeader : UITextFieldDelegate {
     }
     @objc
     func performSearch(textField: UITextField) {
-        print("Hints for textField: \(textField)")
+       elDebugPrint("Hints for textField: \(textField)")
         if self.textFieldSearch.text?.count ?? 0 > 1 {
            // if self.lastdate.timeIntervalSinceNow < -0.5 {
              //   self.lastdate = Date()

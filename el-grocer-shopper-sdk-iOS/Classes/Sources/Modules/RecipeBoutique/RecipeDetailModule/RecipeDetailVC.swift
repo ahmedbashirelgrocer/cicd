@@ -100,7 +100,7 @@ class RecipeDetailVC: BasketBasicViewController {
     var sectionZeroHeight : CGFloat = 60.0
     var recipe : Recipe?  {
         didSet{
-            debugPrint("set recipe")
+            elDebugPrint("set recipe")
         }
     }
     
@@ -803,12 +803,12 @@ class RecipeDetailVC: BasketBasicViewController {
                 
                 if let recipeObj =  RecipeCart.createOrUpdateRecipeCart(dbID: userDBID , retailerID: Int64(retailerID)! , recipeID: (self.recipe?.recipeID)!, ingredients: ingredientIDsA, recipeName: (self.recipe?.recipeName)! , context: context) {
                     
-                    debugPrint("Object Created success ")
-                    debugPrint(recipeObj.dbID)
-                    debugPrint(recipeObj.recipeID)
-                    debugPrint(recipeObj.retailerID)
+                    elDebugPrint("Object Created success ")
+                    elDebugPrint(recipeObj.dbID)
+                    elDebugPrint(recipeObj.recipeID)
+                    elDebugPrint(recipeObj.retailerID)
                 }else{
-                    debugPrint("Failed")
+                    elDebugPrint("Failed")
                 }
             })
             //}
@@ -1134,7 +1134,7 @@ extension RecipeDetailVC : StorylyDelegate {
   
     
     func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
-        debugPrint("")
+        elDebugPrint("")
         
         
         headerView?.storyGroup = nil
@@ -1145,14 +1145,14 @@ extension RecipeDetailVC : StorylyDelegate {
                 headerView?.storyGroup = grocerp
                 headerView?.storylyView = storylyView
                 
-                debugPrint("grocerp.title : \(grocerp.title)")
-                debugPrint(recipe?.recipeStorylySlug)
+                elDebugPrint("grocerp.title : \(grocerp.title)")
+                elDebugPrint(recipe?.recipeStorylySlug)
             }
         }
     }
     
     func storylyLoadFailed(_ storylyView: StorylyView, errorMessage: String) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     

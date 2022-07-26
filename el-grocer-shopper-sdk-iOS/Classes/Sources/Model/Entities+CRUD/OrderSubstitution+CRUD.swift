@@ -70,8 +70,8 @@ extension OrderSubstitution {
         
         for substitution in orderSubstitutions {
             
-            print("Substitution Product Id",substitution.productId)
-            print("Product Id",product.dbID)
+           elDebugPrint("Substitution Product Id",substitution.productId)
+           elDebugPrint("Product Id",product.dbID)
             
             if substitution.productId == product.dbID {
                 productIds.append(substitution.subtitutingProductId)

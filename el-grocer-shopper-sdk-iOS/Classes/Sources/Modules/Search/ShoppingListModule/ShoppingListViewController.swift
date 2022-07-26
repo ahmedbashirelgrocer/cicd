@@ -282,11 +282,11 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
                             for product in newProducts {
                                 if product.brandId == nil {
                                     let removedObjectIndex = newProducts.firstIndex(of: product)!
-                                    print("Object Remove Index:%@",removedObjectIndex)
+                                   elDebugPrint("Object Remove Index:%@",removedObjectIndex)
                                     newProducts.remove(at: removedObjectIndex)
                                 }
                             }
-                            print("searched Products Array After Filtering Brand ID:%@",newProducts.count)
+                           elDebugPrint("searched Products Array After Filtering Brand ID:%@",newProducts.count)
                             if replaceIndex != nil {
                                 self.productsA[replaceIndex!] = newProducts
                                 Thread.OnMainThread {
@@ -317,7 +317,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
                                 for product in newProducts {
                                     if product.brandId == nil {
                                         let removedObjectIndex = newProducts.firstIndex(of: product)!
-                                        //                                    print("Object Remove Index:%@",removedObjectIndex)
+                                        //                                   elDebugPrint("Object Remove Index:%@",removedObjectIndex)
                                         newProducts.remove(at: removedObjectIndex)
                                     }
                                 }
@@ -735,7 +735,7 @@ extension ShoppingListViewController : UITableViewDelegate , UITableViewDataSour
 extension ShoppingListViewController : ShoopingListDataHandlerDelegate {
 
     func receivedBannerDataOfSearchString(bannerSearchString: String) {
-        debugPrint(bannerSearchString)
+        elDebugPrint(bannerSearchString)
         
     
         let indexResult =  self.categoryA.enumerated().compactMap { $0.element as! String == bannerSearchString ? $0.offset : nil }
@@ -784,8 +784,8 @@ extension ShoppingListViewController: UIScrollViewDelegate {
                 //storeSearchBarHeader.frame = headerFrame
                 //scrollView.contentOffset.y = scrollView.contentOffset.y + headerFrame.size.height
                 // self.tableViewCategories.contentOffset = CGPoint.init(x: 0, y: 20)
-//            print("scrollView.contentOffset.y",scrollView.contentOffset.y)
-//            print("headerFrame.size.height",headerFrame.size.height)
+//           elDebugPrint("scrollView.contentOffset.y",scrollView.contentOffset.y)
+//           elDebugPrint("headerFrame.size.height",headerFrame.size.height)
             
             if maxHeight == headerFrame.size.height {
                 self.shoppingListTableView.tableHeaderView = locationHeader

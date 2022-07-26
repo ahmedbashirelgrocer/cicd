@@ -183,7 +183,7 @@ extension DeliveryView:DeliveryCellProtocol {
     
     func tickButtonTapped(_ buttonIndex:Int){
         
-        print("Tick Button Tag:",buttonIndex)
+       elDebugPrint("Tick Button Tag:",buttonIndex)
         self.setSubmitButtonEnabled(true)
         let selectedIndex = buttonIndex - tickButtonOffset
         
@@ -205,7 +205,7 @@ extension DeliveryView:DeliveryCellProtocol {
     
     func crossButtonTapped(_ buttonIndex:Int){
         
-        print("Cross Button Tag:",buttonIndex)
+       elDebugPrint("Cross Button Tag:",buttonIndex)
         self.setSubmitButtonEnabled(true)
         let selectedIndex = buttonIndex - crossButtonOffset
         

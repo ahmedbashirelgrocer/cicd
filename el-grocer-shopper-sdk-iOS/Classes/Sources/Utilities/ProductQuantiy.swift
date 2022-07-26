@@ -75,13 +75,13 @@ class ProductQuantiy {
         
         if Platform.isSimulator {
             
-            debugPrint("QCheck===========")
-            debugPrint("QCheck productName : \(product.nameEn)")
-            debugPrint("QCheck isQuantityLimitAvailable: \(isQuantityLimitAvailable)")
-            debugPrint("QCheck isPromoLimitAvailable: \(isPromoLimitAvailable)")
-            debugPrint("QCheck promoProductLimit: \(finalLimit)")
-            debugPrint("QCheck quantityLimit: \(availableQuantity)")
-            debugPrint("QCheck===========")
+            elDebugPrint("QCheck===========")
+            elDebugPrint("QCheck productName : \(product.nameEn)")
+            elDebugPrint("QCheck isQuantityLimitAvailable: \(isQuantityLimitAvailable)")
+            elDebugPrint("QCheck isPromoLimitAvailable: \(isPromoLimitAvailable)")
+            elDebugPrint("QCheck promoProductLimit: \(finalLimit)")
+            elDebugPrint("QCheck quantityLimit: \(availableQuantity)")
+            elDebugPrint("QCheck===========")
             
             
         }

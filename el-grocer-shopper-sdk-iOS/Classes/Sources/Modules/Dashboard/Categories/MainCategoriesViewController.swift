@@ -428,7 +428,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             navigationController.viewControllers = [productsVC]
             navigationController.setLogoHidden(true)
             UIApplication.topViewController()?.present(navigationController, animated: false) {
-                debugPrint("VC Presented") }
+                elDebugPrint("VC Presented") }
         }
     }
     
@@ -444,7 +444,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             navigationController.viewControllers = [productsVC]
             navigationController.setLogoHidden(true)
             UIApplication.topViewController()?.present(navigationController, animated: false) {
-                debugPrint("VC Presented") }
+                elDebugPrint("VC Presented") }
         }
     }
     
@@ -695,7 +695,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                         if homeFeed.isRunning || homeFeed.data?.products.count ?? 0 > 0 || !homeFeed.isLoaded.value  {
                             rowHeight = kHomeCellHeight - 10
                         }else{
-                            debugPrint("Failed homeFeed.isRunning: \(homeFeed.isRunning) homeFeed.data?.products.count:\(String(describing: homeFeed.data?.products.count))  homeFeed.isLoaded.value : \(homeFeed.isLoaded.value )")
+                            elDebugPrint("Failed homeFeed.isRunning: \(homeFeed.isRunning) homeFeed.data?.products.count:\(String(describing: homeFeed.data?.products.count))  homeFeed.isLoaded.value : \(homeFeed.isLoaded.value )")
                         }
                         
                        
@@ -1007,7 +1007,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                     case .success(let response):
                         self.saveOrderTrackingResponseData(response)
                     case .failure(let error):
-                        print("Error In Order Traking API:%@",error.localizedMessage)
+                       elDebugPrint("Error In Order Traking API:%@",error.localizedMessage)
                 }
             })
         }else{}
@@ -1168,18 +1168,18 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             FireBaseEventsLogger.setUserName(name: phone)
         }
         
-        //  print("Fetching User Basket from Server")
+        // elDebugPrint("Fetching User Basket from Server")
         ElGrocerApi.sharedInstance.fetchBasketFromServerWithGrocery(grocery) { (result) in
             
             self.getOrderStatusFromServer()
             
             switch result {
                 case .success(let responseDict):
-                    //  print("Fetch Basket Response:%@",responseDict)
+                    // elDebugPrint("Fetch Basket Response:%@",responseDict)
                     self.saveResponseData(responseDict, andWithGrocery: grocery)
                     
                 case .failure(let error):
-                    print("Fetch Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
             }
         }
     }
@@ -1576,7 +1576,7 @@ extension MainCategoriesViewController {
             failureCase.modalPresentationStyle = .fullScreen
             if let topVC = UIApplication.topViewController() {
                 if topVC is FailureViewController  {
-                    debugPrint("already present")
+                    elDebugPrint("already present")
                 }else{
                     let SDKManager = SDKManager.shared
                     SDKManager.rootViewController?.present(failureCase, animated: true) {
@@ -1597,11 +1597,11 @@ extension MainCategoriesViewController {
             switch result {
                 
                 case .success(let response):
-                    print("SERVER Response:%@",response)
+                   elDebugPrint("SERVER Response:%@",response)
                     self.saveResponseData(response)
                     
                 case .failure(let error):
-                    print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                   elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
             }
         })
         
@@ -1762,7 +1762,7 @@ extension MainCategoriesViewController: BannerCellDelegate {
         }else if bannerLink.bannerLinkImageUrlAr.count > 0 {
             self.goToAdvertController(bannerLink)
         } else{
-            debugPrint("No action")
+            elDebugPrint("No action")
         }
     }
     

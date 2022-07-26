@@ -305,7 +305,7 @@ extension Order {
         for productDict in products {
             
             if productDict["product_name"] == nil {
-                debugPrint("prodcut dict : \(productDict)")
+                elDebugPrint("prodcut dict : \(productDict)")
                 continue
             }
             
@@ -490,7 +490,7 @@ extension Order {
                     
                     let subtitutedProductGroceryId = getDbIdForSnappedSubtitutedProduct(orderId, groceryId: groceryId, productId: productId, subtitutedProductId: subtitutedProductId)
                     
-                    print("SubtitutedProductGroceryId:%@",subtitutedProductGroceryId)
+                   elDebugPrint("SubtitutedProductGroceryId:%@",subtitutedProductGroceryId)
                     
                     //create shopping item
                     let predicate = NSPredicate(format: "subtitutingProductId == %@ AND orderId == %@", subtitutedProductGroceryId, order.dbID)
@@ -695,7 +695,7 @@ extension Order {
             try context.save()
         } catch (let error) {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-            debugPrint("")
+            elDebugPrint("")
         }
 
         return order
@@ -711,7 +711,7 @@ extension Order {
             for productDict in products {
                 
                 if productDict["product_name"] == nil {
-                    debugPrint("prodcut dict : \(productDict)")
+                    elDebugPrint("prodcut dict : \(productDict)")
                     continue
                 }
                 
@@ -848,7 +848,7 @@ extension Order {
                         
                         let subtitutedProductGroceryId = getDbIdForSnappedSubtitutedProduct(orderId, groceryId: groceryId, productId: productId, subtitutedProductId: subtitutedProductId)
                         
-                        print("SubtitutedProductGroceryId:%@",subtitutedProductGroceryId)
+                       elDebugPrint("SubtitutedProductGroceryId:%@",subtitutedProductGroceryId)
                         
                         //create shopping item
                         let predicate = NSPredicate(format: "subtitutingProductId == %@ AND orderId == %@", subtitutedProductGroceryId, order.dbID)

@@ -380,7 +380,7 @@ class DeliveryInfoViewController: UIViewController {
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
-        print("keyboardHeight:%f",keyboardHeight)
+       elDebugPrint("keyboardHeight:%f",keyboardHeight)
         
         self.scrollViewBottomSpaceConstraint.constant = keyboardHeight - 40
         

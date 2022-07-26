@@ -244,7 +244,7 @@ class AddCreditCardViewController: UIViewController  {
         }
         // sending static value 
         ElgrocerAPINonBase.sharedInstance.authorization(cvv: "" , token: tokenName, email: email , amountToHold: self.totalPrice , ip: ip ?? "" , !isAddOnly) { (isSuccess, dataDict) in
-            debugPrint(isSuccess)
+            elDebugPrint(isSuccess)
             SpinnerView.hideSpinnerView()
             if isSuccess {
                 self.responseDict = dataDict
@@ -332,7 +332,7 @@ class AddCreditCardViewController: UIViewController  {
 extension AddCreditCardViewController : WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        debugPrint(error)
+        elDebugPrint(error)
         hideSpineer()
         SpinnerView.hideSpinnerView()
         webView.willMove(toWindow: nil)
@@ -343,7 +343,7 @@ extension AddCreditCardViewController : WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        debugPrint(webView)
+        elDebugPrint(webView)
          hideSpineer()
         if let finalURl = webView.url {
             let responseCode = finalURl.getQueryItemValueForKey("response_code")
@@ -485,7 +485,7 @@ extension AddCreditCardViewController : UITextFieldDelegate {
         let curFrame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
         let targetFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let deltaY = targetFrame.origin.y - curFrame.origin.y
-        print("deltaY",deltaY)
+       elDebugPrint("deltaY",deltaY)
         
         UIView.animateKeyframes(withDuration: duration, delay: 0.0, options: UIView.KeyframeAnimationOptions(rawValue: curve), animations: {
             self.scrollView.frame.origin.y+=deltaY // Here You Can Change UIView To UITextField

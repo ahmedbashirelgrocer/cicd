@@ -31,7 +31,7 @@ extension ElGrocerApi {
         }
         
         NetworkCall.post(ElGrocerSDKApiEndpoint.RegisterPhone.rawValue , parameters: parameters, progress: { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation, response) in
             
             self.extractAccessToken(response as! NSDictionary)

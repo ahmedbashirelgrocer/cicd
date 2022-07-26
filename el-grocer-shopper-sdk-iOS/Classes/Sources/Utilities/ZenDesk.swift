@@ -54,15 +54,15 @@ class ZenDesk : NSObject  { // ,  JWTAuthenticator
         
 //        
 //        NotificationCenter.default.addObserver(forName:   Chat.NotificationAuthenticationFailed , object: nil , queue: OperationQueue.main) { (notifcation) in
-//            debugPrint(notifcation)
+//            elDebugPrint(notifcation)
 //        }
 //        
 //        NotificationCenter.default.addObserver(forName:   Chat.NotificationMessageReceived , object: nil , queue: OperationQueue.main) { (notifcation) in
-//            debugPrint(notifcation)
+//            elDebugPrint(notifcation)
 //        }
 //        
 //        NotificationCenter.default.addObserver(forName:   Chat.NotificationChatEnded , object: nil , queue: OperationQueue.main) { (notifcation) in
-//            debugPrint(notifcation)
+//            elDebugPrint(notifcation)
 //        }
       
         
@@ -96,7 +96,7 @@ class ZenDesk : NSObject  { // ,  JWTAuthenticator
 //            Chat.pushNotificationsProvider?.registerPushTokenString(deviceToken)
 //            Chat.registerPushTokenString(deviceToken)
 //            ZDKPushProvider(zendesk: instance).register(deviceIdentifier: deviceToken  , locale: ElGrocerUtility.sharedInstance.isArabicSelected() ? "ar" : "en") { (pushResponse, error) in
-//              //  print("Couldn't register device: \(deviceToken). Error: \(error)")
+//              // elDebugPrint("Couldn't register device: \(deviceToken). Error: \(error)")
 //                if error != nil {
 //                    self.registerToken(deviceToken: deviceToken)
 //                }
@@ -162,7 +162,7 @@ class ZenDesk : NSObject  { // ,  JWTAuthenticator
 //        }
 //        Zendesk.instance?.setIdentity(ident)
 //        getToken { (token, error) in
-//            debugPrint("token: \(String(describing: token))")
+//            elDebugPrint("token: \(String(describing: token))")
 //        }
     }
     /*
@@ -261,7 +261,7 @@ class ZenDesk : NSObject  { // ,  JWTAuthenticator
             try self.buildChatController(orderID)
             
         }catch {
-            debugPrint("Faileur chat")
+            elDebugPrint("Faileur chat")
         }
         
     }

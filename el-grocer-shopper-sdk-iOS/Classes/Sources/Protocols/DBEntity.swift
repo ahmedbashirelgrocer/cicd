@@ -49,7 +49,7 @@ extension DBEntity where Self: NSManagedObject {
         return []*/
         
         //AWAIS -- Swift4
-     //   print("Entity Name:%@",Self.entityName)
+     //  elDebugPrint("Entity Name:%@",Self.entityName)
         let request = NSFetchRequest<NSFetchRequestResult>()
         request.entity = NSEntityDescription.entity(forEntityName: Self.entityName, in: context)
         request.predicate = predicate

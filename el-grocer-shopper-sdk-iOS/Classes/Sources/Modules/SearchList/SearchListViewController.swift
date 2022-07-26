@@ -150,9 +150,9 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         if (scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 25){
             self.view.endEditing(true)
-            //debugPrint(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y)
+            //elDebugPrint(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y)
         } else {
-            debugPrint(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y)
+            elDebugPrint(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y)
         }
     }
     

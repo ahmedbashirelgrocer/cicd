@@ -443,12 +443,12 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
             self.searchTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(perfomSearchAnalytics), userInfo: nil, repeats: false)
             AlgoliaApi.sharedInstance.searchQueryWithCurrentStoreItems(self.searchText, storeID: dbid, pageNumber: pageNumber , seachSuggestion: nil, searchType: "alternate" , self.currentLimit ) { (content, error) in
                 
-                debugPrint("content : \(String(describing: content))")
+                elDebugPrint("content : \(String(describing: content))")
                 
                 Thread.OnMainThread {
                     if error != nil {
-                        debugPrint("==============")
-                        debugPrint(error as Any)
+                        elDebugPrint("==============")
+                        elDebugPrint(error as Any)
                         
                     }else if  content != nil{
                         

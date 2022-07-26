@@ -40,15 +40,15 @@ class PromotionCodeHandler {
         ElGrocerApi.sharedInstance.getPromoList(limmit: limmit, Offset: offset, grocery: grocery) { result in
             switch result {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                 guard let responseData = response["data"] as? [NSDictionary] else{
-                    print("invalid response")
+                   elDebugPrint("invalid response")
                     completion(nil,ElGrocerError.parsingError())
                     return
                 }
                 
                 for data in responseData {
-                    print(data)
+                   elDebugPrint(data)
                     do {
                         let promo = PromotionCode.init(fromResponse: data as? AnyObject)
                         let promoCodeObjData = try NSKeyedArchiver.archivedData(withRootObject: promo, requiringSecureCoding: false)
@@ -57,10 +57,10 @@ class PromotionCodeHandler {
                         if promotionCode != nil {
                             promoCodeArray.append(promotionCode!)
                         }
-                        print(promotionCode)
+                       elDebugPrint(promotionCode)
 
                     } catch (let error) {
-                        print(error.localizedDescription)
+                       elDebugPrint(error.localizedDescription)
                         if let error = error as? NSError {
                             completion(nil, ElGrocerError(error: error))
                         }else {
@@ -72,7 +72,7 @@ class PromotionCodeHandler {
                 completion(promoCodeArray, nil)
                     
                 case .failure(let error):
-                    print(error)
+                   elDebugPrint(error)
                     completion(nil, error)
 //                error.showErrorAlert()
             }
@@ -117,7 +117,7 @@ class PromotionCodeHandler {
                         FireBaseEventsLogger.trackPromoCode(promoText)
                         completion(promoCode,nil)
                     }catch(let error){
-                        debugPrint(error)
+                        elDebugPrint(error)
                         UserDefaults.setPromoCodeValue(nil)
                         UserDefaults.setPromoCodeIsFromText(nil)
                         if let error = error as? NSError {

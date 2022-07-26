@@ -65,7 +65,7 @@ class SendBirdManager {
         // Specify your Sendbird application ID.
         SBUMain.initialize(applicationId: APP_ID)
         self.logIn {
-            debugPrint("Login called")
+            elDebugPrint("Login called")
         }
     }
     
@@ -110,7 +110,7 @@ class SendBirdManager {
                     if let token = UserDefaults.getDevicePushTokenData(){
                         self.registerPushNotification(token) { (success) in
                             if success{
-                                print("registered")
+                               elDebugPrint("registered")
                             }
                         }
                     }
@@ -137,7 +137,7 @@ class SendBirdManager {
                             if let token = UserDefaults.getDevicePushTokenData(){
                                 self.registerPushNotification(token) { (success) in
                                     if success{
-                                        print("registered")
+                                       elDebugPrint("registered")
                                     }
                                 }
                             }
@@ -265,7 +265,7 @@ class SendBirdManager {
                         channel.join(completionHandler: { (error) in
                             guard error == nil else {
                                     // Handle error.
-                                print(error?.localizedDescription ?? "")
+                               elDebugPrint(error?.localizedDescription ?? "")
                                 return
                             }
                             self.navigateTochannelViewController(channel: channel, controller: controller, orderId: orderId)
@@ -276,7 +276,7 @@ class SendBirdManager {
                     SBDGroupChannel.createChannel(with: groupChannelParams) { groupChannel, error in
                         guard error == nil else {
                                 // Handle error.
-                            print(error?.localizedDescription ?? "")
+                           elDebugPrint(error?.localizedDescription ?? "")
                             return
                         }
                         DispatchQueue.main.async {
@@ -433,7 +433,7 @@ class SendBirdManager {
                 // If you want to unregister the current device only, invoke this method.
                 SBDMain.unregisterPushToken(token, completionHandler: { (response, error) in
                     guard error == nil else{
-                        print(error)
+                       elDebugPrint(error)
                         if let handler = completionHandler {
                             handler()
                         }
@@ -445,7 +445,7 @@ class SendBirdManager {
                     }
                 })
                 SBUMain.unregisterAllPushToken { (isCompleted) in
-                    debugPrint(isCompleted)
+                    elDebugPrint(isCompleted)
                     if isCompleted{
                         UserDefaults.setIsDevicePushTokenRegistered(false)
                     }
@@ -477,7 +477,7 @@ class SendBirdManager {
     func didReciveRemoteNotification(userInfo : [AnyHashable : Any]) {
     
         guard let sendBirdData = userInfo["sendbird"] as? NSDictionary else{
-            print("no channel present")
+           elDebugPrint("no channel present")
             return
         }
         
@@ -592,7 +592,7 @@ class SendBirdManager {
                         //MARK: picker and shoper chat
                         let pickerData = sendBirdData["sender"] as? NSDictionary
                         let orderId = channel_url.replacingOccurrences(of: OrderUrlPrefix, with: "")
-                        print(orderId)
+                       elDebugPrint(orderId)
                         if orderId.count > 0 {
                             if !UserDefaults.isUserLoggedIn() {
                                 return
@@ -665,7 +665,7 @@ extension SendBirdManager {
             
             self.deleteRegisterDeviceToken(userId: id) { user in
                 if user != nil {
-                    print("anonymous user logged out")
+                   elDebugPrint("anonymous user logged out")
                 }
             }
         }
@@ -712,7 +712,7 @@ extension SendBirdManager{
                     if user != nil{
                         return
                     }else{
-                        print("platform error")
+                       elDebugPrint("platform error")
                     }
                 }
                 
@@ -738,7 +738,7 @@ extension SendBirdManager{
                         manager.startCustomerPlatformProcess(idToSend: userIdToCheck, nmaeToSend: nameToCheck)
                     }else{
                         //user cannot be created
-                        print("platform error")
+                       elDebugPrint("platform error")
                     }
                 }
                 
@@ -763,7 +763,7 @@ extension SendBirdManager{
             success: { [weak self] (operation, responseObject) in
 
                  if let dic = responseObject as? [String: Any]{
-                      print(dic)
+                     elDebugPrint(dic)
                      if let userId = dic["user_id"] as? String, let name = dic["nickname"] as? String{
                          completion(userId,name)
                      }
@@ -773,7 +773,7 @@ extension SendBirdManager{
                  }
                 
             }, failure: { (operation, error) in
-                 print("Error: " + error.localizedDescription)
+                elDebugPrint("Error: " + error.localizedDescription)
                 completion(nil,nil)
         })
         
@@ -790,7 +790,7 @@ extension SendBirdManager{
         manager.post(url, parameters: params, headers: manager.requestSerializer.httpRequestHeaders, progress: nil, success: { [weak self] (task: URLSessionDataTask, responseObject: Any?) in
             if var jsonResponse = responseObject as? [String: AnyObject] {
                 // here read response
-                print(jsonResponse)
+               elDebugPrint(jsonResponse)
                 if let userId = jsonResponse["user_id"] as? String{
                     completion(userId)
                 }else{
@@ -798,7 +798,7 @@ extension SendBirdManager{
                 }
             }
         }) { (task: URLSessionDataTask?, error: Error) in
-            print("POST fails with error \(error)")
+           elDebugPrint("POST fails with error \(error)")
             completion(nil)
         }
     }
@@ -814,7 +814,7 @@ extension SendBirdManager{
         manager.put(url, parameters: params, headers: manager.requestSerializer.httpRequestHeaders, success: { [weak self] (task: URLSessionDataTask, responseObject: Any?) in
             if var jsonResponse = responseObject as? [String: AnyObject] {
                 // here read response
-                print(jsonResponse)
+               elDebugPrint(jsonResponse)
                 if let userId = jsonResponse["user_id"] as? String{
                     completion(userId)
                 }else{
@@ -824,7 +824,7 @@ extension SendBirdManager{
                 completion(nil)
             }
         }) { (task: URLSessionDataTask?, error: Error) in
-            print("Put fails with error \(error)")
+           elDebugPrint("Put fails with error \(error)")
             completion(nil)
         }
     }
@@ -847,7 +847,7 @@ extension SendBirdManager{
             
             if let jsonResponse = responseObject as? [String: AnyObject] {
                 // here read response
-                print(jsonResponse)
+               elDebugPrint(jsonResponse)
                 if let user = jsonResponse["user"] as? [String: Any]{
                     if let id = user["user_id"] as? String{
                         completion(id)
@@ -860,13 +860,13 @@ extension SendBirdManager{
                 completion(nil)
             }
         }) { (task: URLSessionDataTask?, error: Error) in
-            print("POST fails with error \(error)")
+           elDebugPrint("POST fails with error \(error)")
             completion(nil)
         }
         
         if Platform.isDebugBuild {
             self.getRegisterDeviceTokenList(userId: userId) { data in
-                debugPrint("APNS-SendBirdData: \(data)")
+                elDebugPrint("APNS-SendBirdData: \(data)")
             }
         }
         
@@ -897,7 +897,7 @@ extension SendBirdManager{
         manager.delete(url, parameters: params, headers: manager.requestSerializer.httpRequestHeaders, success: { [weak self] (task: URLSessionDataTask, responseObject: Any?) in
             if let jsonResponse = responseObject as? [String: AnyObject] {
                 // here read response
-                print(jsonResponse)
+               elDebugPrint(jsonResponse)
                 if let userId = jsonResponse["user_id"] as? String{
                     completion(userId)
                 }else{
@@ -916,7 +916,7 @@ extension SendBirdManager{
                 completion(nil)
             }
         }) { (task: URLSessionDataTask?, error: Error) in
-            print("Delete fails with error \(error)")
+           elDebugPrint("Delete fails with error \(error)")
             completion(nil)
         }
     }
@@ -939,11 +939,11 @@ extension SendBirdManager{
         
         manager.get(url, parameters: nil , headers: manager.requestSerializer.httpRequestHeaders, progress: nil) { [weak self] (task: URLSessionDataTask, responseObject: Any?) in
             if let jsonResponse = responseObject as? [String: AnyObject] {
-                debugPrint(jsonResponse)
+                elDebugPrint(jsonResponse)
             }
             completion(nil)
         } failure: { (task: URLSessionDataTask?, error: Error) in
-            print("Delete fails with error \(error)")
+           elDebugPrint("Delete fails with error \(error)")
             completion(nil)
         }
 
@@ -969,7 +969,7 @@ extension SendBirdManager{
             success: { [weak self] (operation, responseObject) in
 
                  if let dic = responseObject as? [[String: Any]]{
-                      print(dic)
+                     elDebugPrint(dic)
                      if let userId = dic[0]["user_id"] as? String{
                          completion(userId)
                      }
@@ -983,7 +983,7 @@ extension SendBirdManager{
             failure:
             {
                 (operation, error) in
-                 print("Error: " + error.localizedDescription)
+                elDebugPrint("Error: " + error.localizedDescription)
                 completion(nil)
         })
     }
@@ -1009,7 +1009,7 @@ extension SendBirdManager{
                [weak self] (operation, responseObject) in
 
                  if let dic = responseObject as? [String: Any]{
-                      print(dic)
+                     elDebugPrint(dic)
                      if let userId = dic["user_id"] as? String{
                          completion(userId)
                      }
@@ -1024,7 +1024,7 @@ extension SendBirdManager{
             failure:
             {
                 (operation, error) in
-                 print("Error: " + error.localizedDescription)
+                elDebugPrint("Error: " + error.localizedDescription)
                 completion(nil)
         })
         
@@ -1043,7 +1043,7 @@ extension SendBirdManager{
        
         if let jsonData = try? JSONSerialization.data(withJSONObject:dic) {
             if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print(jsonString)
+               elDebugPrint(jsonString)
                 parameters = jsonString
             }
         }
@@ -1055,7 +1055,7 @@ extension SendBirdManager{
         request.httpBody = postData
         let task = URLSession.shared.dataTask(with: request) {[weak self] data, response, error in
           guard let data = data else {
-            print(String(describing: error))
+           elDebugPrint(String(describing: error))
             completion(nil)
             semaphore.signal()
             return
@@ -1089,7 +1089,7 @@ extension SendBirdManager{
         
         if let jsonData = try? JSONSerialization.data(withJSONObject:dic) {
             if let jsonString = String(data: jsonData, encoding: .utf8) {
-                print(jsonString)
+               elDebugPrint(jsonString)
                 parameters = jsonString
             }
         }
@@ -1101,7 +1101,7 @@ extension SendBirdManager{
         request.httpBody = postData
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+               elDebugPrint(String(describing: error))
                 completion(nil)
                 semaphore.signal()
                 return
@@ -1133,7 +1133,7 @@ extension SendBirdManager{
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             } catch {
-                print(error.localizedDescription)
+               elDebugPrint(error.localizedDescription)
             }
         }
         return nil

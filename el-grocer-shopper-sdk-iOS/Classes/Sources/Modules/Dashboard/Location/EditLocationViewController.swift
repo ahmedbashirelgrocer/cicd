@@ -253,7 +253,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         let isServiceEnabled = self.checkLocationService()
         if isServiceEnabled {
             
-            print("Current Location is enabled")
+           elDebugPrint("Current Location is enabled")
             
             if let location = LocationManager.sharedInstance.currentLocation.value {
                 
@@ -281,16 +281,16 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 // Create the fetcher.
                 self.fetcher = GMSAutocompleteFetcher( filter: filter)
                 self.fetcher?.delegate = self
-                print("Fetcher is init with bounds")
+               elDebugPrint("Fetcher is init with bounds")
                 
             }else{
-                print("Current Location is enabled but Fetcher is init without bounds")
+               elDebugPrint("Current Location is enabled but Fetcher is init without bounds")
                 self.fetcher = GMSAutocompleteFetcher()
                 self.fetcher?.delegate = self
             }
             
         }else{
-            print("Current Location is not enabled so Fetcher is init without bounds")
+           elDebugPrint("Current Location is not enabled so Fetcher is init without bounds")
             self.fetcher = GMSAutocompleteFetcher()
             self.fetcher?.delegate = self
         }
@@ -901,7 +901,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         
                                         if buttonIndex == 0 {
-                                            print("Yes Tapped")
+                                           elDebugPrint("Yes Tapped")
                                             UIApplication.shared.openURL(URL(string:UIApplication.openSettingsURLString)!)
                                         }else{
                                             self.setUpLocationViewAppearance(false)
@@ -934,14 +934,14 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             switch(CLLocationManager.authorizationStatus()) {
                 
             case .notDetermined, .restricted, .denied:
-                print("No Access to Location services")
+               elDebugPrint("No Access to Location services")
                 isCurrentLocationEnabled = false
                 
             case .authorizedAlways, .authorizedWhenInUse:
-                print("Have Location services Access")
+               elDebugPrint("Have Location services Access")
                 isCurrentLocationEnabled = true
                 @unknown default:
-                print("location defaurl")
+               elDebugPrint("location defaurl")
             }
         }
         
@@ -1181,7 +1181,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
 
         }else{
             
-            print("User Tap on any Prediction")
+           elDebugPrint("User Tap on any Prediction")
             
           //  self.searchTextField.text = ""
             self.searchString = ""
@@ -1194,13 +1194,13 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             _ = SpinnerView.showSpinnerViewInView(self.view)
             placesClient.lookUpPlaceID(placeID, callback: { (place, error) -> Void in
                 if let error = error {
-                    print("lookup place id query error: \(error.localizedDescription)")
+                   elDebugPrint("lookup place id query error: \(error.localizedDescription)")
                     SpinnerView.hideSpinnerView()
                     return
                 }
                 
                 guard let place = place else {
-                    print("No place details for \(placeID)")
+                   elDebugPrint("No place details for \(placeID)")
                     SpinnerView.hideSpinnerView()
                     return
                 }
@@ -1209,7 +1209,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 self.viewModel.selectedLocation.value = location
                 self.viewModel.buildingName.value = ElGrocerUtility.sharedInstance.getPremiseFrom(place)
                 
-                print("Place name:%@",place.name as Any)
+               elDebugPrint("Place name:%@",place.name as Any)
                 self.viewModel.predictionlocationName.value = place.name
                 self.viewModel.predictionlocationAddress.value = place.formattedAddress
                 
@@ -1235,7 +1235,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 
             case .success(let response):
                 
-                print("Success")
+               elDebugPrint("Success")
                 
                 let dataDict = response["data"] as? NSDictionary
                 let isCovered = dataDict!["is_covered"] as? Bool
@@ -1245,17 +1245,17 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 if(isCovered == true){
                     
                     guard let locName = self.viewModel.predictionlocationName.value else {return}
-                    print("Location Name:%@",locName)
+                   elDebugPrint("Location Name:%@",locName)
                     
                     guard let locAddress = self.viewModel.predictionlocationAddress.value else {return}
-                    print("Location Address:%@",locAddress)
+                   elDebugPrint("Location Address:%@",locAddress)
                     
                     self.editDeliveryAddressWithLocation(location, withLocationName: locName, andWithUserAddress: locAddress)
                     
                 }else{
                     
                     self.locShopId =  dataDict!["location_without_shop_id"] as! NSNumber
-                    print("ShopID:%@",self.locShopId)
+                   elDebugPrint("ShopID:%@",self.locShopId)
                     self.isNoCoverage = true
                    // self.noCoverageView.isHidden = false
                 }
@@ -1877,7 +1877,7 @@ extension EditLocationViewController: GMSAutocompleteFetcherDelegate {
     }
     
     func didFailAutocompleteWithError(_ error: Error) {
-        print("FailAutocompleteWithError:%@",error.localizedDescription)
+       elDebugPrint("FailAutocompleteWithError:%@",error.localizedDescription)
     }
 }
 

@@ -35,7 +35,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
     var sectionZeroHeight : CGFloat = 60.0
     var recipe : Recipe?  {
         didSet{
-            debugPrint("set recipe")
+            elDebugPrint("set recipe")
         }
     }
     //let headerView = StretchyTableHeaderView(frame: CGRect(x: 0, y: 0, width: ScreenSize.SCREEN_WIDTH, height: ScreenSize.SCREEN_WIDTH + 30))
@@ -573,12 +573,12 @@ class RecipeDetailViewController: BasketBasicViewController   {
                     
                     if let recipeObj =  RecipeCart.createOrUpdateRecipeCart(dbID: userDBID , retailerID: Int64(retailerID)! , recipeID: (self.recipe?.recipeID)!, ingredients: ingredientIDsA, recipeName: (self.recipe?.recipeName)! , context: context) {
                         
-                        debugPrint("Object Created success ")
-                        debugPrint(recipeObj.dbID)
-                        debugPrint(recipeObj.recipeID)
-                        debugPrint(recipeObj.retailerID)
+                        elDebugPrint("Object Created success ")
+                        elDebugPrint(recipeObj.dbID)
+                        elDebugPrint(recipeObj.recipeID)
+                        elDebugPrint(recipeObj.retailerID)
                     }else{
-                        debugPrint("Failed")
+                        elDebugPrint("Failed")
                     }
                 })
             //}
@@ -609,8 +609,8 @@ extension RecipeDetailViewController : UIScrollViewDelegate {
             if shouldScroll{
                  y = -scrollView.contentOffset.y
                 let height = max(y, 60 + 20)
-                print(height)
-                print("y : \(y)")
+               elDebugPrint(height)
+               elDebugPrint("y : \(y)")
                 //imageView.frame = CGRect(x: 0, y: 0, width: ScreenSize.SCREEN_WIDTH, height: height)
                 if height < ScreenSize.SCREEN_WIDTH{
                     headerView.headerPageControl.visibility = .gone
@@ -621,11 +621,11 @@ extension RecipeDetailViewController : UIScrollViewDelegate {
             }else{
                 shouldScroll = true
                  y = -scrollView.contentOffset.y
-                print("Screen width :\(ScreenSize.SCREEN_WIDTH)")
-                print("offset y :\(y)")
+               elDebugPrint("Screen width :\(ScreenSize.SCREEN_WIDTH)")
+               elDebugPrint("offset y :\(y)")
                 
                 let height = max(y, ScreenSize.SCREEN_WIDTH + 30)
-                print(height)
+               elDebugPrint(height)
                 scrollView.contentOffset.y = -height
                 //imageView.frame = CGRect(x: 0, y: 0, width: ScreenSize.SCREEN_WIDTH, height: height)
                 headerView.frame = CGRect(x: 0, y: 0, width: ScreenSize.SCREEN_WIDTH + 30, height: height)

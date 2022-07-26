@@ -25,7 +25,7 @@ class GenericBannerCollectionViewCell: UICollectionViewCell {
     
     func setImage(_ url : String? ) {
         
-       // debugPrint("bannerurls :  \(url)")
+       // elDebugPrint("bannerurls :  \(url)")
         
         if url != nil && url?.range(of: "http") != nil {
             

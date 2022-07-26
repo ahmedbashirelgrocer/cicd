@@ -39,7 +39,7 @@ class AdyenApiManager {
         params["amount"] = amountDict
         
         ElGrocerApi.sharedInstance.getPaymentMethods(params) { results in
-            print(results)
+           elDebugPrint(results)
             switch results {
                 case .success(let data):
                 guard let dataDict = data["data"] as? NSDictionary else {
@@ -64,17 +64,17 @@ class AdyenApiManager {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: [])
                            let paymentMethods = try JSONDecoder().decode(PaymentMethods.self, from: jsonData)
                            // get stored cards
-                           print(paymentMethods.stored)
+                          elDebugPrint(paymentMethods.stored)
                            completion(nil,paymentMethods)
                          
                     } catch let error {
-                        print(error.localizedDescription)
+                       elDebugPrint(error.localizedDescription)
                         let error = ElGrocerError.parsingError()
                         completion(error, nil)
                     }
                 }
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                     completion(error, nil)
                     
             }
@@ -144,7 +144,7 @@ class AdyenApiManager {
         
         
         ElGrocerApi.sharedInstance.makePayment(params) { results in
-            print(results)
+           elDebugPrint(results)
             switch results {
                 case .success(let data):
                 guard let dataDict = data["data"] as? NSDictionary else {
@@ -176,10 +176,10 @@ class AdyenApiManager {
                         completion(error,response)
                     }
                 }
-                print(response)
+               elDebugPrint(response)
                 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                     completion(error, nil)
                     
             }
@@ -200,7 +200,7 @@ class AdyenApiManager {
         
         
         ElGrocerApi.sharedInstance.handlePaymentAction(params) { results in
-            print(results)
+           elDebugPrint(results)
             switch results {
                 case .success(let data):
                 guard let dataDict = data["data"] as? NSDictionary else {
@@ -227,7 +227,7 @@ class AdyenApiManager {
                 }
                 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
 //                    error.showErrorAlert()
                     completion(error, nil)
                     
@@ -248,7 +248,7 @@ class AdyenApiManager {
         params["cancel_orders"] = isNeedToCancelOrder
 
         ElGrocerApi.sharedInstance.deleteAdyenCreditCard(params) { results in
-            print(results)
+           elDebugPrint(results)
             switch results {
                 case .success(let data):
                 guard let dataDict = data["data"] as? NSDictionary else {
@@ -280,10 +280,10 @@ class AdyenApiManager {
                     return
                 }
                 
-                print(response)
+               elDebugPrint(response)
                 completion(nil, data)
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                 //error code 4070 indicates that there is an active order against this card.
                 if error.code == 4070 {
                     let alert = ElGrocerAlertView.createAlert("Error", description: error.localizedMessage, positiveButton: "Yes", negativeButton: "No") { buttonTag in

@@ -197,7 +197,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         let isServiceEnabled = self.checkLocationService()
         if isServiceEnabled {
             
-            print("Current Location is enabled")
+           elDebugPrint("Current Location is enabled")
             
             if let location = LocationManager.sharedInstance.currentLocation.value {
                 
@@ -225,16 +225,16 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 // Create the fetcher.
                 self.fetcher = GMSAutocompleteFetcher( filter: filter)
                 self.fetcher?.delegate = self
-                print("Fetcher is init with bounds")
+               elDebugPrint("Fetcher is init with bounds")
                 
             }else{
-                print("Current Location is enabled but Fetcher is init without bounds")
+               elDebugPrint("Current Location is enabled but Fetcher is init without bounds")
                 self.fetcher = GMSAutocompleteFetcher()
                 self.fetcher?.delegate = self
             }
             
         }else{
-            print("Current Location is not enabled so Fetcher is init without bounds")
+           elDebugPrint("Current Location is not enabled so Fetcher is init without bounds")
             self.fetcher = GMSAutocompleteFetcher()
             self.fetcher?.delegate = self
         }
@@ -355,12 +355,12 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
 //                if result == true {
 //                    let alert  = ElGrocerAlertView.createAlert(localizedString("thank_you", comment: ""), description: localizedString("delivery_location_request", comment: ""), positiveButton: localizedString("ok_button_title", comment: ""), negativeButton: "", buttonClickCallback: nil)
 //                    alert.show()
-//                    print("Record update successfully.")
+//                   elDebugPrint("Record update successfully.")
 //                    self.isNoCoverage = false
 //                    self.noCoverageView.isHidden = true
 //                    self.refreshData()
 //                } else {
-//                    print("Error from server.")
+//                   elDebugPrint("Error from server.")
 //                }
 //            case .failure(let error):
 //                error.showErrorAlert()
@@ -414,7 +414,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         self.locations.sort {$0.isActive.boolValue && !$1.isActive.boolValue}
         
-        print("Locations Array Count:%d",self.locations.count)
+       elDebugPrint("Locations Array Count:%d",self.locations.count)
         
         if (self.searchString.isEmpty) {
             
@@ -633,7 +633,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 self.currLocImgView.isHidden = false
                 
                 if let error = error {
-                    print("Pick Place error: \(error.localizedDescription)")
+                   elDebugPrint("Pick Place error: \(error.localizedDescription)")
                     self.currentLocLabel.text = localizedString("failed_to_find_current_address_title", comment: "")
                     return
                 }
@@ -758,7 +758,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         
                                         if buttonIndex == 0 {
-                                            print("Yes Tapped")
+                                           elDebugPrint("Yes Tapped")
                                             UIApplication.shared.openURL(URL(string:UIApplication.openSettingsURLString)!)
                                         }else{
                                             self.setUpLocationViewAppearance(false)
@@ -820,13 +820,13 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 NotificationCenter.default.addObserver(self, selector: #selector(self.locationUpdate(_:)), name:NSNotification.Name(rawValue: KLocationChange), object: nil)
                 isCurrentLocationEnabled = false
             case  .restricted, .denied:
-                print("No Access to Location services")
+               elDebugPrint("No Access to Location services")
                 isCurrentLocationEnabled = false
             case .authorizedAlways, .authorizedWhenInUse:
-                print("Have Location services Access")
+               elDebugPrint("Have Location services Access")
                 isCurrentLocationEnabled = true
                 @unknown default:
-                print("Default Location services Access")
+               elDebugPrint("Default Location services Access")
             }
         }
         
@@ -1038,7 +1038,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             
             }else{
                 
-                print("User Tap on any Prediction")
+               elDebugPrint("User Tap on any Prediction")
                 
                 self.searchTextField.text = ""
                 self.searchString = ""
@@ -1060,14 +1060,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         let _ = SpinnerView.showSpinnerViewInView(self.view)
         placesClient.lookUpPlaceID(placeID, callback: { (place, error) -> Void in
             if let error = error {
-                print("lookup place id query error: \(error.localizedDescription)")
+               elDebugPrint("lookup place id query error: \(error.localizedDescription)")
                 SpinnerView.hideSpinnerView()
                 self.showLocationErrorAlert()
                 return
             }
             
             guard let place = place else {
-                print("No place details for \(placeID)")
+               elDebugPrint("No place details for \(placeID)")
                 SpinnerView.hideSpinnerView()
                 self.showLocationErrorAlert()
                 return
@@ -1293,7 +1293,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 
             case .success(let response):
                 
-                print("Success")
+               elDebugPrint("Success")
                 
                 let dataDict = response["data"] as? NSDictionary
                 let isCovered = dataDict!["is_covered"] as? Bool
@@ -1305,17 +1305,17 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                      guard let location = self.viewModel.selectedLocation.value else {return}
                     
                      guard let locName = self.viewModel.predictionlocationName.value else {return}
-                     print("Location Name:%@",locName)
+                    elDebugPrint("Location Name:%@",locName)
                     
                      guard let locAddress = self.viewModel.predictionlocationAddress.value else {return}
-                     print("Location Address:%@",locAddress)
+                    elDebugPrint("Location Address:%@",locAddress)
                     
                     self.addDeliveryAddressWithLocation(selectedLocation: location, withLocationName: locName, andWithUserAddress: locAddress, building: self.viewModel.buildingName.value ?? "", cityName:  self.viewModel.locationCity.value)
                 }else{
                     
                     SpinnerView.hideSpinnerView()
                     self.locShopId =  dataDict!["location_without_shop_id"] as! NSNumber
-                    print("ShopID:%@",self.locShopId)
+                   elDebugPrint("ShopID:%@",self.locShopId)
                     self.isNoCoverage = true
                     self.noCoverageView.isHidden = false
                     
@@ -1477,7 +1477,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             _ = SpinnerView.showSpinnerViewInView(self.view)
             ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(location) { (result) in
                 
-                print(result)
+               elDebugPrint(result)
                 if result {
                     self.refreshData(false)
                     if self.isFormCart  {
@@ -1580,7 +1580,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             let keyboardHeight = keyboardRectangle.height
             UIView.animate(withDuration: 0.5, delay:0.0, options:UIView.AnimationOptions.transitionFlipFromTop, animations: {
               //  self.noCoverageViewTopToSearchView.constant = self.searchView.frame.height - keyboardHeight
-                print("noCoverageViewTopToSearchView",self.searchView.frame.height - keyboardHeight)
+               elDebugPrint("noCoverageViewTopToSearchView",self.searchView.frame.height - keyboardHeight)
                 }, completion: { finished in
             })
         }
@@ -1687,7 +1687,7 @@ extension DashboardLocationViewController: UITextFieldDelegate {
             if(textField.returnKeyType == .search){
                 let locationName = textField.text
                 if  locationName != nil && locationName?.isEmpty == false {
-                    print("Search String:%@",locationName ?? "NULL")
+                   elDebugPrint("Search String:%@",locationName ?? "NULL")
                     let _ = SpinnerView.showSpinnerViewInView(self.view)
                     LocationManager.sharedInstance.getPlaceIdFromLocationName(locationName,withCompletionHandler: { (status, success,placeID) -> Void in
                         if success {
@@ -1739,7 +1739,7 @@ extension DashboardLocationViewController: GMSAutocompleteFetcherDelegate {
     }
     
     func didFailAutocompleteWithError(_ error: Error) {
-        print("Error:%@",error.localizedDescription)
+       elDebugPrint("Error:%@",error.localizedDescription)
     }
 }
 

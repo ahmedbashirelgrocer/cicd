@@ -32,7 +32,7 @@ class MixpanelManager {
         
         Mixpanel.mainInstance().track(event: eventName, properties: finalParms)
         Mixpanel.mainInstance().flush {
-            if Platform.isSimulator {  debugPrint("MixPanel : debug: \(eventName): done") }
+            if Platform.isSimulator {  elDebugPrint("MixPanel : debug: \(eventName): done") }
         }
     }
 }

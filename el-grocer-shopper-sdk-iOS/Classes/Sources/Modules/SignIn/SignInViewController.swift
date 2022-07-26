@@ -326,7 +326,7 @@ class SignInViewController: RegistrationViewController, Form {
                 case .login:
                    _ = SpinnerView.showSpinnerViewInView(self.view)
                 case .loginSuccess:
-                    debugPrint("loginSuccess")
+                    elDebugPrint("loginSuccess")
                 default:
                     SpinnerView.hideSpinnerView()
                 }
@@ -376,14 +376,14 @@ class SignInViewController: RegistrationViewController, Form {
 //                let sendBirdDeskManager = SendBirdDeskManager(type: .agentSupport)
 //                if let user = SendBirdManager.getCurrentSendBirdUser() {
 //                    sendBirdDeskManager.logout {
-//                        debugPrint("sendbird logout")
+//                        elDebugPrint("sendbird logout")
 //                        sendBirdDeskManager.logIn(isWithChat: false) {
-//                            debugPrint("sendbird login")
+//                            elDebugPrint("sendbird login")
 //                        }
 //                    }
 //                }else{
 //                    SendBirdManager().logIn {
-//                        debugPrint("sendbird login")
+//                        elDebugPrint("sendbird login")
 //                    }
 //                }
                 
@@ -458,7 +458,7 @@ class SignInViewController: RegistrationViewController, Form {
             navigationController.modalPresentationStyle = .fullScreen
             MixpanelEventLogger.trackCreateAccountNextClick()
             self.present(navigationController, animated: false) {
-                debugPrint("VC Presented")
+                elDebugPrint("VC Presented")
             }
         }
         
@@ -621,7 +621,7 @@ class SignInViewController: RegistrationViewController, Form {
         navigationController.modalPresentationStyle = .fullScreen
         MixpanelEventLogger.trackWelcomeChooseLocation()
         self.present(navigationController, animated: false) {
-            debugPrint("VC Presented")
+            elDebugPrint("VC Presented")
         }
         
         
@@ -672,7 +672,7 @@ extension SignInViewController {
         let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
         backgroundQueue.async(execute: { [unowned self] in
             
-            print("This is run on the background queue")
+           elDebugPrint("This is run on the background queue")
             ElGrocerApi.sharedInstance.checkPhoneExistence( self.finalPhoneNumber , completionHandler: { (result, responseObject) in
                 if result == true {
                      
@@ -785,7 +785,7 @@ extension SignInViewController {
 extension SignInViewController : FPNTextFieldCustomDelegate {
     
     func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
-        print(name, dialCode, code) // Output "France", "+33", "FR"
+       elDebugPrint(name, dialCode, code) // Output "France", "+33", "FR"
         ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
             self.phoneNumberTextField.becomeFirstResponder()
         }
@@ -808,8 +808,8 @@ extension SignInViewController : FPNTextFieldCustomDelegate {
         self.validatePhoneNumberAndSetPasswordTextFieldAppearance(isValid)
         self.validateInputFieldsAndSetsubmitButtonAppearance()
         
-        debugPrint(isValid)
-        debugPrint(finalPhoneNumber)
+        elDebugPrint(isValid)
+        elDebugPrint(finalPhoneNumber)
     }
     
 }

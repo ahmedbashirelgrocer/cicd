@@ -94,7 +94,7 @@ class AdyenManager {
             }
             Thread.OnMainThread {
                 if let paymentMethod = paymentMethods {
-                    print(paymentMethods)
+                   elDebugPrint(paymentMethods)
                     for method in paymentMethod.regular{
                         if method.type.elementsEqual("scheme") {
                             
@@ -155,7 +155,7 @@ class AdyenManager {
             
         }catch let error{
             SpinnerView.hideSpinnerView()
-            print(error.localizedDescription)
+           elDebugPrint(error.localizedDescription)
             let error = ElGrocerError.genericError()
             error.showErrorAlert()
         }
@@ -173,7 +173,7 @@ class AdyenManager {
                 controller.present(component.viewController, animated: true)
             }
         }catch (let error) {
-            print(error.localizedDescription)
+           elDebugPrint(error.localizedDescription)
            // let error = ElGrocerError.genericError()
            // error.showErrorAlert()
             SpinnerView.hideSpinnerView()
@@ -199,7 +199,7 @@ class AdyenManager {
                 SpinnerView.hideSpinnerView()
                 if response != nil {
                     let resultCode = response?["resultCode"] as? String ?? ""
-                    print(resultCode)
+                   elDebugPrint(resultCode)
                     let refusalReason = response?["refusalReason"] as? String ?? ""
                     AdyenManager.showErrorAlert(title: resultCode, descr: refusalReason)
                 }else {
@@ -239,7 +239,7 @@ class AdyenManager {
         }
        
         AdyenApiManager().makePayment(amount: value, orderNum: adyenObjData.orderNumber, paymentMethodDict: paymentMethodDict, isForZeroAuth: adyenObjData.isZeroAuth, browserInfo: browserInfo) { error, response in
-                print(error)
+               elDebugPrint(error)
                 if let error = error {
                     
                     SpinnerView.hideSpinnerView()
@@ -273,7 +273,7 @@ class AdyenManager {
                     
                 }else{
                     guard response != nil else {
-                        print("something went Wrong")
+                       elDebugPrint("something went Wrong")
                         SpinnerView.hideSpinnerView()
                         let error = ElGrocerError()
                         error.showErrorAlert()
@@ -286,7 +286,7 @@ class AdyenManager {
                             self.setActionComponent(actionData: jsonData)
                                                             
                         } catch let error {
-                            print(error.localizedDescription)
+                           elDebugPrint(error.localizedDescription)
                             let errorGrocer = ElGrocerError.parsingError()
                             errorGrocer.showErrorAlert()
                         }
@@ -342,13 +342,13 @@ extension AdyenManager {
 //MARK: delegates
 extension AdyenManager: PaymentComponentDelegate{
     func didSubmit(_ data: PaymentComponentData, from component: PaymentComponent) {
-        print(data)
+       elDebugPrint(data)
         handleCardResponseAndPay(data: data, component: component)
         
     }
     
     func didFail(with error: Error, from component: PaymentComponent) {
-        print(error)
+       elDebugPrint(error)
         
         SpinnerView.hideSpinnerView()
         
@@ -372,11 +372,11 @@ extension AdyenManager: PaymentComponentDelegate{
 extension AdyenManager: ActionComponentDelegate , PresentationDelegate{
     
     func didComplete(from component: ActionComponent) {
-        print("success")
+       elDebugPrint("success")
     }
     
     func didFail(with error: Error, from component: ActionComponent) {
-        print(error.localizedDescription)
+       elDebugPrint(error.localizedDescription)
         
         SpinnerView.hideSpinnerView()
         
@@ -387,14 +387,14 @@ extension AdyenManager: ActionComponentDelegate , PresentationDelegate{
     }
     
     func didProvide(_ data: ActionComponentData, from component: ActionComponent) {
-        print(data)
+       elDebugPrint(data)
         self.handleActionResponse(data: data, component: component)
         
     }
     
     //PresentationDelegate
     func present(component: PresentableComponent) {
-        print(component.viewController)
+       elDebugPrint(component.viewController)
          
         if component.viewController is SFSafariViewController {
             let child = component.viewController
@@ -405,7 +405,7 @@ extension AdyenManager: ActionComponentDelegate , PresentationDelegate{
                             child.didMove(toParent: topvc)
 //
 //                            topvc.present(component.viewController, animated: true) {
-//                                debugPrint("preeseenteed")
+//                                elDebugPrint("preeseenteed")
 //                            }
                         }
         }else{
@@ -433,15 +433,15 @@ extension AdyenManager: ActionComponentDelegate , PresentationDelegate{
 }
 extension AdyenManager: CardComponentDelegate{
     func didChangeBIN(_ value: String, component: CardComponent) {
-        print(value)
+       elDebugPrint(value)
     }
     
     func didChangeCardBrand(_ value: [CardBrand]?, component: CardComponent) {
-        print(value)
+       elDebugPrint(value)
     }
     
     func didSubmit(lastFour value: String, component: CardComponent) {
-        print("last 4 " + value)
+       elDebugPrint("last 4 " + value)
     }
     
 }

@@ -78,7 +78,7 @@ extension StoreListGlobalSearchCell: UICollectionViewDelegate, UICollectionViewD
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.item)
+       elDebugPrint(indexPath.item)
         guard indexPath.item < groceryArray.count else {
             return
         }

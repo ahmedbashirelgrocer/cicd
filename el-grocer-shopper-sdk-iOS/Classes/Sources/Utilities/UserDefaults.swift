@@ -51,7 +51,7 @@ public class UserDefaults {
                 let promotionCode = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [PromotionCode.self,NSArray.self,NSDictionary.self], from: loadedData) as? PromotionCode
                 loadedPromotionCode = promotionCode
             } catch (let error) {
-                debugPrint("error: \(error.localizedDescription)")
+                elDebugPrint("error: \(error.localizedDescription)")
             }
         }
         return loadedPromotionCode
@@ -205,13 +205,13 @@ public class UserDefaults {
     
     class func getPaymentMethod(forStoreId storeID : String) -> UInt32 {
         let key = "Payment" + storeID
-        debugPrint("get key Obj : \(key) : value : \(UInt32(Foundation.UserDefaults.standard.integer(forKey: key)))")
+        elDebugPrint("get key Obj : \(key) : value : \(UInt32(Foundation.UserDefaults.standard.integer(forKey: key)))")
         return UInt32(Foundation.UserDefaults.standard.integer(forKey: key))
     }
     
     class func setPaymentMethod(_ payment:UInt32 , forStoreId storeID : String) {
         let key = "Payment" + storeID
-        debugPrint("set key Obj : \(key) : value : \(Int(payment))")
+        elDebugPrint("set key Obj : \(key) : value : \(Int(payment))")
         Foundation.UserDefaults.standard.set(Int(payment), forKey: key)
         Foundation.UserDefaults.standard.synchronize()
     }
@@ -304,7 +304,7 @@ public class UserDefaults {
         let finalID = locationId + "elgrocer"
         Foundation.UserDefaults.standard.setValue(groceryId, forKey: finalID)
         Foundation.UserDefaults.standard.synchronize()
-        debugPrint("groceryId : \(String(describing: groceryId)) & locationId : \(finalID)")
+        elDebugPrint("groceryId : \(String(describing: groceryId)) & locationId : \(finalID)")
     }
     // MARK: Basket Initiation
     class func isBasketInitiated() -> Bool {
@@ -469,7 +469,7 @@ public class UserDefaults {
         userExsistingData.append(productID)
         Foundation.UserDefaults.standard.setValue(userExsistingData, forKey: finalID)
         Foundation.UserDefaults.standard.synchronize()
-        debugPrint("sponseredData : \(String(describing: userExsistingData)) & GrocerID : \(finalID)")
+        elDebugPrint("sponseredData : \(String(describing: userExsistingData)) & GrocerID : \(finalID)")
         
     }
     class func getSponsoredItemArray (grocerID : String) -> [String]? {
@@ -743,7 +743,7 @@ public class UserDefaults {
                 let promotionCode = try NSKeyedUnarchiver.unarchivedObject(ofClass: Reasons.self, from: loadedData)
                 loadedReasons = promotionCode
             } catch (let error) {
-                debugPrint("error: \(error.localizedDescription)")
+                elDebugPrint("error: \(error.localizedDescription)")
             }
         }
         return loadedReasons
@@ -813,8 +813,8 @@ class HomeTileDefaults :  UserDefaults {
     
     class func setTileViewedFor(_ tileName : String, screenName : String)  {
         
-        debugPrint("tileName: tileName \(tileName)")
-        debugPrint("tileName: screenName \(screenName)")
+        elDebugPrint("tileName: tileName \(tileName)")
+        elDebugPrint("tileName: screenName \(screenName)")
         
         var listString = HomeTileDefaults.getTileViewedFor(tileName: tileName, screenName)
         listString[tileName] = "1"

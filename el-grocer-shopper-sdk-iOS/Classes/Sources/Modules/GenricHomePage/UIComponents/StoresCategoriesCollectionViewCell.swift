@@ -43,7 +43,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
     }
     
     func configuredCell( type : StoreType  , isSelected : Bool = false) {
-        //  debugPrint("type: \(type.storeTypeid) : \(isSelected)")
+        //  elDebugPrint("type: \(type.storeTypeid) : \(isSelected)")
         self.currentStoreType = type
         self.currentSelected = isSelected
         //        if type.storeTypeid == -1 {
@@ -91,7 +91,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         if self.currentGrocery?.smallImageUrl != nil && self.currentGrocery?.smallImageUrl?.range(of: "http") != nil {
             self.setImageForGrocery(self.currentGrocery?.smallImageUrl! , imageView: self.centerImage, type: type)
         }else{
-            debugPrint("No image")
+            elDebugPrint("No image")
         }
         self.lblCategoryName.text = type.name ?? ""
         self.makeStateForChef(isSelected: isSelected)
@@ -284,7 +284,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
             //                centeraImage.tintColor = UIColor.colorWithHexString(hexString:  "595959" )
             //            }
         }
-        // debugPrint("imageis: \(imageView.image) : isSelected : \(isSelected) , story : \(self.currentStoreType?.storeTypeid)")
+        // elDebugPrint("imageis: \(imageView.image) : isSelected : \(isSelected) , story : \(self.currentStoreType?.storeTypeid)")
     }
     
 }

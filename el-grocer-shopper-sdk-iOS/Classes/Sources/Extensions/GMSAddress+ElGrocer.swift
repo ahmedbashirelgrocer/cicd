@@ -25,7 +25,7 @@ extension GMSAddress {
         }else{
             address = "Unknown"
         }
-        print("Address Str:%@",address)
+        elDebugPrint("Address Str:%@",address)
         return address
     }
 }

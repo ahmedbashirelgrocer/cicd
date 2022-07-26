@@ -18,25 +18,25 @@ class SmilesManager {
         SmilesNetworkManager.sharedInstance().getUserInfo(orderID) { result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     let dataDict = response["data"]
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict, options: .prettyPrinted)
 
                         let smileUser = try JSONDecoder().decode(SmileUser.self, from: jsonData)
-                        print(smileUser)
+                       elDebugPrint(smileUser)
                         UserDefaults.setIsSmileUser(true)
                         UserDefaults.setSmilesPoints(smileUser.availablePoints ?? 0)
                         completion(smileUser)
                     } catch {
-                        print(error)
+                       elDebugPrint(error)
                         UserDefaults.setIsSmileUser(false)
                         UserDefaults.setSmilesPoints( 0 )
                         completion(nil)
                     }
                 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                         //to disable error popup if user is not rigister with smiles
                       if (error.code != 4093) {
                         error.showErrorAlert()
@@ -53,25 +53,25 @@ class SmilesManager {
         SmilesNetworkManager.sharedInstance().getCachedUserInfo() { result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     let dataDict = response["data"]
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict, options: .prettyPrinted)
 
                         let smileUser = try JSONDecoder().decode(SmileUser.self, from: jsonData)
-                        print(smileUser)
+                       elDebugPrint(smileUser)
                         UserDefaults.setIsSmileUser(true)
                         UserDefaults.setSmilesPoints(smileUser.availablePoints ?? 0)
                         completion(smileUser)
                     } catch {
-                        print(error)
+                       elDebugPrint(error)
                         UserDefaults.setIsSmileUser(false)
                         UserDefaults.setSmilesPoints( 0 )
                         completion(nil)
                     }
                 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                     //error.showErrorAlert()
                     UserDefaults.setIsSmileUser(false)
                     UserDefaults.setSmilesPoints( 0 )

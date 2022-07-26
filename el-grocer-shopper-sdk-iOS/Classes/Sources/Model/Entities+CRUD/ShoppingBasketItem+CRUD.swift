@@ -227,7 +227,7 @@ extension ShoppingBasketItem {
                  item.updatedAt = finalDate
             }
             shoppingItem = item
-       //     print("Already exsits Item With Product Id: ",item.productId)
+       //    elDebugPrint("Already exsits Item With Product Id: ",item.productId)
         } else {
             
             //add to basket
@@ -239,7 +239,7 @@ extension ShoppingBasketItem {
             item.groceryId = Grocery.getGroceryIdForGrocery(grocery)
             item.count = NSNumber(value: quantity as Int)
             item.brandName = brandName
-            print("Create new Item With Product Id: ",item.productId)
+           elDebugPrint("Create new Item With Product Id: ",item.productId)
             if let finalDate = updatedAt {
                 item.updatedAt = finalDate
             }
@@ -267,7 +267,7 @@ extension ShoppingBasketItem {
         if let item = shoppingBasketItem {
             //update quantity because item is in basket
             item.count = NSNumber(value: quantity as Int)
-            print("Already exsits Item With Product Id: ",item.productId)
+           elDebugPrint("Already exsits Item With Product Id: ",item.productId)
         } else {
             
             //add to basket
@@ -281,7 +281,7 @@ extension ShoppingBasketItem {
             item.brandName = brandName
             item.orderId = orderID
             
-            print("Create new Item With Product Id: ",item.productId)
+           elDebugPrint("Create new Item With Product Id: ",item.productId)
         }
         
         updateBasketToServerWithGrocery(grocery, withProduct: product, andWithQuantity: quantity)
@@ -312,7 +312,7 @@ extension ShoppingBasketItem {
                     try context.save()
                 } catch let error {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                    debugPrint(error.localizedDescription)
+                    elDebugPrint(error.localizedDescription)
                 }
             }
 
@@ -337,7 +337,7 @@ extension ShoppingBasketItem {
                     try context.save()
                 } catch let error {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                    debugPrint(error.localizedDescription)
+                    elDebugPrint(error.localizedDescription)
                 }
             }
             
@@ -372,7 +372,7 @@ extension ShoppingBasketItem {
                 try context.save()
             } catch  {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                debugPrint(error.localizedDescription)
+                elDebugPrint(error.localizedDescription)
             }
         }
 
@@ -412,7 +412,7 @@ extension ShoppingBasketItem {
             try context.save()
         } catch  {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-            debugPrint(error.localizedDescription)
+            elDebugPrint(error.localizedDescription)
         }
 
     }
@@ -479,7 +479,7 @@ extension ShoppingBasketItem {
                         
                         product.availableQuantity = available_quantity
                         if available_quantity == -1 {
-                            print("Basket update to SERVER with Response:%@",responseDict)
+                           elDebugPrint("Basket update to SERVER with Response:%@",responseDict)
                         } else if available_quantity == 0 {
                             if quantity > 0 {
                                 ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery , brandName: product.brandNameEn , quantity: (item?.count.intValue ?? quantity) , context: context)
@@ -511,7 +511,7 @@ extension ShoppingBasketItem {
                     }
                     NotificationCenter.default.post(name: KProductNotification, object: product)
                     ShoppingBasketItem.showMessage(msg)
-                print("Error while basket update to SERVER:%@",error.localizedMessage)
+               elDebugPrint("Error while basket update to SERVER:%@",error.localizedMessage)
             }
         }
     }

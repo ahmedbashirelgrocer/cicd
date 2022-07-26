@@ -34,7 +34,7 @@ extension MyBasketViewController : BasketIconOverlayViewProtocol {
 extension MyBasketViewController : MyBasketCheckOut {
     
     func receivedReasonAndSelectedReason ( reasonA : [Reasons] , selectedReason : Int?) {
-        debugPrint("getreasons")
+        elDebugPrint("getreasons")
         
         self.tblBasket.reloadDataOnMain()
     }
@@ -603,7 +603,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             switch result {
                     
                 case .success(let response):
-                        // debugPrint(response)
+                        // elDebugPrint(response)
                     self.saveCarouselProductResponseForCategory(response)
                 case .failure(let error):
                     self.reloadTableData()
@@ -1049,10 +1049,10 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         ElGrocerApi.sharedInstance.deleteBasketFromServerWithGrocery(grocery) { (result) in
             switch result {
                 case .success(let responseDict):
-                    print("Delete Basket Response:%@",responseDict)
+                   elDebugPrint("Delete Basket Response:%@",responseDict)
                     
                 case .failure(let error):
-                    print("Delete Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Delete Basket Error:%@",error.localizedMessage)
             }
         }
     }
@@ -1307,9 +1307,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     }else{
                         
                         let shoppingAmount = String(format:"%0.2f", self.itemsSummaryValue)
-                        print("Shopping Cart Value:%@",shoppingAmount)
+                       elDebugPrint("Shopping Cart Value:%@",shoppingAmount)
                         FireBaseEventsLogger.setUserProperty(shoppingAmount, key: "shopping_cart_amount")
-                        print("Store Name:%@",self.grocery?.name ?? "Store Name is NULL")
+                       elDebugPrint("Store Name:%@",self.grocery?.name ?? "Store Name is NULL")
                         FireBaseEventsLogger.setUserProperty(self.grocery?.name, key: "store_name")
                         ElGrocerAlertView.createAlert(localizedString("order_no_minimum_value_alert_title", comment: ""),
                                                       description: localizedString("order_no_minimum_value_alert_description", comment: "") + " \(self.minimumBasketValueForGrocery)",
@@ -1358,7 +1358,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             //        let alertVC = PMAlertController(title: localizedString("out_of_stock_message_title", comment: "") , description: localizedString("out_of_stock_message", comment: "") , image: UIImage(name: "img.png"), style: .alert)
             //
             //        alertVC.addAction(PMAlertAction(title: localizedString("sign_out_alert_no", comment: ""), style: .cancel, action: { () -> Void in
-            //            print("Capture action Cancel")
+            //           elDebugPrint("Capture action Cancel")
             //        }))
             //
             //        alertVC.addAction(PMAlertAction(title: localizedString("sign_out_alert_yes", comment: ""), style: .default, action: { () in
@@ -1544,7 +1544,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         let userProfile = UserProfile.getUserProfile(context)
         RecipeCart.GETSpecficUserAddToCartListRecipes(forDBID: userProfile?.dbID ?? 0 , context) {[weak self] (recipeCartList) in
             guard let self = self else {return}
-                // debugPrint(self)
+                // elDebugPrint(self)
             let filterdA =  self.products.filter { !($0.isAvailable.boolValue && $0.isPublished.boolValue) }
             if let recipeList = recipeCartList {
                 for data in filterdA {
@@ -1552,8 +1552,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     let dbIDAvailable = NSNumber(value:Int64(productId))
                     let isProductIsFoodItem =  recipeList.filter({
                         
-                            // debugPrint($0.ingredients)
-                            // debugPrint(data.dbID)
+                            // elDebugPrint($0.ingredients)
+                            // elDebugPrint(data.dbID)
                         return $0.ingredients.contains(dbIDAvailable)
                     })
                     if isProductIsFoodItem.count > 0 {
@@ -1765,9 +1765,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         let shoppingAmount = String(format:"%0.2f", self.itemsSummaryValue)
-        print("Shopping Cart Value:%@",shoppingAmount)
+       elDebugPrint("Shopping Cart Value:%@",shoppingAmount)
         FireBaseEventsLogger.setUserProperty(shoppingAmount, key: "shopping_cart_amount")
-        print("Store Name:%@",self.grocery?.name ?? "Store Name is NULL")
+       elDebugPrint("Store Name:%@",self.grocery?.name ?? "Store Name is NULL")
         FireBaseEventsLogger.setUserProperty(self.grocery?.name, key: "store_name")
         
         
@@ -2323,7 +2323,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 guard let self = self else { return }
                 
                 if let item = ShoppingBasketItem.checkIfProductIsInBasket(selectedProduct, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                        //debugPrint(item.subStituteItemID)
+                        //elDebugPrint(item.subStituteItemID)
                     
                     let index = self.availableProducts.filter { (prr) -> Bool in
                         return prr.dbID == item.subStituteItemID
@@ -2619,7 +2619,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        debugPrint("")
+        elDebugPrint("")
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -2787,7 +2787,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             // self.loadShoppingBasketData()
             //self.reloadTableData()
         /*
-         print("Product Index: ",productIndex)
+        elDebugPrint("Product Index: ",productIndex)
          let indexPath = IndexPath(item: productIndex, section: 0)
          
          if quantity == 0 {
@@ -2907,14 +2907,14 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         guard !orderId.isEmpty else {return}
         MixpanelEventLogger.trackEditCartCancelOrderClicked(oId: orderId)
         let cancelationHandler = OrderCancelationHandler.init { (isCancel) in
-            debugPrint("")
+            elDebugPrint("")
             self.orderCancelled(isSuccess: isCancel)
         }
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
     }
     
     func orderCancelled(isSuccess: Bool) {
-        print(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
+       elDebugPrint(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
         if isSuccess{
             self.currentDeliverySlot = nil
             self.order = nil
@@ -2936,7 +2936,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
             
         }else{
-            print("protocol fuction called Error")
+           elDebugPrint("protocol fuction called Error")
         }
     }
  
@@ -3031,7 +3031,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     func chooseReplacementWithProductIndex(_ index:NSInteger){
         
-            //   print("Replacement Button Tag:%d",index)
+            //  elDebugPrint("Replacement Button Tag:%d",index)
         if (self.products != nil && index >= 0 && index < self.products.count){
             
             self.selectedIndex = IndexPath.init(row: index, section: 0)
@@ -3196,7 +3196,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
         }else {
             
-                //  print("Delete Button Tag:%d",index)
+                // elDebugPrint("Delete Button Tag:%d",index)
             if (self.products != nil && index >= 0 && index < self.products.count){
                 
                 let productToDelete  = self.products[index]
@@ -3224,7 +3224,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func addProductInBasketWithProductIndex(_ index:NSInteger){
-        print("Plus Button Tag:%d",index)
+       elDebugPrint("Plus Button Tag:%d",index)
         guard index > -1 , index < self.availableProducts.count else {return}
         ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("increase_quantity_at_my_basket_screen")
         self.selectedProduct = self.availableProducts[index]
@@ -3427,15 +3427,15 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         let spinnerView = SpinnerView.showSpinnerViewInView(self.view)
         ElGrocerApi.sharedInstance.fetchBasketFromServerWithGrocery(grocery) { (result) in
-                //debugPrint(result)
+                //elDebugPrint(result)
             self.tblBasket.isHidden = false
             spinnerView?.removeFromSuperview()
             switch result {
                 case .success(let responseDict):
-                    print("Fetch Basket Response:%@",responseDict)
+                   elDebugPrint("Fetch Basket Response:%@",responseDict)
                     self.saveResponseData(responseDict, andWithGrocery: grocery)
                 case .failure(let error):
-                    print("Fetch Basket Error:%@",error.localizedMessage)
+                   elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
                     spinnerView?.removeFromSuperview()
                     self.checkData()
             }
@@ -3621,7 +3621,7 @@ extension MyBasketViewController {
         let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
         if (self.grocery?.deliveryTypeId != nil && (self.grocery?.deliveryTypeId == "1" || (self.grocery?.deliveryTypeId == "2" && self.grocery?.isOpen.boolValue == false))) {
             
-                //  print("Delivery Slots Array Count:%d",self.deliverySlotsArray.count)
+                // elDebugPrint("Delivery Slots Array Count:%d",self.deliverySlotsArray.count)
             
             if (self.deliverySlotsArray.count > 0) {
                 var currentSlots : [DeliverySlot] = []
@@ -3643,9 +3643,9 @@ extension MyBasketViewController {
                 self.updateSlotsAndChooseNextAvailable()
                 let currentSlotIndex = self.deliverySlotsArray.firstIndex(where: {$0.dbID == self.currentDeliverySlot.dbID})
                 if (currentSlotIndex != nil) {
-                        //  print("Current Slot Index:%d",currentSlotIndex!)
+                        // elDebugPrint("Current Slot Index:%d",currentSlotIndex!)
                     let nextAvailableSlotIndex = currentSlotIndex! + 1
-                        // print("Next Available Slot Index:%d",nextAvailableSlotIndex)
+                        //elDebugPrint("Next Available Slot Index:%d",nextAvailableSlotIndex)
                     if(nextAvailableSlotIndex < self.deliverySlotsArray.count){
                         self.currentDeliverySlot = self.deliverySlotsArray[nextAvailableSlotIndex]
                     }else{
@@ -3698,11 +3698,11 @@ extension MyBasketViewController {
             switch result {
                     
                 case .success(let response):
-                        //  print("SERVER Response:%@",response)
+                        // elDebugPrint("SERVER Response:%@",response)
                     self.saveResponseDataForSlots(response,isNeedToChooseNext)
                     
                 case .failure(let error):
-                    print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                   elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
             }
         })
     }
@@ -3759,9 +3759,9 @@ extension MyBasketViewController {
         let currentSlotIndex = self.deliverySlotsArray.firstIndex(where: {$0.dbID == self.currentDeliverySlot.dbID})
         if (currentSlotIndex != nil) {
             self.deliverySlotsArray.sort { $0.start_time ?? Date() < $1.start_time ?? Date() }
-            print("Current Slot Index:%d",currentSlotIndex!)
+           elDebugPrint("Current Slot Index:%d",currentSlotIndex!)
             let nextAvailableSlotIndex = currentSlotIndex! + 1
-            print("Next Available Slot Index:%d",nextAvailableSlotIndex)
+           elDebugPrint("Next Available Slot Index:%d",nextAvailableSlotIndex)
             if(nextAvailableSlotIndex < self.deliverySlotsArray.count){
                 self.currentDeliverySlot = self.deliverySlotsArray[nextAvailableSlotIndex]
             }
@@ -4042,7 +4042,7 @@ extension MyBasketViewController {
             }else{
                 switch result {
                     case .success(let data):
-                        debugPrint(data)
+                        elDebugPrint(data)
                         self.order.status = NSNumber(value: OrderStatus.inEdit.rawValue)
                         self.naviagteUserToOrderSummary()
                     case .failure(let error):
@@ -4251,7 +4251,7 @@ extension MyBasketViewController {
         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(finalOrderItems:finalOrderItems , finalProducts:finalProducts , finalOrder: finalOrder ,  availableProductsPrices:availableProductsPrices  , priceSum : priceSum , discountedPrice : discountedPrice  , grocery : finalOrder.grocery , deliveryAddress : finalOrder.deliveryAddress , carouselproductsArray : carouselProductsArray , promoCode : self.order?.promoCode?.code ?? "" , serviceFee : serviceFee , payment : paymentOptio, discount: self.getTotalSavingsAmountWithoutPromo(), IsSmiles: false )
          */
         // TODO: if ever tyo use this function should update the ismiles bool
-        debugPrint("All analytics work done")
+        elDebugPrint("All analytics work done")
     }
     
     func proceedWithPaymentProcess() {

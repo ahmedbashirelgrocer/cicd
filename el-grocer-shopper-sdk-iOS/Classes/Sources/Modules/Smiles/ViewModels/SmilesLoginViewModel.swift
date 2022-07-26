@@ -87,7 +87,7 @@ public class SmilesLoginViewModel {
         do {
             
             let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: data)
-            print(smileAuthObj)
+           elDebugPrint(smileAuthObj)
             
             if let smileOtp = smileAuthObj.sentOTP {
                 self.userOtp.value = smileOtp
@@ -97,7 +97,7 @@ public class SmilesLoginViewModel {
             }
             
         } catch {
-            print(error)
+           elDebugPrint(error)
             if let showAlertClosure = showAlertClosure {
                 showAlertClosure()
             }
@@ -107,13 +107,13 @@ public class SmilesLoginViewModel {
         SmilesNetworkManager.sharedInstance().loginUserWithSmile(params: [:]) { result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     let dataDict = response["data"]
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
 
                         let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                        print(smileAuthObj)
+                       elDebugPrint(smileAuthObj)
                         
                         if let smileOtp = smileAuthObj.sentOTP {
                             self.userOtp.value = smileOtp
@@ -123,14 +123,14 @@ public class SmilesLoginViewModel {
                         }
                         
                     } catch {
-                        print(error)
+                       elDebugPrint(error)
                         if let showAlertClosure = self.showAlertClosure {
                             showAlertClosure()
                         }
                     }
 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
             }
         }
     }*/
@@ -142,38 +142,38 @@ public class SmilesLoginViewModel {
         SmilesNetworkManager.sharedInstance().retrySmileOtp(params: [:]) { result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     let dataDict = response["data"]
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
 
                         let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                        print(smileAuthObj)
+                       elDebugPrint(smileAuthObj)
                         if let smileOtp = smileAuthObj.sentOTP {
                             self.userOtp.value = smileOtp
                         }
                         
                     } catch {
-                        print(error)
+                       elDebugPrint(error)
                         if let showAlertClosure = self.showAlertClosure {
                             showAlertClosure()
                         }
                     }
 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
             }
         }
         /*
         let data = "{\"Sent_OTP\": \"123123\"}".data(using: .utf8)!
         do {
             let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: data)
-            print(smileAuthObj)
+           elDebugPrint(smileAuthObj)
             if let smileOtp = smileAuthObj.sentOTP {
                 self.userOtp.value = smileOtp
             }
         } catch {
-            print(error)
+           elDebugPrint(error)
         }*/
     }*/
     
@@ -184,24 +184,24 @@ public class SmilesLoginViewModel {
         SmilesNetworkManager.sharedInstance().ConfirmSmileOtp(params: [:]) { result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     let dataDict = response["data"]
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
 
                         let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                        print(smileAuthObj)
+                       elDebugPrint(smileAuthObj)
                         completionHandler()
                         
                     } catch {
-                        print(error)
+                       elDebugPrint(error)
                         if let showAlertClosure = self.showAlertClosure {
                             showAlertClosure()
                         }
                     }
 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
             }
         }
 
@@ -214,25 +214,25 @@ public class SmilesLoginViewModel {
         SmilesNetworkManager.sharedInstance().createSmilesOtp { [weak self] result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     /*
                     let dataDict = response["data"]
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
 
                         let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                        print(smileAuthObj)
+                       elDebugPrint(smileAuthObj)
                         completionHandler()
                         
                     } catch {
-                        print(error)
+                       elDebugPrint(error)
                         if let showAlertClosure = self.showAlertClosure {
                             showAlertClosure()
                         }
                     }*/
 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                     if let showAlertClosure = self?.showAlertClosure {
                         showAlertClosure(error.localizedMessage)
                     }
@@ -256,7 +256,7 @@ public class SmilesLoginViewModel {
         SmilesNetworkManager.sharedInstance().loginUserWithSmile(params: ["pin":code]) { result in
             switch (result) {
                 case .success(let response):
-                    debugPrint(response)
+                    elDebugPrint(response)
                     let dataDict = response["data"]
                     completionHandler(true, "")
                     /*
@@ -264,7 +264,7 @@ public class SmilesLoginViewModel {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
 
                         let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                        print(smileAuthObj)
+                       elDebugPrint(smileAuthObj)
                         
                         if let smileOtp = smileAuthObj.sentOTP {
                             self.userOtp.value = smileOtp
@@ -274,14 +274,14 @@ public class SmilesLoginViewModel {
                         }
                         
                     } catch {
-                        print(error)
+                       elDebugPrint(error)
                         if let showAlertClosure = self.showAlertClosure {
                             showAlertClosure()
                         }
                     }*/
 
                 case .failure(let error):
-                    debugPrint(error.localizedMessage)
+                    elDebugPrint(error.localizedMessage)
                     completionHandler(false, error.localizedMessage)
             }
         }

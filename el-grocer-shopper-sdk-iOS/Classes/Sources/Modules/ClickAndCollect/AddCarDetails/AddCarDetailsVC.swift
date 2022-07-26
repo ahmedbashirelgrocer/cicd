@@ -236,7 +236,7 @@ class AddCarDetailsVC: UIViewController {
         ElGrocerApi.sharedInstance.getVehicleAttributes { (result) in
             switch result {
                 case .success(let responseData):
-                   debugPrint(responseData)
+                   elDebugPrint(responseData)
                     let response  = responseData["data"] as? NSDictionary
                     if let vehicle_colors = response?["vehicle_colors"] as? [NSDictionary] {
                         self.colorlist = []

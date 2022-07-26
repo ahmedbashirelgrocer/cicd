@@ -179,7 +179,7 @@ class RecipePresenter: ViewToPresenterRecipeProtocol {
     //MARK: tableview functions
     
     func heightForFooter(section : Int) -> CGFloat{
-        print("height for footer called from view")
+       elDebugPrint("height for footer called from view")
         if section == 2{
             return 20
         }
@@ -187,14 +187,14 @@ class RecipePresenter: ViewToPresenterRecipeProtocol {
     }
     
     func viewForFooter() -> UIView{
-        print("view for footer called from view")
+       elDebugPrint("view for footer called from view")
         let view = UIView()
         view.backgroundColor = .white
         return view
     }
     
     func heightForRowAtIndexPath(indexPath : IndexPath , tableView : UITableView) -> CGFloat{
-        print("height for row called from view")
+       elDebugPrint("height for row called from view")
         if indexPath.section == 0{
            // return KRecipeDetailCellHeight
             if recipe != nil && recipe?.recipeDescription != nil{
@@ -235,7 +235,7 @@ class RecipePresenter: ViewToPresenterRecipeProtocol {
     }
     
     func numberOfRowsInSection(section : Int) -> Int{
-        print("number of rows called from view")
+       elDebugPrint("number of rows called from view")
         if section == 0{
             return 1
         }else if section == 1{
@@ -351,13 +351,13 @@ class RecipePresenter: ViewToPresenterRecipeProtocol {
 extension RecipePresenter: InteractorToPresenterRecipeProtocol {
     
     func noNewDataSuccess() {
-        print("Presenter receives the result from Interactor after it's done its job.")
+       elDebugPrint("Presenter receives the result from Interactor after it's done its job.")
         view.reloadData()
         
     }
     
     func fetchResponceSuccess(recipe : Recipe) {
-        print("Presenter receives the result from Interactor after it's done its job.")
+       elDebugPrint("Presenter receives the result from Interactor after it's done its job.")
         FireBaseEventsLogger.trackRecipeView(recipe: recipe , source: self.view.source)
         self.recipe = recipe
         view.recipe = recipe
@@ -370,7 +370,7 @@ extension RecipePresenter: InteractorToPresenterRecipeProtocol {
     }
 //    
     func fetchResponceFailure() {
-        print("Presenter receives the result from Interactor after it's done its job.")
+       elDebugPrint("Presenter receives the result from Interactor after it's done its job.")
         
         view.backButtonClick()
     }

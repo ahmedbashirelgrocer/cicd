@@ -86,7 +86,7 @@ class SmilesNetworkManager {
         
         //NetworkCall.mocGet(APIEndpoint.getMemberInfo, parameters: params) { (progress) in
         NetworkCall.get(APIEndpoint.getMemberInfo, parameters: params) { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         } success: { (operation  , response: Any) -> Void in
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -127,7 +127,7 @@ class SmilesNetworkManager {
         }
     
         NetworkCall.get(APIEndpoint.getCachedMemberInfo, parameters: params) { (progress) in
-            // debugPrint("Progress for API :  \(progress)")
+            // elDebugPrint("Progress for API :  \(progress)")
         } success: { (operation  , response: Any) -> Void in
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
@@ -149,7 +149,7 @@ class SmilesNetworkManager {
         
         NetworkCall.post(APIEndpoint.generateOtp, parameters: nil,
              progress: { (progress) in
-                        // debugPrint("Progress for API :  \(progress)")
+                        // elDebugPrint("Progress for API :  \(progress)")
                 },
              success: { (operation  , response: Any) -> Void in
                   guard let response = response as? NSDictionary else {
@@ -174,7 +174,7 @@ class SmilesNetworkManager {
         
         NetworkCall.post(APIEndpoint.smileLogin, parameters: params,
              progress: { (progress) in
-                        // debugPrint("Progress for API :  \(progress)")
+                        // elDebugPrint("Progress for API :  \(progress)")
                 },
              success: { (operation  , response: Any) -> Void in
                   guard let response = response as? NSDictionary else {
@@ -195,7 +195,7 @@ class SmilesNetworkManager {
         // retryOtp
         NetworkCall.mocPost(APIEndpoint.smileLogin, parameters: nil,
              progress: { (progress) in
-                        // debugPrint("Progress for API :  \(progress)")
+                        // elDebugPrint("Progress for API :  \(progress)")
                 },
              success: { (operation  , response: Any) -> Void in
                   guard let response = response as? NSDictionary else {
@@ -218,7 +218,7 @@ class SmilesNetworkManager {
 
         NetworkCall.mocPost(APIEndpoint.smileLogin, parameters: nil,
              progress: { (progress) in
-                        // debugPrint("Progress for API :  \(progress)")
+                        // elDebugPrint("Progress for API :  \(progress)")
                 },
              success: { (operation  , response: Any) -> Void in
                   guard let response = response as? NSDictionary else {

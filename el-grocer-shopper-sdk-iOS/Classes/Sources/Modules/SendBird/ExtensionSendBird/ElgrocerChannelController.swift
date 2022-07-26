@@ -84,7 +84,7 @@ class ElgrocerChannelController : SBUChannelViewController{
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        debugPrint("")
+        elDebugPrint("")
 
     }
     
@@ -128,7 +128,7 @@ class ElgrocerChannelController : SBUChannelViewController{
         
         SBDSKTicket.confirmEndOfChat(with: message, confirm: true) { ticket, error in
             if error != nil {
-                print(error)
+               elDebugPrint(error)
                 return
             }
         }
@@ -137,9 +137,9 @@ class ElgrocerChannelController : SBUChannelViewController{
     func submitCSATExperience(message: SBDUserMessage, rating: Int, comment: String) {
         SBDSKTicket.submitFeedback(with: message, score: rating, comment: comment) { ticketHandler, error in
             guard error == nil else {
-                print(error?.code)
-                print(error?.description)
-                print(error?.debugDescription)
+               elDebugPrint(error?.code)
+               elDebugPrint(error?.description)
+               elDebugPrint(error?.debugDescription)
                 return
             }
             Thread.OnMainThread {
@@ -159,7 +159,7 @@ class ElgrocerChannelController : SBUChannelViewController{
     }
     
     override func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
-        print(message)
+       elDebugPrint(message)
     }
     
 }
@@ -180,7 +180,7 @@ extension ElgrocerChannelController {
         let alert = ElGrocerAlertView.createAlert("", description: message!.message, positiveButton: localizedString("store_favourite_alert_yes", comment: ""), negativeButton: localizedString("sign_out_alert_no", comment: "")) { index in
             self.isAlertVisible = false
             if index == 0 {
-                print("yes")
+               elDebugPrint("yes")
                 self.submitTicketClosure(message: message!)
             }
         }
@@ -202,7 +202,7 @@ extension ElgrocerChannelController {
             switch state {
                 case "CONFIRMED":
                 // Implement your code for the UI when there is a response from a customer.
-                print("survey is already submitted")
+               elDebugPrint("survey is already submitted")
                 let rating = closureInquiry?["customerSatisfactionScore"] as? Int ?? 0
                 let comment = closureInquiry?["customerSatisfactionComment"] as? String ?? ""
                 self.showRatingView(title: message.message)
@@ -211,7 +211,7 @@ extension ElgrocerChannelController {
                 
                 case "WAITING":
                 // Implement your code for the UI when there is no response from a customer.
-                print("survey needs to be submitted")
+               elDebugPrint("survey needs to be submitted")
                 if let message = message as? SBDUserMessage {
                     self.ratingUserMessage = message
                 }
@@ -227,15 +227,15 @@ extension ElgrocerChannelController {
             switch state {
                 case "CONFIRMED":
                 // Implement your code for the UI when a customer confirms to close a ticket.
-                    print("confirmed")
+                   elDebugPrint("confirmed")
                 isAlertVisible = false
                 case "DECLINED":
                 // Implement your code for the UI when a customer declines to close a ticket.
-                    print("DECLINED")
+                   elDebugPrint("DECLINED")
                 isAlertVisible = false
                 case "WAITING":
                 // Implement your code for the UI when there is no response from a customer.
-                    print("WAITING")
+                   elDebugPrint("WAITING")
                 guard let message = message as? SBDUserMessage else {
                         return
                 }
@@ -309,7 +309,7 @@ extension ElgrocerChannelController {
 extension ElgrocerChannelController: customRatingViewHandlerProtocol {
     
     func didUpdateRating(rating: Float) {
-        print("rating: \(rating)")
+       elDebugPrint("rating: \(rating)")
         self.rating = rating
         
     }

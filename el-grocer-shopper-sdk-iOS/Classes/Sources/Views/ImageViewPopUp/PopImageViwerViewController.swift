@@ -634,7 +634,7 @@ class PopImageViwerViewController: UIViewController {
                         self.product = newProduct
                         self.btnAddToCrtHandler(self)
                     }else{
-                        print("no product found")
+                       elDebugPrint("no product found")
                         
                     }
                 }
@@ -867,7 +867,7 @@ class PopImageViwerViewController: UIViewController {
                 self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct,grocery: grocery)
                 self.isAddedToCart = true
             }else{
-                print("show error adding more quantity then limit")
+               elDebugPrint("show error adding more quantity then limit")
                 let msg = localizedString("msg_limited_stock_start", comment: "") + "\(selectedProduct.promoProductLimit!)" + localizedString("msg_limited_stock_end", comment: "")
                 let title = localizedString("msg_limited_stock_title", comment: "")
                 ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
@@ -1038,7 +1038,7 @@ class PopImageViwerViewController: UIViewController {
     
     fileprivate func trackViewProductEvent () {
         guard let productIS = self.product else {
-             debugPrint("Facebook view will not logged")
+             elDebugPrint("Facebook view will not logged")
             return
         }
         
@@ -1056,9 +1056,9 @@ class PopImageViwerViewController: UIViewController {
         FireBaseEventsLogger.trackViewItem(productIS)
         AlgoliaApi.sharedInstance.viewItemAlgolia(product: productIS)
         
-        debugPrint("facebook eventName : \(AppEvents.Name.viewedContent)")
-        debugPrint("facebook Parm Print : \(productIS.price)")
-        debugPrint("facebook Parm Print : \(facebookParams)")
+        elDebugPrint("facebook eventName : \(AppEvents.Name.viewedContent)")
+        elDebugPrint("facebook Parm Print : \(productIS.price)")
+        elDebugPrint("facebook Parm Print : \(facebookParams)")
         
     }
 
@@ -1104,7 +1104,7 @@ class PopImageViwerViewController: UIViewController {
                             self.configureProduct()
                             
                         }else{
-                            print("no product found")
+                           elDebugPrint("no product found")
                             
                         }
                         self.checkNoDataView()
@@ -1457,15 +1457,15 @@ extension ImageViewZoom: UIScrollViewDelegate {
 }
 extension PopImageViwerViewController : ImageViewZoomDelegate {
     func imageScrollViewDidChangeOrientation(imageViewZoom: ImageViewZoom) {
-     //   print("Did change orientation")
+     //  elDebugPrint("Did change orientation")
     }
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-     //   print("scrollViewDidEndZooming at scale \(scale)")
+     //  elDebugPrint("scrollViewDidEndZooming at scale \(scale)")
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-     //   print("scrollViewDidScroll at offset \(scrollView.contentOffset)")
+     //  elDebugPrint("scrollViewDidScroll at offset \(scrollView.contentOffset)")
     }
 }
 extension PopImageViwerViewController : NoStoreViewDelegate {

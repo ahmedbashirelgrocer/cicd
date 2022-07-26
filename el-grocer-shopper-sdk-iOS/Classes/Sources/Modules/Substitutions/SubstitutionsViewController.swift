@@ -56,7 +56,7 @@ class SubstitutionsViewController: UIViewController,UITableViewDataSource, UITab
             }
         }
         
-        print("Visible Rows Count:%d",self.visibleRows)
+       elDebugPrint("Visible Rows Count:%d",self.visibleRows)
     }
     
     // MARK: Appearance
@@ -190,13 +190,13 @@ class SubstitutionsViewController: UIViewController,UITableViewDataSource, UITab
         
         let subtitutedProducts = OrderSubstitution.getSubtitutedProductsForOrderBasket(order, grocery: nil, context:DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
-        print("Subtituted Products Count:",subtitutedProducts.count)
+       elDebugPrint("Subtituted Products Count:",subtitutedProducts.count)
         
         for product in subtitutedProducts {
             
             let suggestedProducts = OrderSubstitution.getSuggestedProductsForSubtitutedProductFromOrder(order, product: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
             
-            print("Suggested Products Count:",suggestedProducts.count)
+           elDebugPrint("Suggested Products Count:",suggestedProducts.count)
             
             let cellDescriptor:CellDescriptor = CellDescriptor.init()
             
@@ -278,7 +278,7 @@ class SubstitutionsViewController: UIViewController,UITableViewDataSource, UITab
                 
                 let suggestedProducts = OrderSubstitution.getSuggestedProductsForSubtitutedProductFromOrder(self.order, product: product!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
-                print("Suggested Products Count:",suggestedProducts.count)
+               elDebugPrint("Suggested Products Count:",suggestedProducts.count)
                 
                 let cellDescriptor:CellDescriptor = CellDescriptor.init()
                 
@@ -309,10 +309,10 @@ class SubstitutionsViewController: UIViewController,UITableViewDataSource, UITab
             
             switch result {
             case .success(_):
-                print("Successfully update about Substitution")
+               elDebugPrint("Successfully update about Substitution")
                 
             case .failure(let error):
-                print("Error:%@",error.localizedMessage)
+               elDebugPrint("Error:%@",error.localizedMessage)
             }
         })
     }

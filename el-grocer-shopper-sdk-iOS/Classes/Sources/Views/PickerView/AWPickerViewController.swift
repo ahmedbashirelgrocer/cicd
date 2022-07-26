@@ -111,7 +111,7 @@ class AWPickerViewController : UIViewController {
             switch result {
                 
                 case .success(let response):
-                    print("SERVER Response:%@",response)
+                   elDebugPrint("SERVER Response:%@",response)
                     self.saveResponseData(response)
                     self.activityIndication.stopAnimating()
                     self.lblNoSlot.isHidden =  self.collectionData.count > 0
@@ -119,7 +119,7 @@ class AWPickerViewController : UIViewController {
                         FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Successrespone" , ["error" : response.description])
                     }
                 case .failure(let error):
-                    print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                   elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
                     self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
                  self.activityIndication.stopAnimating()
                  self.setSegmentControlAppearance()

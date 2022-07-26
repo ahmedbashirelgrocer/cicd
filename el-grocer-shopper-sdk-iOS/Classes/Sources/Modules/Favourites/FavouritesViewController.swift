@@ -299,7 +299,7 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
                 
                 if !selectedGrocery.isInRange.boolValue {
                     
-                    print("Grocery is not in range of delivery Area.")
+                   elDebugPrint("Grocery is not in range of delivery Area.")
                     ElGrocerAlertView.createAlert(localizedString("store_notinrange_alert_title", comment: ""),
                                                   description:localizedString("store_notinrange_alert_message", comment: ""),
                                                   positiveButton: localizedString("store_notinrange_alert_button", comment: ""),
@@ -308,7 +308,7 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
                     
                 }else{
                 
-                    print("Currently Grocery is closed.")
+                   elDebugPrint("Currently Grocery is closed.")
                     ElGrocerAlertView.createAlert(localizedString("store_close_alert_title", comment: ""),
                                                   description:localizedString("store_close_alert_message", comment: ""),
                                                   positiveButton: localizedString("store_close_alert_button", comment: ""),

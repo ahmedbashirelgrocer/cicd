@@ -68,9 +68,9 @@ class ApplePaymentHandler: NSObject {
         paymentController?.delegate = self
         paymentController?.present(completion: { (presented: Bool) in
             if presented {
-                debugPrint("Presented payment controller")
+                elDebugPrint("Presented payment controller")
             } else {
-                debugPrint("Failed to present payment controller")
+                elDebugPrint("Failed to present payment controller")
                 self.completionHandler(false)
             }
         })
@@ -98,11 +98,11 @@ class ApplePaymentHandler: NSObject {
                 
                 switch responseObject {
                     case .success(let data):
-                        debugPrint(data)
+                        elDebugPrint(data)
                     if let dataPayFort = data["payfort_response"] as? NSDictionary{
                         if let responseCode = dataPayFort["status"] as? String{
                             if responseCode == self.authorisationSuccessCode{
-                                print("order authorised ny apple pay successfully")
+                               elDebugPrint("order authorised ny apple pay successfully")
                                 completion(true)
                             }else{
                                 completion(false)

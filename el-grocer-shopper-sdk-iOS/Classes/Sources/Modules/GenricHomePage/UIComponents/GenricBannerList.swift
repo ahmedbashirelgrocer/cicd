@@ -142,8 +142,8 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
             let bannerID = banner.dbId.stringValue
             let topVCName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
             if !UserDefaults.isBannerDisplayed(bannerID , topControllerName: topVCName ) {
-                debugPrint("banner.bannerId : \(bannerID)")
-                debugPrint("trackBannerView: \(banner.title)")
+                elDebugPrint("banner.bannerId : \(bannerID)")
+                elDebugPrint("trackBannerView: \(banner.title)")
                 let isSingle =   false
                 var brandName = ""
                 var catName = ""

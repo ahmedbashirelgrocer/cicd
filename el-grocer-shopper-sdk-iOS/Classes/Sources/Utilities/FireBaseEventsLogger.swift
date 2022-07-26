@@ -337,7 +337,7 @@ class FireBaseEventsLogger  {
         let finalParm = newParms
         for (key, value) in finalParm ?? [:] {
             
-           // debugPrint("check logger for type  type : \(String(describing: value.self)) : \(key) : valure : \(value) ")
+           // elDebugPrint("check logger for type  type : \(String(describing: value.self)) : \(key) : valure : \(value) ")
             
              if value is [NSNumber] {
                 newParms?[key] = (value as AnyObject).description
@@ -348,7 +348,7 @@ class FireBaseEventsLogger  {
                 if finalString.count > 100 {
                     finalString = String(finalString.prefix(100))
                     newParms?[key] = finalString
-                   // debugPrint("value change here : \(finalString)")
+                   // elDebugPrint("value change here : \(finalString)")
                 }
             }
         }
@@ -357,7 +357,7 @@ class FireBaseEventsLogger  {
 //        var removeKey = finalParm
 //        for (key, value) in removeKey ?? [:] {
 //
-//            // debugPrint("check logger for type  type : \(String(describing: value.self)) : \(key) : valure : \(value) ")
+//            // elDebugPrint("check logger for type  type : \(String(describing: value.self)) : \(key) : valure : \(value) ")
 //
 //            var newKey = key
 //            if key.count > 40 {
@@ -369,7 +369,7 @@ class FireBaseEventsLogger  {
 //
 //        finalParm = removeKey
      
-       // debugPrint("finalParmCOunt \(String(describing: finalParm?.count))")
+       // elDebugPrint("finalParmCOunt \(String(describing: finalParm?.count))")
        
         DispatchQueue.global(qos: .background).async {
           
@@ -383,9 +383,9 @@ class FireBaseEventsLogger  {
             Analytics.logEvent( eventNameToSend  , parameters:newParms != nil ? newParms : [:]) //40 char limit
             
             if Platform.isDebugBuild {
-                debugPrint("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
-                debugPrint("*Firebase Logs*  *EventName*: \(eventNameToSend)  *Parms*: \(newParms as Any)  *****")
-                debugPrint("=====================*Firebase Logs event Name*=========================")
+                elDebugPrint("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
+                elDebugPrint("*Firebase Logs*  *EventName*: \(eventNameToSend)  *Parms*: \(newParms as Any)  *****")
+                elDebugPrint("=====================*Firebase Logs event Name*=========================")
             }
         }
     }
@@ -409,9 +409,9 @@ class FireBaseEventsLogger  {
             Analytics.setUserID(userID)
             Crashlytics.crashlytics().setUserID(userID ?? "")
             
-//            debugPrint("=====================*Firebase Logs Property*=========================")
-//            debugPrint("*Firebase Logs* *SetUserID*:  \(userID ?? "" )   ******")
-//            debugPrint("=====================*Firebase Logs Property*=========================")
+//            elDebugPrint("=====================*Firebase Logs Property*=========================")
+//            elDebugPrint("*Firebase Logs* *SetUserID*:  \(userID ?? "" )   ******")
+//            elDebugPrint("=====================*Firebase Logs Property*=========================")
 //
         }
       
@@ -420,9 +420,9 @@ class FireBaseEventsLogger  {
         if let _ = value {
             Crashlytics.crashlytics().setCustomValue(value ?? "" , forKey: key )
             Analytics.setUserProperty(value, forName: key)
-//            debugPrint("=====================*Firebase Logs Property*=========================")
-//            debugPrint("*Firebase Logs* *setUserProperty*  value: \(value ?? "" )   key: \(key)  ***** ")
-//            debugPrint("=====================*Firebase Logs Property*=========================")
+//            elDebugPrint("=====================*Firebase Logs Property*=========================")
+//            elDebugPrint("*Firebase Logs* *setUserProperty*  value: \(value ?? "" )   key: \(key)  ***** ")
+//            elDebugPrint("=====================*Firebase Logs Property*=========================")
         }
       
     }
@@ -537,7 +537,7 @@ class FireBaseEventsLogger  {
             }
             
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.RemoveItem.rawValue + (UserDefaults.isOrderInEdit() ? "Edited" : "") , parameter: paramsToSend )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         return paramsToSend
     }
@@ -552,7 +552,7 @@ class FireBaseEventsLogger  {
         let itemList =  array.joined(separator: ",")
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.MultiSearch.rawValue  , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName , FireBaseParmName.SearchTerm.rawValue : itemList] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
          let parms = [AnalyticsParameterItemCategory : itemList ]
         FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: AnalyticsEventViewItemList, parameter: parms )
@@ -565,7 +565,7 @@ class FireBaseEventsLogger  {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             let finalEventName = FireBaseElgrocerPrefix + eventName
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: finalEventName , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.MyBasket.rawValue + (UserDefaults.isOrderInEdit() ? "Edited" : "")  ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
     }
@@ -575,7 +575,7 @@ class FireBaseEventsLogger  {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             let finalEventName = FireBaseElgrocerPrefix + eventName
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: finalEventName , parameter: [FireBaseParmName.CurrentScreen.rawValue : FireBaseScreenName.Home.rawValue , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Recipes.rawValue  ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
 
     }
@@ -586,7 +586,7 @@ class FireBaseEventsLogger  {
         
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "ChangeStore" , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
     }
@@ -595,7 +595,7 @@ class FireBaseEventsLogger  {
         
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:FireBaseElgrocerPrefix +  "ChangeLocation" , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
      
     }
@@ -610,7 +610,7 @@ class FireBaseEventsLogger  {
         
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             finalParms[FireBaseParmName.CurrentScreen.rawValue] = topControllerName
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
         FireBaseEventsLogger.logEventToFirebaseWithEventName( "", eventName: FireBaseElgrocerPrefix + FireBaseEventsName.ChangeLocationClick.rawValue, parameter: finalParms )
@@ -626,7 +626,7 @@ class FireBaseEventsLogger  {
         
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             finalParms[FireBaseParmName.CurrentScreen.rawValue] = topControllerName
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
         FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.DontChangeLocationClick.rawValue, parameter: finalParms )
@@ -636,14 +636,14 @@ class FireBaseEventsLogger  {
         var finalParm = parms
         finalParm[FireBaseParmName.CurrentScreen.rawValue] = topControllerName
         FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "ViewMore" , parameter: finalParm )
-        debugPrint(topControllerName)
+        elDebugPrint(topControllerName)
         
     }
     
     class func trackViewItemClick ( topControllerName : String = FireBaseEventsLogger.gettopViewControllerName() ?? String(describing: UIApplication.topViewController())  , _ parms : [String : Any]) {
         
         FireBaseEventsLogger.logEventToFirebaseWithEventName( topControllerName , eventName: "ViewItem" , parameter: parms )
-        debugPrint(topControllerName)
+        elDebugPrint(topControllerName)
         
     }
     
@@ -667,7 +667,7 @@ class FireBaseEventsLogger  {
                 parms[FireBaseParmName.BannerType.rawValue] = "PriorityStore"
             }
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: eventName , parameter: parms )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
     }
@@ -704,7 +704,7 @@ class FireBaseEventsLogger  {
             parms[FireBaseParmName.Position.rawValue] = possition
             
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: eventName , parameter: parms )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
     }
@@ -736,8 +736,8 @@ class FireBaseEventsLogger  {
             parms [FireBaseParmName.StorylyDeepLink.rawValue] = deepLink
             
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix +  eventName , parameter: parms )
-                //  debugPrint(topControllerName)
-                //  debugPrint("EventName = \(FireBaseElgrocerPrefix +  eventName)")
+                //  elDebugPrint(topControllerName)
+                //  elDebugPrint("EventName = \(FireBaseElgrocerPrefix +  eventName)")
         }
         
     }
@@ -777,8 +777,8 @@ class FireBaseEventsLogger  {
             
      
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix +  eventName , parameter: parms )
-          //  debugPrint(topControllerName)
-          //  debugPrint("EventName = \(FireBaseElgrocerPrefix +  eventName)")
+          //  elDebugPrint(topControllerName)
+          //  elDebugPrint("EventName = \(FireBaseElgrocerPrefix +  eventName)")
         }
         
     }
@@ -793,7 +793,7 @@ class FireBaseEventsLogger  {
                 let parmsScreen =  [FireBaseParmName.CurrentScreen.rawValue :  topControllerName  , "eventType" : eventType , "action" : action ]
                 parmsScreen.forEach { finalParms[$0] = $1 }
                 FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix +  FireBaseEventsName.CustomEvent.rawValue , parameter: finalParms )
-                debugPrint(topControllerName)
+                elDebugPrint(topControllerName)
             }
             
         }else{
@@ -844,7 +844,7 @@ class FireBaseEventsLogger  {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.Search.rawValue  , parameter: [ FireBaseParmName.CurrentScreen.rawValue :  (screenName != nil ? screenName! :  topControllerName)] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
             
         }
         
@@ -869,7 +869,7 @@ class FireBaseEventsLogger  {
         
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "ClearBasket" , parameter: [ FireBaseParmName.CurrentScreen.rawValue :  topControllerName ]  )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
     }
@@ -878,7 +878,7 @@ class FireBaseEventsLogger  {
         
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + eventName , parameter:  [ FireBaseParmName.CurrentScreen.rawValue :  topControllerName , FireBaseParmName.NextScreen.rawValue : FireBaseEventsName.CheckOut.rawValue + (UserDefaults.isOrderInEdit() ? "Edited" : "") ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
         FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: AnalyticsEventBeginCheckout, parameter: [AnalyticsParameterCoupon: ""  , AnalyticsParameterCurrency: currency , AnalyticsParameterValue : value ] )
@@ -918,7 +918,7 @@ class FireBaseEventsLogger  {
             }
             
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + name , parameter:  [ FireBaseParmName.CurrentScreen.rawValue :  topControllerName ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -928,7 +928,7 @@ class FireBaseEventsLogger  {
     class func trackPromoCode (_ code  : String) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "PromoCode" , parameter: ["Name" : code , FireBaseParmName.CurrentScreen.rawValue :  topControllerName  ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -936,7 +936,7 @@ class FireBaseEventsLogger  {
     class func trackScheduleOrder () {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "ScheduleOrder" , parameter: [ FireBaseParmName.CurrentScreen.rawValue :  topControllerName  ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -951,21 +951,21 @@ class FireBaseEventsLogger  {
     class func trackEditOrder (_ orderID : String) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "EditOrder" , parameter: ["orderID" : orderID , FireBaseParmName.CurrentScreen.rawValue :  topControllerName ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
     class func chatWithPickerClicked(orderId: String, pickerID: String, orderStatusId: String, eventName: String) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: eventName , parameter: [FireBaseParmName.OrderId.rawValue : orderId , FireBaseParmName.PickerID.rawValue :  pickerID , FireBaseParmName.OrderStatusID.rawValue : orderStatusId ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
     class func chatWithSupportClicked(orderId: String, eventName: String) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: eventName , parameter: [FireBaseParmName.OrderId.rawValue : orderId ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -979,7 +979,7 @@ class FireBaseEventsLogger  {
         
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:FireBaseElgrocerPrefix +  "SignOut" , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName , "IsSuccess" : isSuccess ? "Success" : "Cancel" ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -987,7 +987,7 @@ class FireBaseEventsLogger  {
     class func trackAbove18 (_ isAbove : Bool) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:FireBaseElgrocerPrefix +  "AgeConfirmation" , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName  , "Above18" : isAbove ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
   
@@ -998,7 +998,7 @@ class FireBaseEventsLogger  {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:FireBaseElgrocerPrefix +  "SignIn" , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName ] )
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: AnalyticsEventLogin , parameter: nil )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
         
@@ -1011,14 +1011,14 @@ class FireBaseEventsLogger  {
     class func trackCreateAccountClicked (_ eventName : String) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix +  eventName , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
     class func trackForgotPasswordClicked () {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "ForgotPassword" , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     //Mark:- Search
@@ -1034,7 +1034,7 @@ class FireBaseEventsLogger  {
         }
         let finalParms =  [FireBaseParmName.CurrentScreen.rawValue : currentScreenName  ,  FireBaseParmName.SearchTerm.rawValue :  searchTerm , "SearchDate" : "\(Date())" , "isUniversal" : isFromUniversalSearch ? "1" : "0" ]
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.Search.rawValue , parameter: finalParms )// EG_Search_Go
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         
     }
     
@@ -1051,7 +1051,7 @@ class FireBaseEventsLogger  {
         
         let finalParms =  [FireBaseParmName.CurrentScreen.rawValue : currentScreenName  ,  FireBaseParmName.SearchTerm.rawValue :  searchTerm , "SearchDate" : "\(Date())" , "isUniversal" : isFromUniversalSearch ? "1" : "0" , FireBaseParmName.StoreSearch.rawValue : (retailId != nil) ] as [String : Any]
         FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.Search.rawValue , parameter: finalParms )// EG_Search_Go
-        debugPrint(topControllerName)
+        elDebugPrint(topControllerName)
         
     }
     
@@ -1066,7 +1066,7 @@ class FireBaseEventsLogger  {
             var finalParms =  [FireBaseParmName.SearchTerm.rawValue :  searchTerm , "SearchDate" : "\(Date())"]
             finalParms[FireBaseParmName.CurrentScreen.rawValue] = FireBaseEventsName.Search.rawValue + "_" + topControllerName
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + FireBaseEventsName.Search.rawValue , parameter: finalParms )// EG_Search_Go
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
         
@@ -1079,7 +1079,7 @@ class FireBaseEventsLogger  {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             let finalParms =  [FireBaseParmName.CurrentScreen.rawValue : topControllerName , FireBaseParmName.NextScreen.rawValue : "Chef " + chefName + " " +  recipeName  , FireBaseParmName.ChefName.rawValue :  chefName , FireBaseParmName.RecipeName.rawValue :  recipeName ]
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + eventName  , parameter: finalParms )// EG_Search_Go
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
     }
@@ -1093,14 +1093,14 @@ class FireBaseEventsLogger  {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "Register" , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName ] )
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: AnalyticsEventSignUp , parameter: nil )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
     class func trackLoginClickedOnCreateAccountController () {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( topControllerName , eventName:FireBaseElgrocerPrefix + "Login" , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName ] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1255,14 +1255,14 @@ class FireBaseEventsLogger  {
     class func trackChefFromRecipe (_ chefName : String , eventName : String ) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + eventName , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName , FireBaseParmName.NextScreen.rawValue : "Chef " + chefName ]  )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
         
     }
     class func trackRecipeCatNav (catName : String , eventName : String) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + eventName  , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName , FireBaseParmName.NextScreen.rawValue : "Recipe_Cat_" + catName , FireBaseParmName.CategoryName.rawValue : catName]  )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1270,7 +1270,7 @@ class FireBaseEventsLogger  {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "AddRecipe"  , parameter: [FireBaseParmName.CurrentScreen.rawValue :  topControllerName ]  )
             
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1285,7 +1285,7 @@ class FireBaseEventsLogger  {
             let finalParms = [AnalyticsParameterContentType.capitalized : recipeName , AnalyticsParameterItemID.capitalized : recipeID , FireBaseParmName.CurrentScreen.rawValue :  topControllerName]
             
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "Share"  , parameter: finalParms )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1295,7 +1295,7 @@ class FireBaseEventsLogger  {
             finalParms?[FireBaseParmName.CurrentScreen.rawValue] = topControllerName
             finalParms?[FireBaseParmName.NextScreen.rawValue] = FireBaseScreenName.ViewOrder.rawValue
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix +  FireBaseEventsName.Navigation.rawValue  , parameter: finalParms  )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1304,7 +1304,7 @@ class FireBaseEventsLogger  {
             var finalParms = parm
             finalParms?[FireBaseParmName.CurrentScreen.rawValue] = topControllerName
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:FireBaseElgrocerPrefix +  "EditOrder"  , parameter: finalParms )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1313,7 +1313,7 @@ class FireBaseEventsLogger  {
             var finalParms = parm
             finalParms?[FireBaseParmName.CurrentScreen.rawValue] = topControllerName
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix +  "ReOrder"  , parameter: finalParms )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1322,7 +1322,7 @@ class FireBaseEventsLogger  {
             var finalParms = parm
             finalParms?[FireBaseParmName.CurrentScreen.rawValue] = topControllerName
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "ChangeOrderSlot"  , parameter: finalParms )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1332,7 +1332,7 @@ class FireBaseEventsLogger  {
    
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + eventName  , parameter: [FireBaseParmName.CurrentScreen.rawValue : (eventAction == "TermsConditions" ||  eventAction == "PrivacyPolicy") ? topControllerName :  FireBaseScreenName.Profile.rawValue , FireBaseParmName.NextScreen.rawValue : eventAction] )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1353,7 +1353,7 @@ class FireBaseEventsLogger  {
         //"AutoDetect"
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:  name   , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName]  )
-            debugPrint(topControllerName) // eg_detectlocation_detect_my_location
+            elDebugPrint(topControllerName) // eg_detectlocation_detect_my_location
         }
     }
     
@@ -1361,7 +1361,7 @@ class FireBaseEventsLogger  {
     class func trackDetectMyLocationClicked() {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:   "AutoDetect"  , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName]  )
-            debugPrint(topControllerName) // eg_detectlocation_detect_my_location
+            elDebugPrint(topControllerName) // eg_detectlocation_detect_my_location
         }
     }
     */
@@ -1369,7 +1369,7 @@ class FireBaseEventsLogger  {
     class func trackDetectManuallySelectLocationClicked(_ name : String) {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:  name  , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName]  )
-            debugPrint(topControllerName)
+            elDebugPrint(topControllerName)
         }
     }
     
@@ -1378,7 +1378,7 @@ class FireBaseEventsLogger  {
 //    class func trackDetectManuallySelectLocationClicked() {
 //        if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
 //            FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName:  "ManualSelect"  , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName]  )
-//            debugPrint(topControllerName)
+//            elDebugPrint(topControllerName)
 //        }
 //    }
     
@@ -1390,13 +1390,13 @@ class FireBaseEventsLogger  {
     class func trackNotificationEnableClicked() {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "NotificationEnable"  , parameter: [FireBaseParmName.CurrentScreen.rawValue : topControllerName] )
-            debugPrint(topControllerName) // eg_detectlocation_detect_my_location
+            elDebugPrint(topControllerName) // eg_detectlocation_detect_my_location
         }
     }
     class func trackNotificationLaterClicked() {
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "NotificationLater"  , parameter: [ FireBaseParmName.CurrentScreen.rawValue : topControllerName ] )
-            debugPrint(topControllerName) // eg_detectlocation_detect_my_location
+            elDebugPrint(topControllerName) // eg_detectlocation_detect_my_location
         }
     }
     
@@ -2178,7 +2178,7 @@ class FireBaseEventsLogger  {
                 title =   String(describing: controller.self)
             }
         }
-        //  debugPrint("Controller is: \(title)")
+        //  elDebugPrint("Controller is: \(title)")
         
         return title
         

@@ -888,7 +888,7 @@ class PayFortManager {
         //        let finalSignature = shaRequest + accesscode + ammount + check3ds + command + currency + emailCustomer + customerIp + langaugeParms + marchentIDParm + refernceParms + keyToken + shaRequest
         let finalSignature = shaRequest + accesscode + ammount + customerCvv + command + currency + emailCustomer + customerIp  + langaugeParms + marchentIDParm + refernceParms + keyToken + shaRequest
         let encryptedStringHash = Encryption.sha256Hex(string: finalSignature)
-        debugPrint(finalSignature)
+        elDebugPrint(finalSignature)
         
         var data : [String : Any] = [:]
         

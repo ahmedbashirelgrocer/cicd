@@ -187,7 +187,7 @@ class CategoryHeaderView: UICollectionReusableView {
                 let myComponents = myCalendar.components(.Weekday, fromDate:NSDate())
                 let weekDay = myComponents.weekday
                 
-                print("WeekDay:%d",weekDay)
+               elDebugPrint("WeekDay:%d",weekDay)
                 
                 var openingStr:String = ""
                 var closingStr:String = ""
@@ -195,16 +195,16 @@ class CategoryHeaderView: UICollectionReusableView {
                 let weekdayStr = String(format:"%d",myComponents.weekday)
                 
                 if weekDays.contains(weekdayStr) {
-                    print("Today is weekday")
+                   elDebugPrint("Today is weekday")
                     openingStr = openingHours[0] as! String
                     closingStr = closingHours[0] as! String
                     
                 }else if (weekDay == 5){
-                    print("Today is Thursday")
+                   elDebugPrint("Today is Thursday")
                     openingStr = openingHours[1] as! String
                     closingStr = closingHours[1] as! String
                 }else{
-                    print("Today is Friday")
+                   elDebugPrint("Today is Friday")
                     openingStr = openingHours[2] as! String
                     closingStr = closingHours[2] as! String
                 }
@@ -221,7 +221,7 @@ class CategoryHeaderView: UICollectionReusableView {
                 timeStr = String(format: "%@ - %@",openTimeStr,closeTimeStr)
                 
             } catch let error as NSError {
-                print(error)
+               elDebugPrint(error)
             }
         }
         
