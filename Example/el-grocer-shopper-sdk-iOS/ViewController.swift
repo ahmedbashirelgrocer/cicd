@@ -93,7 +93,7 @@ class ViewController: UIViewController {
             language: txtLanguage.text, isSmileSDK: true
         )
         ElGrocer.startEngine(with: launchOptions)
-        ElGrocer.isLoggingEnabled = false
+        ElGrocer.isLoggingEnabled = true
     }
     
     func updateLocation(_ location: CLLocation!) {

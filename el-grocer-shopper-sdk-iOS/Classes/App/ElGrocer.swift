@@ -17,7 +17,7 @@ public final class ElGrocer {
 
     static var isSDKLoaded = false
     
-    public static var isLoggingEnabled = true { didSet {
+    public static var isLoggingEnabled = false { didSet {
         MixpanelManager.loggingEnabled(ElGrocer.isLoggingEnabled)
     } }
     
