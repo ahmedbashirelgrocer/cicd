@@ -325,7 +325,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <textField opaque="NO" clipsSubviews="YES" tag="22" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LzR-5R-ZI6" userLabel="phone" customClass="FPNTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="46" y="363" width="313" height="56"/>
+                                <rect key="frame" x="46" y="363" width="297" height="56"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="YTu-Jt-bQx"/>
@@ -361,8 +361,7 @@
                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="PJ4-IZ-w0r" firstAttribute="top" secondItem="LzR-5R-ZI6" secondAttribute="bottom" constant="16" id="46X-Ar-ZnK"/>
-                            <constraint firstItem="ZEd-G6-F7S" firstAttribute="trailing" secondItem="LzR-5R-ZI6" secondAttribute="trailing" id="4u8-jj-TQ6"/>
-                            <constraint firstItem="LzR-5R-ZI6" firstAttribute="trailing" secondItem="jLG-js-E1T" secondAttribute="trailing" id="8E1-q0-o2c"/>
+                            <constraint firstItem="LzR-5R-ZI6" firstAttribute="trailing" secondItem="jLG-js-E1T" secondAttribute="trailing" constant="-16" id="8E1-q0-o2c"/>
                             <constraint firstItem="iRw-Zx-lMK" firstAttribute="top" secondItem="hsl-xF-Gw0" secondAttribute="top" id="9E7-Q8-nEk"/>
                             <constraint firstAttribute="trailing" secondItem="jLG-js-E1T" secondAttribute="trailing" constant="16" id="9p2-qw-6bb"/>
                             <constraint firstItem="jLG-js-E1T" firstAttribute="leading" secondItem="ayj-cz-dlE" secondAttribute="leading" id="Cod-vp-Th1"/>
@@ -370,6 +369,7 @@
                             <constraint firstItem="Ifo-wn-Pmi" firstAttribute="top" secondItem="UnV-Ir-0My" secondAttribute="bottom" constant="45" id="GDI-44-Qx4"/>
                             <constraint firstItem="ZEd-G6-F7S" firstAttribute="height" secondItem="LzR-5R-ZI6" secondAttribute="height" id="HFJ-MF-qKK"/>
                             <constraint firstItem="WLA-nf-ZCC" firstAttribute="centerY" secondItem="LzR-5R-ZI6" secondAttribute="centerY" id="HgD-EX-Xk8"/>
+                            <constraint firstAttribute="trailing" secondItem="ZEd-G6-F7S" secondAttribute="trailing" constant="16" id="KVK-pt-bak"/>
                             <constraint firstItem="ayj-cz-dlE" firstAttribute="top" secondItem="u0F-IR-rZz" secondAttribute="bottom" constant="24" id="M8S-fT-WCS"/>
                             <constraint firstItem="iRw-Zx-lMK" firstAttribute="leading" secondItem="hsl-xF-Gw0" secondAttribute="leading" id="MII-QP-7y8"/>
                             <constraint firstItem="WLA-nf-ZCC" firstAttribute="leading" secondItem="hsl-xF-Gw0" secondAttribute="leadingMargin" constant="16" id="PaN-Bx-t6s"/>
@@ -377,7 +377,7 @@
                             <constraint firstItem="PJ4-IZ-w0r" firstAttribute="leading" secondItem="jLG-js-E1T" secondAttribute="leading" id="T6I-dT-inp"/>
                             <constraint firstItem="LzR-5R-ZI6" firstAttribute="leading" secondItem="jLG-js-E1T" secondAttribute="leading" constant="30" id="VXZ-C0-IEO"/>
                             <constraint firstItem="ayj-cz-dlE" firstAttribute="leading" secondItem="hsl-xF-Gw0" secondAttribute="leading" constant="16" id="a2M-Oi-D4p"/>
-                            <constraint firstItem="PJ4-IZ-w0r" firstAttribute="trailing" secondItem="LzR-5R-ZI6" secondAttribute="trailing" id="aQY-a2-m3M"/>
+                            <constraint firstItem="PJ4-IZ-w0r" firstAttribute="trailing" secondItem="ZEd-G6-F7S" secondAttribute="trailing" id="aQY-a2-m3M"/>
                             <constraint firstItem="ZEd-G6-F7S" firstAttribute="centerY" secondItem="LzR-5R-ZI6" secondAttribute="centerY" id="b4J-xl-pGb"/>
                             <constraint firstItem="Ifo-wn-Pmi" firstAttribute="top" secondItem="iRw-Zx-lMK" secondAttribute="bottom" constant="75" id="gGq-Yb-aEG"/>
                             <constraint firstItem="LzR-5R-ZI6" firstAttribute="top" secondItem="jLG-js-E1T" secondAttribute="bottom" constant="16" id="jQe-Um-VzT"/>

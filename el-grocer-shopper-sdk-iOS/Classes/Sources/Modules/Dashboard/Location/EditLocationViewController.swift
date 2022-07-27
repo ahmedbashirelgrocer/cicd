@@ -116,6 +116,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         didSet {
             self.locNameTextField.placeholder = localizedString("lbl_Map_Selection", comment: "")
             self.locNameTextField.attributedPlaceholder = NSAttributedString.init(string: self.locNameTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.newGreyColor()])
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                locNameTextField.textAlignment = .right
+            }
         }
         
     }
@@ -124,6 +127,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var buildingTextField: ElgrocerTextField! {
         didSet {
             buildingTextField.dtLayer.backgroundColor = UIColor.navigationBarWhiteColor().cgColor
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                buildingTextField.textAlignment = .right
+            }
         }
     }
     
@@ -131,6 +137,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var floorTextField: ElgrocerTextField! {
         didSet {
             floorTextField.dtLayer.backgroundColor = UIColor.navigationBarWhiteColor().cgColor
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                floorTextField.textAlignment = .right
+            }
         }
     }
     
@@ -138,6 +147,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var apartmentNumberTextField: ElgrocerTextField! {
         didSet {
             apartmentNumberTextField.dtLayer.backgroundColor = UIColor.navigationBarWhiteColor().cgColor
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                apartmentNumberTextField.textAlignment = .right
+            }
         }
     }
     
@@ -145,6 +157,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     @IBOutlet weak var streetTextField: ElgrocerTextField! {
         didSet {
             streetTextField.dtLayer.backgroundColor = UIColor.navigationBarWhiteColor().cgColor
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                streetTextField.textAlignment = .right
+            }
         }
     }
     
@@ -511,6 +526,9 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         toolBar?.delegate = self
         toolBar?.barStyle = UIBarStyle.default
         self.additionalDirectionTextField.inputAccessoryView = toolBar
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.additionalDirectionTextView.textAlignment = .right
+        }
     }
     
     func setUpUpdateButtonAppearance() {

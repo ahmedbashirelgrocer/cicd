@@ -22,8 +22,20 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     var finalPhoneNumber : String = ""
     var finalFormatedPhoneNumber : String = ""
     
-    @IBOutlet weak var usernameTextField: ElgrocerTextField!
-    @IBOutlet weak var emailTextField: ElgrocerTextField!
+    @IBOutlet weak var usernameTextField: ElgrocerTextField! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                usernameTextField.textAlignment = .right
+            }
+        }
+    }
+    @IBOutlet weak var emailTextField: ElgrocerTextField! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                emailTextField.textAlignment = .right
+            }
+        }
+    }
     //sab
     @IBOutlet var btnSaveBottomConstraint: NSLayoutConstraint!
     @IBOutlet var btnSaveTopConstraint: NSLayoutConstraint!
@@ -45,6 +57,12 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
             phoneTextField.flagButtonEdgeInsets = UIEdgeInsets.init(top: 0, left: -16, bottom: 0, right: 8)
             if SDKManager.shared.launchOptions?.isSmileSDK == true {
                 phoneTextField.isEnabled = false
+            }
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                phoneTextField.textAlignment = .right
+                phoneTextField.flagButtonEdgeInsets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 8)
+//                phoneTextField.transform = CGAffineTransform(scaleX: -1, y: 1)
+                
             }
         }
     }
@@ -172,6 +190,9 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         self.setUpUpdateButtonAppearance()
         usernameTextField.dtLayer.backgroundColor = UIColor.white.cgColor
         emailTextField.dtLayer.backgroundColor = UIColor.white.cgColor
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.view.transform = CGAffineTransform.identity
+        }
         
     }
     func setSaveButtonPosition(isKeyBoardVisible: Bool) {
