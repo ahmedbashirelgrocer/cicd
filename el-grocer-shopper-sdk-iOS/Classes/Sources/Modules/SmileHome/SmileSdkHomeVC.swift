@@ -240,12 +240,47 @@ class SmileSdkHomeVC: BasketBasicViewController {
                                     // self.reloadAllData()
                             }
                             
+                            self.isFromPushAndForNavigation()
+                            
                         }
                     case .failure(let error):
                         debugPrint(error.localizedMessage)
                 }            }
         }
         DispatchQueue.global(qos: .background).async(execute: orderStatus.orderWorkItem!)
+        
+    }
+    
+    private func isFromPushAndForNavigation() {
+        
+        guard (SDKManager.shared.launchOptions?.isFromPush ?? false) else {
+            return
+        }
+        SDKManager.shared.launchOptions?.isFromPush  =  false
+        
+        if let availableDict = self.openOrders.first(where: { order in
+            
+            let key = DynamicOrderStatus.getKeyFrom(status_id: order["status_id"] as? NSNumber ?? -1000, service_id: order["retailer_service_id"]  as? NSNumber ?? -1000 , delivery_type: order["delivery_type_id"]  as? NSNumber ?? -1000)
+            if let orderNumber = order["id"] as? NSNumber {
+                let statusId = order["status_id"] as? NSNumber ?? -1000
+                ElGrocerEventsLogger.OrderStatusCardClick(orderId: orderNumber.stringValue, statusID: statusId.stringValue)
+            }
+            let status_id : DynamicOrderStatus? = ElGrocerUtility.sharedInstance.appConfigData.orderStatus[key]
+            if status_id?.getStatusKeyLogic().status_id.intValue == OrderStatus.payment_pending.rawValue ||  status_id?.getStatusKeyLogic().status_id.intValue == OrderStatus.inSubtitution.rawValue{
+                return true
+            }
+            return false
+        }) {
+            let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
+            orderConfirmationController.orderDict = availableDict
+            orderConfirmationController.isNeedToRemoveActiveBasket = false
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [orderConfirmationController]
+            orderConfirmationController.modalPresentationStyle = .fullScreen
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: {  })
+        }
         
     }
     
