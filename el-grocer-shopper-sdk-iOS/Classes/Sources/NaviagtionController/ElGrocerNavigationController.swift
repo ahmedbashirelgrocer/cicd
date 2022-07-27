@@ -19,7 +19,7 @@ extension NavigationBarProtocol  {
 }
 class ElGrocerNavigationController : UINavigationController {
     
-     weak var actiondelegate:NavigationBarProtocol?
+    weak var actiondelegate:NavigationBarProtocol?
     
     lazy var tapGesture  : UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(backButtonClick))
@@ -57,6 +57,22 @@ class ElGrocerNavigationController : UINavigationController {
         super.viewDidAppear(animated)
         
         FireBaseEventsLogger.setScreenName(nil, screenClass: String(describing: self.classForCoder))
+    }
+    
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        let isHidden = self.viewControllers.count > 0
+        (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.isHidden = isHidden
+        (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.isHidden = isHidden
+        
+        super.pushViewController(viewController, animated: animated)
+    }
+    
+    override func popViewController(animated: Bool) -> UIViewController? {
+        let isHidden = self.viewControllers.count < 1
+        (self.navigationBar as? ElGrocerNavigationBar)?.backButton.isHidden = isHidden
+        (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.isHidden = isHidden
+        
+        return super.popViewController(animated: animated)
     }
 
     // MARK: Hide Border
