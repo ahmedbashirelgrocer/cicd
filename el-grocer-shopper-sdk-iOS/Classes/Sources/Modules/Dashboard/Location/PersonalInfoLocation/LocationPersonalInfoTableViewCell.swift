@@ -15,11 +15,17 @@ class LocationPersonalInfoTableViewCell: UITableViewCell , AWSegmentViewProtocol
     @IBOutlet var txtMobileNumber: ElgrocerTextField! {
         didSet {
             txtMobileNumber.dtLayer.backgroundColor = UIColor.navigationBarWhiteColor().cgColor
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                txtMobileNumber.textAlignment = .right
+            }
         }
     }
     @IBOutlet var txtShopperName: ElgrocerTextField! {
         didSet {
             txtShopperName.dtLayer.backgroundColor = UIColor.navigationBarWhiteColor().cgColor
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                txtShopperName.textAlignment = .right
+            }
         }
     }
     @IBOutlet var segmenntCollectionView: AWSegmentView! {
