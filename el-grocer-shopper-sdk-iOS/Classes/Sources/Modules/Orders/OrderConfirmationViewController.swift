@@ -429,7 +429,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                     self.bannersList = bannerA
                     self.tableview.reloadDataOnMain()
                 case.failure(let error):
-                    error.showErrorAlert()
+                    elDebugPrint(error.jsonValue)
+                    //error.showErrorAlert()
             }
         }
     }

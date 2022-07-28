@@ -65,7 +65,7 @@ class ViewController: UIViewController {
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = ""
         txtEmail.text = ""
-        txtPushPayload.text = nil // "{\"push_type\":106,\"message\":\"orderinsubstitution\",\"origin\":\"el-grocer-api\",\"message_type\":1}"
+        txtPushPayload.text =  "{\"origin\":\"el-grocer-api\"}"
         txtDLPayload.text = nil // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "Base"
     }

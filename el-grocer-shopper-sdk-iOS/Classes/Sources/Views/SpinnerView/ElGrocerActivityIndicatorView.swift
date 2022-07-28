@@ -49,7 +49,7 @@ class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
             
         }
         self.animationImages = imageA
-        self.animationDuration = 5
+        self.animationDuration = 2.92
         self.animationRepeatCount = 0
         
     }

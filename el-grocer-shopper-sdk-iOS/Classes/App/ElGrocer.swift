@@ -92,6 +92,7 @@ public struct LaunchOptions  {
     var isLoggingEnabled = false {
         didSet { MixpanelManager.loggingEnabled(isLoggingEnabled) }
     }
+    var isFromPush = false
     
     public init(accountNumber: String?,
                 latitude: Double?,
@@ -116,7 +117,9 @@ public struct LaunchOptions  {
         self.language = language
         self.isSmileSDK = isSmileSDK
         self.isLoggingEnabled = isLoggingEnabled
-        
+        if (pushNotificationPayload?.count ?? 0) > 0 {
+            self.isFromPush = true
+        }
     }
 }
 
