@@ -184,7 +184,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         super.viewWillAppear(animated)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         self.navigationItem.hidesBackButton = true
-        addBackButton(isGreen: true)
+        addBackButton(isGreen: false)
        // self.setUpBottomView()
     }
     
