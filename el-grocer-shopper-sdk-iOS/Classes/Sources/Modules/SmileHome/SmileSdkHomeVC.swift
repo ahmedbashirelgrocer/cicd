@@ -349,10 +349,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
             self.setTableViewHeader()
-            ElGrocerUtility.sharedInstance.delay(2) {
-                self.showLocationCustomPopUp()
-            }
-            
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
@@ -390,6 +386,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         else {
             self.tableView.reloadDataOnMain()
+        }
+        
+        ElGrocerUtility.sharedInstance.delay(2) {
+            self.showLocationCustomPopUp()
         }
         
     }
