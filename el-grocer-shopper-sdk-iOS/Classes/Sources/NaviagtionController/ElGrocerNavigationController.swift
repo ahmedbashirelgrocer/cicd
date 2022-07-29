@@ -61,24 +61,10 @@ class ElGrocerNavigationController : UINavigationController {
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         let isHidden = self.viewControllers.count > 0
-        elDebugPrint(isHidden)
-        if isHidden {
-            (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.isHidden = true
-            (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.isHidden = true
-        }
+        (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.isHidden = isHidden
+        (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.isHidden = isHidden
         
         super.pushViewController(viewController, animated: animated)
-    }
-    
-    override func popViewController(animated: Bool) -> UIViewController? {
-        let isHidden = self.viewControllers.count > 1
-        elDebugPrint(isHidden)
-        if !isHidden {
-            (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.isHidden = false
-            (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.isHidden = false
-        }
-        
-        return super.popViewController(animated: animated)
     }
 
     // MARK: Hide Border

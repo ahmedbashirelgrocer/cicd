@@ -557,7 +557,7 @@ class RecipeDetailVC: BasketBasicViewController {
                             }
                         }else{
                             
-                            topVc.tabBarController?.tabBar.isHidden = false
+                            //topVc.tabBarController?.tabBar.isHidden = false
                             topVc.tabBarController?.selectedIndex = 4
                         }
                         
