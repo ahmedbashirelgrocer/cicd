@@ -405,6 +405,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                         self.loadedProductList = loaddata
                         self.showCollectionView(true)
                     }
+                self.refreshBasketIconStatus()
             }
         }
         
@@ -459,6 +460,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         DispatchQueue.main.async {
             if self.searchFor != .isForUniversalSearch  {
                 self.NoDataView.configureNoSearchResultForStore(noDataString)
+                self.NoDataView.isHidden = false
                 self.tableView.backgroundView = self.NoDataView
                 self.tableView.reloadData()
                 if self.basketIconOverlay != nil {
@@ -467,6 +469,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                 return
             }
             self.NoDataView.configureNoSearchResult(noDataString)
+            self.NoDataView.isHidden = false
             self.tableView.backgroundView = self.NoDataView
             self.tableView.reloadData()
         }
@@ -1034,6 +1037,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     
     @objc
     func performAlgoliaSearch(textField: UITextField){
+        defer {
+            self.NoDataView.isHidden = true
+        }
         self.dataSource?.currentSearchString = textField.text ?? ""
         
         if self.dataSource?.currentSearchString.count == 0 {
