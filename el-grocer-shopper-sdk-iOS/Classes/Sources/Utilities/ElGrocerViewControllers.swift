@@ -610,6 +610,7 @@ extension ElGrocerViewControllers {
         if let handlerAvailable = homeHandler {
             smileHomeVc.homeDataHandler = handlerAvailable
         }
+        smileHomeVc.hidesBottomBarWhenPushed = true
         return smileHomeVc
     }
     
