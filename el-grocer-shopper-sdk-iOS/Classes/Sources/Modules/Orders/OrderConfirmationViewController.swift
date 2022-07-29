@@ -328,9 +328,15 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         
         // if let SDKManager = SDKManager.shared {
-        SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
-        (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+        // SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
+        //(SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
         // }
+        if let navigationController = self.navigationController, navigationController.viewControllers.count > 1 {
+            elDebugPrint(navigationController.viewControllers)
+            navigationController.popToRootViewController(animated: true)
+        } else {
+            self.dismiss(animated: true)
+        }
         if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
             tab.selectedIndex = 0
