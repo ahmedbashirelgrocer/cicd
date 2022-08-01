@@ -259,7 +259,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     }
     
     func navBarAppearance() {
-        DispatchQueue.main.async { [self] in
+//        DispatchQueue.main.async { [self] in
 //            if let homeFeed = self.homeObj {
 //
 //                (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
@@ -281,13 +281,14 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
             
             
-        }
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

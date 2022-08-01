@@ -387,7 +387,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             }
             addBackButtonWithCrossIconLeftSide()
             self.addStatusHeader()
-            self.isNeedToDoViewAllocation = false
+//            self.isNeedToDoViewAllocation = false
             
         }
    
