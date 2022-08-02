@@ -291,7 +291,7 @@ class NetworkLayer {
     }
     func setLocale() {
     
-        var currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+        var currentLang = SDKManager.shared.launchOptions?.language ?? "Base" //LanguageManager.sharedInstance.getSelectedLocale()
         if currentLang == "Base" {
           currentLang = "en"
         }
