@@ -148,8 +148,8 @@ extension ViewController: UITextFieldDelegate {
             appDelegate.window?.semanticContentAttribute    = .forceRightToLeft
             UIView.appearance().semanticContentAttribute = .forceRightToLeft
             UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
-            UserDefaults.setCurrentLanguage("ar")
-           // LanguageManager.sharedInstance.setLocale("ar")
+            //UserDefaults.setCurrentLanguage("ar")
+            LanguageManager.sharedInstance.setLocale("ar")
 
         }else{
 
@@ -159,8 +159,8 @@ extension ViewController: UITextFieldDelegate {
                 appDelegate.window?.semanticContentAttribute    = .forceLeftToRight
                 UIView.appearance().semanticContentAttribute = .forceLeftToRight
                 UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
-               // LanguageManager.sharedInstance.setLocale("Base")
-                  UserDefaults.setCurrentLanguage("Base")
+                LanguageManager.sharedInstance.setLocale("Base")
+               //   UserDefaults.setCurrentLanguage("Base")
             }
 
         }
