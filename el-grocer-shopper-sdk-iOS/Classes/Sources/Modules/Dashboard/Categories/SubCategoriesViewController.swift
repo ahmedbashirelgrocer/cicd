@@ -99,6 +99,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
