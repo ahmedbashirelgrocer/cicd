@@ -604,13 +604,15 @@ class GenericStoresViewController: BasketBasicViewController {
     func checkForPushNotificationRegisteration() {
             // guard !Platform.isSimulator else {return}
         let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
-        if isRegisteredForRemoteNotifications == false {
-            if !(UserDefaults.getIsPopAlreadyDisplayed() ?? false) {
-                let SDKManager = SDKManager.shared
-                _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
-                UserDefaults.setIsPopAlreadyDisplayed(true)
-            }
+        
+        let askDate = (UserDefaults.notificationAskDate ?? Date()).addingTimeInterval(60 * 60 * 24)
+        let currentDate = Date()
+        
+        if isRegisteredForRemoteNotifications == false, askDate < currentDate {
+            let SDKManager = SDKManager.shared
             
+            UserDefaults.notificationAskDate = currentDate
+            _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
         }
     }
     

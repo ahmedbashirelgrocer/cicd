@@ -11,6 +11,21 @@ import UIKit
 
 public class UserDefaults {
     
+    static var notificationAskDate: Date? {
+        set {
+            let date = newValue!
+            let dateFormater = DateFormatter()
+            dateFormater.dateFormat = "dd/MM/yyyy HH:mm:ss"
+            Foundation.UserDefaults.standard.set(dateFormater.string(from: date), forKey: "NotificationAskDateKey")
+        }
+        get {
+            let dateString = Foundation.UserDefaults.standard.string(forKey: "NotificationAskDateKey") ?? ""
+            let dateFormater = DateFormatter()
+            dateFormater.dateFormat = "dd/MM/yyyy HH:mm:ss"
+            return dateFormater.date(from: dateString)
+        }
+    }
+    
     // MARK: Login state
     
     class func setLogInUserID(_ userID : String)  {
