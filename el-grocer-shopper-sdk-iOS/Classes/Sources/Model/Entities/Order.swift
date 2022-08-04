@@ -46,6 +46,7 @@ class Order: NSManagedObject, DBEntity {
     
     @NSManaged var isSmilesUser: NSNumber?
     @NSManaged var smilesBurnPoints: Int64
+    @NSManaged var foodSubscriptionStatus: NSNumber?
     
     
     
