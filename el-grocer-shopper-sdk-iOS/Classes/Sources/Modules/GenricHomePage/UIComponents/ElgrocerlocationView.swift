@@ -146,17 +146,20 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var imgShoppingList: UIImageView!{
         didSet{
             imgShoppingList.image = UIImage(name: "addShoppingListYellow")
+            imgShoppingList.isHidden = true
         }
     }
     @IBOutlet var btnlblShopping: UILabel!{
         didSet{
             btnlblShopping.text = localizedString("btn_shopping_list_title", comment: "")
             btnlblShopping.setBody3SemiBoldYellowStyle()
+            btnlblShopping.isHidden = true
         }
     }
     @IBOutlet var btnShoppingList: UIButton!{
         didSet{
             btnShoppingList.setTitle("", for: UIControl.State())
+            btnShoppingList.isEnabled = false
         }
     }
     @IBOutlet var btnLblHelp: UILabel!{
