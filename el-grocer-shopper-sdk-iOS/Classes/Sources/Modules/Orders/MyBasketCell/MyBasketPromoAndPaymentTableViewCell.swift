@@ -322,8 +322,10 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         
         
         
-        let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: orderController.order.grocery, totalPrice: priceSum)
-        
+        var serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: orderController.order.grocery, totalPrice: priceSum)
+        if orderController.order.foodSubscriptionStatus?.boolValue ?? false {
+            serviceFee = 0.0
+        }
         priceSum = priceSum + serviceFee
         
         let serviceVat = serviceFee - (serviceFee / ((100 + Double(truncating: orderController.order.grocery.vat))/100))
@@ -412,7 +414,11 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
                 self.paymentDetailBackGroundHeightConstraint.constant =  175 + 25 + (isPromo ? 15 : 0)
             }
         }
-        lblServiceFeeAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: serviceFee)
+        if orderController.order.foodSubscriptionStatus?.boolValue ?? false {
+            lblServiceFeeAmount.text = localizedString("txt_free", comment: "")
+        }else {
+            lblServiceFeeAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: serviceFee)
+        }
         lblGrandTotalAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
         let smilePoints = Int(orderController.order.smilesBurnPoints)
         if smilePoints > 0 {

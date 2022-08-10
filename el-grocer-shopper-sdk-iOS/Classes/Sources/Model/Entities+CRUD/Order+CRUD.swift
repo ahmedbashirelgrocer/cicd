@@ -193,7 +193,11 @@ extension Order {
             order.itemImages = images_links
         }
         
-        
+        if let foodSubscriptionStatus = orderDict["food_subscription_status"] as? NSNumber {
+            order.foodSubscriptionStatus = foodSubscriptionStatus
+        }else {
+            order.foodSubscriptionStatus = NSNumber(0)
+        }
         if let images_links = orderDict["order_positions"] as? [NSDictionary] {
             order.itemsPossition = images_links
         }

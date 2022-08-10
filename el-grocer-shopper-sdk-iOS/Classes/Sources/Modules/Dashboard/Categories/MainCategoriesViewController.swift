@@ -1366,8 +1366,13 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         guard !Platform.isSimulator else {return}
         
         let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
-        if isRegisteredForRemoteNotifications == false {
+        let askDate = (UserDefaults.notificationAskDate ?? Date()).addingTimeInterval(60 * 60 * 24)
+        let currentDate = Date()
+        
+        if isRegisteredForRemoteNotifications == false, askDate < currentDate {
             let SDKManager = SDKManager.shared
+            
+            UserDefaults.notificationAskDate = currentDate
             _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
         }
     }
