@@ -1793,6 +1793,9 @@ extension SubstitutionsProductViewController {
                 promoCodeValue = promoCode.valueCents  as Double
             }
         }
+        if (self.order != nil) && (self.order.foodSubscriptionStatus?.boolValue ?? false) {
+            serviceFee = 0.0
+        }
         var finalAmount = (totalAmount + serviceFee) - promoCodeValue
         if finalAmount < 0 {
             finalAmount = 0
@@ -2080,8 +2083,12 @@ extension SubstitutionsProductViewController{
             self.lblTotalPriceVATValue.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(totalPrice))
         }
         
-        if let serviceFee = Double(serviceFee) {
-            self.lblServiceFeeValue.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(serviceFee))
+        if (self.order != nil) && (self.order.foodSubscriptionStatus?.boolValue ?? false) {
+            self.lblServiceFeeValue.text =  localizedString("txt_free", comment: "")
+        }else {
+            if let serviceFee = Double(serviceFee) {
+                self.lblServiceFeeValue.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(serviceFee))
+            }
         }
         
         if let grandTotal = Double(grandTotal) {

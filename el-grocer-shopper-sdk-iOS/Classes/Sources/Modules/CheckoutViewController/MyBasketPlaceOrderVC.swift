@@ -557,7 +557,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                 self.appleQueryItem = paymentDetails
                 completion(true)
             }
-            let totalAmount = self.secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode()
+            let totalAmount = self.secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode(foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false)
             applePaymentHandler.startPayment(totalAmount: String(totalAmount?.finalAmount ?? 0.0), completion: { (success) in
                 if success {
                    elDebugPrint("order placed successfully")
@@ -616,7 +616,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             let paymentNetworks = [ PKPaymentNetwork.masterCard,  PKPaymentNetwork.visa]
             if   PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) {
                 self.placeOrder()
-                let finalAmount = secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode().finalAmount ?? 0.0
+                let finalAmount = secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode(foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false).finalAmount ?? 0.0
                 MixpanelEventLogger.trackCheckoutConfirmOrderClicked(value: "\(finalAmount)")
             }else {
                 let passLibrary = PKPassLibrary()
@@ -643,7 +643,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             }
             
             self.placeOrder()
-            let finalAmount = secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode().finalAmount ?? 0.0
+            let finalAmount = secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode(foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false).finalAmount ?? 0.0
             MixpanelEventLogger.trackCheckoutConfirmOrderClicked(value: "\(finalAmount)")
         }
         
@@ -669,7 +669,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             riderFee = self.secondCheckOutDataHandler?.activeGrocery?.riderFee ?? 0
         }
         
-        let totalAmmount = self.secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode()
+        let totalAmmount = self.secondCheckOutDataHandler?.getPriceWithServiceFeeAndPromoCode(foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false)
         let finalAmountDouble =  totalAmmount?.0 ?? 0.0
         let finalAmountStr =  String(describing: totalAmmount?.0)
         
@@ -1220,12 +1220,16 @@ extension MyBasketPlaceOrderVC {
     func setBillDetails() {
         
         if let secondCheckOutDataHandler = secondCheckOutDataHandler {
-            let promoAndFinalPrice = secondCheckOutDataHandler.getPriceWithServiceFeeAndPromoCode()
+            let promoAndFinalPrice = secondCheckOutDataHandler.getPriceWithServiceFeeAndPromoCode(foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false)
             let totalProductPrice = secondCheckOutDataHandler.getPrice(true)
             let totalAmountToDisplay = promoAndFinalPrice.finalAmount
             let promoAmout = promoAndFinalPrice.promoAmount
-            let serviceFee = secondCheckOutDataHandler.activeGrocery?.serviceFee
-
+            var serviceFee: Double? = 0.0
+            if smileUser?.foodSubscriptionStatus ?? false {
+                serviceFee = 0.0
+            }else {
+                serviceFee = secondCheckOutDataHandler.activeGrocery?.serviceFee
+            }
             assignTotalSavingAmount()
             assignEarnSmilePoints()
             assignBurnSmilePoints()
@@ -1301,7 +1305,7 @@ extension MyBasketPlaceOrderVC {
         var currentOrderTotaleAmount = 0.0
 
         if let secondCheckOutDataHandler = secondCheckOutDataHandler {
-            let promoAndFinalPrice = secondCheckOutDataHandler.getPriceWithServiceFeeAndPromoCode()
+            let promoAndFinalPrice = secondCheckOutDataHandler.getPriceWithServiceFeeAndPromoCode(foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false)
             currentOrderTotaleAmount = promoAndFinalPrice.finalAmount
         }
         
@@ -1963,7 +1967,7 @@ extension MyBasketPlaceOrderVC {
         guard let secondCheckOutDataHandler = self.secondCheckOutDataHandler else {
             return 0.0
         }
-        return secondCheckOutDataHandler.getPriceWithServiceFeeAndPromoCode().finalAmount
+        return secondCheckOutDataHandler.getPriceWithServiceFeeAndPromoCode(foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false).finalAmount
     }
     
     func getTotalRedeemableAmount() -> Double {
