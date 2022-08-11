@@ -146,17 +146,27 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var imgShoppingList: UIImageView!{
         didSet{
             imgShoppingList.image = UIImage(name: "addShoppingListYellow")
+            if SDKManager.isSmileSDK {
+                imgShoppingList.isHidden = true
+            }
         }
     }
     @IBOutlet var btnlblShopping: UILabel!{
         didSet{
             btnlblShopping.text = localizedString("btn_shopping_list_title", comment: "")
             btnlblShopping.setBody3SemiBoldYellowStyle()
+            if SDKManager.isSmileSDK {
+                btnlblShopping.isHidden = true
+            }
         }
     }
     @IBOutlet var btnShoppingList: UIButton!{
         didSet{
             btnShoppingList.setTitle("", for: UIControl.State())
+            if SDKManager.isSmileSDK {
+                btnShoppingList.isEnabled = false
+            }
+            
         }
     }
     @IBOutlet var btnLblHelp: UILabel!{

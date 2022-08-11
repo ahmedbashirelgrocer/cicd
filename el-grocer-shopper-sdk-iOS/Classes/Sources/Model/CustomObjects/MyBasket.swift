@@ -137,14 +137,16 @@ class MyBasket  {
     }
     
     
-    func getPriceWithServiceFeeAndPromoCode() -> (finalAmount:Double,promoAmount:Double) {
+    func getPriceWithServiceFeeAndPromoCode(foodSubscriptionStatus: Bool = false) -> (finalAmount:Double,promoAmount:Double) {
         var PriceToShow: Double = 0.00
         var promoPrice: Double = 0.00
         if let grocery =  self.activeGrocery {
                 //            var serviceFee: Double = 0.0
             let priceWithTobacco = getPrice(true)
-            let serviceFee = grocery.serviceFee
-            
+            var serviceFee = grocery.serviceFee
+            if foodSubscriptionStatus {
+                serviceFee = 0.0
+            }
             PriceToShow = priceWithTobacco + serviceFee
             
             if let promoCodeValue = UserDefaults.getPromoCodeValue() {
