@@ -39,5 +39,6 @@ public class ApplePaymentConfigrations {
 
     struct Merchant {
         static let identifier = "merchant.elgrocer.com.ElGrocerShopper.ElGrocerShopperApplePay"
+        static let smileIdentifier = "merchant.ae.comtrust.ipg"
     }
 }
