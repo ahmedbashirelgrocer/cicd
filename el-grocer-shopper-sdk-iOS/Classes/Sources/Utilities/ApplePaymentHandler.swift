@@ -47,7 +47,7 @@ class ApplePaymentHandler: NSObject {
         // Create a payment request.
         let paymentRequest = PKPaymentRequest()
         paymentRequest.paymentSummaryItems = paymentSummaryItems
-        paymentRequest.merchantIdentifier =  (SDKManager.shared.launchOptions?.isSmileSDK ?? false) ? ApplePaymentConfigrations.Merchant.smileIdentifier : ApplePaymentConfigrations.Merchant.identifier
+        paymentRequest.merchantIdentifier =  (SDKManager.shared.launchOptions?.isSmileSDK ?? false) ? ApplePaymentConfigrations.Merchant.smileProductionIdentifier : ApplePaymentConfigrations.Merchant.identifier
         paymentRequest.merchantCapabilities = .capability3DS
         
 //        if let regionCode = Locale.getCurrentLocale().regionCode, let countryCode = FPNCountryCode(rawValue: regionCode) {
