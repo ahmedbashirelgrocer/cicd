@@ -16,6 +16,8 @@ public enum AppleMerchantIdentifier: String {
     
     case staging = "merchant.ElGrocer.com.adyen.ElGrocerUAE-online.test"
     case live = "merchant.com.adyen.ElGrocerUAE-online"
+    case smileUAT = "merchant.ae.comtrust.ipg"
+   
     
     func description() -> String {
         return self.rawValue
@@ -73,7 +75,7 @@ class AdyenManager {
         let amountAdyen = AdyenManager.createAmount(amount: amountDecimal)
         let payment = Payment(amount: amountAdyen, countryCode: "AE")
         let summary = PKPaymentSummaryItem(label: applicationNameForApple, amount: amountDecimal, type: .final)
-        let config = ApplePayComponent.Configuration(summaryItems: [summary], merchantIdentifier: AdyenManager.applePayMerchantIdentifier)
+        let config = ApplePayComponent.Configuration(summaryItems: [summary], merchantIdentifier: SDKManager.isSmileSDK ? AppleMerchantIdentifier.smileUAT.description() : AdyenManager.applePayMerchantIdentifier)
 
         self.adyendataObj = AdyenManagerObj(amount: amount, orderNumber: orderNum, isZeroAuth: false)
         self.adyenPrice = amountAdyen

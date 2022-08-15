@@ -612,7 +612,6 @@ class MyBasketPlaceOrderVC: UIViewController {
         
         if self.selectedPaymentOption == .applePay{
             
-            
             let paymentNetworks = [ PKPaymentNetwork.masterCard,  PKPaymentNetwork.visa]
             if   PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) {
                 self.placeOrder()

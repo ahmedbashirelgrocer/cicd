@@ -27,6 +27,7 @@ public final class ElGrocer {
             func basicHomeViewSetUp() {
                 if let launchOptions = launchOptions {
                     let manager = SDKLoginManager(launchOptions: launchOptions)
+                    SDKManager.shared.launchOptions = launchOptions
                     manager.setHomeView()
                 }
             }

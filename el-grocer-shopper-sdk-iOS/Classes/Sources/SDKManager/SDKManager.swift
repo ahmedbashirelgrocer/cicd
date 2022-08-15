@@ -452,11 +452,12 @@ class SDKManager: NSObject  {
         guard !smileSDK else {
             let tabVC = self.getTabbarController(isNeedToShowChangeStoreByDefault: false, selectedGrocery: nil, nil, true)
             if let topVC = UIApplication.topViewController() {
-                if tabVC.viewControllers.count > 0  {
+                topVC.present(tabVC, animated: true, completion: nil)
+               /* if tabVC.viewControllers.count > 0  {
                     if let tabController = tabVC.viewControllers[0] as? UITabBarController {
                         topVC.navigationController?.pushViewControllerFromLeftAndSetRoot(controller: tabController)
                     }
-                }
+                }*/
             }
             return
         }
