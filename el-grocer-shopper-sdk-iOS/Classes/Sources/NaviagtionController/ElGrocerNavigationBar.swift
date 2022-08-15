@@ -228,10 +228,13 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         if self.cartButton != nil {
 
-            self.cartButton.frame = CGRect(x:self.frame.size.width-16-44, y: (self.frame.size.height*0.5)-22 , width: 44, height: 44)
+//            self.cartButton.frame = CGRect(x:self.frame.size.width-16-44, y: (self.frame.size.height*0.5)-22 , width: 44, height: 44)
+            //cart icon size is 44x44 but withj shadow its 58x58
+            self.cartButton.frame = CGRect(x:self.frame.size.width-16-54, y: (self.frame.size.height*0.5)-29 , width: 58, height: 58)
             
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                self.cartButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-22, width: 44, height: 44)
+//                self.cartButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-22, width: 44, height: 44)
+                self.cartButton.frame = CGRect(x:6, y: (self.frame.size.height*0.5)-29, width: 58, height: 58)
                 self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
                 self.cartButton.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
             }

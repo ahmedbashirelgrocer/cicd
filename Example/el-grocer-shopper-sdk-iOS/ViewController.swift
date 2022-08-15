@@ -94,6 +94,19 @@ class ViewController: UIViewController {
             isSmileSDK: true,
             isLoggingEnabled: true
         )
+        
+//        let launchOptions = LaunchOptions(accountNumber: Optional("+971567367806"),
+//                                          latitude: Optional(25.2346972),
+//                                          longitude: Optional(55.2963797),
+//                                          address: Optional("Al Kifaf"),
+//                                          loyaltyID: Optional("111111111130"),
+//                                          email: Optional("swislam@etisalat.ae"),
+//                                          pushNotificationPayload: nil,
+//                                          deepLinkPayload: Optional("https://https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=16,BrandID=16&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp"),
+//                                          language: Optional("en"),
+//                                          isSmileSDK: true,
+//                                          isLoggingEnabled: false)
+        
         ElGrocer.startEngine(with: launchOptions)
     }
     
@@ -136,7 +149,7 @@ extension ViewController: UITextFieldDelegate {
             UIView.appearance().semanticContentAttribute = .forceRightToLeft
             UITabBar.appearance().semanticContentAttribute = .forceRightToLeft
             UserDefaults.setCurrentLanguage("ar")
-           // LanguageManager.sharedInstance.setLocale("ar")
+            //LanguageManager.sharedInstance.setLocale("ar")
 
         }else{
 
@@ -146,8 +159,8 @@ extension ViewController: UITextFieldDelegate {
                 appDelegate.window?.semanticContentAttribute    = .forceLeftToRight
                 UIView.appearance().semanticContentAttribute = .forceLeftToRight
                 UITabBar.appearance().semanticContentAttribute = .forceLeftToRight
-               // LanguageManager.sharedInstance.setLocale("Base")
-                  UserDefaults.setCurrentLanguage("Base")
+                //LanguageManager.sharedInstance.setLocale("Base")
+                UserDefaults.setCurrentLanguage("Base")
             }
 
         }

@@ -86,8 +86,12 @@ class LanguageManager: NSObject {
         
        /* UserDefaults.standard.set([langCode], forKey: "AppleLanguages")//replaces Locale.preferredLanguages
         UserDefaults.standard.synchronize()*/
+        //if !SDKManager.isSmileSDK {
+        var langCode = langCode
         
+        if langCode == "en" { langCode = "Base" }
         Foundation.UserDefaults.standard.setValue([langCode], forKey: "AppleLanguages")
+        //}
         Foundation.UserDefaults.standard.synchronize()
         
         self.lprojBasePath =  getSelectedLocale()
