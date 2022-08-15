@@ -11,8 +11,6 @@ import Foundation
 public class ElGrocerNotification {
     
     public class func handlePushNotification(_ options : LaunchOptions?) {
-        
-        
        
         var delayTime = 1.0
         if let dataAvailable = SDKManager.shared.sdkStartTime {
