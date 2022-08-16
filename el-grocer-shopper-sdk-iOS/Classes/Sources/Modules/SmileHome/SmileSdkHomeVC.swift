@@ -416,6 +416,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         super.backButtonClickedHandler()
             //self.tabBarController?.navigationController?.popToRootViewController(animated: true)
             //self.dismiss(animated: true)
+        NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         self.tabBarController?.dismiss(animated: true)
     }
     

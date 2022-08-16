@@ -38,6 +38,7 @@
 "error_10008" = "Wallet amount is not enough.";
 "error_10009" = "This promo code is not valid for selected payment method. Would you like to change payment method?";
 "error_1112" = "You order is already processed to deliver. Please continue to place new order.";
+"error_500" = "Oops - something went wrong. Whatever happened, it was probably our fault. Please try again.";
 "time_elapsed" = "Can't Change slot as time elapesed";
 "retailer_is_opened" = "Retailer isn't opened";
 

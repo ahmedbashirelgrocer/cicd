@@ -136,8 +136,14 @@ extension SplashAnimationViewController {
                     }else{
                         self.configFailureCase()
                     }
-                case .failure(let _):
-                    self.configFailureCase()
+                case .failure(let error):
+                    if error.code == 500 {
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: nil , header: localizedString("", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                            if buttonIndex == 1 {
+                                self.configFailureCase()
+                            }
+                        }
+                    }
             }
         }
         
