@@ -48,7 +48,11 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         let locationHeader = ElgrocerlocationView.loadFromNib()
         return locationHeader!
     }()
-    
+    lazy var NoDataView : NoStoreView = {
+        let noStoreView = NoStoreView.loadFromNib()
+        noStoreView?.configureNoSavedCar()
+        return noStoreView!
+    }()
     
     private func addLocationHeader() {
         
@@ -327,17 +331,19 @@ extension BrowseViewController {
        
         guard let availableGrocery = grocery else {return}
         guard let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {return}
-        ElGrocerApi.sharedInstance.getAllCategories(currentAddress,
-                                                    parentCategory: cate , forGrocery: availableGrocery) { (result) -> Void in
-                                                        
-                                                        switch result {
-                                    
-                                                            case .success(let response):
-                                                                self.saveAllSubCategoriesFromResponse(response , index : index)
-                                                            
-                                                            case .failure(let error):
-                                                                error.showErrorAlert()
-                                                        }
+        ElGrocerApi.sharedInstance.getAllCategories(currentAddress, parentCategory: cate , forGrocery: availableGrocery) { (result) -> Void in
+            switch result {
+                case .success(let response):
+                    self.saveAllSubCategoriesFromResponse(response , index : index)
+                    self.tableViewCategories.backgroundView = UIView()
+                case .failure(let error):
+                    if error.code >= 500 && error.code <= 599 {
+                         self.tableViewCategories.backgroundView = self.NoDataView
+                    } else {
+                         self.tableViewCategories.backgroundView = UIView()
+                         error.showErrorAlert()
+                    }
+            }
         }
     }
     

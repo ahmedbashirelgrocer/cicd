@@ -1346,9 +1346,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         completionHandler(Either.success(response))
     }) { (operation  , error) in
         if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
+            //if (error as NSError).code == 500 {
+            //    (ElGrocerError.serverNotResponding()).showErrorAlert()
+            //}else {
                 completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+            //}
+        }
     }
 
   }

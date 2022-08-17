@@ -65,6 +65,9 @@ class SDKManager: NSObject  {
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
         self.rootContext = UIApplication.topViewController()
+        _ = ReachabilityManager.sharedInstance
+        NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
         self.showAnimatedSplashView()
     }
     
@@ -689,7 +692,7 @@ class SDKManager: NSObject  {
                 
                 //check if no network controller is shown
                 if topController is NoNetworkConnectionViewController {
-                    self.window?.rootViewController?.dismiss(animated: false, completion:nil)
+                    topController.dismiss(animated: false, completion:nil)
                 }
                 
             } else {
@@ -703,7 +706,7 @@ class SDKManager: NSObject  {
                     navController.modalPresentationStyle = .fullScreen
                     DispatchQueue.main.async { [weak self] in
                         guard let self = self else { return }
-                        self.window?.rootViewController?.present(navController, animated: false, completion: nil)
+                        topController.present(navController, animated: false, completion: nil)
                     }
                     
                 }

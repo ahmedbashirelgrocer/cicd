@@ -31,7 +31,7 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 private let genericErrorCode = 10000
 private let parsingErrorCode = -1
-
+private let serverNotRespondingErrorCode = 500
 
 
 
@@ -57,7 +57,9 @@ private let errorCodes: [Int: String] = [
     10006: localizedString("error_10006", comment: ""),
     10007: localizedString("error_10007", comment: ""),
     10008: localizedString("error_10008", comment: ""),
-    10009: localizedString("error_10009", comment: "")
+    10009: localizedString("error_10009", comment: ""),
+    
+    serverNotRespondingErrorCode: localizedString("error_500", comment: "")
 ]
 
 struct ElGrocerError {
@@ -70,6 +72,9 @@ struct ElGrocerError {
     
     static func parsingError() -> ElGrocerError {
         return ElGrocerError(code: parsingErrorCode)
+    }
+    static func serverNotResponding() -> ElGrocerError {
+        return ElGrocerError(code: serverNotRespondingErrorCode)
     }
     
     static func locationServicesDisabledError() -> ElGrocerError {
