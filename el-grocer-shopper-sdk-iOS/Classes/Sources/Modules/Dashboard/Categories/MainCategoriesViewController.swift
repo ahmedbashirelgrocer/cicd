@@ -29,7 +29,10 @@ struct ListingViewModel {
 }
 
 extension MainCategoriesViewController : StoreFeedsDelegate {
-   
+    
+    func categoriesFetchingError(error: ElGrocerError?) {
+        checkNoDataView(isNoDataView: 500..<600 ~= (error?.code ?? 0))
+    }
     
     func categoriesFetchingCompleted(_ index: Int , categories : [Category]) {
         
@@ -943,8 +946,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
     }
   
-    func checkNoDataView(){
-        if self.grocery == nil {
+    func checkNoDataView( isNoDataView: Bool = false){
+        if self.grocery == nil || isNoDataView {
             self.model.data.resetFeeds()
             self.tableViewCategories.isHidden = false
             self.tableViewCategories.backgroundView = self.NoDataView

@@ -335,11 +335,13 @@ extension BrowseViewController {
             switch result {
                 case .success(let response):
                     self.saveAllSubCategoriesFromResponse(response , index : index)
+                    self.tableViewCategories.backgroundView = UIView()
                 case .failure(let error):
-                if error.code >= 500 && error.code <= 599 {
-                        self.tableViewCategories.backgroundView = self.NoDataView
-                    }else {
-                        error.showErrorAlert()
+                    if error.code >= 500 && error.code <= 599 {
+                         self.tableViewCategories.backgroundView = self.NoDataView
+                    } else {
+                         self.tableViewCategories.backgroundView = UIView()
+                         error.showErrorAlert()
                     }
             }
         }
