@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 
 struct SDKLoginManager {
+    
+    static var KOpenOrderRefresh = NSNotification.Name(rawValue: "KOpenOrderRefreshFromPush")
     
     var launchOptions: LaunchOptions
     
@@ -169,11 +172,29 @@ extension SDKLoginManager {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
                     tababarController.selectedIndex = 0
                     ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
-                    UIApplication.topViewController()?.present(nav, animated: true, completion: nil)
+                   
+                    Thread.OnMainThread {
+                        
+                        if let topVc = UIApplication.topViewController()?.navigationController?.classForCoder {
+                            let className = "\(topVc)"
+                            if className.contains("ElGrocer") {
+                                NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
+                                return
+                            }
+                        }
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
+                        UIApplication.topViewController()?.present(nav, animated: true, completion: nil)
+//
+//                        if !UIApplication.isElGrocerSDKClass() {
+//                            UIApplication.topViewController()?.present(nav, animated: true, completion: nil)
+//                        } else {
+//                            // send notifcation push to refresh
+//                            NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
+//                        }
+                    }
                     return
                 }
             }

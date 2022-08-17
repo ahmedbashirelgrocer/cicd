@@ -116,6 +116,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
         
+        NotificationCenter.default.addObserver(self,selector: #selector(SmileSdkHomeVC.getOpenOrders), name: SDKLoginManager.KOpenOrderRefresh , object: nil)
+        
+        
     }
     
     private func appTabBarCustomization() {
@@ -218,7 +221,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             }
         }
     }
-    
+    @objc
     func getOpenOrders() {
         
         orderStatus.orderWorkItem  = DispatchWorkItem {
