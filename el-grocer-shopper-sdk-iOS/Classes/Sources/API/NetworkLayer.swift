@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 // import AFNetworking
 
 
@@ -247,8 +248,8 @@ class NetworkLayer {
                                 call.startNetWorkLayerCall(self)
                             }
                         }
-                    }else if response.statusCode == 500 {
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: nil , header: localizedString("", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                    }else if response.statusCode >= 500 && response.statusCode <= 599  {
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
                             if buttonIndex == 1 {
                                 self.getToken()
                             }

@@ -268,7 +268,8 @@ extension StoreFeeds {
                 switch result {
                     case .success(let response):
                         self.saveAllCategories(responseDict: response, grocery: self.grocery)
-                    case .failure( _):
+                    case .failure(let error):
+                    self.delegate.categoriesFetchingCompleted(
                         self.isRunning = false
                         self.isLoaded.value = true
                    

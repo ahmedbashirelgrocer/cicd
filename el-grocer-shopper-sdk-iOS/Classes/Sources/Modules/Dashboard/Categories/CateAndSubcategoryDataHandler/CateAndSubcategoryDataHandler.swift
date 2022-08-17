@@ -602,7 +602,11 @@ extension CateAndSubcategoryView {
 }
 
 extension CateAndSubcategoryView : CateAndSubcategoryDataHandlerDelegate {
-    func newSubcategoriesData(_ subCategories: [SubCategory]) {
+    func newSubcategoriesData(_ subCategories: [SubCategory], _ error: ElGrocerError?) {
+        if error != nil {
+            //show no data view
+            return
+        }
         self.setNewSubcategories(subCategories)
         self.setTitleArrayFromCategories(subCategories)
         self.segmentSelectionUpdateDelegate()
@@ -642,7 +646,7 @@ extension CateAndSubcategoryView : CateAndSubcategoryDataHandlerDelegate {
 
 protocol CateAndSubcategoryDataHandlerDelegate {
     func bannerData(currentBanner : [BannerCampaign]? , grocerID : String)
-    func newSubcategoriesData(_ subCategories : [SubCategory])
+    func newSubcategoriesData(_ subCategories : [SubCategory],_ error: ElGrocerError?)
 }
 //extension CateAndSubcategoryDataHandlerDelegate {
 //    func bannerDataUpdated(currentBanner : [BannerCampaign]?){}
@@ -713,7 +717,8 @@ class CateAndSubcategoryDataHandler {
                     elDebugPrint("\(response)")
                     self.saveAllSubCategoriesFromResponse(response, spinner)
                 case .failure(let error):
-                    error.showErrorAlert()
+                    self.delegate?.newSubcategoriesData([], error)
+//                    error.showErrorAlert()
             }
         }
     }
@@ -724,7 +729,7 @@ class CateAndSubcategoryDataHandler {
         guard newSubCategories.count > 0 else {
             return
         }
-        self.delegate?.newSubcategoriesData(newSubCategories)
+        self.delegate?.newSubcategoriesData(newSubCategories, nil)
     }
 
 }
