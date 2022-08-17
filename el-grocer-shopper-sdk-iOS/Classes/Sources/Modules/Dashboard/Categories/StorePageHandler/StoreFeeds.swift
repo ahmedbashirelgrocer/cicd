@@ -15,6 +15,7 @@ import RxSwift
 
 protocol StoreFeedsDelegate {
     func categoriesFetchingCompleted (_ index : Int , categories : [Category])
+    func categoriesFetchingError (error : ElGrocerError?)
     func fetchingCompleted (_ index : Int)
 }
 
@@ -266,12 +267,16 @@ extension StoreFeeds {
             ElGrocerApi.sharedInstance.getAllCategories(currentAddress,
                                                         parentCategory:nil , forGrocery: self.grocery) { (result) -> Void in
                 switch result {
-                    case .success(let response):
-                        self.saveAllCategories(responseDict: response, grocery: self.grocery)
-                    case .failure( _):
-                        self.isRunning = false
-                        self.isLoaded.value = true
-                   
+                case .success(let response):
+                    elDebugPrint(response)
+                    self.saveAllCategories(responseDict: response, grocery: self.grocery)
+                    
+                    self.delegate?.categoriesFetchingError(error: nil)
+                case .failure( let error):
+                    self.isRunning = false
+                    self.isLoaded.value = true
+                    
+                    self.delegate?.categoriesFetchingError(error: error)
                 }
             }
         }
