@@ -134,7 +134,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 self.getOpenOrders()
             }
         }else{
-            self.getOpenOrders()
+            ElGrocerUtility.sharedInstance.delay(1) {
+                self.getOpenOrders()
+            }
         }
     }
     
@@ -470,7 +472,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
                         
                         if  let navMain  = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController  {
                             if navMain.viewControllers.count > 0 {
-                                if let _ =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                    mainVc.grocery = nil
                                     ElGrocerUtility.sharedInstance.activeGrocery = grocery
                                     if ElGrocerUtility.sharedInstance.groceries.count == 0 {
                                         ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []

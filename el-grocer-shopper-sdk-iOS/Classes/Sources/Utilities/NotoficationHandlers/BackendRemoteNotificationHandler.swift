@@ -52,7 +52,9 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     }()
     
     func handleRemoteNotification(_ notification: [AnyHashable: Any]) -> Bool {
+        
         elDebugPrint("notification : \(notification)")
+        
         guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey) else {
             return false
         }

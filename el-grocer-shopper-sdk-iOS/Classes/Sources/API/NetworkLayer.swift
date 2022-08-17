@@ -249,9 +249,25 @@ class NetworkLayer {
                             }
                         }
                     }else if response.statusCode >= 500 && response.statusCode <= 599  {
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                        
+                        if let views = SDKManager.shared.window?.subviews {
+                            var popUp : NotificationPopup? = nil
+                            for dataView in views {
+                                if let popUpView = dataView as? NotificationPopup {
+                                    popUp = popUpView
+                                    break
+                                }
+                            }
+                            if popUp?.titleLabel.text == localizedString("alert_error_title", comment: "") {
+                                return
+                            }
+                        }
+                        
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
                             if buttonIndex == 1 {
                                 self.getToken()
+                            } else {
+                                UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
                             }
                         }
                     }else{

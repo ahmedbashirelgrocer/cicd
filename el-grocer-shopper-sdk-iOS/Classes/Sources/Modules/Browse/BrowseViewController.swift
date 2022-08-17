@@ -54,6 +54,10 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         return noStoreView!
     }()
     
+    private func getCurrentDeliveryAddress() -> DeliveryAddress? {
+        return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+    }
+    
     private func addLocationHeader() {
         
         self.view.addSubview(self.locationHeader)
@@ -97,14 +101,17 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.registerCellsForTableView()
-        self.setData()
+        DispatchQueue.main.async {
+            self.setData()
+        }
+        
         self.addLocationHeader()
     }
     
     override func refreshSlotChange() {
         
         
-        for (index , data) in self.subCategorycategories {
+        for (index , _) in self.subCategorycategories {
             self.subCategorycategories[index]  = []
         }
     
@@ -123,20 +130,105 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     func setData() {
         
         if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
-            self.categories = grocery.categories.allObjects as! [Category]
-            self.categories.sort { $0.sortID < $1.sortID}
-            self.tableViewCategories.reloadData()
-            
-            self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
-            self.basketIconOverlay?.grocery = grocery
-            self.basketIconOverlay?.shouldShow = true
-            self.refreshBasketIconStatus()
-            self.setTableViewBottomConstraint()
-            
-            for (index,categories) in self.categories.enumerated() {
-                self.fetchSubCategories(categories, grocery: self.grocery, index:index)
+            guard let currentAddress = getCurrentDeliveryAddress() else {
+                return
+            }
+            ElGrocerApi.sharedInstance.getAllCategories(currentAddress,
+                                                        parentCategory:nil , forGrocery: grocery) { (result) -> Void in
+                switch result {
+                    case .success(let response):
+                        elDebugPrint(response)
+                        self.saveAllCategories(responseDict: response, grocery: grocery)
+                        
+                    case .failure( let error):
+                        self.serverErrorHandling(error)
+                        
+                       
+                }
             }
         }
+    }
+    
+    
+    private func serverErrorHandling(_ error : ElGrocerError?) {
+        
+        
+        DispatchQueue.main.async {
+      
+        if ((error?.code ?? 0) >= 500 && (error?.code ?? 0) <= 599) ||  (error?.code ?? 0) == -1011 {
+            
+            if let views = SDKManager.shared.window?.subviews {
+                var popUp : NotificationPopup? = nil
+                for dataView in views {
+                    if let popUpView = dataView as? NotificationPopup {
+                        popUp = popUpView
+                        break
+                    }
+                }
+                if popUp?.titleLabel.text == localizedString("alert_error_title", comment: "") {
+                    return
+                }
+            }
+            
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                if buttonIndex == 1 {
+                    self.refreshSlotChange()
+                } else {
+                    UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+                }
+            }
+        }else {
+            fetchSubCateData()
+        }
+        }
+    }
+    
+    private func saveAllCategories(responseDict : NSDictionary , grocery : Grocery?) {
+        
+       
+        if let categoryArray = responseDict["data"] as? [NSDictionary] {
+            if let groceryBgContext = DatabaseHelper.sharedInstance.getEntityWithName(GroceryEntity, entityDbId: grocery?.dbID as AnyObject, keyId: "dbID", context: DatabaseHelper.sharedInstance.mainManagedObjectContext) as? Grocery {
+                Category.insertOrUpdateCategoriesForGrocery(groceryBgContext, categoriesArray: categoryArray, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                DatabaseHelper.sharedInstance.saveDatabase()
+            }else{
+                elDebugPrint("check here");
+            }
+        }
+        if let updateGrocery = Grocery.getGroceryById(grocery?.dbID ?? "", context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            if var categories = updateGrocery.categories.allObjects as? [Category] {
+                categories.sort { $0.sortID < $1.sortID}
+                self.categories = categories
+            }
+        }else{
+            if var categories = grocery?.categories.allObjects as? [Category] {
+                categories.sort { $0.sortID < $1.sortID}
+                self.categories = categories
+            }
+        }
+        fetchSubCateData()
+       
+    }
+    
+    private func fetchSubCateData() {
+        
+        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+        
+        self.categories = grocery.categories.allObjects as! [Category]
+        self.categories.sort { $0.sortID < $1.sortID}
+        self.tableViewCategories.reloadData()
+        
+        self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
+        self.basketIconOverlay?.grocery = grocery
+        self.basketIconOverlay?.shouldShow = true
+        self.refreshBasketIconStatus()
+        self.setTableViewBottomConstraint()
+        
+        for (index,categories) in self.categories.enumerated() {
+            self.fetchSubCategories(categories, grocery: self.grocery, index:index)
+        }
+        
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -336,13 +428,8 @@ extension BrowseViewController {
                 case .success(let response):
                     self.saveAllSubCategoriesFromResponse(response , index : index)
                     self.tableViewCategories.backgroundView = UIView()
-                case .failure(let error):
-                    if error.code >= 500 && error.code <= 599 {
-                         self.tableViewCategories.backgroundView = self.NoDataView
-                    } else {
-                         self.tableViewCategories.backgroundView = UIView()
-                         error.showErrorAlert()
-                    }
+                case .failure(let _):
+                    self.tableViewCategories.backgroundView = UIView()
             }
         }
     }

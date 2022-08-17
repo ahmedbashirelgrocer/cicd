@@ -42,7 +42,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
     }
     
     
-    var grocery:Grocery? 
+    var grocery:Grocery?
     var shouldShowGroceryActiveBasket:Bool?
     var shouldShowBasket:ShouldShowBasket = .False
     

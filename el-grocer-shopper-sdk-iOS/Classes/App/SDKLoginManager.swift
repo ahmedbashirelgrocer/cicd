@@ -25,7 +25,7 @@ struct SDKLoginManager {
         self.setLanguageWithLunchOptions()
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        guard userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0  else {
+        guard ((userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0) || ElGrocerUtility.sharedInstance.projectScope == nil)  else {
             ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile!)
             UserDefaults.setLogInUserID(userProfile?.dbID.stringValue ?? "")
             FireBaseEventsLogger.setUserID(userProfile?.dbID.stringValue)

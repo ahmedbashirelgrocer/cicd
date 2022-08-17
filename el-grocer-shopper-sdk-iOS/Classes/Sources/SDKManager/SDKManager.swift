@@ -69,6 +69,7 @@ class SDKManager: NSObject  {
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
         self.showAnimatedSplashView()
+        FireBaseEventsLogger.trackCustomEvent(eventType: "launchOptions", action: "SmileSDk: \(SDKManager.isSmileSDK ? "YES": "NO")", ["payload" : launchOptions?.pushNotificationPayload ?? "Nil", "deeplink" : launchOptions?.deepLinkPayload ?? "Nil", "phone" : launchOptions?.accountNumber ?? "Nil", "ID" : launchOptions?.loyaltyID ?? "Nil"], false)
     }
     
     private func configure() { //_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
@@ -82,6 +83,8 @@ class SDKManager: NSObject  {
         ElGrocerUtility.sharedInstance.resetBasketPresistence()
         self.checkNotifcation()
         self.logApiError()
+        
+        
     }
 
     fileprivate func checkNotifcation() {

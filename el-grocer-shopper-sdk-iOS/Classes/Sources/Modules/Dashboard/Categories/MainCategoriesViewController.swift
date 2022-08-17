@@ -31,7 +31,34 @@ struct ListingViewModel {
 extension MainCategoriesViewController : StoreFeedsDelegate {
     
     func categoriesFetchingError(error: ElGrocerError?) {
-        checkNoDataView(isNoDataView: 500..<600 ~= (error?.code ?? 0))
+        
+        Thread.OnMainThread {
+            if ((error?.code ?? 0) >= 500 && (error?.code ?? 0) <= 599) ||  (error?.code ?? 0) == -1011 {
+                
+                if let views = SDKManager.shared.window?.subviews {
+                    var popUp : NotificationPopup? = nil
+                    for dataView in views {
+                        if let popUpView = dataView as? NotificationPopup {
+                            popUp = popUpView
+                            break
+                        }
+                    }
+                    if popUp?.titleLabel.text == localizedString("alert_error_title", comment: "") {
+                        return
+                    }
+                }
+                
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                    if buttonIndex == 1 {
+                        self.grocery = nil
+                        self.viewDidAppear(true)
+                    } else {
+                        UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+        
     }
     
     func categoriesFetchingCompleted(_ index: Int , categories : [Category]) {
@@ -200,7 +227,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery)
             }
             self.setTableViewHeader(self.grocery )
-        }else{
+        } else {
+            
             if !self.isComingFromGroceryLoaderVc {
                 self.setTableViewHeader(self.grocery )
                 locationHeader.setSlotData()
@@ -210,9 +238,15 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                     self.selectedBannerLink = nil
                 }
                 self.handleDeepLink()
-            }else{
+            } else {
                 self.isComingFromGroceryLoaderVc = false
             }
+            
+                //            if self.model.data.feeds.count == 0 || (self.model.data.feeds.count > 1 && self.model.data.feeds[1].data?.categories.count == nil) {
+                //                self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
+                //                self.model = ListingViewModel.init(type: .FromStorePage , dataHandler: StoreFeedsHandler.init(.storePage, grocery: nil, delegate: self))
+                //                self.model.data.resetFeeds()
+                //            }
             
         }
         self.model.data.grocery = self.grocery
@@ -610,7 +644,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     // MARK: UITableView Data Source + Delegate Methods
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard self.grocery != nil else {return 0}
+        guard self.grocery != nil else { return 0 }
         
          /*
          S1 = Banners
@@ -726,7 +760,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         if indexPath.section == 0 {
             let cell : SpaceTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SpaceTableViewCell", for: indexPath) as! SpaceTableViewCell
             return cell
-        }else if indexPath.section == 2 {
+        } else if indexPath.section == 2 {
             
             if indexPath.row == 0 {
     
@@ -767,7 +801,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             
             let cell : SpaceTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SpaceTableViewCell", for: indexPath) as! SpaceTableViewCell
             return cell
-        }else{
+        } else {
             
             if (indexPath.row < self.model.data.feeds.count) {
                 let homeFeed = self.model.data.feeds[indexPath.row]
@@ -1610,6 +1644,34 @@ extension MainCategoriesViewController {
                     
                 case .failure(let error):
                    elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                    
+                    Thread.OnMainThread {
+                        if ((error.code) >= 500 && (error.code) <= 599) ||  (error.code) == -1011 {
+                            
+                            if let views = SDKManager.shared.window?.subviews {
+                                var popUp : NotificationPopup? = nil
+                                for dataView in views {
+                                    if let popUpView = dataView as? NotificationPopup {
+                                        popUp = popUpView
+                                        break
+                                    }
+                                }
+                                if popUp?.titleLabel.text == localizedString("alert_error_title", comment: "") {
+                                    return
+                                }
+                            }
+                            
+                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                                if buttonIndex == 1 {
+                                    self.grocery = nil
+                                    self.viewDidAppear(true)
+                                } else {
+                                    UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+                                }
+                            }
+                        }
+                    }
+                   
             }
         })
         
@@ -1641,6 +1703,9 @@ extension MainCategoriesViewController {
         self.setTableViewHeader(self.grocery)
         self.cancelAllPreviousWorkOperations()
         self.model.data.setData()
+        if self.model.data.feeds.count > 1 {
+            self.model.data.feeds[1].getData()
+        }
         self.tableViewCategories.reloadDataOnMain()
         self.checkUniversalSearchData()
         if self.selectedBannerLink != nil {
