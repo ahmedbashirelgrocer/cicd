@@ -46,7 +46,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     var deliveryAddress:DeliveryAddress!
     var priceSum = 0.00
     var bannersList : [BannerCampaign] = []
-    var isFromEditOrder: Bool = false
     
     private func getCurrentDeliveryAddress() -> DeliveryAddress? {
         return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
