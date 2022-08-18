@@ -1457,56 +1457,58 @@ class ElGrocerUtility {
     
     
     func resetTabbar(_ tabbar : UITabBarController) {
-        
-        if let nav = tabbar.viewControllers?[0] as? UINavigationController {
-            if nav.viewControllers.count > 0 {
-                nav.popToRootViewController(animated: false)
-                nav.setViewControllers([nav.viewControllers[0]], animated: false)
-            }
-        }
-        if let nav = tabbar.viewControllers?[1] as? UINavigationController {
-            if nav.viewControllers.count > 0 {
-                if let main = nav.viewControllers[0] as? MainCategoriesViewController {
+            
+            if let nav = tabbar.viewControllers?[0] as? UINavigationController {
+                if nav.viewControllers.count > 0 {
                     nav.popToRootViewController(animated: false)
-                    main.grocery = nil
-                    if nav.viewControllers.count > 1 {
+                    nav.setViewControllers([nav.viewControllers[0]], animated: false)
+                }
+            }
+            if let nav = tabbar.viewControllers?[1] as? UINavigationController {
+                if nav.viewControllers.count > 0 {
+                    if let main = nav.viewControllers[0] as? MainCategoriesViewController {
+                        nav.popToRootViewController(animated: false)
+                        main.grocery = nil
+                        nav.setViewControllers([main], animated: false)
+                    }else if let main = nav.viewControllers[1] as? MainCategoriesViewController {
+                        nav.popToRootViewController(animated: false)
+                        main.grocery = nil
                         nav.setViewControllers([main], animated: false)
                     }
                 }
             }
-        }
-        if let nav = tabbar.viewControllers?[2] as? UINavigationController {
-            if nav.viewControllers.count > 0 {
-                if let main = nav.viewControllers[0] as? SearchListViewController {
-                    nav.popToRootViewController(animated: false)
-                    main.grocery = nil
-                    if nav.viewControllers.count > 1 {
-                        nav.setViewControllers([main], animated: false)
+            if let nav = tabbar.viewControllers?[2] as? UINavigationController {
+                if nav.viewControllers.count > 0 {
+                    if let main = nav.viewControllers[0] as? SearchListViewController {
+                        nav.popToRootViewController(animated: false)
+                        main.grocery = nil
+                        if nav.viewControllers.count > 1 {
+                            nav.setViewControllers([main], animated: false)
+                        }
+                    }
+                }
+            }
+            if let nav = tabbar.viewControllers?[3] as? UINavigationController {
+                if nav.viewControllers.count > 0 {
+                    if let main = nav.viewControllers[0] as? SettingViewController {
+                        nav.popToRootViewController(animated: false)
+                        if nav.viewControllers.count > 1 {
+                            nav.setViewControllers([main], animated: false)
+                        }
+                    }
+                }
+            }
+            if let nav = tabbar.viewControllers?[4] as? UINavigationController {
+                if nav.viewControllers.count > 0 {
+                    if let main = nav.viewControllers[0] as? MyBasketViewController {
+                        nav.popToRootViewController(animated: false)
+                        if nav.viewControllers.count > 1 {
+                            nav.setViewControllers([main], animated: false)
+                        }
                     }
                 }
             }
         }
-        if let nav = tabbar.viewControllers?[3] as? UINavigationController {
-            if nav.viewControllers.count > 0 {
-                if let main = nav.viewControllers[0] as? SettingViewController {
-                    nav.popToRootViewController(animated: false)
-                    if nav.viewControllers.count > 1 {
-                        nav.setViewControllers([main], animated: false)
-                    }
-                }
-            }
-        }
-        if let nav = tabbar.viewControllers?[4] as? UINavigationController {
-            if nav.viewControllers.count > 0 {
-                if let main = nav.viewControllers[0] as? MyBasketViewController {
-                    nav.popToRootViewController(animated: false)
-                    if nav.viewControllers.count > 1 {
-                        nav.setViewControllers([main], animated: false)
-                    }
-                }
-            }
-        }
-    }
     
     
     func makeFilterOneSlotBasis(storeTypeA: [Grocery] ) -> [Grocery] {
