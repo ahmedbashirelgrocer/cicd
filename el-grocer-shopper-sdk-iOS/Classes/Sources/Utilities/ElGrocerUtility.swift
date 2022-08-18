@@ -1469,9 +1469,11 @@ class ElGrocerUtility {
                 if let main = nav.viewControllers[0] as? MainCategoriesViewController {
                     nav.popToRootViewController(animated: false)
                     main.grocery = nil
-                    if nav.viewControllers.count > 1 {
-                        nav.setViewControllers([main], animated: false)
-                    }
+                    nav.setViewControllers([main], animated: false)
+                }else if let main = nav.viewControllers[1] as? MainCategoriesViewController {
+                    nav.popToRootViewController(animated: false)
+                    main.grocery = nil
+                    nav.setViewControllers([main], animated: false)
                 }
             }
         }

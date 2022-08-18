@@ -178,7 +178,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
                 }
             }
         }else {
-            fetchSubCateData()
+            self.fetchSubCateData()
         }
         }
     }

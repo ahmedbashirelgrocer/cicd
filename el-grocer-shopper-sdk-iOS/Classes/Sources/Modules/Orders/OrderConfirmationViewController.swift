@@ -325,37 +325,56 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     override func backButtonClick() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
-        
-        
-        // if let SDKManager = SDKManager.shared {
-        // SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
-        //(SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-        // }
-        if let navigationController = self.navigationController, navigationController.viewControllers.count > 1 {
-            elDebugPrint(navigationController.viewControllers)
-            navigationController.popToRootViewController(animated: true)
-        } else {
-            self.dismiss(animated: true)
+       
+        /*Thread.OnMainThread {
+            if let navigationController = self.navigationController, navigationController.viewControllers.count > 1 {
+                elDebugPrint(navigationController.viewControllers)
+                navigationController.popToRootViewController(animated: true)
+                
+            } else {
+                
+                if let tab = ((self.getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+                    if tab.selectedIndex == 1 {
+                        
+                    }else {
+                        self.dismiss(animated: true)
+                    }
+                }
+            }
+            
         }
-        if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+        Thread.OnMainThread {
+            
+            if let tab = ((self.getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+                ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                tab.selectedIndex = 0
+            }
+            
+        }
+        */
+        
+        
+        
+        
+        
+        
+        
+        
+        if let vcA = self.navigationController?.viewControllers {
+            
+            if vcA.count == 1 || vcA.count == 3 {
+                self.navigationController?.dismiss(animated: true, completion: nil)
+            }else {
+               // self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
+        
+        let SDKManager = SDKManager.shared
+        if let tab = SDKManager.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
             tab.selectedIndex = 0
         }
-        
-        
-        
-        /*if let vcA = self.navigationController?.viewControllers {
-            for viewC in vcA {
-                if viewC is OrderConfirmationViewController {
-                    viewC.tabBarController?.selectedIndex = 0
-                }
-            }
-            self.navigationController?.dismiss(animated: true, completion: nil)
-            if vcA.count == 1 {
-                return
-            }
-        }
-        self.navigationController?.popToRootViewController(animated: true) */
+    
     }
     
 
