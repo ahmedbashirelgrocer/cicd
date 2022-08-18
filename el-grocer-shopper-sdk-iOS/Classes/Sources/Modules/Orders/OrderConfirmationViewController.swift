@@ -46,6 +46,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     var deliveryAddress:DeliveryAddress!
     var priceSum = 0.00
     var bannersList : [BannerCampaign] = []
+    var isFromEditOrder: Bool = false
     
     private func getCurrentDeliveryAddress() -> DeliveryAddress? {
         return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -331,17 +332,31 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         // SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
         //(SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
         // }
-        if let navigationController = self.navigationController, navigationController.viewControllers.count > 1 {
-            elDebugPrint(navigationController.viewControllers)
-            navigationController.popToRootViewController(animated: true)
-        } else {
-            self.dismiss(animated: true)
+        if isFromEditOrder {
+            let appDelegate = SDKManager.shared
+            appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
+            elDebugPrint(appDelegate.rootViewController)
+            elDebugPrint((appDelegate.rootViewController as? UINavigationController)?.viewControllers)
+            (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+    
+            if let tab = ((appDelegate.rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+                ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                tab.selectedIndex = 0
+            }
+        }else {
+            if let navigationController = self.navigationController, navigationController.viewControllers.count > 1 {
+                elDebugPrint(navigationController.viewControllers)
+                navigationController.popToRootViewController(animated: true)
+            } else {
+                self.dismiss(animated: true)
+            }
+            if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+                ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                tab.selectedIndex = 0
+            }
+
         }
-        if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
-            ElGrocerUtility.sharedInstance.resetTabbar(tab)
-            tab.selectedIndex = 0
-        }
-        
+                
         
         
         /*if let vcA = self.navigationController?.viewControllers {
