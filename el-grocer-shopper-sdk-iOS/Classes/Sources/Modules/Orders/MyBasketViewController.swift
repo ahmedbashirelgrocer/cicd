@@ -60,6 +60,7 @@ extension MyBasketViewController : NoStoreViewDelegate {
             return
         }
         self.tabBarController?.selectedIndex = 1
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
 }
