@@ -705,7 +705,6 @@ class MyBasketPlaceOrderVC: UIViewController {
                     isSameCard = false
                 }
             }
-            
             ElGrocerApi.sharedInstance.editOrder(shoppingItemsA , inGrocery: grocery , atAddress: address , withNote: note , withPaymentType: paymentOption , walletPaidAmount: 0.0 , riderFee: riderFee , deliveryFee: deliveryFee , andWithDeliverySlot: slot , orderID: orderID , "", cardID, finalAmountStr , selectedCar: selectedCar, selectedCollector: selectedCollector, pickUpLocation: pickUpLocation, selectedPrefernce: selectedPreference,isSameCard: isSameCard, foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false) { (result) in
                 self.finalHandlerResult(result: result , finalOrderItems: shoppingItemsA , activeGrocery: grocery , finalProducts: products , orderID: nil , finalOrderAmount: finalAmountDouble )
             }
@@ -716,7 +715,6 @@ class MyBasketPlaceOrderVC: UIViewController {
             if paymentOption == .applePay {
                 paymentOption = .creditCard
             }
-                  
             //TODO: update this
             ElGrocerApi.sharedInstance.placeOrder(shoppingItemsA , inGrocery: grocery , atAddress: address , withNote: self.instructionText , withPaymentType: paymentOption , walletPaidAmount: 0 , riderFee: riderFee, deliveryFee: deliveryFee , andWithDeliverySlot: slot , "", cardID , ammount: finalAmountStr, selectedCar: selectedCar , selectedCollector: selectedCollector , pickUpLocation: pickUpLocation , selectedPrefernce: selectedPreference, foodSubscriptionStatus: self.smileUser?.foodSubscriptionStatus ?? false) { (result) in
                 self.finalHandlerResult(result: result , finalOrderItems: shoppingItemsA , activeGrocery: grocery , finalProducts: products , orderID: nil , finalOrderAmount: finalAmountDouble )

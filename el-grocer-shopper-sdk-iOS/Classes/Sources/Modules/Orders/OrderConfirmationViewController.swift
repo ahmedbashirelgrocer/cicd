@@ -325,46 +325,18 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     override func backButtonClick() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
-       
-        /*Thread.OnMainThread {
-            if let navigationController = self.navigationController, navigationController.viewControllers.count > 1 {
-                elDebugPrint(navigationController.viewControllers)
-                navigationController.popToRootViewController(animated: true)
-                
-            } else {
-                
-                if let tab = ((self.getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
-                    if tab.selectedIndex == 1 {
-                        
-                    }else {
-                        self.dismiss(animated: true)
-                    }
-                }
-            }
-            
-        }
-        Thread.OnMainThread {
-            
-            if let tab = ((self.getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
-                ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                tab.selectedIndex = 0
-            }
-            
-        }
-        */
-        
-        
-        
-        
-        
-        
-        
-        
         if let vcA = self.navigationController?.viewControllers {
-            
-            if vcA.count == 1 || vcA.count == 3 {
+            elDebugPrint(vcA)
+            if vcA.count == 1 {
+                //from home
                 self.navigationController?.dismiss(animated: true, completion: nil)
+            }else if vcA.count == 3 {
+                //edit order
+                let appDelegate = SDKManager.shared
+                appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
+                (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             }else {
+                // simple place order
                // self.navigationController?.popToRootViewController(animated: true)
             }
         }
@@ -374,7 +346,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
             tab.selectedIndex = 0
         }
-    
+
     }
     
 
