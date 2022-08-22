@@ -34,9 +34,9 @@ class AdyenManager {
     static let demoServerAPIKey = "AQEjhmfuXNWTK0Qc+iSVnkMqqOeeWlHG4AJIHfgzWu3BNmB/j5YQwV1bDb7kfNy1WIxIIkxgBw==-AuE4op/eIk1qEjZsmpvhv+oEJVU/j43SprCrTElnzvI=->q[?C7<>.tj}9w_H"
     
     //
-    static let applePayMerchantIdentifier = ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.staging.description() : AppleMerchantIdentifier.live.description()
+    static let applePayMerchantIdentifier =  SDKManager.isSmileSDK ? (ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.smileUAT.description() : AppleMerchantIdentifier.smileLive.description()) : (ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.staging.description() : AppleMerchantIdentifier.live.description())
     
-    static let applePaySmileMerchantIdentifier = ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.smileUAT.description() : AppleMerchantIdentifier.smileLive.description()
+   
     
     static let merchantAccount = "ElGrocerUAE-online"
     static let KEY_SHOPPER_INTERACTION = "shopperInteraction"
@@ -79,7 +79,7 @@ class AdyenManager {
         let amountAdyen = AdyenManager.createAmount(amount: amountDecimal)
         let payment = Payment(amount: amountAdyen, countryCode: "AE")
         let summary = PKPaymentSummaryItem(label: applicationNameForApple, amount: amountDecimal, type: .final)
-        let config = ApplePayComponent.Configuration(summaryItems: [summary], merchantIdentifier: SDKManager.isSmileSDK ? AdyenManager.applePaySmileMerchantIdentifier : AdyenManager.applePayMerchantIdentifier)
+        let config = ApplePayComponent.Configuration(summaryItems: [summary], merchantIdentifier: AdyenManager.applePayMerchantIdentifier)
 
         self.adyendataObj = AdyenManagerObj(amount: amount, orderNumber: orderNum, isZeroAuth: false)
         self.adyenPrice = amountAdyen
