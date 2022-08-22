@@ -358,37 +358,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
         }
-        
-        /*else if self.selectStoreType == nil {
-         if self.homeDataHandler.storeTypeA?.count ?? 0 > 0 {
-         self.selectStoreType = self.homeDataHandler.storeTypeA?[0]
-         }
-         ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
-         let filteredArray =  ElGrocerUtility.sharedInstance.makeFilterOneSlotBasis(storeTypeA:  self.homeDataHandler.groceryA ?? [] )
-         self.filterdGrocerA = filteredArray
-         self.setFilterCount(self.filterdGrocerA)
-         self.setUserProfileData()
-         self.tableView.reloadDataOnMain()
-         
-         if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
-         FireBaseEventsLogger.trackStoreListingNoStores()
-         if (self.homeDataHandler.groceryA ?? []).count == 0 {
-         minCellHeight = CGFloat.leastNormalMagnitude
-         self.NoDataView.setNoDataForLocation ()
-         if self.tableView != nil && !self.homeDataHandler.isDataLoading {
-         self.tableView.backgroundView = self.NoDataView
-         }
-         }else{
-         minCellHeight = CGFloat(0.1)
-         if self.tableView != nil { self.tableView.backgroundView = UIView() }
-         }
-         reloadTableView()
-         return
-         }else{
-         FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
-         }
-         }*/
-        
         else {
             self.tableView.reloadDataOnMain()
         }
@@ -538,11 +507,11 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             case 0:
                 return 1
             case 1:
-                return self.filteredGroceryArray.count > separatorCount ? 3 : self.filteredGroceryArray.count
+                return self.filteredGroceryArray.count > separatorCount ? separatorCount + 1 : self.filteredGroceryArray.count
             case 2:
                 return 1
             case 3:
-                return self.filteredGroceryArray.count > separatorCount ? self.filteredGroceryArray.count - separatorCount : 0
+                return self.filteredGroceryArray.count > separatorCount ? self.filteredGroceryArray.count - ( separatorCount + 1 ) : 0
             default:
                 return 0
                 
@@ -581,6 +550,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
            
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
+            debugPrint("indexPath.section == 1: indexPath.row: \(indexPath.row)")
             if self.filteredGroceryArray.count > 0 {
                 cell.configureCell(grocery: self.filteredGroceryArray[indexPath.row])
             }
@@ -592,9 +562,10 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             var indexPathRow = indexPath.row
             
             if self.filteredGroceryArray.count > separatorCount {
-                indexPathRow = indexPathRow + separatorCount
+                indexPathRow = indexPathRow + separatorCount + 1
             }
-            
+            debugPrint("indexPath.section == 3: indexPathRow: \(indexPathRow)")
+            debugPrint("indexPath.section == 3: indexPath.row: \(indexPath.row)")
             cell.configureCell(grocery: self.filteredGroceryArray[indexPathRow])
             return cell
             
@@ -608,8 +579,15 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.filteredGroceryArray.count > 0 &&  indexPath.row < self.filteredGroceryArray.count && indexPath.section > 0 {
+        if self.filteredGroceryArray.count > 0 &&  indexPath.row < self.filteredGroceryArray.count && indexPath.section == 1 {
             self.goToGrocery(self.filteredGroceryArray[indexPath.row], nil)
+        }
+        if self.filteredGroceryArray.count > 0 && indexPath.section == 3 {
+            var indexPathRow = indexPath.row
+            if self.filteredGroceryArray.count > separatorCount {
+                indexPathRow = indexPathRow + separatorCount + 1
+                self.goToGrocery(self.filteredGroceryArray[indexPathRow], nil)
+            }
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

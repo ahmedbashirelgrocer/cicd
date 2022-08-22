@@ -17,6 +17,7 @@ public enum AppleMerchantIdentifier: String {
     case staging = "merchant.ElGrocer.com.adyen.ElGrocerUAE-online.test"
     case live = "merchant.com.adyen.ElGrocerUAE-online"
     case smileUAT = "merchant.ae.comtrust.ipg"
+    case smileLive = "merchant.com.adyen.elgrocer.smiles"
    
     
     func description() -> String {
@@ -34,6 +35,9 @@ class AdyenManager {
     
     //
     static let applePayMerchantIdentifier = ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.staging.description() : AppleMerchantIdentifier.live.description()
+    
+    static let applePaySmileMerchantIdentifier = ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.smileUAT.description() : AppleMerchantIdentifier.smileLive.description()
+    
     static let merchantAccount = "ElGrocerUAE-online"
     static let KEY_SHOPPER_INTERACTION = "shopperInteraction"
     
@@ -75,7 +79,7 @@ class AdyenManager {
         let amountAdyen = AdyenManager.createAmount(amount: amountDecimal)
         let payment = Payment(amount: amountAdyen, countryCode: "AE")
         let summary = PKPaymentSummaryItem(label: applicationNameForApple, amount: amountDecimal, type: .final)
-        let config = ApplePayComponent.Configuration(summaryItems: [summary], merchantIdentifier: SDKManager.isSmileSDK ? AppleMerchantIdentifier.smileUAT.description() : AdyenManager.applePayMerchantIdentifier)
+        let config = ApplePayComponent.Configuration(summaryItems: [summary], merchantIdentifier: SDKManager.isSmileSDK ? AdyenManager.applePaySmileMerchantIdentifier : AdyenManager.applePayMerchantIdentifier)
 
         self.adyendataObj = AdyenManagerObj(amount: amount, orderNumber: orderNum, isZeroAuth: false)
         self.adyenPrice = amountAdyen
