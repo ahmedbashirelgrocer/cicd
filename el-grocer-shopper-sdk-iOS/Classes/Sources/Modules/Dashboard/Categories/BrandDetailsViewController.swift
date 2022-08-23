@@ -921,7 +921,7 @@ extension BrandDetailsViewController {
         guard groceryId != nil else {return}
         
         let homeTitle = "Banners"
-        let location = BannerLocation.in_search_tier_1
+        let location = BannerLocation.in_search_tier_1.getType()
         let clearGroceryId = ElGrocerUtility.sharedInstance.cleanGroceryID(groceryId)
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [clearGroceryId], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil , brand_id: brandId , search_input: nil) { (result) in
             switch (result) {

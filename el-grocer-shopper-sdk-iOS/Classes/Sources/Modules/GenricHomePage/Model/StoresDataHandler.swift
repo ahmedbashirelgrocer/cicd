@@ -222,7 +222,7 @@ class StoresDataHandler {
     func getGenericBanners(for groceries : [Grocery]) {
         guard groceries.count > 0 else {return}
         let ids = groceries.map { $0.dbID }
-        let location = SDKManager.isSmileSDK ? BannerLocation.sdk_Home_tier_1 : BannerLocation.home_tier_1
+        let location = BannerLocation.home_tier_1.getType()
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: ids, store_type_ids: nil , retailer_group_ids: nil , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
                 case .success(let response):
@@ -256,7 +256,7 @@ class StoresDataHandler {
         let ids = groceries.map { $0.dbID }
         let retailerGroupIds = groceries.map { $0.groupId.stringValue  }
         let storeTypeids = storeTyprA.map { String($0.storeTypeid)  }
-        let location = SDKManager.isSmileSDK ? BannerLocation.sdk_Home_tier_2 :BannerLocation.home_tier_2
+        let location = BannerLocation.home_tier_2.getType()
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: ids, store_type_ids: storeTypeids , retailer_group_ids: retailerGroupIds  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
                 case .success(let response):

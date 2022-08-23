@@ -682,7 +682,7 @@ class CateAndSubcategoryDataHandler {
     
     private func getBannersFromServer(_ gorceryId:String , parentCategoryID : Int? ,  subCategoryId : Int? ){
         let homeTitle = "Banners"
-        let location = BannerLocation.subCategory_tier_1
+        let location = BannerLocation.subCategory_tier_1.getType()
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [gorceryId], store_type_ids: nil , retailer_group_ids: nil  , category_id: parentCategoryID , subcategory_id: subCategoryId , brand_id: nil, search_input: nil) { (result) in
             switch (result) {
                 case .success(let response):

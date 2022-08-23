@@ -1016,7 +1016,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         
         let homeTitle = "Banners"
-        let location = BannerLocation.in_search_tier_1
+        let location = BannerLocation.in_search_tier_1.getType()
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
             switch result {
                 case .success(let response):

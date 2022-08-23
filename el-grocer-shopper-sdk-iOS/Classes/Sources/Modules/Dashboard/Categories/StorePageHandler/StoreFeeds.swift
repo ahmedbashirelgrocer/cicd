@@ -340,7 +340,7 @@ extension StoreFeeds {
         parameters["retailer_id"] = groceryId
         parameters["banner_type"] = SearchBannerType.Home.getString()
         parameters["date_filter"] = true
-        let location = BannerLocation.store_tier_2
+        let location = BannerLocation.store_tier_2.getType()
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
                 case .success(let response):
@@ -368,7 +368,7 @@ extension StoreFeeds {
         parameters["retailer_id"] = groceryId
         parameters["banner_type"] = SearchBannerType.Home.getString()
         parameters["date_filter"] = true
-        let location = BannerLocation.store_tier_1
+        let location = BannerLocation.store_tier_1.getType()
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
                 case .success(let response):

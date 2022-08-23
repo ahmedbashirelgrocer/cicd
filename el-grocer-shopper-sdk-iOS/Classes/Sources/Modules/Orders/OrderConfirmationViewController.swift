@@ -417,7 +417,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func getBanners() {
-        let location = BannerLocation.post_checkout
+        let location = BannerLocation.post_checkout.getType()
         let retailer_ids = ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: retailer_ids, store_type_ids: nil , retailer_group_ids: nil , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
