@@ -255,6 +255,12 @@ class DynamicLinksHelper {
         self.productBarcode = ""
         self.productId = ""
         
+        
+        let isChat = dUrl?.getQueryItemValueForKey("Chat")
+        if isChat != nil , isChat == "1" {
+            self.goToChat()
+            return
+        }
         let serviceID = dUrl?.getQueryItemValueForKey("serviceID")
         //elDebugPrint("tmpParent  is:%@", serviceID ?? "nil")
         if serviceID != nil {
@@ -470,7 +476,7 @@ class DynamicLinksHelper {
                     if let dataDict : NSDictionary = data["data"] as? NSDictionary {
                         if let _ = dataDict["retailers"] as? [NSDictionary] {
                             let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , false)
-                            let filteredArray =  ElGrocerUtility.sharedInstance.makeFilterOneSlotBasis(storeTypeA:  responseData )
+                            let filteredArray =  ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA:  responseData )
                             guard filteredArray.count > 0 else {
                                 completionHandler(false)
                                 return
@@ -1060,6 +1066,18 @@ class DynamicLinksHelper {
             }
         }
         // SpinnerView.hideSpinnerView() ;
+    }
+    
+    private func goToChat() {
+        ElGrocerEventsLogger.sharedInstance.trackSettingClicked("LiveChat")
+        DispatchQueue.main.async {
+            if let topVc = UIApplication.topViewController() {
+                let sendBirdManager = SendBirdDeskManager(controller: topVc, orderId: "0", type: .agentSupport)
+                sendBirdManager.setUpSenBirdDeskWithCurrentUser()
+            }
+        }
+        
+      
     }
     
     

@@ -54,7 +54,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         super.viewWillAppear(animated)
         setNavigationBarAppearence()
         
-        self.groceryArray = ElGrocerUtility.sharedInstance.makeFilterOneSlotBasis(storeTypeA: self.groceryArray)
+        self.groceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.groceryArray)
         self.makeActiveTopGroceryOfArray()
         self.setFeatureGroceryBanners()
         self.setSegmentView()

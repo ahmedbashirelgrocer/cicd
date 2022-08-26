@@ -160,8 +160,14 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     private func setSegmentView() {
         
+        
+        
+        
         self.groceryArray = self.homeDataHandler.groceryA ?? []
         self.availableStoreTypeA = self.homeDataHandler.storeTypeA ?? []
+        
+        
+        
         
         var segmentArray = [localizedString("all_store", comment: "")]
         var filterStoreTypeData : [StoreType] = []
@@ -726,7 +732,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
                 self.selectStoreType = self.homeDataHandler.storeTypeA?[0]
             }
         } else if type == .StoreList {
-            let filteredArray =  ElGrocerUtility.sharedInstance.makeFilterOneSlotBasis(storeTypeA: self.homeDataHandler.groceryA ?? [] )
+            let filteredArray =  ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.homeDataHandler.groceryA ?? [] )
                 // self.filterdGrocerA = filteredArray
                 // self.setFilterCount(self.filterdGrocerA)
             if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
@@ -827,6 +833,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
             }
         }
         self.filteredGroceryArray = filterA
+        self.filteredGroceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.filteredGroceryArray)
         self.tableView.reloadDataOnMain()
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")

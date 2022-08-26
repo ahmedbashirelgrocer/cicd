@@ -1511,7 +1511,7 @@ class ElGrocerUtility {
     }
     
     
-    func makeFilterOneSlotBasis(storeTypeA: [Grocery] ) -> [Grocery] {
+    func sortGroceryArray(storeTypeA: [Grocery] ) -> [Grocery] {
         
         var filteredArray = storeTypeA
         

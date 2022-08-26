@@ -59,7 +59,7 @@ class HomePageData  {
             self.createGenericStoresDictionary()
         }
     }
-         var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
+    var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
     var genericAllStoreDictionary: [String: Any]? // key against each grocery is its id.
     
     lazy var hyperMarketA : [Grocery]? = nil
@@ -469,6 +469,7 @@ extension HomePageData : StoresDataHandlerDelegate {
         let queue = DispatchQueue(label: "self.groceryA-thread-safe-obj", attributes: .concurrent)
         queue.sync(flags: .barrier) {
             self.groceryA = groceryA
+            self.groceryA = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.groceryA ?? [] )
         }
         queue.async(flags: .barrier) {
             self.setFeatureGrocery()

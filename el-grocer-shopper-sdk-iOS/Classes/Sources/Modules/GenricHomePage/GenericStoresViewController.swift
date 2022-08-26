@@ -27,7 +27,7 @@ extension GenericStoresViewController : HomePageDataLoadingComplete {
                 self.selectStoreType = self.homeDataHandler.storeTypeA?[0]
             }
         }else if type == .StoreList {
-            let filteredArray =  ElGrocerUtility.sharedInstance.makeFilterOneSlotBasis(storeTypeA: self.homeDataHandler.groceryA ?? [] )
+            let filteredArray =  ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.homeDataHandler.groceryA ?? [] )
             self.filterdGrocerA = filteredArray
             self.setFilterCount(self.filterdGrocerA)
             if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
@@ -555,7 +555,7 @@ class GenericStoresViewController: BasketBasicViewController {
                 self.selectStoreType = self.homeDataHandler.storeTypeA?[0]
             }
             ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
-            let filteredArray =  ElGrocerUtility.sharedInstance.makeFilterOneSlotBasis(storeTypeA:  self.homeDataHandler.groceryA ?? [] )
+            let filteredArray =  ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA:  self.homeDataHandler.groceryA ?? [] )
             self.filterdGrocerA = filteredArray
             self.setFilterCount(self.filterdGrocerA)
             self.setUserProfileData()
