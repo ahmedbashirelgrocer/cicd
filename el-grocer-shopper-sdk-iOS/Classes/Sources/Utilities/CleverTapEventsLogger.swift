@@ -78,6 +78,9 @@ extension CleverTapEventsLogger {
             ZoneIDs.append(data.deliveryZoneId ?? "0")
             retailerGroup_Ids.append(data.groupId.stringValue)
         }
+        
+        MixpanelManager.setIdentity(profile.email, isSmile: SDKManager.isSmileSDK)
+        
         let profile: Dictionary<String, Any> = [
             "Name": profile.name ?? "" ,
             "Email": profile.email ,
@@ -90,7 +93,7 @@ extension CleverTapEventsLogger {
             "language" : UserDefaults.getCurrentLanguage() ?? "" ,
             "sessionId" : ElGrocerUtility.sharedInstance.getGenericSessionID(),
             "activeStoreId" : ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "",
-            FireBaseParmName.UserFrom.rawValue : SDKManager.shared.launchOptions?.isSmileSDK ?? false
+            FireBaseParmName.UserFrom.rawValue : SDKManager.isSmileSDK
         ]
         CleverTapEventsLogger.shared.cleverTapApp?.onUserLogin(profile)
         if StoreIDs.count > 0{
@@ -105,6 +108,10 @@ extension CleverTapEventsLogger {
         if retailerGroup_Ids.count > 0 {
             CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(retailerGroup_Ids, forKey: "retailerGroupIDs")
         }
+        
+        
+        
+        
        // CleverTapEventsLogger.shared.cleverTapApp?.profilePush(profile)
     }
     

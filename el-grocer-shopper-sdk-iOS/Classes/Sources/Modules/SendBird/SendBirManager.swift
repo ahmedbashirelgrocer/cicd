@@ -1038,7 +1038,8 @@ extension SendBirdManager{
         let semaphore = DispatchSemaphore (value: 0)
         
         var parameters = "{\n    \"sendbirdId\": \"\(userId)\"\n}"
-        let dic = ["sendbirdId": userId , "customFields" : ["app" : "Shopper" , "platform" : "iOS"]] as [String : Any]
+        
+        let dic = ["sendbirdId": userId , "customFields" : ["smilesdk" : SDKManager.isSmileSDK ? "true" : "false" , "app" : "Shopper" , "platform" : "iOS"]] as [String : Any]
         
        
         if let jsonData = try? JSONSerialization.data(withJSONObject:dic) {
@@ -1084,7 +1085,7 @@ extension SendBirdManager{
         let semaphore = DispatchSemaphore (value: 0)
         
         var parameters = "{\n    \"sendbirdId\": \"\(userId)\"\n}"
-        let dic = ["sendbirdId": shoperPrefix + userId , "customFields" : ["app" : "Shopper" , "platform" : "iOS", "shopperid" : userId]] as [String : Any]
+        let dic = ["sendbirdId": shoperPrefix + userId , "customFields" : [ "smilesdk" : SDKManager.isSmileSDK ? "true" : "false" ,"app" : "Shopper" , "platform" : "iOS", "shopperid" : userId]] as [String : Any]
         
         
         if let jsonData = try? JSONSerialization.data(withJSONObject:dic) {

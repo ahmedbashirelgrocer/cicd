@@ -11,22 +11,23 @@ import Mixpanel
 
 class MixpanelManager {
     
+    static var mixInstance : MixpanelInstance? = nil
+    
     class func configMixpanel() {
         
         let MIXPANEL_TOKEN = "990544942dcdc0c8de248eb1e01aef07";
-        
-        Mixpanel.initialize(token: MIXPANEL_TOKEN)
+        self.mixInstance =  Mixpanel.initialize(token: MIXPANEL_TOKEN)
         //TODO: set this to false when release
         loggingEnabled(SDKManager.shared.launchOptions?.isLoggingEnabled == true)
     }
     
     class func loggingEnabled(_ value: Bool) {
-        Mixpanel.mainInstance().loggingEnabled = value
+        self.mixInstance?.loggingEnabled = value
     }
     
     class func trackEvent(_ eventName : String , params :  [String : Any]? = nil) {
         
-        var finalParms:Properties = [:]
+        var finalParms:Properties = ["User_SmileSDK": SDKManager.isSmileSDK]
         
         if let dataDict = params {
             for (key, value) in dataDict {
@@ -34,9 +35,13 @@ class MixpanelManager {
             }
         }
         
-        Mixpanel.mainInstance().track(event: eventName, properties: finalParms)
-        Mixpanel.mainInstance().flush {
+        self.mixInstance?.track(event: eventName, properties: finalParms)
+        self.mixInstance?.flush {
             if Platform.isSimulator {  elDebugPrint("MixPanel : debug: \(eventName): done") }
         }
+    }
+    
+    class func setIdentity(_ email : String, isSmile : Bool) {
+        self.mixInstance?.people.set(properties: [ "$User_Email": email, "$User_SmilesSDK": isSmile])
     }
 }

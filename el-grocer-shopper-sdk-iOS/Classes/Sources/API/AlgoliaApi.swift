@@ -701,7 +701,10 @@ extension AlgoliaApi {
         let type =  "styp_" + searchType;
         tags.append(type)
         
-     
+        
+        let apptype =  "atyp_" + (SDKManager.isSmileSDK ? "SmileSDK" : "Shopper")
+        tags.append(apptype)
+        
         
         var finalTags : [String] = []
         for data in tags {

@@ -211,9 +211,9 @@ class PopImageViwerViewController: UIViewController {
         boughtItemView.collectionView?.delegate = self
         relatedItemView.collectionView?.dataSource = self
         relatedItemView.collectionView?.delegate = self
-        self.getBoughtItems()
-        self.getRelatedItems()
-        //self.getRelatedItems()()
+        // self.getBoughtItems()
+        // self.getRelatedItems()
+        // self.getRelatedItems()()
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -1580,7 +1580,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 // PushWooshTracking.updateUserAddressInfo()
                 
                 if self.editScreenState == .isFromCart {
-                    if  self.navigationController?.viewControllers[0] is MyBasketViewController {
+                    if  self.navigationController?.viewControllers.count ?? 1 > 1 {
                         self.navigationController?.popViewController(animated: true)
                         if ElGrocerUtility.sharedInstance.activeGrocery == nil {
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: KRefreshBasketNumberNotifcation) , object: nil , userInfo: nil)
@@ -1593,14 +1593,12 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                             ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
                             SpinnerView.hideSpinnerView()
                             ElGrocerUtility.sharedInstance.delay(0.5) {
-                                
                                 self.tabBarController?.selectedIndex = 0
                             }
-                           
                         }
                         return
                     }
-                    self.dismiss(animated: true) { }
+                    self.navigationController?.dismiss(animated: true) { }
                 }else{
                     self.navigationController?.popViewController(animated: true)
                 }

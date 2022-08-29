@@ -518,6 +518,7 @@ class SendBirdDeskManager{
         var customFields = [String: String]()
         customFields["app"] = "Shopper"
         customFields["platform"] = "iOS"
+        customFields["smilesdk"] = SDKManager.isSmileSDK ? "true" : "false"
         if let shopperUser = self.getCurrentUser(){
         customFields["shopperid"] =  shopperUser.dbID.stringValue
         } else {
