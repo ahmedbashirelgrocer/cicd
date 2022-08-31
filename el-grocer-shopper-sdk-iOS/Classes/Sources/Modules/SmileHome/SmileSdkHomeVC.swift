@@ -44,17 +44,20 @@ class SmileSdkHomeVC: BasketBasicViewController {
     @IBOutlet var currentOrderCollectionView: UICollectionView!
     @IBOutlet var currentOrderCollectionViewHeightConstraint: NSLayoutConstraint!
     
+   
     
         // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.registerCellsAndSetDelegates()
         self.setSegmentView()
+        setupClearNavBar()
+       
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+     
         super.viewWillAppear(animated)
         self.hideTabBar()
         self.navigationBarCustomization()
@@ -62,8 +65,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.showDataLoaderIfRequiredForHomeHandler()
         self.checkIFDataNotLoadedAndCall()
        
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,6 +92,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setCartButtonHidden(false)
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
+            controller.setBackButtonHidden(false)
         }
         
     }
@@ -166,9 +168,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.groceryArray = self.homeDataHandler.groceryA ?? []
         self.availableStoreTypeA = self.homeDataHandler.storeTypeA ?? []
         
-        
-        
-        
         var segmentArray = [localizedString("all_store", comment: "")]
         var filterStoreTypeData : [StoreType] = []
         for data in self.groceryArray {
@@ -188,6 +187,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 }
             }
         }
+        
         filterStoreTypeData = filterStoreTypeData.sorted(by: { typeOne, typeTwo in
             return typeOne.priority < typeTwo.priority
         })

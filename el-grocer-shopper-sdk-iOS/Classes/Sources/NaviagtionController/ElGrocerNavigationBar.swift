@@ -27,6 +27,9 @@ class ElGrocerNavigationBar : UINavigationBar {
    //
     
     
+    
+    
+    
    
     // MARK: Init
     
@@ -81,7 +84,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let logoYPossition = kSearchBarTopOrigin + 5
+        let logoYPossition = 0.0 // kSearchBarTopOrigin + 5
         
         let searchBarMultiplier = CGFloat(0.58)
         
@@ -122,7 +125,8 @@ class ElGrocerNavigationBar : UINavigationBar {
                         self.logoView.frame = CGRect(x: 38 , y: logoYPossition , width: self.logoView.image!.size.width, height: self.logoView.image!.size.height)
                     }
                     if self.backButton != nil {
-                        self.backButton.frame = CGRect(x: 12 , y: yPossition , width: backButtonWIdth , height: self.logoView.image!.size.height)
+                        
+                        self.backButton.frame = CGRect(x: 12 , y: self.profileButton.frame.origin.y , width: backButtonWIdth , height: self.logoView.image!.size.height)
                     }
                 }
             }
@@ -263,13 +267,13 @@ class ElGrocerNavigationBar : UINavigationBar {
     //MARK: Appearance
     
     func setGreenBackground() {
-       
-        self.backgroundColor = UIColor.navigationBarColor()
-        self.barTintColor = UIColor.navigationBarColor()
+        let color = SDKManager.isSmileSDK ? .clear : UIColor.navigationBarColor()
+        self.backgroundColor = color
+        self.barTintColor = color
         self.isTranslucent = false
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
-            barAppearance.backgroundColor = .navigationBarColor()
+            barAppearance.backgroundColor = color
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
@@ -279,6 +283,10 @@ class ElGrocerNavigationBar : UINavigationBar {
 
         } else {
             // Fallback on earlier versions
+        }
+        
+        if SDKManager.isSmileSDK {
+            self.setClearBackground()
         }
     }
     func setWhiteBackground() {
@@ -412,7 +420,10 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     fileprivate func addLogoView() {
         
-        let image = UIImage(name: "menu_logo")!
+        var image = UIImage(name: "menu_logo")!
+        if SDKManager.isSmileSDK {
+            image = UIImage(name: "smile_Logo_elgrocer")!
+        }
         self.logoView = UIImageView(image: image)
         self.addSubview(self.logoView)
     }
@@ -587,8 +598,10 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addCartButton() {
-        let imageNormal = UIImage(name: "Cart-Inactive-icon")
-        let imageSelected = UIImage(name: "Cart-Active-icon")
+        let imageNormal = SDKManager.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
+        let imageSelected = SDKManager.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
+        
+        
         self.cartButton = UIButton(type: .custom)
         self.cartButton.setImage(imageNormal, for: .normal)
         self.cartButton.setImage(imageSelected, for: .selected)

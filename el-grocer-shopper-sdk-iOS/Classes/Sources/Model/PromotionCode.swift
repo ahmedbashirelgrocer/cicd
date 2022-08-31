@@ -1,10 +1,10 @@
-//
-//  PromotionalCode.swift
-//  ElGrocerShopper
-//
-//  Created by Robert Ignasiak on 09.12.2015.
-//  Copyright © 2015 RST IT. All rights reserved.
-//
+    //
+    //  PromotionalCode.swift
+    //  ElGrocerShopper
+    //
+    //  Created by Robert Ignasiak on 09.12.2015.
+    //  Copyright © 2015 RST IT. All rights reserved.
+    //
 
 import Foundation
 
@@ -25,7 +25,9 @@ class PromotionCode: NSObject, NSCoding, NSSecureCoding {
     var allBrands: Bool!
     var minBasketValue: NSNumber!
     var brands : [NSDictionary]!
-
+    var groceryName: String?
+    var groceryImage: String?
+    
     required convenience init(coder decoder: NSCoder) {
         self.init()
         
@@ -36,7 +38,7 @@ class PromotionCode: NSObject, NSCoding, NSSecureCoding {
         }
         
         if (decoder.decodeObject(forKey: "valueCurrency") != nil) {
-             self.valueCurrency = decoder.decodeObject(forKey: "valueCurrency") as! String
+            self.valueCurrency = decoder.decodeObject(forKey: "valueCurrency") as! String
         }
         
         if (decoder.decodeObject(forKey: "code") != nil) {
@@ -69,14 +71,20 @@ class PromotionCode: NSObject, NSCoding, NSSecureCoding {
         if (decoder.decodeObject(forKey: "brands") != nil) {
             self.brands = decoder.decodeObject(forKey: "brands") as? [NSDictionary] ?? []
         }
-
+        if (decoder.decodeObject(forKey: "photo_url") != nil) {
+            self.groceryImage = decoder.decodeObject(forKey: "photo_url") as? String ?? ""
+        }
+        if (decoder.decodeObject(forKey: "name") != nil) {
+            self.groceryName = decoder.decodeObject(forKey: "name") as? String ?? ""
+        }
+        
         /*self.valueCents = decoder.decodeObject(forKey: "valueCents") as! Double
-        self.valueCurrency = decoder.decodeObject(forKey: "valueCurrency") as! String
-        self.code = decoder.decodeObject(forKey: "code") as! String
-        self.promotionCodeRealizationId = decoder.decodeObject(forKey: "promotionCodeRealizationId") as? Int*/
+         self.valueCurrency = decoder.decodeObject(forKey: "valueCurrency") as! String
+         self.code = decoder.decodeObject(forKey: "code") as! String
+         self.promotionCodeRealizationId = decoder.decodeObject(forKey: "promotionCodeRealizationId") as? Int*/
     }
-
-    convenience init(valueCents:Double, valueCurrency:String, code:String, promotionCodeRealizationId:Int?, precentageOff: Int, maxCapValue: NSNumber, title: String, detail: String, allBrands: Bool, minBasketValue: NSNumber, id: Int, brands: [NSDictionary]) {
+    
+    convenience init(valueCents:Double, valueCurrency:String, code:String, promotionCodeRealizationId:Int?, precentageOff: Int, maxCapValue: NSNumber, title: String, detail: String, allBrands: Bool, minBasketValue: NSNumber, id: Int, brands: [NSDictionary], groceryImage: String? = "", groceryName: String = "") {
         self.init()
         self.valueCents = valueCents / 100.0
         self.valueCurrency = valueCurrency
@@ -90,11 +98,13 @@ class PromotionCode: NSObject, NSCoding, NSSecureCoding {
         self.allBrands = allBrands
         self.id = id
         self.brands = brands
+        self.groceryName = groceryName
+        self.groceryImage = groceryImage
     }
     
     convenience init?(fromResponse response: AnyObject?) {
         self.init()
-
+        
         guard let data = response as? NSDictionary else {
             return
         }
@@ -113,11 +123,13 @@ class PromotionCode: NSObject, NSCoding, NSSecureCoding {
         self.allBrands = data["all_brands"] as? Bool ?? false
         self.minBasketValue = data["min_basket_value"] as? NSNumber ?? NSNumber(0)
         self.brands = data["brands"] as? [NSDictionary] ?? []
+        self.groceryName = data["name"] as? String ?? ""
+        self.groceryImage = data["photo_url"] as? String ?? ""
     }
     
     func encode(with coder: NSCoder) {
         
-         if let valueCents = valueCents { coder.encode(valueCents, forKey: "valueCents") }
+        if let valueCents = valueCents { coder.encode(valueCents, forKey: "valueCents") }
         
         if let valueCurrency = valueCurrency { coder.encode(valueCurrency, forKey: "valueCurrency") }
         if let code = code { coder.encode(code, forKey: "code") }
@@ -132,5 +144,8 @@ class PromotionCode: NSObject, NSCoding, NSSecureCoding {
         if let brands = brands {
             coder.encode(brands, forKey: "brands")
         }
+        if let name = groceryName { coder.encode(name, forKey: "name") }
+        if let image = groceryImage { coder.encode(image, forKey: "photo_url") }
     }
 }
+

@@ -11,6 +11,14 @@ import UIKit
 
 extension UIColor {
     
+    class func smileBaseColor() -> UIColor {
+        return #colorLiteral(red: 0.5294117647, green: 0.3294117647, blue: 0.631372549, alpha: 1) // ffffff
+    }
+    class func smileSecondaryColor() -> UIColor {
+        return #colorLiteral(red: 0.8784313725, green: 0.2392156863, blue: 0.1490196078, alpha: 1) // ffffff
+    }
+    
+    
   
     class func navigationBarWhiteColor() -> UIColor {
         return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) // ffffff

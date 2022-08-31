@@ -9,9 +9,20 @@
 import UIKit
 
 class GenericHomePageSearchHeader: UIView {
+    
+    
+    
+    @IBOutlet var eclipceImgView: UIImageView! {
+        
+        didSet {
+            eclipceImgView.image = UIImage.init(name: SDKManager.isSmileSDK ? "HomeSmileEllipse" : "HomeEllipse" )
+        }
+        
+    }
+    
     @IBOutlet var bGView: UIView!{
         didSet{
-            bGView.backgroundColor = .navigationBarWhiteColor()
+            bGView.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
         }
     }
     @IBOutlet var topHalfBGView: UIView!{
@@ -86,15 +97,6 @@ class GenericHomePageSearchHeader: UIView {
         locationView.rightAnchor.constraint(equalTo: locationContainerView.rightAnchor, constant: -16).isActive = true
         locationView.bottomAnchor.constraint(equalTo: locationContainerView.bottomAnchor, constant: 0).isActive = true
 
-//        let centerHorizontally = NSLayoutConstraint(item: self.locationView!,
-//                                                    attribute: .centerY,
-//                                                    relatedBy: .equal,
-//                                                    toItem: self.locationContainerView,
-//                                                    attribute: .centerY,
-//                                                    multiplier: 1.0,
-//                                                    constant: 0.0)
-//        let heightConstraint =  NSLayoutConstraint(item: self.locationView!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
-//        NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
     }
     
     override func draw(_ rect: CGRect) {
@@ -104,8 +106,8 @@ class GenericHomePageSearchHeader: UIView {
     
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
-        self.locationView.backgroundColor = UIColor.navigationBarColor()
-        self.locationContainerView.backgroundColor = UIColor.navigationBarColor()
+        self.locationView.backgroundColor = SDKManager.isSmileSDK ? .clear :  UIColor.navigationBarColor()
+        self.locationContainerView.backgroundColor = SDKManager.isSmileSDK ? .clear : UIColor.navigationBarColor()
         locationContainerView.addSubview(self.locationView)
     }
     func setLocationText(_ text : String = "") {

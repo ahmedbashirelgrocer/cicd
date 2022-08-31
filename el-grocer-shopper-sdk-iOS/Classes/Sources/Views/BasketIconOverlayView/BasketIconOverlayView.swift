@@ -23,6 +23,7 @@ class BasketIconOverlayView : UIView {
     
     @IBOutlet weak var basketIcon: UIImageView!
     
+    @IBOutlet var bottomButtonBg: AWView!
     @IBOutlet weak var itemsCount: UILabel!
     @IBOutlet weak var itemsPrice: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
@@ -112,6 +113,8 @@ class BasketIconOverlayView : UIView {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.cartTotalPriceLabel.textAlignment = .right
         }
+        
+        bottomButtonBg.backgroundColor = .navigationBarColor()
     }
     
     

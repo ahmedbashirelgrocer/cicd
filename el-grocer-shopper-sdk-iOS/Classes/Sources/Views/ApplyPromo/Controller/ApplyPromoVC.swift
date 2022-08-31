@@ -1,16 +1,16 @@
-//
-//  ApplyPromoVC.swift
-//  ElGrocerShopper
-//
-//  Created by Abdul Saboor on 20/04/2022.
-//  Copyright © 2022 elGrocer. All rights reserved.
-//
+    //
+    //  ApplyPromoVC.swift
+    //  ElGrocerShopper
+    //
+    //  Created by Abdul Saboor on 20/04/2022.
+    //  Copyright © 2022 elGrocer. All rights reserved.
+    //
 
 import UIKit
 
 class ApplyPromoVC: UIViewController {
-
-    //MARK: text PromoView outlets
+    
+        //MARK: text PromoView outlets
     @IBOutlet var promoBGView: UIView! {
         didSet {
             promoBGView.isHidden = false
@@ -27,7 +27,7 @@ class ApplyPromoVC: UIViewController {
     @IBOutlet var promoTextField: UITextField!{
         didSet{
             promoTextField.setBody3RegStyle()
-            promoTextField.setPlaceHolder(text: localizedString("promo_textfield_placeholder", comment: ""))
+            promoTextField.setPlaceHolder(text: NSLocalizedString("promo_textfield_placeholder", comment: ""))
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 promoTextField.textAlignment = .right
             }else {
@@ -37,12 +37,12 @@ class ApplyPromoVC: UIViewController {
     }
     @IBOutlet var btnPromoApply: AWButton!{
         didSet{
-            btnPromoApply.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
+            btnPromoApply.setTitle(NSLocalizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var btnPromoRemove: AWButton! {
         didSet {
-            btnPromoRemove.setTitle(localizedString("txt_remove", comment: ""), for: UIControl.State())
+            btnPromoRemove.setTitle(NSLocalizedString("txt_remove", comment: ""), for: UIControl.State())
             btnPromoRemove.isHidden = true
         }
     }
@@ -54,11 +54,11 @@ class ApplyPromoVC: UIViewController {
         }
     }
     @IBOutlet var promoBGViewHeightConstraint: NSLayoutConstraint!
-    //MARK: text PromoView outlets end
+        //MARK: text PromoView outlets end
     @IBOutlet var lblVCTitle: UILabel! {
         didSet {
             lblVCTitle.setH4SemiBoldStyle()
-            lblVCTitle.text = localizedString("title_apply_promo", comment: "")
+            lblVCTitle.text = NSLocalizedString("title_apply_promo", comment: "")
         }
     }
     @IBOutlet var btnClose: UIButton!
@@ -89,7 +89,7 @@ class ApplyPromoVC: UIViewController {
         registerTableView()
         getPromoCodeList()
         
-        // Do any additional setup after loading the view.
+            // Do any additional setup after loading the view.
     }
     
     func registerTableView() {
@@ -103,9 +103,9 @@ class ApplyPromoVC: UIViewController {
         self.tblView.contentInset = UIEdgeInsets.init(top: -20, left: 0, bottom: 0, right: 0)
         
         
-        let cell = UINib(nibName: "ApplyPromoCell", bundle: .resource)
+        let cell = UINib(nibName: "ApplyPromoCell", bundle: nil)
         tblView.register(cell, forCellReuseIdentifier: "ApplyPromoCell")
-        let NoPromoTableViewCell = UINib(nibName: "NoPromoTableViewCell", bundle: .resource)
+        let NoPromoTableViewCell = UINib(nibName: "NoPromoTableViewCell", bundle: nil)
         tblView.register(NoPromoTableViewCell, forCellReuseIdentifier: "NoPromoTableViewCell")
     }
     func checkPromoCodeIsFromTextOrList() {
@@ -123,7 +123,7 @@ class ApplyPromoVC: UIViewController {
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
                     self.promoTextField.text = promocode.code
-                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+                    self.showPromoError(false, message: NSLocalizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
                 }
             }
             
@@ -133,7 +133,7 @@ class ApplyPromoVC: UIViewController {
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
                     self.promoTextField.text = promoCode.code
-                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+                    self.showPromoError(false, message: NSLocalizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
                 }
             }
         }
@@ -162,18 +162,18 @@ class ApplyPromoVC: UIViewController {
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 extension ApplyPromoVC {
-    // Api parsing
+        // Api parsing
     func getPromoCodeList() {
         guard !isGettingPromo else {return}
         guard self.promoCodeArray.count % 10 == 0 || self.promoCodeArray.count == 0 else{
@@ -186,7 +186,7 @@ extension ApplyPromoVC {
         promoHandler.grocery = self.previousGrocery
         isGettingPromo = true
         let offset = self.promoCodeArray.count
-       elDebugPrint("offset: \(offset)")
+        print("offset: \(offset)")
         promoHandler.getPromoList (limmit: 10, offset: offset){ promoCodeArray, error in
             self.isGettingPromo = false
             self.isFirstTime = false
@@ -196,7 +196,7 @@ extension ApplyPromoVC {
                 return
             }
             if let array = promoCodeArray{
-//                self.promoCodeArray = array
+                    //                self.promoCodeArray = array
                 for promo in array {
                     self.promoCodeArray.append(promo)
                     self.extensionArray.append(false)
@@ -252,7 +252,7 @@ extension ApplyPromoVC {
     }
 }
 extension ApplyPromoVC {
-    //promo code apply functions
+        //promo code apply functions
     func showPromoError(_ isHidden : Bool , message : String,color: UIColor = .textfieldErrorColor()) {
         if isHidden{
             self.lblPromoError.visibility = .gone
@@ -275,10 +275,10 @@ extension ApplyPromoVC {
         self.promoTxtFieldBGView.borderColor = UIColor.navigationBarColor()
         self.promoTxtFieldBGView.layer.borderWidth = 1
         self.btnPromoApply.tintColor = .navigationBarColor()
-        self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+        self.showPromoError(false, message: NSLocalizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
         self.btnPromoRemove.isHidden = false
-//        self.btnPromoApply.setTitle("", for: UIControl.State())
-//        self.btnPromoApply.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
+            //        self.btnPromoApply.setTitle("", for: UIControl.State())
+            //        self.btnPromoApply.setImage(UIImage(named: "MyBasketPromoSuccess"), for: .normal)
     }
     
     func animateFailureForPromo(){
@@ -309,7 +309,7 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NoPromoTableViewCell", for: indexPath) as! NoPromoTableViewCell
             return cell
         }
-                 
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ApplyPromoCell", for: indexPath) as! ApplyPromoCell
         
         let promocode = UserDefaults.getPromoCodeValue()
@@ -346,26 +346,26 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         if let cell = cell as? ApplyPromoCell {
             DispatchQueue.main.async { [weak cell] in
                 cell?.setBorderForPromo()
             }
-           
+            
         }
-  
+        
     }
-//    
-  
+        //
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        titleHeaderView.configureView(title: localizedString("title_available_promo", comment: ""))
+        titleHeaderView.configureView(title: NSLocalizedString("title_available_promo", comment: ""))
         return titleHeaderView
     }
     
@@ -379,7 +379,7 @@ extension ApplyPromoVC: UIScrollViewDelegate {
         let kLoadingDistance = 2 * kProductCellHeight + 8
         let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
         if y + kLoadingDistance > scrollView.contentSize.height && self.isGettingPromo == false {
-            elDebugPrint("getlist")
+            debugPrint("getlist")
             self.getPromoCodeList()
         }
     }

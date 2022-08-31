@@ -201,6 +201,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.addNotificationObseverForController()
         self.registerCellsForTableView()
         self.setObjectAllocationAndDelegate()
+        self.setupClearNavBar()
         self.hidesBottomBarWhenPushed = true
     }
     
@@ -307,7 +308,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if self.grocery != nil{
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
             self.addBackButton(isGreen: false)
         }else{
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)

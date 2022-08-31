@@ -1647,4 +1647,41 @@ extension UIViewController {
         self.edgesForExtendedLayout = UIRectEdge.bottom
     }
     
+    
+    
+    
+    
+    func setupClearNavBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.barTintColor = .clear
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.colors = [topColor,bottomColor]
+        gradient.locations = [0.0 , 1.0]
+        gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
+        gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+        gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: height)
+        return gradient
+    }
+    
+    
+
+    
+    
+}
+
+extension UIView {
+    func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.colors = [topColor,bottomColor]
+        gradient.locations = [0.0 , 1.0]
+        gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
+        gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+        gradient.frame = CGRect(x: 0.0, y: -10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
+        return gradient
+    }
 }

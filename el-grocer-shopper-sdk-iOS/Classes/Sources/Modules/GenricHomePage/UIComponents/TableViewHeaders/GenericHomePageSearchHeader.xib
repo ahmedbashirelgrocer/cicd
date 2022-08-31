@@ -11,14 +11,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="R7l-73-6uV" customClass="GenericHomePageSearchHeader" customModule="ElGrocerShopper" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="R7l-73-6uV" customClass="GenericHomePageSearchHeader" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YVU-od-xuV">
                     <rect key="frame" x="0.0" y="30" width="414" height="60"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeEllipse" translatesAutoresizingMaskIntoConstraints="NO" id="pmk-5p-Tjk">
+                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeSmileEllipse" translatesAutoresizingMaskIntoConstraints="NO" id="pmk-5p-Tjk">
                             <rect key="frame" x="0.0" y="-57" width="414" height="103"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="103" id="UfB-Df-iuu"/>
@@ -26,7 +26,7 @@
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Kv-mQ-tb6">
                             <rect key="frame" x="0.0" y="-13" width="414" height="35"/>
-                            <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ipg-je-HqL">
@@ -56,7 +56,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="pmk-5p-Tjk" firstAttribute="top" secondItem="YVU-od-xuV" secondAttribute="top" constant="-57" id="Mx0-dB-CvN"/>
                         <constraint firstAttribute="trailing" secondItem="pmk-5p-Tjk" secondAttribute="trailing" id="TQ5-v8-pSh"/>
@@ -75,7 +75,7 @@
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KKR-Dt-hkq">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="AG7-86-d17"/>
                     </constraints>
@@ -95,6 +95,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="bGView" destination="YVU-od-xuV" id="nlq-3d-dEh"/>
+                <outlet property="eclipceImgView" destination="pmk-5p-Tjk" id="RAR-68-y2N"/>
                 <outlet property="imgSearch" destination="m3v-yz-9cJ" id="x5D-vg-6he"/>
                 <outlet property="locationContainerHeightConstraint" destination="AG7-86-d17" id="rTh-F0-Tnc"/>
                 <outlet property="locationContainerView" destination="KKR-Dt-hkq" id="Flk-3p-ant"/>
@@ -106,7 +107,7 @@
         </view>
     </objects>
     <resources>
-        <image name="HomeEllipse" width="375" height="95"/>
+        <image name="HomeSmileEllipse" width="375" height="166"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

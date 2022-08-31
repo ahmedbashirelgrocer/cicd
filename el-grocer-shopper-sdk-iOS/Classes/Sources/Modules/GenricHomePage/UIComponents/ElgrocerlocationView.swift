@@ -52,7 +52,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var btnLocation: UIButton!
     @IBOutlet var myGroceryImage: UIImageView!{
         didSet{
-            myGroceryImage.backgroundColor = .navigationBarWhiteColor()
+            myGroceryImage.backgroundColor = SDKManager.isSmileSDK ?  .smileBaseColor() : .navigationBarWhiteColor()
             myGroceryImage.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 8, withShadow: false)
         }
     }
@@ -95,13 +95,13 @@ class ElgrocerlocationView:  UIView  {
     // sab New UI
     
     @IBOutlet var bGView: UIView!{
-        didSet{
-            bGView.backgroundColor = .navigationBarColor()
+        didSet {
+            bGView.backgroundColor = .clear
         }
     }
     @IBOutlet var groceryBGView: UIView!{
         didSet{
-            groceryBGView.backgroundColor = .navigationBarColor()
+            groceryBGView.backgroundColor = .clear //.navigationBarColor()
         }
     }
     @IBOutlet var imgDeliverySlot: UIImageView!{
@@ -111,7 +111,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var searchSuperBGView: UIView!{
         didSet{
-            searchSuperBGView.backgroundColor = .navigationBarColor()
+            searchSuperBGView.backgroundColor = .clear //.clear.navigationBarColor()
         }
     }
     @IBOutlet var searchBGView: UIView!{
@@ -140,7 +140,7 @@ class ElgrocerlocationView:  UIView  {
     
     @IBOutlet var shoppingListBGView: UIView!{
         didSet{
-            shoppingListBGView.backgroundColor = .navigationBarColor()
+            shoppingListBGView.backgroundColor = .clear //.navigationBarColor()
         }
     }
     @IBOutlet var imgShoppingList: UIImageView!{
@@ -211,7 +211,21 @@ class ElgrocerlocationView:  UIView  {
             self.shoppingListBGView.visibility = .gone
             self.groceryBGView.visibility = .gone
         }
+        
+        self.layer.insertSublayer(self.setupGradient(height: self.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+        
     }
+    
+//    fileprivate func setUpGradientView (){
+//
+//        let gradient: CAGradientLayer = CAGradientLayer()
+//        gradient.frame = CGRect(x: 0.0, y: 0.0, width: ScreenSize.SCREEN_WIDTH , height: 300)
+//        gradient.colors = [UIColor.smileBaseColror().cgColor, UIColor.smileSecondaryColor().cgColor]
+//        gradient.locations = [0.0 , 1.0]
+//        self.bGView.layer.insertSublayer(gradient, at: 0)
+//
+//    }
+    
     
     @IBAction func btnShoppingListHandler(_ sender: Any) {
 //        if let closure = self.shoppingListTapped{

@@ -27,6 +27,29 @@ class ElGrocerNavigationController : UINavigationController {
         return tapGesture
     }()
     
+    
+    var gradient : CAGradientLayer?
+    let gradientView : UIView = {
+        let view = UIView()
+        return view
+    }()
+    func setupGradient() {
+        let height : CGFloat = 100 // Height of the nav bar
+        let color = UIColor.smileBaseColor().cgColor
+        let clear = UIColor.smileSecondaryColor().cgColor
+        gradient = setupGradient(height: height, topColor: color,bottomColor: clear)
+        var gradient2 = setupGradient(height: height, topColor: color,bottomColor: clear)
+        view.addSubview(gradientView)
+        view.sendSubviewToBack(gradientView)
+        NSLayoutConstraint.activate([
+            gradientView.topAnchor.constraint(equalTo: view.topAnchor),
+            gradientView.leftAnchor.constraint(equalTo: view.leftAnchor),
+        ])
+        
+        gradientView.layer.insertSublayer(gradient!, at: 0)
+        self.navigationBar.layer.insertSublayer(gradient2, at: 2)
+        
+    }
    
     
     override func viewDidLoad() {
@@ -34,23 +57,13 @@ class ElGrocerNavigationController : UINavigationController {
         
     }
     override func viewWillAppear(_ animated: Bool) {
-         super.viewWillAppear(animated)
+       
+        super.viewWillAppear(animated)
+        
         (self.navigationBar as? ElGrocerNavigationBar)?.backButton.addTarget(self, action: #selector(backButtonClick), for: UIControl.Event.touchUpInside)
         (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.addTarget(self, action: #selector(cartButtonClick), for: UIControl.Event.touchUpInside)
         (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.addTarget(self, action: #selector(profileButtonClick), for: UIControl.Event.touchUpInside)
-        
-//        if #available(iOS 13.0, *) {
-//            let barAppearance = UINavigationBarAppearance()
-//            barAppearance.backgroundColor = .navigationBarWhiteColor()
-//            barAppearance.shadowColor = .clear
-//            self.navigationBar.standardAppearance = barAppearance
-//            self.navigationBar.scrollEdgeAppearance = barAppearance
-//
-//        } else {
-//            // Fallback on earlier versions
-//        }
-        //self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
-        //self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -71,26 +84,15 @@ class ElGrocerNavigationController : UINavigationController {
 
 
     func hideSeparationLine() -> Void {
+        
+        self.navigationBar.clipsToBounds = true
         self.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationBar.shadowImage = UIImage()
-//        DispatchQueue.main.async { [weak self] in
-//            guard let self = self else {return}
-//            self.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//            self.navigationBar.shadowImage = UIImage()
-//        }
-        
-//        UINavigationBar.appearance().shadowImage = UIImage()
-//        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
     }
 
     
     func hideNavigationBar(_ hidden:Bool) {
         self.setNavigationBarHidden(hidden, animated: false)
-//        DispatchQueue.main.async { [weak self] in
-//            guard let self = self else {return}
-//            self.setNavigationBarHidden(hidden, animated: false)
-//        }
-        
     }
     
     @objc func profileButtonClick() {
@@ -130,6 +132,7 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: .navigationBarWhiteColor())
         (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(.navigationBarWhiteColor())
         (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(true)
+        self.setupGradient()
         
         
     }

@@ -4255,7 +4255,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             parameters["search_input"] = ids as AnyObject
         }
  
-        
+        debugPrint("banner call: \(parameters)")
         NetworkCall.get(ElGrocerApiEndpoint.campaignAPi.rawValue, parameters: parameters, progress: { (progress) in
             
         }, success: { (operation  , response) in
@@ -4264,6 +4264,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
                 return
             }
+            debugPrint("banner call: \(response)")
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in

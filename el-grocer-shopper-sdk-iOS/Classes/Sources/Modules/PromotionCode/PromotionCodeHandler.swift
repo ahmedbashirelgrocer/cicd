@@ -52,7 +52,7 @@ class PromotionCodeHandler {
                     do {
                         let promo = PromotionCode.init(fromResponse: data as? AnyObject)
                         let promoCodeObjData = try NSKeyedArchiver.archivedData(withRootObject: promo, requiringSecureCoding: false)
-//                        let promotionCode = try NSKeyedUnarchiver.unarchivedObject(ofClass: PromotionCode.self, from: promoCodeObjData)
+//                     let promotionCode = try NSKeyedUnarchiver.unarchivedObject(ofClass: PromotionCode.self, from: promoCodeObjData)
                         let promotionCode = try NSKeyedUnarchiver.unarchivedObject(ofClasses: [PromotionCode.self,NSArray.self,NSDictionary.self], from: promoCodeObjData) as? PromotionCode
                         if promotionCode != nil {
                             promoCodeArray.append(promotionCode!)
