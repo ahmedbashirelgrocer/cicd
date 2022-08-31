@@ -38,7 +38,7 @@ class ElGrocerNavigationController : UINavigationController {
         let color = UIColor.smileBaseColor().cgColor
         let clear = UIColor.smileSecondaryColor().cgColor
         gradient = setupGradient(height: height, topColor: color,bottomColor: clear)
-        var gradient2 = setupGradient(height: height, topColor: color,bottomColor: clear)
+        let gradient2 = setupGradient(height: height, topColor: color,bottomColor: clear)
         view.addSubview(gradientView)
         view.sendSubviewToBack(gradientView)
         NSLayoutConstraint.activate([
@@ -47,7 +47,8 @@ class ElGrocerNavigationController : UINavigationController {
         ])
         
         gradientView.layer.insertSublayer(gradient!, at: 0)
-        self.navigationBar.layer.insertSublayer(gradient2, at: 2)
+       // self.navigationBar.layer.addSublayer(gradient2)
+        //self.navigationBar.inputView?.layer.insertSublayer(gradient2, at: 2)
         
     }
    
@@ -128,11 +129,13 @@ class ElGrocerNavigationController : UINavigationController {
     // MARK: Hide Border
     func setGreenBackgroundColor() {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
+        
         (self.navigationBar as! ElGrocerNavigationBar).setGreenBackground()
+        self.setupGradient()
         (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: .navigationBarWhiteColor())
         (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(.navigationBarWhiteColor())
         (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(true)
-        self.setupGradient()
+        
         
         
     }

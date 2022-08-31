@@ -15,7 +15,7 @@ class GenericHomePageSearchHeader: UIView {
     @IBOutlet var eclipceImgView: UIImageView! {
         
         didSet {
-            eclipceImgView.image = UIImage.init(name: SDKManager.isSmileSDK ? "HomeSmileEllipse" : "HomeEllipse" )
+          //  eclipceImgView.image = UIImage.init(name: SDKManager.isSmileSDK ? "HomeSmileEllipse" : "HomeEllipse" )
         }
         
     }
@@ -27,7 +27,7 @@ class GenericHomePageSearchHeader: UIView {
     }
     @IBOutlet var topHalfBGView: UIView!{
         didSet{
-            topHalfBGView.backgroundColor = .navigationBarColor()
+            topHalfBGView.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarColor()
             topHalfBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 0, withShadow: false)
         }
     }
@@ -78,6 +78,9 @@ class GenericHomePageSearchHeader: UIView {
     
     func setIninitialAppearance(){
         self.txtSearch.delegate = self
+        let greLay = self.setupGradient(height: self.frame.size.height - 28 , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
+        greLay.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
+        self.layer.insertSublayer(greLay, at: 0)
     }
     /*
     // Only override draw() if you perform custom drawing.
@@ -92,7 +95,7 @@ class GenericHomePageSearchHeader: UIView {
 
         self.locationView.translatesAutoresizingMaskIntoConstraints = false
         
-        locationView.topAnchor.constraint(equalTo: locationContainerView.topAnchor, constant: 0).isActive = true
+        locationView.topAnchor.constraint(equalTo: locationContainerView.topAnchor, constant: 8).isActive = true
         locationView.leftAnchor.constraint(equalTo: locationContainerView.leftAnchor, constant: 10).isActive = true
         locationView.rightAnchor.constraint(equalTo: locationContainerView.rightAnchor, constant: -16).isActive = true
         locationView.bottomAnchor.constraint(equalTo: locationContainerView.bottomAnchor, constant: 0).isActive = true

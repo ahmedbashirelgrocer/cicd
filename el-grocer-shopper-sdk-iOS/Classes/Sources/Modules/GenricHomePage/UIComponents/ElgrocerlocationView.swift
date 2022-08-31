@@ -42,7 +42,7 @@ class ElgrocerlocationView:  UIView  {
     var localLoadedAddress: LocalDeliverAddress?
     var loadedAddress : DeliveryAddress? {
         didSet {
-           elDebugPrint("loaded Address: \(loadedAddress)")
+           //elDebugPrint("loaded Address: \(loadedAddress)")
         }
     }
     let halfWidth : CGFloat = 0.445
@@ -52,7 +52,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var btnLocation: UIButton!
     @IBOutlet var myGroceryImage: UIImageView!{
         didSet{
-            myGroceryImage.backgroundColor = SDKManager.isSmileSDK ?  .smileBaseColor() : .navigationBarWhiteColor()
+            myGroceryImage.backgroundColor = SDKManager.isSmileSDK ?  .navigationBarWhiteColor() : .navigationBarWhiteColor()
             myGroceryImage.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 8, withShadow: false)
         }
     }

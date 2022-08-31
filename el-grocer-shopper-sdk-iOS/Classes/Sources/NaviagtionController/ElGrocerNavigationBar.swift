@@ -24,13 +24,6 @@ class ElGrocerNavigationBar : UINavigationBar {
     var profileButton:UIButton!
     var cartButton:UIButton!
 
-   //
-    
-    
-    
-    
-    
-   
     // MARK: Init
     
     override init(frame: CGRect) {
@@ -126,7 +119,7 @@ class ElGrocerNavigationBar : UINavigationBar {
                     }
                     if self.backButton != nil {
                         
-                        self.backButton.frame = CGRect(x: 12 , y: self.profileButton.frame.origin.y , width: backButtonWIdth , height: self.logoView.image!.size.height)
+                        self.backButton.frame = CGRect(x: 12 , y: self.profileButton.frame.origin.y , width: backButtonWIdth , height: self.profileButton.frame.size.height)
                     }
                 }
             }
@@ -273,6 +266,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.isTranslucent = false
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
+            barAppearance.configureWithTransparentBackground()
             barAppearance.backgroundColor = color
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
@@ -291,16 +285,19 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     func setWhiteBackground() {
         
-        self.backgroundColor = .navigationBarWhiteColor()
-        self.barTintColor = .navigationBarWhiteColor()
+        self.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
+        self.barTintColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
         self.isTranslucent = false
         
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
-            barAppearance.backgroundColor = .navigationBarWhiteColor()
+            //barAppearance.configureWithTransparentBackground()
+            barAppearance.backgroundColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+        
+            
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance
 
@@ -345,7 +342,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     func setBackgroundColorForBar(_ bgColor:UIColor) {
         self.backgroundColor 	= bgColor
         self.barTintColor       = bgColor
-        self.isTranslucent      = true
+        self.isTranslucent      = false
     }
     
     

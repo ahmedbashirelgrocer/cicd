@@ -92,7 +92,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setCartButtonHidden(false)
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
-            controller.setBackButtonHidden(false)
+           // controller.setBackButtonHidden(false)
         }
         
     }

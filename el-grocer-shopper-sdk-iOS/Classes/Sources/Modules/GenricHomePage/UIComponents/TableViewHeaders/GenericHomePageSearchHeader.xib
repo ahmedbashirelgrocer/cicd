@@ -82,7 +82,7 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="cj3-JJ-vHO"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="cj3-JJ-vHO" firstAttribute="trailing" secondItem="KKR-Dt-hkq" secondAttribute="trailing" id="1J1-GP-KFa"/>
                 <constraint firstItem="cj3-JJ-vHO" firstAttribute="trailing" secondItem="YVU-od-xuV" secondAttribute="trailing" id="3BV-ZY-yuR"/>
@@ -108,9 +108,6 @@
     </objects>
     <resources>
         <image name="HomeSmileEllipse" width="375" height="166"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

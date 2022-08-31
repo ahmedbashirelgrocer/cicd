@@ -308,7 +308,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if self.grocery != nil{
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             self.addBackButton(isGreen: false)
         }else{
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
@@ -1901,6 +1901,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
        
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
+            self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
         }
