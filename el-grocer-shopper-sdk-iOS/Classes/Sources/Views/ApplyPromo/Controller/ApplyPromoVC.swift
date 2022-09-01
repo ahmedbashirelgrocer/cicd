@@ -27,7 +27,7 @@ class ApplyPromoVC: UIViewController {
     @IBOutlet var promoTextField: UITextField!{
         didSet{
             promoTextField.setBody3RegStyle()
-            promoTextField.setPlaceHolder(text: NSLocalizedString("promo_textfield_placeholder", comment: ""))
+            promoTextField.setPlaceHolder(text: localizedString("promo_textfield_placeholder", comment: ""))
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 promoTextField.textAlignment = .right
             }else {
@@ -37,12 +37,12 @@ class ApplyPromoVC: UIViewController {
     }
     @IBOutlet var btnPromoApply: AWButton!{
         didSet{
-            btnPromoApply.setTitle(NSLocalizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
+            btnPromoApply.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var btnPromoRemove: AWButton! {
         didSet {
-            btnPromoRemove.setTitle(NSLocalizedString("txt_remove", comment: ""), for: UIControl.State())
+            btnPromoRemove.setTitle(localizedString("txt_remove", comment: ""), for: UIControl.State())
             btnPromoRemove.isHidden = true
         }
     }
@@ -58,7 +58,7 @@ class ApplyPromoVC: UIViewController {
     @IBOutlet var lblVCTitle: UILabel! {
         didSet {
             lblVCTitle.setH4SemiBoldStyle()
-            lblVCTitle.text = NSLocalizedString("title_apply_promo", comment: "")
+            lblVCTitle.text = localizedString("title_apply_promo", comment: "")
         }
     }
     @IBOutlet var btnClose: UIButton!
@@ -103,9 +103,9 @@ class ApplyPromoVC: UIViewController {
         self.tblView.contentInset = UIEdgeInsets.init(top: -20, left: 0, bottom: 0, right: 0)
         
         
-        let cell = UINib(nibName: "ApplyPromoCell", bundle: nil)
+        let cell = UINib(nibName: "ApplyPromoCell", bundle: .resource)
         tblView.register(cell, forCellReuseIdentifier: "ApplyPromoCell")
-        let NoPromoTableViewCell = UINib(nibName: "NoPromoTableViewCell", bundle: nil)
+        let NoPromoTableViewCell = UINib(nibName: "NoPromoTableViewCell", bundle: .resource)
         tblView.register(NoPromoTableViewCell, forCellReuseIdentifier: "NoPromoTableViewCell")
     }
     func checkPromoCodeIsFromTextOrList() {
@@ -123,7 +123,7 @@ class ApplyPromoVC: UIViewController {
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
                     self.promoTextField.text = promocode.code
-                    self.showPromoError(false, message: NSLocalizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
                 }
             }
             
@@ -133,7 +133,7 @@ class ApplyPromoVC: UIViewController {
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
                     self.promoTextField.text = promoCode.code
-                    self.showPromoError(false, message: NSLocalizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
                 }
             }
         }
@@ -275,7 +275,7 @@ extension ApplyPromoVC {
         self.promoTxtFieldBGView.borderColor = UIColor.navigationBarColor()
         self.promoTxtFieldBGView.layer.borderWidth = 1
         self.btnPromoApply.tintColor = .navigationBarColor()
-        self.showPromoError(false, message: NSLocalizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+        self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
         self.btnPromoRemove.isHidden = false
             //        self.btnPromoApply.setTitle("", for: UIControl.State())
             //        self.btnPromoApply.setImage(UIImage(named: "MyBasketPromoSuccess"), for: .normal)
@@ -365,7 +365,7 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        titleHeaderView.configureView(title: NSLocalizedString("title_available_promo", comment: ""))
+        titleHeaderView.configureView(title: localizedString("title_available_promo", comment: ""))
         return titleHeaderView
     }
     

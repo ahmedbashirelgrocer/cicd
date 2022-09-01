@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -116,11 +116,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need to access your camera to take a picture/record a video to share</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
+	<string>"This is required to show you supermarkets and products around you"</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
+	<string>"This is required to show you supermarkets and products around you"</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>&quot;This is required to show you supermarkets and products around you&quot;</string>
+	<string>"This is required to show you supermarkets and products around you"</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We would like to access device microphone to record audio.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -150,6 +150,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

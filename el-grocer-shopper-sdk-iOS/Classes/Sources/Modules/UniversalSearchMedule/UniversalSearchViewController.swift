@@ -12,6 +12,7 @@ import FBSDKCoreKit
 //import AppsFlyerLib
 import STPopup
 import IQKeyboardManagerSwift
+import Adyen
 
 enum searchType {
     
@@ -138,7 +139,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     @IBAction func voiceSearchAction(_ sender: Any) {
         self.txtSearch.resignFirstResponder()
-        self.searchBarView.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -938,7 +939,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -1092,9 +1093,11 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 }
                 Thread.OnMainThread { [weak self] in
                     self?.presentingVC?.navigationController?.dismiss(animated: false, completion: {
-                        UIApplication.topViewController()?.navigationController?.dismiss(animated: false, completion: {
-                            UIApplication.topViewController()?.tabBarController?.selectedIndex = 1
-                        })
+                        let SDKManager = SDKManager.shared
+                        if let tab = SDKManager.currentTabBar  {
+                            ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                            tab.selectedIndex = 1
+                        }
                     })
                     
                 }

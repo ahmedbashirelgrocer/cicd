@@ -42,6 +42,6 @@ class MixpanelManager {
     }
     
     class func setIdentity(_ email : String, isSmile : Bool) {
-        self.mixInstance?.people.set(properties: [ "$User_Email": email, "$User_SmilesSDK": isSmile])
+        self.mixInstance?.people.set(properties: [ "$email": email, "$User_SmilesSDK": isSmile])
     }
 }

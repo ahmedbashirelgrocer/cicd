@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9oE-gi-UHu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9oE-gi-UHu">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -101,6 +101,18 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wP7-aI-Yzh">
+                                                <rect key="frame" x="307" y="22.666666666666671" width="60" height="30"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="Bkg-pn-7ER"/>
+                                                    <constraint firstAttribute="width" constant="60" id="Obt-a1-yp9"/>
+                                                </constraints>
+                                                <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <segue destination="qIo-hB-yCV" kind="show" id="TlE-8E-og5"/>
+                                                </connections>
+                                            </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B7n-Be-zV5">
                                                 <rect key="frame" x="20" y="70" width="335" height="65"/>
                                                 <subviews>
@@ -373,9 +385,11 @@
                                             <constraint firstItem="Kl5-lj-vka" firstAttribute="height" secondItem="B7n-Be-zV5" secondAttribute="height" id="eJU-ZF-cX3"/>
                                             <constraint firstAttribute="trailing" secondItem="ai7-to-hc6" secondAttribute="trailing" constant="20" symbolic="YES" id="eXp-gY-Yxt"/>
                                             <constraint firstItem="mxU-cj-pdV" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="fTe-5y-kgU"/>
+                                            <constraint firstItem="wP7-aI-Yzh" firstAttribute="centerY" secondItem="GF6-Tw-DwR" secondAttribute="centerY" id="ho4-BR-YLv"/>
                                             <constraint firstItem="k31-UU-hLw" firstAttribute="height" secondItem="B7n-Be-zV5" secondAttribute="height" id="imn-FX-kxI"/>
                                             <constraint firstAttribute="bottom" secondItem="lnq-VV-Z4o" secondAttribute="bottom" constant="15" id="jCl-hB-eVu"/>
                                             <constraint firstItem="mxU-cj-pdV" firstAttribute="top" secondItem="eFC-es-DNH" secondAttribute="bottom" constant="10" id="nFm-7C-c9a"/>
+                                            <constraint firstAttribute="trailing" secondItem="wP7-aI-Yzh" secondAttribute="trailing" constant="8" id="oCL-Ew-0hx"/>
                                             <constraint firstItem="GF6-Tw-DwR" firstAttribute="top" secondItem="Utn-j6-G1T" secondAttribute="top" constant="20" symbolic="YES" id="sbp-1B-lOu"/>
                                             <constraint firstItem="ai7-to-hc6" firstAttribute="top" secondItem="B7n-Be-zV5" secondAttribute="bottom" constant="10" id="t36-HE-Mx2"/>
                                             <constraint firstAttribute="trailing" secondItem="yfB-Nd-mie" secondAttribute="trailing" constant="20" symbolic="YES" id="t6f-vn-mFd"/>
@@ -425,11 +439,46 @@
             </objects>
             <point key="canvasLocation" x="2836" y="558.62068965517244"/>
         </scene>
-        <!--Item 1-->
+        <!--View Controller-->
+        <scene sceneID="hB0-TP-7A2">
+            <objects>
+                <viewController id="qIo-hB-yCV" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="VJD-d5-i9F"/>
+                        <viewControllerLayoutGuide type="bottom" id="gRF-Ng-IUc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oIv-Kh-iou">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Qyh-E9-pQa">
+                                <rect key="frame" x="16" y="88" width="343" height="641"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">Deep link example   https://https://smiles://exy-too-trana//elgrocer://Chat=1,StoreID=16,retailer_id=16,BrandID=16&amp;apn=ae.etisalat.smiles&amp;ibi=Etisalat.House&amp;isi=1225034537&amp;ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp  https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18   Pay load for push shoould be valid json i.e   {\"origin\":\"el-grocer-api\"}  </string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Qyh-E9-pQa" secondAttribute="trailing" id="RHf-UW-1ek"/>
+                            <constraint firstItem="Qyh-E9-pQa" firstAttribute="leading" secondItem="oIv-Kh-iou" secondAttribute="leadingMargin" id="X8S-v0-AHh"/>
+                            <constraint firstItem="gRF-Ng-IUc" firstAttribute="top" secondItem="Qyh-E9-pQa" secondAttribute="bottom" id="inU-Vs-let"/>
+                            <constraint firstItem="Qyh-E9-pQa" firstAttribute="top" secondItem="VJD-d5-i9F" secondAttribute="bottom" id="moh-9L-dmL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Heb-PZ-6eS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5jp-wL-rQw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3615" y="565"/>
+        </scene>
+        <!--Page 1-->
         <scene sceneID="wk8-He-4id">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5pQ-Kt-ByP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item 1" id="bBl-RI-o2g"/>
+                    <tabBarItem key="tabBarItem" title="Page 1" id="bBl-RI-o2g"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vdJ-TO-dXw">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -444,11 +493,11 @@
             </objects>
             <point key="canvasLocation" x="68" y="-186.20689655172416"/>
         </scene>
-        <!--Item-->
+        <!--Page 2-->
         <scene sceneID="MCN-Yc-wxI">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="q8X-Zx-HZw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="tbV-Ky-GMA"/>
+                    <tabBarItem key="tabBarItem" title="Page 2" id="tbV-Ky-GMA"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PDj-Ct-xAS">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -463,12 +512,11 @@
             </objects>
             <point key="canvasLocation" x="68" y="559"/>
         </scene>
-        <!--Item-->
+        <!--Smile-->
         <scene sceneID="7eg-Va-IoH">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bkK-Kb-5CI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UL0-9c-u2j" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="OVh-lu-lfy"/>
+                    <tabBarItem key="tabBarItem" title="Smile" id="OVh-lu-lfy"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pf2-QM-H83">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -479,6 +527,7 @@
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="p40-Vp-0XW"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bkK-Kb-5CI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1893.5999999999999" y="558.62068965517244"/>
         </scene>
@@ -487,6 +536,9 @@
         <namedColor name="awaitLoadingMessageColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

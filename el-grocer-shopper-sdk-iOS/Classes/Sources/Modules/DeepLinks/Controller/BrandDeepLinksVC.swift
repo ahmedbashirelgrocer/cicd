@@ -791,6 +791,7 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
             
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
+                self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
                 let title = scrollView.contentOffset.y > 40 ? localizedString("lbl_goToStore", comment: ""): ""
                 self.titleLabel.text = title
                     //self.addCustomTitleViewLeftSide(title)

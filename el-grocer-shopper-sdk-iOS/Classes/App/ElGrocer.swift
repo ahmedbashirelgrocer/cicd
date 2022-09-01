@@ -19,10 +19,13 @@ public final class ElGrocer {
     
     public static func startEngine(with launchOptions: LaunchOptions? = nil) {
         defer {
-            ElGrocer.isSDKLoaded = true
-        }
-        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             
+            ElGrocer.isSDKLoaded = true
+            FireBaseEventsLogger.trackCustomEvent(eventType: "launchOptions", action: "SmileSDk: \(SDKManager.isSmileSDK ? "YES": "NO")", ["payload" : launchOptions?.pushNotificationPayload ?? "Nil", "deeplink" : launchOptions?.deepLinkPayload ?? "Nil", "phone" : launchOptions?.accountNumber ?? "Nil", "ID" : launchOptions?.loyaltyID ?? "Nil"], false)
+            
+        }
+        
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             
             func basicHomeViewSetUp() {
                 if let launchOptions = launchOptions {
@@ -53,7 +56,8 @@ public final class ElGrocer {
         }
        
     }
-    public static func startEngine(with launchOptions: LaunchOptions? = nil, _ deepLink : URL?) {
+    
+    /*public static func startEngine(with launchOptions: LaunchOptions? = nil, _ deepLink : URL?) {
         
         defer {
             ElGrocer.isSDKLoaded = true
@@ -75,7 +79,7 @@ public final class ElGrocer {
         if let url = deepLink {
             ElGrocerDynamicLink.handleDeepLink(url)
         }
-    }
+    }*/
   
 }
 

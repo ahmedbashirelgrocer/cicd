@@ -1985,7 +1985,7 @@ Oreo";
 "No" = "No";
 "lbl_StartShopping" = "Start Shopping";
 
-//MARK: Apply promoCode controller
+    //MARK: Apply promoCode controller
 "title_apply_promo" = "Apply Promocode";
 "title_available_promo" = "Available Promocodes";
 "txt_view_details" = "View details";

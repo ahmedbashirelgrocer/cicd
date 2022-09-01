@@ -128,7 +128,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     
     @IBAction func onUpdateButtonClick(_ sender: AnyObject) {
         
-        guard self.userProfile.phone == self.phoneTextField.text else {
+        guard self.userProfile.phone == self.finalPhoneNumber else {
             self.checkPhoneExistense()
             return
         }

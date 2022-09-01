@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -44,7 +44,7 @@
         <!--Orders View Controller-->
         <scene sceneID="ek3-Oy-n9G">
             <objects>
-                <viewController storyboardIdentifier="OrdersViewController" id="VT5-p0-2OW" customClass="OrdersViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrdersViewController" id="VT5-p0-2OW" customClass="OrdersViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9Xw-O5-mpQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -58,10 +58,10 @@
                                     <outlet property="delegate" destination="VT5-p0-2OW" id="952-Wc-dLM"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zX8-QI-cXT" customClass="ElgrocerSwitchAppView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zX8-QI-cXT" customClass="ElgrocerSwitchAppView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="8" width="320" height="44"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hoa-iq-n6y" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hoa-iq-n6y" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="16" y="1.5" width="140" height="36"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="czY-QA-Fe0">
@@ -115,7 +115,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="laU-S1-Wns" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="laU-S1-Wns" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="171" y="1.5" width="133" height="36"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aUj-f9-2sS">
@@ -217,7 +217,7 @@
         <!--My Basket View Controller-->
         <scene sceneID="fOh-w8-yjg">
             <objects>
-                <viewController storyboardIdentifier="MyBasketViewController" id="5cd-VT-yAn" customClass="MyBasketViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyBasketViewController" id="5cd-VT-yAn" customClass="MyBasketViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0qq-1V-2ol">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -228,7 +228,7 @@
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="110"/>
                                 <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BasketCell" rowHeight="147" id="luz-D9-5Sz" customClass="MyBasketTableViewCell" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BasketCell" rowHeight="147" id="luz-D9-5Sz" customClass="MyBasketTableViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="320" height="147"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="luz-D9-5Sz" id="GjY-d7-DWi">
@@ -241,7 +241,7 @@
                                                         <visualEffectView opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GjR-km-IpO">
                                                             <rect key="frame" x="0.0" y="0.0" width="187.5" height="70"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gf0-jW-udv">
-                                                                <rect key="frame" x="0.0" y="0.0" width="187.5" height="70"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="187" height="70"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T6g-Wn-96n">
@@ -325,7 +325,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8i-8k-fAf" userLabel="BaseView" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8i-8k-fAf" userLabel="BaseView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                     <rect key="frame" x="15" y="6" width="288" height="132"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gQ9-Qr-W1U">
@@ -396,7 +396,7 @@
                                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vla-VJ-N7e" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vla-VJ-N7e" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                                     <rect key="frame" x="66" y="0.0" width="44" height="32"/>
                                                                     <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
@@ -671,10 +671,10 @@
                                             <constraint firstItem="4xg-Wy-TYZ" firstAttribute="leading" secondItem="6sR-0g-hQB" secondAttribute="trailing" constant="8" id="uBe-jr-Oae"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lm-ax-Y5c" userLabel="CheckoutDetails" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lm-ax-Y5c" userLabel="CheckoutDetails" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="36" width="320" height="88"/>
                                         <subviews>
-                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vgp-FH-Ae6" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vgp-FH-Ae6" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="21" width="288" height="56"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ng8-kE-2Qp">
@@ -813,7 +813,7 @@
                                     <constraint firstAttribute="height" constant="76" id="XfG-L1-w4D"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yG8-jT-gaf" userLabel="SignUp View" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yG8-jT-gaf" userLabel="SignUp View" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="-149" width="288" height="133"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="251" image="MYBasketSignInView" translatesAutoresizingMaskIntoConstraints="NO" id="61I-qZ-Kba">
@@ -826,7 +826,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hk-0f-hil" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hk-0f-hil" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="74" y="63.5" width="98" height="36"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -847,7 +847,7 @@
                                             <action selector="signInAction:" destination="5cd-VT-yAn" eventType="touchUpInside" id="Zz5-Lt-xl9"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6G-7r-Uee" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6G-7r-Uee" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="188" y="63.5" width="98" height="36"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -868,7 +868,7 @@
                                             <action selector="signUpAction:" destination="5cd-VT-yAn" eventType="touchUpInside" id="g0t-oi-Ro5"/>
                                         </connections>
                                     </button>
-                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W6C-hf-AbI" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W6C-hf-AbI" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="74" y="63.5" width="198" height="36"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vkO-00-WUc">
@@ -971,11 +971,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uqv-yR-y22" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <view clipsSubviews="YES" contentMode="scaleToFill" id="vbO-cm-eJi" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                <view clipsSubviews="YES" contentMode="scaleToFill" id="vbO-cm-eJi" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="248"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Njj-eR-WSH" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Njj-eR-WSH" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="248"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recommended Products for You" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rBn-Zc-CdT">
@@ -988,7 +988,7 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p3X-uu-Mra" userLabel="CarouselView" customClass="CarouselProductsView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p3X-uu-Mra" userLabel="CarouselView" customClass="CarouselProductsView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="30" width="320" height="218"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
@@ -1039,7 +1039,7 @@
         <!--Order Summary View Controller-->
         <scene sceneID="RLp-Ax-rf1">
             <objects>
-                <viewController storyboardIdentifier="OrderSummaryViewController" hidesBottomBarWhenPushed="YES" id="2Gp-mT-YkK" customClass="OrderSummaryViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrderSummaryViewController" hidesBottomBarWhenPushed="YES" id="2Gp-mT-YkK" customClass="OrderSummaryViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ACQ-HW-WAT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1384,7 +1384,7 @@
         <!--Order Payment Selection View Controller-->
         <scene sceneID="KVe-rD-Cra">
             <objects>
-                <viewController storyboardIdentifier="OrderPaymentSelectionViewController" hidesBottomBarWhenPushed="YES" id="Og5-1D-WMh" customClass="OrderPaymentSelectionViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrderPaymentSelectionViewController" hidesBottomBarWhenPushed="YES" id="Og5-1D-WMh" customClass="OrderPaymentSelectionViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FoU-jI-I4n">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1451,7 +1451,7 @@
         <!--Order Tracking View Controller-->
         <scene sceneID="joz-1g-fkm">
             <objects>
-                <viewController storyboardIdentifier="OrderTrackingVC" id="Jh4-nH-QC2" customClass="OrderTrackingViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrderTrackingVC" id="Jh4-nH-QC2" customClass="OrderTrackingViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ylC-Gl-QO9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1460,7 +1460,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OrderPriceCell" rowHeight="25" id="hNm-zr-Nt5" customClass="PlaceOrderTableViewCell" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OrderPriceCell" rowHeight="25" id="hNm-zr-Nt5" customClass="PlaceOrderTableViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="320" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hNm-zr-Nt5" id="kot-bz-WH7">
@@ -1525,7 +1525,7 @@
         <!--Order Confirmation View Controller-->
         <scene sceneID="Vsq-Nm-2ec">
             <objects>
-                <viewController storyboardIdentifier="OrderConfirmationViewController" hidesBottomBarWhenPushed="YES" id="U1u-Hs-qN6" customClass="OrderConfirmationViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrderConfirmationViewController" hidesBottomBarWhenPushed="YES" id="U1u-Hs-qN6" customClass="OrderConfirmationViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Az7-fZ-zsI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1541,10 +1541,10 @@
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6EX-B1-ngV" userLabel="CheckOutView">
                                 <rect key="frame" x="0.0" y="483" width="320" height="85"/>
                                 <subviews>
-                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U57-9w-gQK" userLabel="CheckoutDetails" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U57-9w-gQK" userLabel="CheckoutDetails" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="85"/>
                                         <subviews>
-                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wve-ue-l7V" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wve-ue-l7V" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="8" width="288" height="56"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Continue shopping" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OdX-Ul-Ol7">
@@ -1623,7 +1623,7 @@
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wHt-ws-JnM" userLabel="candcCheckOut">
                                 <rect key="frame" x="0.0" y="427" width="320" height="141"/>
                                 <subviews>
-                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cw2-fx-Yf0" userLabel="CheckoutDetails" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cw2-fx-Yf0" userLabel="CheckoutDetails" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="1" width="320" height="140"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What’s your current status?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g5p-B1-5y1">
@@ -1635,7 +1635,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gNd-eq-XPX" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gNd-eq-XPX" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="53" width="136" height="56"/>
                                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -1653,7 +1653,7 @@
                                                     <action selector="atTheStoreHandler:" destination="U1u-Hs-qN6" eventType="touchUpInside" id="W1d-eA-3Cs"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rop-tn-9T0" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rop-tn-9T0" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="168" y="53" width="136" height="56"/>
                                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -1812,7 +1812,7 @@
                                     <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7a-Sa-1xi" userLabel="slots" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7a-Sa-1xi" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                     <rect key="frame" x="16" y="11" width="288" height="41"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ClockIcon" translatesAutoresizingMaskIntoConstraints="NO" id="JIs-5K-x9n">
@@ -1862,7 +1862,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gaC-3w-jaH" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gaC-3w-jaH" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                             <rect key="frame" x="161" y="13" width="117" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="117" id="uxw-J0-1Ay"/>
@@ -1916,7 +1916,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="21q-pO-9gd">
                                             <rect key="frame" x="15" y="10" width="64.5" height="24"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EIy-Tw-Wgm" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EIy-Tw-Wgm" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="8" width="64.5" height="8"/>
                                                     <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
@@ -1945,7 +1945,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y4n-Rb-bKP">
                                             <rect key="frame" x="89.5" y="10" width="64" height="24"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wZu-cr-iDZ" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wZu-cr-iDZ" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="8" width="64" height="8"/>
                                                     <color key="backgroundColor" red="0.34901960784313724" green="0.34901960784313724" blue="0.34901960784313724" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -1969,7 +1969,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JH4-Ja-0RQ">
                                             <rect key="frame" x="163.5" y="10" width="64.5" height="24"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBq-5f-VI7" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBq-5f-VI7" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="8" width="64.5" height="8"/>
                                                     <color key="backgroundColor" red="0.34901960784313724" green="0.34901960784313724" blue="0.34901960784313724" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -1993,7 +1993,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rH2-I6-CPQ">
                                             <rect key="frame" x="238" y="10" width="64.5" height="24"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mfi-pF-Aj4" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mfi-pF-Aj4" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="8" width="64.5" height="8"/>
                                                     <color key="backgroundColor" red="0.34901960784313724" green="0.34901960784313724" blue="0.34901960784313724" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -2077,7 +2077,7 @@
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ke7-lT-2hE">
                                     <rect key="frame" x="0.0" y="190" width="320" height="60"/>
                                     <subviews>
-                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tqd-BW-FbE" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tqd-BW-FbE" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                             <rect key="frame" x="16" y="16" width="288" height="42"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="251" image="infoAlertIcon" translatesAutoresizingMaskIntoConstraints="NO" id="xL8-f5-RxI">
@@ -2121,7 +2121,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1bv-Mn-W3Z">
                                     <rect key="frame" x="0.0" y="251" width="320" height="53"/>
                                     <subviews>
-                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a9M-iP-dpb" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a9M-iP-dpb" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                             <rect key="frame" x="16" y="10" width="288" height="42"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="251" image="infoAlertIcon" translatesAutoresizingMaskIntoConstraints="NO" id="MIH-PL-QfC">
@@ -2158,7 +2158,7 @@
                                         <constraint firstAttribute="trailing" secondItem="a9M-iP-dpb" secondAttribute="trailing" constant="16" id="aP7-lZ-Mrg"/>
                                     </constraints>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8E-Td-Q2j" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8E-Td-Q2j" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                     <rect key="frame" x="16" y="328" width="288" height="44"/>
                                     <color key="backgroundColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
@@ -2184,7 +2184,7 @@
                                         <action selector="editOrderHandler:" destination="U1u-Hs-qN6" eventType="touchUpInside" id="H6J-1v-MsC"/>
                                     </connections>
                                 </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JpF-OL-Iyd" userLabel="Assistance" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JpF-OL-Iyd" userLabel="Assistance" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                     <rect key="frame" x="16" y="396" width="288" height="41"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need more support?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="vfw-4E-4dG">
@@ -2288,12 +2288,12 @@
         <!--Order Details View Controller-->
         <scene sceneID="MER-g5-pO0">
             <objects>
-                <viewController storyboardIdentifier="OrderDetailsViewController" hidesBottomBarWhenPushed="YES" id="Kom-7D-c6H" customClass="OrderDetailsViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrderDetailsViewController" hidesBottomBarWhenPushed="YES" id="Kom-7D-c6H" customClass="OrderDetailsViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ecu-8M-EpK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nu4-mQ-LVK" userLabel="Assistance" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nu4-mQ-LVK" userLabel="Assistance" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="15" y="0.0" width="290" height="0.0"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need more support?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000001192092896" translatesAutoresizingMaskIntoConstraints="NO" id="Wsp-e3-x5Y">
@@ -2349,10 +2349,10 @@
                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6uv-YA-uOe">
                                 <rect key="frame" x="0.0" y="400" width="320" height="80"/>
                                 <subviews>
-                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ifd-YM-ixd" userLabel="buttonsContainer" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ifd-YM-ixd" userLabel="buttonsContainer" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="8" width="320" height="72"/>
                                         <subviews>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8j9-dZ-MTz" userLabel="reOrderButton" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8j9-dZ-MTz" userLabel="reOrderButton" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="8" width="288" height="56"/>
                                                 <color key="backgroundColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <inset key="titleEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -2411,7 +2411,7 @@
                             <view hidden="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ck-3d-Nyt" userLabel="candcCheckOut">
                                 <rect key="frame" x="0.0" y="360" width="320" height="120"/>
                                 <subviews>
-                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cWS-Op-e5k" userLabel="CheckoutDetails" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cWS-Op-e5k" userLabel="CheckoutDetails" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What’s your current status?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azu-VQ-N9f">
@@ -2423,7 +2423,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sD-Uv-yWL" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sD-Uv-yWL" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="53" width="136" height="56"/>
                                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -2441,7 +2441,7 @@
                                                     <action selector="atTheStoreHandler:" destination="Kom-7D-c6H" eventType="touchUpInside" id="025-hG-XHh"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vsp-vq-p7c" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vsp-vq-p7c" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="168" y="53" width="136" height="56"/>
                                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -2543,7 +2543,7 @@
         <!--Order StatusVC-->
         <scene sceneID="k5K-27-qLZ">
             <objects>
-                <viewController storyboardIdentifier="OrderStatusVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jJo-1i-RaJ" customClass="OrderStatusVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrderStatusVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jJo-1i-RaJ" customClass="OrderStatusVC" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="F0C-dg-JdA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

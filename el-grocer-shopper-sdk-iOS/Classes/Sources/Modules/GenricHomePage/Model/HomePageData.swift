@@ -94,10 +94,12 @@ class HomePageData  {
         self.isFetchingTimeLogEnable = logEnable
         self.resetHomeDataHandler()
         self.fetchOrder = []
-        self.fetchOrder = [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners , .AllChefForDeliveryStores , .FeatureRecipesOfAllDeliveryStore]
+        self.fetchOrder = SDKManager.isSmileSDK ?  [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners] : [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners , .AllChefForDeliveryStores , .FeatureRecipesOfAllDeliveryStore]
         self.isDataLoading = true
         if self.isFetchingTimeLogEnable { self.startFetchingTime = Date() }
         self.startFetching()
+        SDKManager.shared.homeLastFetch = Date()
+        
     }
     
     func fetchStoreData( _ logEnable : Bool = false) {

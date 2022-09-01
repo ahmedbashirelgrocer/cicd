@@ -70,7 +70,7 @@ class ApplyPromoCell: UITableViewCell {
     @IBOutlet var btnRedeem: AWButton! {
         didSet {
                 //            btnRedeem.setBody3BoldGreenStyle()
-            btnRedeem.setTitle(NSLocalizedString("txt_btn_apply", comment: ""), for: UIControl.State())
+            btnRedeem.setTitle(localizedString("txt_btn_apply", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var imgVoucherCupon: UIImageView! {
@@ -98,7 +98,7 @@ class ApplyPromoCell: UITableViewCell {
     @IBOutlet var lblApplied: UILabel! {
         didSet {
             lblApplied.setCaptionOneBoldGreyStyle()
-            lblApplied.text = "(" + NSLocalizedString("txt_btn_applied", comment: "") + ")"
+            lblApplied.text = "(" + localizedString("txt_btn_applied", comment: "") + ")"
         }
     }
     
@@ -145,11 +145,11 @@ class ApplyPromoCell: UITableViewCell {
     fileprivate func setViewDetailsButtonView(isExpanded: Bool) {
         if isExpanded {
             self.lblVoucherDetails.visibility = .visible
-            self.lblViewDetails.text = NSLocalizedString("txt_hide_details", comment: "")
+            self.lblViewDetails.text = localizedString("txt_hide_details", comment: "")
             self.imgArrowViewDetails.image = UIImage(named: "arrowUp16")
         }else {
             self.lblVoucherDetails.visibility = .gone
-            self.lblViewDetails.text = NSLocalizedString("txt_view_details", comment: "")
+            self.lblViewDetails.text = localizedString("txt_view_details", comment: "")
             self.imgArrowViewDetails.image = UIImage(named: "arrowDown16")
         }
     }
@@ -157,17 +157,17 @@ class ApplyPromoCell: UITableViewCell {
     func showInfoMessage (isHidden: Bool = false, message: String = "") {
         self.promoMessageBGView.isHidden = isHidden
         self.btnRedeem.isHidden = !isHidden
-        self.lblPromoMessage.text = NSLocalizedString("txt_add_to_use_initial", comment: "") + " \(message) " + NSLocalizedString("txt_add_to_use_end", comment: "")
+        self.lblPromoMessage.text = localizedString("txt_add_to_use_initial", comment: "") + " \(message) " + localizedString("txt_add_to_use_end", comment: "")
     }
     fileprivate func setApplyButtonState(isApplied: Bool = false) {
         self.isApplied = isApplied
         Thread.OnMainThread { [weak self] in
             if isApplied {
-                self?.btnRedeem.setTitle(NSLocalizedString("txt_remove", comment: ""), for: UIControl.State())
+                self?.btnRedeem.setTitle(localizedString("txt_remove", comment: ""), for: UIControl.State())
                 self?.btnRedeem.setTitleColor(.textfieldErrorColor(), for: UIControl.State())
                 self?.lblAppliedBGView.isHidden = false
             }else {
-                self?.btnRedeem.setTitle(NSLocalizedString("txt_btn_apply", comment: ""), for: UIControl.State())
+                self?.btnRedeem.setTitle(localizedString("txt_btn_apply", comment: ""), for: UIControl.State())
                 self?.btnRedeem.setTitleColor(.navigationBarColor(), for: UIControl.State())
                 self?.lblAppliedBGView.isHidden = true
             }

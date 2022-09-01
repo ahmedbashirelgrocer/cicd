@@ -898,6 +898,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
+            self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
         }

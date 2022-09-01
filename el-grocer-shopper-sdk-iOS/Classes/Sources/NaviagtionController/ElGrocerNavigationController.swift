@@ -51,6 +51,8 @@ class ElGrocerNavigationController : UINavigationController {
         //self.navigationBar.inputView?.layer.insertSublayer(gradient2, at: 2)
         
     }
+    
+   
    
     
     override func viewDidLoad() {
@@ -86,7 +88,7 @@ class ElGrocerNavigationController : UINavigationController {
 
     func hideSeparationLine() -> Void {
         
-        self.navigationBar.clipsToBounds = true
+        //self.navigationBar.clipsToBounds = true
         self.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationBar.shadowImage = UIImage()
     }

@@ -54,6 +54,10 @@ class ViewController: UIViewController {
         self.setDefaultData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.selectedIndex = 2
+    }
+    
     @IBAction func btnGoToSDK(_ sender: Any) {
         self.startSDK()
     }
@@ -65,7 +69,7 @@ class ViewController: UIViewController {
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = ""
         txtEmail.text = ""
-        txtPushPayload.text =  "{\"origin\":\"el-grocer-api\"}"
+        txtPushPayload.text =  "" //"{\"origin\":\"el-grocer-api\"}"
         txtDLPayload.text = nil // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "Base"
     }
@@ -80,6 +84,8 @@ class ViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
+        
+      //  self.txtDLPayload.text = "https://https://smiles://exy-too-trana//elgrocer://Chat=1,StoreID=16,retailer_id=16,BrandID=16&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp"
         
         let launchOptions = LaunchOptions(
             accountNumber: txtAccountNumber.text,

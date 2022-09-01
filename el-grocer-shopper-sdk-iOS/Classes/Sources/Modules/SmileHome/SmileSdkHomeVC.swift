@@ -90,6 +90,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setChatIconColor(.navigationBarWhiteColor())
             controller.setSideMenuButtonHidden(false)
             controller.setCartButtonHidden(false)
+            controller.setBackButtonHidden(false)
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
            // controller.setBackButtonHidden(false)
@@ -354,9 +355,14 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
-            return
+            return self.tableView.reloadDataOnMain()
         }
-        if !((self.locationHeader.loadedAddress?.latitude == address.latitude) && (self.locationHeader.loadedAddress?.longitude == address.longitude)){
+        
+        var lastFetchMin = 0.0
+        if  let lastCheckDate = SDKManager.shared.homeLastFetch {
+            lastFetchMin = Date().timeIntervalSince(lastCheckDate) / 60
+        }
+        if !((self.locationHeader.loadedAddress?.latitude == address.latitude) && (self.locationHeader.loadedAddress?.longitude == address.longitude)) || lastFetchMin > 15 {
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
             self.setTableViewHeader()
@@ -604,10 +610,6 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.filteredGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
             
         }
-        
-        
-       
-        
         return UITableView.automaticDimension
     }
     
@@ -883,7 +885,7 @@ extension SmileSdkHomeVC : UICollectionViewDelegate , UICollectionViewDataSource
         let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
         navigationController.hideSeparationLine()
         navigationController.viewControllers = [orderConfirmationController]
-        orderConfirmationController.modalPresentationStyle = .fullScreen
+       // orderConfirmationController.modalPresentationStyle = .fullScreen
         navigationController.modalPresentationStyle = .fullScreen
         self.navigationController?.present(navigationController, animated: true, completion: {  })
     }

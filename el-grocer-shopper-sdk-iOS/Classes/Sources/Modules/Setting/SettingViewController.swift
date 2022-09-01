@@ -53,7 +53,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        setupClearNavBar()
         // Do any additional setup after loading the view.
         if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.lblversionNumber.text = "v" + " " + version
@@ -166,16 +166,16 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setNewLightBackgroundColor()
+            //(self.navigationController as? ElGrocerNavigationController)?.setNewLightBackgroundColor()
             
         }
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
          (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
          (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         self.title = localizedString("Profile_Title", comment: "")
-        self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.backgroundColor = .navigationBarWhiteColor()
+//        self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.backgroundColor = .navigationBarWhiteColor()
         self.view.backgroundColor = .navigationBarWhiteColor()
         
         
