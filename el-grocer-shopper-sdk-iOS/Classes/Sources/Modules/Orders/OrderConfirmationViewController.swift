@@ -360,7 +360,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         if isNeedToDoViewAllocation {
             
-           // (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)

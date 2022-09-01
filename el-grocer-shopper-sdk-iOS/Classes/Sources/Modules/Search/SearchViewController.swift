@@ -118,7 +118,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
 
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        self.setupClearNavBar()
         if isNavigateToSearch == true {
             self.title = localizedString("search_placeholder", comment: "")
             self.addRightCrossButton(true)
@@ -180,6 +180,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
       
         
         // self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
@@ -189,7 +190,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.locationHeader.setSlotData()
         if isNeedToHideSearchBar {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            addBackButton(isGreen: false)
+            //addBackButton(isGreen: true)
+            //addBackButtonWithCrossIconRightSide()
         }
         
         if isNeedToHideSearchBar {
@@ -219,7 +221,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.view.layoutIfNeeded()
        
         self.navigationItem.hidesBackButton = true
-        searchBgView.backgroundColor = .navigationBarColor()
+        searchBgView.backgroundColor =  SDKManager.isSmileSDK ? .smileBaseColor() : .navigationBarColor()
         self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = .tableViewBackgroundColor()
     }
@@ -1122,7 +1124,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor :  UIColor.navigationBarColor().cgColor
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor
