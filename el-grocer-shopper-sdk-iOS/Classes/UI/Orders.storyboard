@@ -241,14 +241,14 @@
                                                         <visualEffectView opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GjR-km-IpO">
                                                             <rect key="frame" x="0.0" y="0.0" width="187.5" height="70"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gf0-jW-udv">
-                                                                <rect key="frame" x="0.0" y="0.0" width="187" height="70"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="187.5" height="70"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T6g-Wn-96n">
-                                                                        <rect key="frame" x="0.0" y="-2" width="182" height="68"/>
+                                                                        <rect key="frame" x="-1" y="-3" width="183.5" height="68"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="0DX-rL-rLs">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="182" height="68"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="183.5" height="68"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </view>
                                                                         <vibrancyEffect>
@@ -342,20 +342,20 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5A-eN-FJ2">
-                                                            <rect key="frame" x="114" y="11" width="166" height="17"/>
+                                                            <rect key="frame" x="114" y="11" width="166" height="16.5"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Price Loading" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afC-O9-8PK">
-                                                            <rect key="frame" x="114" y="32" width="166" height="14.5"/>
+                                                            <rect key="frame" x="114" y="31.5" width="166" height="16.5"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="14"/>
                                                             <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Loading" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.90000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="Ypk-M2-qRD">
-                                                            <rect key="frame" x="114" y="106" width="60.5" height="20"/>
+                                                            <rect key="frame" x="114" y="106" width="61.5" height="20"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
                                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -678,21 +678,21 @@
                                                 <rect key="frame" x="16" y="21" width="288" height="56"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ng8-kE-2Qp">
-                                                        <rect key="frame" x="24" y="8" width="38" height="16"/>
+                                                        <rect key="frame" x="24" y="8" width="40.5" height="16"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="13"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AED 0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="trT-pc-g8I">
-                                                        <rect key="frame" x="24" y="26" width="181.5" height="19"/>
+                                                        <rect key="frame" x="24" y="26" width="178.5" height="19"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="16"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="ORDER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="KoB-mi-Nfi">
-                                                        <rect key="frame" x="207.5" y="18.5" width="52.5" height="19"/>
+                                                        <rect key="frame" x="204.5" y="18.5" width="55.5" height="19"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="16"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -813,21 +813,21 @@
                                     <constraint firstAttribute="height" constant="76" id="XfG-L1-w4D"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yG8-jT-gaf" userLabel="SignUp View" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yG8-jT-gaf" userLabel="SignUp View" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="-149" width="288" height="133"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="251" image="MYBasketSignInView" translatesAutoresizingMaskIntoConstraints="NO" id="61I-qZ-Kba">
                                         <rect key="frame" x="14" y="14" width="44" height="44"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To place your order please  Sign In or Sign Up to elGrocer" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rv6-qv-gPo">
-                                        <rect key="frame" x="74" y="14" width="198" height="33.5"/>
+                                        <rect key="frame" x="74" y="14" width="198" height="33"/>
                                         <color key="tintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hk-0f-hil" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="74" y="63.5" width="98" height="36"/>
+                                        <rect key="frame" x="74" y="63" width="98" height="36"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="98" id="CAC-Wi-Rjq"/>
@@ -848,7 +848,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d6G-7r-Uee" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="188" y="63.5" width="98" height="36"/>
+                                        <rect key="frame" x="188" y="63" width="98" height="36"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="Id7-l6-UaF"/>
@@ -869,7 +869,7 @@
                                         </connections>
                                     </button>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W6C-hf-AbI" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="74" y="63.5" width="198" height="36"/>
+                                        <rect key="frame" x="74" y="63" width="198" height="36"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vkO-00-WUc">
                                                 <rect key="frame" x="0.0" y="0.0" width="198" height="36"/>
@@ -963,6 +963,7 @@
                         <outlet property="minOrderProgressView" destination="W2e-hb-jDT" id="Jqs-5o-ONU"/>
                         <outlet property="placeOrderViewHeight" destination="Ous-LD-b0O" id="uDe-x0-BSa"/>
                         <outlet property="savedAmountBGView" destination="rpT-5c-FEn" id="JmA-MH-8at"/>
+                        <outlet property="signView" destination="yG8-jT-gaf" id="Hhs-dF-BgN"/>
                         <outlet property="tblBasket" destination="gyR-nv-B4g" id="b65-19-eYh"/>
                         <outlet property="tblFooterCheckOutView" destination="vbO-cm-eJi" id="IkL-LA-E5k"/>
                         <outlet property="tblViewYPossition" destination="NKY-xu-IAB" id="THz-o4-GI3"/>
@@ -1823,7 +1824,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery: Today 8:30am" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6L8-3E-hPG">
-                                            <rect key="frame" x="39" y="12.5" width="128" height="16"/>
+                                            <rect key="frame" x="39" y="12.5" width="125" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="ZGN-12-trK"/>
                                             </constraints>
@@ -2022,25 +2023,25 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lable" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRy-iA-s5k">
-                                            <rect key="frame" x="34.5" y="39" width="25.5" height="13.5"/>
+                                            <rect key="frame" x="33.5" y="39" width="27" height="13"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="11"/>
                                             <color key="textColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accepted" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaS-qN-Vtr">
-                                            <rect key="frame" x="99" y="39" width="44.5" height="13.5"/>
+                                            <rect key="frame" x="97.5" y="39" width="47.5" height="13"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="11"/>
                                             <color key="textColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="On the way" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cT-7A-0tT">
-                                            <rect key="frame" x="170" y="39" width="52" height="13.5"/>
+                                            <rect key="frame" x="168" y="39" width="56" height="13"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="11"/>
                                             <color key="textColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JiK-d0-kQh">
-                                            <rect key="frame" x="248.5" y="39" width="43.5" height="13.5"/>
+                                            <rect key="frame" x="247" y="39" width="46" height="13"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="11"/>
                                             <color key="textColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
@@ -2088,7 +2089,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTE : Fresh Fruits &amp; Vegetables, Meat and Seafood items prices may vary due to exact weights" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="l8Y-ht-bbP">
-                                                    <rect key="frame" x="42" y="8" width="241" height="27.5"/>
+                                                    <rect key="frame" x="42" y="8" width="241" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="10"/>
                                                     <color key="textColor" red="0.52549019607843139" green="0.51764705882352935" blue="0.52549019607843139" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2128,7 +2129,7 @@
                                                     <rect key="frame" x="14" y="10" width="16" height="16"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 10min to edit your order, else your last basket will be accepted" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-D7-4Ey">
-                                                    <rect key="frame" x="42" y="8" width="241" height="27.5"/>
+                                                    <rect key="frame" x="42" y="8" width="241" height="23.5"/>
                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="10"/>
                                                     <color key="textColor" red="0.52549019610000003" green="0.51764705879999995" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -2201,13 +2202,13 @@
                                             </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat with elGrocer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5WE-fh-VIH">
-                                            <rect key="frame" x="162" y="12" width="118" height="17"/>
+                                            <rect key="frame" x="163" y="12" width="117" height="17"/>
                                             <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="14"/>
                                             <color key="textColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OrderConfirmationNewChat" translatesAutoresizingMaskIntoConstraints="NO" id="oVA-cy-Djn">
-                                            <rect key="frame" x="136" y="8.5" width="24" height="24"/>
+                                            <rect key="frame" x="137" y="8.5" width="24" height="24"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2578,7 +2579,7 @@
     </scenes>
     <designables>
         <designable name="0hk-0f-hil">
-            <size key="intrinsicContentSize" width="50" height="29"/>
+            <size key="intrinsicContentSize" width="52" height="29"/>
         </designable>
         <designable name="2sD-Uv-yWL">
             <size key="intrinsicContentSize" width="80" height="30"/>
@@ -2593,16 +2594,16 @@
             <size key="intrinsicContentSize" width="76" height="30"/>
         </designable>
         <designable name="d6G-7r-Uee">
-            <size key="intrinsicContentSize" width="55" height="29"/>
+            <size key="intrinsicContentSize" width="57" height="29"/>
         </designable>
         <designable name="gNd-eq-XPX">
             <size key="intrinsicContentSize" width="80" height="30"/>
         </designable>
         <designable name="gaC-3w-jaH">
-            <size key="intrinsicContentSize" width="69" height="27"/>
+            <size key="intrinsicContentSize" width="67" height="26"/>
         </designable>
         <designable name="o8E-Td-Q2j">
-            <size key="intrinsicContentSize" width="51" height="27"/>
+            <size key="intrinsicContentSize" width="52" height="26"/>
         </designable>
         <designable name="vla-VJ-N7e">
             <size key="intrinsicContentSize" width="16" height="22"/>

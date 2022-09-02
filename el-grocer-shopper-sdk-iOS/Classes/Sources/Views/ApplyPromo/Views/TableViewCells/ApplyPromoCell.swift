@@ -206,6 +206,7 @@ class ApplyPromoCell: UITableViewCell {
         self.lblVoucherDetails.text = promoCode.detail
         self.viewDetailsBGView.isHidden = (promoCode.detail.count <= 0)
         self.isExpanded = isExpanded
+       // self.promoMessageBGView.isHidden = true
         self.setViewDetailsButtonView(isExpanded: isExpanded)
         setApplyButtonState(isApplied: isApplied)
     }

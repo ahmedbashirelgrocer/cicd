@@ -859,6 +859,78 @@
 "language_change_message" = "يتوجب عليك إعادة تشغيل التطبيق لتفعيل التغيير في اللغة";
 
     // FAQ's
+
+"faq_title_1" = "Where can I use El Grocer?";
+"faq_description_1" = "Our service is available across UAE (Dubai, Abu Dhabi, Al Ain, Sharjah, RAK, Fujairah, Umm Al Quwain & Ajman)";
+
+"faq_title_2" = "How do I receive my groceries?";
+"faq_description_2" = "Our partner stores take care of the delivery. Your order is transmitted in real-time to the store and delivery happens within 60 minutes for instant orders. We may contact you in case of substitution or any other queries. ";
+
+"faq_title_3" = "How do I pay for my groceries?";
+"faq_description_3" = "Payment options are Online Payment or Cash or Credit Card on Delivery or Smiles Points and these options vary from store to store.";
+
+"faq_title_4" = "Are the prices different compared to me just going to the store directly?";
+"faq_description_4" = "No difference! The prices are the same. The big advantage is that you do not have to waste time going to the store. Simply order all you need with just a few taps. ";
+
+"faq_title_5" = "How long do I have to wait for my groceries to arrive?";
+"faq_description_5" = "Your groceries will be brought to you as fast as possible; our partner stores will do their absolute best to deliver on time. However, this may be affected by delivery personnel availability and workload, roads or weather conditions, and the distance between the store and the delivery address. If there is any delay, we will make sure to inform you as early as possible. ";
+
+"faq_title_6" = "Can I track my orders?";
+"faq_description_6" = "You can track the status of your order by going to the 'My Orders' menu item. You will also be notified via push notifications. ";
+
+"faq_title_7" = "How do I get started?";
+"faq_description_7" = "Once you have downloaded the app, simply select your current location to see the list of partner stores available around you. Pick a store and start your grocery shopping experience. It is that simple! ";
+
+"faq_title_8" = "I’m new to this type of service. Can I browse your app first?";
+"faq_description_8" = "Yes, you can freely browse our app first before ordering. Once you open the app the first time, simply select 'Explore and Register later' option. The app will ask you to select your location and will show you the available stores in the area. After choosing a store and adding the products you want to your basket, you will be prompted to enter your contact details to proceed to checkout. ";
+
+"faq_title_9" = "Can I have multiple delivery addresses?";
+"faq_description_9" = "Absolutely! You can create multiple delivery addresses based on your preference";
+
+"faq_title_10" = "Is there any minimum order or delivery charge for deliveries?";
+"faq_description_10" = "elGrocer prices are the same as you see in stores. Some stores require more delivery men that work in shifts. This means minimum orders and delivery fees vary according to the retailer you order from. Smaller stores take orders with basket values as low as AED30. While in the case of some retailers that deliver in the same building or within 500m there are no delivery fees. All delivery terms are shown as details for our listed stores as well as on your order summary screen, where you are prompted to confirm your order. ";
+
+"faq_title_11" = "I have several products that I usually order. Can I have an option to select them without searching or browsing for them?";
+"faq_description_11" = "Absolutely. Products usually purchased are listed in Shopping history for easy selection. ";
+
+"faq_title_12" = "I can’t find the product that I am looking for?";
+"faq_description_12" = "The products you see in the app reflect our partner stores' inventories. We constantly update the products to provide accuracy and availability. If you cannot find what you need, please use the live chat feature so we can work with our partner stores to add the product (s). ";
+
+"faq_title_13" = "I received an update about my order mentioning that some items are not available?";
+"faq_description_13" = "If the store runs out of stock, you will get contacted and offered the option to select a substitute for the initial product. ";
+
+"faq_title_14" = "Can I schedule my delivery to be sent at a later time/day?";
+"faq_description_14" = "Yes, simply can choose the delivery Day and time that is suitable for you from checkout page ";
+
+"faq_title_15" = "Can I repeat the same order as one previously placed?";
+"faq_description_15" = "Yes, simply go to “My Orders“ and select “Re-Order”";
+
+"faq_title_16" = "How do I cancel my order?";
+"faq_description_16" = "Cancellation depends on the status of your order:
+- If your order is still under “pending“ status, you can edit your order and cancel it
+- If your order is under the “accepted“ status, it means that your order is still in the shop and can still be canceled. Please contact us over live chat so we can assist you
+- If your order is under the “En route“ status, it means that the delivery team is already out for delivery. Canceling an order under this status works on a case-by-case basis. Please contact us so we can coordinate with our partner store. ";
+
+"faq_title_17" = "I received an incorrect/defective product, what do I do?";
+"faq_description_17" = "We strongly recommend checking the products first. You have the option to refuse items if they are incorrect or in bad condition. Please contact us immediately so we can coordinate replacements with our partner stores. ";
+
+"faq_title_18" = "I just placed an order, have I been charged more than my amount?";
+"faq_description_18" = "We have not charged you yet, we have requested an amount to be on hold, and we request to hold an extra AED10 in for fresh items, extra weights, and OOS replacements ";
+
+"faq_title_19" = "I got 2 SMS about my payment; did you charge me twice?";
+"faq_description_19" = "No, the 1st SMS is likely to be from your bank, this is an amount we have requested to be on hold. The second SMS is from elGrocer, and this is the actual amount that we have charged your card at checkout in store. (After processing order with fresh items and OOS) ";
+
+"faq_title_20" = "I want to cancel my order, can you please refund my payment?";
+"faq_description_20" = " Your order will be cancelled, and the charges on your card will be cancelled. ";
+
+"faq_title_21" = "I placed an order, and then edited it to add more items. I have been charged twice.";
+"faq_description_21" = "The first charge will be cancelled automatically; we will only charge for the final amount of the edited order.";
+
+"faq_title_22" = "I made an order and paid online, can I add more items?";
+"faq_description_22" = "Yes, we will add the extra amount to charge your card once we check out from store.  ";
+
+
+/*
 "faq_title_1" = "أين يمكنني استخدام تطبيق el Grocer؟";
 "faq_description_1" = "نقدم خدماتنا حاليا في مدينة دبي ونغطي جميع المناطق التجارية والسكنية تقريبا ، ونعمل حاليا على توسيع نطاق تغطيتنا لنقدم خدمة أفضل، ونقوم بتوسيع خدماتنا بسرعة كبيرة وإضافة مناطق جديدة بشكل أسبوعي.";
 
@@ -909,6 +981,9 @@
 
 "faq_title_17" = "قمت باستلام منتج غير صحيح/ معيب. ماذا أفعل؟";
 "faq_description_17" = "ننصح وبشدة أن تتصفح المنتج أولا قبل أن تقوم بالدفع، لك كامل الحق لرفض المنتجات المعيبة أو التي في حالة سيئة. قم رجاء بالاتصال بنا فورا لنتمكن من عمل تبديل مع شركائنا المتاجر.";
+
+*/
+
 
 "how_invite_work_title" = "كيف تعمل الدعوات؟";
 "how_invite_work_description" = "سيتم إيداع 30 دراهم تلقائيا في حساب كل مستخدم جديد لتطبيق el Grocer إذا ما قام بتسجيل الدخول للتطبيق من خلال رمز الدعوة الخاص بك. وبمجرد أن يقوموا بطلبهم الأول، ستحصل أيضا على 10 دراهم في حسابك. إنها الطريقة الأسهل للحصول على بعض البقالة المجانية لذلك قم بمشاركة الحب مع أصدقائك!";

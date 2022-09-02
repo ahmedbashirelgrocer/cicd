@@ -353,24 +353,24 @@ class FireBaseEventsLogger  {
             }
         }
         
+        let currentTime = Date().timeIntervalSince1970
+        if let eventInMap = ElGrocerUtility.sharedInstance.eventMap[eventNameToSend], currentTime - eventInMap < 2000 {
+            if eventNameToSend == "EG_PromoCode"
+                || eventNameToSend == "EG_SmilesError"
+                || eventNameToSend == "EG_PayCreditCard"
+                || eventNameToSend == "EG_CheckoutTime"
+                || eventNameToSend == "EG_CarouselProductPurchase"
+                || eventNameToSend == "EG_AvailableStores"
+                || eventNameToSend == "EG_PayCardOnDelivery"
+                || eventNameToSend == "EG_PayCash"
+                || eventNameToSend == "EG_PayCreditCard"
+                || eventNameToSend == "EG_NoPriorityStore" {
+                return
+            }
+        }
+        ElGrocerUtility.sharedInstance.eventMap[eventNameToSend] = Date().timeIntervalSince1970
         
-//        var removeKey = finalParm
-//        for (key, value) in removeKey ?? [:] {
-//
-//            // elDebugPrint("check logger for type  type : \(String(describing: value.self)) : \(key) : valure : \(value) ")
-//
-//            var newKey = key
-//            if key.count > 40 {
-//                removeKey?.removeValue(forKey: key)
-//                newKey = String(key.prefix(40))
-//                removeKey?[newKey] = value
-//            }
-//        }
-//
-//        finalParm = removeKey
-     
-       // elDebugPrint("finalParmCOunt \(String(describing: finalParm?.count))")
-       
+        
         DispatchQueue.global(qos: .background).async {
           
             usleep(1)

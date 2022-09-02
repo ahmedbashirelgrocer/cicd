@@ -72,6 +72,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.checkAddressValidation()
             //to refresh smiles point
         self.getSmileUserInfo()
+        self.setDefaultGrocery()
     }
     
         // MARK: - UI Customization
@@ -120,6 +121,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
         
         NotificationCenter.default.addObserver(self,selector: #selector(SmileSdkHomeVC.getOpenOrders), name: SDKLoginManager.KOpenOrderRefresh , object: nil)
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(GenericStoresViewController.reloadAllData), name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
         
         
     }
@@ -317,9 +320,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     @objc
     func reloadAllData() {
+        
         self.setTableViewHeader()
         HomePageData.shared.resetHomeDataHandler()
         HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
+        self.showDataLoaderIfRequiredForHomeHandler()
     }
     
     @objc func showLocationCustomPopUp() {
@@ -328,7 +333,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             guard state != nil else {
                 return
             }
-            guard UIApplication.topViewController() is GenericStoresViewController else {
+            guard UIApplication.topViewController() is SmileSdkHomeVC else {
                 return
             }
             
@@ -362,10 +367,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
         if  let lastCheckDate = SDKManager.shared.homeLastFetch {
             lastFetchMin = Date().timeIntervalSince(lastCheckDate) / 60
         }
-        if !((self.locationHeader.loadedAddress?.latitude == address.latitude) && (self.locationHeader.loadedAddress?.longitude == address.longitude)) || lastFetchMin > 15 {
+        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)) || lastFetchMin > 15 {
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
             self.setTableViewHeader()
+            self.showDataLoaderIfRequiredForHomeHandler()
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
@@ -379,6 +385,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
         
     }
+    
+   
     
     var smileRetryTime = 0
     private func getSmileUserInfo() {
@@ -395,6 +403,51 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 self?.smileRetryTime  = 0
             }
         }
+    }
+    
+    // MARK: - GroceryDefault
+    
+    func setDefaultGrocery () {
+        
+        ElGrocerUtility.sharedInstance.groceries = homeDataHandler.groceryA ?? []
+        var grocerySelectedIndex = -1
+        if ElGrocerUtility.sharedInstance.groceries.count > 0 {
+            let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()
+            if currentAddress != nil {
+                let groceryId = UserDefaults.getGroceryIdWithLocationId((currentAddress!.dbID))
+                if groceryId != nil {
+                    let index = ElGrocerUtility.sharedInstance.groceries.firstIndex(where: { $0.dbID == groceryId})
+                    if (index != nil) {
+                        grocerySelectedIndex = index!
+                    }else{
+                        debugPrint(groceryId ?? "")
+                    }
+                }else {
+                    if ElGrocerUtility.sharedInstance.activeGrocery != nil {
+                        let index = ElGrocerUtility.sharedInstance.groceries.firstIndex(where: { $0.dbID == ElGrocerUtility.sharedInstance.activeGrocery!.dbID})
+                        if (index != nil) {
+                            grocerySelectedIndex = index!
+                        }
+                    }
+                }
+            }else{
+                
+                if ElGrocerUtility.sharedInstance.activeGrocery != nil {
+                    let index = ElGrocerUtility.sharedInstance.groceries.firstIndex(where: { $0.dbID == ElGrocerUtility.sharedInstance.activeGrocery!.dbID})
+                    if (index != nil) {
+                        grocerySelectedIndex = index!
+                    }
+                }
+            }
+            if grocerySelectedIndex != -1 {
+                self.grocery =  ElGrocerUtility.sharedInstance.groceries[grocerySelectedIndex]
+                ElGrocerUtility.sharedInstance.activeGrocery = self.grocery
+            }
+        }
+    
+        self.refreshBasketIconStatus()
+    (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState( ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.lastItemsCount > 0)
+    
     }
     
         // MARK: - ButtonAction
@@ -734,7 +787,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
                 self.selectStoreType = self.homeDataHandler.storeTypeA?[0]
             }
         } else if type == .StoreList {
-            let filteredArray =  ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.homeDataHandler.groceryA ?? [] )
+           // let filteredArray =  ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.homeDataHandler.groceryA ?? [] )
                 // self.filterdGrocerA = filteredArray
                 // self.setFilterCount(self.filterdGrocerA)
             if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
@@ -745,7 +798,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             
             ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
             self.setUserProfileData()
-                // self.setDefaultGrocery()
+            self.setDefaultGrocery()
             self.setSegmentView()
             
         } else if type == .HomePageLocationOneBanners {

@@ -611,22 +611,33 @@ extension CateAndSubcategoryView : CateAndSubcategoryDataHandlerDelegate {
         self.setTitleArrayFromCategories(subCategories)
         self.segmentSelectionUpdateDelegate()
         self.removeLocalCache()
-        if self.getParentSubCategory() == nil {
-            self.fetchAllProdctusOfCategory()
-        }else{
-            if let index = self.getSubCategoriesTitleArray().firstIndex(of: parentSubCategory?.subCategoryName ?? "") {
-                self.delegate?.animationSegmentTo(index: index)
-                self.currentSubcategorySegmentIndex =  index
+            if self.getParentSubCategory() == nil {
+                self.fetchAllProdctusOfCategory()
             }else{
-                self.currentSubcategorySegmentIndex = getAllItemIndex()
+                if let index = self.getSubCategoriesTitleArray().firstIndex(of: self.parentSubCategory?.subCategoryName ?? "") {
+                    self.delegate?.animationSegmentTo(index: index)
+                    self.currentSubcategorySegmentIndex =  index
+                }else{
+                    self.currentSubcategorySegmentIndex = self.getAllItemIndex()
+                }
+                
+                if self.currentSubcategorySegmentIndex == 0 {
+                    self.setParentSubCategory(nil)
+                    self.fetchAllProdctusOfCategory()
+                    return
+                }
+                
+                let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentSubCategory?.subCategoryId)!)
+                if (ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] == nil){
+                    ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] = self.parentSubCategory?.isShowBrand
+                }
+                let isGridView = ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] ?? false
+                self.fetchProductsOfSubCategory(isGridView, subCategory: self.getParentSubCategory())
             }
-            let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(parentSubCategory?.subCategoryId)!)
-            if (ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] == nil){
-                ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] = self.parentSubCategory?.isShowBrand
-            }
-            let isGridView = ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] ?? false
-            self.fetchProductsOfSubCategory(isGridView, subCategory: self.getParentSubCategory())
-        }
+            
+        
+        
+        
     }
     
     func bannerData(currentBanner : [BannerCampaign]? , grocerID : String) {

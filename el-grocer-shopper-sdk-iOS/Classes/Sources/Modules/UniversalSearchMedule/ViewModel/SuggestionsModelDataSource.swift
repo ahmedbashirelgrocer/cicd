@@ -197,7 +197,11 @@ class SuggestionsModelDataSource {
                                     }
                                         //self.model.append(contentsOf: modelA)
                                     mySuggestionDataArray.append(contentsOf: modelA)
+                                    debugPrint("mySuggestionDataArray.count: \(mySuggestionDataArray.count)")
                                 }
+                                
+                                self.model.append(contentsOf: mySuggestionDataArray)
+                                
                             }else{
                                 if let categoryA = objForBrandAndCare["subcategories.name"] {
                                     var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
@@ -224,11 +228,14 @@ class SuggestionsModelDataSource {
                                     mySuggestionDataArray.append(contentsOf: modelA)
                                 }
                                 self.model.append(contentsOf: mySuggestionDataArray)
-                                
+                                debugPrint("mySuggestionDataArray.count: \(mySuggestionDataArray.count)")
                             }
                         }
                     }
-                    callForRecipe(currentString)
+                    if !SDKManager.isSmileSDK {
+                        callForRecipe(currentString)
+                    }
+                   
                 }
                 
                 
@@ -254,7 +261,7 @@ class SuggestionsModelDataSource {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
                                     addProductSuggestion(algoliaObj, isNeedToShowBrand: isNeedToShowBrand, currentString: currentString)
                                 }
-                            }else if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
+                            } else if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
                                     elDebugPrint(algoliaObj)
                                     

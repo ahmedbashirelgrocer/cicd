@@ -308,6 +308,10 @@ class ElGrocerNavigationController : UINavigationController {
         barButton?.badgeValue = ItemsCount
     }
     
+    func setCartButtonState(_ isGroceryAvailable : Bool) {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setCartButtonState(isGroceryAvailable)
+    }
    
     
    

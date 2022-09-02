@@ -573,6 +573,12 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
     }
     
+    func setCartButtonState(_ isGroceryAvailable : Bool) {
+        guard self.cartButton != nil else {return}
+        self.cartButton.isSelected = isGroceryAvailable
+        
+    }
+    
     fileprivate func addChatButton() {
         self.chatButton = NavigationBarChatButton.loadFromNib()
         self.addSubview(self.chatButton)
@@ -605,5 +611,8 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.addSubview(self.cartButton)
         setCartButtonHidden(true)
     }
+    
+    
+    
     
 }

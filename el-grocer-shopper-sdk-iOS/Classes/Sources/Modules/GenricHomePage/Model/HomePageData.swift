@@ -479,7 +479,10 @@ extension HomePageData : StoresDataHandlerDelegate {
             self.filterOutStoreArrayOnTheBasisOfMarketType(groceryA)
         }
         self.delegate?.loadingDataComplete(type: .StoreList)
-        self.startFetching()
+        queue.async(flags: .barrier) {
+            self.startFetching()
+        }
+        
     }
     func genericBannersList(list : [BannerCampaign]) -> Void {
         self.locationOneBanners = list

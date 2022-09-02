@@ -21,7 +21,8 @@ class QuestionViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         self.title = localizedString("setting_faq", comment: "")
-        addBackButton()
+        self.navigationItem.hidesBackButton = true
+       // addBackButton()
         
         self.setLabelAppearance()
     }

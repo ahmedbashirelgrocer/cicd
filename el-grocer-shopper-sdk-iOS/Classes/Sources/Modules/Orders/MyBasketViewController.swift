@@ -79,6 +79,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     
         //MARK: View outlets
+    @IBOutlet var signView: AWView!
     @IBOutlet var viewAddAddress: AWView!
     @IBOutlet var tblFooterCheckOutView: AWView!
     @IBOutlet var checkOutViewForButton: AWView!
@@ -270,7 +271,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if UserDefaults.isOrderInEdit() {
             isPromoCheckedForEditOrder = false
         }
-        
+        self.viewAddAddress.isHidden = true
+        self.signView.isHidden = true
         hidesBottomBarWhenPushed = true
     }
     
@@ -294,7 +296,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         self.setUpBasicArabicAppearance()
         if UIApplication.topViewController() is CreditCardListViewController {
-            
             
         }else{
             self.tblBasket.setContentOffset(.zero, animated: true)
@@ -543,18 +544,27 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if !self.isAddressCompleted && (userProfile != nil) && (self.grocery != nil)  {
-            self.tblViewYPossition.constant = 150
+            self.signView.isHidden = false
+            self.tblViewYPossition.constant = 160
             self.lblTopViewEdgeCaseMsg.text = localizedString("lbl_myBasket_add_Address", comment: "")
             self.imgViewTopCardView.image = UIImage(name: "addAddress")
             self.btnAddAddress.setTitle(localizedString("btn_add_address_alert_title", comment: ""), for: .normal)
             self.viewAddAddress.isHidden = false
-        }else{
+        } else if userProfile == nil && self.grocery != nil {
+            self.signView.isHidden = false
+            self.tblViewYPossition.constant = 150
             self.lblTopViewEdgeCaseMsg.text = localizedString("lbl_myBasket_signInSIgnUp", comment: "")
             self.imgViewTopCardView.image = UIImage(name: "MYBasketSignInView")
             self.viewAddAddress.isHidden = true
             self.btnSignIn.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: .normal)
             self.btnSIgnUp.setTitle(localizedString("Sign_up", comment: ""), for: .normal)
             
+        } else {
+            self.tblViewYPossition.constant = 10
+            self.viewAddAddress.isHidden = true
+            self.signView.isHidden = true
+            
+
         }
         
         if  self.orderToReplace  {

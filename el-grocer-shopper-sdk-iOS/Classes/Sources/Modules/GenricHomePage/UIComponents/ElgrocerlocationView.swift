@@ -37,14 +37,13 @@ class ElgrocerlocationView:  UIView  {
             
         }
     }
-    var currentSelectedSlot : DeliverySlot?
     
+    var currentSelectedSlot : DeliverySlot?
     var localLoadedAddress: LocalDeliverAddress?
     var loadedAddress : DeliveryAddress? {
-        didSet {
-           //elDebugPrint("loaded Address: \(loadedAddress)")
-        }
+        didSet {  }
     }
+    
     let halfWidth : CGFloat = 0.445
     let FullWidth : CGFloat = 0.9
     

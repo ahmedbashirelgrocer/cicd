@@ -274,17 +274,28 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.dataSource?.displayList = { [weak self] (data) in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                self.tableView.backgroundView = nil
-                self.tableView.reloadData()
                 if self.basketIconOverlay != nil {
                     //self.basketIconOverlay?.isHidden = false
                     self.basketIconOverlay?.shouldShow = true
                     self.refreshBasketIconStatus()
                     self.setCollectionViewBottomConstraint()
                 }
-                if data.count == 0 && !(self.txtSearch.text?.isEmpty ?? false) {
-                    self.showNowDataView(self.txtSearch.text ?? "")
+          
+            if data.count == 0 && !(self.txtSearch.text?.isEmpty ?? false) {
+                ElGrocerUtility.sharedInstance.delay(1.0) {
+                    if self.dataSource?.model.count == 0 {
+                        self.showNowDataView(self.txtSearch.text ?? "")
+                    }
                 }
+               
+            } else {
+                DispatchQueue.main.async {
+                    self.tableView.backgroundView = nil
+                    self.NoDataView.isHidden = true
+                    self.tableView.reloadData()
+                }
+                
+            }
             }
         }
         

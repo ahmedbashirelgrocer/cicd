@@ -70,6 +70,7 @@ class ElGrocerUtility {
     var bannerGroups: [NSNumber : [BannerCampaign]] = [:]
     
     var isGroupedDict: Dictionary<String,Bool> = [:]
+    var eventMap : [String:TimeInterval]  = [:]
     
     var completeGroceries:[Grocery] = []
     var groceries:[Grocery] = [] {

@@ -1005,6 +1005,11 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if self.deliveryAddress.locationName != ""{
             self.locNameTextField.text = self.deliveryAddress.locationName
         }
+        
+        if self.locNameTextField.text?.count == 0 {
+            self.locNameTextField.text = self.deliveryAddress.address
+        }
+        
         if self.deliveryAddress.street != ""{
             self.streetTextField.text = self.deliveryAddress.street
             self.streetTextField.resignFirstResponder()

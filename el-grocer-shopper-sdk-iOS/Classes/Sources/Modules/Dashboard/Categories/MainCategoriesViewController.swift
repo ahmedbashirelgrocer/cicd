@@ -1803,7 +1803,9 @@ extension MainCategoriesViewController: GroceryLoaderDelegate {
 
 extension MainCategoriesViewController: BannerCellDelegate {
     
-    func bannerTapHandlerWithBannerLink(_ bannerLink: BannerLink){
+    func bannerTapHandlerWithBannerLink(_ bannerLink: BannerLink) {
+        
+        
         
         // PushWooshTracking.addEventForClick(bannerLink, grocery: self.grocery)
         if bannerLink.bannerBrand != nil && bannerLink.bannerSubCategory == nil {
@@ -1901,7 +1903,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
        
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
         }
