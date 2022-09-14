@@ -71,7 +71,7 @@ extension SDKManager {
         if let _ = userInfo["sendbird"] as? NSDictionary {
             var delayTimeSendBird = 0.0
             // if let SDKManager = SDKManager.shared {
-                if let dataAvailable = SDKManager.shared.sdkStartTime {
+                if let dataAvailable = sdkManager.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         delayTimeSendBird = 6.0
                     }
@@ -103,7 +103,7 @@ extension SDKManager {
                 if type.count > 0 {
                     var delayTime = 1.0
                     // if let SDKManager = SDKManager.shared {
-                        if let dataAvailable = SDKManager.shared.sdkStartTime {
+                        if let dataAvailable = sdkManager.sdkStartTime {
                             if dataAvailable.timeIntervalSinceNow > -5 {
                                 delayTime = 4.0
                             }
@@ -130,7 +130,7 @@ extension SDKManager {
             
             var delayTime = 1.0
             // if let SDKManager = SDKManager.shared {
-                if let dataAvailable = SDKManager.shared.sdkStartTime {
+                if let dataAvailable = sdkManager.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -5 {
                         delayTime = 4.0
                     }
@@ -155,7 +155,7 @@ extension SDKManager {
         
         var delayTime = 1.0
         // if let SDKManager = SDKManager.shared {
-            if let dataAvailable = SDKManager.shared.sdkStartTime {
+            if let dataAvailable = sdkManager.sdkStartTime {
                 if dataAvailable.timeIntervalSinceNow > -10 {
                     delayTime = 8.0
                 }

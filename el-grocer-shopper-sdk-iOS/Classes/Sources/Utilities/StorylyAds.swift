@@ -74,7 +74,7 @@ extension StorylyAds : StorylyDelegate {
                 
                 if let clouser = self.actionClicked {clouser(actionUrlString)}
                 /*
-                if !SDKManager.shared.application(UIApplication.shared, open: url, sourceApplication: "Storyly", annotation: "") {
+                if !sdkManager.application(UIApplication.shared, open: url, sourceApplication: "Storyly", annotation: "") {
                     if let clouser = self.actionClicked {clouser(actionUrlString)}
                 }else {
                     if let clouser = self.actionClicked {clouser("")}

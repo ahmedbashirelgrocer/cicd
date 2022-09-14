@@ -268,10 +268,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     private func isFromPushAndForNavigation() {
         
-        guard (SDKManager.shared.launchOptions?.isFromPush ?? false) else {
+        guard (sdkManager.launchOptions?.isFromPush ?? false) else {
             return
         }
-        SDKManager.shared.launchOptions?.isFromPush  =  false
+        sdkManager.launchOptions?.isFromPush  =  false
         
         if let availableDict = self.openOrders.first(where: { order in
             
@@ -364,7 +364,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
         
         var lastFetchMin = 0.0
-        if  let lastCheckDate = SDKManager.shared.homeLastFetch {
+        if  let lastCheckDate = sdkManager.homeLastFetch {
             lastFetchMin = Date().timeIntervalSince(lastCheckDate) / 60
         }
         if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)) || lastFetchMin > 15 {
@@ -478,9 +478,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
             //let currentSelf = self;
         DispatchQueue.main.async {
                 // if let SDKManager = SDKManager.shared {
-            if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
+            if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                 
-                if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         ElGrocerUtility.sharedInstance.activeGrocery = grocery
                         if ElGrocerUtility.sharedInstance.groceries.count == 0 {

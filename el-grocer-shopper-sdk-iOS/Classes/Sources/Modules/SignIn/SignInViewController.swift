@@ -501,7 +501,7 @@ class SignInViewController: RegistrationViewController, Form {
         let signInView = self
         // let SDKManager = SDKManager.shared
         
-        if let nav = SDKManager.shared.rootViewController as? UINavigationController {
+        if let nav = sdkManager.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -530,7 +530,7 @@ class SignInViewController: RegistrationViewController, Form {
                 }}}
 
         self.navigationController?.dismiss(animated: true, completion: {  })
-        SDKManager.shared.showAppWithMenu()
+        sdkManager.showAppWithMenu()
         
         /*
         

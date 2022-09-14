@@ -705,8 +705,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
            // self.backButtonClick()
             
             // if let SDKManager = SDKManager.shared {
-            SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
-            (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+            sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
+            (sdkManager.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             // }
             if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)

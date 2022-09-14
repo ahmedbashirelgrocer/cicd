@@ -485,7 +485,7 @@ class SendBirdManager {
             
             var isAppStart = false
             // if let SDKManager = SDKManager.shared {
-                if let dataAvailable = SDKManager.shared.sdkStartTime {
+                if let dataAvailable = sdkManager.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         isAppStart = true
                     }

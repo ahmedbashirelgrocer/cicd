@@ -358,7 +358,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     
     func callToChangeStoreAfterAllDataSet() {
         //if let SDKManager = SDKManager.shared {
-            if let currentTabBar = SDKManager.shared.currentTabBar {
+            if let currentTabBar = sdkManager.currentTabBar {
                 ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
                 if self.grocery != nil{
                     currentTabBar.selectedIndex = 1

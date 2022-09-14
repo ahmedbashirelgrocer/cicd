@@ -29,7 +29,7 @@ import Adyen
 // import FirebaseMessaging
 
 extension SDKManager {
-    static var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
+    static var isSmileSDK: Bool { sdkManager.launchOptions?.isSmileSDK == true }
 }
 
 class SDKManager: NSObject  {
@@ -69,7 +69,7 @@ class SDKManager: NSObject  {
         self.rootContext = UIApplication.topViewController()
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { sdkManager.networkStatusDidChanged(nil) }
         self.showAnimatedSplashView()
         
     }
@@ -282,7 +282,7 @@ class SDKManager: NSObject  {
     // ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/"
         
         
-        guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else{
+        guard !(sdkManager.launchOptions?.isSmileSDK ?? true) else{
             // Fixme: Firebase disabled
             smileSDKFireBaseSetting()
             return
@@ -407,7 +407,7 @@ class SDKManager: NSObject  {
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
          LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions?.language ?? "Base", SDKManagers: self)
-        if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
+        if sdkManager.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
             navEntryController.modalPresentationStyle = .fullScreen
             topVC.present(navEntryController, animated: true) {  }
             rootViewController = navEntryController
@@ -456,7 +456,7 @@ class SDKManager: NSObject  {
     
     func showAppWithMenu(_ isNeedToShowChangeStoreByDefault : Bool = false) {
         
-        let smileSDK = SDKManager.shared.launchOptions?.isSmileSDK ?? false
+        let smileSDK = sdkManager.launchOptions?.isSmileSDK ?? false
         guard !smileSDK else {
             let tabVC = self.getTabbarController(isNeedToShowChangeStoreByDefault: false, selectedGrocery: nil, nil, true)
             if let topVC = UIApplication.topViewController() {

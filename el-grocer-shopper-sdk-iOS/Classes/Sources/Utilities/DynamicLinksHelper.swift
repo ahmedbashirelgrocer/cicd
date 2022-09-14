@@ -70,7 +70,7 @@ class DynamicLinksHelper {
         
         var delayTime = 1.0
         // if let SDKManager = SDKManager.shared {
-        if let dataAvailable = SDKManager.shared.sdkStartTime {
+        if let dataAvailable = sdkManager.sdkStartTime {
             if dataAvailable.timeIntervalSinceNow > -5 {
                 delayTime = 2.0
             }
@@ -448,7 +448,7 @@ class DynamicLinksHelper {
     
     func loadGroceryAlreadySelected() {
         
-        guard ((SDKManager.shared.launchOptions?.isSmileSDK) ?? false) else {
+        guard ((sdkManager.launchOptions?.isSmileSDK) ?? false) else {
             if let topvc = UIApplication.topViewController() {
                 if topvc is MainCategoriesViewController {
                     topvc.viewDidAppear(true)
@@ -459,7 +459,7 @@ class DynamicLinksHelper {
             }
             return
         }
-        SDKManager.shared.showEntryView()
+        sdkManager.showEntryView()
     }
     
     
@@ -724,7 +724,7 @@ class DynamicLinksHelper {
         
         func callToChangeStoreAfterAllDataSet() {
             // if let SDKManager = SDKManager.shared {
-                if let currentTabBar = SDKManager.shared.currentTabBar {
+                if let currentTabBar = sdkManager.currentTabBar {
                     ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
                     currentTabBar.selectedIndex = 1
                 }

@@ -98,7 +98,7 @@ class HomePageData  {
         self.isDataLoading = true
         if self.isFetchingTimeLogEnable { self.startFetchingTime = Date() }
         self.startFetching()
-        SDKManager.shared.homeLastFetch = Date()
+        sdkManager.homeLastFetch = Date()
         
     }
     
@@ -258,7 +258,7 @@ extension HomePageData {
     
     private func getHomeVc () -> GenericStoresViewController? {
         //if let SDKManager = SDKManager.shared {
-            let tabVc = SDKManager.shared.getTabbarController(isNeedToShowChangeStoreByDefault: false)
+            let tabVc = sdkManager.getTabbarController(isNeedToShowChangeStoreByDefault: false)
             if tabVc.viewControllers.count > 0 ,  let tabbar = (tabVc.viewControllers[0] as? UITabBarController) , let tabController = (tabbar.viewControllers?[0] as? ElGrocerNavigationController) , tabController.viewControllers.count > 0 ,  let HomeVc = (tabController.viewControllers[0] as? GenericStoresViewController) {
                 return HomeVc
             }

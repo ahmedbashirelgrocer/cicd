@@ -729,8 +729,8 @@ extension GenericStoresViewController {
     }
     func goToBasketScreen() {
         //if let SDKManager = SDKManager.shared {
-            if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
-                if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
+            if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
+                if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
                         self.dismiss(animated: false, completion: nil)
@@ -745,8 +745,8 @@ extension GenericStoresViewController {
                         
                     }
                 }
-                let navtabbar = SDKManager.shared.getTabbarController(isNeedToShowChangeStoreByDefault: false )
-                SDKManager.shared.makeRootViewController(controller: navtabbar)
+                let navtabbar = sdkManager.getTabbarController(isNeedToShowChangeStoreByDefault: false )
+                sdkManager.makeRootViewController(controller: navtabbar)
                 if navtabbar.viewControllers.count > 0 {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
@@ -808,9 +808,9 @@ extension GenericStoresViewController {
             //let currentSelf = self;
         DispatchQueue.main.async {
             // if let SDKManager = SDKManager.shared {
-                if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
+                if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                     
-                    if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {

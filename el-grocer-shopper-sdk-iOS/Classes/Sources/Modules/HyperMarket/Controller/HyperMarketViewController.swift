@@ -182,9 +182,9 @@ class HyperMarketViewController: UIViewController {
             //let currentSelf = self;
         DispatchQueue.main.async {
             // if let SDKManager = SDKManager.shared {
-                if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
+                if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                     
-                    if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {

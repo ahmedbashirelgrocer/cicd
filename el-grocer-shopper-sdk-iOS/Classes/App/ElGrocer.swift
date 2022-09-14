@@ -11,6 +11,16 @@ import Foundation
 import UIKit
 import FirebaseCore
 
+protocol SDKManagerType {
+    
+}
+
+extension SDKManager: SDKManagerType {
+    
+}
+
+var sdkManager: SDKManagerType!
+
 
 public final class ElGrocer {
     // elgrocer
@@ -25,12 +35,18 @@ public final class ElGrocer {
             
         }
         
+        if launchOptions?.isSmileSDK == true {
+            sdkManager = SDKManager.shared
+        } else {
+            // sdkManager = SDKManagerShopper.shared
+        }
+        
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             
             func basicHomeViewSetUp() {
                 if let launchOptions = launchOptions {
                     let manager = SDKLoginManager(launchOptions: launchOptions)
-                    SDKManager.shared.launchOptions = launchOptions
+                    sdkManager.launchOptions = launchOptions
                     manager.setHomeView()
                 }
             }
@@ -43,12 +59,12 @@ public final class ElGrocer {
                 ElGrocerDynamicLink.handleDeepLink(url)
                 return
             }else {
-                SDKManager.shared.start(with: launchOptions)
+                sdkManager.start(with: launchOptions)
             }
             return
         }
         
-        SDKManager.shared.start(with: launchOptions)
+        sdkManager.start(with: launchOptions)
         if let _ = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 {
             ElGrocerNotification.handlePushNotification(launchOptions)
         } else if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
@@ -75,7 +91,7 @@ public final class ElGrocer {
             }
             return
         }
-        SDKManager.shared.start(with: launchOptions)
+        sdkManager.start(with: launchOptions)
         if let url = deepLink {
             ElGrocerDynamicLink.handleDeepLink(url)
         }
@@ -136,7 +152,7 @@ func elDebugPrint(_ items: Any...,
                   function: String = #function,
                   file: String = #file) {
     #if DEBUG
-    if SDKManager.shared.launchOptions?.isLoggingEnabled == true {
+    if sdkManager.launchOptions?.isLoggingEnabled == true {
         var index = items.startIndex
         let end = items.endIndex
         // Swift.debugPrint("==> File: \(file), Function: \(function) <==")

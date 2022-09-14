@@ -39,7 +39,7 @@ struct SDKLoginManager {
         //UserProfile.clearEntity()
         //DeliveryAddress.clearDeliveryAddressEntity()
         //DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        SDKManager.shared.logout() {
+        sdkManager.logout() {
             loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage in
                 if isSuccess {
                     ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
@@ -167,7 +167,7 @@ extension SDKLoginManager {
     func setHomeView() -> Void {
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
         //let signInView = self
-        if let nav = SDKManager.shared.rootViewController as? UINavigationController {
+        if let nav = sdkManager.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -179,7 +179,7 @@ extension SDKLoginManager {
                         if let topVc = UIApplication.topViewController()?.navigationController?.classForCoder {
                             let className = "\(topVc)"
                             if className.contains("ElGrocer") {
-                                NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
+                                NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: sdkManager.launchOptions)
                                 return
                             }
                         }
@@ -193,14 +193,14 @@ extension SDKLoginManager {
 //                            UIApplication.topViewController()?.present(nav, animated: true, completion: nil)
 //                        } else {
 //                            // send notifcation push to refresh
-//                            NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
+//                            NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: sdkManager.launchOptions)
 //                        }
                     }
                     return
                 }
             }
         }
-        SDKManager.shared.showAppWithMenu()
+        sdkManager.showAppWithMenu()
     }
 }
 
@@ -211,8 +211,8 @@ extension SDKLoginManager {
     
     private func setLanguageWithLunchOptions() {
         
-        if SDKManager.shared.launchOptions?.isSmileSDK == true && (SDKManager.shared.launchOptions?.language?.count ?? 0) > 0 {
-            if let smileLanguage = SDKManager.shared.launchOptions?.language {
+        if sdkManager.launchOptions?.isSmileSDK == true && (sdkManager.launchOptions?.language?.count ?? 0) > 0 {
+            if let smileLanguage = sdkManager.launchOptions?.language {
                 UserDefaults.setCurrentLanguage(smileLanguage)
             }
         }

@@ -1536,7 +1536,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     func showGenericStoreUI() {
 
 //       if  let SDKManager = SDKManager.shared {
-        SDKManager.shared.showAppWithMenu()
+        sdkManager.showAppWithMenu()
 //        }else {
 //        let entryController =  ElGrocerViewControllers.ElgrocerParentTabbarController()
 //        let navController = ElgrocerGenericUIParentNavViewController(navigationBarClass: ElgrocerWhilteLogoBar.self, toolbarClass: nil)

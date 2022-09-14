@@ -18,7 +18,7 @@ class MixpanelManager {
         let MIXPANEL_TOKEN = "990544942dcdc0c8de248eb1e01aef07";
         self.mixInstance =  Mixpanel.initialize(token: MIXPANEL_TOKEN)
         //TODO: set this to false when release
-        loggingEnabled(SDKManager.shared.launchOptions?.isLoggingEnabled == true)
+        loggingEnabled(sdkManager.launchOptions?.isLoggingEnabled == true)
     }
     
     class func loggingEnabled(_ value: Bool) {

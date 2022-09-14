@@ -157,7 +157,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
       
         if ((error?.code ?? 0) >= 500 && (error?.code ?? 0) <= 599) ||  (error?.code ?? 0) == -1011 {
             
-            if let views = SDKManager.shared.window?.subviews {
+            if let views = sdkManager.window?.subviews {
                 var popUp : NotificationPopup? = nil
                 for dataView in views {
                     if let popUpView = dataView as? NotificationPopup {
@@ -170,7 +170,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
                 }
             }
             
-            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                 if buttonIndex == 1 {
                     self.refreshSlotChange()
                 } else {
@@ -259,7 +259,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     
     func addImages(){
         
-        if let window = SDKManager.shared.window {
+        if let window = sdkManager.window {
             let image =  UIImage.init(named: "Store page-Main")
             let windowFrame = CGRect.init(x: 0, y: 20, width: image?.size.width ?? 360, height: image?.size.height ?? 824)
             let imageView = UIImageView(frame: windowFrame)

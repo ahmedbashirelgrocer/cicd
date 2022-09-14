@@ -35,7 +35,7 @@ extension MainCategoriesViewController : StoreFeedsDelegate {
         Thread.OnMainThread {
             if ((error?.code ?? 0) >= 500 && (error?.code ?? 0) <= 599) ||  (error?.code ?? 0) == -1011 {
                 
-                if let views = SDKManager.shared.window?.subviews {
+                if let views = sdkManager.window?.subviews {
                     var popUp : NotificationPopup? = nil
                     for dataView in views {
                         if let popUpView = dataView as? NotificationPopup {
@@ -48,7 +48,7 @@ extension MainCategoriesViewController : StoreFeedsDelegate {
                     }
                 }
                 
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                     if buttonIndex == 1 {
                         self.grocery = nil
                         self.viewDidAppear(true)
@@ -1649,7 +1649,7 @@ extension MainCategoriesViewController {
                     Thread.OnMainThread {
                         if ((error.code) >= 500 && (error.code) <= 599) ||  (error.code) == -1011 {
                             
-                            if let views = SDKManager.shared.window?.subviews {
+                            if let views = sdkManager.window?.subviews {
                                 var popUp : NotificationPopup? = nil
                                 for dataView in views {
                                     if let popUpView = dataView as? NotificationPopup {
@@ -1662,7 +1662,7 @@ extension MainCategoriesViewController {
                                 }
                             }
                             
-                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                                 if buttonIndex == 1 {
                                     self.grocery = nil
                                     self.viewDidAppear(true)

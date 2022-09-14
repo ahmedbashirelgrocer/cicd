@@ -105,7 +105,7 @@ class SplashAnimationViewController: UIViewController {
         
 
         guard let topVc = UIApplication.topViewController() , topVc is ForceUpdateViewController else {
-            if !(SDKManager.shared.launchOptions?.isSmileSDK == true) && (UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress()) {
+            if !(sdkManager.launchOptions?.isSmileSDK == true) && (UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress()) {
                 let tabVC = self.delegate.getTabbarController(isNeedToShowChangeStoreByDefault: false)
                 if let main = self.delegate.window {
                     main.rootViewController =  tabVC     // getParentNav()
@@ -138,7 +138,7 @@ extension SplashAnimationViewController {
                     }
                 case .failure(let error):
                 if error.code >= 500 && error.code <= 599 {
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                             if buttonIndex == 1 {
                                 self.configFailureCase()
                             }
@@ -190,7 +190,7 @@ extension SplashAnimationViewController {
     }
     @objc
     private func setLanguage() {
-        SDKManager.shared.setupLanguage()
+        sdkManager.setupLanguage()
             // self.delegate.setupLanguage()
     }
     
