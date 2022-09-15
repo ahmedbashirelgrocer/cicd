@@ -32,12 +32,13 @@ extension SDKManager {
     static var isSmileSDK: Bool { sdkManager.launchOptions?.isSmileSDK == true }
 }
 
-class SDKManager: NSObject  {
+class SDKManager: NSObject, SDKManagerType  {
+    var appStartTime: Date?
     
     var sdkStartTime : Date?
     var homeLastFetch : Date?
     
-    
+
     var window: UIWindow?
     var rootViewController: UIViewController?
     var rootContext: UIViewController?
@@ -824,7 +825,7 @@ extension SDKManager {
 // MARK: Supporting methods
 fileprivate extension SDKManager {
     @objc
-    func refreshSessionStatesForEditOrder() {
+    internal func refreshSessionStatesForEditOrder() {
         if UserDefaults.isNeedToClearEditOrder() {
             UserDefaults.setClearEditOrder(false)
             ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
@@ -866,20 +867,20 @@ fileprivate extension SDKManager {
         }
     }
     
-    func startChatFeature() {
+    internal func startChatFeature() {
         
      //   self.configureZenDesk()
         
     }
     
-    func scheduleAppRefresh() {
+    internal func scheduleAppRefresh() {
 
     }
    
     @available(iOS 13.0, *)
-    func handleAppRefresh(task: BGAppRefreshTask) { }
+    internal func handleAppRefresh(task: BGAppRefreshTask) { }
     
-     func checkAdvertPermission () {
+    internal func checkAdvertPermission () {
     // FixMe Arch Error Fix
     //    MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
     //        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])

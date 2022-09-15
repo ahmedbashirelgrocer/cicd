@@ -11,16 +11,20 @@ import FirebaseCrashlytics
 import GoogleMaps
 import GooglePlaces
 import UserNotifications
-import AFNetworking
+//import AFNetworking
 import BackgroundTasks
 import IQKeyboardManagerSwift
 import CleverTapSDK
 import AdSupport
-import AppsFlyerLib
+//import AppsFlyerLib
 import FBSDKCoreKit
-import Firebase
+import FirebaseCore
 import Messages
-import AFNetworkActivityLogger
+import FirebaseMessaging
+import FirebaseDynamicLinks
+import FirebaseAnalytics
+import FirebaseAuth
+//import AFNetworkActivityLogger
 import SendBirdUIKit
 import SwiftDate
 import Adyen
@@ -30,38 +34,15 @@ private enum BackendSuggestedAction: Int {
     case ForceUpdate = 1
 }
 
-let KUpdateBasketToServer = "update To server"
-// MARK: Constants
-let kHelpShiftApiKey = "f4b06efaf1612c5925da8888702aeea3"
-let kHelpShiftDomainName = "elgrocer.helpshift.com"
-let kHelpShiftAppId = "elgrocer_platform_20150806182025195-893afc8050f1f9f"
-
-let kHelpshiftChatResponseNotificationKey = "HelpshiftChatResponseNOtification"
-let KRefreshActiveBasketData = "NewBasketRetreiveFromServer"
-let kProductUpdateNotificationKey = "UpdateProductsNotification"
-let kBasketUpdateNotificationKey = "UpdateBasketNotification"
-let kReOrderNotificationKey = "ReOrderNotification"
-let KSlotsUpdate = "slotRefreshCalled"
-let KUpdateGenericSlotView = "slotRefreshView"
-let KCheckPhoneNumber = "slotRefreshCalled"
-let KRefreshGroceries = "Refresh Grocery Called"
-let KGoToMayBasket = "LoadMyBasketVC"
-let KGoBackToOrderScreen = "PendingStageReactiveted"
-let kBasketUpdateForEditNotificationKey = "UpdateBasketForEditNotification"
-let kStartCheckOutProcessKey = "allDataDonenPleaseStartCheckoutProcessFromMYBasketScreen"
-let kGoogleMapsApiKey   =   "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" // forlive
-
-let KGoToBasket = "gotoBackFromTabBar"
-let KCancelOldAllCalls = "CancelDataCalls"
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
-    
-    
-    var appStartTime : Date?
+class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
+    var sdkStartTime: Date?
     var window: UIWindow?
     var backgroundUpdateTask: UIBackgroundTaskIdentifier! = .invalid
     var bgtimer : Timer?
+    var launchOptions: LaunchOptions? = nil
+    var rootViewController: UIViewController?
+    var homeLastFetch: Date?
+    
     
     lazy var backgroundURLSession : URLSession = {
         let configuration = URLSessionConfiguration.background(withIdentifier: "com.elgorcer.background")
@@ -77,10 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
     // MARK: App lifecycle
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         SwiftDate.defaultRegion = Region.getCurrentRegion()
-        self.appStartTime = Date()
+        self.sdkStartTime = Date()
         
         //init network state monitoring
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SDKManagerShopper.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: "kReachabilityManagerNetworkStatusChangedNotification"), object: nil)
         _ = ReachabilityManager.sharedInstance
         
         self.refreshSessionStatesForEditOrder()
@@ -99,6 +80,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
         return true
     }
     
+    func start(with launchOptions: LaunchOptions?) {
+        
+    }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.portrait
@@ -130,14 +114,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
         self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
         //AppsFlyer
-        AppsFlyerLib.shared().appsFlyerDevKey = "fFWrKTcB3XBybYmSgAcLnP"
-        AppsFlyerLib.shared().appleAppID = "1040399641"
-        // AppsFlyerLib.shared().delegate = self
-        if Platform.isDebugBuild {
-            AppsFlyerLib.shared().isDebug = true
-        }
-        AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
-        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
+//        AppsFlyerLib.shared().appsFlyerDevKey = "fFWrKTcB3XBybYmSgAcLnP"
+//        AppsFlyerLib.shared().appleAppID = "1040399641"
+//        // AppsFlyerLib.shared().delegate = self
+//        if Platform.isDebugBuild {
+//            AppsFlyerLib.shared().isDebug = true
+//        }
+//        AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
+//        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
         AlgoliaApi.sharedInstance.reStartInsights()
         ElGrocerUtility.sharedInstance.delay(2) {
             self.startChatFeature()
@@ -148,9 +132,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
     
     func checkAdvertPermission () {
         
-        MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
-            FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
-        }
+//        MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
+//            FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
+//        }
         
         Settings.isAdvertiserIDCollectionEnabled = true
         Settings.setAdvertiserTrackingEnabled(true)
@@ -189,7 +173,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
     
     fileprivate func logApiError () {
         
-        NotificationCenter.default.addObserver(self,selector: #selector(AppDelegate.logToCrashleytics(_:)), name: NSNotification.Name(rawValue: "api-error"), object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(SDKManagerShopper.logToCrashleytics(_:)), name: NSNotification.Name(rawValue: "api-error"), object: nil)
         
     }
     
@@ -261,8 +245,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
-        AppsFlyerLib.shared().start()
-        AppEvents.activateApp()
+//        AppsFlyerLib.shared().start()
+//        AppEvents.activateApp()
         
         
         if UserDefaults.getLogInUserID() != "0" {
@@ -520,9 +504,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
         } else {
             FirebaseApp.configure(options: options)
         }
-        let networkLogger = AFNetworkActivityLogger.shared()
-        networkLogger?.startLogging()
-        networkLogger?.setLogLevel(.AFLoggerLevelDebug)
+//        let networkLogger = AFNetworkActivityLogger.shared()
+//        networkLogger?.startLogging()
+//        networkLogger?.setLogLevel(.AFLoggerLevelDebug)
         
         
         
@@ -534,8 +518,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
     
     
     func initiliazeMarketingCampaignTrackingServices() {
-        
-        MarketingCampaignTrackingHelper.sharedInstance.initializeMarketingCampaignTrackingServices()
+//        MarketingCampaignTrackingHelper.sharedInstance.initializeMarketingCampaignTrackingServices()
     }
     
     // MARK: App Structure
@@ -913,8 +896,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
         
         if let _ = userInfo["sendbird"] as? NSDictionary {
             var delayTimeSendBird = 0.0
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                if let dataAvailable = appDelegate.appStartTime {
+            if let appDelegate = UIApplication.shared.delegate as? SDKManagerShopper {
+                if let dataAvailable = appDelegate.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         delayTimeSendBird = 6.0
                     }
@@ -945,8 +928,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
             if let type = data["type"] as? String {
                 if type.count > 0 {
                     var delayTime = 1.0
-                    if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                        if let dataAvailable = appDelegate.appStartTime {
+                    if let appDelegate = UIApplication.shared.delegate as? SDKManagerShopper {
+                        if let dataAvailable = appDelegate.sdkStartTime {
                             if dataAvailable.timeIntervalSinceNow > -5 {
                                 delayTime = 4.0
                             }
@@ -972,8 +955,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
             let requestID = userInfo["ticket_id"] as! String
             
             var delayTime = 1.0
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                if let dataAvailable = appDelegate.appStartTime {
+            if let appDelegate = UIApplication.shared.delegate as? SDKManagerShopper {
+                if let dataAvailable = appDelegate.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -5 {
                         delayTime = 4.0
                     }
@@ -997,8 +980,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
         }
         
         var delayTime = 1.0
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            if let dataAvailable = appDelegate.appStartTime {
+        if let appDelegate = UIApplication.shared.delegate as? SDKManagerShopper {
+            if let dataAvailable = appDelegate.sdkStartTime {
                 if dataAvailable.timeIntervalSinceNow > -10 {
                     delayTime = 8.0
                 }
@@ -1244,7 +1227,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
                 UserDefaults.setCurrentLanguage("Base")
                 phoneLanguage = "Base"
             }
-            LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: phoneLanguage!, appdelegates: self , updateRootViewController: false)
+            LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: phoneLanguage!, updateRootViewController: false)
         }
     }
     
@@ -1306,10 +1289,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SBDChannelDelegate  {
         return false
     }
     
-    
+    func logout(completion: (() -> Void)) {
+            
+        SendBirdManager().logout { success in
+            if success{
+                print("logout successfull")
+            }else{
+                print("error")
+            }
+        }
+        
+        ElGrocerUtility.sharedInstance.isDeliveryMode = true
+        ElGrocerApi.sharedInstance.logoutUser { (result) -> Void in  }
+        FireBaseEventsLogger.trackSignOut(true)
+        AlgoliaApi.sharedInstance.resetAlgoliaLocalData()
+        //ZohoChat.logOut()
+        
+        //smiles points values reset
+        UserDefaults.setIsSmileUser(false)
+        UserDefaults.setSmilesPoints(0)
+        FireBaseEventsLogger.setUserID(nil)
+        UserDefaults.setUserLoggedIn(false)
+        UserDefaults.setLogInUserID("0")
+        UserDefaults.setNavigateToHomeAfterInstall(false)
+        UserDefaults.setLastSearchList("")
+        resetUserDefaultsOnFirstRun()
+        UserDefaults.resetEditOrder()
+        UserDefaults.setAccessToken(nil)
+        UserDefaults.setHelpShiftChatResponseUnread(false)
+        UserDefaults.setPaymentAcceptedState(false)
+        ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
+        ElGrocerUtility.sharedInstance.genericBannersA  = [BannerCampaign]()
+        ElGrocerUtility.sharedInstance.storeTypeA = []
+        ElGrocerUtility.sharedInstance.greatDealsBannersA  = [BannerCampaign]()
+        ElGrocerUtility.sharedInstance.chefList   = [CHEF]()
+        HomePageData.shared.resetHomeDataHandler()
+        ElGrocerUtility.sharedInstance.recipeList = [:]
+        SendBirdManager().createNewUserAndDeActivateOld()
+        
+        
+        ElGrocerUtility.sharedInstance.delay(1) {
+            
+            DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            
+            //cancel all previously scheduled notifications
+            UIApplication.shared.cancelAllLocalNotifications()
+            
+            ElGrocerUtility.sharedInstance.deepLinkURL = ""
+            
+            ElGrocerUtility.sharedInstance.groceries.removeAll()
+            ElGrocerUtility.sharedInstance.completeGroceries.removeAll()
+            ElGrocerUtility.sharedInstance.bannerGroups.removeAll()
+            ElGrocerUtility.sharedInstance.basketFetchDict.removeAll()
+            ElGrocerUtility.sharedInstance.activeGrocery = nil
+            ElGrocerUtility.sharedInstance.activeAddress = nil
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: kRemoveAllNotifcationObserver), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: KResetGenericStoreLocalChacheNotifcation), object: nil)
+        }
+    }
 }
 
-extension AppDelegate {
+extension SDKManagerShopper {
     
     func beginBackgroundUpdateTask() {
         self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
@@ -1337,7 +1377,7 @@ extension AppDelegate {
     
 }
 
-extension AppDelegate : CleverTapInAppNotificationDelegate {
+extension SDKManagerShopper : CleverTapInAppNotificationDelegate {
     
     func inAppNotificationButtonTapped(withCustomExtras customExtras: [AnyHashable : Any]!) {
         
@@ -1353,7 +1393,7 @@ extension AppDelegate : CleverTapInAppNotificationDelegate {
     
 }
 
-extension AppDelegate : UITabBarControllerDelegate {
+extension SDKManagerShopper : UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
         if let viewC = (viewController as? ElGrocerNavigationController)?.viewControllers {
@@ -1417,7 +1457,7 @@ extension AppDelegate : UITabBarControllerDelegate {
                             }else{
                                 
                                 
-                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                let appDelegate = UIApplication.shared.delegate as! SDKManagerShopper
                                 let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                                     
                                     if buttonIndex == 1 {
@@ -1442,75 +1482,9 @@ extension AppDelegate : UITabBarControllerDelegate {
         }
         return true
     }
-    
-    
 }
 
-extension UIApplication {
-    
-    class func topViewController(_ controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        
-        if let navigationController = controller as? UINavigationController {
-            return topViewController(navigationController.visibleViewController)
-        }
-        
-        if let tabController = controller as? UITabBarController {
-            if let selected = tabController.selectedViewController {
-                return topViewController(selected)
-            }
-        }
-        
-        if let presented = controller?.presentedViewController {
-            return topViewController(presented)
-        }
-        
-        return controller
-    }
-    class func gettopViewControllerName(_ controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> String? {
-        return FireBaseEventsLogger.gettopViewControllerName(controller)
-    }
-    
-    
-}
-extension UITapGestureRecognizer {
-    
-    func didTapAttributedTextInLabel(label: UILabel, inRange targetRange: NSRange) -> Bool {
-        // Create instances of NSLayoutManager, NSTextContainer and NSTextStorage
-        let layoutManager = NSLayoutManager()
-        let textContainer = NSTextContainer(size: CGSize.zero)
-        let textStorage = NSTextStorage(attributedString: label.attributedText!)
-        
-        // Configure layoutManager and textStorage
-        layoutManager.addTextContainer(textContainer)
-        textStorage.addLayoutManager(layoutManager)
-        
-        // Configure textContainer
-        textContainer.lineFragmentPadding = 0.0
-        textContainer.lineBreakMode = label.lineBreakMode
-        textContainer.maximumNumberOfLines = label.numberOfLines
-        let labelSize = label.bounds.size
-        textContainer.size = labelSize
-        
-        // Find the tapped character location and compare it to the specified range
-        let locationOfTouchInLabel = self.location(in: label)
-        let textBoundingBox = layoutManager.usedRect(for: textContainer)
-        let textContainerOffset = CGPoint.init(x: (labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x, y:  (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y)
-        let locationOfTouchInTextContainer = CGPoint.init(x: locationOfTouchInLabel.x - textContainerOffset.x, y:
-                                                            locationOfTouchInLabel.y - textContainerOffset.y)
-        let indexOfCharacter = layoutManager.characterIndex(for: locationOfTouchInTextContainer, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-        
-        return NSLocationInRange(indexOfCharacter, targetRange)
-    }
-    
-}
-extension StringProtocol where Index == String.Index {
-    func nsRange(from range: Range<Index>) -> NSRange {
-        return NSRange(range, in: self)
-    }
-}
-
-extension AppDelegate : SBDConnectionDelegate, SBDUserEventDelegate {
-    
+extension SDKManagerShopper : SBDConnectionDelegate, SBDUserEventDelegate {
     
     func setSendbirdDelegate () {
         
@@ -1666,6 +1640,4 @@ extension AppDelegate : SBDConnectionDelegate, SBDUserEventDelegate {
     
     func channelDidChangeParticipantCount(_ channels: [SBDOpenChannel]) {
     }
-    
-    
 }

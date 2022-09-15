@@ -11,16 +11,7 @@ import Foundation
 import UIKit
 import FirebaseCore
 
-protocol SDKManagerType {
-    
-}
-
-extension SDKManager: SDKManagerType {
-    
-}
-
 var sdkManager: SDKManagerType!
-
 
 public final class ElGrocer {
     // elgrocer

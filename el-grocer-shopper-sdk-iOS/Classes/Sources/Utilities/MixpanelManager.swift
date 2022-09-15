@@ -16,7 +16,7 @@ class MixpanelManager {
     class func configMixpanel() {
         
         let MIXPANEL_TOKEN = "990544942dcdc0c8de248eb1e01aef07";
-        self.mixInstance =  Mixpanel.initialize(token: MIXPANEL_TOKEN)
+        self.mixInstance =  Mixpanel.initialize(token: MIXPANEL_TOKEN, trackAutomaticEvents: false)
         //TODO: set this to false when release
         loggingEnabled(sdkManager.launchOptions?.isLoggingEnabled == true)
     }
