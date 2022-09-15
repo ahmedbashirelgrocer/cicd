@@ -8,10 +8,10 @@
 
 import UIKit
 
-class ElgrocerGenericUIParentNavViewController: UINavigationController {
+public class ElgrocerGenericUIParentNavViewController: UINavigationController {
 
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13, *) {
             return self.isDarkMode ? UIStatusBarStyle.lightContent :  UIStatusBarStyle.darkContent
         }else{
@@ -20,14 +20,14 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
     }
     
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         self.hideSeparationLine()
         self.setWhiteBackgroundColor()
         self.hideBorder(true)
         self.setBackButtonHidden(false)
     }
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         (self.navigationBar as? ElgrocerWhilteLogoBar)?.backButton.addTarget(self, action: #selector(backButtonClick), for: UIControl.Event.touchUpInside)
       //  (self.navigationBar as? ElgrocerWhilteLogoBar)?.basketButton.addTarget(self, action: #selector(goToBasket), for: UIControl.Event.touchUpInside)
        

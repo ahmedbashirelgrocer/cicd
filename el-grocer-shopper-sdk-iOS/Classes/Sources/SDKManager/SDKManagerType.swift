@@ -26,7 +26,7 @@ import SendBirdUIKit
 import SwiftDate
 import Adyen
 
-protocol SDKManagerType {
+public protocol SDKManagerType {
     var sdkStartTime: Date? { get }
     var window: UIWindow? { get }
     var backgroundUpdateTask: UIBackgroundTaskIdentifier! { get }
@@ -136,7 +136,7 @@ protocol SDKManagerType {
     func start(with launchOptions: LaunchOptions?)
 }
 
-extension SDKManagerType {
+public extension SDKManagerType {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool { return false }
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask { .portrait }
     func configuredElgrocerEventLogger(_ launchOptions: [UIApplication.LaunchOptionsKey : Any]?) { }

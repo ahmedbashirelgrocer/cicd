@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class Grocery: NSManagedObject, DBEntity  {
+public class Grocery: NSManagedObject, DBEntity  {
     
     @NSManaged var retailerGroupName: String?
     @NSManaged var genericSlot: String?

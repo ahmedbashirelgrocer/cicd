@@ -34,29 +34,29 @@ private enum BackendSuggestedAction: Int {
     case ForceUpdate = 1
 }
 
-class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
-    var sdkStartTime: Date?
-    var window: UIWindow?
-    var backgroundUpdateTask: UIBackgroundTaskIdentifier! = .invalid
-    var bgtimer : Timer?
-    var launchOptions: LaunchOptions? = nil
-    var rootViewController: UIViewController?
-    var homeLastFetch: Date?
+public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
+    public var sdkStartTime: Date?
+    public var window: UIWindow?
+    public var backgroundUpdateTask: UIBackgroundTaskIdentifier! = .invalid
+    public var bgtimer : Timer?
+    public var launchOptions: LaunchOptions? = nil
+    public var rootViewController: UIViewController?
+    public var homeLastFetch: Date?
     
     
-    lazy var backgroundURLSession : URLSession = {
+    lazy public var backgroundURLSession : URLSession = {
         let configuration = URLSessionConfiguration.background(withIdentifier: "com.elgorcer.background")
         configuration.isDiscretionary = true
         configuration.timeoutIntervalForRequest = 30
         return URLSession(configuration: configuration, delegate: self as? URLSessionDelegate , delegateQueue: OperationQueue.main)
     }()
     
-    var  currentTabBar  : UITabBarController?
+    public var  currentTabBar  : UITabBarController?
     
-    var parentTabNav  : ElgrocerGenericUIParentNavViewController?
+    public var parentTabNav  : ElgrocerGenericUIParentNavViewController?
     
     // MARK: App lifecycle
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         SwiftDate.defaultRegion = Region.getCurrentRegion()
         self.sdkStartTime = Date()
         
@@ -80,16 +80,16 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         return true
     }
     
-    func start(with launchOptions: LaunchOptions?) {
+    public func start(with launchOptions: LaunchOptions?) {
         
     }
     
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+    public func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.portrait
     }
     
     @objc
-    func refreshSessionStatesForEditOrder() {
+    public func refreshSessionStatesForEditOrder() {
         if UserDefaults.isNeedToClearEditOrder() {
             UserDefaults.setClearEditOrder(false)
             ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
@@ -101,7 +101,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     }
     
     @objc
-    func configuredElgrocerEventLogger(_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+    public func configuredElgrocerEventLogger(_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
         
         ElGrocerUtility.sharedInstance.delay(5) {
             self.checkAdvertPermission ()
@@ -130,7 +130,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func checkAdvertPermission () {
+    public func checkAdvertPermission () {
         
 //        MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
 //            FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
@@ -143,18 +143,18 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func startChatFeature() {
+    public func startChatFeature() {
         
         //   self.configureZenDesk()
         
     }
     
-    func scheduleAppRefresh() {
+    public func scheduleAppRefresh() {
         
     }
     
     @available(iOS 13.0, *)
-    func handleAppRefresh(task: BGAppRefreshTask) {
+    public func handleAppRefresh(task: BGAppRefreshTask) {
     }
     
     fileprivate func checkNotifcation() {
@@ -219,19 +219,19 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     
-    func applicationWillResignActive(_ application: UIApplication) {
+    public func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
     
-    func applicationDidEnterBackground(_ application: UIApplication) {
+    public func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         // self.doBackgroundTask()
         // scheduleAppRefresh()
     }
     
-    func applicationWillEnterForeground(_ application: UIApplication) {
+    public func applicationWillEnterForeground(_ application: UIApplication) {
         
         if let timer = self.bgtimer {
             timer.invalidate()
@@ -240,7 +240,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func applicationDidBecomeActive(_ application: UIApplication) {
+    public func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         UIApplication.shared.applicationIconBadgeNumber = 0
@@ -257,7 +257,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func applicationWillTerminate(_ application: UIApplication) {
+    public func applicationWillTerminate(_ application: UIApplication) {
         
         
         
@@ -285,7 +285,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         }
     }
     
-    func deleteBasketFromServerWithGrocery(_ grocery:Grocery?){
+    public func deleteBasketFromServerWithGrocery(_ grocery:Grocery?){
         
         guard UserDefaults.isUserLoggedIn() else {return}
         
@@ -302,7 +302,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     
-    func open(_ url: URL, options: [String : Any] = [:],
+    public func open(_ url: URL, options: [String : Any] = [:],
               completionHandler completion: ((Bool) -> Swift.Void)? = nil) {
         CleverTap.sharedInstance()?.handleOpen(url, sourceApplication: nil)
         completion?(false)
@@ -312,7 +312,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     // Respond to URI scheme links
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         
         if Auth.auth().canHandle(url) {
             return true
@@ -339,7 +339,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+    public func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         
         if Auth.auth().canHandle(url) {
             return true
@@ -362,7 +362,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+    public func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         
         let dynamicLinks = DynamicLinks.dynamicLinks()
@@ -401,7 +401,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     // Respond to Universal Links
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+    public func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         
         let dynamicLinks = DynamicLinks.dynamicLinks()
@@ -420,7 +420,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     }
     
     // MARK: Methods
-    func initializeExternalServices(_ application: UIApplication, didFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+    public func initializeExternalServices(_ application: UIApplication, didFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         
         
         //crashlitics
@@ -478,7 +478,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func configureFireBase(){
+    public func configureFireBase(){
         // ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/"
 #if DEBUG
         debugFirebaseSetting()
@@ -517,7 +517,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     }
     
     
-    func initiliazeMarketingCampaignTrackingServices() {
+    public func initiliazeMarketingCampaignTrackingServices() {
 //        MarketingCampaignTrackingHelper.sharedInstance.initializeMarketingCampaignTrackingServices()
     }
     
@@ -545,7 +545,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     
-    func showGenericStoreUI() {
+    public func showGenericStoreUI() {
         let entryController =  ElGrocerViewControllers.ElgrocerParentTabbarController()
         let navController = ElgrocerGenericUIParentNavViewController(navigationBarClass: ElgrocerWhilteLogoBar.self, toolbarClass: nil)
         navController.viewControllers = [entryController]
@@ -554,14 +554,14 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     }
     
     
-    func showForceUpdateView() {
+    public func showForceUpdateView() {
         DispatchQueue.main.async {
             let forceUpdateController = ElGrocerViewControllers.forceUpdateViewController()
             self.replaceRootControllerWith(forceUpdateController)
         }
     }
     
-    func showAnimatedSplashView() {
+    public func showAnimatedSplashView() {
         
         
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
@@ -571,7 +571,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     }
     
     
-    func showEntryView() {
+    public func showEntryView() {
         
         
         let entryController =  ElGrocerViewControllers.entryViewController()
@@ -581,13 +581,13 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     }
     
     
-    func showAppWithMenu() {
+    public func showAppWithMenu() {
         
         self.showAppWithMenu(false)
         
     }
     
-    func showAppWithMenu(_ isNeedToShowChangeStoreByDefault : Bool = false) {
+    public func showAppWithMenu(_ isNeedToShowChangeStoreByDefault : Bool = false) {
         
         if let rootVC = self.window?.rootViewController {
             rootVC.navigationController?.popToRootViewController(animated: false)
@@ -604,7 +604,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func makeRootViewController( controller : UIViewController) {
+    public func makeRootViewController( controller : UIViewController) {
         if let rootVC = self.window?.rootViewController {
             rootVC.navigationController?.popToRootViewController(animated: false)
             rootVC.navigationController?.dismiss(animated: false) {  }
@@ -620,7 +620,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func getTabbarController(isNeedToShowChangeStoreByDefault : Bool , selectedGrocery : Grocery? = nil ,_  selectedBannerLink : BannerLink? = nil ) -> UINavigationController {
+    public func getTabbarController(isNeedToShowChangeStoreByDefault : Bool , selectedGrocery : Grocery? = nil ,_  selectedBannerLink : BannerLink? = nil ) -> UINavigationController {
         
         
         
@@ -718,7 +718,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func logoutAndShowEntryView() {
+    public func logoutAndShowEntryView() {
         
         
         DispatchQueue.main.async {
@@ -728,7 +728,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func logout() {
+    public func logout() {
         
         SendBirdManager().logout { success in
             if success{
@@ -790,7 +790,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func getCurrentAppVersion() -> String {
+    public func getCurrentAppVersion() -> String {
         let infoDictionary: NSDictionary? = Bundle.main.infoDictionary as NSDictionary? // Fetch info.plist as a Dictionary
         let major = infoDictionary?.object(forKey: "CFBundleShortVersionString") as! String
         let minor = infoDictionary?.object(forKey: "CFBundleVersion") as! String
@@ -798,7 +798,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     }
     
     // MARK: Network state
-    @objc func networkStatusDidChanged(_ notification: NSNotification?) {
+    @objc public func networkStatusDidChanged(_ notification: NSNotification?) {
         
         let isNetworkAvailable = ReachabilityManager.sharedInstance.isNetworkAvailable()
         
@@ -838,7 +838,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     // MARK: Notifications
     
-    func registerForNotifications() {
+    public func registerForNotifications() {
         
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge], completionHandler: {(granted,error) in
@@ -863,13 +863,13 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         // Messaging.messaging().delegate = self
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+    public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         
         
     }
     
     
-    func zendeskNotifcationHandling (_ requestID : String) {
+    public func zendeskNotifcationHandling (_ requestID : String) {
         
         
         //        if let _ = Zendesk.instance {
@@ -888,7 +888,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         
         print("push notif data: \(userInfo)")
@@ -1004,7 +1004,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
     }
     
-    func chatNotifcationFromZenDesk (_ msg : String) {
+    public func chatNotifcationFromZenDesk (_ msg : String) {
         if let topVc = UIApplication.topViewController() {
             if NSStringFromClass(topVc.classForCoder) != "CommonUISDK.MessagingViewController"  {
                 var newMsg: String = msg
@@ -1023,7 +1023,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         }
     }
     
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+    public func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         
         _ = LocalNotificationHandler()
             .addHandler(HelpshiftLocalNotificationHandler())
@@ -1032,7 +1032,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     /** For iOS 10 and above - Foreground**/
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
         
         print("APPDELEGATE: didReceiveResponseWithCompletionHandler \(notification.request.content.userInfo)")
         
@@ -1042,7 +1042,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         completionHandler([.sound])
     }
     
-    func checkForNotificationAtAppLaunch(_ application: UIApplication, userInfo: [AnyHashable: Any]?) {
+    public func checkForNotificationAtAppLaunch(_ application: UIApplication, userInfo: [AnyHashable: Any]?) {
         
         guard let userInfo = userInfo else {
             return
@@ -1056,7 +1056,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         }
     }
     
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         
         let deviceTokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
@@ -1112,7 +1112,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     
     
     
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+    public func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")
         
         let dataDict:[String: String] = ["token": fcmToken]
@@ -1121,14 +1121,14 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
     
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    public func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Error While Register For Remote Notifications:%@",error.localizedDescription)
         //  PushNotificationManager.push().handlePushRegistrationFailure(error)
     }
     
     // MARK: Abandoned basket notification
     
-    func scheduleAbandonedBasketNotification() {
+    public func scheduleAbandonedBasketNotification() {
         
         //cancel all previously scheduled notifications
         UIApplication.shared.cancelAllLocalNotifications()
@@ -1138,7 +1138,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         UIApplication.shared.scheduleLocalNotification(min20Notification)
     }
     
-    func scheduleAbandonedBasketNotificationAfter24Hour() {
+    public func scheduleAbandonedBasketNotificationAfter24Hour() {
         //cancel all previously scheduled notifications
         UIApplication.shared.cancelAllLocalNotifications()
         
@@ -1147,7 +1147,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         UIApplication.shared.scheduleLocalNotification(min20Notification)
     }
     
-    func scheduleAbandonedBasketNotificationAfter72Hour() {
+    public func scheduleAbandonedBasketNotificationAfter72Hour() {
         //cancel all previously scheduled notifications
         UIApplication.shared.cancelAllLocalNotifications()
         
@@ -1202,14 +1202,14 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         return localNotification
     }
     
-    func resetUserDefaultsOnFirstRun() {
+    public func resetUserDefaultsOnFirstRun() {
         UserDefaults.setUserLoggedIn(false)
         UserDefaults.setLogInUserID("0")
         UserDefaults.setDidUserSetAddress(false)
         DeliveryAddress.clearDeliveryAddressEntity()
     }
     
-    func setupLanguage() {
+    public func setupLanguage() {
         
         // let phoneLanguage = (Locale.current as NSLocale).object(forKey: NSLocale.Key.languageCode) as? String
         
@@ -1231,7 +1231,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         }
     }
     
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    public func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         completionHandler(UIBackgroundFetchResult.newData);
     }
     
@@ -1242,7 +1242,7 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         NotificationCenter.default.post(name: Notification.Name(rawValue: kHelpshiftChatResponseNotificationKey), object: nil)
     }
     
-    func didReceiveNotificationCount(_ count: Int) {
+    public func didReceiveNotificationCount(_ count: Int) {
         
         if count > 0 {
             helpshiftChatMessageUnread()
@@ -1279,17 +1279,17 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         }
     }
     
-    func application(_ application: UIApplication,
+    public func application(_ application: UIApplication,
                      shouldSaveApplicationState coder: NSCoder) -> Bool {
         return true
     }
     
-    func application(_ application: UIApplication,
+    public func application(_ application: UIApplication,
                      shouldRestoreApplicationState coder: NSCoder) -> Bool {
         return false
     }
     
-    func logout(completion: (() -> Void)) {
+    public func logout(completion: (() -> Void)) {
             
         SendBirdManager().logout { success in
             if success{
@@ -1351,23 +1351,23 @@ class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
 
 extension SDKManagerShopper {
     
-    func beginBackgroundUpdateTask() {
+    public func beginBackgroundUpdateTask() {
         self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             self.endBackgroundUpdateTask()
         })
     }
     
-    func endBackgroundUpdateTask() {
+    public func endBackgroundUpdateTask() {
         
         UIApplication.shared.endBackgroundTask(self.backgroundUpdateTask)
         self.backgroundUpdateTask = .invalid
     }
     
-    func doBackgroundTask() {
+    public func doBackgroundTask() {
         self.beginBackgroundUpdateTask()
     }
     @objc
-    func endProgress() {
+    public func endProgress() {
         
         if let activeGrocery = ElGrocerUtility.sharedInstance.activeGrocery?.name {
             debugPrint("active grocer name is : \(activeGrocery)")
@@ -1379,7 +1379,7 @@ extension SDKManagerShopper {
 
 extension SDKManagerShopper : CleverTapInAppNotificationDelegate {
     
-    func inAppNotificationButtonTapped(withCustomExtras customExtras: [AnyHashable : Any]!) {
+    public func inAppNotificationButtonTapped(withCustomExtras customExtras: [AnyHashable : Any]!) {
         
         var promoCode = ""
         if let promo = customExtras["promoCode"] as? String {promoCode = promo}
@@ -1394,7 +1394,7 @@ extension SDKManagerShopper : CleverTapInAppNotificationDelegate {
 }
 
 extension SDKManagerShopper : UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
         if let viewC = (viewController as? ElGrocerNavigationController)?.viewControllers {
             let viewControlleris = viewC[viewC.count - 1]
@@ -1486,12 +1486,12 @@ extension SDKManagerShopper : UITabBarControllerDelegate {
 
 extension SDKManagerShopper : SBDConnectionDelegate, SBDUserEventDelegate {
     
-    func setSendbirdDelegate () {
+    public func setSendbirdDelegate () {
         
         SBDMain.add(self as SBDChannelDelegate, identifier: "UNIQUE_DELEGATE_ID")
     }
     
-    func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
+    public func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
         debugPrint("\(message.requestId)")
         
         if UIApplication.shared.applicationState == .active {
@@ -1536,108 +1536,108 @@ extension SDKManagerShopper : SBDConnectionDelegate, SBDUserEventDelegate {
         
     }
     
-    func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
+    public func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
         debugPrint("")
     }
     
-    func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
+    public func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
         debugPrint("")
     }
     
-    func channel(_ channel: SBDBaseChannel, didReceiveMention message: SBDBaseMessage) {
+    public func channel(_ channel: SBDBaseChannel, didReceiveMention message: SBDBaseMessage) {
         debugPrint("")
     }
     
-    func channelWasChanged(_ sender: SBDBaseChannel) {
+    public func channelWasChanged(_ sender: SBDBaseChannel) {
         debugPrint("")
         
         
     }
     
-    func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
+    public func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
         debugPrint("")
     }
     
-    func channelWasFrozen(_ sender: SBDBaseChannel) {
+    public func channelWasFrozen(_ sender: SBDBaseChannel) {
         debugPrint("")
     }
     
-    func channelWasUnfrozen(_ sender: SBDBaseChannel) {
+    public func channelWasUnfrozen(_ sender: SBDBaseChannel) {
         debugPrint("")
     }
     
-    func channel(_ sender: SBDBaseChannel, createdMetaData: [String : String]?) {
+    public func channel(_ sender: SBDBaseChannel, createdMetaData: [String : String]?) {
         debugPrint("")
     }
     
-    func channel(_ sender: SBDBaseChannel, updatedMetaData: [String : String]?) {
+    public func channel(_ sender: SBDBaseChannel, updatedMetaData: [String : String]?) {
         debugPrint("")
     }
     
-    func channel(_ sender: SBDBaseChannel, deletedMetaDataKeys: [String]?) {
+    public func channel(_ sender: SBDBaseChannel, deletedMetaDataKeys: [String]?) {
         debugPrint("")
     }
     
-    func channel(_ sender: SBDBaseChannel, createdMetaCounters: [String : NSNumber]?) {
+    public func channel(_ sender: SBDBaseChannel, createdMetaCounters: [String : NSNumber]?) {
         debugPrint("")
     }
     
-    func channel(_ sender: SBDBaseChannel, updatedMetaCounters: [String : NSNumber]?) {
+    public func channel(_ sender: SBDBaseChannel, updatedMetaCounters: [String : NSNumber]?) {
         debugPrint("")
     }
     
-    func channel(_ sender: SBDBaseChannel, deletedMetaCountersKeys: [String]?) {
+    public func channel(_ sender: SBDBaseChannel, deletedMetaCountersKeys: [String]?) {
         debugPrint("")
     }
     
-    func channelWasHidden(_ sender: SBDGroupChannel) {
+    public func channelWasHidden(_ sender: SBDGroupChannel) {
         debugPrint("")
     }
     
-    func channel(_ sender: SBDGroupChannel, didReceiveInvitation invitees: [SBDUser]?, inviter: SBDUser?) {
+    public func channel(_ sender: SBDGroupChannel, didReceiveInvitation invitees: [SBDUser]?, inviter: SBDUser?) {
     }
     
-    func channel(_ sender: SBDGroupChannel, didDeclineInvitation invitee: SBDUser?, inviter: SBDUser?) {
+    public func channel(_ sender: SBDGroupChannel, didDeclineInvitation invitee: SBDUser?, inviter: SBDUser?) {
     }
     
-    func channel(_ sender: SBDGroupChannel, userDidJoin user: SBDUser) {
+    public func channel(_ sender: SBDGroupChannel, userDidJoin user: SBDUser) {
     }
     
-    func channel(_ sender: SBDGroupChannel, userDidLeave user: SBDUser) {
+    public func channel(_ sender: SBDGroupChannel, userDidLeave user: SBDUser) {
     }
     
-    func channelDidUpdateDeliveryReceipt(_ sender: SBDGroupChannel) {
+    public func channelDidUpdateDeliveryReceipt(_ sender: SBDGroupChannel) {
     }
     
-    func channelDidUpdateReadReceipt(_ sender: SBDGroupChannel) {
+    public func channelDidUpdateReadReceipt(_ sender: SBDGroupChannel) {
     }
     
-    func channelDidUpdateTypingStatus(_ sender: SBDGroupChannel) {
+    public func channelDidUpdateTypingStatus(_ sender: SBDGroupChannel) {
         
         debugPrint("unreadMentionCount\(sender.unreadMentionCount)")
     }
     
-    func channel(_ sender: SBDOpenChannel, userDidEnter user: SBDUser) {
+    public func channel(_ sender: SBDOpenChannel, userDidEnter user: SBDUser) {
     }
     
-    func channel(_ sender: SBDOpenChannel, userDidExit user: SBDUser) {
+    public func channel(_ sender: SBDOpenChannel, userDidExit user: SBDUser) {
     }
     
-    func channel(_ sender: SBDBaseChannel, userWasMuted user: SBDUser) {
+    public func channel(_ sender: SBDBaseChannel, userWasMuted user: SBDUser) {
     }
     
-    func channel(_ sender: SBDBaseChannel, userWasUnmuted user: SBDUser) {
+    public func channel(_ sender: SBDBaseChannel, userWasUnmuted user: SBDUser) {
     }
     
-    func channel(_ sender: SBDBaseChannel, userWasBanned user: SBDUser) {
+    public func channel(_ sender: SBDBaseChannel, userWasBanned user: SBDUser) {
     }
     
-    func channel(_ sender: SBDBaseChannel, userWasUnbanned user: SBDUser) {
+    public func channel(_ sender: SBDBaseChannel, userWasUnbanned user: SBDUser) {
     }
     
-    func channelDidChangeMemberCount(_ channels: [SBDGroupChannel]) {
+    public func channelDidChangeMemberCount(_ channels: [SBDGroupChannel]) {
     }
     
-    func channelDidChangeParticipantCount(_ channels: [SBDOpenChannel]) {
+    public func channelDidChangeParticipantCount(_ channels: [SBDOpenChannel]) {
     }
 }
