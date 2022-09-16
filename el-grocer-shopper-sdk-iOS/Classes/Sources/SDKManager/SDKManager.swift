@@ -3,7 +3,7 @@
 //
 //  Created by Awais Arshad Chatha on 01.07.2015.
 //  Copyright (c) 2015 RST IT. All rights reserved.
-// from Development commit = pod lock file updated Commit: c9b40a3d3af6b7cf628a8acd300c83df76ebbaff
+//  Final Release Build & Update
 
 import UIKit
 import CoreData
