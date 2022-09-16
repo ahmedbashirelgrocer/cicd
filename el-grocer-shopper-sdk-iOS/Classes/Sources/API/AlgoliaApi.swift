@@ -37,8 +37,8 @@ class AlgoliaApi {
      private var algoliaAddToCartProducts : Dictionary <String, [String]> = [:]
    
     var algoliaApplicationID  =  ApplicationID(rawValue: "AS47I7FT15")
-    var algoliaApplicationIDStaging = ApplicationID(rawValue: "3LIB7IY3OL")
-    var ALGOLIA_API_KEY_STAGING = "688bccc1dcc7f10e040c36ec148557b6"
+    var algoliaApplicationIDStaging = ApplicationID(rawValue: "5TUE57VS4N")
+    var ALGOLIA_API_KEY_STAGING = "a20dd04827480538a4be4567d84174f4"
     private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
     private let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
     
@@ -67,11 +67,12 @@ class AlgoliaApi {
         
          client = SearchClient(appID:  algoliaApplicationID , apiKey: "f64accc4672a9125533fc1d64baf93ab")
         browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: "7c36787b0c09ef094db8a3ba93871ce7")
+        
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
-           algoliaApplicationID = "3LIB7IY3OL"
-           client = SearchClient(appID: algoliaApplicationID , apiKey: "688bccc1dcc7f10e040c36ec148557b6")
-            browserClient = SearchClient(appID:  algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING))
+           client = SearchClient(appID: algoliaApplicationIDStaging , apiKey: "a20dd04827480538a4be4567d84174f4") //
+           browserClient = SearchClient(appID:  algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING))
         }
+        
         self.algoliaProductIndex =  client.index(withName:  algoliadefaultIndexName)
         self.algoliaRecipeIndex =  client.index(withName: algoliaRecipeIndexName )
         self.algoliaSearchSuggestionIndex = client.index(withName: algoliaProductSuggestionIndexName )

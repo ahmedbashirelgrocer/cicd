@@ -138,14 +138,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                            
                            localizedString("payment_methods", comment: ""),
                            localizedString("txt_title_elWallet", comment: ""),
-                           localizedString("password_settings", comment: ""),
                            localizedString("language_settings", comment: ""),
                            localizedString("delete_account", comment: ""),
                            localizedString("terms_settings", comment: ""),
                            localizedString("privacy_policy", comment: ""),
                            localizedString("FAQ_settings", comment: "")]
                 
-                Images = ["liveChatSettings","ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" , "paymentMethodSettings", "paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings", "faqSettings"]
+                Images = ["liveChatSettings","ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" , "paymentMethodSettings", "paymentMethodSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings", "faqSettings"]
                 
             } else {
                 
@@ -413,7 +412,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             if section == 0 {
                 return 1
             } else if section == 1 {
-                return accountSectionCells - 3
+                return accountSectionCells - 2
                 // -1 for recipes
                 // -1 for change password
             }
@@ -633,7 +632,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 //case 2: self.goToSavedRecipesVC()
 //                case 2: self.goToSavedCarsVC()
                 case 2: self.locationHeader.changeLocation()
-                case 3: self.goToSavedCardsVC()
+                case 3: self.goToAddNewCardVC()
+                case 4: self.goToElWalletVC()
                 default: break
                 }
             case 2:
@@ -694,7 +694,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                             break
                         case 5:
                             print("show card list")
-                            self.goToSavedCardsVC()
+                            self.goToAddNewCardVC()
                                 //self.showManageCard()
                             break
                         case 6:
@@ -1139,7 +1139,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.pushViewController(passVC, animated: true)
     }
     
-    private func goToSavedCardsVC() {
+    private func goToAddNewCardVC() {
         ElGrocerEventsLogger.sharedInstance.trackSettingClicked("saved recipes")
         let passVC = ElGrocerViewControllers.savedCarsViewController()
         passVC.modalPresentationStyle = .fullScreen
