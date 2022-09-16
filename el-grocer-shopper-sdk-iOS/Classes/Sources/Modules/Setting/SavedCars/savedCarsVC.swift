@@ -351,11 +351,11 @@ extension savedCarsVC {
     func goToAddNewCardController() {
         
         AdyenManager.sharedInstance.performZeroTokenization(controller: self)
-        AdyenManager.sharedInstance.isNewCardAdded = { (error , response) in
+        AdyenManager.sharedInstance.isNewCardAdded = { (error , response,adyenObj) in
             if error {
-               elDebugPrint("error in authorization")
+                print("error in authorization")
                 if let resultCode = response["resultCode"] as? String {
-                   elDebugPrint(resultCode)
+                    print(resultCode)
                     AdyenManager.showErrorAlert(descr: resultCode)
                 }
             }else{

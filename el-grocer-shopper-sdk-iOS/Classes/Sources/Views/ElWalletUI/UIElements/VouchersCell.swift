@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SDWebImage
 class VouchersCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!

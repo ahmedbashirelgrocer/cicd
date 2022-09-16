@@ -56,41 +56,43 @@ class AdyenManager {
     var adyendataObj: AdyenManagerObj?
     var adyenPrice : Amount?
     
-    typealias paymentSuccess = (_ isError: Bool, _ response: NSDictionary) -> Void
+    typealias paymentSuccess = (_ isError: Bool, _ response: NSDictionary, _ adyenObj: AdyenManagerObj) -> Void
     
     var isNewCardAdded: paymentSuccess?
     var isPaymentMade: paymentSuccess?
+    var walletPaymentMade: paymentSuccess?
 
-    func makePaymentWithCard(controller: UIViewController , amount: NSDecimalNumber, orderNum: String = "", method: AnyCardPaymentMethod) {
-       
+    func makePaymentWithCard(controller: UIViewController , amount: NSDecimalNumber, orderNum: String = "", method: AnyCardPaymentMethod, isForWallet: Bool = false) {
+        
         self.adyenPrice =  AdyenManager.createAmount(amount: amount)
-        self.adyendataObj = AdyenManagerObj(amount: amount, orderNumber: orderNum, isZeroAuth: false)
+        self.adyendataObj = AdyenManagerObj(amount: amount, orderNumber: orderNum, isZeroAuth: false, isForWallet: isForWallet)
         self.settingPaymentComponent(paymentMethod: method, controller: controller, delegate: self,amount: amount, adyenObj: self.adyendataObj!)
         
     }
     
-    func makePaymentWithApple(controller: UIViewController , amount: NSDecimalNumber, orderNum: String = "", method: ApplePayPaymentMethod) {
+    func makePaymentWithApple(controller: UIViewController , amount: NSDecimalNumber, orderNum: String = "", method: ApplePayPaymentMethod,isForWallet: Bool = false) {
         
         
         let amountDecimal = amount
         FireBaseEventsLogger.trackCustomEvent(eventType: "payment", action: "makePaymentWithApple", ["amount": amount, "amountDecimalValue" : amountDecimal.decimalValue])
-        self.adyendataObj = AdyenManagerObj(amount: amountDecimal, orderNumber: orderNum, isZeroAuth: false)
-       
+        self.adyendataObj = AdyenManagerObj(amount: amountDecimal, orderNumber: orderNum, isZeroAuth: false, isForWallet: isForWallet)
+        
         let amountAdyen = AdyenManager.createAmount(amount: amountDecimal)
         let payment = Payment(amount: amountAdyen, countryCode: "AE")
         let summary = PKPaymentSummaryItem(label: applicationNameForApple, amount: amountDecimal, type: .final)
         let config = ApplePayComponent.Configuration(summaryItems: [summary], merchantIdentifier: AdyenManager.applePayMerchantIdentifier)
-
-        self.adyendataObj = AdyenManagerObj(amount: amount, orderNumber: orderNum, isZeroAuth: false)
+        
+        self.adyendataObj = AdyenManagerObj(amount: amount, orderNumber: orderNum, isZeroAuth: false, isForWallet: isForWallet)
         self.adyenPrice = amountAdyen
         self.setApplePayComponent(applePaymentMethod: method, payment: payment, configuration: config, controller: controller)
     }
     
-    func performZeroTokenization(controller: UIViewController) {
+    
+    func performZeroTokenization(controller: UIViewController,_ isForWallet: Bool = false) {
         
         let amount = AdyenManager.createAmount(amount: 0.0)
         self.adyenPrice = amount
-        self.adyendataObj = AdyenManagerObj(amount: 0.0, orderNumber: "", isZeroAuth: true)
+        self.adyendataObj = AdyenManagerObj(amount: 0.0, orderNumber: "", isZeroAuth: true, isForWallet: isForWallet)
         let _ = SpinnerView.showSpinnerViewInView(controller.view)
         AdyenApiManager().getPaymentMethods(amount: amount) { error, paymentMethods in
             SpinnerView.hideSpinnerView()
@@ -100,7 +102,7 @@ class AdyenManager {
             }
             Thread.OnMainThread {
                 if let paymentMethod = paymentMethods {
-                   elDebugPrint(paymentMethods)
+                    print(paymentMethods)
                     for method in paymentMethod.regular{
                         if method.type.elementsEqual("scheme") {
                             
@@ -111,6 +113,9 @@ class AdyenManager {
             }
         }
     }
+    
+    
+    
     
     func settingPaymentComponent(paymentMethod: AnyCardPaymentMethod, controller: UIViewController, delegate: PaymentComponentDelegate?, amount: NSDecimalNumber,adyenObj: AdyenManagerObj){
 
@@ -200,32 +205,36 @@ class AdyenManager {
     
     func handleActionResponse(data: ActionComponentData, component: ActionComponent){
         AdyenApiManager().handlePaymentAction(data: data) { error, response in
+            self.cardComponent?.viewController.dismiss(animated: true, completion: nil)
+            self.applePayComponent?.viewController.dismiss(animated: true, completion: nil)
+            self.removeSafariChild()
             if let error = error {
                 
                 SpinnerView.hideSpinnerView()
                 if response != nil {
                     let resultCode = response?["resultCode"] as? String ?? ""
-                   elDebugPrint(resultCode)
+                    print(resultCode)
                     let refusalReason = response?["refusalReason"] as? String ?? ""
                     AdyenManager.showErrorAlert(title: resultCode, descr: refusalReason)
                 }else {
                     error.showErrorAlert()
                 }
-             
+                
                 
             }else{
                 if let adyenObjData = self.adyendataObj, let response = response {
                     if adyenObjData.isZeroAuth {
                         if let closure = self.isNewCardAdded {
-                            closure(false,response)
+                            closure(false,response, adyenObjData)
                         }
                     }else {
                         if let closure = self.isPaymentMade {
-                            closure(false,response)
+                            closure(false,response, adyenObjData)
                         }
                     }
                 }
             }
+            
             self.cardComponent?.viewController.dismiss(animated: true, completion: nil)
             self.applePayComponent?.viewController.dismiss(animated: true, completion: nil)
             self.removeSafariChild()
@@ -243,82 +252,91 @@ class AdyenManager {
         if let data = self.adyenPrice {
             value = data
         }
-       
-        AdyenApiManager().makePayment(amount: value, orderNum: adyenObjData.orderNumber, paymentMethodDict: paymentMethodDict, isForZeroAuth: adyenObjData.isZeroAuth, browserInfo: browserInfo) { error, response in
-               elDebugPrint(error)
-                if let error = error {
-                    
-                    SpinnerView.hideSpinnerView()
-                    guard response != nil else {
-                        error.showErrorAlert()
-                        
-                        return
-                    }
-                    let resultCode = response?["resultCode"] as? String ?? ""
-                    let refusalReason = response?["refusalReason"] as? String ?? ""
-                   // AdyenManager.showErrorAlert(title: resultCode, descr: refusalReason)
-                    
-                    if component.paymentMethod.type.elementsEqual("scheme") {
-                        if adyenObjData.isZeroAuth {
-                            if let closure = self.isNewCardAdded {
-                                closure(false,response!)
-                            }
-                        }else {
-                            if let closure = self.isPaymentMade  {
-                                closure(refusalReason.count == 0 ? false : true,response!)
-                                
-                            }
-                        }
+        AdyenApiManager().makePayment(amount: value, orderNum: adyenObjData.orderNumber, paymentMethodDict: paymentMethodDict, isForZeroAuth: adyenObjData.isZeroAuth, isForWallet: adyenObjData.isForWallet, browserInfo: browserInfo) { error, response in
+            print(error)
+            if let error = error {
+                
+                SpinnerView.hideSpinnerView()
+                guard response != nil else {
+                    if adyenObjData.isForWallet {
                         self.cardComponent?.viewController.dismiss(animated: true, completion: nil)
-                    }else{
-                        if let closure = self.isPaymentMade {
-                            closure(refusalReason.count == 0 ? false : true,response!)
-                        }
                         self.applePayComponent?.viewController.dismiss(animated: true, completion: nil)
-                    }
-                    
-                }else{
-                    guard response != nil else {
-                       elDebugPrint("something went Wrong")
-                        SpinnerView.hideSpinnerView()
-                        let error = ElGrocerError()
-                        error.showErrorAlert()
-                        return
-                    }
-                    
-                    if let action = response?["action"] as? NSDictionary {
-                        do {
-                            let jsonData = try JSONSerialization.data(withJSONObject: action, options: [])
-                            self.setActionComponent(actionData: jsonData)
-                                                            
-                        } catch let error {
-                           elDebugPrint(error.localizedDescription)
-                            let errorGrocer = ElGrocerError.parsingError()
-                            errorGrocer.showErrorAlert()
+                        if let closure = self.walletPaymentMade {
+                            closure(true,[:], adyenObjData)
                         }
                     }else {
+                        error.showErrorAlert()
+                    }
+                    
+                    return
+                }
+                let resultCode = response?["resultCode"] as? String ?? ""
+                let refusalReason = response?["refusalReason"] as? String ?? ""
+                
+                if component.paymentMethod.type.elementsEqual("scheme") {
+                    self.cardComponent?.viewController.dismiss(animated: true, completion: nil)
+                    if adyenObjData.isZeroAuth {
+                        if let closure = self.isNewCardAdded {
+                            closure(false,response!, adyenObjData)
+                        }
+                    }else {
+                        if let closure = self.isPaymentMade  {
+                            closure(refusalReason.count == 0 ? false : true,response!, adyenObjData)
+                            
+                        }
+                    }
+                }else{
+                    self.applePayComponent?.viewController.dismiss(animated: true, completion: nil)
+                    if let closure = self.isPaymentMade {
+                        closure(refusalReason.count == 0 ? false : true,response!, adyenObjData)
+                    }
+                }
+                
+            }else{
+                guard response != nil else {
+                    print("something went Wrong")
+                    SpinnerView.hideSpinnerView()
+                    let error = ElGrocerError()
+                    error.showErrorAlert()
+                    return
+                }
+                
+                if let action = response?["action"] as? NSDictionary {
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: action, options: [])
+                        self.setActionComponent(actionData: jsonData)
                         
-                        if component.paymentMethod.type.elementsEqual("scheme") {
-                            if adyenObjData.isZeroAuth {
-                                if let closure = self.isNewCardAdded {
-                                    closure(false,response!)
-                                }
-                            }else {
-                                if let closure = self.isPaymentMade {
-                                    closure(false,response!)
-                                }
+                    } catch let error {
+                        print(error.localizedDescription)
+                        let errorGrocer = ElGrocerError.parsingError()
+                        errorGrocer.showErrorAlert()
+                    }
+                }else {
+                    
+                    if component.paymentMethod.type.elementsEqual("scheme") {
+                        self.cardComponent?.viewController.dismiss(animated: true, completion: nil)
+                        if adyenObjData.isZeroAuth {
+                            if let closure = self.isNewCardAdded {
+                                closure(false,response!, adyenObjData)
                             }
-                            self.cardComponent?.viewController.dismiss(animated: true, completion: nil)
-                        }else{
+                        }else {
                             if let closure = self.isPaymentMade {
-                                closure(false,response!)
+                                closure(false,response!, adyenObjData)
                             }
-                            self.applePayComponent?.viewController.dismiss(animated: true, completion: nil)
+                        }
+                    }else{
+                        self.applePayComponent?.viewController.dismiss(animated: true, completion: nil)
+                        if let closure = self.isPaymentMade {
+                            closure(false,response!, adyenObjData)
                         }
                     }
                 }
             }
+        }
     }
+    
+        
+ 
     //End class bracket below
 }
 

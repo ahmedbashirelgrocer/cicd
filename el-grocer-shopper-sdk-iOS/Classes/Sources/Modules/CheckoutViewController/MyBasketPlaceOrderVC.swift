@@ -877,17 +877,17 @@ class MyBasketPlaceOrderVC: UIViewController {
             let authValue = round(authAmount * 100) / 100.0
             
             AdyenManager.sharedInstance.makePaymentWithApple(controller: self, amount: NSDecimalNumber.init(string: "\(authValue)"), orderNum: self.secondCheckOutDataHandler?.order?.dbID.stringValue ?? "", method: selectedApplePayMethod)
-            AdyenManager.sharedInstance.isPaymentMade = { (error, response) in
-               
+            AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
+                
                 SpinnerView.hideSpinnerView()
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                       elDebugPrint(resultCode)
+                        print(resultCode)
                         if let reason = response["refusalReason"] as? String {
                             AdyenManager.showErrorAlert(descr: reason)
                         }
-                       
+                        
                     }
                 }else {
                     self.showConfirmationView()
@@ -919,16 +919,16 @@ class MyBasketPlaceOrderVC: UIViewController {
         Thread.sleep(forTimeInterval: 1.0)
         
         let authValue = round(authAmount * 100) / 100.0
- 
+        
         if let selectedMethod = self.selectedCreditCard?.adyenPaymentMethod {
             AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: NSDecimalNumber.init(string: "\(authValue)"), orderNum: order?.dbID.stringValue ?? "", method: selectedMethod )
-            AdyenManager.sharedInstance.isPaymentMade = { (error, response) in
+            AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
                 
                 SpinnerView.hideSpinnerView()
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String,  resultCode.count > 0 {
-                       elDebugPrint(resultCode)
+                        print(resultCode)
                         let refusalReason =  (response["refusalReason"] as? String) ?? resultCode
                         AdyenManager.showErrorAlert(descr: refusalReason)
                     }
@@ -1031,16 +1031,15 @@ class MyBasketPlaceOrderVC: UIViewController {
 //            self.goToAddNewCardController()
             self.isPayingBySmilePoints = false
             AdyenManager.sharedInstance.performZeroTokenization(controller: self)
-            AdyenManager.sharedInstance.isNewCardAdded = { (error, response) in
+            AdyenManager.sharedInstance.isNewCardAdded = { (error, response,adyenObj) in
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                       elDebugPrint(resultCode)
+                        print(resultCode)
                         AdyenManager.showErrorAlert(descr: resultCode)
                     }
                 }else{
                     self.getPaymentMethods()
                 }
-                
             }
         }
         creditVC.newCardAdded = {(paymentArray) in

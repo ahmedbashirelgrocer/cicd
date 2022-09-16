@@ -570,6 +570,19 @@ enum CreditCardType : String {
         }
     }
     
+    func getCardColorImageFromTypeForWallet() ->  UIImage {
+        
+        
+        switch self {
+            case .VISA:
+                return UIImage(named: "ic_visaColored")!
+            case .MASTER_CARD :
+                return UIImage(named: "ic_mastercardColored")!
+            default:
+                return UIImage(named: "category_placeholder")!
+        }
+    }
+    
     
 }
 

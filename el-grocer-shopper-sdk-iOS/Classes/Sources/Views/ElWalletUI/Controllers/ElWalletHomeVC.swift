@@ -1,20 +1,20 @@
-//
-//  ElWalletHomeVC.swift
-//  ElGrocerShopper
-//
-//  Created by Salman on 28/04/2022.
-//  Copyright © 2022 elGrocer. All rights reserved.
-//
+    //
+    //  ElWalletHomeVC.swift
+    //  ElGrocerShopper
+    //
+    //  Created by Salman on 28/04/2022.
+    //  Copyright © 2022 elGrocer. All rights reserved.
+    //
 
 import UIKit
 import Adyen
 
 class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
-
+    
     @IBOutlet weak var walletAmountLabel: UILabel!
     @IBOutlet weak var addFundsButton: UIButton! {
         didSet {
-            addFundsButton.setTitle(NSLocalizedString("txt_add_funds", comment: "Add Fuunds"), for: UIControl.State())
+            addFundsButton.setTitle(localizedString("txt_add_funds", comment: "Add Fuunds"), for: UIControl.State())
         }
     }
     @IBOutlet weak var walletTableView: UITableView!
@@ -35,8 +35,8 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+            // Do any additional setup after loading the view.
         setInitialAppearence()
         bindData()
     }
@@ -69,7 +69,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     }
     
     private func bindData() {
-    
+        
         viewModel.voucherInfo.bind { [weak self] voucherdata in
             self?.voucherData = voucherdata
         }
@@ -101,10 +101,10 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-        //self.addBackButton()
+            //self.addBackButton()
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
-        self.title = NSLocalizedString("txt_title_elWallet", comment: "")
+        self.title = localizedString("txt_title_elWallet", comment: "")
         
     }
     
@@ -134,7 +134,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         if  navCount.viewControllers.count == 1 {
             self.navigationController?.dismiss(animated: true, completion: nil)
         }else{
-             self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -164,7 +164,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         navigationController.modalPresentationStyle = .fullScreen
         self.navigationController?.present(navigationController, animated: true, completion: { });
     }
-
+    
     @IBAction func addFundsButtonTapped(_ sender: UIButton) {
         
         let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: nil)
@@ -177,14 +177,14 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         creditVC.isNeedShowAllPaymentType = true
         creditVC.isFromWallet = true
         creditVC.paymentMethodA =  self.paymentMethodA
-//        creditVC.selectedGrocery = ElGrocerUtility.sharedInstance.activeGrocery ?? ElGrocerUtility.sharedInstance.gricer[0]
+            //        creditVC.selectedGrocery = ElGrocerUtility.sharedInstance.activeGrocery ?? ElGrocerUtility.sharedInstance.gricer[0]
         let navigation = ElgrocerGenericUIParentNavViewController.init(rootViewController: creditVC)
         if #available(iOS 13, *) {
             navigation.view.backgroundColor = .clear
         }else{
             navigation.view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         }
-  
+        
         creditVC.paymentMethodSelection = { [weak self] (methodSelect) in
             guard let self = self else {return}
             
@@ -199,7 +199,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         creditVC.goToAddNewCard = { [weak self] (credit) in
             guard let self = self else {return}
             self.goToAddNewCardController()
-
+            
         }
         creditVC.newCardAdded = {[weak self](paymentArray) in
             guard let self = self else {return}
@@ -222,7 +222,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         
         creditVC.creditCardDeleted = { [weak self] (creditCardSelected) in
             guard let self = self else {return}
-
+            
         }
         
         creditVC.addCard = {
@@ -245,10 +245,10 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
                 if let resultCode = response["resultCode"] as? String {
                     print(resultCode)
                     self.navigateToPaymentSuccessVC(isSuccess: false, creditCard: nil, controllerType: .cardAdd)
-                    // handle faliure case
+                        // handle faliure case
                 }
             }else{
-                //handle success case
+                    //handle success case
                 print(response)
                 self.navigateToPaymentSuccessVC(isSuccess: true, creditCard: nil, controllerType: .cardAdd)
             }
@@ -294,7 +294,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         navigationController.modalPresentationStyle = .fullScreen
         self.navigationController?.present(navigationController, animated: true, completion: { });
     }
-
+    
     fileprivate func getVouchersCell(_ tableView: UITableView, indexPath: IndexPath) -> VouchersCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VouchersCell.reuseId, for: indexPath) as! VouchersCell
         cell.configure(allVouchers[indexPath.row])
@@ -324,9 +324,9 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
                     self?.navigateToSuccessVCForVoucher(voucher: voucher, isSuccess: false, voucherValue: "")
                 }
             }
-
+            
         }
-        //cell.textLabel?.text = "IndexPath \(indexPath.row)"
+            //cell.textLabel?.text = "IndexPath \(indexPath.row)"
         return cell
     }
     
@@ -382,49 +382,49 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+        
         switch section {
-        case 0:
-            var count = 1
-            count = allVouchers.count > 1 ? 2 : 1//allVouchers.count
-            return count
-        case 1:
-            var count = 1
-            count = creditCardA.count > 1 ? 2 : 1//creditCardA.count
-            return count
-        case 2:
-            var count = 1
-            count = allTransection.count > 1 ? 2 : 1//allTransection.count
-            return count
-        default:
-            return 0
+            case 0:
+                var count = 1
+                count = allVouchers.count > 1 ? 2 : 1//allVouchers.count
+                return count
+            case 1:
+                var count = 1
+                count = creditCardA.count > 1 ? 2 : 1//creditCardA.count
+                return count
+            case 2:
+                var count = 1
+                count = allTransection.count > 1 ? 2 : 1//allTransection.count
+                return count
+            default:
+                return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
-        case 0:
-            if allVouchers.count>0 {
-                return getVouchersCell(tableView, indexPath: indexPath)
-            } else {
-                return getEmptyVouchersCell(tableView, indexPath: indexPath)
-            }
-        case 1:
-            if creditCardA.count>0 {
-                return getCardCell(tableView, indexPath: indexPath)
-            } else {
-                return getEmptyCardCell(tableView, indexPath: indexPath)
-            }
-        case 2:
-            if allTransection.count>0 {
-                return getTransactionsCell(tableView, indexPath: indexPath)
-            } else {
-                return getEmptyTransactionsCell(tableView, indexPath: indexPath)
-            }
-        default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "VouchersCell", for: indexPath) as! VouchersCell
-            return cell
+            case 0:
+                if allVouchers.count>0 {
+                    return getVouchersCell(tableView, indexPath: indexPath)
+                } else {
+                    return getEmptyVouchersCell(tableView, indexPath: indexPath)
+                }
+            case 1:
+                if creditCardA.count>0 {
+                    return getCardCell(tableView, indexPath: indexPath)
+                } else {
+                    return getEmptyCardCell(tableView, indexPath: indexPath)
+                }
+            case 2:
+                if allTransection.count>0 {
+                    return getTransactionsCell(tableView, indexPath: indexPath)
+                } else {
+                    return getEmptyTransactionsCell(tableView, indexPath: indexPath)
+                }
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "VouchersCell", for: indexPath) as! VouchersCell
+                return cell
         }
         
     }
@@ -436,52 +436,52 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
-
+    
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionHeaderView") as! elWalletSectionHeaderView
-        //headerView.sectionTitleLabel.text = "TableView Heder \(section)"
+            //headerView.sectionTitleLabel.text = "TableView Heder \(section)"
         switch section {
-        case 0:
-            let title = NSLocalizedString("txt_active_vouchers", comment: "active vouchers") + "(\(self.voucherData?.activeVoucherCount ?? 0))"
-            let buttonName = NSLocalizedString("txt_view_all", comment: "")
-            headerView.configureHeaderView(title: title, buttonName: buttonName )
-            headerView.moveNext = {
-                let voucherVC = ElGrocerViewControllers.getElWalletVouchersVC()
-                //TODO: viewModel should be assign by a method not like this
-                voucherVC.viewModel = self.viewModel
-                let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                navigationController.hideSeparationLine()
-                navigationController.viewControllers = [voucherVC]
-                navigationController.modalPresentationStyle = .fullScreen
-                self.navigationController?.present(navigationController, animated: true)
-            }
-        case 1:
-            headerView.configureHeaderView(title: NSLocalizedString("txt_cards_capital", comment: "cards"), buttonName: NSLocalizedString("txt_manage_cards", comment: ""))
-            headerView.moveNext = {
-                let cardsVC = ElGrocerViewControllers.getElWalletCardsVC()
-                cardsVC.creditCardA = self.creditCardA
-                cardsVC.viewModel = self.viewModel
-                let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                navigationController.hideSeparationLine()
-                navigationController.viewControllers = [cardsVC]
-                navigationController.modalPresentationStyle = .fullScreen
-                self.present(navigationController, animated: true)
-            }
-        case 2:
-            headerView.configureHeaderView(title: NSLocalizedString("txt_transection_history", comment: "transec"), buttonName: NSLocalizedString("txt_view_all", comment: ""))
-            headerView.moveNext = {
-                let transactionVC = ElGrocerViewControllers.getElWalletTransactionVC()
-                transactionVC.balance = self.viewModel.walletBalance.value
-                let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                navigationController.hideSeparationLine()
-                navigationController.viewControllers = [transactionVC]
-                navigationController.modalPresentationStyle = .fullScreen
-                self.navigationController?.pushViewController(transactionVC, animated: true)
-            }
-        default:
-            headerView.configureHeaderView(title: "", buttonName: "")
-
+            case 0:
+                let title = localizedString("txt_active_vouchers", comment: "active vouchers") + "(\(self.voucherData?.activeVoucherCount ?? 0))"
+                let buttonName = localizedString("txt_view_all", comment: "")
+                headerView.configureHeaderView(title: title, buttonName: buttonName )
+                headerView.moveNext = {
+                    let voucherVC = ElGrocerViewControllers.getElWalletVouchersVC()
+                        //TODO: viewModel should be assign by a method not like this
+                    voucherVC.viewModel = self.viewModel
+                    let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                    navigationController.hideSeparationLine()
+                    navigationController.viewControllers = [voucherVC]
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.navigationController?.present(navigationController, animated: true)
+                }
+            case 1:
+                headerView.configureHeaderView(title: localizedString("txt_cards_capital", comment: "cards"), buttonName: localizedString("txt_manage_cards", comment: ""))
+                headerView.moveNext = {
+                    let cardsVC = ElGrocerViewControllers.getElWalletCardsVC()
+                    cardsVC.creditCardA = self.creditCardA
+                    cardsVC.viewModel = self.viewModel
+                    let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                    navigationController.hideSeparationLine()
+                    navigationController.viewControllers = [cardsVC]
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.present(navigationController, animated: true)
+                }
+            case 2:
+                headerView.configureHeaderView(title: localizedString("txt_transection_history", comment: "transec"), buttonName: localizedString("txt_view_all", comment: ""))
+                headerView.moveNext = {
+                    let transactionVC = ElGrocerViewControllers.getElWalletTransactionVC()
+                    transactionVC.balance = self.viewModel.walletBalance.value
+                    let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                    navigationController.hideSeparationLine()
+                    navigationController.viewControllers = [transactionVC]
+                    navigationController.modalPresentationStyle = .fullScreen
+                    self.navigationController?.pushViewController(transactionVC, animated: true)
+                }
+            default:
+                headerView.configureHeaderView(title: "", buttonName: "")
+                
         }
         return headerView
     }
@@ -492,10 +492,10 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionFooterView") as! elWalletSectionFooterView
-        //footerView.footerLabel.text = "TableView Footer \(section)"
+            //footerView.footerLabel.text = "TableView Footer \(section)"
         return footerView
     }
-
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 10
     }
@@ -523,3 +523,4 @@ extension ElWalletHomeVC  {
     
     
 }
+
