@@ -18,7 +18,7 @@ class elWalletSectionFooterView: UITableViewHeaderFooterView {
     }
     static let reuseId: String = "elWalletSectionFooterView"
     static var nib: UINib {
-        return UINib(nibName: "elWalletSectionFooterView", bundle: nil)
+        return UINib(nibName: "elWalletSectionFooterView", bundle: .resource)
     }
     /*
     // Only override draw() if you perform custom drawing.

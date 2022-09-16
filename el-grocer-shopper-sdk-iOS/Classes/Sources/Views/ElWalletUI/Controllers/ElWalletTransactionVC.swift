@@ -12,7 +12,7 @@ class ElWalletTransactionVC: UIViewController, NavigationBarProtocol {
 
     @IBOutlet weak var elwalletHeadingLabel: UILabel! {
         didSet {
-            elwalletHeadingLabel.text = NSLocalizedString("txt_elwallet_balance", comment: "")
+            elwalletHeadingLabel.text = localizedString("txt_elwallet_balance", comment: "")
         }
     }
     @IBOutlet weak var balanceLabel: UILabel!
@@ -62,7 +62,7 @@ class ElWalletTransactionVC: UIViewController, NavigationBarProtocol {
         //self.addBackButton()
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
-        self.title = NSLocalizedString("txt_title_transaction_history", comment: "")
+        self.title = localizedString("txt_title_transaction_history", comment: "")
         
         self.balanceLabel.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: balance ?? 0.0)
         
@@ -217,7 +217,7 @@ extension ElWalletTransactionVC: UITableViewDataSource, UITableViewDelegate {
             return headerView
         }else{
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionHeaderView") as! elWalletSectionHeaderView
-            headerView.configureHeaderView(title: NSLocalizedString("txt_title_transaction_history", comment: ""), buttonName: "")
+            headerView.configureHeaderView(title: localizedString("txt_title_transaction_history", comment: ""), buttonName: "")
             headerView.moveToDetailsButton.isHidden = true
             return headerView
         }

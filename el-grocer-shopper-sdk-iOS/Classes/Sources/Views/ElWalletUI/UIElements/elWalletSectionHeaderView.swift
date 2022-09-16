@@ -21,7 +21,7 @@ class elWalletSectionHeaderView: UITableViewHeaderFooterView {
     
     static let reuseId: String = "elWalletSectionHeaderView"
     static var nib: UINib {
-        return UINib(nibName: "elWalletSectionHeaderView", bundle: nil)
+        return UINib(nibName: "elWalletSectionHeaderView", bundle: .resource)
     }
     override func awakeFromNib() {
         super.awakeFromNib()

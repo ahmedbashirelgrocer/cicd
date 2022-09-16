@@ -167,7 +167,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     
     @IBAction func addFundsButtonTapped(_ sender: UIButton) {
         
-        let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: nil)
+        let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: .resource)
         if #available(iOS 13, *) {
             creditVC.view.backgroundColor = .clear
         } else {

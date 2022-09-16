@@ -28,7 +28,7 @@ class TransactionsCell: UITableViewCell {
     
     static let reuseId: String = "TransactionsCell"
     static var nib: UINib {
-        return UINib(nibName: "TransactionsCell", bundle: nil)
+        return UINib(nibName: "TransactionsCell", bundle: .resource)
     }
     
     override func awakeFromNib() {
@@ -66,7 +66,7 @@ class TransactionsCell: UITableViewCell {
         nameLabel.text = transaction.transactionType
         let initalString = (transaction.isCredited ?? false) ? "+" : "-"
         let amount: String = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: (transaction.amount ?? 0.0).formateDisplayString())
-        valueLabel.text = initalString + amount + NSLocalizedString("aed", comment: "")
+        valueLabel.text = initalString + amount + localizedString("aed", comment: "")
         dateLabel.text = self.parseDate(date: transaction.createdAt ?? "")
         if (transaction.ownerDetail ?? "").elementsEqual("apple_pay") {
             sourceLabel.text = (transaction.ownerType ?? "")
@@ -74,7 +74,7 @@ class TransactionsCell: UITableViewCell {
             sourceLabel.text = (transaction.ownerType ?? "") + " : " + (transaction.ownerDetail ?? "")
         }
         let balance: String = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: (transaction.balance ?? 0.0).formateDisplayString())
-        balanceLabel.text = NSLocalizedString("txt_elwallet_balance", comment: "") + " " + balance + NSLocalizedString("aed", comment: "")
+        balanceLabel.text = localizedString("txt_elwallet_balance", comment: "") + " " + balance + localizedString("aed", comment: "")
     }
     
     private func parseDate(date: String)-> String {

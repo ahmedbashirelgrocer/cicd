@@ -19,12 +19,12 @@ class ElWalletAddFundsVC: UIViewController {
     
     @IBOutlet weak var lblTitle: UILabel! {
         didSet {
-            lblTitle.text = NSLocalizedString("title_how_much_like_to_add", comment: "")
+            lblTitle.text = localizedString("title_how_much_like_to_add", comment: "")
         }
     }
     @IBOutlet weak var amountTextField: ElgrocerTextField! {
         didSet {
-            amountTextField.setPlaceHolder(text: NSLocalizedString("aed", comment: ""))
+            amountTextField.setPlaceHolder(text: localizedString("aed", comment: ""))
             amountTextField.keyboardType = .asciiCapableNumberPad
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 amountTextField.textAlignment = .right
@@ -34,7 +34,7 @@ class ElWalletAddFundsVC: UIViewController {
     @IBOutlet weak var addFundsButton: UIButton!{
         didSet {
             addFundsButton.layer.cornerRadius = addFundsButton.frame.height / 2.0
-            addFundsButton.setTitle(NSLocalizedString("btn_add_funds", comment: ""), for: UIControl.State())
+            addFundsButton.setTitle(localizedString("btn_add_funds", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var btnAddFundsBottomConstraint: NSLayoutConstraint!

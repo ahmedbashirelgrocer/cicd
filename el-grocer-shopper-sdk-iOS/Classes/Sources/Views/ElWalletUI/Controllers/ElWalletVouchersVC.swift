@@ -12,12 +12,12 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
 
     @IBOutlet var lblDoYouHaveVoucher: UILabel! {
         didSet {
-            lblDoYouHaveVoucher.text = NSLocalizedString("txt_do_you_have_voucher", comment: "")
+            lblDoYouHaveVoucher.text = localizedString("txt_do_you_have_voucher", comment: "")
         }
     }
     @IBOutlet var txtVoucherCode: UITextField! {
         didSet {
-            txtVoucherCode.setPlaceHolder(text: NSLocalizedString("txt_voucher_code", comment: ""))
+            txtVoucherCode.setPlaceHolder(text: localizedString("txt_voucher_code", comment: ""))
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 txtVoucherCode.textAlignment = .right
             }
@@ -25,7 +25,7 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
     }
     @IBOutlet var btnRedeem: UIButton! {
         didSet {
-            btnRedeem.setTitle(NSLocalizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
+            btnRedeem.setTitle(localizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet weak var vouchersTableView: UITableView!
@@ -68,7 +68,7 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
         //self.addBackButton()
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
-        self.title = NSLocalizedString("txt_active_vouchers_small", comment: "")
+        self.title = localizedString("txt_active_vouchers_small", comment: "")
         
     }
     
@@ -206,7 +206,7 @@ extension ElWalletVouchersVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionHeaderView") as! elWalletSectionHeaderView
-        headerView.configureHeaderView(title: NSLocalizedString("txt_active_vouchers", comment: ""), buttonName: "")
+        headerView.configureHeaderView(title: localizedString("txt_active_vouchers", comment: ""), buttonName: "")
         headerView.moveToDetailsButton.isHidden = true
         return headerView
     }

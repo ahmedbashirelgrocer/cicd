@@ -19,13 +19,13 @@ class EmptyCardCell: UITableViewCell {
     @IBOutlet weak var addNewButton: UIButton!{
         didSet {
             addNewButton.layer.cornerRadius = addNewButton.frame.height / 2.0
-            addNewButton.setTitle(NSLocalizedString("txt_add_new_card_with_plus", comment: ""), for: UIControl.State())
+            addNewButton.setTitle(localizedString("txt_add_new_card_with_plus", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var lblNoCardtext: UILabel! {
         didSet {
             lblNoCardtext.numberOfLines = 0
-            lblNoCardtext.text = NSLocalizedString("txt_no_card_found", comment: "")
+            lblNoCardtext.text = localizedString("txt_no_card_found", comment: "")
         }
     }
     
@@ -33,7 +33,7 @@ class EmptyCardCell: UITableViewCell {
     
     static let reuseId: String = "EmptyCardCell"
     static var nib: UINib {
-        return UINib(nibName: "EmptyCardCell", bundle: nil)
+        return UINib(nibName: "EmptyCardCell", bundle: .resource)
     }
     
     override func awakeFromNib() {

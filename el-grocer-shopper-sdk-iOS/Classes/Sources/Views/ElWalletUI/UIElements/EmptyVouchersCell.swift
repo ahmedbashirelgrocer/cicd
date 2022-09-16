@@ -18,13 +18,13 @@ class EmptyVouchersCell: UITableViewCell {
     }
     @IBOutlet var lblNoVoucher: UILabel! {
         didSet {
-            lblNoVoucher.text = NSLocalizedString("txt_no_voucher", comment: "")
+            lblNoVoucher.text = localizedString("txt_no_voucher", comment: "")
         }
     }
     
     static let reuseId: String = "EmptyVouchersCell"
     static var nib: UINib {
-        return UINib(nibName: "EmptyVouchersCell", bundle: nil)
+        return UINib(nibName: "EmptyVouchersCell", bundle: .resource)
     }
     
     override func awakeFromNib() {

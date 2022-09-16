@@ -25,7 +25,7 @@ class VouchersCell: UITableViewCell {
     @IBOutlet weak var arrowImageView: UIImageView!
     @IBOutlet weak var redeemButton: UIButton! {
         didSet {
-            redeemButton.setTitle(NSLocalizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
+            redeemButton.setTitle(localizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet weak var voucherCodeLabel: UILabel!
@@ -37,7 +37,7 @@ class VouchersCell: UITableViewCell {
     var voucher: Voucher?
     static let reuseId: String = "VouchersCell"
     static var nib: UINib {
-        return UINib(nibName: "VouchersCell", bundle: nil)
+        return UINib(nibName: "VouchersCell", bundle: .resource)
     }
     
     override func awakeFromNib() {
@@ -60,17 +60,17 @@ class VouchersCell: UITableViewCell {
         }
         if voucher.isRedeemed {
             self.redeemButton.isEnabled = false
-            self.redeemButton.setTitle(NSLocalizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
+            self.redeemButton.setTitle(localizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
         } else {
             self.redeemButton.isEnabled = true
-            self.redeemButton.setTitle(NSLocalizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
+            self.redeemButton.setTitle(localizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
         }
         
         if self.voucherDetailsLabel.isHidden {
-            viewDetailLabel.text = NSLocalizedString("txt_view_details", comment: "")
+            viewDetailLabel.text = localizedString("txt_view_details", comment: "")
             self.arrowImageView.transform = CGAffineTransform(rotationAngle: 0)
         } else {
-            viewDetailLabel.text = NSLocalizedString("txt_hide_details", comment: "")
+            viewDetailLabel.text = localizedString("txt_hide_details", comment: "")
             self.arrowImageView.transform = CGAffineTransform(rotationAngle: (180.0 * .pi) / 180.0)
         }
         self.setStoreLogo(voucher.photoUrl ?? "")

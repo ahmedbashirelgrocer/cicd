@@ -30,7 +30,7 @@ class PaymentSuccessVC: UIViewController {
     }
     @IBOutlet var lblBackToElWallet: UILabel! {
         didSet {
-            lblBackToElWallet.text = NSLocalizedString("txt_btn_back_to_elwallet", comment: "")
+            lblBackToElWallet.text = localizedString("txt_btn_back_to_elwallet", comment: "")
         }
     }
     @IBOutlet var tryAgainBGView: AWView! {
@@ -41,7 +41,7 @@ class PaymentSuccessVC: UIViewController {
     }
     @IBOutlet var lblTryAgain: UILabel! {
         didSet {
-            lblTryAgain.text = NSLocalizedString("txt_btn_try_again", comment: "")
+            lblTryAgain.text = localizedString("txt_btn_try_again", comment: "")
         }
     }
     var controlerType: PaymentControllerSuccessType = .payment
@@ -79,31 +79,31 @@ class PaymentSuccessVC: UIViewController {
     func setupViews() {
         if self.controlerType == .payment {
             if isSuccess {
-                lblTransectionStatus.text = amount + " " + CurrencyManager.getCurrentCurrency() + NSLocalizedString("txt_payment_process_success", comment: "")
+                lblTransectionStatus.text = amount + " " + CurrencyManager.getCurrentCurrency() + localizedString("txt_payment_process_success", comment: "")
                 lblTransectionStatus.setH4SemiBoldGreenStyle()
             }else {
-                lblTransectionStatus.text = NSLocalizedString("txt_payment_process_faliure", comment: "")
+                lblTransectionStatus.text = localizedString("txt_payment_process_faliure", comment: "")
                 lblTransectionStatus.setH4SemiBoldErrorStyle()
             }
         }else if self.controlerType == .cardAdd {
             if isSuccess {
-                lblTransectionStatus.text = NSLocalizedString("txt_card_added_successfully", comment: "")
+                lblTransectionStatus.text = localizedString("txt_card_added_successfully", comment: "")
                 lblTransectionStatus.setH4SemiBoldGreenStyle()
             }else {
-                lblTransectionStatus.text = NSLocalizedString("txt_card_not_added", comment: "")
+                lblTransectionStatus.text = localizedString("txt_card_not_added", comment: "")
                 lblTransectionStatus.setH4SemiBoldErrorStyle()
             }
         }else {
             //voucher
             if isSuccess {
-                let successInitials = NSLocalizedString("txt_voucher", comment: "") + "\"" + (self.voucher ?? "" ) + "\"" + NSLocalizedString("txt_voucher_redeem_success", comment: "")
-                let successStringLast = "\n" + (self.voucherValue ?? "") + " " + CurrencyManager.getCurrentCurrency() + NSLocalizedString("txt_amount_voucher_amount_elwallet", comment: "")
+                let successInitials = localizedString("txt_voucher", comment: "") + "\"" + (self.voucher ?? "" ) + "\"" + localizedString("txt_voucher_redeem_success", comment: "")
+                let successStringLast = "\n" + (self.voucherValue ?? "") + " " + CurrencyManager.getCurrentCurrency() + localizedString("txt_amount_voucher_amount_elwallet", comment: "")
                 
                 lblTransectionStatus.text = successInitials + successStringLast
                 lblTransectionStatus.setH4SemiBoldGreenStyle()
             }else {
                 
-                let faliureText = NSLocalizedString("txt_voucher", comment: "") + "\"" + (self.voucher ?? "" ) + "\"" + NSLocalizedString("txt_voucher_redeem_faliure", comment: "")
+                let faliureText = localizedString("txt_voucher", comment: "") + "\"" + (self.voucher ?? "" ) + "\"" + localizedString("txt_voucher_redeem_faliure", comment: "")
                 
                 lblTransectionStatus.text = faliureText
                 lblTransectionStatus.setH4SemiBoldErrorStyle()

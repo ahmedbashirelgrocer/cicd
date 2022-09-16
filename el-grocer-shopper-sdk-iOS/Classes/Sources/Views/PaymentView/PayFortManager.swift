@@ -575,11 +575,11 @@ enum CreditCardType : String {
         
         switch self {
             case .VISA:
-                return UIImage(named: "ic_visaColored")!
+                return UIImage(name: "ic_visaColored")!
             case .MASTER_CARD :
-                return UIImage(named: "ic_mastercardColored")!
+                return UIImage(name: "ic_mastercardColored")!
             default:
-                return UIImage(named: "category_placeholder")!
+                return UIImage(name: "category_placeholder")!
         }
     }
     

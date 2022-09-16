@@ -21,7 +21,7 @@ class DeleteCardConfirmationBottomSheet: UIViewController {
     }
     @IBOutlet var lblTitle: UILabel! {
         didSet {
-            lblTitle.text = NSLocalizedString("txt_do_you_want_remove_card", comment: "")
+            lblTitle.text = localizedString("txt_do_you_want_remove_card", comment: "")
             lblTitle.setH4SemiBoldStyle()
         }
     }
@@ -31,7 +31,7 @@ class DeleteCardConfirmationBottomSheet: UIViewController {
             btnRemove.cornarRadius = 28
             btnRemove.backgroundColor = .navigationBarColor()
             btnRemove.setH4SemiBoldWhiteStyle()
-            btnRemove.setTitle(NSLocalizedString("btn_remove_title", comment: ""), for: UIControl.State())
+            btnRemove.setTitle(localizedString("btn_remove_title", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var btnKeepUsing: AWButton! {
@@ -41,7 +41,7 @@ class DeleteCardConfirmationBottomSheet: UIViewController {
             btnKeepUsing.borderWidth = 2.0
             btnKeepUsing.borderColor = .navigationBarColor()
             btnKeepUsing.setH4SemiBoldGreenStyle()
-            btnKeepUsing.setTitle(NSLocalizedString("btn_keep_using", comment: ""), for: UIControl.State())
+            btnKeepUsing.setTitle(localizedString("btn_keep_using", comment: ""), for: UIControl.State())
         }
     }
     

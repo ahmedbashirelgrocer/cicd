@@ -18,13 +18,13 @@ class EmptyTransactionsCell: UITableViewCell {
     }
     @IBOutlet var lblNoTransection: UILabel! {
         didSet {
-            lblNoTransection.text = NSLocalizedString("txt_no_transection_history", comment: "")
+            lblNoTransection.text = localizedString("txt_no_transection_history", comment: "")
         }
     }
     
     static let reuseId: String = "EmptyTransactionsCell"
     static var nib: UINib {
-        return UINib(nibName: "EmptyTransactionsCell", bundle: nil)
+        return UINib(nibName: "EmptyTransactionsCell", bundle: .resource)
     }
     
     override func awakeFromNib() {

@@ -250,13 +250,13 @@ struct PaymentType: Codable {
     func getLocalizedName() -> String {
         
         if self.id == 1 {
-            return NSLocalizedString("pay_via_cash", comment: "")
+            return localizedString("pay_via_cash", comment: "")
         }else if self.id == 2 {
-            return NSLocalizedString("pay_via_card", comment: "")
+            return localizedString("pay_via_card", comment: "")
         }else if self.id == 3 {
-            return NSLocalizedString("pay_via_CreditCard", comment: "")
+            return localizedString("pay_via_CreditCard", comment: "")
         }else if self.id == PaymentOption.applePay.rawValue {
-            return NSLocalizedString("pay_via_Apple_pay", comment: "")
+            return localizedString("pay_via_Apple_pay", comment: "")
         }else {
             return self.name ?? ""
         }

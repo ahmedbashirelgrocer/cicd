@@ -23,7 +23,7 @@ class CardCell: UITableViewCell {
     
     static let reuseId: String = "CardCell"
     static var nib: UINib {
-        return UINib(nibName: "CardCell", bundle: nil)
+        return UINib(nibName: "CardCell", bundle: .resource)
     }
     
     override func awakeFromNib() {
@@ -45,11 +45,11 @@ class CardCell: UITableViewCell {
     
     func configCell(_ card: CreditCard) {
         
-        let cardExpDate = " | " + NSLocalizedString("lbl_Expires_on", comment: "") + (card.adyenPaymentMethod?.expiryMonth ?? "") + "/" + (card.adyenPaymentMethod?.expiryYear ?? "")
+        let cardExpDate = " | " + localizedString("lbl_Expires_on", comment: "") + (card.adyenPaymentMethod?.expiryMonth ?? "") + "/" + (card.adyenPaymentMethod?.expiryYear ?? "")
         
         self.nameLabel.text = card.cardType.rawValue
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
-            let cardExpDate = NSLocalizedString("lbl_Expires_on", comment: "") + (card.adyenPaymentMethod?.expiryMonth ?? "") + "/" + (card.adyenPaymentMethod?.expiryYear ?? "")
+            let cardExpDate = localizedString("lbl_Expires_on", comment: "") + (card.adyenPaymentMethod?.expiryMonth ?? "") + "/" + (card.adyenPaymentMethod?.expiryYear ?? "")
             self.cardNumLabel.text = cardExpDate + " | " + card.last4.convertEngNumToPersianNum() + "-xxxx"
         }else {
             self.cardNumLabel.text =  "xxxx-" + card.last4.convertEngNumToPersianNum() + cardExpDate

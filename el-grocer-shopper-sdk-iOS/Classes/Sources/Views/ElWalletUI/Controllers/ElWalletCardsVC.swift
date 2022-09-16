@@ -28,7 +28,7 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
         didSet{
             addNewCardButton.cornarRadius = 28
             addNewCardButton.setButton2SemiBoldWhiteStyle()
-            addNewCardButton.setTitle(NSLocalizedString("btn_add_new_card", comment: ""), for: UIControl.State())
+            addNewCardButton.setTitle(localizedString("btn_add_new_card", comment: ""), for: UIControl.State())
         }
     }
     
@@ -68,7 +68,7 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
         //self.addBackButton()
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
-        self.title = NSLocalizedString("txt_cards_small", comment: "")
+        self.title = localizedString("txt_cards_small", comment: "")
         
     }
     
@@ -253,22 +253,22 @@ extension ElWalletCardsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionHeaderView") as! elWalletSectionHeaderView
         if self.creditCardA.count == 0 {
-            headerView.configureHeaderView(title: NSLocalizedString("txt_cards_title", comment: ""), buttonName: "")
+            headerView.configureHeaderView(title: localizedString("txt_cards_title", comment: ""), buttonName: "")
             headerView.moveToDetailsButton.isUserInteractionEnabled = false
         }else if(self.tableView.isEditing == true) {
-            headerView.configureHeaderView(title: NSLocalizedString("txt_cards_title", comment: ""), buttonName: NSLocalizedString("btn_done_edit_card", comment: ""))
+            headerView.configureHeaderView(title: localizedString("txt_cards_title", comment: ""), buttonName: localizedString("btn_done_edit_card", comment: ""))
             headerView.moveToDetailsButton.isUserInteractionEnabled = true
         }else {
-            headerView.configureHeaderView(title: NSLocalizedString("txt_cards_title", comment: ""), buttonName: NSLocalizedString("btn_edit_card", comment: ""))
+            headerView.configureHeaderView(title: localizedString("txt_cards_title", comment: ""), buttonName: NSLocalizedString("btn_edit_card", comment: ""))
             headerView.moveToDetailsButton.isUserInteractionEnabled = true
         }
         headerView.moveNext = {
             if(self.tableView.isEditing == true) {
                 self.tableView.isEditing = false
-                headerView.moveToDetailsButton.setTitle(NSLocalizedString("btn_edit_card", comment: ""), for: UIControl.State())
+                headerView.moveToDetailsButton.setTitle(localizedString("btn_edit_card", comment: ""), for: UIControl.State())
             } else {
                 self.tableView.isEditing = true
-                headerView.moveToDetailsButton.setTitle(NSLocalizedString("btn_done_edit_card", comment: ""), for: UIControl.State())
+                headerView.moveToDetailsButton.setTitle(localizedString("btn_done_edit_card", comment: ""), for: UIControl.State())
             }
         }
         return headerView
