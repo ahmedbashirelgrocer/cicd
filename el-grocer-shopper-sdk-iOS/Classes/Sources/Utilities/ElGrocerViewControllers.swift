@@ -597,6 +597,26 @@ class ElGrocerViewControllers {
         return ElGrocerViewControllers.initializeControllerFromStoryboard("SmilePoints", storyboardControllerId: "SmilesLoginVC")
     }
     
+        // MARK: elWallet
+    class func getElWalletHomeVC() -> ElWalletHomeVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "ElWalletHomeVC")
+    }
+    class func getElWalletTransactionVC() -> ElWalletTransactionVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "ElWalletTransactionVC")
+    }
+    class func getElWalletCardsVC() -> ElWalletCardsVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "ElWalletCardsVC")
+    }
+    class func getElWalletVouchersVC() -> ElWalletVouchersVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "ElWalletVouchersVC")
+    }
+    class func getElWalletAddFundsVC() -> ElWalletAddFundsVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "ElWalletAddFundsVC")
+    }
+    class func getPaymentSuccessVC() -> PaymentSuccessVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "PaymentSuccessVC")
+    }
+    
 }
 
 

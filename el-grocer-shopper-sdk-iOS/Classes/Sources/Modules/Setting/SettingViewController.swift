@@ -127,21 +127,46 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
        
         
         if UserDefaults.isUserLoggedIn()  {
-
-            titles =  [localizedString("live_chat", comment: ""), localizedString("orders_Settings", comment: "") ,
-                       localizedString("saved_recipies", comment: ""),
-                       localizedString("saved_Cars", comment: ""),
-                       localizedString("address_settings", comment: ""),
-                       
-                       localizedString("payment_methods", comment: ""),
-                       localizedString("password_settings", comment: ""),
-                       localizedString("language_settings", comment: ""),
-                       localizedString("delete_account", comment: ""),
-                       localizedString("terms_settings", comment: ""),
-                       localizedString("privacy_policy", comment: ""),
-                       localizedString("FAQ_settings", comment: "")]
             
-            Images = ["liveChatSettings","ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" , "paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings", "faqSettings"]
+            
+            if SDKManager.isSmileSDK {
+                
+                titles =  [localizedString("live_chat", comment: ""), localizedString("orders_Settings", comment: "") ,
+                           localizedString("saved_recipies", comment: ""),
+                           localizedString("saved_Cars", comment: ""),
+                           localizedString("address_settings", comment: ""),
+                           
+                           localizedString("payment_methods", comment: ""),
+                           localizedString("password_settings", comment: ""),
+                           localizedString("language_settings", comment: ""),
+                           localizedString("delete_account", comment: ""),
+                           localizedString("terms_settings", comment: ""),
+                           localizedString("privacy_policy", comment: ""),
+                           localizedString("FAQ_settings", comment: "")]
+                
+                Images = ["liveChatSettings","ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" , "paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings", "faqSettings"]
+                
+            } else {
+                
+                titles =  [NSLocalizedString("live_chat", comment: ""), NSLocalizedString("orders_Settings", comment: "") ,
+                           NSLocalizedString("saved_recipies", comment: ""),
+                           NSLocalizedString("saved_Cars", comment: ""),
+                           NSLocalizedString("address_settings", comment: ""),
+                           
+                           NSLocalizedString("payment_methods", comment: ""),
+                           NSLocalizedString("txt_title_elWallet", comment: ""),
+                           NSLocalizedString("password_settings", comment: ""),
+                           NSLocalizedString("language_settings", comment: ""),
+                           NSLocalizedString("delete_account", comment: ""),
+                           NSLocalizedString("terms_settings", comment: ""),
+                           NSLocalizedString("privacy_policy", comment: ""),
+                           NSLocalizedString("FAQ_settings", comment: "")]
+                
+                Images =  ["liveChatSettings" , "ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" ,"paymentMethodSettings","paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings" , "faqSettings"]
+                
+            }
+
+           
          
 
         }else{
