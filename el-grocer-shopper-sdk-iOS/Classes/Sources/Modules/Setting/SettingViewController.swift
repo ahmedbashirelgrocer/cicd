@@ -575,7 +575,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
             }else  if indexPath.section == 4 + smilePointSection{
                 let cell:SignOutCell = tableView.dequeueReusableCell(withIdentifier: kSignOutCellIdentifier, for: indexPath) as! SignOutCell
-                cell.signOutButton.setTitle(NSLocalizedString("sign_out_alert_title", comment: ""), for: .normal)
+                cell.signOutButton.setTitle(localizedString("sign_out_alert_title", comment: ""), for: .normal)
                 cell.contentView.setNeedsLayout()
                 cell.contentView.layoutIfNeeded()
                 cell.signOutHandler = {[weak self] () in

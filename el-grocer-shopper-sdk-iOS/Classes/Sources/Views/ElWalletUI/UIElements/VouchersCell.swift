@@ -76,7 +76,7 @@ class VouchersCell: UITableViewCell {
         self.setStoreLogo(voucher.photoUrl ?? "")
     }
     fileprivate func setStoreLogo(_ imageURl : String?) {
-        let placeholderPhoto = UIImage(named: "product_placeholder")!
+        let placeholderPhoto = UIImage(name: "product_placeholder")!
         if imageURl != nil && imageURl?.range(of: "http") != nil {
             
             self.logoImageView.sd_setImage(with: URL(string: imageURl!), placeholderImage: placeholderPhoto , options: SDWebImageOptions(rawValue: 0), completed: {[weak self] (image, error, cacheType, imageURL) in

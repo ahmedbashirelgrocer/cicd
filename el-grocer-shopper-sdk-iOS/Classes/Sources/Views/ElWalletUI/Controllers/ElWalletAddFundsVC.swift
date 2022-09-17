@@ -66,7 +66,7 @@ class ElWalletAddFundsVC: UIViewController {
         //self.addBackButton()
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
-        self.title = NSLocalizedString("txt_add_funds", comment: "")
+        self.title = localizedString("txt_add_funds", comment: "")
         
     }
     

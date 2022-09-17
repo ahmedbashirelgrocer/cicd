@@ -387,7 +387,7 @@ extension UIButton {
     }
     func setBody2BoldGreenStyle() {
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(16)
-        self.setTitleColor(UIColor.navigationBarWhiteColor(), for: UIControl.State())
+        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
     }
     
     func setBody3RegGreenStyle(){

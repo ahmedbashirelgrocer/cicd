@@ -2113,6 +2113,11 @@
 "btn_add_funds" = "إضافة الأموال";
 "txt_payment_option_voucher" = "قسيمة";
 "txt_use_a_new_card" = "بطاقة جديدة";
+
+
+"lbl_Expires_on" = "تنتهي في ";
+
+
     //MARK: secondCheckout
 "use_elwallet_text" = "استخدام المحفظة";
 "use_smile_text" = "استخدام النقاط";

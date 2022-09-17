@@ -2077,6 +2077,9 @@ Oreo";
 "btn_add_funds" = "Add funds";
 "txt_payment_option_voucher" = "Voucher";
 "txt_use_a_new_card" = "Use a new card";
+"lbl_Expires_on" = "Expires on ";
+
+
     //MARK: secondCheckout
 "use_elwallet_text" = "Use elWallet";
 "use_smile_text" = "Use Smiles";

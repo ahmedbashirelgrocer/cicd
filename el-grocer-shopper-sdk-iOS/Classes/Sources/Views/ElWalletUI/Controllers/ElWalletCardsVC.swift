@@ -259,7 +259,7 @@ extension ElWalletCardsVC: UITableViewDataSource, UITableViewDelegate {
             headerView.configureHeaderView(title: localizedString("txt_cards_title", comment: ""), buttonName: localizedString("btn_done_edit_card", comment: ""))
             headerView.moveToDetailsButton.isUserInteractionEnabled = true
         }else {
-            headerView.configureHeaderView(title: localizedString("txt_cards_title", comment: ""), buttonName: NSLocalizedString("btn_edit_card", comment: ""))
+            headerView.configureHeaderView(title: localizedString("txt_cards_title", comment: ""), buttonName: localizedString("btn_edit_card", comment: ""))
             headerView.moveToDetailsButton.isUserInteractionEnabled = true
         }
         headerView.moveNext = {

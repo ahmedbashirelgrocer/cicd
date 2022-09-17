@@ -20,12 +20,14 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreditCardListViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreditCardListViewController" customModule="ElGrocerShopper" customModuleProvider="target">
             <connections>
+                <outlet property="NextButtonView" destination="gyW-Bp-Pr0" id="cpo-h6-q08"/>
                 <outlet property="activtyIndicator" destination="hPs-B5-zXW" id="7EB-hM-WdG"/>
                 <outlet property="backButtonWidth" destination="dfJ-s9-29t" id="Ydg-ly-DpY"/>
                 <outlet property="btnConfirmPayment" destination="Tx1-ee-AgB" id="CpU-e8-152"/>
                 <outlet property="btnCross" destination="msd-I7-z8G" id="OJr-Sc-0C9"/>
+                <outlet property="btnNext" destination="i2a-wl-Zfs" id="VcL-br-db5"/>
                 <outlet property="btnPaymentSelection" destination="f46-nv-tKD" id="8td-c4-bga"/>
                 <outlet property="confirmPaymentMethodView" destination="fh7-DO-Q09" id="tZN-1O-yY9"/>
                 <outlet property="lblChosePayment" destination="qal-Eh-cQw" id="5dl-BA-rhd"/>
@@ -58,11 +60,11 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZHj-hl-Rn1" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZHj-hl-Rn1" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="79" width="320" height="401"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WXb-HI-Zr3">
-                            <rect key="frame" x="0.0" y="114.5" width="320" height="286.5"/>
+                            <rect key="frame" x="0.0" y="114" width="320" height="287"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -81,7 +83,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hPs-B5-zXW">
-                            <rect key="frame" x="141.5" y="239.5" width="37" height="37"/>
+                            <rect key="frame" x="141.5" y="239" width="37" height="37"/>
                             <color key="color" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Card available" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AfB-gW-xzq">
@@ -100,18 +102,18 @@
                                 <action selector="backButton:" destination="-1" eventType="touchUpInside" id="wob-NW-HqG"/>
                             </connections>
                         </button>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6i-q7-rpM" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                            <rect key="frame" x="16" y="60" width="288" height="39.5"/>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6i-q7-rpM" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <rect key="frame" x="16" y="60" width="288" height="39"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Info-Icon" translatesAutoresizingMaskIntoConstraints="NO" id="gdP-HW-kVn">
-                                    <rect key="frame" x="10" y="10" width="16" height="16"/>
+                                    <rect key="frame" x="10" y="9.5" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="16" id="EVX-2n-ofT"/>
                                         <constraint firstAttribute="width" constant="16" id="zNk-xy-P9O"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SsT-6r-Tbk">
-                                    <rect key="frame" x="34" y="10" width="244" height="14.5"/>
+                                    <rect key="frame" x="34" y="9.5" width="244" height="14"/>
                                     <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -138,7 +140,7 @@
                                 <constraint firstAttribute="height" constant="24" id="AGK-SW-Y6M"/>
                                 <constraint firstAttribute="width" constant="24" id="zlx-Fd-8PJ"/>
                             </constraints>
-                            <state key="normal" image="CrossButtonIcon"/>
+                            <state key="normal" image="CrossGreen"/>
                             <connections>
                                 <action selector="crossButtonHandler:" destination="-1" eventType="touchUpInside" id="Nvx-UB-dU9"/>
                             </connections>
@@ -198,7 +200,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="130"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tx1-ee-AgB" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tx1-ee-AgB" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
                     <rect key="frame" x="16" y="66" width="382" height="56"/>
                     <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -229,7 +231,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I agree to the payment terms &amp; conditions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkb-sf-ANc">
-                    <rect key="frame" x="50" y="21.5" width="264" height="17"/>
+                    <rect key="frame" x="50" y="21.5" width="262" height="17"/>
                     <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="14"/>
                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -268,15 +270,15 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-546.37681159420299" y="379.6875"/>
         </view>
-        <view contentMode="scaleToFill" id="wKM-y1-c7s">
+        <view contentMode="scaleToFill" id="gyW-Bp-Pr0">
             <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpw-Or-obJ" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i2a-wl-Zfs" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
                     <rect key="frame" x="16" y="16" width="382" height="56"/>
                     <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="56" id="lm6-09-1QL"/>
+                        <constraint firstAttribute="height" constant="56" id="WpH-Nv-0mI"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="15"/>
                     <state key="normal" title="Next">
@@ -287,41 +289,44 @@
                             <real key="value" value="23"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="nextTapped:" destination="-1" eventType="touchUpInside" id="ApT-MV-pgB"/>
+                    </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cvF-zP-jy2">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G4L-uT-av6">
                     <rect key="frame" x="16" y="1" width="382" height="1"/>
                     <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="1" id="CAD-aF-qND"/>
+                        <constraint firstAttribute="height" constant="1" id="dQc-2w-hE4"/>
                     </constraints>
                 </view>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="VDh-df-Ln7"/>
+            <viewLayoutGuide key="safeArea" id="oay-yS-sBb"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="hpw-Or-obJ" firstAttribute="leading" secondItem="VDh-df-Ln7" secondAttribute="leading" constant="16" id="7Qc-8p-ic1"/>
-                <constraint firstItem="cvF-zP-jy2" firstAttribute="top" secondItem="VDh-df-Ln7" secondAttribute="top" constant="1" id="FsJ-Dh-75F"/>
-                <constraint firstItem="VDh-df-Ln7" firstAttribute="trailing" secondItem="hpw-Or-obJ" secondAttribute="trailing" constant="16" id="guB-sh-xAm"/>
-                <constraint firstAttribute="trailing" secondItem="cvF-zP-jy2" secondAttribute="trailing" constant="16" id="hxw-Lf-052"/>
-                <constraint firstItem="VDh-df-Ln7" firstAttribute="bottom" secondItem="hpw-Or-obJ" secondAttribute="bottom" constant="8" id="nRT-97-LEN"/>
-                <constraint firstItem="cvF-zP-jy2" firstAttribute="leading" secondItem="wKM-y1-c7s" secondAttribute="leading" constant="16" id="ujR-Gw-ER1"/>
+                <constraint firstItem="oay-yS-sBb" firstAttribute="bottom" secondItem="i2a-wl-Zfs" secondAttribute="bottom" constant="8" id="89f-iL-3Er"/>
+                <constraint firstAttribute="trailing" secondItem="G4L-uT-av6" secondAttribute="trailing" constant="16" id="Fkk-Vz-FUA"/>
+                <constraint firstItem="oay-yS-sBb" firstAttribute="trailing" secondItem="i2a-wl-Zfs" secondAttribute="trailing" constant="16" id="NRg-Fv-dbG"/>
+                <constraint firstItem="i2a-wl-Zfs" firstAttribute="leading" secondItem="oay-yS-sBb" secondAttribute="leading" constant="16" id="cj4-mM-U8h"/>
+                <constraint firstItem="G4L-uT-av6" firstAttribute="top" secondItem="oay-yS-sBb" secondAttribute="top" constant="1" id="m1f-SS-lV0"/>
+                <constraint firstItem="G4L-uT-av6" firstAttribute="leading" secondItem="gyW-Bp-Pr0" secondAttribute="leading" constant="16" id="vTt-67-g47"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="564.375" y="371.875"/>
+            <point key="canvasLocation" x="564.375" y="371.25"/>
         </view>
     </objects>
     <designables>
         <designable name="Tx1-ee-AgB">
-            <size key="intrinsicContentSize" width="170" height="30"/>
+            <size key="intrinsicContentSize" width="172" height="30"/>
         </designable>
-        <designable name="hpw-Or-obJ">
+        <designable name="i2a-wl-Zfs">
             <size key="intrinsicContentSize" width="32" height="30"/>
         </designable>
     </designables>
     <resources>
         <image name="BackGreen" width="12" height="21"/>
         <image name="CheckboxUnfilled" width="24" height="24"/>
-        <image name="CrossButtonIcon" width="24" height="24"/>
+        <image name="CrossGreen" width="24" height="24"/>
         <image name="Info-Icon" width="16" height="16"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

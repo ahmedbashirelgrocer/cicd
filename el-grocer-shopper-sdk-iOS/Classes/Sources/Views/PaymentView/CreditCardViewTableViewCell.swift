@@ -63,16 +63,16 @@ class CreditCardViewTableViewCell: UITableViewCell {
         
         if obj == PaymentOption.cash {
             self.lblCardType.text = localizedString("cash_On_Delivery_string", comment: "")
-            self.cardImage.image = UIImage(named: "cash-List")
+            self.cardImage.image = UIImage(name: "cash-List")
         }else  if obj == PaymentOption.card {
             self.lblCardType.text = localizedString("pay_via_card", comment: "")
-            self.cardImage.image = UIImage(named: "CardOnDelivery")
+            self.cardImage.image = UIImage(name: "CardOnDelivery")
         }else  if obj == PaymentOption.applePay {
             self.lblCardType.text = localizedString("checkout_paymentlist_applepay_title", comment: "")
-            self.cardImage.image = UIImage(named: "payWithApple")
+            self.cardImage.image = UIImage(name: "payWithApple")
         }else  if obj == PaymentOption.voucher {
             self.lblCardType.text = localizedString("txt_payment_option_voucher", comment: "")
-            self.cardImage.image = UIImage(named: "payWithVoucher")
+            self.cardImage.image = UIImage(name: "payWithVoucher")
         }
     }
     
@@ -84,7 +84,7 @@ class CreditCardViewTableViewCell: UITableViewCell {
         self.radioButton.isHidden = false
         
         self.lblCardType.text = localizedString("checkout_paymentlist_applepay_title", comment: "")
-        self.cardImage.image = UIImage(named: "payWithApple")
+        self.cardImage.image = UIImage(name: "payWithApple")
     }
     
     func configureCellAsPaymentOption (obj : Any, isForWallet: Bool = false) {
@@ -102,7 +102,7 @@ class CreditCardViewTableViewCell: UITableViewCell {
         
         
         
-        self.cardImage.image = UIImage(named: "placeorder-card")
+        self.cardImage.image = UIImage(name: "placeorder-card")
         
     }
     

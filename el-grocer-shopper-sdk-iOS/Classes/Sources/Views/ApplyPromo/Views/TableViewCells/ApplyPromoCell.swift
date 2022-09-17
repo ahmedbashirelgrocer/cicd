@@ -40,7 +40,7 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var viewDetailsBGView: UIView! {
         didSet {
-            imgArrowViewDetails.image = UIImage(named: "arrowDown16")
+            imgArrowViewDetails.image = UIImage(name: "arrowDown16")
         }
     }
     @IBOutlet var lblViewDetails: UILabel! {
@@ -75,7 +75,7 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var imgVoucherCupon: UIImageView! {
         didSet {
-            imgVoucherCupon.image = UIImage(named: "EnterPromoDark")
+            imgVoucherCupon.image = UIImage(name: "EnterPromoDark")
         }
     }
     @IBOutlet var promoMessageBGView: UIView! {
@@ -146,11 +146,11 @@ class ApplyPromoCell: UITableViewCell {
         if isExpanded {
             self.lblVoucherDetails.visibility = .visible
             self.lblViewDetails.text = localizedString("txt_hide_details", comment: "")
-            self.imgArrowViewDetails.image = UIImage(named: "arrowUp16")
+            self.imgArrowViewDetails.image = UIImage(name: "arrowUp16")
         }else {
             self.lblVoucherDetails.visibility = .gone
             self.lblViewDetails.text = localizedString("txt_view_details", comment: "")
-            self.imgArrowViewDetails.image = UIImage(named: "arrowDown16")
+            self.imgArrowViewDetails.image = UIImage(name: "arrowDown16")
         }
     }
     

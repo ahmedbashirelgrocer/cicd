@@ -28,7 +28,7 @@
         <!--El Wallet HomeVC-->
         <scene sceneID="4Xi-ht-v49">
             <objects>
-                <viewController storyboardIdentifier="ElWalletHomeVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c0x-Jd-Kul" customClass="ElWalletHomeVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ElWalletHomeVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c0x-Jd-Kul" customClass="ElWalletHomeVC" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XeW-wA-y0I"/>
                         <viewControllerLayoutGuide type="bottom" id="Jly-Vf-joQ"/>
@@ -92,7 +92,7 @@
         <!--El Wallet VouchersVC-->
         <scene sceneID="GvQ-RS-bLW">
             <objects>
-                <viewController storyboardIdentifier="ElWalletVouchersVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EJg-aN-LbB" customClass="ElWalletVouchersVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ElWalletVouchersVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EJg-aN-LbB" customClass="ElWalletVouchersVC" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DXQ-yL-w99"/>
                         <viewControllerLayoutGuide type="bottom" id="OOa-PV-vZj"/>
@@ -188,7 +188,7 @@
         <!--El Wallet Add FundsVC-->
         <scene sceneID="j2N-QU-1ff">
             <objects>
-                <viewController storyboardIdentifier="ElWalletAddFundsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IGX-Zc-b0U" customClass="ElWalletAddFundsVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ElWalletAddFundsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IGX-Zc-b0U" customClass="ElWalletAddFundsVC" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xIt-5v-1eJ"/>
                         <viewControllerLayoutGuide type="bottom" id="7CV-BU-sIP"/>
@@ -216,7 +216,7 @@
                                     <action selector="addFundsTapped:" destination="IGX-Zc-b0U" eventType="touchUpInside" id="793-fW-51H"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="AED" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XU1-Aa-Hax" customClass="ElgrocerTextField" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="AED" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XU1-Aa-Hax" customClass="ElgrocerTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="68" width="341" height="283"/>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
@@ -260,7 +260,7 @@
         <!--El Wallet CardsVC-->
         <scene sceneID="IJw-ey-Wk9">
             <objects>
-                <viewController storyboardIdentifier="ElWalletCardsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wqk-NJ-5Rh" customClass="ElWalletCardsVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ElWalletCardsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wqk-NJ-5Rh" customClass="ElWalletCardsVC" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gc7-iw-dKI"/>
                         <viewControllerLayoutGuide type="bottom" id="18L-wZ-IR8"/>
@@ -279,10 +279,10 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="k1V-OE-5RO">
                                 <rect key="frame" x="0.0" y="582" width="375" height="85"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="03S-e1-O0J" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="03S-e1-O0J" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="85"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aPr-WW-LPk" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aPr-WW-LPk" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="8" width="343" height="56"/>
                                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -345,7 +345,7 @@
         <!--Payment SuccessVC-->
         <scene sceneID="Lan-t7-tca">
             <objects>
-                <viewController storyboardIdentifier="PaymentSuccessVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qaQ-20-Fbm" customClass="PaymentSuccessVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PaymentSuccessVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="qaQ-20-Fbm" customClass="PaymentSuccessVC" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Jwj-Tn-TnY"/>
                         <viewControllerLayoutGuide type="bottom" id="YJ8-MC-Pba"/>
@@ -360,7 +360,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1nQ-fs-cTy" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1nQ-fs-cTy" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="32" y="581" width="311" height="56"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KDO-ct-ZEZ">
@@ -389,7 +389,7 @@
                                     <constraint firstAttribute="trailing" secondItem="xWn-kU-YYM" secondAttribute="trailing" id="znW-Fz-Tn1"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgb-a9-ndr" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgb-a9-ndr" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="32" y="509" width="311" height="56"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WQq-es-NgF">
@@ -447,7 +447,7 @@
         <!--El Wallet TransactionVC-->
         <scene sceneID="jz2-1U-Esd">
             <objects>
-                <viewController storyboardIdentifier="ElWalletTransactionVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LEm-d1-qu8" customClass="ElWalletTransactionVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ElWalletTransactionVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LEm-d1-qu8" customClass="ElWalletTransactionVC" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rrw-1o-cgW"/>
                         <viewControllerLayoutGuide type="bottom" id="fp8-C5-xpw"/>
@@ -504,7 +504,7 @@
         <!--Delete Card Confirmation Bottom Sheet-->
         <scene sceneID="SgG-KA-w8M">
             <objects>
-                <viewController storyboardIdentifier="DeleteCardConfirmationBottomSheet" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vKB-hq-AOA" customClass="DeleteCardConfirmationBottomSheet" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DeleteCardConfirmationBottomSheet" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vKB-hq-AOA" customClass="DeleteCardConfirmationBottomSheet" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gWb-oO-8dp"/>
                         <viewControllerLayoutGuide type="bottom" id="p3I-Tg-l9Q"/>
@@ -534,7 +534,7 @@
                                             <action selector="btnCrossHandler:" destination="vKB-hq-AOA" eventType="touchUpInside" id="cxh-qN-eDk"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nmg-UX-3YP" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nmg-UX-3YP" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="16" y="52.5" width="343" height="56"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="56" id="CUo-EA-Xx7"/>
@@ -545,7 +545,7 @@
                                             <action selector="btnRemoveHandler:" destination="vKB-hq-AOA" eventType="touchUpInside" id="o9u-rn-4cr"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rC0-hr-tB2" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rC0-hr-tB2" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="16" y="124.5" width="343" height="56"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="56" id="l2d-Ul-DlL"/>
@@ -595,7 +595,7 @@
         <!--Wallet View Controller-->
         <scene sceneID="G2G-7z-peE">
             <objects>
-                <viewController storyboardIdentifier="WalletViewController" hidesBottomBarWhenPushed="YES" id="5xV-N9-s6Z" customClass="WalletViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WalletViewController" hidesBottomBarWhenPushed="YES" id="5xV-N9-s6Z" customClass="WalletViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oSO-gd-aDd"/>
                         <viewControllerLayoutGuide type="bottom" id="Obs-ka-tGK"/>
@@ -801,7 +801,7 @@
         <!--Congratulations View Controller-->
         <scene sceneID="YAB-KK-CW7">
             <objects>
-                <viewController storyboardIdentifier="CongratulationsViewController" hidesBottomBarWhenPushed="YES" id="VSq-2k-3Xo" customClass="CongratulationsViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CongratulationsViewController" hidesBottomBarWhenPushed="YES" id="VSq-2k-3Xo" customClass="CongratulationsViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zoL-4i-QKE"/>
                         <viewControllerLayoutGuide type="bottom" id="riy-Yj-KnK"/>
