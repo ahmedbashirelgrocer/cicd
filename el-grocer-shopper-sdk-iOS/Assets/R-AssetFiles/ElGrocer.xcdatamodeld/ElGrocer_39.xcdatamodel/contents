@@ -104,7 +104,6 @@
         <attribute name="riderFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="serviceFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="smallImageUrl" optional="YES" attributeType="String"/>
-        <attribute name="smileSupport" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="storeType" optional="YES" attributeType="Transformable"/>
         <attribute name="topSearch" optional="YES" attributeType="Transformable"/>
         <attribute name="vat" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -133,11 +132,9 @@
         <attribute name="authAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="cardID" optional="YES" attributeType="String"/>
         <attribute name="cardLast" optional="YES" attributeType="String"/>
-        <attribute name="cardType" optional="YES" attributeType="String"/>
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="deliveryDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="deliveryTypeId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="isSmilesUser" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="itemImages" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="itemsPossition" optional="YES" attributeType="Transformable"/>
         <attribute name="orderDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -150,7 +147,6 @@
         <attribute name="shopperID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="shopperName" optional="YES" attributeType="String"/>
         <attribute name="shopperPhone" optional="YES" attributeType="String"/>
-        <attribute name="smilesBurnPoints" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="substitutionPreference" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="totalProducts" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -209,7 +205,6 @@
         <attribute name="isSponsored" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameEn" optional="YES" attributeType="String"/>
-        <attribute name="objectId" optional="YES" attributeType="String"/>
         <attribute name="orderPromoPrice" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO"/>
         <attribute name="productId" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
@@ -294,18 +289,18 @@
     <elements>
         <element name="Brand" positionX="-918" positionY="-1080" width="128" height="89"/>
         <element name="CarouselProducts" positionX="-963" positionY="-1125" width="128" height="104"/>
-        <element name="Category" positionX="-954" positionY="-1116" width="128" height="194"/>
+        <element name="Category" positionX="-954" positionY="-1116" width="128" height="179"/>
         <element name="CollectorDetail" positionX="-909" positionY="-1071" width="128" height="89"/>
         <element name="DeliveryAddress" positionX="-954" positionY="-1116" width="128" height="344"/>
         <element name="DeliverySlot" positionX="-936" positionY="-1098" width="128" height="149"/>
-        <element name="Grocery" positionX="-927" positionY="-1089" width="128" height="764"/>
+        <element name="Grocery" positionX="-927" positionY="-1089" width="128" height="749"/>
         <element name="GroceryCategoryBrands" positionX="-945" positionY="-1107" width="128" height="74"/>
         <element name="GroceryReview" positionX="-909" positionY="-1071" width="128" height="104"/>
-        <element name="Order" positionX="-927" positionY="-1089" width="128" height="539"/>
+        <element name="Order" positionX="-927" positionY="-1089" width="128" height="494"/>
         <element name="OrderSubstitution" positionX="-963" positionY="-1125" width="128" height="89"/>
         <element name="Picker" positionX="-945" positionY="-1107" width="128" height="89"/>
         <element name="PickupLocation" positionX="-918" positionY="-1080" width="128" height="134"/>
-        <element name="Product" positionX="-927" positionY="-1089" width="128" height="644"/>
+        <element name="Product" positionX="-927" positionY="-1089" width="128" height="629"/>
         <element name="RecipeCart" positionX="-936" positionY="-1098" width="128" height="104"/>
         <element name="Referral" positionX="-918" positionY="-1080" width="128" height="134"/>
         <element name="ReferralWallet" positionX="-945" positionY="-1107" width="128" height="104"/>

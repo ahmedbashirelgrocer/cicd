@@ -908,16 +908,6 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
                 if isFromSetting {
                     self.performZeroTokenization()
                     return
-                    
-                    
-                    let vc = ElGrocerViewControllers.getEmbededPaymentWebViewController()
-                    vc.isAddNewCard = true
-                    self.navigationController?.pushViewController(vc, animated: true)
-                    vc.refreshCardApi = { [weak self] (isNeedToSelectLast) in
-                        guard let self = self else {return}
-                        self.checkForCreditCards()
-                    }
-                    return
                 }
                 
                 self.backButton("")

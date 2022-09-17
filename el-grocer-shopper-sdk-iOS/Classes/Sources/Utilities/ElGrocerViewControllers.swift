@@ -617,6 +617,13 @@ class ElGrocerViewControllers {
         return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "PaymentSuccessVC")
     }
     
+    
+        //MARK: SecondCheckoutController
+    class func getSecondCheckoutVC() -> SecondCheckoutVC {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("SecondCheckOut", storyboardControllerId: "SecondCheckoutVC")
+    }
+    
+        //MARK: Delete
     class func getDeleteCardConfirmationBottomSheet() -> DeleteCardConfirmationBottomSheet {
         return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "DeleteCardConfirmationBottomSheet")
     }

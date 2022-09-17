@@ -56,6 +56,7 @@
         <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile"/>
     </entity>
     <entity name="DeliverySlot" representedClassName=".DeliverySlot" syncable="YES">
+        <attribute name="backendDbId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="estimated_delivery_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -297,7 +298,7 @@
         <element name="Category" positionX="-954" positionY="-1116" width="128" height="194"/>
         <element name="CollectorDetail" positionX="-909" positionY="-1071" width="128" height="89"/>
         <element name="DeliveryAddress" positionX="-954" positionY="-1116" width="128" height="344"/>
-        <element name="DeliverySlot" positionX="-936" positionY="-1098" width="128" height="149"/>
+        <element name="DeliverySlot" positionX="-936" positionY="-1098" width="128" height="164"/>
         <element name="Grocery" positionX="-927" positionY="-1089" width="128" height="764"/>
         <element name="GroceryCategoryBrands" positionX="-945" positionY="-1107" width="128" height="74"/>
         <element name="GroceryReview" positionX="-909" positionY="-1071" width="128" height="104"/>

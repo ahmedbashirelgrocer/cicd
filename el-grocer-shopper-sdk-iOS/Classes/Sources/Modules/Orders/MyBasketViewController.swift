@@ -4090,144 +4090,85 @@ extension MyBasketViewController {
         
         setRecipeCartAnalyticsAndRemoveRecipe()
         
+        guard self.isDeliveryMode else {
+            
+            let vc = ElGrocerViewControllers.myBasketPlaceOrderVC()
+            vc.hidesBottomBarWhenPushed = true
+            vc.secondCheckOutDataHandler = self.populateMyBasketObjForCheckout()
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
+            
+        }
+        
+        let _ = SpinnerView.showSpinnerViewInView(self.view)
+        
+        var deliveryAddress : DeliveryAddress? = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        var slotId = self.currentDeliverySlot != nil ? self.currentDeliverySlot.backendDbId : 0
+        var slot: DeliverySlot? = self.currentDeliverySlot != nil ? self.currentDeliverySlot : nil
+        var orderID : String? = nil
+        var orderForEdit : Order? = nil
+        if UserDefaults.isOrderInEdit(), order != nil {
+            deliveryAddress = order.deliveryAddress
+            slotId = order.deliverySlot?.backendDbId ?? 0
+            slot = order.deliverySlot
+            orderID = UserDefaults.getEditOrderDbId()?.stringValue
+            orderForEdit = order
+            
+        }
+        
+        if let deliveryAddress = deliveryAddress {
+            let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            let vm = SecondaryViewModel(address: deliveryAddress, grocery: self.grocery!, slot: slotId,orderId: orderID,shopingItems: self.shoppingItems, finalisedProducts: self.products, selectedPreferenceId: self.myBasketDataObj.getSelectedReason()?.reasonKey.intValue ?? 1, deliverySlot: slot)
+            vm.setEditOrderInitialDetail(orderForEdit)
+            vm.getCartDetailsApi()
+            vm.setUserId(userId: user?.dbID)
+            vm.basketData
+                .subscribe(onNext: { [weak self] data in
+                    guard let self = self, let _ = data else { return }
+                    Thread.OnMainThread {
+                        guard UIApplication.topViewController() == self else { return }
+                        SpinnerView.hideSpinnerView()
+                        let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
+                        secondVC.viewModel = vm
+                        self.navigationController?.pushViewController(secondVC, animated: true)
+                    }
+                })
+                .disposed(by: disposeBag)
+            
+            vm.basketError
+                .subscribe (onNext: { cartApiError in
+                    guard cartApiError != nil else{
+                        return
+                    }
+                    SpinnerView.hideSpinnerView()
+                    cartApiError?.showErrorAlert()
+                })
+                .disposed(by: disposeBag)
+            vm.getBasketData
+                .subscribe(onNext: { [weak self] data in
+                    guard let self = self, let _ = data else { return }
+                    Thread.OnMainThread {
+                        guard UIApplication.topViewController() == self else { return }
+                        SpinnerView.hideSpinnerView()
+                        let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
+                        secondVC.viewModel = vm
+                        self.navigationController?.pushViewController(secondVC, animated: true)
+                    }
+                })
+                .disposed(by: disposeBag)
+            
+            vm.getBasketError
+                .subscribe (onNext: { cartApiError in
+                    guard cartApiError != nil else{
+                        return
+                    }
+                    vm.getBasketDetailWithSlot()
+                })
+                .disposed(by: disposeBag)
+        }
         
         
-        
-            //sab
-        let vc = ElGrocerViewControllers.myBasketPlaceOrderVC()
-        vc.hidesBottomBarWhenPushed = true
-        vc.secondCheckOutDataHandler = self.populateMyBasketObjForCheckout()
-        self.navigationController?.pushViewController(vc, animated: true)
-        
-        
-        
-        /*
-         self.currentCvv = self.txtCvv.text ?? ""
-         
-         guard self.grocery != nil else {
-         self.tabBarController?.selectedIndex = 0
-         return
-         }
-         
-         if  let _ : NSNumber = UserDefaults.getEditOrderDbId() {
-         if self.order.status == OrderStatusId.orderStatusPending.rawValue {
-         self.makeOrderEdit()
-         return
-         }
-         }
-         guard self.selectedPaymentOption != nil else {
-         self.lblCvvError.text = localizedString("shopping_basket_payment_info_label", comment: "")
-         self.txtCvv.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-         return
-         }
-         if self.selectedPaymentOption == PaymentOption.creditCard {
-         guard self.selectedCreditCard != nil else {
-         self.lblCvvError.text = localizedString("shopping_basket_payment_info_label", comment: "")
-         self.txtCvv.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-         return
-         }
-         if self.currentCvv.count < 3 {
-         self.lblCvvError.text = localizedString("lbl_enter_Cvv", comment: "")
-         self.txtCvv.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-         return
-         }
-         }
-         if  self.currentDeliverySlot != nil && Int(truncating: self.currentDeliverySlot!.dbID) != asapDbId && (self.currentDeliverySlot.estimated_delivery_at.minutesFrom(Date())) < 0  {
-         self.showSlotExpiryAlert()
-         FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click ", action: "Expiry slot \(String(describing: self.currentDeliverySlot.estimated_delivery_at.minutesFrom(Date())))")
-         return
-         }
-         var productIds : [String] = []
-         var brandNames : [String] = []
-         var fbDataA : [[AnyHashable : Any]] = []
-         for finalItem in self.shoppingItems {
-         let facebookProductParams = ["id" : "\(Product.getCleanProductId(fromId:finalItem.productId))"  , "quantity" : finalItem.count.intValue ] as [AnyHashable: Any]
-         fbDataA.append(facebookProductParams)
-         productIds.append("\(Product.getCleanProductId(fromId:finalItem.productId))")
-         brandNames.append(finalItem.brandName ?? "")
-         }
-         let paramsJSON = JSON(fbDataA)
-         let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
-         
-         ElGrocerEventsLogger.sharedInstance.trackCheckOut(coupon: productIds.joined(separator: ","), currency: kProductCurrencyEngAEDName, value: self.itemsSummaryValue , isEdit: UserDefaults.isOrderInEdit(), itemsCount: self.itemsCount.text ?? "", productIds: productIds.joined(separator: ","), appFlayerJsonString: paramsString )
-         
-         setRecipeCartAnalyticsAndRemoveRecipe()
-         
-         var deliveryFee = 0.0
-         var riderFee = 0.0
-         
-         if self.itemsSummaryValue < self.grocery?.minBasketValue ?? 0 {
-         deliveryFee = self.grocery?.deliveryFee ?? 0
-         }else{
-         riderFee = self.grocery?.riderFee ?? 0
-         }
-         
-         var shopperNote  = ""
-         
-         let indexPath:IndexPath = IndexPath(row: 4, section: 0)
-         if let cell = self.tblBasket.cellForRow(at: indexPath) as? MyBasketInstructionTableViewCell {
-         //            if cell.txtInsutrction.text?.count ?? 0 > 0   {
-         //                shopperNote = cell.txtInsutrction.text ?? ""
-         //            }
-         }
-         if shopperNote.count == 0 {
-         if let note = UserDefaults.getLeaveUsNote() {
-         shopperNote = note
-         }
-         }
-         
-         if  let orderDBID : NSNumber = UserDefaults.getEditOrderDbId() {
-         
-         let spinner = SpinnerView.showSpinnerViewInView(self.view)
-         ElGrocerApi.sharedInstance.editOrder(self.shoppingItems , inGrocery: self.order.grocery , atAddress:  self.order.deliveryAddress , withNote: shopperNote , withPaymentType: self.selectedPaymentOption! , walletPaidAmount: 0 , riderFee: riderFee , deliveryFee: deliveryFee , andWithDeliverySlot: self.currentDeliverySlot , orderID: orderDBID , self.selectedPaymentOption == .creditCard ?  UserDefaults.getMerchantRef(userID: self.userProfile?.dbID.stringValue ?? "-1") : nil , String(describing: self.selectedCreditCard?.cardID ?? 0), UserDefaults.getAmountRef(userID: self.userProfile?.dbID.stringValue ?? "-1") , selectedCar: self.isDeliveryMode ? nil : self.dataHandler.selectedCar!, selectedCollector: self.isDeliveryMode ? nil :  self.dataHandler.selectedCollector!, pickUpLocation: self.isDeliveryMode ? nil :  self.dataHandler.pickUpLocation!) {(result) -> Void in
-         spinner?.removeFromSuperview()
-         SpinnerView.hideSpinnerView()
-         switch result {
-         case .success( _):
-         self.finalHandlerResult(result: result , finalOrderItems: self.shoppingItems , activeGrocery:self.order.grocery , finalProducts: self.products, orderID: orderDBID )
-         
-         case .failure(let error):
-         if error.code == 10000 || error.code == 4052 { // for edit order only
-         if let message = error.message {
-         if !message.isEmpty {
-         ElGrocerAlertView.createAlert(localizedString("order_confirmation_Edit_order_button", comment: ""),description:localizedString("edit_Order_TimePassed", comment: ""),positiveButton: localizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),negativeButton: localizedString("setting_feedback", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
-         let orderID = self.order.dbID.stringValue
-         UserDefaults.resetEditOrder(false)
-         self.order.status = NSNumber(value: OrderStatus.pending.rawValue)
-         if buttonIndex == 0 {
-         // cancelButton action
-         self.backButtonClick()
-         }else{
-         //livechat action
-         //                                            if ElGrocerUtility.sharedInstance.isZenDesk {
-         //                                                ZenDesk.sharedInstance.showLiveChatWithReplacingCurrentNavigation(orderID: orderID, inNavigation: self.navigationController)
-         //                                            }else{
-         //                                                NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
-         //                                                self.navigationController?.popViewController(animated: false)
-         //                                                ZohoChat.showChat(orderID)
-         //                                            }
-         let sendBirdManager = SendBirdDeskManager(controller: self, orderId: orderID, type: .orderSupport)
-         sendBirdManager.setUpSenBirdDeskWithCurrentUser()
-         
-         }
-         }).show()
-         return
-         }
-         }
-         }
-         error.showErrorAlert()
-         }
-         }
-         return
-         }
-         
-         let spinner = SpinnerView.showSpinnerViewInView(self.view)
-         ElGrocerApi.sharedInstance.placeOrder(self.shoppingItems, inGrocery: self.grocery! , atAddress: self.currentAddress! , withNote: shopperNote, withPaymentType: self.selectedPaymentOption! , walletPaidAmount: 0, riderFee: riderFee, deliveryFee: deliveryFee , andWithDeliverySlot: self.currentDeliverySlot , self.selectedPaymentOption == .creditCard ?  UserDefaults.getMerchantRef(userID: self.userProfile?.dbID.stringValue ?? "-1") : nil , String(describing: self.selectedCreditCard?.cardID ?? 0) , ammount: UserDefaults.getAmountRef(userID: self.userProfile?.dbID.stringValue ?? "-1") , selectedCar: self.isDeliveryMode ? nil : self.dataHandler.selectedCar!, selectedCollector: self.isDeliveryMode ? nil :  self.dataHandler.selectedCollector!, pickUpLocation: self.isDeliveryMode ? nil :  self.dataHandler.pickUpLocation!)  {  (result) -> Void in
-         self.finalHandlerResult(result: result , finalOrderItems: self.shoppingItems , activeGrocery: self.grocery! , finalProducts: self.products, orderID: nil )
-         spinner?.removeFromSuperview()
-         
-         }
-         */
+   
     }
     
     func finalHandlerResult ( result: Either<NSDictionary> , finalOrderItems:[ShoppingBasketItem] , activeGrocery:Grocery! , finalProducts:[Product]! , orderID: NSNumber?) {

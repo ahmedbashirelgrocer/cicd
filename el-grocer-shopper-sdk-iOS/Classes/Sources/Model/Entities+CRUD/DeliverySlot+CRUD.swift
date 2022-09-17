@@ -57,6 +57,7 @@ extension DeliverySlot {
                     deliverySlot.isInstant = false
                 }
             }
+            deliverySlot.backendDbId = responseDict["id"] as? NSNumber ?? 0
             deliverySlot.groceryID = groceryID
             deliverySlot.time_milli = responseDict["time_milli"] as? NSNumber ?? 0
             deliverySlot.start_time = (responseDict["start_time"] as? String)?.convertStringToCurrentTimeZoneDate() ?? Date()
