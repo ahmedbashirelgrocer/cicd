@@ -96,8 +96,7 @@ class PlaceOrderHandler {
                     }
                 }else if error.code == 4069 {
                         // qunatity check
-                    
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let appDelegate = SDKManager.shared
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
                         if buttonIndex == 1 {
                             

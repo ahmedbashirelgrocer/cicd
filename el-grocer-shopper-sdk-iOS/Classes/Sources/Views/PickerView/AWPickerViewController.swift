@@ -11,10 +11,19 @@ import UIKit
 import SwiftDate
 import UIKit
 import FBSDKCoreKit
+
+
+enum PicketSlotViewType : Int {
+    
+    case `default` = 0
+    case basket = 1
+    
+}
+
+
 class AWPickerViewController : UIViewController {
     
-    
-    
+    var viewType : PicketSlotViewType =  .default
     
     @IBOutlet var slotDaySegmentView: UIView!
     @IBOutlet var segmentHeights: NSLayoutConstraint!
@@ -104,15 +113,49 @@ class AWPickerViewController : UIViewController {
     
     func getGroceryDeliverySlots(){
            
+       
         self.slotDaySegmentView.isHidden = true
-            self.activityIndication.startAnimating()
+        self.activityIndication.startAnimating()
+        
+        guard let dbID = self.currentGrocery?.dbID, let zoneId = self.currentGrocery?.deliveryZoneId else {
+            self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
+            self.activityIndication.stopAnimating()
+            self.setSegmentControlAppearance()
+            self.lblNoSlot.isHidden =  self.collectionData.count > 0
+            FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Filurerespone" , ["error" : "No delivery zone"])
+            return
+        }
+        
+        guard self.viewType == .default else {
+            SecondCheckOutApi().getSecondCheckoutDetails(retailerId: dbID, retailerZone: zoneId, slots: true) { (result) in
+                switch result {
+                    case .success(let response):
+                        self.saveResponseData(response, grocery: self.currentGrocery)
+                        self.activityIndication.stopAnimating()
+                        self.lblNoSlot.isHidden =  self.collectionData.count > 0
+                        if self.collectionData.count == 0 {
+                            FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Successrespone" , ["error" : response.description])
+                        }
+                    case .failure(let error):
+                        print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                        self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
+                        self.activityIndication.stopAnimating()
+                        self.setSegmentControlAppearance()
+                        self.lblNoSlot.isHidden =  self.collectionData.count > 0
+                        FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Filurerespone" , ["error" : error.localizedMessage])
+                }
+            }
+            return
+        }
+        
+        
         ElGrocerApi.sharedInstance.getGroceryDeliverySlotsWithGroceryId(self.currentGrocery?.dbID, andWithDeliveryZoneId: self.currentGrocery?.deliveryZoneId, completionHandler: { (result) -> Void in
             
             switch result {
                 
                 case .success(let response):
                    elDebugPrint("SERVER Response:%@",response)
-                    self.saveResponseData(response)
+                    self.saveResponseData(response, grocery: self.currentGrocery)
                     self.activityIndication.stopAnimating()
                     self.lblNoSlot.isHidden =  self.collectionData.count > 0
                     if self.collectionData.count == 0 {
@@ -129,8 +172,8 @@ class AWPickerViewController : UIViewController {
         })
     }
     
-    // MARK: Data
-    func saveResponseData(_ responseObject:NSDictionary) {
+        // MARK: Data
+    func saveResponseData(_ responseObject:NSDictionary, grocery : Grocery?) {
         
         let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
         self.collectionData = DeliverySlot.insertOrReplaceDeliverySlotsFromDictionary(responseObject, context: context)
@@ -139,7 +182,7 @@ class AWPickerViewController : UIViewController {
         if let slots =  UserDefaults.getEditOrderSelectedDeliverySlot()  {
             if UserDefaults.isOrderInEdit() {
                 let alreadyOrderSlot = DeliverySlot.createDeliverySlotFromCustomDictionary(slots as! NSDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-              let isSlot =   self.collectionData.filter { (slot) -> Bool in
+                let isSlot =   self.collectionData.filter { (slot) -> Bool in
                     return slot.dbID == alreadyOrderSlot.dbID
                 }
                 if isSlot.count == 0 {

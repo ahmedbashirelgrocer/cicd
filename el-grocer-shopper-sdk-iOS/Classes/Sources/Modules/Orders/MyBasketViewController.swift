@@ -16,6 +16,7 @@ import NBBottomSheet
 import FirebaseCrashlytics
 import RxSwift
 
+
 protocol MyBasketViewProtocol : class {
     
     func shoppingBasketViewCheckOutTapped(_ isGroceryBasket:Bool, grocery:Grocery?, notAvailableItems:[Int]?, availableProductsPrices:NSDictionary?) -> Void
@@ -238,7 +239,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     }()
     
     var searchBar:CategorySearchBar!
-    
+    let disposeBag = DisposeBag()
     
         //MARK: Float & Double Var
     var scrollY: CGFloat = 0
@@ -3833,22 +3834,6 @@ extension MyBasketViewController {
     
     func getFinalAmountToDisplay () -> Double {
         
-            //        var discountedPriceis = 0.0
-            //        var isPromoCode = false
-            //        if let promoCodeValue = UserDefaults.getPromoCodeValue() {
-            //            discountedPriceis = priceSum - promoCodeValue.valueCents
-            //            isPromoCode = true
-            //        }
-            //        var finpriceToShow = discountedPriceis
-            //        if discountedPriceis == 0 {
-            //            discountedPriceis = priceSum
-            //        }
-            //        if finpriceToShow <= 0  && isPromoCode {
-            //            finpriceToShow = 0.00
-            //        }else{
-            //            finpriceToShow = discountedPriceis
-            //        }
-        
         return priceSum
         
     }
@@ -3891,13 +3876,7 @@ extension MyBasketViewController {
                 }
             }
         }
-        
-            //        if isPromo{
-            //            if promoValue != nil && promoValue.valueCents > 0{
-            //                Discount = (promoValue.valueCents) + Discount
-            //            }
-            //        }
-        
+   
         return Discount
         
     }
@@ -3950,22 +3929,6 @@ extension MyBasketViewController {
         
         self.priceSum   = self.itemsSummaryValue
         
-        /*
-         if (self.itemsSummaryValue ) < self.grocery?.minBasketValue ?? 0 {
-         
-         // Order amount is less then minimum basket amount
-         // add delivery fees + service fees
-         self.serviceFee = (self.grocery?.serviceFee ?? 0) + (self.grocery?.deliveryFee ?? 0)
-         self.priceSum  = (self.itemsSummaryValue ) + (self.serviceFee )
-         
-         }else{
-         
-         // Order amount more then or eqaul to minimum basket amount
-         // add rider fees + service fees
-         self.serviceFee = (self.grocery?.riderFee ?? 0) + (self.grocery?.serviceFee ?? 0)
-         self.priceSum   = (self.itemsSummaryValue ) + (self.serviceFee )
-         }
-         */
         
     }
     

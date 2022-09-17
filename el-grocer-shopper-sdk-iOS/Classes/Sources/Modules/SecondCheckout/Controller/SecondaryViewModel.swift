@@ -661,9 +661,9 @@ struct BasketDataClass: Codable {
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        let stringVlue = (try values.decodeIfPresent(String.self, forKey: .finalAmount))
-        let doubleValue = (try values.decodeIfPresent(Double.self, forKey: .finalAmount))
-        finalAmount = stringVlue ?? String(doubleValue ?? 0)
+        let stringVlue = (try? values.decodeIfPresent(String.self, forKey: .finalAmount)) ?? ""
+      //  let doubleValue = (try? values.decodeIfPresent(Double.self, forKey: .finalAmount))
+        finalAmount = stringVlue //?? String(doubleValue ?? 0)
         totalValue = try values.decodeIfPresent(String.self, forKey: .totalValue)
         promoCodes  = try values.decodeIfPresent(String.self, forKey: .promoCodes)
         primaryPaymentTypeID = try values.decodeIfPresent(String.self, forKey: .primaryPaymentTypeID)

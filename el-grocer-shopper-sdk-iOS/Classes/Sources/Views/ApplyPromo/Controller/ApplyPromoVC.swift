@@ -72,7 +72,7 @@ class ApplyPromoVC: UIViewController {
         let view = PromoTitleView.loadFromNib()
         return view!
     }()
-    typealias promoApplied = (_ promoApplied: Bool)-> Void
+    typealias promoApplied = (_ promoApplied: Bool,_ promoCode: PromotionCode?)-> Void
     var isPromoApplied : promoApplied?
     var promoCodeArray: [PromotionCode] = []
     var extensionArray: [Bool] = []
@@ -84,6 +84,7 @@ class ApplyPromoVC: UIViewController {
     var priviousOrderId: String?
     var isGettingPromo: Bool = false
     var isFirstTime: Bool = true
+    var promoCode: String?
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableView()
@@ -150,12 +151,12 @@ class ApplyPromoVC: UIViewController {
         self.btnPromoRemove.isHidden = true
         self.showPromoError(true, message: "")
         if let isPromoApplied = self.isPromoApplied {
-            isPromoApplied(false)
+            isPromoApplied(false, nil)
         }
         self.tblView.reloadDataOnMain()
     }
     @IBAction func btnApplyPromoHandler(_ sender: Any) {
-        if self.promoTextField.text != ""{
+        if self.promoTextField.text != "" {
             FireBaseEventsLogger.ApplyPromoClick(index: -1000 , code: promoTextField.text ?? "")
             self.checkPromoCodeRealisation(self.promoTextField.text!, self.priviousOrderId, withAnimation: true)
         }
@@ -227,7 +228,7 @@ extension ApplyPromoVC {
             
             if error != nil {
                 if let isPromoApplied = self.isPromoApplied {
-                    isPromoApplied(false)
+                    isPromoApplied(false, nil)
                 }
                 if withAnimation {
                     self.showPromoError(false, message: error?.message ?? "")
@@ -239,7 +240,7 @@ extension ApplyPromoVC {
             }
             
             if let isPromoApplied = self.isPromoApplied {
-                isPromoApplied(true)
+                isPromoApplied(true, promoCode)
             }
             if withAnimation {
                 self.showPromoError(true, message: "")

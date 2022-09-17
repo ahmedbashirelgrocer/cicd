@@ -359,6 +359,20 @@ extension UILabel {
         self.textColor = UIColor.navigationBarColor()
     }
    
+    func setBody3BoldUpperLimitedStockStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        self.textColor = UIColor.limitedStockGreenColor()
+    }
+    
+    func setBody1RegWhiteStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(17)
+        self.textColor = UIColor.navigationBarWhiteColor()
+    }
+    
+    func setBody1SemiBoldWhiteStyle() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(17)
+        self.textColor = UIColor.navigationBarWhiteColor()
+    }
     
 }
 

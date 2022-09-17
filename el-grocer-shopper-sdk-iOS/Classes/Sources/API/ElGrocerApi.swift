@@ -128,6 +128,7 @@ enum ElGrocerApiEndpoint : String {
     case Banners = "v1/banners"
     case ChangePassword = "v1/shoppers/update_password"
     case PlaceOrder = "v3/orders/generate"
+    case createOrder = "v4/orders/create"
     //case UpdateOrder = "v3/orders/generate"
     case OrderList = "v3/orders"
     case newOrderList = "v3/orders/history" // https://elgrocerdxb.atlassian.net/browse/EG-584
@@ -4132,6 +4133,61 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
         }
     }
+      
+      
+      func placeOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue, parameters: parameters, progress: { (progress) in
+                  // debugPrint("Progress for API :  \(progress)")
+          }, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  
+                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+          
+          
+      }
+      
+      func placeEditOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          NetworkCall.put(ElGrocerApiEndpoint.PlaceOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  
+                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+          
+          
+      }
+      
+      
     
     //MARK: promoCode
       func getPromoList(limmit: Int, Offset: Int, grocery:String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {

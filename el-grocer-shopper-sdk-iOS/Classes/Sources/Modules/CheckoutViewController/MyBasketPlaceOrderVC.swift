@@ -1110,7 +1110,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         vc.priviousShoppingItems = self.secondCheckOutDataHandler?.shoppingItemsA
         vc.priviousOrderId = self.secondCheckOutDataHandler?.order?.dbID.stringValue
         vc.priviousFinalizedProductA = self.secondCheckOutDataHandler?.finalizedProductsA
-        vc.isPromoApplied = {[weak self] (success) in
+        vc.isPromoApplied = {[weak self] (success, promoCode) in
             self?.setBillDetails()
         }
         ElGrocerEventsLogger.sharedInstance.trackScreenNav([FireBaseParmName.CurrentScreen.rawValue : FireBaseScreenName.MyBasket.rawValue , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.ApplyPromoVC.rawValue])

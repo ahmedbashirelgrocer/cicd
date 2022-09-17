@@ -386,8 +386,7 @@ extension SecondCheckoutVC: PromocodeDelegate {
     func tap(promocode: String?) {
         if self.viewModel.getSelectedPaymentOption() == PaymentOption.none {
             let errorMsg = NSLocalizedString("secondary_payment_promocode_error", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(errorMsg, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
-            }, buttonIcon: UIImage(named: "crossWhite"))
+            ElGrocerUtility.sharedInstance.showTopMessageView(errorMsg, "", image: nil, -1, false) { sender, index, inUndo in  }
             return
         }
         
