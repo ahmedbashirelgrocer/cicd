@@ -282,9 +282,15 @@ class SDKManager: NSObject  {
     // ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/"
         
         
-        guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else{
+        guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else {
             // Fixme: Firebase disabled
             smileSDKFireBaseSetting()
+            return
+        }
+        
+        
+        
+        guard Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" else {
             return
         }
         

@@ -47,10 +47,10 @@
             </objects>
             <point key="canvasLocation" x="-1185" y="132"/>
         </scene>
-        <!--View Controller-->
+        <!--El Grocer Shopper App View Controller-->
         <scene sceneID="QIG-oE-OO5">
             <objects>
-                <viewController id="6gs-bj-hpV" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ElGrocerShopperAppViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6gs-bj-hpV" customClass="ElGrocerShopperAppViewController" customModule="el_grocer_shopper_sdk_iOS_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bwZ-fh-yVu"/>
                         <viewControllerLayoutGuide type="bottom" id="hLh-xH-CnQ"/>
@@ -61,13 +61,25 @@
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egm-xd-lZn">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4aN-ik-e0A">
+                                <rect key="frame" x="87.666666666666686" y="390.66666666666669" width="200" height="31"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Start ElGrocerShopper App"/>
+                                <connections>
+                                    <action selector="startElgrocerShopperAction:" destination="6gs-bj-hpV" eventType="touchUpInside" id="Ny3-P3-dui"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="egm-xd-lZn" firstAttribute="leading" secondItem="ecB-cd-HSy" secondAttribute="leading" id="9yO-Mc-dz3"/>
                             <constraint firstAttribute="bottom" secondItem="egm-xd-lZn" secondAttribute="bottom" id="EGw-RG-LMm"/>
                             <constraint firstItem="egm-xd-lZn" firstAttribute="top" secondItem="ecB-cd-HSy" secondAttribute="top" id="JNd-uI-cHA"/>
+                            <constraint firstItem="4aN-ik-e0A" firstAttribute="centerX" secondItem="ecB-cd-HSy" secondAttribute="centerX" id="LJ1-kN-fb6"/>
+                            <constraint firstItem="4aN-ik-e0A" firstAttribute="centerY" secondItem="ecB-cd-HSy" secondAttribute="centerY" id="jfz-TD-Q2M"/>
                             <constraint firstAttribute="trailing" secondItem="egm-xd-lZn" secondAttribute="trailing" id="xs3-PM-Hsa"/>
                         </constraints>
                     </view>
@@ -493,11 +505,11 @@
             </objects>
             <point key="canvasLocation" x="68" y="-186.20689655172416"/>
         </scene>
-        <!--Page 2-->
+        <!--elGrocer-->
         <scene sceneID="MCN-Yc-wxI">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="q8X-Zx-HZw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Page 2" id="tbV-Ky-GMA"/>
+                    <tabBarItem key="tabBarItem" title="elGrocer" id="tbV-Ky-GMA"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PDj-Ct-xAS">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
