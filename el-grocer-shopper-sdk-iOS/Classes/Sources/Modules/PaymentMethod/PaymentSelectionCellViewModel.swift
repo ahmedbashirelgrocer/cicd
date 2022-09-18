@@ -100,8 +100,8 @@ class PaymentSelectionCellViewModel: PaymentSelectionCellViewModelType, PaymentS
         self.selectedSubject.onNext(isSelected)
         
         self.titleSubject.onNext(string)
-        self.iconSubject.onNext(UIImage(named: "plus")!)
-        self.radioButtonSubject.onNext(UIImage(named: "arrowForward"))
+        self.iconSubject.onNext(UIImage(name: "plus")!)
+        self.radioButtonSubject.onNext(UIImage(name: "arrowForward"))
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.isArbicSelectedSubject.onNext(true)

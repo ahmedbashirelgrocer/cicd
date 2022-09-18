@@ -528,10 +528,11 @@ extension SecondaryViewModel {
             }
         }
         //check is user
-        let smileUser = UserDefaults.getIsSmileUser()
-        if !smileUser {
-            isSmile = false
-        }
+//        let smileUser = UserDefaults.getIsSmileUser()
+//        if !smileUser {
+//            isSmile = false
+//        }
+//        
         if isSmile && isWallet {
             return SecondaryPaymentViewType.both
         }else if isSmile {

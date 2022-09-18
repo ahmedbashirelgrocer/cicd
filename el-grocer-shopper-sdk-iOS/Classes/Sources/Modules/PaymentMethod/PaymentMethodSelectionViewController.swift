@@ -27,7 +27,7 @@ class PaymentMethodSelectionViewController: UIViewController {
     var selectionClosure: SelectionClosure!
     
     static func create(viewModel: PaymentSelectionViewModelType, selectionClosure: @escaping SelectionClosure) -> PaymentMethodSelectionViewController {
-        let vc = PaymentMethodSelectionViewController(nibName: "PaymentMethodSelectionViewController", bundle: nil)
+        let vc = PaymentMethodSelectionViewController(nibName: "PaymentMethodSelectionViewController", bundle: .resource)
         vc.selectionClosure = selectionClosure
         vc.viewModel = viewModel
         return vc
@@ -41,7 +41,7 @@ class PaymentMethodSelectionViewController: UIViewController {
         
         self.tableView.separatorColor = .clear
         
-        self.tableView.register(UINib(nibName: PaymentSelectionTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: PaymentSelectionTableViewCell.identifier)
+        self.tableView.register(UINib(nibName: PaymentSelectionTableViewCell.identifier, bundle: .resource), forCellReuseIdentifier: PaymentSelectionTableViewCell.identifier)
         
         bindViews()
     }
