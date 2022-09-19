@@ -35,6 +35,8 @@ private enum BackendSuggestedAction: Int {
 }
 
 public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
+    static var shared: SDKManagerType = SDKManagerShopper()
+    
     public var sdkStartTime: Date?
     public var window: UIWindow?
     public var backgroundUpdateTask: UIBackgroundTaskIdentifier! = .invalid

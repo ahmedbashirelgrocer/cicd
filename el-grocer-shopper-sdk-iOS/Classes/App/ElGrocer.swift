@@ -29,7 +29,7 @@ public final class ElGrocer {
         if launchOptions?.isSmileSDK == true {
             sdkManager = SDKManager.shared
         } else {
-            // sdkManager = SDKManagerShopper.shared
+             sdkManager = SDKManagerShopper.shared
         }
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
