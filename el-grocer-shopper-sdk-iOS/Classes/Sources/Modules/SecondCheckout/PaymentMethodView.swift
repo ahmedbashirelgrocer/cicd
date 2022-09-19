@@ -32,7 +32,7 @@ class PaymentMethodView: UIView {
     
     override func awakeFromNib() {
         self.viewBG.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(paymentMethodTapHandler(_:))))
-        self.lblPayUsing.text = NSLocalizedString("pay_using_text", comment: "")
+        self.lblPayUsing.text = localizedString("pay_using_text", comment: "")
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.arrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -62,7 +62,7 @@ class PaymentMethodView: UIView {
                     self.imagePaymentType.image = UIImage(named: "selectedVisaCard")
                 }
                 self.lblPaymentTitle.textColor = .newBlackColor()
-                self.lblPaymentTitle.text = NSLocalizedString("lbl_card_ending", comment: "") + creditCard.last4
+                self.lblPaymentTitle.text = localizedString("lbl_card_ending", comment: "") + creditCard.last4
             }
         case .applePay:
             self.lblPaymentTitle.textColor = .newBlackColor()
@@ -70,7 +70,7 @@ class PaymentMethodView: UIView {
             self.imagePaymentType.image = UIImage(named: "selectedApplePayMethod")
         default:
             self.lblPaymentTitle.textColor = .navigationBarColor()
-            self.lblPaymentTitle.text = NSLocalizedString("payment_method_title", comment: "")
+            self.lblPaymentTitle.text = localizedString("payment_method_title", comment: "")
             self.imagePaymentType.image = UIImage(named: "cardGeneric")
             break
         }
@@ -80,14 +80,14 @@ class PaymentMethodView: UIView {
         
         guard paymentTypes.count > 0, let selectedPaymentId = selectedPaymentId else {
             self.lblPaymentTitle.textColor = .navigationBarColor()
-            self.lblPaymentTitle.text = NSLocalizedString("payment_method_title", comment: "")
+            self.lblPaymentTitle.text = localizedString("payment_method_title", comment: "")
             return
         }
         self.paymentTypes = paymentTypes
         let filterPayment = paymentTypes.filter { type in
             (type.id == selectedPaymentId)
         }
-        if  selectedPaymentId == PaymentOption.applePay.rawValue {            self.configureImageAndName(paymentOption: .applePay, name:  NSLocalizedString("pay_via_Apple_pay", comment: ""), creditCard: nil)
+        if  selectedPaymentId == PaymentOption.applePay.rawValue {            self.configureImageAndName(paymentOption: .applePay, name:  localizedString("pay_via_Apple_pay", comment: ""), creditCard: nil)
         }else if filterPayment.count > 0 {
             if selectedPaymentId == PaymentOption.creditCard.rawValue {
                 configureImageAndName(paymentOption: .creditCard, name: "", creditCard: creditCard)

@@ -194,8 +194,8 @@ extension SecondaryViewModel {
             finalParams["order_id"] = self.orderId
         }
         
-        
-        var secondaryPayments: [NSDictionary] = []
+        // Float(self.basketDataValue?.smilesRedeem ?? "0.00") ?? 0.00]
+        var secondaryPayments: [[String : Any]] = []
         if self.isSmileTrue && ((self.basketDataValue?.paymentTypes?.first(where: { type in
             type.id == PaymentOption.smilePoints.rawValue
         })) != nil)  {

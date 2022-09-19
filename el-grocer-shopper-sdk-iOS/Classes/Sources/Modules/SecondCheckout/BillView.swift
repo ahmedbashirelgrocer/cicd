@@ -118,9 +118,9 @@ class BillView: UIView {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
-        self.totalPriceEntryView.configure(title: NSLocalizedString("total_price_incl_VAT", comment: ""), amount: productTotal)
-        self.serviceFeeEntryView.configure(title: NSLocalizedString("service_price", comment: ""), amount: serviceFee)
-        self.grandTotalEntryView.configure(title: NSLocalizedString("grand_total", comment: ""), amount: finalTotal)
+        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: productTotal)
+        self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
+        self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: finalTotal)
         self.lblFinalAmount.text = CurrencyManager.getCurrentCurrency() + " " + finalTotal
         
         
@@ -142,14 +142,14 @@ class BillView: UIView {
                     self.lblPromotion.text =  ""
                 }else {
                     savingsView.isHidden = false
-                    savingsView.configure(title: NSLocalizedString("discount_text", comment: ""), amount: totalSaving.formateDisplayString(),isNegative: true)
+                    savingsView.configure(title: localizedString("discount_text", comment: ""), amount: totalSaving.formateDisplayString(),isNegative: true)
                     self.promotionView.visibility = .visible
-                    self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + totalSaving.formateDisplayString() + " " + NSLocalizedString("txt_Saved", comment: "")
+                    self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + totalSaving.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
                 }
             }else {
-                savingsView.configure(title: NSLocalizedString("discount_text", comment: ""), amount: productSaving,isNegative: true)
+                savingsView.configure(title: localizedString("discount_text", comment: ""), amount: productSaving,isNegative: true)
                 self.promotionView.visibility = .visible
-                self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + productSaving + " " + NSLocalizedString("txt_Saved", comment: "")
+                self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + productSaving + " " + localizedString("txt_Saved", comment: "")
             }
         }else {
             self.promotionView.visibility = .gone
@@ -164,7 +164,7 @@ class BillView: UIView {
                 if walletValue > 0 {
                     self.stackView.addArrangedSubview(elWalletView)
                     self.elWalletView.isHidden = false
-                    elWalletView.configure(title: NSLocalizedString("elwallet_credit_applied", comment: ""), amount: walletValue.formateDisplayString(), isNegative: true)
+                    elWalletView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: walletValue.formateDisplayString(), isNegative: true)
                 }else {
                     self.elWalletView.isHidden = true
                 }
@@ -181,7 +181,7 @@ class BillView: UIView {
                 if smileValue > 0 {
                     self.stackView.addArrangedSubview(smilesView)
                     self.smilesView.isHidden = false
-                    smilesView.configure(title: NSLocalizedString("smiles_points_applied", comment: ""), amount: smileValue.formateDisplayString(), isNegative: true)
+                    smilesView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileValue.formateDisplayString(), isNegative: true)
                 }else {
                     self.smilesView.isHidden = true
                 }

@@ -87,7 +87,7 @@ class CheckoutButtonView: AWView {
         }else {
             if earnSmilePoints > 0 {
                 self.lblEarnPointsBGView.visibility = .visible
-                self.lblEarnSmilesPoints.text = NSLocalizedString("txt_earn", comment: "") + " +" + String(earnSmilePoints) + " " + NSLocalizedString("pay_via_smiles_points", comment: "")
+                self.lblEarnSmilesPoints.text = localizedString("txt_earn", comment: "") + " +" + String(earnSmilePoints) + " " + localizedString("pay_via_smiles_points", comment: "")
             }else {
                 self.lblEarnPointsBGView.visibility = .goneX
             }
@@ -96,7 +96,7 @@ class CheckoutButtonView: AWView {
         
         if savedAed > 0 {
             self.lblAEDSavedBottomBGView.visibility = .visible
-            self.lblAEDSaved.text = CurrencyManager.getCurrentCurrency() + " " + savedAed.formateDisplayString() + " " + NSLocalizedString("txt_Saved", comment: "")
+            self.lblAEDSaved.text = CurrencyManager.getCurrentCurrency() + " " + savedAed.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
         }else {
             self.lblAEDSavedBottomBGView.visibility = .goneX
         }

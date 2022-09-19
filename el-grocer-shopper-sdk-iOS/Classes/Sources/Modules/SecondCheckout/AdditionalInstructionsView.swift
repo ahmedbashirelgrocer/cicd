@@ -37,7 +37,7 @@ class AdditionalInstructionsView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.tfAdditionalNote.placeholder = NSLocalizedString("lbl_placeholder_text", comment: "type to leave us")
+        self.tfAdditionalNote.placeholder = localizedString("lbl_placeholder_text", comment: "type to leave us")
         self.tfAdditionalNote.delegate = self
         self.crossButton.isHidden = true
     }

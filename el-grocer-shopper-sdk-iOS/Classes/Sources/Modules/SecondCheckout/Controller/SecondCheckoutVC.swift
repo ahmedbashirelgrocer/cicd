@@ -296,7 +296,7 @@ private extension SecondCheckoutVC {
         self.navigationItem.hidesBackButton = true
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        self.title = NSLocalizedString("order_CheckOut_label", comment: "")
+        self.title = localizedString("order_CheckOut_label", comment: "")
     }
 }
 

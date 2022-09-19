@@ -28,7 +28,7 @@ class CollectorsCarView: UIView {
         super.awakeFromNib()
 
         self.viewBG.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_ :))))
-        self.lblCarsDetails.text = NSLocalizedString("collector_car_text", comment: "")
+        self.lblCarsDetails.text = localizedString("collector_car_text", comment: "")
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.ivForwardIcon.transform = CGAffineTransform(scaleX: -1, y: 1)
         }

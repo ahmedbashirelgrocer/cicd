@@ -30,7 +30,7 @@ class CollectorsView: AWView {
         self.isUserInteractionEnabled = true
         self.viewBG.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_ :))))
         
-        self.lblCollectorsDetails.text = NSLocalizedString("collector_text", comment: "")
+        self.lblCollectorsDetails.text = localizedString("collector_text", comment: "")
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.ivForwardIcon.transform = CGAffineTransform(scaleX: -1, y: 1)
         }

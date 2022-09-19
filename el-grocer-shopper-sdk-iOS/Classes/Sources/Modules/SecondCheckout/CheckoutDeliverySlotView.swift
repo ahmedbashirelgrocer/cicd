@@ -32,7 +32,7 @@ class CheckoutDeliverySlotView: UIView  {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.lblSlotPrefixText.text = NSLocalizedString("delivery_time_slot", comment: "")
+        self.lblSlotPrefixText.text = localizedString("delivery_time_slot", comment: "")
     }
     
     func configure(slots: [DeliverySlotDTO], selectedSlotId: Int, modelType: OrderType = .delivery) {
@@ -61,10 +61,10 @@ class CheckoutDeliverySlotView: UIView  {
                 let time = startDate.dataInGST()?.formatDateForCandCFormateString() ?? ""
                 var orderTypeDescription = time
                 if  startDate.isToday {
-                    let name =    NSLocalizedString("today_title", comment: "")
+                    let name =    localizedString("today_title", comment: "")
                     orderTypeDescription = String(format: "%@ %@", name ,orderTypeDescription)
                 }else if startDate.isTomorrow  {
-                    let name =    NSLocalizedString("tomorrow_title", comment: "")
+                    let name =    localizedString("tomorrow_title", comment: "")
                     orderTypeDescription = String(format: "%@ %@", name,orderTypeDescription)
                 }else{
                     orderTypeDescription =  (startDate.getDayName() ?? "") + " " + orderTypeDescription
@@ -78,8 +78,8 @@ class CheckoutDeliverySlotView: UIView  {
             self.selectedDeliverySlot = selectedSlot
             
             self.lblSlotPrefixText.text = modelType == .delivery
-            ? NSLocalizedString("delivery_time_slot", comment: "")
-            : NSLocalizedString("lbl_Self_Collection", comment: "")
+            ? localizedString("delivery_time_slot", comment: "")
+            : localizedString("lbl_Self_Collection", comment: "")
             
             if selectedSlot.id == 0 {
                 self.lblSlotValue.text =  selectedSlot.getInstantText()
@@ -88,7 +88,7 @@ class CheckoutDeliverySlotView: UIView  {
             
                 // TODO: need to check date time zone issue
             if let startDate = selectedSlot.startTime?.convertStringToCurrentTimeZoneDate() {
-                let text = startDate.isToday ? NSLocalizedString("today_title", comment: "") : NSLocalizedString("tomorrow_title", comment: "")
+                let text = startDate.isToday ? localizedString("today_title", comment: "") : localizedString("tomorrow_title", comment: "")
                 let time = startDate.dataInGST()?.formatDateForCandCFormateString() ?? ""
                 self.lblSlotValue.text = " \(text) \(time)"
             }

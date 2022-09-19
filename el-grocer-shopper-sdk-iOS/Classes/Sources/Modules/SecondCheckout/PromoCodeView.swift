@@ -34,11 +34,11 @@ class PromocodeView: UIView {
     
     func configure(promocode: String) {
         if promocode == "" {
-            lblPromocode.text = NSLocalizedString("Apply Promocode", comment: "")
+            lblPromocode.text = localizedString("Apply Promocode", comment: "")
             return
         }
         self.promocode = promocode
-        self.lblPromocode.text = promocode + " " + NSLocalizedString("txt_applied_promocode", comment: "")
+        self.lblPromocode.text = promocode + " " + localizedString("txt_applied_promocode", comment: "")
     }
     
     @objc func promocodeTapHandler(_ sender: UITapGestureRecognizer) {

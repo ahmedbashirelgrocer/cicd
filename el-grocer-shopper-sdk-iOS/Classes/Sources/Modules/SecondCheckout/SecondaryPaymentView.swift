@@ -34,7 +34,7 @@ class SecondaryPaymentView: UIView {
     private lazy var lblTitle: UILabel = {
        let label = UILabel()
         
-        label.text = NSLocalizedString("use_points_text", comment: "")
+        label.text = localizedString("use_points_text", comment: "")
         label.setCaptionOneBoldDarkStyle()
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -145,15 +145,15 @@ enum SourceType {
 extension SourceType {
     var logo: UIImage? {
         switch self {
-            case .elWallet  : return UIImage(named: "elWallet")
-            case .smile     : return UIImage(named: "smileLogo")
+            case .elWallet  : return UIImage(name: "elWallet")
+            case .smile     : return UIImage(name: "smileLogo")
         }
     }
     
     var text: String? {
         switch self {
-            case .elWallet  : return NSLocalizedString("use_elwallet_text", comment: "")
-            case .smile     : return NSLocalizedString("use_smile_text", comment: "")
+            case .elWallet  : return localizedString("use_elwallet_text", comment: "")
+            case .smile     : return localizedString("use_smile_text", comment: "")
         }
     }
 }
@@ -290,7 +290,7 @@ class PaymentSourceView: UIView {
         
         self.logo.image = type.logo
         self.lblUseSourceText.text = type.text
-        self.lblAvailableBalanceText.text = NSLocalizedString("shopping_basket_available_label", comment: "").capitalized
+        self.lblAvailableBalanceText.text = localizedString("shopping_basket_available_label", comment: "").capitalized
         self.lblAvailableBalance.text = CurrencyManager.getCurrentCurrency() + " " + (balance == "" ? "0.00" : balance)
         lblUseBalance.text = CurrencyManager.getCurrentCurrency() + " " + (redeem == "" ? "0.00" : redeem)
         
@@ -304,7 +304,7 @@ class PaymentSourceView: UIView {
                 
         case .smile(_):
             self.lblSmilesPoints.isHidden = smilesPoints == "" ? true : false
-            self.lblSmilesPoints.text = "(\(smilesPoints) \(NSLocalizedString("smile_point_unit", comment: "")))"
+            self.lblSmilesPoints.text = "(\(smilesPoints) \(localizedString("smile_point_unit", comment: "")))"
             break
         }
         

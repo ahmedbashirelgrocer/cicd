@@ -22,7 +22,7 @@ class WarningView: UIView {
 //
 //        self.lblWarningMsg.attributedText = NSMutableAttributedString().normal(text, UIFont.SFProDisplayNormalFont(12), color: .newBlackColor()).normal(highlightedText, UIFont.SFProDisplaySemiBoldFont(12), color: .newBlackColor())
         lblWarningMsg.textColor = .newBlackColor()
-        lblWarningMsg.text = NSLocalizedString("click_collect_warning_text", comment: "")
-        lblWarningMsg.highlight(searchedText: NSLocalizedString("click_collect_warning_text_highlighted", comment: ""), color: .newBlackColor(), size: 12)
+        lblWarningMsg.text = localizedString("click_collect_warning_text", comment: "")
+        lblWarningMsg.highlight(searchedText: localizedString("click_collect_warning_text_highlighted", comment: ""), color: .newBlackColor(), size: 12)
     }
 }
