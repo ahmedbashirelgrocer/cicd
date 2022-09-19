@@ -48,18 +48,18 @@ class PaymentMethodView: UIView {
         case .cash:
             self.lblPaymentTitle.textColor = .newBlackColor()
             self.lblPaymentTitle.text = name ?? ""
-            self.imagePaymentType.image = UIImage(named: "selectedCashOnDelivery")
+            self.imagePaymentType.image = UIImage(name: "selectedCashOnDelivery")
         case .card:
             self.lblPaymentTitle.textColor = .newBlackColor()
             self.lblPaymentTitle.text = name ?? ""
-            self.imagePaymentType.image = UIImage(named: "selectedCardOnDelivery")
+            self.imagePaymentType.image = UIImage(name: "selectedCardOnDelivery")
         case .creditCard:
             
             if let creditCard = creditCard {
                 if creditCard.cardType == .MASTER_CARD {
-                    self.imagePaymentType.image = UIImage(named: "selectedMasterCard")
+                    self.imagePaymentType.image = UIImage(name: "selectedMasterCard")
                 }else if creditCard.cardType == .VISA {
-                    self.imagePaymentType.image = UIImage(named: "selectedVisaCard")
+                    self.imagePaymentType.image = UIImage(name: "selectedVisaCard")
                 }
                 self.lblPaymentTitle.textColor = .newBlackColor()
                 self.lblPaymentTitle.text = localizedString("lbl_card_ending", comment: "") + creditCard.last4
@@ -67,11 +67,11 @@ class PaymentMethodView: UIView {
         case .applePay:
             self.lblPaymentTitle.textColor = .newBlackColor()
             self.lblPaymentTitle.text = name ?? ""
-            self.imagePaymentType.image = UIImage(named: "selectedApplePayMethod")
+            self.imagePaymentType.image = UIImage(name: "selectedApplePayMethod")
         default:
             self.lblPaymentTitle.textColor = .navigationBarColor()
             self.lblPaymentTitle.text = localizedString("payment_method_title", comment: "")
-            self.imagePaymentType.image = UIImage(named: "cardGeneric")
+            self.imagePaymentType.image = UIImage(name: "cardGeneric")
             break
         }
     }

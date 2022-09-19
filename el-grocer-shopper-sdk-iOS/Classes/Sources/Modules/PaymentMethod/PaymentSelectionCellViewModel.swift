@@ -69,18 +69,18 @@ class PaymentSelectionCellViewModel: PaymentSelectionCellViewModelType, PaymentS
 
             case .cash:
                 self.titleSubject.onNext(localizedString("cash_On_Delivery_string", comment: ""))
-                self.iconSubject.onNext(UIImage(named: "cash-List"))
+                self.iconSubject.onNext(UIImage(name: "cash-List"))
                 break
             
             case .applePay:
                 self.applePay = applePay
                 self.titleSubject.onNext(localizedString("checkout_paymentlist_applepay_title", comment: ""))
-                self.iconSubject.onNext(UIImage(named: "payWithApple"))
+                self.iconSubject.onNext(UIImage(name: "payWithApple"))
                 break
 
             case .card:
                 self.titleSubject.onNext(localizedString("pay_via_card", comment: ""))
-                self.iconSubject.onNext(UIImage(named: "CardOnDelivery"))
+                self.iconSubject.onNext(UIImage(name: "CardOnDelivery"))
                 break
         }
     }

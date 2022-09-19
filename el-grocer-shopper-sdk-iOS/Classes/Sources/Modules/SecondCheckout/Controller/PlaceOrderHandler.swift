@@ -97,7 +97,7 @@ class PlaceOrderHandler {
                 }else if error.code == 4069 {
                         // qunatity check
                     let appDelegate = SDKManager.shared
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
                         if buttonIndex == 1 {
                             
                             if let data = error.jsonValue?["data"] as? [NSDictionary] {

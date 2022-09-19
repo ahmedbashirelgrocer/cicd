@@ -99,7 +99,7 @@ class CheckoutDeliverySlotView: UIView  {
     @IBAction func btnSlotHandler(_ sender: Any) {
         
         
-        let popupViewController = AWPickerViewController(nibName: "AWPickerViewController", bundle: nil)
+        let popupViewController = AWPickerViewController(nibName: "AWPickerViewController", bundle: .resource)
         popupViewController.changeSlot = { [weak self] (slot) in
             if let closure = self?.changeSlot {
                 closure(slot)

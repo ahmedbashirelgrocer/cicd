@@ -51,13 +51,13 @@ class PaymentSelectionTableViewCell: UITableViewCell {
         Observable.combineLatest(viewModel.outputs.isForAddNewCard, viewModel.outputs.selected)
             .filter { $0.0 == false }
             .map { (isCard, isSelected) -> Bool in return isSelected }
-            .map { $0 ? UIImage(named: "RadioButtonFilled") : UIImage(named: "RadioButtonUnfilled") }
+            .map { $0 ? UIImage(name: "RadioButtonFilled") : UIImage(name: "RadioButtonUnfilled") }
             .bind(to: self.radioButton.rx.image)
             .disposed(by: disposeBag)
         
         viewModel.outputs.isForAddNewCard
             .filter { $0 }
-            .map { _ in UIImage(named: "arrowForward") }
+            .map { _ in UIImage(name: "arrowForward") }
             .bind(to: self.radioButton.rx.image)
             .disposed(by: disposeBag)
         
