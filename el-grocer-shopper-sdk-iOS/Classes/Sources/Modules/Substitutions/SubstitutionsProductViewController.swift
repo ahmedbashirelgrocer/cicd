@@ -1898,7 +1898,7 @@ extension SubstitutionsProductViewController{
         guard self.order != nil else {return}
         let totalProductCountToShow = (self.getProductCountInOrder()).0
         self.configureBillDetails(order: self.order)
-        configureCheckoutButtonData(itemsNum: totalProductCountToShow , totalBill: self.order.finalBillAmount?.stringValue ?? "0.00")
+       
         
             //        if isPaidBySmilepoinst {
             //            self.showPaymentDetails(paymentType: .smilePoints, creditCardNum: nil)
@@ -2175,6 +2175,7 @@ extension SubstitutionsProductViewController {
         }
         
         priceSum = grandTotal - burnSmilePoints - burnElwalletPoints//order.finalBillAmount?.doubleValue ?? 0.00
+        configureCheckoutButtonData(itemsNum: summaryCount , totalBill: priceSum.formateDisplayString())
         
         setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
     }
