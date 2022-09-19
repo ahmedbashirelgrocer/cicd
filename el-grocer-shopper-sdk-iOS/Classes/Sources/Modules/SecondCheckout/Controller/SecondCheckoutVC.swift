@@ -165,7 +165,8 @@ class SecondCheckoutVC: UIViewController {
 
         self.checkoutDeliverySlotView.configure(slots: data.deliverySlots ?? [], selectedSlotId: Int(data.selectedDeliverySlot ?? "") ?? -1)
         // configure bill view
-        self.billView.configure(productTotal: data.productsTotal ?? "", serviceFee: data.serviceFee ?? "", total: data.totalValue ?? "", productSaving: data.productsSaving ?? "", finalTotal: data.finalAmount ?? "", elWalletRedemed: data.elWalletRedeem ?? "", smilesRedemed: data.smilesRedeem ?? "", promocode: data.promoCode)
+            self.billView.configure(productTotal: data.productsTotal ?? "", serviceFee: data.serviceFee ?? "", total: data.totalValue ?? "", productSaving: data.totalDiscount ?? "", finalTotal: data.finalAmount ?? "", elWalletRedemed: data.elWalletRedeem ?? "", smilesRedemed: data.smilesRedeem ?? "", promocode: nil, quantity: Int(data.quantity ?? "0"))
+
         
         self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
         
@@ -385,7 +386,7 @@ extension SecondCheckoutVC: CollectorsCarViewDelegate {
 extension SecondCheckoutVC: PromocodeDelegate {
     func tap(promocode: String?) {
         if self.viewModel.getSelectedPaymentOption() == PaymentOption.none {
-            let errorMsg = NSLocalizedString("secondary_payment_promocode_error", comment: "")
+            let errorMsg = localizedString("secondary_payment_promocode_error", comment: "")
             ElGrocerUtility.sharedInstance.showTopMessageView(errorMsg, "", image: nil, -1, false) { sender, index, inUndo in  }
             return
         }

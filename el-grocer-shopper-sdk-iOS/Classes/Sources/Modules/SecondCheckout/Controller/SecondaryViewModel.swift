@@ -76,19 +76,20 @@ class SecondaryViewModel {
             switch result {
                 case .success(let response):
                     print(response)
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
-                    let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
-                    print(checkoutData)
-                    if let slot = Int(checkoutData.data.selectedDeliverySlot ?? "") {
-                        UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+                        let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
+                        print(checkoutData)
+                        if let slot = Int(checkoutData.data.selectedDeliverySlot ?? "") {
+                            UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
+                        }
+                        self.basketDataValue = checkoutData.data
+                        self.basketData.onNext(checkoutData.data)
+                        self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
+                    } catch(let error) {
+                        print(error)
+                        self.basketError.onNext(ElGrocerError.parsingError())
                     }
-                    self.basketDataValue = checkoutData.data
-                    self.basketData.onNext(checkoutData.data)
-                }catch(let error) {
-                    print(error)
-                    self.basketError.onNext(ElGrocerError.parsingError())
-                }
                 case .failure(let error):
                     self.basketError.onNext(error)
             }
@@ -307,6 +308,7 @@ extension SecondaryViewModel {
         if let promo = data.promoCode, (promo.value ?? 0) > 0 {
             self.isPromoCodeTrue = true
             self.promoRealizationId = String(data.promoCode?.promotionCodeRealizationID ?? 0)
+            self.promoAmount = Double(data.promoCode?.value ?? 0)
         }else {
             self.isPromoCodeTrue = false
         }
@@ -410,14 +412,15 @@ extension SecondaryViewModel {
         self.defaultApiData["selected_delivery_slot"]  =  self.selectedSlotId
         self.defaultApiData["slots"] = true
         
-        var secondaryPayments: [String: Any] = [:]
-        secondaryPayments["smiles"] = self.isSmileTrue
-        secondaryPayments["el_wallet"] = self.isWalletTrue
-        secondaryPayments["promo_code"] = self.isPromoCodeTrue
-        self.defaultApiData["secondary_payments"] = secondaryPayments
-        
         if self.orderId != nil {
             self.defaultApiData["order_id"]  =  self.orderId
+        }else {
+            
+                //            var secondaryPayments: [String: Any] = [:]
+                //            secondaryPayments["smiles"] = self.isSmileTrue
+                //            secondaryPayments["el_wallet"] = self.isWalletTrue
+                //            secondaryPayments["promo_code"] = self.isPromoCodeTrue
+                //            self.defaultApiData["secondary_payments"] = secondaryPayments
         }
        
         return self.defaultApiData
@@ -440,9 +443,8 @@ extension SecondaryViewModel {
     }
     
     func getEarnPointsFromAed() -> Int {
-        if let doubleAmount = Double(self.basketDataValue?.finalAmount ?? "0.00") {
-            let smilesConfig = ElGrocerUtility.sharedInstance.appConfigData.smilesData
-            let points =  Int(floor(doubleAmount * smilesConfig.earning))
+        if let doubleAmount = Double(self.basketDataValue?.totalValue ?? "0.00"),let smileAED = Double(self.basketDataValue?.smilesRedeem ?? "0.00") {
+            let points = SmilesManager.getEarnPointsFromAed(doubleAmount - smileAED)
             return points
         }else {
             return 0
@@ -512,6 +514,12 @@ extension SecondaryViewModel {
         if let id = self.promoRealizationId {
             parameters["realization_id"] = id
         }
+        var secondaryPayments: [String: Any] = [:]
+        secondaryPayments["smiles"] = self.isSmileTrue
+        secondaryPayments["el_wallet"] = self.isWalletTrue
+        secondaryPayments["promo_code"] = self.isPromoCodeTrue
+        
+        parameters["secondary_payments"] = secondaryPayments
         parameters.update(other: self.setDefaultApiData())
         return parameters
     }
@@ -527,12 +535,11 @@ extension SecondaryViewModel {
                 isWallet = true
             }
         }
-        //check is user
-//        let smileUser = UserDefaults.getIsSmileUser()
-//        if !smileUser {
-//            isSmile = false
-//        }
-//        
+            //        //check is user
+            //        let smileUser = UserDefaults.getIsSmileUser()
+            //        if !smileUser {
+            //            isSmile = false
+            //        }
         if isSmile && isWallet {
             return SecondaryPaymentViewType.both
         }else if isSmile {
@@ -551,7 +558,7 @@ extension SecondaryViewModel {
     //MARK: Support function for DeliverySlot, order, grocery
 extension SecondaryViewModel {
     
-    // oorder
+    // order
     func setEditOrderInitialDetail(_ order : Order?) {
         self.order = order
     }
@@ -613,7 +620,7 @@ extension SecondaryViewModel {
     }
 }
 
-// MARK: - BasketDataResponse
+    // MARK: - BasketDataResponse
 struct BasketDataResponse: Codable {
     let status: String
     let data: BasketDataClass
@@ -624,7 +631,7 @@ struct BasketDataResponse: Codable {
     }
 }
 
-// MARK: - BasketDataClass
+    // MARK: - BasketDataClass
 struct BasketDataClass: Codable {
     
     let primaryPaymentTypeID: String?
@@ -639,7 +646,9 @@ struct BasketDataClass: Codable {
     let selectedDeliverySlot: String?
     let paymentTypes: [PaymentType]?
     let retailerDeliveryZoneId: String?
-
+    let quantity: String?
+    let totalDiscount: String?
+    
     enum CodingKeys: String, CodingKey {
         case finalAmount = "final_amount"
         case totalValue = "total"
@@ -658,13 +667,18 @@ struct BasketDataClass: Codable {
         case productsTotal = "products_total"
         case smilesPoints = "smiles_points"
         case retailerDeliveryZoneId = "retailer_delivery_zone_id"
+        case quantity
+        case totalDiscount = "total_discount"
+        
     }
     
     init(from decoder: Decoder) throws {
+       
+    
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        let stringVlue = (try? values.decodeIfPresent(String.self, forKey: .finalAmount)) ?? ""
-      //  let doubleValue = (try? values.decodeIfPresent(Double.self, forKey: .finalAmount))
-        finalAmount = stringVlue //?? String(doubleValue ?? 0)
+        let stringValue = (try? values.decodeIfPresent(String.self, forKey: .finalAmount))
+        let doubleValue = (try? values.decodeIfPresent(Double.self, forKey: .finalAmount))
+        finalAmount =  stringValue! //(stringValue ?? String(doubleValue ?? 0)) as! String
         totalValue = try values.decodeIfPresent(String.self, forKey: .totalValue)
         promoCodes  = try values.decodeIfPresent(String.self, forKey: .promoCodes)
         primaryPaymentTypeID = try values.decodeIfPresent(String.self, forKey: .primaryPaymentTypeID)
@@ -681,11 +695,12 @@ struct BasketDataClass: Codable {
         selectedDeliverySlot = try values.decodeIfPresent(String.self, forKey: .selectedDeliverySlot)
         paymentTypes = try values.decodeIfPresent([PaymentType].self, forKey: .paymentTypes)
         retailerDeliveryZoneId = try values.decodeIfPresent(String.self, forKey: .retailerDeliveryZoneId)
-        
+        quantity = try values.decodeIfPresent(String.self, forKey: .quantity)
+        totalDiscount = try values.decodeIfPresent(String.self, forKey: .totalDiscount)
     }
 }
 
-// MARK: - DeliverySlot
+    // MARK: - DeliverySlot
 struct DeliverySlotDTO: Codable {
     let id, timeMilli, usid: Int?
     let startTime, endTime, estimatedDeliveryAt: String?
@@ -708,7 +723,7 @@ struct DeliverySlotDTO: Codable {
     }
     
     func getInstantText() -> String {
-        return NSLocalizedString("today_title", comment: "") + " " + NSLocalizedString("60_min", comment: "") + "⚡️"
+        return localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️"
     }
 }
 
@@ -762,7 +777,7 @@ struct PromoCode: Codable {
     
     enum CodingKeys: String, CodingKey {
         case code
-        case promotionCodeRealizationID = "promotion_code_realization_id"
+        case promotionCodeRealizationID = "realization_id"
         case value
         case errorMessage = "error_message"
     }

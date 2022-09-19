@@ -95,7 +95,7 @@ class PaymentMethodView: UIView {
                 self.configureImageAndName(paymentOption: filterPayment.first?.getLocalPaymentOption(), name: filterPayment.first?.getLocalizedName(), creditCard: nil)
             }
         }else {
-            self.configureImageAndName(paymentOption: PaymentOption.none, name: NSLocalizedString("payment_method_title", comment: ""), creditCard: nil)
+            self.configureImageAndName(paymentOption: PaymentOption.none, name: localizedString("payment_method_title", comment: ""), creditCard: nil)
         }
        
     }

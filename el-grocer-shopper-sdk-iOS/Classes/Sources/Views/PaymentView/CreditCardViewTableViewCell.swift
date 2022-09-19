@@ -10,7 +10,7 @@ import UIKit
 import Adyen
 
 let KCreditCardViewTableViewCellIdentifier = "CreditCardViewTableViewCell"
-let KCreditCardViewTableViewCellHeight : CGFloat = 60.0
+let KCreditCardViewTableViewCellHeight : CGFloat = 45.0
 
 class CreditCardViewTableViewCell: UITableViewCell {
     

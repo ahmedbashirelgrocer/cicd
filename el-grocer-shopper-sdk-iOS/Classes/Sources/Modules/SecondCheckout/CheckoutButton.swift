@@ -77,8 +77,8 @@ class CheckoutButtonView: AWView {
     }
     
     private func setPointsAndAmount(points: String, amount: String)  {
-        self.lblPoints.text = NSLocalizedString("or_label_text", comment: "") + " " + points + " " + NSLocalizedString("pay_via_smiles_points", comment: "")
-        self.lblAmount.text = NSLocalizedString("aed", comment: "") + " " + amount
+        self.lblPoints.text = localizedString("or_label_text", comment: "") + " " + points + " " + localizedString("pay_via_smiles_points", comment: "")
+        self.lblAmount.text = localizedString("aed", comment: "") + " " + amount
     }
     private func setSavedAmountAndEarnSmilePoints(savedAed: Double, earnSmilePoints: Int, paymentOption: PaymentOption, isSmileTrue: Bool) {
         

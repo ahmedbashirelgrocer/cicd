@@ -42,7 +42,7 @@ class BillView: UIView {
     private lazy var lblFinalAmountText: UILabel = {
         let label = UILabel()
         
-        label.text = "FINAL BILL AMOUNT"
+        label.text = localizedString("amount_to_pay", comment: "")
         label.textAlignment = .left
         label.setBody3BoldUpperLimitedStockStyle()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -114,13 +114,14 @@ class BillView: UIView {
         viewBG.addSubview(promotionView)
     }
     
-    func configure(productTotal: String, serviceFee: String, total: String, productSaving: String, finalTotal: String, elWalletRedemed: String, smilesRedemed: String, promocode: PromoCode?) {
+    func configure(productTotal: String, serviceFee: String, total: String, productSaving: String, finalTotal: String, elWalletRedemed: String, smilesRedemed: String, promocode: PromoCode?, quantity: Int?) {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: productTotal)
+        self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity ?? 0)
         self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
-        self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: finalTotal)
+        self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: total)
         self.lblFinalAmount.text = CurrencyManager.getCurrentCurrency() + " " + finalTotal
         
         
@@ -300,6 +301,17 @@ class BillEntryView: UIView {
         lblAmount.trailingAnchor.constraint(equalTo: viewBG.trailingAnchor, constant: -16).isActive = true
         lblAmount.centerYAnchor.constraint(equalTo: viewBG.centerYAnchor).isActive = true
     }
+    
+    func setTotalProductsTitle(quantity: Int) {
+        self.lblTitle.text = localizedString("total_price_incl_VAT", comment: "") + " " + String(quantity) + " " + (quantity == 1 ? localizedString("item", comment: "") : localizedString("items", comment: ""))
+        self.lblTitle.highlight(searchedText: String(quantity) + " " + (quantity == 1 ? localizedString("item", comment: "") : localizedString("items", comment: "")), color: UIColor.disableButtonColor(), size: UIFont.SFProDisplayNormalFont(14))
+    }
+    
+    func setFinalBillAmountFont() {
+        self.lblTitle.font = UIFont.SFProDisplayBoldFont(14)
+        self.lblAmount.font = UIFont.SFProDisplayBoldFont(14)
+    }
+
     
     func configure(title: String, amount: String, isNegative: Bool = false) {
         self.lblTitle.text = title

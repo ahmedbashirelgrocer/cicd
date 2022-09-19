@@ -2095,3 +2095,5 @@ Oreo";
 "elwallet_credit_applied" = "elWallet credit applied";
 "smiles_points_applied" = "Smiles Points applied";
 "txt_applied_promocode" = "(Applied)";
+"amount_to_pay" = "AMOUNT TO PAY";
+

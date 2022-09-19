@@ -505,10 +505,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             if indexPath.section == 1 && smilePointSection == 1 {
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
                     //var title = NSLocalizedString("txt_smile_point", comment: "") +  NSLocalizedString("txt_bracket_login", comment: "")
-                var title = NSLocalizedString("txt_earn_smiles", comment: "")
+                var title = localizedString("txt_earn_smiles", comment: "")
                 if UserDefaults.getIsSmileUser() {
                     let points = UserDefaults.getSmilesPoints()
-                    title = NSLocalizedString("txt_smile_point", comment: "") + "(\(points) " + NSLocalizedString("smile_point_unit", comment: "") + ")"
+                    title = localizedString("txt_smile_point", comment: "") + "(\(points) " + localizedString("smile_point_unit", comment: "") + ")"
                 }
                 let imageName = "smilesCellLogo"
                 cell.configureCellWithTitle(title, withImage: imageName)

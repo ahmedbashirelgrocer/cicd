@@ -78,7 +78,7 @@ class PlaceOrderHandler {
                     if let message = error.message {
                         if !message.isEmpty {
                             if let orderID = self.orderID {
-                                ElGrocerAlertView.createAlert(NSLocalizedString("order_confirmation_Edit_order_button", comment: ""),description:NSLocalizedString("edit_Order_TimePassed", comment: ""),positiveButton: NSLocalizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),negativeButton: NSLocalizedString("setting_feedback", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
+                                ElGrocerAlertView.createAlert(localizedString("order_confirmation_Edit_order_button", comment: ""),description:localizedString("edit_Order_TimePassed", comment: ""),positiveButton: localizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),negativeButton: localizedString("setting_feedback", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
                                     UserDefaults.resetEditOrder(false)
                                    // self.secondCheckOutDataHandler?.order?.status = NSNumber(value: OrderStatus.pending.rawValue)
                                     if buttonIndex == 0 {
@@ -97,7 +97,7 @@ class PlaceOrderHandler {
                 }else if error.code == 4069 {
                         // qunatity check
                     let appDelegate = SDKManager.shared
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "checkOutPopUp") , header: NSLocalizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? NSLocalizedString("out_of_stock_message", comment: "")  ,NSLocalizedString("sign_out_alert_no", comment: "") ,NSLocalizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: error.message ?? localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("lbl_go_to_cart_upperCase", comment: "") , withView: appDelegate.window! , true , true) { (buttonIndex) in
                         if buttonIndex == 1 {
                             
                             if let data = error.jsonValue?["data"] as? [NSDictionary] {

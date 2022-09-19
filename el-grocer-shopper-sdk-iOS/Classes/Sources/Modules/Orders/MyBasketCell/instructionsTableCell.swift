@@ -101,7 +101,7 @@ extension instructionsTableCell : UITextViewDelegate {
          
         self.lblRemaining.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)/100")
         if charCount > 0{
-            self.lblRemaining.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)"), color: UIColor.black , size: 12)
+            self.lblRemaining.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)"), color: UIColor.black , size: UIFont.SFProDisplayBoldFont(12))
         }
         self.btnCross.isHidden = (self.txtNoteView.text?.count == 0)
         
@@ -142,7 +142,7 @@ extension instructionsTableCell : UITextViewDelegate {
         let charRemaining = textView.text.count + (text.count - range.length)
         self.lblRemaining.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)/100")
         if text.count > 0 {
-            self.lblRemaining.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)"), color: UIColor.black , size: 12)
+            self.lblRemaining.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)"), color: UIColor.black , size: UIFont.SFProDisplayBoldFont(12))
         }
         self.btnCross.isHidden = (self.txtNoteView.text?.count == 0)
         let trimmedString = (self.txtNoteView.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)

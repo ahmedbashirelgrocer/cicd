@@ -1,10 +1,10 @@
-//
-//  SubstitutionsProductViewController.swift
-//  ElGrocerShopper
-//
-//  Created by Awais Arshad Chatha on 02/10/2017.
-//  Copyright © 2017 elGrocer. All rights reserved.
-//
+    //
+    //  SubstitutionsProductViewController.swift
+    //  ElGrocerShopper
+    //
+    //  Created by Awais Arshad Chatha on 02/10/2017.
+    //  Copyright © 2017 elGrocer. All rights reserved.
+    //
 
 import Foundation
 import UIKit
@@ -14,7 +14,7 @@ import PassKit
 
 class SubstitutionsProductViewController : UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    // MARK: Variables
+        // MARK: Variables
     let kOrderContainerHeightWithoutProducts: CGFloat = 190
     let kOrderSlotContainerHeight: CGFloat = 30
     var orderId:String = ""
@@ -30,7 +30,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     let applePaymentHandler = ApplePaymentHandler()
     var appleQueryItem : [String : Any]?
     
-    //MARK: Outlets
+        //MARK: Outlets
     @IBOutlet var lblMessage: UILabel!
     @IBOutlet weak var mainContainer: UIView!
     @IBOutlet weak var mainContainerHeightConstraint: NSLayoutConstraint!
@@ -83,7 +83,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     
     @IBOutlet weak var promoSummaryContainer: UIView!
     @IBOutlet weak var promoSummaryContainerHeightConstraint: NSLayoutConstraint!
-
+    
     @IBOutlet weak var buttonsContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonsContainer: UIView!
     @IBOutlet weak var selectAlternateButton: UIButton!
@@ -104,11 +104,11 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var btnBottomButtonView: AWView!
     
     
-    //MARK: Bottom CheckOutView
-    //MARK:SuperCheckout View
+        //MARK: Bottom CheckOutView
+        //MARK:SuperCheckout View
     @IBOutlet var CheckOutBGView: UIView! {
         didSet {
-            //For top Shadow
+                //For top Shadow
             CheckOutBGView.layer.shadowOffset = CGSize(width: 0, height: -2)
             CheckOutBGView.layer.shadowOpacity = 0.16
             CheckOutBGView.layer.shadowRadius = 1
@@ -126,92 +126,23 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             
         }
     }
-    //MARK:Bill Details
+        //MARK:Bill Details
     @IBOutlet var billDetailsBGView: UIView!
-    @IBOutlet var lblTotalPriceVAT: UILabel!{
-        didSet{
-            lblTotalPriceVAT.setBody3RegDarkStyle()
-            lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " 6 " + localizedString("brand_items_count_label", comment: "")
-            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
-            
-        }
-    }
-    @IBOutlet var lblTotalPriceVATValue: UILabel!{
-        didSet{
-            lblTotalPriceVATValue.setBody3RegDarkStyle()
-        }
-    }
-    @IBOutlet var lblServiceFee: UILabel!{
-        didSet{
-            lblServiceFee.setBody3RegGreyStyle()
-            lblServiceFee.text = localizedString("service_price", comment: "")
-        }
-    }
-    @IBOutlet var lblServiceFeeValue: UILabel!{
-        didSet{
-            lblServiceFeeValue.setBody3RegGreyStyle()
-        }
-    }
-    @IBOutlet var lblPromoDiscount: UILabel!{
-        didSet{
-            lblPromoDiscount.setBody3RegGreenStyle()
-            lblPromoDiscount.text = localizedString("promotion_discount_aed", comment: "")
-        }
-    }
-    @IBOutlet var lblPromoDiscountValue: UILabel!{
-        didSet{
-            lblPromoDiscountValue.setBody3RegGreenStyle()
-        }
-    }
-    @IBOutlet var lblGrandTotal: UILabel!{
-        didSet{
-            lblGrandTotal.setBody3RegDarkStyle()
-            lblGrandTotal.text = localizedString("lbl_Grand_total", comment: "")
-        }
-    }
-    @IBOutlet var lblGrandTotalValue: UILabel!{
-        didSet{
-            lblGrandTotalValue.setBody3RegDarkStyle()
-        }
-    }
-    @IBOutlet var lblFinalAmount: UILabel!{
-        didSet{
-            lblFinalAmount.setBodyBoldGreenStyle()
-            lblFinalAmount.text = localizedString("total_bill_amount", comment: "")
-        }
-    }
-    @IBOutlet var lblFinalAmountValue: UILabel!{
-        didSet{
-            lblFinalAmountValue.setBodyBoldGreenStyle()
-        }
-    }
-    @IBOutlet var savedAmountView: UIView!{
-        didSet{
-            savedAmountView.backgroundColor = .promotionRedColor()
-            savedAmountView.visibility = .gone
-        }
-    }
-    @IBOutlet var lblSavedAmountValue: UILabel!{
-        didSet{
-            lblSavedAmountValue.setCaptionTwoSemiboldYellowStyle()
-        }
-    }
-    @IBOutlet var billDetailBGViewHeightConstraint: NSLayoutConstraint!
-
-    //MARK:Saved Amount BGView
+    
+        //MARK:Saved Amount BGView
     @IBOutlet var savedAmountBGView: UIView!{
         didSet{
             savedAmountBGView.backgroundColor = .promotionRedColor()
-//            savedAmountBGView.clipsToBounds = true
-//            savedAmountBGView.layer.cornerRadius = 8
-//            if ElGrocerUtility.sharedInstance.isArabicSelected(){
-//                //savedAmountBGView.roundCorners(corners: [.topLeft , .bottomRight , .bottomLeft , .topRight], radius: 8)
-//                savedAmountBGView.layer.maskedCorners = [.layerMinXMinYCorner , .layerMaxXMaxYCorner ]
-//            }else{
-//                //savedAmountBGView.roundCorners(corners: [.topRight , .bottomLeft], radius: 8)
-//                savedAmountBGView.layer.maskedCorners = [.layerMaxXMinYCorner , .layerMinXMaxYCorner]
-//            }
-//           // savedAmountBGView.isHidden = true
+                //            savedAmountBGView.clipsToBounds = true
+                //            savedAmountBGView.layer.cornerRadius = 8
+                //            if ElGrocerUtility.sharedInstance.isArabicSelected(){
+                //                //savedAmountBGView.roundCorners(corners: [.topLeft , .bottomRight , .bottomLeft , .topRight], radius: 8)
+                //                savedAmountBGView.layer.maskedCorners = [.layerMinXMinYCorner , .layerMaxXMaxYCorner ]
+                //            }else{
+                //                //savedAmountBGView.roundCorners(corners: [.topRight , .bottomLeft], radius: 8)
+                //                savedAmountBGView.layer.maskedCorners = [.layerMaxXMinYCorner , .layerMinXMaxYCorner]
+                //            }
+                //           // savedAmountBGView.isHidden = true
         }
     }
     @IBOutlet var lblSavedAmount: UILabel!{
@@ -220,7 +151,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         }
     }
     
-    // smiles earn points labels outlets
+        // smiles earn points labels outlets
     @IBOutlet weak var pointsEarnedView: UIView!{
         didSet{
             pointsEarnedView.backgroundColor = .smilePointBackgroundColor()
@@ -234,7 +165,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     }
     
     
-    //MARK:CheckoutView Promo
+        //MARK:CheckoutView Promo
     @IBOutlet var btnAddPromo: UIButton!{
         didSet{
             btnAddPromo.setTitle(localizedString("btn_enter_promoCode", comment: ""), for: UIControl.State())
@@ -254,7 +185,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var checkOutDetaailsLineView: UIView!
     @IBOutlet var checkOutDetailViewHeightConstraint: NSLayoutConstraint!
     
-    //MARK: CheckoutView Checkout Button
+        //MARK: CheckoutView Checkout Button
     @IBOutlet var lblItemCount: UILabel!{
         didSet{
             lblItemCount.setCaptionOneRegWhiteStyle()
@@ -273,7 +204,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     }
     @IBOutlet var btnCheckout: UIButton!
     
-    //MARK: CheckoutView PaymentMethods
+        //MARK: CheckoutView PaymentMethods
     
     @IBOutlet var selectedPaymentImage: UIImageView!
     
@@ -329,6 +260,27 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         }
     }
     
+        //MARK: BottomSheet bill details handling
+    @IBOutlet var billStackBGView: AWView!
+    @IBOutlet var billStackView: UIStackView!
+    private var totalPriceEntryView = BillEntryView(isGreen: false)
+    private var seriviceFeeView = BillEntryView(isGreen: false)
+    private var promoDiscountView = BillEntryView(isGreen: true)
+    private var earnSmilesPointView = BillEntryView(isGreen: true)
+    private var grandToatalView = BillEntryView(isGreen: false)
+    private var priceVarianceView = BillEntryView(isGreen: true)
+    private var burnSmilePointsView = BillEntryView(isGreen: true)
+    private var burnElwalletPointsView = BillEntryView(isGreen: true)
+    private var finalBillAmountView = BillEntryView(isGreen: true)
+    private lazy var dividerView: UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = UIColor.separatorColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     var smileUser: SmileUser?
     var isPaidBySmilepoinst: Bool = false
     
@@ -370,17 +322,23 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
 
         self.navigationItem.hidesBackButton = true
         self.getTotalPrice()
-        //get smile user data
-//        if isfirst {
-//            isfirst = false
-//        } else {
-//            SmilesManager.getSmileUserInfo { (smileUser) in
-//                if let user = smileUser {
-//                    self.smileUser = user
-//                    self.setupSmiles()
-//                }
-//            }
-//        }
+        
+        setBillInitialAppearance()
+        adjustDividerConstraints()
+        addViewsInstackView()
+        
+        
+            //get smile user data
+            //        if isfirst {
+            //            isfirst = false
+            //        } else {
+            //            SmilesManager.getSmileUserInfo { (smileUser) in
+            //                if let user = smileUser {
+            //                    self.smileUser = user
+            //                    self.setupSmiles()
+            //                }
+            //            }
+            //        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -388,12 +346,12 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     }
     
     override func viewDidAppear(_ animated: Bool) {
-         FireBaseEventsLogger.setScreenName( FireBaseScreenName.Substitutions.rawValue , screenClass: String(describing: self.classForCoder))
+        FireBaseEventsLogger.setScreenName( FireBaseScreenName.Substitutions.rawValue , screenClass: String(describing: self.classForCoder))
         self.getOrderDetailFromServer()
     }
     
     
-    // MARK: Data
+        // MARK: Data
     
     func getOrderDetailFromServer(){
         
@@ -402,7 +360,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         self.cancelOrderButton.isHidden       = true
         self.selectAlternateButton.isHidden   = true
         self.checkOutView.isHidden = true
-
+        
         _ = SpinnerView.showSpinnerViewInView(self.view)
         ElGrocerApi.sharedInstance.getOrderProductSubtitutionWithOrderId(self.orderId) { (result) -> Void in
             SpinnerView.hideSpinnerView()
@@ -446,7 +404,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         self.checkOutView.isHidden = false
         
-        //disable select alternate Button if order has no items
+            //disable select alternate Button if order has no items
         if self.orderItems.count == 0 {
             
             self.selectAlternateButton.isEnabled  = false
@@ -454,7 +412,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             self.btnContinue.isEnabled  = false
             self.btnContinue.alpha = 0.3
         }
-       
+        
         if self.order.status.intValue != OrderStatus.inSubtitution.rawValue {
             
             
@@ -469,13 +427,14 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         self.getTotalPrice()
         self.setBillDetails()
         self.validatePromoCode {}
+        configureBillDetails(order: order)
         
     }
     
     func calculateTotalValues() {
         
-      //  let priceSum = product.price.doubleValue * shoppingItem.count.doubleValue
-      //  self.lblTotalPrice.text = String(format: "%.2f %@",priceSum,kProductCurrencyAEDName)
+            //  let priceSum = product.price.doubleValue * shoppingItem.count.doubleValue
+            //  self.lblTotalPrice.text = String(format: "%.2f %@",priceSum,kProductCurrencyAEDName)
         
         var totalQuantity   = 0
         var totalPrice      = 0.0
@@ -540,10 +499,10 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         NotificationCenter.default.post(name: Notification.Name(rawValue: kOrderUpdateNotificationKey), object: nil)
     }
     
-    // MARK: Actions
+        // MARK: Actions
     
     override func crossButtonClick() {
-        //backBtnClick()
+            //backBtnClick()
         MixpanelEventLogger.trackSubstitutionCancelOrder(orderId: self.orderId)
         self.dismiss(animated: true, completion: nil)
     }
@@ -944,7 +903,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     }
     
     
-    // MARK: Helpers
+        // MARK: Helpers
     
     private func shoppingItemForProduct(_ product:Product) -> ShoppingBasketItem? {
         
@@ -979,17 +938,17 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         return isReplacmentSuggested
     }
     
-    // MARK: UITableView
+        // MARK: UITableView
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-//        let product = self.orderProducts[indexPath.row]
-//        let item = shoppingItemForProduct(product)
-//        let isProductSubstituted = item!.hasSubtitution.boolValue
-//        if isProductSubstituted {
-//            return kProductCellHeight + 50
-//        }
-//        return 190
+            //        let product = self.orderProducts[indexPath.row]
+            //        let item = shoppingItemForProduct(product)
+            //        let isProductSubstituted = item!.hasSubtitution.boolValue
+            //        if isProductSubstituted {
+            //            return kProductCellHeight + 50
+            //        }
+            //        return 190
         
         if indexPath.section == 0 && smileLoginSection == 1 {
             return smilePointTableCellHeight
@@ -1006,7 +965,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         }
         
         if indexPath.section == 1 + smileLoginSection {
-          
+            
             if indexPath.row == 0 {
                 return 20
             }else if indexPath.row == 1 {
@@ -1119,23 +1078,23 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     
                     if isCancel {
                         MixpanelEventLogger.trackSubstitutionCancelOrder(orderId: self?.orderId ?? "")
-//                         self?.cancelOrderHandler("")
+                            //                         self?.cancelOrderHandler("")
                         self?.cancelOrderHandler(self?.order.dbID.stringValue ?? "")
                     }else{
                         MixpanelEventLogger.trackSubstitutitonRemoveAllClicked()
                         for prod in self?.orderProducts ?? [] {
-                             self?.discardProductInBasketWithProductIndex(prod)
+                            self?.discardProductInBasketWithProductIndex(prod)
                         }
                         self?.tableView.reloadData()
-                       // self?.continueHandler("fromremoveButton")
+                            // self?.continueHandler("fromremoveButton")
                         
                     }
-                   
+                    
                 }
                 return cell
-     
+                
             }
-
+            
         }
         
         
@@ -1156,7 +1115,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             if currentLang == "ar" {
                 
                 cell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
-              //  cell.contentView.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+                    //  cell.contentView.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
                 
                 cell.customCollectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
                 cell.customCollectionView.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
@@ -1177,13 +1136,13 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             
             var firstObject : Array <Product> = [product] // add current alternative bedefualt
             firstObject += subProductList
-            // cell.customCollectionView.isHidden =  subProductList != nil && subProductList?.count ?? 0 == 0
+                // cell.customCollectionView.isHidden =  subProductList != nil && subProductList?.count ?? 0 == 0
             if  firstObject.count > 0 {
                 cell.customCollectionView.configuredCell(productA: firstObject ,  self.order.grocery , self.order)
             }else{
                 cell.customCollectionView.configuredCell(productA: ["" as AnyObject])
             }
-           
+            
             cell.productUpdated = { [weak self ] ( oldProduct , selectedProduct  ) in
                 guard let self = self else { return }
                 self.subsituteReplacementSelected(oldProdct: oldProduct, newProduct: selectedProduct, nil )
@@ -1194,7 +1153,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             cell.productDecremented = { [weak self ] ( oldProduct , selectedProduct  ) in
                 guard let self = self else { return }
                 
-               
                 let basketItem = OrderSubstitution.getBasketItemForOrder(self.order, product: oldProduct, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 if basketItem!.isSubtituted == 1 {
@@ -1206,7 +1164,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                         quantity = item.count.intValue - quantity
                         
                         if quantity > 0 {
-                           SubstitutionBasketItem.addOrUpdateProductInSubstitutionBasket(selectedProduct, subtitutedProduct: product, grocery: self.order.grocery, order: self.order, quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                            SubstitutionBasketItem.addOrUpdateProductInSubstitutionBasket(selectedProduct, subtitutedProduct: product, grocery: self.order.grocery, order: self.order, quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         }else{
                             
                             self.discardProductInBasketWithProductIndex(product)
@@ -1216,18 +1174,15 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                             basketItem!.isSubtituted = 0
                             
                             DatabaseHelper.sharedInstance.saveDatabase()
-                
+                            
                         }
                         
                         self.reloadCollectionViewFor(product)
                         
                     }
-                    
-                
-                    
-                    
-                }
                  
+                }
+                
             }
             cell.removeMoreCalled = { [weak self ] (selectedProduct) in
                 guard let self = self else { return }
@@ -1235,7 +1190,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             }
             cell.deleteUnAvailableRow = { [weak self ] (  selectedProduct  ) in
                 guard let self = self else { return }
-               
+                
                 if let index = self.orderProducts.firstIndex(of: selectedProduct) {
                     
                     self.tableView.beginUpdates()
@@ -1248,7 +1203,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     }
                     
                     ElGrocerUtility.sharedInstance.delay(1) {
-                       self.discardProductInBasketWithProductIndex(selectedProduct)
+                        self.discardProductInBasketWithProductIndex(selectedProduct)
                     }
                     ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                         if isUnDo {
@@ -1258,7 +1213,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                                 self?.tableView.reloadData()
                             }
                         }else{
-                         //   self?.deleteProduct(-1, selectedProduct)
+                                //   self?.deleteProduct(-1, selectedProduct)
                         }
                     })
                 }
@@ -1288,15 +1243,15 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         if let _ = self.orderProducts.firstIndex(where: {$0.dbID == oldProdct.dbID}) {
             self.quickAddSubsituteReplacment(product: oldProdct, subtituteProduct: newProduct , quantity)
         }else{
-             self.tableView.reloadData()
+            self.tableView.reloadData()
         }
-       
+        
         
     }
     
     fileprivate func quickAddSubsituteReplacment (product : Product , subtituteProduct : Product , _ quantity : Int?) {
         
-        //check if other grocery basket is active
+            //check if other grocery basket is active
         let isOtherSuggestionIsAvailable = SubstitutionBasketItem.checkIfSuggestionIsAvailableForSubtitutedProduct(self.order, subtitutedProduct: product, product:subtituteProduct, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         if isOtherSuggestionIsAvailable {
@@ -1322,18 +1277,18 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         let basketItem = OrderSubstitution.getBasketItemForOrder(self.order, product: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         basketItem!.isSubtituted = 1
-
+        
         DatabaseHelper.sharedInstance.saveDatabase()
-    
-         //let currentProductID = "\(Product.getCleanProductId(fromId: product.dbID))"
+        
+            //let currentProductID = "\(Product.getCleanProductId(fromId: product.dbID))"
         UserDefaults.setSubstituteAgainstOrderID(self.order.dbID.stringValue, productID: product.productId.stringValue)
         
         ElGrocerEventsLogger.sharedInstance.addToCart(product: subtituteProduct)
-
+        
         self.reloadCollectionViewFor(product)
         self.setBillDetails()
         self.validatePromoCode {}
-
+        
     }
     
     fileprivate func quickDecrementSubsituteReplacment (product : Product , subtituteProduct : Product , _ quantity : Int?) {
@@ -1354,7 +1309,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     let newCount            = (tmpBasketItem.count.intValue) - 1
                     tmpBasketItem.count     = NSNumber(value: newCount)
                     
-                   
                     DatabaseHelper.sharedInstance.saveDatabase()
                     self.reloadCollectionViewFor(product)
                 }else{
@@ -1427,7 +1381,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         /* ---------- Here we are setting subtituted status for that product ---------- */
         let basketItem = OrderSubstitution.getBasketItemForOrder(self.order, product: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
-        //basketItem!.isSubtituted = basketItem!.isSubtituted != 0 ? 0 : 2
+            //basketItem!.isSubtituted = basketItem!.isSubtituted != 0 ? 0 : 2
         if basketItem?.isSubtituted.intValue ?? 0 > 0  {
             basketItem?.isSubtituted = 0
         }else{
@@ -1439,8 +1393,8 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         let currentProductID = "\(Product.getCleanProductId(fromId: product.dbID))"
         UserDefaults.removeSubSelectedAgainst(self.order.dbID.stringValue, productID: currentProductID)
         
-        //FireBaseEventsLogger.trackSubstitutionsEvents("Selected")
-    
+            //FireBaseEventsLogger.trackSubstitutionsEvents("Selected")
+        
         self.reloadCollectionViewFor(product)
         self.setBillDetails()
         self.validatePromoCode {}
@@ -1509,14 +1463,14 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     
 }
 
-// MARK: Smiles points
+    // MARK: Smiles points
 extension SubstitutionsProductViewController {
     
     
     func setupSmiles() {
         
-        //TODO: set value from api n update, replace this "true"
-        //manage isSmilesSupportedOrder(from grocery) and self.order.payementType == 4/smile(from order)
+            //TODO: set value from api n update, replace this "true"
+            //manage isSmilesSupportedOrder(from grocery) and self.order.payementType == 4/smile(from order)
         
         guard (self.order != nil) else {
             return
@@ -1527,71 +1481,12 @@ extension SubstitutionsProductViewController {
             isPaidBySmilepoinst = true
             isSmilesSupportedOrder = true
         }
-
+        
         guard isSmilesSupportedOrder else {
             return
         }
-//        //disabled temporaryly until api update
-//        if (smileUser?.isSmileUser) != nil && isSmilesSupportedOrder {
-//            smileLoginSection = 0
-//            //TODO: update it
-//            // will get through order detail api
-//            //isPaidBySmilepoinst = true
-//        } else {
-//            smileLoginSection = 1
-//            isPaidBySmilepoinst = false
-//        }
-//        smileLoginSection = 0
-//        isPaidBySmilepoinst = true
-        //self.setBillDetails()
-        //self.tableView.reloadData()
-        
-        //let smilepoints = self.smileUser?.userDtail.availablePoints ?? 0
-        //SmilesEventsLogger.smilesImpressionEvent(isSmileslogin: true, smilePoints: smilepoints)
     }
     
-    func assignSmilePointsInBillDetails(_ currentOrderTotaleValue:Double) {
-        
-
-        guard (self.order != nil) else {
-            return
-        }
-        
-        let smilesSupported = (self.order.isSmilesUser?.boolValue ?? false) && UserDefaults.getIsSmileUser()
-        if smilesSupported {
-            if isPaidBySmilepoinst {
-                //show burning points
-                self.pointsEarnedView.isHidden = true
-                self.lblSmilesPoints.visibility = .visible
-                self.lblSmilesPointsValue.visibility = .visible
-
-               // let pointsburnedForOrder = SmilesManager.getBurnPointsFromAed(currentOrderTotaleValue)
-                
-                self.lblSmilesPointsValue.text = "- \(ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: currentOrderTotaleValue))"
-                
-                self.lblGrandTotalValue.text =  "\(ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: 0.00))"
-                self.lblFinalAmountValue.text =  "\(ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: 0.00))"
-                
-                
-               
-               
-                                
-            } else {
-                //showe earning points
-                self.pointsEarnedView.isHidden = false
-                self.lblSmilesPoints.visibility = .gone
-                self.lblSmilesPointsValue.visibility = .gone
-                
-                let earnedpopints = SmilesManager.getEarnPointsFromAed(currentOrderTotaleValue)
-                self.pointsEarnedValueLabel.text = localizedString("txt_earn", comment: "") + " \(earnedpopints) " + localizedString("txt_smile_point", comment: "")
-            }
-        } else {
-            // smiles not supported
-            self.pointsEarnedView.isHidden = true
-            self.lblSmilesPoints.visibility = .gone
-            self.lblSmilesPointsValue.visibility = .gone
-        }
-    }
     
     
     fileprivate func gotToSmileLogin() {
@@ -1691,7 +1586,7 @@ extension SubstitutionsProductViewController {
             self.lblbottomButtonReplaceOrCancel.text = localizedString("btn_Confirm_Replacement", comment: "")
             self.btnBottomButtonView.backgroundColor = .navigationBarColor()
             
-           
+            
         }else{
             self.lblbottomButtonReplaceOrCancel.text = localizedString("order_history_cancel_alert_title", comment: "")
             self.btnBottomButtonView.backgroundColor = .redInfoColor()
@@ -1703,7 +1598,7 @@ extension SubstitutionsProductViewController {
               self.lblMessage.attributedText = NSMutableAttributedString().normal(localizedString("msg_All_item_not_available", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor()).bold( localizedString("Msg_Cart_OUTOFSTOCK", comment: "") , UIFont.SFProDisplaySemiBoldFont(11) , color: .redInfoColor()).normal( " " + localizedString("Msg_Cart_ChooseReplacement", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor())
         }
         
-
+        
         var serviceFee = 0.0
         if self.order != nil && withServiceFee {
             serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: self.order.grocery, totalPrice: (Double(nonSubsTotalPrice + substotalPrice)))
@@ -1722,7 +1617,7 @@ extension SubstitutionsProductViewController {
     }
     func checkPromoCode(_ text : String , _ orderID : String? = nil, completion: @escaping ()-> Void ) {
         
-
+        
         guard let paymentOption = self.order.payementType?.uint32Value else {
             completion()
             return
@@ -1747,9 +1642,9 @@ extension SubstitutionsProductViewController {
             riderFee = self.order.grocery.riderFee
         }
         let basketItemDict = (self.getProductCountInOrder()).1
-//        self.promoActivityIndicator.startAnimating()
-//        self.btnPromoApply.isHidden = true
-
+            //        self.promoActivityIndicator.startAnimating()
+            //        self.btnPromoApply.isHidden = true
+        
         ElGrocerApi.sharedInstance.checkAndRealizePromotionCode(text , grocery: self.order.grocery, basketItems: [],withPaymentType: selectPaymentMethod!, deliveryFee: String(format:"%f", deliveryFee) , riderFee: String(format:"%f", riderFee), orderID: orderID, basketItemDict: basketItemDict ) { (result) -> Void in
             SpinnerView.hideSpinnerView()
             
@@ -1783,7 +1678,7 @@ extension SubstitutionsProductViewController {
     
     @discardableResult
     func getTotalPrice(_ addAED : Bool = true) -> (String, String, String , String) {
-     
+        
         let totalAmount =  finalAmmountWithSubItems(false)
         var serviceFee = 0.0
         var promoCodeValue : Double = 0.0
@@ -1792,9 +1687,6 @@ extension SubstitutionsProductViewController {
             if let promoCode = self.promoCode {
                 promoCodeValue = promoCode.valueCents  as Double
             }
-        }
-        if (self.order != nil) && (self.order.foodSubscriptionStatus?.boolValue ?? false) {
-            serviceFee = 0.0
         }
         var finalAmount = (totalAmount + serviceFee) - promoCodeValue
         if finalAmount < 0 {
@@ -1805,10 +1697,10 @@ extension SubstitutionsProductViewController {
         let finalPriceString = addAED ?ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: finalAmount) : "\(finalAmount)"
         let promoValueString = promoCodeValue > 0 ? (addAED ? ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: promoCodeValue) : "\(promoCodeValue)") : ""
         return (totalpriceString, serviceFeeString , finalPriceString , promoValueString)
-
+        
     }
     
-    ///returns total count and array of product dict to send for promo realization
+        ///returns total count and array of product dict to send for promo realization
     func getProductCountInOrder() -> (Int,[[String: Int]]) {
         
         var productCount = 0
@@ -1844,13 +1736,13 @@ extension SubstitutionsProductViewController {
             }
         }
         
-   
+        
         for product in productsA {
             if let notNilItem = OrderSubstitution.getBasketItemForOrder(self.order, product: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-             productCount += notNilItem.count.intValue
+                productCount += notNilItem.count.intValue
                 let productDict: [String: Int] = [
-                "amount": notNilItem.count.intValue,
-                "product_id": Product.getCleanProductId(fromId: notNilItem.productId)
+                    "amount": notNilItem.count.intValue,
+                    "product_id": Product.getCleanProductId(fromId: notNilItem.productId)
                 ]
                 productsArrayDict.append(productDict)
             }
@@ -1860,13 +1752,13 @@ extension SubstitutionsProductViewController {
             if let notNilItem = self.substitutionItemForProduct(product) {
                 productCount += notNilItem.count.intValue
                 let productDict: [String: Int] = [
-                "amount": notNilItem.count.intValue,
-                "product_id": Product.getCleanProductId(fromId: notNilItem.productId)
+                    "amount": notNilItem.count.intValue,
+                    "product_id": Product.getCleanProductId(fromId: notNilItem.productId)
                 ]
                 productsArrayDict.append(productDict)
             }
         }
-     
+        
         return (productCount, productsArrayDict)
     }
     
@@ -1924,7 +1816,7 @@ extension SubstitutionsProductViewController {
                         if promoPrices > 0 {
                             discountOnSingle = (price - promoPrice) * notNilItem.count.doubleValue
                         }
-                       
+                        
                     }
                 }
                 Discount += discountOnSingle
@@ -1978,34 +1870,53 @@ extension SubstitutionsProductViewController{
         }
         
     }
-    //MARK: Checkout Bottom View handling
+        //MARK: Checkout Bottom View handling
     
     func handleViewStyle(viewStyle : checkOutViewStyle = .normal){
         
-
+        
         if viewStyle == .normal {
             self.billDetailsBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = false
             self.btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
         } else if viewStyle == .showBillDetails{
             self.billDetailsBGView.visibility = .visible
             self.checkOutDetaailsLineView.isHidden = true
             
             self.btnShowBillDetails.setTitle(localizedString("btn_hide_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(name: "arrowDown16"), for: UIControl.State())
-            
         } else {
             self.billDetailsBGView.visibility = .gone
             self.checkOutDetaailsLineView.isHidden = true
             self.btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            self.btnAddPromo.setImage(UIImage(name: "arrowUp16"), for: UIControl.State())
         }
         
     }
-
+    
     
     func setBillDetails() {
+        
+        guard self.order != nil else {return}
+        let totalProductCountToShow = (self.getProductCountInOrder()).0
+        self.configureBillDetails(order: self.order)
+        configureCheckoutButtonData(itemsNum: totalProductCountToShow , totalBill: self.order.finalBillAmount?.stringValue ?? "0.00")
+        
+            //        if isPaidBySmilepoinst {
+            //            self.showPaymentDetails(paymentType: .smilePoints, creditCardNum: nil)
+            //        } else
+        if let _ = self.order.refToken {
+            if order.cardType == "7" || order.cardType == "8" {
+                showPaymentDetails(paymentType: .applePay, creditCardNum: nil)
+            }else {
+                showPaymentDetails(paymentType: .creditCard, creditCardNum: self.order.cardLast ?? "")
+            }
+            showPaymentDetails(paymentType: .creditCard, creditCardNum: self.order.cardLast ?? "")
+        }else if self.order.payementType?.uint32Value == PaymentOption.creditCard.rawValue && (self.order.cardID == nil || self.order.cardType == "7" || self.order.cardType == "8") {
+            showPaymentDetails(paymentType: .applePay, creditCardNum: nil)
+        }else if let type = self.order.payementType?.uint32Value {
+            showPaymentDetails(paymentType: PaymentOption(rawValue: type), creditCardNum: nil)
+        }
+        
+        return
         
         let result = self.getTotalPrice(false)
         let totalAmount = result.0
@@ -2025,7 +1936,7 @@ extension SubstitutionsProductViewController{
         }
 
         let isNeedToShowPromo = promoAmount.count > 0
-        assignBillDetails(totalPrice: totalAmount, serviceFee: serviceFee , promoValue: promoAmount, grandTotal: FinalAmount, isPromo: isNeedToShowPromo, itemCount: totalProductCount)
+            //        assignBillDetails(totalPrice: totalAmount, serviceFee: serviceFee , promoValue: promoAmount, grandTotal: FinalAmount, isPromo: isNeedToShowPromo, itemCount: totalProductCount)
         configureCheckoutButtonData(itemsNum: totalProductCount , totalBill: FinalAmount)
         
         self.setCheckOutEnable(totalProductCount>0)
@@ -2066,46 +1977,8 @@ extension SubstitutionsProductViewController{
         }
     }
     
-    func assignBillDetails(totalPrice : String , serviceFee : String , promoValue : String , grandTotal : String,isPromo: Bool,itemCount: Int){
-        
-        if isPromo {
-            self.lblPromoDiscount.visibility = .visible
-            self.lblPromoDiscountValue.visibility = .visible
-            
-            self.lblPromoDiscountValue.text = promoValue
-        }else{
-            self.lblPromoDiscount.isHidden = !isPromo
-            self.lblPromoDiscount.visibility = .gone
-            self.lblPromoDiscountValue.visibility = .gone
-        }
-        
-        if let totalPrice = Double(totalPrice) {
-            self.lblTotalPriceVATValue.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(totalPrice))
-        }
-        
-        if (self.order != nil) && (self.order.foodSubscriptionStatus?.boolValue ?? false) {
-            self.lblServiceFeeValue.text =  localizedString("txt_free", comment: "")
-        }else {
-            if let serviceFee = Double(serviceFee) {
-                self.lblServiceFeeValue.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(serviceFee))
-            }
-        }
-        
-        if let grandTotal = Double(grandTotal) {
-            self.lblGrandTotalValue.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(grandTotal))
-        }
-        
-        if let finalTotal = Double(grandTotal) {
-            self.lblFinalAmountValue.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(finalTotal))
-        }
-    
-        
-        let totalValueDoubleString: String = grandTotal.replacingOccurrences(of: CurrencyManager.getCurrentCurrency() + "  " , with: "")
-        if let totalValue = Double(totalValueDoubleString) {
-            self.assignSmilePointsInBillDetails(totalValue)
-        }
-        lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " \(itemCount) " + localizedString("brand_items_count_label", comment: "")
-        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+    func setEarnPointsAndDiscount() {
+        lblSavedAmount
     }
     
     func configureCheckoutButtonData(itemsNum : Int , totalBill : String) {
@@ -2121,7 +1994,6 @@ extension SubstitutionsProductViewController{
         } else {
             self.lblItemsTotalPrice.text = CurrencyManager.getCurrentCurrency() + " " + totalBill
         }
-        
         
         if isPaidBySmilepoinst {
             guard let totalValue = Double(totalBill) else {
@@ -2139,7 +2011,7 @@ extension SubstitutionsProductViewController{
     func setApplePayAppearence(_ isVisible: Bool = false){
         
         if isVisible{
-            //should show apple pay
+                //should show apple pay
             self.lblPlaceOrderTitle.isHidden = true
             self.lblItemCount.isHidden = true
             self.lblItemsTotalPrice.isHidden = true
@@ -2149,7 +2021,7 @@ extension SubstitutionsProductViewController{
                 self.btnCheckoutBGView.backgroundColor = .black
             }
         }else{
-            // should hide apple pay
+                // should hide apple pay
             self.lblPlaceOrderTitle.isHidden = false
             self.lblItemCount.isHidden = false
             self.lblItemsTotalPrice.isHidden = false
@@ -2195,7 +2067,7 @@ extension SubstitutionsProductViewController{
             self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
             showCVV(false)
         }else{
-            //credit card
+                //credit card
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("lbl_Card_ending_in", comment: "") + (creditCardNum ?? "")
             
@@ -2204,7 +2076,7 @@ extension SubstitutionsProductViewController{
     }
     
     func hideBottomCheckoutView(ishidden:Bool = false){
-//        self.CheckOutBGView.isHidden = ishidden
+            //        self.CheckOutBGView.isHidden = ishidden
         if ishidden {
             self.CheckOutBGView.visibility = .gone
         }else {
@@ -2215,13 +2087,154 @@ extension SubstitutionsProductViewController{
     
     func showCVV(_ isHidden : Bool =  true) {
         
-//        if isHidden{
-//            self.txtCVVHeightConstraint.constant = 32
-//            self.checkOutDetailViewHeightConstraint.constant = 109 + 20
-//        }else{
-//            self.txtCVVHeightConstraint.constant = 0
-//            self.checkOutDetailViewHeightConstraint.constant = 109
-//        }
+            //        if isHidden{
+            //            self.txtCVVHeightConstraint.constant = 32
+            //            self.checkOutDetailViewHeightConstraint.constant = 109 + 20
+            //        }else{
+            //            self.txtCVVHeightConstraint.constant = 0
+            //            self.checkOutDetailViewHeightConstraint.constant = 109
+            //        }
     }
     
 }
+extension SubstitutionsProductViewController {
+    
+    func setBillInitialAppearance() {
+        self.billStackBGView.borderColor = .borderGrayColor()
+        self.billStackBGView.borderWidth = 1
+        self.billStackBGView.cornarRadius = 8
+    }
+    
+    func adjustDividerConstraints() {
+        dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+            //        self.dividerView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 8).isActive = true
+            //        self.dividerView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: -8).isActive = true
+        
+    }
+    
+    func addViewsInstackView() {
+        self.billStackView.addArrangedSubview(self.totalPriceEntryView)
+        self.billStackView.addArrangedSubview(self.seriviceFeeView)
+        self.billStackView.addArrangedSubview(self.earnSmilesPointView)
+        self.billStackView.addArrangedSubview(self.grandToatalView)
+        self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
+        self.billStackView.addArrangedSubview(self.burnSmilePointsView)
+        self.billStackView.addArrangedSubview(self.dividerView)
+        self.billStackView.addArrangedSubview(self.finalBillAmountView)
+    }
+    
+    func configureBillDetails(order: Order) {
+        
+        var totalWithVat = 0.00
+        var summaryCount = 0
+        var priceSum = 0.00
+        var discount = 0.00
+        var burnSmilePoints = 0.00
+        var burnElwalletPoints = 0.00
+        var smileEarn: Int = 0
+        
+        let result = self.getTotalPrice(false)
+        let totalAmount = result.0
+        let serviceFeeString = result.1
+            //        let FinalAmount = result.2
+            //        let promoAmount = result.3
+        
+            //        let discountAvailable = getDiscountedPrice()
+            //        let isNeedToShowDiscount = discountAvailable.0
+            //        let discountValue = discountAvailable.1
+        let totalProductCount = (self.getProductCountInOrder()).0
+        
+        priceSum = Double(totalAmount) ?? 0.00
+        summaryCount = totalProductCount
+        
+        totalWithVat = priceSum
+        let serviceFee = Double(serviceFeeString) ?? 0.0
+        
+        let priceVariance = Double(order.priceVariance ?? "0") ?? 0.00
+        
+        if let orderPayments = order.orderPayments {
+            for payment in orderPayments {
+                let amount = payment["amount"] as? NSNumber ?? NSNumber(0)
+                let paymentTypeId = payment["payment_type_id"] as? Int
+                
+                if (paymentTypeId ?? 0) == 4 {
+                    burnSmilePoints = amount.doubleValue
+                }else if (paymentTypeId ?? 0) == 5 {
+                    burnElwalletPoints = amount.doubleValue
+                }else if (paymentTypeId ?? 0) == 6 {
+                    discount = amount.doubleValue
+                }
+            }
+        }
+        
+        let grandTotal = priceSum + serviceFee - priceVariance - discount
+        
+        if (order.isSmilesUser?.boolValue ?? false) {
+            let total = grandTotal - burnSmilePoints
+            smileEarn = SmilesManager.getEarnPointsFromAed(total)
+        }
+        
+        priceSum = grandTotal - burnSmilePoints - burnElwalletPoints//order.finalBillAmount?.doubleValue ?? 0.00
+        
+        setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
+    }
+    
+    func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int) {
+        
+        self.billStackView.addArrangedSubview(self.totalPriceEntryView)
+        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat.formateDisplayString())
+        self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity)
+        self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee.formateDisplayString())
+        self.billStackView.addArrangedSubview(self.seriviceFeeView)
+        if promoTionDiscount > 0 {
+            self.billStackView.addArrangedSubview(self.promoDiscountView)
+            self.promoDiscountView.isHidden = false
+            self.promoDiscountView.configure(title: localizedString("promotion_discount_aed", comment: ""), amount: promoTionDiscount.formateDisplayString(), isNegative: true)
+            assignTotalSavingAmount(savedAmount: promoTionDiscount)
+        }else {
+            self.promoDiscountView.isHidden = true
+            assignTotalSavingAmount(savedAmount: 0)
+        }
+        
+        if smileEarn > 0 {
+            self.earnSmilesPointView.isHidden = false
+            self.pointsEarnedView.isHidden = false
+            self.billStackView.addArrangedSubview(self.earnSmilesPointView)
+            self.earnSmilesPointView.configure(title: localizedString("txt_smile_point", comment: ""), amount: String(smileEarn))
+            self.pointsEarnedValueLabel.text = localizedString("txt_earn", comment: "") + " \(smileEarn) " + localizedString("txt_smile_point", comment: "")
+            
+        }else {
+            self.earnSmilesPointView.isHidden = true
+            self.pointsEarnedView.isHidden = true
+        }
+        if priceVariance > 0 {
+            self.billStackView.addArrangedSubview(self.priceVarianceView)
+            self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal.formateDisplayString(), isNegative: true)
+        }else {
+            self.priceVarianceView.isHidden = true
+        }
+        self.billStackView.addArrangedSubview(self.grandToatalView)
+        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal.formateDisplayString())
+        
+        if elwalletBurn > 0 {
+            self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
+            self.burnElwalletPointsView.isHidden = false
+            self.burnElwalletPointsView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: elwalletBurn.formateDisplayString(), isNegative: true)
+        }else {
+            self.burnElwalletPointsView.isHidden = true
+        }
+        
+        if smileBurn > 0 {
+            self.billStackView.addArrangedSubview(self.burnSmilePointsView)
+            self.burnSmilePointsView.isHidden = false
+            self.burnSmilePointsView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileBurn.formateDisplayString(), isNegative: true)
+        }else {
+            self.burnSmilePointsView.isHidden = true
+        }
+        self.billStackView.addArrangedSubview(self.dividerView)
+        self.billStackView.addArrangedSubview(self.finalBillAmountView)
+        self.finalBillAmountView.configure(title: localizedString("total_bill_amount", comment: ""), amount: finalBillAmount.formateDisplayString())
+        self.finalBillAmountView.setFinalBillAmountFont()
+    }
+}
+

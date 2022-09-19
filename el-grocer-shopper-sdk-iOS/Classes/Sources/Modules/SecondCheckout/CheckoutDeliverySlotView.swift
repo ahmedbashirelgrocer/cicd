@@ -48,8 +48,8 @@ class CheckoutDeliverySlotView: UIView  {
         if let selectedSlot = selectedSlot {
             self.selectedDeliverySlot = selectedSlot
             self.lblSlotPrefixText.text = modelType == .delivery
-            ? NSLocalizedString("delivery_time_slot", comment: "")
-            : NSLocalizedString("lbl_Self_Collection", comment: "")
+            ? localizedString("delivery_time_slot", comment: "")
+            : localizedString("lbl_Self_Collection", comment: "")
             if selectedSlot.id == 0 {
                 self.lblSlotValue.text =  selectedSlot.getInstantText()
                 return

@@ -16,7 +16,11 @@ class ElWalletTransactionVC: UIViewController, NavigationBarProtocol {
         }
     }
     @IBOutlet weak var balanceLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!{
+        didSet {
+            tableView.showsVerticalScrollIndicator = false
+        }
+    }
     
     var allMOonthTransections : [(sectionDate: String, transactions: [Transaction])] = []
     var allTransection: [Transaction] = [Transaction]()
@@ -225,7 +229,7 @@ extension ElWalletTransactionVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 66
+        return 50
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

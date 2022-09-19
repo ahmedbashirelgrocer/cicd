@@ -198,6 +198,11 @@ extension Order {
         }else {
             order.foodSubscriptionStatus = NSNumber(0)
         }
+        
+        if let orderPayments = orderDict["order_payments"] as? [NSDictionary] {
+            order.orderPayments = orderPayments
+        }
+        
         if let images_links = orderDict["order_positions"] as? [NSDictionary] {
             order.itemsPossition = images_links
         }
@@ -224,8 +229,14 @@ extension Order {
         if let total_products = orderDict["total_products"] as? Int64 {
             order.totalProducts = total_products
         }
-      
-        //delivery address
+        if let serviceFee = orderDict["service_fee"] as? NSNumber {
+            order.serviceFee = serviceFee
+        }
+        if let finalAmount = orderDict["final_amount"] as? NSNumber {
+            order.finalBillAmount = finalAmount
+        }
+        
+            //delivery address
         let addressId = orderDict["shopper_address_id"] as? NSNumber
         let addressOrderId = "\(orderId)_\(String(describing: addressId ?? -1))"
         

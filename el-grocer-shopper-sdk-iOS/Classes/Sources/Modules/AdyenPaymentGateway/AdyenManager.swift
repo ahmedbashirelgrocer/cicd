@@ -252,8 +252,11 @@ class AdyenManager {
         if let data = self.adyenPrice {
             value = data
         }
+        let _ = SpinnerView.showSpinnerView()
         AdyenApiManager().makePayment(amount: value, orderNum: adyenObjData.orderNumber, paymentMethodDict: paymentMethodDict, isForZeroAuth: adyenObjData.isZeroAuth, isForWallet: adyenObjData.isForWallet, browserInfo: browserInfo) { error, response in
-            print(error)
+       //     print(error)
+            SpinnerView.hideSpinnerView()
+
             if let error = error {
                 
                 SpinnerView.hideSpinnerView()

@@ -71,7 +71,7 @@ extension AdditionalInstructionsView: GrowingTextViewDelegate {
         
         self.lblRemainingText.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)/100")
         if charCount > 0{
-            self.lblRemainingText.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)"), color: UIColor.black , size: 12)
+            self.lblRemainingText.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(charRemaining)"), color: UIColor.black , size: UIFont.SFProDisplayBoldFont(12))
         }
         self.crossButton.isHidden = (self.tfAdditionalNote.text?.count == 0)
     }
@@ -95,7 +95,7 @@ extension AdditionalInstructionsView: GrowingTextViewDelegate {
         self.lblRemainingText.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(newText.count)/100")
         
         if newText.count > 0 {
-            self.lblRemainingText.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(newText.count)"), color: UIColor.black , size: 12)
+            self.lblRemainingText.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(newText.count)"), color: UIColor.black , size: UIFont.SFProDisplayBoldFont(12))
         }
         
         //

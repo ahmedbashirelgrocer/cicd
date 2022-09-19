@@ -111,9 +111,9 @@ class ApplyPromoVC: UIViewController {
     }
     func checkPromoCodeIsFromTextOrList() {
         if self.priviousOrderId?.count ?? 0 > 0 {
-            if let promocode = UserDefaults.getPromoCodeValue() {
+            if let promocode = self.promoCode {
                 let promo = promoCodeArray.filter { (promo) -> Bool in
-                    promo.code.elementsEqual(promocode.code)
+                    promo.code.elementsEqual(promocode)
                 }
                 if promo.count > 0 {
                     UserDefaults.setPromoCodeIsFromText(nil)
@@ -123,17 +123,20 @@ class ApplyPromoVC: UIViewController {
                     UserDefaults.setPromoCodeIsFromText(true)
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
-                    self.promoTextField.text = promocode.code
+                    self.promoTextField.text = promocode
                     self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
                 }
             }
             
         }else {
-            if let promoCode = UserDefaults.getPromoCodeValue(), let isFromText = UserDefaults.getPromoCodeIsFromText() {
-                if isFromText {
+            if let promoCode = self.promoCode {
+                let promo = promoCodeArray.filter { (promo) -> Bool in
+                    promo.code.elementsEqual(promoCode)
+                }
+                if promo.count == 0 {
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
-                    self.promoTextField.text = promoCode.code
+                    self.promoTextField.text = promoCode
                     self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
                 }
             }
@@ -150,13 +153,14 @@ class ApplyPromoVC: UIViewController {
         self.btnPromoApply.isHidden = false
         self.btnPromoRemove.isHidden = true
         self.showPromoError(true, message: "")
+        self.promoCode = nil
         if let isPromoApplied = self.isPromoApplied {
             isPromoApplied(false, nil)
         }
         self.tblView.reloadDataOnMain()
     }
     @IBAction func btnApplyPromoHandler(_ sender: Any) {
-        if self.promoTextField.text != "" {
+        if self.promoTextField.text != ""{
             FireBaseEventsLogger.ApplyPromoClick(index: -1000 , code: promoTextField.text ?? "")
             self.checkPromoCodeRealisation(self.promoTextField.text!, self.priviousOrderId, withAnimation: true)
         }
@@ -238,7 +242,7 @@ extension ApplyPromoVC {
                 }
                 return
             }
-            
+            self.promoCode = promoCode?.code ?? ""
             if let isPromoApplied = self.isPromoApplied {
                 isPromoApplied(true, promoCode)
             }
@@ -313,8 +317,8 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ApplyPromoCell", for: indexPath) as! ApplyPromoCell
         
-        let promocode = UserDefaults.getPromoCodeValue()
-        if (promocode?.code ?? "") == promoCodeArray[indexPath.row].code {
+            //        let promocodeDefault = UserDefaults.getPromoCodeValue()?.code ?? ""
+        if (self.promoCode ?? "") == promoCodeArray[indexPath.row].code {
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: true, grocery: self.previousGrocery)
         }else {
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: false, grocery: self.previousGrocery)

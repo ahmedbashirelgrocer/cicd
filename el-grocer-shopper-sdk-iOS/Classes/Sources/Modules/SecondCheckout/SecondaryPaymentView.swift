@@ -262,7 +262,7 @@ class PaymentSourceView: UIView {
         let label = UILabel()
         
         label.isHidden = true
-        label.text = NSLocalizedString("secondry_payment_error_msg", comment: "")
+        label.text = localizedString("secondry_payment_error_msg", comment: "")
         label.setCaptionOneRegErrorStyle()
         label.translatesAutoresizingMaskIntoConstraints = false
         

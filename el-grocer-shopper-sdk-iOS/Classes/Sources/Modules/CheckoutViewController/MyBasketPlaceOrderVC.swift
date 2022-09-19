@@ -43,7 +43,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         didSet{
             lblTotalPriceVAT.setBody3RegDarkStyle()
             lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " 6 " + localizedString("brand_items_count_label", comment: "")
-            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: UIFont.SFProDisplayBoldFont(14))
             
         }
     }
@@ -1332,7 +1332,7 @@ extension MyBasketPlaceOrderVC {
 //        self.lblGrandTotalValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
 //        self.lblFinalAmountValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
         lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(itemCount) ") + localizedString("brand_items_count_label", comment: "")
-        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: UIFont.SFProDisplayBoldFont(14))
         
         self.lblTotalPriceVATValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalPrice)
         if self.smileUser?.foodSubscriptionStatus ?? false {

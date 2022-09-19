@@ -60,7 +60,7 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
         self.grocery = grocery
         self.paymentOption = selectedPaymentOption
         self.selectedCardId = cardId
-        self.titleSubject.onNext(NSLocalizedString("payment_method_title", comment: ""))
+        self.titleSubject.onNext(localizedString("payment_method_title", comment: ""))
     }
 }
 
@@ -115,7 +115,7 @@ extension PaymentSelectionViewModel {
                         }
                     })
                     
-                    self.viewModels.append(PaymentSelectionCellViewModel(string: NSLocalizedString("btn_add_new_card", comment: "")))
+                    self.viewModels.append(PaymentSelectionCellViewModel(string: localizedString("btn_add_new_card", comment: "")))
                     self.cellViewModelsSubject.onNext(self.viewModels)
                 }
             } else {
