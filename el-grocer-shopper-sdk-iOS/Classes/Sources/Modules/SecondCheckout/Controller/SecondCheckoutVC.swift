@@ -57,7 +57,6 @@ class SecondCheckoutVC: UIViewController {
         super.viewDidLoad()
 
         IQKeyboardManager.shared.enable = true
-        self.addBackButton(isGreen: false)
         // show hide click and collect views based on delivery mode.
         self.viewWarning.isHidden = ElGrocerUtility.sharedInstance.isDeliveryMode
         self.viewCollector.isHidden = ElGrocerUtility.sharedInstance.isDeliveryMode
@@ -169,8 +168,13 @@ class SecondCheckoutVC: UIViewController {
 
         
         self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
+        if self.viewModel.getOrderId()?.count ?? 0 > 0 {
+            self.promocodeView.isHidden = true
+        }else {
+            self.promocodeView.isHidden = false
+            self.promocodeView.configure(promocode: data.promoCode?.code ?? "")
+        }
         
-        self.promocodeView.configure(promocode: data.promoCode?.code ?? "")
         self.paymentMethodView.configure(paymentTypes: data.paymentTypes ?? [], selectedPaymentId: self.viewModel.getSelectedPaymentMethodId(),creditCard: self.viewModel.getCreditCard())
         
         let secondaryPaymentTypes = self.viewModel.getShouldShowSecondaryPayments(paymentMethods: data.paymentTypes ?? [])
@@ -292,6 +296,7 @@ private extension SecondCheckoutVC {
             nav.setGreenBackgroundColor()
             nav.setLogoHidden(true)
             nav.setSearchBarHidden(true)
+            nav.setBackButtonHidden(false)
         }
         
         self.navigationItem.hidesBackButton = true
@@ -323,7 +328,6 @@ extension SecondCheckoutVC: AdditionalInstructionsViewDelegate {
 extension SecondCheckoutVC: PaymentMethodViewDelegate {
     func tap(on view: PaymentMethodView, paymentTypes: [PaymentType]) {
         let vm = PaymentSelectionViewModel(elGrocerAPI: ElGrocerApi.sharedInstance, adyenApiManager: AdyenApiManager(), grocery: self.grocery, selectedPaymentOption: self.viewModel.getSelectedPaymentOption(),cardId: self.viewModel.getCreditCard()?.cardID)
-        vm.fetchPaymentMethods()
         let viewController = PaymentMethodSelectionViewController.create(viewModel: vm) { option, applePay, creditCard in
             if let option = option, let groceryId = self.viewModel.getGroceryId() {
                 UserDefaults.setPaymentMethod(option.rawValue, forStoreId: groceryId)
@@ -387,9 +391,11 @@ extension SecondCheckoutVC: PromocodeDelegate {
     func tap(promocode: String?) {
         if self.viewModel.getSelectedPaymentOption() == PaymentOption.none {
             let errorMsg = localizedString("secondary_payment_promocode_error", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(errorMsg, "", image: nil, -1, false) { sender, index, inUndo in  }
+            ElGrocerUtility.sharedInstance.showTopMessageView(errorMsg, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
+            }, buttonIcon: UIImage(name: "crossWhite"))
             return
         }
+
         
         let vc = ElGrocerViewControllers.getApplyPromoVC()
         

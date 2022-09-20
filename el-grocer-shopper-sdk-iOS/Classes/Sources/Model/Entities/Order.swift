@@ -29,6 +29,7 @@ class Order: NSManagedObject, DBEntity {
     @NSManaged var deliveryTypeId: NSNumber?
     @NSManaged var retailerServiceId : NSNumber?
     @NSManaged var totalValue: Double
+    @NSManaged var produuctsTotal: Double
     @NSManaged var itemImages : [String]
     @NSManaged var itemsPossition : [NSDictionary]
     @NSManaged var collector : CollectorDetail?

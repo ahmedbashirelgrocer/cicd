@@ -19,6 +19,7 @@ class PaymentMethodSelectionViewController: UIViewController {
             lblTitle.setH4SemiBoldStyle()
         }
     }
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
 
     private var viewModel: PaymentSelectionViewModelType!
@@ -44,6 +45,14 @@ class PaymentMethodSelectionViewController: UIViewController {
         self.tableView.register(UINib(nibName: PaymentSelectionTableViewCell.identifier, bundle: .resource), forCellReuseIdentifier: PaymentSelectionTableViewCell.identifier)
         
         bindViews()
+        if let model = self.viewModel as? PaymentSelectionViewModel {
+            self.activityIndicator.startAnimating()
+            model.fetchPaymentMethods { success in
+                if success {
+                    self.activityIndicator.stopAnimating()
+                }
+            }
+        }
     }
     
     func bindViews() {

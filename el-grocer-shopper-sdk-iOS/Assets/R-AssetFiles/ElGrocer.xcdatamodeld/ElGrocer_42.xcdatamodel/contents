@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19206" systemVersion="20E241" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Brand" representedClassName=".Brand" syncable="YES">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
@@ -148,6 +148,7 @@
         <attribute name="orderPayments" optional="YES" attributeType="Transformable"/>
         <attribute name="payementType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="priceVariance" optional="YES" attributeType="String"/>
+        <attribute name="produuctsTotal" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="promoCode" optional="YES" attributeType="Transformable"/>
         <attribute name="refToken" optional="YES" attributeType="String"/>
         <attribute name="retailerServiceId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -306,7 +307,7 @@
         <element name="Grocery" positionX="-927" positionY="-1089" width="128" height="764"/>
         <element name="GroceryCategoryBrands" positionX="-945" positionY="-1107" width="128" height="74"/>
         <element name="GroceryReview" positionX="-909" positionY="-1071" width="128" height="104"/>
-        <element name="Order" positionX="-927" positionY="-1089" width="128" height="599"/>
+        <element name="Order" positionX="-927" positionY="-1089" width="128" height="614"/>
         <element name="OrderSubstitution" positionX="-963" positionY="-1125" width="128" height="89"/>
         <element name="Picker" positionX="-945" positionY="-1107" width="128" height="89"/>
         <element name="PickupLocation" positionX="-918" positionY="-1080" width="128" height="134"/>

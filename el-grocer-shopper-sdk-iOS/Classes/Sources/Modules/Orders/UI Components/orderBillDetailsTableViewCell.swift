@@ -75,7 +75,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         var smileEarn: Int = 0
         
         
-        priceSum = order.totalValue
+        priceSum = order.produuctsTotal
         summaryCount = Int(order.totalProducts)
 //        for product in orderController.orderProducts {
 //
@@ -113,8 +113,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
                 }
             }
         }
-        
-        let grandTotal = priceSum + serviceFee - priceVariance - discount
+        let grandTotal = order.totalValue//priceSum + serviceFee - priceVariance - discount
         
         if (order.isSmilesUser?.boolValue ?? false) {
             let total = grandTotal - burnSmilePoints
@@ -148,9 +147,10 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         }else {
             self.earnSmilesPointView.isHidden = true
         }
-        if priceVariance > 0 {
+        if priceVariance != 0 {
+            self.priceVarianceView.isHidden = false
             self.billStackView.addArrangedSubview(self.priceVarianceView)
-            self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal.formateDisplayString(), isNegative: true)
+            self.priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance.formateDisplayString(), isNegative: false)
         }else {
             self.priceVarianceView.isHidden = true
         }

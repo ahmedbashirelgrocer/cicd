@@ -1310,10 +1310,11 @@ class ElGrocerUtility {
     }
     
     
-    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true , backButtonClicked: @escaping (Any? , Int , Bool) -> Void ) {
+    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true , backButtonClicked: @escaping (Any? , Int , Bool) -> Void, buttonIcon: UIImage? = nil) {
         let view = MessageView.viewFromNib(layout: .cardView)
         //  view.configureTheme(.warning)
         
+        view.iconImageView?.isHidden = true
         if let data = image {
             view.iconImageView?.image = data
             view.iconImageView?.image = view.iconImageView?.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
@@ -1324,7 +1325,9 @@ class ElGrocerUtility {
         view.id = "\(index)"
         view.iconLabel?.text = nil
         view.iconLabel?.isHidden = true
-        view.button?.setTitle(isNeedtoShowButton ? localizedString("lbl_Undo", comment: "") : "", for: .normal)
+        view.button?.setImage(buttonIcon, for: .normal)
+        view.button?.tintColor = .white
+        view.button?.setTitle(isNeedtoShowButton && buttonIcon == nil ? localizedString("lbl_Undo", comment: "") : "", for: .normal)
         view.button?.backgroundColor = .secondaryDarkGreenColor()
         view.button?.setBackgroundColor(.secondaryDarkGreenColor() , forState: .normal)
         view.button?.setTitleColor(.white, for: .normal)
@@ -1339,6 +1342,9 @@ class ElGrocerUtility {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             view.titleLabel?.textAlignment = .right
             view.bodyLabel?.textAlignment = .right
+        } else {
+            view.titleLabel?.textAlignment = .left
+            view.bodyLabel?.textAlignment = .left
         }
         
         if msg.contains(localizedString("tobaco_product_msg", comment: "")) {

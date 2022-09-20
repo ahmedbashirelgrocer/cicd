@@ -409,7 +409,7 @@ class OrderHistoryCell: UITableViewCell {
             self.quantityLabel.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
             
 //            self.priceLabel.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() , grandTotal)
-            self.priceLabel.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
+            self.priceLabel.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: self.currentOrder?.finalBillAmount?.doubleValue ?? 0.00)
             
         }else{
             var summaryCount = 0
@@ -438,7 +438,7 @@ class OrderHistoryCell: UITableViewCell {
             self.quantityLabel.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
             
 //            self.priceLabel.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
-            self.priceLabel.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
+            self.priceLabel.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: self.currentOrder?.finalBillAmount?.doubleValue ?? 0.00)
         }
         
        

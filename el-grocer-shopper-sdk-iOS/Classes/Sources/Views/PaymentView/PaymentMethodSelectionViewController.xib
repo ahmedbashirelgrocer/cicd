@@ -9,8 +9,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PaymentMethodSelectionViewController" customModule="ElGrocerShopper" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PaymentMethodSelectionViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="z6E-rb-Dhn" id="JZD-73-bUi"/>
                 <outlet property="lblTitle" destination="nkg-cd-Yd3" id="NH6-MV-43T"/>
                 <outlet property="tableView" destination="obe-P9-Qlh" id="oet-h1-7ME"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -63,10 +64,20 @@
                                 <constraint firstItem="nkg-cd-Yd3" firstAttribute="centerY" secondItem="Szs-Sw-GIh" secondAttribute="centerY" id="zTe-tK-iwV"/>
                             </constraints>
                         </view>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="z6E-rb-Dhn">
+                            <rect key="frame" x="170" y="316" width="35" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="L2k-e6-4eU"/>
+                                <constraint firstAttribute="width" constant="35" id="tgA-6O-Hc4"/>
+                            </constraints>
+                            <color key="color" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
+                        <constraint firstItem="z6E-rb-Dhn" firstAttribute="centerY" secondItem="pAK-sF-tHt" secondAttribute="centerY" id="8WI-2U-4P0"/>
                         <constraint firstAttribute="trailing" secondItem="obe-P9-Qlh" secondAttribute="trailing" id="9UW-d5-cBa"/>
+                        <constraint firstItem="z6E-rb-Dhn" firstAttribute="centerX" secondItem="pAK-sF-tHt" secondAttribute="centerX" id="CA0-LX-6zn"/>
                         <constraint firstAttribute="bottom" secondItem="obe-P9-Qlh" secondAttribute="bottom" id="Ivi-7d-R1Q"/>
                         <constraint firstItem="Szs-Sw-GIh" firstAttribute="leading" secondItem="pAK-sF-tHt" secondAttribute="leading" id="b7l-Ky-afw"/>
                         <constraint firstItem="obe-P9-Qlh" firstAttribute="leading" secondItem="pAK-sF-tHt" secondAttribute="leading" id="cqr-6Y-Vsm"/>

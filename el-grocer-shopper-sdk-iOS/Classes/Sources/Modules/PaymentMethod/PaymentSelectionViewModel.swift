@@ -65,13 +65,14 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
 }
 
 extension PaymentSelectionViewModel {
-    func fetchPaymentMethods() {
+    func fetchPaymentMethods(completion: @escaping ((Bool) -> Void)) {
         guard let groceryID = grocery?.dbID else { return }
         
 
         PaymentMethodFetcher.getPaymentOptions(groceryID: groceryID) { paymentOptions, error in
             if let error = error {
                 self.errorSubject.onNext(error)
+                completion(true)
                 return
             }
             
@@ -121,6 +122,7 @@ extension PaymentSelectionViewModel {
             } else {
                 self.cellViewModelsSubject.onNext(self.viewModels)
             }
+            completion(true)
         }
     }
 }

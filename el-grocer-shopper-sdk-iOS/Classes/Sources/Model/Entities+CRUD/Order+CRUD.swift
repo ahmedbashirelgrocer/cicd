@@ -222,10 +222,14 @@ extension Order {
             let grocery = Grocery.createGroceryFromDictionary(["id" : groceryId , "company_name" :  orderDict["retailer_company_name"] ?? "" , "company_address" :  orderDict["retailer_company_address"] ?? ""  , "service_fee" :  orderDict["service_fee"] ?? "" ,  "rider_fee" :  orderDict["rider_fee"] ?? "" , "vat" :  orderDict["vat"] ?? "" , "wallet_amount_paid" :  orderDict["wallet_amount_paid"] ?? "" , "retailer_photo" : orderDict["retailer_photo"] ?? orderDict["photo_url"] ?? "" ], orderId: orderId, context: context)
             order.grocery = grocery
         }
-        
-        if let total_value = orderDict["total_value"] as? Double {
+        elDebugPrint(orderDict)
+        if let productTotal = orderDict["products_total"] as? Double {
+            order.produuctsTotal = productTotal
+        }
+        if let total_value = orderDict["total"] as? Double {
             order.totalValue = total_value
         }
+        
         if let total_products = orderDict["total_products"] as? Int64 {
             order.totalProducts = total_products
         }
