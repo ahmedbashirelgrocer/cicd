@@ -17,7 +17,7 @@ extension DeliverySlot {
     // MARK: DBEntity
     @nonobjc static let entityName = DeliverySlotEntity
     // MARK: Insert
-    class func insertOrReplaceDeliverySlotsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext ) -> [DeliverySlot]{
+    class func insertOrReplaceDeliverySlotsFromDictionary(_ dictionary:NSDictionary,  groceryObj : Grocery? = nil, context:NSManagedObjectContext ) -> [DeliverySlot]{
         var deliverySlots = [DeliverySlot]()
         if  let response = dictionary["data"] as? NSDictionary {
             var grocery : Grocery? = nil
@@ -25,6 +25,8 @@ extension DeliverySlot {
                 if let grocer = Grocery.updateGroceryOpeningStatus(groceryDict, context: context) {
                     grocery = grocer
                 }
+            }else if groceryObj != nil {
+                grocery = groceryObj
             }
             if let  responseObjects = response["delivery_slots"] as? [NSDictionary] {
                 var jsonSlotIds = [Int]()

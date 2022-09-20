@@ -176,7 +176,7 @@ class AWPickerViewController : UIViewController {
     func saveResponseData(_ responseObject:NSDictionary, grocery : Grocery?) {
         
         let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-        self.collectionData = DeliverySlot.insertOrReplaceDeliverySlotsFromDictionary(responseObject, context: context)
+        self.collectionData = DeliverySlot.insertOrReplaceDeliverySlotsFromDictionary(responseObject, groceryObj: grocery, context: context)
         Grocery.updateActiveGroceryDeliverySlots(with: responseObject, context: context)
         self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
         if let slots =  UserDefaults.getEditOrderSelectedDeliverySlot()  {
@@ -390,6 +390,9 @@ class AWPickerViewController : UIViewController {
             UserDefaults.setCurrentSelectedDeliverySlotId(firstObj.dbID)
             UserDefaults.setEditOrderSelectedDelivery(nil)
             MixpanelEventLogger.trackCheckoutDeliverySlotSelected(slot: firstObj)
+            if let clouser = self.changeSlot {
+                clouser(firstObj)
+            }
         }
         self.dismiss(animated: true) { }
         

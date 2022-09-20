@@ -280,6 +280,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if  !(UserDefaults.isOrderInEdit() && self.order != nil) {
+            self.searchBar.isHidden = true
+        }
         userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let topVc = UIApplication.topViewController()
         guard !(topVc is ReplacementViewController) else {
@@ -329,6 +332,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }else {
             self.isDeliveryMode = ElGrocerUtility.sharedInstance.isDeliveryMode
         }
+        self.searchBar.isHidden = !self.orderToReplace
 
         self.reloadTableData()
         self.setControlerTitle()
@@ -942,6 +946,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         if  self.orderToReplace  {
             self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
+            self.searchBar.clipsToBounds = true
             self.searchBar.backgroundColor = .navigationBarColor()
             self.viewForSearch.backgroundColor = .navigationBarColor()
             self.viewForSearch.addSubview(self.searchBar)
@@ -1812,7 +1817,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.minOrderImageView.image = UIImage(name: "cart-addmore")
             let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
             self.minOrderProgressView.setProgress(progressValue, animated: true)
-            self.title = localizedString("shopping_OOS_title_label", comment: "")
+                self.title =  self.itemsSummaryValue > 0 ?   localizedString("shopping_OOS_title_label", comment: "") : localizedString("Cart_Title", comment: "")
             self.checkoutBtn.isEnabled = false
             self.checkOutViewForButton.backgroundColor = UIColor.colorWithHexString(hexString: "909090")
             //greyish

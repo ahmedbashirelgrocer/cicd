@@ -88,7 +88,7 @@ class SDKManager: NSObject  {
         
         
     }
-
+    
     fileprivate func checkNotifcation() {
         
         let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
@@ -120,10 +120,22 @@ class SDKManager: NSObject  {
             }
             if var apiData = notifcation.userInfo as? [String : Any] {
                 apiData[FireBaseParmName.SessionID.rawValue] = ElGrocerUtility.sharedInstance.getGenericSessionID()
-                FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo: apiData))
-               FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  apiData  , false)
+                
+                if let launchOptions = launchOptions, launchOptions.isSmileSDK {
+                    
+                } else {
+                    FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo: apiData))
+                }
+                FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  apiData  , false)
+                
+               
             }else{
-                FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
+                
+                if let launchOptions = launchOptions, launchOptions.isSmileSDK {
+                    
+                } else {
+                    FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
+                }
                 
                 FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)" , [:] , false )
             }
@@ -408,6 +420,10 @@ class SDKManager: NSObject  {
     }
     
      func showAnimatedSplashView() {
+         
+         defer {
+             self.refreshSessionStatesForEditOrder()
+         }
         
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
@@ -424,6 +440,11 @@ class SDKManager: NSObject  {
     
     
      func showEntryView() {
+         
+         defer {
+             self.refreshSessionStatesForEditOrder()
+         }
+         
          if let launchOptions = launchOptions, launchOptions.isSmileSDK { // Entry point for SDK
              let manager = SDKLoginManager(launchOptions: launchOptions)
              manager.loginFlowForSDK() { isSuccess, errorMessage in

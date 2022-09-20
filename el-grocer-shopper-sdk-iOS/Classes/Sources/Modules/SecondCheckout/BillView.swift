@@ -125,7 +125,7 @@ class BillView: UIView {
         self.lblFinalAmount.text = CurrencyManager.getCurrentCurrency() + " " + finalTotal
         
         
-        if productSaving != "" || promocode != nil{
+        if  promocode != nil {
             
             self.stackView.addArrangedSubview(savingsView)
             var productSavingToSend = ""
@@ -134,16 +134,16 @@ class BillView: UIView {
             }else {
                 productSavingToSend = productSaving
             }
-            if let promoValue = Double(promocode?.value ?? 0) as? Double ,let productSavings = Double(productSavingToSend) {
+            if let promoValue = promocode?.value ,let productSavings = Double(productSavingToSend) {
                 
-                let totalSaving = promoValue + productSavings
+                let totalSaving = productSavings
                 if totalSaving == 0 {
                     savingsView.isHidden = true
                     self.promotionView.visibility = .gone
                     self.lblPromotion.text =  ""
                 }else {
                     savingsView.isHidden = false
-                    savingsView.configure(title: localizedString("discount_text", comment: ""), amount: totalSaving.formateDisplayString(),isNegative: true)
+                    savingsView.configure(title: localizedString("discount_text", comment: ""), amount: promoValue.formateDisplayString(),isNegative: true)
                     self.promotionView.visibility = .visible
                     self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + totalSaving.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
                 }
@@ -152,7 +152,15 @@ class BillView: UIView {
                 self.promotionView.visibility = .visible
                 self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + productSaving + " " + localizedString("txt_Saved", comment: "")
             }
-        }else {
+        }
+        
+        if let saving = Double(productSaving), saving > 0 {
+            
+            savingsView.configure(title: localizedString("discount_text", comment: ""), amount: productSaving,isNegative: true)
+            self.promotionView.visibility = .visible
+            self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + productSaving + " " + localizedString("txt_Saved", comment: "")
+            
+        }  else {
             self.promotionView.visibility = .gone
             self.lblPromotion.text =  ""
             self.savingsView.isHidden = true
@@ -176,8 +184,6 @@ class BillView: UIView {
         }else {
             self.elWalletView.isHidden = true
         }
-        
-        if smilesRedemed != "" {
             if let smileValue = Double(smilesRedemed) {
                 if smileValue > 0 {
                     self.stackView.addArrangedSubview(smilesView)
@@ -188,11 +194,7 @@ class BillView: UIView {
                 }
             }else {
                 self.smilesView.isHidden = true
-            }
-            
-        }else {
-            self.smilesView.isHidden = true
-        }
+            } 
     }
     
     private func setupConstraint() {

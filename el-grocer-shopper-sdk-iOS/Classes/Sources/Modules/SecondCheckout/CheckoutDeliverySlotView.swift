@@ -42,7 +42,7 @@ class CheckoutDeliverySlotView: UIView  {
             return
         }
         
-        let selectedSlot: DeliverySlotDTO? = slots.filter { $0.id ==  selectedSlotId }.first
+        let selectedSlot: DeliverySlotDTO? = slots.filter { $0.usid ==  selectedSlotId }.first
         self.deliverySlots = slots
         
         if let selectedSlot = selectedSlot {

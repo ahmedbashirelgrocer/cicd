@@ -74,7 +74,7 @@ class SecondCheckoutVC: UIViewController {
         self.secondaryPaymentView.delegate = self
         
         self.checkoutDeliverySlotView.changeSlot = { [weak self] (slot) in
-            self?.viewModel.setSelectedSlotId(slot?.backendDbId)
+            self?.viewModel.setSelectedSlotId(slot?.dbID)
             self?.viewModel.setDeliverySlot(slot)
             self?.viewModel.updateSlotToBackEnd()
         }
@@ -164,7 +164,7 @@ class SecondCheckoutVC: UIViewController {
 
         self.checkoutDeliverySlotView.configure(slots: data.deliverySlots ?? [], selectedSlotId: Int(data.selectedDeliverySlot ?? "") ?? -1)
         // configure bill view
-            self.billView.configure(productTotal: data.productsTotal ?? "", serviceFee: data.serviceFee ?? "", total: data.totalValue ?? "", productSaving: data.totalDiscount ?? "", finalTotal: data.finalAmount ?? "", elWalletRedemed: data.elWalletRedeem ?? "", smilesRedemed: data.smilesRedeem ?? "", promocode: nil, quantity: Int(data.quantity ?? "0"))
+            self.billView.configure(productTotal: data.productsTotal ?? "", serviceFee: data.serviceFee ?? "", total: data.totalValue ?? "", productSaving: data.totalDiscount ?? "", finalTotal: data.finalAmount ?? "", elWalletRedemed: data.elWalletRedeem ?? "", smilesRedemed: data.smilesRedeem ?? "", promocode: data.promoCode, quantity: Int(data.quantity ?? "0"))
 
         
         self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())

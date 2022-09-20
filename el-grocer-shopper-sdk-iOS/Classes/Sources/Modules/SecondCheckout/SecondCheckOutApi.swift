@@ -62,10 +62,10 @@ class SecondCheckOutApi : ElGrocerApi {
         let url = ElGrocerApiEndpoint.getSecondCheckoutDetails.rawValue
         
         
-        NetworkCall.get(url, parameters: parameters, progress: { (progress) in
+        NetworkCall.post(url, parameters: parameters, progress: { (progress) in
         }, success: { (operation, response: Any) in
             
-            debugPrint("apple pay response : \(response)")
+            debugPrint("getSlots: Response : \(response)")
             guard let response = response as? NSDictionary else {
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
                 return

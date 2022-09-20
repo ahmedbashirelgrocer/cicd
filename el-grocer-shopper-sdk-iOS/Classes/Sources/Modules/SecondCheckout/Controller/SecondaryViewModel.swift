@@ -772,7 +772,7 @@ struct PaymentType: Codable {
 struct PromoCode: Codable {
     let code: String?
     let promotionCodeRealizationID: Int?
-    let value: Int?
+    let value: Double?
     let errorMessage: String?
     
     enum CodingKeys: String, CodingKey {
