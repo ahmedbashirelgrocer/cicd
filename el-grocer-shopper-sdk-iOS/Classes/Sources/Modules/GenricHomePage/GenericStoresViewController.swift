@@ -156,7 +156,7 @@ class GenericStoresViewController: BasketBasicViewController {
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setLogoHidden(false)
             controller.setGreenBackgroundColor()
-            //controller.setBackButtonHidden(true)
+            controller.setBackButtonHidden(true)
             controller.setLocationHidden(true)
             controller.setSearchBarDelegate(self)
             controller.setSearchBarText("")
@@ -166,7 +166,7 @@ class GenericStoresViewController: BasketBasicViewController {
             controller.setProfileButtonHidden(false)
             controller.setCartButtonHidden(false)
             controller.actiondelegate = self
-                //
+    
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             if let nav = (self.navigationController as? ElGrocerNavigationController) {
                 if let bar = nav.navigationBar as? ElGrocerNavigationBar {
@@ -316,9 +316,6 @@ class GenericStoresViewController: BasketBasicViewController {
     }
     
     func setUpUIApearance() {
-        
-        //(self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-        
         self.setNeedsStatusBarAppearanceUpdate()
         self.switchMode.clipsToBounds = true
         self.switchViewHeight.constant = 0
