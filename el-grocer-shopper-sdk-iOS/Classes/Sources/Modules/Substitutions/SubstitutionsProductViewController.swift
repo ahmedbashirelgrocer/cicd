@@ -2175,6 +2175,10 @@ extension SubstitutionsProductViewController {
         }
         
         priceSum = grandTotal - burnSmilePoints - burnElwalletPoints//order.finalBillAmount?.doubleValue ?? 0.00
+        
+        if priceSum < 0 {
+            priceSum = 0.00
+        }
         configureCheckoutButtonData(itemsNum: summaryCount , totalBill: priceSum.formateDisplayString())
         
         setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
