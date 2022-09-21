@@ -125,45 +125,24 @@ class BillView: UIView {
         self.lblFinalAmount.text = CurrencyManager.getCurrentCurrency() + " " + finalTotal
         
         
-        if  promocode != nil {
-            
+        if let promoValue = promocode?.value {
             self.stackView.addArrangedSubview(savingsView)
-            var productSavingToSend = ""
-            if productSaving.elementsEqual("") {
-                productSavingToSend = "0.00"
+            if promoValue == 0 {
+                savingsView.isHidden = true
             }else {
-                productSavingToSend = productSaving
+                savingsView.isHidden = false
+                savingsView.configure(title: localizedString("discount_text", comment: ""), amount: promoValue.formateDisplayString(),isNegative: true)
             }
-            if let promoValue = promocode?.value ,let productSavings = Double(productSavingToSend) {
-                
-                let totalSaving = productSavings
-                if totalSaving == 0 {
-                    savingsView.isHidden = true
-                    self.promotionView.visibility = .gone
-                    self.lblPromotion.text =  ""
-                }else {
-                    savingsView.isHidden = false
-                    savingsView.configure(title: localizedString("discount_text", comment: ""), amount: promoValue.formateDisplayString(),isNegative: true)
-                    self.promotionView.visibility = .visible
-                    self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + totalSaving.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
-                }
-            }else {
-                savingsView.configure(title: localizedString("discount_text", comment: ""), amount: productSaving,isNegative: true)
-                self.promotionView.visibility = .visible
-                self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + productSaving + " " + localizedString("txt_Saved", comment: "")
-            }
+        }else {
+            savingsView.isHidden = true
         }
         
-        if let saving = Double(productSaving), saving > 0 {
-            
-            savingsView.configure(title: localizedString("discount_text", comment: ""), amount: productSaving,isNegative: true)
-            self.promotionView.visibility = .visible
+        if let saving = Double(productSaving), saving > 0 {            self.promotionView.visibility = .visible
             self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + productSaving + " " + localizedString("txt_Saved", comment: "")
             
         }  else {
             self.promotionView.visibility = .gone
             self.lblPromotion.text =  ""
-            self.savingsView.isHidden = true
         }
         
         stackView.addArrangedSubview(grandTotalEntryView)
