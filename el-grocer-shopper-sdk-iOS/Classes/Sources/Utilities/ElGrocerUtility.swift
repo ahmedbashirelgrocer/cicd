@@ -1222,7 +1222,7 @@ class ElGrocerUtility {
                  attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
             }
             
-            let price =  String(format: " %.2f" , priceValue)
+            let price = String(format: " %.2f" , priceValue)
             let stringPrice = price.changeToArabic()
             let attributedString1 = NSMutableAttributedString(string:stringPrice as String , attributes:attrs1 as [NSAttributedString.Key : Any])
             let attributedString2 = NSMutableAttributedString(string: CurrencyManager.getCurrentCurrency() , attributes:attrs2 as [NSAttributedString.Key : Any])
