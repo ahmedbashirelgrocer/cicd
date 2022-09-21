@@ -288,8 +288,9 @@ class BillEntryView: UIView {
     }
     
     func setTotalProductsTitle(quantity: Int) {
-        self.lblTitle.text = localizedString("total_price_incl_VAT", comment: "") + " " + String(quantity) + " " + (quantity == 1 ? localizedString("item", comment: "") : localizedString("items", comment: ""))
-        self.lblTitle.highlight(searchedText: String(quantity) + " " + (quantity == 1 ? localizedString("item", comment: "") : localizedString("items", comment: "")), color: UIColor.disableButtonColor(), size: UIFont.SFProDisplayNormalFont(14))
+        let quantityString = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(quantity))
+        self.lblTitle.text = localizedString("total_price_incl_VAT", comment: "") + " " + quantityString + " " + (quantity == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: ""))
+        self.lblTitle.highlight(searchedText: quantityString + " " + (quantity == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")), color: UIColor.disableButtonColor(), size: UIFont.SFProDisplayNormalFont(14))
     }
     
     func setFinalBillAmountFont() {
