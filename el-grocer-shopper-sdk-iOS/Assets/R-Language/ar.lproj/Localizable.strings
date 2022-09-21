@@ -2129,11 +2129,11 @@
 "collector_car_text" = "Which car is collecting the order?";
 "click_collect_warning_text" = "Please, make sure you arrive on time. Your order will be held for 15 min max.";
 "click_collect_warning_text_highlighted" = "Your order will be held for 15 min max.";
-"discount_text" = "Discount";
-"elwallet_credit_applied" = "elWallet credit applied";
-"smiles_points_applied" = "Smiles Points applied";
-"txt_applied_promocode" = "(Applied)";
-"amount_to_pay" = "AMOUNT TO PAY";
+"discount_text" = "خصم";
+"elwallet_credit_applied" = "خصم من المحفظة";
+"smiles_points_applied" = "خصم من نقاط بسمات";
+"txt_applied_promocode" = "(مطبق)";
+"amount_to_pay" = "قيمة الفاتورة";
 
 
 

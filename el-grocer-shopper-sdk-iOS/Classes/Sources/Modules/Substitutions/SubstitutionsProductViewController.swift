@@ -1937,7 +1937,7 @@ extension SubstitutionsProductViewController{
 
         let isNeedToShowPromo = promoAmount.count > 0
             //        assignBillDetails(totalPrice: totalAmount, serviceFee: serviceFee , promoValue: promoAmount, grandTotal: FinalAmount, isPromo: isNeedToShowPromo, itemCount: totalProductCount)
-        configureCheckoutButtonData(itemsNum: totalProductCount , totalBill: FinalAmount)
+//        configureCheckoutButtonData(itemsNum: totalProductCount , totalBill: FinalAmount)
         
         self.setCheckOutEnable(totalProductCount>0)
         if self.order != nil {
@@ -1981,25 +1981,16 @@ extension SubstitutionsProductViewController{
         lblSavedAmount
     }
     
-    func configureCheckoutButtonData(itemsNum : Int , totalBill : String) {
+    func configureCheckoutButtonData(itemsNum : Int , totalBill : Double) {
         
         if itemsNum > 1{
             self.lblItemCount.text = "(\(itemsNum) " + localizedString("shopping_basket_items_count_plural", comment: "") + ")"
         }else{
             self.lblItemCount.text = "(\(itemsNum) " + localizedString("shopping_basket_items_count_singular", comment: "") + ")"
         }
-        
-        if let totalBill = Double(totalBill) {
-            self.lblItemsTotalPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalBill)
-        } else {
-            self.lblItemsTotalPrice.text = CurrencyManager.getCurrentCurrency() + " " + totalBill
-        }
-        
+        self.lblItemsTotalPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalBill)
         if isPaidBySmilepoinst {
-            guard let totalValue = Double(totalBill) else {
-                return
-            }
-            let points = SmilesManager.getBurnPointsFromAed(totalValue)
+            let points = SmilesManager.getBurnPointsFromAed(totalBill)
             self.lblItemCount.text = "or \(points) pts"
             
         }
@@ -2179,7 +2170,7 @@ extension SubstitutionsProductViewController {
         if priceSum < 0 {
             priceSum = 0.00
         }
-        configureCheckoutButtonData(itemsNum: summaryCount , totalBill: priceSum.formateDisplayString())
+        configureCheckoutButtonData(itemsNum: summaryCount , totalBill: priceSum)
         
         setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
     }
@@ -2187,14 +2178,14 @@ extension SubstitutionsProductViewController {
     func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int) {
         
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
-        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat.formateDisplayString())
+        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity)
-        self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee.formateDisplayString())
+        self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
         if promoTionDiscount > 0 {
             self.billStackView.addArrangedSubview(self.promoDiscountView)
             self.promoDiscountView.isHidden = false
-            self.promoDiscountView.configure(title: localizedString("promotion_discount_aed", comment: ""), amount: promoTionDiscount.formateDisplayString(), isNegative: true)
+            self.promoDiscountView.configure(title: localizedString("promotion_discount_aed", comment: ""), amount: promoTionDiscount, isNegative: true)
             assignTotalSavingAmount(savedAmount: promoTionDiscount)
         }else {
             self.promoDiscountView.isHidden = true
@@ -2205,7 +2196,7 @@ extension SubstitutionsProductViewController {
             self.earnSmilesPointView.isHidden = false
             self.pointsEarnedView.isHidden = false
             self.billStackView.addArrangedSubview(self.earnSmilesPointView)
-            self.earnSmilesPointView.configure(title: localizedString("txt_smile_point", comment: ""), amount: String(smileEarn))
+            self.earnSmilesPointView.configureForPoints(title: localizedString("txt_smile_point", comment: ""), amount: smileEarn)
             self.pointsEarnedValueLabel.text = localizedString("txt_earn", comment: "") + " \(smileEarn) " + localizedString("txt_smile_point", comment: "")
             
         }else {
@@ -2214,17 +2205,17 @@ extension SubstitutionsProductViewController {
         }
         if priceVariance > 0 {
             self.billStackView.addArrangedSubview(self.priceVarianceView)
-            self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal.formateDisplayString(), isNegative: true)
+            self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal, isNegative: true)
         }else {
             self.priceVarianceView.isHidden = true
         }
         self.billStackView.addArrangedSubview(self.grandToatalView)
-        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal.formateDisplayString())
+        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
         
         if elwalletBurn > 0 {
             self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
             self.burnElwalletPointsView.isHidden = false
-            self.burnElwalletPointsView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: elwalletBurn.formateDisplayString(), isNegative: true)
+            self.burnElwalletPointsView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: elwalletBurn, isNegative: true)
         }else {
             self.burnElwalletPointsView.isHidden = true
         }
@@ -2232,13 +2223,13 @@ extension SubstitutionsProductViewController {
         if smileBurn > 0 {
             self.billStackView.addArrangedSubview(self.burnSmilePointsView)
             self.burnSmilePointsView.isHidden = false
-            self.burnSmilePointsView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileBurn.formateDisplayString(), isNegative: true)
+            self.burnSmilePointsView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileBurn, isNegative: true)
         }else {
             self.burnSmilePointsView.isHidden = true
         }
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
-        self.finalBillAmountView.configure(title: localizedString("total_bill_amount", comment: ""), amount: finalBillAmount.formateDisplayString())
+        self.finalBillAmountView.configure(title: localizedString("total_bill_amount", comment: ""), amount: finalBillAmount)
         self.finalBillAmountView.setFinalBillAmountFont()
     }
 }

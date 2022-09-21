@@ -269,7 +269,7 @@ extension OrderDetailStateTableViewCell {
             grandTotal = grandTotal + price
         }
 //        self.lblPrice.text = ("\(CurrencyManager.getCurrentCurrency()) " + (NSString(format: "%.2f", grandTotal) as String) as String)
-        self.lblPrice.text = order?.finalBillAmount?.doubleValue.formateDisplayString() ?? "0.00"//ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
+        self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: order?.finalBillAmount?.doubleValue ?? 0.00)
         if order!.deliverySlot != nil  ,  order?.deliverySlot?.dbID != nil {
             self.lblDate.text  = order!.deliverySlot!.getSlotDisplayStringOnOrder(order!.grocery)
         }else{

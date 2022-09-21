@@ -118,11 +118,12 @@ class BillView: UIView {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
-        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: productTotal)
+        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: Double(productTotal) ?? 0.00)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity ?? 0)
-        self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
-        self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: total)
-        self.lblFinalAmount.text = CurrencyManager.getCurrentCurrency() + " " + finalTotal
+        self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: Double(serviceFee) ?? 0.00)
+        self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: Double(total) ?? 0.00)
+        self.lblFinalAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(finalTotal) ?? 0.00)
+//        self.lblFinalAmount.text = CurrencyManager.getCurrentCurrency() + " " + finalTotal
         
         
         if let promoValue = promocode?.value {
@@ -131,15 +132,18 @@ class BillView: UIView {
                 savingsView.isHidden = true
             }else {
                 savingsView.isHidden = false
-                savingsView.configure(title: localizedString("discount_text", comment: ""), amount: promoValue.formateDisplayString(),isNegative: true)
+                savingsView.configure(title: localizedString("discount_text", comment: ""), amount: promoValue,isNegative: true)
             }
         }else {
             savingsView.isHidden = true
         }
         
         if let saving = Double(productSaving), saving > 0 {            self.promotionView.visibility = .visible
-            self.lblPromotion.text =  CurrencyManager.getCurrentCurrency() + " " + productSaving + " " + localizedString("txt_Saved", comment: "")
-            
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                self.lblPromotion.text =  localizedString("txt_Saved", comment: "") + " "+ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: saving)
+            }else {
+                self.lblPromotion.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: saving) + " " + localizedString("txt_Saved", comment: "")
+            }
         }  else {
             self.promotionView.visibility = .gone
             self.lblPromotion.text =  ""
@@ -152,7 +156,7 @@ class BillView: UIView {
                 if walletValue > 0 {
                     self.stackView.addArrangedSubview(elWalletView)
                     self.elWalletView.isHidden = false
-                    elWalletView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: walletValue.formateDisplayString(), isNegative: true)
+                    elWalletView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: walletValue, isNegative: true)
                 }else {
                     self.elWalletView.isHidden = true
                 }
@@ -167,7 +171,7 @@ class BillView: UIView {
                 if smileValue > 0 {
                     self.stackView.addArrangedSubview(smilesView)
                     self.smilesView.isHidden = false
-                    smilesView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileValue.formateDisplayString(), isNegative: true)
+                    smilesView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileValue, isNegative: true)
                 }else {
                     self.smilesView.isHidden = true
                 }
@@ -293,16 +297,29 @@ class BillEntryView: UIView {
         self.lblAmount.font = UIFont.SFProDisplayBoldFont(14)
     }
 
+    func configureForPoints(title: String, amount: Int) {
+        self.lblTitle.text = title
+        let amountString = Double(amount).formateDisplayString()
+        self.lblAmount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: amountString)
+    }
     
-    func configure(title: String, amount: String, isNegative: Bool = false) {
+    func configure(title: String, amount: Double, isNegative: Bool = false) {
         self.lblTitle.text = title
         let initialString = CurrencyManager.getCurrentCurrency() + " "
         var finalString = ""
         if isNegative {
-            finalString = "-" + (amount == "" ? "0.00" : amount)
+            finalString = "-" + (amount.formateDisplayString() == "" ? "0.00" : amount.formateDisplayString())
         }else {
-            finalString = (amount == "" ? "0.00" : amount)
+            finalString = (amount.formateDisplayString() == "" ? "0.00" : amount.formateDisplayString())
         }
-        self.lblAmount.text = initialString + finalString
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            if isNegative {
+                self.lblAmount.text = "-" +  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: amount)
+            }else {
+                self.lblAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: amount)
+            }
+        }else {
+            self.lblAmount.text = initialString + finalString
+        }
     }
 }

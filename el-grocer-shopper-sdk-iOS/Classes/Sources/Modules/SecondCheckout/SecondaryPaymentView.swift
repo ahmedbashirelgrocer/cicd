@@ -282,6 +282,9 @@ class PaymentSourceView: UIView {
         self.backgroundColor = .clear
         self.addViews()
         self.setupConstraints()
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.useBalanceSwitch.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
     }
     
     func configure(type: SourceType, balance: String, redeem: String, smilesPoints: String) {
@@ -291,8 +294,8 @@ class PaymentSourceView: UIView {
         self.logo.image = type.logo
         self.lblUseSourceText.text = type.text
         self.lblAvailableBalanceText.text = localizedString("shopping_basket_available_label", comment: "").capitalized
-        self.lblAvailableBalance.text = CurrencyManager.getCurrentCurrency() + " " + (balance == "" ? "0.00" : balance)
-        lblUseBalance.text = CurrencyManager.getCurrentCurrency() + " " + (redeem == "" ? "0.00" : redeem)
+        self.lblAvailableBalance.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(balance) ?? 0.00)//CurrencyManager.getCurrentCurrency() + " " + (balance == "" ? "0.00" : balance)
+        lblUseBalance.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(redeem) ?? 0.00)//CurrencyManager.getCurrentCurrency() + " " + (redeem == "" ? "0.00" : redeem)
         
         
         
