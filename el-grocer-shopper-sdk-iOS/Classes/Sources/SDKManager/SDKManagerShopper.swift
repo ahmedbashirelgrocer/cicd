@@ -496,7 +496,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     fileprivate func debugFirebaseSetting() {
         
         var filePath:String!
-        filePath = Bundle.main.path(forResource: "GoogleService-Info-SandBox", ofType: "plist")
+        filePath = Bundle.resource.path(forResource: "GoogleService-Info-SandBox", ofType: "plist")
         let projectName = "elgrocer"
         let options = FirebaseOptions.init(contentsOfFile: filePath)!
         options.deepLinkURLScheme = "elgrocer.com.ElGrocerShopper"
@@ -515,7 +515,11 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     }
     
     fileprivate func productionFirebaseSetting() {
-        FirebaseApp.configure() // defualt info plist
+        // FirebaseApp.configure() // defualt info plist
+        var filePath:String!
+        filePath = Bundle.resource.path(forResource: "GoogleService-Info", ofType: "plist")
+        let options = FirebaseOptions.init(contentsOfFile: filePath)!
+        FirebaseApp.configure(options: options)
     }
     
     
@@ -636,11 +640,11 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
         
         let vcData: [(UIViewController, UIImage , String)] = [
-            (homeViewEmpty, UIImage(named: "TabbarHome")!,NSLocalizedString("Home_Title", comment: "")),
-            (storeMain, UIImage(named: "icStore")!,NSLocalizedString("Store_Title", comment: "")),
-            (searchController, UIImage(named: "icTabBarshoppingList")! ,NSLocalizedString("Shopping_list_Titile", comment: "")),
-            (settingController, UIImage(named: "TabbarProfile")!   ,NSLocalizedString("more_title", comment: "")),
-            (myBasketViewController, UIImage(named: "TabbarCart")!   ,NSLocalizedString("Cart_Title", comment: ""))
+            (homeViewEmpty, UIImage(name: "TabbarHome")!,NSLocalizedString("Home_Title", comment: "")),
+            (storeMain, UIImage(name: "icStore")!,NSLocalizedString("Store_Title", comment: "")),
+            (searchController, UIImage(name: "icTabBarshoppingList")! ,NSLocalizedString("Shopping_list_Titile", comment: "")),
+            (settingController, UIImage(name: "TabbarProfile")!   ,NSLocalizedString("more_title", comment: "")),
+            (myBasketViewController, UIImage(name: "TabbarCart")!   ,NSLocalizedString("Cart_Title", comment: ""))
         ]
         
         let vcs = vcData.map { (viewController, image , title) -> UINavigationController in
@@ -664,12 +668,12 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
         //595959
         
-        //        tabController.tabBar.items![0].selectedImage = UIImage(named: "icHomeGreen")
-        //        tabController.tabBar.items![1].selectedImage = UIImage(named: "icHomeGreen")
-        //        tabController.tabBar.items![2].selectedImage = UIImage(named: "icBrowseGreen")
-        //        tabController.tabBar.items![3].selectedImage = UIImage(named: "navSearchGreen")
-        //       // tabController.tabBar.items![4].selectedImage = UIImage(named: "selectRecipeGree")
-        //        tabController.tabBar.items![4].selectedImage = UIImage(named: "icMoreGreen")
+        //        tabController.tabBar.items![0].selectedImage = UIImage(name: "icHomeGreen")
+        //        tabController.tabBar.items![1].selectedImage = UIImage(name: "icHomeGreen")
+        //        tabController.tabBar.items![2].selectedImage = UIImage(name: "icBrowseGreen")
+        //        tabController.tabBar.items![3].selectedImage = UIImage(name: "navSearchGreen")
+        //       // tabController.tabBar.items![4].selectedImage = UIImage(name: "selectRecipeGree")
+        //        tabController.tabBar.items![4].selectedImage = UIImage(name: "icMoreGreen")
         //
         //
         
@@ -1014,7 +1018,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
                     newMsg = (newMsg as NSString).substring(to: 100)
                     newMsg.append("...")
                 }
-                ElGrocerUtility.sharedInstance.showTopMessageView(newMsg, image: UIImage(named: "chat-White") , -1 , false  ) { (data, index, isShow) in
+                ElGrocerUtility.sharedInstance.showTopMessageView(newMsg, image: UIImage(name: "chat-White") , -1 , false  ) { (data, index, isShow) in
                     debugPrint("msg")
                     //ZohoChat.showChat()
                     NotificationCenter.default.post(name: KChatNotifcation, object: false)
@@ -1460,7 +1464,7 @@ extension SDKManagerShopper : UITabBarControllerDelegate {
                                 
                                 
                                 let appDelegate = UIApplication.shared.delegate as! SDKManagerShopper
-                                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
+                                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: NSLocalizedString("products_adding_different_grocery_alert_title", comment: ""), detail: NSLocalizedString("products_adding_different_grocery_alert_message", comment: ""),NSLocalizedString("grocery_review_already_added_alert_cancel_button", comment: ""),NSLocalizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                                     
                                     if buttonIndex == 1 {
                                         
