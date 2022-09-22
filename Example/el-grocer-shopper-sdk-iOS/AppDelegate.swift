@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //
-//  release branch
+//  Merge changes from fix branch
 
 import UIKit
 import IQKeyboardManagerSwift

@@ -23,6 +23,9 @@ class PaymentMethodView: UIView {
     @IBOutlet weak var lblPaymentTitle: UILabel! {
         didSet {
             lblPaymentTitle.setBody3RegGreenStyle()
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                lblPaymentTitle.textAlignment = .right
+            }
         }
     }
     @IBOutlet weak var arrowForward: UIImageView!

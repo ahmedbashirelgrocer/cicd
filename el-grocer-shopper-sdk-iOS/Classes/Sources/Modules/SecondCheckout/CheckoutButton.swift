@@ -78,7 +78,7 @@ class CheckoutButtonView: AWView {
     
     private func setPointsAndAmount(points: String, amount: String)  {
         self.lblPoints.text = localizedString("or_label_text", comment: "") + " " + points + " " + localizedString("pay_via_smiles_points", comment: "")
-        self.lblAmount.text = localizedString("aed", comment: "") + " " + amount
+        self.lblAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(amount) ?? 0.00)//localizedString("aed", comment: "") + " " + amount
     }
     private func setSavedAmountAndEarnSmilePoints(savedAed: Double, earnSmilePoints: Int, paymentOption: PaymentOption, isSmileTrue: Bool) {
         
@@ -96,7 +96,12 @@ class CheckoutButtonView: AWView {
         
         if savedAed > 0 {
             self.lblAEDSavedBottomBGView.visibility = .visible
-            self.lblAEDSaved.text = CurrencyManager.getCurrentCurrency() + " " + savedAed.formateDisplayString() + " " + localizedString("txt_Saved", comment: "")
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                self.lblAEDSaved.text = localizedString("txt_Saved", comment: "") + " " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: savedAed) 
+            }else {
+                self.lblAEDSaved.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: savedAed) + " " + localizedString("txt_Saved", comment: "")
+            }
+            
         }else {
             self.lblAEDSavedBottomBGView.visibility = .goneX
         }

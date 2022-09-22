@@ -4683,18 +4683,33 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     /// - Returns: returns Arabic number
     func changeToArabic()-> String{
         
-        var sum = ""
-        let letters = self.map { String($0) }
-        for letter in letters {
-            if (Int(letter) != nil) {
-                let persianNumber = ["۰","۱","۲","۳","٤","۵","٦","۷","۸","۹"]
-                sum = sum+persianNumber[Int("\(letter)")!]
-            } else {
-                sum = sum+letter
-            }
-        }
-        sum = sum.replacingOccurrences(of: ".", with: ",")
-        return sum
+        return self
+        
+//        let format = NumberFormatter()
+//        format.locale = Locale(identifier: "ar-ae")
+//        format.allowsFloats = true
+//        format.numberStyle = .decimal
+//        let number =   format.number(from: self)
+//        let faNumber = format.string(from: number!)
+//        return faNumber!
+//        
+//        
+//        
+//        var sum = ""
+//        elDebugPrint("numerals start: \(self)")
+//        let letters = self.reversed().map { String($0) }
+//        elDebugPrint("numerals: \(letters)")
+//        for letter in letters {
+//            if (Int(letter) != nil) {
+//                let persianNumber = ["۰","۱","۲","۳","٤","۵","٦","۷","۸","۹"]
+//                sum = sum+persianNumber[Int("\(letter)")!]
+//            } else {
+//                sum = sum+letter
+//            }
+//        }
+//        sum = sum.replacingOccurrences(of: ".", with: ",")
+//        elDebugPrint("numerals sum: \(sum)")
+//        return sum
     }
     
  }

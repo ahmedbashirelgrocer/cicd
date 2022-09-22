@@ -52,7 +52,7 @@ PODS:
     - SDWebImage (~> 5.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.1.0):
+  - el-grocer-shopper-sdk-iOS (1.1.2):
     - Adyen (~> 4.7.3)
     - AlgoliaSearchClient (~> 8.0)
     - AnimatedGradientView (~> 3.1.0)
@@ -82,7 +82,7 @@ PODS:
     - libPhoneNumber-iOS (~> 0.9.15)
     - MaterialComponents/ActivityIndicator (~> 124.2.0)
     - MaterialComponents/BottomSheet (~> 124.2.0)
-    - Mixpanel-swift
+    - Mixpanel-swift (~> 3.3.0)
     - MSPeekCollectionViewDelegateImplementation (~> 3.2.0)
     - NBBottomSheet (~> 1.2.0)
     - PinCodeTextField (~> 0.1.0)
@@ -434,7 +434,7 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: afe021e30a0eb16054d982d21224942389b9c844
+  el-grocer-shopper-sdk-iOS: 807d1fc09df34e6d94798914e08274b94527059e
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -491,6 +491,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: 499af3f774d9a88114c399f7b37340bf248a733f
+PODFILE CHECKSUM: b7981da972f16a72a5a697149120144e61a507f4
 
 COCOAPODS: 1.11.3

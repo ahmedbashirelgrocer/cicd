@@ -128,14 +128,14 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     func setBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int) {
 
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
-        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat.formateDisplayString())
+        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity)
-        self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee.formateDisplayString())
+        self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
         if promoTionDiscount > 0 {
             self.billStackView.addArrangedSubview(self.promoDiscountView)
             self.promoDiscountView.isHidden = false
-            self.promoDiscountView.configure(title: localizedString("promotion_discount_aed", comment: ""), amount: promoTionDiscount.formateDisplayString(), isNegative: true)
+            self.promoDiscountView.configure(title: localizedString("promotion_discount_aed", comment: ""), amount: promoTionDiscount, isNegative: true)
         }else {
             self.promoDiscountView.isHidden = true
         }
@@ -143,24 +143,24 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         if smileEarn > 0 {
             self.earnSmilesPointView.isHidden = false
             self.billStackView.addArrangedSubview(self.earnSmilesPointView)
-            self.earnSmilesPointView.configure(title: localizedString("txt_smile_point", comment: ""), amount: String(smileEarn))
+            self.earnSmilesPointView.configureForPoints(title: localizedString("txt_smile_point", comment: ""), amount: smileEarn)
         }else {
             self.earnSmilesPointView.isHidden = true
         }
         if priceVariance != 0 {
             self.priceVarianceView.isHidden = false
             self.billStackView.addArrangedSubview(self.priceVarianceView)
-            self.priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance.formateDisplayString(), isNegative: false)
+            self.priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: false)
         }else {
             self.priceVarianceView.isHidden = true
         }
         self.billStackView.addArrangedSubview(self.grandToatalView)
-        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal.formateDisplayString())
+        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
         
         if elwalletBurn > 0 {
             self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
             self.burnElwalletPointsView.isHidden = false
-            self.burnElwalletPointsView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: elwalletBurn.formateDisplayString(), isNegative: true)
+            self.burnElwalletPointsView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: elwalletBurn, isNegative: true)
         }else {
             self.burnElwalletPointsView.isHidden = true
         }
@@ -168,13 +168,13 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         if smileBurn > 0 {
             self.billStackView.addArrangedSubview(self.burnSmilePointsView)
             self.burnSmilePointsView.isHidden = false
-            self.burnSmilePointsView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileBurn.formateDisplayString(), isNegative: true)
+            self.burnSmilePointsView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileBurn, isNegative: true)
         }else {
             self.burnSmilePointsView.isHidden = true
         }
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
-        self.finalBillAmountView.configure(title: localizedString("total_bill_amount", comment: ""), amount: finalBillAmount.formateDisplayString())
+        self.finalBillAmountView.configure(title: localizedString("total_bill_amount", comment: ""), amount: finalBillAmount)
         self.finalBillAmountView.setFinalBillAmountFont()
     }
 

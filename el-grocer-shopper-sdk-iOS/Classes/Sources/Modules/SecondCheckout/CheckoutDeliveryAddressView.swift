@@ -12,6 +12,9 @@ class CheckoutDeliveryAddressView: UIView {
     @IBOutlet weak var lblAddress: UILabel! {
         didSet {
             lblAddress.setBody3RegDarkStyle()
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                lblAddress.textAlignment = .right
+            }
         }
     }
     

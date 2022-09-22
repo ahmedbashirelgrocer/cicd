@@ -34,7 +34,7 @@ class PromocodeView: UIView {
     
     func configure(promocode: String) {
         if promocode == "" {
-            lblPromocode.text = localizedString("Apply Promocode", comment: "")
+            lblPromocode.text = localizedString("title_apply_promo", comment: "")
             return
         }
         self.promocode = promocode

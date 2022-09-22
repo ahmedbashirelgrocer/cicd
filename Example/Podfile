@@ -16,9 +16,11 @@ end
 
 post_install do |installer|
   installer.pods_project.build_configurations.each do |config|
+    
     config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
 #    if config.build_settings['WRAPPER_EXTENSION'] == 'bundle'
-#            config.build_settings['DEVELOPMENT_TEAM'] = 'YOUR_DEVELOPMENT_TEAM_ID'
+#            config.build_settings['DEVELOPMENT_TEAM'] = 'N883C2D2B2'
+#    end
     #config.build_settings['SWIFT_COMPILATION_MODE'] = 'wholemodule'
     #config.build_settings['SWIFT_OPTIMIZATION_LEVEL'] = '-O'
     #config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
