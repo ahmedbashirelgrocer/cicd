@@ -186,7 +186,7 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-  s.dependency 'Mixpanel-swift'
+  s.dependency 'Mixpanel-swift' , '~> 3.3.0'
 #s.dependency 'AppsFlyerFramework'
 
 
