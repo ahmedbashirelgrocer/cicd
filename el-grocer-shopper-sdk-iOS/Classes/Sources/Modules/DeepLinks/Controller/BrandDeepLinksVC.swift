@@ -776,7 +776,6 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
             
             scrollView.layoutIfNeeded()
             
-            self.groceryBgViewHeight?.isActive = false
             let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
             if constraintA.count > 0 {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
@@ -788,14 +787,11 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
                 self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
             }
-            
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
-                self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
-                let title = scrollView.contentOffset.y > 40 ? localizedString("lbl_goToStore", comment: ""): ""
-                self.titleLabel.text = title
-                    //self.addCustomTitleViewLeftSide(title)
-                    // self.navigationController?.navigationBar.topItem?.title = title
+                self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+                let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+                self.navigationController?.navigationBar.topItem?.title = title
             }
             
             

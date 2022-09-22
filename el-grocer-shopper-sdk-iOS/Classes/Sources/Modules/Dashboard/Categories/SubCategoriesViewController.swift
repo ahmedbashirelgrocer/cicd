@@ -431,15 +431,6 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
    // MARK:- Scroll Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-            let kLoadingDistance = 2 * kProductCellHeight + 8
-            let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
-            if y + kLoadingDistance > scrollView.contentSize.height - 250 {
-                self.viewHandler.loadMore()
-                return
-            }
-        }
-        
         
         scrollView.layoutIfNeeded()
         
@@ -456,9 +447,18 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         }
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
+        }
+        
+        if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
+            let kLoadingDistance = 2 * kProductCellHeight + 8
+            let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
+            if y + kLoadingDistance > scrollView.contentSize.height - 250 {
+                self.viewHandler.loadMore()
+                return
+            }
         }
         
     }
