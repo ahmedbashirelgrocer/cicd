@@ -35,7 +35,7 @@ private enum BackendSuggestedAction: Int {
 }
 
 public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
-    static var shared: SDKManagerType = SDKManagerShopper()
+    public static var shared: SDKManagerType = SDKManagerShopper()
     
     public var sdkStartTime: Date?
     public var window: UIWindow?
@@ -56,6 +56,12 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     public var  currentTabBar  : UITabBarController?
     
     public var parentTabNav  : ElgrocerGenericUIParentNavViewController?
+    
+    private override init() {
+        super.init()
+        
+        window = .key
+    }
     
     // MARK: App lifecycle
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

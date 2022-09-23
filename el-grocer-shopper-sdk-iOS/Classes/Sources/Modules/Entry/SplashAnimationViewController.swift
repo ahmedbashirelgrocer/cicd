@@ -16,7 +16,7 @@ class SplashAnimationViewController: UIViewController {
 
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView!
-    lazy var delegate = getSDKManager()
+    lazy var delegate = sdkManager
     var isAnimationCompleted : Bool = false
         
     override func viewDidLoad() {
@@ -106,14 +106,14 @@ class SplashAnimationViewController: UIViewController {
 
         guard let topVc = UIApplication.topViewController() , topVc is ForceUpdateViewController else {
             if !(sdkManager.launchOptions?.isSmileSDK == true) && (UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress()) {
-                let tabVC = self.delegate.getTabbarController(isNeedToShowChangeStoreByDefault: false)
-                if let main = self.delegate.window {
+                let tabVC = self.delegate?.getTabbarController(isNeedToShowChangeStoreByDefault: false)
+                if let main = self.delegate?.window {
                     main.rootViewController =  tabVC     // getParentNav()
                     main.makeKeyAndVisible()
                 }
             } else {
                 self.callSetUpApis()
-                self.delegate.showEntryView()
+                self.delegate?.showEntryView()
             }
             return
         }
@@ -172,7 +172,7 @@ extension SplashAnimationViewController {
                 }
                 switch action {
                     case .ForceUpdate:
-                        self.delegate.showForceUpdateView()
+                    self.delegate?.showForceUpdateView()
                     case .Continue:
                         break
                 }
