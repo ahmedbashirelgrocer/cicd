@@ -4,6 +4,7 @@
 //  Created by Awais Arshad Chatha on 01.07.2015.
 //  Copyright (c) 2015 RST IT. All rights reserved.
 //  Final Release Build & Update
+//from commit update pod file for xcode 14 & ios16 ==== branch : origin/DevSDK/Xcode14-IOS16Fixing
 
 import UIKit
 import CoreData
