@@ -83,6 +83,7 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
     }
     
     override func backButtonClick() {
+        MixpanelEventLogger.trackElWalletUnifiedClose()
         guard let navCount = self.navigationController else {
             self.navigationController?.dismiss(animated: true, completion: nil)
             return
@@ -104,7 +105,7 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
     }
     
     @IBAction func addNewCardTapped(_ sender: AWButton) {
-        
+        MixpanelEventLogger.trackElwalletCardsAddNewCardClicked()
         self.goToAddNewCardController()
     }
     
@@ -267,6 +268,7 @@ extension ElWalletCardsVC: UITableViewDataSource, UITableViewDelegate {
                 self.tableView.isEditing = false
                 headerView.moveToDetailsButton.setTitle(localizedString("btn_edit_card", comment: ""), for: UIControl.State())
             } else {
+                MixpanelEventLogger.trackElwalletEditCardClicked()
                 self.tableView.isEditing = true
                 headerView.moveToDetailsButton.setTitle(localizedString("btn_done_edit_card", comment: ""), for: UIControl.State())
             }

@@ -66,9 +66,16 @@ class PaymentSuccessVC: UIViewController {
     
     @IBAction func btnBackToElWalletHandler(_ sender: Any) {
         self.navigationController?.dismiss(animated: true)
+        
+        if isSuccess {
+            MixpanelEventLogger.trackElWalletAddFundsPaymentSuccessClose()
+        }else {
+            MixpanelEventLogger.trackElWalletAddFundsPaymentFaliureClose()
+        }
     }
     
     @IBAction func btnTryAgainHandler(_ sender: Any) {
+        MixpanelEventLogger.trackElwalletFundsErrorTryAgainClicked()
         if ispushed {
             self.navigationController?.popViewController(animated: true)
         }else {
