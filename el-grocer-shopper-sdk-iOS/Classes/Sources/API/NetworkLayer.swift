@@ -328,9 +328,9 @@ class NetworkLayer {
     
     func setUserAgent() {
         
-        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ?  "smileSDK" : "elgrocerShopperApp", forHTTPHeaderField: "user-agent")
-        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
-        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "Sdk-Version")
+        self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  "smileSDK" : "elgrocerShopperApp", forHTTPHeaderField: "user-agent")
+        self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
+        self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "Sdk-Version")
         
     
     }

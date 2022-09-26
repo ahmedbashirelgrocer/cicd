@@ -204,8 +204,8 @@ class GenericStoresViewController: BasketBasicViewController {
         if ElGrocerUtility.sharedInstance.isDeliveryMode == false {
             ElGrocerUtility.sharedInstance.isDeliveryMode = true
             ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
-            let SDKManager = SDKManager.shared
-            if let tab = SDKManager.currentTabBar  {
+            let SDKManager: SDKManagerType! = sdkManager
+            if let tab = sdkManager.currentTabBar  {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
             }
         }
@@ -377,8 +377,8 @@ class GenericStoresViewController: BasketBasicViewController {
                 self.clickController.removeFromParent()
                 ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
                 ElGrocerUtility.sharedInstance.isNeedToRefreshBannerA = false
-                let SDKManager = SDKManager.shared
-                if let tab = SDKManager.currentTabBar  {
+                let SDKManager: SDKManagerType! = sdkManager
+                if let tab = sdkManager.currentTabBar  {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 }
                 if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -390,8 +390,8 @@ class GenericStoresViewController: BasketBasicViewController {
             self.switchMode.clickAndCollectSelect  = { [weak self] (isDelivery) in
                 guard let self = self else {return}
                 ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
-                let SDKManager = SDKManager.shared
-                if let tab = SDKManager.currentTabBar  {
+                let SDKManager: SDKManagerType! = sdkManager
+                if let tab = sdkManager.currentTabBar  {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 }
                 if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -451,7 +451,7 @@ class GenericStoresViewController: BasketBasicViewController {
             }
         }
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             DispatchQueue.global(qos: .utility).async(execute: cAndcItem!)
         }
         
@@ -606,7 +606,7 @@ class GenericStoresViewController: BasketBasicViewController {
         let currentDate = Date()
         
         if isRegisteredForRemoteNotifications == false, askDate < currentDate {
-            let SDKManager = SDKManager.shared
+            let SDKManager: SDKManagerType! = sdkManager
             
             UserDefaults.notificationAskDate = currentDate
             _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
@@ -725,7 +725,7 @@ extension GenericStoresViewController {
         self.goToBasketScreen()
     }
     func goToBasketScreen() {
-        //if let SDKManager = SDKManager.shared {
+        //if let SDKManager: SDKManagerType! = sdkManager {
             if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                 if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
@@ -804,7 +804,7 @@ extension GenericStoresViewController {
         self.makeActiveTopGroceryOfArray()
             //let currentSelf = self;
         DispatchQueue.main.async {
-            // if let SDKManager = SDKManager.shared {
+            // if let SDKManager: SDKManagerType! = sdkManager {
                 if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                     
                     if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
@@ -1288,7 +1288,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
         }
         
         if section == 0 {
-            if SDKManager.isSmileSDK { // remove smiles optoin
+            if sdkManager.isSmileSDK { // remove smiles optoin
                 return 0
             } else {
                 return 1
@@ -1584,8 +1584,8 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "click&collect", tileType: "Store Type", nextScreen: nil)
                     MixpanelEventLogger.trackHomeShoppingCategory(categoryName: "click&collect", categoryId: "-1")
                     ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
-                    let SDKManager = SDKManager.shared
-                    if let tab = SDKManager.currentTabBar  {
+                    let SDKManager: SDKManagerType! = sdkManager
+                    if let tab = sdkManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                     }
                     if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -1943,7 +1943,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
 extension GenericStoresViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         SDKManager.registerForNotifications()
     }
 }
@@ -2001,7 +2001,7 @@ extension GenericStoresViewController : LocationMapViewControllerDelegate {
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?) {
         guard let location = location, let name = name else {return}
         addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
-            (SDKManager.shared).showAppWithMenu()
+            (sdkManager).showAppWithMenu()
         }
     }
     

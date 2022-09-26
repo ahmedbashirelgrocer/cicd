@@ -14,7 +14,7 @@ class ElgrocerParentTabbarController: UITabBarController , UITabBarControllerDel
         super.viewDidLoad()
         self.delegate = self
         
-        if SDKManager.isSmileSDK == false {
+        if sdkManager.isSmileSDK == false {
             UITabBarItem.appearance().setTitleTextAttributes(
                 [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
                  NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")],

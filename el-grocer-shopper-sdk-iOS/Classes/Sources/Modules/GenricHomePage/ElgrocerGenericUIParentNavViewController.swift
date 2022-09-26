@@ -135,7 +135,7 @@ public class ElgrocerGenericUIParentNavViewController: UINavigationController {
     
     @objc
     func goToBasketScreen() {
-        // if let SDKManager = SDKManager.shared {
+        // if let SDKManager: SDKManagerType! = sdkManager {
             if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                 if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {

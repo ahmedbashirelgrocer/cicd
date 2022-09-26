@@ -27,7 +27,7 @@ class MixpanelManager {
     
     class func trackEvent(_ eventName : String , params :  [String : Any]? = nil) {
         
-        var finalParms:Properties = ["User_SmileSDK": SDKManager.isSmileSDK]
+        var finalParms:Properties = ["User_SmileSDK": sdkManager.isSmileSDK]
         
         if let dataDict = params {
             for (key, value) in dataDict {

@@ -53,7 +53,7 @@ class OrderCancelationHandler : NSObject {
   
     private func showCancelationAlert(){
       
-        // if let SDKManager = SDKManager.shared {
+        // if let SDKManager: SDKManagerType! = sdkManager {
             let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "CancelOrderPopUp"), header: localizedString("order_cancelation_popup_title", comment: ""), detail: localizedString("order_cancelation_popup_desc", comment: ""), localizedString("order_cancelation_popup_close_button", comment: ""), localizedString("order_cancelation_popup_close_button", comment: ""), withView: sdkManager.window!, false , true) { buttonIndex in
             }
         // }

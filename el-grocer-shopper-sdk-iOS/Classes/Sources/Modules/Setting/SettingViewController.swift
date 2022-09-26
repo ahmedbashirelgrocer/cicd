@@ -105,8 +105,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 guard let self = self else {return}
                 elDebugPrint(self)
                 
-                let SDKManager = SDKManager.shared
-                if let nav = SDKManager.rootViewController as? UINavigationController {
+                let SDKManager: SDKManagerType! = sdkManager
+                if let nav = sdkManager.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
                             let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -250,7 +250,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             return 40
         }
         
@@ -271,7 +271,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             if section == 1 {
                 return  localizedString("cell_Title_Account", comment: "")
             }else if section == 2 {
@@ -340,7 +340,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             if indexPath.section == 0 {
                 return kUserInfoCellHeight
             }
@@ -369,7 +369,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             return 3
             // -1 for Benifits (Smile points)
             // -1 for logout
@@ -385,7 +385,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             if section == 0 {
                 return 1
             } else if section == 1 {
@@ -421,7 +421,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             return
         }
         
@@ -438,7 +438,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             if indexPath.section == 0 {
                 let cell:UserInfoCell = tableView.dequeueReusableCell(withIdentifier: kUserInfoCellIdentifier, for: indexPath) as! UserInfoCell
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -599,7 +599,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
         
             switch indexPath.section {
             case 1:
@@ -1080,7 +1080,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                                       negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         if buttonIndex == 0 {
-                                             let SDKManager = SDKManager.shared
+                                             let SDKManager: SDKManagerType! = sdkManager
                                             if UIApplication.topViewController() is GenericProfileViewController {
                                                 SDKManager.currentTabBar?.dismiss(animated: false, completion: {
                                                     SDKManager.logoutAndShowEntryView()

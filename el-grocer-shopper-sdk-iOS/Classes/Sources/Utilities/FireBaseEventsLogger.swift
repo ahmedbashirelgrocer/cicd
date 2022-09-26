@@ -310,7 +310,7 @@ class FireBaseEventsLogger  {
             newParms?["ZoneID"] = ElGrocerUtility.sharedInstance.activeGrocery?.deliveryZoneId ?? "0"
         }
         
-        newParms?[FireBaseParmName.UserFrom.rawValue] = SDKManager.isSmileSDK
+        newParms?[FireBaseParmName.UserFrom.rawValue] = sdkManager.isSmileSDK
         newParms?[FireBaseParmName.UserPlatform.rawValue] = "ios"
         
         if let newLocation = ElGrocerUtility.sharedInstance.activeAddress {

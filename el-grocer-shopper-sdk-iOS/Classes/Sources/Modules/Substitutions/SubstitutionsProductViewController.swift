@@ -571,7 +571,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
         
-        let appDelegate = SDKManager.shared
+        let appDelegate: SDKManagerType! = sdkManager
         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             MixpanelEventLogger.trackSubstitutionCancelOrder(orderId: self.orderId)
             if buttonIndex == 1 {

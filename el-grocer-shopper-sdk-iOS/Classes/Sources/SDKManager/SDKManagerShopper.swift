@@ -44,7 +44,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     public var launchOptions: LaunchOptions? = nil
     public var rootViewController: UIViewController?
     public var homeLastFetch: Date?
-    
+    public var isSmileSDK: Bool { false }
     
     lazy public var backgroundURLSession : URLSession = {
         let configuration = URLSessionConfiguration.background(withIdentifier: "com.elgorcer.background")
@@ -579,6 +579,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
+        rootViewController = navEntryController
         self.replaceRootControllerWith(navEntryController)
     }
     
@@ -613,6 +614,8 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
             main.rootViewController =  tabVC     // getParentNav()
             main.makeKeyAndVisible()
         }
+        
+        rootViewController = window?.rootViewController
         
     }
     

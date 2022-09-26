@@ -407,7 +407,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
         
-//        let SDKManager = SDKManager.shared
+//        let SDKManager: SDKManagerType! = sdkManager
 //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //
@@ -422,7 +422,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         self.setCollectorStatus(self.order, isOnTheWay: true, button: sender)
         
-//        let SDKManager = SDKManager.shared
+//        let SDKManager: SDKManagerType! = sdkManager
 //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
@@ -528,7 +528,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             return
         }
      
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
@@ -677,7 +677,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.cancelOrderHandler(self.order.dbID.stringValue)
         //sab
         
-//        let SDKManager = SDKManager.shared
+//        let SDKManager: SDKManagerType! = sdkManager
 //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
 //            
 //            if buttonIndex == 1 {
@@ -704,7 +704,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             UserDefaults.resetEditOrder()
            // self.backButtonClick()
             
-            // if let SDKManager = SDKManager.shared {
+            // if let SDKManager: SDKManagerType! = sdkManager {
             sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
             (sdkManager.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             // }
@@ -990,8 +990,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     private func naviagteToGroceryView(){
        
         
-        let SDKManager = SDKManager.shared
-        if let nav = SDKManager.rootViewController as? UINavigationController {
+        let SDKManager: SDKManagerType! = sdkManager
+        if let nav = sdkManager.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController

@@ -392,7 +392,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     private func getSmileUserInfo() {
         
         guard smileRetryTime < 3 else { return }
-        guard (UserDefaults.getIsSmileUser() == true || SDKManager.isSmileSDK) else {
+        guard (UserDefaults.getIsSmileUser() == true || sdkManager.isSmileSDK) else {
             return
         }
         SmilesManager.getCachedSmileUser { [weak self] (smileUser) in
@@ -455,7 +455,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         super.backButtonClickedHandler()
             //self.tabBarController?.navigationController?.popToRootViewController(animated: true)
             //self.dismiss(animated: true)
-        NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
+        NotificationCenter.default.removeObserver(sdkManager, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         self.tabBarController?.dismiss(animated: true)
     }
     
@@ -477,7 +477,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.makeActiveTopGroceryOfArray()
             //let currentSelf = self;
         DispatchQueue.main.async {
-                // if let SDKManager = SDKManager.shared {
+                // if let SDKManager: SDKManagerType! = sdkManager {
             if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                 
                 if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
@@ -733,7 +733,7 @@ extension SmileSdkHomeVC: LocationMapViewControllerDelegate {
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?) {
         guard let location = location, let name = name else {return}
         addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
-            (SDKManager.shared).showAppWithMenu()
+            (sdkManager).showAppWithMenu()
         }
     }
     

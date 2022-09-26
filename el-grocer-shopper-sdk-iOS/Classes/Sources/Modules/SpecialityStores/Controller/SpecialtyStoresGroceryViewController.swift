@@ -257,7 +257,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         }
             //let currentSelf = self;
         DispatchQueue.main.async {
-            // if let SDKManager = SDKManager.shared {
+            // if let SDKManager: SDKManagerType! = sdkManager {
                 if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                     
                     if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {

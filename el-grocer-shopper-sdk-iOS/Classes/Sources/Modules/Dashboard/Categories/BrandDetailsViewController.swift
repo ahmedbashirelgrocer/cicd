@@ -422,8 +422,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         if (isFromBanner == true){
             
-            let SDKManager = SDKManager.shared
-            if let nav = SDKManager.rootViewController as? UINavigationController {
+            let SDKManager: SDKManagerType! = sdkManager
+            if let nav = sdkManager.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
                         let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -435,11 +435,11 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             
         }else if isFromDynamicLink == true {
             
-            let SDKManager = SDKManager.shared
-            if let nav = SDKManager.rootViewController as? UINavigationController {
+            let SDKManager: SDKManagerType! = sdkManager
+            if let nav = sdkManager.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
-                let tababarController = SDKManager.rootViewController as! UITabBarController
+                let tababarController = sdkManager.rootViewController as! UITabBarController
                 tababarController.selectedIndex = 2
                     }
                 }
@@ -724,7 +724,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                     
                 }else{
                     
-                    let appDelegate = SDKManager.shared
+                    let appDelegate: SDKManagerType! = sdkManager
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
@@ -842,7 +842,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         self.setCollectionViewBottomConstraint()
         
         //schedule notification
-        let appDelegate = SDKManager.shared
+        let appDelegate: SDKManagerType! = sdkManager
         appDelegate.scheduleAbandonedBasketNotification()
         //Hunain 27Dec16
         appDelegate.scheduleAbandonedBasketNotificationAfter24Hour()

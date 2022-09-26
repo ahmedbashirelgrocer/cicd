@@ -86,7 +86,7 @@ class LanguageManager: NSObject {
         
        /* UserDefaults.standard.set([langCode], forKey: "AppleLanguages")//replaces Locale.preferredLanguages
         UserDefaults.standard.synchronize()*/
-        //if !SDKManager.isSmileSDK {
+        //if !sdkManager.isSmileSDK {
         
         var langCode = langCode
         if langCode == "en" || langCode == "Base" {
@@ -110,12 +110,12 @@ class LanguageManager: NSObject {
     }
     
     
-    func languageButtonAction(selectedLanguage : String , SDKManagers : SDKManager? = nil , updateRootViewController : Bool = false) {
+    func languageButtonAction(selectedLanguage : String , SDKManagers : SDKManagerType? = nil , updateRootViewController : Bool = false) {
         
         updateUserLanguage(selectedLanguage)
         Bundle.setLanguage(selectedLanguage)
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             if selectedLanguage == "ar" {
                 LanguageManager.sharedInstance.setLocale("ar")
             }else{

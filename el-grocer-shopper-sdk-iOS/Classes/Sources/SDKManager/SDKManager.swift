@@ -29,7 +29,7 @@ import Adyen
 // import FirebaseMessaging
 
 extension SDKManager {
-    static var isSmileSDK: Bool { sdkManager.launchOptions?.isSmileSDK == true }
+    var isSmileSDK: Bool { sdkManager.launchOptions?.isSmileSDK == true }
 }
 
 class SDKManager: NSObject, SDKManagerType  {
@@ -558,7 +558,7 @@ class SDKManager: NSObject, SDKManagerType  {
 //
 //
         
-        if SDKManager.isSmileSDK == false {
+        if sdkManager.isSmileSDK == false {
             UITabBarItem.appearance().setTitleTextAttributes(
                 [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
                  NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")],

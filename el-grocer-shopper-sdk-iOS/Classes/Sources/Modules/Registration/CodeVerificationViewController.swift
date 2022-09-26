@@ -293,7 +293,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         
 //        let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
 //        if isRegisteredForRemoteNotifications == false {
-//            let SDKManager = SDKManager.shared
+//            let SDKManager: SDKManagerType! = sdkManager
 //            _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
 //        }else{
 //            if token == nil {
@@ -700,7 +700,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
 extension CodeVerificationViewController : NotificationPopupProtocol {
     
     func enableUserPushNotification() {
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         SDKManager.registerForNotifications()
     }
 }

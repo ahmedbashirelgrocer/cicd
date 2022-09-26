@@ -26,7 +26,7 @@ import SendBirdUIKit
 import SwiftDate
 import Adyen
 
-public protocol SDKManagerType {
+public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     var sdkStartTime: Date? { get }
     var window: UIWindow? { get }
     var backgroundUpdateTask: UIBackgroundTaskIdentifier! { get }
@@ -37,6 +37,7 @@ public protocol SDKManagerType {
     var launchOptions: LaunchOptions? { get set }
     var rootViewController: UIViewController? { get set }
     var homeLastFetch : Date? { get set }
+    var isSmileSDK: Bool { get }
     
     // Methods
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool

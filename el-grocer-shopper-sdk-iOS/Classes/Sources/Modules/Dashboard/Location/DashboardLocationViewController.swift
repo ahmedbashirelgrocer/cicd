@@ -314,7 +314,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             
                             SpinnerView.hideSpinnerView()
                             
-                            let SDKManager = SDKManager.shared
+                            let SDKManager: SDKManagerType! = sdkManager
                             let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: SDKManager.window!) { (index) in
                                 
                                 if index == 0 {
@@ -1142,7 +1142,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             return
         }
         
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: SDKManager.window!) { (index) in
             
             if index == 0 {
@@ -1254,7 +1254,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         self.dismiss(animated: true) {
             
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 
             } else if UIApplication.topViewController() is GenericStoresViewController {
 
@@ -1267,14 +1267,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             mainca?.viewWillAppear(true)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
                     } else {
-                        (SDKManager.shared).showAppWithMenu()
+                        (sdkManager).showAppWithMenu()
                     }
                     
                 }
                 
             } else {
                 
-                (SDKManager.shared).showAppWithMenu()
+                (sdkManager).showAppWithMenu()
             }
         }
     }
@@ -1535,7 +1535,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func showGenericStoreUI() {
 
-//       if  let SDKManager = SDKManager.shared {
+//       if  let SDKManager: SDKManagerType! = sdkManager {
         sdkManager.showAppWithMenu()
 //        }else {
 //        let entryController =  ElGrocerViewControllers.ElgrocerParentTabbarController()

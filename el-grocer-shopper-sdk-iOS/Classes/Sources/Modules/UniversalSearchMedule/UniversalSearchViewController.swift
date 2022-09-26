@@ -139,7 +139,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     @IBAction func voiceSearchAction(_ sender: Any) {
         self.txtSearch.resignFirstResponder()
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -950,7 +950,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -1104,8 +1104,8 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 }
                 Thread.OnMainThread { [weak self] in
                     self?.presentingVC?.navigationController?.dismiss(animated: false, completion: {
-                        let SDKManager = SDKManager.shared
-                        if let tab = SDKManager.currentTabBar  {
+                        let SDKManager: SDKManagerType! = sdkManager
+                        if let tab = sdkManager.currentTabBar  {
                             ElGrocerUtility.sharedInstance.resetTabbar(tab)
                             tab.selectedIndex = 1
                         }
@@ -1194,7 +1194,7 @@ extension UniversalSearchViewController : ProductCellProtocol {
                 }else{
                     
                     
-                    let sdkManager = SDKManager.shared
+                    let sdkManager: SDKManagerType! = sdkManager
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {

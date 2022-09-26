@@ -326,7 +326,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                 // PushWooshTracking.updateFavouritesDetails()
             }
         } else {
-            (SDKManager.shared).showEntryView()
+            (sdkManager).showEntryView()
         }
     }
     
@@ -343,7 +343,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                 self.shopByItemGrocery = grocery
                 self.notAvailableItems = notAvailableItems
                 self.availableProductsPrices = availableProductsPrices
-                (SDKManager.shared).showEntryView()
+                (sdkManager).showEntryView()
                 
             } else {
                 
@@ -407,7 +407,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
         groceriesController.productsToCheck = ShoppingBasketItem.getBasketProductsForActiveItemsBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
 
-        (SDKManager.shared).showEntryView()
+        (sdkManager).showEntryView()
         
     }
     
@@ -654,7 +654,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                 }else{
                     
                     
-                    let SDKManager = SDKManager.shared
+                    let SDKManager: SDKManagerType! = sdkManager
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {

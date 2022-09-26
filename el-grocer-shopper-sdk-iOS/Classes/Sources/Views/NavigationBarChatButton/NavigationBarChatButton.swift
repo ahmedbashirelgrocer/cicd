@@ -54,9 +54,9 @@ class NavigationBarChatButton: UIView {
         self.lblChat.textColor = color
         
         if color == UIColor.navigationBarColor(){
-            self.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
+            self.backgroundColor = sdkManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
         }else{
-            self.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarColor()
+            self.backgroundColor = sdkManager.isSmileSDK ? .clear : .navigationBarColor()
         }
     }
     

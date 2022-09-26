@@ -69,7 +69,7 @@ class DynamicLinksHelper {
         
         
         var delayTime = 1.0
-        // if let SDKManager = SDKManager.shared {
+        // if let SDKManager: SDKManagerType! = sdkManager {
         if let dataAvailable = sdkManager.sdkStartTime {
             if dataAvailable.timeIntervalSinceNow > -5 {
                 delayTime = 2.0
@@ -589,8 +589,8 @@ class DynamicLinksHelper {
                 navigationController.viewControllers = [recipeStory]
                 navigationController.modalPresentationStyle = .fullScreen
                 topController.navigationController?.present(navigationController, animated: true, completion: {
-                    let SDKManager = SDKManager.shared
-                    if let tab = SDKManager.currentTabBar  {
+                    let SDKManager: SDKManagerType! = sdkManager
+                    if let tab = sdkManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                         tab.selectedIndex = 1
                     }
@@ -629,8 +629,8 @@ class DynamicLinksHelper {
                             navRecipeDetailController.modalPresentationStyle = .fullScreen
                             if let topVC = UIApplication.topViewController() {
                                 topVC.present(navRecipeDetailController, animated: true, completion: {
-                                    let SDKManager = SDKManager.shared
-                                    if let tab = SDKManager.currentTabBar  {
+                                    let SDKManager: SDKManagerType! = sdkManager
+                                    if let tab = sdkManager.currentTabBar  {
                                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                                         tab.selectedIndex = 1
                                     }
@@ -723,7 +723,7 @@ class DynamicLinksHelper {
         }
         
         func callToChangeStoreAfterAllDataSet() {
-            // if let SDKManager = SDKManager.shared {
+            // if let SDKManager: SDKManagerType! = sdkManager {
                 if let currentTabBar = sdkManager.currentTabBar {
                     ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
                     currentTabBar.selectedIndex = 1

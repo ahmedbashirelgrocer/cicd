@@ -16,7 +16,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var switchMode: ElgrocerSwitchAppView! {
         didSet {
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 switchMode.visibility = .gone
             }
         }
@@ -339,7 +339,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                         
                     }
                     
-                    let SDKManager = SDKManager.shared
+                    let SDKManager: SDKManagerType! = sdkManager
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
@@ -412,7 +412,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     
                 }
                
-                let SDKManager = SDKManager.shared
+                let SDKManager: SDKManagerType! = sdkManager
                 let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                     
                     if buttonIndex == 1 {
@@ -504,8 +504,8 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
 //    func navigateToBasket() {
 //
 //
-//        let SDKManager = SDKManager.shared
-//        if let nav = SDKManager.window!.rootViewController as? UINavigationController {
+//        let SDKManager: SDKManagerType! = sdkManager
+//        if let nav = sdkManager.window!.rootViewController as? UINavigationController {
 //            if nav.viewControllers.count > 0 {
 //                if  nav.viewControllers[0] as? UITabBarController != nil {
 //                    let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -519,9 +519,9 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
 //
 //
 //
-//        //        let SDKManager = SDKManager.shared
+//        //        let SDKManager: SDKManagerType! = sdkManager
 //        //        if SDKManager.window!.rootViewController as? UITabBarController != nil {
-//        //            let tababarController = SDKManager.window!.rootViewController as! UITabBarController
+//        //            let tababarController = sdkManager.window!.rootViewController as! UITabBarController
 //        //            tababarController.selectedIndex = 1
 //        //        }
 //        // self.navigationController?.dismiss(animated: true) {}

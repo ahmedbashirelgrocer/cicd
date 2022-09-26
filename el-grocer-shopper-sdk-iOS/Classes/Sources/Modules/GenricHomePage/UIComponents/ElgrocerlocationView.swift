@@ -51,7 +51,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var btnLocation: UIButton!
     @IBOutlet var myGroceryImage: UIImageView!{
         didSet{
-            myGroceryImage.backgroundColor = SDKManager.isSmileSDK ?  .navigationBarWhiteColor() : .navigationBarWhiteColor()
+            myGroceryImage.backgroundColor = sdkManager.isSmileSDK ?  .navigationBarWhiteColor() : .navigationBarWhiteColor()
             myGroceryImage.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 8, withShadow: false)
         }
     }
@@ -145,7 +145,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var imgShoppingList: UIImageView!{
         didSet{
             imgShoppingList.image = UIImage(name: "addShoppingListYellow")
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 imgShoppingList.isHidden = true
             }
         }
@@ -154,7 +154,7 @@ class ElgrocerlocationView:  UIView  {
         didSet{
             btnlblShopping.text = localizedString("btn_shopping_list_title", comment: "")
             btnlblShopping.setBody3SemiBoldYellowStyle()
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 btnlblShopping.isHidden = true
             }
         }
@@ -162,7 +162,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var btnShoppingList: UIButton!{
         didSet{
             btnShoppingList.setTitle("", for: UIControl.State())
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 btnShoppingList.isEnabled = false
             }
             

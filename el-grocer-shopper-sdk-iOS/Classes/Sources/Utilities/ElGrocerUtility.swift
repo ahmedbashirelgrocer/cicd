@@ -672,7 +672,7 @@ class ElGrocerUtility {
 
     func resetRecipeView () {
 
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         //if SDKManager.rootViewController as? UITabBarController != nil {
         if let tababarController = (SDKManager.rootViewController as? UINavigationController)?.topViewController as? UITabBarController {
                 let main : ElGrocerNavigationController =  tababarController.viewControllers![3] as! ElGrocerNavigationController
@@ -984,7 +984,7 @@ class ElGrocerUtility {
                 ElGrocerUtility.sharedInstance.resetBasketPresistence()
                completionHandler(true)
             }else{
-                let SDKManager = SDKManager.shared
+                let SDKManager: SDKManagerType! = sdkManager
                 let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                     
                     if buttonIndex == 1 {

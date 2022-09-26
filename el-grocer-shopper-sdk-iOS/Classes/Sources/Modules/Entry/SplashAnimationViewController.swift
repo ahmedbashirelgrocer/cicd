@@ -16,7 +16,7 @@ class SplashAnimationViewController: UIViewController {
 
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView!
-    lazy var delegate = sdkManager
+    lazy var delegate: SDKManagerType! = sdkManager
     var isAnimationCompleted : Bool = false
         
     override func viewDidLoad() {

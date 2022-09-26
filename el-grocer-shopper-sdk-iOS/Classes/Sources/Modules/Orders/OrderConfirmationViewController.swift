@@ -332,7 +332,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 self.navigationController?.dismiss(animated: true, completion: nil)
             }else if vcA.count == 3 {
                 //edit order
-                let appDelegate = SDKManager.shared
+                let appDelegate: SDKManagerType! = sdkManager
                 appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
                 (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             }else {
@@ -341,8 +341,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             }
         }
         
-        let SDKManager = SDKManager.shared
-        if let tab = SDKManager.currentTabBar  {
+        let SDKManager: SDKManagerType! = sdkManager
+        if let tab = sdkManager.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
             tab.selectedIndex = 0
         }
@@ -745,7 +745,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         self.setCollectorStatus(self.order, isOnTheWay: false, button: sender)
         
-//        let SDKManager = SDKManager.shared
+//        let SDKManager: SDKManagerType! = sdkManager
 //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
@@ -760,7 +760,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         self.setCollectorStatus(self.order, isOnTheWay: true , button: sender)
         
-//        let SDKManager = SDKManager.shared
+//        let SDKManager: SDKManagerType! = sdkManager
 //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
 //            if buttonIndex == 0 {
 //
@@ -1210,8 +1210,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 guard let self = self else {return}
                // elDebugPrint(self)
                 
-                let SDKManager = SDKManager.shared
-                if let nav = SDKManager.rootViewController as? UINavigationController {
+                let SDKManager: SDKManagerType! = sdkManager
+                if let nav = sdkManager.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
                             let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1220,9 +1220,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                         }
                     }
                 }
-//                let SDKManager = SDKManager.shared
+//                let SDKManager: SDKManagerType! = sdkManager
 //                if SDKManager.window!.rootViewController as? UITabBarController != nil {
-//                    let tababarController = SDKManager.window!.rootViewController as! UITabBarController
+//                    let tababarController = sdkManager.window!.rootViewController as! UITabBarController
 //                    tababarController.selectedIndex = 4
 //                }
             }
@@ -1283,7 +1283,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             let currentDate = Date()
             
             if isRegisteredForRemoteNotifications == false, askDate < currentDate {
-                let SDKManager = SDKManager.shared
+                let SDKManager: SDKManagerType! = sdkManager
                 UserDefaults.notificationAskDate = currentDate
                 _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
             }
@@ -1353,7 +1353,7 @@ extension OrderConfirmationViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
         //UIApplication.shared.openURL(NSURL(string: UIApplicationOpenSettingsURLString)! as URL)
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         SDKManager.registerForNotifications()
     }
 }

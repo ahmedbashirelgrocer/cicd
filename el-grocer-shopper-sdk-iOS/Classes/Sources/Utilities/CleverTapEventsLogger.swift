@@ -22,7 +22,7 @@ class CleverTapEventsLogger  {
         let config = CleverTapInstanceConfig.init(accountId: "675-6KZ-RW6Z", accountToken: "136-5a6")
         let app = CleverTap.instance(with: config)
         app.enableDeviceNetworkInfoReporting(true)
-        app.setInAppNotificationDelegate(SDKManager.shared)
+        app.setInAppNotificationDelegate(sdkManager)
         self.cleverTapApp = app
     }
     
@@ -36,7 +36,7 @@ class CleverTapEventsLogger  {
         
         CleverTap.autoIntegrate()
         CleverTap.sharedInstance()?.enableDeviceNetworkInfoReporting(true)
-        CleverTap.sharedInstance()?.setInAppNotificationDelegate(SDKManager.shared)
+        CleverTap.sharedInstance()?.setInAppNotificationDelegate(sdkManager)
         
     }
     
@@ -79,7 +79,7 @@ extension CleverTapEventsLogger {
             retailerGroup_Ids.append(data.groupId.stringValue)
         }
         
-        MixpanelManager.setIdentity(profile.email, isSmile: SDKManager.isSmileSDK)
+        MixpanelManager.setIdentity(profile.email, isSmile: sdkManager.isSmileSDK)
         
         let profile: Dictionary<String, Any> = [
             "Name": profile.name ?? "" ,
@@ -93,7 +93,7 @@ extension CleverTapEventsLogger {
             "language" : UserDefaults.getCurrentLanguage() ?? "" ,
             "sessionId" : ElGrocerUtility.sharedInstance.getGenericSessionID(),
             "activeStoreId" : ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "",
-            FireBaseParmName.UserFrom.rawValue : SDKManager.isSmileSDK
+            FireBaseParmName.UserFrom.rawValue : sdkManager.isSmileSDK
         ]
         CleverTapEventsLogger.shared.cleverTapApp?.onUserLogin(profile)
         if StoreIDs.count > 0{

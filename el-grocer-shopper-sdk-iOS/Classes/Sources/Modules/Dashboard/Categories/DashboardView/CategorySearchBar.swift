@@ -31,7 +31,7 @@ class CategorySearchBar: UIView {
         super.awakeFromNib()
         // Initialization code
 
-        self.backgroundColor = SDKManager.isSmileSDK ? .smileBaseColor() : UIColor.productBGColor()
+        self.backgroundColor = sdkManager.isSmileSDK ? .smileBaseColor() : UIColor.productBGColor()
 
         self.setUpSearchViewAppearance()
     }

@@ -221,7 +221,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.view.layoutIfNeeded()
        
         self.navigationItem.hidesBackButton = true
-        searchBgView.backgroundColor =  SDKManager.isSmileSDK ? .smileBaseColor() : .navigationBarColor()
+        searchBgView.backgroundColor =  sdkManager.isSmileSDK ? .smileBaseColor() : .navigationBarColor()
         self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = .tableViewBackgroundColor()
     }
@@ -452,8 +452,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         }else{
             
             
-            let SDKManager = SDKManager.shared
-            if let nav = SDKManager.rootViewController as? UINavigationController {
+            let SDKManager: SDKManagerType! = sdkManager
+            if let nav = sdkManager.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
                         let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1124,7 +1124,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor :  UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor().cgColor :  UIColor.navigationBarColor().cgColor
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor

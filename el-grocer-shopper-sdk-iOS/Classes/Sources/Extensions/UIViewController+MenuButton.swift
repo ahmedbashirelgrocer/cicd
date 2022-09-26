@@ -174,9 +174,8 @@ extension UIViewController {
     }
     
     
-    func getSDKManager () -> SDKManager {
-        let SDKManager = SDKManager.shared
-        return SDKManager
+    func getSDKManager () -> SDKManagerType {
+        return sdkManager
     }
     
 }

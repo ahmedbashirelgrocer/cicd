@@ -42,28 +42,28 @@ enum BannerLocation : Int {
         
     
         if self == BannerLocation.home_tier_1 {
-            return (SDKManager.isSmileSDK ? BannerLocation.sdk_Home_tier_1 : BannerLocation.home_tier_1)
+            return (sdkManager.isSmileSDK ? BannerLocation.sdk_Home_tier_1 : BannerLocation.home_tier_1)
         }
         else if self == BannerLocation.home_tier_2 {
-            return (SDKManager.isSmileSDK ? BannerLocation.sdk_Home_tier_2 : BannerLocation.home_tier_2)
+            return (sdkManager.isSmileSDK ? BannerLocation.sdk_Home_tier_2 : BannerLocation.home_tier_2)
         }
         else if self == BannerLocation.store_tier_1 {
-            return (SDKManager.isSmileSDK ? BannerLocation.sdk_store_tier_1 : BannerLocation.store_tier_1)
+            return (sdkManager.isSmileSDK ? BannerLocation.sdk_store_tier_1 : BannerLocation.store_tier_1)
         }
         else if self == BannerLocation.store_tier_2 {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_store_tier_2 : BannerLocation.store_tier_2
+            return sdkManager.isSmileSDK ? BannerLocation.sdk_store_tier_2 : BannerLocation.store_tier_2
         }
         else if self == BannerLocation.in_search_tier_1 {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_in_search : BannerLocation.in_search_tier_1
+            return sdkManager.isSmileSDK ? BannerLocation.sdk_in_search : BannerLocation.in_search_tier_1
         }
         else if self == BannerLocation.post_checkout {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_post_checkout : BannerLocation.post_checkout
+            return sdkManager.isSmileSDK ? BannerLocation.sdk_post_checkout : BannerLocation.post_checkout
         }
         else if self == BannerLocation.in_search_tier_2 {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_search_tier_2 : BannerLocation.in_search_tier_2
+            return sdkManager.isSmileSDK ? BannerLocation.sdk_search_tier_2 : BannerLocation.in_search_tier_2
         }
         else if self == BannerLocation.subCategory_tier_1 {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_subcategory_tier_1 : BannerLocation.subCategory_tier_1
+            return sdkManager.isSmileSDK ? BannerLocation.sdk_subcategory_tier_1 : BannerLocation.subCategory_tier_1
         }
         return self
     }

@@ -169,7 +169,7 @@ class EntryViewController: UIViewController {
             case .restricted , .denied:
                 LocationManager.sharedInstance.requestLocationAuthorization()
                  self.goToStoreVC()
-//                  let SDKManager = SDKManager.shared
+//                  let SDKManager: SDKManagerType! = sdkManager
 //                  _ = LocationPopUp.showLocationPopUp(self, withView: SDKManager.window!)
             case .authorizedAlways, .authorizedWhenInUse:
                  elDebugPrint("Have Location services Access")
@@ -353,7 +353,7 @@ class EntryViewController: UIViewController {
             return
         }
         
-        (SDKManager.shared).showAppWithMenu()
+        (sdkManager).showAppWithMenu()
     }
     
     override func backButtonClick() {
@@ -526,7 +526,7 @@ extension EntryViewController: LocationMapViewControllerDelegate {
         //Hunain 26Dec16
         guard let location = location, let name = name else {return}
         addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
-            (SDKManager.shared).showAppWithMenu()
+            (sdkManager).showAppWithMenu()
         }
     }
     

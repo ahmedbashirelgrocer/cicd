@@ -14,7 +14,7 @@ class GlobalSearchResultsViewController: UIViewController {
    
     var dataSource : GlobalSearchResultDataSource = GlobalSearchResultDataSource() {
         didSet {
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 self.dataSource.recipeList = nil
                 // removed in case of smiles SDK
             }

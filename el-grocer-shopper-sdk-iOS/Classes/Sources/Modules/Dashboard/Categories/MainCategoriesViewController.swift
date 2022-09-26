@@ -1095,9 +1095,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     @objc func naviagteToRecipe(){
         
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         if SDKManager.rootViewController as? UITabBarController != nil {
-            let tababarController = SDKManager.rootViewController as! UITabBarController
+            let tababarController = sdkManager.rootViewController as! UITabBarController
             tababarController.selectedIndex = 0
         }
         
@@ -1162,8 +1162,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                             if let topVC = UIApplication.topViewController() {
                                 topVC.present(navRecipeDetailController, animated: true, completion: {
                                     
-                                    let SDKManager = SDKManager.shared
-                                    if let nav = SDKManager.rootViewController as? UINavigationController {
+                                    let SDKManager: SDKManagerType! = sdkManager
+                                    if let nav = sdkManager.rootViewController as? UINavigationController {
                                         if nav.viewControllers.count > 0 {
                                             if  nav.viewControllers[0] as? UITabBarController != nil {
                                                 let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1408,7 +1408,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         let currentDate = Date()
         
         if isRegisteredForRemoteNotifications == false, askDate < currentDate {
-            let SDKManager = SDKManager.shared
+            let SDKManager: SDKManagerType! = sdkManager
             
             UserDefaults.notificationAskDate = currentDate
             _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
@@ -1449,7 +1449,7 @@ extension MainCategoriesViewController: HomeCellDelegate {
                 }else{
                     
                     
-                    let SDKManager = SDKManager.shared
+                    let SDKManager: SDKManagerType! = sdkManager
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
@@ -1621,7 +1621,7 @@ extension MainCategoriesViewController {
                 if topVC is FailureViewController  {
                     elDebugPrint("already present")
                 }else{
-                    let SDKManager = SDKManager.shared
+                    let SDKManager: SDKManagerType! = sdkManager
                     SDKManager.rootViewController?.present(failureCase, animated: true) {
                         //failureCase.lblErrorMsg.text = localizedString("error_wrong", comment: "")
                     }
@@ -1729,7 +1729,7 @@ extension MainCategoriesViewController {
     func checkForRecipeCategory() {
         
         self.isRecipeAvailable = false
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             return
         }
         if let item = self.recipeListCall {
@@ -1850,7 +1850,7 @@ extension MainCategoriesViewController: BannerCellDelegate {
 extension MainCategoriesViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         SDKManager.registerForNotifications()
     }
 }

@@ -34,7 +34,7 @@ class AdyenManager {
     static let demoServerAPIKey = "AQEjhmfuXNWTK0Qc+iSVnkMqqOeeWlHG4AJIHfgzWu3BNmB/j5YQwV1bDb7kfNy1WIxIIkxgBw==-AuE4op/eIk1qEjZsmpvhv+oEJVU/j43SprCrTElnzvI=->q[?C7<>.tj}9w_H"
     
     //
-    static let applePayMerchantIdentifier =  SDKManager.isSmileSDK ? (ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.smileUAT.description() : AppleMerchantIdentifier.smileLive.description()) : (ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.staging.description() : AppleMerchantIdentifier.live.description())
+    static let applePayMerchantIdentifier =  sdkManager.isSmileSDK ? (ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.smileUAT.description() : AppleMerchantIdentifier.smileLive.description()) : (ElGrocerUtility.sharedInstance.isTesting() ? AppleMerchantIdentifier.staging.description() : AppleMerchantIdentifier.live.description())
     
    
     
