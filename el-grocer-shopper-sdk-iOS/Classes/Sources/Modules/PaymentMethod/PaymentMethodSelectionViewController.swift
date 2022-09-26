@@ -84,6 +84,7 @@ class PaymentMethodSelectionViewController: UIViewController {
                 self.selectionClosure(option, nil, nil)
                 self.dismiss(animated: true)
             } else {
+                MixpanelEventLogger.trackCheckoutAddNewCardClicked()
                 AdyenManager.sharedInstance.performZeroTokenization(controller: self)
             }
         }).disposed(by: disposeBag)

@@ -377,6 +377,7 @@ class AWPickerViewController : UIViewController {
     }
 
     @IBAction func crossAction(_ sender: Any) {
+        MixpanelEventLogger.trackElWalletUnifiedClose()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -389,7 +390,7 @@ class AWPickerViewController : UIViewController {
         if let firstObj  = slots.first(where: {$0.dbID == self.slotsCollectionView.selectedSlotID }) {
             UserDefaults.setCurrentSelectedDeliverySlotId(firstObj.dbID)
             UserDefaults.setEditOrderSelectedDelivery(nil)
-            MixpanelEventLogger.trackCheckoutDeliverySlotSelected(slot: firstObj)
+            MixpanelEventLogger.trackCheckoutDeliverySlotSelected(slot: firstObj, retailerID: currentGrocery?.dbID ?? "-1")
             if let clouser = self.changeSlot {
                 clouser(firstObj)
             }

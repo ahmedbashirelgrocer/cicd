@@ -90,11 +90,15 @@ class SecondCheckoutVC: UIViewController {
             if let _ = self.viewModel.getOrderId() {
                 orderPlacement.editedOrder()
             }else {
+                MixpanelEventLogger.trackCheckoutConfirmOrderClicked(value: self.viewModel.basketDataValue?.finalAmount ?? "")
                 orderPlacement.placeOrder()
             }
             orderPlacement.orderPlaced = { [weak self] order, error in
                  
                 SpinnerView.hideSpinnerView()
+                if error != nil {
+                    MixpanelEventLogger.trackCheckoutOrderError(error: error?.localizedMessage ?? "", value: self?.viewModel.basketDataValue?.finalAmount ?? "")
+                }
                 
                 guard order != nil else { return }
                 
@@ -207,6 +211,7 @@ class SecondCheckoutVC: UIViewController {
                         print(resultCode)
                         let refusalReason =  (response["refusalReason"] as? String) ?? resultCode
                         AdyenManager.showErrorAlert(descr: refusalReason)
+                        MixpanelEventLogger.trackCheckoutPaymentMethodError(error: refusalReason)
                     }
                 }else {
                     self.showConfirmationView(order)
@@ -229,6 +234,7 @@ class SecondCheckoutVC: UIViewController {
                         print(resultCode)
                         if let reason = response["refusalReason"] as? String {
                             AdyenManager.showErrorAlert(descr: reason)
+                            MixpanelEventLogger.trackCheckoutApplePayError(error: reason)
                         }
                        
                     }
@@ -312,6 +318,7 @@ extension SecondCheckoutVC: NavigationBarProtocol {
     }
     
     override func backButtonClick() {
+        MixpanelEventLogger.trackElWalletUnifiedClose()
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -321,6 +328,7 @@ extension SecondCheckoutVC: NavigationBarProtocol {
 extension SecondCheckoutVC: AdditionalInstructionsViewDelegate {
     func textViewTextChangeDone(text: String) {
         self.viewModel.setAdditionalInstructions(text: text)
+        MixpanelEventLogger.trackCheckoutInstructionAdded(instruction: text)
     }
 }
 
@@ -335,9 +343,10 @@ extension SecondCheckoutVC: PaymentMethodViewDelegate {
                 self.viewModel.updateCreditCard(creditCard)
                 self.viewModel.updateApplePay(applePay)
                 self.viewModel.updatePaymentMethod(option)
+                MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(option.rawValue)",cardId: creditCard?.cardID ?? "-1", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
             }
         }
-
+        MixpanelEventLogger.trackCheckoutPrimaryPaymentMethodClicked()
         let configuration = NBBottomSheetConfiguration(sheetSize: .fixed(self.view.frame.height * 0.6))
         let bottomSheetController = NBBottomSheetController(configuration: configuration)
         
@@ -396,7 +405,7 @@ extension SecondCheckoutVC: PromocodeDelegate {
             return
         }
 
-        
+        MixpanelEventLogger.trackCheckoutPromocodeClicked()
         let vc = ElGrocerViewControllers.getApplyPromoVC()
         
         vc.previousGrocery = self.viewModel.getGrocery()
@@ -405,7 +414,7 @@ extension SecondCheckoutVC: PromocodeDelegate {
         vc.priviousShoppingItems = self.viewModel.getShoppingItems()
         vc.priviousOrderId = self.viewModel.getOrderId()
         vc.priviousFinalizedProductA = self.viewModel.getFinalisedProducts()
-        vc.promoCode = self.viewModel.basketDataValue?.promoCode?.code
+        vc.promoCode = self.viewModel.basketDataValue?.promoCode
         
         vc.isPromoApplied = {[weak self] (success, promoCode) in
             guard let self = self else {return}
@@ -432,12 +441,22 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
             print("elwallet switch changed to >> \(switchState)")
             self.viewModel.setIsWalletTrue(isWalletTrue: switchState)
             self.viewModel.updateSecondaryPaymentMethods()
+            if switchState {
+                MixpanelEventLogger.trackCheckoutElwalletSwitchOn(balance: self.viewModel.basketDataValue?.elWalletBalance ?? "0.00")
+            }else {
+                MixpanelEventLogger.trackCheckoutElwalletSwitchOff(balance: self.viewModel.basketDataValue?.elWalletBalance ?? "0.00")
+            }
             break
             
         case .smile:
             print("smiles switch changed to >> \(switchState)")
             self.viewModel.setIsSmileTrue(isSmileTrue: switchState)
             self.viewModel.updateSecondaryPaymentMethods()
+            if switchState {
+                MixpanelEventLogger.trackCheckoutSmilesSwitchOn(balance: self.viewModel.basketDataValue?.smilesBalance ?? "0.00")
+            }else {
+                MixpanelEventLogger.trackCheckoutSmilesSwitchOff(balance: self.viewModel.basketDataValue?.smilesBalance ?? "0.00")
+            }
             break
         }
         

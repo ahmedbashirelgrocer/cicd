@@ -4034,6 +4034,27 @@ extension MyBasketViewController {
         }
     }
     
+    func logMixPannelAvailablePaymentMethodsEvents(payments: [PaymentType]?, retailerId: String) {
+        guard let paymentTypes = payments else {
+            return
+        }
+        var cashAvailable: Bool = false
+        var cardAvailable: Bool = false
+        var onlineAvailable: Bool = false
+
+        for payment in paymentTypes {
+            let paymentOption =  payment.getLocalPaymentOption()
+            if paymentOption == .cash {
+                cashAvailable = true
+            }else if paymentOption == .card {
+                cardAvailable = true
+            }else if paymentOption == .creditCard {
+                onlineAvailable = true
+            }
+        }
+        MixpanelEventLogger.trackCheckoutAvailablePaymentMethods(retailerId: retailerId, cash: cashAvailable, card: cardAvailable, online: onlineAvailable)
+    }
+    
     private func naviagteUserToOrderSummary(){
         
         
@@ -4092,7 +4113,8 @@ extension MyBasketViewController {
             vm.setUserId(userId: user?.dbID)
             vm.basketData
                 .subscribe(onNext: { [weak self] data in
-                    guard let self = self, let _ = data else { return }
+                    guard let self = self, let data = data else { return }
+                    self.logMixPannelAvailablePaymentMethodsEvents(payments: data.paymentTypes, retailerId: self.grocery?.dbID ?? "-1")
                     Thread.OnMainThread {
                         guard UIApplication.topViewController() == self else { return }
                         SpinnerView.hideSpinnerView()

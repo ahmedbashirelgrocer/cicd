@@ -864,6 +864,7 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
             }
             return
         }
+        MixpanelEventLogger.trackCheckoutAddNewCardClicked()
         self.performZeroTokenization()
         
         return

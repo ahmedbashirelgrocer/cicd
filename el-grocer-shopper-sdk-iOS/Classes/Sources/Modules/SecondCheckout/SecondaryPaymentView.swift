@@ -332,6 +332,12 @@ class PaymentSourceView: UIView {
         if (Double(type.balance) == nil || (Double(type.balance) ?? 0) < 1) && (Double(type.redeem) == nil || (Double(type.redeem) ?? 0) < 1) {
             self.useBalanceSwitch.isOn = false
             self.errorMsg.isHidden = false
+            switch type {
+            case .elWallet(let balancd, let redeem):
+                MixpanelEventLogger.trackCheckoutElwalletSwitchError(error: localizedString("secondry_payment_error_msg", comment: ""))
+            case .smile(let balancd, let redeem):
+                MixpanelEventLogger.trackCheckoutSmilesSwitchError(error: localizedString("secondry_payment_error_msg", comment: ""))
+            }
             return
         } else {
             self.errorMsg.isHidden = true

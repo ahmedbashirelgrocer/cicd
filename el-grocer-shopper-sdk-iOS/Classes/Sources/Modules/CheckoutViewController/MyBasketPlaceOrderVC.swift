@@ -1023,7 +1023,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             self.setBillDetails()
             self.checkPromoAdded()
             if let method = methodSelect as? PaymentOption {
-                MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(method.rawValue)")
+                MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(method.rawValue)", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
             }
         }
         creditVC.goToAddNewCard = { [weak self] (credit) in
@@ -1055,7 +1055,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             creditVC.dismiss(animated: true) {}
             self.isPayingBySmilePoints = false
             self.setPaymentState ()
-            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.creditCard.rawValue)", cardId: creditCardSelected?.cardID ?? "")
+            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.creditCard.rawValue)", cardId: creditCardSelected?.cardID ?? "", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
         }
         
         creditVC.applePaySelected = { [weak self] (applePaySelected) in
@@ -1065,7 +1065,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             creditVC.dismiss(animated: true) {}
             self.isPayingBySmilePoints = false
             self.setPaymentState ()
-            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.applePay.rawValue)")
+            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.applePay.rawValue)", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
         }
         
         creditVC.creditCardDeleted = { [weak self] (creditCardSelected) in

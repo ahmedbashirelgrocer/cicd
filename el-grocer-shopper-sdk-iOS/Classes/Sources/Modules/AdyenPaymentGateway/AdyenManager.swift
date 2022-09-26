@@ -271,6 +271,12 @@ class AdyenManager {
                         error.showErrorAlert()
                     }
                     
+                    if component.paymentMethod.type.elementsEqual("scheme") {
+                        MixpanelEventLogger.trackCheckoutPaymentMethodError(error: error.localizedMessage)
+                    }else {
+                        MixpanelEventLogger.trackCheckoutApplePayError(error: error.localizedMessage)
+                    }
+                    
                     return
                 }
                 let resultCode = response?["resultCode"] as? String ?? ""
@@ -301,6 +307,11 @@ class AdyenManager {
                     SpinnerView.hideSpinnerView()
                     let error = ElGrocerError()
                     error.showErrorAlert()
+                    if component.paymentMethod.type.elementsEqual("scheme") {
+                        MixpanelEventLogger.trackCheckoutPaymentMethodError(error: error.localizedMessage)
+                    }else {
+                        MixpanelEventLogger.trackCheckoutApplePayError(error: error.localizedMessage)
+                    }
                     return
                 }
                 
