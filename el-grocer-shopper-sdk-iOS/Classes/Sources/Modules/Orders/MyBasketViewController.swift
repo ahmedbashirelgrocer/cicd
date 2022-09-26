@@ -484,7 +484,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if let retailer = ElGrocerUtility.sharedInstance.activeGrocery,let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
             let groceryChangeObj = GroceryChangeHandler()
             groceryChangeObj.delegate = self
-            SpinnerView.showSpinnerView()
+            SpinnerView.showSpinnerViewInView(self.view)
             if ElGrocerUtility.sharedInstance.isDeliveryMode {
                 groceryChangeObj.updateDeliveryGroceryData(retailerId: retailer.getCleanGroceryID(), lat: "\(address.latitude)", lng: "\(address.longitude)")
             }else {
