@@ -266,7 +266,7 @@ class LocationManager: NSObject {
 //            coordinateStr = String(format:"%f,%f",24.897787521138522,55.14310196042061)
 //            }
             
-            var geocodeURLString =  String(format:"%@key=%@&latlng=%@",baseURLGeocode,kGoogleMapsApiKey,coordinateStr)
+            var geocodeURLString =  String(format:"%@key=%@&latlng=%@",baseURLGeocode,sdkManager.kGoogleMapsApiKey,coordinateStr)
             
             //var geocodeURLString = baseURLGeocode + "latlng=" + coordinateStr
             
@@ -343,7 +343,7 @@ class LocationManager: NSObject {
     
     func getLocationCoordinatesFromLocationName(_ locationName: String, withCompletionHandler completionHandler: @escaping ((_ status: String, _ success: Bool,_ location: CLLocationCoordinate2D?) -> Void)) {
         
-        var geocodeURLString =  String(format:"%@address=%@&key=%@",baseURLGeocode,locationName,kGoogleMapsApiKey)
+        var geocodeURLString =  String(format:"%@address=%@&key=%@",baseURLGeocode,locationName,sdkManager.kGoogleMapsApiKey)
         //var geocodeURLString = baseURLGeocode + "address=" + locationName
         geocodeURLString = geocodeURLString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         let geocodeURL = URL(string: geocodeURLString)
@@ -394,7 +394,7 @@ class LocationManager: NSObject {
             return
         }
         
-        var geocodeURLString =  String(format:"%@address=%@&key=%@",baseURLGeocode,locName,kGoogleMapsApiKey)
+        var geocodeURLString =  String(format:"%@address=%@&key=%@",baseURLGeocode,locName,sdkManager.kGoogleMapsApiKey)
         //var geocodeURLString = baseURLGeocode + "address=" + locName
         geocodeURLString = geocodeURLString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         let geocodeURL = URL(string: geocodeURLString)

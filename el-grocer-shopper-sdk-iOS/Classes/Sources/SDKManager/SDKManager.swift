@@ -57,6 +57,7 @@ class SDKManager: NSObject, SDKManagerType  {
     static var shared: SDKManager = SDKManager()
     //var isFromSmile : Bool = fals
     var launchOptions: LaunchOptions? = nil
+    var kGoogleMapsApiKey: String { "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0"}
   
     // MARK: Initializers
     private override init() {

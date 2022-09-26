@@ -38,6 +38,7 @@ public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     var rootViewController: UIViewController? { get set }
     var homeLastFetch : Date? { get set }
     var isSmileSDK: Bool { get }
+    var kGoogleMapsApiKey: String { get }
     
     // Methods
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool
