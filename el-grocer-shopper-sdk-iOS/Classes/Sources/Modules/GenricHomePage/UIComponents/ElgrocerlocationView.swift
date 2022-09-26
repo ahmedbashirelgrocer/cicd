@@ -211,7 +211,12 @@ class ElgrocerlocationView:  UIView  {
             self.groceryBGView.visibility = .gone
         }
         
-        self.layer.insertSublayer(self.setupGradient(height: self.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+        
+        if sdkManager.isSmileSDK {
+            self.layer.insertSublayer(self.setupGradient(height: self.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+        } else {
+            self.bGView.backgroundColor = .navigationBarColor()
+        }
         
     }
     
