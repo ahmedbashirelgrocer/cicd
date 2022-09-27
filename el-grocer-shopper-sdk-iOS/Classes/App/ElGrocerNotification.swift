@@ -18,11 +18,23 @@ public class ElGrocerNotification {
                 delayTime = 8.0
             }
         }
+        
+        if (HomePageData.shared.groceryA?.count ?? 0) == 0 {
+            ElGrocerUtility.sharedInstance.delay(5) {
+                ElGrocerNotification.handlePushNotification(options)
+            }
+            return
+        }
+        
+        guard let data = options?.pushNotificationPayload, let dataObj = data["elgrocerMap"] else {
+            return
+        }
+        
         ElGrocerUtility.sharedInstance.delay(delayTime) {
             _ = RemoteNotificationHandler()
                 .addHandler(HelpshiftRemoteNotificationHandler())
                 .addHandler(BackendRemoteNotificationHandler())
-                .handleObject(options?.pushNotificationPayload as AnyObject)
+                .handleObject(dataObj as AnyObject)
         }
     }
     

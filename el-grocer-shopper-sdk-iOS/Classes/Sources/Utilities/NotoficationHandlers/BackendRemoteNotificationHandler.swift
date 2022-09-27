@@ -55,7 +55,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         
         elDebugPrint("notification : \(notification)")
         
-        guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey) else {
+        guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey || SDKManager.isSmileSDK)  else {
             return false
         }
         
@@ -63,7 +63,13 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             self.handleAlert(notification)
             return false
         }
-        guard let pushTypeInt = notification[pushTypeKey] as? Int, let pushType = PushNotificationType(rawValue: pushTypeInt) else {
+        
+        var pushTypeInt : Int? = notification[pushTypeKey] as? Int
+        if let pushTypeKeyObj = notification[pushTypeKey] as? String {
+            pushTypeInt = Int(pushTypeKeyObj)
+        }
+        
+        guard let pushTypeInt = pushTypeInt, let pushType = PushNotificationType(rawValue: pushTypeInt) else {
            elDebugPrint("Could not get push type for backend notification")
             return false
         }
@@ -110,7 +116,13 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                 self.handleOrderCanceledNotification(notification: notification)
                 break
             case .orderApprovalReminder:
-                guard let slideController = self.slideMenuController, let orderId = notification[self.pushOrderIdKey] as? Int else {
+                    
+                    var orderId : Int? = notification[self.pushOrderIdKey] as? Int
+                    if let orderIDStr = notification[self.pushOrderIdKey] as? String {
+                        orderId = Int(orderIDStr)
+                    }
+                    
+                guard let slideController = self.slideMenuController, let orderId = orderId else {
                     return
                 }
                 let ordersController = ElGrocerViewControllers.ordersViewController()
@@ -151,6 +163,10 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     }
     
     fileprivate func showlocationHandler(notification userInfo: [AnyHashable: Any]) {
+        
+        guard ((userInfo[pushOrderIdKey] as? NSNumber) != nil) else {
+            return
+        }
         
         let orderId = userInfo[pushOrderIdKey] as! NSNumber
         let shopperId = userInfo[shopperIdKey] as! NSNumber
@@ -257,8 +273,15 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         NotificationCenter.default.post(name: Notification.Name(rawValue: kOrderUpdateNotificationKey), object: nil)
         
         let substitutionsProductsVC = ElGrocerViewControllers.substitutionsProductsViewController()
-        let orderId = userInfo[pushOrderIdKey] as! NSNumber
-        substitutionsProductsVC.orderId = "\(orderId)"
+        let orderId = userInfo[pushOrderIdKey] as? NSNumber
+        var orderStr : String? = orderId?.stringValue ?? ""
+        if (orderStr?.count ?? 0) == 0 {
+            orderStr = userInfo[pushOrderIdKey] as? String
+        }
+        if (orderStr?.count ?? 0) == 0 {
+            return
+        }
+        substitutionsProductsVC.orderId = orderStr ?? ""
         substitutionsProductsVC.isViewPresent = true
         
         let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
@@ -328,7 +351,11 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate func handlePaymentPendingAlert(_ userInfo: [AnyHashable: Any]){
         
-        guard let retailer_id = userInfo["retailer_id"] as? Int else {
+        var retailer_id = userInfo["retailer_id"] as? Int
+        if let retailerIdStr = userInfo["retailer_id"] as? String {
+            retailer_id =  Int(retailerIdStr)
+        }
+        guard let retailer_id = retailer_id else {
             return
         }
         
@@ -371,11 +398,22 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate func handlePaymentAdyenPendingAlert(_ userInfo: [AnyHashable: Any]){
         
-        guard let retailer_id = userInfo["retailer_id"] as? Int else {
+        
+        var retailer_id = userInfo["retailer_id"] as? Int
+        if let retailerIdStr = userInfo["retailer_id"] as? String {
+            retailer_id =  Int(retailerIdStr)
+        }
+        guard let retailer_id = retailer_id else {
             return
         }
         
-        guard let orderID = userInfo["order_id"] as? Int64 else {
+        
+        var order_id = userInfo["order_id"] as? Int64
+        if let orderIdStr = userInfo["order_id"] as? String {
+            order_id =  Int64(orderIdStr)
+        }
+       
+        guard let orderID = order_id else {
             return
         }
         
