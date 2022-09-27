@@ -1103,6 +1103,8 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                     UserDefaults.setGroceryId(grocery.dbID , WithLocationId: (currentAddress?.dbID)!)
                 }
                 Thread.OnMainThread { [weak self] in
+                    self?.dismiss(animated: false)
+                    
                     self?.presentingVC?.navigationController?.dismiss(animated: false, completion: {
                         let SDKManager: SDKManagerType! = sdkManager
                         if let tab = sdkManager.currentTabBar  {
