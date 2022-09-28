@@ -70,7 +70,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         self.sdkStartTime = Date()
         
         //init network state monitoring
-        NotificationCenter.default.addObserver(self, selector: #selector(SDKManagerShopper.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: "kReachabilityManagerNetworkStatusChangedNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SDKManagerShopper.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         _ = ReachabilityManager.sharedInstance
         
         self.refreshSessionStatesForEditOrder()

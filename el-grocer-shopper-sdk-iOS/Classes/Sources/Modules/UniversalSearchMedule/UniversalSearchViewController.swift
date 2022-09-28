@@ -58,6 +58,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     var collectionViewBottomConstraint: NSLayoutConstraint?
 
+    @IBOutlet weak var viewBG: UIView!
     @IBOutlet var searchBarView: AWView!
     @IBOutlet var txtSearch: UITextField!
     @IBOutlet var storeNameViewHeight: NSLayoutConstraint!
@@ -89,6 +90,9 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.setDataSource()
         self.dataSource?.getDefaultSearchData()
         addBasketOverlay()
+        
+        // setting navigation color
+        self.viewBG.backgroundColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor() : UIColor.navigationBarColor()
     }
     override func viewWillAppear(_ animated: Bool) {
         (self.navigationController as? ElGrocerNavigationController)?.setNavigationBarHidden(true, animated: true)
