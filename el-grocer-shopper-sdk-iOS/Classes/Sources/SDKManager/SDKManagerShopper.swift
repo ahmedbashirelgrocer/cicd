@@ -616,8 +616,6 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
             main.makeKeyAndVisible()
         }
         
-        rootViewController = window?.rootViewController
-        
     }
     
     public func makeRootViewController( controller : UIViewController) {
@@ -730,6 +728,9 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         navtabController.isNavigationBarHidden = true;
         navtabController.viewControllers = [tabController]
         self.currentTabBar = tabController
+        
+        rootViewController = navtabController
+        
         return navtabController
         
     }
