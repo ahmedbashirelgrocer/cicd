@@ -38,8 +38,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.setSearchBarHidden(true)
         setChatButtonHidden(true)
         setLocationHidden(true)
-        self.addProfileButton()
-        self.addSideMenuButton()
+        sdkManager.isSmileSDK ? self.addSideMenuButton() : self.addProfileButton()
         self.addCartButton()
         NotificationCenter.default.addObserver(self, selector: #selector(ElGrocerNavigationBar.chatStateChange(notification:)), name: KChatNotifcation, object: nil)
     }
@@ -215,7 +214,7 @@ class ElGrocerNavigationBar : UINavigationBar {
                 self.profileButton.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
             }
         } else if self.profileButton != nil {
-            self.profileButton.frame = CGRect(x: 32, y: (self.frame.size.height*0.5)-13 , width: 24, height: 24)
+            self.profileButton.frame = CGRect(x: 16, y: (self.frame.size.height*0.5)-13 , width: 24, height: 24)
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.profileButton.frame = CGRect(x: self.frame.size.width-16-24  , y: (self.frame.size.height*0.5)-13, width: 24, height: 24)
                 self.profileButton.transform = CGAffineTransform(scaleX: -1, y: 1)
