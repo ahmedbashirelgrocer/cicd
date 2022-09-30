@@ -579,7 +579,6 @@ class SendBirdDeskManager{
                 
                 IQKeyboardManager.shared.enableAutoToolbar = true
                 IQKeyboardManager.shared.enable = true
-                SpinnerView.hideSpinnerView()
                 let channelController = ElgrocerChannelController(channel: channel)
                 channelController.setOrderId(orderDbId: orderId)
                 
@@ -588,6 +587,7 @@ class SendBirdDeskManager{
                 navigationController.modalPresentationStyle = .fullScreen
                 
                 controller.present(navigationController, animated: true)
+                SpinnerView.hideSpinnerView()
             }
             
         }
@@ -600,7 +600,6 @@ class SendBirdDeskManager{
         guard let user = SBDMain.getCurrentUser() else {return}
         
         Thread.OnMainThread {
-            SpinnerView.hideSpinnerView()
             let userID = user.userId
             SBUGlobals.CurrentUser = SBUUser(userId: userID, nickname: user.nickname, profileUrl: nil)
             
@@ -610,6 +609,7 @@ class SendBirdDeskManager{
             navigationController.viewControllers = [vc]
             navigationController.modalPresentationStyle = .fullScreen
             controller.present(navigationController, animated: true)
+            SpinnerView.hideSpinnerView()
             
         }
 
