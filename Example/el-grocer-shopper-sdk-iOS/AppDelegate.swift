@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //
-//  release branch
+//  Merge Splash Changes Into Dev
 
 import UIKit
 import IQKeyboardManagerSwift
