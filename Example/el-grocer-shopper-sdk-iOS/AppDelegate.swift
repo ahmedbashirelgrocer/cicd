@@ -2,7 +2,8 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //
-//  Merge Splash Changes Into Dev
+//  Merge Splash Changes Into Dev To Release
+//  Smile Build 1.0.30
 
 import UIKit
 import IQKeyboardManagerSwift

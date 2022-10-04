@@ -544,7 +544,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.26;
+				CURRENT_PROJECT_VERSION = 1.0.30;
 				DEVELOPMENT_TEAM = N883C2D2B2;
 				INFOPLIST_FILE = "el-grocer-shopper-sdk-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -566,7 +566,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.26;
+				CURRENT_PROJECT_VERSION = 1.0.30;
 				DEVELOPMENT_TEAM = N883C2D2B2;
 				INFOPLIST_FILE = "el-grocer-shopper-sdk-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
