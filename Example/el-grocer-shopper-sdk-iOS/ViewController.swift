@@ -84,35 +84,8 @@ class ViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-        
-      //  self.txtDLPayload.text = "https://https://smiles://exy-too-trana//elgrocer://Chat=1,StoreID=16,retailer_id=16,BrandID=16&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp"
-        
-        let launchOptions = LaunchOptions(
-            accountNumber: txtAccountNumber.text,
-            latitude: ((txtLat.text ?? "0") as NSString).doubleValue,
-            longitude: ((txtLong.text ?? "0") as NSString).doubleValue,
-            address: txtAddress.text,
-            loyaltyID: txtLoyalityID.text,
-            email: txtEmail.text,
-            pushNotificationPayload: pushData,
-            deepLinkPayload:  txtDLPayload.text,
-            language: txtLanguage.text,
-            isSmileSDK: true,
-            isLoggingEnabled: true
-        )
-        
-//        let launchOptions = LaunchOptions(accountNumber: Optional("+971567367806"),
-//                                          latitude: Optional(25.2346972),
-//                                          longitude: Optional(55.2963797),
-//                                          address: Optional("Al Kifaf"),
-//                                          loyaltyID: Optional("111111111130"),
-//                                          email: Optional("swislam@etisalat.ae"),
-//                                          pushNotificationPayload: nil,
-//                                          deepLinkPayload: Optional("https://https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=16,BrandID=16&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp"),
-//                                          language: Optional("en"),
-//                                          isSmileSDK: true,
-//                                          isLoggingEnabled: false)
-        
+     
+        let launchOptions =  LaunchOptions(accountNumber: txtAccountNumber.text, latitude: ((txtLat.text ?? "0") as NSString).doubleValue, longitude: ((txtLong.text ?? "0") as NSString).doubleValue, address: txtAddress.text, loyaltyID: txtLoyalityID.text, email: txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: txtDLPayload.text, language: txtLanguage.text, environmentType: .staging)
         ElGrocer.startEngine(with: launchOptions)
     }
     
