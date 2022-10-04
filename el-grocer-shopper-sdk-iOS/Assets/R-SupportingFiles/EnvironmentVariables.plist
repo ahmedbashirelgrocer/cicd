@@ -10,7 +10,7 @@
 	<key>Debug</key>
 	<dict>
 		<key>backendUrl</key>
-		<string>https://el-grocer-staging-dev.herokuapp.com/api/</string>
+		<string>https://api.elgrocer.com/api/</string>
 	</dict>
 	<key>StagingProduction</key>
 	<dict>
