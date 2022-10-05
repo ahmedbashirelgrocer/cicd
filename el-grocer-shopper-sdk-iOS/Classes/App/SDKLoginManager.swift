@@ -96,7 +96,7 @@ struct SDKLoginManager {
         
         // Get the user delivery addresses
         ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result, responseObject) -> Void in
-           
+         
             if result {
                 let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if deliveryAddress.count == 0 {
@@ -124,7 +124,10 @@ struct SDKLoginManager {
         newDeliveryAddress.apartment = ""
         newDeliveryAddress.building = ""
         newDeliveryAddress.street = ""
-        newDeliveryAddress.userProfile = userProfile
+        if userProfile.dbID.stringValue.count > 0 {
+            newDeliveryAddress.userProfile = userProfile
+        }
+        
         newDeliveryAddress.address = launchOptions.address ?? ""
         newDeliveryAddress.latitude = launchOptions.latitude ?? 0
         newDeliveryAddress.longitude = launchOptions.longitude ?? 0

@@ -308,7 +308,7 @@ class MyBasket  {
                 selectedSlot = nil
             }
             
-            if self.activeDeliverySlot != nil && Int(truncating: self.activeDeliverySlot!.getdbID()) != asapDbId && (self.activeDeliverySlot?.estimated_delivery_at.minutesFrom(Date()) ?? 0) < 0 {
+            if self.activeDeliverySlot != nil && (self.activeDeliverySlot?.isInstant.boolValue ?? true) && (self.activeDeliverySlot?.estimated_delivery_at.minutesFrom(Date()) ?? 0) < 0 {
                     // self.updateSlotsAndChooseNextAvailable()
                 let currentSlotIndex = self.deliverySlotsA.firstIndex(where: {$0.dbID == self.activeDeliverySlot?.dbID})
                 if (currentSlotIndex != nil) {
