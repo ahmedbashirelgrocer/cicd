@@ -77,7 +77,7 @@ class ViewController: UIViewController {
     @objc func startSDK() {
         
         var pushData : [String: AnyHashable] = ["elgrocerMap" : txtPushPayload.text]
-        let launchOptions =  LaunchOptions(accountNumber: txtAccountNumber.text, latitude: ((txtLat.text ?? "0") as NSString).doubleValue, longitude: ((txtLong.text ?? "0") as NSString).doubleValue, address: txtAddress.text, loyaltyID: txtLoyalityID.text, email: txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: txtDLPayload.text, language: txtLanguage.text, environmentType: .staging)
+        let launchOptions =  LaunchOptions(accountNumber: txtAccountNumber.text, latitude: ((txtLat.text ?? "0") as NSString).doubleValue, longitude: ((txtLong.text ?? "0") as NSString).doubleValue, address: txtAddress.text, loyaltyID: txtLoyalityID.text, email: txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: txtDLPayload.text, language: txtLanguage.text, environmentType: .live)
         ElGrocer.startEngine(with: launchOptions)
     }
     
