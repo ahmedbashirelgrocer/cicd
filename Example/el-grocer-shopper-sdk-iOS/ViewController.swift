@@ -69,22 +69,14 @@ class ViewController: UIViewController {
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = ""
         txtEmail.text = ""
-        txtPushPayload.text =  "{\"elgrocerMap\": {\"origin\":\"el-grocer-api\", \"order_id\":\"123123\" , \"message_type\":\"1\" }}"
+        txtPushPayload.text =  "{\"origin\":\"el-grocer-api\", \"order_id\":\"530912815\" , \"message_type\":\"106\" , \"retailer_id\":\"16\" , \"aps\" : {\"body\":\"order msg goes here\"}}"
         txtDLPayload.text = nil // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "Base"
     }
     
     @objc func startSDK() {
         
-        var pushData : [String: AnyHashable] = [:]
-        if let data = txtPushPayload.text?.data(using: .utf8) {
-            do {
-                pushData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyHashable] ?? [:]
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-     
+        var pushData : [String: AnyHashable] = ["elgrocerMap" : txtPushPayload.text]
         let launchOptions =  LaunchOptions(accountNumber: txtAccountNumber.text, latitude: ((txtLat.text ?? "0") as NSString).doubleValue, longitude: ((txtLong.text ?? "0") as NSString).doubleValue, address: txtAddress.text, loyaltyID: txtLoyalityID.text, email: txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: txtDLPayload.text, language: txtLanguage.text, environmentType: .staging)
         ElGrocer.startEngine(with: launchOptions)
     }

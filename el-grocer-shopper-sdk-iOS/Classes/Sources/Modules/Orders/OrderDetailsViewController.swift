@@ -439,13 +439,17 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     override func backButtonClick() {
         MixpanelEventLogger.trackOrderDetailsclose()
-        if isCommingFromOrderConfirmationScreen {
+        
+        if self.navigationController?.viewControllers.count == 1 {
+            self.dismiss(animated: true)
+        }else if isCommingFromOrderConfirmationScreen {
             self.navigationController?.popToRootViewController(animated: true)
 //            self.tabBarController?.tabBar.isHidden = false
 //            self.tabBarController?.selectedIndex = 1
         }else{
             self.navigationController?.popViewController(animated: true)
         }
+        
 
     }
     
@@ -801,7 +805,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     @IBAction func reOrderButtonHandler(_ sender: Any) {
         
         
-        guard order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue || order.status.intValue == OrderStatus.payment_pending.rawValue  else {
+        guard order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue || order.status.intValue == OrderStatus.payment_pending.rawValue || order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue  else {
             
             
             if self.order.isCandCOrder() {
@@ -1803,7 +1807,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                         substitutionsProductsVC.orderId = orderId
                         ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
                         self?.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
-                    }else if (self?.order.status.intValue == OrderStatus.payment_pending.rawValue) {
+                    }else if (self?.order.status.intValue == OrderStatus.payment_pending.rawValue || self?.order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue) {
                         self?.editOrderSuccess(nil)
                     }else if (self?.order.status.intValue == OrderStatus.inEdit.rawValue) {
                         self?.editOrderSuccess(nil)

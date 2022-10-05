@@ -22,7 +22,7 @@ public class ElGrocerNotification {
         }
         
         if (HomePageData.shared.groceryA?.count ?? 0) == 0 {
-            ElGrocerUtility.sharedInstance.delay(5) {
+            ElGrocerUtility.sharedInstance.delay(0.5) {
                 ElGrocerNotification.handlePushNotification(options)
             }
             return

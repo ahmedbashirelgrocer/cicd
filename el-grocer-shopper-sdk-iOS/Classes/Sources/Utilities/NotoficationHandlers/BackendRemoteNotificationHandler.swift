@@ -26,6 +26,7 @@ enum PushNotificationType : Int {
     case PendingPaymentState = 106
     case userLocation = 109
     case PendingPaymentStateAdyen = 113
+    case PaymentFailed = 70
 }
 
 let kOrderUpdateNotificationKey = "UpdateOrderNotification"
@@ -113,7 +114,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                 self.handleOrderApprovalReminderNotification(notification)
                 break
             case .orderCanceled:
-                self.handleOrderCanceledNotification(notification: notification)
+                self.handleOrderApprovalReminderNotification(notification)
                 break
             case .orderApprovalReminder:
                     
@@ -154,9 +155,13 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                    elDebugPrint("Promo alert")
                     break
                 case .PendingPaymentState:
-                    self.handlePaymentPendingAlert(notification)
+                self.handleOrderApprovalReminderNotification(notification)
+                    //self.handlePaymentPendingAlert(notification)
                 case .PendingPaymentStateAdyen:
-                    self.handlePaymentAdyenPendingAlert(notification)
+                self.handleOrderApprovalReminderNotification(notification)
+            case .PaymentFailed:
+            self.handleOrderApprovalReminderNotification(notification)
+                   // self.handlePaymentAdyenPendingAlert(notification)
                 
                elDebugPrint("Promo alert")
         }
@@ -233,9 +238,34 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate func handleOrderApprovalReminderNotification(_ notification: [AnyHashable: Any]) {
         
-        self.showOrdersController()
         
+        var orderId : Int? = notification[self.pushOrderIdKey] as? Int
+        if let orderIDStr = notification[self.pushOrderIdKey] as? String {
+            orderId = Int(orderIDStr)
+        }
+        
+        guard let orderId = orderId else {
+            self.showOrdersController()
+            return
+        }
+        
+        self.showOrderDetailController("\(orderId)")
+  
     }
+    
+    
+    fileprivate func showOrderDetailController(_ orderId : String) {
+        
+        let ordersController = ElGrocerViewControllers.orderDetailsViewController()
+        ordersController.orderIDFromNotification = "\(orderId)"
+        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.viewControllers = [ordersController]
+        navigationController.modalPresentationStyle = .fullScreen
+        if let vc = UIApplication.topViewController() {
+            vc.present(navigationController, animated: true, completion: nil)
+        }
+    }
+    
     
     fileprivate func showOrdersController() {
         
@@ -442,18 +472,6 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                         }
                         if dataA.count > 0 {
                             ElGrocerUtility.sharedInstance.activeGrocery = dataA[0]
-                            
-                            /*let controller = ElGrocerViewControllers.orderDetailsViewController()
-                            controller.orderIDFromNotification = "\(orderID)"
-                            controller.isCommingFromOrderConfirmationScreen = true
-                            controller.mode = .dismiss
-                            
-                            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                            navigationController.hideSeparationLine()
-                            navigationController.viewControllers = [controller]
-                            navigationController.modalPresentationStyle = .fullScreen*/
-                            
-                            
                             let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
                             orderConfirmationController.orderDict = ["id" : orderID]
                             orderConfirmationController.isNeedToRemoveActiveBasket = false
