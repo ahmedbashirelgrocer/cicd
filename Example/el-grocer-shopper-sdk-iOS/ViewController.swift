@@ -76,9 +76,37 @@ class ViewController: UIViewController {
     
     @objc func startSDK() {
         
-        var pushData : [String: AnyHashable] = ["elgrocerMap" : txtPushPayload.text]
-        let launchOptions =  LaunchOptions(accountNumber: txtAccountNumber.text, latitude: ((txtLat.text ?? "0") as NSString).doubleValue, longitude: ((txtLong.text ?? "0") as NSString).doubleValue, address: txtAddress.text, loyaltyID: txtLoyalityID.text, email: txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: txtDLPayload.text, language: txtLanguage.text, environmentType: .live)
-        ElGrocer.startEngine(with: launchOptions)
+        
+        var refreshAlert = UIAlertController(title: "Select Env", message: "Please close the app then select now Envoirment. \n One selection per session \n 1. Staging 2. PREADMIN 3. LIVE", preferredStyle: UIAlertController.Style.alert)
+
+        refreshAlert.addAction(UIAlertAction(title: "Staging", style: .default, handler: {[weak self] (action: UIAlertAction!) in
+            guard let self = self else {return}
+            let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+            let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .staging)
+            ElGrocer.startEngine(with: launchOptions)
+            
+            
+          }))
+
+        refreshAlert.addAction(UIAlertAction(title: "PREADMIN", style: .default, handler: { [weak self] (action: UIAlertAction!) in
+            guard let self = self else {return}
+            let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+            let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .preAdmin)
+            ElGrocer.startEngine(with: launchOptions)
+            
+          }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "LIVE", style: .default, handler: { [weak self]  (action: UIAlertAction!) in
+            guard let self = self else {return}
+            let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+            let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .live)
+            ElGrocer.startEngine(with: launchOptions)
+            
+          }))
+
+        present(refreshAlert, animated: true, completion: nil)
+        
+       
     }
     
     func updateLocation(_ location: CLLocation!) {

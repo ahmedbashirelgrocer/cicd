@@ -22,5 +22,10 @@
 		<key>backendUrl</key>
 		<string>http://192.168.5.10:3000/api/</string>
 	</dict>
+	<key>PreAdmin</key>
+	<dict>
+		<key>backendUrl</key>
+		<string>https://el-grocer-admin.herokuapp.com/api/</string>
+	</dict>
 </dict>
 </plist>

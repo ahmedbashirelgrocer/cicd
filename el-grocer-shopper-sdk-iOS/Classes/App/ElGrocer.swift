@@ -102,7 +102,7 @@ public enum EnvironmentType {
             case .staging:
                 return "Debug"
             case .preAdmin:
-                return "Release"
+                return "PreAdmin"
             case .live:
                 return "Release"
         }
