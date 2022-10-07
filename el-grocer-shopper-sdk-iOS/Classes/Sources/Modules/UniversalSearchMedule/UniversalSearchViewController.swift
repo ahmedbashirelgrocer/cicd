@@ -239,7 +239,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         
         
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionFootersPinToVisibleBounds = true
+        flowLayout.sectionFootersPinToVisibleBounds = false
         flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10 , right: 10)
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 0
@@ -750,7 +750,8 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
     
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if self.loadedProductList.count > 30 || !self.moreProductsAvailable {
+        // self.loadedProductList.count > 30 ||
+        if  !self.moreProductsAvailable {
             return  CGSize.init(width: self.view.frame.size.width , height: 146)
         }
         return CGSize.zero

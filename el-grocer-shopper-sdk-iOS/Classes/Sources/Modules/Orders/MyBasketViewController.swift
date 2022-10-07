@@ -1791,7 +1791,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         //update minimum order detail here
 
-        if (self.itemsSummaryValue ) < self.grocery?.minBasketValue ?? 0 {
+        if ((self.itemsSummaryValue ) < self.grocery?.minBasketValue ?? 0) && self.products.count > 0 {
             
             // Order amount is less then minimum basket amount
             // change color, disable button ...

@@ -544,6 +544,8 @@ class MyBasketPlaceOrderVC: UIViewController {
         
         self.dataHandler.delegate = self
         self.secondCheckOutDataHandler?.delegate = self
+        
+        
     }
     
     
@@ -2030,11 +2032,13 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
                 cell.configureCell(title: localizedString("dashboard_location_navigation_bar_title", comment: "s"))
                 return cell
             }else if indexPath.row == 2{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "deliverySlotCell", for: indexPath) as! deliverySlotCell
+                let cell : deliverySlotCell = tableView.dequeueReusableCell(withIdentifier: "deliverySlotCell", for: indexPath) as! deliverySlotCell
                 if secondCheckOutDataHandler != nil{
                     cell.configureCell(time: secondCheckOutDataHandler!.setOrderTypeLabelText() ,modeType: .delivery)
                 }
-                
+                cell.newUpdatedSlots = { [weak self] (slots) in
+                    self?.secondCheckOutDataHandler?.deliverySlotsA = slots
+                }
                 return cell
             }else if indexPath.row == 3{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "instructionsTableCell", for: indexPath) as! instructionsTableCell

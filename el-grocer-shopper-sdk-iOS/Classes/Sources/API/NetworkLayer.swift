@@ -332,6 +332,7 @@ class NetworkLayer {
         self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
         self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "Sdk-Version")
         
+        
     
     }
     
