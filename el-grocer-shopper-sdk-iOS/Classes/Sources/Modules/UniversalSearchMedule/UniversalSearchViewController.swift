@@ -503,6 +503,10 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             if topVc is GroceryFromBottomSheetViewController {
                 let groc : GroceryFromBottomSheetViewController = topVc as! GroceryFromBottomSheetViewController
                 groc.configuer(grocery, searchString: self.txtSearch.text ?? "")
+                if grocery.count == 0 {
+                    groc.showErrorMessage(localizedString("lbl_Error_No_Store_On_This_Location_Selling_Products", comment: ""))
+                }
+                
                 return
             }
         }
