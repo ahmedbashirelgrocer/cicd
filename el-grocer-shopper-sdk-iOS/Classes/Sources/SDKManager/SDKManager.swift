@@ -120,10 +120,10 @@ class SDKManager: NSObject  {
             }
             if var apiData = notifcation.userInfo as? [String : Any] {
                 apiData[FireBaseParmName.SessionID.rawValue] = ElGrocerUtility.sharedInstance.getGenericSessionID()
-                FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo: apiData))
+                //FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo: apiData))
                FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  apiData  , false)
             }else{
-                FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
+              //  FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
                 
                 FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)" , [:] , false )
             }
@@ -282,12 +282,16 @@ class SDKManager: NSObject  {
     // ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/"
         
         
-        guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else{
-            // Fixme: Firebase disabled
+        guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else {
+                    // Fixme: Firebase disabled
+        #if DEBUG
+          // debugFirebaseSetting()
+        #else
             smileSDKFireBaseSetting()
+        #endif
             return
         }
-        
+                
         #if DEBUG
            debugFirebaseSetting()
         #else
