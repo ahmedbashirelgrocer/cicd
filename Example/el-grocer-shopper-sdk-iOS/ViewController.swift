@@ -69,7 +69,7 @@ class ViewController: UIViewController {
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = ""
         txtEmail.text = ""
-        txtPushPayload.text =  "{\"origin\":\"el-grocer-api\", \"order_id\":\"530912815\" , \"message_type\":\"106\" , \"retailer_id\":\"16\" , \"aps\" : {\"body\":\"order msg goes here\"}}"
+        txtPushPayload.text =  "[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
         txtDLPayload.text = nil // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "Base"
     }

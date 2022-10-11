@@ -14,15 +14,15 @@ public class ElGrocerNotification {
     
     public class func handlePushNotification(_ options : LaunchOptions?) {
        
-        var delayTime = 1.0
+        var delayTime = 0.25
         if let dataAvailable = SDKManager.shared.sdkStartTime {
             if dataAvailable.timeIntervalSinceNow > -10 {
-                delayTime = 8.0
+                delayTime = 5.0
             }
         }
         
-        if (HomePageData.shared.groceryA?.count ?? 0) == 0 {
-            ElGrocerUtility.sharedInstance.delay(0.5) {
+        if (HomePageData.shared.groceryA?.count ?? 0) == 0 || !UserDefaults.isUserLoggedIn() {
+            ElGrocerUtility.sharedInstance.delay(delayTime) {
                 ElGrocerNotification.handlePushNotification(options)
             }
             return
@@ -32,22 +32,32 @@ public class ElGrocerNotification {
             ElGrocerNotification.logErrorOption(options)
             return
         }
-
-        var pushData : [String: AnyHashable] = [:]
+       
+        var pushData : [NSDictionary] = []
         if let data = dataObj.data(using: .utf8) {
             do {
-                pushData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyHashable] ?? [:]
-            } catch {
+                pushData = try JSONSerialization.jsonObject(with: data, options: []) as? [NSDictionary] ?? []
+            } catch let error as NSError {
+                debugPrint(error.localizedDescription)
                 ElGrocerNotification.logErrorOption(options)
                 return
             }
         }
+        
+        var finalPushData : [String : AnyHashable] = [:]
+        for data in pushData {
+            if let key = data["key"]  as? String, let value = data["value"] as? AnyHashable  {
+                finalPushData[key] = value
+            }
+        }
+        
+        
         // Proceed with Notifcation
         ElGrocerUtility.sharedInstance.delay(delayTime) {
             _ = RemoteNotificationHandler()
                 .addHandler(HelpshiftRemoteNotificationHandler())
                 .addHandler(BackendRemoteNotificationHandler())
-                .handleObject(pushData as AnyObject)
+                .handleObject(finalPushData as AnyObject)
         }
     }
     
