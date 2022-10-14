@@ -189,30 +189,32 @@ extension SecondaryViewModel {
         }
         
         if let promoRealizationId = self.promoRealizationId {
-            finalParams["realization_id"] = promoRealizationId
+            finalParams["promotion_code_realization_id"] = promoRealizationId
         }
         if self.orderId?.count ?? 0 > 0 {
             finalParams["order_id"] = self.orderId
         }
         
         // Float(self.basketDataValue?.smilesRedeem ?? "0.00") ?? 0.00]
-        var secondaryPayments: [[String : Any]] = []
+        var secondaryPayments: [String : Any] = [:]
         if self.isSmileTrue && ((self.basketDataValue?.paymentTypes?.first(where: { type in
             type.id == PaymentOption.smilePoints.rawValue
         })) != nil)  {
-            secondaryPayments.append([  "payment_type_id" : PaymentOption.smilePoints.rawValue,
-                                        "amount" : Float(self.basketDataValue?.smilesRedeem ?? 0.00) ])
+            secondaryPayments["smiles"] = true
+        }else {
+            secondaryPayments["smiles"] = false
         }
         if self.isWalletTrue && ((self.basketDataValue?.paymentTypes?.first(where: { type in
             type.id == PaymentOption.voucher.rawValue
         })) != nil) {
-            secondaryPayments.append([  "payment_type_id" : PaymentOption.voucher.rawValue,
-                                        "amount" : Float(self.basketDataValue?.elWalletRedeem ?? 0.00) ])
+            secondaryPayments["el_wallet"] = true
+        }else {
+            secondaryPayments["el_wallet"] = false
         }
         if let promoRealizationId = self.promoRealizationId {
-            secondaryPayments.append([  "payment_type_id" : PaymentOption.PromoCode.rawValue,
-                                        "amount" : self.promoAmount ?? 0.0,
-                                        "promotion_code_realization_id" : promoRealizationId ])
+            secondaryPayments["promo_code"] = true
+        }else {
+            secondaryPayments["promo_code"] = false
         }
         
         if let additionalInstruction  = self.additionalInstructions {

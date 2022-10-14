@@ -128,7 +128,7 @@ enum ElGrocerApiEndpoint : String {
     case Banners = "v1/banners"
     case ChangePassword = "v1/shoppers/update_password"
     case PlaceOrder = "v3/orders/generate"
-    case createOrder = "v4/orders/create"
+    case createOrder = "v4/orders/generate"
     //case UpdateOrder = "v3/orders/generate"
     case OrderList = "v3/orders"
     case newOrderList = "v3/orders/history" // https://elgrocerdxb.atlassian.net/browse/EG-584
@@ -4139,6 +4139,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           
           setAccessToken()
           FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          elDebugPrint(parameters)
           NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue, parameters: parameters, progress: { (progress) in
                   // debugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
