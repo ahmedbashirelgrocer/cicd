@@ -86,7 +86,8 @@ class SecondCheckoutVC: UIViewController {
             }
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
-            let orderPlacement = PlaceOrderHandler.init(finalOrderItems: self.viewModel.getShoppingItems() ?? [], activeGrocery: grocery , finalProducts: self.viewModel.getFinalisedProducts(), orderID: self.viewModel.getOrderId(), finalOrderAmount: self.viewModel.basketDataValue?.finalAmount, orderPlaceOrEditApiParams: self.viewModel.getOrderPlaceApiParams())
+
+            let orderPlacement = PlaceOrderHandler.init(finalOrderItems: self.viewModel.getShoppingItems() ?? [], activeGrocery: grocery , finalProducts: self.viewModel.getFinalisedProducts() ?? [], orderID: self.viewModel.getOrderId(), finalOrderAmount: self.viewModel.basketDataValue?.finalAmount ?? 0.00, orderPlaceOrEditApiParams: self.viewModel.getOrderPlaceApiParams())
             if let _ = self.viewModel.getOrderId() {
                 orderPlacement.editedOrder()
             }else {
@@ -162,9 +163,9 @@ class SecondCheckoutVC: UIViewController {
         
         Thread.OnMainThread {
 
-        self.checkoutDeliverySlotView.configure(slots: data.deliverySlots ?? [], selectedSlotId: Int(data.selectedDeliverySlot ?? "") ?? -1)
+        self.checkoutDeliverySlotView.configure(slots: data.deliverySlots ?? [], selectedSlotId: data.selectedDeliverySlot ?? -1)
         // configure bill view
-            self.billView.configure(productTotal: data.productsTotal ?? "", serviceFee: data.serviceFee ?? "", total: data.totalValue ?? "", productSaving: data.totalDiscount ?? "", finalTotal: data.finalAmount ?? "", elWalletRedemed: data.elWalletRedeem ?? "", smilesRedemed: data.smilesRedeem ?? "", promocode: data.promoCode, quantity: Int(data.quantity ?? "0"))
+            self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0)
 
         
         self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
@@ -187,13 +188,14 @@ class SecondCheckoutVC: UIViewController {
                 self.secondaryPaymentView.isHidden = true
                 
             }else {
-                self.secondaryPaymentView.configure(smilesBalance: data.smilesBalance ?? "", elWalletBalance: data.elWalletBalance ?? "", smilesRedeem: data.smilesRedeem ?? "", elWalletRedeem: data.elWalletRedeem ?? "", smilesPoint: data.smilesPoints ?? "", paymentTypes: secondaryPaymentTypes)
+                
+                self.secondaryPaymentView.configure(smilesBalance: data.smilesBalance ?? 0.00, elWalletBalance: data.elWalletBalance ?? 0.00, smilesRedeem: data.smilesRedeem ?? 0.00, elWalletRedeem: data.elWalletRedeem ?? 0.00, smilesPoint: data.smilesPoints ?? 0, paymentTypes: secondaryPaymentTypes)
             }
            
         }
-        let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? "0")
+        let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
         
-        self.checkoutButtonView.configure(paymentOption: paymentOption, points: String(self.viewModel.getBurnPointsFromAed()), amount: data.finalAmount ?? "", aedSaved: data.productsSaving ?? "", earnSmilePoints: self.viewModel.getEarnPointsFromAed(), promoCode: data.promoCode, isSmileOn: self.viewModel.getIsSmileTrue() )
+            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: self.viewModel.getEarnPointsFromAed(), promoCode: data.promoCode, isSmileOn: self.viewModel.getIsSmileTrue() )
         }
     }
     
@@ -401,7 +403,7 @@ extension SecondCheckoutVC: PromocodeDelegate {
         
         vc.previousGrocery = self.viewModel.getGrocery()
         vc.priviousPaymentOption = self.viewModel.getSelectedPaymentOption()
-        vc.priviousPrice = Double(self.viewModel.basketDataValue?.finalAmount ?? "0.00")
+        vc.priviousPrice = self.viewModel.basketDataValue?.finalAmount ?? 0.00
         vc.priviousShoppingItems = self.viewModel.getShoppingItems()
         vc.priviousOrderId = self.viewModel.getOrderId()
         vc.priviousFinalizedProductA = self.viewModel.getFinalisedProducts()

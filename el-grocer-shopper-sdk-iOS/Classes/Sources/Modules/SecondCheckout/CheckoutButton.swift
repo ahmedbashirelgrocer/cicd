@@ -46,17 +46,13 @@ class CheckoutButtonView: AWView {
         self.viewDiscountWrapper.layer.masksToBounds = true
     }
     
-    func configure(paymentOption: PaymentOption, points: String, amount: String, aedSaved: String, earnSmilePoints: Int, promoCode: PromoCode?,isSmileOn: Bool) {
+    func configure(paymentOption: PaymentOption, points: Int, amount: Double, aedSaved: Double, earnSmilePoints: Int, promoCode: PromoCode?,isSmileOn: Bool) {
         self.buttonCheckout.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(checkoutButtonTap(_ :))))
         
         var totalSavedAED: Double = 0.00
-        var stringAedSavedToConvert = aedSaved
         self.setPointsAndAmount(points: points, amount: amount)
-        if stringAedSavedToConvert.elementsEqual("") {
-            stringAedSavedToConvert = "0.00"
-        }
-        if let promoValue = Double(promoCode?.value ?? 0) as? Double ,let productSavings = Double(stringAedSavedToConvert) {
-            let total = promoValue + productSavings
+        if let promoValue = Double(promoCode?.value ?? 0) as? Double {
+            let total = promoValue + aedSaved
             if total > 0 {
                 totalSavedAED = total
             }
@@ -76,9 +72,9 @@ class CheckoutButtonView: AWView {
         }
     }
     
-    private func setPointsAndAmount(points: String, amount: String)  {
-        self.lblPoints.text = localizedString("or_label_text", comment: "") + " " + points + " " + localizedString("pay_via_smiles_points", comment: "")
-        self.lblAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(amount) ?? 0.00)//localizedString("aed", comment: "") + " " + amount
+    private func setPointsAndAmount(points: Int, amount: Double)  {
+        self.lblPoints.text = localizedString("or_label_text", comment: "") + " " + String(points) + " " + localizedString("pay_via_smiles_points", comment: "")
+        self.lblAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: amount)//localizedString("aed", comment: "") + " " + amount
     }
     private func setSavedAmountAndEarnSmilePoints(savedAed: Double, earnSmilePoints: Int, paymentOption: PaymentOption, isSmileTrue: Bool) {
         

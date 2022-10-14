@@ -114,15 +114,15 @@ class BillView: UIView {
         viewBG.addSubview(promotionView)
     }
     
-    func configure(productTotal: String, serviceFee: String, total: String, productSaving: String, finalTotal: String, elWalletRedemed: String, smilesRedemed: String, promocode: PromoCode?, quantity: Int?) {
+    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?) {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
-        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: Double(productTotal) ?? 0.00)
+        self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: productTotal)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity ?? 0)
-        self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: Double(serviceFee) ?? 0.00)
-        self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: Double(total) ?? 0.00)
-        self.lblFinalAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(finalTotal) ?? 0.00)
+        self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
+        self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: total)
+        self.lblFinalAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: finalTotal)
 //        self.lblFinalAmount.text = CurrencyManager.getCurrentCurrency() + " " + finalTotal
         
         
@@ -138,46 +138,36 @@ class BillView: UIView {
             savingsView.isHidden = true
         }
         
-        if let saving = Double(productSaving), saving > 0 {            self.promotionView.visibility = .visible
+        if  productSaving > 0 {
+            self.promotionView.visibility = .visible
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                self.lblPromotion.text =  localizedString("txt_Saved", comment: "") + " "+ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: saving)
+                self.lblPromotion.text =  localizedString("txt_Saved", comment: "") + " " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: productSaving)
             }else {
-                self.lblPromotion.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: saving) + " " + localizedString("txt_Saved", comment: "")
+                self.lblPromotion.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: productSaving) + " " + localizedString("txt_Saved", comment: "")
             }
-        }  else {
+        }else {
             self.promotionView.visibility = .gone
             self.lblPromotion.text =  ""
         }
         
         stackView.addArrangedSubview(grandTotalEntryView)
         
-        if elWalletRedemed != "" {
-            if let walletValue = Double(elWalletRedemed) {
-                if walletValue > 0 {
-                    self.stackView.addArrangedSubview(elWalletView)
-                    self.elWalletView.isHidden = false
-                    elWalletView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: walletValue, isNegative: true)
-                }else {
-                    self.elWalletView.isHidden = true
-                }
-            }else {
-                self.elWalletView.isHidden = true
-            }
-            
+        if elWalletRedemed > 0 {
+            self.stackView.addArrangedSubview(elWalletView)
+            self.elWalletView.isHidden = false
+            elWalletView.configure(title: localizedString("elwallet_credit_applied", comment: ""), amount: elWalletRedemed, isNegative: true)
         }else {
             self.elWalletView.isHidden = true
         }
-            if let smileValue = Double(smilesRedemed) {
-                if smileValue > 0 {
-                    self.stackView.addArrangedSubview(smilesView)
-                    self.smilesView.isHidden = false
-                    smilesView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileValue, isNegative: true)
-                }else {
-                    self.smilesView.isHidden = true
-                }
-            }else {
-                self.smilesView.isHidden = true
-            } 
+        
+        if smilesRedemed > 0 {
+            self.stackView.addArrangedSubview(smilesView)
+            self.smilesView.isHidden = false
+            smilesView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smilesRedemed, isNegative: true)
+        }else {
+            self.smilesView.isHidden = true
+        }
+            
     }
     
     private func setupConstraint() {

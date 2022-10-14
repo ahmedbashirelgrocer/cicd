@@ -67,9 +67,9 @@ class SecondaryPaymentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(smilesBalance: String, elWalletBalance: String, smilesRedeem: String, elWalletRedeem: String, smilesPoint: String, paymentTypes: SecondaryPaymentViewType) {
+    func configure(smilesBalance: Double, elWalletBalance: Double, smilesRedeem: Double, elWalletRedeem: Double, smilesPoint: Int, paymentTypes: SecondaryPaymentViewType) {
         self.setUpPaymentViewHidden(type: paymentTypes)
-        self.elWalletView.configure(type: .elWallet(balancd: elWalletBalance, redeem: elWalletRedeem), balance: elWalletBalance, redeem: elWalletRedeem, smilesPoints: "")
+        self.elWalletView.configure(type: .elWallet(balancd: elWalletBalance, redeem: elWalletRedeem), balance: elWalletBalance, redeem: elWalletRedeem, smilesPoints: 0)
         self.smilesView.configure(type: .smile(balancd: smilesBalance, redeem: smilesRedeem), balance: smilesBalance, redeem: smilesRedeem, smilesPoints: smilesPoint)
         
         self.elWalletView.switchStateChange = { [weak self] (type, state) in
@@ -124,17 +124,17 @@ class SecondaryPaymentView: UIView {
 
 
 enum SourceType {
-    case elWallet(balancd: String, redeem: String)
-    case smile(balancd: String, redeem: String)
+    case elWallet(balancd: Double, redeem: Double)
+    case smile(balancd: Double, redeem: Double)
     
-    var balance: String {
+    var balance: Double {
         switch self {
             case .elWallet(let value, _)    :  return value
             case .smile(let value, _)       :  return value
         }
     }
     
-    var redeem: String {
+    var redeem: Double {
         switch self {
             case .elWallet(_ , let redeem)  : return redeem
             case .smile(_ , let redeem)     : return redeem
@@ -272,7 +272,7 @@ class PaymentSourceView: UIView {
     var switchStateChange: ((SourceType, Bool)->())?
 
     private var type: SourceType?
-    private var balance: String?
+    private var balance: Double?
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -287,15 +287,15 @@ class PaymentSourceView: UIView {
         }
     }
     
-    func configure(type: SourceType, balance: String, redeem: String, smilesPoints: String) {
+    func configure(type: SourceType, balance: Double, redeem: Double, smilesPoints: Int) {
         self.type = type
         self.balance = balance
         
         self.logo.image = type.logo
         self.lblUseSourceText.text = type.text
         self.lblAvailableBalanceText.text = localizedString("shopping_basket_available_label", comment: "").capitalized
-        self.lblAvailableBalance.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(balance) ?? 0.00)//CurrencyManager.getCurrentCurrency() + " " + (balance == "" ? "0.00" : balance)
-        lblUseBalance.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: Double(redeem) ?? 0.00)//CurrencyManager.getCurrentCurrency() + " " + (redeem == "" ? "0.00" : redeem)
+        self.lblAvailableBalance.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: balance)//CurrencyManager.getCurrentCurrency() + " " + (balance == "" ? "0.00" : balance)
+        lblUseBalance.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: redeem)//CurrencyManager.getCurrentCurrency() + " " + (redeem == "" ? "0.00" : redeem)
         
         
         
@@ -306,17 +306,13 @@ class PaymentSourceView: UIView {
             break
                 
         case .smile(_):
-            self.lblSmilesPoints.isHidden = smilesPoints == "" ? true : false
+            self.lblSmilesPoints.isHidden = smilesPoints == 0 ? true : false
             self.lblSmilesPoints.text = "(\(smilesPoints) \(localizedString("smile_point_unit", comment: "")))"
             break
         }
         
-        if let redeemDouble = Double(redeem) {
-            if redeemDouble > 0 {
-                useBalanceSwitch.isOn = true
-            }else {
-                useBalanceSwitch.isOn = false
-            }
+        if redeem > 0 {
+            useBalanceSwitch.isOn = true
         }else {
             useBalanceSwitch.isOn = false
         }

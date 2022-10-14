@@ -14,12 +14,12 @@ class PlaceOrderHandler {
     var activeGrocery:Grocery
     var finalProducts:[Product]
     var orderID: String?
-    var finalOrderAmount : String?
+    var finalOrderAmount : Double?
     var orderPlaceOrEditApiParams: [String:Any]
     var orderPlaced : ((_ order : Order?, _ error: ElGrocerError?) -> Void)?
 
     
-    init(finalOrderItems:[ShoppingBasketItem] , activeGrocery:Grocery , finalProducts:[Product]! , orderID: String? , finalOrderAmount : String?, orderPlaceOrEditApiParams: [String:Any]) {
+    init(finalOrderItems:[ShoppingBasketItem] , activeGrocery:Grocery , finalProducts:[Product]! , orderID: String? , finalOrderAmount : Double?, orderPlaceOrEditApiParams: [String:Any]) {
         self.finalOrderItems = finalOrderItems
         self.activeGrocery = activeGrocery
         self.finalProducts = finalProducts

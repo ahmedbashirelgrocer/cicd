@@ -80,7 +80,7 @@ class SecondaryViewModel {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
                         print(checkoutData)
-                        if let slot = Int(checkoutData.data.selectedDeliverySlot ?? "") {
+                        if let slot = checkoutData.data.selectedDeliverySlot {
                             UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
                         }
                         self.basketDataValue = checkoutData.data
@@ -114,7 +114,7 @@ class SecondaryViewModel {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
                         print(checkoutData)
-                        if let slot = Int(checkoutData.data.selectedDeliverySlot ?? "") {
+                        if let slot = checkoutData.data.selectedDeliverySlot {
                             UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
                         }
                         self.getBasketData.onNext(checkoutData.data)
@@ -201,13 +201,13 @@ extension SecondaryViewModel {
             type.id == PaymentOption.smilePoints.rawValue
         })) != nil)  {
             secondaryPayments.append([  "payment_type_id" : PaymentOption.smilePoints.rawValue,
-                                        "amount" : Float(self.basketDataValue?.smilesRedeem ?? "0.00") ?? 0.00])
+                                        "amount" : Float(self.basketDataValue?.smilesRedeem ?? 0.00) ])
         }
         if self.isWalletTrue && ((self.basketDataValue?.paymentTypes?.first(where: { type in
             type.id == PaymentOption.voucher.rawValue
         })) != nil) {
             secondaryPayments.append([  "payment_type_id" : PaymentOption.voucher.rawValue,
-                                        "amount" : Float(self.basketDataValue?.elWalletRedeem ?? "0.00") ?? 0.00 ])
+                                        "amount" : Float(self.basketDataValue?.elWalletRedeem ?? 0.00) ])
         }
         if let promoRealizationId = self.promoRealizationId {
             secondaryPayments.append([  "payment_type_id" : PaymentOption.PromoCode.rawValue,
@@ -293,13 +293,13 @@ extension SecondaryViewModel {
     
     func updateViewModelDataAccordingToBasket(data: BasketDataClass) {
         
-        if let elwalletRedeem = Double(data.elWalletRedeem ?? "0.00"), elwalletRedeem > 0 {
+        if let elwalletRedeem = data.elWalletRedeem , elwalletRedeem > 0 {
             self.isWalletTrue = true
         }else {
             self.isWalletTrue = false
         }
         
-        if let smileRedeem = Double(data.smilesRedeem ?? "0.00"), smileRedeem > 0 {
+        if let smileRedeem = data.smilesRedeem, smileRedeem > 0 {
             self.isSmileTrue = true
         }else {
             self.isSmileTrue = false
@@ -433,17 +433,14 @@ extension SecondaryViewModel {
     
     
     func getBurnPointsFromAed() -> Int {
-        if let doubleAmount = Double(self.basketDataValue?.finalAmount ?? "") {
-            let smilesConfig = ElGrocerUtility.sharedInstance.appConfigData.smilesData
-            let points =  Int(round(doubleAmount/smilesConfig.burning))
-            return points
-        }else {
-            return 0
-        }
+        let doubleAmount = self.basketDataValue?.finalAmount ?? 0.0
+        let smilesConfig = ElGrocerUtility.sharedInstance.appConfigData.smilesData
+        let points =  Int(round(doubleAmount/smilesConfig.burning))
+        return points
     }
     
     func getEarnPointsFromAed() -> Int {
-        if let doubleAmount = Double(self.basketDataValue?.totalValue ?? "0.00"),let smileAED = Double(self.basketDataValue?.smilesRedeem ?? "0.00") {
+        if let doubleAmount = self.basketDataValue?.totalValue,let smileAED = self.basketDataValue?.smilesRedeem {
             let points = SmilesManager.getEarnPointsFromAed(doubleAmount - smileAED)
             return points
         }else {
@@ -457,19 +454,14 @@ extension SecondaryViewModel {
     }
     
     func getSelectedPaymentOption() -> PaymentOption {
-        if let paymentOptionType = UInt32(self.basketDataValue?.primaryPaymentTypeID ?? "0") {
-            return PaymentOption(rawValue: paymentOptionType) ?? PaymentOption.none
-        }else {
-            return PaymentOption.none
-        }
+        let paymentOptionType = UInt32(self.basketDataValue?.primaryPaymentTypeID ?? 0)
+        return PaymentOption(rawValue: paymentOptionType) ?? PaymentOption.none
     }
     
     func getSelectedPaymentMethodId() -> UInt32? {
         
-        if let typeId = UInt32(self.basketDataValue?.primaryPaymentTypeID ?? "0") {
-            return typeId
-        }
-        return .none
+        let typeId = UInt32(self.basketDataValue?.primaryPaymentTypeID ?? 0)
+        return typeId
         
     }
 }
@@ -535,11 +527,6 @@ extension SecondaryViewModel {
                 isWallet = true
             }
         }
-            //        //check is user
-            //        let smileUser = UserDefaults.getIsSmileUser()
-            //        if !smileUser {
-            //            isSmile = false
-            //        }
         if isSmile && isWallet {
             return SecondaryPaymentViewType.both
         }else if isSmile {
@@ -610,13 +597,9 @@ extension SecondaryViewModel {
         }
     }
     
-    func createPaymentOptionFromString(paymentTypeId: String) -> PaymentOption {
-        if let paymentOptionType = UInt32(paymentTypeId) {
-            return PaymentOption(rawValue: paymentOptionType) ?? PaymentOption.none
-        }else {
-            return PaymentOption.none
-        }
-        
+    func createPaymentOptionFromString(paymentTypeId: Int) -> PaymentOption {
+        let paymentOptionType = UInt32(paymentTypeId)
+        return PaymentOption(rawValue: paymentOptionType) ?? PaymentOption.none
     }
 }
 
@@ -634,20 +617,21 @@ struct BasketDataResponse: Codable {
     // MARK: - BasketDataClass
 struct BasketDataClass: Codable {
     
-    let primaryPaymentTypeID: String?
-    let finalAmount, totalValue: String?
-    let promoCodes: String?
-    let smilesBalance: String?
-    let elWalletBalance, productsTotal, serviceFee, productsSaving: String?
+    let primaryPaymentTypeID: Int?
+    let finalAmount, totalValue: Double?
+    let promoCodes: Bool?
+    let smilesBalance: Double?
+    let elWalletBalance, productsTotal, serviceFee, productsSaving: Double?
     let promoCode: PromoCode?
-    let smilesRedeem, elWalletRedeem: String?
-    let smilesPoints: String?
+    let smilesRedeem, elWalletRedeem: Double?
+    let smilesPoints: Int?
     let deliverySlots: [DeliverySlotDTO]?
-    let selectedDeliverySlot: String?
+    let selectedDeliverySlot: Int?
     let paymentTypes: [PaymentType]?
-    let retailerDeliveryZoneId: String?
-    let quantity: String?
-    let totalDiscount: String?
+    let retailerDeliveryZoneId: Int?
+    let quantity: Int?
+    let totalDiscount: Double?
+    let balanceMessage: String?
     
     enum CodingKeys: String, CodingKey {
         case finalAmount = "final_amount"
@@ -662,13 +646,14 @@ struct BasketDataClass: Codable {
         case smilesRedeem = "smiles_redeem"
         case elWalletRedeem = "el_wallet_redeem"
         case deliverySlots = "delivery_slots"
-        case paymentTypes = "payment_types"
+        case paymentTypes = "retailer_payment_methods"
         case selectedDeliverySlot = "selected_delivery_slot"
         case productsTotal = "products_total"
         case smilesPoints = "smiles_points"
         case retailerDeliveryZoneId = "retailer_delivery_zone_id"
         case quantity
         case totalDiscount = "total_discount"
+        case balanceMessage = "balance_message"
         
     }
     
@@ -676,27 +661,27 @@ struct BasketDataClass: Codable {
        
     
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        let stringValue = (try? values.decodeIfPresent(String.self, forKey: .finalAmount))
-        let doubleValue = (try? values.decodeIfPresent(Double.self, forKey: .finalAmount))
-        finalAmount =  stringValue! //(stringValue ?? String(doubleValue ?? 0)) as! String
-        totalValue = try values.decodeIfPresent(String.self, forKey: .totalValue)
-        promoCodes  = try values.decodeIfPresent(String.self, forKey: .promoCodes)
-        primaryPaymentTypeID = try values.decodeIfPresent(String.self, forKey: .primaryPaymentTypeID)
-        smilesBalance = try values.decodeIfPresent(String.self, forKey: .smilesBalance)
-        elWalletBalance = try values.decodeIfPresent(String.self, forKey: .elWalletBalance)
-        productsTotal = try values.decodeIfPresent(String.self, forKey: .productsTotal)
-        serviceFee = try values.decodeIfPresent(String.self, forKey: .serviceFee)
-        productsSaving = try values.decodeIfPresent(String.self, forKey: .productsSaving)
-        promoCode = try values.decodeIfPresent(PromoCode.self, forKey: .promoCode)
-        smilesRedeem = try values.decodeIfPresent(String.self, forKey: .smilesRedeem)
-        elWalletRedeem = try values.decodeIfPresent(String.self, forKey: .elWalletRedeem)
-        smilesPoints = try values.decodeIfPresent(String.self, forKey: .smilesPoints)
-        deliverySlots = try values.decodeIfPresent([DeliverySlotDTO].self, forKey: .deliverySlots)
-        selectedDeliverySlot = try values.decodeIfPresent(String.self, forKey: .selectedDeliverySlot)
-        paymentTypes = try values.decodeIfPresent([PaymentType].self, forKey: .paymentTypes)
-        retailerDeliveryZoneId = try values.decodeIfPresent(String.self, forKey: .retailerDeliveryZoneId)
-        quantity = try values.decodeIfPresent(String.self, forKey: .quantity)
-        totalDiscount = try values.decodeIfPresent(String.self, forKey: .totalDiscount)
+        
+        finalAmount = (try? values.decode(Double.self, forKey: .finalAmount))
+        totalValue = (try? values.decode(Double.self, forKey: .totalValue))
+        promoCodes  = (try? values.decode(Bool.self, forKey: .promoCodes))
+        primaryPaymentTypeID = (try? values.decode(Int.self, forKey: .primaryPaymentTypeID))
+        smilesBalance = (try? values.decode(Double.self, forKey: .smilesBalance))
+        elWalletBalance = (try? values.decode(Double.self, forKey: .elWalletBalance))
+        productsTotal = (try? values.decode(Double.self, forKey: .productsTotal))
+        serviceFee = (try? values.decode(Double.self, forKey: .serviceFee))
+        productsSaving = (try? values.decode(Double.self, forKey: .productsSaving))
+        promoCode = (try? values.decode(PromoCode.self, forKey: .promoCode))
+        smilesRedeem = (try? values.decode(Double.self, forKey: .smilesRedeem))
+        elWalletRedeem = (try? values.decode(Double.self, forKey: .elWalletRedeem))
+        smilesPoints = (try? values.decode(Int.self, forKey: .smilesPoints))
+        deliverySlots = (try? values.decode([DeliverySlotDTO].self, forKey: .deliverySlots))
+        selectedDeliverySlot = (try? values.decode(Int.self, forKey: .selectedDeliverySlot))
+        paymentTypes = (try? values.decode([PaymentType].self, forKey: .paymentTypes))
+        retailerDeliveryZoneId = (try? values.decode(Int.self, forKey: .retailerDeliveryZoneId))
+        quantity = (try? values.decode(Int.self, forKey: .quantity))
+        totalDiscount = (try? values.decode(Double.self, forKey: .totalDiscount))
+        balanceMessage = (try? values.decode(String.self, forKey: .balanceMessage))
     }
 }
 
