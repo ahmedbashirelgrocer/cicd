@@ -689,7 +689,8 @@ struct BasketDataClass: Codable {
 
     // MARK: - DeliverySlot
 struct DeliverySlotDTO: Codable {
-    let id, timeMilli, usid: Int?
+    let id: Int
+    let timeMilli, usid: Int?
     let startTime, endTime, estimatedDeliveryAt: String?
     
     var isToday: Bool {
@@ -770,3 +771,29 @@ struct PromoCode: Codable {
     }
 }
 
+
+
+struct DeliveryAddressDTOResponse: Codable {
+    let status: String
+    let data: DeliveryAddressWithRetailer
+}
+
+struct DeliveryAddressWithRetailer: Codable {
+    let retailer: Retailer
+    let deliverySlots: [DeliverySlotDTO]
+    
+    enum CodingKeys: String, CodingKey {
+        case retailer
+        case deliverySlots = "delivery_slots"
+    }
+}
+
+struct Retailer: Codable {
+    let id: String
+    let isOpened: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case isOpened = "is_opened"
+    }
+}

@@ -2638,6 +2638,43 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   }
   
+//      retailer_id (integer)
+//      retailer_delivery_zone_id (integer)
+//      Order_id (integer) //optional
+      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, completion: @escaping (Either<DeliveryAddressWithRetailer>) -> Void) {
+          
+          // Parameters
+          let params = NSMutableDictionary()
+          params["retailer_id"] = retailerID
+          params["retailer_delivery_zone_id"] = retailerDeliveryZondID
+          if let orderID = orderID {
+              params["order_id"] = orderID
+          }
+          
+          setAccessToken()
+          
+          NetworkCall.get("v4/delivery_slots/all", parameters: params) { progress in
+              // handle progress here ...
+          } success: { URLSessionDataTask, responseObject in
+              do {
+                  guard let response = responseObject as? NSDictionary, let dataDictionary = response["data"] else {
+                      completion(.failure(ElGrocerError.parsingError()))
+                      return
+                  }
+                  let data = try JSONSerialization.data(withJSONObject: dataDictionary, options: [])
+                  let deliverySlotsWithRetailer: DeliveryAddressWithRetailer = try JSONDecoder().decode(DeliveryAddressWithRetailer.self, from: data)
+                  completion(.success(deliverySlotsWithRetailer))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              
+          } failure: { URLSessionDataTask, error in
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  completion(.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+      }
   // MARK: Delivery Slots
   
     func getGroceryDeliverySlotsWithGroceryId(_ groceryId:String?, andWithDeliveryZoneId  deliveryZoneId:String? , _ allSlotForCandC : Bool = true , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
