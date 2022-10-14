@@ -773,12 +773,12 @@ struct PromoCode: Codable {
 
 
 
-struct DeliveryAddressDTOResponse: Codable {
+struct DeliverySlotsResponse: Codable {
     let status: String
-    let data: DeliveryAddressWithRetailer
+    let data: DeliverySlotsData
 }
 
-struct DeliveryAddressWithRetailer: Codable {
+struct DeliverySlotsData: Codable {
     let retailer: Retailer
     let deliverySlots: [DeliverySlotDTO]
     

@@ -2638,10 +2638,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   }
   
-//      retailer_id (integer)
-//      retailer_delivery_zone_id (integer)
-//      Order_id (integer) //optional
-      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, completion: @escaping (Either<DeliveryAddressWithRetailer>) -> Void) {
+      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, completion: @escaping (Either<DeliverySlotsData>) -> Void) {
           
           // Parameters
           let params = NSMutableDictionary()
@@ -2662,7 +2659,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
                       return
                   }
                   let data = try JSONSerialization.data(withJSONObject: dataDictionary, options: [])
-                  let deliverySlotsWithRetailer: DeliveryAddressWithRetailer = try JSONDecoder().decode(DeliveryAddressWithRetailer.self, from: data)
+                  let deliverySlotsWithRetailer: DeliverySlotsData = try JSONDecoder().decode(DeliverySlotsData.self, from: data)
                   completion(.success(deliverySlotsWithRetailer))
               } catch {
                   completion(.failure(ElGrocerError.parsingError()))
@@ -2676,7 +2673,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           }
       }
   // MARK: Delivery Slots
-  
+      
     func getGroceryDeliverySlotsWithGroceryId(_ groceryId:String?, andWithDeliveryZoneId  deliveryZoneId:String? , _ allSlotForCandC : Bool = true , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()
