@@ -162,7 +162,7 @@ enum ElGrocerApiEndpoint : String {
     case DeliverySlots = "v2/delivery_slots/delivery"
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     case cAndcDeliverySlots = "v2/delivery_slots/click_and_collect"
-    
+    case fetchDeliverySlots = "v4/delivery_slots/all"
     
     case getCollectorDetails = "v1/collector_details/all"
     case getCarDetails = "v1/vehicle_details/all"
@@ -2638,19 +2638,21 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   }
   
-      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, completion: @escaping (Either<NSDictionary>) -> Void) {
+      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, orderItemCount: Int, completion: @escaping (Either<NSDictionary>) -> Void) {
           
           // Parameters
           let params = NSMutableDictionary()
           params["retailer_id"] = retailerID
           params["retailer_delivery_zone_id"] = retailerDeliveryZondID
+          params["item_count"] = orderItemCount
+          
           if let orderID = orderID {
               params["order_id"] = orderID
           }
           
           setAccessToken()
           
-          NetworkCall.get("v4/delivery_slots/all", parameters: params) { progress in
+          NetworkCall.get(ElGrocerApiEndpoint.fetchDeliverySlots.rawValue, parameters: params) { progress in
               // handle progress here ...
           } success: { URLSessionDataTask, response in
               guard let data = ((response as? NSDictionary)?["data"] as? NSDictionary) else {

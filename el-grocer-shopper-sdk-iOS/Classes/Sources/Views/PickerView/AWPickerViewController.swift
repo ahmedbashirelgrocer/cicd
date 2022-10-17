@@ -129,7 +129,14 @@ class AWPickerViewController : UIViewController {
         guard self.viewType == .default else {
             
             if let retailerID = Int(dbID), let deliveryZoneID = Int(zoneId) {
-                ElGrocerApi.sharedInstance.getDeliverySlots(retailerID: retailerID, retailerDeliveryZondID: deliveryZoneID, orderID: nil) { result in
+                let basketItems = ShoppingBasketItem.getBasketItemsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                var itemsCount = 0
+
+                for item in basketItems {
+                    itemsCount += item.count.intValue
+                }
+                
+                ElGrocerApi.sharedInstance.getDeliverySlots(retailerID: retailerID, retailerDeliveryZondID: deliveryZoneID, orderID: nil, orderItemCount: itemsCount) { result in
                     switch result {
                         
                     case .success(let response):

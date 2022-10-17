@@ -66,7 +66,14 @@ class SecondaryViewModel {
             return
         }
         
-        ElGrocerApi.sharedInstance.getDeliverySlots(retailerID: retailerID, retailerDeliveryZondID: retailerTimeZone, orderID: Int(self.orderId ?? "")) { result in
+        let basketItems = ShoppingBasketItem.getBasketItemsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        var itemsCount = 0
+        
+        for item in basketItems {
+            itemsCount += item.count.intValue
+        }
+        
+        ElGrocerApi.sharedInstance.getDeliverySlots(retailerID: retailerID, retailerDeliveryZondID: retailerTimeZone, orderID: Int(self.orderId ?? ""), orderItemCount: itemsCount) { result in
             switch result {
                 
             case .success(let response):
