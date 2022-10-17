@@ -2638,8 +2638,36 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   }
   
+      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, completion: @escaping (Either<NSDictionary>) -> Void) {
+          
+          // Parameters
+          let params = NSMutableDictionary()
+          params["retailer_id"] = retailerID
+          params["retailer_delivery_zone_id"] = retailerDeliveryZondID
+          if let orderID = orderID {
+              params["order_id"] = orderID
+          }
+          
+          setAccessToken()
+          
+          NetworkCall.get("v4/delivery_slots/all", parameters: params) { progress in
+              // handle progress here ...
+          } success: { URLSessionDataTask, response in
+              guard let data = ((response as? NSDictionary)?["data"] as? NSDictionary) else {
+                  completion(.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              
+              completion(.success(data))
+              
+          } failure: { URLSessionDataTask, error in
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  completion(.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+      }
   // MARK: Delivery Slots
-  
+      
     func getGroceryDeliverySlotsWithGroceryId(_ groceryId:String?, andWithDeliveryZoneId  deliveryZoneId:String? , _ allSlotForCandC : Bool = true , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()

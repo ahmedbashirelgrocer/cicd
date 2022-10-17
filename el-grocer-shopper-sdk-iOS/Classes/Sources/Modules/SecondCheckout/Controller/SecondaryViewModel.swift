@@ -18,6 +18,7 @@ class SecondaryViewModel {
     var getBasketData: BehaviorSubject<Bool?> = BehaviorSubject(value: nil)
     var getBasketError: BehaviorSubject<ElGrocerError?> = BehaviorSubject(value: nil)
     var getApiCall: BehaviorSubject<Bool> = BehaviorSubject(value: false)
+    var deliverySlotsSubject: BehaviorSubject<[DeliverySlotDTO]> = BehaviorSubject(value: [])
     private let disposeBag = DisposeBag()
     private var netWork : SecondCheckOutApi! = SecondCheckOutApi()
     private var grocery: Grocery? = nil
@@ -56,8 +57,36 @@ class SecondaryViewModel {
         self.setDeliveryAddress(address)
         self.setDeliverySlot(deliverySlot)
         self.setDefaultApiData()
+        self.fetchDeliverySlots()
     }
 
+    func fetchDeliverySlots() {
+        guard let sRetailerID = grocery?.dbID, let retailerID = Int(sRetailerID), let sRetailerTimeZone = grocery?.deliveryZoneId, let retailerTimeZone = Int(sRetailerTimeZone)  else {
+            self.basketError.onNext(ElGrocerError.parsingError())
+            return
+        }
+        
+        ElGrocerApi.sharedInstance.getDeliverySlots(retailerID: retailerID, retailerDeliveryZondID: retailerTimeZone, orderID: Int(self.orderId ?? "")) { result in
+            switch result {
+                
+            case .success(let response):
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: response, options: [])
+                    let deliverySlots = try JSONDecoder().decode(DeliverySlotsData.self, from: data)
+                    
+                    self.deliverySlotsSubject.onNext(deliverySlots.deliverySlots)
+                } catch {
+                    self.basketError.onNext(ElGrocerError.parsingError())
+                }
+                break
+                
+            case .failure(let error):
+                self.basketError.onNext(error)
+                break
+            }
+        }
+    }
+    
     func getBasketDetailWithSlot() {
         let params = createParamsForCheckoutFromMyBasket()
         createAndUpdateCartDetailsApi(parameter: params)
@@ -593,6 +622,8 @@ extension SecondaryViewModel {
     }
 }
 
+
+// TODO: move DTOs to Models folder of SecondCheckout
     // MARK: - BasketDataResponse
 struct BasketDataResponse: Codable {
     let status: String
@@ -677,7 +708,8 @@ struct BasketDataClass: Codable {
 
     // MARK: - DeliverySlot
 struct DeliverySlotDTO: Codable {
-    let id, timeMilli, usid: Int?
+    let id: Int
+    let timeMilli, usid: Int?
     let startTime, endTime, estimatedDeliveryAt: String?
     
     var isToday: Bool {
@@ -758,3 +790,29 @@ struct PromoCode: Codable {
     }
 }
 
+
+
+struct DeliverySlotsResponse: Codable {
+    let status: String
+    let data: DeliverySlotsData
+}
+
+struct DeliverySlotsData: Codable {
+    let retailer: Retailer
+    let deliverySlots: [DeliverySlotDTO]
+    
+    enum CodingKeys: String, CodingKey {
+        case retailer
+        case deliverySlots = "delivery_slots"
+    }
+}
+
+struct Retailer: Codable {
+    let id: String
+    let isOpened: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case isOpened = "is_opened"
+    }
+}

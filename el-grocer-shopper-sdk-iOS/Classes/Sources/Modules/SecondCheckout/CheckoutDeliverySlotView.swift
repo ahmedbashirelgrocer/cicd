@@ -35,7 +35,7 @@ class CheckoutDeliverySlotView: UIView  {
         self.lblSlotPrefixText.text = localizedString("delivery_time_slot", comment: "")
     }
     
-    func configure(slots: [DeliverySlotDTO], selectedSlotId: Int, modelType: OrderType = .delivery) {
+    func configure(slots: [DeliverySlotDTO], selectedSlotId: Int?, modelType: OrderType = .delivery) {
         
         guard slots.count > 0 else {
             self.lblSlotValue.text = " Select Slot"
