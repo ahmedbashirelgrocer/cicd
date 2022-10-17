@@ -114,7 +114,7 @@ class BillView: UIView {
         viewBG.addSubview(promotionView)
     }
     
-    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?) {
+    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?,message: String?) {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
@@ -166,6 +166,12 @@ class BillView: UIView {
             smilesView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smilesRedemed, isNegative: true)
         }else {
             self.smilesView.isHidden = true
+        }
+        
+        if let message = message {
+            
+        }else {
+            
         }
             
     }

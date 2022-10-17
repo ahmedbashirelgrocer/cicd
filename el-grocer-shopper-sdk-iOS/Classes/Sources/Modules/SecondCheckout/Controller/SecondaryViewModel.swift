@@ -15,7 +15,7 @@ class SecondaryViewModel {
     var basketData: BehaviorSubject<BasketDataClass?> = BehaviorSubject(value: nil)
     var basketError: BehaviorSubject<ElGrocerError?> = BehaviorSubject(value: nil)
     var apiCall: BehaviorSubject<Bool> = BehaviorSubject(value: false)
-    var getBasketData: BehaviorSubject<BasketDataClass?> = BehaviorSubject(value: nil)
+    var getBasketData: BehaviorSubject<Bool?> = BehaviorSubject(value: nil)
     var getBasketError: BehaviorSubject<ElGrocerError?> = BehaviorSubject(value: nil)
     var getApiCall: BehaviorSubject<Bool> = BehaviorSubject(value: false)
     private let disposeBag = DisposeBag()
@@ -98,32 +98,18 @@ class SecondaryViewModel {
         
     }
     
-    func getCartDetailsApi() {
+    func callSetCartBalanceAccountCacheApi() {
         self.getApiCall.onNext(true)
-        netWork.getSecondCheckoutDetails(retailerId: self.getGrocery()?.dbID ?? "" , retailerZone: self.getGrocery()?.deliveryZoneId ?? "", slots: true, orderId: self.orderId) { (result) in
+        netWork.setCartBalanceAccountCacheApi { (result) in
             self.getApiCall.onNext(false)
             switch result {
                 case .success(let response):
-                   print(response)
-                guard let slots = (response["data"] as? NSDictionary)?["delivery_slots"] as? [NSDictionary] else {
-                    self.getBasketError.onNext(ElGrocerError.parsingError())
-                    return
-                }
-                
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
-                        let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
-                        print(checkoutData)
-                        if let slot = checkoutData.data.selectedDeliverySlot {
-                            UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
-                        }
-                        self.getBasketData.onNext(checkoutData.data)
-                        self.basketDataValue = checkoutData.data
-                        self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
-                    }catch(let error) {
-                        print(error)
+                    print(response)
+                    guard let success = (response["data"] as? NSDictionary)?["Success"] as? Bool else {
                         self.getBasketError.onNext(ElGrocerError.parsingError())
+                        return
                     }
+                    self.getBasketData.onNext(success)
                 case .failure(let error):
                     self.getBasketError.onNext(error)
             }
@@ -413,7 +399,7 @@ extension SecondaryViewModel {
         self.defaultApiData["retailer_delivery_zone_id"]  =  self.grocery?.deliveryZoneId
         self.defaultApiData["selected_delivery_slot"]  =  self.selectedSlotId
         self.defaultApiData["slots"] = true
-        
+        self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId() ?? 0
         if self.orderId != nil {
             self.defaultApiData["order_id"]  =  self.orderId
         }else {
@@ -466,6 +452,7 @@ extension SecondaryViewModel {
         return typeId
         
     }
+    
 }
 
     //MARK: Support function for update Basket Data Backend
@@ -486,16 +473,15 @@ extension SecondaryViewModel {
     
     private func createParamsUpdatePaymentType(_ paymentId : UInt32) -> [String: Any] {
         
-        var parameters: [String: Any] = [
-            //"promo_code": "REESE",
-            "primary_payment_type_id": paymentId
-        ]
+        var parameters: [String: Any] = [:]//[
+//            //"promo_code": "REESE",
+//            "primary_payment_type_id": paymentId
+//        ]
         parameters.update(other: self.setDefaultApiData())
         return parameters
     }
     
     private func createParamsUpdateForSlotId() -> [String: Any] {
-        
         guard let slotId = self.selectedSlotId else { return [:] }
         var parameters: [String: Any] = self.setDefaultApiData()
         parameters.update(other: [ "selected_delivery_slot": slotId.stringValue ])
@@ -579,7 +565,9 @@ extension SecondaryViewModel {
     func getGroceryId() -> String? {
         return self.grocery?.getCleanGroceryID() ?? nil
     }
-    
+    func setSelectedPaymentOption(id: Int) {
+        self.basketDataValue?.primaryPaymentTypeID = id
+    }
 }
 
 //MARK: Support function for DeliveryAddress
@@ -619,7 +607,7 @@ struct BasketDataResponse: Codable {
     // MARK: - BasketDataClass
 struct BasketDataClass: Codable {
     
-    let primaryPaymentTypeID: Int?
+    var primaryPaymentTypeID: Int?
     let finalAmount, totalValue: Double?
     let promoCodes: Bool?
     let smilesBalance: Double?

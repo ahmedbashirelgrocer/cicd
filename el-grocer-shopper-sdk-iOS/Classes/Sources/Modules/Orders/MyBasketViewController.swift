@@ -4088,18 +4088,18 @@ extension MyBasketViewController {
             let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             let vm = SecondaryViewModel(address: deliveryAddress, grocery: self.grocery!, slot: slotId,orderId: orderID,shopingItems: self.shoppingItems, finalisedProducts: self.products, selectedPreferenceId: self.myBasketDataObj.getSelectedReason()?.reasonKey.intValue ?? 1, deliverySlot: slot)
             vm.setEditOrderInitialDetail(orderForEdit)
-            vm.getBasketDetailWithSlot()
+            vm.callSetCartBalanceAccountCacheApi()
             vm.setUserId(userId: user?.dbID)
             vm.basketData
                 .subscribe(onNext: { [weak self] data in
-                    guard let self = self, let _ = data else { return }
-                    Thread.OnMainThread {
-                        guard UIApplication.topViewController() == self else { return }
-                        SpinnerView.hideSpinnerView()
-                        let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
-                        secondVC.viewModel = vm
-                        self.navigationController?.pushViewController(secondVC, animated: true)
-                    }
+//                    guard let self = self, let _ = data else { return }
+//                    Thread.OnMainThread {
+////                        guard UIApplication.topViewController() == self else { return }
+////                        SpinnerView.hideSpinnerView()
+////                        let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
+////                        secondVC.viewModel = vm
+////                        self.navigationController?.pushViewController(secondVC, animated: true)
+//                    }
                 })
                 .disposed(by: disposeBag)
             
@@ -4114,13 +4114,19 @@ extension MyBasketViewController {
                 .disposed(by: disposeBag)
             vm.getBasketData
                 .subscribe(onNext: { [weak self] data in
-                    guard let self = self, let _ = data else { return }
+                    guard let self = self, let isSuccess = data else { return }
                     Thread.OnMainThread {
-                        guard UIApplication.topViewController() == self else { return }
-                        SpinnerView.hideSpinnerView()
-                        let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
-                        secondVC.viewModel = vm
-                        self.navigationController?.pushViewController(secondVC, animated: true)
+                        if isSuccess {
+                            guard UIApplication.topViewController() == self else { return }
+                            SpinnerView.hideSpinnerView()
+                            vm.getBasketDetailWithSlot()
+                            let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
+                            secondVC.viewModel = vm
+                            self.navigationController?.pushViewController(secondVC, animated: true)
+                        }else {
+                            print("show error")
+                        }
+                        
                     }
                 })
                 .disposed(by: disposeBag)
@@ -4130,7 +4136,8 @@ extension MyBasketViewController {
                     guard cartApiError != nil else{
                         return
                     }
-                    vm.getBasketDetailWithSlot()
+                    SpinnerView.hideSpinnerView()
+                    cartApiError?.showErrorAlert()
                 })
                 .disposed(by: disposeBag)
         }

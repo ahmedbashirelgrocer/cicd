@@ -131,14 +131,6 @@ class SecondCheckoutVC: UIViewController {
         })
         .disposed(by: disposeBag)
         
-        viewModel.getBasketData.subscribe(onNext: { [weak self] data in
-            
-            guard let self = self, let data = data else { return }
-            
-            self.updateViewAccordingToData(data: data)
-        })
-        .disposed(by: disposeBag)
-        
         self.viewModel.getCreditCardsFromAdyen()
         
     }
@@ -165,7 +157,7 @@ class SecondCheckoutVC: UIViewController {
 
         self.checkoutDeliverySlotView.configure(slots: data.deliverySlots ?? [], selectedSlotId: data.selectedDeliverySlot ?? -1)
         // configure bill view
-            self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0)
+            self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0,message: data.balanceMessage)
 
         
         self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
@@ -336,6 +328,7 @@ extension SecondCheckoutVC: PaymentMethodViewDelegate {
                 UserDefaults.setCardID(cardID: creditCard?.cardID ?? "", userID: self.viewModel.getUserId()?.stringValue ?? "")
                 self.viewModel.updateCreditCard(creditCard)
                 self.viewModel.updateApplePay(applePay)
+                self.viewModel.setSelectedPaymentOption(id: Int(option.rawValue))
                 self.viewModel.updatePaymentMethod(option)
             }
         }

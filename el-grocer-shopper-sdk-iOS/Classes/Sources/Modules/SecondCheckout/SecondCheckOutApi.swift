@@ -51,18 +51,11 @@ class SecondCheckOutApi : ElGrocerApi {
         }
     }
     
-    func getSecondCheckoutDetails(retailerId: String , retailerZone : String ,slots : Bool,orderId: String? = nil, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+    func setCartBalanceAccountCacheApi(completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         
-        var parameters: [String: Any] = ["retailer_id" : retailerId,
-                                         "slots" : slots, "retailer_delivery_zone_id" : retailerZone]
+        let url = ElGrocerApiEndpoint.setCartBalanceAccountCache.rawValue
         
-        if let orderId = orderId {
-            parameters["order_id"] = orderId
-        }
-        let url = ElGrocerApiEndpoint.getSecondCheckoutDetails.rawValue
-        
-        
-        NetworkCall.post(url, parameters: parameters, progress: { (progress) in
+        NetworkCall.get(url, parameters: nil, progress: { (progress) in
         }, success: { (operation, response: Any) in
             
             debugPrint("getSlots: Response : \(response)")
