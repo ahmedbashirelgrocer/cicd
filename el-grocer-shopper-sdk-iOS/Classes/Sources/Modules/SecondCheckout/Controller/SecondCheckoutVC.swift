@@ -13,6 +13,10 @@ import NBBottomSheet
 import SwiftMessages
 import Adyen
 
+// Problem Statements:
+// - Fetch Delivery Slots from API
+// - if selected slot id is not nil [in checkout model] then filter delivery slots to get the selected slot
+
 class SecondCheckoutVC: UIViewController {
 
     @IBOutlet var checkoutScrollView: UIScrollView!
@@ -127,14 +131,29 @@ class SecondCheckoutVC: UIViewController {
             
             guard let self = self, let data = data else { return }
             
+            print("selectedSlot >> \(data.selectedDeliverySlot)")
             self.updateViewAccordingToData(data: data)
+            self.viewModel.fetchDeliverySlots()
         })
         .disposed(by: disposeBag)
         
-        viewModel.getBasketData.subscribe(onNext: { [weak self] data in
+        // subscribe the delivery slots subject 
+        viewModel.deliverySlotsSubject.subscribe(onNext: { [weak self] deliverySlots in
+            guard let self = self else { return }
             
+            print("<<<<<<<slots >> \(deliverySlots.count)")
+            print("<<<<<<<selected slot id >>> \(self.viewModel.getCurrentDeliverySlot())")
+            
+            deliverySlots.forEach { slot in
+                print("<<<<<<<<slot id >> \(slot.id)")
+            }
+            self.checkoutDeliverySlotView.configure(slots: deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlot()?.intValue)
+        }).disposed(by: disposeBag)
+        
+        viewModel.getBasketData.subscribe(onNext: { [weak self] data in
             guard let self = self, let data = data else { return }
             
+            self.viewModel.fetchDeliverySlots()
             self.updateViewAccordingToData(data: data)
         })
         .disposed(by: disposeBag)
@@ -163,7 +182,7 @@ class SecondCheckoutVC: UIViewController {
         
         Thread.OnMainThread {
 
-        self.checkoutDeliverySlotView.configure(slots: data.deliverySlots ?? [], selectedSlotId: data.selectedDeliverySlot ?? -1)
+//        self.checkoutDeliverySlotView.configure(slots: data.deliverySlots ?? [], selectedSlotId: data.selectedDeliverySlot ?? -1)
         // configure bill view
             self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0)
 
