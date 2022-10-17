@@ -127,22 +127,29 @@ class AWPickerViewController : UIViewController {
         }
         
         guard self.viewType == .default else {
-            SecondCheckOutApi().getSecondCheckoutDetails(retailerId: dbID, retailerZone: zoneId, slots: true) { (result) in
-                switch result {
+            
+            if let retailerID = Int(dbID), let deliveryZoneID = Int(zoneId) {
+                ElGrocerApi.sharedInstance.getDeliverySlots(retailerID: retailerID, retailerDeliveryZondID: deliveryZoneID, orderID: nil) { result in
+                    switch result {
+                        
                     case .success(let response):
                         self.saveResponseData(response, grocery: self.currentGrocery)
                         self.activityIndication.stopAnimating()
                         self.lblNoSlot.isHidden =  self.collectionData.count > 0
+                        print("slots count >>> \(self.collectionData.count)")
                         if self.collectionData.count == 0 {
                             FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Successrespone" , ["error" : response.description])
                         }
+                        break
+                        
                     case .failure(let error):
-                        print("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
                         self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
                         self.activityIndication.stopAnimating()
                         self.setSegmentControlAppearance()
                         self.lblNoSlot.isHidden =  self.collectionData.count > 0
                         FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Filurerespone" , ["error" : error.localizedMessage])
+                        break
+                    }
                 }
             }
             return

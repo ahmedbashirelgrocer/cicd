@@ -63,20 +63,26 @@ class SecondaryViewModel {
 
     func fetchDeliverySlots() {
         guard let sRetailerID = grocery?.dbID, let retailerID = Int(sRetailerID), let sRetailerTimeZone = grocery?.deliveryZoneId, let retailerTimeZone = Int(sRetailerTimeZone)  else {
-            // TODO: show error message
+            self.basketError.onNext(ElGrocerError.parsingError())
             return
         }
         
         ElGrocerApi.sharedInstance.getDeliverySlots(retailerID: retailerID, retailerDeliveryZondID: retailerTimeZone, orderID: Int(self.orderId ?? "")) { result in
-            
             switch result {
-            case .success(let deliveryAddressWithRetailer):
-                self.deliverySlotsSubject.onNext(deliveryAddressWithRetailer.deliverySlots)
+                
+            case .success(let response):
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: response, options: [])
+                    let deliverySlots = try JSONDecoder().decode(DeliverySlotsData.self, from: data)
+                    
+                    self.deliverySlotsSubject.onNext(deliverySlots.deliverySlots)
+                } catch {
+                    self.basketError.onNext(ElGrocerError.parsingError())
+                }
                 break
                 
             case .failure(let error):
-                // TODO: show error message
-                elDebugPrint("error >>> \(error)")
+                self.basketError.onNext(error)
                 break
             }
         }

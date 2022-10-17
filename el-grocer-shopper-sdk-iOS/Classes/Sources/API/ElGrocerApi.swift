@@ -2638,7 +2638,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   }
   
-      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, completion: @escaping (Either<DeliverySlotsData>) -> Void) {
+      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, completion: @escaping (Either<NSDictionary>) -> Void) {
           
           // Parameters
           let params = NSMutableDictionary()
@@ -2652,19 +2652,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           
           NetworkCall.get("v4/delivery_slots/all", parameters: params) { progress in
               // handle progress here ...
-          } success: { URLSessionDataTask, responseObject in
-              do {
-                  guard let response = responseObject as? NSDictionary, let dataDictionary = response["data"] else {
-                      completion(.failure(ElGrocerError.parsingError()))
-                      return
-                  }
-                  let data = try JSONSerialization.data(withJSONObject: dataDictionary, options: [])
-                  let deliverySlotsWithRetailer: DeliverySlotsData = try JSONDecoder().decode(DeliverySlotsData.self, from: data)
-                  completion(.success(deliverySlotsWithRetailer))
-              } catch {
+          } success: { URLSessionDataTask, response in
+              guard let data = ((response as? NSDictionary)?["data"] as? NSDictionary) else {
                   completion(.failure(ElGrocerError.parsingError()))
                   return
               }
+              
+              completion(.success(data))
               
           } failure: { URLSessionDataTask, error in
               if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
