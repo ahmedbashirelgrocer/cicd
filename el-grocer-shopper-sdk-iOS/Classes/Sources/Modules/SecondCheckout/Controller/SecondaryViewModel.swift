@@ -41,6 +41,7 @@ class SecondaryViewModel {
     private var applePaySelectedMethod: ApplePayPaymentMethod? = nil
     private var order: Order?
     private var userid: NSNumber?
+    private var editOrderPrimarySelectedMethod: Int?
     
     
     private var defaultApiData: [String : Any] = [:] // will provide default data with grocery delivery address and slot if provide in init method
@@ -78,6 +79,7 @@ class SecondaryViewModel {
                 
             case .success(let response):
                 do {
+                    elDebugPrint(response)
                     let data = try JSONSerialization.data(withJSONObject: response, options: [])
                     let deliverySlots = try JSONDecoder().decode(DeliverySlotsData.self, from: data)
                     
@@ -98,13 +100,48 @@ class SecondaryViewModel {
         let params = createParamsForCheckoutFromMyBasket()
         createAndUpdateCartDetailsApi(parameter: params)
     }
+    
+    func getEditOrderBasketDetailWithSlot() {
+        let params = createParamsForCheckoutFromMyBasket()
+        createAndUpdateCartDetailsEditOrderApi(parameter: params)
+    }
 
+    private func createAndUpdateCartDetailsEditOrderApi(parameter: [String: Any]) {
+        
+        self.apiCall.onNext(true)
+        debugPrint("SplitPayment: createApi: \(parameter)")
+        netWork.createSecondCheckoutCartDetailsEditOrder(parameters: parameter) { result in
+            self.apiCall.onNext(false)
+            switch result {
+                case .success(let response):
+                    print(response)
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+                        let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
+                        print(checkoutData)
+                        if let slot = checkoutData.data.selectedDeliverySlot {
+                            UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
+                        }
+                        self.basketDataValue = checkoutData.data
+                        self.basketData.onNext(checkoutData.data)
+                        self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
+                    } catch(let error) {
+                        print(error)
+                        self.basketError.onNext(ElGrocerError.parsingError())
+                    }
+                case .failure(let error):
+                    self.basketError.onNext(error)
+            }
+            
+        }
+        
+    }
     private func createAndUpdateCartDetailsApi(parameter: [String: Any]) {
         
-//        guard self.orderId == nil else {
-//            self.createAndUpdateCartDetailsApiForEditOrder(parameter: parameter)
-//            return
-//        }
+        guard self.orderId == nil else {
+            self.createAndUpdateCartDetailsEditOrderApi(parameter: parameter)
+            return
+        }
         self.apiCall.onNext(true)
         debugPrint("SplitPayment: createApi: \(parameter)")
         netWork.createSecondCheckoutCartDetails(parameters: parameter) { result in
@@ -435,16 +472,20 @@ extension SecondaryViewModel {
         self.defaultApiData["retailer_delivery_zone_id"]  =  self.grocery?.deliveryZoneId
         self.defaultApiData["selected_delivery_slot"]  =  self.selectedSlotId
         self.defaultApiData["slots"] = true
-        self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId() ?? 0
         if self.orderId != nil {
             self.defaultApiData["order_id"]  =  self.orderId
+            if self.getSelectedPaymentMethodId() != 0 {
+                self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId() ?? 0
+            }else {
+                self.defaultApiData["primary_payment_type_id"] = self.getEditOrderSelectedPaymentMethodId()
+            }
+            var secondaryPayments: [String: Any] = [:]
+            secondaryPayments["smiles"] = self.isSmileTrue
+            secondaryPayments["el_wallet"] = self.isWalletTrue
+            secondaryPayments["promo_code"] = self.isPromoCodeTrue
+            self.defaultApiData["secondary_payments"] = secondaryPayments
         }else {
-            
-                //            var secondaryPayments: [String: Any] = [:]
-                //            secondaryPayments["smiles"] = self.isSmileTrue
-                //            secondaryPayments["el_wallet"] = self.isWalletTrue
-                //            secondaryPayments["promo_code"] = self.isPromoCodeTrue
-                //            self.defaultApiData["secondary_payments"] = secondaryPayments
+            self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId() ?? 0
         }
        
         return self.defaultApiData
@@ -485,6 +526,12 @@ extension SecondaryViewModel {
     func getSelectedPaymentMethodId() -> UInt32? {
         
         let typeId = UInt32(self.basketDataValue?.primaryPaymentTypeID ?? 0)
+        return typeId
+        
+    }
+    func getEditOrderSelectedPaymentMethodId() -> Int {
+        
+        let typeId = self.editOrderPrimarySelectedMethod ?? 0
         return typeId
         
     }
@@ -578,6 +625,42 @@ extension SecondaryViewModel {
         return self.order
     }
     
+    func setInitialDataForEditOrder(_ order : Order?) {
+        guard let order = order else {
+            return
+        }
+        
+        self.setEditOrderSelectedPaymentOption(id: order.payementType?.intValue ?? 0)
+        if let orderPayments = order.orderPayments {
+            for payment in orderPayments {
+                let amount = payment["amount"] as? NSNumber ?? NSNumber(0)
+                let paymentTypeId = payment["payment_type_id"] as? Int
+                
+                if (paymentTypeId ?? 0) == 4 {
+                    if amount > 0 {
+                        self.setIsSmileTrue(isSmileTrue: true)
+                    }else {
+                        self.setIsSmileTrue(isSmileTrue: false)
+                    }
+                }else if (paymentTypeId ?? 0) == 5 {
+                    if amount > 0 {
+                        self.setIsWalletTrue(isWalletTrue: true)
+                    }else {
+                        self.setIsWalletTrue(isWalletTrue: false)
+                    }
+                    
+                }else if (paymentTypeId ?? 0) == 6 {
+                    if amount > 0 {
+                        let id  = payment["id"] as? NSNumber ?? NSNumber(0)
+                        self.setPromoCodeRealisationId(realizationId: id.stringValue, promoAmount: amount.doubleValue)
+                        self.setIsPromoTrue(isPromoTrue: true)
+                    }else {
+                        self.setIsPromoTrue(isPromoTrue: false)
+                    }
+                }
+            }
+        }
+    }
     // slots
     
     func setCurrentDeliverySlot(_ slotId : NSNumber) {
@@ -603,6 +686,9 @@ extension SecondaryViewModel {
     }
     func setSelectedPaymentOption(id: Int) {
         self.basketDataValue?.primaryPaymentTypeID = id
+    }
+    func setEditOrderSelectedPaymentOption(id: Int) {
+        self.editOrderPrimarySelectedMethod = id
     }
 }
 

@@ -4119,7 +4119,13 @@ extension MyBasketViewController {
                         if isSuccess {
                             guard UIApplication.topViewController() == self else { return }
                             SpinnerView.hideSpinnerView()
-                            vm.getBasketDetailWithSlot()
+                            if UserDefaults.isOrderInEdit(), self.order != nil {
+                                vm.setInitialDataForEditOrder(self.order)
+                                vm.getEditOrderBasketDetailWithSlot()
+                            }else {
+                                vm.getBasketDetailWithSlot()
+                            }
+                            
                             let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
                             secondVC.viewModel = vm
                             self.navigationController?.pushViewController(secondVC, animated: true)
