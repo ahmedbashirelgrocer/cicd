@@ -501,7 +501,7 @@ class SignInViewController: RegistrationViewController, Form {
         let signInView = self
         // let SDKManager: SDKManagerType! = sdkManager
         
-        if let nav = sdkManager.rootViewController as? UINavigationController {
+        if let nav = sdkManager.window!.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
