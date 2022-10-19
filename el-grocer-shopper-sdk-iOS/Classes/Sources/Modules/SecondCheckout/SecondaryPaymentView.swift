@@ -140,6 +140,13 @@ enum SourceType {
             case .smile(_ , let redeem)     : return redeem
         }
     }
+    
+    var errorMsg: String {
+        switch self {
+          case .elWallet( _, _):  return localizedString("secondry_payment_error_msg_elwallet", comment: "")
+          case .smile( _, _):    return localizedString("secondry_payment_error_msg_smiles", comment: "")
+        }
+      }
 }
 
 extension SourceType {
@@ -296,7 +303,7 @@ class PaymentSourceView: UIView {
         self.lblAvailableBalanceText.text = localizedString("shopping_basket_available_label", comment: "").capitalized
         self.lblAvailableBalance.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: balance)//CurrencyManager.getCurrentCurrency() + " " + (balance == "" ? "0.00" : balance)
         lblUseBalance.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: redeem)//CurrencyManager.getCurrentCurrency() + " " + (redeem == "" ? "0.00" : redeem)
-        
+        self.errorMsg.text = type.errorMsg
         
         
         switch type {

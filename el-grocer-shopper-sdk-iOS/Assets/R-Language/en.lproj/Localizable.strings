@@ -2085,7 +2085,7 @@ Oreo";
 "use_smile_text" = "Use Smiles";
 "pay_using_text" = "PAY USING";
 "use_points_text" = "USE POINTS";
-"secondry_payment_error_msg" = "To use elWallet your balance has to be more than 1 AED";
+"secondry_payment_error_msg_elwallet" = "To use elWallet your balance has to be more than 1 AED";
 "secondary_payment_promocode_error" = "To apply a promo code please, choose the payment method first.";
 "collector_text" = "Who is collecting the order?";
 "collector_car_text" = "Which car is collecting the order?";
@@ -2096,4 +2096,4 @@ Oreo";
 "smiles_points_applied" = "Smiles Points applied";
 "txt_applied_promocode" = "(Applied)";
 "amount_to_pay" = "AMOUNT TO PAY";
-
+"secondry_payment_error_msg_smiles" = "To use smiles your balance has to be more than 1 AED";
