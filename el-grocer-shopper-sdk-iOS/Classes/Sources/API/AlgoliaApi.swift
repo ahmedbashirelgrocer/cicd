@@ -39,6 +39,13 @@ class AlgoliaApi {
     var algoliaApplicationID  =  ApplicationID(rawValue: "AS47I7FT15")
     var algoliaApplicationIDStaging = ApplicationID(rawValue: "3LIB7IY3OL")
     var ALGOLIA_API_KEY_STAGING = "688bccc1dcc7f10e040c36ec148557b6"
+    
+    
+    var ALGOLIA_API_KEY_BROWSE_LIVE = APIKey(rawValue: "7c36787b0c09ef094db8a3ba93871ce7")
+    var ALGOLIA_API_KEY_SEARCH_LIVE = APIKey(rawValue: "52414084ccefd742bcf424dfc170614c")
+    var ALGOLIA_API_KEY_INSIGHT_LIVE = APIKey(rawValue:"7c36787b0c09ef094db8a3ba93871ce7")
+    
+    
     private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
     private let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
     
@@ -65,8 +72,8 @@ class AlgoliaApi {
     
     init() {
         
-         client = SearchClient(appID:  algoliaApplicationID , apiKey: "f64accc4672a9125533fc1d64baf93ab")
-        browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: "7c36787b0c09ef094db8a3ba93871ce7")
+         client = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_SEARCH_LIVE)
+        browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_BROWSE_LIVE)
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
            algoliaApplicationID = "3LIB7IY3OL"
            client = SearchClient(appID: algoliaApplicationID , apiKey: "688bccc1dcc7f10e040c36ec148557b6")
@@ -104,7 +111,7 @@ class AlgoliaApi {
         if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             token = userProfile.dbID.stringValue
         }
-        Insights.register(appId:  algoliaApplicationID , apiKey: APIKey(rawValue: "f64accc4672a9125533fc1d64baf93ab") , userToken: UserToken(rawValue: token))
+        Insights.register(appId:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_INSIGHT_LIVE , userToken: UserToken(rawValue: token))
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
             Insights.register(appId:  algoliaApplicationID , apiKey: APIKey(rawValue: "7df145d4ee0d2219199fe615cb2100cd") , userToken:  UserToken(rawValue: token))
         }
