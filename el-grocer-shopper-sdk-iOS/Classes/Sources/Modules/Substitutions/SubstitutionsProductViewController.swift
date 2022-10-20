@@ -2323,6 +2323,7 @@ extension SubstitutionsProductViewController {
             smileEarn = SmilesManager.getEarnPointsFromAed(total)
         }
         self.assignTotalSavingAmount(savedAmount: totalDiscount.doubleValue)
+        configureCheckoutButtonData(itemsNum: quantity , totalBill: finalAmount.doubleValue)
         setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity)
     }
 }
