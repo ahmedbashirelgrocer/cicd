@@ -725,6 +725,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         //subtitute order
         let spinner = SpinnerView.showSpinnerViewInView(self.view)
         let subtitutedProducts = OrderSubstitution.getSubtitutedProductsForOrderBasket(order, grocery: nil, context:DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        
         ElGrocerApi.sharedInstance.sendSubstitutionForOrder(self.order, withProducts: subtitutedProducts , ref: ref ?? "" , amount: amountoHold  ,completionHandler: { (result) -> Void in
             
             switch result {
@@ -2191,10 +2192,8 @@ extension SubstitutionsProductViewController {
             self.billStackView.addArrangedSubview(self.promoDiscountView)
             self.promoDiscountView.isHidden = false
             self.promoDiscountView.configure(title: localizedString("promotion_discount_aed", comment: ""), amount: promoTionDiscount, isNegative: true)
-            assignTotalSavingAmount(savedAmount: promoTionDiscount)
         }else {
             self.promoDiscountView.isHidden = true
-            assignTotalSavingAmount(savedAmount: 0)
         }
         
         if smileEarn > 0 {
@@ -2241,11 +2240,8 @@ extension SubstitutionsProductViewController {
 // split payment api's for substitution
 extension SubstitutionsProductViewController {
     
-    func callSubstitutionUpdateApi(products: [SubstitutionBasketItem]) {
-        
-    }
     //MARK: Basket details helper and Api functions
-    func callAndUpdateBaketBillDetailsApi() {
+    func getSubstitutedBasketItemAndProducts()-> (replacedSubstitutionBasketItem: [SubstitutionBasketItem], replacedProducts : [Product]) {
         var replacedSubstitutionBasketItemToSend: [SubstitutionBasketItem] = []
         var replacedProductsToSend : [Product] = []
         let subtitutedProducts = OrderSubstitution.getSubtitutedProductsForOrderBasket(order, grocery: nil, context:DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -2261,6 +2257,13 @@ extension SubstitutionsProductViewController {
                 }
             }
         }
+        return(replacedSubstitutionBasketItemToSend,replacedProductsToSend)
+        
+    }
+    func callAndUpdateBaketBillDetailsApi() {
+        let result = getSubstitutedBasketItemAndProducts()
+        let replacedSubstitutionBasketItemToSend: [SubstitutionBasketItem] = result.replacedSubstitutionBasketItem
+        let replacedProductsToSend : [Product] = result.replacedProducts
         
         self.callSubstitutionBasketDetailsApi(products: replacedProductsToSend.uniqued(), replaceSubstitutionBasketItem: replacedSubstitutionBasketItemToSend.uniqued())
     }

@@ -196,6 +196,7 @@ enum ElGrocerApiEndpoint : String {
     case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
     
     case getSubstitutionBasketDetails = "v2/baskets/substitution"
+    case orderSubstitutionBasketUpdate = "v4/orders/substitution"
  }
  
  class ElgrocerAPINonBase  {
@@ -2783,24 +2784,6 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   }
       
-      func orderSubstitutionUpdate (_ orderId:String ,products: [OrderSubstitution], completionHandler:@escaping (Either<Bool>) -> Void) {
-          
-          setAccessToken()
-          var parameters: [String : Any] = ["order_id" : orderId, "suggestion" : products]
-          
-          
-          NetworkCall.put(ElGrocerApiEndpoint.CancelOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
-              
-              completionHandler(Either.success(true))
-              
-          }) { (operation  , error: Error) -> Void in
-              
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                  
-                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-              }
-          }
-      }
       
       func orderSubstitutionBasketDetails (_ orderId:String ,products: [[String: Any]], completionHandler:@escaping (Either<NSDictionary>) -> Void) {
           
@@ -2880,7 +2863,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   parameters["products"] = products
   
-  NetworkCall.put(ElGrocerApiEndpoint.OrderSubstitutions.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+  NetworkCall.put(ElGrocerApiEndpoint.orderSubstitutionBasketUpdate.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
   completionHandler(Either.failure(ElGrocerError.genericError()))
