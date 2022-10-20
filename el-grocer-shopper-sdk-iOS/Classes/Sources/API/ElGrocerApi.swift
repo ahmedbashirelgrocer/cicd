@@ -194,6 +194,8 @@ enum ElGrocerApiEndpoint : String {
     case getSecondCheckoutDetails = "v2/baskets/payment_details"// not using
     case getSecondCheckoutDetailsForEditOrder = "v2/baskets/order_basket"
     case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
+    
+    case getSubstitutionBasketDetails = "v2/baskets/substitution"
  }
  
  class ElgrocerAPINonBase  {
@@ -2780,6 +2782,52 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
   }
   }
+      
+      func orderSubstitutionUpdate (_ orderId:String ,products: [OrderSubstitution], completionHandler:@escaping (Either<Bool>) -> Void) {
+          
+          setAccessToken()
+          var parameters: [String : Any] = ["order_id" : orderId, "suggestion" : products]
+          
+          
+          NetworkCall.put(ElGrocerApiEndpoint.CancelOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+              
+              completionHandler(Either.success(true))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  
+                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+      }
+      
+      func orderSubstitutionBasketDetails (_ orderId:String ,products: [[String: Any]], completionHandler:@escaping (Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          let parameters: [String : Any] = ["order_id" : orderId, "products" : products]
+          
+          elDebugPrint("parameters subs\(parameters)")
+          NetworkCall.post(ElGrocerApiEndpoint.getSubstitutionBasketDetails.rawValue, parameters: parameters, progress: { progress in
+              elDebugPrint(progress)
+          }, success: { (operation  , response: Any) -> Void in
+              
+              guard let ordersDict = ((response as? NSDictionary)?["data"] as? NSDictionary) else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              completionHandler(Either.success(ordersDict))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  
+                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+      }
+      
+      
   
     func sendSubstitutionForOrder(_ order:Order, withProducts productsArray:[Product]  ,  ref: String = "" , amount : Double = 0.0, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   

@@ -29,7 +29,8 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     var finaltotalQuantity = 0
     let applePaymentHandler = ApplePaymentHandler()
     var appleQueryItem : [String : Any]?
-    
+    var replacedSubstitutionBasketItemToSend: [SubstitutionBasketItem] = []
+    var replacedProductsToSend : [Product] = []
         //MARK: Outlets
     @IBOutlet var lblMessage: UILabel!
     @IBOutlet weak var mainContainer: UIView!
@@ -300,6 +301,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         self.handleViewStyle(viewStyle: self.checkoutViewStyle)
         self.setApplePayAppearence(false)
         setBillDetails()
+        callAndUpdateBaketBillDetailsApi()
         hideBottomCheckoutView(ishidden: true)
         
         self.setupSmiles()
@@ -428,6 +430,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         self.setBillDetails()
         self.validatePromoCode {}
         configureBillDetails(order: order)
+        callAndUpdateBaketBillDetailsApi()
         
     }
     
@@ -1288,7 +1291,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         self.reloadCollectionViewFor(product)
         self.setBillDetails()
         self.validatePromoCode {}
-        
+        callAndUpdateBaketBillDetailsApi()
     }
     
     fileprivate func quickDecrementSubsituteReplacment (product : Product , subtituteProduct : Product , _ quantity : Int?) {
@@ -1325,6 +1328,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         self.setBillDetails()
         self.validatePromoCode {}
+        callAndUpdateBaketBillDetailsApi()
         return
         
         
@@ -1398,6 +1402,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         self.reloadCollectionViewFor(product)
         self.setBillDetails()
         self.validatePromoCode {}
+        callAndUpdateBaketBillDetailsApi()
 //        if let index  =  self.orderProducts.firstIndex(of: product) {
 //            self.tableView.reloadRows(at: [(NSIndexPath.init(row: index , section: 0) as IndexPath)], with: .fade)
 //        }else{
@@ -2116,63 +2121,63 @@ extension SubstitutionsProductViewController {
     
     func configureBillDetails(order: Order) {
         
-        var totalWithVat = 0.00
-        var summaryCount = 0
-        var priceSum = 0.00
-        var discount = 0.00
-        var burnSmilePoints = 0.00
-        var burnElwalletPoints = 0.00
-        var smileEarn: Int = 0
-        
-        let result = self.getTotalPrice(false)
-        let totalAmount = result.0
-        let serviceFeeString = result.1
-            //        let FinalAmount = result.2
-            //        let promoAmount = result.3
-        
-            //        let discountAvailable = getDiscountedPrice()
-            //        let isNeedToShowDiscount = discountAvailable.0
-            //        let discountValue = discountAvailable.1
-        let totalProductCount = (self.getProductCountInOrder()).0
-        
-        priceSum = Double(totalAmount) ?? 0.00
-        summaryCount = totalProductCount
-        
-        totalWithVat = priceSum
-        let serviceFee = Double(serviceFeeString) ?? 0.0
-        
-        let priceVariance = Double(order.priceVariance ?? "0") ?? 0.00
-        
-        if let orderPayments = order.orderPayments {
-            for payment in orderPayments {
-                let amount = payment["amount"] as? NSNumber ?? NSNumber(0)
-                let paymentTypeId = payment["payment_type_id"] as? Int
-                
-                if (paymentTypeId ?? 0) == 4 {
-                    burnSmilePoints = amount.doubleValue
-                }else if (paymentTypeId ?? 0) == 5 {
-                    burnElwalletPoints = amount.doubleValue
-                }else if (paymentTypeId ?? 0) == 6 {
-                    discount = amount.doubleValue
-                }
-            }
-        }
-        
-        let grandTotal = priceSum + serviceFee - priceVariance - discount
-        
-        if (order.isSmilesUser?.boolValue ?? false) {
-            let total = grandTotal - burnSmilePoints
-            smileEarn = SmilesManager.getEarnPointsFromAed(total)
-        }
-        
-        priceSum = grandTotal - burnSmilePoints - burnElwalletPoints//order.finalBillAmount?.doubleValue ?? 0.00
-        
-        if priceSum < 0 {
-            priceSum = 0.00
-        }
-        configureCheckoutButtonData(itemsNum: summaryCount , totalBill: priceSum)
-        
-        setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
+//        var totalWithVat = 0.00
+//        var summaryCount = 0
+//        var priceSum = 0.00
+//        var discount = 0.00
+//        var burnSmilePoints = 0.00
+//        var burnElwalletPoints = 0.00
+//        var smileEarn: Int = 0
+//
+//        let result = self.getTotalPrice(false)
+//        let totalAmount = result.0
+//        let serviceFeeString = result.1
+//            //        let FinalAmount = result.2
+//            //        let promoAmount = result.3
+//
+//            //        let discountAvailable = getDiscountedPrice()
+//            //        let isNeedToShowDiscount = discountAvailable.0
+//            //        let discountValue = discountAvailable.1
+//        let totalProductCount = (self.getProductCountInOrder()).0
+//
+//        priceSum = Double(totalAmount) ?? 0.00
+//        summaryCount = totalProductCount
+//
+//        totalWithVat = priceSum
+//        let serviceFee = Double(serviceFeeString) ?? 0.0
+//
+//        let priceVariance = Double(order.priceVariance ?? "0") ?? 0.00
+//
+//        if let orderPayments = order.orderPayments {
+//            for payment in orderPayments {
+//                let amount = payment["amount"] as? NSNumber ?? NSNumber(0)
+//                let paymentTypeId = payment["payment_type_id"] as? Int
+//
+//                if (paymentTypeId ?? 0) == 4 {
+//                    burnSmilePoints = amount.doubleValue
+//                }else if (paymentTypeId ?? 0) == 5 {
+//                    burnElwalletPoints = amount.doubleValue
+//                }else if (paymentTypeId ?? 0) == 6 {
+//                    discount = amount.doubleValue
+//                }
+//            }
+//        }
+//
+//        let grandTotal = priceSum + serviceFee - priceVariance - discount
+//
+//        if (order.isSmilesUser?.boolValue ?? false) {
+//            let total = grandTotal - burnSmilePoints
+//            smileEarn = SmilesManager.getEarnPointsFromAed(total)
+//        }
+//
+//        priceSum = grandTotal - burnSmilePoints - burnElwalletPoints//order.finalBillAmount?.doubleValue ?? 0.00
+//
+//        if priceSum < 0 {
+//            priceSum = 0.00
+//        }
+//        configureCheckoutButtonData(itemsNum: summaryCount , totalBill: priceSum)
+//
+//        setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
     }
     
     func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int) {
@@ -2233,4 +2238,88 @@ extension SubstitutionsProductViewController {
         self.finalBillAmountView.setFinalBillAmountFont()
     }
 }
+// split payment api's for substitution
+extension SubstitutionsProductViewController {
+    
+    func callSubstitutionUpdateApi(products: [SubstitutionBasketItem]) {
+        
+    }
+    //MARK: Basket details helper and Api functions
+    func callAndUpdateBaketBillDetailsApi() {
+        var replacedSubstitutionBasketItemToSend: [SubstitutionBasketItem] = []
+        var replacedProductsToSend : [Product] = []
+        let subtitutedProducts = OrderSubstitution.getSubtitutedProductsForOrderBasket(order, grocery: nil, context:DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        elDebugPrint(subtitutedProducts)
+        for product in subtitutedProducts {
+            let basketItem = OrderSubstitution.getBasketItemForOrder(self.order, product: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            if basketItem!.isSubtituted == 1 {
+                let suggestedProduct = SubstitutionBasketItem.getSubstitutionBasketProductForSubtitutedProduct(self.order, subtitutedProduct: product, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                if let basketItem = self.substitutionItemForProduct(suggestedProduct) {
 
+                    replacedSubstitutionBasketItemToSend.append(basketItem)
+                    replacedProductsToSend.append(suggestedProduct)
+                }
+            }
+        }
+        
+        self.callSubstitutionBasketDetailsApi(products: replacedProductsToSend.uniqued(), replaceSubstitutionBasketItem: replacedSubstitutionBasketItemToSend.uniqued())
+    }
+    
+    func callSubstitutionBasketDetailsApi(products: [Product], replaceSubstitutionBasketItem: [SubstitutionBasketItem]) {
+        
+        var productDicParams: [[String : Any]] = [[:]]
+        var index = 0
+        while index < products.count {
+            let replacedItemId = Product.getCleanProductId(fromId: products[index].dbID)
+            let price = products[index].price
+            let promoPrice = products[index].promoPrice ?? NSNumber(0)
+            let quantity = replaceSubstitutionBasketItem[index].count
+            
+            let singleProductDict: [String: Any] = ["id": replacedItemId ,"quantity": quantity.intValue, "standard_value": price.doubleValue.formateDisplayString(), "promotional_value": promoPrice.doubleValue.formateDisplayString()  ]
+            productDicParams.append(singleProductDict)
+            
+           index = index + 1
+        }
+
+        ElGrocerApi.sharedInstance.orderSubstitutionBasketDetails(self.orderId, products: productDicParams) { (result) in
+            switch result {
+                case .success(let response):
+                    elDebugPrint("substitution basket details: \(response)")
+                    self.handleSubstitutionBasketDetailsApiResponse(response: response)
+                case .failure(let error):
+                    elDebugPrint("Failure: \(error)")
+                    error.showErrorAlert()
+            }
+        }
+    }
+    
+    func handleSubstitutionBasketDetailsApiResponse(response: NSDictionary) {
+        
+        guard self.order != nil else {
+            return
+        }
+        
+        let balance = response["balance"] as? NSNumber ?? NSNumber(0)
+        let balanceMessage = response["balance_message"] as? String ?? ""
+//        let creditCard = response["credit_card"] as? NSNumber ?? NSNumber(0)
+        let elWalletRedeem = response["el_wallet_redeem"] as? NSNumber ?? NSNumber(0)
+        let finalAmount = response["final_amount"] as? NSNumber ?? NSNumber(0)
+        let primaryPayment_type_id = response["primary_payment_type_id"] as? Int ?? 0
+        let productsSaving = response["products_saving"] as? NSNumber ?? NSNumber(0)
+        let productsTotal = response["products_total"] as? NSNumber ?? NSNumber(0)
+        let promoCodeValue = response["promo_code_value"] as? NSNumber ?? NSNumber(0)
+        let quantity = response["quantity"] as? Int ?? 0
+        let serviceFee = response["service_fee"] as? NSNumber ?? NSNumber(0)
+        let smilesRedeem = response["smiles_redeem"] as? NSNumber ?? NSNumber(0)
+        let total = response["total"] as? NSNumber ?? NSNumber(0)
+        let totalDiscount = response["total_discount"] as? NSNumber ?? NSNumber(0)
+        let priceVariance = Double(order.priceVariance ?? "0") ?? 0.00
+        var smileEarn: Int = 0
+        if (order.isSmilesUser?.boolValue ?? false) {
+            let total = total.doubleValue - smilesRedeem.doubleValue
+            smileEarn = SmilesManager.getEarnPointsFromAed(total)
+        }
+        self.assignTotalSavingAmount(savedAmount: totalDiscount.doubleValue)
+        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity)
+    }
+}
