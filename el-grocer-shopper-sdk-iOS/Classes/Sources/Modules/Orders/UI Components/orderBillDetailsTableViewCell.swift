@@ -97,7 +97,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         let serviceFee = order.serviceFee?.doubleValue ?? 0.0
 //        let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: orderController.order.grocery, totalPrice: priceSum)
         
-        let priceVariance = Double(order.priceVariance ?? "0") ?? 0.00
+        let priceVariance = order.priceVariance?.doubleValue ?? 0.00
         
         if let orderPayments = order.orderPayments {
             for payment in orderPayments {
@@ -114,12 +114,12 @@ class orderBillDetailsTableViewCell: UITableViewCell {
             }
         }
         let grandTotal = order.totalValue//priceSum + serviceFee - priceVariance - discount
-        
-        if (order.isSmilesUser?.boolValue ?? false) {
-            let total = grandTotal - burnSmilePoints
-            smileEarn = SmilesManager.getEarnPointsFromAed(total)
-        }
-        
+        //comenting for now because smile earn logic is shifted to backend
+//        if (order.isSmilesUser?.boolValue ?? false) {
+//            let total = grandTotal - burnSmilePoints
+//            smileEarn = SmilesManager.getEarnPointsFromAed(total)
+//        }
+        smileEarn = order.smileEarn?.intValue ?? 0
         priceSum = order.finalBillAmount?.doubleValue ?? 0.00 //grandTotal - discount - burnSmilePoints - burnElwalletPoints
         
         setBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)

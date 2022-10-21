@@ -265,7 +265,7 @@ extension OrderDetailStateTableViewCell {
             }
         }
         var grandTotal = priceSum
-        if let price = Double(order!.priceVariance ?? "0") {
+        if let price = order?.priceVariance?.doubleValue {
             grandTotal = grandTotal + price
         }
 //        self.lblPrice.text = ("\(CurrencyManager.getCurrentCurrency()) " + (NSString(format: "%.2f", grandTotal) as String) as String)

@@ -1525,7 +1525,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
         
         var grandTotal = priceSum + serviceFee
-        if let price = Double(self.order.priceVariance ?? "0") {
+        if let price = self.order.priceVariance?.doubleValue {
             grandTotal = grandTotal + price
         }
         // Here making decision to hide/unhide Change Order

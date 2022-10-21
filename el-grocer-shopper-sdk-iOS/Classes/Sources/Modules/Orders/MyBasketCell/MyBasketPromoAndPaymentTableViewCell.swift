@@ -367,7 +367,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         }
 
         var grandTotal = priceSum
-        if let price = Double(orderController.order.priceVariance ?? "0") {
+        if let price = orderController.order.priceVariance?.doubleValue {
             grandTotal = grandTotal + price
          
             if price > 0 {
