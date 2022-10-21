@@ -31,6 +31,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     var appleQueryItem : [String : Any]?
     var replacedSubstitutionBasketItemToSend: [SubstitutionBasketItem] = []
     var replacedProductsToSend : [Product] = []
+    var orderWorkItem:DispatchWorkItem?
         //MARK: Outlets
     @IBOutlet var lblMessage: UILabel!
     @IBOutlet weak var mainContainer: UIView!
@@ -2266,7 +2267,14 @@ extension SubstitutionsProductViewController {
         let replacedSubstitutionBasketItemToSend: [SubstitutionBasketItem] = result.replacedSubstitutionBasketItem
         let replacedProductsToSend : [Product] = result.replacedProducts
         self.setCheckOutEnable(replacedSubstitutionBasketItemToSend.count > 0)
-        self.callSubstitutionBasketDetailsApi(products: replacedProductsToSend.uniqued(), replaceSubstitutionBasketItem: replacedSubstitutionBasketItemToSend.uniqued())
+                
+        if let item = self.orderWorkItem {
+            item.cancel()
+        }
+        self.orderWorkItem = DispatchWorkItem {
+            self.callSubstitutionBasketDetailsApi(products: replacedProductsToSend.uniqued(), replaceSubstitutionBasketItem: replacedSubstitutionBasketItemToSend.uniqued())
+        }
+        DispatchQueue.global(qos: .default).async(execute: self.orderWorkItem!)
     }
     
     func callSubstitutionBasketDetailsApi(products: [Product], replaceSubstitutionBasketItem: [SubstitutionBasketItem]) {
