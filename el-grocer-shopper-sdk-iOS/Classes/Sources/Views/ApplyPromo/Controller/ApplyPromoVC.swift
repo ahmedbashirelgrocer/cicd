@@ -84,7 +84,7 @@ class ApplyPromoVC: UIViewController {
     var priviousOrderId: String?
     var isGettingPromo: Bool = false
     var isFirstTime: Bool = true
-    var promoCode: String?
+    var promoCode: PromoCode?
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableView()
@@ -111,7 +111,7 @@ class ApplyPromoVC: UIViewController {
     }
     func checkPromoCodeIsFromTextOrList() {
         if self.priviousOrderId?.count ?? 0 > 0 {
-            if let promocode = self.promoCode {
+            if let promocode = self.promoCode?.code {
                 let promo = promoCodeArray.filter { (promo) -> Bool in
                     promo.code.elementsEqual(promocode)
                 }
@@ -129,7 +129,7 @@ class ApplyPromoVC: UIViewController {
             }
             
         }else {
-            if let promoCode = self.promoCode {
+            if let promoCode = self.promoCode?.code {
                 let promo = promoCodeArray.filter { (promo) -> Bool in
                     promo.code.elementsEqual(promoCode)
                 }
@@ -153,6 +153,7 @@ class ApplyPromoVC: UIViewController {
         self.btnPromoApply.isHidden = false
         self.btnPromoRemove.isHidden = true
         self.showPromoError(true, message: "")
+        MixpanelEventLogger.trackCheckoutVoucherRemoved(code: promoCode?.code ?? "", id: String(promoCode?.promotionCodeRealizationID ?? -1))
         self.promoCode = nil
         if let isPromoApplied = self.isPromoApplied {
             isPromoApplied(false, nil)
@@ -231,6 +232,7 @@ extension ApplyPromoVC {
             SpinnerView.hideSpinnerView()
             
             if error != nil {
+                MixpanelEventLogger.trackCheckoutPromoError(promoCode: text, error: error?.localizedMessage ?? "")
                 if let isPromoApplied = self.isPromoApplied {
                     isPromoApplied(false, nil)
                 }
@@ -242,14 +244,17 @@ extension ApplyPromoVC {
                 }
                 return
             }
-            self.promoCode = promoCode?.code ?? ""
+            let promoCodeToSet = PromoCode(code: promoCode?.code, promotionCodeRealizationID: promoCode?.id, value: promoCode?.valueCents, errorMessage: "")
+            self.promoCode = promoCodeToSet
             if let isPromoApplied = self.isPromoApplied {
                 isPromoApplied(true, promoCode)
             }
             if withAnimation {
+                MixpanelEventLogger.trackCheckoutPromoApplied(promoCode: promoCode!)
                 self.showPromoError(true, message: "")
                 self.animateSuccessForPromo()
             }else {
+                MixpanelEventLogger.trackCheckoutVoucherApplied(code: promoCode?.code ?? "", id: String(promoCode?.id ?? -1))
                 SpinnerView.hideSpinnerView()
                 self.tblView.reloadDataOnMain()
             }
@@ -318,7 +323,7 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ApplyPromoCell", for: indexPath) as! ApplyPromoCell
         
             //        let promocodeDefault = UserDefaults.getPromoCodeValue()?.code ?? ""
-        if (self.promoCode ?? "") == promoCodeArray[indexPath.row].code {
+        if (self.promoCode?.code ?? "") == promoCodeArray[indexPath.row].code {
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: true, grocery: self.previousGrocery)
         }else {
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: false, grocery: self.previousGrocery)

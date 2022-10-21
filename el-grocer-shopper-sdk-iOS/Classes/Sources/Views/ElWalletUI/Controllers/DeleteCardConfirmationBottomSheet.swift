@@ -56,12 +56,14 @@ class DeleteCardConfirmationBottomSheet: UIViewController {
         self.dismiss(animated: true)
     }
     @IBAction func btnRemoveHandler(_ sender: Any) {
+        MixpanelEventLogger.trackElwalletEditCardsRemoveCardClicked()
         if let selectedClosure = selectedClosure {
             selectedClosure(true)
         }
         self.dismiss(animated: true)
     }
     @IBAction func btnKeepUsingHandler(_ sender: Any) {
+        MixpanelEventLogger.trackElwalletEditCardsKeepUsingCardClicked()
         if let selectedClosure = selectedClosure {
             selectedClosure(false)
         }

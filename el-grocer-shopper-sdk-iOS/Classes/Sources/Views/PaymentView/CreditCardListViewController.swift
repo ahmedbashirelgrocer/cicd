@@ -544,6 +544,7 @@ class CreditCardListViewController: UIViewController {
     @IBAction func nextTapped(_ sender: AWButton) {
         
         self.dismiss(animated: true, completion: nil)
+        MixpanelEventLogger.trackElwalletAddFundPaymentMethodSelectionNextClicked()
         if let clouser = self.paymentMethodSelection {
             clouser(self.selectedMethod)
             return
@@ -863,6 +864,7 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
             }
             return
         }
+        MixpanelEventLogger.trackCheckoutAddNewCardClicked()
         self.performZeroTokenization()
         
         return

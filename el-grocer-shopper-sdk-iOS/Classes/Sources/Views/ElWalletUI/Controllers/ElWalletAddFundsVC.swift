@@ -83,6 +83,7 @@ class ElWalletAddFundsVC: UIViewController {
     @IBAction func addFundsTapped(_ sender: UIButton) {
         self.amount = Int(self.amountTextField.text ?? "") ?? 0
         if amount > 0 {
+            MixpanelEventLogger.trackElwalletFundAddEnteredAddfundsClicked()
             self.startPaymentProcess()
         }else{
             //
@@ -182,6 +183,7 @@ class ElWalletAddFundsVC: UIViewController {
 extension ElWalletAddFundsVC : NavigationBarProtocol {
     
     override func backButtonClick() {
+        MixpanelEventLogger.trackElwalletAddFundsClose()
         guard let navCount = self.navigationController else {
             self.navigationController?.dismiss(animated: true, completion: nil)
             return

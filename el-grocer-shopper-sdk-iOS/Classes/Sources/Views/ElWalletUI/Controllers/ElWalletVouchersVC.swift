@@ -86,6 +86,7 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
     
     @IBAction func btnRedeemHandler(_ sender: Any) {
         if self.txtVoucherCode.text != "" {
+            MixpanelEventLogger.trackElwalletActiveVoucherManualInPutRedeemClicked(code: txtVoucherCode.text ?? "")
             let _ = SpinnerView.showSpinnerView()
             self.viewModel.redeemVoucherWith(code: txtVoucherCode.text ?? "") { error, response in
                 SpinnerView.hideSpinnerView()
@@ -98,12 +99,14 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
                     }
                 } else {
                     print("something wrong ho gaya")
+                    MixpanelEventLogger.trackElwalletActiveVoucherVoucherRedeemError()
                     self.navigateToSuccessVC(voucher: self.txtVoucherCode.text ?? "", isSuccess: false, voucherValue: "")
                 }
             }
         }
     }
     override func backButtonClick() {
+        MixpanelEventLogger.trackElWalletUnifiedClose()
         guard let navCount = self.navigationController else {
             self.navigationController?.dismiss(animated: true, completion: nil)
             return
@@ -143,6 +146,7 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
         }
         cell.redeemVoucher = { [weak self](voucher) in
             let _ = SpinnerView.showSpinnerView()
+            MixpanelEventLogger.trackElwalletActiveVoucherInsideCardRedeemClicked(voucherId: String(voucher.id), voucherCode: voucher.code ?? "")
             self?.viewModel.redeemVoucherWith(code: voucher.code ?? "") { error, response in
                 SpinnerView.hideSpinnerView()
                 if error == nil {
@@ -154,6 +158,7 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
                     }
                 } else {
                     print("something wrong ho gaya")
+                    MixpanelEventLogger.trackElwalletActiveVoucherVoucherRedeemError()
                     self?.navigateToSuccessVC(voucher: voucher.code ?? "", isSuccess: false, voucherValue: "")
                 }
             }
@@ -223,6 +228,7 @@ extension ElWalletVouchersVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? VouchersCell {
+            MixpanelEventLogger.trackElwalletActiveVoucherView(id: String(cell.voucher?.id ?? -1), code: cell.voucher?.code ?? "")
             DispatchQueue.main.async { [weak cell] in
                 cell?.voucherCodeBorderView.addDashedBorderAroundView(color: .navigationBarColor())
             }

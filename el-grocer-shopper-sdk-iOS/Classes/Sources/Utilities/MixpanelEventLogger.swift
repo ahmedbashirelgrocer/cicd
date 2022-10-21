@@ -151,6 +151,44 @@ class MixpanelEventLogger: NSObject {
         case AddAddressNextClick = "AddAddress_NextClick"
         case AddAddressClose = "AddAddress_Close"
 
+        case ElWalletHomeClose = "_Close"
+        case ElWalletAddfundsClicked = "elwallet_addfunds_clicked"
+        case ElWalletVoucherViewAll = "elwallet_activeVouchers_viewAll"
+        case ElWalletRedeemVoucher = "elwallet_redeemVoucher"
+        case ElWalletManageCardsClicked = "elwallet_ManageCards_clicked"
+        case ElwalletTransactionsViewAll = "elwallet_transactions_viewAll"
+        case ElwalletAddNewCardClicked = "elwallet_AddNewCard_clicked"
+        case ElwalletAddFundPaymentMethodSelection = "elwallet_addFund_paymentMethodSelection_"
+        case ElwalletAddFundPaymentMethodSelectionAddNewCardClicked = "elwallet_addFund_paymentMethodSelection_addNewCard_clicked"
+        case ElwalletAddFundPaymentMethodSelectionNextClicked = "elwallet_addFund_paymentMethodSelection_next_clicked"
+        case ElwalletAddFundsClose = "AddFunds_Close"
+        case ElwalletFundAddEnteredAddfundsClicked = "FundAddEntered_addfunds_clicked"
+        case ElWalletAddFundsPaymentSuccessClose = "AddFundsPaymentSuccess_Close"
+        case ElWalletAddFundsPaymentFaliureClose = "AddFundsPaymentFaliure_Close"
+        case ElwalletFundsErrorTryAgainClicked = "elwalletFundsError_tryAgain_clicked"
+        case ElwalletActiveVoucherManualInPutRedeemClicked = "elwallet_activeVoucher_ManualInPutRedeem_clicked"
+        case ElwalletActiveVoucherVoucherRedeemError = "elwallet_activeVoucher_voucherRedeem_error"
+        case ElwalletActiveVoucherInsideCardRedeemClicked = "elwallet_activeVoucher_insideCardRedeem_clicked"
+        case ElwalletEditCardClicked = "elwallet_editCard_clicked"
+        case ElwalletCardsAddNewCardClicked = "elwallet_addNewCard_clicked"
+        case ElwalletEditCardsRemoveCardClicked = "elwallet_editCards_removeCard_clicked"
+        case ElwalletEditCardsKeepUsingCardClicked = "elwallet_editCards_keepUsingCard_clicked"
+        case ElwalletActiveVoucherView = "elwallet_activeVoucher_view"
+        
+        case CheckoutPrimaryPaymentMethodClicked = "Checkout_PrimaryPaymentMethodClicked"
+        case CheckoutAddNewCardClicked = "Checkout_addNewCard_Clicked"
+        case CheckoutVoucherApplied = "Checkout_voucherApplied"
+        case CheckoutVoucherRemoved = "Checkout_voucherRemoved"
+        case CheckoutElwalletSwitchOn = "Checkout_elwallet_switch_on"
+        case CheckoutElwalletSwitchOff = "Checkout_elwallet_switch_off"
+        case CheckoutSmilesSwitchOn = "Checkout_smiles_switch_on"
+        case CheckoutSmilesSwitchOff = "Checkout_smiles_switch_off"
+        case CheckoutElwalletSwitchError = "Checkout_elwallet_switch_error"
+        case CheckoutSmilesSwitchError = "Checkout_smiles_switch_error"
+        case CheckoutOrderError = "Checkout_Order_Error"
+        case CheckoutAvailablePaymentMethods = "Checkout_available_payment_methods"
+        case CheckoutPaymentMethodError = "Checkout_paymentMethod_Error"
+        case CheckoutApplePayError = "Checkout_ApplePay_Error"
     }
 
     fileprivate enum MixpanelParmName : String {
@@ -236,6 +274,25 @@ class MixpanelEventLogger: NSObject {
         case ItemOOSName = "ItemOOS_name"
         
         case CurrentScreen = "CurrentScreen"
+        
+        case ElWalletVoucherCode = "PromoCode_voucherCode"
+        case ElwalletVoucherID = "PromoCode_voucherId"
+        
+        case VoucherCode = "voucherCode"
+        case VoucherId = "voucherId"
+        
+        case RetailerID = "retailerId"
+        
+        case AvailableBalance = "availableBalance"
+        
+        case ErrorMessage = "errorMessage"
+        
+        case TotalOrderAmount = "totalOrderAmount"
+        
+        case IsCashAvailable = "isCashAvailable"
+        case IsCODAvailable = "isCODAvailable"
+        case IsOnlineAvailable = "isOnlineAvailable"
+        
     
     }
     
@@ -892,7 +949,7 @@ class MixpanelEventLogger: NSObject {
         MixpanelManager.trackEvent(eventName, params: params)
     }
     
-    class func trackCheckoutDeliverySlotSelected(slot: DeliverySlot ) {
+    class func trackCheckoutDeliverySlotSelected(slot: DeliverySlot, retailerID: String ) {
         
         let eventName: String = MixpanelEventsName.CheckoutDeliverySlotSelected.rawValue
         
@@ -901,7 +958,8 @@ class MixpanelEventLogger: NSObject {
             MixpanelParmName.SlotId.rawValue: slot.dbID.stringValue,
             MixpanelParmName.SlotTimeStamp.rawValue: slot.time_milli.stringValue,
             MixpanelParmName.SlotStartTime.rawValue: "\(slot.start_time)",
-            MixpanelParmName.SlotEndTime.rawValue: "\(slot.end_time)"
+            MixpanelParmName.SlotEndTime.rawValue: "\(slot.end_time)",
+            MixpanelParmName.RetailerID.rawValue: retailerID
         ]
 
         MixpanelManager.trackEvent(eventName, params: params)
@@ -999,14 +1057,15 @@ class MixpanelEventLogger: NSObject {
     }
     
     
-    class func trackCheckoutPaymentMethodSelected(paymentMethodId: String, cardId: String = "-1" ) {
+    class func trackCheckoutPaymentMethodSelected(paymentMethodId: String, cardId: String = "-1", retaiilerId: String ) {
         
         let eventName: String = MixpanelEventsName.CheckoutPaymentMethodSelected.rawValue
         
         let params: [String : Any]? = [
             "clickedEvent": eventName,
             MixpanelParmName.PaymentMethodId.rawValue: paymentMethodId,
-            MixpanelParmName.PaymentCreditCardId.rawValue: cardId
+            MixpanelParmName.PaymentCreditCardId.rawValue: cardId,
+            MixpanelParmName.RetailerID.rawValue: retaiilerId
         ]
 
         MixpanelManager.trackEvent(eventName, params: params)
@@ -1767,5 +1826,450 @@ class MixpanelEventLogger: NSObject {
         MixpanelManager.trackEvent(eventName, params: params)
     }
     
+    //MARK: El Wallet
+    class func trackElWalletClose( ) {
+        
+        let eventName: String = (UIApplication.gettopViewControllerName() ?? "elWallet") +  MixpanelEventsName.ElWalletHomeClose.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElWalletAddFundsClicked( ) {
+        
+        let eventName: String =  MixpanelEventsName.ElWalletAddfundsClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElWalletVoucherViewAllClicked( ) {
+        
+        let eventName: String =  MixpanelEventsName.ElWalletVoucherViewAll.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElWalletRedeemVoucherClicked(voucherId: String, voucherCode: String ) {
+        
+        let eventName: String =  MixpanelEventsName.ElWalletRedeemVoucher.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.ElWalletVoucherCode.rawValue : voucherCode,
+            MixpanelParmName.ElwalletVoucherID.rawValue : voucherId
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElWalletManageCardsClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElWalletManageCardsClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletTransactionsViewAllClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletTransactionsViewAll.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletAddNewCardClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletAddNewCardClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletAddFundPaymentMethodSelection(methodName: String) {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletAddFundPaymentMethodSelection.rawValue + methodName
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletAddFundPaymentMethodSelectionAddNewCardClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletAddFundPaymentMethodSelectionAddNewCardClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletAddFundPaymentMethodSelectionNextClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletAddFundPaymentMethodSelectionNextClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletAddFundsClose() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletAddFundsClose.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletFundAddEnteredAddfundsClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletFundAddEnteredAddfundsClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElWalletAddFundsPaymentSuccessClose() {
+        
+        let eventName: String =  MixpanelEventsName.ElWalletAddFundsPaymentSuccessClose.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElWalletAddFundsPaymentFaliureClose() {
+        
+        let eventName: String =  MixpanelEventsName.ElWalletAddFundsPaymentFaliureClose.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletFundsErrorTryAgainClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletFundsErrorTryAgainClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElWalletUnifiedClose( ) {
+        
+        let eventName: String = (UIApplication.gettopViewControllerName() ?? "") +  MixpanelEventsName.ElWalletHomeClose.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletActiveVoucherManualInPutRedeemClicked(code: String ) {
+        
+        let eventName: String = MixpanelEventsName.ElwalletActiveVoucherManualInPutRedeemClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.VoucherCode.rawValue : code
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletActiveVoucherVoucherRedeemError( ) {
+        
+        let eventName: String = MixpanelEventsName.ElwalletActiveVoucherVoucherRedeemError.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletActiveVoucherInsideCardRedeemClicked(voucherId: String, voucherCode: String ) {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletActiveVoucherInsideCardRedeemClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.VoucherCode.rawValue : voucherCode,
+            MixpanelParmName.VoucherId.rawValue : voucherId
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletEditCardClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletEditCardClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletCardsAddNewCardClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletCardsAddNewCardClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletEditCardsRemoveCardClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletEditCardsRemoveCardClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletEditCardsKeepUsingCardClicked() {
+        
+        let eventName: String =  MixpanelEventsName.ElwalletEditCardsKeepUsingCardClicked.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackElwalletActiveVoucherView(id: String, code: String) {
+
+        let eventName: String =  MixpanelEventsName.ElwalletActiveVoucherView.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.ElwalletVoucherID.rawValue: id,
+            MixpanelParmName.ElWalletVoucherCode.rawValue: code,
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    //MARK: Second Checkout
+    
+    class func trackCheckoutPrimaryPaymentMethodClicked() {
+
+        let eventName: String =  MixpanelEventsName.CheckoutPrimaryPaymentMethodClicked.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutAddNewCardClicked() {
+
+        let eventName: String =  MixpanelEventsName.CheckoutAddNewCardClicked.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutVoucherApplied(code: String, id: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutVoucherApplied.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.VoucherCode.rawValue: code,
+            MixpanelParmName.VoucherId.rawValue: id
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutVoucherRemoved(code: String, id: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutVoucherRemoved.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.ElWalletVoucherCode.rawValue: code,
+            MixpanelParmName.ElwalletVoucherID.rawValue: id
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutElwalletSwitchOn(balance: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutElwalletSwitchOn.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.AvailableBalance.rawValue: balance
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutElwalletSwitchOff(balance: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutElwalletSwitchOff.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.AvailableBalance.rawValue: balance
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutSmilesSwitchOn(balance: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutSmilesSwitchOn.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.AvailableBalance.rawValue: balance
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutSmilesSwitchOff(balance: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutSmilesSwitchOff.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.AvailableBalance.rawValue: balance
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutElwalletSwitchError(error: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutElwalletSwitchError.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.ErrorMessage.rawValue: error
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutSmilesSwitchError(error: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutSmilesSwitchError.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.ErrorMessage.rawValue: error
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutOrderError(error: String, value: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutOrderError.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.ErrorMessage.rawValue: error,
+            MixpanelParmName.TotalOrderAmount.rawValue: value
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutAvailablePaymentMethods(retailerId: String,cash: Bool, card: Bool, online: Bool) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutAvailablePaymentMethods.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.IsCashAvailable.rawValue: cash,
+            MixpanelParmName.IsCODAvailable.rawValue: card,
+            MixpanelParmName.IsOnlineAvailable.rawValue: online,
+            MixpanelParmName.RetailerID.rawValue: retailerId
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutPaymentMethodError(error: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutPaymentMethodError.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.ErrorMessage.rawValue: error
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
+    
+    class func trackCheckoutApplePayError(error: String) {
+
+        let eventName: String =  MixpanelEventsName.CheckoutApplePayError.rawValue
+
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            MixpanelParmName.ErrorMessage.rawValue: error
+        ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
     
 }

@@ -127,6 +127,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     }
     
     override func backButtonClick() {
+        MixpanelEventLogger.trackElWalletClose()
         guard let navCount = self.navigationController else {
             self.navigationController?.dismiss(animated: true, completion: nil)
             return
@@ -167,6 +168,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     
     @IBAction func addFundsButtonTapped(_ sender: UIButton) {
         
+        MixpanelEventLogger.trackElWalletAddFundsClicked()
         let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: .resource)
         if #available(iOS 13, *) {
             creditVC.view.backgroundColor = .clear
@@ -190,17 +192,25 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
             
             
             if (methodSelect as? PaymentOption) == PaymentOption.voucher {
+                MixpanelEventLogger.trackElwalletAddFundPaymentMethodSelection(methodName: "VOUCHER")
                 self.getElWalletViewAll()
                 return
+            }
+            if methodSelect is CreditCard {
+                MixpanelEventLogger.trackElwalletAddFundPaymentMethodSelection(methodName: "CARD")
+            }else if (methodSelect as? PaymentOption) == PaymentOption.applePay {
+                MixpanelEventLogger.trackElwalletAddFundPaymentMethodSelection(methodName: "APPLE_PAY")
             }
             self.navigateToAddFundsVC(methodSelect: methodSelect as Any)
         }
         
         creditVC.goToAddNewCard = { [weak self] (credit) in
             guard let self = self else {return}
+            MixpanelEventLogger.trackElwalletAddFundPaymentMethodSelectionAddNewCardClicked()
             self.goToAddNewCardController()
             
         }
+        // below not using for wlwallet
         creditVC.newCardAdded = {[weak self](paymentArray) in
             guard let self = self else {return}
             self.paymentMethodA = paymentArray
@@ -310,6 +320,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         }
         cell.redeemVoucher = { [weak self](voucher) in
             let _ = SpinnerView.showSpinnerView()
+            MixpanelEventLogger.trackElWalletRedeemVoucherClicked(voucherId: String(voucher.id), voucherCode: voucher.code ?? "")
             self?.viewModel.redeemVoucherWith(code: voucher.code ?? "") { error, response in
                 SpinnerView.hideSpinnerView()
                 if error == nil {
@@ -347,6 +358,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: EmptyCardCell.reuseId, for: indexPath) as! EmptyCardCell
         cell.addNewCardClosure = {
+            MixpanelEventLogger.trackElwalletAddNewCardClicked()
             self.goToAddNewCardController()
         }
         return cell
@@ -447,6 +459,7 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
                 let buttonName = localizedString("txt_view_all", comment: "")
                 headerView.configureHeaderView(title: title, buttonName: buttonName )
                 headerView.moveNext = {
+                    MixpanelEventLogger.trackElWalletVoucherViewAllClicked()
                     let voucherVC = ElGrocerViewControllers.getElWalletVouchersVC()
                         //TODO: viewModel should be assign by a method not like this
                     voucherVC.viewModel = self.viewModel
@@ -459,6 +472,7 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
             case 1:
                 headerView.configureHeaderView(title: localizedString("txt_cards_capital", comment: "cards"), buttonName: localizedString("txt_manage_cards", comment: ""))
                 headerView.moveNext = {
+                    MixpanelEventLogger.trackElWalletManageCardsClicked()
                     let cardsVC = ElGrocerViewControllers.getElWalletCardsVC()
                     cardsVC.creditCardA = self.creditCardA
                     cardsVC.viewModel = self.viewModel
@@ -471,6 +485,7 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
             case 2:
                 headerView.configureHeaderView(title: localizedString("txt_transection_history", comment: "transec"), buttonName: localizedString("txt_view_all", comment: ""))
                 headerView.moveNext = {
+                    MixpanelEventLogger.trackElwalletTransactionsViewAllClicked()
                     let transactionVC = ElGrocerViewControllers.getElWalletTransactionVC()
                     transactionVC.balance = self.viewModel.walletBalance.value
                     let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
