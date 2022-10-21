@@ -202,7 +202,7 @@ class SecondCheckoutVC: UIViewController {
         }
         let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
         
-            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn, promoCode: data.promoCode, isSmileOn: self.viewModel.getIsSmileTrue() )
+            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn ?? 0, promoCode: data.promoCode, isSmileOn: self.viewModel.getIsSmileTrue() )
         }
     }
     
