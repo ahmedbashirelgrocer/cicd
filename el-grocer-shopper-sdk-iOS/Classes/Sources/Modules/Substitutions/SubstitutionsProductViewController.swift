@@ -2265,7 +2265,7 @@ extension SubstitutionsProductViewController {
         let result = getSubstitutedBasketItemAndProducts()
         let replacedSubstitutionBasketItemToSend: [SubstitutionBasketItem] = result.replacedSubstitutionBasketItem
         let replacedProductsToSend : [Product] = result.replacedProducts
-        
+        self.setCheckOutEnable(replacedSubstitutionBasketItemToSend.count > 0)
         self.callSubstitutionBasketDetailsApi(products: replacedProductsToSend.uniqued(), replaceSubstitutionBasketItem: replacedSubstitutionBasketItemToSend.uniqued())
     }
     

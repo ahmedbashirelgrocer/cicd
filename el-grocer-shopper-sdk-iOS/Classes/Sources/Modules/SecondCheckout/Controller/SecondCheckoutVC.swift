@@ -176,12 +176,10 @@ class SecondCheckoutVC: UIViewController {
 
         
         self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
-        if self.viewModel.getOrderId()?.count ?? 0 > 0 {
-            self.promocodeView.isHidden = true
-        }else {
-            self.promocodeView.isHidden = false
-            self.promocodeView.configure(promocode: data.promoCode?.code ?? "")
-        }
+
+//        self.promocodeView.isHidden = data.promoCodes ?? false
+        self.promocodeView.configure(promocode: data.promoCode?.code ?? "")
+        
         
         self.paymentMethodView.configure(paymentTypes: data.paymentTypes ?? [], selectedPaymentId: self.viewModel.getSelectedPaymentMethodId(),creditCard: self.viewModel.getCreditCard())
         
@@ -189,16 +187,8 @@ class SecondCheckoutVC: UIViewController {
         if secondaryPaymentTypes == .none {
             self.secondaryPaymentView.isHidden = true
         }else {
-            
-            if self.viewModel.getOrderId()?.count ?? 0 > 0 {
-                
-                self.secondaryPaymentView.isHidden = true
-                
-            }else {
-                
-                self.secondaryPaymentView.configure(smilesBalance: data.smilesBalance ?? 0.00, elWalletBalance: data.elWalletBalance ?? 0.00, smilesRedeem: data.smilesRedeem ?? 0.00, elWalletRedeem: data.elWalletRedeem ?? 0.00, smilesPoint: data.smilesPoints ?? 0, paymentTypes: secondaryPaymentTypes)
-            }
-           
+
+            self.secondaryPaymentView.configure(smilesBalance: data.smilesBalance ?? 0.00, elWalletBalance: data.elWalletBalance ?? 0.00, smilesRedeem: data.smilesRedeem ?? 0.00, elWalletRedeem: data.elWalletRedeem ?? 0.00, smilesPoint: data.smilesPoints ?? 0, paymentTypes: secondaryPaymentTypes)
         }
         let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
         
