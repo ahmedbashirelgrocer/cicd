@@ -677,7 +677,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
            // self.backButtonClick()
             
             // if let SDKManager = SDKManager.shared {
-            SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
+            if self.navigationController?.viewControllers.count != 5 {
+                SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
+            }
             (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             // }
             if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
