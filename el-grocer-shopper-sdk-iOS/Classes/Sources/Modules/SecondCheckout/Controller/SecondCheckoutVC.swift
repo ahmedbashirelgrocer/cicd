@@ -172,7 +172,7 @@ class SecondCheckoutVC: UIViewController {
         
         Thread.OnMainThread {
         // configure bill view
-            self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0,message: data.balanceMessage)
+            self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0,message: data.balanceMessage, priceVariance: data.priceVariance)
 
         
         self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
@@ -202,7 +202,7 @@ class SecondCheckoutVC: UIViewController {
         }
         let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
         
-            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: self.viewModel.getEarnPointsFromAed(), promoCode: data.promoCode, isSmileOn: self.viewModel.getIsSmileTrue() )
+            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn, promoCode: data.promoCode, isSmileOn: self.viewModel.getIsSmileTrue() )
         }
     }
     

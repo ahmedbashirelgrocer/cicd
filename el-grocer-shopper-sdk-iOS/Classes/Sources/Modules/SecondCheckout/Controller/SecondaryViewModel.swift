@@ -746,6 +746,8 @@ struct BasketDataClass: Codable {
     let quantity: Int?
     let totalDiscount: Double?
     let balanceMessage: String?
+    let smilesEarn: Int?
+    let priceVariance: Double?
     
     enum CodingKeys: String, CodingKey {
         case finalAmount = "final_amount"
@@ -768,6 +770,8 @@ struct BasketDataClass: Codable {
         case quantity
         case totalDiscount = "total_discount"
         case balanceMessage = "balance_message"
+        case smilesEarn = "smiles_earn"
+        case priceVariance = "Price_variance"
         
     }
     
@@ -796,6 +800,8 @@ struct BasketDataClass: Codable {
         quantity = (try? values.decode(Int.self, forKey: .quantity))
         totalDiscount = (try? values.decode(Double.self, forKey: .totalDiscount))
         balanceMessage = (try? values.decode(String.self, forKey: .balanceMessage))
+        smilesEarn = (try? values.decode(Int.self, forKey: .smilesEarn))
+        priceVariance = (try? values.decode(Double.self, forKey: .smilesEarn))
     }
 }
 

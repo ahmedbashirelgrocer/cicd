@@ -2207,9 +2207,10 @@ extension SubstitutionsProductViewController {
             self.earnSmilesPointView.isHidden = true
             self.pointsEarnedView.isHidden = true
         }
-        if priceVariance > 0 {
+        if priceVariance != 0 {
             self.billStackView.addArrangedSubview(self.priceVarianceView)
-            self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal, isNegative: true)
+            self.priceVarianceView.isHidden = false
+            self.grandToatalView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: true)
         }else {
             self.priceVarianceView.isHidden = true
         }
@@ -2316,7 +2317,7 @@ extension SubstitutionsProductViewController {
         let smilesRedeem = response["smiles_redeem"] as? NSNumber ?? NSNumber(0)
         let total = response["total"] as? NSNumber ?? NSNumber(0)
         let totalDiscount = response["total_discount"] as? NSNumber ?? NSNumber(0)
-        let priceVariance = order.priceVariance?.doubleValue ?? 0.00
+        let priceVariance = response["price_variance"] as? NSNumber ?? NSNumber(0)
         var smileEarn: Int = 0
         if (order.isSmilesUser?.boolValue ?? false) {
             let total = total.doubleValue - smilesRedeem.doubleValue
@@ -2324,6 +2325,6 @@ extension SubstitutionsProductViewController {
         }
         self.assignTotalSavingAmount(savedAmount: totalDiscount.doubleValue)
         configureCheckoutButtonData(itemsNum: quantity , totalBill: finalAmount.doubleValue)
-        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity)
+        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance.doubleValue, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity)
     }
 }

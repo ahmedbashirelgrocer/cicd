@@ -87,6 +87,7 @@ class BillView: UIView {
     private var totalPriceEntryView = BillEntryView(isGreen: false)
     private var serviceFeeEntryView = BillEntryView(isGreen: false)
     private var grandTotalEntryView = BillEntryView(isGreen: false)
+    private var priceVarianceView = BillEntryView(isGreen: true)
     private var smilesView = BillEntryView(isGreen: true)
     private var elWalletView = BillEntryView(isGreen: true)
     private var savingsView = BillEntryView(isGreen: true)
@@ -114,7 +115,7 @@ class BillView: UIView {
         viewBG.addSubview(promotionView)
     }
     
-    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?,message: String?) {
+    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?,message: String?, priceVariance: Double?) {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
@@ -149,7 +150,13 @@ class BillView: UIView {
             self.promotionView.visibility = .gone
             self.lblPromotion.text =  ""
         }
-        
+        if let priceVariance = priceVariance, priceVariance != 0 {
+            self.stackView.addArrangedSubview(priceVarianceView)
+            self.priceVarianceView.isHidden = false
+            priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: false)
+        }else {
+            self.priceVarianceView.isHidden = true
+        }
         stackView.addArrangedSubview(grandTotalEntryView)
         
         if elWalletRedemed > 0 {
