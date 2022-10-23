@@ -66,7 +66,7 @@ class SDKManager: NSObject  {
     
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
-        self.rootContext = UIApplication.topViewController()
+        self.rootContext = UIApplication.shared.keyWindow?.rootViewController
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
@@ -411,7 +411,7 @@ class SDKManager: NSObject  {
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
          LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions?.language ?? "Base", SDKManagers: self)
-        if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
+        if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.shared.keyWindow?.rootViewController {
             navEntryController.modalPresentationStyle = .fullScreen
             topVC.present(navEntryController, animated: true) {  }
             rootViewController = navEntryController

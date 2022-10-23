@@ -352,6 +352,16 @@
                                                     <action selector="btnGoToSDK:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="MrN-6D-9Li"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="joe-HC-Xjz">
+                                                <rect key="frame" x="5" y="25" width="48" height="25"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Show">
+                                                    <fontDescription key="titleFontDescription" type="system" pointSize="9"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="showPresentedView:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="XE6-Vk-YRT"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -367,10 +377,12 @@
                                             <constraint firstItem="lnq-VV-Z4o" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="FlZ-Hw-AX0"/>
                                             <constraint firstItem="6dm-L0-2m5" firstAttribute="top" secondItem="ai7-to-hc6" secondAttribute="bottom" constant="10" id="GLD-hy-Zok"/>
                                             <constraint firstItem="eFC-es-DNH" firstAttribute="height" secondItem="B7n-Be-zV5" secondAttribute="height" id="Gux-86-FbA"/>
+                                            <constraint firstItem="joe-HC-Xjz" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="5" id="IAE-n6-eMG"/>
                                             <constraint firstAttribute="trailing" secondItem="Kl5-lj-vka" secondAttribute="trailing" constant="20" symbolic="YES" id="JaU-J5-XTc"/>
                                             <constraint firstItem="yfB-Nd-mie" firstAttribute="height" secondItem="B7n-Be-zV5" secondAttribute="height" id="KOH-5Y-4R9"/>
                                             <constraint firstItem="yfB-Nd-mie" firstAttribute="top" secondItem="mxU-cj-pdV" secondAttribute="bottom" constant="10" id="LDk-eb-mPa"/>
                                             <constraint firstItem="yfB-Nd-mie" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="Lsh-nY-5nF"/>
+                                            <constraint firstItem="joe-HC-Xjz" firstAttribute="centerY" secondItem="GF6-Tw-DwR" secondAttribute="centerY" id="Nak-dB-YN4"/>
                                             <constraint firstItem="ai7-to-hc6" firstAttribute="height" secondItem="B7n-Be-zV5" secondAttribute="height" id="P16-vK-2Zj"/>
                                             <constraint firstAttribute="trailing" secondItem="ddB-oo-DJW" secondAttribute="trailing" constant="20" symbolic="YES" id="SKS-Uj-aBq"/>
                                             <constraint firstItem="ddB-oo-DJW" firstAttribute="height" secondItem="B7n-Be-zV5" secondAttribute="height" id="Soy-w3-2Xf"/>
@@ -397,6 +409,7 @@
                                             <constraint firstItem="ai7-to-hc6" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="ux6-G5-IBA"/>
                                             <constraint firstAttribute="trailing" secondItem="6dm-L0-2m5" secondAttribute="trailing" constant="20" symbolic="YES" id="vXe-Jb-ROk"/>
                                             <constraint firstItem="GF6-Tw-DwR" firstAttribute="centerX" secondItem="Utn-j6-G1T" secondAttribute="centerX" id="wGG-PE-NoE"/>
+                                            <constraint firstItem="GF6-Tw-DwR" firstAttribute="leading" secondItem="joe-HC-Xjz" secondAttribute="trailing" constant="12" id="z3w-aU-KIA"/>
                                             <constraint firstItem="k31-UU-hLw" firstAttribute="top" secondItem="Kl5-lj-vka" secondAttribute="bottom" constant="10" id="zQz-17-1nI"/>
                                         </constraints>
                                     </view>
@@ -473,6 +486,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5jp-wL-rQw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3615" y="565"/>
+        </scene>
+        <!--Presented View Controller-->
+        <scene sceneID="bAK-87-kgb">
+            <objects>
+                <viewController storyboardIdentifier="PresentedViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="RA5-AN-5Fw" customClass="PresentedViewController" customModule="el_grocer_shopper_sdk_iOS_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7Yq-Yv-cfv"/>
+                        <viewControllerLayoutGuide type="bottom" id="Rlc-GH-Q9e"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OHB-WF-vn4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydm-mi-94T">
+                                <rect key="frame" x="55.666666666666657" y="388.66666666666669" width="264" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Launch SDK on Presented View"/>
+                                <connections>
+                                    <action selector="action:" destination="RA5-AN-5Fw" eventType="touchUpInside" id="m1w-bd-MPg"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ydm-mi-94T" firstAttribute="centerY" secondItem="OHB-WF-vn4" secondAttribute="centerY" id="U8X-GU-iMA"/>
+                            <constraint firstItem="ydm-mi-94T" firstAttribute="centerX" secondItem="OHB-WF-vn4" secondAttribute="centerX" id="ynX-Wd-dyU"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b6Y-Cc-xy3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4362" y="565"/>
         </scene>
         <!--Page 1-->
         <scene sceneID="wk8-He-4id">
