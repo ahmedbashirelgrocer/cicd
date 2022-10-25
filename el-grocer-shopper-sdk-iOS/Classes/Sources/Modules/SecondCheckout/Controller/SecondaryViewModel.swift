@@ -474,9 +474,9 @@ extension SecondaryViewModel {
         self.defaultApiData["slots"] = true
         if self.orderId != nil {
             self.defaultApiData["order_id"]  =  self.orderId
-            if self.getSelectedPaymentMethodId() != 0 {
-                self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId() ?? 0
-            }else {
+            if self.getSelectedPaymentMethodId() != nil {
+                self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId()
+            }else if self.getEditOrderSelectedPaymentMethodId() != nil {
                 self.defaultApiData["primary_payment_type_id"] = self.getEditOrderSelectedPaymentMethodId()
             }
             var secondaryPayments: [String: Any] = [:]
@@ -485,7 +485,9 @@ extension SecondaryViewModel {
             secondaryPayments["promo_code"] = self.isPromoCodeTrue
             self.defaultApiData["secondary_payments"] = secondaryPayments
         }else {
-            self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId() ?? 0
+            if self.getSelectedPaymentMethodId() != nil {
+                self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId()
+            }
         }
        
         return self.defaultApiData
@@ -524,16 +526,17 @@ extension SecondaryViewModel {
     }
     
     func getSelectedPaymentMethodId() -> UInt32? {
+        if let selectedMethod = self.basketDataValue?.primaryPaymentTypeID {
+            let typeId = UInt32(selectedMethod )
+            return typeId
+        }
         
-        let typeId = UInt32(self.basketDataValue?.primaryPaymentTypeID ?? 0)
-        return typeId
-        
+        return nil
     }
-    func getEditOrderSelectedPaymentMethodId() -> Int {
-        
-        let typeId = self.editOrderPrimarySelectedMethod ?? 0
+    
+    func getEditOrderSelectedPaymentMethodId() -> Int? {
+        let typeId = self.editOrderPrimarySelectedMethod
         return typeId
-        
     }
     
 }
@@ -630,7 +633,7 @@ extension SecondaryViewModel {
             return
         }
         
-        self.setEditOrderSelectedPaymentOption(id: order.payementType?.intValue ?? 0)
+        self.setEditOrderSelectedPaymentOption(id: nil)
         if let orderPayments = order.orderPayments {
             for payment in orderPayments {
                 let amount = payment["amount"] as? NSNumber ?? NSNumber(0)
@@ -687,7 +690,7 @@ extension SecondaryViewModel {
     func setSelectedPaymentOption(id: Int) {
         self.basketDataValue?.primaryPaymentTypeID = id
     }
-    func setEditOrderSelectedPaymentOption(id: Int) {
+    func setEditOrderSelectedPaymentOption(id: Int?) {
         self.editOrderPrimarySelectedMethod = id
     }
 }
