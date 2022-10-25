@@ -2007,9 +2007,9 @@ Oreo";
 "lbl_StartShopping" = "Start Shopping";
 
     //MARK: Apply promoCode controller
-"title_apply_promo" = "Apply Promocode";
+"title_apply_promo" = "Promocodes";
 "title_available_promo" = "Available Promocodes";
-"txt_view_details" = "View details";
+"txt_details" = "Details";
 "txt_hide_details" = "Hide details";
 "txt_btn_apply" = "APPLY";
 "txt_add_to_use_initial" = "Add";
