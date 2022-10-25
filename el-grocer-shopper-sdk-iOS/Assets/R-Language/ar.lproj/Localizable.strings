@@ -2078,7 +2078,7 @@
 "txt_cards_capital" = "البطاقات";
 "txt_manage_cards" = "إدارة البطاقات";
 "txt_transection_history" = "تاريخ المعاملات";
-"txt_view_details" = "عرض التفاصيل";
+"txt_details" = "عرض التفاصيل";
 "txt_hide_details" = "إخفاء التفاصيل";
 "txt_redeem_capital" = "تطبيق";
 "txt_add_funds_from" = "اختار طريقة الدفع";
