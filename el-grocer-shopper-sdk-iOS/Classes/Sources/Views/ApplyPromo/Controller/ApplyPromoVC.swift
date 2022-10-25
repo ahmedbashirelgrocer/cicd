@@ -380,7 +380,7 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 8
     }
 }
 extension ApplyPromoVC: UIScrollViewDelegate {
