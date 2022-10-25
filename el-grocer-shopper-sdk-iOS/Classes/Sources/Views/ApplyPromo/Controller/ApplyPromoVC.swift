@@ -74,6 +74,7 @@ class ApplyPromoVC: UIViewController {
     }()
     typealias promoApplied = (_ promoApplied: Bool,_ promoCode: PromotionCode?)-> Void
     var isPromoApplied : promoApplied?
+    var dismissWithoutPromoClosure: (()->())?
     var promoCodeArray: [PromotionCode] = []
     var extensionArray: [Bool] = []
     var priviousPaymentOption: PaymentOption?
@@ -145,6 +146,10 @@ class ApplyPromoVC: UIViewController {
     }
     @IBAction func btnCloseHandler(_ sender: Any) {
         self.dismiss(animated: true)
+        
+        if let dismissWithoutPromoClosure = self.dismissWithoutPromoClosure {
+            dismissWithoutPromoClosure()
+        }
     }
     @IBAction func btnPromoRemoveHandler(_ sender: Any) {
         UserDefaults.setPromoCodeValue(nil)

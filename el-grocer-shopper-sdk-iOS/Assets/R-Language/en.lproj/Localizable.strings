@@ -2098,3 +2098,4 @@ Oreo";
 "txt_applied_promocode" = "(Applied)";
 "amount_to_pay" = "AMOUNT TO PAY";
 "secondry_payment_error_msg_smiles" = "To use smiles your balance has to be more than 1 AED";
+"promo_code_apply_notification" = "You must apply a promo code to get discount";

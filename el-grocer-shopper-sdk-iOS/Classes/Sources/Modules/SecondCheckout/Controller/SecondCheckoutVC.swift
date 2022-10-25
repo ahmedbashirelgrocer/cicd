@@ -429,6 +429,15 @@ extension SecondCheckoutVC: PromocodeDelegate {
             }
         }
         
+        vc.dismissWithoutPromoClosure = { [weak self] in
+            guard let _ = self else { return }
+            
+            let message = localizedString("promo_code_apply_notification", comment: "")
+            
+            ElGrocerUtility.sharedInstance.showTopMessageView(message, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
+            }, buttonIcon: UIImage(name: "crossWhite"))
+        }
+        
         ElGrocerEventsLogger.sharedInstance.trackScreenNav([FireBaseParmName.CurrentScreen.rawValue : FireBaseScreenName.MyBasket.rawValue , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.ApplyPromoVC.rawValue])
         self.present(vc, animated: true, completion: nil)
     }
