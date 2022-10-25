@@ -2135,7 +2135,7 @@
 "txt_applied_promocode" = "(مطبق)";
 "amount_to_pay" = "قيمة الفاتورة";
 "secondry_payment_error_msg_smiles" = "الحد الأدني للإستخدام ١ درهم";
-
+"promo_code_apply_notification" = "You must apply a promo code to get discount";
 
 
 
