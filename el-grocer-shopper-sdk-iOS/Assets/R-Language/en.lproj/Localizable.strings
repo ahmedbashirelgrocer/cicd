@@ -314,6 +314,7 @@
 "pay_via_CreditCard" = "Online";
 "pay_via_card" = "Card machine";
 "pay_via_cash" = "Pay via Cash";
+"txt_pay_cash" = "Cash";
 "payment_method_for_remaining_amount" = "Select payment method for the remaining AED";
 "leave_us_note" = "Leave Us a Note";
 "enter_promo_code" = "Enter coupon code";

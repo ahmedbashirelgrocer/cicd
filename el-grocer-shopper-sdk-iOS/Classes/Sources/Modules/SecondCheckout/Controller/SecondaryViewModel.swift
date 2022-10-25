@@ -862,7 +862,7 @@ struct PaymentType: Codable {
     func getLocalizedName() -> String {
         
         if self.id == 1 {
-            return localizedString("pay_via_cash", comment: "")
+            return localizedString("txt_pay_cash", comment: "")
         }else if self.id == 2 {
             return localizedString("pay_via_card", comment: "")
         }else if self.id == 3 {

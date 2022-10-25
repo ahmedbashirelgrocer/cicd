@@ -344,6 +344,7 @@
     //"pay_via_card" = "الدفع بواسطة البطاقة عند التوصيل";
 "pay_via_card" = "ماكينة البطاقة";
 "pay_via_cash" = "الدفع نقدا عند التوصيل";
+"txt_pay_cash" = "نقداً";
 "pay_via_CreditCard" = "أون لاين";
 "promo_code_title" = "الرمز الترويجي";
 "payment_method_for_remaining_amount" = "اختيار طريقة الدفع للمبلغ المتبقي";
