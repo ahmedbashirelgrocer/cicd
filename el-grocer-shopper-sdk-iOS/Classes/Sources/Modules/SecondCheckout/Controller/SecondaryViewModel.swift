@@ -479,11 +479,11 @@ extension SecondaryViewModel {
             }else if self.getEditOrderSelectedPaymentMethodId() != nil {
                 self.defaultApiData["primary_payment_type_id"] = self.getEditOrderSelectedPaymentMethodId()
             }
-            var secondaryPayments: [String: Any] = [:]
-            secondaryPayments["smiles"] = self.isSmileTrue
-            secondaryPayments["el_wallet"] = self.isWalletTrue
-            secondaryPayments["promo_code"] = self.isPromoCodeTrue
-            self.defaultApiData["secondary_payments"] = secondaryPayments
+//            var secondaryPayments: [String: Any] = [:]
+//            secondaryPayments["smiles"] = self.isSmileTrue
+//            secondaryPayments["el_wallet"] = self.isWalletTrue
+//            secondaryPayments["promo_code"] = self.isPromoCodeTrue
+//            self.defaultApiData["secondary_payments"] = secondaryPayments
         }else {
             if self.getSelectedPaymentMethodId() != nil {
                 self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId()
