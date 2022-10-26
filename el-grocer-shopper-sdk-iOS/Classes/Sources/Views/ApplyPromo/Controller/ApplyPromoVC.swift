@@ -74,7 +74,8 @@ class ApplyPromoVC: UIViewController {
     }()
     typealias promoApplied = (_ promoApplied: Bool,_ promoCode: PromotionCode?)-> Void
     var isPromoApplied : promoApplied?
-    var dismissWithoutPromoClosure: (()->())?
+    var dismissWithoutPromoClosure: ((Bool)->())?
+    var isDismisingWithPromoApplied: Bool = false
     var promoCodeArray: [PromotionCode] = []
     var extensionArray: [Bool] = []
     var priviousPaymentOption: PaymentOption?
@@ -120,7 +121,9 @@ class ApplyPromoVC: UIViewController {
                     UserDefaults.setPromoCodeIsFromText(nil)
                     self.btnPromoRemove.isHidden = true
                     self.btnPromoApply.isHidden = false
+                    self.isDismisingWithPromoApplied = false
                 }else {
+                    self.isDismisingWithPromoApplied = true
                     UserDefaults.setPromoCodeIsFromText(true)
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
@@ -135,6 +138,7 @@ class ApplyPromoVC: UIViewController {
                     promo.code.elementsEqual(promoCode)
                 }
                 if promo.count == 0 {
+                    self.isDismisingWithPromoApplied = true
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
                     self.promoTextField.text = promoCode
@@ -146,14 +150,15 @@ class ApplyPromoVC: UIViewController {
     }
     @IBAction func btnCloseHandler(_ sender: Any) {
         self.dismiss(animated: true)
-        
+        elDebugPrint(self.isDismisingWithPromoApplied)
         if let dismissWithoutPromoClosure = self.dismissWithoutPromoClosure {
-            dismissWithoutPromoClosure()
+            dismissWithoutPromoClosure(self.isDismisingWithPromoApplied)
         }
     }
     @IBAction func btnPromoRemoveHandler(_ sender: Any) {
         UserDefaults.setPromoCodeValue(nil)
         UserDefaults.setPromoCodeIsFromText(nil)
+        self.isDismisingWithPromoApplied = false
         self.promoTextField.text = ""
         self.btnPromoApply.isHidden = false
         self.btnPromoRemove.isHidden = true
@@ -238,6 +243,7 @@ extension ApplyPromoVC {
             
             if error != nil {
                 MixpanelEventLogger.trackCheckoutPromoError(promoCode: text, error: error?.localizedMessage ?? "")
+                self.isDismisingWithPromoApplied = false
                 if let isPromoApplied = self.isPromoApplied {
                     isPromoApplied(false, nil)
                 }
@@ -251,6 +257,7 @@ extension ApplyPromoVC {
             }
             let promoCodeToSet = PromoCode(code: promoCode?.code, promotionCodeRealizationID: promoCode?.id, value: promoCode?.valueCents, errorMessage: "")
             self.promoCode = promoCodeToSet
+            self.isDismisingWithPromoApplied = true
             if let isPromoApplied = self.isPromoApplied {
                 isPromoApplied(true, promoCode)
             }
@@ -329,6 +336,7 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         
             //        let promocodeDefault = UserDefaults.getPromoCodeValue()?.code ?? ""
         if (self.promoCode?.code ?? "") == promoCodeArray[indexPath.row].code {
+            self.isDismisingWithPromoApplied = true
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: true, grocery: self.previousGrocery)
         }else {
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: false, grocery: self.previousGrocery)
