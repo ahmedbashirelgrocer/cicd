@@ -150,13 +150,13 @@ class BillView: UIView {
             self.promotionView.visibility = .gone
             self.lblPromotion.text =  ""
         }
-        if let priceVariance = priceVariance, priceVariance != 0 {
-            self.stackView.addArrangedSubview(priceVarianceView)
-            self.priceVarianceView.isHidden = false
-            priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: false)
-        }else {
-            self.priceVarianceView.isHidden = true
-        }
+//        if let priceVariance = priceVariance, priceVariance != 0 {
+//            self.stackView.addArrangedSubview(priceVarianceView)
+//            self.priceVarianceView.isHidden = false
+//            priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: false)
+//        }else {
+//            self.priceVarianceView.isHidden = true
+//        }
         stackView.addArrangedSubview(grandTotalEntryView)
         
         if elWalletRedemed > 0 {

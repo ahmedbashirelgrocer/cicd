@@ -2208,13 +2208,13 @@ extension SubstitutionsProductViewController {
             self.earnSmilesPointView.isHidden = true
             self.pointsEarnedView.isHidden = true
         }
-        if priceVariance != 0 {
-            self.billStackView.addArrangedSubview(self.priceVarianceView)
-            self.priceVarianceView.isHidden = false
-            self.grandToatalView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: true)
-        }else {
-            self.priceVarianceView.isHidden = true
-        }
+//        if priceVariance != 0 {
+//            self.billStackView.addArrangedSubview(self.priceVarianceView)
+//            self.priceVarianceView.isHidden = false
+//            self.grandToatalView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: true)
+//        }else {
+//            self.priceVarianceView.isHidden = true
+//        }
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
         
