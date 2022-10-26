@@ -4228,7 +4228,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           
           setAccessToken()
           FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
-          NetworkCall.put(ElGrocerApiEndpoint.PlaceOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+          NetworkCall.put(ElGrocerApiEndpoint.createOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {
                   completionHandler(Either.failure(ElGrocerError.genericError()))
