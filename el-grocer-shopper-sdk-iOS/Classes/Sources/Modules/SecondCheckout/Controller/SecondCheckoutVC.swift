@@ -78,9 +78,23 @@ class SecondCheckoutVC: UIViewController {
         self.secondaryPaymentView.delegate = self
         
         self.checkoutDeliverySlotView.changeSlot = { [weak self] (slot) in
-            self?.viewModel.setSelectedSlotId(slot?.dbID)
-            self?.viewModel.setDeliverySlot(slot)
-            self?.viewModel.updateSlotToBackEnd()
+            guard let self = self, let slot = slot else {return}
+            self.viewModel.setSelectedSlotId(slot.usid)
+            self.viewModel.setDeliverySlot(slot)
+            self.viewModel.updateSlotToBackEnd()
+            self.checkoutDeliverySlotView.configure(slots: self.viewModel.deliverySlots, selectedSlotId: slot.usid.intValue)
+        }
+        // subscribe the delivery slots subject
+        viewModel.deliverySlotsSubject.subscribe(onNext: { [weak self] deliverySlots in
+            guard let self = self else { return }
+            
+            self.checkoutDeliverySlotView.configure(slots: deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlot()?.intValue)
+        }).disposed(by: disposeBag)
+        
+        if let _ = self.viewModel.getOrderId() {
+            self.additionalInstructionsView.tfAdditionalNote.text = self.viewModel.getEditOrderInitialDetail()?.orderNote ?? ""
+        }else {
+            self.additionalInstructionsView.tfAdditionalNote.text = UserDefaults.getAdditionalInstructionsNote() ?? ""
         }
         
         self.checkoutButtonView.checkOutClicked = { [weak self] in
@@ -138,13 +152,6 @@ class SecondCheckoutVC: UIViewController {
 //            self.viewModel.fetchDeliverySlots()
         })
         .disposed(by: disposeBag)
-        
-        // subscribe the delivery slots subject 
-        viewModel.deliverySlotsSubject.subscribe(onNext: { [weak self] deliverySlots in
-            guard let self = self else { return }
-            
-            self.checkoutDeliverySlotView.configure(slots: deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlot()?.intValue)
-        }).disposed(by: disposeBag)
         
         viewModel.getBasketData.subscribe(onNext: { [weak self] data in
             guard let self = self, let data = data else { return }
@@ -327,6 +334,7 @@ extension SecondCheckoutVC: NavigationBarProtocol {
 extension SecondCheckoutVC: AdditionalInstructionsViewDelegate {
     func textViewTextChangeDone(text: String) {
         self.viewModel.setAdditionalInstructions(text: text)
+        UserDefaults.setAdditionalInstructionsNote(text)
         MixpanelEventLogger.trackCheckoutInstructionAdded(instruction: text)
     }
 }

@@ -37,11 +37,13 @@ class SecondaryViewModel {
     private var selectedPreferenceId : Int? = nil
     private var additionalInstructions: String?
     var basketDataValue: BasketDataClass? = nil
+    var deliverySlots: [DeliverySlotDTO] = []
     private var selectedCreditCard: CreditCard? = nil
     private var applePaySelectedMethod: ApplePayPaymentMethod? = nil
     private var order: Order?
     private var userid: NSNumber?
     private var editOrderPrimarySelectedMethod: Int?
+    
     
     
     private var defaultApiData: [String : Any] = [:] // will provide default data with grocery delivery address and slot if provide in init method
@@ -82,7 +84,7 @@ class SecondaryViewModel {
                     elDebugPrint(response)
                     let data = try JSONSerialization.data(withJSONObject: response, options: [])
                     let deliverySlots = try JSONDecoder().decode(DeliverySlotsData.self, from: data)
-                    
+                    self.deliverySlots = deliverySlots.deliverySlots
                     self.deliverySlotsSubject.onNext(deliverySlots.deliverySlots)
                 } catch {
                     self.basketError.onNext(ElGrocerError.parsingError())

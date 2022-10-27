@@ -1003,7 +1003,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         // MARK: Actions
     override func backButtonClick() {
         
-        
+        UserDefaults.setAdditionalInstructionsNote("")
         if self.orderToReplace {
             UserDefaults.resetEditOrder(false)
         }
