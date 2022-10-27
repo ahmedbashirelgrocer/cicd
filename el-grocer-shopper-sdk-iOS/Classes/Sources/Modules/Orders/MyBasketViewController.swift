@@ -4092,13 +4092,13 @@ extension MyBasketViewController {
         let _ = SpinnerView.showSpinnerViewInView(self.view)
         
         var deliveryAddress : DeliveryAddress? = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        var slotId = self.currentDeliverySlot != nil ? self.currentDeliverySlot.dbID : 0
+        var slotId: Int = self.currentDeliverySlot != nil ? self.currentDeliverySlot.dbID.intValue : 0
         var slot: DeliverySlot? = self.currentDeliverySlot != nil ? self.currentDeliverySlot : nil
         var orderID : String? = nil
         var orderForEdit : Order? = nil
         if UserDefaults.isOrderInEdit(), order != nil {
             deliveryAddress = order.deliveryAddress
-            slotId = order.deliverySlot?.dbID ?? 0
+            slotId = order.deliverySlot?.dbID.intValue ?? 0
             slot = order.deliverySlot
             orderID = UserDefaults.getEditOrderDbId()?.stringValue
             orderForEdit = order
@@ -4107,7 +4107,7 @@ extension MyBasketViewController {
         
         if let deliveryAddress = deliveryAddress {
             let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            let vm = SecondaryViewModel(address: deliveryAddress, grocery: self.grocery!, slot: slotId,orderId: orderID,shopingItems: self.shoppingItems, finalisedProducts: self.products, selectedPreferenceId: self.myBasketDataObj.getSelectedReason()?.reasonKey.intValue ?? 1, deliverySlot: slot)
+            let vm = SecondaryViewModel(address: deliveryAddress, grocery: self.grocery!, slotId: slotId,orderId: orderID,shopingItems: self.shoppingItems, finalisedProducts: self.products, selectedPreferenceId: self.myBasketDataObj.getSelectedReason()?.reasonKey.intValue ?? 1, deliverySlot: slot)
             vm.setEditOrderInitialDetail(orderForEdit)
             vm.callSetCartBalanceAccountCacheApi()
             vm.setUserId(userId: user?.dbID)

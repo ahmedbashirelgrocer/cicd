@@ -140,6 +140,7 @@ class AWPickerViewController : UIViewController {
                     switch result {
                         
                     case .success(let response):
+                        elDebugPrint(response)
                         self.saveResponseData(response, grocery: self.currentGrocery)
                         self.activityIndication.stopAnimating()
                         self.lblNoSlot.isHidden =  self.collectionData.count > 0

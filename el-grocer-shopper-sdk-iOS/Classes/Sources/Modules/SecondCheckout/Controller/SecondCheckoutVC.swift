@@ -79,16 +79,16 @@ class SecondCheckoutVC: UIViewController {
         
         self.checkoutDeliverySlotView.changeSlot = { [weak self] (slot) in
             guard let self = self, let slot = slot else {return}
-            self.viewModel.setSelectedSlotId(slot.usid)
+            self.viewModel.setSelectedSlotId(slot.dbID.intValue)
             self.viewModel.setDeliverySlot(slot)
             self.viewModel.updateSlotToBackEnd()
-            self.checkoutDeliverySlotView.configure(slots: self.viewModel.deliverySlots, selectedSlotId: slot.usid.intValue)
+            self.checkoutDeliverySlotView.configure(slots: self.viewModel.deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
         }
         // subscribe the delivery slots subject
         viewModel.deliverySlotsSubject.subscribe(onNext: { [weak self] deliverySlots in
             guard let self = self else { return }
             
-            self.checkoutDeliverySlotView.configure(slots: deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlot()?.intValue)
+            self.checkoutDeliverySlotView.configure(slots: deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
         }).disposed(by: disposeBag)
         
         if let _ = self.viewModel.getOrderId() {
@@ -99,7 +99,7 @@ class SecondCheckoutVC: UIViewController {
         
         self.checkoutButtonView.checkOutClicked = { [weak self] in
             guard let self = self else { return }
-            guard self.viewModel.getGrocery()?.deliveryZoneId != nil, self.viewModel.getSelectedPaymentOption() != PaymentOption.none, self.viewModel.getCurrentDeliverySlot() != nil, let grocery = self.viewModel.getGrocery() else {
+            guard self.viewModel.getGrocery()?.deliveryZoneId != nil, self.viewModel.getSelectedPaymentOption() != PaymentOption.none, self.viewModel.getCurrentDeliverySlotId() != nil, let grocery = self.viewModel.getGrocery() else {
                 return
             }
             
@@ -147,7 +147,7 @@ class SecondCheckoutVC: UIViewController {
         
         viewModel.basketData.subscribe(onNext: { [weak self] data in
             guard let self = self, let data = data else { return }
-            
+            self.viewModel.setSelectedSlotId(data.selectedDeliverySlot ?? 0)
             self.updateViewAccordingToData(data: data)
 //            self.viewModel.fetchDeliverySlots()
         })
@@ -185,6 +185,7 @@ class SecondCheckoutVC: UIViewController {
         // configure bill view
             self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0,message: data.balanceMessage, priceVariance: data.priceVariance)
 
+            self.checkoutDeliverySlotView.configure(slots: self.viewModel.deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
         
         self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
 

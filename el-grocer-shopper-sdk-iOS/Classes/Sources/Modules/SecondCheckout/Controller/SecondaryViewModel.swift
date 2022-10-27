@@ -24,7 +24,7 @@ class SecondaryViewModel {
     private var grocery: Grocery? = nil
     private var address: DeliveryAddress? = nil
     private var deliveryAddress: String? = nil // private, use get method getDeliveryAddress
-    private var selectedSlotId: NSNumber? = nil
+    private var selectedSlotId: Int? = nil
     private var selectedSlot: DeliverySlot? = nil
     private var promoRealizationId: String? = nil
     private var promoAmount: Double? = nil
@@ -48,11 +48,11 @@ class SecondaryViewModel {
     
     private var defaultApiData: [String : Any] = [:] // will provide default data with grocery delivery address and slot if provide in init method
     
-    init(address: DeliveryAddress, grocery: Grocery, slot: NSNumber?, orderId: String? = nil, shopingItems: [ShoppingBasketItem]? = [], finalisedProducts: [Product]? = [], selectedPreferenceId: Int?, deliverySlot: DeliverySlot?) {
+    init(address: DeliveryAddress, grocery: Grocery, slotId: Int?, orderId: String? = nil, shopingItems: [ShoppingBasketItem]? = [], finalisedProducts: [Product]? = [], selectedPreferenceId: Int?, deliverySlot: DeliverySlot?) {
       
         self.grocery = grocery
         self.address = address
-        self.selectedSlotId = slot
+        self.selectedSlotId = slotId
         self.shopingItems = shopingItems
         self.finalisedProductA = finalisedProducts
         self.orderId = orderId
@@ -400,7 +400,7 @@ extension SecondaryViewModel {
         createAndUpdateCartDetailsApi(parameter: params)
     }
     
-    func setSelectedSlotId(_ selectedSlotId: NSNumber?) {
+    func setSelectedSlotId(_ selectedSlotId: Int?) {
         self.selectedSlotId = selectedSlotId
     }
     func setUserId(userId: NSNumber?) {
@@ -572,7 +572,7 @@ extension SecondaryViewModel {
     private func createParamsUpdateForSlotId() -> [String: Any] {
         guard let slotId = self.selectedSlotId else { return [:] }
         var parameters: [String: Any] = self.setDefaultApiData()
-        parameters.update(other: [ "selected_delivery_slot": slotId.stringValue ])
+        parameters.update(other: [ "selected_delivery_slot": "\(slotId)" ])
         return parameters
     }
     
@@ -668,11 +668,11 @@ extension SecondaryViewModel {
     }
     // slots
     
-    func setCurrentDeliverySlot(_ slotId : NSNumber) {
-        self.selectedSlotId = slotId
-    }
-    
-    func getCurrentDeliverySlot() -> NSNumber? {
+//    func setCurrentDeliverySlot(_ slotId : NSNumber) {
+//        self.selectedSlotId = slotId
+//    }
+//
+    func getCurrentDeliverySlotId() -> Int? {
         return self.selectedSlotId
     }
     

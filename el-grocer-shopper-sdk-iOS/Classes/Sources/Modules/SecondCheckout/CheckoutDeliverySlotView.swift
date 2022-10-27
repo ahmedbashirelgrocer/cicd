@@ -41,7 +41,7 @@ class CheckoutDeliverySlotView: UIView  {
             self.lblSlotValue.text = " Select Slot"
             return
         }
-        
+        elDebugPrint(slots)
         let selectedSlot: DeliverySlotDTO? = slots.filter { $0.usid ==  selectedSlotId }.first
         self.deliverySlots = slots
         
