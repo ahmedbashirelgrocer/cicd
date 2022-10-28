@@ -73,7 +73,7 @@ class SplashAnimationViewController: UIViewController {
     private func animationCompletedSetRootVc() {
         
         Thread.OnMainThread {
-            self.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-154")
+            self.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-151")
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
             self.isAnimationCompleted = true
