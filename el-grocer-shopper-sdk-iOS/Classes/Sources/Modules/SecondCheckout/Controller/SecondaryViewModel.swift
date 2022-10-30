@@ -84,8 +84,11 @@ class SecondaryViewModel {
                     elDebugPrint(response)
                     let data = try JSONSerialization.data(withJSONObject: response, options: [])
                     let deliverySlots = try JSONDecoder().decode(DeliverySlotsData.self, from: data)
-                    self.deliverySlots = deliverySlots.deliverySlots
-                    self.deliverySlotsSubject.onNext(deliverySlots.deliverySlots)
+                    if let slot =  deliverySlots.deliverySlots {
+                        self.deliverySlots = slot
+                        self.deliverySlotsSubject.onNext(slot)
+                    }
+                  
                 } catch {
                     self.basketError.onNext(ElGrocerError.parsingError())
                 }
@@ -744,10 +747,10 @@ struct BasketDataClass: Codable {
     let promoCode: PromoCode?
     let smilesRedeem, elWalletRedeem: Double?
     let smilesPoints: Int?
-    let deliverySlots: [DeliverySlotDTO]?
+    //let deliverySlots: [DeliverySlotDTO]?
     let selectedDeliverySlot: Int?
     let paymentTypes: [PaymentType]?
-    let retailerDeliveryZoneId: Int?
+   // let retailerDeliveryZoneId: Int?
     let quantity: Int?
     let totalDiscount: Double?
     let balanceMessage: String?
@@ -766,12 +769,12 @@ struct BasketDataClass: Codable {
         case promoCode = "promo_code"
         case smilesRedeem = "smiles_redeem"
         case elWalletRedeem = "el_wallet_redeem"
-        case deliverySlots = "delivery_slots"
+        //case deliverySlots = "delivery_slots"
         case paymentTypes = "retailer_payment_methods"
         case selectedDeliverySlot = "selected_delivery_slot"
         case productsTotal = "products_total"
         case smilesPoints = "smiles_points"
-        case retailerDeliveryZoneId = "retailer_delivery_zone_id"
+       // case retailerDeliveryZoneId = "retailer_delivery_zone_id"
         case quantity
         case totalDiscount = "total_discount"
         case balanceMessage = "balance_message"
@@ -798,10 +801,11 @@ struct BasketDataClass: Codable {
         smilesRedeem = (try? values.decode(Double.self, forKey: .smilesRedeem))
         elWalletRedeem = (try? values.decode(Double.self, forKey: .elWalletRedeem))
         smilesPoints = (try? values.decode(Int.self, forKey: .smilesPoints))
-        deliverySlots = (try? values.decode([DeliverySlotDTO].self, forKey: .deliverySlots))
+       // deliverySlots = deliverySlots
+       // deliverySlots = (try? values.decode([DeliverySlotDTO].self, forKey: .deliverySlots))
         selectedDeliverySlot = (try? values.decode(Int.self, forKey: .selectedDeliverySlot))
         paymentTypes = (try? values.decode([PaymentType].self, forKey: .paymentTypes))
-        retailerDeliveryZoneId = (try? values.decode(Int.self, forKey: .retailerDeliveryZoneId))
+      //  retailerDeliveryZoneId = (try? values.decode(Int.self, forKey: .retailerDeliveryZoneId))
         quantity = (try? values.decode(Int.self, forKey: .quantity))
         totalDiscount = (try? values.decode(Double.self, forKey: .totalDiscount))
         balanceMessage = (try? values.decode(String.self, forKey: .balanceMessage))
@@ -903,7 +907,7 @@ struct DeliverySlotsResponse: Codable {
 
 struct DeliverySlotsData: Codable {
     let retailer: Retailer
-    let deliverySlots: [DeliverySlotDTO]
+    let deliverySlots: [DeliverySlotDTO]?
     
     enum CodingKeys: String, CodingKey {
         case retailer

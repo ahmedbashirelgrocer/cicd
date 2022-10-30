@@ -191,8 +191,8 @@ class AWPickerViewController : UIViewController {
     func saveResponseData(_ responseObject:NSDictionary, grocery : Grocery?) {
         
         let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-        self.collectionData = DeliverySlot.insertOrReplaceDeliverySlotsFromDictionary(responseObject, groceryObj: grocery, context: context)
         Grocery.updateActiveGroceryDeliverySlots(with: responseObject, context: context)
+        self.collectionData = DeliverySlot.insertOrReplaceDeliverySlotsFromDictionary(responseObject, groceryObj: grocery, context: context)
         self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
         if let slots =  UserDefaults.getEditOrderSelectedDeliverySlot()  {
             if UserDefaults.isOrderInEdit() {
@@ -401,7 +401,7 @@ class AWPickerViewController : UIViewController {
         defer {
              NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateGenericSlotView), object: nil)
         }
-        let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.backgroundManagedObjectContext, forGroceryID: currentGrocery?.dbID ?? "-1")
+        let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: currentGrocery?.dbID ?? "-1")
         if let firstObj  = slots.first(where: {$0.dbID == self.slotsCollectionView.selectedSlotID }) {
             UserDefaults.setCurrentSelectedDeliverySlotId(firstObj.dbID)
             UserDefaults.setEditOrderSelectedDelivery(nil)

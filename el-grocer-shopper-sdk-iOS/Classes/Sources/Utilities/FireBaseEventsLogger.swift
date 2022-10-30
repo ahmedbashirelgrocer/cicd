@@ -337,7 +337,7 @@ class FireBaseEventsLogger  {
         let finalParm = newParms
         for (key, value) in finalParm ?? [:] {
             
-           // elDebugPrint("check logger for type  type : \(String(describing: value.self)) : \(key) : valure : \(value) ")
+           
             
              if value is [NSNumber] {
                 newParms?[key] = (value as AnyObject).description
@@ -369,8 +369,7 @@ class FireBaseEventsLogger  {
             }
         }
         ElGrocerUtility.sharedInstance.eventMap[eventNameToSend] = Date().timeIntervalSince1970
-        
-        
+        eventNameToSend = eventNameToSend.replacingOccurrences(of: "EG_EG_", with: "EG_")
         DispatchQueue.global(qos: .background).async {
           
             usleep(1)
