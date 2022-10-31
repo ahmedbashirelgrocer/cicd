@@ -126,7 +126,7 @@ class BillView: UIView {
         viewBG.addSubview(promotionView)
     }
     
-    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?,extraBalanceMessage: String?, priceVariance: Double?,extraBalance: Double?) {
+    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?) {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
@@ -135,8 +135,19 @@ class BillView: UIView {
         self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
         self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: total)
         self.lblFinalAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: finalTotal)
-//        self.lblFinalAmount.text = CurrencyManager.getCurrentCurrency() + " " + finalTotal
-        
+
+        if  productSaving > 0 {
+            self.promotionView.visibility = .visible
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                self.lblPromotion.text =  localizedString("txt_Saved", comment: "") + " " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: productSaving)
+            }else {
+                self.lblPromotion.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: productSaving) + " " + localizedString("txt_Saved", comment: "")
+            }
+        }else {
+            self.promotionView.visibility = .gone
+            self.lblPromotion.text =  ""
+        }
+        stackView.addArrangedSubview(grandTotalEntryView)
         
         if let promoValue = promocode?.value {
             self.stackView.addArrangedSubview(savingsView)
@@ -149,26 +160,6 @@ class BillView: UIView {
         }else {
             savingsView.isHidden = true
         }
-        
-        if  productSaving > 0 {
-            self.promotionView.visibility = .visible
-            if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                self.lblPromotion.text =  localizedString("txt_Saved", comment: "") + " " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: productSaving)
-            }else {
-                self.lblPromotion.text =  ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: productSaving) + " " + localizedString("txt_Saved", comment: "")
-            }
-        }else {
-            self.promotionView.visibility = .gone
-            self.lblPromotion.text =  ""
-        }
-//        if let priceVariance = priceVariance, priceVariance != 0 {
-//            self.stackView.addArrangedSubview(priceVarianceView)
-//            self.priceVarianceView.isHidden = false
-//            priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: false)
-//        }else {
-//            self.priceVarianceView.isHidden = true
-//        }
-        stackView.addArrangedSubview(grandTotalEntryView)
         
         if elWalletRedemed > 0 {
             self.stackView.addArrangedSubview(elWalletView)
@@ -186,19 +177,6 @@ class BillView: UIView {
             self.smilesView.isHidden = true
         }
         
-        if let extraBalance = extraBalance, let extraBalanceMessage = extraBalanceMessage {
-            if extraBalance != 0 {
-                self.stackView.addArrangedSubview(extraBalanceView)
-                self.extraBalanceView.isHidden = false
-                
-                extraBalanceView.configure(title: localizedString("extra_balacnce_details", comment: ""), amount: extraBalance, isNegative: false)
-                
-            }else {
-                self.extraBalanceView.isHidden = true
-            }
-        }else {
-            self.extraBalanceView.isHidden = true
-        }
             
     }
     
