@@ -2139,4 +2139,9 @@
 "promo_code_apply_notification" = "You must apply a promo code to get discount";
 "extra_balacnce_details" = "رصيد المحفظة";
 
+
+//MARK: substitution
+
+"sub_extra_amount_refund_initial" = "Price difference of ";
+"sub_extra_amount_refund_final" = " will be added to your elWallet balance";
  

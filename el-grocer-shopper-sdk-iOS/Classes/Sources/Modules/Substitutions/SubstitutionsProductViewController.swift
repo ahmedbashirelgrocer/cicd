@@ -268,7 +268,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     private var totalPriceEntryView = BillEntryView(isGreen: false)
     private var seriviceFeeView = BillEntryView(isGreen: false)
     private var promoDiscountView = BillEntryView(isGreen: true)
-    private var earnSmilesPointView = BillEntryView(isGreen: true)
     private var grandToatalView = BillEntryView(isGreen: false)
     private var priceVarianceView = BillEntryView(isGreen: true)
     private var burnSmilePointsView = BillEntryView(isGreen: true)
@@ -280,6 +279,28 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         view.backgroundColor = UIColor.separatorColor()
         view.translatesAutoresizingMaskIntoConstraints = false
         
+        return view
+    }()
+    
+    private var lblPromotion: UILabel = {
+        let label = UILabel()
+        
+        label.text = "AED 30.00 SAVED!"
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        label.setCaptionTwoRegWhiteStyle()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private var promotionView: UIView = {
+        let view = UIView()
+        
+        view.isHidden = false
+        view.layer.cornerRadius = 21
+        view.backgroundColor = UIColor.promotionRedColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -327,8 +348,8 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         self.getTotalPrice()
         
         setBillInitialAppearance()
-        adjustDividerConstraints()
         addViewsInstackView()
+        adjustDividerConstraints()
         
         
             //get smile user data
@@ -2104,21 +2125,36 @@ extension SubstitutionsProductViewController {
     }
     
     func adjustDividerConstraints() {
-        dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-            //        self.dividerView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 8).isActive = true
-            //        self.dividerView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: -8).isActive = true
+        
+        self.totalPriceEntryView.trailingAnchor.constraint(equalTo: self.billStackBGView.trailingAnchor, constant: 0).isActive = true
+        self.totalPriceEntryView.leadingAnchor.constraint(equalTo: self.billStackBGView.leadingAnchor, constant: 0).isActive = true
+        
+        self.dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.dividerView.trailingAnchor.constraint(equalTo: self.billStackBGView.trailingAnchor, constant: -16).isActive = true
+        self.dividerView.leadingAnchor.constraint(equalTo: self.billStackBGView.leadingAnchor, constant: 16).isActive = true
+        
+        self.promotionView.trailingAnchor.constraint(equalTo: self.billStackBGView.trailingAnchor, constant: -16).isActive = true
+        self.promotionView.leadingAnchor.constraint(equalTo: self.billStackBGView.leadingAnchor, constant: 16).isActive = true
+        self.promotionView.bottomAnchor.constraint(equalTo: self.billStackBGView.bottomAnchor, constant: -16).isActive = true
+        self.promotionView.heightAnchor.constraint(equalToConstant: 42).isActive = true
+
+        self.lblPromotion.leadingAnchor.constraint(equalTo: self.promotionView.leadingAnchor, constant: 8).isActive = true
+        self.lblPromotion.trailingAnchor.constraint(equalTo: self.promotionView.trailingAnchor, constant: -8).isActive = true
+        self.lblPromotion.topAnchor.constraint(equalTo: self.promotionView.topAnchor, constant: 2).isActive = true
+        self.lblPromotion.centerYAnchor.constraint(equalTo: self.promotionView.centerYAnchor).isActive = true
         
     }
     
     func addViewsInstackView() {
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
-        self.billStackView.addArrangedSubview(self.earnSmilesPointView)
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
+        self.promotionView.addSubview(self.lblPromotion)
+        self.billStackView.addArrangedSubview(self.promotionView)
     }
     
     func configureBillDetails(order: Order) {
@@ -2182,13 +2218,17 @@ extension SubstitutionsProductViewController {
 //        setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
     }
     
-    func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int) {
+    func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, balance: Double) {
         
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity)
         self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
+
+        self.billStackView.addArrangedSubview(self.grandToatalView)
+        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
+        
         if promoTionDiscount > 0 {
             self.billStackView.addArrangedSubview(self.promoDiscountView)
             self.promoDiscountView.isHidden = false
@@ -2196,27 +2236,6 @@ extension SubstitutionsProductViewController {
         }else {
             self.promoDiscountView.isHidden = true
         }
-        
-        if smileEarn > 0 {
-            self.earnSmilesPointView.isHidden = false
-            self.pointsEarnedView.isHidden = false
-            self.billStackView.addArrangedSubview(self.earnSmilesPointView)
-            self.earnSmilesPointView.configureForPoints(title: localizedString("txt_smile_point", comment: ""), amount: smileEarn)
-            self.pointsEarnedValueLabel.text = localizedString("txt_earn", comment: "") + " \(smileEarn) " + localizedString("txt_smile_point", comment: "")
-            
-        }else {
-            self.earnSmilesPointView.isHidden = true
-            self.pointsEarnedView.isHidden = true
-        }
-//        if priceVariance != 0 {
-//            self.billStackView.addArrangedSubview(self.priceVarianceView)
-//            self.priceVarianceView.isHidden = false
-//            self.grandToatalView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: true)
-//        }else {
-//            self.priceVarianceView.isHidden = true
-//        }
-        self.billStackView.addArrangedSubview(self.grandToatalView)
-        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
         
         if elwalletBurn > 0 {
             self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
@@ -2235,8 +2254,27 @@ extension SubstitutionsProductViewController {
         }
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
-        self.finalBillAmountView.configure(title: localizedString("total_bill_amount", comment: ""), amount: finalBillAmount)
+        self.finalBillAmountView.configure(title: localizedString("amount_to_pay", comment: ""), amount: finalBillAmount)
         self.finalBillAmountView.setFinalBillAmountFont()
+        
+        if smileEarn > 0 {
+            
+            self.pointsEarnedView.isHidden = false
+            self.pointsEarnedValueLabel.text = localizedString("txt_earn", comment: "") + " \(smileEarn) " + localizedString("txt_smile_point", comment: "")
+            
+        }else {
+            self.pointsEarnedView.isHidden = true
+        }
+        
+        if balance != 0 {
+            self.billStackView.addArrangedSubview(promotionView)
+            self.promotionView.isHidden = false
+            self.lblPromotion.text = localizedString("sub_extra_amount_refund_initial", comment: "") + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: balance) + "\n" +  localizedString("sub_extra_amount_refund_final", comment: "")
+            self.lblPromotion.highlight(searchedText: ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: balance),color: UIColor.promotionYellowColor() , size: UIFont.SFProDisplayBoldFont(11))
+        }else {
+            self.promotionView.isHidden = true
+        }
+        
     }
 }
 // split payment api's for substitution
@@ -2333,6 +2371,6 @@ extension SubstitutionsProductViewController {
         }
         self.assignTotalSavingAmount(savedAmount: totalDiscount.doubleValue)
         configureCheckoutButtonData(itemsNum: quantity , totalBill: finalAmount.doubleValue)
-        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance.doubleValue, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity)
+        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance.doubleValue, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity, balance: balance.doubleValue)
     }
 }
