@@ -753,7 +753,8 @@ struct BasketDataClass: Codable {
    // let retailerDeliveryZoneId: Int?
     let quantity: Int?
     let totalDiscount: Double?
-    let balanceMessage: String?
+    let extraBalanceMessage: String?
+    let extraBalance: Double?
     let smilesEarn: Int?
     let priceVariance: Double?
     
@@ -777,9 +778,10 @@ struct BasketDataClass: Codable {
        // case retailerDeliveryZoneId = "retailer_delivery_zone_id"
         case quantity
         case totalDiscount = "total_discount"
-        case balanceMessage = "balance_message"
+        case extraBalanceMessage = "balance_message"
         case smilesEarn = "smiles_earn"
         case priceVariance = "Price_variance"
+        case extraBalance = "balance"
         
     }
     
@@ -808,9 +810,10 @@ struct BasketDataClass: Codable {
       //  retailerDeliveryZoneId = (try? values.decode(Int.self, forKey: .retailerDeliveryZoneId))
         quantity = (try? values.decode(Int.self, forKey: .quantity))
         totalDiscount = (try? values.decode(Double.self, forKey: .totalDiscount))
-        balanceMessage = (try? values.decode(String.self, forKey: .balanceMessage))
+        extraBalanceMessage = (try? values.decode(String.self, forKey: .extraBalanceMessage))
         smilesEarn = (try? values.decode(Int.self, forKey: .smilesEarn))
         priceVariance = (try? values.decode(Double.self, forKey: .smilesEarn))
+        extraBalance = (try? values.decode(Double.self, forKey: .extraBalance))
     }
 }
 

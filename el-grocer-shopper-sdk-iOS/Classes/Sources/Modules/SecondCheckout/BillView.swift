@@ -83,6 +83,16 @@ class BillView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    private lazy var lblExtraBalanceMessageText: UILabel = {
+        let label = UILabel()
+        
+        label.text = localizedString("", comment: "")
+        label.textAlignment = .left
+        label.setBody3BoldUpperLimitedStockStyle()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
     
     private var totalPriceEntryView = BillEntryView(isGreen: false)
     private var serviceFeeEntryView = BillEntryView(isGreen: false)
@@ -91,6 +101,7 @@ class BillView: UIView {
     private var smilesView = BillEntryView(isGreen: true)
     private var elWalletView = BillEntryView(isGreen: true)
     private var savingsView = BillEntryView(isGreen: true)
+    private var extraBalanceView = BillEntryView(isGreen: true)
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -115,7 +126,7 @@ class BillView: UIView {
         viewBG.addSubview(promotionView)
     }
     
-    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?,message: String?, priceVariance: Double?) {
+    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?,extraBalanceMessage: String?, priceVariance: Double?,extraBalance: Double?) {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
@@ -175,10 +186,18 @@ class BillView: UIView {
             self.smilesView.isHidden = true
         }
         
-        if let message = message {
-            
+        if let extraBalance = extraBalance, let extraBalanceMessage = extraBalanceMessage {
+            if extraBalance != 0 {
+                self.stackView.addArrangedSubview(extraBalanceView)
+                self.extraBalanceView.isHidden = false
+                
+                extraBalanceView.configure(title: localizedString("extra_balacnce_details", comment: ""), amount: extraBalance, isNegative: false)
+                
+            }else {
+                self.extraBalanceView.isHidden = true
+            }
         }else {
-            
+            self.extraBalanceView.isHidden = true
         }
             
     }
