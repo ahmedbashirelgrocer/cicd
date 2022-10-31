@@ -83,6 +83,32 @@ public final class ElGrocer {
   
 }
 
+
+enum SDKType {
+    
+    case smiles
+    case elGrocerShopper
+}
+
+public enum EnvironmentType {
+    
+    case staging
+    case preAdmin
+    case live
+    
+    func value() -> String {
+        
+        switch self {
+            case .staging:
+                return "Debug"
+            case .preAdmin:
+                return "PreAdmin"
+            case .live:
+                return "Release"
+        }
+    }
+}
+
 public struct LaunchOptions  {
     var accountNumber: String?
     var latitude: Double?
@@ -99,6 +125,10 @@ public struct LaunchOptions  {
     }
     var isFromPush = false
     
+    var SDKType : SDKType = .smiles
+    var environmentType : EnvironmentType = .live
+        
+    @available(*, deprecated)
     public init(accountNumber: String?,
                 latitude: Double?,
                 longitude: Double?,
@@ -122,10 +152,44 @@ public struct LaunchOptions  {
         self.language = language
         self.isSmileSDK = isSmileSDK
         self.isLoggingEnabled = isLoggingEnabled
+        self.SDKType = .smiles
+        self.isSmileSDK = true
+        self.environmentType =  .live
         if (pushNotificationPayload?.count ?? 0) > 0 {
             self.isFromPush = true
         }
     }
+    
+
+    public init(accountNumber: String?,
+         latitude: Double?,
+         longitude: Double?,
+         address: String?,
+         loyaltyID: String?,
+         email: String? = nil,
+         pushNotificationPayload: [String: AnyHashable]? = nil,
+         deepLinkPayload: String? = nil,
+                language: String? = nil, environmentType : EnvironmentType = .live) {
+        
+        self.accountNumber = accountNumber
+        self.latitude = latitude
+        self.longitude = longitude
+        self.address = address
+        self.loyaltyID = loyaltyID
+        self.email = email
+        self.pushNotificationPayload = pushNotificationPayload
+        self.deepLinkPayload = deepLinkPayload
+        self.language = language
+        self.SDKType = .smiles
+        self.isSmileSDK = true
+        self.environmentType =  environmentType
+        self.isLoggingEnabled = environmentType == .staging
+        
+        if (pushNotificationPayload?.count ?? 0) > 0 {
+            self.isFromPush = true
+        }
+    }
+
 }
 
 func elDebugPrint(_ items: Any...,

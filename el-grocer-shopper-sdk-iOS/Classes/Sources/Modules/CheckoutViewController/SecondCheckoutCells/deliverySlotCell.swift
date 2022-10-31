@@ -17,6 +17,7 @@ class deliverySlotCell: UITableViewCell {
     @IBOutlet var lblSlotValue: UILabel!
     @IBOutlet var imgArrow: UIImageView!
     @IBOutlet var imgTime: UIImageView!
+    var newUpdatedSlots : ((_ slots : [DeliverySlot]) -> Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -66,6 +67,11 @@ class deliverySlotCell: UITableViewCell {
         
         
         let popupViewController = AWPickerViewController(nibName: "AWPickerViewController", bundle: Bundle.resource)
+        popupViewController.newUpdatedSlots = { [weak self] (slots) in
+            if let clouser = self?.newUpdatedSlots {
+                clouser(slots)
+            }
+        }
         let popupController = STPopupController(rootViewController: popupViewController)
         if NSClassFromString("UIBlurEffect") != nil {
             // let blurEffect = UIBlurEffect(style: .dark)

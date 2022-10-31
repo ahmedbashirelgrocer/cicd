@@ -992,21 +992,22 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
             self.title = localizedString("Store_Title", comment: "")
-            
+            self.locationHeader.visibility = .gone
         }else{
             self.tableViewCategories.backgroundView = UIView()
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             self.tableViewCategories.reloadDataOnMain()
+            self.locationHeader.visibility = .visible
         }
         
-        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
-        if constraintA.count > 0 {
-            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-            let headerViewHeightConstraint = constraint
-            let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = (self.grocery == nil) ? 0 : maxHeight
-     
-        }
+//        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+//        if constraintA.count > 0 {
+//            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+//            let headerViewHeightConstraint = constraint
+//            let maxHeight = self.locationHeader.headerMaxHeight
+//            headerViewHeightConstraint.constant = (self.grocery == nil) ? 0 : maxHeight
+//
+//        }
      
     }
     

@@ -255,7 +255,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                                     // self.reloadAllData()
                             }
                             
-                            self.isFromPushAndForNavigation()
+                            //self.isFromPushAndForNavigation()
                             
                         }
                     case .failure(let error):

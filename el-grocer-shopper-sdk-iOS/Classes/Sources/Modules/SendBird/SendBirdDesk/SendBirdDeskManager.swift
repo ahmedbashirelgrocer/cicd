@@ -118,10 +118,11 @@ class SendBirdDeskManager{
           
             SBDSKMain.authenticate(withUserId: user.userId, accessToken: nil) { (error) in
                 
-                SpinnerView.hideSpinnerView()
+                
                 
                 guard error == nil else {
                     FireBaseEventsLogger.trackCustomEvent(eventType: "Chat", action: "authenticate", ["user.id" : user.userId , "error" : error?.localizedDescription ?? ""], true)
+                    SpinnerView.hideSpinnerView()
                   //  error?.showSBDErrorAlert()
                     return
                 }
@@ -171,12 +172,13 @@ class SendBirdDeskManager{
                 if user?.nickname == nil {
                     SBDMain.updateCurrentUserInfo(withNickname: name, profileUrl: nil) { (error) in
                         guard error == nil else{
-                         
+                            SpinnerView.hideSpinnerView()
                             FireBaseEventsLogger.trackCustomEvent(eventType: "ChatUserName:\(name)", action: "updateCurrentUserInfo", [ "error" : error?.localizedDescription ?? ""], true)
                             return
                         }
                         SBDSKMain.authenticate(withUserId: user!.userId, accessToken: nil) { (error) in
                             guard error == nil else {
+                                SpinnerView.hideSpinnerView()
                                 FireBaseEventsLogger.trackCustomEvent(eventType: "Chat", action: "authenticate", ["user.id" : user?.userId ?? "", "error" : error?.localizedDescription ?? ""], true)
                               //  error?.showSBDErrorAlert()
                                 group.leave()
@@ -203,6 +205,7 @@ class SendBirdDeskManager{
                     SBDSKMain.authenticate(withUserId: user!.userId, accessToken: nil) { (error) in
                         guard error == nil else {
                             // Handle error.
+                            SpinnerView.hideSpinnerView()
                             FireBaseEventsLogger.trackCustomEvent(eventType: "Chat", action: "authenticate", ["user.id" : user?.userId ?? "", "error" : error?.localizedDescription ?? ""], true)
                          //   error?.showSBDErrorAlert()
                             group.leave()
@@ -240,6 +243,7 @@ class SendBirdDeskManager{
                 SBDMain.connect(withUserId: shoperPrefix + id, accessToken: nil) { (user, error) in
                     guard error == nil else {
                         // Handle error.
+                        SpinnerView.hideSpinnerView()
                         FireBaseEventsLogger.trackCustomEvent(eventType: "Chat", action: "connect", ["user.id" : self.shoperPrefix + id, "error" : error?.localizedDescription ?? ""], true)
                         error?.showSBDErrorAlert()
                         group.leave()
@@ -251,6 +255,7 @@ class SendBirdDeskManager{
                     if user?.nickname == "" {
                         SBDMain.updateCurrentUserInfo(withNickname: name, profileUrl: nil) { (error) in
                             guard error == nil else{
+                                SpinnerView.hideSpinnerView()
                                 FireBaseEventsLogger.trackCustomEvent(eventType: "ChatUserName:\(name)", action: "updateCurrentUserInfo", [ "error" : error?.localizedDescription ?? ""], true)
                                 group.leave()
                                 return
@@ -258,6 +263,7 @@ class SendBirdDeskManager{
                             SBDSKMain.authenticate(withUserId: user!.userId, accessToken: nil) { (error) in
                                 guard error == nil else {
                                     // Handle error.
+                                    SpinnerView.hideSpinnerView()
                                     FireBaseEventsLogger.trackCustomEvent(eventType: "Chat", action: "connect", ["user.id" : self.shoperPrefix + id, "error" : error?.localizedDescription ?? ""], true)
                                  //   error?.showSBDErrorAlert()
                                     group.leave()
@@ -283,6 +289,7 @@ class SendBirdDeskManager{
                         // Use the same user ID and access token used in the SBDMain.connect().
                         SBDSKMain.authenticate(withUserId: user!.userId, accessToken: nil) { (error) in
                             guard error == nil else {
+                                SpinnerView.hideSpinnerView()
                                 FireBaseEventsLogger.trackCustomEvent(eventType: "Chat", action: "connect", ["user.id" : self.shoperPrefix + id, "error" : error?.localizedDescription ?? ""], true)
                                 //error?.showSBDErrorAlert()
                                 group.leave()
@@ -311,7 +318,6 @@ class SendBirdDeskManager{
         }
         
         group.notify(queue: DispatchQueue.global()) {
-            SpinnerView.hideSpinnerView()
             completionHandler?()
             //The user has been successfully deauthenticated using this function.
         }
@@ -323,7 +329,6 @@ class SendBirdDeskManager{
         if let oId = self.orderId, let vc = self.controller,let type = self.deskType,let user = SBDMain.getCurrentUser() {
             
             self.getOpenedTicket { (isFound , openticket, ticketsCount) in
-                
                 self.handleOpenTicketResponse(isFound: isFound, openTicket: openticket, ticketCount: ticketsCount)
             }
         }
@@ -377,6 +382,7 @@ class SendBirdDeskManager{
         SBDSKTicket.createTicket(withTitle: prefixToSend + orderIdToSend , userName: userToSend, groupKey: "", customFields: customFields,priority: SBDSKTicketPriority.medium , relatedChannels: [""]) { (ticket, error) in
             guard error == nil else {
                 // Handle error.
+                SpinnerView.hideSpinnerView()
                 return
             }
             if let ticketChannel = ticket?.channel , let oid = self.orderId{
@@ -403,6 +409,7 @@ class SendBirdDeskManager{
         }
         SBDSKTicket.getOpenedList(withOffset: self.openOffset, customFieldFilter: customFieldFilter) { (tickets, hasNext, error) in
             guard error == nil else {
+                SpinnerView.hideSpinnerView()
                 completion(found, nil, 0)
                 return
             }
@@ -457,6 +464,7 @@ class SendBirdDeskManager{
             guard error == nil else {
                 // Handle error.
                elDebugPrint(error)
+                SpinnerView.hideSpinnerView()
                 completion(found, nil,0)
                 return
             }
@@ -531,6 +539,7 @@ class SendBirdDeskManager{
             guard error == nil else {
                 // Handle error.
                elDebugPrint(error)
+                SpinnerView.hideSpinnerView()
                 return
             }
         }
@@ -552,11 +561,15 @@ class SendBirdDeskManager{
             }
         }
         
-        guard let userToAuth = SBUGlobals.CurrentUser else {return}
+        guard let userToAuth = SBUGlobals.CurrentUser else {
+            SpinnerView.hideSpinnerView()
+            return
+        }
         
         SBDSKMain.authenticate(withUserId: userToAuth.userId , accessToken: nil) { (error) in
            
             guard error == nil else {
+                SpinnerView.hideSpinnerView()
                 FireBaseEventsLogger.trackCustomEvent(eventType: "Chat", action: "authenticate", ["user.id" : userToAuth.userId , "error" : error?.localizedDescription ?? ""], true)
                 return
             }
@@ -566,7 +579,6 @@ class SendBirdDeskManager{
                 
                 IQKeyboardManager.shared.enableAutoToolbar = true
                 IQKeyboardManager.shared.enable = true
-                
                 let channelController = ElgrocerChannelController(channel: channel)
                 channelController.setOrderId(orderDbId: orderId)
                 
@@ -575,6 +587,7 @@ class SendBirdDeskManager{
                 navigationController.modalPresentationStyle = .fullScreen
                 
                 controller.present(navigationController, animated: true)
+                SpinnerView.hideSpinnerView()
             }
             
         }
@@ -587,7 +600,6 @@ class SendBirdDeskManager{
         guard let user = SBDMain.getCurrentUser() else {return}
         
         Thread.OnMainThread {
-            
             let userID = user.userId
             SBUGlobals.CurrentUser = SBUUser(userId: userID, nickname: user.nickname, profileUrl: nil)
             
@@ -597,6 +609,7 @@ class SendBirdDeskManager{
             navigationController.viewControllers = [vc]
             navigationController.modalPresentationStyle = .fullScreen
             controller.present(navigationController, animated: true)
+            SpinnerView.hideSpinnerView()
             
         }
 
@@ -615,6 +628,7 @@ class SendBirdDeskManager{
         self.setUserUpdatedLanguage()
         
         self.checkIfChannelExist(channelUrl: channelUrl) { doesExist, channel in
+            
             if doesExist{
                 if let userSendBird = SendBirdManager().getCurrentUser() {
                     let id = self.shoperPrefix + userSendBird.dbID.stringValue
@@ -745,6 +759,7 @@ extension SendBirdDeskManager {
     
     func handleCloseTicketResponse(openTicket: SBDSKTicket?, openTicketCount: Int, closeTicket: SBDSKTicket?, closeTicketCount: Int ) {
         guard let oId = self.orderId, let vc = self.controller,let type = self.deskType,let user = SBDMain.getCurrentUser() else {
+            SpinnerView.hideSpinnerView()
             return
         }
 

@@ -67,7 +67,7 @@ class SDKManager: NSObject  {
     
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
-        self.rootContext = UIApplication.topViewController()
+        self.rootContext = UIApplication.shared.keyWindow?.rootViewController
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
@@ -121,7 +121,6 @@ class SDKManager: NSObject  {
             }
             if var apiData = notifcation.userInfo as? [String : Any] {
                 apiData[FireBaseParmName.SessionID.rawValue] = ElGrocerUtility.sharedInstance.getGenericSessionID()
-                
                 if let launchOptions = launchOptions, launchOptions.isSmileSDK {
                     
                 } else {
@@ -137,7 +136,6 @@ class SDKManager: NSObject  {
                 } else {
                     FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
                 }
-                
                 FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)" , [:] , false )
             }
         }
@@ -296,13 +294,15 @@ class SDKManager: NSObject  {
         
         
         guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else {
-            // Fixme: Firebase disabled
+          // Fixme: Firebase disabled
+        #if DEBUG
+          // debugFirebaseSetting()
+        #else
             smileSDKFireBaseSetting()
+        #endif
             return
         }
-        
-        
-        
+
         guard Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" else {
             return
         }
@@ -430,7 +430,7 @@ class SDKManager: NSObject  {
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
          LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions?.language ?? "Base", SDKManagers: self)
-        if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.topViewController() {
+        if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.shared.keyWindow?.rootViewController {
             navEntryController.modalPresentationStyle = .fullScreen
             topVC.present(navEntryController, animated: true) {  }
             rootViewController = navEntryController
@@ -491,7 +491,9 @@ class SDKManager: NSObject  {
                // topVC.present(tabVC, animated: true, completion: nil)
                 if tabVC.viewControllers.count > 0  {
                     if let tabController = tabVC.viewControllers[0] as? UITabBarController {
-                        topVC.navigationController?.pushViewControllerFromLeftAndSetRoot(controller: tabController)
+                        Thread.OnMainThread {
+                            topVC.navigationController?.pushViewControllerFromLeftAndSetRoot(controller: tabController)
+                        }
                     }
                 }
             }
@@ -888,7 +890,7 @@ fileprivate extension SDKManager {
         //AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
         // MARK:- TODO fixappsflyer
         //AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
-        //AlgoliaApi.sharedInstance.reStartInsights()
+        AlgoliaApi.sharedInstance.reStartInsights()
         ElGrocerUtility.sharedInstance.delay(2) {
             self.startChatFeature()
         }

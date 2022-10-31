@@ -959,7 +959,8 @@ class ProductCell : UICollectionViewCell {
         
         if !(product.isPublished.boolValue && product.isAvailable.boolValue) {
             self.outOfStockContainer.isHidden = false
-          
+            //self.chooseReplaceBg.isHidden = true
+            //self.deleteView.isHidden = true
         }else{
             self.outOfStockContainer.isHidden = true
         }

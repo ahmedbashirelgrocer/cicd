@@ -117,7 +117,11 @@ class PopImageViwerViewController: UIViewController {
         }
     }
     
-    @IBOutlet var topScrollView: UIScrollView!
+    @IBOutlet var topScrollView: UIScrollView! {
+        didSet {
+            topScrollView.isScrollEnabled = false
+        }
+    }
     @IBOutlet var boughtItemView: CustomCollectionView!
     
     lazy var boughtItems : [Product] = []

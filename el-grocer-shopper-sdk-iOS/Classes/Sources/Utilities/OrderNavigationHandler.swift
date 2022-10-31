@@ -94,7 +94,7 @@ class OrderNavigationHandler {
         
         
         
-        if order.status.intValue == OrderStatus.payment_pending.rawValue  {
+        if order.status.intValue == OrderStatus.payment_pending.rawValue ||  order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue  {
             self.editOrderSuccess(nil)
             return
         }

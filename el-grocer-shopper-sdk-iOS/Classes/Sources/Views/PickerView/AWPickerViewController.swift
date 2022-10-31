@@ -21,6 +21,7 @@ enum PicketSlotViewType : Int {
 }
 
 
+
 class AWPickerViewController : UIViewController {
     
     var viewType : PicketSlotViewType =  .default
@@ -49,7 +50,7 @@ class AWPickerViewController : UIViewController {
             lblNoSlot.isHidden = true
         }
     }
-    
+    var newUpdatedSlots : ((_ slots : [DeliverySlot]) -> Void)?
     var changeSlot : ((_ slot : DeliverySlot?) -> Void)?
     var currentGrocery : Grocery? = ElGrocerUtility.sharedInstance.activeGrocery
     var collectionData = [DeliverySlot]()
@@ -401,7 +402,11 @@ class AWPickerViewController : UIViewController {
         defer {
              NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateGenericSlotView), object: nil)
         }
+        
         let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: currentGrocery?.dbID ?? "-1")
+        if let clouser = self.newUpdatedSlots {
+            clouser(slots)
+        }
         if let firstObj  = slots.first(where: {$0.dbID == self.slotsCollectionView.selectedSlotID }) {
             UserDefaults.setCurrentSelectedDeliverySlotId(firstObj.dbID)
             UserDefaults.setEditOrderSelectedDelivery(nil)

@@ -69,52 +69,60 @@ class ViewController: UIViewController {
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = ""
         txtEmail.text = ""
-        txtPushPayload.text =  "" //"{\"origin\":\"el-grocer-api\"}"
+        txtPushPayload.text =  "[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
         txtDLPayload.text = nil // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "Base"
     }
     
     @objc func startSDK() {
         
-        var pushData : [String: AnyHashable] = [:]
-        if let data = txtPushPayload.text?.data(using: .utf8) {
-            do {
-                pushData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyHashable] ?? [:]
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
         
-      //  self.txtDLPayload.text = "https://https://smiles://exy-too-trana//elgrocer://Chat=1,StoreID=16,retailer_id=16,BrandID=16&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp"
+        var refreshAlert = UIAlertController(title: "Select Env", message: "Please close the app then select now Envoirment. \n One selection per session \n 1. Staging 2. PREADMIN 3. LIVE", preferredStyle: UIAlertController.Style.alert)
+
+        refreshAlert.addAction(UIAlertAction(title: "Staging", style: .default, handler: {[weak self] (action: UIAlertAction!) in
+            guard let self = self else {return}
+            let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+            let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .staging)
+            ElGrocer.startEngine(with: launchOptions)
+            
+            
+          }))
+
+        refreshAlert.addAction(UIAlertAction(title: "PREADMIN", style: .default, handler: { [weak self] (action: UIAlertAction!) in
+            guard let self = self else {return}
+            let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+            let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .preAdmin)
+            ElGrocer.startEngine(with: launchOptions)
+            
+          }))
         
-        let launchOptions = LaunchOptions(
-            accountNumber: txtAccountNumber.text,
-            latitude: ((txtLat.text ?? "0") as NSString).doubleValue,
-            longitude: ((txtLong.text ?? "0") as NSString).doubleValue,
-            address: txtAddress.text,
-            loyaltyID: txtLoyalityID.text,
-            email: txtEmail.text,
-            pushNotificationPayload: pushData,
-            deepLinkPayload:  txtDLPayload.text,
-            language: txtLanguage.text,
-            isSmileSDK: true,
-            isLoggingEnabled: true
-        )
+        refreshAlert.addAction(UIAlertAction(title: "LIVE", style: .default, handler: { [weak self]  (action: UIAlertAction!) in
+            guard let self = self else {return}
+            let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+            let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .live)
+            ElGrocer.startEngine(with: launchOptions)
+            
+          }))
+
+        present(refreshAlert, animated: true, completion: nil)
         
-//        let launchOptions = LaunchOptions(accountNumber: Optional("+971567367806"),
-//                                          latitude: Optional(25.2346972),
-//                                          longitude: Optional(55.2963797),
-//                                          address: Optional("Al Kifaf"),
-//                                          loyaltyID: Optional("111111111130"),
-//                                          email: Optional("swislam@etisalat.ae"),
-//                                          pushNotificationPayload: nil,
-//                                          deepLinkPayload: Optional("https://https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=16,BrandID=16&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp"),
-//                                          language: Optional("en"),
-//                                          isSmileSDK: true,
-//                                          isLoggingEnabled: false)
-        
-        ElGrocer.startEngine(with: launchOptions)
+       
     }
+    
+    
+    @IBAction func showPresentedView(_ sender: Any) {
+        let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+        
+        let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .live)
+        
+        let vc : PresentedViewController = self.storyboard?.instantiateViewController(withIdentifier: "PresentedViewController") as! PresentedViewController
+        vc.launchOption = launchOptions
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .fullScreen
+        let nv = UINavigationController.init(rootViewController: vc)
+        self.show(nv, sender: nil)
+    }
+    
     
     func updateLocation(_ location: CLLocation!) {
         txtLong.text = "\(location.coordinate.longitude)"

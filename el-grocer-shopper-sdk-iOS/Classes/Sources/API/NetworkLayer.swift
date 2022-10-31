@@ -222,10 +222,16 @@ class NetworkLayer {
                  let expireTime = date.addingTimeInterval(ElGrocerUtility.sharedInstance.projectScope!.expires_in)
                  self.expireDate = expireTime as Date
                 
+                var urlList : [String : callType] = [:]
                 while !self.queue.isEmpty() {
                     if  let call : CallObj =  self.queue.dequeue() {
-                        //elDebugPrint("dequeue call\(call.URLString) && \(call.parameters ?? "")")
+                        if urlList[call.URLString] == call.type {
+                            continue
+                        }
+                        urlList[call.URLString] = call.type
+                    print("dequeue call\(call.URLString) && \(call.parameters ?? "")")
                        call.startNetWorkLayerCall(self)
+                        
                     }
                 }
                 ElGrocerUtility.sharedInstance.isTokenCalling = false
@@ -332,6 +338,7 @@ class NetworkLayer {
         self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
         self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "Sdk-Version")
         
+        
     
     }
     
@@ -379,7 +386,7 @@ class Queue<T> {
         guard !elements.isEmpty else {
             return nil
         }
-        return elements.removeFirst()
+        return elements.removeLast()
     }
     
     var head: T? {

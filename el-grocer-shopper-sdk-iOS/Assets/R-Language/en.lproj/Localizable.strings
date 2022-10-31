@@ -1526,6 +1526,7 @@ Add delivery details";
 "lbl_ReturnHome" = "Return to Home";
 "lbl_atThisStore" = "at this store";
 "lbl_NoDataStoreSearch" = "Try a different spelling or search in other stores.";
+"lbl_Error_No_Store_On_This_Location_Selling_Products" = "No store on this location is selling such products. ";
 
 "lblSearchHistory" = "SEARCH HISTORY";
 "lbl_TrendingSearch" = "Trending searches";
@@ -2010,6 +2011,7 @@ Oreo";
 "title_apply_promo" = "Promocodes";
 "title_available_promo" = "Available Promocodes";
 "txt_details" = "Details";
+"txt_view_details" = "View details";
 "txt_hide_details" = "Hide details";
 "txt_btn_apply" = "APPLY";
 "txt_add_to_use_initial" = "Add";

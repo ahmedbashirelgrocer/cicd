@@ -132,8 +132,8 @@ class OrderDetailStateTableViewCell: UITableViewCell {
 extension OrderDetailStateTableViewCell {
     
     func setButtonType (_ order : Order) {
-
-        if order.status.intValue == OrderStatus.payment_pending.rawValue {
+        
+        if order.status.intValue == OrderStatus.payment_pending.rawValue || order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue {
             self.btnChoose.setTitle(localizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
         }else if order.status.intValue == OrderStatus.inSubtitution.rawValue {
             self.btnChoose.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
