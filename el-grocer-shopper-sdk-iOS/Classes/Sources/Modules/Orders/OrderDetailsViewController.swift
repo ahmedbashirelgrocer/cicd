@@ -1842,7 +1842,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }else  if indexPath.row == 5 {
                 if (self.order.smileEarn ?? 0) > 0 {
                     let cell : EarnedSmilePointCell = tableView.dequeueReusableCell(withIdentifier: "EarnedSmilePointCell" , for: indexPath) as! EarnedSmilePointCell
-                    
+                    if self.order != nil && self.order.smileEarn != 0 {
+                        cell.configure(points: self.order.smileEarn?.doubleValue ?? 0.00)
+                    }
                     return cell
                 }else {
                     let cell : orderBillDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "orderBillDetailsTableViewCell" , for: indexPath) as! orderBillDetailsTableViewCell

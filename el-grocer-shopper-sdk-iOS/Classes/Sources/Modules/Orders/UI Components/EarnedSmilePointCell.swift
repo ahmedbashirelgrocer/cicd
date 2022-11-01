@@ -43,5 +43,10 @@ class EarnedSmilePointCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func configure(points: Double) {
+        
+        self.lblSmilePointEarnedValue.text = "+" + points.formateDisplayString()
+    }
 
 }
