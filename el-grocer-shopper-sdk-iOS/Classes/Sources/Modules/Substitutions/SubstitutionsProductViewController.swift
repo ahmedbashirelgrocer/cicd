@@ -1190,7 +1190,8 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                         quantity = item.count.intValue - quantity
                         
                         if quantity > 0 {
-                            SubstitutionBasketItem.addOrUpdateProductInSubstitutionBasket(selectedProduct, subtitutedProduct: product, grocery: self.order.grocery, order: self.order, quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+//                            SubstitutionBasketItem.addOrUpdateProductInSubstitutionBasket(selectedProduct, subtitutedProduct: product, grocery: self.order.grocery, order: self.order, quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                            self.quickDecrementSubsituteReplacment(product: oldProduct, subtituteProduct: selectedProduct, nil)
                         }else{
                             
                             self.discardProductInBasketWithProductIndex(product)
