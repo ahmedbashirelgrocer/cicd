@@ -1621,7 +1621,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle.resource)
         self.tableView.register(subsitutionActionButtonTableViewCell, forCellReuseIdentifier: "SubsitutionActionButtonTableViewCell")
         
-        
+        let EarnedSmilePointCell = UINib(nibName: "EarnedSmilePointCell", bundle: Bundle.resource)
+        self.tableView.register(EarnedSmilePointCell, forCellReuseIdentifier: "EarnedSmilePointCell")
         
         let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
@@ -1664,7 +1665,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         guard self.orderProducts != nil else { return 0 }
         
         if section == 0 {
-            return 7
+            if (order.smileEarn ?? 0) > 0 {
+                return 8
+            }else {
+                return 7
+            }
         }else  if section == 2 {
             return 1
         }else{
@@ -1736,6 +1741,13 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }else if indexPath.row == 5 {
                 return UITableView.automaticDimension//70 //260 + ( self.order.promoCode != nil ? 20 : 0)
             }else if indexPath.row == 6 {
+                if (self.order.smileEarn ?? 0) > 0 {
+                    return UITableView.automaticDimension//70 //260 + ( self.order.promoCode != nil ? 20 : 0)
+                }else {
+                    return 40
+                }
+                
+            }else if indexPath.row == 7 {
                 return 40
             }
            
@@ -1828,14 +1840,30 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 return cell
                 
             }else  if indexPath.row == 5 {
-                
-                let cell : orderBillDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "orderBillDetailsTableViewCell" , for: indexPath) as! orderBillDetailsTableViewCell
-                if self.order != nil {
-                    cell.configureBillDetails(order: self.order, orderController: self)
+                if (self.order.smileEarn ?? 0) > 0 {
+                    let cell : EarnedSmilePointCell = tableView.dequeueReusableCell(withIdentifier: "EarnedSmilePointCell" , for: indexPath) as! EarnedSmilePointCell
+                    
+                    return cell
+                }else {
+                    let cell : orderBillDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "orderBillDetailsTableViewCell" , for: indexPath) as! orderBillDetailsTableViewCell
+                    if self.order != nil {
+                        cell.configureBillDetails(order: self.order, orderController: self)
+                    }
+                    return cell
                 }
-                return cell
-                
             }else  if indexPath.row == 6 {
+                if (self.order.smileEarn ?? 0) > 0 {
+                    let cell : orderBillDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "orderBillDetailsTableViewCell" , for: indexPath) as! orderBillDetailsTableViewCell
+                    if self.order != nil {
+                        cell.configureBillDetails(order: self.order, orderController: self)
+                    }
+                    return cell
+                }else {
+                    let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
+                    cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))
+                    return cell
+                }
+            }else  if indexPath.row == 7 {
                 
                 let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
                 cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))

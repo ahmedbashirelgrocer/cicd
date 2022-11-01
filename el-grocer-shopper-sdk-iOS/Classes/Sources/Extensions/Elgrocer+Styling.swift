@@ -102,6 +102,10 @@ extension UILabel {
         self.font = UIFont.SFProDisplayNormalFont(14)
         self.textColor = UIColor.newBlackColor()
     }
+    func setBody3RegPurpleStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(14)
+        self.textColor = UIColor.smileBaseColor()
+    }
     func setBody3RegWhiteStyle() {
         self.font = UIFont.SFProDisplayNormalFont(14)
         self.textColor = UIColor.navigationBarWhiteColor()

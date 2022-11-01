@@ -253,7 +253,7 @@ extension OrderDetailStateTableViewCell {
             }
         }
         let countLabel = orderProducts.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
-        self.lblNumberOfItems.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
+        self.lblNumberOfItems.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(order?.totalProducts ?? 0) ") + countLabel + ")"
         let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: order!.grocery, totalPrice: priceSum)
             priceSum = priceSum + serviceFee
         if let promoCode = order!.promoCode {

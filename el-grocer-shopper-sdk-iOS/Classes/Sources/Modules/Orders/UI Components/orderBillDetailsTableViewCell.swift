@@ -15,7 +15,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     private var totalPriceEntryView = BillEntryView(isGreen: false)
     private var seriviceFeeView = BillEntryView(isGreen: false)
     private var promoDiscountView = BillEntryView(isGreen: true)
-    private var earnSmilesPointView = BillEntryView(isGreen: true)
+//    private var earnSmilesPointView = BillEntryView(isGreen: true)
     private var grandToatalView = BillEntryView(isGreen: false)
     private var priceVarianceView = BillEntryView(isGreen: true)
     private var burnSmilePointsView = BillEntryView(isGreen: true)
@@ -56,7 +56,6 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     func addViewsInstackView() {
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
-        self.billStackView.addArrangedSubview(self.earnSmilesPointView)
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
@@ -131,7 +130,11 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity)
         self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
+        
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
+        self.billStackView.addArrangedSubview(self.grandToatalView)
+        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
+        
         if promoTionDiscount > 0 {
             self.billStackView.addArrangedSubview(self.promoDiscountView)
             self.promoDiscountView.isHidden = false
@@ -139,23 +142,6 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         }else {
             self.promoDiscountView.isHidden = true
         }
-        
-        if smileEarn > 0 {
-            self.earnSmilesPointView.isHidden = false
-            self.billStackView.addArrangedSubview(self.earnSmilesPointView)
-            self.earnSmilesPointView.configureForPoints(title: localizedString("txt_smile_point", comment: ""), amount: smileEarn)
-        }else {
-            self.earnSmilesPointView.isHidden = true
-        }
-        if priceVariance != 0 {
-            self.priceVarianceView.isHidden = false
-            self.billStackView.addArrangedSubview(self.priceVarianceView)
-            self.priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: false)
-        }else {
-            self.priceVarianceView.isHidden = true
-        }
-        self.billStackView.addArrangedSubview(self.grandToatalView)
-        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
         
         if elwalletBurn > 0 {
             self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
@@ -171,6 +157,13 @@ class orderBillDetailsTableViewCell: UITableViewCell {
             self.burnSmilePointsView.configure(title: localizedString("smiles_points_applied", comment: ""), amount: smileBurn, isNegative: true)
         }else {
             self.burnSmilePointsView.isHidden = true
+        }
+        if priceVariance != 0 {
+            self.priceVarianceView.isHidden = false
+            self.billStackView.addArrangedSubview(self.priceVarianceView)
+            self.priceVarianceView.configure(title: localizedString("Card_Price_Variance_Title", comment: ""), amount: priceVariance, isNegative: false)
+        }else {
+            self.priceVarianceView.isHidden = true
         }
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)

@@ -2107,3 +2107,6 @@ Oreo";
 
 "sub_extra_amount_refund_initial" = "Price difference of ";
 "sub_extra_amount_refund_final" = " will be added to your elWallet balance";
+
+//MARK: order details
+"lbl_smile_point_earned" = "Smiles Points Earned";
