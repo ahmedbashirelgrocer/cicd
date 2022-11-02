@@ -126,9 +126,11 @@ class SecondCheckoutVC: UIViewController {
                         self?.showConfirmationView(order!)
                         return
                     }
-                    self?.paymentWithCard(card, order: order!)
+                    elDebugPrint(order)
+                    self?.paymentWithCard(card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
                 }else if self?.viewModel.getSelectedPaymentOption() == .applePay, let card = self?.viewModel.getApplePay(){
-                    self?.payWithApplePay(selctedApplePayMethod: card, order: order!)
+                    elDebugPrint(order)
+                    self?.payWithApplePay(selctedApplePayMethod: card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
                 } else {
                     self?.showConfirmationView(order!)
                 }
@@ -208,9 +210,17 @@ class SecondCheckoutVC: UIViewController {
         }
     }
     
-    func paymentWithCard(_ selectedMethod: StoredCardPaymentMethod, order : Order) {
-           
-        AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: NSDecimalNumber.init(value: 0), orderNum: order.dbID.stringValue, method: selectedMethod )
+    func paymentWithCard(_ selectedMethod: StoredCardPaymentMethod, order : Order, amount: Double) {
+        let configAuthAmount = ElGrocerUtility.sharedInstance.appConfigData.initialAuthAmount
+        var authValue: NSDecimalNumber = NSDecimalNumber.init(floatLiteral: 0.00)
+        
+        if configAuthAmount < 0 {
+            authValue = NSDecimalNumber.init(floatLiteral: amount)
+        }else {
+            authValue = NSDecimalNumber.init(floatLiteral: configAuthAmount)
+        }
+        
+        AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: authValue, orderNum: order.dbID.stringValue, method: selectedMethod )
             AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
                 SpinnerView.hideSpinnerView()
                 if error {
@@ -226,10 +236,16 @@ class SecondCheckoutVC: UIViewController {
             }
     }
     
-    func payWithApplePay(selctedApplePayMethod: ApplePayPaymentMethod,order: Order) {
+    func payWithApplePay(selctedApplePayMethod: ApplePayPaymentMethod,order: Order, amount: Double) {
         
-            
-            let authValue = NSDecimalNumber.init(value: 1)
+        let configAuthAmount = ElGrocerUtility.sharedInstance.appConfigData.initialAuthAmount
+        var authValue: NSDecimalNumber = NSDecimalNumber.init(floatLiteral: 0.00)
+        
+        if configAuthAmount < 0 {
+            authValue = NSDecimalNumber.init(floatLiteral: amount)
+        }else {
+            authValue = NSDecimalNumber.init(floatLiteral: configAuthAmount)
+        }
             
             AdyenManager.sharedInstance.makePaymentWithApple(controller: self, amount: authValue, orderNum: order.dbID.stringValue, method: selctedApplePayMethod)
             AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in

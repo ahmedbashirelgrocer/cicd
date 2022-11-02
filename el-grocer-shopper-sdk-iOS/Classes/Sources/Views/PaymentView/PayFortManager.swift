@@ -293,6 +293,7 @@ struct AppConfiguration {
     var isApplePayEnable : Bool = false
     var fetchCatalogFromAlgolia : Bool = true
     var smilesData: SmilesData = SmilesData()
+    var initialAuthAmount: Double = 0.00
 }
 extension AppConfiguration {
     
@@ -312,7 +313,7 @@ extension AppConfiguration {
         orderStatus = DynamicOrderStatus.getDataA(dict["order_statuses"] as? [NSDictionary] ?? [])
         isApplePayEnable  = dict["applepay_switch"] as? Bool ?? false
         fetchCatalogFromAlgolia = dict["fetch_catalog_from_algolia"] as? Bool ?? true
-        
+        initialAuthAmount = dict["initial_auth_amount"] as? Double ?? 0.00
         if let smilesDictionary = dict["smile_data"] as? Dictionary<String, Any> {
             smilesData = SmilesData.init(smilesDict: smilesDictionary)
         }
