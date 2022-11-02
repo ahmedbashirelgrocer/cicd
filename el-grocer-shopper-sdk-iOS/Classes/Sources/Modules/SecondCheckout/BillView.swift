@@ -126,13 +126,18 @@ class BillView: UIView {
         viewBG.addSubview(promotionView)
     }
     
-    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?) {
+    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?, smilesSubscriber: Bool) {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: productTotal)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity ?? 0)
-        self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
+        if smilesSubscriber {
+            self.serviceFeeEntryView.configureForFreeServiceFee()
+        }else {
+            self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
+        }
+        
         self.grandTotalEntryView.configure(title: localizedString("grand_total", comment: ""), amount: total)
         self.lblFinalAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: finalTotal)
 
@@ -282,7 +287,7 @@ class BillEntryView: UIView {
         
         lblTitle.leadingAnchor.constraint(equalTo: viewBG.leadingAnchor, constant: 16).isActive = true
         lblTitle.centerYAnchor.constraint(equalTo: viewBG.centerYAnchor).isActive = true
-
+        
         lblAmount.trailingAnchor.constraint(equalTo: viewBG.trailingAnchor, constant: -16).isActive = true
         lblAmount.centerYAnchor.constraint(equalTo: viewBG.centerYAnchor).isActive = true
     }
@@ -297,11 +302,16 @@ class BillEntryView: UIView {
         self.lblTitle.font = UIFont.SFProDisplayBoldFont(14)
         self.lblAmount.font = UIFont.SFProDisplayBoldFont(14)
     }
-
+    
     func configureForPoints(title: String, amount: Int) {
         self.lblTitle.text = title
         let amountString = Double(amount).formateDisplayString()
         self.lblAmount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: amountString)
+    }
+    
+    func configureForFreeServiceFee() {
+        self.lblTitle.text = localizedString("service_price", comment: "")
+        self.lblAmount.text = localizedString("txt_free", comment: "")
     }
     
     func configure(title: String, amount: Double, isNegative: Bool = false) {

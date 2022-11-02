@@ -2219,13 +2219,20 @@ extension SubstitutionsProductViewController {
 //        setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
     }
     
-    func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, balance: Double) {
+    func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, balance: Double, smilesSubscriber: Bool) {
         
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity)
-        self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
-        self.billStackView.addArrangedSubview(self.seriviceFeeView)
+        
+        if smilesSubscriber {
+            self.seriviceFeeView.configureForFreeServiceFee()
+            self.billStackView.addArrangedSubview(self.seriviceFeeView)
+        }else {
+            self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
+            self.billStackView.addArrangedSubview(self.seriviceFeeView)
+        }
+        
 
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
@@ -2365,6 +2372,7 @@ extension SubstitutionsProductViewController {
         let total = response["total"] as? NSNumber ?? NSNumber(0)
         let totalDiscount = response["total_discount"] as? NSNumber ?? NSNumber(0)
         let priceVariance = response["price_variance"] as? NSNumber ?? NSNumber(0)
+        let smilesSubscriber = response["smiles_subscriber"] as? Bool ?? false
         var smileEarn: Int = 0
         if (order.isSmilesUser?.boolValue ?? false) {
             let total = total.doubleValue - smilesRedeem.doubleValue
@@ -2372,6 +2380,6 @@ extension SubstitutionsProductViewController {
         }
         self.assignTotalSavingAmount(savedAmount: totalDiscount.doubleValue)
         configureCheckoutButtonData(itemsNum: quantity , totalBill: finalAmount.doubleValue)
-        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance.doubleValue, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity, balance: balance.doubleValue)
+        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance.doubleValue, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity, balance: balance.doubleValue, smilesSubscriber: smilesSubscriber)
     }
 }

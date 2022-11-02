@@ -121,16 +121,19 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         smileEarn = order.smileEarn?.intValue ?? 0
         priceSum = order.finalBillAmount?.doubleValue ?? 0.00 //grandTotal - discount - burnSmilePoints - burnElwalletPoints
         
-        setBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
+        setBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount, smilesSubscriber: order.foodSubscriptionStatus?.boolValue ?? false)
     }
     
-    func setBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int) {
+    func setBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, smilesSubscriber: Bool) {
 
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity)
-        self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
-        
+        if smilesSubscriber {
+            self.seriviceFeeView.configureForFreeServiceFee()
+        }else {
+            self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
+        }
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
