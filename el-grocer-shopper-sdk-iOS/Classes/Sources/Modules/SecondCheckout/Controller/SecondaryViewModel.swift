@@ -783,7 +783,7 @@ struct BasketDataClass: Codable {
         case smilesEarn = "smiles_earn"
         case priceVariance = "Price_variance"
         case extraBalance = "balance"
-        case smilesSubscriber = "smiles_subscriber"
+        case smilesSubscriber = "food_subscription_status"
         
     }
     

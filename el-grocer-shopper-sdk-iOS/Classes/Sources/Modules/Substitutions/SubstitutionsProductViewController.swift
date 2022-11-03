@@ -2372,7 +2372,7 @@ extension SubstitutionsProductViewController {
         let total = response["total"] as? NSNumber ?? NSNumber(0)
         let totalDiscount = response["total_discount"] as? NSNumber ?? NSNumber(0)
         let priceVariance = response["price_variance"] as? NSNumber ?? NSNumber(0)
-        let smilesSubscriber = response["smiles_subscriber"] as? Bool ?? false
+        let smilesSubscriber = response["food_subscription_status"] as? Bool ?? false
         var smileEarn: Int = 0
         if (order.isSmilesUser?.boolValue ?? false) {
             let total = total.doubleValue - smilesRedeem.doubleValue
