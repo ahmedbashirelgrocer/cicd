@@ -520,7 +520,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 }
             }else{
                     // elDebugPrint(self.grocerA[12312321])
-                FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
+                FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash \(SDKManager.shared.rootViewController))")
             }
                 //}
         }
