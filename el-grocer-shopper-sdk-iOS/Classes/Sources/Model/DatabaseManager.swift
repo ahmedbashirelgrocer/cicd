@@ -161,21 +161,9 @@ class DatabaseManager : NSObject {
         guard context.persistentStoreCoordinator == self.persistentStoreCoordinator else {
                  return
         }
-        context.mergeChanges(fromContextDidSave: notification)
-        return
-        /*
-         
-         NSManagedObjectContext * context = notification.object;
-         if (context != self.managedObjectContextForMainThread) {
-         if (context.persistentStoreCoordinator == self.persistentStoreCoordinator) {
-         [context mergeChangesFromContextDidSaveNotification:notification];
-         }
-         }
-         
-         
-         */
-        
-        /*
+        //context.mergeChanges(fromContextDidSave: notification)
+        //return
+    
         if (context != self.mainManagedObjectContext) {
             if (context.persistentStoreCoordinator == self.persistentStoreCoordinator) {
                 context.mergeChanges(fromContextDidSave: notification)
@@ -195,7 +183,7 @@ class DatabaseManager : NSObject {
             //self.backgroundManagedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
             //self.mainManagedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
         }
-         */
+         
     }
     
     // MARK: Methods

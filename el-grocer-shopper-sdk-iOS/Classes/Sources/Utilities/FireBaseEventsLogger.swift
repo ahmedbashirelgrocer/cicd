@@ -340,7 +340,9 @@ class FireBaseEventsLogger  {
            // elDebugPrint("check logger for type  type : \(String(describing: value.self)) : \(key) : valure : \(value) ")
             
              if value is [NSNumber] {
-                newParms?[key] = (value as AnyObject).description
+                 if value != nil {
+                     newParms?[key] = (value as AnyObject).description
+                 }
             }
             
             if value is String {
