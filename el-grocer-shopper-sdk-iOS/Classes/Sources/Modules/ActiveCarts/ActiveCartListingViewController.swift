@@ -10,7 +10,11 @@ import RxSwift
 import RxDataSources
 
 class ActiveCartListingViewController: UIViewController {
-    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblTitle: UILabel! {
+        didSet {
+            lblTitle.setH4SemiBoldStyle()
+        }
+    }
     @IBOutlet weak var tableView: UITableView!
     
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, ReusableTableViewCellViewModelType>>!
@@ -26,7 +30,8 @@ class ActiveCartListingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.register(UINib(nibName: ActiveCartTableViewCell.defaultIdentifier, bundle: nil), forCellReuseIdentifier: ActiveCartTableViewCell.defaultIdentifier)
+        self.tableView.register(UINib(nibName: ActiveCartTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: ActiveCartTableViewCell.defaultIdentifier)
+        self.tableView.separatorColor = .clear
         self.bindViews()
     }
     

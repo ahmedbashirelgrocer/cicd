@@ -113,8 +113,9 @@
                                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" systemColor="systemIndigoColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="7nl-EP-m5n"/>
                                     <constraint firstItem="885-iM-kaG" firstAttribute="leading" secondItem="zGL-aK-KP7" secondAttribute="leading" constant="16" id="DjT-e2-u0u"/>
                                     <constraint firstAttribute="trailing" secondItem="885-iM-kaG" secondAttribute="trailing" constant="16" id="Eva-hA-FGs"/>
                                     <constraint firstItem="885-iM-kaG" firstAttribute="top" secondItem="zGL-aK-KP7" secondAttribute="top" id="Fbw-3M-y91"/>
@@ -142,6 +143,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
+                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="GXq-YM-yU8" secondAttribute="bottom" constant="16" id="3ib-xe-TRr"/>
                     <constraint firstAttribute="trailing" secondItem="GXq-YM-yU8" secondAttribute="trailing" constant="16" id="JW6-Gn-3PM"/>
@@ -171,6 +173,9 @@
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

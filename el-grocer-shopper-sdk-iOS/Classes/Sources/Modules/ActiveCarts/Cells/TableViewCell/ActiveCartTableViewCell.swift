@@ -23,7 +23,8 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+    
+        self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
     }
 
     override func configure(viewModel: Any) {

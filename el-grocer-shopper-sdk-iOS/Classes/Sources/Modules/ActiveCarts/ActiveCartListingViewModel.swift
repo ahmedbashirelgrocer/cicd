@@ -27,7 +27,7 @@ extension ActiveCartListingViewModelType {
     var outputs: ActiveCartListingViewModelOutput { self }
 }
 
-class ActiveCartListingViewModel: ActiveCartListingViewModelType {
+class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableViewCellViewModelType {
     // MARK: Inputs
     
     // MARK: Outputs
@@ -38,6 +38,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType {
     
     
     // MARK: Properties
+    var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
     private var apiClinet: ElGrocerApi
     private var disposeBag = DisposeBag()
     
@@ -45,8 +46,20 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType {
     init(apiClinet: ElGrocerApi, latitude: Double, longitude: Double) {
         self.apiClinet = apiClinet
         
+        self.fetchActiveCarts(latitude: latitude, longitude: longitude)
     }
 }
 
 // MARK: Helpers
-private extension ActiveCartListingViewModel { }
+private extension ActiveCartListingViewModel {
+    func fetchActiveCarts(latitude: Double, longitude: Double) {
+        let activeCarts: [ActiveCartDTO] = [
+            ActiveCartDTO(products: [ActiveCartProductDTO(), ActiveCartProductDTO(), ActiveCartProductDTO()]),
+            ActiveCartDTO(products: [ActiveCartProductDTO(), ActiveCartProductDTO()]),
+            ActiveCartDTO(products: [ActiveCartProductDTO(), ActiveCartProductDTO(), ActiveCartProductDTO(), ActiveCartProductDTO()]),
+        ]
+        
+        let activeCartVMs = activeCarts.map { ActiveCartCellViewModel(activeCart: $0)}
+        self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCartVMs)])
+    }
+}
