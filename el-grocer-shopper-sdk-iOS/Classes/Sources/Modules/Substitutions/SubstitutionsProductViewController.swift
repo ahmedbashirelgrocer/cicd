@@ -304,6 +304,28 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         return view
     }()
     
+    private lazy var lblFreeDelivery: UILabel = {
+        let label = UILabel()
+        
+        label.text = localizedString("txt_free_delivery_for_smile", comment: "")
+        label.textAlignment = .center
+        label.setCaptionTwoSemiboldYellowStyle()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private lazy var freeDeliveryView: UIView = {
+        let view = UIView()
+        
+        view.isHidden = false
+        view.layer.cornerRadius = 10
+        view.clipsToBounds = true
+        view.backgroundColor = UIColor.promotionRedColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     var smileUser: SmileUser?
     var isPaidBySmilepoinst: Bool = false
     
@@ -350,6 +372,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         setBillInitialAppearance()
         addViewsInstackView()
         adjustDividerConstraints()
+        setUpGradients()
         
         
             //get smile user data
@@ -367,6 +390,11 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        setBillInitialAppearance()
+        addViewsInstackView()
+        adjustDividerConstraints()
+        setUpGradients()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -2143,12 +2171,30 @@ extension SubstitutionsProductViewController {
         self.lblPromotion.trailingAnchor.constraint(equalTo: self.promotionView.trailingAnchor, constant: -8).isActive = true
         self.lblPromotion.topAnchor.constraint(equalTo: self.promotionView.topAnchor, constant: 2).isActive = true
         self.lblPromotion.centerYAnchor.constraint(equalTo: self.promotionView.centerYAnchor).isActive = true
+        self.setFreeDeliveryFeeViewConstraints()
+    }
+    func setFreeDeliveryFeeViewConstraints() {
+
+        self.freeDeliveryView.addSubview(lblFreeDelivery)
         
+        lblFreeDelivery.leadingAnchor.constraint(equalTo: freeDeliveryView.leadingAnchor, constant: 8).isActive = true
+        lblFreeDelivery.trailingAnchor.constraint(equalTo: freeDeliveryView.trailingAnchor, constant: -8).isActive = true
+        lblFreeDelivery.centerYAnchor.constraint(equalTo: freeDeliveryView.centerYAnchor).isActive = true
+        
+        freeDeliveryView.trailingAnchor.constraint(equalTo: billStackBGView.trailingAnchor, constant: -16).isActive = true
+        freeDeliveryView.leadingAnchor.constraint(equalTo: billStackBGView.leadingAnchor, constant: 16).isActive = true
+        freeDeliveryView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    }
+    
+    func setUpGradients () {
+        let greLay = self.freeDeliveryView.setupGradient(height: self.freeDeliveryView.frame.size.height , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
+        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
     }
     
     func addViewsInstackView() {
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
+        self.billStackView.addArrangedSubview(self.freeDeliveryView)
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
@@ -2228,9 +2274,12 @@ extension SubstitutionsProductViewController {
         if smilesSubscriber {
             self.seriviceFeeView.configureForFreeServiceFee()
             self.billStackView.addArrangedSubview(self.seriviceFeeView)
+            self.freeDeliveryView.isHidden = false
+            self.billStackView.addArrangedSubview(freeDeliveryView)
         }else {
             self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
             self.billStackView.addArrangedSubview(self.seriviceFeeView)
+            self.freeDeliveryView.isHidden = true
         }
         
 
