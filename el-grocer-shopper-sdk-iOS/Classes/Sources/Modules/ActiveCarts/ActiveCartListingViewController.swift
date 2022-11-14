@@ -7,12 +7,15 @@
 
 import UIKit
 import RxSwift
+import RxDataSources
 
 class ActiveCartListingViewController: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
+    private var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, ReusableTableViewCellViewModelType>>!
     private var viewModel: ActiveCartListingViewModelType!
+    private var disposeBag = DisposeBag()
     
     static func make(viewModel: ActiveCartListingViewModelType) -> ActiveCartListingViewController {
         let vc = ActiveCartListingViewController(nibName: "ActiveCartListingViewController", bundle: nil)
@@ -23,6 +26,7 @@ class ActiveCartListingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.register(UINib(nibName: ActiveCartTableViewCell.defaultIdentifier, bundle: nil), forCellReuseIdentifier: ActiveCartTableViewCell.defaultIdentifier)
         self.bindViews()
     }
     
@@ -33,7 +37,20 @@ class ActiveCartListingViewController: UIViewController {
 
 
 private extension ActiveCartListingViewController {
-    func bindViews() { }
+    func bindViews() {
+        self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
+            let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
+            
+            cell.selectionStyle = .none
+            cell.configure(viewModel: viewModel)
+            
+            return cell
+        })
+        
+        self.viewModel.outputs.cellViewModels
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+    }
 }
 
 

@@ -7,13 +7,14 @@
 
 import Foundation
 import RxSwift
+import RxDataSources
 
 protocol ActiveCartListingViewModelInput {
     
 }
 
 protocol ActiveCartListingViewModelOutput {
-    
+    var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
 }
 
 protocol ActiveCartListingViewModelType: ActiveCartListingViewModelInput, ActiveCartListingViewModelOutput {
@@ -30,9 +31,10 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType {
     // MARK: Inputs
     
     // MARK: Outputs
-    
+    var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     
     // MARK: Subjects
+    var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     
     
     // MARK: Properties
