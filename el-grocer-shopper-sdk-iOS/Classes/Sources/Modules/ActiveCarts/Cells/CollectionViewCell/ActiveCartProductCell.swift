@@ -10,6 +10,14 @@ import RxSwift
 import RxDataSources
 
 class ActiveCartProductCell: RxUICollectionViewCell {
+    @IBOutlet weak var ivProductIcon: UIImageView!
+    @IBOutlet weak var lblQuantity: UILabel! {
+        didSet {
+            lblQuantity.setProductCountWhiteStyle()
+        }
+    }
+    
+    
     private var viewModel: ActiveCartProductCellViewModelType!
     
     override func awakeFromNib() {

@@ -37,6 +37,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
     
     init(activeCart: ActiveCartDTO) {
-        
+        let productVMs = activeCart.products.map { ActiveCartProductCellViewModel(product: $0)}
+        self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: productVMs)])
     }
 }

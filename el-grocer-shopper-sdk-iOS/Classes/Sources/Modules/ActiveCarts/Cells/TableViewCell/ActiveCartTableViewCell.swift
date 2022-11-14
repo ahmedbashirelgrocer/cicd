@@ -11,12 +11,27 @@ import RxDataSources
 
 class ActiveCartTableViewCell: RxUITableViewCell {
     @IBOutlet weak var ivStoreLogo: UIImageView!
-    @IBOutlet weak var lblStoreName: UILabel!
+    @IBOutlet weak var lblStoreName: UILabel! {
+        didSet {
+            lblStoreName.setBody2SemiboldDarkStyle()
+        }
+    }
     @IBOutlet weak var ivDeliveryTypeIcon: UIImageView!
-    @IBOutlet weak var lblNextDeliverySlot: UILabel!
+    @IBOutlet weak var lblNextDeliverySlot: UILabel! {
+        didSet {
+            lblNextDeliverySlot.setSubHead2RegDarkStyle()
+        }
+    }
     @IBOutlet weak var collectionView: UICollectionView!
+    
     @IBOutlet weak var viewBannerWrapper: UIView!
     @IBOutlet weak var viewBanner: UIView!
+    @IBOutlet weak var ivBannerImage: UIImageView!
+    @IBOutlet weak var lblBannerMsg: UILabel! {
+        didSet {
+            lblBannerMsg.setCaptionOneRegDarkStyle()
+        }
+    }
     
     private var viewModel: ActiveCartCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -24,7 +39,9 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     
+        self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
+        self.viewBanner.addDashedBorderAroundView(color: .elGrocerYellowColor())
     }
 
     override func configure(viewModel: Any) {
@@ -51,5 +68,19 @@ private extension ActiveCartTableViewCell {
         self.viewModel.outputs.cellViewModels
             .bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+    }
+}
+
+extension ActiveCartTableViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width / 3.5 - 16, height: collectionView.bounds.width / 3.5 - 32)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 16
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }
 }
