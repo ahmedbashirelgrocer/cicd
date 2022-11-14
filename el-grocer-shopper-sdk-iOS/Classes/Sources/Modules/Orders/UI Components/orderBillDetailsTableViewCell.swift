@@ -15,7 +15,6 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     private var totalPriceEntryView = BillEntryView(isGreen: false)
     private var seriviceFeeView = BillEntryView(isGreen: false)
     private var promoDiscountView = BillEntryView(isGreen: true)
-//    private var earnSmilesPointView = BillEntryView(isGreen: true)
     private var grandToatalView = BillEntryView(isGreen: false)
     private var priceVarianceView = BillEntryView(isGreen: true)
     private var burnSmilePointsView = BillEntryView(isGreen: true)
@@ -29,6 +28,38 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         
         return view
     }()
+    private lazy var lblFreeDelivery: UILabel = {
+        let label = UILabel()
+        
+        label.text = localizedString("txt_free_delivery_for_smile", comment: "")
+        label.textAlignment = .center
+        label.setCaptionTwoSemiboldYellowStyle()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private lazy var freeDeliveryView: UIView = {
+        let view = UIView()
+        
+        view.isHidden = false
+        view.layer.cornerRadius = 10
+        view.clipsToBounds = true
+        view.backgroundColor = UIColor.promotionRedColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+ 
+        return view
+    }()
+    
+    private lazy var superFreeDeliveryView: UIView = {
+        let view = UIView()
+        
+        view.isHidden = false
+        view.backgroundColor = UIColor.navigationBarWhiteColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+ 
+        return view
+    }()
     
     
     override func awakeFromNib() {
@@ -39,6 +70,14 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         adjustDividerConstraints()
 //        configure()
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setUpGradients()
+    }
+    func setUpGradients () {
+        let greLay = self.setupGradient(height: 20 , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
+        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
+    }
     
     func setInitialAppearance() {
         self.stackBGView.borderColor = .borderGrayColor()
@@ -47,18 +86,63 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     }
     
     func adjustDividerConstraints() {
+        self.totalPriceEntryView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.totalPriceEntryView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+
+        self.seriviceFeeView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.seriviceFeeView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+
+        self.grandToatalView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.grandToatalView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+
+        self.promoDiscountView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.promoDiscountView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+
+        self.burnSmilePointsView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.burnSmilePointsView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+
+        self.burnElwalletPointsView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.burnElwalletPointsView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+
+        self.priceVarianceView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.priceVarianceView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+
+        self.finalBillAmountView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.finalBillAmountView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+        
         dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         self.dividerView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 8).isActive = true
         self.dividerView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: -8).isActive = true
+        
+        self.setFreeDeliveryFeeViewConstraints()
+        
+    }
+    func setFreeDeliveryFeeViewConstraints() {
+
+        lblFreeDelivery.leadingAnchor.constraint(equalTo: freeDeliveryView.leadingAnchor, constant: 8).isActive = true
+        lblFreeDelivery.trailingAnchor.constraint(equalTo: freeDeliveryView.trailingAnchor, constant: -8).isActive = true
+        lblFreeDelivery.centerYAnchor.constraint(equalTo: freeDeliveryView.centerYAnchor).isActive = true
+
+        freeDeliveryView.trailingAnchor.constraint(equalTo: superFreeDeliveryView.trailingAnchor, constant: -16).isActive = true
+        freeDeliveryView.leadingAnchor.constraint(equalTo: superFreeDeliveryView.leadingAnchor, constant: 16).isActive = true
+        freeDeliveryView.topAnchor.constraint(equalTo: superFreeDeliveryView.topAnchor, constant: 0).isActive = true
+        freeDeliveryView.bottomAnchor.constraint(equalTo: superFreeDeliveryView.bottomAnchor, constant: 0).isActive = true
+        freeDeliveryView.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
     }
     
     func addViewsInstackView() {
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.billStackView.addArrangedSubview(self.seriviceFeeView)
+        self.freeDeliveryView.addSubview(lblFreeDelivery)
+        self.superFreeDeliveryView.addSubview(freeDeliveryView)
+        self.billStackView.addArrangedSubview(self.superFreeDeliveryView)
+        self.setFreeDeliveryFeeViewConstraints()
         self.billStackView.addArrangedSubview(self.grandToatalView)
+        self.billStackView.addArrangedSubview(self.promoDiscountView)
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
+        self.billStackView.addArrangedSubview(self.priceVarianceView)
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
     }
@@ -130,11 +214,15 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity)
         if smilesSubscriber {
+            self.billStackView.addArrangedSubview(self.seriviceFeeView)
             self.seriviceFeeView.configureForFreeServiceFee()
+            self.billStackView.addArrangedSubview(superFreeDeliveryView)
+            self.superFreeDeliveryView.isHidden = false
         }else {
+            self.billStackView.addArrangedSubview(self.seriviceFeeView)
             self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
+            self.superFreeDeliveryView.isHidden = true
         }
-        self.billStackView.addArrangedSubview(self.seriviceFeeView)
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
         
