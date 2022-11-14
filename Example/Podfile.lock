@@ -50,6 +50,7 @@ PODS:
   - CHDropDownTextField (1.0.0)
   - CleverTap-iOS-SDK (4.0.1):
     - SDWebImage (~> 5.1)
+  - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
   - el-grocer-shopper-sdk-iOS (1.0.38):
@@ -87,6 +88,7 @@ PODS:
     - NBBottomSheet (~> 1.2.0)
     - PinCodeTextField (~> 0.1.0)
     - RxCocoa (~> 5.1.1)
+    - RxDataSources
     - RxSwift (~> 5.1.1)
     - SDWebImage (~> 5.12.3)
     - SendBirdDesk (~> 1.0.17)
@@ -319,6 +321,10 @@ PODS:
   - RxCocoa (5.1.3):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
+  - RxDataSources (4.0.1):
+    - Differentiator (~> 4.0)
+    - RxCocoa (~> 5.0)
+    - RxSwift (~> 5.0)
   - RxRelay (5.1.3):
     - RxSwift (~> 5)
   - RxSwift (5.1.3)
@@ -358,6 +364,7 @@ SPEC REPOS:
     - CCValidator
     - CHDropDownTextField
     - CleverTap-iOS-SDK
+    - Differentiator
     - DisplaySwitcher
     - DoneCancelNumberPadToolbar
     - FBAEMKit
@@ -403,6 +410,7 @@ SPEC REPOS:
     - PinCodeTextField
     - PromisesObjC
     - RxCocoa
+    - RxDataSources
     - RxRelay
     - RxSwift
     - SDWebImage
@@ -432,9 +440,10 @@ SPEC CHECKSUMS:
   CCValidator: 19c090b536c0152863795aa291bf7be3ffccf457
   CHDropDownTextField: d8a2843acbdd75b5b8d26b27dca9e07c2b1ae5e1
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
+  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 52f0a37a8e45445de8e5281a85953ce91103e341
+  el-grocer-shopper-sdk-iOS: a2848ad1ba47d7918808fb8e25ef80b437e65b7c
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -478,6 +487,7 @@ SPEC CHECKSUMS:
   PinCodeTextField: a3c39be58bde3ed1d6888d0fb1d88b0a4a2277cc
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
+  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
