@@ -11,9 +11,9 @@ class ActiveCartListingViewController: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    private var viewModel: ActiveCartListingViewModel!
+    private var viewModel: ActiveCartListingViewModelType!
     
-    static func make(viewModel: ActiveCartListingViewModel) -> ActiveCartListingViewController {
+    static func make(viewModel: ActiveCartListingViewModelType) -> ActiveCartListingViewController {
         let vc = ActiveCartListingViewController(nibName: "ActiveCartListingViewController", bundle: nil)
         vc.viewModel = viewModel
         return vc
@@ -22,10 +22,15 @@ class ActiveCartListingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.bindViews()
     }
     
     @IBAction func closeButtonTap(_ sender: Any) {
         self.dismiss(animated: true)
     }
-    
+}
+
+
+private extension ActiveCartListingViewController {
+    func bindViews() { }
 }
