@@ -6,10 +6,14 @@
 //
 
 import Foundation
+import RxSwift
+import RxDataSources
 
 protocol ActiveCartCellViewModelInput { }
 
-protocol ActiveCartCellViewModelOutput { }
+protocol ActiveCartCellViewModelOutput {
+    var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
+}
 
 protocol ActiveCartCellViewModelType: ActiveCartCellViewModelInput, ActiveCartCellViewModelOutput {
     var inputs: ActiveCartCellViewModelInput { get }
@@ -22,6 +26,12 @@ extension ActiveCartCellViewModelType {
 }
 
 class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCellViewModelType {
+    
+    // MARK: Outputs
+    var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
+    
+    // MARK: Subjects
+    private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }

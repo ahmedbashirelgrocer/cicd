@@ -18,7 +18,7 @@ class ActiveCartListingViewController: UIViewController {
     private var disposeBag = DisposeBag()
     
     static func make(viewModel: ActiveCartListingViewModelType) -> ActiveCartListingViewController {
-        let vc = ActiveCartListingViewController(nibName: "ActiveCartListingViewController", bundle: nil)
+        let vc = ActiveCartListingViewController(nibName: "ActiveCartListingViewController", bundle: .resource)
         vc.viewModel = viewModel
         return vc
     }

@@ -109,6 +109,12 @@ class ElGrocerNavigationController : UINavigationController {
     
     @objc func cartButtonClick() {
        elDebugPrint("cartButtonClick")
+        
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: 0, longitude: 0)
+        let vc = ActiveCartListingViewController.make(viewModel: viewModel)
+        self.present(vc, animated: true)
+        
+        return
         //hide tabbar
         hideTabBar()
         MixpanelEventLogger.trackNavBarCart()
