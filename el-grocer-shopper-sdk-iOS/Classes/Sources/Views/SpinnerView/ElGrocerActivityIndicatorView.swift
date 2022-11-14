@@ -41,7 +41,7 @@ class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         var imageA = [UIImage]()
-        for index in 1...154 {
+        for index in 1...151 {
             let imageName = "ElgrocerLogoAnimation-" + "\(index)"
             if let imageNew = UIImage(name: imageName) {
                 imageA.append(imageNew)
@@ -49,8 +49,8 @@ class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
             
         }
         self.animationImages = imageA
-        self.animationDuration = 5.03
-        self.animationRepeatCount = 0
+        self.animationDuration = 4.0
+        self.animationRepeatCount = 1
         
     }
     

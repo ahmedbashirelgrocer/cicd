@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FK0-ki-RXS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FK0-ki-RXS">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,14 +23,11 @@
         <scene sceneID="UUd-1J-n8K">
             <objects>
                 <viewController storyboardIdentifier="SplashAnimationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GmM-wx-SQG" customClass="SplashAnimationViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="fLG-Nd-Rge">
+                    <view key="view" autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="fLG-Nd-Rge">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashBGView" translatesAutoresizingMaskIntoConstraints="NO" id="ejj-ex-DzB">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="D3F-cN-HbX" customClass="ElGrocerLogoIndicatorView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashBGView" translatesAutoresizingMaskIntoConstraints="NO" id="D3F-cN-HbX" customClass="ElGrocerLogoIndicatorView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
@@ -40,19 +37,15 @@
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="nbT-Gq-Rbo"/>
-                        <color key="backgroundColor" red="0.14117647058823529" green="0.84313725490196079" blue="0.41960784313725491" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="1yN-qP-Js1"/>
-                            <constraint firstItem="ejj-ex-DzB" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="9nI-Ru-Adb"/>
-                            <constraint firstAttribute="trailing" secondItem="ejj-ex-DzB" secondAttribute="trailing" id="Ft0-xJ-p8K"/>
-                            <constraint firstAttribute="bottom" secondItem="ejj-ex-DzB" secondAttribute="bottom" id="IB2-pd-ioB"/>
-                            <constraint firstAttribute="bottom" secondItem="D3F-cN-HbX" secondAttribute="bottom" id="JLb-uC-iN3"/>
-                            <constraint firstItem="ejj-ex-DzB" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="Jdm-kX-lQw"/>
+                            <constraint firstItem="D3F-cN-HbX" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="9Fb-ss-2gd"/>
+                            <constraint firstItem="D3F-cN-HbX" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="9eq-Ul-61d"/>
+                            <constraint firstItem="D3F-cN-HbX" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="IYb-Gq-rWu"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="LCY-Gt-hA1"/>
-                            <constraint firstAttribute="trailing" secondItem="D3F-cN-HbX" secondAttribute="trailing" id="eXY-JJ-YPt"/>
-                            <constraint firstItem="D3F-cN-HbX" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="eto-Ah-W9Z"/>
-                            <constraint firstItem="D3F-cN-HbX" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="j2c-CL-M6e"/>
+                            <constraint firstAttribute="bottom" secondItem="D3F-cN-HbX" secondAttribute="bottom" id="gE6-DE-2ta"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerY" secondItem="fLG-Nd-Rge" secondAttribute="centerY" multiplier="1.2" id="tYp-GA-DCi"/>
                         </constraints>
                     </view>
@@ -63,7 +56,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zRh-Lg-HWv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-431.25" y="423.59154929577466"/>
+            <point key="canvasLocation" x="-431" y="424"/>
         </scene>
         <!--Entry View Controller-->
         <scene sceneID="gLt-aE-fog">
@@ -350,7 +343,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="LanguageCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LanguageCell" id="pvE-As-cxX" customClass="LanguageCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pvE-As-cxX" id="fVc-ZA-jN7">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

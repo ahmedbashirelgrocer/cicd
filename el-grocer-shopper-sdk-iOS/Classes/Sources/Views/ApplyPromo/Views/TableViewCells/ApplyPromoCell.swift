@@ -40,12 +40,13 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var viewDetailsBGView: UIView! {
         didSet {
-            imgArrowViewDetails.image = UIImage(named: "arrowDown16")
+            imgArrowViewDetails.image = UIImage(name: "arrow-up-black")
         }
     }
     @IBOutlet var lblViewDetails: UILabel! {
         didSet {
-            lblViewDetails.setCaptionOneBoldUperCaseGreenStyle()
+            lblViewDetails.text = localizedString("txt_details", comment: "")
+            lblViewDetails.setCaptionOneBoldDarkStyle()
         }
     }
     @IBOutlet var imgArrowViewDetails: UIImageView!
@@ -75,7 +76,7 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var imgVoucherCupon: UIImageView! {
         didSet {
-            imgVoucherCupon.image = UIImage(named: "EnterPromoDark")
+            imgVoucherCupon.image = UIImage(name: "EnterPromoDark")
         }
     }
     @IBOutlet var promoMessageBGView: UIView! {
@@ -145,12 +146,12 @@ class ApplyPromoCell: UITableViewCell {
     fileprivate func setViewDetailsButtonView(isExpanded: Bool) {
         if isExpanded {
             self.lblVoucherDetails.visibility = .visible
-            self.lblViewDetails.text = localizedString("txt_hide_details", comment: "")
-            self.imgArrowViewDetails.image = UIImage(named: "arrowUp16")
+//            self.lblViewDetails.text = localizedString("txt_hide_details", comment: "")
+            self.imgArrowViewDetails.image = UIImage(name: "arrow-up-black")
         }else {
             self.lblVoucherDetails.visibility = .gone
-            self.lblViewDetails.text = localizedString("txt_view_details", comment: "")
-            self.imgArrowViewDetails.image = UIImage(named: "arrowDown16")
+//            self.lblViewDetails.text = localizedString("txt_view_details", comment: "")
+            self.imgArrowViewDetails.image = UIImage(name: "arrow-down-black")
         }
     }
     

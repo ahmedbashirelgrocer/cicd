@@ -1,10 +1,10 @@
-//
-//  CreditCardListViewController.swift
-//  ElGrocerShopper
-//
-//  Created by M Abubaker Majeed on 03/03/2020.
-//  Copyright © 2020 elGrocer. All rights reserved.
-//
+    //
+    //  CreditCardListViewController.swift
+    //  ElGrocerShopper
+    //
+    //  Created by M Abubaker Majeed on 03/03/2020.
+    //  Copyright © 2020 elGrocer. All rights reserved.
+    //
 
 import UIKit
 import WebKit
@@ -42,6 +42,7 @@ class CreditCardListViewController: UIViewController {
     var creditCardDeleted: ((_ selectedCard : CreditCard?)->Void)?
     var addCard: (()->Void)?
     var isFromSetting : Bool = false
+    var isFromWallet : Bool = false
     var isNeedShowAllPaymentType : Bool = false
     var selectedMethod : Any? = nil
     let addNewCardCell : String = KAddNewCellString
@@ -62,8 +63,14 @@ class CreditCardListViewController: UIViewController {
     @IBOutlet var btnConfirmPayment: AWButton!
     @IBOutlet var lblTerms: UILabel!
     @IBOutlet var topView: AWView!
+    @IBOutlet var NextButtonView: UIView!
+    @IBOutlet var btnNext: AWButton! {
+        didSet {
+            btnNext.setTitle(localizedString("btn_next", comment: ""), for: UIControl.State())
+        }
+    }
     
-
+    
     var isPaymentAgreemnetApprovedByUser : Bool = false {
         didSet{
             if isPaymentAgreemnetApprovedByUser {
@@ -75,7 +82,7 @@ class CreditCardListViewController: UIViewController {
             self.changeButtonState(isPaymentAgreemnetApprovedByUser)
         }
     }
-
+    
     @IBOutlet var lblChosePayment: UILabel! {
         didSet {
             lblChosePayment.text = localizedString("payment_method_title", comment: "")
@@ -91,7 +98,7 @@ class CreditCardListViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13, *) {
             return self.isDarkMode ? UIStatusBarStyle.lightContent :  UIStatusBarStyle.darkContent
@@ -99,26 +106,26 @@ class CreditCardListViewController: UIViewController {
             return  UIStatusBarStyle.default
         }
     }
-
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
         self.setTextColorForTermsString()
         self.tableView.backgroundColor = .white
-        let CreditCardViewTableViewCell = UINib(nibName: KCreditCardViewTableViewCellIdentifier , bundle: Bundle.resource)
+        let CreditCardViewTableViewCell = UINib(nibName: KCreditCardViewTableViewCellIdentifier , bundle: .resource)
         self.tableView.register(CreditCardViewTableViewCell , forCellReuseIdentifier: KCreditCardViewTableViewCellIdentifier)
         
-         self.btnConfirmPayment.setTitle(localizedString("confirm_payment_button_title", comment: "") , for: .normal)
+        self.btnConfirmPayment.setTitle(localizedString("confirm_payment_button_title", comment: "") , for: .normal)
         
         if isFromSetting {
-             self.viewHeight.constant = ScreenSize.SCREEN_HEIGHT
-             self.btnCross.isHidden = false
-             self.backButtonWidth.constant = 0
-             lblChosePayment.text = localizedString("Setting_Credit_Card_List", comment: "")
+            self.viewHeight.constant = ScreenSize.SCREEN_HEIGHT
+            self.btnCross.isHidden = false
+            self.backButtonWidth.constant = 0
+            lblChosePayment.text = localizedString("Setting_Credit_Card_List", comment: "")
             self.topYSpace.constant = 44
-          
+            
         }else{
-          //  btnAddNewCard.setTitle(localizedString("confimAndAddCard", comment: "") , for: .normal)
+                //  btnAddNewCard.setTitle(localizedString("confimAndAddCard", comment: "") , for: .normal)
         }
         if let bar = self.navigationController {
             bar.setNavigationBarHidden(true, animated: false)
@@ -126,17 +133,17 @@ class CreditCardListViewController: UIViewController {
         
         
         if #available(iOS 13, *) {
-        
+            
         }else{
             self.btnCross.isHidden = false
-            //self.backButtonWidth.constant = 25
+                //self.backButtonWidth.constant = 25
         }
- 
-       
+        
+        
         btnConfirmPayment.layer.cornerRadius = 28
         btnConfirmPayment.clipsToBounds = true
         
-       
+        
     }
     @IBAction func crossButtonHandler(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -151,7 +158,7 @@ class CreditCardListViewController: UIViewController {
         let attributedString = NSMutableAttributedString(string:text)
         attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.navigationBarColor() , range: range)
         self.lblTerms.attributedText = attributedString
-     
+        
     }
     
     
@@ -170,15 +177,26 @@ class CreditCardListViewController: UIViewController {
             
         }
         
+        
+        if isFromWallet {
+            self.viewHeight.constant = ScreenSize.SCREEN_HEIGHT
+            self.btnCross.isHidden = false
+            self.backButtonWidth.constant = 0
+            lblChosePayment.text = localizedString("txt_add_funds_from", comment: "")//localizedString("Setting_Credit_Card_List", comment: "")
+            self.topYSpace.constant = 44
+            self.lblPaymentMethodMessage.superview?.visibility = .gone
+            self.btnNext.isEnabled = false
+            self.btnNext.backgroundColor = .disableButtonColor()
+        }
+        
         if isNeedShowAllPaymentType {
-//            getAdyenPaymentMethods()
-             self.getPaymentMethods()
+            self.getPaymentMethods()
         }else{
-           self.checkForCreditCards()
+            self.checkForCreditCards()
         }
         self.changeButtonState(isPaymentAgreemnetApprovedByUser)
         self.setDefaultSelectedMethod ()
-    
+        
     }
     
     func setDefaultSelectedMethod () {
@@ -186,12 +204,12 @@ class CreditCardListViewController: UIViewController {
         guard self.selectedGrocery != nil else {return}
         
         let storeId = ElGrocerUtility.sharedInstance.cleanGroceryID(self.selectedGrocery.dbID)
-       
+        
         var option = PaymentOption(rawValue: UserDefaults.getPaymentMethod(forStoreId: storeId))
         
         let isSelectMethodAvailable =  self.paymentMethodA.filter({ (data) -> Bool in
             if data is CreditCard {
-               return option == PaymentOption.creditCard
+                return option == PaymentOption.creditCard
             }
             return (data as? PaymentOption) == option ?? PaymentOption.none
         })
@@ -225,57 +243,21 @@ class CreditCardListViewController: UIViewController {
         
         self.tableView.reloadData()
     }
-    
-    // MARK:- Set Payment View & selcted Payment
-    func getAdyenPaymentMethods(callClosure:Bool = false) {
-        let amount = AdyenManager.createAmount(amount: 0.0)
-        AdyenApiManager().getPaymentMethods(amount: amount) { error, paymentMethods in
-            if let error = error{
-                error.showErrorAlert()
-                return
+        // MARK:- Set Payment View & selcted Payment
+    func getAdyenPaymentMethods(callClosure:Bool = false, isApplePayAvailbe: Bool = false, shouldAddVoucher: Bool = false) {
+        PaymentMethodFetcher.getAdyenPaymentMethods(isApplePayAvailbe: true, shouldAddVoucher: shouldAddVoucher) { (paymentMethodA, creditCardA, applePayPaymentMethod, error) in
+            self.activtyIndicator.stopAnimating()
+            if error != nil {
+                error?.showErrorAlert()
             }
-            Thread.OnMainThread {
+            if let paymentMethodA = paymentMethodA, let creditCardA = creditCardA, let applePayPaymentMethod = applePayPaymentMethod {
                 
-                if let paymentMethod = paymentMethods {
-                   elDebugPrint(paymentMethods)
-                    
-                    for method in paymentMethod.regular{
-                        if method.type.elementsEqual("scheme") {
-
-                        }else if method.type.elementsEqual("applepay") {
-                            if ApplePaymentHandler.applePayStatus().canMakePayments {
-                                self.paymentMethodA.append(PaymentOption.applePay)
-                                self.selectedApplePayMethod = method as! ApplePayPaymentMethod
-                            }
-                            
-                        }
-                    }
-
-                    for method in paymentMethod.stored {
-                        if method is StoredCardPaymentMethod {
-                            if let cardAdyen = method as? StoredCardPaymentMethod {
-                                var card = CreditCard()
-                                card.cardID = cardAdyen.identifier
-                                card.last4 = cardAdyen.lastFour
-                                if cardAdyen.brand.elementsEqual("mc") {
-                                    card.cardType = .MASTER_CARD
-                                }else if cardAdyen.brand.elementsEqual("visa") {
-                                    card.cardType = .VISA
-                                }else{
-                                    card.cardType = .unKnown
-                                }
-                                card.adyenPaymentMethod = cardAdyen
-                                
-                                if cardAdyen.brand.contains("applepay") {
-                                    
-                                }else{
-                                    self.paymentMethodA.append(card)
-                                }
-                                
-                            }
-                        }
-                    }
-                    self.paymentMethodA.append(self.addNewCardCell)
+                self.paymentMethodA.append(contentsOf: paymentMethodA)
+                    //                self.paymentMethodA = paymentMethodA
+                    //                self.creditCardA = creditCardA
+                self.selectedApplePayMethod = applePayPaymentMethod
+                
+                Thread.OnMainThread {
                     self.setPaymentMessage()
                     if callClosure,let closure = self.newCardAdded {
                         closure(self.paymentMethodA)
@@ -301,8 +283,8 @@ class CreditCardListViewController: UIViewController {
     private func getPaymentMethods(callClousre: Bool = false) {
         
         guard self.paymentMethodA.count == 0 else {
-             self.lblPaymentInfoHeight.constant = -25
-             self.setPaymentMessage()
+            self.lblPaymentInfoHeight.constant = -25
+            self.setPaymentMessage()
             let heightOfView =  (CGFloat(self.paymentMethodA.count) *  KCreditCardViewTableViewCellHeight) + 260
             if heightOfView >  (ScreenSize.SCREEN_HEIGHT * 0.7) {
                 self.viewHeight.constant =   (CGFloat(3) *  KCreditCardViewTableViewCellHeight) + 300
@@ -316,19 +298,23 @@ class CreditCardListViewController: UIViewController {
                 }
                 
             }
-             self.activtyIndicator.stopAnimating()
-             self.tableView.reloadData()
+            self.activtyIndicator.stopAnimating()
+            self.tableView.reloadData()
             return
         }
-    
+        if isFromWallet {
+            self.paymentMethodA.removeAll()
+            self.getAdyenPaymentMethods(callClosure: callClousre, isApplePayAvailbe: true, shouldAddVoucher: false)
+            return
+        }
         self.lblPaymentMethodMessage.text = "Loading"
         activtyIndicator.startAnimating()
         let groceryID = ElGrocerUtility.sharedInstance.cleanGroceryID(self.selectedGrocery.dbID)
         ElGrocerApi.sharedInstance.getAllPaymentMethods(retailer_id: groceryID) { (result) in
             switch result {
                 case .success(let response):
-                self.paymentMethodA.removeAll()
-                   self.activtyIndicator.stopAnimating()
+                    self.paymentMethodA.removeAll()
+                    self.activtyIndicator.stopAnimating()
                     if let dataDict = response["data"] as? NSDictionary {
                         if let paymentTypesA = dataDict["payment_types"]  as? [NSDictionary] {
                             self.lblPaymentInfoHeight.constant = -25
@@ -346,43 +332,21 @@ class CreditCardListViewController: UIViewController {
                             }
                             if onLinePaymentAvailable {
                                 
-                                self.getAdyenPaymentMethods(callClosure: callClousre)
+                                self.getAdyenPaymentMethods(callClosure: callClousre, isApplePayAvailbe: true, shouldAddVoucher: false)
                                 
-//                                let result = ApplePaymentHandler.applePayStatus()
-//                                if result.canMakePayments{
-//                                    self.paymentMethodA.append(PaymentOption.applePay)
-//                                }
-//                                if ElGrocerUtility.sharedInstance.appConfigData != nil {
-//                                    isApplePayEnable = ElGrocerUtility.sharedInstance.appConfigData.isApplePayEnable
-//                                }
-                                
-//                                if let cardA = dataDict["cards"]  as? [NSDictionary] {
-//                                    for creDicts in cardA {
-//                                        self.paymentMethodA.append(CreditCard.init(cardDict: creDicts as! Dictionary<String, Any>))
-//                                    }
-//                                }
-//                                self.paymentMethodA.append(self.addNewCardCell)
                             }else {
                                 self.setPaymentMessage()
                             }
-//                            let heightOfView =  (CGFloat(self.paymentMethodA.count) *  KCreditCardViewTableViewCellHeight) + 300
-//                            if heightOfView >  (ScreenSize.SCREEN_HEIGHT * 0.7) {
-//                                self.viewHeight.constant =   (CGFloat(3) *  KCreditCardViewTableViewCellHeight) + 300
-//                                self.tableView.isScrollEnabled = true
-//
-//                            }else{
-//                                self.viewHeight.constant = heightOfView
-//                            }
                         }
-                }
+                    }
                     
                 case .failure(let error):
                     if error.code == 401 {
                         self.backButton("")
                     }else{
-                    ElGrocerUtility.sharedInstance.delay(2) {
-                        self.getPaymentMethods()
-                    }
+                        ElGrocerUtility.sharedInstance.delay(2) {
+                            self.getPaymentMethods()
+                        }
                     }
             }
         }
@@ -414,7 +378,7 @@ class CreditCardListViewController: UIViewController {
         }
         
         
-        //
+            //
         
         let isCashAvailable = isCashAvailableA.count > 0
         let isDeliveryCardAvailable = isDeliveryCardAvailableA.count > 0
@@ -422,30 +386,30 @@ class CreditCardListViewController: UIViewController {
         
         if isCashAvailable && !isDeliveryCardAvailable && !payOnline {
             
-            //cash only
+                //cash only
             self.lblPaymentMethodMessage.text = localizedString("Msg_CashOnly", comment: "")
             self.lblPaymentInfoHeight.constant = 30
             self.lblPaymentInfoBottomHeight.constant = 15
         }else if isCashAvailable && isDeliveryCardAvailable && !payOnline {
-            //deliverycard only
+                //deliverycard only
             self.lblPaymentMethodMessage.text = localizedString("Msg_CardAndCash", comment: "")
             self.lblPaymentInfoHeight.constant = 30
             self.lblPaymentInfoBottomHeight.constant = 15
         }else if !isCashAvailable && !isDeliveryCardAvailable && payOnline {
-            //deliverycard only
+                //deliverycard only
             self.lblPaymentMethodMessage.text = localizedString("lbl_OnlineOnly", comment: "")
             self.lblPaymentInfoHeight.constant = 30
             self.lblPaymentInfoBottomHeight.constant = 15
         }else  {
-          // all available no msg
+                // all available no msg
             self.lblPaymentInfoHeight.constant = -25
             self.lblPaymentInfoBottomHeight.constant = 0
         }
-    
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-      //  self.setFooterAgain()
+            //  self.setFooterAgain()
         
         if isFromSetting {
             self.topView.layer.cornerRadius = 0
@@ -483,7 +447,7 @@ class CreditCardListViewController: UIViewController {
                 self.btnConfirmPayment.backgroundColor = UIColor.disableButtonColor()
             }
         }
-  
+        
     }
     
     
@@ -492,62 +456,78 @@ class CreditCardListViewController: UIViewController {
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            self.tableView.tableFooterView = self.confirmPaymentMethodView
+                //TODO: change it
+            if self.isFromWallet {
+                self.tableView.tableFooterView = self.NextButtonView
+            } else {
+                self.tableView.tableFooterView = self.confirmPaymentMethodView
+            }
             self.tableView.setNeedsLayout()
             self.tableView.layoutIfNeeded()
-            self.tableView.tableFooterView = self.confirmPaymentMethodView
+                //TODO: change it
+            if self.isFromWallet {
+                self.tableView.tableFooterView = self.NextButtonView
+            } else {
+                self.tableView.tableFooterView = self.confirmPaymentMethodView
+            }
         })
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            self.tableView.tableFooterView = self.confirmPaymentMethodView
+                //TODO: change it
+            if self.isFromWallet {
+                self.tableView.tableFooterView = self.NextButtonView
+            } else {
+                self.tableView.tableFooterView = self.confirmPaymentMethodView
+            }
+                //self.tableView.tableFooterView = self.confirmPaymentMethodView
         })
         
     }
     
     func checkForCreditCards () {
-
+        
         return
         
-//         self.lblPaymentMethodMessage.text = "Loading"
-//        activtyIndicator.startAnimating()
-//        ElGrocerApi.sharedInstance.getAllCreditCards { (result) in
-//
-//            self.activtyIndicator.stopAnimating()
-//            switch result {
-//                case .success(let response):
-//                    if let responsedata = response["data"] as? NSDictionary {
-//                        let responsedataA = responsedata["credit_cards"] as! [ NSDictionary ]
-//                        self.paymentMethodA.removeAll()
-//                        for creDicts in responsedataA {
-//                            self.paymentMethodA.append(CreditCard.init(cardDict: creDicts as! Dictionary<String, Any>))
-//                        }
-//                        self.paymentMethodA.append(self.addNewCardCell)
-//                        if self.lblPaymentMethodMessage.text == "Loading" {
-//                            self.lblPaymentInfoHeight.constant = -25
-//                        }
-//                        if self.isFromSetting {
-//                            self.viewHeight.constant =   ScreenSize.SCREEN_HEIGHT
-//                            self.tableView.isScrollEnabled = true
-//                        }else{
-//                            let heightOfView =  (CGFloat(self.paymentMethodA.count) *  KCreditCardViewTableViewCellHeight) + 300
-//                            if heightOfView >  (ScreenSize.SCREEN_HEIGHT * 0.7) {
-//                                self.viewHeight.constant =   (CGFloat(3) *  KCreditCardViewTableViewCellHeight) + 300
-//                                self.tableView.isScrollEnabled = true
-//
-//                            }else{
-//                                self.viewHeight.constant = heightOfView
-//                            }
-//                        }
-//                        self.setDefaultSelectedMethod ()
-//                    }
-//                case .failure(let error):
-//                    error.showErrorAlert()
-//            }
-//            self.lblNoCard.isHidden =  self.paymentMethodA.count > 0
-//            self.tableView.reloadData()
-//
-//        }
+            //         self.lblPaymentMethodMessage.text = "Loading"
+            //        activtyIndicator.startAnimating()
+            //        ElGrocerApi.sharedInstance.getAllCreditCards { (result) in
+            //
+            //            self.activtyIndicator.stopAnimating()
+            //            switch result {
+            //                case .success(let response):
+            //                    if let responsedata = response["data"] as? NSDictionary {
+            //                        let responsedataA = responsedata["credit_cards"] as! [ NSDictionary ]
+            //                        self.paymentMethodA.removeAll()
+            //                        for creDicts in responsedataA {
+            //                            self.paymentMethodA.append(CreditCard.init(cardDict: creDicts as! Dictionary<String, Any>))
+            //                        }
+            //                        self.paymentMethodA.append(self.addNewCardCell)
+            //                        if self.lblPaymentMethodMessage.text == "Loading" {
+            //                            self.lblPaymentInfoHeight.constant = -25
+            //                        }
+            //                        if self.isFromSetting {
+            //                            self.viewHeight.constant =   ScreenSize.SCREEN_HEIGHT
+            //                            self.tableView.isScrollEnabled = true
+            //                        }else{
+            //                            let heightOfView =  (CGFloat(self.paymentMethodA.count) *  KCreditCardViewTableViewCellHeight) + 300
+            //                            if heightOfView >  (ScreenSize.SCREEN_HEIGHT * 0.7) {
+            //                                self.viewHeight.constant =   (CGFloat(3) *  KCreditCardViewTableViewCellHeight) + 300
+            //                                self.tableView.isScrollEnabled = true
+            //
+            //                            }else{
+            //                                self.viewHeight.constant = heightOfView
+            //                            }
+            //                        }
+            //                        self.setDefaultSelectedMethod ()
+            //                    }
+            //                case .failure(let error):
+            //                    error.showErrorAlert()
+            //            }
+            //            self.lblNoCard.isHidden =  self.paymentMethodA.count > 0
+            //            self.tableView.reloadData()
+            //
+            //        }
         
     }
     @IBAction func addCreditCard(_ sender: Any) {
@@ -560,21 +540,31 @@ class CreditCardListViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    
+    @IBAction func nextTapped(_ sender: AWButton) {
+        
+        self.dismiss(animated: true, completion: nil)
+        MixpanelEventLogger.trackElwalletAddFundPaymentMethodSelectionNextClicked()
+        if let clouser = self.paymentMethodSelection {
+            clouser(self.selectedMethod)
+            return
+        }
+            //        confirmPaymentSelectionAction(sender)
+    }
+    
     @IBAction func confirmPaymentSelectionAction(_ sender: Any) {
         
         if self.selectedMethod == nil {
             self.changeButtonState(isPaymentAgreemnetApprovedByUser)
             return
         }
-    
-            //MARK:- Fix fix it later with sdk version
-        /* ---------- Facebook PaymentInfo Event ----------*/
-        //AppEvents.logEvent(AppEvents.Name.addedPaymentInfo, parameters:  [AppEvents.ParameterName.success.rawValue:true])
         
-            // MARK:- TODO fixappsflyer
+        /* ---------- Facebook PaymentInfo Event ----------*/
+       // AppEvents.logEvent(AppEvents.Name.addedPaymentInfo, parameters:  [AppEvents.ParameterName.success.rawValue:true])
+        
         /* ---------- AppsFlyer PaymentInfo Event ----------*/
        // AppsFlyerLib.shared().logEvent(name: AFEventAddPaymentInfo, values: [AFEventParamRegistrationMethod:true], completionHandler: nil)
-       // AppsFlyerLib.shared().trackEvent(AFEventAddPaymentInfo, withValues:[AFEventParamRegistrationMethod:true])
+            // AppsFlyerLib.shared().trackEvent(AFEventAddPaymentInfo, withValues:[AFEventParamRegistrationMethod:true])
         let storeId = ElGrocerUtility.sharedInstance.cleanGroceryID(self.selectedGrocery.dbID)
         
         if self.selectedMethod is PaymentOption {
@@ -600,6 +590,9 @@ class CreditCardListViewController: UIViewController {
                 FireBaseEventsLogger.trackPaymentMethod(false , true)
                 FireBaseEventsLogger.addPaymentInfo("PayCreditCard")
                 UserDefaults.setPaymentMethod(PaymentOption.creditCard.rawValue, forStoreId: storeId)
+            }  else  if method == PaymentOption.voucher {
+                
+                
             }
         }
         
@@ -626,12 +619,14 @@ class CreditCardListViewController: UIViewController {
                 return
             }
         }
-    
+        
+        
+        
         if let clouser = self.paymentMethodSelection {
             clouser(self.selectedMethod)
         }
-         self.dismiss(animated: true, completion: nil)
-  
+        self.dismiss(animated: true, completion: nil)
+        
     }
     
     @IBAction func termAndCondition(_ sender: Any) {
@@ -643,10 +638,10 @@ class CreditCardListViewController: UIViewController {
         
         if isTermsEnable {
             ElGrocerEventsLogger.sharedInstance.trackSettingClicked("TermsConditions")
-           // FireBaseEventsLogger.trackSettingClicked("TermsConditions")
+                // FireBaseEventsLogger.trackSettingClicked("TermsConditions")
         }else{
             ElGrocerEventsLogger.sharedInstance.trackSettingClicked("PrivacyPolicy")
-            //FireBaseEventsLogger.trackSettingClicked("PrivacyPolicy")
+                //FireBaseEventsLogger.trackSettingClicked("PrivacyPolicy")
         }
         
         
@@ -659,15 +654,15 @@ class CreditCardListViewController: UIViewController {
         ew.isTermsAndConditions = isTermsEnable
         ew.isFromEmbededWebView = true
         self.navigationController?.present(navigationController, animated: true, completion: nil)
-  
-//         let ew = ElGrocerViewControllers.privacyPolicyViewController()
-//        let webVC =  ElGrocerNavigationController.init(rootViewController: ew)
-//        ew.isTermsAndConditions = isTermsEnable
-//        ew.isFromEmbededWebView = true
-//        webVC.modalPresentationStyle = .fullScreen
-//        self.present(webVC, animated: true, completion: nil)
         
-        // self.navigationController?.pushViewController(webVC, animated: true)
+            //         let ew = ElGrocerViewControllers.privacyPolicyViewController()
+            //        let webVC =  ElGrocerNavigationController.init(rootViewController: ew)
+            //        ew.isTermsAndConditions = isTermsEnable
+            //        ew.isFromEmbededWebView = true
+            //        webVC.modalPresentationStyle = .fullScreen
+            //        self.present(webVC, animated: true, completion: nil)
+        
+            // self.navigationController?.pushViewController(webVC, animated: true)
         
     }
     
@@ -678,7 +673,7 @@ class CreditCardListViewController: UIViewController {
         isPaymentAgreemnetApprovedByUser = !isPaymentAgreemnetApprovedByUser
     }
     
-    //MARK:- load 3durl
+        //MARK:- load 3durl
     
     let child = SpinnerViewController()
     
@@ -690,13 +685,13 @@ class CreditCardListViewController: UIViewController {
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
         let topBarHeight = UIApplication.shared.statusBarFrame.size.height +
-            (self.navigationController?.navigationBar.frame.height ?? 0.0)
+        (self.navigationController?.navigationBar.frame.height ?? 0.0)
         let webView =  WKWebView(frame: CGRect.init(x: 0, y: topBarHeight, width: view.frame.size.width , height: view.frame.size.height) , configuration: configuration)
         webView.navigationDelegate = self
-       
+        
         view.addSubview(webView)
         
-        //        self.view = webView
+            //        self.view = webView
         let _ = SpinnerView.showSpinnerViewInView(webView)
         if let url = URL(string: urlStr) {
             let request = NSMutableURLRequest.init(url: url)  // URLRequest(url: url)
@@ -706,7 +701,7 @@ class CreditCardListViewController: UIViewController {
                 currentLang = "en"
             }
             var final_Version = "1000000"
-            if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
+            if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                 final_Version = version
             }
             request.allHTTPHeaderFields = ["Locale" : currentLang , "app_version" : final_Version ]
@@ -735,25 +730,33 @@ class CreditCardListViewController: UIViewController {
         if !isFromSetting {
             webView.willMove(toWindow: nil)
             webView.removeFromSuperview()
-             self.showErrorAlert(message)
+            self.showErrorAlert(message)
             return
         }
         webView.willMove(toWindow: nil)
         webView.removeFromSuperview()
         let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""),description:message ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
         errorAlert.showPopUp()
-  
+        
     }
     
 }
 extension CreditCardListViewController : UITableViewDataSource , UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+            //TODO: change it
+        if self.isFromWallet {
+            return NextButtonView.frame.size.height
+        }
         return confirmPaymentMethodView.frame.size.height
     }
-
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-         return confirmPaymentMethodView
+            //TODO: change it
+        if self.isFromWallet {
+            return NextButtonView
+        }
+        return confirmPaymentMethodView
     }
     
     
@@ -779,7 +782,7 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-         let card = paymentMethodA[indexPath.row]
+        let card = paymentMethodA[indexPath.row]
         
         if card is PaymentOption {
             let cell : CreditCardViewTableViewCell = tableView.dequeueReusableCell(withIdentifier: KCreditCardViewTableViewCellIdentifier , for: indexPath) as! CreditCardViewTableViewCell
@@ -821,7 +824,7 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
         }else if card is String {
             if (card as! String)  == addNewCardCell {
                 let cell : CreditCardViewTableViewCell = tableView.dequeueReusableCell(withIdentifier: KCreditCardViewTableViewCellIdentifier , for: indexPath) as! CreditCardViewTableViewCell
-                cell.configureCellAsPaymentOption(obj: card)
+                cell.configureCellAsPaymentOption(obj: card,isForWallet: true)
                 cell.rightButtonCLicked = {[weak self] in
                     guard let self = self else {return}
                     self.addNewCardHandler()
@@ -830,20 +833,20 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
                 return cell
             }
         }
-      
+        
         let cell : CreditCardViewTableViewCell = tableView.dequeueReusableCell(withIdentifier: KCreditCardViewTableViewCellIdentifier , for: indexPath) as! CreditCardViewTableViewCell
         cell.configureEmptyView()
         cell.selectionStyle = .none
         return cell
-      
+        
     }
     func performZeroTokenization() {
         AdyenManager.sharedInstance.performZeroTokenization(controller: self)
-        AdyenManager.sharedInstance.isNewCardAdded = {(error, response) in
+        AdyenManager.sharedInstance.isNewCardAdded = {(error, response, adyenObj) in
             if error {
-               elDebugPrint("error is tokenization")
+                print("error is tokenization")
                 if let resultCode = response["resultCode"] as? String {
-                   elDebugPrint(resultCode)
+                    print(resultCode)
                     AdyenManager.showErrorAlert(descr: resultCode)
                 }
             }else {
@@ -854,17 +857,25 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
     }
     
     func addNewCardHandler () {
+        if isFromWallet {
+            self.backButton("")
+            if let clouser =  goToAddNewCard {
+                clouser(self)
+            }
+            return
+        }
+        MixpanelEventLogger.trackCheckoutAddNewCardClicked()
         self.performZeroTokenization()
         
         return
         if isFromSetting {
-            //var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(500)))
-            //configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
-            //let bottomSheetController = NBBottomSheetController(configuration: configuration)
+                //var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(500)))
+                //configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
+                //let bottomSheetController = NBBottomSheetController(configuration: configuration)
             let vc = ElGrocerViewControllers.getEmbededPaymentWebViewController()
             vc.isAddNewCard = true
             self.navigationController?.pushViewController(vc, animated: true)
-            //bottomSheetController.present(vc, on: self)
+                //bottomSheetController.present(vc, on: self)
             vc.refreshCardApi = { [weak self] (isNeedToSelectLast) in
                 guard let self = self else {return}
                 self.checkForCreditCards()
@@ -881,7 +892,16 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        elDebugPrint("printed")
+        debugPrint("printed")
+        
+        defer {
+            
+            if self.isFromWallet {
+                self.btnNext.isEnabled = true
+                self.btnNext.backgroundColor = .navigationBarColor()
+            }
+        }
+        
         let card = paymentMethodA[indexPath.row]
         
         if card is String {
@@ -890,21 +910,11 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
                 if isFromSetting {
                     self.performZeroTokenization()
                     return
-                    
-                    
-                    let vc = ElGrocerViewControllers.getEmbededPaymentWebViewController()
-                    vc.isAddNewCard = true
-                    self.navigationController?.pushViewController(vc, animated: true)
-                    vc.refreshCardApi = { [weak self] (isNeedToSelectLast) in
-                        guard let self = self else {return}
-                        self.checkForCreditCards()
-                    }
-                    return
                 }
                 
                 self.backButton("")
                 if let clouser =  goToAddNewCard {
-                     clouser(self)
+                    clouser(self)
                 }
                 return
             }
@@ -922,7 +932,7 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
                 self.changeButtonState(isPaymentAgreemnetApprovedByUser)
                 self.tableView.reloadData()
             }
-           
+            
         }
         
         
@@ -930,16 +940,16 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-       
+        
         let deleteAction = UITableViewRowAction(style: .default, title: localizedString("dashboard_location_delete_button", comment: "") , handler: { (action, indexPath) in
             ElGrocerAlertView.createAlert(localizedString("card_title", comment: ""),
                                           description: localizedString("card_Delete_Message", comment: ""),
                                           positiveButton: localizedString("promo_code_alert_no", comment: "") ,
                                           negativeButton: localizedString("dashboard_location_delete_button", comment: "") ,
                                           buttonClickCallback: { (buttonIndex:Int) -> Void in
-                                            if buttonIndex == 1 {
-                                                self.callDelWithCancelParm(indexPath: indexPath , false)
-                                            }
+                if buttonIndex == 1 {
+                    self.callDelWithCancelParm(indexPath: indexPath , false)
+                }
             }).show()
         })
         
@@ -996,12 +1006,12 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
                 }
             }
         }
-
+        
         SpinnerView.hideSpinnerView()
         self.tableView.reloadData()
-    
+        
     }
- 
+    
 }
 
 
@@ -1020,7 +1030,7 @@ extension CreditCardListViewController : WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        elDebugPrint(error)
+        debugPrint(error)
         self.removeWebAndShowAlert(webView,localizedString("my_account_saving_error", comment: ""))
     }
     
@@ -1034,7 +1044,7 @@ extension CreditCardListViewController : WKNavigationDelegate {
                     
                     let errorAlert = ElGrocerAlertView.createAlert(localizedString("forgot_password_success_alert_title", comment: ""),description:localizedString("Setting_Credit_Card_Add_Success",comment: "") ,positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
                     errorAlert.showPopUp ()
-                 
+                    
                     self.dismiss(animated: true) {
                         webView.willMove(toWindow: nil)
                         webView.removeFromSuperview()
@@ -1051,7 +1061,7 @@ extension CreditCardListViewController : WKNavigationDelegate {
                     return
                 }
             }else{
-                elDebugPrint(finalURl)
+                debugPrint(finalURl)
                 if finalURl.absoluteString.contains("FortAPI/paymentPage") {
                     createSpinnerView()
                 }
@@ -1062,4 +1072,5 @@ extension CreditCardListViewController : WKNavigationDelegate {
     }
     
 }
+
 

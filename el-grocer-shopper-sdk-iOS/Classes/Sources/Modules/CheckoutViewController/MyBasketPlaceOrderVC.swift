@@ -43,7 +43,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         didSet{
             lblTotalPriceVAT.setBody3RegDarkStyle()
             lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " 6 " + localizedString("brand_items_count_label", comment: "")
-            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: UIFont.SFProDisplayBoldFont(14))
             
         }
     }
@@ -879,17 +879,17 @@ class MyBasketPlaceOrderVC: UIViewController {
             let authValue = round(authAmount * 100) / 100.0
             
             AdyenManager.sharedInstance.makePaymentWithApple(controller: self, amount: NSDecimalNumber.init(string: "\(authValue)"), orderNum: self.secondCheckOutDataHandler?.order?.dbID.stringValue ?? "", method: selectedApplePayMethod)
-            AdyenManager.sharedInstance.isPaymentMade = { (error, response) in
-               
+            AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
+                
                 SpinnerView.hideSpinnerView()
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                       elDebugPrint(resultCode)
+                        print(resultCode)
                         if let reason = response["refusalReason"] as? String {
                             AdyenManager.showErrorAlert(descr: reason)
                         }
-                       
+                        
                     }
                 }else {
                     self.showConfirmationView()
@@ -921,16 +921,16 @@ class MyBasketPlaceOrderVC: UIViewController {
         Thread.sleep(forTimeInterval: 1.0)
         
         let authValue = round(authAmount * 100) / 100.0
- 
+        
         if let selectedMethod = self.selectedCreditCard?.adyenPaymentMethod {
             AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: NSDecimalNumber.init(string: "\(authValue)"), orderNum: order?.dbID.stringValue ?? "", method: selectedMethod )
-            AdyenManager.sharedInstance.isPaymentMade = { (error, response) in
+            AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
                 
                 SpinnerView.hideSpinnerView()
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String,  resultCode.count > 0 {
-                       elDebugPrint(resultCode)
+                        print(resultCode)
                         let refusalReason =  (response["refusalReason"] as? String) ?? resultCode
                         AdyenManager.showErrorAlert(descr: refusalReason)
                     }
@@ -1025,7 +1025,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             self.setBillDetails()
             self.checkPromoAdded()
             if let method = methodSelect as? PaymentOption {
-                MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(method.rawValue)")
+                MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(method.rawValue)", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
             }
         }
         creditVC.goToAddNewCard = { [weak self] (credit) in
@@ -1033,16 +1033,15 @@ class MyBasketPlaceOrderVC: UIViewController {
 //            self.goToAddNewCardController()
             self.isPayingBySmilePoints = false
             AdyenManager.sharedInstance.performZeroTokenization(controller: self)
-            AdyenManager.sharedInstance.isNewCardAdded = { (error, response) in
+            AdyenManager.sharedInstance.isNewCardAdded = { (error, response,adyenObj) in
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                       elDebugPrint(resultCode)
+                        print(resultCode)
                         AdyenManager.showErrorAlert(descr: resultCode)
                     }
                 }else{
                     self.getPaymentMethods()
                 }
-                
             }
         }
         creditVC.newCardAdded = {(paymentArray) in
@@ -1058,7 +1057,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             creditVC.dismiss(animated: true) {}
             self.isPayingBySmilePoints = false
             self.setPaymentState ()
-            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.creditCard.rawValue)", cardId: creditCardSelected?.cardID ?? "")
+            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.creditCard.rawValue)", cardId: creditCardSelected?.cardID ?? "", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
         }
         
         creditVC.applePaySelected = { [weak self] (applePaySelected) in
@@ -1068,7 +1067,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             creditVC.dismiss(animated: true) {}
             self.isPayingBySmilePoints = false
             self.setPaymentState ()
-            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.applePay.rawValue)")
+            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.applePay.rawValue)", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
         }
         
         creditVC.creditCardDeleted = { [weak self] (creditCardSelected) in
@@ -1113,7 +1112,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         vc.priviousShoppingItems = self.secondCheckOutDataHandler?.shoppingItemsA
         vc.priviousOrderId = self.secondCheckOutDataHandler?.order?.dbID.stringValue
         vc.priviousFinalizedProductA = self.secondCheckOutDataHandler?.finalizedProductsA
-        vc.isPromoApplied = {[weak self] (success) in
+        vc.isPromoApplied = {[weak self] (success, promoCode) in
             self?.setBillDetails()
         }
         ElGrocerEventsLogger.sharedInstance.trackScreenNav([FireBaseParmName.CurrentScreen.rawValue : FireBaseScreenName.MyBasket.rawValue , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.ApplyPromoVC.rawValue])
@@ -1335,7 +1334,7 @@ extension MyBasketPlaceOrderVC {
 //        self.lblGrandTotalValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
 //        self.lblFinalAmountValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
         lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(itemCount) ") + localizedString("brand_items_count_label", comment: "")
-        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: UIFont.SFProDisplayBoldFont(14))
         
         self.lblTotalPriceVATValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalPrice)
         if self.smileUser?.foodSubscriptionStatus ?? false {

@@ -105,6 +105,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         setOrderStatusLable()
         setRetailerImage()
         setOrderDetailImageForLanguage()
+        setSmilePointSectionValue()
         
        
     }
@@ -267,9 +268,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.orderProducts = ShoppingBasketItem.getBasketProductsForOrder(self.order, grocery: nil, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         self.orderItems = ShoppingBasketItem.getBasketItemsForOrder(self.order, grocery: nil, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         cellRegistration()
-        if self.order?.payementType == 4 {
-            self.smileSection = 1
-        }
         checkForPushNotificationRegisteration()
         setup()
         self.getBanners()
@@ -587,7 +585,21 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         }
 
     }
-    
+    func setSmilePointSectionValue () {
+        guard self.order != nil else {
+            return
+        }
+        if let orderPayments = order!.orderPayments {
+            for payment in orderPayments {
+                let amount = payment["amount"] as? NSNumber ?? NSNumber(0)
+                let paymentTypeId = payment["payment_type_id"] as? Int
+                
+                if (paymentTypeId ?? 0) == 4, amount != 0 {
+                    self.smileSection = 1
+                }
+            }
+        }
+    }
     func setOrderStatusLable() {
         guard self.order != nil else {return}
         var statusPart  : NSMutableAttributedString = NSMutableAttributedString.init(string: "")

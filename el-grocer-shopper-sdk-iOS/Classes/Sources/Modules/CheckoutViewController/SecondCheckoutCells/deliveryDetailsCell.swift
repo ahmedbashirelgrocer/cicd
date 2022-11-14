@@ -65,7 +65,7 @@ class deliveryDetailsCell: UITableViewCell {
             self.lblAddress.text = address
         }else{
             self.lblAddress.text = localizedString("lbl_collection_Location_heading", comment: "") + ":\n" + address
-            self.lblAddress.highlight(searchedText: localizedString("lbl_collection_Location_heading", comment: "") + ":\n", color: .newBlackColor(), size: 14)
+            self.lblAddress.highlight(searchedText: localizedString("lbl_collection_Location_heading", comment: "") + ":\n", color: .newBlackColor(), size: UIFont.SFProDisplayBoldFont(14))
         }
     }
 

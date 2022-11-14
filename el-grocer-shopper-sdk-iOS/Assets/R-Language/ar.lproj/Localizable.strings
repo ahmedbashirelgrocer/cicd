@@ -344,6 +344,7 @@
     //"pay_via_card" = "الدفع بواسطة البطاقة عند التوصيل";
 "pay_via_card" = "ماكينة البطاقة";
 "pay_via_cash" = "الدفع نقدا عند التوصيل";
+"txt_pay_cash" = "نقداً";
 "pay_via_CreditCard" = "أون لاين";
 "promo_code_title" = "الرمز الترويجي";
 "payment_method_for_remaining_amount" = "اختيار طريقة الدفع للمبلغ المتبقي";
@@ -2068,3 +2069,82 @@
 "we_are_sorry_to_see_you_go_btn_title" = "المتابعة";
 //MARK: mybasket place order
 "txt_free" = "مجاني";
+
+
+    //MARK: elWallet
+"txt_title_elWallet" = "المحفظة";
+"txt_title_transaction_history" = "تاريخ المعاملات";
+"txt_add_funds" = "إضافة الأموال";
+"txt_view_all" = "عرض الكل";
+"txt_active_vouchers" = "القسائم النشطة";
+"txt_cards_capital" = "البطاقات";
+"txt_manage_cards" = "إدارة البطاقات";
+"txt_transection_history" = "تاريخ المعاملات";
+"txt_details" = "عرض التفاصيل";
+"txt_hide_details" = "إخفاء التفاصيل";
+"txt_redeem_capital" = "تطبيق";
+"txt_add_funds_from" = "اختار طريقة الدفع";
+"btn_next" = "التالي";
+"btn_add_new_card" = "أضف بطاقة جديدة";
+"txt_cards_small" = "البطاقات";
+"txt_elwallet_balance" = "رصيد المحفظة";
+"txt_active_vouchers_small" = "القسائم النشطة";
+"txt_do_you_have_voucher" = "هل لديك كود قسيمة؟";
+"txt_voucher_code" = "أدخل كود الكوبون";
+"txt_payment_process_faliure" = "معذرةً ، لم نتمكن من إتمام عملية الدفع.";
+"txt_payment_process_success" = " تمت إضافة الى المحفظة بنجاح!";
+"txt_btn_try_again" = "المحاولة مرة أخري";
+"txt_btn_back_to_elwallet" = "العوده الي المحفظة";
+"txt_card_added_successfully" = "تمت إضافة البطاقة بنجاح!";
+"txt_card_not_added" = "معذرةً ، لم نتمكن من إضافة هذه البطاقة";
+"txt_voucher" = "القسيمة ";
+"txt_voucher_redeem_faliure" = "غير صالحة. \n الرجاء إدخال الكود الصحيح أو محاولة استرداد قسيمة أخرى.";
+"txt_voucher_redeem_success" = " تم الاسترداد والإضافة بنجاح";
+"txt_amount_voucher_amount_elwallet" = " إلى رصيدك في ال محفظة!";
+"txt_no_voucher" = "سيتم عرض قسائمك النشطة هنا.";
+"txt_no_card_found" = "أضف بطاقة للاستمتاع بأفضل تجربة تسوق للبقالة";
+"txt_add_new_card_with_plus" = "إضافة بطاقة جديدة";
+"txt_no_transection_history" = "سيتم عرض معاملتك هنا.";
+"txt_do_you_want_remove_card" = "هل تريد إزالة هذه البطاقة؟";
+"btn_remove_title" = "مسح";
+"btn_keep_using" = "إلغاء";
+"btn_edit_card" = "إدارة البطاقات";
+"btn_done_edit_card" = "حفظ";
+"txt_cards_title" = "البطاقات";
+"title_how_much_like_to_add" = "كم تريد أن تضيف الي محفظتك؟";
+"btn_add_funds" = "إضافة الأموال";
+"txt_payment_option_voucher" = "قسيمة";
+"txt_use_a_new_card" = "بطاقة جديدة";
+
+
+"lbl_Expires_on" = "تنتهي في ";
+
+
+    //MARK: secondCheckout
+"use_elwallet_text" = "استخدام المحفظة";
+"use_smile_text" = "استخدام النقاط";
+"pay_using_text" = "طرق الدفع";
+"use_points_text" = "استخدام الرصيد";
+"secondry_payment_error_msg_elwallet" = "الحد الأدني للإستخدام ١ درهم";
+"secondary_payment_promocode_error" = "لتطبيق رمز ترويجي من فضلك ، اختر طريقة الدفع أولاً";
+"collector_text" = "Who is collecting the order?";
+"collector_car_text" = "Which car is collecting the order?";
+"click_collect_warning_text" = "Please, make sure you arrive on time. Your order will be held for 15 min max.";
+"click_collect_warning_text_highlighted" = "Your order will be held for 15 min max.";
+"discount_text" = "خصم";
+"elwallet_credit_applied" = "خصم من المحفظة";
+"smiles_points_applied" = "خصم من نقاط بسمات";
+"txt_applied_promocode" = "(مطبق)";
+"amount_to_pay" = "قيمة الفاتورة";
+"secondry_payment_error_msg_smiles" = "الحد الأدني للإستخدام ١ درهم";
+"promo_code_apply_notification" = "You must apply a promo code to get discount";
+"extra_balacnce_details" = "رصيد المحفظة";
+
+
+//MARK: substitution
+
+"sub_extra_amount_refund_initial" = "Price difference of ";
+"sub_extra_amount_refund_final" = " will be added to your elWallet balance";
+
+//MARK: order details
+"lbl_smile_point_earned" = "Smiles Points Earned";

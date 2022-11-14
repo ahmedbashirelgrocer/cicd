@@ -324,7 +324,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         ElGrocerApi.sharedInstance.getorderDetails(orderId: orderID) { (result) in
             switch result {
                 case .success(let response):
-                   // elDebugPrint(response)
+                    elDebugPrint(response)
                     if let orderDict = response["data"] as? NSDictionary {
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         self.order = latestOrderObj
@@ -333,40 +333,12 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                     }
                    
                     SpinnerView.hideSpinnerView()
-            case .failure(let error):
-                    error.showErrorAlert()
-                    self.backButtonClick()
-                
-            }
-        }
-    }
-    
-    fileprivate func getOrderDetail() {
-        
-        let _ = SpinnerView.showSpinnerViewInView(self.view)
-        
-
-       // ElGrocerApi.sharedInstance.getorderDetails(orderId: <#T##String#>, completionHandler: <#T##(Either<NSDictionary>) -> Void#>)
-        ElGrocerApi.sharedInstance.getOrdersProductsPossition(self.order.dbID.stringValue) {  (result) -> Void in
-            SpinnerView.hideSpinnerView()
-            switch result {
-                case .success(let orderDict):
-                     let orderGroceryId = Grocery.getGroceryIdForGrocery(self.currentGrocery!)
-                    Order.addProductToOrder(orderDict: orderDict, groceryId: NSNumber(value: Double(orderGroceryId) ?? -1 ) , order: self.order , context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    DatabaseHelper.sharedInstance.saveDatabase()
-                    self.order = Order.getOrderFrom(self.order.dbID, context:  DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    self.setOrderData()
-                    self.tableView.reloadData()
                 case .failure(let error):
                     error.showErrorAlert()
                     self.backButtonClick()
             }
-         
         }
-        
-        
     }
-    
     
     func setCollectorStatus (_ currentOrder : Order , isOnTheWay : Bool , button : UIButton ) {
         
@@ -401,7 +373,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     
     
-    // MARK: Actions
+        // MARK: Actions
     
     @IBAction func atTheStoreHandler(_ sender: UIButton) {
         
@@ -422,15 +394,15 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         self.setCollectorStatus(self.order, isOnTheWay: true, button: sender)
         
-//        let SDKManager = SDKManager.shared
-//        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
-//            if buttonIndex == 0 {
-//                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
-//            }
-//            if buttonIndex == 1 {
-//                self.setCollectorStatus(self.order, isOnTheWay: true, button: sender)
-//            }
-//        }
+            //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "dialog_car_green") , header: NSLocalizedString("dialog_CandC_Title", comment: "") , detail: NSLocalizedString("dialog_CandC_Msg", comment: "")  ,NSLocalizedString("btn_at_the_store_txt", comment: "") ,NSLocalizedString("btn_on_my_way_txt", comment: "") , withView: appDelegate.window! , true) { (buttonIndex) in
+            //            if buttonIndex == 0 {
+            //                self.setCollectorStatus(self.order, isOnTheWay: false , button: sender)
+            //            }
+            //            if buttonIndex == 1 {
+            //                self.setCollectorStatus(self.order, isOnTheWay: true, button: sender)
+            //            }
+            //        }
         
         
     }
@@ -444,8 +416,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             self.dismiss(animated: true)
         }else if isCommingFromOrderConfirmationScreen {
             self.navigationController?.popToRootViewController(animated: true)
-//            self.tabBarController?.tabBar.isHidden = false
-//            self.tabBarController?.selectedIndex = 1
+                //            self.tabBarController?.tabBar.isHidden = false
+                //            self.tabBarController?.selectedIndex = 1
         }else{
             self.navigationController?.popViewController(animated: true)
         }
@@ -683,7 +655,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
 //        let SDKManager = SDKManager.shared
 //        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
-//            
+//
 //            if buttonIndex == 1 {
 ////                self.cancelOrder(self.order.dbID.stringValue)
 //                self.showCancelOrderVC()
@@ -709,7 +681,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
            // self.backButtonClick()
             
             // if let SDKManager = SDKManager.shared {
-            SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
+            if self.navigationController?.viewControllers.count != 5 {
+                SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
+            }
             (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             // }
             if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
@@ -794,10 +768,6 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 }
             }
             LocationManager.sharedInstance.fetchCurrentLocation()
-            
-        
-        
-        
     }
     
     
@@ -1465,9 +1435,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //            self.promotionDiscountLabel.isHidden = false
 //            self.promotionDiscountPriceLabel.isHidden = false
 //            self.promoSummaryContainer.isHidden = false
-//            
+//
 //            self.totalLabel.textColor = UIColor.redInfoColor()
-//            
+//
 //            self.totalPriceLabel.textColor = UIColor.redInfoColor()
             
 //            self.promotionDiscountLabel.textColor = UIColor.greenInfoColor()
@@ -1481,7 +1451,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
      //   }
     }
     
-    // MARK: Data
+        // MARK: Data
     
     private func loadOrderStatusLabel(_ order: Order!) -> String {
         
@@ -1561,7 +1531,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
         
         var grandTotal = priceSum + serviceFee
-        if let price = Double(self.order.priceVariance ?? "0") {
+        if let price = self.order.priceVariance?.doubleValue {
             grandTotal = grandTotal + price
         }
         // Here making decision to hide/unhide Change Order
@@ -1639,8 +1609,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     private func registerCellsForCollection() {
         
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         
-        let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle: Bundle.resource)
+        let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle:  Bundle.resource)
         self.tableView.register(orderCollectionDetailsCell, forCellReuseIdentifier: "OrderCollectionDetailsCell")
         
         
@@ -1650,7 +1622,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: Bundle.resource)
         self.tableView.register(subsitutionActionButtonTableViewCell, forCellReuseIdentifier: "SubsitutionActionButtonTableViewCell")
         
-        
+        let EarnedSmilePointCell = UINib(nibName: "EarnedSmilePointCell", bundle: Bundle.resource)
+        self.tableView.register(EarnedSmilePointCell, forCellReuseIdentifier: "EarnedSmilePointCell")
         
         let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
@@ -1669,6 +1642,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         let myBasketPromoAndPaymentTableViewCell = UINib(nibName: "MyBasketPromoAndPaymentTableViewCell" , bundle: Bundle.resource)
         self.tableView.register(myBasketPromoAndPaymentTableViewCell, forCellReuseIdentifier: "MyBasketPromoAndPaymentTableViewCell")
         
+        let orderBillDetailsTableViewCell = UINib(nibName: "orderBillDetailsTableViewCell" , bundle:  Bundle.resource)
+        self.tableView.register(orderBillDetailsTableViewCell, forCellReuseIdentifier: "orderBillDetailsTableViewCell")
+        
         
         let celllNib = UINib(nibName: "ShoppingBasketCell", bundle: Bundle.resource)
         self.tableView.register(celllNib, forCellReuseIdentifier: kShoppingBasketCellIdentifier)
@@ -1677,7 +1653,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         let myBasketCustomerSupportTableViewCell = UINib(nibName: "NeedCustomerSupportView" , bundle: Bundle.resource)
         self.tableView.register(myBasketCustomerSupportTableViewCell, forCellReuseIdentifier: "NeedCustomerSupportView")
         
-       // self.tableView.tableFooterView = self.summaryView
+            // self.tableView.tableFooterView = self.summaryView
     }
     
     
@@ -1690,7 +1666,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         guard self.orderProducts != nil else { return 0 }
         
         if section == 0 {
-            return 6
+            if (order.smileEarn ?? 0) > 0 {
+                return 8
+            }else {
+                return 7
+            }
         }else  if section == 2 {
             return 1
         }else{
@@ -1725,9 +1705,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //                    }
                     
                     if (order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue || order.status.intValue == OrderStatus.payment_pending.rawValue) {
-                         return 211 + 25
+                        return 211 + 25
                     }else{
-                       return 163 + 25
+                        return 163 + 25
                     }
                     
                     
@@ -1744,7 +1724,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                     let Mapwidth = ScreenSize.SCREEN_WIDTH - 56 // -64 for left right paddings
                     let Mapheight = (Mapwidth / 4) * 3
                     let mapAndImageHeight = Mapheight * 2
-                  return  self.order.pickUp != nil ? KOrderCollectionDetailsCell + mapAndImageHeight : .leastNormalMagnitude
+                    return  self.order.pickUp != nil ? KOrderCollectionDetailsCell + mapAndImageHeight : .leastNormalMagnitude
                 }
                 //MARK: Improvement : improve logic to find height of cell
                 if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
@@ -1758,8 +1738,17 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }else if indexPath.row == 3 {
                 return 40
             } else if indexPath.row == 4 {
-                return 260 + ( self.order.promoCode != nil ? 20 : 0)
+                return 70 //260 + ( self.order.promoCode != nil ? 20 : 0)
             }else if indexPath.row == 5 {
+                return UITableView.automaticDimension//70 //260 + ( self.order.promoCode != nil ? 20 : 0)
+            }else if indexPath.row == 6 {
+                if (self.order.smileEarn ?? 0) > 0 {
+                    return UITableView.automaticDimension//70 //260 + ( self.order.promoCode != nil ? 20 : 0)
+                }else {
+                    return 40
+                }
+                
+            }else if indexPath.row == 7 {
                 return 40
             }
            
@@ -1767,7 +1756,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }else if indexPath.section == 2 {
             
             if (order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue || order.status.intValue == OrderStatus.payment_pending.rawValue) {
-               return 88
+                return 88
             } else {
                 return 0.1
             }
@@ -1852,6 +1841,32 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 return cell
                 
             }else  if indexPath.row == 5 {
+                if (self.order.smileEarn ?? 0) > 0 {
+                    let cell : EarnedSmilePointCell = tableView.dequeueReusableCell(withIdentifier: "EarnedSmilePointCell" , for: indexPath) as! EarnedSmilePointCell
+                    if self.order != nil && self.order.smileEarn != 0 {
+                        cell.configure(points: self.order.smileEarn?.doubleValue ?? 0.00)
+                    }
+                    return cell
+                }else {
+                    let cell : orderBillDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "orderBillDetailsTableViewCell" , for: indexPath) as! orderBillDetailsTableViewCell
+                    if self.order != nil {
+                        cell.configureBillDetails(order: self.order, orderController: self)
+                    }
+                    return cell
+                }
+            }else  if indexPath.row == 6 {
+                if (self.order.smileEarn ?? 0) > 0 {
+                    let cell : orderBillDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "orderBillDetailsTableViewCell" , for: indexPath) as! orderBillDetailsTableViewCell
+                    if self.order != nil {
+                        cell.configureBillDetails(order: self.order, orderController: self)
+                    }
+                    return cell
+                }else {
+                    let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
+                    cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))
+                    return cell
+                }
+            }else  if indexPath.row == 7 {
                 
                 let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
                 cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))

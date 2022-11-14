@@ -22,6 +22,7 @@ class DeliverySlot: NSManagedObject, DBEntity {
     @NSManaged var estimated_delivery_at: Date
     @NSManaged var time_milli: NSNumber
     @NSManaged var isInstant:NSNumber
+    @NSManaged var backendDbId: NSNumber
     
 
 }

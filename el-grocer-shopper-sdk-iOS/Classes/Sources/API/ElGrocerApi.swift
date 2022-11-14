@@ -128,6 +128,7 @@ enum ElGrocerApiEndpoint : String {
     case Banners = "v1/banners"
     case ChangePassword = "v1/shoppers/update_password"
     case PlaceOrder = "v3/orders/generate"
+    case createOrder = "v4/orders/generate"
     //case UpdateOrder = "v3/orders/generate"
     case OrderList = "v3/orders"
     case newOrderList = "v3/orders/history" // https://elgrocerdxb.atlassian.net/browse/EG-584
@@ -161,7 +162,7 @@ enum ElGrocerApiEndpoint : String {
     case DeliverySlots = "v2/delivery_slots/delivery"
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     case cAndcDeliverySlots = "v2/delivery_slots/click_and_collect"
-    
+    case fetchDeliverySlots = "v4/delivery_slots/all"
     
     case getCollectorDetails = "v1/collector_details/all"
     case getCarDetails = "v1/vehicle_details/all"
@@ -177,7 +178,7 @@ enum ElGrocerApiEndpoint : String {
     case vehicleAttributes = "v1/vehicle_details/vehicle_attributes"
     case pickupLocations = "v1/pickup_locations/all"
     
-    case orderDetail = "v3/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
+    case orderDetail = "v4/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case updateOrderCollectorStatus = "v1/order_collection_details/update"
     case openOrderDetail = "v1/orders/show/cnc_open_orders"
     
@@ -190,6 +191,12 @@ enum ElGrocerApiEndpoint : String {
     case getIfOOSReasons = "v1/orders/substitution/preferences"
     case payWithApplePay = "online_payments/applepay_authorization_call"
     
+    case getSecondCheckoutDetails = "v2/baskets/payment_details"// not using
+    case getSecondCheckoutDetailsForEditOrder = "v2/baskets/order_basket"
+    case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
+    
+    case getSubstitutionBasketDetails = "v2/baskets/substitution"
+    case orderSubstitutionBasketUpdate = "v4/orders/substitution"
  }
  
  class ElgrocerAPINonBase  {
@@ -2634,8 +2641,38 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   }
   
+      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, orderItemCount: Int, completion: @escaping (Either<NSDictionary>) -> Void) {
+          
+          // Parameters
+          let params = NSMutableDictionary()
+          params["retailer_id"] = retailerID
+          params["retailer_delivery_zone_id"] = retailerDeliveryZondID
+          params["item_count"] = orderItemCount
+          
+          if let orderID = orderID {
+              params["order_id"] = orderID
+          }
+          
+          setAccessToken()
+          
+          NetworkCall.get(ElGrocerApiEndpoint.fetchDeliverySlots.rawValue, parameters: params) { progress in
+              // handle progress here ...
+          } success: { URLSessionDataTask, response in
+              guard let data = ((response as? NSDictionary)?["data"] as? NSDictionary) else {
+                  completion(.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              
+              completion(.success(data))
+              
+          } failure: { URLSessionDataTask, error in
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  completion(.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+      }
   // MARK: Delivery Slots
-  
+      
     func getGroceryDeliverySlotsWithGroceryId(_ groceryId:String?, andWithDeliveryZoneId  deliveryZoneId:String? , _ allSlotForCandC : Bool = true , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()
@@ -2746,6 +2783,34 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
   }
   }
+      
+      
+      func orderSubstitutionBasketDetails (_ orderId:String ,products: [[String: Any]], completionHandler:@escaping (Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          let parameters: [String : Any] = ["order_id" : orderId, "products" : products]
+          
+          elDebugPrint("parameters subs\(parameters)")
+          NetworkCall.post(ElGrocerApiEndpoint.getSubstitutionBasketDetails.rawValue, parameters: parameters, progress: { progress in
+              elDebugPrint(progress)
+          }, success: { (operation  , response: Any) -> Void in
+              
+              guard let ordersDict = ((response as? NSDictionary)?["data"] as? NSDictionary) else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              completionHandler(Either.success(ordersDict))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  
+                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+      }
+      
+      
   
     func sendSubstitutionForOrder(_ order:Order, withProducts productsArray:[Product]  ,  ref: String = "" , amount : Double = 0.0, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
@@ -2798,7 +2863,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   parameters["products"] = products
   
-  NetworkCall.put(ElGrocerApiEndpoint.OrderSubstitutions.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+  NetworkCall.put(ElGrocerApiEndpoint.orderSubstitutionBasketUpdate.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
   completionHandler(Either.failure(ElGrocerError.genericError()))
@@ -4129,6 +4194,62 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
         }
     }
+      
+      
+      func placeOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          elDebugPrint(parameters)
+          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue, parameters: parameters, progress: { (progress) in
+                  // debugPrint("Progress for API :  \(progress)")
+          }, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  
+                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+          
+          
+      }
+      
+      func placeEditOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          NetworkCall.put(ElGrocerApiEndpoint.createOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  
+                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+          
+          
+      }
+      
+      
     
     //MARK: promoCode
       func getPromoList(limmit: Int, Offset: Int, grocery:String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
@@ -4624,18 +4745,33 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     /// - Returns: returns Arabic number
     func changeToArabic()-> String{
         
-        var sum = ""
-        let letters = self.map { String($0) }
-        for letter in letters {
-            if (Int(letter) != nil) {
-                let persianNumber = ["۰","۱","۲","۳","٤","۵","٦","۷","۸","۹"]
-                sum = sum+persianNumber[Int("\(letter)")!]
-            } else {
-                sum = sum+letter
-            }
-        }
-        sum = sum.replacingOccurrences(of: ".", with: ",")
-        return sum
+        return self
+        
+//        let format = NumberFormatter()
+//        format.locale = Locale(identifier: "ar-ae")
+//        format.allowsFloats = true
+//        format.numberStyle = .decimal
+//        let number =   format.number(from: self)
+//        let faNumber = format.string(from: number!)
+//        return faNumber!
+//        
+//        
+//        
+//        var sum = ""
+//        elDebugPrint("numerals start: \(self)")
+//        let letters = self.reversed().map { String($0) }
+//        elDebugPrint("numerals: \(letters)")
+//        for letter in letters {
+//            if (Int(letter) != nil) {
+//                let persianNumber = ["۰","۱","۲","۳","٤","۵","٦","۷","۸","۹"]
+//                sum = sum+persianNumber[Int("\(letter)")!]
+//            } else {
+//                sum = sum+letter
+//            }
+//        }
+//        sum = sum.replacingOccurrences(of: ".", with: ",")
+//        elDebugPrint("numerals sum: \(sum)")
+//        return sum
     }
     
  }

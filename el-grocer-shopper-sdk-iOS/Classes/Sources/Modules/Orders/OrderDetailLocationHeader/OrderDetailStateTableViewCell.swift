@@ -253,7 +253,7 @@ extension OrderDetailStateTableViewCell {
             }
         }
         let countLabel = orderProducts.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
-        self.lblNumberOfItems.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
+        self.lblNumberOfItems.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(order?.totalProducts ?? 0) ") + countLabel + ")"
         let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: order!.grocery, totalPrice: priceSum)
             priceSum = priceSum + serviceFee
         if let promoCode = order!.promoCode {
@@ -265,11 +265,11 @@ extension OrderDetailStateTableViewCell {
             }
         }
         var grandTotal = priceSum
-        if let price = Double(order!.priceVariance ?? "0") {
+        if let price = order?.priceVariance?.doubleValue {
             grandTotal = grandTotal + price
         }
 //        self.lblPrice.text = ("\(CurrencyManager.getCurrentCurrency()) " + (NSString(format: "%.2f", grandTotal) as String) as String)
-        self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
+        self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: order?.finalBillAmount?.doubleValue ?? 0.00)
         if order!.deliverySlot != nil  ,  order?.deliverySlot?.dbID != nil {
             self.lblDate.text  = order!.deliverySlot!.getSlotDisplayStringOnOrder(order!.grocery)
         }else{

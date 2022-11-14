@@ -169,10 +169,11 @@ extension Order {
             order.applePayWallet = applepay_wallet
         }
        
-        if let priceVariance = orderDict["price_variance"] as? String {
+        if let priceVariance = orderDict["price_variance"] as? NSNumber {
             order.priceVariance = priceVariance
-        }else if let priceVariance = orderDict["price_variance"] as? Double {
-            order.priceVariance = "\(priceVariance)"
+        }
+        if let smileEarn = orderDict["smiles_earn"] as? NSNumber {
+            order.smileEarn = smileEarn
         }
         
         if let creditCardAvailable = orderDict["credit_card"] as? NSDictionary {
@@ -198,6 +199,11 @@ extension Order {
         }else {
             order.foodSubscriptionStatus = NSNumber(0)
         }
+        
+        if let orderPayments = orderDict["order_payments"] as? [NSDictionary] {
+            order.orderPayments = orderPayments
+        }
+        
         if let images_links = orderDict["order_positions"] as? [NSDictionary] {
             order.itemsPossition = images_links
         }
@@ -217,15 +223,25 @@ extension Order {
             let grocery = Grocery.createGroceryFromDictionary(["id" : groceryId , "company_name" :  orderDict["retailer_company_name"] ?? "" , "company_address" :  orderDict["retailer_company_address"] ?? ""  , "service_fee" :  orderDict["service_fee"] ?? "" ,  "rider_fee" :  orderDict["rider_fee"] ?? "" , "vat" :  orderDict["vat"] ?? "" , "wallet_amount_paid" :  orderDict["wallet_amount_paid"] ?? "" , "retailer_photo" : orderDict["retailer_photo"] ?? orderDict["photo_url"] ?? "" ], orderId: orderId, context: context)
             order.grocery = grocery
         }
-        
-        if let total_value = orderDict["total_value"] as? Double {
+        elDebugPrint(orderDict)
+        if let productTotal = orderDict["products_total"] as? Double {
+            order.produuctsTotal = productTotal
+        }
+        if let total_value = orderDict["total"] as? Double {
             order.totalValue = total_value
         }
+        
         if let total_products = orderDict["total_products"] as? Int64 {
             order.totalProducts = total_products
         }
-      
-        //delivery address
+        if let serviceFee = orderDict["service_fee"] as? NSNumber {
+            order.serviceFee = serviceFee
+        }
+        if let finalAmount = orderDict["final_amount"] as? NSNumber {
+            order.finalBillAmount = finalAmount
+        }
+        
+            //delivery address
         let addressId = orderDict["shopper_address_id"] as? NSNumber
         let addressOrderId = "\(orderId)_\(String(describing: addressId ?? -1))"
         

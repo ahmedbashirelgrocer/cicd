@@ -819,9 +819,10 @@ class ProductCell : UICollectionViewCell {
 //        let attributedString2 = NSMutableAttributedString(string:price as String , attributes:attrs2 as [NSAttributedString.Key : Any])
 //        attributedString1.append(attributedString2)
 //        self.productPriceLabel.attributedText = attributedString1
-        
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.productPriceLabel.semanticContentAttribute = .forceRightToLeft
+        }
         self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: self.product.price.doubleValue)
-           
 
         self.plusButton.setImage(UIImage(name: "icPlusGray")!.withRenderingMode(.alwaysTemplate), for: .normal)
         self.minusButton.setImage(UIImage(name: "icDashGrey")!.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -946,7 +947,10 @@ class ProductCell : UICollectionViewCell {
 //                    let attributedString2 = NSMutableAttributedString(string:price as String , attributes:attrs2 as [NSAttributedString.Key : Any])
 //                    attributedString1.append(attributedString2)
 //                    self.productPriceLabel.attributedText = attributedString1
-                    
+                    if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                        self.productPriceLabel.semanticContentAttribute = .forceRightToLeft
+                    }
+
                     self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: priceValue!.doubleValue)
                 }
             }
@@ -955,7 +959,8 @@ class ProductCell : UICollectionViewCell {
         
         if !(product.isPublished.boolValue && product.isAvailable.boolValue) {
             self.outOfStockContainer.isHidden = false
-          
+            //self.chooseReplaceBg.isHidden = true
+            //self.deleteView.isHidden = true
         }else{
             self.outOfStockContainer.isHidden = true
         }

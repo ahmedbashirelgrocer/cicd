@@ -184,8 +184,8 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         self.lblPaymentMethod.textColor = .navigationBarWhiteColor()
         if orderController.order != nil {
               self.setPaymentFromOrder(orderController.order)
-              self.setOrderInvoice(orderController.order)
-              self.setPaymentDetailsForOrder(orderController)
+//              self.setOrderInvoice(orderController.order)
+//              self.setPaymentDetailsForOrder(orderController)
         }
         
         
@@ -259,7 +259,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         self.lblDiscounttxt.setBodyRegulrGreenStyle()
         self.lblDiscounttxt.text = localizedString("promotion_discount_aed", comment: "")
         lblPriceCount.text  =  localizedString("total_price", comment: "") + " \(totalProductCount)" + " " + localizedString("brand_items_count_label", comment: "")
-        lblPriceCount.highlight(searchedText: "\(totalProductCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
+        lblPriceCount.highlight(searchedText: "\(totalProductCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.darkGrayTextColor(), size: UIFont.SFProDisplayBoldFont(14))
         lblTotalPriceAmount.text = totalAmount
         lblServiceFeeAmount.text  =  service
         
@@ -367,7 +367,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         }
 
         var grandTotal = priceSum
-        if let price = Double(orderController.order.priceVariance ?? "0") {
+        if let price = orderController.order.priceVariance?.doubleValue {
             grandTotal = grandTotal + price
          
             if price > 0 {
@@ -429,7 +429,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         }
         
         lblPriceCount.text  =  localizedString("total_price", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(summaryCount)") + " " + localizedString("brand_items_count_label_orderDetails", comment: "")
-        lblPriceCount.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(summaryCount) ") + localizedString("brand_items_count_label_orderDetails", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
+        lblPriceCount.highlight(searchedText: ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(summaryCount) ") + localizedString("brand_items_count_label_orderDetails", comment: ""), color: UIColor.darkGrayTextColor(), size: UIFont.SFProDisplayBoldFont(14))
 
     }
     
@@ -592,10 +592,10 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             if itemCount == 1{
                 
                 lblPriceCount.text =  localizedString("total_price", comment: "") + " " + ("\(itemCount)") + " " + localizedString("shopping_basket_items_count_singular", comment: "")
-                lblPriceCount.highlight(searchedText: "\(itemCount) " + localizedString("shopping_basket_items_count_singular", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
+                lblPriceCount.highlight(searchedText: "\(itemCount) " + localizedString("shopping_basket_items_count_singular", comment: ""), color: UIColor.darkGrayTextColor(), size: UIFont.SFProDisplayBoldFont(14))
             }else if itemCount > 1{
                 lblPriceCount.text =  localizedString("total_price", comment: "") + " " + ("\(itemCount)") + " " + localizedString("shopping_basket_items_count_plural", comment: "")
-                lblPriceCount.highlight(searchedText: "\(itemCount) " + localizedString("shopping_basket_items_count_plural", comment: ""), color: UIColor.darkGrayTextColor(), size: 14)
+                lblPriceCount.highlight(searchedText: "\(itemCount) " + localizedString("shopping_basket_items_count_plural", comment: ""), color: UIColor.darkGrayTextColor(), size: UIFont.SFProDisplayBoldFont(14))
             }
             
         }

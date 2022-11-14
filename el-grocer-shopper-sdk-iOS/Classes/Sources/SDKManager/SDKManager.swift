@@ -3,7 +3,8 @@
 //
 //  Created by Awais Arshad Chatha on 01.07.2015.
 //  Copyright (c) 2015 RST IT. All rights reserved.
-// from Development commit = pod lock file updated Commit: c9b40a3d3af6b7cf628a8acd300c83df76ebbaff
+//  Final Release Build & Update
+//from commit update pod file for xcode 14 & ios16 ==== branch : origin/DevSDK/Xcode14-IOS16Fixing
 
 import UIKit
 import CoreData
@@ -88,7 +89,7 @@ class SDKManager: NSObject  {
         
         
     }
-
+    
     fileprivate func checkNotifcation() {
         
         let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
@@ -120,11 +121,21 @@ class SDKManager: NSObject  {
             }
             if var apiData = notifcation.userInfo as? [String : Any] {
                 apiData[FireBaseParmName.SessionID.rawValue] = ElGrocerUtility.sharedInstance.getGenericSessionID()
-                //FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo: apiData))
-               FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  apiData  , false)
-            }else{
-              //  FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
+                if let launchOptions = launchOptions, launchOptions.isSmileSDK {
+                    
+                } else {
+                    FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo: apiData))
+                }
+                FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  apiData  , false)
                 
+               
+            }else{
+                
+                if let launchOptions = launchOptions, launchOptions.isSmileSDK {
+                    
+                } else {
+                    FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
+                }
                 FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)" , [:] , false )
             }
         }
@@ -283,7 +294,7 @@ class SDKManager: NSObject  {
         
         
         guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else {
-                    // Fixme: Firebase disabled
+          // Fixme: Firebase disabled
         #if DEBUG
           // debugFirebaseSetting()
         #else
@@ -291,7 +302,11 @@ class SDKManager: NSObject  {
         #endif
             return
         }
-                
+
+        guard Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" else {
+            return
+        }
+        
         #if DEBUG
            debugFirebaseSetting()
         #else
@@ -406,6 +421,10 @@ class SDKManager: NSObject  {
     }
     
      func showAnimatedSplashView() {
+         
+         defer {
+             self.refreshSessionStatesForEditOrder()
+         }
         
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
@@ -422,6 +441,11 @@ class SDKManager: NSObject  {
     
     
      func showEntryView() {
+         
+         defer {
+             self.refreshSessionStatesForEditOrder()
+         }
+         
          if let launchOptions = launchOptions, launchOptions.isSmileSDK { // Entry point for SDK
              let manager = SDKLoginManager(launchOptions: launchOptions)
              manager.loginFlowForSDK() { isSuccess, errorMessage in

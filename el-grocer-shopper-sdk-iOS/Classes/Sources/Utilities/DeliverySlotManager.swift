@@ -98,8 +98,9 @@ class DeliverySlotManager {
             var dayTitle = ""
             if let startDate = (slotDict["start_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
                 if let endDate = (slotDict["end_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
+                    let slotId = slotDict["id"] as? Int
                     let dayName = startDate.getDayName() ?? ""
-                    if startDate.isToday {
+                    if startDate.isToday || slotId == 0 {
                         if ElGrocerUtility.sharedInstance.isDeliveryMode {
                             dayTitle = localizedString("lbl_next_delivery", comment: "")
                         }else {
@@ -116,7 +117,7 @@ class DeliverySlotManager {
                         dayTitle = startDate.getDayName() ?? ""
                     }
                     let timeSlot = ( isDeliveryMode ?  startDate.formatDateForDeliveryFormateString() : startDate.formatDateForCandCFormateString() ) + " - " + ( isDeliveryMode ?  endDate.formatDateForDeliveryFormateString() : endDate.formatDateForCandCFormateString())
-                    groceryNextDeliveryString =  dayTitle + (dayTitle.count > 0 ? "\n" : "") + "\(dayName) " + "\(timeSlot)"
+                    groceryNextDeliveryString =  dayTitle + (dayTitle.count > 0 ? "\n" : "") + ( dayTitle.count > 0 ? "" : "\(dayName) ") + "\(timeSlot)"
                 }
             }
         }

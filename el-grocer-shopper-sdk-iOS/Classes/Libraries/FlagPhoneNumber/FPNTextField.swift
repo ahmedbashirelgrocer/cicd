@@ -252,7 +252,7 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
                     text = remove(dialCode: phoneCode, in: inputString)
                 }
                 (delegate as? FPNTextFieldDelegate)?.fpnDidValidatePhoneNumber(textField: self, isValid: true)
-                (customDelegate as? FPNTextFieldCustomDelegate)?.fpnDidValidatePhoneNumber(textField: self, isValid: true)
+                (customDelegate)?.fpnDidValidatePhoneNumber(textField: self, isValid: true)
                 
             } else {
                 nbPhoneNumber = nil
@@ -262,7 +262,7 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
                     }
                 }
                 (delegate as? FPNTextFieldDelegate)?.fpnDidValidatePhoneNumber(textField: self, isValid: false)
-                (customDelegate as? FPNTextFieldCustomDelegate)?.fpnDidValidatePhoneNumber(textField: self, isValid: false)
+                (customDelegate)?.fpnDidValidatePhoneNumber(textField: self, isValid: false)
             }
         }
     }

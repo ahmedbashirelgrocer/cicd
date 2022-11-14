@@ -73,7 +73,7 @@ extension MyBasketInstructionTableViewCell : UITextViewDelegate {
          
         self.lblRemaining.text = "\(charRemaining)/100"
         if charCount > 0{
-            self.lblRemaining.highlight(searchedText: "\(charRemaining)", color: UIColor.black , size: 12)
+            self.lblRemaining.highlight(searchedText: "\(charRemaining)", color: UIColor.black , size: UIFont.SFProDisplayBoldFont(12))
         }
         self.btnCross.isHidden = (self.txtNoteView.text?.count == 0)
       //  adjustUITextViewHeight(arg : textView)
@@ -88,7 +88,7 @@ extension MyBasketInstructionTableViewCell : UITextViewDelegate {
         let charRemaining = textView.text.count + (text.count - range.length)
         self.lblRemaining.text = "\(charRemaining)/100"
         if text.count > 0 {
-            self.lblRemaining.highlight(searchedText: "\(charRemaining)", color: UIColor.black , size: 12)
+            self.lblRemaining.highlight(searchedText: "\(charRemaining)", color: UIColor.black , size: UIFont.SFProDisplayBoldFont(12))
         }
         self.btnCross.isHidden = (self.txtNoteView.text?.count == 0)
         let trimmedString = (self.txtNoteView.text ?? "").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -113,7 +113,7 @@ extension MyBasketInstructionTableViewCell : UITextViewDelegate {
 }
 extension UILabel {
     
-    func highlight(searchedText: String?..., color: UIColor = .red , size : CGFloat) {
+    func highlight(searchedText: String?..., color: UIColor = .red , size : UIFont) {
         guard let txtLabel = self.text else { return }
         
         let attributeTxt = NSMutableAttributedString(string: txtLabel)
@@ -123,7 +123,7 @@ extension UILabel {
                 let range: NSRange = attributeTxt.mutableString.range(of: searchedText, options: .caseInsensitive)
                 
                 attributeTxt.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range)
-                attributeTxt.addAttribute(NSAttributedString.Key.font, value: UIFont.SFProDisplayBoldFont(size), range: range)
+                attributeTxt.addAttribute(NSAttributedString.Key.font, value: size, range: range)
             }
         }
         

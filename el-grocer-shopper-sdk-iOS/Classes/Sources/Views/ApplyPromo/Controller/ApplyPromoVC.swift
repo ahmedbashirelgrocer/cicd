@@ -72,8 +72,10 @@ class ApplyPromoVC: UIViewController {
         let view = PromoTitleView.loadFromNib()
         return view!
     }()
-    typealias promoApplied = (_ promoApplied: Bool)-> Void
+    typealias promoApplied = (_ promoApplied: Bool,_ promoCode: PromotionCode?)-> Void
     var isPromoApplied : promoApplied?
+    var dismissWithoutPromoClosure: ((Bool)->())?
+    var isDismisingWithPromoApplied: Bool = false
     var promoCodeArray: [PromotionCode] = []
     var extensionArray: [Bool] = []
     var priviousPaymentOption: PaymentOption?
@@ -84,6 +86,7 @@ class ApplyPromoVC: UIViewController {
     var priviousOrderId: String?
     var isGettingPromo: Bool = false
     var isFirstTime: Bool = true
+    var promoCode: PromoCode?
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableView()
@@ -110,29 +113,35 @@ class ApplyPromoVC: UIViewController {
     }
     func checkPromoCodeIsFromTextOrList() {
         if self.priviousOrderId?.count ?? 0 > 0 {
-            if let promocode = UserDefaults.getPromoCodeValue() {
+            if let promocode = self.promoCode?.code {
                 let promo = promoCodeArray.filter { (promo) -> Bool in
-                    promo.code.elementsEqual(promocode.code)
+                    promo.code.elementsEqual(promocode)
                 }
                 if promo.count > 0 {
                     UserDefaults.setPromoCodeIsFromText(nil)
                     self.btnPromoRemove.isHidden = true
                     self.btnPromoApply.isHidden = false
+                    self.isDismisingWithPromoApplied = false
                 }else {
+                    self.isDismisingWithPromoApplied = true
                     UserDefaults.setPromoCodeIsFromText(true)
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
-                    self.promoTextField.text = promocode.code
+                    self.promoTextField.text = promocode
                     self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
                 }
             }
             
         }else {
-            if let promoCode = UserDefaults.getPromoCodeValue(), let isFromText = UserDefaults.getPromoCodeIsFromText() {
-                if isFromText {
+            if let promoCode = self.promoCode?.code {
+                let promo = promoCodeArray.filter { (promo) -> Bool in
+                    promo.code.elementsEqual(promoCode)
+                }
+                if promo.count == 0 {
+                    self.isDismisingWithPromoApplied = true
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
-                    self.promoTextField.text = promoCode.code
+                    self.promoTextField.text = promoCode
                     self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
                 }
             }
@@ -141,16 +150,23 @@ class ApplyPromoVC: UIViewController {
     }
     @IBAction func btnCloseHandler(_ sender: Any) {
         self.dismiss(animated: true)
+        elDebugPrint(self.isDismisingWithPromoApplied)
+        if let dismissWithoutPromoClosure = self.dismissWithoutPromoClosure {
+            dismissWithoutPromoClosure(self.isDismisingWithPromoApplied)
+        }
     }
     @IBAction func btnPromoRemoveHandler(_ sender: Any) {
         UserDefaults.setPromoCodeValue(nil)
         UserDefaults.setPromoCodeIsFromText(nil)
+        self.isDismisingWithPromoApplied = false
         self.promoTextField.text = ""
         self.btnPromoApply.isHidden = false
         self.btnPromoRemove.isHidden = true
         self.showPromoError(true, message: "")
+        MixpanelEventLogger.trackCheckoutVoucherRemoved(code: promoCode?.code ?? "", id: String(promoCode?.promotionCodeRealizationID ?? -1))
+        self.promoCode = nil
         if let isPromoApplied = self.isPromoApplied {
-            isPromoApplied(false)
+            isPromoApplied(false, nil)
         }
         self.tblView.reloadDataOnMain()
     }
@@ -226,8 +242,10 @@ extension ApplyPromoVC {
             SpinnerView.hideSpinnerView()
             
             if error != nil {
+                MixpanelEventLogger.trackCheckoutPromoError(promoCode: text, error: error?.localizedMessage ?? "")
+                self.isDismisingWithPromoApplied = false
                 if let isPromoApplied = self.isPromoApplied {
-                    isPromoApplied(false)
+                    isPromoApplied(false, nil)
                 }
                 if withAnimation {
                     self.showPromoError(false, message: error?.message ?? "")
@@ -237,14 +255,18 @@ extension ApplyPromoVC {
                 }
                 return
             }
-            
+            let promoCodeToSet = PromoCode(code: promoCode?.code, promotionCodeRealizationID: promoCode?.id, value: promoCode?.valueCents, errorMessage: "")
+            self.promoCode = promoCodeToSet
+            self.isDismisingWithPromoApplied = true
             if let isPromoApplied = self.isPromoApplied {
-                isPromoApplied(true)
+                isPromoApplied(true, promoCode)
             }
             if withAnimation {
+                MixpanelEventLogger.trackCheckoutPromoApplied(promoCode: promoCode!)
                 self.showPromoError(true, message: "")
                 self.animateSuccessForPromo()
             }else {
+                MixpanelEventLogger.trackCheckoutVoucherApplied(code: promoCode?.code ?? "", id: String(promoCode?.id ?? -1))
                 SpinnerView.hideSpinnerView()
                 self.tblView.reloadDataOnMain()
             }
@@ -312,8 +334,9 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ApplyPromoCell", for: indexPath) as! ApplyPromoCell
         
-        let promocode = UserDefaults.getPromoCodeValue()
-        if (promocode?.code ?? "") == promoCodeArray[indexPath.row].code {
+            //        let promocodeDefault = UserDefaults.getPromoCodeValue()?.code ?? ""
+        if (self.promoCode?.code ?? "") == promoCodeArray[indexPath.row].code {
+            self.isDismisingWithPromoApplied = true
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: true, grocery: self.previousGrocery)
         }else {
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: false, grocery: self.previousGrocery)
@@ -370,7 +393,7 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 8
     }
 }
 extension ApplyPromoVC: UIScrollViewDelegate {

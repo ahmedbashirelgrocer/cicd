@@ -351,7 +351,7 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
             myLabel.frame = CGRect(x: 20, y: 8, width: 320, height: 30)
             myLabel.setBody3BoldUpperStyle(false)
             myLabel.text = "Stores that sell ‘ \(self.keyWord)’".uppercased()
-            myLabel.highlight(searchedText: "‘ \(self.keyWord)’".uppercased(), color: .navigationBarColor(), size: 14)
+            myLabel.highlight(searchedText: "‘ \(self.keyWord)’".uppercased(), color: .navigationBarColor(), size: UIFont.SFProDisplayBoldFont(14))
             let headerView = UIView()
             headerView.backgroundColor = .tableViewBackgroundColor()
             headerView.addSubview(myLabel)
