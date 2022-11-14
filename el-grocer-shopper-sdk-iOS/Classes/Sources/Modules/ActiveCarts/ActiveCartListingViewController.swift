@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class ActiveCartListingViewController: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
@@ -33,4 +34,66 @@ class ActiveCartListingViewController: UIViewController {
 
 private extension ActiveCartListingViewController {
     func bindViews() { }
+}
+
+
+// MARK: - Place me in correct place
+public protocol ReusableView: AnyObject { }
+
+public extension ReusableView where Self: UIView {
+    static var defaultIdentifier: String {
+        return String(describing: self)
+    }
+}
+
+public protocol ConfigurableView {
+    func configure(viewModel: Any)
+}
+
+public protocol ConfigurableTableViewCell: ConfigurableView {
+    func setIndexPath(_ indexPath: IndexPath)
+}
+
+open class RxUICollectionViewCell: UICollectionViewCell, ReusableView, ConfigurableTableViewCell {
+    private(set) public var disposeBag = DisposeBag()
+    public var indexPath: IndexPath!
+    
+    override open func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
+    open func configure(viewModel: Any) {
+        fatalError("Configure with viewModel must be implemented.")
+    }
+    
+    public func setIndexPath(_ indexPath: IndexPath) {
+        self.indexPath = indexPath
+    }
+}
+open class RxUITableViewCell: UITableViewCell, ReusableView, ConfigurableTableViewCell {
+    
+    private(set) public var disposeBag = DisposeBag()
+    public var indexPath: IndexPath!
+    
+    override open func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
+    open func configure(viewModel: Any) {
+        fatalError("Configure with viewModel must be implemented.")
+    }
+    
+    public func setIndexPath(_ indexPath: IndexPath) {
+        self.indexPath = indexPath
+    }
+}
+
+protocol ReusableTableViewCellViewModelType {
+    var reusableIdentifier: String { get }
+}
+
+public protocol ReusableCollectionViewCellViewModelType {
+    var reusableIdentifier: String { get }
 }
