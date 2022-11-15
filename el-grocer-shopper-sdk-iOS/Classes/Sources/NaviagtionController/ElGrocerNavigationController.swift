@@ -110,7 +110,9 @@ class ElGrocerNavigationController : UINavigationController {
     @objc func cartButtonClick() {
        elDebugPrint("cartButtonClick")
         
-        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: 0, longitude: 0)
+        guard let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
+        
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
         let vc = ActiveCartListingViewController.make(viewModel: viewModel)
         self.present(vc, animated: true)
         

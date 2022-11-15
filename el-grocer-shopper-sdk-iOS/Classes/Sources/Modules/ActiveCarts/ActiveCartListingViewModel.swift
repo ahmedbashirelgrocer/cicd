@@ -53,18 +53,30 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
         self.latitude = latitude
         self.longitude = longitude
         
-        self.fetchActiveCarts(latitude: latitude, longitude: longitude)
+        self.fetchActiveCarts()
     }
 }
-
+        
 // MARK: Helpers
 private extension ActiveCartListingViewModel {
-    func fetchActiveCarts(latitude: Double, longitude: Double) {
-        let activeCarts: [ActiveCartDTO] = [
-            ActiveCartDTO(companyName: "Test Company", products: [ActiveCartProductDTO()], deliveryType: .scheduled)
-        ]
+    func fetchActiveCarts() {
+        self.loadingSubject.onNext(true)
         
-        let activeCartVMs = activeCarts.map { ActiveCartCellViewModel(activeCart: $0)}
-        self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCartVMs)])
+        self.apiClinet.getActiveCarts(latitude: self.latitude, longitude: self.longitude) { [weak self] result in
+            guard let self = self else { return }
+            
+            self.loadingSubject.onNext(false)
+
+            switch result {
+            case .success(let activeCarts):
+                let activeCartVMs = activeCarts.map { ActiveCartCellViewModel(activeCart: $0)}
+                self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCartVMs)])
+                break
+
+            case .failure(let error):
+                print("error >>> \(error)")
+                break
+            }
+        }
     }
 }
