@@ -57,6 +57,10 @@ private extension ActiveCartListingViewController {
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        self.viewModel.outputs.title
+            .bind(to: self.lblTitle.rx.text)
+            .disposed(by: disposeBag)
+        
         self.viewModel.outputs.loading.subscribe { [weak self] loading in
             guard let self = self else { return }
             loading

@@ -2150,4 +2150,5 @@
 "lbl_smile_point_earned" = "Smiles Points Earned";
 
 // MARK: - Cart Listing Screen
-"screen_store_listing_store_close_message" = "المتجر مغلق";
+"screen_active_cart_listing_title" = "عربات التسوق النشطة";
+"screen_active_cart_listing_store_close_message" = "المتجر مغلق";

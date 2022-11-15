@@ -2112,4 +2112,5 @@ Oreo";
 "lbl_smile_point_earned" = "Smiles Points Earned";
 
 // MARK: - Cart Listing Screen
-"screen_store_listing_store_close_message" = "Store is closed. Come back tomorrow!";
+"screen_active_cart_listing_title" = "Active Carts";
+"screen_active_cart_listing_store_close_message" = "Store is closed. Come back tomorrow!";
