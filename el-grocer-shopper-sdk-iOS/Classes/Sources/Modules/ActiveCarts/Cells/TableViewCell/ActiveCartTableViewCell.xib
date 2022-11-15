@@ -202,6 +202,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="buttonNext" destination="Wqz-sj-Hyj" id="kHG-bt-xca"/>
                 <outlet property="collectionView" destination="0vb-BA-lcn" id="bRW-7o-Piv"/>
                 <outlet property="ivBannerImage" destination="A8Q-Uw-Eim" id="1GR-3U-14a"/>
                 <outlet property="ivDeliveryTypeIcon" destination="uDt-Bg-crn" id="XJT-qU-OSy"/>

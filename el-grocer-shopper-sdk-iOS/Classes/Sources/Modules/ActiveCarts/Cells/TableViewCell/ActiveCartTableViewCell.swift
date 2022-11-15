@@ -33,6 +33,7 @@ class ActiveCartTableViewCell: RxUITableViewCell {
             lblBannerMsg.setCaptionOneRegDarkStyle()
         }
     }
+    @IBOutlet weak var buttonNext: UIButton!
     
     private var viewModel: ActiveCartCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -89,6 +90,10 @@ private extension ActiveCartTableViewCell {
             .map { !$0 }
             .bind(to: self.viewBannerWrapper.rx.isHidden)
             .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.isArbic.subscribe { [weak self] isArbic in
+            self?.buttonNext.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
+        }.disposed(by: disposeBag)
     }
 }
 

@@ -15,6 +15,7 @@ protocol ActiveCartListingViewModelInput {
 
 protocol ActiveCartListingViewModelOutput {
     var loading: Observable<Bool> { get }
+    var title: Observable<String> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
 }
 
@@ -34,11 +35,12 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     // MARK: Outputs
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
+    var title: Observable<String> { titleSubject.asObservable() }
     
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
-    
+    private let titleSubject = BehaviorSubject<String>(value: NSLocalizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
@@ -52,7 +54,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
         self.apiClinet = apiClinet
         self.latitude = latitude
         self.longitude = longitude
-        
+
         self.fetchActiveCarts()
     }
 }

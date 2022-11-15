@@ -18,6 +18,7 @@ protocol ActiveCartCellViewModelOutput {
     var deliveryText: Observable<NSAttributedString?> { get }
     var isBannerAvailable: Observable<Bool> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
+    var isArbic: Observable<Bool> { get }
 }
 
 protocol ActiveCartCellViewModelType: ActiveCartCellViewModelInput, ActiveCartCellViewModelOutput {
@@ -40,6 +41,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     var deliveryText: Observable<NSAttributedString?> { deliveryTextSubject.asObservable() }
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var isBannerAvailable: Observable<Bool> { isBannerAvailableSubject.asObservable() }
+    var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
     
     // MARK: Subject
     private var storeIconUrlSubject = BehaviorSubject<URL?>(value: nil)
@@ -47,6 +49,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     private var deliveryTypeIconNameSubject = BehaviorSubject<String>(value: "ClockIcon")
     private var deliveryTextSubject = BehaviorSubject<NSAttributedString?>(value: nil)
     private var isBannerAvailableSubject = BehaviorSubject<Bool>(value: true)
+    private let isArbicSubject = BehaviorSubject<Bool>(value: false)
     
     
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
@@ -61,6 +64,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
         
         self.storeIconUrlSubject.onNext(URL(string: activeCart.bgPhotoUrl ?? ""))
         self.storeNameSubject.onNext(activeCart.companyName)
+        self.isArbicSubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected())
         
         self.setDeliverySlot()
     }
@@ -97,7 +101,7 @@ private extension ActiveCartCellViewModel {
                 self.deliveryTypeIconNameSubject.onNext("ClockIcon")
             }
         } else {
-            let text = NSLocalizedString("screen_store_listing_store_close_message", bundle: .resource, comment: "")
+            let text = NSLocalizedString("screen_active_cart_listing_store_close_message", bundle: .resource, comment: "")
             let attributedString = NSMutableAttributedString(string: text)
             
             attributedString.addAttribute(.font, value: UIFont.SFProDisplayNormalFont(13), range: NSRange(location: 0, length: text.count))
