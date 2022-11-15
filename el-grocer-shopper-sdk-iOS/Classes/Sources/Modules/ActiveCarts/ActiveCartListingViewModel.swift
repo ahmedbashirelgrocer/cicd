@@ -71,8 +71,9 @@ private extension ActiveCartListingViewModel {
 
             switch result {
             case .success(let activeCarts):
-                if activeCarts.count == 0 {
-                    self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: [EmptyCellViewModel(errorMsg: "No active cart found")])])
+                if activeCarts.isEmpty {
+                    let emptyMsg = NSLocalizedString("screen_active_cart_listing_empty_message", bundle: .resource, comment: "")
+                    self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: [EmptyCellViewModel(errorMsg: emptyMsg)])])
                     return
                 }
                 
