@@ -73,7 +73,7 @@ private extension ActiveCartCellViewModel {
         if cart.isOpened ?? false {
             switch cart.deliveryType {
             case .instant:
-                let text = NSLocalizedString("instant_delivery", comment: "")
+                let text = NSLocalizedString("instant_delivery", bundle: .resource, comment: "")
                 let attributedString = NSMutableAttributedString(string: text)
                 
                 attributedString.addAttribute(.font, value: UIFont.SFProDisplayNormalFont(13), range: NSRange(location: 0, length: text.count))
@@ -97,7 +97,7 @@ private extension ActiveCartCellViewModel {
                 self.deliveryTypeIconNameSubject.onNext("ClockIcon")
             }
         } else {
-            let text = NSLocalizedString("screen_store_listing_store_close_message", comment: "")
+            let text = NSLocalizedString("screen_store_listing_store_close_message", bundle: .resource, comment: "")
             let attributedString = NSMutableAttributedString(string: text)
             
             attributedString.addAttribute(.font, value: UIFont.SFProDisplayNormalFont(13), range: NSRange(location: 0, length: text.count))

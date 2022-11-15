@@ -40,26 +40,26 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5sz-YW-lJR">
-                                        <rect key="frame" x="82.000000000000014" y="14.666666666666664" width="178.33333333333337" height="41"/>
+                                        <rect key="frame" x="82.000000000000014" y="16.666666666666671" width="174.33333333333337" height="37"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45X-Fy-ums">
-                                                <rect key="frame" x="0.0" y="0.0" width="178.33333333333334" height="17"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="174.33333333333334" height="17"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="dbC-In-Gjw">
-                                                <rect key="frame" x="0.0" y="21" width="178.33333333333334" height="20"/>
+                                                <rect key="frame" x="0.0" y="20.999999999999996" width="174.33333333333334" height="16.000000000000004"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ClockIcon" translatesAutoresizingMaskIntoConstraints="NO" id="uDt-Bg-crn">
-                                                        <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="20" id="2ZM-oI-YAd"/>
-                                                            <constraint firstAttribute="width" constant="20" id="pcU-GK-BWL"/>
+                                                            <constraint firstAttribute="height" constant="16" id="2ZM-oI-YAd"/>
+                                                            <constraint firstAttribute="width" constant="16" id="pcU-GK-BWL"/>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next Delivery: Wed 3pm - 4pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfZ-Id-Vdz">
-                                                        <rect key="frame" x="24" y="0.0" width="154.33333333333334" height="20"/>
+                                                        <rect key="frame" x="20" y="0.0" width="154.33333333333334" height="16"/>
                                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
