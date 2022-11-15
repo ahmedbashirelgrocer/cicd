@@ -31,6 +31,7 @@ class ActiveCartListingViewController: UIViewController {
         super.viewDidLoad()
         
         self.tableView.register(UINib(nibName: ActiveCartTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: ActiveCartTableViewCell.defaultIdentifier)
+        self.tableView.register(UINib(nibName: EmptyTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: EmptyTableViewCell.defaultIdentifier)
         self.tableView.separatorColor = .clear
         self.bindViews()
     }

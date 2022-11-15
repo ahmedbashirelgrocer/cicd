@@ -69,12 +69,17 @@ private extension ActiveCartListingViewModel {
 
             switch result {
             case .success(let activeCarts):
+                if activeCarts.count == 0 {
+                    self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: [EmptyCellViewModel(errorMsg: "No active cart found")])])
+                    return
+                }
+                
                 let activeCartVMs = activeCarts.map { ActiveCartCellViewModel(activeCart: $0)}
                 self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCartVMs)])
                 break
 
             case .failure(let error):
-                print("error >>> \(error)")
+                self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: [EmptyCellViewModel(errorMsg: error.localizedMessage)])])
                 break
             }
         }
