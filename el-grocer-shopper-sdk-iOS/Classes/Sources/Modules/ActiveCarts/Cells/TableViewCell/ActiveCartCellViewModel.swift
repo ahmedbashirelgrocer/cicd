@@ -80,6 +80,7 @@ private extension ActiveCartCellViewModel {
                 attributedString.addAttribute(.foregroundColor, value: UIColor.newBlackColor(), range:NSRange(location: 0, length: text.count))
                 
                 self.deliveryTextSubject.onNext(attributedString)
+                self.deliveryTypeIconNameSubject.onNext("ic-instant-delivery")
                 break
                 
             case .scheduled:
