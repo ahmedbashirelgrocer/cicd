@@ -70,7 +70,7 @@ private extension ActiveCartCellViewModel {
     func setDeliverySlot() {
         let cart = self.activeCart
         
-        if cart.isOpened ?? false {
+        if cart.isOpened ?? true {
             switch cart.deliveryType {
             case .instant:
                 let text = NSLocalizedString("instant_delivery", bundle: .resource, comment: "")

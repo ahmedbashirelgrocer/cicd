@@ -13,7 +13,7 @@ protocol ActiveCartProductCellViewModelInput { }
 
 protocol ActiveCartProductCellViewModelOutput {
     var productImageUrl: Observable<URL?> { get }
-    var productQuantity: Observable<Int> { get }
+    var productQuantity: Observable<String> { get }
 }
 
 protocol ActiveCartProductCellViewModelType: ActiveCartProductCellViewModelInput, ActiveCartProductCellViewModelOutput {
@@ -31,11 +31,11 @@ class ActiveCartProductCellViewModel: ActiveCartProductCellViewModelType, Reusab
     
     // MARK: Outputs
     var productImageUrl: Observable<URL?> { self.productImageUrlSubject.asObservable() }
-    var productQuantity: Observable<Int> { self.productQuantitySubject.asObservable() }
+    var productQuantity: Observable<String> { self.productQuantitySubject.asObservable() }
     
     // MARK: Subjects
     private let productImageUrlSubject = BehaviorSubject<URL?>(value: nil)
-    private let productQuantitySubject = BehaviorSubject<Int>(value: 0)
+    private let productQuantitySubject = BehaviorSubject<String>(value: "×0")
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartProductCell.defaultIdentifier }
@@ -43,7 +43,7 @@ class ActiveCartProductCellViewModel: ActiveCartProductCellViewModelType, Reusab
     // MARK: Initlizations
     init(product: ActiveCartProductDTO) {
         self.productImageUrlSubject.onNext(URL(string: product.photoUrl ?? ""))
-        self.productQuantitySubject.onNext(product.quantity ?? 0)
+        self.productQuantitySubject.onNext("×" + String(product.quantity ?? 0))
     }
     
 }

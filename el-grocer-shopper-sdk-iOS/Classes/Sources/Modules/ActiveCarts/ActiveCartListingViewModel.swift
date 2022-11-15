@@ -14,6 +14,7 @@ protocol ActiveCartListingViewModelInput {
 }
 
 protocol ActiveCartListingViewModelOutput {
+    var loading: Observable<Bool> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
 }
 
@@ -31,20 +32,26 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     // MARK: Inputs
     
     // MARK: Outputs
+    var loading: Observable<Bool> { loadingSubject.asObservable() }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     
     // MARK: Subjects
-    var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
+    private var loadingSubject = BehaviorSubject<Bool>(value: false)
+    private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
     private var apiClinet: ElGrocerApi
+    private var latitude: Double
+    private var longitude: Double
     private var disposeBag = DisposeBag()
     
     // MARK: Initlizations
     init(apiClinet: ElGrocerApi, latitude: Double, longitude: Double) {
         self.apiClinet = apiClinet
+        self.latitude = latitude
+        self.longitude = longitude
         
         self.fetchActiveCarts(latitude: latitude, longitude: longitude)
     }
@@ -54,9 +61,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
 private extension ActiveCartListingViewModel {
     func fetchActiveCarts(latitude: Double, longitude: Double) {
         let activeCarts: [ActiveCartDTO] = [
-            ActiveCartDTO(companyName: "Riyan Test Store", isOpened: true, products: [ActiveCartProductDTO(), ActiveCartProductDTO(), ActiveCartProductDTO()], deliveryType: .instant),
-            ActiveCartDTO(companyName: "Store Name", isOpened: true, products: [ActiveCartProductDTO(), ActiveCartProductDTO()], deliveryType: .scheduled),
-            ActiveCartDTO(companyName: "Test Store Name", products: [ActiveCartProductDTO(), ActiveCartProductDTO(), ActiveCartProductDTO(), ActiveCartProductDTO()], deliveryType: .scheduled),
+            ActiveCartDTO(companyName: "Test Company", products: [ActiveCartProductDTO()])
         ]
         
         let activeCartVMs = activeCarts.map { ActiveCartCellViewModel(activeCart: $0)}

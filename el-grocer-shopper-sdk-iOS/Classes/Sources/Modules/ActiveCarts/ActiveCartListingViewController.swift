@@ -55,6 +55,13 @@ private extension ActiveCartListingViewController {
         self.viewModel.outputs.cellViewModels
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.loading.subscribe { [weak self] loading in
+            guard let self = self else { return }
+            loading
+                ? _ = SpinnerView.showSpinnerViewInView(self.view)
+                : SpinnerView.hideSpinnerView()
+        }.disposed(by: disposeBag)
     }
 }
 
