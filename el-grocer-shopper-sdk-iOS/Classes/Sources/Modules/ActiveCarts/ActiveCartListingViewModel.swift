@@ -61,7 +61,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
 private extension ActiveCartListingViewModel {
     func fetchActiveCarts(latitude: Double, longitude: Double) {
         let activeCarts: [ActiveCartDTO] = [
-            ActiveCartDTO(companyName: "Test Company", products: [ActiveCartProductDTO()])
+            ActiveCartDTO(companyName: "Test Company", products: [ActiveCartProductDTO()], deliveryType: .scheduled)
         ]
         
         let activeCartVMs = activeCarts.map { ActiveCartCellViewModel(activeCart: $0)}
