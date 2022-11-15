@@ -63,6 +63,7 @@ struct APIEndpoint {
 class SmilesNetworkManager {
     
     static var instance: SmilesNetworkManager!
+    var smileUser: SmileUser? = nil
     var blockedErrorCode : Int =  4073
     // SHARED INSTANCE
     class func sharedInstance() -> SmilesNetworkManager {

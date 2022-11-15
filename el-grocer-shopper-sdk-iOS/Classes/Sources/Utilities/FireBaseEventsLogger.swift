@@ -142,6 +142,7 @@ enum FireBaseParmName : String {
     case Userlatlon = "User_latlon"
     case UserPlatform = "User_platform"
     case UserFrom = "User_SmilesSDK"
+    case UserFoodSubscription = "User_FoodSubscription"
     case PickerID = "PickerId"
     case OrderStatusID = "OrderStausId"
     
@@ -312,6 +313,8 @@ class FireBaseEventsLogger  {
         
         newParms?[FireBaseParmName.UserFrom.rawValue] = SDKManager.isSmileSDK
         newParms?[FireBaseParmName.UserPlatform.rawValue] = "ios"
+        
+        newParms?[FireBaseParmName.UserFoodSubscription.rawValue] = SmilesNetworkManager.sharedInstance().smileUser?.foodSubscriptionStatus ?? false
         
         if let newLocation = ElGrocerUtility.sharedInstance.activeAddress {
             newParms?[FireBaseParmName.LocationId.rawValue] = newLocation.dbID.count > 0 ? newLocation.dbID : "1"
@@ -1134,7 +1137,7 @@ class FireBaseEventsLogger  {
         
     }
   
-    class func trackPurchase ( coupon : String , coupanValue : String , currency : String , value : String , tax : NSNumber , shipping : NSNumber , transactionID : String , PurchasedItems : [[String : Any]]? , discount : Double, IsSmiles: Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int ) {
+    class func trackPurchase ( coupon : String , coupanValue : String , currency : String , value : String , tax : NSNumber , shipping : NSNumber , transactionID : String , PurchasedItems : [[String : Any]]? , discount : Double, IsSmiles: Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int, _ isWallet : Bool, _ walletUseAmount: Double ) {
         
         
         func json(from object:Any) -> String {
@@ -1171,7 +1174,9 @@ class FireBaseEventsLogger  {
                     SmilesEventsParmName.IsSmile.rawValue: IsSmiles,
                     SmilesEventsParmName.Points.rawValue: smilePoints,
                     SmilesEventsParmName.SmilesPointsEarned.rawValue: pointsEarned,
-                    SmilesEventsParmName.SmilesPointsSpent.rawValue: pointsBurned
+                    SmilesEventsParmName.SmilesPointsSpent.rawValue: pointsBurned,
+                    "IsWallet" : isWallet,
+                    "WalletSpent" : walletUseAmount
                     ] as [String : Any]
                 FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "PurchaseOrder" + (UserDefaults.isOrderInEdit() ? "Edited" : "")  , parameter: finalParms)
             }
@@ -1196,7 +1201,7 @@ class FireBaseEventsLogger  {
         }
     }
     
-    class func trackPurchaseItems (  productList : [Product] , orderId : String , carosalA : [Product] = []  , grocerID : String , eventName : String) {
+    class func trackPurchaseItems (  productList : [Product] , orderId : String , carosalA : [Product] = []  , grocerID : String , eventName : String, _ isWallet : Bool,_ walletUseAmount: Double) {
         
         
             let getSponseredList = UserDefaults.getSponsoredItemArray(grocerID: grocerID) ?? []
@@ -1971,7 +1976,9 @@ class FireBaseEventsLogger  {
 //
 //        }
 //
-        if controller is  ShopByCategoriesViewController {
+        if controller is SmileSdkHomeVC {
+            title = "SdkHome"
+        }else if controller is  ShopByCategoriesViewController {
             title = "CategoryListing_"
         }else if controller is SpecialtyStoresGroceryViewController {
             let vc = controller as! SpecialtyStoresGroceryViewController
@@ -1988,7 +1995,7 @@ class FireBaseEventsLogger  {
         } else if controller is GenericProfileViewController {
             title = FireBaseScreenName.Profile.rawValue
         }  else if controller is SplashAnimationViewController {
-            title = FireBaseScreenName.GenericHome.rawValue
+            title = FireBaseScreenName.Splash.rawValue
         }else if controller is GenericStoresViewController {
             title = FireBaseScreenName.GenericHome.rawValue
         } else if controller is GroceryLoaderViewController {

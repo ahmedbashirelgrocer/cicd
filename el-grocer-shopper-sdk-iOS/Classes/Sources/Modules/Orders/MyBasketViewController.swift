@@ -4077,7 +4077,7 @@ extension MyBasketViewController {
             MixpanelEventLogger.trackCartBeginCheckout(value: "\(self.itemsSummaryValue)")
         }
         
-        setRecipeCartAnalyticsAndRemoveRecipe()
+      //  setRecipeCartAnalyticsAndRemoveRecipe()
         
         guard self.isDeliveryMode else {
             

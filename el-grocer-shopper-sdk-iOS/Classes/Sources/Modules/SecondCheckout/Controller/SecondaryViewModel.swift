@@ -24,6 +24,7 @@ class SecondaryViewModel {
     private var grocery: Grocery? = nil
     private var address: DeliveryAddress? = nil
     private var deliveryAddress: String? = nil // private, use get method getDeliveryAddress
+    private var deliveryAddressObj: DeliveryAddress? = nil
     private var selectedSlotId: Int? = nil
     private var selectedSlot: DeliverySlot? = nil
     private var promoRealizationId: String? = nil
@@ -34,6 +35,7 @@ class SecondaryViewModel {
     private var isPromoCodeTrue: Bool = false
     private var shopingItems: [ShoppingBasketItem]? = []
     private var finalisedProductA: [Product]? = []
+    private var carouselProductsArray : [Product]? = []
     private var selectedPreferenceId : Int? = nil
     private var additionalInstructions: String?
     var basketDataValue: BasketDataClass? = nil
@@ -446,6 +448,9 @@ extension SecondaryViewModel {
     func getIsSmileTrue()-> Bool {
         return self.isSmileTrue
     }
+    func getIsWalletTrue()-> Bool {
+        return self.isWalletTrue
+    }
     func getGrocery() -> Grocery? {
         return self.grocery
     }
@@ -457,6 +462,9 @@ extension SecondaryViewModel {
     }
     func getFinalisedProducts() -> [Product]? {
         return self.finalisedProductA
+    }
+    func getCarouselProductsArray() -> [Product]? {
+        return self.carouselProductsArray
     }
     func getCreditCard() -> CreditCard? {
         return self.selectedCreditCard
@@ -705,6 +713,7 @@ extension SecondaryViewModel {
     
     private func setDeliveryAddress(_ currentAddress : DeliveryAddress) {
         self.deliveryAddress = ElGrocerUtility.sharedInstance.getFormattedAddress(currentAddress)
+        self.deliveryAddressObj = currentAddress
     }
     func getDeliveryAddress() -> String {
         if let formatterAddress = self.deliveryAddress {
@@ -717,10 +726,85 @@ extension SecondaryViewModel {
         }
     }
     
+    func getDeliveryAddressObj() -> DeliveryAddress? {
+        return self.deliveryAddressObj
+    }
+    
     func createPaymentOptionFromString(paymentTypeId: Int) -> PaymentOption {
         let paymentOptionType = UInt32(paymentTypeId)
         return PaymentOption(rawValue: paymentOptionType) ?? PaymentOption.none
     }
+}
+
+//MARK: Events Support
+extension SecondaryViewModel {
+    
+    func setRecipeCartAnalyticsAndRemoveRecipe() {
+        
+        let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+        let userProfile = UserProfile.getUserProfile(context)
+        RecipeCart.GETSpecficUserAddToCartListRecipes(forDBID:  userProfile?.dbID ?? 0 , context) { [weak self](recipeCartList) in
+                // guard let self = self else {return}
+            guard let listData = recipeCartList else {
+                RecipeCart.DeleteAll(forDBID: userProfile?.dbID as! Int64 , context)
+                return
+            }
+            
+            let productCurrentA = self?.getFinalisedProducts()
+            
+            for data :RecipeCart in listData {
+                var isNeedToLockRecipeOrderEvent = false
+                let ingredientsListID = data.ingredients
+                let filterA = productCurrentA?.filter {
+                    ingredientsListID.contains($0.productId)
+                }
+                if let finalA = filterA {
+                    if finalA.count > 0 {
+                        isNeedToLockRecipeOrderEvent = true
+                    }
+                    for prod in finalA {
+                        if let productName = ElGrocerUtility.sharedInstance.isArabicSelected() ? prod.nameEn : prod.name {
+                            let trackEventName = FireBaseElgrocerPrefix + FireBaseEventsName.RecipeIngredientPurchase.rawValue
+                            FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: trackEventName , parameter: [FireBaseParmName.RecipeName.rawValue : data.recipeName , FireBaseParmName.recipeId.rawValue : data.recipeID , FireBaseParmName.RecipeIngredientid.rawValue :  prod.productId  , FireBaseParmName.ProductName.rawValue : productName , FireBaseParmName.BrandName.rawValue :  prod.brandNameEn ?? "" , FireBaseParmName.CategoryName.rawValue :  prod.categoryNameEn ?? "" , FireBaseParmName.SubCategoryName.rawValue :  prod.subcategoryNameEn ?? ""   ])
+                                //GoogleAnalyticsHelper.trackRecipeIngredientsOrderEvent(trackEventName, data.recipeName)
+                        }
+                    }
+                }
+                if isNeedToLockRecipeOrderEvent {
+                    let eventName = FireBaseElgrocerPrefix +  FireBaseEventsName.RecipePurchase.rawValue
+                    GoogleAnalyticsHelper.trackRecipeOrderEvent(eventName)
+                    FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: eventName , parameter: [FireBaseParmName.RecipeName.rawValue : data.recipeName , FireBaseParmName.recipeId.rawValue : data.recipeID])
+                }
+            }
+            RecipeCart.DeleteAll(forDBID: userProfile?.dbID as! Int64 , context)
+            
+        }
+        
+        CarouselProducts.GetSpecficUserAddToCartListCarousel(forUserDBID: userProfile?.dbID ?? 0 , context) { [weak self] (carouselProducts) in
+            
+            guard let listData = carouselProducts else {
+                CarouselProducts.DeleteAll(forDBID: userProfile?.dbID as! Int64 , context)
+                return
+            }
+            self?.carouselProductsArray?.removeAll()
+            let productCurrentA = self?.getFinalisedProducts()
+            for data :CarouselProducts in listData {
+                let filterA = productCurrentA?.filter {
+                    data.dbID == Int64(truncating: $0.productId)
+                }
+                for product:Product in filterA ?? [] {
+                    if let productName = ElGrocerUtility.sharedInstance.isArabicSelected() ? product.nameEn : product.name {
+                        let trackEventName = FireBaseElgrocerPrefix + FireBaseEventsName.CarousalIngredientPurchase.rawValue
+                        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: trackEventName , parameter: [ FireBaseParmName.ProductId.rawValue :  product.productId  , FireBaseParmName.ProductName.rawValue : productName , FireBaseParmName.BrandName.rawValue :  product.brandNameEn ?? "" , FireBaseParmName.CategoryName.rawValue :  product.categoryNameEn ?? "" , FireBaseParmName.SubCategoryName.rawValue :  product.subcategoryNameEn ?? ""   ])
+                    }
+                    self?.carouselProductsArray?.append(product)
+                }
+            }
+            CarouselProducts.DeleteAll(forDBID: userProfile?.dbID as! Int64 , context)
+        }
+    }
+    
+    
 }
 
 

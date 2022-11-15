@@ -399,6 +399,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             if smileUser == nil {
                 self?.smileRetryTime += 1
                 self?.getSmileUserInfo()
+                
             }else {
                 self?.smileRetryTime  = 0
             }

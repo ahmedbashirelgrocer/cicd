@@ -10,6 +10,12 @@ import UIKit
 import Foundation
 import Mixpanel
 
+class MixpanelEventLoggerSync: NSObject{
+    static var shared = MixpanelEventLoggerSync()
+    var data : [String : TimeInterval?] = [:]
+}
+
+
 class MixpanelEventLogger: NSObject {
 
     fileprivate enum MixpanelEventsName : String {

@@ -57,8 +57,8 @@ class SmilesManager {
                     let dataDict = response["data"]
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict, options: .prettyPrinted)
-
                         let smileUser = try JSONDecoder().decode(SmileUser.self, from: jsonData)
+                        SmilesNetworkManager.sharedInstance().smileUser = smileUser
                        elDebugPrint(smileUser)
                         UserDefaults.setIsSmileUser(true)
                         UserDefaults.setSmilesPoints(smileUser.availablePoints ?? 0)
