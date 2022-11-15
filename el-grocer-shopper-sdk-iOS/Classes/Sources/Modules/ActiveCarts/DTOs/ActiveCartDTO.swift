@@ -7,6 +7,11 @@
 
 import Foundation
 
+enum DeliveryType: Codable {
+    case instant
+    case scheduled
+}
+
 struct ActiveCartDTO: Codable {
     var id: Int?
     var companyName: String?
@@ -14,6 +19,7 @@ struct ActiveCartDTO: Codable {
     var isOpened: Bool?
     var deliverySlot: DeliverySlotDTO?
     var products: [ActiveCartProductDTO]
+    var deliveryType: DeliveryType
 }
 
 struct ActiveCartProductDTO: Codable {

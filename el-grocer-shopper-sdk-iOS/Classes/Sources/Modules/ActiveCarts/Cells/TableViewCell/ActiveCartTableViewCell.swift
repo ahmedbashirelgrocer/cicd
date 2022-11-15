@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxDataSources
+import SDWebImage
 
 class ActiveCartTableViewCell: RxUITableViewCell {
     @IBOutlet weak var ivStoreLogo: UIImageView!
@@ -41,9 +42,11 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     
         self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
-        self.viewBanner.addDashedBorderAroundView(color: .elGrocerYellowColor())
     }
-
+    
+    override func layoutSubviews() {
+    }
+    
     override func configure(viewModel: Any) {
         guard let viewModel = viewModel as? ActiveCartCellViewModelType else { return }
         
@@ -67,6 +70,24 @@ private extension ActiveCartTableViewCell {
      
         self.viewModel.outputs.cellViewModels
             .bind(to: self.collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.storeName
+            .bind(to: self.lblStoreName.rx.text)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.deliveryTypeIconName
+            .map { UIImage(name: $0)}
+            .bind(to: self.ivDeliveryTypeIcon.rx.image)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.deliveryText
+            .bind(to: self.lblNextDeliverySlot.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.isBannerAvailable
+            .map { !$0 }
+            .bind(to: self.viewBannerWrapper.rx.isHidden)
             .disposed(by: disposeBag)
     }
 }
