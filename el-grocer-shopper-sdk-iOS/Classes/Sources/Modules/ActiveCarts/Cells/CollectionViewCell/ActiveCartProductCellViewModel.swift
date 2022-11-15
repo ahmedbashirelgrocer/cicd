@@ -11,7 +11,10 @@ import RxDataSources
 
 protocol ActiveCartProductCellViewModelInput { }
 
-protocol ActiveCartProductCellViewModelOutput { }
+protocol ActiveCartProductCellViewModelOutput {
+    var productImageUrl: Observable<URL?> { get }
+    var productQuantity: Observable<Int> { get }
+}
 
 protocol ActiveCartProductCellViewModelType: ActiveCartProductCellViewModelInput, ActiveCartProductCellViewModelOutput {
     var inputs: ActiveCartProductCellViewModelInput { get }
@@ -27,14 +30,21 @@ class ActiveCartProductCellViewModel: ActiveCartProductCellViewModelType, Reusab
     // MARK: Inputs
     
     // MARK: Outputs
+    var productImageUrl: Observable<URL?> { self.productImageUrlSubject.asObservable() }
+    var productQuantity: Observable<Int> { self.productQuantitySubject.asObservable() }
     
     // MARK: Subjects
+    private let productImageUrlSubject = BehaviorSubject<URL?>(value: nil)
+    private let productQuantitySubject = BehaviorSubject<Int>(value: 0)
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartProductCell.defaultIdentifier }
     
     // MARK: Initlizations
-    init(product: ActiveCartProductDTO) { }
+    init(product: ActiveCartProductDTO) {
+        self.productImageUrlSubject.onNext(URL(string: product.photoUrl ?? ""))
+        self.productQuantitySubject.onNext(product.quantity ?? 0)
+    }
     
 }
 

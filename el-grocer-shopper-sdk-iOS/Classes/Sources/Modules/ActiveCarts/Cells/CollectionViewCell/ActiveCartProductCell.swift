@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxDataSources
+import SDWebImage
 
 class ActiveCartProductCell: RxUICollectionViewCell {
     @IBOutlet weak var ivProductIcon: UIImageView!
@@ -34,5 +35,14 @@ class ActiveCartProductCell: RxUICollectionViewCell {
 }
 
 private extension ActiveCartProductCell {
-    func bindViews() { }
+    func bindViews() {
+        self.viewModel.outputs.productImageUrl.subscribe(onNext: { [weak self] url in
+            self?.ivProductIcon.sd_setImage(with: url, placeholderImage: UIImage(name: ""), context: nil)
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.productQuantity
+            .map { String($0) }
+            .bind(to: self.lblQuantity.rx.text)
+            .disposed(by: disposeBag)
+    }
 }
