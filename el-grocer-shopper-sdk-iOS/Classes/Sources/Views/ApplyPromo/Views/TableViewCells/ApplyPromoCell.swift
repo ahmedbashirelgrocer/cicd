@@ -81,7 +81,7 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var promoMessageBGView: UIView! {
         didSet {
-            promoMessageBGView.backgroundColor = .aletBackgroundColor()
+            promoMessageBGView.backgroundColor = .alertBackgroundColor()
             promoMessageBGView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMaxYCorner], radius: 8)
         }
     }
@@ -214,6 +214,6 @@ class ApplyPromoCell: UITableViewCell {
     
     func setBorderForPromo() {
         
-        voucherCodeBGView.addDashedBorderAroundView(color: .darkGreenColor())
+        voucherCodeBGView.addDashedBorderAroundView(color: .secondaryDarkGreenColor())
     }
 }

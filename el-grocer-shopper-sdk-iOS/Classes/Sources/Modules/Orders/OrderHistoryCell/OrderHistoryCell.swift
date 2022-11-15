@@ -250,7 +250,7 @@ class OrderHistoryCell: UITableViewCell {
              self.mainContainerView.borderColor = .elGrocerYellowColor()
             self.progressView.progressTintColor = UIColor.elGrocerYellowColor()
         }else{
-            self.mainContainerView.borderColor = .elGrocerOrderBorderColor()
+            self.mainContainerView.borderColor = .separatorColor()
             self.progressView.progressTintColor = UIColor.navigationBarColor()
             
         }

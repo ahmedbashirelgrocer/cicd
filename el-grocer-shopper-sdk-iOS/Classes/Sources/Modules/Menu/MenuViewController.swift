@@ -37,7 +37,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
         if let nsObject: AnyObject = (Bundle.resource.infoDictionary!["CFBundleShortVersionString"] as AnyObject??)! {
             let version = nsObject as! String
             
-            labelAppVersion.textColor = UIColor.greenInfoColor()
+            labelAppVersion.textColor = UIColor.navigationBarColor()
             labelAppVersion.text = version
         }
     }
@@ -210,11 +210,11 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
                  border.frame = CGRect(x: 0, y: 0, width: 1.5, height: cell.frame.height)
             }
             
-            border.backgroundColor =  UIColor.meunGreenTextColor().cgColor;
+            border.backgroundColor =  UIColor.navigationBarColor().cgColor;
             cell.contentView.layer.addSublayer(border)
-            cell.contentView.backgroundColor = UIColor.meunCellSelectedColor()
-            cell.itemTitle.textColor = UIColor.meunGreenTextColor()
-            cell.walletAmount.textColor = UIColor.meunGreenTextColor()
+            cell.contentView.backgroundColor = UIColor.unselectedPageControl()
+            cell.itemTitle.textColor = UIColor.navigationBarColor()
+            cell.walletAmount.textColor = UIColor.navigationBarColor()
             
         }else{
             
@@ -254,11 +254,11 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 }else{
                     border.frame = CGRect(x: 0, y: 0, width: 1.5, height: cell.frame.height)
                 }
-                border.backgroundColor =  UIColor.meunGreenTextColor().cgColor;
+                border.backgroundColor =  UIColor.navigationBarColor().cgColor;
                 selectedCell.contentView.layer.addSublayer(border)
-                selectedCell.contentView.backgroundColor = UIColor.meunCellSelectedColor()
-                selectedCell.itemTitle.textColor = UIColor.meunGreenTextColor()
-                selectedCell.walletAmount.textColor = UIColor.meunGreenTextColor()
+                selectedCell.contentView.backgroundColor = UIColor.navigationBarColor()
+                selectedCell.itemTitle.textColor = UIColor.navigationBarColor()
+                selectedCell.walletAmount.textColor = UIColor.navigationBarColor()
                 let selectedImage = selectedImages[(indexPath as NSIndexPath).row]
                 selectedCell.itemImage.image = UIImage(name:selectedImage)
                 

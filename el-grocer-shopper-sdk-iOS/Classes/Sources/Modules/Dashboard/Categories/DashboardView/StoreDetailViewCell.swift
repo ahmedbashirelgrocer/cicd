@@ -43,7 +43,7 @@ class StoreDetailViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.backgroundColor = UIColor.productBGColor()
+        self.backgroundColor = UIColor.navigationBarWhiteColor()
         
         self.collectionViewGroceries.register(UINib(nibName: "GroceryDetailCell", bundle: Bundle.resource), forCellWithReuseIdentifier: kGroceryDetailHeaderCell)
     }

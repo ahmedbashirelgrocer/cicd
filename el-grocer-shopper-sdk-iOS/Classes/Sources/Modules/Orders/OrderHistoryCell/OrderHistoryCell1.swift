@@ -130,7 +130,7 @@ class OrderHistoryCell1 : UITableViewCell {
     
     fileprivate func setUpDeleteButtonAppearance() {
         
-        self.deleteButton.backgroundColor = UIColor.redValidationErrorColor()
+        self.deleteButton.backgroundColor = UIColor.textfieldErrorColor()
         self.deleteButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.deleteButton.titleLabel?.font = UIFont.boldFont(15.0)
         self.deleteButton.setTitle(localizedString("dashboard_location_delete_button", comment: ""), for: UIControl.State())

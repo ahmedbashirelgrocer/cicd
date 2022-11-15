@@ -865,8 +865,8 @@ class ProductCell : UICollectionViewCell {
             addToCartButton.isHidden = false
             buttonsView.isHidden = true
             self.quantityLabel.text = "0"
-            self.plusButton.imageView?.tintColor = UIColor.darkTextGrayColor()
-            self.minusButton.imageView?.tintColor = UIColor.darkTextGrayColor()
+            self.plusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
+            self.minusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
             self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
             self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
         }

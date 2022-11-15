@@ -242,7 +242,7 @@ public class ElgrocerTextField: UITextField {
     public func showError(message:String? = nil) {
         if let msg = message { errorMessage = msg }
         showErrorLabel = true
-        self.borderColor = .redValidationErrorColor()
+        self.borderColor = .textfieldErrorColor()
         
     }
     
@@ -261,7 +261,7 @@ public class ElgrocerTextField: UITextField {
         dtborderStyle               = .rounded
         dtLayer.backgroundColor     = UIColor.textfieldBackgroundColor().cgColor// UIColor.locationScreenLightColor().cgColor
         
-        floatPlaceholderColor       = UIColor.searchPlaceholderTextColor()
+        floatPlaceholderColor       = UIColor.textFieldPlaceHolderColor()
        // floatPlaceholderActiveColor = tintColor
         lblFloatPlaceholder.frame   = CGRect.zero
         lblFloatPlaceholder.alpha   = 0.0
@@ -272,7 +272,7 @@ public class ElgrocerTextField: UITextField {
         
         lblError.frame              = CGRect.zero
         lblError.font               = errorFont
-        lblError.textColor          = UIColor.redValidationErrorColor()
+        lblError.textColor          = UIColor.textfieldErrorColor()
         lblError.numberOfLines      = 0
         lblError.isHidden           = true
         

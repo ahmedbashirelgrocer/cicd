@@ -85,8 +85,8 @@ class LocationPersonalInfoTableViewCell: UITableViewCell , AWSegmentViewProtocol
         txtMobileNumber.placeholder = localizedString("lbl_MobileNumber_location", comment: "")
         txtShopperName.placeholder = localizedString("lbl_Name_location", comment: "")
         
-        self.txtMobileNumber.attributedPlaceholder = NSAttributedString.init(string: self.txtMobileNumber.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-        self.txtShopperName.attributedPlaceholder = NSAttributedString.init(string: self.txtShopperName.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+        self.txtMobileNumber.attributedPlaceholder = NSAttributedString.init(string: self.txtMobileNumber.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
+        self.txtShopperName.attributedPlaceholder = NSAttributedString.init(string: self.txtShopperName.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
         
         self.editScreenState = editScreenState
         if editScreenState == .isForSignUp {

@@ -21,7 +21,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     @IBOutlet var lblPaymentMethod: UILabel!
     @IBOutlet var txtCvv: UITextField! {
         didSet{
-            self.txtCvv.attributedPlaceholder = NSAttributedString.init(string: self.txtCvv.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+            self.txtCvv.attributedPlaceholder = NSAttributedString.init(string: self.txtCvv.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textViewPlaceHolderColor()])
         }
         
     }
@@ -122,7 +122,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.btnChange.setTitle(localizedString("change_button_title", comment: ""), for: .normal)
-        self.txtPromo.attributedPlaceholder = NSAttributedString.init(string: self.txtPromo.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+        self.txtPromo.attributedPlaceholder = NSAttributedString.init(string: self.txtPromo.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textViewPlaceHolderColor()])
         showPromotion()
         //hide smiles points by default
         self.lblSmilesPoints.superview?.visibility = .goneY

@@ -480,7 +480,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.searchTextField.font = UIFont.SFProDisplayNormalFont(14)
         self.searchTextField.placeholder =  localizedString("search_products", comment: "")
         self.searchTextField.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
-                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
         self.searchTextField.textColor = UIColor.newBlackColor()
         self.searchTextField.clipsToBounds = false
         

@@ -120,7 +120,7 @@ class BasketIconOverlayView : UIView {
     
     func setUpCountLabelAppearance() {
         
-        self.itemsCount.textColor = UIColor.redTextColor()
+        self.itemsCount.textColor = UIColor.redInfoColor()
         self.itemsCount.font = UIFont.SFProDisplaySemiBoldFont(13.0)
     }
     
@@ -284,9 +284,9 @@ class BasketIconOverlayView : UIView {
                             }
                             
                             toolTipView = JDFTooltipView.init(targetBarButtonItem: barButton, hostView: parentController.view.window, tooltipText: toolTipStr, arrowDirection: JDFTooltipViewArrowDirection.up, width: toolTipWidth)
-                            toolTipView?.tooltipBackgroundColour = UIColor.lightGreenColor()
+                            toolTipView?.tooltipBackgroundColour = UIColor.navigationBarColor()
                             toolTipView!.font = UIFont.SFProDisplaySemiBoldFont(14.0)
-                            toolTipView!.textColour = UIColor.mediumGreenColor()
+                            toolTipView!.textColour = UIColor.navigationBarColor()
                             toolTipView!.show()
                             
                             ElGrocerUtility.sharedInstance.delay(2.0) {

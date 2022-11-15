@@ -210,7 +210,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         textField.textColor = UIColor.black
         textField.placeholder = placeholder
         textField.layer.cornerRadius = 8
-        textField.attributedPlaceholder = NSAttributedString.init(string: textField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+        textField.attributedPlaceholder = NSAttributedString.init(string: textField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
 
     }
     

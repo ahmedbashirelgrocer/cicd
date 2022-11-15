@@ -37,7 +37,7 @@ class WalletHistoryCell: UITableViewCell {
         self.purchaseDate.textColor = UIColor.lightTextGrayColor()
         
         self.purchaseAmount.font = UIFont.lightFont(11.0)
-        self.purchaseAmount.textColor = UIColor.darkTextGrayColor()
+        self.purchaseAmount.textColor = UIColor.darkGrayTextColor()
     }
     
     

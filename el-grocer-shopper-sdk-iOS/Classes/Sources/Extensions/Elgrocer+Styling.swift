@@ -83,7 +83,7 @@ extension UILabel {
     }
     func setBody2SemiboldDarkGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(16)
-        self.textColor = UIColor.darkGreenColor()
+        self.textColor = UIColor.secondaryDarkGreenColor()
     }
     func setBody2SemiboldGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(16)
@@ -326,7 +326,7 @@ extension UILabel {
     }
     func setSubHead2SemiBoldDarkGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(13)
-        self.textColor = UIColor.darkGreenColor()
+        self.textColor = UIColor.secondaryDarkGreenColor()
     }
     
     func setBody1BoldStyle() {

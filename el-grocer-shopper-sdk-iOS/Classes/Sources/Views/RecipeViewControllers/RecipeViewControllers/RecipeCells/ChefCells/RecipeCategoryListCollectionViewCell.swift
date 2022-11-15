@@ -92,7 +92,7 @@ class RecipeCategoryListCollectionViewCell: UICollectionViewCell {
                     imageView.tintColor = UIColor.newBlackColor()
                 }else{
                     imageView.image = productPlaceholderPhoto
-                    imageView.tintColor =  UIColor.recipelightGrayBGColor()
+                    imageView.tintColor =  UIColor.newUIrecipelightGrayBGColor()
                 }
             }
        

@@ -176,11 +176,11 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         
         if self.searchFor == .isForStoreSearch {
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
-                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
         }else{
             
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,
-                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
   
         }
         

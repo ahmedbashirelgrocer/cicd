@@ -115,7 +115,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
     fileprivate func setReferrerAmountLabelAppearance() {
         
         self.referrerAmountLabel.font = UIFont.SFProDisplaySemiBoldFont(11.0)
-        self.referrerAmountLabel.textColor = UIColor.meunGreenTextColor()
+        self.referrerAmountLabel.textColor = UIColor.navigationBarColor()
         
         self.referrerAmountLabel.text = ElGrocerUtility.sharedInstance.referrerAmount
     }
@@ -123,7 +123,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
     fileprivate func setInviteFriendsLabelAppearance() {
         
         self.inviteFriends.font = UIFont.SFProDisplaySemiBoldFont(13.0)
-        self.inviteFriends.textColor = UIColor.meunGreenTextColor()
+        self.inviteFriends.textColor = UIColor.navigationBarColor()
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5.0

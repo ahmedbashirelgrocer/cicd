@@ -14,7 +14,7 @@ class SubsitutePaymentTableViewCell: UITableViewCell , UITextFieldDelegate {
     @IBOutlet var lblCardNumber: UILabel!
     @IBOutlet var txtCvv: UITextField!{
         didSet{
-            self.txtCvv.attributedPlaceholder = NSAttributedString.init(string: self.txtCvv.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+            self.txtCvv.attributedPlaceholder = NSAttributedString.init(string: self.txtCvv.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
             self.txtCvv.delegate = self
             self.txtCvv.isHidden = true
             

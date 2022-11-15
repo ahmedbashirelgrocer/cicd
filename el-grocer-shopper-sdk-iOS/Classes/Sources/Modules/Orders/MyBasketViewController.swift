@@ -1284,7 +1284,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 let indexPath = IndexPath.init(row: index, section: 4)
                 let isVisible = self.tblBasket.indexPathsForVisibleRows?.contains{$0 == indexPath}
                 if let cell = self.tblBasket.cellForRow(at: indexPath) , let validCell = cell as? MyBasketTableViewCell {
-                    validCell.viewMainContainer.backgroundColor = UIColor.newborderColor()
+                    validCell.viewMainContainer.backgroundColor = UIColor.newBorderGreyColor()
                     ElGrocerUtility.sharedInstance.delay(0.5) {
                         validCell.viewMainContainer.backgroundColor = UIColor.white
                     }
@@ -3357,9 +3357,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         let cell = self.tblBasket.cellForRow(at: indexPath) as! MyBasketTableViewCell
-        let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.darkTextGrayColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(6.0)]
+        let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.secondaryBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(6.0)]
         
-        let dict2 = [NSAttributedString.Key.foregroundColor:UIColor.lightBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
+        let dict2 = [NSAttributedString.Key.foregroundColor:UIColor.secondaryBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
         
         let dict3 = [NSAttributedString.Key.foregroundColor: UIColor.red,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
         

@@ -36,7 +36,7 @@ class ListSearchBar: UIView {
     
     func addGredient() {
        
-        gredientV.colors = [[UIColor.navigationBarColor(), UIColor.productBGColor()]]
+        gredientV.colors = [[UIColor.navigationBarColor(), UIColor.navigationBarWhiteColor()]]
         gredientV.type = .axial
       //  gredientV.direction = .custom
        
@@ -162,7 +162,7 @@ extension ListSearchBar : UITextViewDelegate {
 
     func textViewDidBeginEditing(_ textView: UITextView) {
 
-          textView.tintColor = UIColor.darkTextGrayColor()
+          textView.tintColor = UIColor.darkGrayTextColor()
 
         if textView.text == localizedString("shopping_PlaceHolder_Search_List", comment: "") {
             textView.text = nil

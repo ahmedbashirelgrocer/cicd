@@ -167,7 +167,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         
         
         
-        self.searchTextField.attributedPlaceholder = NSAttributedString.init(string: self.searchTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.buttonNonSelectionColor() , NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14) ])
+        self.searchTextField.attributedPlaceholder = NSAttributedString.init(string: self.searchTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.disableButtonColor() , NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14) ])
         self.searchTextField.font = UIFont.SFProDisplayNormalFont(14)
         self.searchTextField.textColor = UIColor.newBlackColor()
         self.searchTextField.clipsToBounds = false

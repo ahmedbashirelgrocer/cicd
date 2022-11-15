@@ -65,7 +65,7 @@ class BannerDetailsViewController: BasketBasicViewController,UICollectionViewDat
         let productCellNib = UINib(nibName: "ProductCell", bundle: .resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
-        self.collectionView.backgroundColor = UIColor.productBGColor()
+        self.collectionView.backgroundColor = UIColor.navigationBarWhiteColor()
 
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10 , right: 10)

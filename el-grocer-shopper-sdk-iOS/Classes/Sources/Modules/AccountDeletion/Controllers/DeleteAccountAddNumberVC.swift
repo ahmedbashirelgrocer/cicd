@@ -126,7 +126,7 @@ class DeleteAccountAddNumberVC: UIViewController, NavigationBarProtocol {
     }
     func validatePhoneNumberAndSetPasswordTextFieldAppearance(_ isValid : Bool = false) {
         if  isValid == false {
-            self.phoneNumBGView.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+            self.phoneNumBGView.layer.borderColor = UIColor.textfieldErrorColor().cgColor
             self.phoneNumBGView.layer.borderWidth = 1
         } else {
             self.phoneNumBGView.layer.borderColor = UIColor.green.cgColor

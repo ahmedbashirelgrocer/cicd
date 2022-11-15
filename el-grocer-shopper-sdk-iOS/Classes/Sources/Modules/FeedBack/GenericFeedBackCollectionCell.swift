@@ -186,51 +186,51 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             reviewView.btnOption1.layer.backgroundColor = UIColor.navigationBarColor().cgColor
             reviewView.btnOption1.setSubHead1SemiBoldWhiteStyle()
             //default appearence
-            reviewView.btnOption2.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption2.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption3.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption3.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption3.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption4.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption4.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption4.setBody3SemiBoldDarkStyle()
         }else if state.optionB == 1{
             reviewView.btnOption2.layer.backgroundColor = UIColor.navigationBarColor().cgColor
             reviewView.btnOption2.setSubHead1SemiBoldWhiteStyle()
             //default appearence
-            reviewView.btnOption1.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption1.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption1.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption3.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption3.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption3.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption4.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption4.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption4.setBody3SemiBoldDarkStyle()
         }else if state.optionC == 1{
             reviewView.btnOption3.layer.backgroundColor = UIColor.navigationBarColor().cgColor
             reviewView.btnOption3.setSubHead1SemiBoldWhiteStyle()
             //default appearence
-            reviewView.btnOption2.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption2.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption1.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption1.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption1.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption4.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption4.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption4.setBody3SemiBoldDarkStyle()
         }else if state.optionD == 1{
             reviewView.btnOption4.layer.backgroundColor = UIColor.navigationBarColor().cgColor
             reviewView.btnOption4.setSubHead1SemiBoldWhiteStyle()
             //default appearence
-            reviewView.btnOption2.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption2.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption3.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption3.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption3.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption1.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption1.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption1.setBody3SemiBoldDarkStyle()
         }else{
             //default appearence
-            reviewView.btnOption1.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption1.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption1.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption2.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption2.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption3.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption3.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption3.setBody3SemiBoldDarkStyle()
-            reviewView.btnOption4.layer.backgroundColor = UIColor.locationScreenLightColor().cgColor
+            reviewView.btnOption4.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption4.setBody3SemiBoldDarkStyle()
         }
     }

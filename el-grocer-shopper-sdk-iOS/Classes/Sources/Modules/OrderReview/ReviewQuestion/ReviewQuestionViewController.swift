@@ -104,7 +104,7 @@ class ReviewQuestionViewController: UIViewController {
     fileprivate func setRatingTitleLabelAppearanceAndData() {
         
         self.ratingLabel.font = UIFont.SFProDisplaySemiBoldFont(16.0)
-        self.ratingLabel.textColor = UIColor.lightBlackColor()
+        self.ratingLabel.textColor = UIColor.secondaryBlackColor()
         self.ratingLabel.text = feedbackQuestion.questionTitle
         self.ratingLabel.sizeToFit()
         self.ratingLabel.numberOfLines = 0
@@ -113,7 +113,7 @@ class ReviewQuestionViewController: UIViewController {
     fileprivate func setQuestionTitleLabelAppearanceAndData() {
         
         self.questionLabel.font = UIFont.SFProDisplaySemiBoldFont(16.0)
-        self.questionLabel.textColor = UIColor.lightBlackColor()
+        self.questionLabel.textColor = UIColor.secondaryBlackColor()
         self.questionLabel.text = feedbackQuestion.questionTitle
         self.questionLabel.sizeToFit()
         self.questionLabel.numberOfLines = 0
@@ -161,28 +161,28 @@ class ReviewQuestionViewController: UIViewController {
             
             self.answerButton1.layer.cornerRadius = 3
             self.answerButton1.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-            self.answerButton1.setTitleColor(UIColor.lightBlackColor(), for: UIControl.State())
+            self.answerButton1.setTitleColor(UIColor.secondaryBlackColor(), for: UIControl.State())
             let answer1Title : String = String(format:"%@ \u{1F601}",feedbackQuestion.answerTitle1!)
             self.answerButton1.setTitle(answer1Title, for: UIControl.State())
             self.answerButton1.backgroundColor = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
             
             self.answerButton2.layer.cornerRadius = 3
             self.answerButton2.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-            self.answerButton2.setTitleColor(UIColor.lightBlackColor(), for: UIControl.State())
+            self.answerButton2.setTitleColor(UIColor.secondaryBlackColor(), for: UIControl.State())
             let answer2Title : String = String(format:"%@ \u{1F642}",feedbackQuestion.answerTitle2!)
             self.answerButton2.setTitle(answer2Title, for: UIControl.State())
             self.answerButton2.backgroundColor = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
             
             self.answerButton3.layer.cornerRadius = 3
             self.answerButton3.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-            self.answerButton3.setTitleColor(UIColor.lightBlackColor(), for: UIControl.State())
+            self.answerButton3.setTitleColor(UIColor.secondaryBlackColor(), for: UIControl.State())
             let answer3Title : String = String(format:"%@ \u{1F610}",feedbackQuestion.answerTitle3!)
             self.answerButton3.setTitle(answer3Title, for: UIControl.State())
             self.answerButton3.backgroundColor = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
             
             self.answerButton4.layer.cornerRadius = 3
             self.answerButton4.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-            self.answerButton4.setTitleColor(UIColor.lightBlackColor(), for: UIControl.State())
+            self.answerButton4.setTitleColor(UIColor.secondaryBlackColor(), for: UIControl.State())
             self.answerButton4.backgroundColor = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
             if feedbackQuestion.answerTitle4 != nil {
                 self.answerButton4.isHidden = false
@@ -196,14 +196,14 @@ class ReviewQuestionViewController: UIViewController {
     
     private func resetButtonsBackgroundColours(){
         
-        self.answerButton1.setTitleColor(UIColor.lightBlackColor(), for: UIControl.State())
+        self.answerButton1.setTitleColor(UIColor.secondaryBlackColor(), for: UIControl.State())
         self.answerButton1.backgroundColor = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
         
-        self.answerButton2.setTitleColor(UIColor.lightBlackColor(), for: UIControl.State())
+        self.answerButton2.setTitleColor(UIColor.secondaryBlackColor(), for: UIControl.State())
         self.answerButton2.backgroundColor = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
-        self.answerButton3.setTitleColor(UIColor.lightBlackColor(), for: UIControl.State())
+        self.answerButton3.setTitleColor(UIColor.secondaryBlackColor(), for: UIControl.State())
         self.answerButton3.backgroundColor = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
-        self.answerButton4.setTitleColor(UIColor.lightBlackColor(), for: UIControl.State())
+        self.answerButton4.setTitleColor(UIColor.secondaryBlackColor(), for: UIControl.State())
         self.answerButton4.backgroundColor = UIColor(red: 246.0 / 255.0, green: 246.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
         
     }
@@ -213,8 +213,8 @@ class ReviewQuestionViewController: UIViewController {
         
         self.resetButtonsBackgroundColours()
         
-        self.answerButton1.setTitleColor(UIColor.meunGreenTextColor(), for: UIControl.State())
-        self.answerButton1.backgroundColor = UIColor.meunCellSelectedColor()
+        self.answerButton1.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.answerButton1.backgroundColor = UIColor.unselectedPageControl()
         
         self.delegate?.answer1Handler(self.feedbackQuestion)
         
@@ -227,8 +227,8 @@ class ReviewQuestionViewController: UIViewController {
         
         self.resetButtonsBackgroundColours()
         
-        self.answerButton2.setTitleColor(UIColor.meunGreenTextColor(), for: UIControl.State())
-        self.answerButton2.backgroundColor = UIColor.meunCellSelectedColor()
+        self.answerButton2.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.answerButton2.backgroundColor = UIColor.unselectedPageControl()
         
         self.delegate?.answer2Handler(self.feedbackQuestion)
     }
@@ -237,8 +237,8 @@ class ReviewQuestionViewController: UIViewController {
         
         self.resetButtonsBackgroundColours()
         
-        self.answerButton3.setTitleColor(UIColor.meunGreenTextColor(), for: UIControl.State())
-        self.answerButton3.backgroundColor = UIColor.meunCellSelectedColor()
+        self.answerButton3.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.answerButton3.backgroundColor = UIColor.unselectedPageControl()
         
         self.delegate?.answer3Handler(self.feedbackQuestion)
     }
@@ -247,8 +247,8 @@ class ReviewQuestionViewController: UIViewController {
         
         self.resetButtonsBackgroundColours()
         
-        self.answerButton4.setTitleColor(UIColor.meunGreenTextColor(), for: UIControl.State())
-        self.answerButton4.backgroundColor = UIColor.meunCellSelectedColor()
+        self.answerButton4.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.answerButton4.backgroundColor = UIColor.unselectedPageControl()
         
         self.delegate?.answer4Handler(self.feedbackQuestion)
     }
@@ -268,7 +268,7 @@ extension ReviewQuestionViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == localizedString("suggestions_placeholder_text", comment: "") {
             textView.text = nil
-            textView.textColor = UIColor.lightBlackColor()
+            textView.textColor = UIColor.secondaryBlackColor()
         }
     }
     

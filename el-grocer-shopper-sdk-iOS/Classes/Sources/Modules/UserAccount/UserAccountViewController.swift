@@ -120,10 +120,10 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
     
     func setUpShopNowButtonAppearance() {
         
-        self.shopNowButton.layer.borderColor = UIColor.redTextColor().cgColor
+        self.shopNowButton.layer.borderColor = UIColor.redInfoColor().cgColor
         self.shopNowButton.layer.borderWidth = 1
         self.shopNowButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: UIControl.State())
-        self.shopNowButton.setTitleColor(UIColor.redTextColor(), for: UIControl.State())
+        self.shopNowButton.setTitleColor(UIColor.redInfoColor(), for: UIControl.State())
         self.shopNowButton.titleLabel?.font = UIFont.lightFont(17.0)
     }
     

@@ -222,7 +222,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     
     fileprivate func setUpMyShoppingListLabelAppearance() {
     
-        self.myShoppingList.setTitleColor(UIColor.redTextColor(), for: UIControl.State())
+        self.myShoppingList.setTitleColor(UIColor.textfieldErrorColor(), for: UIControl.State())
         self.myShoppingList.titleLabel?.font = UIFont.lightFont(17.0)
     }
     
@@ -291,10 +291,10 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
             
             self.totalPriceLabel.textColor = UIColor.redInfoColor()
             
-            self.promotionDiscountLabel.textColor = UIColor.greenInfoColor()
+            self.promotionDiscountLabel.textColor = UIColor.navigationBarColor()
             self.promotionDiscountLabel.text = localizedString("shopping_basket_promotion_discount_price_label", comment: "")
             
-            self.promotionDiscountPriceLabel.textColor = UIColor.greenInfoColor()
+            self.promotionDiscountPriceLabel.textColor = UIColor.navigationBarColor()
         }
     }
     

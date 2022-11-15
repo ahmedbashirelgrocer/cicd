@@ -93,9 +93,9 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
         
         
         
-          self.oldPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.oldPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-          self.newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.newPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-          self.confirmPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.confirmPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+          self.oldPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.oldPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
+          self.newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.newPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
+          self.confirmPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.confirmPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
         
         
         

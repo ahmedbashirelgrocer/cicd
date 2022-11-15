@@ -73,7 +73,7 @@ class UpdateLocationInfoViewController: UIViewController {
     fileprivate func setDoneButtonAppearance() {
         
         self.doneButton.setTitle(localizedString("update_location_info_done_button_title", comment: ""), for: UIControl.State())
-        self.doneButton.backgroundColor = UIColor.greenInfoColor()
+        self.doneButton.backgroundColor = UIColor.navigationBarColor()
         self.doneButton.titleLabel?.font = UIFont.bookFont(20.0)
     }
 }

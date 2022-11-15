@@ -50,7 +50,7 @@ class BannerCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        self.backgroundColor = UIColor.productBGColor()
+        self.backgroundColor = UIColor.navigationBarWhiteColor()
         
         self.containerView.backgroundColor = UIColor.clear
         

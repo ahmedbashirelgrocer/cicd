@@ -116,7 +116,7 @@ override func rightBackButtonClicked() {
         self.submitButton.setTitle(localizedString("lbl_resetPass", comment: ""), for: UIControl.State())
         
         
-           self.emailTextField.attributedPlaceholder = NSAttributedString.init(string: self.emailTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+           self.emailTextField.attributedPlaceholder = NSAttributedString.init(string: self.emailTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
     }
     
     
@@ -211,7 +211,7 @@ override func rightBackButtonClicked() {
         
         let enableSubmitButton = email.isValidEmail()
         
-        self.emailTextField.layer.borderColor = (!enableSubmitButton && !email.isEmpty) ? UIColor.redValidationErrorColor().cgColor : UIColor.clear.cgColor
+        self.emailTextField.layer.borderColor = (!enableSubmitButton && !email.isEmpty) ? UIColor.textfieldErrorColor().cgColor : UIColor.clear.cgColor
         
         setSubmitButtonEnabled(enableSubmitButton)
         

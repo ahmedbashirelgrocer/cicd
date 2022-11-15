@@ -513,7 +513,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         self.searchTextField.placeholder = localizedString("dashboard_location_search_placeholder", comment: "")
         self.searchTextField.font = UIFont.bookFont(13.0)
-        self.searchTextField.textColor = UIColor.darkTextGrayColor()
+        self.searchTextField.textColor = UIColor.darkGrayTextColor()
         self.searchTextField.backgroundColor = UIColor.lightGrayBGColor()
         
          self.searchTextField.attributedPlaceholder =
@@ -551,9 +551,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         var titleStr = NSMutableAttributedString()
         
         if isEnabled {
-            self.locationView.backgroundColor =  UIColor.meunCellSelectedColor()
+            self.locationView.backgroundColor =  UIColor.unselectedPageControl()
             self.locationImgView.image = UIImage(name: "location-pin-selected")
-            self.locationLabel.textColor = UIColor.meunGreenTextColor()
+            self.locationLabel.textColor = UIColor.navigationBarColor()
             
             titleStr = NSMutableAttributedString(string: localizedString("dashboard_enable_location_services", comment: ""))
             
@@ -580,13 +580,13 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func setUpCurrentLocationViewAppearance(){
     
-        self.currentLabel.textColor = UIColor.darkTextGrayColor()
+        self.currentLabel.textColor = UIColor.darkGrayTextColor()
         self.currentLabel.font = UIFont.SFProDisplaySemiBoldFont(14.0)
         self.currentLabel.text = localizedString("current_location_title", comment: "")
         self.currentLabel.numberOfLines = 0
         self.currentLabel.sizeToFit()
         
-        self.currentLocLabel.textColor = UIColor.darkTextGrayColor()
+        self.currentLocLabel.textColor = UIColor.darkGrayTextColor()
         self.currentLocLabel.font = UIFont.bookFont(13.0)
         self.currentLocLabel.text = localizedString("finding_address_title", comment: "")
         self.currentLocLabel.numberOfLines = 0
@@ -708,7 +708,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         self.emailTextField.placeholder = localizedString("enter_email_placeholder_text", comment: "")
         self.emailTextField.font = UIFont.bookFont(13.0)
-        self.emailTextField.textColor = UIColor.darkTextGrayColor()
+        self.emailTextField.textColor = UIColor.darkGrayTextColor()
         if UserDefaults.isUserLoggedIn(){
             let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             if(userProfile != nil){
@@ -731,7 +731,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         let enableSubmitButton = email.isValidEmail()
         
-        self.emailTextField.layer.borderColor = (!enableSubmitButton && !email.isEmpty) ? UIColor.redValidationErrorColor().cgColor : UIColor.borderGrayColor().cgColor
+        self.emailTextField.layer.borderColor = (!enableSubmitButton && !email.isEmpty) ? UIColor.textfieldErrorColor().cgColor : UIColor.borderGrayColor().cgColor
         
         setEmailDoneButtonEnabled(enableSubmitButton)
         

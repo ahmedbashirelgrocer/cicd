@@ -79,7 +79,7 @@ class LocationPopUp: UIView {
         self.titleLabel.numberOfLines = 1
         
         self.descriptionLabel.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-        self.descriptionLabel.textColor = UIColor.darkTextGrayColor()
+        self.descriptionLabel.textColor = UIColor.darkGrayTextColor()
         self.descriptionLabel.text = localizedString("location_services_message", comment: "")
         self.descriptionLabel.sizeToFit()
         self.descriptionLabel.numberOfLines = 3

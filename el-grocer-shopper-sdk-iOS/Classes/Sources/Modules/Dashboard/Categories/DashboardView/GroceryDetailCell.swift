@@ -73,7 +73,7 @@ class GroceryDetailCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-       self.backgroundColor = UIColor.blurLightProductColor()
+       self.backgroundColor = UIColor.lightGreyColor()
        self.shadowView.backgroundColor = UIColor.navigationBarColor()
        self.btnChange.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
 

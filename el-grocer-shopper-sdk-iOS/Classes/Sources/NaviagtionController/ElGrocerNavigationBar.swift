@@ -307,8 +307,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     func setNewLightBackground() {
         
-        self.backgroundColor = UIColor.moreBGColor()
-        self.barTintColor = UIColor.moreBGColor()
+        self.backgroundColor = UIColor.textfieldBackgroundColor()
+        self.barTintColor = UIColor.textfieldBackgroundColor()
         self.isTranslucent = false
     }
     

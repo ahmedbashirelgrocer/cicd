@@ -96,7 +96,7 @@ class NotificationPopup: UIView {
         self.titleLabel.numberOfLines = 1
         
         self.descriptionLabel.font = UIFont.SFProDisplaySemiBoldFont(14.0)
-        self.descriptionLabel.textColor = UIColor.darkTextGrayColor()
+        self.descriptionLabel.textColor = UIColor.darkGrayTextColor()
         self.descriptionLabel.text = localizedString("enable_notifications_message", comment: "")
         self.descriptionLabel.sizeToFit()
         self.descriptionLabel.numberOfLines = 3

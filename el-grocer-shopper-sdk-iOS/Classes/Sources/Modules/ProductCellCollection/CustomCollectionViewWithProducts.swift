@@ -390,7 +390,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             elDebugPrint("checktest product item: Nil")
                             elDebugPrint("checktest currentProduct: \(currentProduct?.name)")
                             productCell.imageCrossState.image = UIImage(name: "Product Plus")
-                            productCell.imageCrossState.backgroundColor = UIColor.lightGreenColor()
+                            productCell.imageCrossState.backgroundColor = UIColor.navigationBarColor()
                             productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
                             productCell.productContainer.layer.borderWidth = 0
                             productCell.productBGShadowView.layer.masksToBounds = false

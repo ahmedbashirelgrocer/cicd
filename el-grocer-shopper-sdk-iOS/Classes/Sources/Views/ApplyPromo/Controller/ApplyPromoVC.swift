@@ -306,7 +306,7 @@ extension ApplyPromoVC {
     func animateFailureForPromo(){
         self.btnPromoApply.isHidden = false
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.redValidationErrorColor()
+        self.promoTxtFieldBGView.borderColor = UIColor.textfieldErrorColor()
         self.promoTxtFieldBGView.layer.borderWidth = 1
     }
 }

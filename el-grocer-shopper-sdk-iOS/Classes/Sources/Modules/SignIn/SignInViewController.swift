@@ -732,7 +732,7 @@ extension SignInViewController {
                         }
                     }
                     self.isPhoneExsists = true
-                    self.phoneNumberTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+                    self.phoneNumberTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
                     self.phoneNumberTextField.layer.borderWidth = 1
                     phoneErrorLabel.isHidden = false
                     phoneErrorLabel.text = errorMsgStr
@@ -745,7 +745,7 @@ extension SignInViewController {
     func validatePhoneNumberAndSetPasswordTextFieldAppearance(_ isValid : Bool=false) {
         // self.mobileNumberTextField.text?.isValidPhoneNumber() ?? false == false ||
         if  isValid == false {
-            self.phoneNumberTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+            self.phoneNumberTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
             self.phoneNumberTextField.layer.borderWidth = 1
         } else {
             self.phoneNumberTextField.layer.borderColor = UIColor.green.cgColor

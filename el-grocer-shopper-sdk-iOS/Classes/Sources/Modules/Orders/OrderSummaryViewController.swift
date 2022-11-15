@@ -203,10 +203,10 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
 
             self.totalPriceLabel.textColor = UIColor.redInfoColor()
             
-            self.promotionDiscountLabel.textColor = UIColor.greenInfoColor()
+            self.promotionDiscountLabel.textColor = UIColor.navigationBarColor()
             self.promotionDiscountLabel.text = localizedString("shopping_basket_promotion_discount_price_label", comment: "")
             
-            self.promotionDiscountPriceLabel.textColor = UIColor.greenInfoColor()
+            self.promotionDiscountPriceLabel.textColor = UIColor.navigationBarColor()
         }
     }
     

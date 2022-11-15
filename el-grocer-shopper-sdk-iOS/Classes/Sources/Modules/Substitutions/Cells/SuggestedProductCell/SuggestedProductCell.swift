@@ -109,7 +109,7 @@ class SuggestedProductCell : UICollectionViewCell {
         
         self.chooseSubtituteButton.setTitle(localizedString("choose_substitution_button_title", comment: ""), for: UIControl.State())
         self.chooseSubtituteButton.titleLabel?.font =  UIFont.SFProDisplayBoldFont(12.0)
-        self.chooseSubtituteButton.titleLabel?.textColor = UIColor.mediumGreenColor()
+        self.chooseSubtituteButton.titleLabel?.textColor = UIColor.navigationBarColor()
     }
     
     // MARK: Actions

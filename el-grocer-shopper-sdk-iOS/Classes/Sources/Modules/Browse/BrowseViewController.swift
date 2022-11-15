@@ -294,7 +294,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     func registerCellsForTableView() {
         
         self.tableViewCategories.separatorStyle = UITableViewCell.SeparatorStyle.none
-        self.tableViewCategories.backgroundColor = UIColor.productBGColor()
+        self.tableViewCategories.backgroundColor = UIColor.navigationBarWhiteColor()
 
         categorySearchBar = Bundle.resource.loadNibNamed("CategorySearchBar", owner: self, options: nil)![0] as? CategorySearchBar
         categorySearchBar.delegate = self
