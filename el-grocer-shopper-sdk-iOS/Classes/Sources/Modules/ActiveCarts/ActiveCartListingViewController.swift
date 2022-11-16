@@ -67,6 +67,20 @@ private extension ActiveCartListingViewController {
                 ? _ = SpinnerView.showSpinnerViewInView(self.view)
                 : SpinnerView.hideSpinnerView()
         }.disposed(by: disposeBag)
+        
+        self.viewModel.outputs.nextButtonTap.subscribe { [weak self] cart in
+            guard let self = self else { return }
+            
+            // navigate user to the store details screen
+            print("next button tap for cart >> \(cart)")
+        }.disposed(by: disposeBag)
+        
+        self.viewModel.outputs.bannerTap.subscribe { [weak self] string in
+            guard let self = self else { return }
+            
+            // navigate user to the store details screen
+            print("next button tap for cart >> \(string)")
+        }.disposed(by: disposeBag)
     }
 }
 

@@ -9,7 +9,10 @@ import Foundation
 import RxSwift
 import RxDataSources
 
-protocol ActiveCartCellViewModelInput { }
+protocol ActiveCartCellViewModelInput {
+    var nextButtonTapObserver: AnyObserver<Void> { get }
+    var bannerTapObserver: AnyObserver<Void> { get }
+}
 
 protocol ActiveCartCellViewModelOutput {
     var storeIconUrl: Observable<URL?> { get }
@@ -19,6 +22,9 @@ protocol ActiveCartCellViewModelOutput {
     var isBannerAvailable: Observable<Bool> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var isArbic: Observable<Bool> { get }
+    
+    var nextButtonTap: Observable<ActiveCartDTO> { get }
+    var bannerTap: Observable<String> { get }
 }
 
 protocol ActiveCartCellViewModelType: ActiveCartCellViewModelInput, ActiveCartCellViewModelOutput {
@@ -33,6 +39,8 @@ extension ActiveCartCellViewModelType {
 
 class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCellViewModelType {
     // MARK: Inputs
+    var nextButtonTapObserver: AnyObserver<Void> { self.nextButtonTapSubject.asObserver() }
+    var bannerTapObserver: AnyObserver<Void> { self.bannerTapSubject.asObserver() }
     
     // MARK: Outputs
     var storeIconUrl: Observable<URL?> { storeIconUrlSubject.asObservable() }
@@ -42,6 +50,8 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var isBannerAvailable: Observable<Bool> { isBannerAvailableSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
+    var nextButtonTap: Observable<ActiveCartDTO> { nextButtonTapSubject.map { [unowned self] in self.activeCart }.asObservable() }
+    var bannerTap: Observable<String> { bannerTapSubject.map { "Replace this with actual banner object" }.asObservable() }
     
     // MARK: Subject
     private var storeIconUrlSubject = BehaviorSubject<URL?>(value: nil)
@@ -50,14 +60,15 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     private var deliveryTextSubject = BehaviorSubject<NSAttributedString?>(value: nil)
     private var isBannerAvailableSubject = BehaviorSubject<Bool>(value: true)
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
-    
-    
+    private let nextButtonTapSubject = PublishSubject<Void>()
+    private let bannerTapSubject = PublishSubject<Void>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
     var activeCart: ActiveCartDTO
     
+    // MARK: Initlizations
     init(activeCart: ActiveCartDTO) {
         self.activeCart = activeCart
         self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCart.products.map { ActiveCartProductCellViewModel(product: $0)})])
@@ -70,6 +81,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     }
 }
 
+// MARK: Helper Methods
 private extension ActiveCartCellViewModel {
     func setDeliverySlot() {
         let cart = self.activeCart

@@ -17,6 +17,8 @@ protocol ActiveCartListingViewModelOutput {
     var loading: Observable<Bool> { get }
     var title: Observable<String> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
+    var nextButtonTap: Observable<ActiveCartDTO> { get }
+    var bannerTap: Observable<String> { get }
 }
 
 protocol ActiveCartListingViewModelType: ActiveCartListingViewModelInput, ActiveCartListingViewModelOutput {
@@ -36,11 +38,16 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var title: Observable<String> { titleSubject.asObservable() }
+    var nextButtonTap: Observable<ActiveCartDTO> { nextButtonTapSubject.asObservable() }
+    var bannerTap: Observable<String> { bannerTapSubject.asObservable() }
+    
     
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     private let titleSubject = BehaviorSubject<String>(value: NSLocalizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
+    private let nextButtonTapSubject = PublishSubject<ActiveCartDTO>()
+    private let bannerTapSubject = PublishSubject<String>()
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
@@ -77,7 +84,16 @@ private extension ActiveCartListingViewModel {
                     return
                 }
                 
-                let activeCartVMs = activeCarts.map { ActiveCartCellViewModel(activeCart: $0)}
+                // convert the cert DTOs to cell view model 
+                let activeCartVMs = activeCarts.map { cart in
+                    let cartCellViewModel = ActiveCartCellViewModel(activeCart: cart)
+                    
+                    cartCellViewModel.outputs.nextButtonTap.bind(to: self.nextButtonTapSubject).disposed(by: self.disposeBag)
+                    cartCellViewModel.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                    
+                    return cartCellViewModel
+                }
+                
                 self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCartVMs)])
                 break
 

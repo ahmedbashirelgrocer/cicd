@@ -41,6 +41,8 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     
+        self.viewBanner.isUserInteractionEnabled = true
+        self.viewBanner.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(bannerTap(_ :))))
         self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
     }
@@ -56,7 +58,11 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     }
     
     @IBAction func nextButtonTap(_ sender: Any) {
-        
+        self.viewModel.inputs.nextButtonTapObserver.onNext(())
+    }
+    
+    @objc func bannerTap(_ sender: UITapGestureRecognizer) {
+        self.viewModel.inputs.bannerTapObserver.onNext(())
     }
 }
 
