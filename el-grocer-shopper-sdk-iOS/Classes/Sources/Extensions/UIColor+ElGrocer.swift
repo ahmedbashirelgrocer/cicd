@@ -16,149 +16,149 @@ fileprivate extension UIColor {
 extension UIColor {
     
     class func smileBaseColor() -> UIColor {
-        return currentTheme.smileBaseColor
+        return ApplicationTheme.currentTheme.smileBaseColor
     }
     class func smileSecondaryColor() -> UIColor {
-        return currentTheme.smileSecondaryColor
+        return ApplicationTheme.currentTheme.smileSecondaryColor
     }
     class func navigationBarWhiteColor() -> UIColor {
-        return currentTheme.navigationBarWhiteColor
+        return ApplicationTheme.currentTheme.navigationBarWhiteColor
     }
     class func replacementGreenBGColor() -> UIColor {
-        return currentTheme.replacementGreenBGColor
+        return ApplicationTheme.currentTheme.replacementGreenBGColor
     }
     
     class func replacementGreenTextColor() -> UIColor {
-        return currentTheme.replacementGreenTextColor
+        return ApplicationTheme.currentTheme.replacementGreenTextColor
     }
 
     class func navigationBarColor() -> UIColor {
-        return currentTheme.navigationBarColor
+        return ApplicationTheme.currentTheme.navigationBarColor
     }
     class func unselectedPageControl() -> UIColor {
-        return currentTheme.unselectedPageControl
+        return ApplicationTheme.currentTheme.unselectedPageControl
     }
     class func buttonSelectionColor() -> UIColor {
-        return  currentTheme.buttonSelectionColor
+        return  ApplicationTheme.currentTheme.buttonSelectionColor
     }
     
     class func secondaryDarkGreenColor() -> UIColor {
-        return currentTheme.secondaryDarkGreenColor
+        return ApplicationTheme.currentTheme.secondaryDarkGreenColor
     }
     
     class func textFieldPlaceHolderColor()  -> UIColor {
-        return currentTheme.textFieldPlaceHolderColor
+        return ApplicationTheme.currentTheme.textFieldPlaceHolderColor
     }
     class func bottomSheetShadowColor() -> UIColor {
-        return currentTheme.bottomSheetShadowColor
+        return ApplicationTheme.currentTheme.bottomSheetShadowColor
     }
     class func newBlackColor() -> UIColor {
-        return currentTheme.newBlackColor
+        return ApplicationTheme.currentTheme.newBlackColor
     }
     class func textViewPlaceHolderColor() -> UIColor {
-        return currentTheme.textViewPlaceHolderColor
+        return ApplicationTheme.currentTheme.textViewPlaceHolderColor
     }
     class func secondaryBlackColor() -> UIColor {
-        return currentTheme.secondaryBlackColor
+        return ApplicationTheme.currentTheme.secondaryBlackColor
     }
     class func  disableButtonColor() -> UIColor {
-        return currentTheme.disableButtonColor
+        return ApplicationTheme.currentTheme.disableButtonColor
     }
     class func  textfieldErrorColor() -> UIColor {
-        return currentTheme.textfieldErrorColor
+        return ApplicationTheme.currentTheme.textfieldErrorColor
     }
     class func  textfieldBackgroundColor() -> UIColor {
-        return currentTheme.textfieldBackgroundColor
+        return ApplicationTheme.currentTheme.textfieldBackgroundColor
     }
     class func  tableViewBackgroundColor() -> UIColor {
-        return currentTheme.tableViewBackgroundColor
+        return ApplicationTheme.currentTheme.tableViewBackgroundColor
     }
     class func elGrocerYellowColor() -> UIColor {
-        return currentTheme.elGrocerYellowColor
+        return ApplicationTheme.currentTheme.elGrocerYellowColor
     }
     class func newBorderGreyColor() -> UIColor {
-        return currentTheme.newBorderGreyColor //used in Order Collector detaiils cell as a border color
+        return ApplicationTheme.currentTheme.newBorderGreyColor //used in Order Collector detaiils cell as a border color
     }
     class func searchBarBorderGreyColor() -> UIColor {
-        return currentTheme.searchBarBorderGreyColor //used in recipe boutique search textfield
+        return ApplicationTheme.currentTheme.searchBarBorderGreyColor //used in recipe boutique search textfield
     }
     class func promotionYellowColor() -> UIColor {
-        return currentTheme.promotionYellowColor
+        return ApplicationTheme.currentTheme.promotionYellowColor
     }
     class func promotionRedColor() -> UIColor {
-        return currentTheme.promotionRedColor
+        return ApplicationTheme.currentTheme.promotionRedColor
     }
     class func limitedStockGreenColor() -> UIColor {
-        return currentTheme.limitedStockGreenColor
+        return ApplicationTheme.currentTheme.limitedStockGreenColor
     }
     class func smilePrimaryPurpleColor() -> UIColor {
-        return currentTheme.smilePrimaryPurpleColor
+        return ApplicationTheme.currentTheme.smilePrimaryPurpleColor
     }
     class func smilePointBackgroundColor() -> UIColor {
-        return currentTheme.smilePointBackgroundColor
+        return ApplicationTheme.currentTheme.smilePointBackgroundColor
     }
     class func smilePrimaryOrangeColor() -> UIColor {
-        return currentTheme.smilePrimaryOrangeColor
+        return ApplicationTheme.currentTheme.smilePrimaryOrangeColor
     }
 
     class func dashedBorderDefaultColor()-> UIColor {
-        return currentTheme.dashedBorderDefaultColor
+        return ApplicationTheme.currentTheme.dashedBorderDefaultColor
     }
     class func alertBackgroundColor()-> UIColor {
-        return currentTheme.alertBackgroundColor
+        return ApplicationTheme.currentTheme.alertBackgroundColor
     }
     class func lightGreyColor()-> UIColor {
-        return currentTheme.lightGreyColor
+        return ApplicationTheme.currentTheme.lightGreyColor
     }
     
     class func separatorColor() -> UIColor {
 
         //return UIColor(red: 242.0 / 255.0, green: 242.0 / 255.0, blue: 242.0 / 255.0, alpha: 1)
-        return currentTheme.separatorColor
+        return ApplicationTheme.currentTheme.separatorColor
     }
 
     class func newGreyColor() -> UIColor {
-        return  currentTheme.newGreyColor
+        return  ApplicationTheme.currentTheme.newGreyColor
     }
 
     class func selectionTabDark() -> UIColor {
-        return  currentTheme.selectionTabDark
+        return  ApplicationTheme.currentTheme.selectionTabDark
     }
 
     class func darkBorderGrayColor() -> UIColor {
 
-        return currentTheme.darkBorderGrayColor
+        return ApplicationTheme.currentTheme.darkBorderGrayColor
     }
 
     class func borderGrayColor() -> UIColor {
 
-        return currentTheme.borderGrayColor
+        return ApplicationTheme.currentTheme.borderGrayColor
     }
 
     class func redInfoColor() -> UIColor {
-        return currentTheme.redInfoColor
+        return ApplicationTheme.currentTheme.redInfoColor
     }
 
     class func lightGrayBGColor() -> UIColor {
 
-        return currentTheme.lightGrayBGColor
+        return ApplicationTheme.currentTheme.lightGrayBGColor
     }
     class func darkGrayTextColor() -> UIColor {
         
-        return currentTheme.darkGrayTextColor
+        return ApplicationTheme.currentTheme.darkGrayTextColor
     }
     class func lightTextGrayColor() -> UIColor {
         
-        return currentTheme.lightTextGrayColor
+        return ApplicationTheme.currentTheme.lightTextGrayColor
     }
     
     class func newUIrecipelightGrayBGColor() -> UIColor {
-        return currentTheme.newUIrecipelightGrayBGColor
+        return ApplicationTheme.currentTheme.newUIrecipelightGrayBGColor
     }
 
     class func emptyViewTextColor() -> UIColor {
         
-        return UIColor(red: 164.0 / 255.0, green: 164.0 / 255.0, blue: 164.0 / 255.0, alpha: 1)
+        return ApplicationTheme.currentTheme.emptyViewTextColor
     }
 
 
