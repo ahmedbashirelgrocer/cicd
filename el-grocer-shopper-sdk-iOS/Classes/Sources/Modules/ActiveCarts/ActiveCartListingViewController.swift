@@ -21,6 +21,13 @@ class ActiveCartListingViewController: UIViewController {
     private var viewModel: ActiveCartListingViewModelType!
     private var disposeBag = DisposeBag()
     
+    private lazy var emptyView : NoStoreView = {
+        let emptyView = NoStoreView.loadFromNib()
+        emptyView?.delegate = self
+        emptyView?.configureNoDefaultSelectedStoreCart()
+        return emptyView!
+    }()
+    
     static func make(viewModel: ActiveCartListingViewModelType) -> ActiveCartListingViewController {
         let vc = ActiveCartListingViewController(nibName: "ActiveCartListingViewController", bundle: .resource)
         vc.viewModel = viewModel
@@ -31,7 +38,6 @@ class ActiveCartListingViewController: UIViewController {
         super.viewDidLoad()
         
         self.tableView.register(UINib(nibName: ActiveCartTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: ActiveCartTableViewCell.defaultIdentifier)
-        self.tableView.register(UINib(nibName: EmptyTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: EmptyTableViewCell.defaultIdentifier)
         self.tableView.separatorColor = .clear
         self.bindViews()
     }
@@ -68,15 +74,23 @@ private extension ActiveCartListingViewController {
                 : SpinnerView.hideSpinnerView()
         }.disposed(by: disposeBag)
         
-        self.viewModel.outputs.nextButtonTap.subscribe { [weak self] cart in
+        self.viewModel.outputs.showEmptyView.subscribe { [weak self] _ in
             guard let self = self else { return }
+            
+            self.emptyView.configureNoCart(viewBGColor: .colorWithHexString(hexString: "f5f5f5"))
+            self.tableView.backgroundView = self.emptyView
+            self.emptyView.btnBottomConstraint.constant = 131
+        }.disposed(by: disposeBag)
+        
+        self.viewModel.outputs.nextButtonTap.subscribe { [weak self] cart in
+            guard let _ = self else { return }
             
             // navigate user to the store details screen
             print("next button tap for cart >> \(cart)")
         }.disposed(by: disposeBag)
         
         self.viewModel.outputs.bannerTap.subscribe { [weak self] string in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             
             // navigate user to the store details screen
             print("next button tap for cart >> \(string)")
@@ -84,8 +98,13 @@ private extension ActiveCartListingViewController {
     }
 }
 
+extension ActiveCartListingViewController: NoStoreViewDelegate {
+    func noDataButtonDelegateClick(_ state: actionState) {
+        
+    }
+}
 
-// MARK: - Place me in correct place
+// TODO: Place me in correct place (Pinding discussion ABM and Sarmad)
 public protocol ReusableView: AnyObject { }
 
 public extension ReusableView where Self: UIView {

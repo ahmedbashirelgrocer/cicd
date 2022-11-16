@@ -19,6 +19,7 @@ protocol ActiveCartListingViewModelOutput {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
     var nextButtonTap: Observable<ActiveCartDTO> { get }
     var bannerTap: Observable<String> { get }
+    var showEmptyView: Observable<Void> { get }
 }
 
 protocol ActiveCartListingViewModelType: ActiveCartListingViewModelInput, ActiveCartListingViewModelOutput {
@@ -40,7 +41,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     var title: Observable<String> { titleSubject.asObservable() }
     var nextButtonTap: Observable<ActiveCartDTO> { nextButtonTapSubject.asObservable() }
     var bannerTap: Observable<String> { bannerTapSubject.asObservable() }
-    
+    var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
@@ -48,6 +49,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     private let titleSubject = BehaviorSubject<String>(value: NSLocalizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
     private let nextButtonTapSubject = PublishSubject<ActiveCartDTO>()
     private let bannerTapSubject = PublishSubject<String>()
+    private let showEmptyViewSubject = PublishSubject<Void>()
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
@@ -78,13 +80,11 @@ private extension ActiveCartListingViewModel {
 
             switch result {
             case .success(let activeCarts):
-                if activeCarts.isEmpty {
-                    let emptyMsg = NSLocalizedString("screen_active_cart_listing_empty_message", bundle: .resource, comment: "")
-                    self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: [EmptyCellViewModel(errorMsg: emptyMsg)])])
+                guard activeCarts.isNotEmpty else {
+                    self.showEmptyViewSubject.onNext(())
                     return
                 }
                 
-                // convert the cert DTOs to cell view model 
                 let activeCartVMs = activeCarts.map { cart in
                     let cartCellViewModel = ActiveCartCellViewModel(activeCart: cart)
                     
@@ -98,7 +98,8 @@ private extension ActiveCartListingViewModel {
                 break
 
             case .failure(let error):
-                self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: [EmptyCellViewModel(errorMsg: error.localizedMessage)])])
+                let failureMsg = error.localizedMessage
+                self.showEmptyViewSubject.onNext(())
                 break
             }
         }
