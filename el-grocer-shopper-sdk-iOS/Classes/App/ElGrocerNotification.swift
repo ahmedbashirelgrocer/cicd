@@ -38,7 +38,7 @@ public class ElGrocerNotification {
             do {
                 pushData = try JSONSerialization.jsonObject(with: data, options: []) as? [NSDictionary] ?? []
             } catch let error as NSError {
-                debugPrint(error.localizedDescription)
+                elDebugPrint(error.localizedDescription)
                 ElGrocerNotification.logErrorOption(options)
                 return
             }

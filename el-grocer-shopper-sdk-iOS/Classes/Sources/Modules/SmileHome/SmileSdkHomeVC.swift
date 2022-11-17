@@ -462,6 +462,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?) {
         
+        
+        defer {
+          FireBaseEventsLogger.logEventToFirebaseWithEventName(FireBaseScreenName.SdkHome.rawValue,eventName: FireBaseParmName.SDKHomeStoreSelected.rawValue)
+            MixpanelEventLogger.trackHomeStoreClick(grocery.dbID)
+        }
+        
         UserDefaults.setCurrentSelectedDeliverySlotId(0)
         UserDefaults.setPromoCodeValue(nil)
         
@@ -616,7 +622,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
            
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
-            debugPrint("indexPath.section == 1: indexPath.row: \(indexPath.row)")
+            elDebugPrint("indexPath.section == 1: indexPath.row: \(indexPath.row)")
             if self.filteredGroceryArray.count > 0 {
                 cell.configureCell(grocery: self.filteredGroceryArray[indexPath.row])
             }
@@ -630,8 +636,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             if self.filteredGroceryArray.count > separatorCount {
                 indexPathRow = indexPathRow + separatorCount + 1
             }
-            debugPrint("indexPath.section == 3: indexPathRow: \(indexPathRow)")
-            debugPrint("indexPath.section == 3: indexPath.row: \(indexPath.row)")
+            
             cell.configureCell(grocery: self.filteredGroceryArray[indexPathRow])
             return cell
             

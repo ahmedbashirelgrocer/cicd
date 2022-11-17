@@ -19,6 +19,7 @@ public let CleverTapElgrocerPrefix : String = Platform.isDebugBuild ?  "EG1_" : 
 enum FireBaseScreenName: String {
     
     case Splash = "Splash"
+    case SdkHome = "SdkHome"
     case DefaultForNav = "DefaultNavigationController"
     case GenericHome = "Home"
     case Home = "HomeStore"
@@ -67,9 +68,10 @@ enum FireBaseScreenName: String {
 
 enum FireBaseParmName : String {
     
+    case SdkLaunch = "SDKLAUNCH"
     case DeliveryType = "DeliveryType"
     case Source = "Source"
-  
+    case SDKHomeStoreSelected = "SdkHome_StoreSelected"
     case statusId = "order_statusId"
     case SearchTerm = "SearchTerm"
     case OrderId = "OrderId"
@@ -669,7 +671,14 @@ class FireBaseEventsLogger  {
             parms[FireBaseParmName.Position.rawValue] = possition
             if link.campaignType.intValue == BannerCampaignType.priority.rawValue {
                 parms[FireBaseParmName.BannerType.rawValue] = "PriorityStore"
+            }else if link.campaignType.intValue == BannerCampaignType.brand.rawValue {
+                parms[FireBaseParmName.BannerType.rawValue] = "Brand"
+            }else if link.campaignType.intValue == BannerCampaignType.retailer.rawValue {
+                parms[FireBaseParmName.BannerType.rawValue] = "Retailer"
+            }else if link.campaignType.intValue == BannerCampaignType.web.rawValue {
+                parms[FireBaseParmName.BannerType.rawValue] = "Web"
             }
+            
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: eventName , parameter: parms )
             elDebugPrint(topControllerName)
         }
