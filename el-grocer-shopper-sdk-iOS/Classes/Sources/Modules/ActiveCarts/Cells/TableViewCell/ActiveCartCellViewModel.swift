@@ -124,6 +124,21 @@ private extension ActiveCartCellViewModel {
         }
     }
     
+    func fetchBanner() {
+        ElGrocerApi.sharedInstance.getBannersFor(location: .sdk_all_carts_tier_2, retailer_ids: [String(self.activeCart.id)]) { result in
+            switch result {
+                
+            case .success(let data):
+                print("Data >>> \(data)")
+                break
+                
+            case .failure(let error):
+                print("Error >>> \(error)")
+                break
+            }
+        }
+    }
+    
     func formattedSlot() -> String {
         let startDate = self.activeCart.deliverySlot?.startTime
         let endDate = self.activeCart.deliverySlot?.endTime
