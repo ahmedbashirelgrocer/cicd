@@ -58,7 +58,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     private var storeNameSubject = BehaviorSubject<String?>(value: nil)
     private var deliveryTypeIconNameSubject = BehaviorSubject<String>(value: "ClockIcon")
     private var deliveryTextSubject = BehaviorSubject<NSAttributedString?>(value: nil)
-    private var isBannerAvailableSubject = BehaviorSubject<Bool>(value: true)
+    private var isBannerAvailableSubject = BehaviorSubject<Bool>(value: false)
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
     private let nextButtonTapSubject = PublishSubject<Void>()
     private let bannerTapSubject = PublishSubject<Void>()
@@ -100,8 +100,8 @@ private extension ActiveCartCellViewModel {
                 break
                 
             case .scheduled:
-                let prefix = "Next delivery: "
-                let formattedTimesString = "Wed 3pm - 4pm"
+                let prefix = NSLocalizedString("lbl_next_delivery", bundle: .resource, comment: "")
+                let formattedTimesString = self.formattedSlot()
                 let text = prefix + formattedTimesString
                 let attributedString = NSMutableAttributedString(string: text)
                 
@@ -122,5 +122,18 @@ private extension ActiveCartCellViewModel {
             self.deliveryTextSubject.onNext(attributedString)
             self.deliveryTypeIconNameSubject.onNext("clock_red")
         }
+    }
+    
+    func formattedSlot() -> String {
+        let startDate = self.activeCart.deliverySlot?.startTime
+        let endDate = self.activeCart.deliverySlot?.endTime
+        
+        guard let startDate = startDate?.convertStringToCurrentTimeZoneDate(), let endDate = endDate?.convertStringToCurrentTimeZoneDate() else { return "N/A" }
+        
+        let day = startDate.getDayName() ?? ""
+        let formattedStart = startDate.formatDateForCandCFormateString()
+        let formattedEnd = endDate.formatDateForCandCFormateString()
+        
+        return " " + day + " " + formattedStart + "-" + formattedEnd
     }
 }

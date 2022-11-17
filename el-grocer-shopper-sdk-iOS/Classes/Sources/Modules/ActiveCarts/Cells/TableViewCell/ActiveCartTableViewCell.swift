@@ -79,6 +79,10 @@ private extension ActiveCartTableViewCell {
             .bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        self.viewModel.outputs.storeIconUrl.subscribe { [weak self] url in
+            self?.ivStoreLogo.sd_setImage(with: url, placeholderImage: UIImage(name: ""), context: nil)
+        }.disposed(by: disposeBag)
+        
         self.viewModel.outputs.storeName
             .bind(to: self.lblStoreName.rx.text)
             .disposed(by: disposeBag)

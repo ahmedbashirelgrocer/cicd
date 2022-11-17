@@ -26,7 +26,7 @@ struct ActiveCartDTO: Codable {
     var products: [ActiveCartProductDTO]
     
     var deliveryType: DeliveryType {
-        if self.deliverySlot?.id == 0 {
+        if self.deliverySlot == nil {
             return .instant
         }
         

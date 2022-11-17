@@ -10,7 +10,7 @@ import RxSwift
 import RxDataSources
 
 protocol ActiveCartListingViewModelInput {
-    
+    var continueShoppingTapObserver: AnyObserver<Void> { get }
 }
 
 protocol ActiveCartListingViewModelOutput {
@@ -20,6 +20,7 @@ protocol ActiveCartListingViewModelOutput {
     var nextButtonTap: Observable<ActiveCartDTO> { get }
     var bannerTap: Observable<String> { get }
     var showEmptyView: Observable<Void> { get }
+    var continueShoppingTap: Observable<Void> { get }
 }
 
 protocol ActiveCartListingViewModelType: ActiveCartListingViewModelInput, ActiveCartListingViewModelOutput {
@@ -34,6 +35,7 @@ extension ActiveCartListingViewModelType {
 
 class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableViewCellViewModelType {
     // MARK: Inputs
+    var continueShoppingTapObserver: AnyObserver<Void> { continueShoppingTapSubject.asObserver() }
     
     // MARK: Outputs
     var loading: Observable<Bool> { loadingSubject.asObservable() }
@@ -42,6 +44,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     var nextButtonTap: Observable<ActiveCartDTO> { nextButtonTapSubject.asObservable() }
     var bannerTap: Observable<String> { bannerTapSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
+    var continueShoppingTap: Observable<Void> { self.continueShoppingTapSubject.asObservable() }
     
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
@@ -50,6 +53,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     private let nextButtonTapSubject = PublishSubject<ActiveCartDTO>()
     private let bannerTapSubject = PublishSubject<String>()
     private let showEmptyViewSubject = PublishSubject<Void>()
+    private let continueShoppingTapSubject = PublishSubject<Void>()
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }

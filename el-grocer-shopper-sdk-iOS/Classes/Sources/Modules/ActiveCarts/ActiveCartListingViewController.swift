@@ -81,26 +81,12 @@ private extension ActiveCartListingViewController {
             self.tableView.backgroundView = self.emptyView
             self.emptyView.btnBottomConstraint.constant = 131
         }.disposed(by: disposeBag)
-        
-        self.viewModel.outputs.nextButtonTap.subscribe { [weak self] cart in
-            guard let _ = self else { return }
-            
-            // navigate user to the store details screen
-            print("next button tap for cart >> \(cart)")
-        }.disposed(by: disposeBag)
-        
-        self.viewModel.outputs.bannerTap.subscribe { [weak self] string in
-            guard let _ = self else { return }
-            
-            // navigate user to the store details screen
-            print("next button tap for cart >> \(string)")
-        }.disposed(by: disposeBag)
     }
 }
 
 extension ActiveCartListingViewController: NoStoreViewDelegate {
     func noDataButtonDelegateClick(_ state: actionState) {
-        
+        self.viewModel.inputs.continueShoppingTapObserver.onNext(())
     }
 }
 
