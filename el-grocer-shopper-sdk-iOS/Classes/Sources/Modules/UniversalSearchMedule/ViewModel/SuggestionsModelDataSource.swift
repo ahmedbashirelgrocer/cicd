@@ -523,6 +523,9 @@ class SuggestionsModelDataSource {
                         clouser(newProducts, searchString)
                     }
                 }else{
+                    // TODO: Below ticket can be fix here.
+                    // weird purple bar at the bottom of the screen
+                    // https://elgrocerdxb.atlassian.net/browse/EEN-1591
                     if pageNumber == 0 {
                         if let clouser = self.productListNotFound {
                             clouser(searchString)
