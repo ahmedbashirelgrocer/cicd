@@ -102,7 +102,7 @@ private extension ActiveCartListingViewModel {
                 break
 
             case .failure(let error):
-                let failureMsg = error.localizedMessage
+                error.showErrorAlert()
                 self.showEmptyViewSubject.onNext(())
                 break
             }
