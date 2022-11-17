@@ -17,9 +17,14 @@ protocol NavigationBarProtocol : class {
 extension NavigationBarProtocol  {
     func backButtonClickedHandler(){}
 }
+protocol ButtonActionDelegate: class {
+    func profileButtonTap()
+    func cartButtonTap()
+}
 class ElGrocerNavigationController : UINavigationController {
     
     weak var actiondelegate:NavigationBarProtocol?
+    weak var buttonActionsDelegate: ButtonActionDelegate?
     
     lazy var tapGesture  : UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(backButtonClick))
@@ -99,29 +104,12 @@ class ElGrocerNavigationController : UINavigationController {
     }
     
     @objc func profileButtonClick() {
-       elDebugPrint("profileButtonClick")
-        MixpanelEventLogger.trackNavBarProfile()
-        let settingController = ElGrocerViewControllers.settingViewController()
-        self.pushViewController(settingController, animated: true)
-        //hide tabbar
+        self.buttonActionsDelegate?.profileButtonTap()
         hideTabBar()
     }
     
     @objc func cartButtonClick() {
-       elDebugPrint("cartButtonClick")
-        
-        guard let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
-        
-        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
-        let vc = ActiveCartListingViewController.make(viewModel: viewModel)
-        self.present(vc, animated: true)
-        
-        return
-        //hide tabbar
-        hideTabBar()
-        MixpanelEventLogger.trackNavBarCart()
-        let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
-        self.pushViewController(myBasketViewController, animated: true)
+        self.buttonActionsDelegate?.cartButtonTap()
     }
     
     override func backButtonClick() {

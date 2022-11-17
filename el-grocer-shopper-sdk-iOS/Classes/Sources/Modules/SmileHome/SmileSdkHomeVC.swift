@@ -7,9 +7,46 @@
 
 import UIKit
 import CoreLocation
+import RxSwift
+
+extension SmileSdkHomeVC: ButtonActionDelegate {
+    func profileButtonTap() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
+        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
+        
+        // MARK: Actions
+        viewModel.outputs.nextButtonTap.subscribe { [weak self, weak activeCartVC] selectedCart in
+            
+        }.disposed(by: disposeBag)
+        
+        viewModel.outputs.bannerTap.subscribe { [weak self] string in
+            
+        }.disposed(by: disposeBag)
+        
+        viewModel.outputs.continueShoppingTap.subscribe { [weak self, weak activeCartVC] in
+            guard let self = self else { return }
+            
+            activeCartVC?.dismiss(animated: true, completion: {
+                // navigate user to store details screen
+            })
+        }.disposed(by: disposeBag)
+        
+        self.present(activeCartVC, animated: true)
+    }
+    
+    func cartButtonTap() {
+        hideTabBar()
+        MixpanelEventLogger.trackNavBarCart()
+        let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
+        self.navigationController?.pushViewController(myBasketViewController, animated: true)
+    }
+}
+
 class SmileSdkHomeVC: BasketBasicViewController {
     
-    
+    private var disposeBag = DisposeBag()
         // MARK: - DataHandler
     var homeDataHandler : HomePageData = HomePageData.shared
     private lazy var orderStatus : OrderStatusMedule = {
@@ -94,6 +131,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setBackButtonHidden(false)
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
+            controller.buttonActionsDelegate = self
            // controller.setBackButtonHidden(false)
         }
         
