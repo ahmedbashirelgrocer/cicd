@@ -18,7 +18,7 @@ struct ActiveCartResponseDTO: Codable {
 }
 
 struct ActiveCartDTO: Codable {
-    var id: Int?
+    var id: Int
     var companyName: String?
     var bgPhotoUrl: String?
     var isOpened: Bool?

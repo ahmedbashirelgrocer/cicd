@@ -44,7 +44,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     var nextButtonTap: Observable<ActiveCartDTO> { nextButtonTapSubject.asObservable() }
     var bannerTap: Observable<String> { bannerTapSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
-    var continueShoppingTap: Observable<Void> { self.continueShoppingTapSubject.asObservable() }
+    var continueShoppingTap: Observable<Void> { continueShoppingTapSubject.asObservable() }
     
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)

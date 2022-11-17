@@ -17,20 +17,20 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
         
         // MARK: Actions
-        viewModel.outputs.nextButtonTap.subscribe { [weak self, weak activeCartVC] selectedCart in
+        viewModel.outputs.nextButtonTap.subscribe { selectedCart in
+            activeCartVC.dismiss(animated: true) {
+                let groceryID = selectedCart.id
+                guard let grocery = self.filteredGroceryArray.filter({ Int($0.dbID) == groceryID }).first else { return }
+                self.goToGrocery(grocery, nil)
+            }
+        }.disposed(by: disposeBag)
+        
+        viewModel.outputs.bannerTap.subscribe { string in
             
         }.disposed(by: disposeBag)
         
-        viewModel.outputs.bannerTap.subscribe { [weak self] string in
-            
-        }.disposed(by: disposeBag)
-        
-        viewModel.outputs.continueShoppingTap.subscribe { [weak self, weak activeCartVC] in
-            guard let self = self else { return }
-            
-            activeCartVC?.dismiss(animated: true, completion: {
-                // navigate user to store details screen
-            })
+        viewModel.outputs.continueShoppingTap.subscribe { _ in
+            activeCartVC.dismiss(animated: true)
         }.disposed(by: disposeBag)
         
         self.present(activeCartVC, animated: true)
