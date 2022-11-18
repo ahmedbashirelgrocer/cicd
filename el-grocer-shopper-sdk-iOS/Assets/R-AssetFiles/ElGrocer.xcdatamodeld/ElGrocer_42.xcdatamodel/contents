@@ -156,6 +156,7 @@
         <attribute name="shopperID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="shopperName" optional="YES" attributeType="String"/>
         <attribute name="shopperPhone" optional="YES" attributeType="String"/>
+        <attribute name="smileEarn" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="smilesBurnPoints" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="substitutionPreference" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

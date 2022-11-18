@@ -147,7 +147,7 @@
         <attribute name="orderNote" optional="YES" attributeType="String"/>
         <attribute name="orderPayments" optional="YES" attributeType="Transformable"/>
         <attribute name="payementType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="priceVariance" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="priceVariance" optional="YES" attributeType="String"/>
         <attribute name="produuctsTotal" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="promoCode" optional="YES" attributeType="Transformable"/>
         <attribute name="refToken" optional="YES" attributeType="String"/>
