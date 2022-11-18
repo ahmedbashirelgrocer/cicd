@@ -78,6 +78,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
         self.isArbicSubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected())
         
         self.setDeliverySlot()
+        self.fetchBanner()
     }
 }
 
