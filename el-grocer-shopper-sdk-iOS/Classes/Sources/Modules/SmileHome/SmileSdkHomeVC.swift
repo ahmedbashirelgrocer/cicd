@@ -11,6 +11,14 @@ import RxSwift
 
 extension SmileSdkHomeVC: ButtonActionDelegate {
     func profileButtonTap() {
+        elDebugPrint("profileButtonClick")
+        MixpanelEventLogger.trackNavBarProfile()
+        let settingController = ElGrocerViewControllers.settingViewController()
+        self.navigationController?.pushViewController(settingController, animated: true)
+        hideTabBar()
+    }
+    
+    func cartButtonTap() {
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
 
         let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
@@ -34,13 +42,6 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         }.disposed(by: disposeBag)
         
         self.present(activeCartVC, animated: true)
-    }
-    
-    func cartButtonTap() {
-        hideTabBar()
-        MixpanelEventLogger.trackNavBarCart()
-        let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
-        self.navigationController?.pushViewController(myBasketViewController, animated: true)
     }
 }
 
