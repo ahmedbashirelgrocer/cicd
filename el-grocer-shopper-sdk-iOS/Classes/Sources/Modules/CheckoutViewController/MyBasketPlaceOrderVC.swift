@@ -67,13 +67,13 @@ class MyBasketPlaceOrderVC: UIViewController {
     }
     @IBOutlet var lblPromoDiscount: UILabel!{
         didSet{
-            lblPromoDiscount.setBody3RegDarkStyle()//.setBody3RegGreenStyle()
+            lblPromoDiscount.setBody3RegDarkStyle()
             lblPromoDiscount.text = localizedString("promotion_discount_aed", comment: "")
         }
     }
     @IBOutlet var lblPromoDiscountValue: UILabel!{
         didSet{
-            lblPromoDiscountValue.setBody3RegDarkStyle()//.setBody3RegGreenStyle()
+            lblPromoDiscountValue.setBody3RegDarkStyle()
         }
     }
     @IBOutlet var lblGrandTotal: UILabel!{

@@ -59,7 +59,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
     }
     @IBOutlet var lblViewAll: UILabel! {
         didSet {
-            lblViewAll.setBody3BoldUpperStyle(true)
+            lblViewAll.setBody3BoldUpperButtonLabelStyle(true)
         }
     }
     @IBOutlet var imgViewAllArrow: UIImageView! {

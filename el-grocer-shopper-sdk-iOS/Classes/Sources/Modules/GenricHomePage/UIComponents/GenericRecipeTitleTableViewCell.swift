@@ -35,7 +35,7 @@ class GenericRecipeTitleTableViewCell: UITableViewCell {
         self.lblTitle.setH3SemiBoldDarkStyle()
         self.lblTitle.text = localizedString("Order_Title", comment: "")
      
-        self.lblButtonTitle.setBody3BoldUpperStyle()
+        self.lblButtonTitle.setBody3BoldUpperButtonLabelStyle()
         self.lblButtonTitle.text = localizedString("lbl_View_All_Cap", comment: "")
  
     }

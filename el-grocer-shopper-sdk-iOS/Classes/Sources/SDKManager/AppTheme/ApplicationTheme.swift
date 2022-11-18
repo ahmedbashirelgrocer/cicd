@@ -60,6 +60,7 @@ public protocol Theme {
     var buttonDisableBGColor: UIColor { get }
     var buttonTextWithBackgroundColor: UIColor { get }
     var buttonTextWithClearBGColor: UIColor { get }
+    var buttonPrimaryBlackTextWithClearBGColor: UIColor { get }
     var buttonOrderCancelTextColor: UIColor { get }
     var buttonWithBorderTextColor: UIColor { get }
     //MARK: Labels
@@ -158,6 +159,7 @@ struct ElgrocerTheme: Theme {
     var buttonDisableBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var buttonTextWithBackgroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var buttonTextWithClearBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var buttonPrimaryBlackTextWithClearBGColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     var buttonOrderCancelTextColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var buttonWithBorderTextColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     //MARK: Labels
@@ -206,11 +208,11 @@ struct SmileSDKTheme: Theme {
     
     var navigationBarWhiteColor: UIColor { #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) }
     var replacementGreenBGColor: UIColor { #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1) }
-    var replacementGreenTextColor: UIColor { #colorLiteral(red: 0.5529411765, green: 0.3215686275, blue: 0.5921568627, alpha: 1)  }
-    var navigationBarColor: UIColor { #colorLiteral(red: 0.5529411765, green: 0.3215686275, blue: 0.5921568627, alpha: 1)   }
+    var replacementGreenTextColor: UIColor { #colorLiteral(red: 0, green: 0.2784313725, blue: 0.2117647059, alpha: 1) }
+    var navigationBarColor: UIColor { #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1)  }
     var unselectedPageControl: UIColor {  #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1) }
-    var buttonSelectionColor: UIColor { #colorLiteral(red: 0.5529411765, green: 0.3215686275, blue: 0.5921568627, alpha: 1)  }
-    var secondaryDarkGreenColor: UIColor { #colorLiteral(red: 0.5529411765, green: 0.3215686275, blue: 0.5921568627, alpha: 1)   }
+    var buttonSelectionColor: UIColor { #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1) }
+    var secondaryDarkGreenColor: UIColor { #colorLiteral(red: 0, green: 0.2784313725, blue: 0.2117647059, alpha: 1)  }
     var textFieldPlaceHolderColor: UIColor { #colorLiteral(red: 0.5647058824, green: 0.5647058824, blue: 0.5647058824, alpha: 1)  }
     var bottomSheetShadowColor: UIColor { #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.16) }
     var newBlackColor: UIColor { #colorLiteral(red: 0.2, green: 0.2, blue: 0.2, alpha: 1) }
@@ -225,7 +227,7 @@ struct SmileSDKTheme: Theme {
     var searchBarBorderGreyColor: UIColor { #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1) }
     var promotionYellowColor: UIColor { #colorLiteral(red: 0.9803921569, green: 0.8901960784, blue: 0.2980392157, alpha: 1) }
     var promotionRedColor: UIColor { #colorLiteral(red: 0.8, green: 0.2235294118, blue: 0.1921568627, alpha: 1) }
-    var limitedStockGreenColor: UIColor { #colorLiteral(red: 0.4588235294, green: 0.7529411765, blue: 0.7568627451, alpha: 1) }
+    var limitedStockGreenColor: UIColor { #colorLiteral(red: 0, green: 0.2784313725, blue: 0.2117647059, alpha: 1) }
     var smilePrimaryPurpleColor: UIColor { #colorLiteral(red: 0.5294117647, green: 0.3294117647, blue: 0.631372549, alpha: 1) }
     var smilePointBackgroundColor: UIColor { #colorLiteral(red: 0.5529411765, green: 0.3215686275, blue: 0.5921568627, alpha: 1) }
     var smilePrimaryOrangeColor: UIColor { #colorLiteral(red: 0.8784313725, green: 0.2392156863, blue: 0.1490196078, alpha: 1) }
@@ -256,6 +258,7 @@ struct SmileSDKTheme: Theme {
     var buttonDisableBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var buttonTextWithBackgroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var buttonTextWithClearBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var buttonPrimaryBlackTextWithClearBGColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     var buttonOrderCancelTextColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var buttonWithBorderTextColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     //MARK: Labels

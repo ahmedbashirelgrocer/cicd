@@ -70,7 +70,6 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var btnRedeem: AWButton! {
         didSet {
-                //            btnRedeem.setBody3BoldGreenStyle()
             btnRedeem.setTitle(localizedString("txt_btn_apply", comment: ""), for: UIControl.State())
         }
     }

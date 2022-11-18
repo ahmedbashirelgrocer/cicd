@@ -75,18 +75,6 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     
     @IBOutlet var lblPriceVarience: UILabel!
     @IBOutlet var lblpriceValueAmount: UILabel!
-    
-    //promotion
-//    @IBOutlet var lblPromoCodeDiscount: UILabel!{
-//        didSet{
-//            lblPromoCodeDiscount.setBody3RegGreenStyle()
-//        }
-//    }
-//    @IBOutlet var lblPromoDiscountValue: UILabel!{
-//        didSet{
-//            lblPromoDiscountValue.setBody3RegGreenStyle()
-//        }
-//    }
     @IBOutlet var percentOffBGView: UIView!{
         didSet{
             percentOffBGView.backgroundColor = .promotionRedColor()

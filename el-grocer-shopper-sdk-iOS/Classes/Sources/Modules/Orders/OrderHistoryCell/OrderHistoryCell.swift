@@ -203,7 +203,7 @@ class OrderHistoryCell: UITableViewCell {
     
     private func setUpViewOrderLabelAppearance() {
         
-        self.viewOrderLabel.setBody3BoldUpperStyle() 
+        self.viewOrderLabel.setBody3BoldUpperButtonLabelStyle() 
         let image = ElGrocerUtility.sharedInstance.getImageWithName("arrowForward")
         self.nextArrow.image = image
         self.nextArrow.image = self.nextArrow.image!.withRenderingMode(.alwaysTemplate)

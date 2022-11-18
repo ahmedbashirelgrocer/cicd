@@ -16,7 +16,7 @@ class NextCell: UICollectionViewCell {
     @IBOutlet var lblViewAll: UILabel!{
         didSet{
             lblViewAll.text = localizedString("txt_see_more", comment: "")
-            lblViewAll.setCaptionOneBoldUperCaseGreenStyle()
+            lblViewAll.setCaptionOneBoldUperCaseButtonGreenStyle()
         }
     }
     

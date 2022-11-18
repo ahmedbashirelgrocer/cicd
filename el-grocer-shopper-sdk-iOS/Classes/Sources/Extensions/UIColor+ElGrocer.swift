@@ -32,9 +32,9 @@ extension UIColor {
         return ApplicationTheme.currentTheme.replacementGreenTextColor
     }
 
-    class func navigationBarColor() -> UIColor {
-        return ApplicationTheme.currentTheme.navigationBarColor
-    }
+//    class func navigationBarColor() -> UIColor {
+//        return ApplicationTheme.currentTheme.navigationBarColor
+//    }
     class func unselectedPageControl() -> UIColor {
         return ApplicationTheme.currentTheme.unselectedPageControl
     }

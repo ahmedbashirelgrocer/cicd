@@ -48,7 +48,7 @@ class GenericViewTitileTableViewCell: UITableViewCell {
     @IBOutlet var viewAll: AWView!
     @IBOutlet var rightButtonText: UILabel! {
         didSet {
-            rightButtonText.setCaptionOneBoldUpperCaseGreenStyleWithFontScale14()
+            rightButtonText.setCaptionOneBoldUpperCaseGreenButtonStyleWithFontScale14()
             rightButtonText.text = localizedString("view_more_title", comment: "")
         }
     }
@@ -93,7 +93,7 @@ class GenericViewTitileTableViewCell: UITableViewCell {
         //viewAll.backgroundColor = .white
         viewAll.visibility = viewAll.isHidden ? .goneX : .visible
         arrowImage.isHidden = false
-        rightButtonText.setBody1BoldStyle()
+        rightButtonText.setBody1BoldButtonStyle()
         rightButtonText.text = localizedString("btn_txt_edit", comment: "")
     }
     
