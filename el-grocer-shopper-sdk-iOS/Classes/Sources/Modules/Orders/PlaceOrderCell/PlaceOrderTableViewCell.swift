@@ -52,14 +52,14 @@ class PlaceOrderTableViewCell: UITableViewCell {
             self.descriptionLabel.textColor = UIColor.textfieldErrorColor()
             
         }else if (titleStr == localizedString("total_price", comment: ""))  {
-            self.descriptionLabel.textColor = UIColor.navigationBarColor()
-            self.titleLabel.textColor = UIColor.navigationBarColor()
+            self.descriptionLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            self.titleLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }else if (titleStr == localizedString("delivery_fee_aed", comment: "") && (descriptionStr == localizedString("free", comment: "")))  {
-            self.descriptionLabel.textColor = UIColor.navigationBarColor()
-            self.titleLabel.textColor = UIColor.navigationBarColor()
+            self.descriptionLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            self.titleLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }else if (titleStr == localizedString("grand_total", comment: "")) || (titleStr == localizedString("total_bill_amount", comment: ""))  {
-            self.descriptionLabel.textColor = UIColor.navigationBarColor()
-            self.titleLabel.textColor = UIColor.navigationBarColor()
+            self.descriptionLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            self.titleLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
 }

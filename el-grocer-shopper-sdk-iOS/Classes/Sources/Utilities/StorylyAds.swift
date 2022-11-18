@@ -40,10 +40,9 @@ class StorylyAds  {
         rootController.view.addSubview(storylyView)
         storylyView.delegate = self
         storylyView.rootViewController = rootController
-        storylyView.storyItemIconBorderColor = [.navigationBarColor() , .navigationBarColor()]
-        storylyView.storyGroupIconBorderColorNotSeen = [.navigationBarColor() , .navigationBarColor()]
-        storylyView.storyGroupPinIconColor = .navigationBarColor()
-       // storylyView.storyGroupIconForegroundColors = [.navigationBarColor() , .navigationBarColor()]
+        storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
+        storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
+        storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
 }
     

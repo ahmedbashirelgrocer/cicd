@@ -115,7 +115,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
     fileprivate func setReferrerAmountLabelAppearance() {
         
         self.referrerAmountLabel.font = UIFont.SFProDisplaySemiBoldFont(11.0)
-        self.referrerAmountLabel.textColor = UIColor.navigationBarColor()
+        self.referrerAmountLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         
         self.referrerAmountLabel.text = ElGrocerUtility.sharedInstance.referrerAmount
     }
@@ -123,7 +123,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
     fileprivate func setInviteFriendsLabelAppearance() {
         
         self.inviteFriends.font = UIFont.SFProDisplaySemiBoldFont(13.0)
-        self.inviteFriends.textColor = UIColor.navigationBarColor()
+        self.inviteFriends.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5.0
@@ -143,7 +143,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
     fileprivate func setHistoryViewLabelAppearance() {
         
         self.walletAmount.font = UIFont.SFProDisplaySemiBoldFont(24.0)
-        self.walletAmount.textColor = UIColor.navigationBarColor()
+        self.walletAmount.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.walletAmount.text = String(format: "%0.2f",Double(referralObject!.walletTotal!)!)
         self.walletAmount.numberOfLines = 0
         self.walletAmount.sizeToFit()

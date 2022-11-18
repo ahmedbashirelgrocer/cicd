@@ -536,31 +536,23 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     }
     
     func setupDoneButtonAppearance() {
-        
-//        self.doneButton.titleLabel!.font = UIFont.mediumFont(18.0)
-//        self.doneButton.setTitleColor(UIColor.white, for: UIControl.State())
-//        self.doneButton.setTitle(localizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
-//        self.doneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
-//
-//        self.doneButton.layer.cornerRadius = 5.0
-//        self.doneButton.clipsToBounds = true
     }
     
     func setUpLocationViewAppearance(_ isEnabled:Bool){
         
         var titleStr = NSMutableAttributedString()
-        
+        // Unused view review and remove
         if isEnabled {
-            self.locationView.backgroundColor =  UIColor.unselectedPageControl()
+            self.locationView.backgroundColor =  ApplicationTheme.currentTheme.unselectedPageControl
             self.locationImgView.image = UIImage(name: "location-pin-selected")
-            self.locationLabel.textColor = UIColor.navigationBarColor()
+            self.locationLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             
             titleStr = NSMutableAttributedString(string: localizedString("dashboard_enable_location_services", comment: ""))
             
         }else{
-            self.locationView.backgroundColor =  UIColor.redInfoColor()
+            self.locationView.backgroundColor =  ApplicationTheme.currentTheme.viewOOSItemRedColor
             self.locationImgView.image = UIImage(name: "location-pin-white")
-            self.locationLabel.textColor = UIColor.white
+            self.locationLabel.textColor = ApplicationTheme.currentTheme.labelTextWithBGColor
             
             titleStr = NSMutableAttributedString(string: localizedString("dashboard_enable_location_services_2", comment: ""))
         }
@@ -700,7 +692,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.emailDoneButton.titleLabel!.font = UIFont.SFProDisplaySemiBoldFont(18.0)
         self.emailDoneButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.emailDoneButton.setTitle(localizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
-        self.emailDoneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
+        self.emailDoneButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
         
         self.emailDoneButton.layer.cornerRadius = 5.0
         self.emailDoneButton.clipsToBounds = true
@@ -920,7 +912,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             if self.isFormCart {
                 cell.configureWithLocation(location, true)
                 if indexPath.row == self.selectdIndex {
-                    cell.borderContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
+                    cell.borderContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                     cell.borderContainer.layer.borderWidth = 2
                     cell.borderContainer.backgroundColor = .navigationBarWhiteColor()
                     cell.defaultButton.isHidden = false

@@ -947,8 +947,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if  self.orderToReplace  {
             self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
             self.searchBar.clipsToBounds = true
-            self.searchBar.backgroundColor = .navigationBarColor()
-            self.viewForSearch.backgroundColor = .navigationBarColor()
+            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             self.viewForSearch.addSubview(self.searchBar)
         }
         
@@ -987,7 +987,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if DispatchQueue.isRunningOnMainQueue {
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
-            self.checkOutViewForButton.backgroundColor  = enabled ? UIColor.navigationBarColor() : UIColor.disableButtonColor()
+            self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
             return
         }
         
@@ -995,7 +995,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             guard let self = self else {return}
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
-            self.checkOutViewForButton.backgroundColor  = enabled ? UIColor.navigationBarColor() : UIColor.disableButtonColor()
+            self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
         }
         
     }
@@ -3357,11 +3357,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         let cell = self.tblBasket.cellForRow(at: indexPath) as! MyBasketTableViewCell
-        let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.secondaryBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(6.0)]
+        let dict1 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelHeadingTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(6.0)]
         
-        let dict2 = [NSAttributedString.Key.foregroundColor:UIColor.secondaryBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
+        let dict2 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labeldiscriptionTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
         
-        let dict3 = [NSAttributedString.Key.foregroundColor: UIColor.red,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
+        let dict3 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.textfieldErrorColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
         
         let partAED = NSMutableAttributedString(string:NSString(format: "%@\n",CurrencyManager.getCurrentCurrency()) as String, attributes:dict1)
         

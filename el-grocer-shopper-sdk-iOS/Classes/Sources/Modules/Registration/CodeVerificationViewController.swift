@@ -57,7 +57,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
             
             btnReSend.setTitle(localizedString("Resend_SMS_Button_Title", comment: ""), for: .normal)
             btnReSend.setBody2BoldGreenStyle()
-            btnReSend.setTitleColor(self.btnReSend.isEnabled ? UIColor.navigationBarColor() : UIColor.lightGray , for: .normal)
+            btnReSend.setTitleColor(self.btnReSend.isEnabled ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor , for: .normal)
             
         }
         
@@ -95,7 +95,6 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
     
     @IBOutlet var imgLogo: UIImageView! {
         didSet {
-             //self.imgLogo.changePngColorTo(color: UIColor.navigationBarColor())
         }
     }
     
@@ -165,7 +164,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         pinField.appearance.backFocusColor = .colorWithHexString(hexString: "f5f5f5")
         pinField.appearance.backBorderFocusColor = .clear
         pinField.appearance.backActiveColor = .clear
-        pinField.appearance.backBorderActiveColor = .navigationBarColor()
+        pinField.appearance.backBorderActiveColor = ApplicationTheme.currentTheme.textFieldBorderActiveColor
         pinField.keyboardType = UIKeyboardType.asciiCapableNumberPad // Specify keyboard type
        
         
@@ -277,7 +276,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
             self.btnReSend.isEnabled = false
         }
         
-         self.btnReSend.setTitleColor(self.btnReSend.isEnabled ? UIColor.navigationBarColor() : UIColor.lightGray , for: .normal)
+         self.btnReSend.setTitleColor(self.btnReSend.isEnabled ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor , for: .normal)
         if self.btnReSend.isEnabled{
             self.btnReSend.titleLabel?.font = UIFont.SFProDisplayBoldFont(16)
         }else{

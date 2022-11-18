@@ -48,7 +48,7 @@ class WalletHistoryCell: UITableViewCell {
         self.purchaseTitle.text = purchaseTitle
         self.purchaseDate.text = purchaseDate
         
-        let dict1 = [NSAttributedString.Key.foregroundColor:UIColor.navigationBarColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
+        let dict1 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
         
         let dict2 = [NSAttributedString.Key.foregroundColor:UIColor.black,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(13.0)]
         

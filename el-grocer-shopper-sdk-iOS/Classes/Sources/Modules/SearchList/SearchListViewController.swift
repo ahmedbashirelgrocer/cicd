@@ -47,7 +47,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     
     @IBOutlet var scrollviewContentView: UIView!{
         didSet{
-            scrollviewContentView.backgroundColor = .navigationBarColor()
+            scrollviewContentView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet var searchListBGSuperView: UIView!{
@@ -64,7 +64,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     }
     @IBOutlet var locationHGeaderBG: UIView!{
         didSet{
-            locationHGeaderBG.backgroundColor = .navigationBarColor()
+            locationHGeaderBG.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
 //    lazy var locationHeader : ElgrocerlocationView = {
@@ -171,7 +171,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     }
     
     @IBAction func crossAction(_ sender: Any) {
-        self.searchProductListingTextView.textColor = .navigationBarColor()
+        self.searchProductListingTextView.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.searchProductListingTextView.text =   localizedString("shopping_PlaceHolder_Search_List", comment: "")
         self.btnCross.isHidden = true
         self.searchProductListingTextView.resignFirstResponder()
@@ -186,12 +186,12 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         IQKeyboardManager.shared.toolbarDoneBarButtonItemText = localizedString("lbl_ShopSearch", comment: "")
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
        // [textField.keyboardToolbar.doneBarButton setTarget:self action:@selector(doneAction:)];
-        self.searchProductListingTextView.keyboardToolbar.doneBarButton.tintColor = .navigationBarColor()
+        self.searchProductListingTextView.keyboardToolbar.doneBarButton.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
         self.searchProductListingTextView.keyboardToolbar.doneBarButton.setTarget(self, action: #selector(SearchListViewController.searchAction))
         
         
         self.searchProductListingTextView.delegate = self
-        self.searchProductListingTextView.textColor = UIColor.navigationBarColor()
+        self.searchProductListingTextView.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.searchProductListingTextView.text = localizedString("shopping_PlaceHolder_Search_List", comment: "")
         self.searchButton.setTitle(localizedString("lbl_ShopSearch", comment: ""), for: .normal)
         self.setUIColor(self.searchProductListingTextView)
@@ -228,8 +228,8 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         checkMarkCreateSHppingListProcess.isHidden = !isEnable
         
         if isEnable {
-            viewCreateSHppingListProcess.backgroundColor = UIColor.navigationBarColor()
-            txtCreateShoppingList.textColor = UIColor.navigationBarColor()
+            viewCreateSHppingListProcess.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            txtCreateShoppingList.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }else{
             viewCreateSHppingListProcess.backgroundColor = UIColor(red: 0.347, green: 0.347, blue: 0.347, alpha: 0.16)
             txtCreateShoppingList.textColor = UIColor(red: 0.567, green: 0.567, blue: 0.567, alpha: 1)
@@ -243,8 +243,8 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         checkSearchAndShopProductsProcess.isHidden = !isEnable
         
         if isEnable {
-            viewSearchAndShopProductsProcess.backgroundColor = UIColor.navigationBarColor()
-            txtSearchAndShopProducts.textColor = UIColor.navigationBarColor()
+            viewSearchAndShopProductsProcess.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            txtSearchAndShopProducts.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }else{
             viewSearchAndShopProductsProcess.backgroundColor = UIColor(red: 0.347, green: 0.347, blue: 0.347, alpha: 0.16)
             txtSearchAndShopProducts.textColor = UIColor(red: 0.567, green: 0.567, blue: 0.567, alpha: 1)
@@ -326,7 +326,7 @@ extension SearchListViewController : UITextViewDelegate {
         
         if textView.text.isEmpty {
             textView.text = localizedString("shopping_PlaceHolder_Search_List", comment: "")
-            textView.textColor = UIColor.navigationBarColor()//lightTextGrayColor()
+            textView.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor//lightTextGrayColor()
         }
        
     }
@@ -374,7 +374,7 @@ extension SearchListViewController : UITextViewDelegate {
             // self.searchButton.setImage(UIImage(name: "icSearchGreen"), for: .normal)
             textView.textColor = .newBlackColor()//UIColor(red: 0, green: 0, blue: 0, alpha: 1)
             self.searchButton.setTitle(localizedString("lbl_ShopSearch", comment: ""), for: .normal)
-            self.searchButton.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
+            self.searchButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: .normal)
             //   self.searchButton.setTitleColor(UIColor.lightGrayBGColor(), for: .normal)
             
             self.makeShopingListModuleEnable(true)
@@ -383,7 +383,7 @@ extension SearchListViewController : UITextViewDelegate {
             
         }else{
             // self.searchButton.setImage(UIImage(name: "icSearch"), for: .normal)
-            textView.textColor = .navigationBarColor()//UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.74)
+            textView.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.searchButton.setTitle(localizedString("lbl_ShopSearch", comment: ""), for: .normal)
             self.searchButton.setBackgroundColor(UIColor(red: 0.567, green: 0.567, blue: 0.567, alpha: 1) , forState: .normal)
             

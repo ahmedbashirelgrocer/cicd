@@ -111,10 +111,10 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
     
     func setUpEditProfileButtonAppearance() {
      
-        self.editProfileButton.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.editProfileButton.layer.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor.cgColor
         self.editProfileButton.layer.borderWidth = 1
         self.editProfileButton.setTitle(localizedString("my_account_edit_profile_button", comment: ""), for: UIControl.State())
-        self.editProfileButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.editProfileButton.setTitleColor(ApplicationTheme.currentTheme.buttonWithBorderTextColor, for: UIControl.State())
         self.editProfileButton.titleLabel?.font = UIFont.lightFont(17.0)
     }
     

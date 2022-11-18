@@ -24,13 +24,13 @@ class CarColorCollectionCell: UICollectionViewCell {
         self.carColorView.layer.backgroundColor = Color.cgColor
     }
     func setSelected() {
-        self.lblColorName.textColor = UIColor.navigationBarColor()
+        self.lblColorName.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.carColorView.layer.borderWidth = 2
-        self.carColorView.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.carColorView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         self.carColorView.clipsToBounds = true
     }
     func setDesSelected() {
-        self.lblColorName.textColor = UIColor.newBlackColor()
+        self.lblColorName.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
         self.carColorView.layer.borderWidth = 0
        // self.carColorView.layer.borderColor = UIColor.clear.cgColor
         self.carColorView.clipsToBounds = false

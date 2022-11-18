@@ -55,7 +55,7 @@ class OrderDetailStateTableViewCell: UITableViewCell {
         
         didSet{
             
-            progressView.progressTintColor = .navigationBarColor()
+            progressView.progressTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             progressView.layer.cornerRadius = 4
             progressView.clipsToBounds = true
             
@@ -166,24 +166,6 @@ extension OrderDetailStateTableViewCell {
         string.setColorForText(order?.dbID.stringValue ?? ""  , with: UIColor.newBlackColor())
         string.setFontForText(order?.dbID.stringValue ?? "" , with: .SFProDisplaySemiBoldFont(12))
         self.lblOrder.attributedText = string
-        //order status
-//        if order?.status.intValue == -1 {
-//            self.lblOrderStatus.text = localizedString("lbl_Payment_Pending", comment: "")
-//        }else{
-//            self.lblOrderStatus.text = localizedString(OrderStatus.labels[order?.status.intValue ?? 7], comment: "")
-//        }
-//        self.lblOrderStatus.text =  self.lblOrderStatus.text?.uppercased()
-//
-//        if order?.status.intValue == 6 {
-//            self.lblOrderStatus.textColor = .elGrocerYellowColor()
-//            lblOrderType.text = "in substitution".capitalized
-//        }else if order?.status.intValue  == 4 {
-//            self.lblOrderStatus.textColor = .textfieldErrorColor()
-//            lblOrderType.text = ""
-//        }else{
-//            self.lblOrderStatus.textColor = .navigationBarColor()
-//            lblOrderType.text = localizedString("title_estimated_delivery", comment: "")
-//        }
         
         //sab
         guard order != nil else {return}

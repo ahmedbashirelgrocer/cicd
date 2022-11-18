@@ -56,11 +56,6 @@ class GenericViewTitileTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       // self.viewAll.backgroundColor = UIColor.navigationBarColor() //(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
-        
-        //self.viewAll.backgroundColor = UIColor(displayP3Red: 5.0, green: 188.0, blue: 155.0, alpha: 1)
-        
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -77,7 +72,6 @@ class GenericViewTitileTableViewCell: UITableViewCell {
              viewAll.isHidden = true
             lblTopHeader.isHidden = true
         }
-       // viewAll.backgroundColor = .navigationBarColor()
         viewAll.visibility = viewAll.isHidden ? .goneX : .visible
        
         if ElGrocerUtility.sharedInstance.isArabicSelected(){

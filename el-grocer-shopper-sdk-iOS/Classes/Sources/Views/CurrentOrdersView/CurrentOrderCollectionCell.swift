@@ -63,8 +63,8 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
             ordersPageControl.numberOfPages = 3
             if #available(iOS 14.0, *) {
                 ordersPageControl.preferredIndicatorImage  = UIImage(name: "selectedPageControl")
-                ordersPageControl.currentPageIndicatorTintColor = UIColor.navigationBarColor()
-                ordersPageControl.pageIndicatorTintColor = UIColor.unselectedPageControl()
+                ordersPageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
+                ordersPageControl.pageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlInActiveColor
                 //ordersPageControl.page
                 //ordersPageControl.setIndicatorImage(UIImage(name: "selectedPageControl"), forPage: 0)
             } else {

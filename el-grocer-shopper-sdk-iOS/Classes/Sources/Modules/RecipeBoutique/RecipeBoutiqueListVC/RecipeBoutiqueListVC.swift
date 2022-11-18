@@ -116,7 +116,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
         
         self.view.backgroundColor = .navigationBarWhiteColor()
         self.tableView.backgroundColor = .tableViewBackgroundColor()
-        self.navigationController?.navigationBar.backgroundColor = .navigationBarColor()
+        self.navigationController?.navigationBar.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.navigationController?.navigationBar.isTranslucent = true
         
         if self.navigationController is ElGrocerNavigationController {

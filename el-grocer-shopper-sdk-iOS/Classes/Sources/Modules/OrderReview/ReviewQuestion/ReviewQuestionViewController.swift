@@ -150,7 +150,7 @@ class ReviewQuestionViewController: UIViewController {
             self.leaveFeedbackButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(15.0)
             self.leaveFeedbackButton.setTitleColor(UIColor.white, for: UIControl.State())
             self.leaveFeedbackButton.setTitle(localizedString("leave_feedback_title", comment: ""), for: UIControl.State())
-            self.leaveFeedbackButton.backgroundColor = UIColor.navigationBarColor()
+            self.leaveFeedbackButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             
             
         }else{
@@ -213,7 +213,7 @@ class ReviewQuestionViewController: UIViewController {
         
         self.resetButtonsBackgroundColours()
         
-        self.answerButton1.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.answerButton1.setTitleColor(ApplicationTheme.currentTheme.buttonEnableBGColor, for: UIControl.State())
         self.answerButton1.backgroundColor = UIColor.unselectedPageControl()
         
         self.delegate?.answer1Handler(self.feedbackQuestion)
@@ -227,7 +227,7 @@ class ReviewQuestionViewController: UIViewController {
         
         self.resetButtonsBackgroundColours()
         
-        self.answerButton2.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.answerButton2.setTitleColor(ApplicationTheme.currentTheme.buttonEnableBGColor, for: UIControl.State())
         self.answerButton2.backgroundColor = UIColor.unselectedPageControl()
         
         self.delegate?.answer2Handler(self.feedbackQuestion)
@@ -237,7 +237,7 @@ class ReviewQuestionViewController: UIViewController {
         
         self.resetButtonsBackgroundColours()
         
-        self.answerButton3.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.answerButton3.setTitleColor(ApplicationTheme.currentTheme.buttonEnableBGColor, for: UIControl.State())
         self.answerButton3.backgroundColor = UIColor.unselectedPageControl()
         
         self.delegate?.answer3Handler(self.feedbackQuestion)
@@ -247,7 +247,7 @@ class ReviewQuestionViewController: UIViewController {
         
         self.resetButtonsBackgroundColours()
         
-        self.answerButton4.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.answerButton4.setTitleColor(ApplicationTheme.currentTheme.buttonEnableBGColor, for: UIControl.State())
         self.answerButton4.backgroundColor = UIColor.unselectedPageControl()
         
         self.delegate?.answer4Handler(self.feedbackQuestion)

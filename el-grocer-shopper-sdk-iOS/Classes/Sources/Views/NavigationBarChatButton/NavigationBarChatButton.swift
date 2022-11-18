@@ -33,7 +33,7 @@ class NavigationBarChatButton: UIView {
     }
     
     func setupInitialAppearnce(){
-        self.backgroundColor = UIColor.navigationBarColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         lblChat.setCaptionTwoSemiboldWhiteStyle()
         changeChatIconColor()
     }
@@ -49,14 +49,14 @@ class NavigationBarChatButton: UIView {
         }
     }
     
-    func changeChatIconColor(color: UIColor = .navigationBarColor()){
+    func changeChatIconColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor){
         self.navChatButton.imageView?.changePngColorTo(color: color)
         self.lblChat.textColor = color
         
-        if color == UIColor.navigationBarColor(){
+        if color == ApplicationTheme.currentTheme.themeBasePrimaryColor{
             self.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
         }else{
-            self.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarColor()
+            self.backgroundColor = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     

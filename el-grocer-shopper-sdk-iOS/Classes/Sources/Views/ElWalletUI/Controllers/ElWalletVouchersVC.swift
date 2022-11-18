@@ -230,7 +230,7 @@ extension ElWalletVouchersVC: UITableViewDataSource, UITableViewDelegate {
         if let cell = cell as? VouchersCell {
             MixpanelEventLogger.trackElwalletActiveVoucherView(id: String(cell.voucher?.id ?? -1), code: cell.voucher?.code ?? "")
             DispatchQueue.main.async { [weak cell] in
-                cell?.voucherCodeBorderView.addDashedBorderAroundView(color: .navigationBarColor())
+                cell?.voucherCodeBorderView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.buttonWithBorderTextColor)
             }
         }
     }

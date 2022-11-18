@@ -19,10 +19,6 @@ class PaymentCell: UITableViewCell {
         
         super.awakeFromNib()
         
-        // Initialization code
-//        self.containerView.backgroundColor = UIColor.navigationBarColor()
-//        self.containerView.layer.cornerRadius = 5
-        
         self.paymentTitle.font = UIFont.SFProDisplaySemiBoldFont(12.0)
 //        self.paymentTitle.textColor = UIColor.whiteColor()
         self.paymentTitle.text = localizedString("payment_method_title", comment: "")

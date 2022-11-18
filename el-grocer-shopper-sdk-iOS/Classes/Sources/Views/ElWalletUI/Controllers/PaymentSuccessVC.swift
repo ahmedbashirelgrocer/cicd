@@ -123,7 +123,7 @@ class PaymentSuccessVC: UIViewController {
     func setButtonViews() {
         if isSuccess {
             tryAgainBGView.isHidden = true
-            backToElwalletBGView.backgroundColor = .navigationBarColor()
+            backToElwalletBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             lblBackToElWallet.setH4SemiBoldWhiteStyle()
         }else {
             if self.controlerType == .payment {
@@ -131,17 +131,17 @@ class PaymentSuccessVC: UIViewController {
                 backToElwalletBGView.backgroundColor = .navigationBarWhiteColor()
                 lblBackToElWallet.setH4SemiBoldGreenStyle()
                 backToElwalletBGView.borderWidth = 2
-                backToElwalletBGView.borderColor = .navigationBarColor()
-                tryAgainBGView.backgroundColor = .navigationBarColor()
+                backToElwalletBGView.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
+                tryAgainBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 lblTryAgain.setH4SemiBoldWhiteStyle()
             }else {
                 lblBackToElWallet.setH4SemiBoldWhiteStyle()
                 tryAgainBGView.backgroundColor = .navigationBarWhiteColor()
                 tryAgainBGView.borderWidth = 2
-                tryAgainBGView.borderColor = .navigationBarColor()
+                tryAgainBGView.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
                 lblTryAgain.setH4SemiBoldGreenStyle()
                 backToElwalletBGView.isHidden = false
-                backToElwalletBGView.backgroundColor = .navigationBarColor()
+                backToElwalletBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
         }
     }

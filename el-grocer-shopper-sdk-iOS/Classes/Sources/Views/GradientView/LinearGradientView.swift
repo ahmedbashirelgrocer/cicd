@@ -19,7 +19,7 @@ class LinearGradientView: UIView {
 //        setUpGradient()
     }
     
-    func setUpGradient(start: CAGradientLayer.Point = .topCenter,end: CAGradientLayer.Point = .bottomCenter, colors: [CGColor] = [UIColor.navigationBarColor().cgColor,UIColor.navigationBarWhiteColor().cgColor]){
+    func setUpGradient(start: CAGradientLayer.Point = .topCenter,end: CAGradientLayer.Point = .bottomCenter, colors: [CGColor] = [ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor,UIColor.navigationBarWhiteColor().cgColor]){
         guard let gradientLayer = self.layer as? CAGradientLayer else { return }
         
         let colors = colors

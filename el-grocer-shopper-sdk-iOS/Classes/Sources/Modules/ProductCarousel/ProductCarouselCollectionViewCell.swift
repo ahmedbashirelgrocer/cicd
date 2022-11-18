@@ -42,9 +42,6 @@ class ProductCarouselCollectionViewCell: UICollectionViewCell {
                 }
             })
         }
-//        self.imageProduct.layer.borderWidth = 1
-//        self.imageProduct.layer.borderColor = UIColor.navigationBarColor().cgColor
-//        self.imageProduct.layer.cornerRadius = 2
     }
 
     

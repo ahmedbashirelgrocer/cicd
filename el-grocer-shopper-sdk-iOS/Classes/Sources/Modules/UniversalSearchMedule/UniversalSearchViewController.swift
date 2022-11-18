@@ -139,7 +139,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     @IBAction func voiceSearchAction(_ sender: Any) {
         self.txtSearch.resignFirstResponder()
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -955,7 +955,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)

@@ -39,10 +39,10 @@ class PaymentSelectionCell: UITableViewCell {
     fileprivate func setUpLabelAppearance() {
         
         self.paymentTitle.font = UIFont.SFProDisplaySemiBoldFont(12.0)
-        self.paymentTitle.textColor = UIColor.navigationBarColor()
+        self.paymentTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         
         self.walletAmount.font = UIFont.SFProDisplaySemiBoldFont(12.0)
-        self.walletAmount.textColor = UIColor.black
+        self.walletAmount.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
     }
 
     

@@ -47,7 +47,7 @@ class ForceUpdateViewController: UIViewController {
     func styleButtons() {
         
         self.updateButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(20.0)
-        self.updateButton.backgroundColor = UIColor.navigationBarColor()
+        self.updateButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         self.updateButton.layer.cornerRadius = 5
         self.updateButton.setTitle(localizedString("force_update_button_title", comment: ""), for: UIControl.State())
         

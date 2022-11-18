@@ -259,7 +259,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                     if let localProduct = currentProduct {
                         if let productItem = ShoppingBasketItem.checkIfProductIsInBasket(localProduct , grocery: finalGrocery , context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
                             if productItem.count.intValue > 0 {
-                                productCell.productContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
+                                productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                                 productCell.productContainer.layer.borderWidth = 2
                                 productCell.productBGShadowView.layer.masksToBounds = true
                             }else{
@@ -327,18 +327,18 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             elDebugPrint("checktest currentProduct: \(currentProduct?.name)")
                             productCell.addToCartButton.isHidden = true
                             productCell.buttonsView.isHidden = false
-                            productCell.productContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
+                            productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                             productCell.productContainer.layer.borderWidth = 1.8
                             productCell.quantityLabel.text = "\(product.count.intValue)"
                             productCell.quantityLabel.textColor = UIColor.newBlackColor()
-                            productCell.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
-                            productCell.minusButton.imageView?.tintColor = UIColor.navigationBarColor()
+                            productCell.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                            productCell.minusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                             productCell.productCellCounterBGImageView.image = UIImage(name: "icProductCellGreenBG")
                             productCell.imageCrossState.image = UIImage(name: "Product Minus")
                             productCell.imageCrossState.backgroundColor = UIColor.red
                             
                             if product.count.intValue > 0 {
-                                productCell.productContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
+                                productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
                                 productCell.productContainer.layer.borderWidth = 2
                                 productCell.productBGShadowView.layer.masksToBounds = true
                          
@@ -359,9 +359,9 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                 if isEnable {
                                     
                                     productCell.plusButton.isEnabled = true
-                                    productCell.plusButton.tintColor = UIColor.navigationBarColor()
-                                    productCell.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
-                                    productCell.plusButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+                                    productCell.plusButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                                    productCell.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                                    productCell.plusButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
                                     productCell.buttonsView.isHidden = false
                                    
                                     
@@ -390,7 +390,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             elDebugPrint("checktest product item: Nil")
                             elDebugPrint("checktest currentProduct: \(currentProduct?.name)")
                             productCell.imageCrossState.image = UIImage(name: "Product Plus")
-                            productCell.imageCrossState.backgroundColor = UIColor.navigationBarColor()
+                            productCell.imageCrossState.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
                             productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
                             productCell.productContainer.layer.borderWidth = 0
                             productCell.productBGShadowView.layer.masksToBounds = false

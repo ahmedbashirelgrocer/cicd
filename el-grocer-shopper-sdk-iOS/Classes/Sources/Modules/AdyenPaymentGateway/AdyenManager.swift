@@ -126,7 +126,7 @@ class AdyenManager {
         stored.showsSecurityCodeField = false
         configurations.stored = stored
      
-        let style = FormComponentStyle(tintColor: .navigationBarColor())
+        let style = FormComponentStyle(tintColor: ApplicationTheme.currentTheme.themeBasePrimaryColor)
      
         
         self.cardComponent = CardComponent(paymentMethod: paymentMethod, apiContext: self.apiContext, configuration: configurations, style: style)

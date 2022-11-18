@@ -351,7 +351,7 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
             myLabel.frame = CGRect(x: 20, y: 8, width: 320, height: 30)
             myLabel.setBody3BoldUpperStyle(false)
             myLabel.text = "Stores that sell ‘ \(self.keyWord)’".uppercased()
-            myLabel.highlight(searchedText: "‘ \(self.keyWord)’".uppercased(), color: .navigationBarColor(), size: UIFont.SFProDisplayBoldFont(14))
+            myLabel.highlight(searchedText: "‘ \(self.keyWord)’".uppercased(), color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor, size: UIFont.SFProDisplayBoldFont(14))
             let headerView = UIView()
             headerView.backgroundColor = .tableViewBackgroundColor()
             headerView.addSubview(myLabel)
@@ -372,41 +372,6 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
             }
             return cell
         }
-        /*
-         // disbaled in favour of UI 2.0
-        else if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell ) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: "")
-                let searchWord = " \"" + "\(self.keyWord)" + " \""
-                let title = "\(localizedString("lbl_Stores_that_sell", comment: ""))" + searchWord
-                let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(20) , NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()])
-                let nsRange = NSString(string: title).range(of: searchWord , options: String.CompareOptions.caseInsensitive)
-                if nsRange.location != NSNotFound {
-                    attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplayBoldFont(20) , range: nsRange )
-                    attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.navigationBarColor() , range: nsRange )
-                }
-                cell.lblTopHeader.attributedText =  attributedString
-                return cell
-            }else if indexPath.row == 1 {
-                let cell : ElgrocerCategorySelectTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "ElgrocerCategorySelectTableViewCell") as! ElgrocerCategorySelectTableViewCell
-                cell.configuredData(groceryList: self.filterGroceryData, selectedGrocery: self.selectedGrocery)
-                cell.selectedGrocery  = { [weak self] (selectedGrocery) in
-                    guard let self = self else {return}
-                    self.selectedGrocery = selectedGrocery
-                    if self.selectedGrocery == nil {
-                        self.groceryAndBannersList = self.dataSource.groceryAndBannersList
-                    }else{
-                        let filetA =  self.dataSource.groceryAndBannersList.filter { (home) -> Bool in
-                            return home.attachGrocery?.dbID == self.selectedGrocery?.dbID
-                        }
-                        self.groceryAndBannersList = filetA
-                    }
-                    self.tableView.reloadData()
-                }
-                return cell
-            }
-        }*/
         
         if indexPath.row < self.groceryAndBannersList.count {
             let homeFeed = self.groceryAndBannersList[indexPath.row]

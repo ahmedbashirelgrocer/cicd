@@ -92,8 +92,8 @@ class GroceriesViewController : UIViewController, UITableViewDataSource, UITable
 
     func setUpApearence() {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.backgroundColor = UIColor.navigationBarColor()
-        self.navigationController?.navigationBar.barTintColor = UIColor.navigationBarColor()
+        self.navigationController?.navigationBar.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.navigationController?.navigationBar.barTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.navigationController?.navigationBar.isTranslucent = false
     }
     

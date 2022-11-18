@@ -39,7 +39,7 @@ class OrderStatusDetailCell: UITableViewCell {
         didSet{
             btnChatWithPicker.setCornerRadiusStyle()
             btnChatWithPicker.setCaption1BoldWhiteStyle()
-            btnChatWithPicker.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            btnChatWithPicker.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             //self.chatWithPickerBGView.isHidden = true
         }
     }

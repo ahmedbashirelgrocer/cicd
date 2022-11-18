@@ -167,7 +167,7 @@ class CandCHistoryCell: UITableViewCell {
             self.progressView.progressTintColor = UIColor.elGrocerYellowColor()
         }else{
             self.mainContainerView.borderColor = .newBorderGreyColor()
-            self.progressView.progressTintColor = UIColor.navigationBarColor()
+            self.progressView.progressTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     

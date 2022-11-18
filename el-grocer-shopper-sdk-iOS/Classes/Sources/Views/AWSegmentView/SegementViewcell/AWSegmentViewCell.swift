@@ -41,18 +41,18 @@ class AWSegmentViewCell: UICollectionViewCell {
         
         if isSelected == true {
             self.outerView.borderWidth = 2
-            self.segmentTitleLabel.textColor = .navigationBarWhiteColor()
-            self.outerView.borderColor = .navigationBarColor()
-            self.outerView.backgroundColor = .navigationBarColor()
+            self.segmentTitleLabel.textColor = ApplicationTheme.currentTheme.pillSelectedTextColor
+            self.outerView.borderColor = ApplicationTheme.currentTheme.pillSelectedBGColor
+            self.outerView.backgroundColor = ApplicationTheme.currentTheme.pillSelectedBGColor
              
         }else{
             
             
-            self.outerView.backgroundColor = .white
-            self.segmentTitleLabel.textColor = .secondaryDarkGreenColor()
+            self.outerView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
+            self.segmentTitleLabel.textColor = ApplicationTheme.currentTheme.pillUnSelectedTextColor
             self.outerView.borderColor = .secondaryDarkGreenColor()
             self.outerView.borderWidth = 0
-            self.outerView.backgroundColor = .navigationBarWhiteColor()
+            self.outerView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
         }
         
         self.segmentTitleLabel.text = segmentTitle

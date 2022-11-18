@@ -114,7 +114,7 @@ class BasketIconOverlayView : UIView {
             self.cartTotalPriceLabel.textAlignment = .right
         }
         
-        bottomButtonBg.backgroundColor = .navigationBarColor()
+        bottomButtonBg.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
     }
     
     
@@ -151,7 +151,7 @@ class BasketIconOverlayView : UIView {
         
         if let badgeIs =  barButton?.badge {
             badgeIs.layer.borderWidth = 1
-            badgeIs.layer.borderColor = UIColor.navigationBarColor().cgColor
+            badgeIs.layer.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor.cgColor
         }
         
        elDebugPrint("update cart icon from here")
@@ -284,9 +284,9 @@ class BasketIconOverlayView : UIView {
                             }
                             
                             toolTipView = JDFTooltipView.init(targetBarButtonItem: barButton, hostView: parentController.view.window, tooltipText: toolTipStr, arrowDirection: JDFTooltipViewArrowDirection.up, width: toolTipWidth)
-                            toolTipView?.tooltipBackgroundColour = UIColor.navigationBarColor()
+                            toolTipView?.tooltipBackgroundColour = ApplicationTheme.currentTheme.themeBasePrimaryColor
                             toolTipView!.font = UIFont.SFProDisplaySemiBoldFont(14.0)
-                            toolTipView!.textColour = UIColor.navigationBarColor()
+                            toolTipView!.textColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
                             toolTipView!.show()
                             
                             ElGrocerUtility.sharedInstance.delay(2.0) {

@@ -108,26 +108,6 @@ class GroceriesEmptyView: UIView {
         self.changeLocationBtn.titleLabel?.font = buttonsFont
         self.changeLocationBtn.setTitleColor(UIColor.white, for: UIControl.State())
         self.changeLocationBtn.setTitle(localizedString("changelocation_button", comment: ""), for: UIControl.State())
-        
-//        self.agentChatBtn.layer.cornerRadius = self.agentChatBtn.frame.size.height / 2
-//        self.agentChatBtn.layer.borderColor = UIColor.navigationBarColor().CGColor
-//        self.agentChatBtn.layer.borderWidth = 1
-//        self.agentChatBtn.backgroundColor = UIColor.navigationBarColor()
-//        self.agentChatBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-//        self.agentChatBtn.titleLabel?.font = UIFont.lightFont(17.0)
-        
-        
-//        self.changeLocationBtn.layer.cornerRadius = self.changeLocationBtn.frame.size.height / 2
-//        self.changeLocationBtn.layer.borderColor = UIColor.navigationBarColor().CGColor
-//        self.changeLocationBtn.layer.borderWidth = 1
-//        self.changeLocationBtn.backgroundColor = UIColor.navigationBarColor()
-//        self.changeLocationBtn.setTitle(localizedString("changelocation_button", comment: ""), forState: UIControlState.Normal)
-//        self.changeLocationBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-//        self.changeLocationBtn.titleLabel?.font = UIFont.lightFont(17.0)
-
-
-
-
     }
 
     @IBAction func changeLocation(_ sender: AnyObject) {

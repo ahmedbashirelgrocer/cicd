@@ -41,7 +41,7 @@ class SearchSuggestionCell: UITableViewCell {
     
     func configureCellWithSearchText(_ searchText: String){
         self.titleLbl.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-        self.titleLbl.textColor = UIColor.navigationBarColor()
+        self.titleLbl.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.titleLbl.text = String(format:"%@ %@",localizedString("search_for_title", comment: ""),searchText)
         self.titleLbl.isHidden = false
         self.searchImgView.isHidden = false

@@ -233,7 +233,7 @@ class SignInViewController: RegistrationViewController, Form {
     
     func changeLogoColor() {
         
-        self.imgLogo.changePngColorTo(color: UIColor.navigationBarColor())
+        self.imgLogo.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         
     }
     
@@ -248,7 +248,7 @@ class SignInViewController: RegistrationViewController, Form {
         self.submitButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for:UIControl.State())
         
         // Setting Forgot Password Title with Underline
-        let dictF       = [NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
+        let dictF       = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
         
         let forgotTitle = NSMutableAttributedString(string:localizedString("btn_forget_password_title", comment: ""), attributes:dictF)
         self.forgotPasswordButton.setAttributedTitle(forgotTitle, for: UIControl.State())

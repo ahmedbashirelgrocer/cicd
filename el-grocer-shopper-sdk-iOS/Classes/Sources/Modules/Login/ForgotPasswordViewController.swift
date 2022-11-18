@@ -69,14 +69,14 @@ class ForgotPasswordViewController : UIViewController, UITextFieldDelegate {
         self.navigationItem.hidesBackButton = true
         addBackButton()
        // addBackButtonWithCrossIcon()
-        self.navigationController?.navigationBar.tintColor = UIColor.navigationBarColor()
+        self.navigationController?.navigationBar.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
        // self.addRightCrossButton()
         self.setupAppearance()
         
         //tap gesture
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ForgotPasswordViewController.dismissKeyboard))
         self.view.addGestureRecognizer(tap)
-        imgLogo.changePngColorTo(color: .navigationBarColor())
+        imgLogo.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         _ = validateEmail("")
     }
     

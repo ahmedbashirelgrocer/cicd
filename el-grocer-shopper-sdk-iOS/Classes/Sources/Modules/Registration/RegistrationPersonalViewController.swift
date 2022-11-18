@@ -50,7 +50,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     
     @IBOutlet var imgLogo: UIImageView!{
         didSet {
-            self.imgLogo.changePngColorTo(color: UIColor.navigationBarColor())
+            self.imgLogo.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         }
         
     }

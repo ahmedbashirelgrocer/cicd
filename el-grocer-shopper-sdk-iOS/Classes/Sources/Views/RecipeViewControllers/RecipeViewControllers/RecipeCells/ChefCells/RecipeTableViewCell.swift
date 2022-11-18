@@ -498,34 +498,10 @@ class RecipeTableViewCell: UITableViewCell {
 
 
     func setAddViewSelected () -> Void {
-        
-        //self.viewAdd.isHidden = true
-
-//        self.addWidth.constant = 73
-//        self.viewAdd.backgroundColor = UIColor.navigationBarColor()
-//        self.lblAdd.textColor = UIColor.white
-//        self.imageViewBacket.image = UIImage(name: "shopping-basketWhite")//
-//        self.lblAdd.text = localizedString("lbl_Add_Text", comment: "")
-//        self.imageCheckMark.image = UIImage(name: "checkMark-GreenButton")
-//        self.imageCheckMark.isHidden = false
-//        self.viewAdd.setNeedsLayout()
-//        self.viewAdd.layoutIfNeeded()
 
     }
 
     func setAddViewUnSelected () -> Void {
-
-        //self.viewAdd.isHidden = true
-        
-//        self.addWidth.constant = 65
-//        self.viewAdd.backgroundColor = UIColor.white
-//        self.lblAdd.textColor = UIColor.navigationBarColor()
-//        self.imageViewBacket.image = UIImage(name: "backGreen")
-//        self.lblAdd.text = localizedString("lbl_Add_Text", comment: "")
-//        self.imageCheckMark.image = UIImage(name: "checkMark-GreenButton")
-//        self.imageCheckMark.isHidden = true
-//        self.viewAdd.setNeedsLayout()
-//        self.viewAdd.layoutIfNeeded()
 
     }
     

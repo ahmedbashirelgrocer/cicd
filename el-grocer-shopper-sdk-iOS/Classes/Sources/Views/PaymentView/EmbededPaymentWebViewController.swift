@@ -81,9 +81,9 @@ class EmbededPaymentWebViewController: UIViewController, NavigationBarProtocol {
         
         UIView.animate(withDuration: 0.2) {
             if enable {
-                self.btnConfirmPayment.backgroundColor = UIColor.navigationBarColor()
+                self.btnConfirmPayment.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }else{
-                self.btnConfirmPayment.backgroundColor = UIColor.disableButtonColor()
+                self.btnConfirmPayment.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             }
         }
         
@@ -124,7 +124,7 @@ class EmbededPaymentWebViewController: UIViewController, NavigationBarProtocol {
         let linkTextWithColor = localizedString("lbl_TermsAndPayment", comment: "")        
         let range = (text as NSString).range(of: linkTextWithColor)
         let attributedString = NSMutableAttributedString(string:text)
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.navigationBarColor() , range: range)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor , range: range)
         self.lblTerms.attributedText = attributedString
         
         

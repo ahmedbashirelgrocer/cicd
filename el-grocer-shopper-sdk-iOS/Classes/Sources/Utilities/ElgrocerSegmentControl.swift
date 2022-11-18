@@ -10,7 +10,7 @@ import UIKit
 
 class ElgrocerSegmentControl: UISegmentedControl {
     private let segmentInset: CGFloat = 5
-    private let segmentImage: UIImage? = UIImage(color: UIColor.navigationBarColor())    //your color
+    private let segmentImage: UIImage? = UIImage(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)    //your color
 
     override func layoutSubviews(){
         super.layoutSubviews()

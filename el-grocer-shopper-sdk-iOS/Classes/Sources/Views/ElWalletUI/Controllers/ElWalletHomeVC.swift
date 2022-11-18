@@ -65,7 +65,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         walletAmountLabel.textColor = UIColor.newBlackColor()
         
         addFundsButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(20)
-        addFundsButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        addFundsButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     
     private func bindData() {
@@ -444,7 +444,7 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? VouchersCell {
             DispatchQueue.main.async { [weak cell] in
-                cell?.voucherCodeBorderView.addDashedBorderAroundView(color: .navigationBarColor())
+                cell?.voucherCodeBorderView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.buttonWithBorderTextColor)
             }
         }
     }

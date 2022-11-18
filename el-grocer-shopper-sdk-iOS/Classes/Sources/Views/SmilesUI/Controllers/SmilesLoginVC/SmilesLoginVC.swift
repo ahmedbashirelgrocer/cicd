@@ -55,9 +55,9 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
             resendOTPLabel.isHidden = isEnable
         }
         if isEnable {
-            resendOtpButton.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
+            resendOtpButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
         } else {
-            resendOtpButton.setBackgroundColor(.disableButtonColor(), forState: UIControl.State())
+            resendOtpButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonDisableBGColor, forState: UIControl.State())
         }
     }
     
@@ -133,7 +133,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         let range2: NSRange = attributedString.mutableString.range(of: termsLbl2, options: .caseInsensitive)
         
         let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.textFieldPlaceHolderColor()]
-        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.navigationBarColor()]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.labelPrimaryBaseTextColor]
         
         attributedString.addAttributes(attrs1, range: range1)
         attributedString.addAttributes(attrs2, range: range2)
@@ -196,7 +196,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         pinField.appearance.backFocusColor = .colorWithHexString(hexString: "f5f5f5")
         pinField.appearance.backBorderFocusColor = .clear
         pinField.appearance.backActiveColor = .clear
-        pinField.appearance.backBorderActiveColor = .navigationBarColor()
+        pinField.appearance.backBorderActiveColor = ApplicationTheme.currentTheme.textFieldBorderActiveColor
         pinField.keyboardType = UIKeyboardType.asciiCapableNumberPad // Specify keyboard type
     }
     

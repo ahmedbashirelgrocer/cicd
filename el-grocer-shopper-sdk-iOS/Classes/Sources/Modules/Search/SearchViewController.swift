@@ -208,10 +208,10 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         if isFromShoppingListViewAll {
             searchViewHeader.isHidden = false
             self.progressCompletionBGView.isHidden = false
-            searchViewHeader.backgroundColor = .navigationBarColor()
+            searchViewHeader.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }else {
             searchViewHeight.constant = 0.0
-            searchViewHeader.backgroundColor = .textfieldBackgroundColor()
+            searchViewHeader.backgroundColor = ApplicationTheme.currentTheme.textFieldGreyBGColor
             self.progressCompletionBGView.isHidden = true
             self.addLocationHeader()
             searchViewHeader.isHidden = true
@@ -221,7 +221,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.view.layoutIfNeeded()
        
         self.navigationItem.hidesBackButton = true
-        searchBgView.backgroundColor =  SDKManager.isSmileSDK ? .smileBaseColor() : .navigationBarColor()
+        searchBgView.backgroundColor =  SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.viewPrimaryBGColor : ApplicationTheme.currentTheme.viewPrimaryBGColor
         self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = .tableViewBackgroundColor()
     }
@@ -1123,7 +1123,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor :  UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor :  ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor

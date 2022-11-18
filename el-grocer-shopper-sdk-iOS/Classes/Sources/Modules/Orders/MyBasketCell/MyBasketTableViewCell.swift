@@ -165,7 +165,7 @@ class MyBasketTableViewCell: UITableViewCell {
         self.outOfStockLabel.font = UIFont.SFProDisplayMediumFont(17.0)
         self.chooseReplacmentBtn.setTitle(localizedString("choose_alternatives_title", comment: ""), for: UIControl.State())
         self.chooseReplacmentBtn.titleLabel?.font = UIFont.SFProDisplayBoldFont(14.0)
-        self.chooseReplacmentBtn.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.chooseReplacmentBtn.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     
     //MARK: Promotion
@@ -228,13 +228,13 @@ class MyBasketTableViewCell: UITableViewCell {
 //                    self.limitedStockBGView.isHidden = true
             }else{
                 self.plusBtn.isEnabled = true
-                self.plusBtn.backgroundColor = UIColor.navigationBarColor()
+                self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 
                 //self.limitedStockBGView.isHidden = true
                 self.percentOffBGView.isHidden = false
                 
-                self.plusTopView.backgroundColor = .navigationBarColor()
-                self.plusBottomView.backgroundColor = .navigationBarColor()
+                self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
         }else if product.availableQuantity != -1 {
             
@@ -283,13 +283,13 @@ class MyBasketTableViewCell: UITableViewCell {
                     //                    self.limitedStockBGView.isHidden = true
             }else{
                 self.plusBtn.isEnabled = true
-                self.plusBtn.backgroundColor = UIColor.navigationBarColor()
+                self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 
                     //self.limitedStockBGView.isHidden = true
                 self.percentOffBGView.isHidden = false
                 
-                self.plusTopView.backgroundColor = .navigationBarColor()
-                self.plusBottomView.backgroundColor = .navigationBarColor()
+                self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
             
             
@@ -315,13 +315,13 @@ class MyBasketTableViewCell: UITableViewCell {
             self.percentOffBGView.isHidden = false
             
             self.plusBtn.isEnabled = true
-            self.plusBtn.backgroundColor = UIColor.navigationBarColor()
+            self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             
             self.limitedStockBGView.isHidden = true
             self.percentOffBGView.isHidden = true
             
-            self.plusTopView.backgroundColor = .navigationBarColor()
-            self.plusBottomView.backgroundColor = .navigationBarColor()
+            self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             
             self.lblStrikePrice.visibility = .gone
             //sab new
@@ -521,10 +521,10 @@ class MyBasketTableViewCell: UITableViewCell {
             
         } else {
             
-            self.plusBtn.tintColor = UIColor.navigationBarColor()
-            self.plusBtn.imageView?.tintColor = UIColor.navigationBarColor()
+            self.plusBtn.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            self.plusBtn.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             self.plusBtn.isEnabled = true
-            self.plusBtn.setBackgroundColorForAllState(UIColor.navigationBarColor())
+            self.plusBtn.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
             
         }
     }

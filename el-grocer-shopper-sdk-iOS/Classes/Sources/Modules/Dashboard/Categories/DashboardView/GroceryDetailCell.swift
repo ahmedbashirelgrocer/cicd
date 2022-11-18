@@ -74,29 +74,14 @@ class GroceryDetailCell: UICollectionViewCell {
         super.awakeFromNib()
 
        self.backgroundColor = UIColor.lightGreyColor()
-       self.shadowView.backgroundColor = UIColor.navigationBarColor()
-       self.btnChange.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
+       self.shadowView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+       self.btnChange.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: .normal)
 
         if LanguageManager.sharedInstance.getSelectedLocale().caseInsensitiveCompare("ar") != ComparisonResult.orderedSame {
             self.btnChange.imageEdgeInsets = UIEdgeInsets(top: 2, left: self.btnChange.frame.size.width - 11, bottom: 0, right: 5)
             self.btnChange.contentHorizontalAlignment = .left
             self.btnChange.titleLabel?.textAlignment =  .left
         }
-
-//        self.shadowView.layer.shadowRadius = 10
-//        self.shadowView.layer.shadowOpacity = 0.3
-//        self.shadowView.layer.shadowColor = UIColor.black.cgColor
-//        self.shadowView.layer.shadowOffset = CGSize.zero
-//        self.shadowView.generateInnerShadow()
-//        func createGradientLayer() {
-//            let gradientLayer = CAGradientLayer()
-//            gradientLayer.frame = self.shadowView.bounds
-//            gradientLayer.colors = [UIColor.navigationBarColor().cgColor, UIColor.colorWithHexString(hexString: "e7f2e6").cgColor]
-//            gradientLayer.locations = [0.0, 0.50]
-//            self.shadowView.layer.addSublayer(gradientLayer)
-//            self.shadowView.bringSubview(toFront: contentView)
-//        }
-//       createGradientLayer()
 
         self.setupAppearance()
         self.addTapGestureToGroceryNameLabelAndImage()

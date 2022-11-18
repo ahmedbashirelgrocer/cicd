@@ -291,10 +291,10 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
             
             self.totalPriceLabel.textColor = UIColor.redInfoColor()
             
-            self.promotionDiscountLabel.textColor = UIColor.navigationBarColor()
+            self.promotionDiscountLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.promotionDiscountLabel.text = localizedString("shopping_basket_promotion_discount_price_label", comment: "")
             
-            self.promotionDiscountPriceLabel.textColor = UIColor.navigationBarColor()
+            self.promotionDiscountPriceLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
     

@@ -221,7 +221,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
         UIView.transition(with: self.editView, duration: 0.3, options: .transitionCrossDissolve, animations: { [weak self] in
             guard let self = self else {return}
            self.editView.isHidden = !self.editView.isHidden
-            self.editView.layer.borderColor = UIColor.navigationBarColor().cgColor
+            self.editView.layer.borderColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor.cgColor
         })
         self.newSearchTextField.placeholder = currentSearchString
         self.newSearchTextField.text = currentSearchString

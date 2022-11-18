@@ -140,7 +140,7 @@ class savedCarCell: UITableViewCell {
         
         if isSelected {
             self.cellBGView.layer.borderWidth = 2
-            self.cellBGView.layer.borderColor = UIColor.navigationBarColor().cgColor
+            self.cellBGView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
             self.defaultBGView.isHidden = !isSelected
         }else{
             self.cellBGView.layer.borderWidth = 0

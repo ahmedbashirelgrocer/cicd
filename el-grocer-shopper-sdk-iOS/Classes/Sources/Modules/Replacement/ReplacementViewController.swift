@@ -152,9 +152,9 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         self.chooseButton.isUserInteractionEnabled = userChooseA.count > 0
         if userChooseA.count > 0 {
             self.chooseButton.isUserInteractionEnabled = userChooseA.count > 0
-            self.viewChooseButton.backgroundColor = .navigationBarColor()
+            self.viewChooseButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         }else{
-            self.viewChooseButton.backgroundColor = .disableButtonColor()
+            self.viewChooseButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
         }
     }
     
@@ -223,7 +223,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         self.productView.layer.cornerRadius = 5
         self.productView.layer.masksToBounds = false
         
-        self.productView.layer.shadowColor = UIColor.navigationBarColor().cgColor
+        self.productView.layer.shadowColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         self.productView.layer.shadowOpacity = 0.7
         self.productView.layer.shadowOffset = CGSize.zero
         self.productView.layer.shadowRadius = 5
@@ -271,22 +271,11 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
             
             if item.subStituteItemID  == product.dbID {
                 
-                cell.productContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
+                cell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                 cell.productContainer.layer.borderWidth = 2.0
-                //                let filtetA =   self.alternativeProducts.filter { (product) -> Bool in
-                //                    return item.subStituteItemID == product.dbID
-                //                }
-                //                if filtetA.count > 0 {
-                //                    for prod in filtetA {
-                //                        ShoppingBasketItem.removeProductFromBasket(prod, grocery: self.cartGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                //                    }
-                //                }
             }else{
-                // cell.productContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
                 cell.productContainer.layer.borderWidth = 0.0
             }
-            //            item.isSubtituted = 1
-            //            item.subStituteItemID = self.selectedProduct.dbID
         }
         
         

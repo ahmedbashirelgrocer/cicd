@@ -21,7 +21,7 @@ class loginCell: UITableViewCell {
     @IBOutlet var grennBGView: AWView!{
         didSet{
             grennBGView.cornarRadius = 8
-            grennBGView.backgroundColor = .secondaryDarkGreenColor() //.navigationBarColor()
+            grennBGView.backgroundColor = ApplicationTheme.currentTheme.viewSecondaryDarkBGColor
         }
     }
     @IBOutlet var signUpButton: AWButton!{

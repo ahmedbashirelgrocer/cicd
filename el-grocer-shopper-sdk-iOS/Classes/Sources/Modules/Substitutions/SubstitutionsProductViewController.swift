@@ -248,7 +248,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
         lblSmilesPoints.text = localizedString("txt_smile_point", comment: "")
-        lblSmilesPoints.textColor = .navigationBarColor()
+        lblSmilesPoints.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
 }
     var checkoutViewStyle : checkOutViewStyle = .normal
@@ -258,7 +258,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet weak var lblSmilesPointsValue: UILabel!{
         didSet{
             lblSmilesPointsValue.setBody3RegGreyStyle()
-            lblSmilesPointsValue.textColor = .navigationBarColor()
+            lblSmilesPointsValue.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
     
@@ -1641,12 +1641,12 @@ extension SubstitutionsProductViewController {
         
         if isReplacmentAvailable {
             self.lblbottomButtonReplaceOrCancel.text = localizedString("btn_Confirm_Replacement", comment: "")
-            self.btnBottomButtonView.backgroundColor = .navigationBarColor()
+            self.btnBottomButtonView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             
             
         }else{
             self.lblbottomButtonReplaceOrCancel.text = localizedString("order_history_cancel_alert_title", comment: "")
-            self.btnBottomButtonView.backgroundColor = .redInfoColor()
+            self.btnBottomButtonView.backgroundColor = ApplicationTheme.currentTheme.buttonOrderCancelTextColor
             self.lblMessage.attributedText = NSMutableAttributedString().normal(localizedString("msg_All_item_not_available", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor()).bold( localizedString("msg_OOS_Not_Available", comment: "") , UIFont.SFProDisplaySemiBoldFont(11) , color: .redInfoColor())
         }
         self.hideBottomCheckoutView(ishidden: !isReplacmentAvailable)
@@ -2076,14 +2076,14 @@ extension SubstitutionsProductViewController{
             self.imgbasketArrow.isHidden = false
             self.lblPayWithApplePay.isHidden = true
             if self.btnCheckout.isUserInteractionEnabled {
-                self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+                self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
         }
     }
     
     func setCheckOutEnable(_ enable: Bool){
         self.btnCheckout.isUserInteractionEnabled = enable
-        self.btnCheckoutBGView.backgroundColor = enable ? .navigationBarColor() : .disableButtonColor()
+        self.btnCheckoutBGView.backgroundColor = enable ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
     }
     
     func showPaymentDetails(paymentType : PaymentOption? = PaymentOption.none , creditCardNum: String?) {
@@ -2112,7 +2112,7 @@ extension SubstitutionsProductViewController{
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("pay_via_smiles_points", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
-            self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+            self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             showCVV(false)
         }else{
                 //credit card

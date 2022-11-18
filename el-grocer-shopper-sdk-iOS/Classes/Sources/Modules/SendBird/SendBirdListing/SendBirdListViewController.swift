@@ -63,7 +63,7 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
             tableView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refreshWeatherData(_:)), for: .valueChanged)
-        refreshControl.tintColor = .navigationBarColor()
+        refreshControl.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.setSegmentApperance()
         self.handleArabicMode()
         

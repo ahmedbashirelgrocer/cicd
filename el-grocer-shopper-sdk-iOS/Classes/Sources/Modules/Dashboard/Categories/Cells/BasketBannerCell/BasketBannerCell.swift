@@ -34,7 +34,7 @@ class BasketBannerCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.backgroundColor = UIColor.navigationBarWhiteColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.goForRecipeAction(_:)))
         self.bgImgView.addGestureRecognizer(tap)
@@ -52,7 +52,7 @@ class BasketBannerCell: UITableViewCell {
         
         self.imgView.image =  UIImage(name: "reorder-basket")
         self.imgView.image = self.imgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        self.imgView.tintColor = UIColor.navigationBarColor()
+        self.imgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         self.titleLabel.font = UIFont.SFProDisplaySemiBoldFont(15.0)
         self.titleLabel.textColor = UIColor.secondaryBlackColor()
@@ -63,7 +63,7 @@ class BasketBannerCell: UITableViewCell {
         self.reOrderButton.layer.cornerRadius = 5
         self.reOrderButton.layer.masksToBounds = true
         self.reOrderButton.setTitle(localizedString("reorder_banner_button_title", comment: ""), for: UIControl.State())
-        self.reOrderButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.reOrderButton.setTitleColor(ApplicationTheme.currentTheme.buttonEnableBGColor, for: UIControl.State())
         self.reOrderButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(14.0)
     }
     

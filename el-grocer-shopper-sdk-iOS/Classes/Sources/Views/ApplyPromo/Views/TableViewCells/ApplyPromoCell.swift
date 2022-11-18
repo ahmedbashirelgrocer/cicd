@@ -169,7 +169,7 @@ class ApplyPromoCell: UITableViewCell {
                 self?.lblAppliedBGView.isHidden = false
             }else {
                 self?.btnRedeem.setTitle(localizedString("txt_btn_apply", comment: ""), for: UIControl.State())
-                self?.btnRedeem.setTitleColor(.navigationBarColor(), for: UIControl.State())
+                self?.btnRedeem.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
                 self?.lblAppliedBGView.isHidden = true
             }
         }

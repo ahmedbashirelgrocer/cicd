@@ -13,7 +13,7 @@ class NoStoreSearchStoreCollectionReusableView: UICollectionReusableView {
     var buttonClicked: (()->Void)?
     @IBOutlet var searchButton: UIButton!{
         didSet{
-            searchButton.backgroundColor = UIColor.navigationBarColor()
+            searchButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             searchButton.setCornerRadiusStyle()
         }
     }

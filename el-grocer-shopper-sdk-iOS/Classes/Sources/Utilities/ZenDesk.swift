@@ -71,24 +71,7 @@ class ZenDesk : NSObject  { // ,  JWTAuthenticator
 //        AnswerBot.initialize(withZendesk: Zendesk.instance, support: Support.instance!)
 //        Chat.initialize(accountKey: accountKey , appId: appIdChat , queue: DispatchQueue.main)
         self.identifyUser()
-      //  CommonTheme.currentTheme.primaryColor = UIColor.navigationBarColor()
-        
-      //  CoreLogger.enabled = Platform.isDebugBuild
-      //  CoreLogger.logLevel = .debug
-        
-//        if let deviceToken = UserDefaults.getDevicePushToken() {
-//            self.registerToken(deviceToken: deviceToken)
-//
-//        }
-    
-        //  Notification.Name("deviceToken")
-//        NotificationCenter.default.addObserver(forName: Notification.Name("deviceToken") , object: nil , queue: OperationQueue.main) { (notifcation) in
-//            let deviceTOken = notifcation.object
-//            if deviceTOken is String {
-//                self.registerToken(deviceToken: deviceTOken as! String)
-//
-//            }
-//        }
+
     }
     
     func registerToken (deviceToken : String) {
@@ -105,22 +88,7 @@ class ZenDesk : NSObject  { // ,  JWTAuthenticator
     }
     
     func presentRequest(with requestID: String) {
-    //    let viewController = RequestUi.buildRequestUi(requestId: requestID)
-       
-        
-//        DispatchQueue.main.async {
-//            if let topVc = UIApplication.topViewController() {
-//                topVc.navigationController?.pushViewController(viewController, animated: true)
-//                //  topVc.present(chatController, animated: true)
-//                topVc.navigationController?.navigationBar.tintColor = .navigationBarColor()
-//                (viewController.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-//                (viewController.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
-//                (viewController.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-//                (viewController.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-//                (viewController.navigationController as? ElGrocerNavigationController)?.setSearchBarText("")
-//
-//            }
-//        }
+
         
         
     }

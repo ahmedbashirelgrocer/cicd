@@ -37,7 +37,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
         if let nsObject: AnyObject = (Bundle.resource.infoDictionary!["CFBundleShortVersionString"] as AnyObject??)! {
             let version = nsObject as! String
             
-            labelAppVersion.textColor = UIColor.navigationBarColor()
+            labelAppVersion.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             labelAppVersion.text = version
         }
     }
@@ -210,11 +210,11 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
                  border.frame = CGRect(x: 0, y: 0, width: 1.5, height: cell.frame.height)
             }
             
-            border.backgroundColor =  UIColor.navigationBarColor().cgColor;
+            border.backgroundColor =  ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor;
             cell.contentView.layer.addSublayer(border)
             cell.contentView.backgroundColor = UIColor.unselectedPageControl()
-            cell.itemTitle.textColor = UIColor.navigationBarColor()
-            cell.walletAmount.textColor = UIColor.navigationBarColor()
+            cell.itemTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            cell.walletAmount.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             
         }else{
             
@@ -254,11 +254,11 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
                 }else{
                     border.frame = CGRect(x: 0, y: 0, width: 1.5, height: cell.frame.height)
                 }
-                border.backgroundColor =  UIColor.navigationBarColor().cgColor;
+                border.backgroundColor =  ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor;
                 selectedCell.contentView.layer.addSublayer(border)
-                selectedCell.contentView.backgroundColor = UIColor.navigationBarColor()
-                selectedCell.itemTitle.textColor = UIColor.navigationBarColor()
-                selectedCell.walletAmount.textColor = UIColor.navigationBarColor()
+                selectedCell.contentView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+                selectedCell.itemTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+                selectedCell.walletAmount.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
                 let selectedImage = selectedImages[(indexPath as NSIndexPath).row]
                 selectedCell.itemImage.image = UIImage(name:selectedImage)
                 

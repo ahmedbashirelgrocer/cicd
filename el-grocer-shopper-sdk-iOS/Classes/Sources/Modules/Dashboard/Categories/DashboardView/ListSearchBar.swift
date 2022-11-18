@@ -36,7 +36,7 @@ class ListSearchBar: UIView {
     
     func addGredient() {
        
-        gredientV.colors = [[UIColor.navigationBarColor(), UIColor.navigationBarWhiteColor()]]
+        gredientV.colors = [[ApplicationTheme.currentTheme.themeBasePrimaryColor, UIColor.navigationBarWhiteColor()]]
         gredientV.type = .axial
       //  gredientV.direction = .custom
        
@@ -44,7 +44,7 @@ class ListSearchBar: UIView {
 
     override func awakeFromNib() {
 
-         self.backgroundColor = UIColor.navigationBarColor()
+         self.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
          self.addGredient()
          self.searchProductListingTextView.delegate = self
             self.searchProductListingTextView.textColor = UIColor.lightTextGrayColor()
@@ -216,12 +216,12 @@ extension ListSearchBar : UITextViewDelegate {
            // self.searchButton.setImage(UIImage(name: "icSearchGreen"), for: .normal)
 
             self.searchButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: .normal)
-            self.searchButton.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
+            self.searchButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: .normal)
          //   self.searchButton.setTitleColor(UIColor.lightGrayBGColor(), for: .normal)
         }else{
            // self.searchButton.setImage(UIImage(name: "icSearch"), for: .normal)
             self.searchButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: .normal)
-           self.searchButton.setBackgroundColor(UIColor.lightGray, forState: .normal)
+           self.searchButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonDisableBGColor, forState: .normal)
           //  self.searchButton.setTitleColor(UIColor.lightGrayBGColor(), for: .normal)
         }
         

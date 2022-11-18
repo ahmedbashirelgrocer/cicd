@@ -349,13 +349,13 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                     let msg = localizedString("status_Update_Msg", comment: "")
                     if isOnTheWay {
                         self.btnOnMyWay.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
-                        self.btnAtTheStore.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
+                        self.btnAtTheStore.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, forState: UIControl.State())
                         self.btnOnMyWay.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
-                        self.btnOnMyWay.tintColor = .white
+                        self.btnOnMyWay.tintColor = ApplicationTheme.currentTheme.buttonTextWithBackgroundColor
                         self.btnAtTheStore.setImage(nil, for: UIControl.State())
                     }else{
-                        self.btnAtTheStore.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
-                        self.btnOnMyWay.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
+                        self.btnAtTheStore.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
+                        self.btnOnMyWay.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, forState: UIControl.State())
                         self.btnAtTheStore.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.setImage(nil, for: UIControl.State())
                         self.btnAtTheStore.tintColor = .white
@@ -1384,30 +1384,13 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     func setUpGroceryReviewAppearance() {
         
-//        self.groceryReviewLabel.textColor = UIColor.black
-//        self.groceryReviewLabel.font = UIFont.mediumFont(12.0)
-//        self.groceryReviewLabel.text = localizedString("order_history_grocery_review_label", comment: "")
-//
-//        self.groceryReviewButton.setTitle(localizedString("order_history_grocery_review_button", comment: ""), for: UIControl.State())
-//        self.groceryReviewButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
-//        self.groceryReviewButton.titleLabel?.font = UIFont.lightFont(14.0)
-//        self.groceryReviewButton.layer.borderWidth = 1
-//        self.groceryReviewButton.layer.borderColor = UIColor.navigationBarColor().cgColor
-//
-//        let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
-//        if currentLang == "ar" {
-//            self.groceryReviewButton.imageEdgeInsets = UIEdgeInsets(top: 0,left: 0,bottom: 0,right: -2)
-//            self.groceryReviewButton.titleEdgeInsets  = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
-//        }else{
-//            self.groceryReviewButton.imageEdgeInsets = UIEdgeInsets(top: 0,left: -2,bottom: 0,right: 0)
-//            self.groceryReviewButton.titleEdgeInsets  = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-//        }
+
     }
     
     func setUpButtonAppearance() {
         
         self.tableView.backgroundColor = .white
-        self.reorderButton.backgroundColor = UIColor.navigationBarColor()
+        self.reorderButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         self.reorderButton.setTitle(localizedString("lbl_repeat_order", comment: ""), for: UIControl.State())
         self.reorderButton.setH4SemiBoldWhiteStyle()
         
@@ -1472,29 +1455,6 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     
     private func setOrderStatusTextColor(_ order: Order!) -> Void {
- 
-//        if order.deliverySlot != nil && order.status.intValue == 0 {
-//
-//            self.deliveryStatus.textColor = UIColor.navigationBarColor()
-//            return
-//
-//        }
-//        switch order.status.intValue {
-//            case 0:
-//                self.deliveryStatus.textColor = UIColor.colorWithHexString(hexString: "e05969")
-//            case 1:
-//                 self.deliveryStatus.textColor = UIColor.navigationBarColor()
-//            case 2:
-//                 self.deliveryStatus.textColor = UIColor.colorWithHexString(hexString: "53aadd")
-//            case 3:
-//                  self.deliveryStatus.textColor = UIColor.navigationBarColor()
-//            case 4:
-//                self.deliveryStatus.textColor = UIColor.black
-//            case 5:
-//                self.deliveryStatus.textColor = UIColor.navigationBarColor()
-//            default:
-//                self.deliveryStatus.textColor = UIColor.navigationBarColor()
-//        }
         
     }
     

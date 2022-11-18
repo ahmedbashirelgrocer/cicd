@@ -18,12 +18,12 @@ class OrderProductCell: UICollectionViewCell {
     @IBOutlet weak var saleView: UIImageView!
     @IBOutlet var lblProductCount: UILabel!{
         didSet{
-            lblProductCount.backgroundColor = .navigationBarColor()
+            lblProductCount.backgroundColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
     @IBOutlet var lblProductCountView: AWView! {
         didSet{
-            lblProductCountView.backgroundColor = .navigationBarColor()
+            lblProductCountView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet var lblOutOfStock: UILabel! {

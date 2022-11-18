@@ -106,11 +106,11 @@ class NotificationPopup: UIView {
         
         self.starsImgView.image = UIImage(name: "Stars-Icon")
         self.starsImgView.image = self.starsImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        self.starsImgView.tintColor = UIColor.navigationBarColor()
+        self.starsImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         self.notificationImgView.image = UIImage(name: "Bell-Icon")
         self.notificationImgView.image = self.notificationImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        self.notificationImgView.tintColor = UIColor.navigationBarColor()
+        self.notificationImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
     
     private func setButtonAppearance(){
@@ -122,7 +122,7 @@ class NotificationPopup: UIView {
         
         
         
-        self.doneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
+        self.doneButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
         self.doneButton.setTitle(localizedString("enable_notifications_button_title", comment: ""), for: UIControl.State())
         self.doneButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.doneButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
@@ -186,7 +186,7 @@ class NotificationPopup: UIView {
         DispatchQueue.main.async {
             if let image = view.notificationImgView.image?.withRenderingMode(.alwaysTemplate) {
                 view.notificationImgView.image = image
-                view.notificationImgView.tintColor = .navigationBarColor()
+                view.notificationImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             }
         }
         
@@ -252,7 +252,7 @@ class NotificationPopup: UIView {
         }
         
         if isSingleButton {
-            view.doneButton.setTitleColor(.navigationBarColor(), for: UIControl.State())
+            view.doneButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
             view.showSingleButton(isSingle: isSingleButton)
         }
         

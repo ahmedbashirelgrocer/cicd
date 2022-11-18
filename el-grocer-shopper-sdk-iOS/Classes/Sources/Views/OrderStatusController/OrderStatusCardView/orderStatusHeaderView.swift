@@ -40,7 +40,7 @@ class orderStatusHeaderView: UIView {
     @IBOutlet var orderStatusImageView: UIImageView!
     @IBOutlet var spinnerView: AnimatedSpinnerView!{
         didSet{
-            spinnerView.animationColor = .navigationBarColor()
+            spinnerView.animationColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     @IBOutlet var lblOrderType: UILabel!{
@@ -57,7 +57,7 @@ class orderStatusHeaderView: UIView {
     }
     @IBOutlet var orderProgressBar: UIProgressView!{
         didSet{
-            orderProgressBar.progressTintColor = .navigationBarColor()
+            orderProgressBar.progressTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             orderProgressBar.layer.cornerRadius = 4
             orderProgressBar.clipsToBounds = true
         }
@@ -73,7 +73,7 @@ class orderStatusHeaderView: UIView {
         didSet{
             btnOrderStatus.setCornerRadiusStyle()
             btnOrderStatus.setTitle(localizedString("choose_substitutions_title_cell", comment: ""), for: UIControl.State())
-            btnOrderStatus.backgroundColor = UIColor.navigationBarColor()
+            btnOrderStatus.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             btnOrderStatus.setTitleColor(.white, for: UIControl.State())
         }
     }

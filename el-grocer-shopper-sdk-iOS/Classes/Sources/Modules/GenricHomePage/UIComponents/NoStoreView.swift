@@ -52,7 +52,7 @@ class NoStoreView: UIView {
         self.lblTopMsg.setH3SemiBoldDarkStyle()
         self.lblExtraDetail.setBody3RegSecondaryDarkStyle()
         self.btnNoData.setH4SemiBoldWhiteStyle()
-        self.btnNoData.backgroundColor = UIColor.navigationBarColor()
+        self.btnNoData.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         
     }
 

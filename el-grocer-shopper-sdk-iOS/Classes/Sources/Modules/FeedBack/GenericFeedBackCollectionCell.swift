@@ -21,7 +21,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
         didSet{
             btnSubmit.setTitle(localizedString("btn_feedback_send_title", comment: ""), for: .normal)
             btnSubmit.setH4SemiBoldWhiteStyle()
-            btnSubmit.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            btnSubmit.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
         }
     }
     
@@ -58,7 +58,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
     
     @objc func optionAPressed(sender : AWButton){
         if sender.tag == 2{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             speed.optionA = 1
             speed.optionB = 0
@@ -66,7 +66,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             speed.optionD = 0
             refreshMCQView(state: speed)
         }else if sender.tag == 3{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             quality.optionA = 1
             quality.optionB = 0
@@ -74,7 +74,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             quality.optionD = 0
             refreshMCQView(state: quality)
         }else if sender.tag == 4{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             price.optionA = 1
             price.optionB = 0
@@ -86,7 +86,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
     }
     @objc func optionBPressed(sender : AWButton){
         if sender.tag == 2{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             speed.optionA = 0
             speed.optionB = 1
@@ -94,7 +94,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             speed.optionD = 0
             refreshMCQView(state: speed)
         }else if sender.tag == 3{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             quality.optionA = 0
             quality.optionB = 1
@@ -102,7 +102,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             quality.optionD = 0
             refreshMCQView(state: quality)
         }else if sender.tag == 4{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             price.optionA = 0
             price.optionB = 1
@@ -114,7 +114,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
     }
     @objc func optionCPressed(sender : AWButton){
         if sender.tag == 2{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             speed.optionA = 0
             speed.optionB = 0
@@ -122,7 +122,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             speed.optionD = 0
             refreshMCQView(state: speed)
         }else if sender.tag == 3{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             quality.optionA = 0
             quality.optionB = 0
@@ -130,7 +130,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             quality.optionD = 0
             refreshMCQView(state: quality)
         }else if sender.tag == 4{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             price.optionA = 0
             price.optionB = 0
@@ -142,7 +142,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
     }
     @objc func optionDPressed(sender : AWButton){
         if sender.tag == 2{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             speed.optionA = 0
             speed.optionB = 0
@@ -151,7 +151,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             
             refreshMCQView(state: speed)
         }else if sender.tag == 3{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             quality.optionA = 0
             quality.optionB = 0
@@ -159,7 +159,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             quality.optionD = 1
             refreshMCQView(state: quality)
         }else if sender.tag == 4{
-            sender.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            sender.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             sender.setSubHead1SemiBoldWhiteStyle()
             price.optionA = 0
             price.optionB = 0
@@ -183,7 +183,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
     }
     func refreshMCQView(state : selectedOption){
         if state.optionA == 1{
-            reviewView.btnOption1.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            reviewView.btnOption1.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             reviewView.btnOption1.setSubHead1SemiBoldWhiteStyle()
             //default appearence
             reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
@@ -193,7 +193,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             reviewView.btnOption4.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption4.setBody3SemiBoldDarkStyle()
         }else if state.optionB == 1{
-            reviewView.btnOption2.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            reviewView.btnOption2.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             reviewView.btnOption2.setSubHead1SemiBoldWhiteStyle()
             //default appearence
             reviewView.btnOption1.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
@@ -203,7 +203,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             reviewView.btnOption4.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption4.setBody3SemiBoldDarkStyle()
         }else if state.optionC == 1{
-            reviewView.btnOption3.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            reviewView.btnOption3.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             reviewView.btnOption3.setSubHead1SemiBoldWhiteStyle()
             //default appearence
             reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
@@ -213,7 +213,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             reviewView.btnOption4.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption4.setBody3SemiBoldDarkStyle()
         }else if state.optionD == 1{
-            reviewView.btnOption4.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            reviewView.btnOption4.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             reviewView.btnOption4.setSubHead1SemiBoldWhiteStyle()
             //default appearence
             reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
@@ -224,7 +224,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
             reviewView.btnOption1.setBody3SemiBoldDarkStyle()
         }else{
             //default appearence
-            reviewView.btnOption1.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
+            reviewView.btnOption1.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             reviewView.btnOption1.setBody3SemiBoldDarkStyle()
             reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption2.setBody3SemiBoldDarkStyle()

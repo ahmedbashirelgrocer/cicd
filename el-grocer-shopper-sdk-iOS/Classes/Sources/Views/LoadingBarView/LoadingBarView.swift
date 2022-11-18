@@ -38,7 +38,7 @@ class LoadingBarView : UIView {
         self.patternImage = UIImage(name: "loader")!
         
         if #available(iOS 13.0, *) {
-            self.patternImage = self.patternImage.withTintColor(UIColor.navigationBarColor())
+            self.patternImage = self.patternImage.withTintColor(ApplicationTheme.currentTheme.themeBasePrimaryColor)
         } else {
             // Fallback on earlier versions
         }

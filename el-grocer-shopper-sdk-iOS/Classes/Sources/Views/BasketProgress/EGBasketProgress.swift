@@ -130,7 +130,7 @@ class EGBasketProgress: UIView {
         self.setContinueshoppingEnable(!isReadedMinLimit)
         if isReadedMinLimit {
             self.isMinReached = true
-            self.lblMessage.textColor = UIColor.navigationBarColor()
+            self.lblMessage.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.lblMessage.text =   localizedString("lbl_congrtz", comment: "")
              self.configureCompleteProgressState()
             return
@@ -151,7 +151,7 @@ class EGBasketProgress: UIView {
 //
         let attributedString = NSMutableAttributedString(string:totalString)
         let range = (totalString as NSString).range(of: changeString)
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.navigationBarColor() , range: range)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor , range: range)
         attributedString.addAttribute(NSAttributedString.Key.font, value: UIFont.SFProDisplaySemiBoldFont(14) , range: range)
         lbl.attributedText = attributedString
         

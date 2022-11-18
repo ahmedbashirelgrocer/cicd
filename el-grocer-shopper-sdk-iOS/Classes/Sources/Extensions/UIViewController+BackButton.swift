@@ -56,7 +56,7 @@ extension UIViewController {
            image = ElGrocerUtility.sharedInstance.getImageWithName("BackWhite")
         }
         let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
-        backButton.tintColor = isGreen ? UIColor.navigationBarColor() : UIColor.white
+        backButton.tintColor = isGreen ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : UIColor.white
         self.navigationItem.leftBarButtonItem = backButton
     }
     
@@ -65,7 +65,7 @@ extension UIViewController {
        // let image = ElGrocerUtility.sharedInstance.getImageWithName("BackGreen")
          let image:UIImage! = UIImage(name: "SignIn-close")
         let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
-        backButton.tintColor = UIColor.navigationBarColor()
+        backButton.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
         self.navigationItem.leftBarButtonItem = backButton
     }
     
