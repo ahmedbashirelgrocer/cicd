@@ -54,7 +54,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Kaf-4W-Fjh" secondAttribute="bottom" constant="4" id="Hd2-lP-Ext"/>
                             <constraint firstAttribute="trailing" secondItem="Kaf-4W-Fjh" secondAttribute="trailing" constant="4" id="IMw-AT-mjJ"/>
@@ -94,9 +94,6 @@
     </objects>
     <resources>
         <image name="test-product" width="78" height="78"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

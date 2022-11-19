@@ -19,7 +19,7 @@ protocol ActiveCartCellViewModelOutput {
     var storeName: Observable<String?> { get }
     var deliveryTypeIconName: Observable<String> { get }
     var deliveryText: Observable<NSAttributedString?> { get }
-    var isBannerAvailable: Observable<Bool> { get }
+    var banners: Observable<[BannerDTO]> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var isArbic: Observable<Bool> { get }
     
@@ -48,7 +48,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     var deliveryTypeIconName: Observable<String> { deliveryTypeIconNameSubject.asObservable() }
     var deliveryText: Observable<NSAttributedString?> { deliveryTextSubject.asObservable() }
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
-    var isBannerAvailable: Observable<Bool> { isBannerAvailableSubject.asObservable() }
+    var banners: Observable<[BannerDTO]> { bannersSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
     var nextButtonTap: Observable<ActiveCartDTO> { nextButtonTapSubject.map { [unowned self] in self.activeCart }.asObservable() }
     var bannerTap: Observable<String> { bannerTapSubject.map { "Replace this with actual banner object" }.asObservable() }
@@ -58,7 +58,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     private var storeNameSubject = BehaviorSubject<String?>(value: nil)
     private var deliveryTypeIconNameSubject = BehaviorSubject<String>(value: "ClockIcon")
     private var deliveryTextSubject = BehaviorSubject<NSAttributedString?>(value: nil)
-    private var isBannerAvailableSubject = BehaviorSubject<Bool>(value: false)
+    private var bannersSubject = BehaviorSubject<[BannerDTO]>(value: [])
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
     private let nextButtonTapSubject = PublishSubject<Void>()
     private let bannerTapSubject = PublishSubject<Void>()
@@ -71,13 +71,18 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     // MARK: Initlizations
     init(activeCart: ActiveCartDTO) {
         self.activeCart = activeCart
-        self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCart.products.map { ActiveCartProductCellViewModel(product: $0)})])
+        self.cellViewModelsSubject.onNext([
+            SectionModel(model: 0, items: activeCart.products.map { ActiveCartProductCellViewModel(product: $0)})
+        ])
         
         self.storeIconUrlSubject.onNext(URL(string: activeCart.bgPhotoUrl ?? ""))
         self.storeNameSubject.onNext(activeCart.companyName)
         self.isArbicSubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected())
         
         self.setDeliverySlot()
+        self.fetchBanner()
+        
+        self.bannersSubject.onNext([BannerDTO(), BannerDTO(), BannerDTO()])
     }
 }
 
@@ -121,6 +126,21 @@ private extension ActiveCartCellViewModel {
             
             self.deliveryTextSubject.onNext(attributedString)
             self.deliveryTypeIconNameSubject.onNext("clock_red")
+        }
+    }
+    
+    func fetchBanner() {
+        ElGrocerApi.sharedInstance.getBannersFor(location: .sdk_all_carts_tier_2, retailer_ids: [String(self.activeCart.id)]) { result in
+            switch result {
+                
+            case .success(let data):
+                
+                break
+                
+            case .failure(let error):
+                print("Error >>> \(error)")
+                break
+            }
         }
     }
     
