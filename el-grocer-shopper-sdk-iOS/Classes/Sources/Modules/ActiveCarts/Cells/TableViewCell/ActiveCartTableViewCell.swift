@@ -26,7 +26,7 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var viewBannerWrapper: UIView!
-    @IBOutlet weak var viewBanner: UIView!
+    @IBOutlet weak var viewBanner: BannerView!
     @IBOutlet weak var ivBannerImage: UIImageView!
     @IBOutlet weak var lblBannerMsg: UILabel! {
         didSet {
@@ -96,9 +96,8 @@ private extension ActiveCartTableViewCell {
             .bind(to: self.lblNextDeliverySlot.rx.attributedText)
             .disposed(by: disposeBag)
         
-        self.viewModel.outputs.isBannerAvailable
-            .map { !$0 }
-            .bind(to: self.viewBannerWrapper.rx.isHidden)
+        self.viewModel.outputs.banners
+            .bind(to: self.viewBanner.rx.banners)
             .disposed(by: disposeBag)
         
         self.viewModel.outputs.isArbic.subscribe { [weak self] isArbic in
