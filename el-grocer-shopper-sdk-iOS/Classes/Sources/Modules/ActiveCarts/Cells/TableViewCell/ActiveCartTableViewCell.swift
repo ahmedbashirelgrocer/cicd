@@ -39,12 +39,6 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     
     @IBOutlet weak var viewBannerWrapper: UIView!
     @IBOutlet weak var viewBanner: BannerView!
-    @IBOutlet weak var ivBannerImage: UIImageView!
-    @IBOutlet weak var lblBannerMsg: UILabel! {
-        didSet {
-            lblBannerMsg.setCaptionOneRegDarkStyle()
-        }
-    }
     @IBOutlet weak var buttonNext: UIButton!
     
     private var viewModel: ActiveCartCellViewModelType!
@@ -53,16 +47,11 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     
-        self.viewBanner.isUserInteractionEnabled = true
         self.viewBanner.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(bannerTap(_ :))))
         self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
         self.buttonNext.isUserInteractionEnabled = false
-        
-        collectionView.canCancelContentTouches = false
-    }
-    
-    override func layoutSubviews() {
+        self.viewBanner.isUserInteractionEnabled = true
     }
     
     override func configure(viewModel: Any) {
@@ -70,10 +59,6 @@ class ActiveCartTableViewCell: RxUITableViewCell {
         
         self.viewModel = viewModel
         self.bindViews()
-    }
-    
-    @IBAction func nextButtonTap(_ sender: Any) {
-//        self.viewModel.inputs.nextButtonTapObserver.onNext(())
     }
     
     @objc func bannerTap(_ sender: UITapGestureRecognizer) {
