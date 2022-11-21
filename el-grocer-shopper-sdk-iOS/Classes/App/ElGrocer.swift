@@ -20,14 +20,15 @@ public final class ElGrocer {
     public static func startEngine(with launchOptions: LaunchOptions? = nil) {
         
         DispatchQueue.main.async {
-            
-            
+
             func defers() {
-                
                 ElGrocer.isSDKLoaded = true
-               // FireBaseEventsLogger.trackCustomEvent(eventType: "launchOptions", action: "SmileSDk: \(SDKManager.isSmileSDK ? "YES": "NO")", ["payload" : launchOptions?.pushNotificationPayload ?? "Nil", "deeplink" : launchOptions?.deepLinkPayload ?? "Nil", "phone" : launchOptions?.accountNumber ?? "Nil", "ID" : launchOptions?.loyaltyID ?? "Nil"], false)
                 FireBaseEventsLogger.logEventToFirebaseWithEventName(FireBaseScreenName.Splash.rawValue,eventName: FireBaseParmName.SdkLaunch.rawValue, parameter: ["payload" : launchOptions?.pushNotificationPayload?.description ?? "Nil", "deeplink" : launchOptions?.deepLinkPayload ?? "Nil", "phone" : launchOptions?.accountNumber ?? "Nil", "ID" : launchOptions?.loyaltyID ?? "Nil"])
-                
+            }
+            
+            guard ElGrocerAppState.checkDBCanBeLoaded() else {
+                ElGrocer.showDefaultErrorForDB()
+                return
             }
             
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
@@ -66,29 +67,14 @@ public final class ElGrocer {
         
     }
     
-    /*public static func startEngine(with launchOptions: LaunchOptions? = nil, _ deepLink : URL?) {
+    private static func showDefaultErrorForDB() {
         
-        defer {
-            ElGrocer.isSDKLoaded = true
-        }
+        let refreshAlert = UIAlertController(title:  localizedString("alert_error_title", comment: ""), message:  localizedString("error_500", comment: ""), preferredStyle: UIAlertController.Style.alert)
+
+        refreshAlert.addAction(UIAlertAction(title: localizedString("btn_Go_Back", comment: ""), style: .default, handler: {(action: UIAlertAction!) in }))
+        UIWindow.key.rootViewController?.present(refreshAlert, animated: true, completion: nil)
         
-        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
-            
-            if let launchOptions = launchOptions {
-                let manager = SDKLoginManager(launchOptions: launchOptions)
-                manager.setHomeView()
-            }
-            
-            if let url = deepLink {
-                ElGrocerDynamicLink.handleDeepLink(url)
-            }
-            return
-        }
-        SDKManager.shared.start(with: launchOptions)
-        if let url = deepLink {
-            ElGrocerDynamicLink.handleDeepLink(url)
-        }
-    }*/
+    }
   
 }
 
