@@ -1262,10 +1262,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                         self.btnOnMyWay.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.tintColor = .white
                         self.btnAtTheStore.setImage(nil, for: UIControl.State())
-                        self.btnOnMyWay.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
+                        self.btnOnMyWay.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, forState: UIControl.State())
                         self.btnAtTheStore.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
                     }else{
-                        self.btnAtTheStore.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
+                        self.btnAtTheStore.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, forState: UIControl.State())
                         self.btnOnMyWay.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
                         self.btnAtTheStore.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.setImage(nil, for: UIControl.State())

@@ -50,7 +50,7 @@ class AWSegmentViewCell: UICollectionViewCell {
             
             self.outerView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
             self.segmentTitleLabel.textColor = ApplicationTheme.currentTheme.pillUnSelectedTextColor
-            self.outerView.borderColor = .secondaryDarkGreenColor()
+            self.outerView.borderColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
             self.outerView.borderWidth = 0
             self.outerView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
         }

@@ -11,17 +11,24 @@ import UIKit
 let KCurrentOrderCollectionViewHeight : CGFloat = 78
 
 class CurrentOrderCollectionCell: UICollectionViewCell {
-    @IBOutlet var trackingView: UIView!
+    @IBOutlet var trackingView: UIView! {
+        didSet {
+            trackingView.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            trackingView.tintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+        }
+    }
     @IBOutlet var lblOrderTracking: UILabel! {
         didSet{
             lblOrderTracking.text = localizedString("lbl_Order_tracking", comment: "")
             lblOrderTracking.setBody3RegWhiteStyle()
+            lblOrderTracking.tintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
         }
         
     }
     @IBOutlet var lblTrackYourOrder: UILabel!{
         didSet{
             lblTrackYourOrder.text = localizedString("lbl_Track_your_order", comment: "")
+            lblTrackYourOrder.tintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
         }
     }
     
@@ -35,6 +42,7 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
             bGView.layer.cornerRadius = 8
             bGView.layer.maskedCorners = [.layerMinXMinYCorner , .layerMaxXMinYCorner]
             bGView.clipsToBounds = true
+            bGView.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
         }
     }
     @IBOutlet var statusImageView: UIImageView!
@@ -64,7 +72,7 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
             if #available(iOS 14.0, *) {
                 ordersPageControl.preferredIndicatorImage  = UIImage(name: "selectedPageControl")
                 ordersPageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
-                ordersPageControl.pageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlSecondaryInActiveColor
+                ordersPageControl.pageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlPrimaryInActiveColor
                 //ordersPageControl.page
                 //ordersPageControl.setIndicatorImage(UIImage(name: "selectedPageControl"), forPage: 0)
             } else {

@@ -97,14 +97,14 @@ class GroceriesEmptyView: UIView {
         
         // chat button appearance
         self.agentChatBtn.layer.cornerRadius = buttonsCornerRadius
-        self.agentChatBtn.backgroundColor = UIColor.secondaryDarkGreenColor()
+        self.agentChatBtn.backgroundColor = ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor
         self.agentChatBtn.titleLabel?.font = buttonsFont
         self.agentChatBtn.setTitleColor(UIColor.white, for: UIControl.State())
         self.agentChatBtn.setTitle(localizedString("agentchat_button", comment: ""), for: UIControl.State())
         
         // location button appearance
         self.changeLocationBtn.layer.cornerRadius = buttonsCornerRadius
-        self.changeLocationBtn.backgroundColor = UIColor.secondaryDarkGreenColor()
+        self.changeLocationBtn.backgroundColor = ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor
         self.changeLocationBtn.titleLabel?.font = buttonsFont
         self.changeLocationBtn.setTitleColor(UIColor.white, for: UIControl.State())
         self.changeLocationBtn.setTitle(localizedString("changelocation_button", comment: ""), for: UIControl.State())

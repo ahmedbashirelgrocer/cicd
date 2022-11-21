@@ -348,7 +348,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 case .success(let _):
                     let msg = localizedString("status_Update_Msg", comment: "")
                     if isOnTheWay {
-                        self.btnOnMyWay.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
+                        self.btnOnMyWay.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, forState: UIControl.State())
                         self.btnAtTheStore.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, forState: UIControl.State())
                         self.btnOnMyWay.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.tintColor = ApplicationTheme.currentTheme.buttonTextWithBackgroundColor

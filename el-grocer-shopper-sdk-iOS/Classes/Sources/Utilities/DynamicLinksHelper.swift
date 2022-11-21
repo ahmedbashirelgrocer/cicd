@@ -1192,7 +1192,7 @@ class MeterialProgress {
                 progressView = UIActivityIndicatorView(frame: CGRect(x: (topVc.bounds.width / 2) - 25 , y: topVc.bounds.height / 2, width: 50, height: 50))
             }
           
-            progressView?.color = UIColor.secondaryDarkGreenColor()
+            progressView?.color = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
             
           
             if #available(iOS 13.0, *)  {

@@ -82,7 +82,7 @@ class MyBasketTableViewCell: UITableViewCell {
     @IBOutlet var plusBottomView: UIView!
     @IBOutlet var limitedStockBGView: UIView!{
         didSet{
-            limitedStockBGView.backgroundColor = .limitedStockGreenColor()
+            limitedStockBGView.backgroundColor = ApplicationTheme.currentTheme.viewLimmitedStockSecondaryDarkBGColor
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 limitedStockBGView.roundCorners(corners: [.topRight , .bottomRight], radius: 8)
             }else {

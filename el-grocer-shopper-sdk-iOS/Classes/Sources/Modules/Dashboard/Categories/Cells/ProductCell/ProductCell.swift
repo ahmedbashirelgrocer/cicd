@@ -111,7 +111,7 @@ class ProductCell : UICollectionViewCell {
     }
     @IBOutlet var limitedStockBGView: UIView!{
         didSet{
-            limitedStockBGView.backgroundColor = .limitedStockGreenColor()
+            limitedStockBGView.backgroundColor = ApplicationTheme.currentTheme.viewLimmitedStockSecondaryDarkBGColor
         }
     }
     @IBOutlet var lblLimitedStock: UILabel!{

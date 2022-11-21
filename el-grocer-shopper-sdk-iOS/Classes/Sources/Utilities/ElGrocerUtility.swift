@@ -1328,8 +1328,8 @@ class ElGrocerUtility {
         view.button?.setImage(buttonIcon, for: .normal)
         view.button?.tintColor = .white
         view.button?.setTitle(isNeedtoShowButton && buttonIcon == nil ? localizedString("lbl_Undo", comment: "") : "", for: .normal)
-        view.button?.backgroundColor = .secondaryDarkGreenColor()
-        view.button?.setBackgroundColor(.secondaryDarkGreenColor() , forState: .normal)
+        view.button?.backgroundColor = ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor
+        view.button?.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor , forState: .normal)
         view.button?.setTitleColor(.white, for: .normal)
         view.button?.titleLabel?.font = .SFProDisplaySemiBoldFont(12)
         view.titleLabel?.setBodyBoldWhiteStyle()
@@ -1372,7 +1372,7 @@ class ElGrocerUtility {
         // Reduce the corner radius (applicable to layouts featuring rounded corners).
         (view.backgroundView as? CornerRoundingView)?.cornerRadius = 8
         
-        (view.backgroundView as? CornerRoundingView)?.backgroundColor = .secondaryDarkGreenColor()
+        (view.backgroundView as? CornerRoundingView)?.backgroundColor = ApplicationTheme.currentTheme.viewSecondaryDarkBGColor
         
         
         

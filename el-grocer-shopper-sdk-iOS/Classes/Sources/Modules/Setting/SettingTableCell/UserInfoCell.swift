@@ -16,7 +16,7 @@ class UserInfoCell: UITableViewCell {
     
     @IBOutlet var greenBGView: AWView!{
         didSet{
-            greenBGView.backgroundColor = .secondaryDarkGreenColor()
+            greenBGView.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
             greenBGView.cornarRadius = 8
         }
     }
@@ -38,7 +38,7 @@ class UserInfoCell: UITableViewCell {
     @IBOutlet var btnEditProfile: AWButton!{
         didSet{
             btnEditProfile.setTitle(localizedString("btn_txt_edit", comment: ""), for: .normal)
-            btnEditProfile.setTitleColor(.secondaryDarkGreenColor(), for: UIControl.State())
+            btnEditProfile.setTitleColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, for: UIControl.State())
         }
     }
     

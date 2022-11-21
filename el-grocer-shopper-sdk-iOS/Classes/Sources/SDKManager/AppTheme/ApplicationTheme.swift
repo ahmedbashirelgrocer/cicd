@@ -90,6 +90,7 @@ public protocol Theme {
     var viewPromotionRedColor: UIColor { get }
     var viewOOSItemRedColor: UIColor { get }
     var viewAlertLightYellowColor: UIColor { get }
+    var viewLimmitedStockSecondaryDarkBGColor: UIColor { get }
     //MARK: Category Pills
     var pillSelectedBGColor: UIColor { get }
     var pillUnSelectedBGColor: UIColor { get }
@@ -192,6 +193,7 @@ struct ElgrocerTheme: Theme {
     var viewPromotionRedColor: UIColor = ElgrocerBaseColors.elgrocerRedPromotionColour
     var viewOOSItemRedColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var viewAlertLightYellowColor: UIColor = ElgrocerBaseColors.elgrocerAlertYellowColour
+    var viewLimmitedStockSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     //MARK: Category Pills
     var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     var pillUnSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
@@ -294,11 +296,12 @@ struct SmileSDKTheme: Theme {
     var viewPromotionRedColor: UIColor = ElgrocerBaseColors.elgrocerRedPromotionColour
     var viewOOSItemRedColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var viewAlertLightYellowColor: UIColor = ElgrocerBaseColors.elgrocerAlertYellowColour
+    var viewLimmitedStockSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerLimitedStockDarkGreenColour
     //MARK: Category Pills
     var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var pillUnSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
-    var pillUnSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
+    var pillUnSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     //MARK: tableView
     var tableViewBGGreyColor: UIColor = ElgrocerBaseColors.elgrocerBackgroundGreyColour
     var tableViewBGWhiteColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour

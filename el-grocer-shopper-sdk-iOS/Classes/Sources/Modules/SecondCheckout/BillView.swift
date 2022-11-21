@@ -44,7 +44,7 @@ class BillView: UIView {
         
         label.text = localizedString("amount_to_pay", comment: "")
         label.textAlignment = .left
-        label.setBody3BoldUpperLimitedStockStyle()
+        label.setBody3BoldUpperSecondaryDarkGreenStyle()
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -56,7 +56,7 @@ class BillView: UIView {
         label.text = "AED 600.00"
         label.textAlignment = .right
         
-        label.setBody3BoldUpperLimitedStockStyle()
+        label.setBody3BoldUpperSecondaryDarkGreenStyle()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -111,7 +111,7 @@ class BillView: UIView {
         
         label.text = localizedString("", comment: "")
         label.textAlignment = .left
-        label.setBody3BoldUpperLimitedStockStyle()
+        label.setBody3BoldUpperSecondaryDarkGreenStyle()
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label

@@ -1816,11 +1816,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
             self.minOrderLabel.attributedText =  NSMutableAttributedString()
                 .normal(localizedString("lbl_Add", comment: ""),
-                        UIFont.SFProDisplayNormalFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayNormalFont(12), color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
                 .normal(" " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: remainingPrice) + " ",
-                        UIFont.SFProDisplayBoldFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayBoldFont(12), color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
                 .normal(localizedString("to_reach_minimum_order", comment: ""),
-                        UIFont.SFProDisplayNormalFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayNormalFont(12), color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
             
             self.minOrderImageView.image = UIImage(name: "cart-addmore")
             let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)

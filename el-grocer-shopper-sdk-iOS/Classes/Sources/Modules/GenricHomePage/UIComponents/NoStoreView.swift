@@ -251,7 +251,7 @@ class NoStoreView: UIView {
         let nsRange = NSString(string: title).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
         if nsRange.location != NSNotFound {
             attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(20) , range: nsRange )
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.secondaryDarkGreenColor() , range: nsRange )
+            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: ApplicationTheme.currentTheme.labelSecondaryBaseColor , range: nsRange )
         }
         self.lblTopMsg.attributedText = attributedString
         self.state = .defaultAction
@@ -285,7 +285,7 @@ class NoStoreView: UIView {
         let nsRange = NSString(string: title).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
         if nsRange.location != NSNotFound {
             attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(20) , range: nsRange )
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.secondaryDarkGreenColor() , range: nsRange )
+            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: ApplicationTheme.currentTheme.labelSecondaryBaseColor , range: nsRange )
         }
         self.lblTopMsg.attributedText = attributedString
         self.state = .defaultAction
@@ -311,7 +311,7 @@ class NoStoreView: UIView {
         let nsRange = NSString(string: title).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
         if nsRange.location != NSNotFound {
             attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(20) , range: nsRange )
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.secondaryDarkGreenColor() , range: nsRange )
+            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: ApplicationTheme.currentTheme.labelSecondaryBaseColor , range: nsRange )
         }
         self.lblTopMsg.attributedText = attributedString
         self.state = .defaultAction

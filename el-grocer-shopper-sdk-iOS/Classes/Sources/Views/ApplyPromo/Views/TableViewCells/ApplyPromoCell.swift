@@ -213,6 +213,6 @@ class ApplyPromoCell: UITableViewCell {
     
     func setBorderForPromo() {
         
-        voucherCodeBGView.addDashedBorderAroundView(color: .secondaryDarkGreenColor())
+        voucherCodeBGView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor)
     }
 }

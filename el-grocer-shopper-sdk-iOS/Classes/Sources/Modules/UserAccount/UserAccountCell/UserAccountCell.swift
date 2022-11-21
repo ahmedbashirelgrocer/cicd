@@ -25,7 +25,7 @@ class UserAccountCell : UITableViewCell, UITextFieldDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.fieldLabel.textColor = UIColor.secondaryDarkGreenColor()
+        self.fieldLabel.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
         self.fieldLabel.font = UIFont.bookFont(13.0)
         
         self.fieldValueTextField.textColor = UIColor.black
@@ -101,7 +101,7 @@ class UserAccountCell : UITableViewCell, UITextFieldDelegate {
         }
         
         self.separator.backgroundColor = isCorrect ? UIColor.separatorColor() : UIColor.textfieldErrorColor()
-        self.fieldLabel.textColor = isCorrect ? UIColor.secondaryDarkGreenColor() : UIColor.textfieldErrorColor()
+        self.fieldLabel.textColor = isCorrect ? ApplicationTheme.currentTheme.labelSecondaryBaseColor : UIColor.textfieldErrorColor()
     }
     
     // MARK: UITextFieldDelegate
