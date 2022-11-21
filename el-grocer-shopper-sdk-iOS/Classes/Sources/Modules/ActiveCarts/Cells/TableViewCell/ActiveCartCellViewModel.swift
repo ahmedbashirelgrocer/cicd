@@ -81,13 +81,38 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
         
         self.setDeliverySlot()
         self.fetchBanner()
-        
-        self.bannersSubject.onNext([BannerDTO(), BannerDTO(), BannerDTO()])
     }
 }
 
 // MARK: Helper Methods
 private extension ActiveCartCellViewModel {
+    
+    func fetchBanner() {
+        self.bannersSubject.onNext([BannerDTO(), BannerDTO(), BannerDTO()])
+        
+        ElGrocerApi.sharedInstance.getBannersFor(location: .sdk_all_carts_tier_2, retailer_ids: [String(self.activeCart.id)]) { result in
+            switch result {
+                
+            case .success(let data):
+                do {
+                    try self.bannersSubject.onNext(self.parseResponse(dictionary: data, type: [BannerDTO].self))
+                } catch {
+                    
+                }
+                break
+                
+            case .failure(let error):
+                break
+            }
+        }
+    }
+    
+    func parseResponse<T: Codable>(dictionary: NSDictionary, type: T.Type) throws -> T {
+        let data = try JSONSerialization.data(withJSONObject: dictionary)
+        let item: T = try JSONDecoder().decode(type, from: data)
+        return item
+    }
+    
     func setDeliverySlot() {
         let cart = self.activeCart
         
@@ -126,21 +151,6 @@ private extension ActiveCartCellViewModel {
             
             self.deliveryTextSubject.onNext(attributedString)
             self.deliveryTypeIconNameSubject.onNext("clock_red")
-        }
-    }
-    
-    func fetchBanner() {
-        ElGrocerApi.sharedInstance.getBannersFor(location: .sdk_all_carts_tier_2, retailer_ids: [String(self.activeCart.id)]) { result in
-            switch result {
-                
-            case .success(let data):
-                
-                break
-                
-            case .failure(let error):
-                print("Error >>> \(error)")
-                break
-            }
         }
     }
     
