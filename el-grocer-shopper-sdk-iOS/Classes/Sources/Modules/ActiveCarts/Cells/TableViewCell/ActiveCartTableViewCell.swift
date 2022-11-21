@@ -10,6 +10,18 @@ import RxSwift
 import RxDataSources
 import SDWebImage
 
+class TouchlessCollectionView: UICollectionView {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        superview?.touchesBegan(touches, with: event)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        superview?.touchesEnded(touches, with: event)
+    }
+}
+
 class ActiveCartTableViewCell: RxUITableViewCell {
     @IBOutlet weak var ivStoreLogo: UIImageView!
     @IBOutlet weak var lblStoreName: UILabel! {
@@ -23,7 +35,7 @@ class ActiveCartTableViewCell: RxUITableViewCell {
             lblNextDeliverySlot.setSubHead2RegDarkStyle()
         }
     }
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: TouchlessCollectionView!
     
     @IBOutlet weak var viewBannerWrapper: UIView!
     @IBOutlet weak var viewBanner: BannerView!
@@ -45,8 +57,9 @@ class ActiveCartTableViewCell: RxUITableViewCell {
         self.viewBanner.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(bannerTap(_ :))))
         self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
-        self.collectionView.isUserInteractionEnabled = false
         self.buttonNext.isUserInteractionEnabled = false
+        
+        collectionView.canCancelContentTouches = false
     }
     
     override func layoutSubviews() {
