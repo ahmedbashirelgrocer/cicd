@@ -37,7 +37,7 @@ class ActiveCartProductCell: RxUICollectionViewCell {
 private extension ActiveCartProductCell {
     func bindViews() {
         self.viewModel.outputs.productImageUrl.subscribe(onNext: { [weak self] url in
-            self?.ivProductIcon.sd_setImage(with: url, placeholderImage: UIImage(name: ""), context: nil)
+            self?.ivProductIcon.sd_setImage(with: url, placeholderImage: UIImage(name: "product_placeholder"), context: nil)
         }).disposed(by: disposeBag)
         
         self.viewModel.outputs.productQuantity

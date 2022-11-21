@@ -21,7 +21,7 @@
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJb-j6-CFM" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="130" height="107"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test-product" translatesAutoresizingMaskIntoConstraints="NO" id="Kaf-4W-Fjh">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kaf-4W-Fjh">
                                 <rect key="frame" x="4" y="4" width="122" height="99"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yre-wd-X2O" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
@@ -93,7 +93,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="test-product" width="78" height="78"/>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
