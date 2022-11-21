@@ -63,6 +63,11 @@ private extension ActiveCartListingViewController {
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        self.tableView.rx.modelSelected(ActiveCartCellViewModel.self)
+            .map { $0.activeCart }
+            .bind(to: self.viewModel.inputs.cellSelectedObserver)
+            .disposed(by: disposeBag)
+        
         self.viewModel.outputs.title
             .bind(to: self.lblTitle.rx.text)
             .disposed(by: disposeBag)

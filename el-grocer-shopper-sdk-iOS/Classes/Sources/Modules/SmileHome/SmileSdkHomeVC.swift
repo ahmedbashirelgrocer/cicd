@@ -25,10 +25,11 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
         
         // MARK: Actions
-        viewModel.outputs.nextButtonTap.subscribe { selectedCart in
+        viewModel.outputs.cellSelected.subscribe { selectedActiveCart in
             activeCartVC.dismiss(animated: true) {
-                let groceryID = selectedCart.id
+                let groceryID = selectedActiveCart.id
                 guard let grocery = self.filteredGroceryArray.filter({ Int($0.dbID) == groceryID }).first else { return }
+                
                 self.goToGrocery(grocery, nil)
             }
         }.disposed(by: disposeBag)

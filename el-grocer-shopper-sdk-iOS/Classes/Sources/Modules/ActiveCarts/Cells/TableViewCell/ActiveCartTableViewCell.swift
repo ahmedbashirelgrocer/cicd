@@ -45,6 +45,8 @@ class ActiveCartTableViewCell: RxUITableViewCell {
         self.viewBanner.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(bannerTap(_ :))))
         self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
+        self.collectionView.isUserInteractionEnabled = false
+        self.buttonNext.isUserInteractionEnabled = false
     }
     
     override func layoutSubviews() {
@@ -58,7 +60,7 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     }
     
     @IBAction func nextButtonTap(_ sender: Any) {
-        self.viewModel.inputs.nextButtonTapObserver.onNext(())
+//        self.viewModel.inputs.nextButtonTapObserver.onNext(())
     }
     
     @objc func bannerTap(_ sender: UITapGestureRecognizer) {
@@ -98,6 +100,11 @@ private extension ActiveCartTableViewCell {
         
         self.viewModel.outputs.banners
             .bind(to: self.viewBanner.rx.banners)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.banners
+            .map { $0.isEmpty }
+            .bind(to: self.viewBannerWrapper.rx.isHidden)
             .disposed(by: disposeBag)
         
         self.viewModel.outputs.isArbic.subscribe { [weak self] isArbic in
