@@ -10,7 +10,6 @@ import RxSwift
 import RxDataSources
 
 protocol ActiveCartCellViewModelInput {
-//    var nextButtonTapObserver: AnyObserver<Void> { get }
     var bannerTapObserver: AnyObserver<Void> { get }
 }
 
@@ -22,8 +21,6 @@ protocol ActiveCartCellViewModelOutput {
     var banners: Observable<[BannerDTO]> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var isArbic: Observable<Bool> { get }
-    
-//    var nextButtonTap: Observable<ActiveCartDTO> { get }
     var bannerTap: Observable<String> { get }
 }
 
@@ -39,7 +36,6 @@ extension ActiveCartCellViewModelType {
 
 class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCellViewModelType {
     // MARK: Inputs
-//    var nextButtonTapObserver: AnyObserver<Void> { self.nextButtonTapSubject.asObserver() }
     var bannerTapObserver: AnyObserver<Void> { self.bannerTapSubject.asObserver() }
     
     // MARK: Outputs
@@ -50,7 +46,6 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var banners: Observable<[BannerDTO]> { bannersSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
-//    var nextButtonTap: Observable<ActiveCartDTO> { nextButtonTapSubject.map { [unowned self] in self.activeCart }.asObservable() }
     var bannerTap: Observable<String> { bannerTapSubject.map { "Replace this with actual banner object" }.asObservable() }
     
     // MARK: Subject
@@ -60,7 +55,6 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     private var deliveryTextSubject = BehaviorSubject<NSAttributedString?>(value: nil)
     private var bannersSubject = BehaviorSubject<[BannerDTO]>(value: [])
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
-//    private let nextButtonTapSubject = PublishSubject<Void>()
     private let bannerTapSubject = PublishSubject<Void>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     

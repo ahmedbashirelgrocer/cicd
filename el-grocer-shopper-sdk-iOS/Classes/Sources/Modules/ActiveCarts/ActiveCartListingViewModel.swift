@@ -18,7 +18,6 @@ protocol ActiveCartListingViewModelOutput {
     var loading: Observable<Bool> { get }
     var title: Observable<String> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
-//    var nextButtonTap: Observable<ActiveCartDTO> { get }
     var bannerTap: Observable<String> { get }
     var showEmptyView: Observable<Void> { get }
     var continueShoppingTap: Observable<Void> { get }
@@ -44,7 +43,6 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var title: Observable<String> { titleSubject.asObservable() }
-//    var nextButtonTap: Observable<ActiveCartDTO> { nextButtonTapSubject.asObservable() }
     var bannerTap: Observable<String> { bannerTapSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     var continueShoppingTap: Observable<Void> { continueShoppingTapSubject.asObservable() }
@@ -54,7 +52,6 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     private let titleSubject = BehaviorSubject<String>(value: NSLocalizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
-//    private let nextButtonTapSubject = PublishSubject<ActiveCartDTO>()
     private let bannerTapSubject = PublishSubject<String>()
     private let showEmptyViewSubject = PublishSubject<Void>()
     private let continueShoppingTapSubject = PublishSubject<Void>()
@@ -96,10 +93,7 @@ private extension ActiveCartListingViewModel {
                 
                 let activeCartVMs = activeCarts.map { cart in
                     let cartCellViewModel = ActiveCartCellViewModel(activeCart: cart)
-                    
-//                    cartCellViewModel.outputs.nextButtonTap.bind(to: self.nextButtonTapSubject).disposed(by: self.disposeBag)
-                    cartCellViewModel.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
-                    
+                    cartCellViewModel.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)             
                     return cartCellViewModel
                 }
                 
