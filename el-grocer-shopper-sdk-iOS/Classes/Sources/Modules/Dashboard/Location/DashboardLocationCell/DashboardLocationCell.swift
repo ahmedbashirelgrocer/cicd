@@ -32,6 +32,7 @@ class DashboardLocationCell : UITableViewCell {
     @IBOutlet weak var defaultButton: UIButton! {
         didSet {
             defaultButton.setTitle(localizedString("btn_default", comment: ""), for: UIControl.State())
+            defaultButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
         }
     }
     

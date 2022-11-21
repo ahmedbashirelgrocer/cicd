@@ -42,7 +42,12 @@ class HomeCell: UITableViewCell {
     
     @IBOutlet weak var rightArrowImageView: UIImageView!
     // @IBOutlet weak var arrowImgView: UIImageView!
-    @IBOutlet weak var viewMoreButton: UIButton!
+    @IBOutlet weak var viewMoreButton: UIButton! {
+        didSet {
+            viewMoreButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            viewMoreButton.setBackgroundColorForAllState(.clear)
+        }
+    }
     @IBOutlet weak var titleLbl: UILabel!{
         didSet{
             if let lng = UserDefaults.getCurrentLanguage(){

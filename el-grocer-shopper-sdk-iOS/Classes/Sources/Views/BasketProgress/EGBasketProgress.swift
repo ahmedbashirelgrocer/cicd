@@ -21,7 +21,11 @@ class EGBasketProgress: UIView {
     @IBOutlet var HalfFIllBucket: UIImageView!
     @IBOutlet var completeCheckOut: UIImageView!
     
-    @IBOutlet var lblMessage: UILabel!
+    @IBOutlet var lblMessage: UILabel! {
+        didSet {
+            lblMessage.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+        }
+    }
     @IBOutlet var lblDeliveryDetails: UILabel! {
         didSet{
             lblDeliveryDetails.text =   localizedString("dashboard_location_navigation_bar_title", comment: "")

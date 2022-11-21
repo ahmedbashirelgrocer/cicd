@@ -33,7 +33,11 @@ class BasketIconOverlayView : UIView {
     
     @IBOutlet weak var cartView: UIView!
     
-    @IBOutlet var progressView: GTProgressBar!
+    @IBOutlet var progressView: GTProgressBar! {
+        didSet {
+            progressView.barFillColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+        }
+    }
 
     @IBOutlet var progressViewLeading: NSLayoutConstraint!
     @IBOutlet var lblFreeDelieveryConstraint: NSLayoutConstraint!
@@ -53,10 +57,23 @@ class BasketIconOverlayView : UIView {
     var toolTipView:JDFTooltipView?
     
     
-    @IBOutlet weak var minOrderLabel: UILabel!
+    @IBOutlet weak var minOrderLabel: UILabel! {
+        didSet {
+            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+        }
+    }
     @IBOutlet weak var minOrderImageView: UIImageView!
-    @IBOutlet weak var minOrderProgressView: UIProgressView!
-    @IBOutlet weak var cartItemsCountLabel: UILabel!
+    @IBOutlet weak var minOrderProgressView: UIProgressView! {
+        didSet {
+            minOrderProgressView.progressTintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+        }
+    }
+    @IBOutlet weak var cartItemsCountLabel: UILabel! {
+        didSet {
+            cartItemsCountLabel.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            cartItemsCountLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+        }
+    }
     @IBOutlet weak var cartTotalPriceLabel: UILabel!
     @IBOutlet weak var cartLabel: UILabel!
     @IBOutlet weak var rightArrowView: UIImageView!
@@ -242,13 +259,13 @@ class BasketIconOverlayView : UIView {
                         self.minOrderLabel.attributedText =  NSMutableAttributedString()
                             .normal(localizedString("lbl_Add", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
-                                    color: .secondaryDarkGreenColor())
+                                    color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
                             .normal(" " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: remainingPrice) + " ",
                                     UIFont.SFProDisplayBoldFont(12),
-                                    color: .secondaryDarkGreenColor())
+                                    color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
                             .normal(localizedString("to_reach_minimum_order", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
-                                    color: .secondaryDarkGreenColor())
+                                    color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
                         self.minOrderImageView.image = UIImage(name: "cart-addmore")
                         let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
                         self.minOrderProgressView.setProgress(progressValue, animated: true)

@@ -28,6 +28,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         didSet{
             btnNewAddress.setButton2SemiBoldWhiteStyle()
             btnNewAddress.setTitle(" " + localizedString("lbl_add_new_Address", comment: ""), for: .normal)
+            btnNewAddress.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
         }
     }
     weak var delegate:DashboardLocationProtocol?

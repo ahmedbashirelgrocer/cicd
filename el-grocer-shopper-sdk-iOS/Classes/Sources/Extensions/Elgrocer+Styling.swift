@@ -479,7 +479,13 @@ extension UIButton {
         }
     }
     
-    
+    func setH4SemiBoldEnableButtonStyle() {
+        self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithBackgroundColor , for: UIControl.State())
+        self.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+        
+    }
+
     func setH4SemiBoldGreenStyle() {
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())

@@ -2261,6 +2261,7 @@
                     </view>
                     <connections>
                         <outlet property="bottonViewHeight" destination="uxa-fG-aJe" id="Ck6-OE-CM1"/>
+                        <outlet property="buttomButtonGoToMainBGView" destination="KKW-PJ-yhT" id="LsV-0M-K6j"/>
                         <outlet property="buttomButtonTitle" destination="Jk7-zw-N2D" id="85c-sS-h6F"/>
                         <outlet property="checkOutView" destination="Q2y-yS-0NS" id="dfW-Cg-4CP"/>
                         <outlet property="collectionView" destination="ubS-a1-WUL" id="jdc-V9-1Aj"/>

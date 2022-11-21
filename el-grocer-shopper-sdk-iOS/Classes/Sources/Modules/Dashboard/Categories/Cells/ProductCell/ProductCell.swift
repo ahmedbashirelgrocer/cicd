@@ -390,7 +390,7 @@ class ProductCell : UICollectionViewCell {
 
     func setNotSelectedReplacementView() {
         if chooseReplacmentBtn.titleLabel?.text != localizedString("choose_substitutions_title", comment: "") {
-            chooseReplaceBg.backgroundColor = .secondaryDarkGreenColor()//.redInfoColor()
+            chooseReplaceBg.backgroundColor = ApplicationTheme.currentTheme.viewSecondaryDarkBGColor
             UIView.performWithoutAnimation {
                  chooseReplacmentBtn.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
                 chooseReplacmentBtn.layoutIfNeeded()

@@ -64,7 +64,7 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
             if #available(iOS 14.0, *) {
                 ordersPageControl.preferredIndicatorImage  = UIImage(name: "selectedPageControl")
                 ordersPageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
-                ordersPageControl.pageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlInActiveColor
+                ordersPageControl.pageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlSecondaryInActiveColor
                 //ordersPageControl.page
                 //ordersPageControl.setIndicatorImage(UIImage(name: "selectedPageControl"), forPage: 0)
             } else {

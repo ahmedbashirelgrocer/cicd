@@ -23,7 +23,11 @@ class StoreListGlobalSearchCell: UITableViewCell {
         }
     }
     @IBOutlet var storeCollectionView: UICollectionView!
-    @IBOutlet var pageControl: UIPageControl!
+    @IBOutlet var pageControl: UIPageControl! {
+        didSet {
+            pageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
+        }
+    }
 
     var groceryArray = [Grocery]()
     var groceryClicked : ((_ grocery : Grocery) -> Void)?

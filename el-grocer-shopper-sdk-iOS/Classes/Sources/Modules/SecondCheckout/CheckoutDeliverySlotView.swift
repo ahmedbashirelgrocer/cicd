@@ -11,7 +11,11 @@ import STPopup
 
 class CheckoutDeliverySlotView: UIView  {
 
-    @IBOutlet weak var slotBGView: AWView!
+    @IBOutlet weak var slotBGView: AWView! {
+        didSet {
+            slotBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+        }
+    }
     @IBOutlet weak var lblSlotPrefixText: UILabel! {
         didSet {
             lblSlotPrefixText.setBody1RegWhiteStyle()

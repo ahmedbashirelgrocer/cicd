@@ -135,14 +135,22 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    @IBOutlet weak var minOrderLabel: UILabel!
+    @IBOutlet weak var minOrderLabel: UILabel! {
+        didSet {
+            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+        }
+    }
     
     //MARK: ImageView outlets
     @IBOutlet var imgViewTopCardView: UIImageView!
     @IBOutlet var imgbasketArrow: UIImageView!
     @IBOutlet weak var minOrderImageView: UIImageView!
     
-    @IBOutlet weak var minOrderProgressView: UIProgressView!
+    @IBOutlet weak var minOrderProgressView: UIProgressView! {
+        didSet {
+            minOrderProgressView.progressTintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+        }
+    }
     
         //MARK:- Variables
         //MARK:-
@@ -1819,7 +1827,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.minOrderProgressView.setProgress(progressValue, animated: true)
                 self.title =  self.itemsSummaryValue > 0 ?   localizedString("shopping_OOS_title_label", comment: "") : localizedString("Cart_Title", comment: "")
             self.checkoutBtn.isEnabled = false
-            self.checkOutViewForButton.backgroundColor = UIColor.colorWithHexString(hexString: "909090")
+            self.checkOutViewForButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             //greyish
         }else{
             
@@ -1830,7 +1838,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.minOrderProgressView.setProgress(1.0, animated: true)
             if UserDefaults.isUserLoggedIn() && notAvailableCount == 0 {
             self.checkoutBtn.isEnabled = true
-            self.checkOutViewForButton.backgroundColor = UIColor.colorWithHexString(hexString: "05BC66")
+                self.checkOutViewForButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             //green
             }
         }

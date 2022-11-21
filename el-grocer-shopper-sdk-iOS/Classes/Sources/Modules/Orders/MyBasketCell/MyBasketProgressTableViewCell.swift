@@ -27,7 +27,11 @@ class MyBasketProgressTableViewCell: UITableViewCell {
     @IBOutlet var progressHalfFilled: UIImageView!
     @IBOutlet var HalfFIllBucket: UIImageView!
     @IBOutlet var completeCheckOut: UIImageView!
-    @IBOutlet var lblMessage: UILabel!
+    @IBOutlet var lblMessage: UILabel! {
+        didSet {
+            lblMessage.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+        }
+    }
     @IBOutlet var continueShoppingBtn: AWButton! {
         didSet{
             continueShoppingBtn.setTitle(localizedString("lbl_Contnue_shopping", comment: "") , for: UIControl.State())

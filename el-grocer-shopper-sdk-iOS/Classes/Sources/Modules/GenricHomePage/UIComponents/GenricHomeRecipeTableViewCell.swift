@@ -15,7 +15,11 @@ class GenricHomeRecipeTableViewCell: UITableViewCell {
             recipeList.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         }
     }
-    @IBOutlet var pageControl: UIPageControl!
+    @IBOutlet var pageControl: UIPageControl! {
+        didSet {
+            pageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
