@@ -82,8 +82,6 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
 private extension ActiveCartCellViewModel {
     
     func fetchBanner() {
-        self.bannersSubject.onNext([BannerDTO(), BannerDTO(), BannerDTO()])
-        
         ElGrocerApi.sharedInstance.getBannersFor(location: .sdk_all_carts_tier_2, retailer_ids: [String(self.activeCart.id)]) { result in
             switch result {
                 

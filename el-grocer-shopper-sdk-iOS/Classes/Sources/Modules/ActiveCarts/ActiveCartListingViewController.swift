@@ -86,6 +86,24 @@ private extension ActiveCartListingViewController {
             self.tableView.backgroundView = self.emptyView
             self.emptyView.btnBottomConstraint.constant = 131
         }.disposed(by: disposeBag)
+        
+        self.viewModel.outputs.error.subscribe(onNext: { [weak self] error in
+            self?.showErrorAlert(title: "Error", message: error.localizedMessage)
+        }).disposed(by: disposeBag)
+    }
+    
+    func showErrorAlert(title: String, message: String) {
+        let title = localizedString("alert_error_title", comment: "")
+        let okayButtonTitle = localizedString("ok_button_title", comment: "")
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.view.tintColor = .navigationBarColor()
+        alert.addAction(UIAlertAction(title: okayButtonTitle, style: .default, handler: { action in
+            self.dismiss(animated: true)
+        }))
+        
+        self.present(alert, animated: true)
     }
 }
 

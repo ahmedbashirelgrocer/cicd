@@ -22,6 +22,7 @@ protocol ActiveCartListingViewModelOutput {
     var showEmptyView: Observable<Void> { get }
     var continueShoppingTap: Observable<Void> { get }
     var cellSelected: Observable<ActiveCartDTO> { get }
+    var error: Observable<ElGrocerError> { get }
 }
 
 protocol ActiveCartListingViewModelType: ActiveCartListingViewModelInput, ActiveCartListingViewModelOutput {
@@ -47,6 +48,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     var continueShoppingTap: Observable<Void> { continueShoppingTapSubject.asObservable() }
     var cellSelected: Observable<ActiveCartDTO> { cellSelectedSubject.asObservable() }
+    var error: Observable<ElGrocerError> { errorSubject.asObservable() }
     
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
@@ -56,6 +58,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     private let showEmptyViewSubject = PublishSubject<Void>()
     private let continueShoppingTapSubject = PublishSubject<Void>()
     private let cellSelectedSubject = PublishSubject<ActiveCartDTO>()
+    private let errorSubject = PublishSubject<ElGrocerError>()
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
@@ -101,8 +104,7 @@ private extension ActiveCartListingViewModel {
                 break
 
             case .failure(let error):
-                error.showErrorAlert()
-                self.showEmptyViewSubject.onNext(())
+                self.errorSubject.onNext(error)
                 break
             }
         }
