@@ -73,6 +73,7 @@ public protocol Theme {
     var labelTextWithBGColor: UIColor { get }
     var labelHighlightedOOSColor: UIColor { get }
     var labelPromotionalTextColor: UIColor { get }
+    var labelGroceryCellSecondaryDarkTextColor: UIColor { get }
     //MARK: textField
     var textFieldGreyBGColor: UIColor { get }
     var textFieldWhiteBGColor: UIColor { get }
@@ -174,6 +175,7 @@ struct ElgrocerTheme: Theme {
     var labelTextWithBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var labelHighlightedOOSColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var labelPromotionalTextColor: UIColor = ElgrocerBaseColors.elgrocerPromotionYellowColour
+    var labelGroceryCellSecondaryDarkTextColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     //MARK: textField
     var textFieldGreyBGColor: UIColor = ElgrocerBaseColors.elgrocerBackgroundGreyColour
     var textFieldWhiteBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
@@ -275,6 +277,7 @@ struct SmileSDKTheme: Theme {
     var labelTextWithBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var labelHighlightedOOSColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var labelPromotionalTextColor: UIColor = ElgrocerBaseColors.elgrocerPromotionYellowColour
+    var labelGroceryCellSecondaryDarkTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     //MARK: textField
     var textFieldGreyBGColor: UIColor = ElgrocerBaseColors.elgrocerBackgroundGreyColour
     var textFieldWhiteBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour

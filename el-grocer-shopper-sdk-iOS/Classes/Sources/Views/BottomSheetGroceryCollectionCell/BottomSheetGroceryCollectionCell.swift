@@ -26,7 +26,7 @@ class BottomSheetGroceryCollectionCell: UICollectionViewCell {
     }
     @IBOutlet var lblGroceryName: UILabel!{
         didSet{
-            lblGroceryName.setBody2SemiboldDarkGreenStyle()
+            lblGroceryName.setBody2SemiboldGeoceryDarkGreenStyle()
         }
     }
     @IBOutlet var lblSlot: UILabel!{

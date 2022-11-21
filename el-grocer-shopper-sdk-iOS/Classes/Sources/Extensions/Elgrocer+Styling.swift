@@ -81,9 +81,9 @@ extension UILabel {
         self.font = UIFont.SFProDisplaySemiBoldFont(16)
         self.textColor = UIColor.newBlackColor()
     }
-    func setBody2SemiboldDarkGreenStyle() {
+    func setBody2SemiboldGeoceryDarkGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(16)
-        self.textColor = UIColor.secondaryDarkGreenColor()
+        self.textColor = ApplicationTheme.currentTheme.labelGroceryCellSecondaryDarkTextColor
     }
     func setBody2SemiboldGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(16)
@@ -342,7 +342,7 @@ extension UILabel {
     }
     func setSubHead2SemiBoldDarkGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(13)
-        self.textColor = UIColor.secondaryDarkGreenColor()
+        self.textColor = ApplicationTheme.currentTheme.labelGroceryCellSecondaryDarkTextColor
     }
     
     func setBody1BoldStyle() {
