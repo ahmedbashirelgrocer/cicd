@@ -706,7 +706,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         return UITableView.automaticDimension
     }
     
-    
+    // MARK: Banner Navigation 
     private func bannerClicked(_ cell : GenericBannersCell) {
         
         cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in

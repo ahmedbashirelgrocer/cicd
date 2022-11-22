@@ -74,7 +74,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
         self.isArbicSubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected())
         
         self.setDeliverySlot()
-//        self.fetchBanner()
+        self.fetchBanner()
     }
 }
 
@@ -87,13 +87,15 @@ private extension ActiveCartCellViewModel {
                 
             case .success(let data):
                 do {
-                    try self.bannersSubject.onNext(self.parseResponse(dictionary: data, type: [BannerDTO].self))
+                    let data = try JSONSerialization.data(withJSONObject: data)
+                    let compaings: CampaignsResponse = try JSONDecoder().decode(CampaignsResponse.self, from: data)
+                    self.bannersSubject.onNext(compaings.data)
                 } catch {
-                    
+                    print("error >>> \(error)")
                 }
                 break
                 
-            case .failure(let error):
+            case .failure(_):
                 break
             }
         }

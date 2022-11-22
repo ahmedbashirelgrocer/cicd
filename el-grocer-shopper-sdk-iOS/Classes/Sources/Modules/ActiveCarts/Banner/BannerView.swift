@@ -9,13 +9,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-struct BannerDTO: Codable { }
-
 class BannerView: UIView {
-    
     @IBOutlet weak var collectionView: UICollectionView!
-    
     @IBOutlet var contentView: UIView!
+    
+    private var timer: Timer?
     
     var banners: [BannerDTO] = [] {
         didSet {
@@ -25,11 +23,21 @@ class BannerView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        guard self.banners.isNotEmpty else { return }
+        
+        if timer == nil {
+            timer?.invalidate()
+        }
+        
+        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector (moveToNext), userInfo: nil, repeats: true)
+        
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit()
+    @objc func moveToNext() {
+        UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0) {
+            self.collectionView.scrollToNextItem()
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -62,7 +70,7 @@ extension BannerView: UICollectionViewDataSource {
 
 extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 80)
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width * 0.19)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

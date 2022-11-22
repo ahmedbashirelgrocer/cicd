@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7u-s6-Wjj" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="243" height="109"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fdJ-D6-ioy">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fdJ-D6-ioy">
                                 <rect key="frame" x="4" y="4" width="235" height="101"/>
                             </imageView>
                         </subviews>
@@ -39,7 +39,7 @@
                                 <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -54,6 +54,7 @@
             </constraints>
             <size key="customSize" width="243" height="109"/>
             <connections>
+                <outlet property="ivBanner" destination="fdJ-D6-ioy" id="8LO-A4-yfD"/>
                 <outlet property="viewBannerWrapper" destination="v7u-s6-Wjj" id="RUj-L1-l1Y"/>
             </connections>
             <point key="canvasLocation" x="285.38461538461536" y="41.587677725118482"/>
