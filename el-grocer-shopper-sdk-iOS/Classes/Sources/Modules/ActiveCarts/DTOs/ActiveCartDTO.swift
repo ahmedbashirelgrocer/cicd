@@ -26,11 +26,7 @@ struct ActiveCartDTO: Codable {
     var products: [ActiveCartProductDTO]
     
     var deliveryType: DeliveryType {
-        if self.deliverySlot?.id == 0 {
-            return .instant
-        }
-        
-        return .scheduled
+        return self.deliverySlot?.id == 0 ? .instant : .scheduled
     }
     
     enum CodingKeys: String, CodingKey {

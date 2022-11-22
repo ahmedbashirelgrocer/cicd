@@ -72,20 +72,20 @@ private extension ActiveCartListingViewController {
             .bind(to: self.lblTitle.rx.text)
             .disposed(by: disposeBag)
         
-        self.viewModel.outputs.loading.subscribe { [weak self] loading in
+        self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
             loading
                 ? _ = SpinnerView.showSpinnerViewInView(self.view)
                 : SpinnerView.hideSpinnerView()
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
-        self.viewModel.outputs.showEmptyView.subscribe { [weak self] _ in
+        self.viewModel.outputs.showEmptyView.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
             
             self.emptyView.configureNoCart(viewBGColor: .colorWithHexString(hexString: "f5f5f5"))
             self.tableView.backgroundView = self.emptyView
             self.emptyView.btnBottomConstraint.constant = 131
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
         self.viewModel.outputs.error.subscribe(onNext: { [weak self] error in
             self?.showErrorAlert(title: "Error", message: error.localizedMessage)

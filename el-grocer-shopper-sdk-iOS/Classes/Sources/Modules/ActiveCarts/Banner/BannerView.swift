@@ -15,7 +15,7 @@ class BannerView: UIView {
     
     var bannerTapped: ((BannerDTO)->())?
     
-    var timer: Timer?
+    private var timer: Timer?
     
     var banners: [BannerDTO] = [] {
         didSet {
@@ -31,17 +31,8 @@ class BannerView: UIView {
         if timer == nil { timer?.invalidate() }
         
         timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak self] tiemr in
-            self?.moveToNext()
+            self?.collectionView.scrollToNextItem()
         })
-        
-    }
-    
-    deinit {
-        self.timer?.invalidate()
-    }
-    
-    @objc func moveToNext() {
-        self.collectionView.scrollToNextItem()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,6 +48,10 @@ class BannerView: UIView {
         collectionView.dataSource = self
         
         self.collectionView.register(UINib(nibName: BannerCollectionViewCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: BannerCollectionViewCell.defaultIdentifier)
+    }
+    
+    deinit {
+        self.timer?.invalidate()
     }
 }
 

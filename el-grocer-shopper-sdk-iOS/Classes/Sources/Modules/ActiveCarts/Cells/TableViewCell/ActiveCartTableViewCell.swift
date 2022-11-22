@@ -54,10 +54,6 @@ class ActiveCartTableViewCell: RxUITableViewCell {
         self.buttonNext.isUserInteractionEnabled = false
     }
     
-    override func prepareForReuse() {
-        self.viewBanner.timer?.invalidate()
-    }
-    
     override func configure(viewModel: Any) {
         guard let viewModel = viewModel as? ActiveCartCellViewModelType else { return }
         

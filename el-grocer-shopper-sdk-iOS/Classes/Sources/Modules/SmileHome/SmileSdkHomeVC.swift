@@ -25,8 +25,8 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
         
         // MARK: Actions
-        viewModel.outputs.cellSelected.subscribe { [weak self] selectedActiveCart in
-            activeCartVC.dismiss(animated: true) {
+        viewModel.outputs.cellSelected.subscribe { [weak self, weak activeCartVC] selectedActiveCart in
+            activeCartVC?.dismiss(animated: true) {
                 let groceryID = selectedActiveCart.id
                 
                 guard let grocery = self?.filteredGroceryArray.filter({ Int($0.dbID) == groceryID }).first else { return }
@@ -34,10 +34,10 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
             }
         }.disposed(by: disposeBag)
         
-        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self] banner in
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
             guard let self = self, let campaignType = banner.campaignType, let bannerDic = banner.dictionary as? NSDictionary else { return }
             
-            activeCartVC.dismiss(animated: true)
+            activeCartVC?.dismiss(animated: true)
             
             
             let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDic)
@@ -64,10 +64,10 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
             }
         }).disposed(by: disposeBag)
         
-        viewModel.outputs.continueShoppingTap.subscribe { [weak self] _ in
+        viewModel.outputs.continueShoppingTap.subscribe { [weak self, weak activeCartVC] _ in
             guard let _ = self else { return }
             
-            activeCartVC.dismiss(animated: true)
+            activeCartVC?.dismiss(animated: true)
         }.disposed(by: disposeBag)
         
         self.present(activeCartVC, animated: true)
