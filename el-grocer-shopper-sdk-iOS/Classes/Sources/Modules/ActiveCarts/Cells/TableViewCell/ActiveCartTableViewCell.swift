@@ -41,7 +41,7 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     @IBOutlet weak var viewBanner: BannerView!
     @IBOutlet weak var buttonNext: UIButton!
     
-    private lazy var bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: collectionView.superview!.bottomAnchor, constant: -8)
+    private lazy var bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: collectionView.superview!.bottomAnchor, constant: -16)
     
     private var viewModel: ActiveCartCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -115,7 +115,7 @@ private extension ActiveCartTableViewCell {
 
 extension ActiveCartTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width / 3.5 - 16, height: collectionView.bounds.width / 3.5 - 32)
+        return CGSize(width: collectionView.bounds.width * 0.3, height: collectionView.bounds.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

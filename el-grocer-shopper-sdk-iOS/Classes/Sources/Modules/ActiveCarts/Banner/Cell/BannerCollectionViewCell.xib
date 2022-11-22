@@ -21,15 +21,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="243" height="109"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fdJ-D6-ioy">
-                                <rect key="frame" x="4" y="4" width="235" height="101"/>
+                                <rect key="frame" x="0.0" y="0.0" width="243" height="109"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="fdJ-D6-ioy" firstAttribute="leading" secondItem="v7u-s6-Wjj" secondAttribute="leading" constant="4" id="9M6-3T-CFv"/>
-                            <constraint firstAttribute="bottom" secondItem="fdJ-D6-ioy" secondAttribute="bottom" constant="4" id="MnL-AS-Y20"/>
-                            <constraint firstItem="fdJ-D6-ioy" firstAttribute="top" secondItem="v7u-s6-Wjj" secondAttribute="top" constant="4" id="wjn-hq-9za"/>
-                            <constraint firstAttribute="trailing" secondItem="fdJ-D6-ioy" secondAttribute="trailing" constant="4" id="xb9-5h-EcL"/>
+                            <constraint firstItem="fdJ-D6-ioy" firstAttribute="leading" secondItem="v7u-s6-Wjj" secondAttribute="leading" id="9M6-3T-CFv"/>
+                            <constraint firstAttribute="bottom" secondItem="fdJ-D6-ioy" secondAttribute="bottom" id="MnL-AS-Y20"/>
+                            <constraint firstItem="fdJ-D6-ioy" firstAttribute="top" secondItem="v7u-s6-Wjj" secondAttribute="top" id="wjn-hq-9za"/>
+                            <constraint firstAttribute="trailing" secondItem="fdJ-D6-ioy" secondAttribute="trailing" id="xb9-5h-EcL"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
