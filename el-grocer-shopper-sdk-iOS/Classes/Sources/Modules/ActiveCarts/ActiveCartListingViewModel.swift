@@ -18,7 +18,7 @@ protocol ActiveCartListingViewModelOutput {
     var loading: Observable<Bool> { get }
     var title: Observable<String> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
-    var bannerTap: Observable<String> { get }
+    var bannerTap: Observable<BannerDTO> { get }
     var showEmptyView: Observable<Void> { get }
     var continueShoppingTap: Observable<Void> { get }
     var cellSelected: Observable<ActiveCartDTO> { get }
@@ -44,7 +44,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var title: Observable<String> { titleSubject.asObservable() }
-    var bannerTap: Observable<String> { bannerTapSubject.asObservable() }
+    var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     var continueShoppingTap: Observable<Void> { continueShoppingTapSubject.asObservable() }
     var cellSelected: Observable<ActiveCartDTO> { cellSelectedSubject.asObservable() }
@@ -54,7 +54,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     private let titleSubject = BehaviorSubject<String>(value: NSLocalizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
-    private let bannerTapSubject = PublishSubject<String>()
+    private let bannerTapSubject = PublishSubject<BannerDTO>()
     private let showEmptyViewSubject = PublishSubject<Void>()
     private let continueShoppingTapSubject = PublishSubject<Void>()
     private let cellSelectedSubject = PublishSubject<ActiveCartDTO>()

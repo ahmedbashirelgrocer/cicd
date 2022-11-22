@@ -25,20 +25,32 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
         
         // MARK: Actions
-        viewModel.outputs.cellSelected.subscribe { selectedActiveCart in
+        viewModel.outputs.cellSelected.subscribe { [weak self] selectedActiveCart in
             activeCartVC.dismiss(animated: true) {
                 let groceryID = selectedActiveCart.id
-                guard let grocery = self.filteredGroceryArray.filter({ Int($0.dbID) == groceryID }).first else { return }
                 
-                self.goToGrocery(grocery, nil)
+                guard let grocery = self?.filteredGroceryArray.filter({ Int($0.dbID) == groceryID }).first else { return }
+                self?.goToGrocery(grocery, nil)
             }
         }.disposed(by: disposeBag)
         
-        viewModel.outputs.bannerTap.subscribe { string in
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self] banner in
+            guard let _ = self else { return }
             
-        }.disposed(by: disposeBag)
+//            if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
+//                ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
+//            }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
+//                banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+//            }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
+//                banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+//            }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
+//                banner.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+//            }
+        }).disposed(by: disposeBag)
         
-        viewModel.outputs.continueShoppingTap.subscribe { _ in
+        viewModel.outputs.continueShoppingTap.subscribe { [weak self] _ in
+            guard let _ = self else { return }
+            
             activeCartVC.dismiss(animated: true)
         }.disposed(by: disposeBag)
         

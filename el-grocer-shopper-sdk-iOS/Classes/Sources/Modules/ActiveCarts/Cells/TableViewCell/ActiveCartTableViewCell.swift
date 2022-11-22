@@ -41,28 +41,34 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     @IBOutlet weak var viewBanner: BannerView!
     @IBOutlet weak var buttonNext: UIButton!
     
+    private lazy var bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: collectionView.superview!.bottomAnchor, constant: -8)
+    
     private var viewModel: ActiveCartCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
     
-        self.viewBanner.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(bannerTap(_ :))))
         self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
         self.buttonNext.isUserInteractionEnabled = false
-        self.viewBanner.isUserInteractionEnabled = true
+    }
+    
+    override func prepareForReuse() {
+        self.viewBanner.timer?.invalidate()
     }
     
     override func configure(viewModel: Any) {
         guard let viewModel = viewModel as? ActiveCartCellViewModelType else { return }
         
         self.viewModel = viewModel
+        
+        // Banner tap handler
+        self.viewBanner.bannerTapped = { [weak self] banner in
+            self?.viewModel.inputs.bannerTapObserver.onNext(banner)
+        }
+        
         self.bindViews()
-    }
-    
-    @objc func bannerTap(_ sender: UITapGestureRecognizer) {
-        self.viewModel.inputs.bannerTapObserver.onNext(())
     }
 }
 
@@ -100,10 +106,10 @@ private extension ActiveCartTableViewCell {
             .bind(to: self.viewBanner.rx.banners)
             .disposed(by: disposeBag)
         
-        self.viewModel.outputs.banners
-            .map { $0.isEmpty }
-            .bind(to: self.viewBannerWrapper.rx.isHidden)
-            .disposed(by: disposeBag)
+        self.viewModel.outputs.banners.subscribe(onNext: { [weak self] banners in
+            self?.bottomConstraint.isActive = banners.isEmpty
+            self?.invalidateIntrinsicContentSize()
+        }).disposed(by: disposeBag)
         
         self.viewModel.outputs.isArbic.subscribe { [weak self] isArbic in
             self?.buttonNext.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)

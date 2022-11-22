@@ -10,7 +10,7 @@ import RxSwift
 import RxDataSources
 
 protocol ActiveCartCellViewModelInput {
-    var bannerTapObserver: AnyObserver<Void> { get }
+    var bannerTapObserver: AnyObserver<BannerDTO> { get }
 }
 
 protocol ActiveCartCellViewModelOutput {
@@ -21,7 +21,7 @@ protocol ActiveCartCellViewModelOutput {
     var banners: Observable<[BannerDTO]> { get }
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var isArbic: Observable<Bool> { get }
-    var bannerTap: Observable<String> { get }
+    var bannerTap: Observable<BannerDTO> { get }
 }
 
 protocol ActiveCartCellViewModelType: ActiveCartCellViewModelInput, ActiveCartCellViewModelOutput {
@@ -36,7 +36,7 @@ extension ActiveCartCellViewModelType {
 
 class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCellViewModelType {
     // MARK: Inputs
-    var bannerTapObserver: AnyObserver<Void> { self.bannerTapSubject.asObserver() }
+    var bannerTapObserver: AnyObserver<BannerDTO> { self.bannerTapSubject.asObserver() }
     
     // MARK: Outputs
     var storeIconUrl: Observable<URL?> { storeIconUrlSubject.asObservable() }
@@ -46,7 +46,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var banners: Observable<[BannerDTO]> { bannersSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
-    var bannerTap: Observable<String> { bannerTapSubject.map { "Replace this with actual banner object" }.asObservable() }
+    var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     
     // MARK: Subject
     private var storeIconUrlSubject = BehaviorSubject<URL?>(value: nil)
@@ -55,7 +55,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     private var deliveryTextSubject = BehaviorSubject<NSAttributedString?>(value: nil)
     private var bannersSubject = BehaviorSubject<[BannerDTO]>(value: [])
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
-    private let bannerTapSubject = PublishSubject<Void>()
+    private let bannerTapSubject = PublishSubject<BannerDTO>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     
     // MARK: Properties

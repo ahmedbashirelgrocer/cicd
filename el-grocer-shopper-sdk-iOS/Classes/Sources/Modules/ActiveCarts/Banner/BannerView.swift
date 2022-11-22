@@ -13,7 +13,9 @@ class BannerView: UIView {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet var contentView: UIView!
     
-    private var timer: Timer?
+    var bannerTapped: ((BannerDTO)->())?
+    
+    var timer: Timer?
     
     var banners: [BannerDTO] = [] {
         didSet {
@@ -24,20 +26,22 @@ class BannerView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        guard self.banners.isNotEmpty else { return }
+        guard self.banners.isEmpty else { return }
         
-        if timer == nil {
-            timer?.invalidate()
-        }
+        if timer == nil { timer?.invalidate() }
         
-        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector (moveToNext), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak self] tiemr in
+            self?.moveToNext()
+        })
         
     }
     
+    deinit {
+        self.timer?.invalidate()
+    }
+    
     @objc func moveToNext() {
-        UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0, initialSpringVelocity: 0) {
-            self.collectionView.scrollToNextItem()
-        }
+        self.collectionView.scrollToNextItem()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -79,6 +83,13 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let bannerTapped = self.bannerTapped {
+            bannerTapped(self.banners[indexPath.row])
+        }
     }
 }
 
