@@ -35,17 +35,33 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         }.disposed(by: disposeBag)
         
         viewModel.outputs.bannerTap.subscribe(onNext: { [weak self] banner in
-            guard let _ = self else { return }
+            guard let self = self, let campaignType = banner.campaignType, let bannerDic = banner.dictionary as? NSDictionary else { return }
             
-//            if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
-//                ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
-//            }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
-//                banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
-//            }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
-//                banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
-//            }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
-//                banner.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
-//            }
+            activeCartVC.dismiss(animated: true)
+            
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDic)
+            
+            switch campaignType {
+            case BannerCampaignType.web.rawValue:
+                ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                break
+                
+            case BannerCampaignType.brand.rawValue:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                break
+                
+            case BannerCampaignType.retailer.rawValue:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                break
+                
+            case BannerCampaignType.priority.rawValue:
+                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+                break
+                
+            default:
+                break
+            }
         }).disposed(by: disposeBag)
         
         viewModel.outputs.continueShoppingTap.subscribe { [weak self] _ in
