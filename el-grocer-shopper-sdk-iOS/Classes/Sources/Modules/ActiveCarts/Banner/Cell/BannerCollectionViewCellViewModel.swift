@@ -32,7 +32,7 @@ class BannerCellViewModel: BannerCellViewModelType, ReusableCollectionViewCellVi
     private let bannerImageSubject: BehaviorSubject<URL?>
     
     init(banner: BannerDTO) {
-        self.bannerImageSubject = BehaviorSubject<URL?>(value: URL(string: banner.bannerImageURL ?? ""))
+        self.bannerImageSubject = BehaviorSubject<URL?>(value: URL(string: banner.imageURL ?? ""))
     }
     
 }
