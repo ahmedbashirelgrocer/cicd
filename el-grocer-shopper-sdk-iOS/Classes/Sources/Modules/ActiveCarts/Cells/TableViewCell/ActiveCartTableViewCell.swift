@@ -109,13 +109,15 @@ private extension ActiveCartTableViewCell {
         
         self.viewModel.outputs.isArbic.subscribe { [weak self] isArbic in
             self?.buttonNext.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
+            self?.collectionView.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
+            self?.collectionView.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
         }.disposed(by: disposeBag)
     }
 }
 
 extension ActiveCartTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width * 0.3, height: collectionView.bounds.height)
+        return CGSize(width: collectionView.bounds.width / 3 - 32, height: collectionView.bounds.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
