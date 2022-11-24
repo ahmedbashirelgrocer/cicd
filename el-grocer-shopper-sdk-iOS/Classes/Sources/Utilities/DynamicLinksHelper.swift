@@ -425,6 +425,11 @@ class DynamicLinksHelper {
             return
         }
         
+        if let multiCart = dUrl?.getQueryItemValueForKey("multiCart"), multiCart == "1" {
+            handleMulticartDeeplink()
+            return
+        }
+        
         /*
         if self.parentId.count > 0  {
             self.navigateToScreen()
@@ -444,6 +449,18 @@ class DynamicLinksHelper {
             }
             return
         }*/
+    }
+    
+    private func handleMulticartDeeplink() {
+        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+            if let topVC = UIApplication.topViewController() {
+                if let topVC = topVC as? SmileSdkHomeVC {
+                    topVC.navigateToMultiCart()
+                }
+            }
+        } else {
+            // handle deep link of shooper application here
+        }
     }
     
     func loadGroceryAlreadySelected() {
