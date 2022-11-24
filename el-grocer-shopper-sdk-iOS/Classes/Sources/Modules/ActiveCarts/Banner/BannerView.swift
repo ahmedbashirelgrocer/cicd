@@ -33,6 +33,9 @@ class BannerView: UIView {
         timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak self] tiemr in
             self?.collectionView.scrollToNextItem()
         })
+        
+        let isArbic = ElGrocerUtility.sharedInstance.isArabicSelected()
+        collectionView.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
     }
 
     required init?(coder aDecoder: NSCoder) {
