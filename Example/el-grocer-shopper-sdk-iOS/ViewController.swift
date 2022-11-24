@@ -82,7 +82,7 @@ class ViewController: UIViewController {
         refreshAlert.addAction(UIAlertAction(title: "Staging", style: .default, handler: {[weak self] (action: UIAlertAction!) in
             guard let self = self else {return}
             
-            let pushData : [String: AnyHashable] = [:]
+            var pushData : [String: AnyHashable] = [:]
             if (self.txtPushPayload.text?.count ?? 0) > 0 {
                 pushData = ["elgrocerMap" : self.txtPushPayload.text]
             }
