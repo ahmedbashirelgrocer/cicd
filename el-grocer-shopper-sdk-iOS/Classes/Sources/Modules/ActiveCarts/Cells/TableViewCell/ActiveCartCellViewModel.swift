@@ -149,14 +149,13 @@ private extension ActiveCartCellViewModel {
     }
     
     func formattedSlot() -> String {
-        let startDate = self.activeCart.deliverySlot?.startTime
-        let endDate = self.activeCart.deliverySlot?.endTime
+        guard let slot = self.activeCart.deliverySlot,
+              let startDate = slot.startTime?.convertStringToCurrentTimeZoneDate(),
+              let endDate = slot.endTime?.convertStringToCurrentTimeZoneDate() else { return "" }
         
-        guard let startDate = startDate?.convertStringToCurrentTimeZoneDate(), let endDate = endDate?.convertStringToCurrentTimeZoneDate() else { return "N/A" }
-        
-        let day = startDate.getDayName() ?? ""
-        let formattedStart = startDate.formatDateForCandCFormateString()
-        let formattedEnd = endDate.formatDateForCandCFormateString()
+        let day = slot.isToday ? "Today" : slot.isTomorrow ? "Tommarow" : startDate.getDayName() ?? ""
+        let formattedStart = startDate.formateDate().replacingOccurrences(of: ":00", with: "")
+        let formattedEnd = endDate.formateDate().replacingOccurrences(of: ":00", with: "")
         
         return " " + day + " " + formattedStart + "-" + formattedEnd
     }
