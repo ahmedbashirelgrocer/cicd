@@ -83,6 +83,29 @@ class BillView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    private lazy var lblFreeDelivery: UILabel = {
+        let label = UILabel()
+        
+        label.text = localizedString("txt_free_delivery_for_smile", comment: "")
+        label.textAlignment = .center
+        label.setCaptionTwoSemiboldYellowStyle()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private lazy var freeDeliveryView: UIView = {
+        let view = UIView()
+        
+        view.isHidden = false
+        view.layer.cornerRadius = 10
+        view.clipsToBounds = true
+        view.backgroundColor = UIColor.promotionRedColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var lblExtraBalanceMessageText: UILabel = {
         let label = UILabel()
         
@@ -114,16 +137,31 @@ class BillView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.setUpGradients()
+    }
+    
     private func addViews() {
         self.addSubview(viewBG)
         viewBG.addSubview(stackView)
-        
+        self.addStackViewViews()
         viewBG.addSubview(divider)
         viewBG.addSubview(lblFinalAmountText)
         viewBG.addSubview(lblFinalAmount)
         
         promotionView.addSubview(lblPromotion)
         viewBG.addSubview(promotionView)
+    }
+    func addStackViewViews() {
+        stackView.addArrangedSubview(totalPriceEntryView)
+        stackView.addArrangedSubview(serviceFeeEntryView)
+        self.stackView.addArrangedSubview(freeDeliveryView)
+        self.setFreeDeliveryFeeViewConstraints()
+        stackView.addArrangedSubview(grandTotalEntryView)
+        self.stackView.addArrangedSubview(savingsView)
+        self.stackView.addArrangedSubview(elWalletView)
+        self.stackView.addArrangedSubview(smilesView)
     }
     
     func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?, smilesSubscriber: Bool) {
@@ -134,7 +172,10 @@ class BillView: UIView {
         self.totalPriceEntryView.setTotalProductsTitle(quantity: quantity ?? 0)
         if smilesSubscriber {
             self.serviceFeeEntryView.configureForFreeServiceFee()
+            self.stackView.addArrangedSubview(freeDeliveryView)
+            freeDeliveryView.isHidden = false
         }else {
+            freeDeliveryView.isHidden = true
             self.serviceFeeEntryView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
         }
         
@@ -196,6 +237,9 @@ class BillView: UIView {
         stackView.trailingAnchor.constraint(equalTo: viewBG.trailingAnchor).isActive = true
         stackView.topAnchor.constraint(equalTo: viewBG.topAnchor).isActive = true
         
+        self.totalPriceEntryView.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor, constant: 0).isActive = true
+        self.totalPriceEntryView.leadingAnchor.constraint(equalTo: self.stackView.leadingAnchor, constant: 0).isActive = true
+        
         divider.leadingAnchor.constraint(equalTo: viewBG.leadingAnchor, constant: 16).isActive = true
         divider.trailingAnchor.constraint(equalTo: viewBG.trailingAnchor, constant: -16).isActive = true
         divider.heightAnchor.constraint(equalToConstant: 1).isActive = true
@@ -216,6 +260,23 @@ class BillView: UIView {
         promotionView.bottomAnchor.constraint(equalTo: viewBG.bottomAnchor, constant: -16).isActive = true
         promotionView.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
+    }
+    
+    func setFreeDeliveryFeeViewConstraints() {
+
+        self.freeDeliveryView.addSubview(lblFreeDelivery)
+        
+        lblFreeDelivery.leadingAnchor.constraint(equalTo: freeDeliveryView.leadingAnchor, constant: 8).isActive = true
+        lblFreeDelivery.trailingAnchor.constraint(equalTo: freeDeliveryView.trailingAnchor, constant: -8).isActive = true
+        lblFreeDelivery.centerYAnchor.constraint(equalTo: freeDeliveryView.centerYAnchor).isActive = true
+        
+        freeDeliveryView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -16).isActive = true
+        freeDeliveryView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 16).isActive = true
+        freeDeliveryView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    }
+    func setUpGradients () {
+        let greLay = self.freeDeliveryView.setupGradient(height: self.freeDeliveryView.frame.size.height , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
+        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
     }
 }
 
