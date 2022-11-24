@@ -84,7 +84,7 @@ class ViewController: UIViewController {
             
             let pushData : [String: AnyHashable] = [:]
             if (self.txtPushPayload.text?.count ?? 0) > 0 {
-                pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+                pushData = ["elgrocerMap" : self.txtPushPayload.text]
             }
             let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .staging)
             ElGrocer.startEngine(with: launchOptions)
