@@ -558,41 +558,42 @@ extension SmileSdkHomeVC {
         // MARK: Actions
         viewModel.outputs.cellSelected.subscribe { [weak self, weak activeCartVC] selectedActiveCart in
             activeCartVC?.dismiss(animated: true) {
-                let groceryID = selectedActiveCart.id
-                
-                guard let grocery = self?.filteredGroceryArray.filter({ Int($0.dbID) == groceryID }).first else { return }
+                guard let grocery = self?.groceryArray.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
                 self?.goToGrocery(grocery, nil)
             }
         }.disposed(by: disposeBag)
         
         viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
-            guard let self = self, let campaignType = banner.campaignType, let bannerDic = banner.dictionary as? NSDictionary else { return }
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
             
-            activeCartVC?.dismiss(animated: true)
-            
-            
-            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDic)
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
             
             switch campaignType {
-            case BannerCampaignType.web.rawValue:
-                ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+            case .brand:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                })
                 break
                 
-            case BannerCampaignType.brand.rawValue:
-                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+            case .retailer:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                })
                 break
                 
-            case BannerCampaignType.retailer.rawValue:
-                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+            case .web:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                })
                 break
                 
-            case BannerCampaignType.priority.rawValue:
-                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
-                break
-                
-            default:
+            case .priority:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+                })
                 break
             }
+            
         }).disposed(by: disposeBag)
         
         viewModel.outputs.continueShoppingTap.subscribe { [weak self, weak activeCartVC] _ in

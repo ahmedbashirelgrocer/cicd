@@ -42,7 +42,7 @@
                                 <constraint firstAttribute="width" constant="30" id="JgL-qC-C0g"/>
                             </constraints>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="CrossButtonIcon" title="">
+                            <buttonConfiguration key="configuration" style="plain" image="CrossGreen" title="">
                                 <color key="baseForegroundColor" systemColor="labelColor"/>
                             </buttonConfiguration>
                             <connections>
@@ -80,7 +80,7 @@
         </view>
     </objects>
     <resources>
-        <image name="CrossButtonIcon" width="24" height="24.333333969116211"/>
+        <image name="CrossGreen" width="24" height="24"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

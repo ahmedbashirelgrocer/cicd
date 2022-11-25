@@ -14,19 +14,21 @@ struct CampaignsResponse: Codable {
 }
 
 struct BannerDTO: Codable {
-    let id: Int?
+    let id: Int = 0
     let name: String?
-    let priority: Int?
-    let campaignType: Int?
+    let priority: Int = 0
+    let campaignType: BannerCampaignType?
     let imageURL: String?
     let bannerImageURL: String?
     let url: String?
-    let categories, subcategories, brands: [BrandDTO]
+    let categories: [BrandDTO]?
+    let subcategories: [BrandDTO]?
+    let brands: [BrandDTO]?
     let retailerIDS: [Int]?
-//    let excludeRetailerIDS: [JSONAny]?
     let locations: [Int]?
-//    let storeTypes, retailerGroups: [JSONAny]?
-
+    let storeTypes: [Int]?
+    let retailerGroups: [Int]?
+    
     enum CodingKeys: String, CodingKey {
         case id, name, priority
         case campaignType = "campaign_type"
@@ -34,10 +36,9 @@ struct BannerDTO: Codable {
         case bannerImageURL = "banner_image_url"
         case url, categories, subcategories, brands
         case retailerIDS = "retailer_ids"
-//        case excludeRetailerIDS = "exclude_retailer_ids"
         case locations
-//        case storeTypes = "store_types"
-//        case retailerGroups = "retailer_groups"
+        case storeTypes = "store_types"
+        case retailerGroups = "retailer_groups"
     }
 }
 

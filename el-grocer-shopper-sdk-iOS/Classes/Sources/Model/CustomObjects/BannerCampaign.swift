@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum BannerCampaignType : Int {
+enum BannerCampaignType : Int, Codable {
     case brand = 1
     case retailer = 2
     case web = 3

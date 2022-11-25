@@ -146,7 +146,7 @@ private extension ActiveCartCellViewModel {
               let startDate = slot.startTime?.convertStringToCurrentTimeZoneDate(),
               let endDate = slot.endTime?.convertStringToCurrentTimeZoneDate() else { return "" }
         
-        let day = slot.isToday ? "Today" : slot.isTomorrow ? "Tommarow" : startDate.getDayName() ?? ""
+        let day = slot.isToday ? NSLocalizedString("today_title", bundle: .resource, comment: "") : slot.isTomorrow ? NSLocalizedString("tomorrow_title", bundle: .resource, comment: "") : startDate.getDayName() ?? ""
         let formattedStart = startDate.formateDate().replacingOccurrences(of: ":00", with: "")
         let formattedEnd = endDate.formateDate().replacingOccurrences(of: ":00", with: "")
         
