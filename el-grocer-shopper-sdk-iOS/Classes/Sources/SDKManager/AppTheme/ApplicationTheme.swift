@@ -107,6 +107,10 @@ public protocol Theme {
     var primarySelectionColor: UIColor { get }
     var primaryNoSelectionColor: UIColor { get }
     var secondaryNoSelectionlightColor: UIColor { get }
+    //MARK: Current Orders & OOS Product
+    var currentOrdersCollectionCellBGColor: UIColor { get }
+    var currentOrdersPageControlActiveColor: UIColor { get }
+    var currentOrdersPageControlInActiveColor: UIColor { get }
 }
 
 
@@ -210,6 +214,10 @@ struct ElgrocerTheme: Theme {
     var primarySelectionColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     var primaryNoSelectionColor: UIColor = ElgrocerBaseColors.elgrocerSecondaryBlackTextColour
     var secondaryNoSelectionlightColor: UIColor = ElgrocerBaseColors.elgrocerBorderGeyColour
+    //MARK: Current Orders & OOS Product
+    var currentOrdersCollectionCellBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
+    var currentOrdersPageControlActiveColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var currentOrdersPageControlInActiveColor: UIColor = ElgrocerBaseColors.elgrocerLightGreenColour
 }
 
 struct SmileSDKTheme: Theme {
@@ -313,6 +321,10 @@ struct SmileSDKTheme: Theme {
     var primarySelectionColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var primaryNoSelectionColor: UIColor = ElgrocerBaseColors.elgrocerSecondaryBlackTextColour
     var secondaryNoSelectionlightColor: UIColor = ElgrocerBaseColors.elgrocerBorderGeyColour
+    //MARK: Current Orders & OOS Product
+    var currentOrdersCollectionCellBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryColor
+    var currentOrdersPageControlActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondarySelectionColor
+    var currentOrdersPageControlInActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryNoSelectionColor
 }
 
 public struct ApplicationTheme {
