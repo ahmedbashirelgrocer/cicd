@@ -82,7 +82,7 @@ private extension ActiveCartListingViewController {
         self.viewModel.outputs.showEmptyView.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
             
-            self.emptyView.configureNoCart(viewBGColor: .colorWithHexString(hexString: "f5f5f5"))
+            self.emptyView.configureNoActiveCart()
             self.tableView.backgroundView = self.emptyView
             self.emptyView.btnBottomConstraint.constant = 131
         }).disposed(by: disposeBag)

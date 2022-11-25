@@ -189,19 +189,27 @@ class NoStoreView: UIView {
         self.state = .defaultAction
         self.btnNoData.isHidden = false
     }
-    func configureNoCart(viewBGColor: UIColor? = nil) {
-        //You elGrocer cart is empty
+    
+    func configureNoCart() {
         self.setUpApearence()
-        self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")
         self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
-        self.lblExtraDetail.text = localizedString("No_Item_Cart", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
         self.state = .defaultAction
-        
-        if let color = viewBGColor {
-            self.backgroundColor = color
-        }
+        self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")
+        self.lblExtraDetail.text = localizedString("No_Item_Cart", comment: "")
+        self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
+        self.backgroundColor = .colorWithHexString(hexString: "ffffff")
+    }
+    
+    func configureNoActiveCart() {
+        self.setUpApearence()
+        self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
+        self.lblExtraDetail.text = localizedString("No_Item_Multi_Cart_Empty_View", comment: "")
+        self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.btnNoData.isHidden = false
+        self.state = .defaultAction
+        self.imgNoData.image = UIImage(name: "empty-cart-white-bg")
+        self.backgroundColor = .colorWithHexString(hexString: "f5f5f5")
     }
     
     
