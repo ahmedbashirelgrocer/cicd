@@ -279,7 +279,7 @@ extension UILabel {
     }
     func setCaptionOneBoldUperCaseDarkGreenStyle() {
         self.font = UIFont.SFProDisplayBoldFont(12)
-        self.textColor = UIColor.replacementGreenTextColor()
+        self.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
     }
     
     func setCaptionOneBoldUpperCaseGreenStyleWithFontScale14() {

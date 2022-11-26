@@ -13,22 +13,22 @@ let KCurrentOrderCollectionViewHeight : CGFloat = 78
 class CurrentOrderCollectionCell: UICollectionViewCell {
     @IBOutlet var trackingView: UIView! {
         didSet {
-            trackingView.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
-            trackingView.tintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            trackingView.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+            trackingView.tintColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
         }
     }
     @IBOutlet var lblOrderTracking: UILabel! {
         didSet{
             lblOrderTracking.text = localizedString("lbl_Order_tracking", comment: "")
             lblOrderTracking.setBody3RegWhiteStyle()
-            lblOrderTracking.tintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            lblOrderTracking.tintColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
         }
         
     }
     @IBOutlet var lblTrackYourOrder: UILabel!{
         didSet{
             lblTrackYourOrder.text = localizedString("lbl_Track_your_order", comment: "")
-            lblTrackYourOrder.tintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            lblTrackYourOrder.tintColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
         }
     }
     
@@ -42,7 +42,7 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
             bGView.layer.cornerRadius = 8
             bGView.layer.maskedCorners = [.layerMinXMinYCorner , .layerMaxXMinYCorner]
             bGView.clipsToBounds = true
-            bGView.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            bGView.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
         }
     }
     @IBOutlet var statusImageView: UIImageView!
@@ -71,8 +71,8 @@ class CurrentOrderCollectionCell: UICollectionViewCell {
             ordersPageControl.numberOfPages = 3
             if #available(iOS 14.0, *) {
                 ordersPageControl.preferredIndicatorImage  = UIImage(name: "selectedPageControl")
-                ordersPageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
-                ordersPageControl.pageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlPrimaryInActiveColor
+                ordersPageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.currentOrdersPageControlActiveColor
+                ordersPageControl.pageIndicatorTintColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
                 //ordersPageControl.page
                 //ordersPageControl.setIndicatorImage(UIImage(name: "selectedPageControl"), forPage: 0)
             } else {

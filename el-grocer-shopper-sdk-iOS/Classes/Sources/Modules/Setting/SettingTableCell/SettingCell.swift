@@ -22,7 +22,11 @@ class SettingCell: UITableViewCell {
         }
     }
     @IBOutlet weak var itemImage: UIImageView!
-    @IBOutlet weak var arrowImage: UIImageView!
+    @IBOutlet weak var arrowImage: UIImageView! {
+        didSet {
+            arrowImage.image = UIImage(name: "SettingArrowForward")
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

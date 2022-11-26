@@ -38,6 +38,7 @@ class ApplyPromoVC: UIViewController {
     @IBOutlet var btnPromoApply: AWButton!{
         didSet{
             btnPromoApply.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
+            btnPromoApply.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
         }
     }
     @IBOutlet var btnPromoRemove: AWButton! {

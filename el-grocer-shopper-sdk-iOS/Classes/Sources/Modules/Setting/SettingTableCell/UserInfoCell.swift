@@ -16,7 +16,7 @@ class UserInfoCell: UITableViewCell {
     
     @IBOutlet var greenBGView: AWView!{
         didSet{
-            greenBGView.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            greenBGView.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
             greenBGView.cornarRadius = 8
         }
     }
