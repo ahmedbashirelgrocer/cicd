@@ -27,12 +27,12 @@ class ViewController: UIViewController {
         txtLanguage.inputView = languagePicker
         txtLanguage.addTarget(nil, action: #selector(textFieldDidEndEditing), for: .editingDidEnd)
     } }
-    @IBOutlet weak var btnLaunchSDK: UIButton!{ didSet {
-        btnLaunchSDK.backgroundColor = #colorLiteral(red: 0.2550396025, green: 0.2953681946, blue: 0.6989088655, alpha: 1)
-        btnLaunchSDK.layer.cornerRadius = 5
-        btnLaunchSDK.setTitleColor(UIColor.white, for: .normal)
-        btnLaunchSDK.tintColor = .white
-    } }
+    
+    @IBOutlet weak var btnLaunchSDK: UIButton!
+    
+    @IBOutlet weak var btnLoadData: UIButton!
+    @IBOutlet weak var btnSearch: UIButton!
+    
     
     fileprivate lazy var languagePicker: UIPickerView = {
         let picker = UIPickerView()
@@ -68,9 +68,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func btnLoadDataPressed(_ sender: Any) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "PreLoadViewController") as! PreLoadViewController
+        vc.launchOptions = self.getLaunchOptions()
+        self.present(vc, animated: true)
         
-        PreLoadData.shared.loadData(launchOptions: self.getLaunchOptions())
-        
+        self.btnLoadData.isEnabled = false
+        self.btnSearch.isEnabled = true
     }
     
     @IBAction func btnIntegratedSearchPressed(_ sender: Any) {
@@ -81,16 +84,16 @@ class ViewController: UIViewController {
     }
     
     func setDefaultData() {
-        txtAccountNumber.text = "+971567367806" //"+971501535327" //"+923416973310"
-        txtLat.text = "\(25.276987)"
-        txtLong.text = "\(55.296249)"
+        txtAccountNumber.text = "+971567362806" //"+971501535327" //"+923416973310"
+        txtLat.text = "\(25.0839448)"
+        txtLong.text = "\(55.2137973)"
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = "111111111130"
         txtEmail.text = ""
 //<<<<<<< HEAD
 //        txtPushPayload.text = ""// "[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
 //=======
-        txtPushPayload.text =  "[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
+        // txtPushPayload.text =  "[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
 //>>>>>>> DevSDK/ElWalletAndSplitPayment
         txtDLPayload.text = nil // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "Base"
@@ -182,6 +185,11 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 //MARK: - Text Field
 extension ViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.btnLoadData.isEnabled = true
+        self.btnSearch.isEnabled = false
+    }
+    
     @objc func textFieldDidEndEditing() {
         txtLanguage.text = pickerData[languagePicker.selectedRow(inComponent: 0)]
         

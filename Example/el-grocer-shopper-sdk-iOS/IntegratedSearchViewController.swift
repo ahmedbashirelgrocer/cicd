@@ -8,6 +8,8 @@
 
 import UIKit
 import el_grocer_shopper_sdk_iOS
+import RxSwift
+import RxCocoa
 
 class IntegratedSearchViewController: UIViewController {
     
@@ -20,23 +22,31 @@ class IntegratedSearchViewController: UIViewController {
     }
     
     var launchOptions: LaunchOptions!
-    var selectedRetailer = 0
-    var searchResult: [[String: Any]] = [] {
+    // var selectedRetailer: [String: Any] = [:]
+    var searchResult: [SearchResult] = [] {
         didSet {
             btnClose.tintColor = searchResult.isEmpty ? .lightGray : .black
             tableView.reloadData()
         }
     }
+    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        txtSearch.rx.text
+            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe(
+                onNext: { text in
+                    if let text = text, text.isNotEmpty {
+                        //let lat = launchOptions.latitude ?? 0
+                        //let long = launchOptions?.longitude ?? 0
+                        self.searchProductStore(text) //, lat: lat, long: long)
+                    }
+                }
+            ).disposed(by: disposeBag)
     }
     
-//    @objc func startSDK() {
-//        let launchOptions = getLaunchOptions()
-//        ElGrocer.startEngine(with: launchOptions)
-//    }
-
 }
 
 // MARK: - Search List Table View Setup
@@ -52,8 +62,8 @@ extension IntegratedSearchViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.selectedRetailer = searchResult[indexPath.row]["retailer_id"] as? Int ?? 0
-        self.searchResult = []
+        let selectedRetailer = searchResult[indexPath.row]
+        ElgrocerSearchNavigaion.shared.navigateToProductHome(selectedRetailer)
     }
 }
 
@@ -61,19 +71,19 @@ extension IntegratedSearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField == self.txtSearch, let text = textField.text, text.isNotEmpty {
-            let lat = launchOptions.latitude ?? 0
-            let long = launchOptions?.longitude ?? 0
-            self.searchProductStore(text, lat: lat, long: long)
+            //let lat = launchOptions.latitude ?? 0
+            //let long = launchOptions?.longitude ?? 0
+            self.searchProductStore(text) //, lat: lat, long: long)
         }
         return false
     }
 }
 
 extension IntegratedSearchViewController {
-    func searchProductStore(_ text: String, lat: Double, long: Double) {
+    func searchProductStore(_ text: String) { //, lat: Double, long: Double) {
         ElgrocerSearchClient
             .shared
-            .searchProduct(text, location: .init(latitude: lat, longitude: long)) { response, error in
+            .searchProduct(text) { response, error in
             self.searchResult = response
         }
     }

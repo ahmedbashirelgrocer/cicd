@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import el_grocer_shopper_sdk_iOS
 
 class SearchCell: UITableViewCell {
     
@@ -24,10 +25,10 @@ class SearchCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setData(_ data : [String: Any]) {
-        if let urlString = data["retailer_ImgUrl"] as? String, let url = URL(string: urlString) {
+    func setData(_ data : SearchResult) {
+        if let url = data.retailerImgUrl {
             storeImageView.sd_setImage(with: url)
         }
-        storeTitle.text = data["retailer_name"] as? String
+        storeTitle.text = data.retailerName
     }
 }

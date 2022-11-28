@@ -322,7 +322,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     func reloadAllData() {
         
         self.setTableViewHeader()
-        HomePageData.shared.resetHomeDataHandler()
+        // HomePageData.shared.resetHomeDataHandler()
         HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
         self.showDataLoaderIfRequiredForHomeHandler()
     }
@@ -358,6 +358,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     fileprivate func checkIFDataNotLoadedAndCall() {
         
+        self.setTableViewHeader()
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return self.tableView.reloadDataOnMain()
@@ -368,12 +369,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
             lastFetchMin = Date().timeIntervalSince(lastCheckDate) / 60
         }
         if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)) || lastFetchMin > 15 {
-            self.homeDataHandler.resetHomeDataHandler()
+            // self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
-            self.setTableViewHeader()
             self.showDataLoaderIfRequiredForHomeHandler()
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
-            self.homeDataHandler.resetHomeDataHandler()
+            // self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
         }
         else {

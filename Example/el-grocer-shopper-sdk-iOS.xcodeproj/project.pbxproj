@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		102DA7102905FB5500886CB4 /* PresentedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102DA70F2905FB5500886CB4 /* PresentedViewController.swift */; };
 		1098C3C328D5C94600297EDF /* ElGrocerShopperAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1098C3C228D5C94600297EDF /* ElGrocerShopperAppViewController.swift */; };
+		1720FD7E293550B700272FA5 /* PreLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720FD7D293550B700272FA5 /* PreLoadViewController.swift */; };
 		174929B7292CF6F000246A47 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174929B6292CF6F000246A47 /* SearchCell.swift */; };
 		1755747A2875BFCC001D6020 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 175574792875BFCC001D6020 /* GoogleService-Info.plist */; };
 		17E884892930E44E00654632 /* IntegratedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E884882930E44E00654632 /* IntegratedSearchViewController.swift */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		102DA70F2905FB5500886CB4 /* PresentedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentedViewController.swift; sourceTree = "<group>"; };
 		1098C3C228D5C94600297EDF /* ElGrocerShopperAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElGrocerShopperAppViewController.swift; sourceTree = "<group>"; };
+		1720FD7D293550B700272FA5 /* PreLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLoadViewController.swift; sourceTree = "<group>"; };
 		174929B6292CF6F000246A47 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		175574792875BFCC001D6020 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		17E884882930E44E00654632 /* IntegratedSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegratedSearchViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				17E884882930E44E00654632 /* IntegratedSearchViewController.swift */,
+				1720FD7D293550B700272FA5 /* PreLoadViewController.swift */,
 				174929B6292CF6F000246A47 /* SearchCell.swift */,
 			);
 			name = Search;
@@ -418,6 +421,7 @@
 				17E884892930E44E00654632 /* IntegratedSearchViewController.swift in Sources */,
 				174929B7292CF6F000246A47 /* SearchCell.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				1720FD7E293550B700272FA5 /* PreLoadViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				102DA7102905FB5500886CB4 /* PresentedViewController.swift in Sources */,
 			);

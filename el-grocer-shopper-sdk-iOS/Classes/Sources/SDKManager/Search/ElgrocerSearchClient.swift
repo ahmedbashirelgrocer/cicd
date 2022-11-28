@@ -12,23 +12,22 @@ public final class ElgrocerSearchClient {
     
     public static var shared: ElgrocerSearchClient = ElgrocerSearchClient()
     
-    var retailers: [RetailerShort] = []
+    // var retailers: [RetailerShort] = []
     var location: Location = .init(latitude: SDKManager.shared.launchOptions?.latitude ?? 0,
                                    longitude: SDKManager.shared.launchOptions?.longitude ?? 0)
     
     public func searchProduct(_ queryText: String,
-                              location: Location,
-                              completion: @escaping ([[String : Any]], Error?) -> Void) {
+                              completion: @escaping ([SearchResult], Error?) -> Void) {
         
-        DataLoader.fetchRetailersIfNeeded(new: location, old: self.location) { [queryText] error, retailers in
+// DataLoader.fetchRetailersIfNeeded(new: location, old: self.location) { [queryText] error, retailers in
             
-            if error == nil, let retailers = retailers {
-                self.retailers = retailers
-            }
+// if error == nil, let retailers = retailers {
+// self.retailers = retailers
+// }
             
             let searchType = "single_search"
             let pageNumber = 0
-            let hitsPerPage: UInt = 200
+            let hitsPerPage: UInt = 10
             let brand = ""
             let category = ""
             
@@ -41,7 +40,9 @@ public final class ElgrocerSearchClient {
                 category,
                 searchType: searchType
             ) { [queryText] (content, error) in DispatchQueue.main.async { [queryText, content, error, weak self] in
+                
                 guard let location = self?.location else { return }
+                
                 let result = Set((content?["results"] as? [[String:Any]])?
                     .filter{($0["index"] as? String) == "Product" }
                     .flatMap{ $0["hits"] as? [[String:Any]] ?? [] }
@@ -54,23 +55,33 @@ public final class ElgrocerSearchClient {
                         return id == nil ? false : result.contains(id!)
                     })
                     .enumerated()
-                    .map({ index, grocery -> [String: Any] in
-                        var resultDict: [String: Any] = [:]
-                        resultDict["retailer_id"] = (grocery.dbID as NSString).integerValue
-                        resultDict["retailer_name"] = grocery.name ?? ""
-                        resultDict["retailer_ImgUrl"] = grocery.smallImageUrl ?? ""
-                        resultDict["search_query"] = queryText
-                        resultDict["search_type"] = "smiles-SDK"
-                        resultDict["Search_lat"] = "\(location.latitude)"
-                        resultDict["Search_lng"] = "\(location.longitude)"
-                        resultDict["search_possition"] = index
-                        return resultDict
+                    .map({ index, grocery in
+                        return SearchResult
+                            .init(retailerId: (grocery.dbID as NSString).integerValue,
+                                  retailerName: grocery.name ?? "",
+                                  retailerImgUrl: URL(string: grocery.smallImageUrl ?? ""),
+                                  searchQuery: queryText,
+                                  searchType: "smiles-SDK",
+                                  searchLat: location.latitude,
+                                  searchLng: location.longitude,
+                                  searchPossition: index)
                     }) ?? []
                 
                 completion(retailers, error)
             }}
-        }
+ // }
     }
+}
+
+public struct SearchResult {
+    public var retailerId: Int
+    public var retailerName: String
+    public var retailerImgUrl: URL?
+    public var searchQuery: String
+    public var searchType: String
+    public var searchLat: Double
+    public var searchLng: Double
+    public var searchPossition: Int
 }
 
 struct RetailerShort {

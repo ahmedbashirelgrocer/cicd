@@ -39,9 +39,15 @@ class ElgrocerlocationView:  UIView  {
     }
     
     var currentSelectedSlot : DeliverySlot?
-    var localLoadedAddress: LocalDeliverAddress?
+    var localLoadedAddress: LocalDeliverAddress? {
+        didSet {
+            print(localLoadedAddress)
+        }
+    }
     var loadedAddress : DeliveryAddress? {
-        didSet {  }
+        didSet {
+            print(loadedAddress)
+        }
     }
     
     let halfWidth : CGFloat = 0.445
@@ -532,8 +538,8 @@ class ElgrocerlocationView:  UIView  {
     
     
     func configureCell (_ grocery : Grocery) {
-        
-        self.myGroceryName.text = grocery.name ?? ""
+        let name = grocery.name ?? ""
+        self.myGroceryName.text = name
         if grocery.smallImageUrl != nil && grocery.smallImageUrl?.range(of: "http") != nil {
             self.setGroceryImage(grocery.smallImageUrl!)
         }else{
