@@ -191,7 +191,7 @@ class MyBasketProgressTableViewCell: UITableViewCell {
         self.setContinueshoppingEnable(!isReadedMinLimit)
         if isReadedMinLimit {
             self.isMinReached = true
-            self.lblMessage.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            self.lblMessage.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
             self.lblMessage.text =  localizedString("lbl_congrtz", comment: "")// "Congratulations! You reached the min order."
             self.configureCompleteProgressState()
             return

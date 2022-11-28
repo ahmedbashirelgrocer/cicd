@@ -65,7 +65,6 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
     }
     
     func setUpApearence() {
-
   
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
@@ -75,7 +74,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         self.title = localizedString("orders_top_title", comment: "")
         self.addCustomTitleViewWithTitleDarkShade(localizedString("orders_top_title", comment: "") , true)
         

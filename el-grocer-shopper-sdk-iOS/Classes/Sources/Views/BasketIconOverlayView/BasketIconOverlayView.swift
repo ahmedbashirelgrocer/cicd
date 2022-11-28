@@ -59,7 +59,7 @@ class BasketIconOverlayView : UIView {
     
     @IBOutlet weak var minOrderLabel: UILabel! {
         didSet {
-            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
         }
     }
     @IBOutlet weak var minOrderImageView: UIImageView!

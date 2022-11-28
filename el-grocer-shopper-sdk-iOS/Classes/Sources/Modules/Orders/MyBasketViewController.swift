@@ -137,7 +137,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var minOrderLabel: UILabel! {
         didSet {
-            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
         }
     }
     

@@ -20,6 +20,7 @@ class EmptyCardCell: UITableViewCell {
         didSet {
             addNewButton.layer.cornerRadius = addNewButton.frame.height / 2.0
             addNewButton.setTitle(localizedString("txt_add_new_card_with_plus", comment: ""), for: UIControl.State())
+            addNewButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         }
     }
     @IBOutlet var lblNoCardtext: UILabel! {
