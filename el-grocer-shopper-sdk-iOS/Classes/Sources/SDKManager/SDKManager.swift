@@ -25,6 +25,7 @@ import Messages
 import SendBirdUIKit
 import SwiftDate
 import Adyen
+import Segment
 // import FirebaseDynamicLinks
 // import FirebaseAuth
 // import FirebaseMessaging
@@ -281,6 +282,9 @@ class SDKManager: NSObject  {
         GMSServices.provideAPIKey(kGoogleMapsApiKey)
         self.configuredElgrocerEventLogger() //didFinishLaunchingWithOptions)
         
+        // initialize Segment SDK used for event logging.
+        initializeSegmentSDK()
+        
 //        let action1 = UNNotificationAction(identifier: "action_1", title: "Back", options: [])
 //        let action2 = UNNotificationAction(identifier: "action_2", title: "Next", options: [])
         let action3 = UNNotificationAction(identifier: "action_3", title: "View In App", options: [])
@@ -341,6 +345,15 @@ class SDKManager: NSObject  {
         
     }
     
+    private func initializeSegmentSDK() {
+        let configuration = AnalyticsConfiguration(writeKey: "Z2Jste7vnggEaRT9H5maGj8PUlFJXL4k")
+        
+        configuration.trackApplicationLifecycleEvents = true
+        configuration.flushAt = 3
+        configuration.flushInterval = 10
+        
+        Analytics.setup(with: configuration)
+    }
     
     fileprivate func smileSDKFireBaseSetting() {
         
