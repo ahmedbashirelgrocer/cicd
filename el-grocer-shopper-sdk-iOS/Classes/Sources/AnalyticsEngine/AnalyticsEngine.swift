@@ -12,7 +12,9 @@ protocol AnalyticsEngineType {
     func logEvent(event: AnalyticsEventType)
 }
 
-class AnalyticsEngine: AnalyticsEngineType {
+class SegmentAnalyticsEngine: AnalyticsEngineType {
+    static let instance = SegmentAnalyticsEngine()
+    
     private var analytics: Analytics
     
     init(analytics: Analytics = Analytics.shared()) {
