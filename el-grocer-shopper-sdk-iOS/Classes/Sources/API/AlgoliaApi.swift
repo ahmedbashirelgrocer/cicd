@@ -46,8 +46,8 @@ class AlgoliaApi {
     var ALGOLIA_API_KEY_INSIGHT_LIVE = APIKey(rawValue:"7c36787b0c09ef094db8a3ba93871ce7")
     
     
-    private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
-    private let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
+    let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
+    let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
     
  //   private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "ProductReplica")
     private let algoliaRecipeIndexName  = IndexName.init(stringLiteral: "RecipeBoutique")

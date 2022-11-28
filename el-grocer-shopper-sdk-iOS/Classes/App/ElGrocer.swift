@@ -120,8 +120,8 @@ public enum EnvironmentType {
 
 public struct LaunchOptions  {
     var accountNumber: String?
-    var latitude: Double?
-    var longitude: Double?
+    public var latitude: Double?
+    public var longitude: Double?
     var address: String?
     var loyaltyID: String?
     var email: String?
