@@ -19,6 +19,7 @@ class ActiveCartListingViewController: UIViewController {
     
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, ReusableTableViewCellViewModelType>>!
     private var viewModel: ActiveCartListingViewModelType!
+    private var analyticsEventLogger: AnalyticsEngineType!
     private var disposeBag = DisposeBag()
     
     private lazy var emptyView : NoStoreView = {
@@ -28,9 +29,10 @@ class ActiveCartListingViewController: UIViewController {
         return emptyView!
     }()
     
-    static func make(viewModel: ActiveCartListingViewModelType) -> ActiveCartListingViewController {
+    static func make(viewModel: ActiveCartListingViewModelType, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine()) -> ActiveCartListingViewController {
         let vc = ActiveCartListingViewController(nibName: "ActiveCartListingViewController", bundle: .resource)
         vc.viewModel = viewModel
+        vc.analyticsEventLogger = analyticsEventLogger
         return vc
     }
     
@@ -40,6 +42,17 @@ class ActiveCartListingViewController: UIViewController {
         self.tableView.register(UINib(nibName: ActiveCartTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: ActiveCartTableViewCell.defaultIdentifier)
         self.tableView.separatorColor = .clear
         self.bindViews()
+        
+        //
+        
+        self.analyticsEventLogger.logEvent(event: CartEvents.cartCreated(time: Date(), typesStoreID: "12345", storeName: "Test Store name"))
+//        self.analyticsEventLogger.logEvent(event: MulticartEvents.screenViewed)
+//
+//        //
+//        self.analyticsEventLogger.logEvent(event: MulticartViewedEvent(type: .sendScreen(screenName: "Multicart Screen")))
+        
+        //
+//        self.analyticsEventLogger.logEvent(event: CartEvents.cartCreated(time: Date(), typesStoreID: "", storeName: ""))
     }
     
     @IBAction func closeButtonTap(_ sender: Any) {
@@ -113,7 +126,7 @@ extension ActiveCartListingViewController: NoStoreViewDelegate {
     }
 }
 
-// TODO: Place me in correct place (Pinding discussion ABM and Sarmad)
+// TODO: Place me in correct place
 public protocol ReusableView: AnyObject { }
 
 public extension ReusableView where Self: UIView {
@@ -173,3 +186,4 @@ protocol ReusableTableViewCellViewModelType {
 public protocol ReusableCollectionViewCellViewModelType {
     var reusableIdentifier: String { get }
 }
+
