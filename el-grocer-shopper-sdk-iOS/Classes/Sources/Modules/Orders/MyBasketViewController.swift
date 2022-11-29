@@ -275,6 +275,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.viewAddAddress.isHidden = true
         self.signView.isHidden = true
         hidesBottomBarWhenPushed = true
+        
+        SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(storeId: self.grocery?.dbID))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1239,6 +1241,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     @IBAction func checkoutButtonHandler(_ sender: Any) {
+        let cartCheckoutEvent = CartCheckoutEvent(products: self.products, activeGrocery: self.grocery)
+        SegmentAnalyticsEngine.instance.logEvent(event: cartCheckoutEvent)
         
         self.proceedToCheckOutWithGrocery(self.grocery!)
     }

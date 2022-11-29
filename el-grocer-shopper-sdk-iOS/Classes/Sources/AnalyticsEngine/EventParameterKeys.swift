@@ -26,4 +26,5 @@ enum EventParameterKeys {
     static let isRecipe         = "isRecipe"
     static let onSmilesSDK      = "onSmilesSDK"
     static let municipality     = "municipality"
+    static let products         = "products"
 }
