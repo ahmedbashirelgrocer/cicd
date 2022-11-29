@@ -27,11 +27,11 @@ public final class ElgrocerSearchClient {
             
             let searchType = "single_search"
             let pageNumber = 0
-            let hitsPerPage: UInt = 10
+            let hitsPerPage: UInt = 100
             let brand = ""
             let category = ""
             
-            AlgoliaApi.sharedInstance.searchProductQueryWithMultiStoreMultiIndex2(
+            AlgoliaApi.sharedInstance.searchProductQueryWithMultiStoreMultiIndex(
                 queryText,
                 storeIDs: HomePageData.shared.groceryA?.map{ $0.dbID } ?? [],
                 pageNumber,
