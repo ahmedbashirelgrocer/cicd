@@ -8,5 +8,7 @@
 import Foundation
 
 enum AnalyticsEventName {
-    static let multiCartViewed  = "Multi Cart Viewed"
+    static let cartCreated  = "Cart Created"
+    static let cartUpdated  = "Cart Updated"
+    static let cartDeleted  = "Cart Deleted"
 }
