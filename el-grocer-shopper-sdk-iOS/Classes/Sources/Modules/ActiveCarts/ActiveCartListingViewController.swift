@@ -43,9 +43,7 @@ class ActiveCartListingViewController: UIViewController {
         self.tableView.separatorColor = .clear
         self.bindViews()
         
-        //
         
-        self.analyticsEventLogger.logEvent(event: CartEvents.cartCreated(time: Date(), typesStoreID: "12345", storeName: "Test Store name"))
 //        self.analyticsEventLogger.logEvent(event: MulticartEvents.screenViewed)
 //
 //        //
