@@ -80,8 +80,16 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     
         //MARK: View outlets
-    @IBOutlet var signView: AWView!
-    @IBOutlet var viewAddAddress: AWView!
+    @IBOutlet var signView: AWView! {
+        didSet {
+            signView.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+        }
+    }
+    @IBOutlet var viewAddAddress: AWView! {
+        didSet {
+            viewAddAddress.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+        }
+    }
     @IBOutlet var tblFooterCheckOutView: AWView!
     @IBOutlet var checkOutViewForButton: AWView!
     @IBOutlet var viewForSearch: UIView!
@@ -103,9 +111,21 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
         //MARK: Buttons outlets
-    @IBOutlet var btnSignIn: AWButton!
-    @IBOutlet var btnSIgnUp: AWButton!
-    @IBOutlet var btnAddAddress: UIButton!
+    @IBOutlet var btnSignIn: AWButton! {
+        didSet {
+            btnSignIn.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
+    @IBOutlet var btnSIgnUp: AWButton!{
+        didSet {
+            btnSIgnUp.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
+    @IBOutlet var btnAddAddress: UIButton!{
+        didSet {
+            btnAddAddress.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
     @IBOutlet weak var checkoutBtn: UIButton!
     
         //MARK: Label outlets
