@@ -113,23 +113,26 @@ public class ElgrocerSearchNavigaion {
             sdkm.rootContext = UIApplication.topViewController()
             sdkm.currentTabBar = tabController
             sdkm.rootViewController = navtabController
-            sdkm.rootContext?.present(sdkm.rootViewController!, animated: true) {
-                observer.onNext(())
-                observer.onCompleted()
-            }
+            sdkm.rootContext?.present(sdkm.rootViewController!, animated: true, completion: {[weak smileHomeVc] in
+                    observer.onNext(())
+                    observer.onCompleted()
+                    smileHomeVc?.configureForDataPreloaded()
+            })
             return Disposables.create()
         }.delay(.milliseconds(50), scheduler: MainScheduler.instance)
     }
     
     func gotoProductsController(_ product: SearchResult) -> Observable<Void> {
         Observable.just(()).map { _ in
-            let grocery: Grocery? = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId }
-            let productsVC : ProductsViewController = ElGrocerViewControllers.productsViewController()
-            productsVC.grocery = grocery
-            productsVC.isCommingFromUniversalSearch = true
-            productsVC.universalSearchString = product.searchQuery
-            (UIApplication.topViewController()?.navigationController)?.pushViewController(productsVC, animated: false)
-        }.delay(.milliseconds(300), scheduler: MainScheduler.instance)
+            if let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId } {
+                let productsVC : ProductsViewController = ElGrocerViewControllers.productsViewController()
+                productsVC.grocery = grocery
+                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                productsVC.isCommingFromUniversalSearch = true
+                productsVC.universalSearchString = product.searchQuery
+                (UIApplication.topViewController()?.navigationController)?.pushViewController(productsVC, animated: false)
+            }
+        }.delay(.milliseconds(50), scheduler: MainScheduler.instance)
     }
     
     func universalSearchViewController() -> Observable<Void> {

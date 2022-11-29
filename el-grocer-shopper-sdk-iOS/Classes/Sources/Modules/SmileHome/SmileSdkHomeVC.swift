@@ -988,3 +988,33 @@ extension SmileSdkHomeVC : UICollectionViewDelegateFlowLayout{
     }
     
 }
+
+extension SmileSdkHomeVC {
+    func configureForDataPreloaded() {
+        if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
+            FireBaseEventsLogger.trackStoreListingNoStores()
+        } else {
+            FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
+            self.selectStoreType = self.homeDataHandler.storeTypeA?[0]
+        }
+        
+        ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
+        self.setUserProfileData()
+        self.setDefaultGrocery()
+        self.setSegmentView()
+            
+        if self.homeDataHandler.locationOneBanners?.count == 0 {
+            FireBaseEventsLogger.trackNoBanners()
+        }
+        if self.homeDataHandler.locationTwoBanners?.count == 0 {
+            FireBaseEventsLogger.trackNoDeals()
+        }
+        Thread.OnMainThread {
+            if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
+                self.tableView.backgroundView = UIView()
+            }
+            self.tableView.reloadData()
+            SpinnerView.hideSpinnerView()
+        }
+    }
+}

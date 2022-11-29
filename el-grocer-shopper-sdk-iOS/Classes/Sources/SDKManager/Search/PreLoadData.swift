@@ -23,99 +23,53 @@ public class PreLoadData {
         SDKManager.shared.launchOptions = launchOptions
         
         configureElgrocerShopper()
-        
-        HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
         HomePageData.shared.delegate = self
         
-        
-        
-        
-        
-        
-        
-//        if UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress() {
-//            HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
-//        }
-        
+        if self.isNotLoggedin() {
+            loginSignup {
+                HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
+            }
+        } else {
+            HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
+        }
     }
     
-//    func showEntryView() {
-//
-//        defer {
-//            self.refreshSessionStatesForEditOrder()
-//        }
-//
-//        if let launchOptions = launchOptions, launchOptions.isSmileSDK { // Entry point for SDK
-//            let manager = SDKLoginManager(launchOptions: launchOptions)
-//            manager.loginFlowForSDK() { isSuccess, errorMessage in
-//                let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
-//                if isSuccess {
-//                    manager.setHomeView()
-//                } else {
-//                 let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
-//                        Thread.OnMainThread {
-//                            if let topVC = UIApplication.topViewController() {
-//                                if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
-//                                    navVc.popViewController(animated: true)
-//                                } else {
-//                                    topVC.dismiss(animated: true, completion: nil)
-//                                }
-//                            }
-//                        }
-//                    }
-//                    alert.show()
-//                }
-//            }
-//        } else {
-//            let entryController =  ElGrocerViewControllers.entryViewController()
-//            let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
-//            navEntryController.hideNavigationBar(true)
-//            self.replaceRootControllerWith(navEntryController)
-//        }
-//   }
+    func loginSignup(completion: (() -> Void)?) {
+        let launchOptions = SDKManager.shared.launchOptions!
+        let manager = SDKLoginManager(launchOptions: launchOptions)
+        manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage in
+            guard let self = self else { return }
+            let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
+            if isSuccess {
+                ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
+                completion?()
+            } else {
+                self.configLoginFailureCase(coompletion: completion)
+            }
+        }
+    }
+    private func configLoginFailureCase(coompletion: (() -> Void)?) {
+        var delay : Double = 3
+        if  ReachabilityManager.sharedInstance.isNetworkAvailable() {
+            delay = 1.0
+        }
+        let when = DispatchTime.now() + delay
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: when) {
+            self.loginSignup(completion: coompletion)
+        }
+    }
     
     
-//    func setHomeView() -> Void {
-//        ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-//        //let signInView = self
-//        if let nav = SDKManager.shared.rootViewController as? UINavigationController {
-//            if nav.viewControllers.count > 0 {
-//                if  nav.viewControllers[0] as? UITabBarController != nil {
-//                    let tababarController = nav.viewControllers[0] as! UITabBarController
-//                    tababarController.selectedIndex = 0
-//                    ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
-//
-//                    Thread.OnMainThread {
-//
-//                        if let topVc = UIApplication.topViewController()?.navigationController?.classForCoder {
-//                            let className = "\(topVc)"
-//                            if className.contains("ElGrocer") {
-//                                NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
-//                                return
-//                            }
-//                        }
-//                        NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
-//                        NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
-//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
-//                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
-//                        SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
-////
-////                        if !UIApplication.isElGrocerSDKClass() {
-////                            UIApplication.topViewController()?.present(nav, animated: true, completion: nil)
-////                        } else {
-////                            // send notifcation push to refresh
-////                            NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
-////                        }
-//                    }
-//                    return
-//                }
-//            }
+//    func reloadData() -> Void {
+//        Thread.OnMainThread {
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
 //        }
-//        SDKManager.shared.showAppWithMenu()
 //    }
     
     private func configureElgrocerShopper() {
-        
         ElGrocerApi.sharedInstance.getAppConfig { (result) in
             switch result {
             case .success(let response):
@@ -156,5 +110,18 @@ extension PreLoadData: HomePageDataLoadingComplete {
                 self.completion?()
             }
         }
+    }
+    
+    func isNotLoggedin() -> Bool {
+        let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let launchOptions = SDKManager.shared.launchOptions!
+        
+        if (userProfile == nil || userProfile?.phone?.count == 0) || launchOptions.accountNumber != userProfile?.phone || UserDefaults.isUserLoggedIn() == false {
+            
+            return true
+            
+        }
+        return false
     }
 }
