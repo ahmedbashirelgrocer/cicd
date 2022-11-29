@@ -46,6 +46,8 @@ struct SDKLoginManager {
                     FireBaseEventsLogger.trackSignIn()
                     SendBirdManager().createNewUserAndDeActivateOld()
                     
+                    let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    SegmentAnalyticsEngine.instance.logEvent(event: IdentifyUserEvent(user: user))
                 }
                 completionHandler(isSuccess, errorMessage)
             }
