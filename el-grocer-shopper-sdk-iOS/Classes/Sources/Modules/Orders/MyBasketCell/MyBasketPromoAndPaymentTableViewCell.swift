@@ -355,13 +355,14 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         }
 
         var grandTotal = priceSum
-        if let price = orderController.order.priceVariance?.doubleValue {
-            grandTotal = grandTotal + price
+        if let price = orderController.order.priceVariance {
+            let priceDouble = Double(price) ?? 0.0
+            grandTotal = grandTotal + priceDouble
          
-            if price > 0 {
+            if priceDouble > 0 {
                 self.lblPriceVarience.text = localizedString("Card_Price_Variance_Title", comment: "")
 //                self.lblpriceValueAmount.text  = "\(CurrencyManager.getCurrentCurrency()) " + (NSString(format: "%.2f", price) as String)
-                self.lblpriceValueAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: price)
+                self.lblpriceValueAmount.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: priceDouble)
                 self.paymentDetailBackGroundHeightConstraint.constant =  175 + (isPromo ? 15 : 0)
             }else{
                 self.lblPriceVarience.text = ""

@@ -169,9 +169,12 @@ extension Order {
             order.applePayWallet = applepay_wallet
         }
        
-        if let priceVariance = orderDict["price_variance"] as? NSNumber {
+        if let priceVariance = orderDict["price_variance"] as? String {
             order.priceVariance = priceVariance
+        }else if let priceVariance = orderDict["price_variance"] as? NSNumber {
+            order.priceVariance = priceVariance.stringValue
         }
+        
         if let smileEarn = orderDict["smiles_earn"] as? NSNumber {
             order.smileEarn = smileEarn
         }

@@ -27,6 +27,7 @@ enum PaymentOption : UInt32 {
     case voucher = 5
     case PromoCode = 6
     case applePay = 1000
+    
 }
 
 

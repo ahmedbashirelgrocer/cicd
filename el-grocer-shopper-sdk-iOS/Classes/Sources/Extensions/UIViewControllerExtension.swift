@@ -20,8 +20,9 @@ extension UIViewController {
     //MARK: view will appear swizzling
     @objc func viewDidAppearOverride(_ animated: Bool) {
             self.viewDidAppearOverride(animated) //Incase we need to override this method
+            if UIApplication.isElGrocerSDKClass() {
             MixpanelEventLogger.trackCurrentScreenName()
-            
+            }
         }
 
         static func swizzleViewDidAppear() {

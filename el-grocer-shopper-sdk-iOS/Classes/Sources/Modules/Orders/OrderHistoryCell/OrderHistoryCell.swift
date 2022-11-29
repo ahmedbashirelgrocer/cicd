@@ -389,8 +389,9 @@ class OrderHistoryCell: UITableViewCell {
             let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: self.currentOrder!.grocery, totalPrice: priceSum)
             
             var grandTotal = priceSum + serviceFee
-            if let price = self.currentOrder?.priceVariance?.doubleValue  {
-                grandTotal = grandTotal + price
+            if let price = self.currentOrder?.priceVariance  {
+                let priceDouble = Double(price) ?? 0.0
+                grandTotal = grandTotal + priceDouble
             }
             
             if let totalProducts = self.currentOrder?.totalProducts {
@@ -418,8 +419,9 @@ class OrderHistoryCell: UITableViewCell {
             }
             var serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: self.currentOrder!.grocery, totalPrice: priceSum)
             var grandTotal = priceSum + serviceFee
-            if let price = self.currentOrder?.priceVariance?.doubleValue {
-                grandTotal = grandTotal + price
+            if let price = self.currentOrder?.priceVariance {
+                let priceDouble = Double(price) ?? 0.0
+                grandTotal = grandTotal + priceDouble
             }
             
             if let totalProducts = self.currentOrder?.totalProducts {

@@ -10,20 +10,27 @@ import UIKit
 import Foundation
 import Mixpanel
 
+class MixpanelEventLoggerSync: NSObject{
+    static var shared = MixpanelEventLoggerSync()
+    var data : [String : TimeInterval?] = [:]
+}
+
+
 class MixpanelEventLogger: NSObject {
 
     fileprivate enum MixpanelEventsName : String {
         
-        case HomeAddressClick = "Home_AddressClick"
-        case HomeHelpClick = "Home_HelpClick"
-        case HomeSearchClick = "Home_SearchClick"
-        case HomeSearchSubmit = "Home_SearchSubmit"
-        case HomeFeaturedStoreBannerClick = "Home_FeaturedStoreBannerClick"
-        case HomeShoppingCategory = "Home_ShoppingCategory"
-        case HomeBannerClick = "Home_BannerClick"
-        case HomeStoreCategory = "Home_StoreCategory"
-        case HomeRecipesFilter = "Home_RecipesFilter"
-        case HomeRecipesClick = "Home_RecipesClick"
+        case HomeAddressClick = "SdkHome_AddressClick"
+        case HomeStoreClick = "SdkHome_StoreSelected"
+        case HomeHelpClick = "SdkHome_HelpClick"
+        case HomeSearchClick = "SdkHome_SearchClick"
+        case HomeSearchSubmit = "SdkHome_SearchSubmit"
+        case HomeFeaturedStoreBannerClick = "SdkHome_FeaturedStoreBannerClick"
+        case HomeShoppingCategory = "SdkHome_ShoppingCategory"
+        case HomeBannerClick = "SdkHome_BannerClick"
+        case HomeStoreCategory = "SdkHome_StoreCategory"
+        case HomeRecipesFilter = "SdkHome_RecipesFilter"
+        case HomeRecipesClick = "SdkHome_RecipesClick"
         
         case NavBarHome = "NavBar_Home"
         case NavBarStore = "NavBar_Store"
@@ -325,6 +332,18 @@ class MixpanelEventLogger: NSObject {
     }
     
     //MARK: Home Screen Events
+    
+    class func trackHomeStoreClick(_ storeId : String ) {
+        
+        let eventName: String = MixpanelEventsName.HomeStoreClick.rawValue
+        
+        let params: [String : Any]? = [
+            "clickedEvent": eventName,
+            "storeId" : storeId
+            ]
+
+        MixpanelManager.trackEvent(eventName, params: params)
+    }
     
     class func trackHomeAddressClick( ) {
         

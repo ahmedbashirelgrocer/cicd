@@ -1,17 +1,14 @@
 {
   "images" : [
     {
-      "filename" : "reviewBG.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "reviewBG@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "reviewBG@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
