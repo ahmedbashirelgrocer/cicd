@@ -25,4 +25,11 @@ class ElGrocerAppState {
     }
     
     
+    class func checkDBCanBeLoaded() -> Bool {
+       // let _ = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let _ = DatabaseHelper.sharedInstance.persistentStoreCoordinator
+        return DatabaseHelper.sharedInstance.ispersistentStoreCoordinatorAvailable
+    }
+    
+    
 }

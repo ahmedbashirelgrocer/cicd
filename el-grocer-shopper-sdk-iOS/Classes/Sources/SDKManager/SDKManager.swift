@@ -67,7 +67,7 @@ class SDKManager: NSObject  {
     
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
-        self.rootContext = UIApplication.shared.keyWindow?.rootViewController
+        self.rootContext = UIWindow.key?.rootViewController
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
