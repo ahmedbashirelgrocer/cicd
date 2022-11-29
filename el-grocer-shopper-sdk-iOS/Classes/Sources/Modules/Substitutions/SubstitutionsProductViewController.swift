@@ -321,7 +321,17 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         view.isHidden = false
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
-        view.backgroundColor = UIColor.promotionRedColor()
+        view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var freeDeliverySmileImageView: UIImageView = {
+        let view = UIImageView()
+        
+        view.isHidden = false
+        view.image = UIImage(name: "SmileFreeDeliverySmilie")
+        view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -372,7 +382,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         setBillInitialAppearance()
         addViewsInstackView()
         adjustDividerConstraints()
-        setUpGradients()
+//        setUpGradients()
         
         
             //get smile user data
@@ -393,7 +403,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         setBillInitialAppearance()
         addViewsInstackView()
         adjustDividerConstraints()
-        setUpGradients()
+//        setUpGradients()
 
     }
     
@@ -2176,20 +2186,24 @@ extension SubstitutionsProductViewController {
     func setFreeDeliveryFeeViewConstraints() {
 
         self.freeDeliveryView.addSubview(lblFreeDelivery)
-        
-        lblFreeDelivery.leadingAnchor.constraint(equalTo: freeDeliveryView.leadingAnchor, constant: 8).isActive = true
-        lblFreeDelivery.trailingAnchor.constraint(equalTo: freeDeliveryView.trailingAnchor, constant: -8).isActive = true
+        self.freeDeliveryView.addSubview(freeDeliverySmileImageView)
         lblFreeDelivery.centerYAnchor.constraint(equalTo: freeDeliveryView.centerYAnchor).isActive = true
+        lblFreeDelivery.centerXAnchor.constraint(equalTo: freeDeliveryView.centerXAnchor, constant: 12).isActive = true
+        
+        freeDeliverySmileImageView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        freeDeliverySmileImageView.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        freeDeliverySmileImageView.trailingAnchor.constraint(equalTo: lblFreeDelivery.leadingAnchor, constant: -5).isActive = true
+        freeDeliverySmileImageView.centerYAnchor.constraint(equalTo: lblFreeDelivery.centerYAnchor).isActive = true
         
         freeDeliveryView.trailingAnchor.constraint(equalTo: billStackBGView.trailingAnchor, constant: -16).isActive = true
         freeDeliveryView.leadingAnchor.constraint(equalTo: billStackBGView.leadingAnchor, constant: 16).isActive = true
         freeDeliveryView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
-    func setUpGradients () {
-        let greLay = self.freeDeliveryView.setupGradient(height: self.freeDeliveryView.frame.size.height , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
-        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
-    }
+//    func setUpGradients () {
+//        let greLay = self.freeDeliveryView.setupGradient(height: self.freeDeliveryView.frame.size.height , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
+//        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
+//    }
     
     func addViewsInstackView() {
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)

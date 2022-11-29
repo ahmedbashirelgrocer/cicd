@@ -527,7 +527,7 @@ extension UIButton {
     }
     func setCaptionBoldSecondaryGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
-        self.setTitleColor(UIColor.secondaryDarkGreenColor(), for: .normal)
+        self.setTitleColor(ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor, for: .normal)
     }
     func setCaptionBoldDarkStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
