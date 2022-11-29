@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lottie
 
 private enum BackendSuggestedAction: Int {
     case Continue = 0
@@ -15,7 +16,12 @@ private enum BackendSuggestedAction: Int {
 class SplashAnimationViewController: UIViewController {
 
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView!
+    @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView! {
+        didSet {
+            logoAnimator.isHidden = true
+        }
+    }
+    @IBOutlet var splashLottieLogoAnimator: AnimationView!
     lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
         
@@ -25,11 +31,15 @@ class SplashAnimationViewController: UIViewController {
     }
  
     override func viewWillAppear(_ animated: Bool) {
-        self.StartLogoAnimation()
+        
         self.startConditionalHomeDataFetching()
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.StartLogoAnimation()
+    }
     deinit {
         
         NotificationCenter.default.removeObserver(self)
@@ -45,12 +55,23 @@ class SplashAnimationViewController: UIViewController {
     private func StartLogoAnimation() {
         
         if UIApplication.shared.applicationState == .active {
-           
-            logoAnimator.startAnimate { [weak self] (isCompleted) in
-                if isCompleted {
+            
+            splashLottieLogoAnimator.frame = self.view.frame
+            let starAnimation = Animation.named("SDK_Splash Screen_V8", bundle: .resource)
+            splashLottieLogoAnimator.animation = starAnimation
+            splashLottieLogoAnimator.contentMode = .scaleAspectFit
+            splashLottieLogoAnimator.play { [weak self] (finished) in
+              /// Animation finished
+                if finished {
                     self?.animationCompletedSetRootVc()
                 }
             }
+            
+//            logoAnimator.startAnimate { [weak self] (isCompleted) in
+//                if isCompleted {
+//                    self?.animationCompletedSetRootVc()
+//                }
+//            }
             
             NotificationCenter.default.addObserver(
                 self,

@@ -191,6 +191,7 @@ Pod::Spec.new do |s|
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
   s.dependency 'Mixpanel-swift', '~> 3.3.0'
+  s.dependency 'lottie-ios', '~> 3.2.3'
 #s.dependency 'AppsFlyerFramework'
 
 
