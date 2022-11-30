@@ -449,7 +449,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
     
         self.refreshBasketIconStatus()
-    (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState( ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.lastItemsCount > 0)
+        
+        let isCartEmpty = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count > 0
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(isCartEmpty)
+//    (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState( ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.lastItemsCount > 0)
     
     }
     
