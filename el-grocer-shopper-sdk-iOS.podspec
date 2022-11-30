@@ -194,5 +194,8 @@ Pod::Spec.new do |s|
   s.dependency 'Mixpanel-swift', '~> 3.3.0'
 #s.dependency 'AppsFlyerFramework'
 
+  # Segment analytics dependency
+  s.dependency 'Analytics', '~> 4.1'
+
 
 end

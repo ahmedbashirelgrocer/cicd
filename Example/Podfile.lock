@@ -43,6 +43,7 @@ PODS:
     - AFNetworking/NSURLSession
   - AlgoliaSearchClient (8.14.0):
     - Logging
+  - Analytics (4.1.6)
   - AnimatedGradientView (3.1.0)
   - BadgeControl (1.2.1)
   - BetterSegmentedControl (2.0.1)
@@ -56,6 +57,7 @@ PODS:
   - el-grocer-shopper-sdk-iOS (1.0.38):
     - Adyen (~> 4.7.3)
     - AlgoliaSearchClient (~> 8.0)
+    - Analytics (~> 4.1)
     - AnimatedGradientView (~> 3.1.0)
     - BadgeControl (~> 1.2.1)
     - BetterSegmentedControl (~> 2.0.1)
@@ -358,6 +360,7 @@ SPEC REPOS:
     - AdyenNetworking
     - AFNetworking
     - AlgoliaSearchClient
+    - Analytics
     - AnimatedGradientView
     - BadgeControl
     - BetterSegmentedControl
@@ -434,6 +437,7 @@ SPEC CHECKSUMS:
   AdyenNetworking: 14567bd00c00ba2e2580a904708c7ba5f010b1f9
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
+  Analytics: eefe524436f904b8bb3f8c8c3425280e43b34efc
   AnimatedGradientView: f249740238c6b491a10d505ab06bb98d897ca3a7
   BadgeControl: 67036e7f586930bba15084dbf89ebce7aa2f2bc2
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
@@ -443,7 +447,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: a2848ad1ba47d7918808fb8e25ef80b437e65b7c
+  el-grocer-shopper-sdk-iOS: 79fb96e5fe617e2cf3c041783764248c74d7b9c2
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148

@@ -121,6 +121,9 @@ class SecondCheckoutVC: UIViewController {
                 
                 guard order != nil else { return }
                 
+                // MARK: Segment Order Purchase Event logging
+                SegmentAnalyticsEngine.instance.logEvent(event: OrderPurchaseEvent(products: self?.viewModel.getFinalisedProducts() ?? [], grocery: self?.grocery))
+                
                 if self?.viewModel.getSelectedPaymentOption() == .creditCard, let card = self?.viewModel.getCreditCard()?.adyenPaymentMethod {
                     if let oldOrder = self?.viewModel.getEditOrderInitialDetail(),oldOrder.cardID == self?.viewModel.getCreditCard()?.cardID {
                         self?.showConfirmationView(order!)
