@@ -112,6 +112,6 @@ class CategoryCell: UITableViewCell {
 //            allImageName = "AllProducts-Arabic"
 //        }
         
-        self.imgCategory.image = UIImage(name: allImageName)!
+       // self.imgCategory.image = UIImage(name: allImageName)!
     }
 }
