@@ -588,7 +588,7 @@ extension  ElGrocerEventsLogger   {
     }
     
     
-    func recordPurchaseAnalytics (finalOrderItems:[ShoppingBasketItem] , finalProducts:[Product]! , finalOrder:Order! ,  availableProductsPrices:NSDictionary?  , priceSum : Double , discountedPrice : Double  , grocery : Grocery , deliveryAddress : DeliveryAddress , carouselproductsArray : [Product] , promoCode : String , serviceFee : Double , payment : PaymentOption , discount : Double , IsSmiles : Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int ){
+    func recordPurchaseAnalytics (finalOrderItems:[ShoppingBasketItem] , finalProducts:[Product]! , finalOrder:Order! ,  availableProductsPrices:NSDictionary?  , priceSum : Double , discountedPrice : Double  , grocery : Grocery , deliveryAddress : DeliveryAddress , carouselproductsArray : [Product] , promoCode : String , serviceFee : Double , payment : PaymentOption , discount : Double , IsSmiles : Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int, _ isWallet : Bool = false ,_ walletUseAmount: Double = 0.0){
        
         //google Analytics ecommerce
         let fbDataA =   GoogleAnalyticsHelper.trackPlacedOrderForEcommerce(finalOrder , orderItems: finalOrderItems, products: finalProducts, productsPrices: availableProductsPrices, IsSmiles : IsSmiles)
@@ -653,7 +653,7 @@ extension  ElGrocerEventsLogger   {
         let isfirebase = result.2
         
         if isfirebase != nil {
-            FireBaseEventsLogger.trackPurchaseItems(productList: finalProducts, orderId: finalOrder.dbID.stringValue , carosalA: carouselproductsArray , grocerID: grocery.dbID, eventName: isfirebase!)
+            FireBaseEventsLogger.trackPurchaseItems(productList: finalProducts, orderId: finalOrder.dbID.stringValue , carosalA: carouselproductsArray , grocerID: grocery.dbID, eventName: isfirebase!, isWallet, walletUseAmount)
         }
         if iscleverTap != nil {
             CleverTapEventsLogger.trackPurchaseItems(productList: finalProducts, orderId: finalOrder.dbID.stringValue , carosalA: carouselproductsArray , grocerID: grocery.dbID, eventName: iscleverTap!)
@@ -674,7 +674,7 @@ extension  ElGrocerEventsLogger   {
         let isfirebase1 = result1.2
         
         if isfirebase1 != nil {
-            FireBaseEventsLogger.trackPurchase(coupon: promoCode, coupanValue: "\(promoCodeNumberValue)" , currency: kProductCurrencyEngAEDName , value: String(format: "%.2f", priceToSend) , tax: grocery.vat , shipping: NSNumber(value: serviceFee)  , transactionID: finalOrder.dbID.stringValue, PurchasedItems: fireBaseList, discount: discount, IsSmiles: IsSmiles, smilePoints: smilePoints, pointsEarned: pointsEarned, pointsBurned: pointsBurned  )
+            FireBaseEventsLogger.trackPurchase(coupon: promoCode, coupanValue: "\(promoCodeNumberValue)" , currency: kProductCurrencyEngAEDName , value: String(format: "%.2f", priceToSend) , tax: grocery.vat , shipping: NSNumber(value: serviceFee)  , transactionID: finalOrder.dbID.stringValue, PurchasedItems: fireBaseList, discount: discount, IsSmiles: IsSmiles, smilePoints: smilePoints, pointsEarned: pointsEarned, pointsBurned: pointsBurned, isWallet,walletUseAmount )
         }
 //        if iscleverTap1 != nil {
 //            CleverTapEventsLogger.trackPurchase(coupon: promoCode, coupanValue: "\(promoCodeNumberValue)" , currency: kProductCurrencyEngAEDName , value: String(format: "%.2f", priceToSend) , tax: grocery.vat , shipping: NSNumber(value: serviceFee)  , transactionID: finalOrder.dbID.stringValue, PurchasedItems: fireBaseList , eventName : iscleverTap1! )
@@ -712,8 +712,11 @@ extension  ElGrocerEventsLogger   {
             paymentstr = "PayCash"
         }else  if payment == PaymentOption.card {
             paymentstr = "PayCardOnDelivery"
+        }else  if payment == PaymentOption.smilePoints {
+            paymentstr = "SmilesPoints"
         }
-        CleverTapEventsLogger.shared.cleverTapApp?.recordChargedEvent(withDetails: ["Amount" : priceSum , "PaymentMode" : paymentstr , "ChargedID" : finalOrder.dbID.stringValue, "IsSmiles": IsSmiles ], andItems: cleverTap)
+        
+        CleverTapEventsLogger.shared.cleverTapApp?.recordChargedEvent(withDetails: ["Amount" : priceSum , "PaymentMode" : paymentstr , "ChargedID" : finalOrder.dbID.stringValue, "IsSmiles": IsSmiles, "IsWallet": isWallet ], andItems: cleverTap)
 
     }
     

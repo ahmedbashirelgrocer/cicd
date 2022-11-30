@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Brand" representedClassName=".Brand" syncable="YES">
+    <entity name="Brand" representedClassName=".Brand" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameEn" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="CarouselProducts" representedClassName=".CarouselProducts" syncable="YES">
+    <entity name="CarouselProducts" representedClassName=".CarouselProducts" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="groceryID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameEn" optional="YES" attributeType="String"/>
         <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="Category" representedClassName=".Category" syncable="YES">
+    <entity name="Category" representedClassName=".Category" syncable="YES" codeGenerationType="class">
         <attribute name="coloredImageUrl" optional="YES" attributeType="String"/>
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
@@ -26,13 +26,13 @@
         <attribute name="sortID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <relationship name="brands" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Brand"/>
     </entity>
-    <entity name="CollectorDetail" representedClassName=".CollectorDetail" syncable="YES">
+    <entity name="CollectorDetail" representedClassName=".CollectorDetail" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phone_number" optional="YES" attributeType="String"/>
         <relationship name="order" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Order"/>
     </entity>
-    <entity name="DeliveryAddress" representedClassName=".DeliveryAddress" syncable="YES">
+    <entity name="DeliveryAddress" representedClassName=".DeliveryAddress" syncable="YES" codeGenerationType="class">
         <attribute name="additionalDirection" optional="YES" attributeType="String"/>
         <attribute name="address" attributeType="String" defaultValueString="Unknown"/>
         <attribute name="addressTagId" optional="YES" attributeType="String"/>
@@ -55,7 +55,7 @@
         <attribute name="street" optional="YES" attributeType="String"/>
         <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="UserProfile"/>
     </entity>
-    <entity name="DeliverySlot" representedClassName=".DeliverySlot" syncable="YES">
+    <entity name="DeliverySlot" representedClassName=".DeliverySlot" syncable="YES" codeGenerationType="class">
         <attribute name="backendDbId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="end_time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -66,7 +66,7 @@
         <attribute name="time_milli" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="usid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="Grocery" representedClassName=".Grocery" syncable="YES">
+    <entity name="Grocery" representedClassName=".Grocery" syncable="YES" codeGenerationType="class">
         <attribute name="addDay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="address" optional="YES" attributeType="String"/>
         <attribute name="availablePayments" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
@@ -117,19 +117,19 @@
         <relationship name="reviews" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="GroceryReview"/>
         <relationship name="subcategories" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Category"/>
     </entity>
-    <entity name="GroceryCategoryBrands" representedClassName=".GroceryCategoryBrands" syncable="YES">
+    <entity name="GroceryCategoryBrands" representedClassName=".GroceryCategoryBrands" syncable="YES" codeGenerationType="class">
         <attribute name="brandId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="categoryId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="groceryId" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="GroceryReview" representedClassName=".GroceryReview" syncable="YES">
+    <entity name="GroceryReview" representedClassName=".GroceryReview" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="reviewer" optional="YES" attributeType="String"/>
         <attribute name="reviewText" optional="YES" attributeType="String"/>
         <attribute name="score" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
         <relationship name="grocery" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Grocery"/>
     </entity>
-    <entity name="Order" representedClassName=".Order" syncable="YES">
+    <entity name="Order" representedClassName=".Order" syncable="YES" codeGenerationType="class">
         <attribute name="applePayWallet" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="authAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="cardID" optional="YES" attributeType="String"/>
@@ -171,19 +171,19 @@
         <relationship name="pickUp" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="PickupLocation"/>
         <relationship name="vehicleDetail" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="VehicleDetail"/>
     </entity>
-    <entity name="OrderSubstitution" representedClassName=".OrderSubstitution" syncable="YES">
+    <entity name="OrderSubstitution" representedClassName=".OrderSubstitution" syncable="YES" codeGenerationType="class">
         <attribute name="groceryId" optional="YES" attributeType="String"/>
         <attribute name="orderId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="productId" optional="YES" attributeType="String"/>
         <attribute name="subtitutingProductId" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Picker" representedClassName=".Picker" syncable="YES">
+    <entity name="Picker" representedClassName=".Picker" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="registrationID" optional="YES" attributeType="String"/>
         <relationship name="order" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Order"/>
     </entity>
-    <entity name="PickupLocation" representedClassName=".PickupLocation" syncable="YES">
+    <entity name="PickupLocation" representedClassName=".PickupLocation" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -192,7 +192,7 @@
         <attribute name="retailer_id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="order" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Order"/>
     </entity>
-    <entity name="Product" representedClassName=".Product" syncable="YES">
+    <entity name="Product" representedClassName=".Product" syncable="YES" codeGenerationType="class">
         <attribute name="availableQuantity" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="brandId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="brandImageUrl" optional="YES" attributeType="String"/>
@@ -235,14 +235,14 @@
         <attribute name="subcategoryNameEn" optional="YES" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="RecipeCart" representedClassName=".RecipeCart" syncable="YES">
+    <entity name="RecipeCart" representedClassName=".RecipeCart" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="ingredients" optional="YES" attributeType="Transformable"/>
         <attribute name="recipeID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="recipeName" optional="YES" attributeType="String"/>
         <attribute name="retailerID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="Referral" representedClassName=".Referral" syncable="YES">
+    <entity name="Referral" representedClassName=".Referral" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="referralCode" optional="YES" attributeType="String"/>
         <attribute name="referralMessage" optional="YES" attributeType="String"/>
@@ -251,14 +251,14 @@
         <attribute name="walletTotal" optional="YES" attributeType="String"/>
         <relationship name="referralWallet" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="ReferralWallet"/>
     </entity>
-    <entity name="ReferralWallet" representedClassName=".ReferralWallet" syncable="YES">
+    <entity name="ReferralWallet" representedClassName=".ReferralWallet" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="referralRuleId" optional="YES" attributeType="String"/>
         <attribute name="walletAmount" optional="YES" attributeType="String"/>
         <attribute name="walletExpireDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="walletInfo" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="ShoppingBasketItem" representedClassName=".ShoppingBasketItem" syncable="YES">
+    <entity name="ShoppingBasketItem" representedClassName=".ShoppingBasketItem" syncable="YES" codeGenerationType="class">
         <attribute name="brandName" optional="YES" attributeType="String"/>
         <attribute name="brandNameEn" optional="YES" attributeType="String"/>
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
@@ -271,14 +271,14 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="wasInShop" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
     </entity>
-    <entity name="SubstitutionBasketItem" representedClassName=".SubstitutionBasketItem" syncable="YES">
+    <entity name="SubstitutionBasketItem" representedClassName=".SubstitutionBasketItem" syncable="YES" codeGenerationType="class">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="groceryId" optional="YES" attributeType="String"/>
         <attribute name="orderId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="productId" optional="YES" attributeType="String"/>
         <attribute name="subtituteProductId" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="UserProfile" representedClassName=".UserProfile" syncable="YES">
+    <entity name="UserProfile" representedClassName=".UserProfile" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="language" optional="YES" attributeType="String"/>
@@ -287,7 +287,7 @@
         <attribute name="referralCode" optional="YES" attributeType="String"/>
         <relationship name="deliveryAddresses" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="DeliveryAddress"/>
     </entity>
-    <entity name="VehicleDetail" representedClassName=".VehicleDetail" syncable="YES">
+    <entity name="VehicleDetail" representedClassName=".VehicleDetail" syncable="YES" codeGenerationType="class">
         <attribute name="color_code" optional="YES" attributeType="String"/>
         <attribute name="color_dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="color_name" optional="YES" attributeType="String"/>

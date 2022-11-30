@@ -27,7 +27,7 @@ class MixpanelManager {
     
     class func trackEvent(_ eventName : String , params :  [String : Any]? = nil) {
         
-        var finalParms:Properties = ["User_SmileSDK": SDKManager.isSmileSDK]
+        var finalParms:Properties = ["User_SmilesSDK": SDKManager.isSmileSDK]
         
         if let dataDict = params {
             for (key, value) in dataDict {
@@ -35,13 +35,27 @@ class MixpanelManager {
             }
         }
         
+        if let lastEventDate = MixpanelEventLoggerSync.shared.data[eventName] {
+            let nanoSecBetweenDate =  (Date().timeIntervalSince1970) - (lastEventDate ?? Date().timeIntervalSince1970)
+            if nanoSecBetweenDate > 0.06 && nanoSecBetweenDate > 0{
+                if nanoSecBetweenDate > 0.4 {
+                    MixpanelEventLoggerSync.shared.data = [eventName : nil]
+                }
+                
+                return
+            }
+        }
+        
+        
+        MixpanelEventLoggerSync.shared.data = [eventName : Date().timeIntervalSince1970]
         self.mixInstance?.track(event: eventName, properties: finalParms)
         self.mixInstance?.flush {
             if Platform.isSimulator {  elDebugPrint("MixPanel : debug: \(eventName): done") }
         }
     }
     
-    class func setIdentity(_ email : String, isSmile : Bool) {
-        self.mixInstance?.people.set(properties: [ "$email": email, "$User_SmilesSDK": isSmile])
+    class func setIdentity(_ email : String, isSmile : Bool, phone : String ) {
+        self.mixInstance?.people.set(properties: ["$phone" : phone, "$name" : phone, "$email": email, "User_SmilesSDK": isSmile])
+        
     }
 }

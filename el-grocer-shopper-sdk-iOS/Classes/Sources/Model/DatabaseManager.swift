@@ -15,6 +15,7 @@ class DatabaseManager : NSObject {
     //Properties
     
     var persistentStoreItems: [PersistentStoreCoreDataItem]?
+    var ispersistentStoreCoordinatorAvailable : Bool = true
     
     //MARK: Persistent Store Coordinator
     
@@ -23,7 +24,13 @@ class DatabaseManager : NSObject {
         
         objc_sync_enter(self)
         
+        self.ispersistentStoreCoordinatorAvailable = true
+        
         let coordinator:NSPersistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        
+        if self.managedObjectModel.localizationDictionary == nil {
+            self.ispersistentStoreCoordinatorAvailable = false
+        }
         
         if let persistantStores = self.persistentStoreItems {
             
@@ -48,7 +55,8 @@ class DatabaseManager : NSObject {
                     } catch let error as NSError {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                         //At this point app is seriously broken and should not work properly, stop execution
-                        fatalError()
+                       // fatalError()
+                        self.ispersistentStoreCoordinatorAvailable = false
                     }
                     
                 }
@@ -59,10 +67,12 @@ class DatabaseManager : NSObject {
                         try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
                         
                     } catch let error as NSError {
+                        
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                         //At this point app is seriously broken and should not work properly, stop execution
-                       elDebugPrint("Error:%@",error.localizedDescription)
-                        fatalError()
+                     //  elDebugPrint("Error:%@",error.localizedDescription)
+                     //   fatalError()
+                        self.ispersistentStoreCoordinatorAvailable = false
                     }
                 }
                 
@@ -97,7 +107,7 @@ class DatabaseManager : NSObject {
             if models.count > 1 {
                 managedObjectModel = NSManagedObjectModel(byMerging: models)
             } else {
-                managedObjectModel = models[0];
+                managedObjectModel = models.count > 0 ?  models[0] : NSManagedObjectModel()
             }
         }
         
@@ -161,21 +171,9 @@ class DatabaseManager : NSObject {
         guard context.persistentStoreCoordinator == self.persistentStoreCoordinator else {
                  return
         }
-        context.mergeChanges(fromContextDidSave: notification)
-        return
-        /*
-         
-         NSManagedObjectContext * context = notification.object;
-         if (context != self.managedObjectContextForMainThread) {
-         if (context.persistentStoreCoordinator == self.persistentStoreCoordinator) {
-         [context mergeChangesFromContextDidSaveNotification:notification];
-         }
-         }
-         
-         
-         */
-        
-        /*
+        //context.mergeChanges(fromContextDidSave: notification)
+        //return
+    
         if (context != self.mainManagedObjectContext) {
             if (context.persistentStoreCoordinator == self.persistentStoreCoordinator) {
                 context.mergeChanges(fromContextDidSave: notification)
@@ -195,7 +193,7 @@ class DatabaseManager : NSObject {
             //self.backgroundManagedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
             //self.mainManagedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
         }
-         */
+         
     }
     
     // MARK: Methods

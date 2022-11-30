@@ -17,12 +17,10 @@
       "scale" : "1x"
     },
     {
-      "filename" : "off-grocery@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "off-grocery@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

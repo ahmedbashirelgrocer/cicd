@@ -121,9 +121,37 @@ class SecondCheckoutVC: UIViewController {
                 
                 guard order != nil else { return }
                 
+                func logPurchaseEvents() {
+                    self?.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
+                    ElGrocerUtility.sharedInstance.delay(0.5) {
+                        ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
+                            finalOrderItems:self?.viewModel.getShoppingItems() ?? []
+                            , finalProducts:self?.viewModel.getFinalisedProducts() ?? []
+                            , finalOrder: order!
+                            , availableProductsPrices:[:]
+                            , priceSum : self?.viewModel.basketDataValue?.finalAmount! ?? 0.0
+                            , discountedPrice : self?.viewModel.basketDataValue?.productsSaving! ?? 0.0
+                            , grocery : self!.viewModel.getGrocery()!
+                            , deliveryAddress : self!.viewModel.getDeliveryAddressObj()!
+                            , carouselproductsArray : self?.viewModel.getCarouselProductsArray() ?? []
+                            , promoCode : self?.viewModel.basketDataValue?.promoCode?.code ?? ""
+                            , serviceFee : self?.viewModel.basketDataValue?.serviceFee ?? 0.0
+                            , payment : self?.viewModel.getSelectedPaymentOption() ?? PaymentOption.none
+                            , discount: self?.viewModel.basketDataValue?.totalDiscount ?? 0.0
+                            , IsSmiles: self?.viewModel.getIsSmileTrue() ?? false
+                            , smilePoints: Int(self?.viewModel.basketDataValue?.smilesPoints ?? 0)
+                            , pointsEarned:Int(self?.viewModel.basketDataValue?.smilesEarn ?? 0)
+                            , pointsBurned:Int(self?.viewModel.basketDataValue?.smilesRedeem ?? 0),
+                            self?.viewModel.getIsWalletTrue() ?? false,
+                            self?.viewModel.basketDataValue?.elWalletRedeem ?? 0.0
+                        )
+                    }
+                }
+                
                 if self?.viewModel.getSelectedPaymentOption() == .creditCard, let card = self?.viewModel.getCreditCard()?.adyenPaymentMethod {
                     if let oldOrder = self?.viewModel.getEditOrderInitialDetail(),oldOrder.cardID == self?.viewModel.getCreditCard()?.cardID {
                         self?.showConfirmationView(order!)
+                        logPurchaseEvents()
                         return
                     }
                     elDebugPrint(order)
@@ -134,6 +162,9 @@ class SecondCheckoutVC: UIViewController {
                 } else {
                     self?.showConfirmationView(order!)
                 }
+                
+                logPurchaseEvents()
+                
             }
         }
         

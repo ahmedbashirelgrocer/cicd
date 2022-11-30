@@ -107,11 +107,11 @@ class CategoryCell: UITableViewCell {
         self.lblSubtitle.text = localizedString("top_selling_description", comment: "")
         self.loadingIndicator.isHidden = true
         
-        var allImageName = "AllProducts"
-        if LanguageManager.sharedInstance.getSelectedLocale().caseInsensitiveCompare("ar") == ComparisonResult.orderedSame{
-            allImageName = "AllProducts-Arabic"
-        }
+//        var allImageName = "AllProducts"
+//        if LanguageManager.sharedInstance.getSelectedLocale().caseInsensitiveCompare("ar") == ComparisonResult.orderedSame{
+//            allImageName = "AllProducts-Arabic"
+//        }
         
-        self.imgCategory.image = UIImage(name: allImageName)!
+       // self.imgCategory.image = UIImage(name: allImageName)!
     }
 }

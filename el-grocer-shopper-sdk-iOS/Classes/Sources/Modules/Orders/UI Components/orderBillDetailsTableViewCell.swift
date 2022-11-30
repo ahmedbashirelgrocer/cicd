@@ -196,7 +196,8 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         let serviceFee = order.serviceFee?.doubleValue ?? 0.0
 //        let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: orderController.order.grocery, totalPrice: priceSum)
         
-        let priceVariance = order.priceVariance?.doubleValue ?? 0.00
+        let priceVarianceStr = order.priceVariance ?? "0.0"
+        let priceVariance = Double(priceVarianceStr) ?? 0.00
         
         if let orderPayments = order.orderPayments {
             for payment in orderPayments {

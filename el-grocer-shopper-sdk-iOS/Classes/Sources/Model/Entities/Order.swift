@@ -23,7 +23,7 @@ class Order: NSManagedObject, DBEntity {
     @NSManaged var promoCode: PromotionCode?
     @NSManaged var deliverySlot: DeliverySlot?
     @NSManaged var cardLast: String?
-    @NSManaged var priceVariance: NSNumber?
+    @NSManaged var priceVariance: String?
     @NSManaged var cardID: String?
     @NSManaged var totalProducts: Int64
     @NSManaged var deliveryTypeId: NSNumber?

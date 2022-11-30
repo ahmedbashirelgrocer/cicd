@@ -124,6 +124,11 @@ extension Date {
         return components.minute ?? 0
     }
     
+    func nanosecondBetweenDate(toDate: Date) -> Int {
+        let components = Calendar.current.dateComponents([.nanosecond], from: self, to: toDate)
+        return components.nanosecond ?? 0
+    }
+    
     func dataInGST() -> Date? {
         
         let formatter = DateFormatter()
