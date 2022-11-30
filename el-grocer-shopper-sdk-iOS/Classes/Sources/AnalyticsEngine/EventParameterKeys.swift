@@ -19,7 +19,8 @@ enum EventParameterKeys {
     static let subcategoryID    = "subcategoryID"
     static let subcategoryName  = "subcategoryName"
     static let price            = "price"
-    static let brandId            = "brandId"
+    static let brandId          = "brandId"
+    static let brandName        = "brandName"
     static let isSponsored      = "isSponsored"
     static let isPromotion      = "isPromotion"
     static let isRecipe         = "isRecipe"
@@ -29,4 +30,6 @@ enum EventParameterKeys {
     static let email            = "email"
     static let mobileNumber     = "mobileNumber"
     static let name             = "name"
+    static let paymentMethodId  = "paymentMethodId"
+    static let totalOrderAmount = "totalOrderAmount"
 }

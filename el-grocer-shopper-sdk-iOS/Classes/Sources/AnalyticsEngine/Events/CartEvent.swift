@@ -25,7 +25,8 @@ struct CartAnalyticEvent: AnalyticsEventType {
             EventParameterKeys.subcategoryID    : product.subcategoryId,
             EventParameterKeys.subcategoryName  : product.subcategoryNameEn ?? "",
             EventParameterKeys.price            : product.price,
-            EventParameterKeys.brandId            : product.brandId ?? "",
+            EventParameterKeys.brandId          : product.brandId ?? "",
+            EventParameterKeys.brandName        : product.brandNameEn ?? "",
             EventParameterKeys.isSponsored      : product.isSponsored ?? false,
             EventParameterKeys.isPromotion      : product.promotion ?? false,
             EventParameterKeys.isRecipe         : false,
@@ -79,7 +80,8 @@ struct CartCheckoutEvent: AnalyticsEventType {
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId
             dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryNameEn ?? ""
             dictionary[EventParameterKeys.price]            = product.price
-            dictionary[EventParameterKeys.brandId]            = product.brandId ?? ""
+            dictionary[EventParameterKeys.brandId]          = product.brandId ?? ""
+            dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
             dictionary[EventParameterKeys.isSponsored]      = product.isSponsored ?? false
             dictionary[EventParameterKeys.isPromotion]      = product.promotion ?? false
             
