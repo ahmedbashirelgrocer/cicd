@@ -2779,6 +2779,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             if quantity == 0 {
                     // Remove product from basket
                 ShoppingBasketItem.removeProductFromBasket(self.selectedProduct, grocery: self.grocery, orderID: nil , context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
+                    let cartDeletedEvent = CartAnalyticEvent(eventCategory: .sendEvent(eventName: AnalyticsEventName.cartDeleted), product: self.selectedProduct, activeGrocery: self.grocery)
+                    SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+                }
                 self.removeProductFromAvailableAndProductA ()
                 
             } else {
@@ -3262,6 +3267,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 self.updateSelectedProductsQuantity(counter, andWithProductIndex: index)
                 self.updateQuantityAndPriceColour(index)
                 self.logAddProductEvent(self.selectedProduct)
+                
+                let cartUpdateEvent = CartAnalyticEvent(eventCategory: .sendEvent(eventName: AnalyticsEventName.cartUpdated), product: self.selectedProduct, activeGrocery: self.grocery)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdateEvent)
                 
                 if self.selectedProduct.promotion?.boolValue == true {
                     
