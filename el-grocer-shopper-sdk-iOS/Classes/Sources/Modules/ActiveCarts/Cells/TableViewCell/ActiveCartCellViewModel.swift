@@ -22,6 +22,7 @@ protocol ActiveCartCellViewModelOutput {
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var isArbic: Observable<Bool> { get }
     var bannerTap: Observable<BannerDTO> { get }
+    var isStoreClose: Observable<Bool> { get }
 }
 
 protocol ActiveCartCellViewModelType: ActiveCartCellViewModelInput, ActiveCartCellViewModelOutput {
@@ -47,6 +48,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     var banners: Observable<[BannerDTO]> { bannersSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
+    var isStoreClose: Observable<Bool> { isStoreCloseSubject.asObservable() }
     
     // MARK: Subject
     private var storeIconUrlSubject = BehaviorSubject<URL?>(value: nil)
@@ -57,6 +59,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
     private let bannerTapSubject = PublishSubject<BannerDTO>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
+    private var isStoreCloseSubject = BehaviorSubject<Bool>(value: false)
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
@@ -138,6 +141,7 @@ private extension ActiveCartCellViewModel {
             
             self.deliveryTextSubject.onNext(attributedString)
             self.deliveryTypeIconNameSubject.onNext("clock_red")
+            self.isStoreCloseSubject.onNext(true)
         }
     }
     

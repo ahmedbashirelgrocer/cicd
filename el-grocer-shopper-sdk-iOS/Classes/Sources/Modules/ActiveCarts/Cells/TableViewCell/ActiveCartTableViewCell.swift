@@ -102,6 +102,10 @@ private extension ActiveCartTableViewCell {
             .bind(to: self.viewBanner.rx.banners)
             .disposed(by: disposeBag)
         
+        self.viewModel.outputs.isStoreClose
+            .bind(to: self.buttonNext.rx.isHidden)
+            .disposed(by: disposeBag)
+        
         self.viewModel.outputs.banners.subscribe(onNext: { [weak self] banners in
             self?.bottomConstraint.isActive = banners.isEmpty
             self?.invalidateIntrinsicContentSize()
