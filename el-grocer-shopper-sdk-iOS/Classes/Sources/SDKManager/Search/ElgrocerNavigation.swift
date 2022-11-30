@@ -18,11 +18,33 @@ public class ElgrocerSearchNavigaion {
     public func navigateToProductHome(_ product: SearchResult) {
         Observable.just(())
             .flatMap{ [unowned self] _ in self.showAppWithMenu() }
-            .flatMap{ [unowned self] _ in self.gotoProductsController(product) }
-            .flatMap{ [unowned self] _ in self.universalSearchViewController() }
-            .do(onNext: { [unowned self] _ in self.search(text: product.searchQuery) })
+            .flatMap{ [unowned self] _ in self.goToMain(product: product) }
+            // .flatMap{ [unowned self] _ in self.gotoProductsController(product) }
+            //.flatMap{ [unowned self] _ in self.universalSearchViewController() }
+            //.do(onNext: { [unowned self] _ in self.search(text: product.searchQuery) })
             .subscribe()
             .disposed(by: disposeBag)
+    }
+    
+    func goToMain (product: SearchResult) -> Observable<Void> {
+        Observable.just(())
+            .map { _ in
+                let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId }
+                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                ElGrocerUtility.sharedInstance.isCommingFromUniversalSearch = true
+                // ElGrocerUtility.sharedInstance.searchFromUniversalSearch = homeFeed
+                ElGrocerUtility.sharedInstance.searchString = product.searchQuery
+                if let tabbar = (SDKManager.shared.rootViewController as? UINavigationController)?.viewControllers.first as? UITabBarController {
+                    if  let navMain  = tabbar.viewControllers?[1] as? UINavigationController  {
+                        if navMain.viewControllers.count > 0 {
+                            if let mainVC =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                mainVC.navigationController?.popToRootViewController(animated: false)
+                            }
+                        }
+                    }
+                    tabbar.selectedIndex = 1
+                }
+            }
     }
     
     func showAppWithMenu() -> Observable<Void> {
@@ -114,9 +136,9 @@ public class ElgrocerSearchNavigaion {
             sdkm.currentTabBar = tabController
             sdkm.rootViewController = navtabController
             sdkm.rootContext?.present(sdkm.rootViewController!, animated: true, completion: {[weak smileHomeVc] in
-                    observer.onNext(())
-                    observer.onCompleted()
-                    smileHomeVc?.configureForDataPreloaded()
+                observer.onNext(())
+                observer.onCompleted()
+                smileHomeVc?.configureForDataPreloaded()
             })
             return Disposables.create()
         }.delay(.milliseconds(50), scheduler: MainScheduler.instance)

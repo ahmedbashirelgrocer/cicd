@@ -35,7 +35,7 @@ class IntegratedSearchViewController: UIViewController {
         super.viewDidLoad()
         txtSearch.rx.text
             // .distinctUntilChanged()
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
             .subscribe(
                 onNext: { text in
                     if let text = text, text.isNotEmpty {
