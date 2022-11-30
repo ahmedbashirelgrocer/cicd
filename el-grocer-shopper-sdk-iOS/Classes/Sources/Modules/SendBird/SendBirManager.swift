@@ -190,8 +190,8 @@ class SendBirdManager {
         componentTheme.loadingSpinnerColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         componentTheme.broadcastIconTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         componentTheme.channelTypeSelectorItemTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-        componentTheme.addReactionTintColor = ApplicationTheme.currentTheme.unselectedPageControl
-        componentTheme.reactionBoxSelectedEmojiBackgroundColor = ApplicationTheme.currentTheme.unselectedPageControl
+        componentTheme.addReactionTintColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
+        componentTheme.reactionBoxSelectedEmojiBackgroundColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
         componentTheme.newMessageButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         componentTheme.newMessageTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         componentTheme.scrollBottomButtonIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
@@ -200,11 +200,12 @@ class SendBirdManager {
         
         var messageCellTheme = SBUMessageCellTheme()
         messageCellTheme = .light
-        messageCellTheme.rightBackgroundColor = ApplicationTheme.currentTheme.unselectedPageControl
-        messageCellTheme.rightPressedBackgroundColor = ApplicationTheme.currentTheme.unselectedPageControl
+        messageCellTheme.rightBackgroundColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
+        messageCellTheme.rightPressedBackgroundColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
         messageCellTheme.userMessageRightTextColor = ApplicationTheme.currentTheme.labelHeadingTextColor
-        messageCellTheme.pressedContentBackgroundColor = ApplicationTheme.currentTheme.unselectedPageControl
+        messageCellTheme.pressedContentBackgroundColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
         messageCellTheme.pendingStateColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        messageCellTheme.readReceiptStateColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         
         

@@ -259,13 +259,13 @@ class BasketIconOverlayView : UIView {
                         self.minOrderLabel.attributedText =  NSMutableAttributedString()
                             .normal(localizedString("lbl_Add", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
-                                    color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
+                                    color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                             .normal(" " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: remainingPrice) + " ",
                                     UIFont.SFProDisplayBoldFont(12),
-                                    color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
+                                    color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                             .normal(localizedString("to_reach_minimum_order", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
-                                    color: ApplicationTheme.currentTheme.labelSecondaryBaseColor)
+                                    color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                         self.minOrderImageView.image = UIImage(name: "cart-addmore")
                         let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
                         self.minOrderProgressView.setProgress(progressValue, animated: true)
