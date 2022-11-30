@@ -11,10 +11,11 @@ import Foundation
 struct CartAnalyticEvent: AnalyticsEventType {
     var eventCategory: AnalyticsEventCategory
     var metaData: [String : Any]?
-    
+
     init(eventCategory: AnalyticsEventCategory, product: Product, activeGrocery: Grocery?) {
         self.eventCategory = eventCategory
         self.metaData = [
+            EventParameterKeys.name             : product.name
             EventParameterKeys.storeId          : activeGrocery?.dbID ?? "",
             EventParameterKeys.typesStoreID     : "",
             EventParameterKeys.storeName        : activeGrocery?.name ?? "",
@@ -26,11 +27,10 @@ struct CartAnalyticEvent: AnalyticsEventType {
             EventParameterKeys.subcategoryName  : product.subcategoryNameEn ?? "",
             EventParameterKeys.price            : product.price,
             EventParameterKeys.brandId          : product.brandId ?? "",
-            EventParameterKeys.brandName        : product.brandNameEn ?? "",
+            EventParameterKeys.brandName        : product.brandNameEn,
             EventParameterKeys.isSponsored      : product.isSponsored ?? false,
             EventParameterKeys.isPromotion      : product.promotion ?? false,
             EventParameterKeys.isRecipe         : false,
-            EventParameterKeys.onSmilesSDK      : SDKManager.shared.launchOptions?.isSmileSDK ?? false,
             EventParameterKeys.municipality     : "",
         ]
     }
@@ -75,6 +75,7 @@ struct CartCheckoutEvent: AnalyticsEventType {
         let result = products.map { product in
             var dictionary: [String: Any] = [:]
             
+            dictionary[EventParameterKeys.name]             = product.name,
             dictionary[EventParameterKeys.categoryID]       = product.categoryId ?? ""
             dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId
@@ -84,6 +85,7 @@ struct CartCheckoutEvent: AnalyticsEventType {
             dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
             dictionary[EventParameterKeys.isSponsored]      = product.isSponsored ?? false
             dictionary[EventParameterKeys.isPromotion]      = product.promotion ?? false
+            dictionary[EventParameterKeys.isRecipe]         = false
             
             return dictionary
         }
