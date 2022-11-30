@@ -22,7 +22,6 @@ protocol ActiveCartCellViewModelOutput {
     var cellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var isArbic: Observable<Bool> { get }
     var bannerTap: Observable<BannerDTO> { get }
-    var isStoreClose: Observable<Bool> { get }
 }
 
 protocol ActiveCartCellViewModelType: ActiveCartCellViewModelInput, ActiveCartCellViewModelOutput {
@@ -48,7 +47,6 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     var banners: Observable<[BannerDTO]> { bannersSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
-    var isStoreClose: Observable<Bool> { isStoreCloseSubject.asObservable() }
     
     // MARK: Subject
     private var storeIconUrlSubject = BehaviorSubject<URL?>(value: nil)
@@ -59,7 +57,6 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
     private let bannerTapSubject = PublishSubject<BannerDTO>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
-    private var isStoreCloseSubject = BehaviorSubject<Bool>(value: false)
     
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
@@ -105,43 +102,31 @@ private extension ActiveCartCellViewModel {
     
     func setDeliverySlot() {
         let cart = self.activeCart
-        
-        if cart.isOpened ?? true {
-            switch cart.deliveryType {
-            case .instant:
-                let text = NSLocalizedString("instant_delivery", bundle: .resource, comment: "")
-                let attributedString = NSMutableAttributedString(string: text)
-                
-                attributedString.addAttribute(.font, value: UIFont.SFProDisplayNormalFont(13), range: NSRange(location: 0, length: text.count))
-                attributedString.addAttribute(.foregroundColor, value: UIColor.newBlackColor(), range:NSRange(location: 0, length: text.count))
-                
-                self.deliveryTextSubject.onNext(attributedString)
-                self.deliveryTypeIconNameSubject.onNext("ic-instant-delivery")
-                break
-                
-            case .scheduled:
-                let prefix = NSLocalizedString("lbl_next_delivery", bundle: .resource, comment: "")
-                let formattedTimesString = self.formattedSlot()
-                let text = prefix + formattedTimesString
-                let attributedString = NSMutableAttributedString(string: text)
-                
-                attributedString.addAttribute(.font, value: UIFont.SFProDisplayNormalFont(13), range: NSRange(location: 0, length: prefix.count))
-                attributedString.addAttribute(.font, value: UIFont.SFProDisplaySemiBoldFont(13), range: NSRange(location: prefix.count, length: formattedTimesString.count))
-                attributedString.addAttribute(.foregroundColor, value: UIColor.newBlackColor(), range:NSRange(location: 0, length: text.count))
-                
-                self.deliveryTextSubject.onNext(attributedString)
-                self.deliveryTypeIconNameSubject.onNext("ClockIcon")
-            }
-        } else {
-            let text = NSLocalizedString("screen_active_cart_listing_store_close_message", bundle: .resource, comment: "")
+    
+        switch cart.deliveryType {
+        case .instant:
+            let text = NSLocalizedString("instant_delivery", bundle: .resource, comment: "")
             let attributedString = NSMutableAttributedString(string: text)
             
             attributedString.addAttribute(.font, value: UIFont.SFProDisplayNormalFont(13), range: NSRange(location: 0, length: text.count))
-            attributedString.addAttribute(.foregroundColor, value: UIColor.textfieldErrorColor(), range:NSRange(location: 0, length: text.count))
+            attributedString.addAttribute(.foregroundColor, value: UIColor.newBlackColor(), range:NSRange(location: 0, length: text.count))
             
             self.deliveryTextSubject.onNext(attributedString)
-            self.deliveryTypeIconNameSubject.onNext("clock_red")
-            self.isStoreCloseSubject.onNext(true)
+            self.deliveryTypeIconNameSubject.onNext("ic-instant-delivery")
+            break
+            
+        case .scheduled:
+            let prefix = NSLocalizedString("lbl_next_delivery", bundle: .resource, comment: "")
+            let formattedTimesString = self.formattedSlot()
+            let text = prefix + formattedTimesString
+            let attributedString = NSMutableAttributedString(string: text)
+            
+            attributedString.addAttribute(.font, value: UIFont.SFProDisplayNormalFont(13), range: NSRange(location: 0, length: prefix.count))
+            attributedString.addAttribute(.font, value: UIFont.SFProDisplaySemiBoldFont(13), range: NSRange(location: prefix.count, length: formattedTimesString.count))
+            attributedString.addAttribute(.foregroundColor, value: UIColor.newBlackColor(), range:NSRange(location: 0, length: text.count))
+            
+            self.deliveryTextSubject.onNext(attributedString)
+            self.deliveryTypeIconNameSubject.onNext("ClockIcon")
         }
     }
     
