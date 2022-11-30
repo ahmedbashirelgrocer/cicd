@@ -57,7 +57,7 @@ class SplashAnimationViewController: UIViewController {
         if UIApplication.shared.applicationState == .active {
             
             splashLottieLogoAnimator.frame = self.view.frame
-            let starAnimation = Animation.named("SDK_Splash Screen_V8", bundle: .resource)
+            let starAnimation = Animation.named("SDK_Splash_Screen_V9", bundle: .resource)
             splashLottieLogoAnimator.animation = starAnimation
             splashLottieLogoAnimator.contentMode = .scaleAspectFit
             splashLottieLogoAnimator.play { [weak self] (finished) in
