@@ -15,7 +15,7 @@ struct CartAnalyticEvent: AnalyticsEventType {
     init(eventCategory: AnalyticsEventCategory, product: Product, activeGrocery: Grocery?) {
         self.eventCategory = eventCategory
         self.metaData = [
-            EventParameterKeys.name             : product.name
+            EventParameterKeys.name             : product.name ?? "",
             EventParameterKeys.storeId          : activeGrocery?.dbID ?? "",
             EventParameterKeys.typesStoreID     : "",
             EventParameterKeys.storeName        : activeGrocery?.name ?? "",
@@ -27,11 +27,11 @@ struct CartAnalyticEvent: AnalyticsEventType {
             EventParameterKeys.subcategoryName  : product.subcategoryNameEn ?? "",
             EventParameterKeys.price            : product.price,
             EventParameterKeys.brandId          : product.brandId ?? "",
-            EventParameterKeys.brandName        : product.brandNameEn,
+            EventParameterKeys.brandName        : product.brandNameEn ?? "",
             EventParameterKeys.isSponsored      : product.isSponsored ?? false,
             EventParameterKeys.isPromotion      : product.promotion ?? false,
             EventParameterKeys.isRecipe         : false,
-            EventParameterKeys.municipality     : "",
+            EventParameterKeys.municipality     : activeGrocery?.address ?? "",
         ]
     }
 }
@@ -41,12 +41,12 @@ struct CartViewdEvent: AnalyticsEventType {
     var eventCategory: AnalyticsEventCategory
     var metaData: [String : Any]?
     
-    init(storeId: String?) {
+    init(grocery: Grocery?) {
         self.eventCategory = .sendEvent(eventName: AnalyticsEventName.cartViewed)
         self.metaData = [
-            EventParameterKeys.storeId: storeId ?? "",
-            EventParameterKeys.onSmilesSDK: SDKManager.isSmileSDK,
-            EventParameterKeys.municipality: ""
+            EventParameterKeys.storeId      : grocery?.dbID ?? "",
+            EventParameterKeys.storeName    : grocery?.name ?? "",
+            EventParameterKeys.municipality : grocery?.address ?? ""
         ]
     }
 }
@@ -66,7 +66,7 @@ struct CartCheckoutEvent: AnalyticsEventType {
             EventParameterKeys.retailerName     : activeGrocery?.name ?? "",
             EventParameterKeys.isRecipe         : false,
             EventParameterKeys.onSmilesSDK      : SDKManager.shared.launchOptions?.isSmileSDK ?? false,
-            EventParameterKeys.municipality     : "",
+            EventParameterKeys.municipality     : activeGrocery?.address ?? "",
             EventParameterKeys.products         : self.getProductDic(products: products)
         ]
     }
@@ -75,7 +75,7 @@ struct CartCheckoutEvent: AnalyticsEventType {
         let result = products.map { product in
             var dictionary: [String: Any] = [:]
             
-            dictionary[EventParameterKeys.name]             = product.name,
+            dictionary[EventParameterKeys.name]             = product.name ?? ""
             dictionary[EventParameterKeys.categoryID]       = product.categoryId ?? ""
             dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId

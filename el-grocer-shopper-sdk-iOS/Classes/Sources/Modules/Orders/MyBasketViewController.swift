@@ -276,7 +276,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.signView.isHidden = true
         hidesBottomBarWhenPushed = true
         
-        SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(storeId: self.grocery?.dbID))
+        SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
     }
     
     override func viewWillAppear(_ animated: Bool) {

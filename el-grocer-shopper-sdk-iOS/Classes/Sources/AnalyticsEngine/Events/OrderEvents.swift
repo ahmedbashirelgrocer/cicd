@@ -23,7 +23,7 @@ struct OrderPurchaseEvent: AnalyticsEventType {
             EventParameterKeys.retailerID       : grocery?.dbID ?? "",
             EventParameterKeys.retailerName     : grocery?.name ?? "",
             EventParameterKeys.isRecipe         : false,
-            EventParameterKeys.municipality     : "",
+            EventParameterKeys.municipality     : grocery?.address,
             EventParameterKeys.products         : self.getProductDic(products: products),
         ]
     }
