@@ -13,9 +13,8 @@ struct OrderPurchaseEvent: AnalyticsEventType {
     var metaData: [String : Any]?
     
     init(products: [Product], grocery: Grocery?) {
-        self.eventCategory = .sendEvent(eventName: AnalyticsEventName.orderPurchase)
+        self.eventCategory = .sendEvent(eventName: AnalyticsEventName.orderPurchased)
         self.metaData = [
-            EventParameterKeys.time             : Date(),
             EventParameterKeys.storeId          : grocery?.dbID ?? "",
             EventParameterKeys.typesStoreID     : "",
             EventParameterKeys.storeName        : grocery?.name ?? "",
@@ -29,9 +28,7 @@ struct OrderPurchaseEvent: AnalyticsEventType {
     }
     
     private func getProductDic(products: [Product]) -> [[String: Any]] {
-        var result: [[String: Any]] = []
-        
-        products.forEach { product in
+        let result = products.map { product in
             var dictionary: [String: Any] = [:]
             
             dictionary[EventParameterKeys.categoryID]       = product.categoryId ?? ""
@@ -39,11 +36,11 @@ struct OrderPurchaseEvent: AnalyticsEventType {
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId
             dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryNameEn ?? ""
             dictionary[EventParameterKeys.price]            = product.price
-            dictionary[EventParameterKeys.brand]            = product.brandId ?? ""
+            dictionary[EventParameterKeys.brandId]          = product.brandId ?? ""
             dictionary[EventParameterKeys.isSponsored]      = product.isSponsored ?? false
             dictionary[EventParameterKeys.isPromotion]      = product.promotion ?? false
             
-            result.append(dictionary)
+            return dictionary
         }
         
         return result
@@ -58,8 +55,10 @@ struct IdentifyUserEvent: AnalyticsEventType {
     init(user: UserProfile?) {
         self.eventCategory = .identifyUser(userID: String(user?.dbID.intValue ?? -1))
         self.metaData = [
-            EventParameterKeys.email: user?.email ?? "",
-            EventParameterKeys.mobileNumber: user?.phone ?? ""
+            EventParameterKeys.email        : user?.email ?? "",
+            EventParameterKeys.mobileNumber : user?.phone ?? "",
+            EventParameterKeys.name         : user?.name ?? "",
+            EventParameterKeys.onSmilesSDK  : SDKManager.isSmileSDK,
         ]
     }
 }

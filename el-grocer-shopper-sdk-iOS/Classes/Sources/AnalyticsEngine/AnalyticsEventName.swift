@@ -17,5 +17,5 @@ enum AnalyticsEventName {
     static let cartCheckout  = "Cart Checkout"
     
     // MARK: Order Events
-    static let orderPurchase = "Purchase Order"
+    static let orderPurchased = "Order Purchased"
 }
