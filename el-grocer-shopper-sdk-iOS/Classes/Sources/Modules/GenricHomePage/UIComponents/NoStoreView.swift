@@ -200,9 +200,13 @@ class NoStoreView: UIView {
         self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
         self.backgroundColor = .colorWithHexString(hexString: "ffffff")
     }
-    
+
     func configureNoActiveCart() {
-        self.setUpApearence()
+        self.lblTopMsg.setBody2SemiboldDarkStyle()
+        self.lblExtraDetail.setBody3RegDarkStyle()
+        self.btnNoData.setH4SemiBoldWhiteStyle()
+        self.btnNoData.backgroundColor = UIColor.navigationBarColor()
+        
         self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
         self.lblExtraDetail.text = localizedString("No_Item_Multi_Cart_Empty_View", comment: "")
         self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
