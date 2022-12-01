@@ -30,12 +30,12 @@ struct OrderPurchaseEvent: AnalyticsEventType {
         let result = products.map { product in
             var dictionary: [String: Any] = [:]
             
-            dictionary[EventParameterKeys.productId]        = product.dbID
+            dictionary[EventParameterKeys.productId]        = product.productId
             dictionary[EventParameterKeys.name]             = product.name
             dictionary[EventParameterKeys.categoryID]       = product.categoryId ?? ""
-            dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
+            dictionary[EventParameterKeys.categoryName]     = product.categoryName ?? ""
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId
-            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryNameEn ?? ""
+            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryName ?? ""
             dictionary[EventParameterKeys.price]            = product.price
             dictionary[EventParameterKeys.brandName]        = product.brandName
             dictionary[EventParameterKeys.brandId]          = product.brandId ?? ""

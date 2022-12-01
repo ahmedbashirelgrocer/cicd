@@ -15,7 +15,7 @@ struct CartCreatedEvent: AnalyticsEventType {
     init(product: Product, activeGrocery: Grocery?) {
         self.eventCategory = .sendEvent(eventName: AnalyticsEventName.cartCreated)
         self.metaData = [
-            EventParameterKeys.productId        : product.dbID,
+            EventParameterKeys.productId        : product.productId,
             EventParameterKeys.productName      : product.name ?? "",
             EventParameterKeys.storeId          : activeGrocery?.dbID ?? "",
             EventParameterKeys.typesStoreID     : activeGrocery?.dbID ?? "",
@@ -24,14 +24,14 @@ struct CartCreatedEvent: AnalyticsEventType {
             EventParameterKeys.retailerName     : activeGrocery?.name ?? "",
             EventParameterKeys.price            : product.price,
             EventParameterKeys.brandId          : product.brandId ?? "",
-            EventParameterKeys.brandName        : product.brandNameEn ?? "",
+            EventParameterKeys.brandName        : product.brandName ?? "",
             EventParameterKeys.isSponsored      : product.isSponsored as? Bool ?? false,
             EventParameterKeys.isPromotion      : product.promotion as? Bool ?? false,
             EventParameterKeys.isRecipe         : false,
             EventParameterKeys.categoryID       : product.categoryId ?? "",
-            EventParameterKeys.categoryName     : product.categoryNameEn ?? "",
+            EventParameterKeys.categoryName     : product.categoryName ?? "",
             EventParameterKeys.subcategoryID    : product.subcategoryId,
-            EventParameterKeys.subcategoryName  : product.subcategoryNameEn ?? ""
+            EventParameterKeys.subcategoryName  : product.subcategoryName ?? ""
         ]
     }
 }
@@ -44,7 +44,7 @@ struct CartDeletedEvent: AnalyticsEventType {
     init(product: Product, activeGrocery: Grocery?) {
         self.eventCategory = .sendEvent(eventName: AnalyticsEventName.cartDeleted)
         self.metaData = [
-            EventParameterKeys.productId        : product.dbID,
+            EventParameterKeys.productId        : product.productId,
             EventParameterKeys.productName      : product.name ?? "",
             EventParameterKeys.storeId          : activeGrocery?.dbID ?? "",
             EventParameterKeys.typesStoreID     : activeGrocery?.dbID ?? "",
@@ -53,7 +53,7 @@ struct CartDeletedEvent: AnalyticsEventType {
             EventParameterKeys.retailerName     : activeGrocery?.name ?? "",
             EventParameterKeys.price            : product.price,
             EventParameterKeys.brandId          : product.brandId ?? "",
-            EventParameterKeys.brandName        : product.brandNameEn ?? "",
+            EventParameterKeys.brandName        : product.brandName ?? "",
             EventParameterKeys.isSponsored      : product.isSponsored as? Bool ?? false,
             EventParameterKeys.isPromotion      : product.promotion as? Bool ?? false,
             EventParameterKeys.isRecipe         : false,
@@ -75,13 +75,13 @@ struct CartUpdatedEvent: AnalyticsEventType {
             EventParameterKeys.retailerID       : grocery?.dbID ?? "",
             EventParameterKeys.retailerName     : grocery?.name ?? "",
             EventParameterKeys.categoryID       : product.categoryId ?? "",
-            EventParameterKeys.categoryName     : product.categoryNameEn ?? "",
+            EventParameterKeys.categoryName     : product.categoryName ?? "",
             EventParameterKeys.subcategoryID    : product.subcategoryId,
-            EventParameterKeys.subcategoryName  : product.subcategoryNameEn ?? "",
+            EventParameterKeys.subcategoryName  : product.subcategoryName ?? "",
             EventParameterKeys.price            : product.price,
             EventParameterKeys.brandId          : product.brandId ?? "",
-            EventParameterKeys.brandName        : product.brandNameEn ?? "",
-            EventParameterKeys.productId        : product.dbID,
+            EventParameterKeys.brandName        : product.brandName ?? "",
+            EventParameterKeys.productId        : product.productId,
         ]
     }
 }
@@ -122,14 +122,14 @@ struct CartCheckoutEvent: AnalyticsEventType {
             var dictionary: [String: Any] = [:]
             
             dictionary[EventParameterKeys.name]             = product.name ?? ""
-            dictionary[EventParameterKeys.productId]        = product.dbID
+            dictionary[EventParameterKeys.productId]        = product.productId
             dictionary[EventParameterKeys.categoryID]       = product.categoryId ?? ""
-            dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
+            dictionary[EventParameterKeys.categoryName]     = product.categoryName ?? ""
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId
-            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryNameEn ?? ""
+            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryName ?? ""
             dictionary[EventParameterKeys.price]            = product.price
             dictionary[EventParameterKeys.brandId]          = product.brandId ?? ""
-            dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
+            dictionary[EventParameterKeys.brandName]        = product.brandName ?? ""
             dictionary[EventParameterKeys.isSponsored]      = product.isSponsored as? Bool ?? false
             dictionary[EventParameterKeys.isPromotion]      = product.promotion as? Bool ?? false
             dictionary[EventParameterKeys.isRecipe]         = false
