@@ -70,7 +70,7 @@ class ViewController: UIViewController {
         txtLoyalityID.text = ""
         txtEmail.text = ""
         txtPushPayload.text =  nil//"[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
-        txtDLPayload.text = "multiCart=1" // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
+        txtDLPayload.text = "" // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
         txtLanguage.text = "Base"
     }
     
