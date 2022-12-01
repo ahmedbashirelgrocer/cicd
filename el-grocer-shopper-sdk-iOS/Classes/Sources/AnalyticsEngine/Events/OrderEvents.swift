@@ -11,19 +11,17 @@ import Foundation
 struct OrderPurchaseEvent: AnalyticsEventType {
     var eventCategory: AnalyticsEventCategory
     var metaData: [String : Any]?
-    
+
     init(products: [Product], grocery: Grocery?, order: Order?) {
         self.eventCategory = .sendEvent(eventName: AnalyticsEventName.orderPurchased)
         self.metaData = [
             EventParameterKeys.totalOrderAmount : order?.totalValue ?? "",
             EventParameterKeys.paymentMethodId  : order?.payementType ?? "",
             EventParameterKeys.storeId          : grocery?.dbID ?? "",
-            EventParameterKeys.typesStoreID     : "",
+            EventParameterKeys.typesStoreID     : grocery?.dbID ?? "",
             EventParameterKeys.storeName        : grocery?.name ?? "",
             EventParameterKeys.retailerID       : grocery?.dbID ?? "",
             EventParameterKeys.retailerName     : grocery?.name ?? "",
-            EventParameterKeys.isRecipe         : false,
-            EventParameterKeys.municipality     : grocery?.address,
             EventParameterKeys.products         : self.getProductDic(products: products),
         ]
     }
@@ -32,6 +30,7 @@ struct OrderPurchaseEvent: AnalyticsEventType {
         let result = products.map { product in
             var dictionary: [String: Any] = [:]
             
+            dictionary[EventParameterKeys.productId]        = product.dbID
             dictionary[EventParameterKeys.name]             = product.name
             dictionary[EventParameterKeys.categoryID]       = product.categoryId ?? ""
             dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
@@ -40,8 +39,8 @@ struct OrderPurchaseEvent: AnalyticsEventType {
             dictionary[EventParameterKeys.price]            = product.price
             dictionary[EventParameterKeys.brandName]        = product.brandName
             dictionary[EventParameterKeys.brandId]          = product.brandId ?? ""
-            dictionary[EventParameterKeys.isSponsored]      = product.isSponsored ?? false
-            dictionary[EventParameterKeys.isPromotion]      = product.promotion ?? false
+            dictionary[EventParameterKeys.isSponsored]      = product.isSponsored as? Bool ?? false
+            dictionary[EventParameterKeys.isPromotion]      = product.promotion as? Bool ?? false
             dictionary[EventParameterKeys.isRecipe]         = false
             
             return dictionary
