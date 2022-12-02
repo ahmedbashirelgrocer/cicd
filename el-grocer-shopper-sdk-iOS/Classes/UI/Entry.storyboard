@@ -32,6 +32,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NKX-Nh-HgU" customClass="ElGrocerLogoIndicatorView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
                             <activityIndicatorView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="hh4-Cv-QZJ">
                                 <rect key="frame" x="150" y="331" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -42,9 +45,13 @@
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="1yN-qP-Js1"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="4UC-02-Vfn"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="4gS-oN-UYH"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="bottom" secondItem="fLG-Nd-Rge" secondAttribute="bottom" id="5l2-rJ-FUC"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="LCY-Gt-hA1"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="V9Q-gD-o70"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="bottom" secondItem="fLG-Nd-Rge" secondAttribute="bottom" id="fdi-h2-HN2"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="na3-Md-r2r"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerY" secondItem="fLG-Nd-Rge" secondAttribute="centerY" multiplier="1.2" id="tYp-GA-DCi"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="xGs-Bm-eBi"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="y93-l4-U8u"/>
@@ -52,6 +59,7 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="hh4-Cv-QZJ" id="J9B-hz-le5"/>
+                        <outlet property="logoAnimator" destination="NKX-Nh-HgU" id="nRY-ak-ktx"/>
                         <outlet property="splashLottieLogoAnimator" destination="Di8-E5-L3U" id="S3c-ny-sj3"/>
                     </connections>
                 </viewController>

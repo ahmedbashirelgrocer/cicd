@@ -36,7 +36,7 @@ class ElGrocerActivityIndicatorView: UIImageView {
 
 }
 
-/*class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
+class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -85,4 +85,4 @@ class ElGrocerActivityIndicatorView: UIImageView {
         completion?(flag)
     }
     
-}*/
+}

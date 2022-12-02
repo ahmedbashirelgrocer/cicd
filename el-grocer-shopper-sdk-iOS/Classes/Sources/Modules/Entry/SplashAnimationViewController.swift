@@ -16,7 +16,16 @@ private enum BackendSuggestedAction: Int {
 class SplashAnimationViewController: UIViewController {
 
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet var splashLottieLogoAnimator: AnimationView!
+    @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView! {
+        didSet {
+            logoAnimator.isHidden = false
+        }
+    }
+    @IBOutlet var splashLottieLogoAnimator: AnimationView!{
+        didSet {
+            splashLottieLogoAnimator.isHidden = true
+        }
+    }
     lazy var starAnimation = Animation.named("SDK_Splash_Screen_V9", bundle: .resource)
     lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
@@ -34,7 +43,7 @@ class SplashAnimationViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+//        self.StartLogoAnimation() // for lottie splash
     }
     deinit {
         
@@ -52,11 +61,17 @@ class SplashAnimationViewController: UIViewController {
         
         if UIApplication.shared.applicationState == .active {
             
-            splashLottieLogoAnimator.frame = self.view.frame
-            splashLottieLogoAnimator.animation = starAnimation
-            splashLottieLogoAnimator.play { [weak self] (finished) in
-              /// Animation finished
-                if finished {
+//            splashLottieLogoAnimator.frame = self.view.frame
+//            splashLottieLogoAnimator.animation = starAnimation
+//            splashLottieLogoAnimator.play { [weak self] (finished) in
+//              /// Animation finished
+//                if finished {
+//                    self?.animationCompletedSetRootVc()
+//                }
+//            }
+            
+            logoAnimator.startAnimate { [weak self] (isCompleted) in
+                if isCompleted {
                     self?.animationCompletedSetRootVc()
                 }
             }
@@ -82,7 +97,7 @@ class SplashAnimationViewController: UIViewController {
     private func animationCompletedSetRootVc() {
         
         Thread.OnMainThread {
-          //  self.logoAnimator.highlightedImage = UIImage(name: "ElgrocerLogoAnimation-151")
+            self.logoAnimator.highlightedImage = UIImage(name: "ElgrocerLogoAnimation-121")
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
             self.isAnimationCompleted = true
