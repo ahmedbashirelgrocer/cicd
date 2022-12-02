@@ -26,7 +26,7 @@ class SplashAnimationViewController: UIViewController {
             splashLottieLogoAnimator.isHidden = true
         }
     }
-    lazy var starAnimation = Animation.named("SDK_Splash_Screen_V9", bundle: .resource)
+//    lazy var starAnimation = Animation.named("SDK_Splash_Screen_V9", bundle: .resource)
     lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
         
