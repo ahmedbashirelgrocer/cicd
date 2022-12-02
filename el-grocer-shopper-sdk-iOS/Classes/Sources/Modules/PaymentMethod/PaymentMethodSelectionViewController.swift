@@ -22,6 +22,7 @@ class PaymentMethodSelectionViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView! {
         didSet {
             activityIndicator.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            activityIndicator.color = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     @IBOutlet weak var tableView: UITableView!

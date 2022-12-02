@@ -64,7 +64,12 @@ class ProductCell : UICollectionViewCell {
     @IBOutlet weak var buttonsView: UIView!
     
     @IBOutlet weak var quickAddToCartButton: UIButton!
-    @IBOutlet weak var addToCartButton: UIButton!
+    @IBOutlet weak var addToCartButton: UIButton! {
+        didSet {
+            addToCartButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
+            addToCartButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+        }
+    }
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var quantityLabel: UILabel!
