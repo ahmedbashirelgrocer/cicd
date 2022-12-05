@@ -127,6 +127,10 @@ class HomePageData  {
                 self.getStoreData(isOnGlobalDispatch : true)
             case .HomePageLocationOneBanners:
                 self.getBannerLocationOne()
+            if fetchOrder.first == .HomePageLocationTwoBanners {
+                self.fetchOrder.remove(at: 0)
+                self.getBannersLocationTwo()
+            }
             case .HomePageLocationTwoBanners:
                 self.getBannersLocationTwo()
             case .AllChefForDeliveryStores:

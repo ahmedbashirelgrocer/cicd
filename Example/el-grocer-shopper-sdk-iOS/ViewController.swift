@@ -11,6 +11,7 @@ import AVFoundation
 import CoreLocation
 import AppTrackingTransparency
 import el_grocer_shopper_sdk_iOS
+import RxSwift
 
 class ViewController: UIViewController {
     
@@ -33,6 +34,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnLoadData: UIButton!
     @IBOutlet weak var btnSearch: UIButton!
     
+    // var searchClient: IntegratedSearchClient!
     
     fileprivate lazy var languagePicker: UIPickerView = {
         let picker = UIPickerView()
@@ -68,18 +70,23 @@ class ViewController: UIViewController {
     }
     
     @IBAction func btnLoadDataPressed(_ sender: Any) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "PreLoadViewController") as! PreLoadViewController
-        vc.launchOptions = self.getLaunchOptions()
-        self.present(vc, animated: true)
+//        let vc = storyboard?.instantiateViewController(withIdentifier: "PreLoadViewController") as! PreLoadViewController
+//        vc.launchOptions = self.getLaunchOptions()
+//        self.present(vc, animated: true)
+//
+//        self.btnLoadData.isEnabled = false
+        // searchClient = IntegratedSearchClient.init(launchOptions: self.getLaunchOptions())
         
-        self.btnLoadData.isEnabled = false
+        ElgrocerPreloadManager.shared.loadData(launchOptons: self.getLaunchOptions())
+        
         self.btnSearch.isEnabled = true
     }
     
     @IBAction func btnIntegratedSearchPressed(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "IntegratedSearchViewController")
          as! IntegratedSearchViewController
-        vc.launchOptions = getLaunchOptions()
+        // vc.launchOptions = getLaunchOptions()
+        // vc.searchClient = searchClient
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

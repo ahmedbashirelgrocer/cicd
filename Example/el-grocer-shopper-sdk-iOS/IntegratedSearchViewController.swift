@@ -21,6 +21,9 @@ class IntegratedSearchViewController: UIViewController {
         self.txtSearch.text = ""
     }
     
+    // let searchClient = makeElgrocerSearchClient()
+    var searchClient: IntegratedSearchClient!
+    
     var launchOptions: LaunchOptions!
     // var selectedRetailer: [String: Any] = [:]
     var searchResult: [SearchResult] = [] {
@@ -34,15 +37,16 @@ class IntegratedSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         txtSearch.rx.text
-            // .distinctUntilChanged()
-            .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+            .filter{ $0 != nil }
+            .map{ $0! }
+            .filter{ ($0.isNotEmpty && ($0.count % 2 == 0) ) || ($0.count == 1) }
+            .distinctUntilChanged()
             .subscribe(
-                onNext: { text in
-                    if let text = text, text.isNotEmpty {
-                        //let lat = launchOptions.latitude ?? 0
-                        //let long = launchOptions?.longitude ?? 0
-                        self.searchProductStore(text) //, lat: lat, long: long)
-                    }
+                onNext: { [weak self] text in
+                    print("TextSearched:\(text)")
+                    //let lat = launchOptions.latitude ?? 0
+                    //let long = launchOptions?.longitude ?? 0
+                    self?.searchProductStore(text) //, lat: lat, long: long)
                 }
             ).disposed(by: disposeBag)
     }
@@ -81,11 +85,15 @@ extension IntegratedSearchViewController: UITextFieldDelegate {
 
 extension IntegratedSearchViewController {
     func searchProductStore(_ text: String) { //, lat: Double, long: Double) {
-        ElgrocerSearchClient
-            .shared
-            .searchProduct(text) { response, error in
-            self.searchResult = response
-        }
+        
+        ElgrocerPreloadManager.shared.searchClient
+            .searchProduct(text) { response in
+                self.searchResult = response
+            }
+//        ElgrocerSearchClient.shared
+//            .searchProduct(text) { response, error in
+//                self.searchResult = response
+//            }
     }
 }
 

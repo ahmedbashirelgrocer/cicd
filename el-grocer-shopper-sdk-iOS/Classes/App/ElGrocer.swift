@@ -79,8 +79,7 @@ public final class ElGrocer {
 }
 
 
-enum SDKType {
-    
+enum SDKType: Int {
     case smiles
     case elGrocerShopper
 }
@@ -104,7 +103,7 @@ public enum EnvironmentType {
     }
 }
 
-public struct LaunchOptions  {
+public struct LaunchOptions: Equatable  {
     var accountNumber: String?
     public var latitude: Double?
     public var longitude: Double?

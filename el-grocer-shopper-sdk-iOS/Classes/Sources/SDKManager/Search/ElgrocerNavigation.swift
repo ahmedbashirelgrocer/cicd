@@ -18,10 +18,12 @@ public class ElgrocerSearchNavigaion {
     public func navigateToProductHome(_ product: SearchResult) {
         Observable.just(())
             .flatMap{ [unowned self] _ in self.showAppWithMenu() }
-            .flatMap{ [unowned self] _ in self.goToMain(product: product) }
-            // .flatMap{ [unowned self] _ in self.gotoProductsController(product) }
-            //.flatMap{ [unowned self] _ in self.universalSearchViewController() }
-            //.do(onNext: { [unowned self] _ in self.search(text: product.searchQuery) })
+        // .flatMap{ [unowned self] _ in self.goToMain(product: product) }
+        // .flatMap{ [unowned self] _ in self.gotoProductsController(product) }
+            // .flatMap{ [unowned self] _ in self.goToMainCategoriesVC(product) }
+            // .delay(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .flatMap{ [unowned self] _ in self.universalSearchViewController() }
+            .do(onNext: { [unowned self] _ in self.search(text: product.searchQuery) })
             .subscribe()
             .disposed(by: disposeBag)
     }
@@ -141,20 +143,45 @@ public class ElgrocerSearchNavigaion {
                 smileHomeVc?.configureForDataPreloaded()
             })
             return Disposables.create()
-        }.delay(.milliseconds(50), scheduler: MainScheduler.instance)
+        }.delay(.milliseconds(500), scheduler: MainScheduler.instance)
     }
     
-    func gotoProductsController(_ product: SearchResult) -> Observable<Void> {
-        Observable.just(()).map { _ in
-            if let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId } {
-                let productsVC : ProductsViewController = ElGrocerViewControllers.productsViewController()
-                productsVC.grocery = grocery
-                ElGrocerUtility.sharedInstance.activeGrocery = grocery
-                productsVC.isCommingFromUniversalSearch = true
-                productsVC.universalSearchString = product.searchQuery
-                (UIApplication.topViewController()?.navigationController)?.pushViewController(productsVC, animated: false)
+    //    func gotoProductsController(_ product: SearchResult) -> Observable<Void> {
+    //        Observable.just(()).map { _ in
+    //            if let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId } {
+    //                let productsVC : ProductsViewController = ElGrocerViewControllers.productsViewController()
+    //                productsVC.grocery = grocery
+    //                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+    //                productsVC.isCommingFromUniversalSearch = true
+    //                productsVC.universalSearchString = product.searchQuery
+    //                (UIApplication.topViewController()?.navigationController)?.pushViewController(productsVC, animated: false)
+    //            }
+    //        }.delay(.milliseconds(50), scheduler: MainScheduler.instance)
+    //    }
+    //
+    
+    func goToMainCategoriesVC(_ product: SearchResult)  -> Observable<Void> {
+        // HomePageData.shared.isDataLoading
+        let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId }
+        return Observable.just(())
+            .map { _ in
+                if let tabbar = (SDKManager.shared.rootViewController as? UINavigationController)?.viewControllers.first as? UITabBarController {
+                    tabbar.selectedIndex = 1
+                    
+                    if  let navMain  = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController  {
+                        if navMain.viewControllers.count > 0 {
+                            if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                mainVc.grocery = nil
+                                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                                if ElGrocerUtility.sharedInstance.groceries.count == 0 {
+                                    ElGrocerUtility.sharedInstance.groceries = HomePageData.shared.groceryA ?? []
+                                }
+                                return
+                            }
+                        }
+                    }
+                }
             }
-        }.delay(.milliseconds(50), scheduler: MainScheduler.instance)
     }
     
     func universalSearchViewController() -> Observable<Void> {
@@ -167,7 +194,7 @@ public class ElgrocerSearchNavigaion {
             searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
             searchController.searchFor = .isForStoreSearch
             vc?.navigationController?.pushViewController(searchController, animated: false)
-        }.delay(.milliseconds(400), scheduler: MainScheduler.instance)
+        }.delay(.milliseconds(500), scheduler: MainScheduler.instance)
     }
 }
 

@@ -4,7 +4,7 @@
 //
 //  Created by Sarmad Abbas on 28/11/2022.
 //
-
+/*
 import Foundation
 
 public class PreLoadData {
@@ -125,3 +125,4 @@ extension PreLoadData: HomePageDataLoadingComplete {
         return false
     }
 }
+*/

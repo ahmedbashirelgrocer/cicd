@@ -16,10 +16,16 @@ class PreLoadViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        PreLoadData.shared
-            .loadData(launchOptions: launchOptions) {
-                self.dismiss(animated: true)
-            }
+        
+        
+        // ElgrocerSearchClient.shared.loadData(launchOptions: self.launchOptions)
+        
+        self.dismiss(animated: true)
+        
+//        PreLoadData.shared
+//            .loadData(launchOptions: launchOptions) {
+//                self.dismiss(animated: true)
+//            }
     }
     
 }
