@@ -265,8 +265,9 @@ extension OrderDetailStateTableViewCell {
             }
         }
         var grandTotal = priceSum
-        if let price = order?.priceVariance?.doubleValue {
-            grandTotal = grandTotal + price
+        if let price = order?.priceVariance {
+            let priceDouble = Double(price) ?? 0.0
+            grandTotal = grandTotal + priceDouble
         }
 //        self.lblPrice.text = ("\(CurrencyManager.getCurrentCurrency()) " + (NSString(format: "%.2f", grandTotal) as String) as String)
         self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: order?.finalBillAmount?.doubleValue ?? 0.00)

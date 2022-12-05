@@ -54,7 +54,7 @@ PODS:
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.0.38):
+  - el-grocer-shopper-sdk-iOS (1.0.42):
     - Adyen (~> 4.7.3)
     - AlgoliaSearchClient (~> 8.0)
     - Analytics (~> 4.1)

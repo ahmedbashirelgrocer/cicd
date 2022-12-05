@@ -63,11 +63,11 @@ class ViewController: UIViewController {
     }
     
     func setDefaultData() {
-        txtAccountNumber.text = "+923449665889"//"+971313728421" //"+971501535327" //"+923416973310"
+        txtAccountNumber.text = "+971567367806" //"+971501535327" //"+923416973310"
         txtLat.text = "\(25.276987)"
         txtLong.text = "\(55.296249)"
         txtAddress.text = "Cluster D, United Arab Emirates"
-        txtLoyalityID.text = ""
+        txtLoyalityID.text = "111111111130"
         txtEmail.text = ""
         txtPushPayload.text =  nil//"[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
         txtDLPayload.text = "" // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"

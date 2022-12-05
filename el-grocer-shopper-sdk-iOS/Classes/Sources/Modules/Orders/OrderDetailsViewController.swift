@@ -421,6 +421,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }else{
             self.navigationController?.popViewController(animated: true)
         }
+        
 
     }
     
@@ -1530,8 +1531,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
         
         var grandTotal = priceSum + serviceFee
-        if let price = self.order.priceVariance?.doubleValue {
-            grandTotal = grandTotal + price
+        if let price = self.order.priceVariance {
+            let priceDouble = Double(price) ?? 0.0
+            grandTotal = grandTotal + priceDouble
         }
         // Here making decision to hide/unhide Change Order
         if order.deliverySlot != nil && order.status.intValue == 0 && order.deliveryDate != nil && order.deliveryDate!.minutesFrom(Date()) > 60 {
