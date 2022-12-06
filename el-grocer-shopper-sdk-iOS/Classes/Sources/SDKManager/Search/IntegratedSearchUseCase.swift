@@ -36,10 +36,11 @@ class IntegratedSearchUseCase: IntegratedSearchUseCaseType {
     // Subjects
     private var searchResultSubject = PublishSubject<[SearchResult]>()
     
-    private var globalSearchUseCase: GlobalSearchUseCaseType
-    private var retailersOnLocationUseCase: RetailersOnLocationUseCaseType
+    // Dependencies
+    let globalSearchUseCase: GlobalSearchUseCaseType
+    let retailersOnLocationUseCase: RetailersOnLocationUseCaseType
     
-    private var completion: (([SearchResult], Error?) -> Void)?
+    // Properties
     private var disposeBag = DisposeBag()
     
     init(globalSearchUseCase: GlobalSearchUseCaseType,

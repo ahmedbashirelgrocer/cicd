@@ -15,7 +15,8 @@ public class IntegratedSearchClient {
     private var disposeBag = DisposeBag()
     
     init(launchOptions: LaunchOptions) {
-        integratedSearchUseCase = IntegratedSearchUseCaseBuilder(launchOptions: launchOptions).build()
+        
+        integratedSearchUseCase = IntegratedSearchUseCaseBuilder(launchOptions: launchOptions).build(using: disposeBag)
         
         integratedSearchUseCase.outputs.searchResult
             .observeOn(MainScheduler.instance)
