@@ -12,6 +12,7 @@ import RxCocoa
 
 protocol GlobalSearchUseCaseInput {
     var queryTextObserver: AnyObserver<String?> { get }
+    var retailerObserver: AnyObserver<[RetailLight]> { get }
 }
 
 protocol GlobalSearchUseCaseOutput {
@@ -32,24 +33,31 @@ extension GlobalSearchUseCaseType {
 final class GlobalSearchUseCase: GlobalSearchUseCaseType {
     // Input
     var queryTextObserver: AnyObserver<String?> { queryTextSubject.asObserver() }
+    var retailerObserver: AnyObserver<[RetailLight]> { retailerSubject.asObserver() }
     
     // Output
     var resultObserver: Observable<(String, [[String: Any]])> { resultSubject.asObservable() }
     
     // Subjects
     private var queryTextSubject = PublishSubject<String?>()
-    private var resultSubject = PublishSubject<(String, [[String: Any]])>()
+    private var retailerSubject = BehaviorSubject<[RetailLight]>(value: [])
+    private var resultSubject = BehaviorSubject<(String, [[String: Any]])>(value: ("",[]))
     
     private var disposeBag = DisposeBag()
     
     init() {
-        queryTextSubject
-            .compactMap{ $0 }
-            .filter{ $0.isNotEmpty }
-            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
-            .distinctUntilChanged()
-            .flatMapLatest{ [unowned self] qtext in
-                self.searchQueryProduct(qtext)
+        
+        Observable
+            .combineLatest(
+                queryTextSubject    // filtered Query Text
+                    .compactMap{ $0 }
+                    .filter{ $0.isNotEmpty }
+                    .distinctUntilChanged(),
+                retailerSubject     // and filtered Retailers
+                    .filter{ $0.count > 0 }
+            )
+            .flatMapLatest{ [unowned self] qtext, retailers in
+                self.searchQueryProduct(qtext, storeIDs: retailers.map{ "\($0.retailerId)" })
                     .map{(qtext, $0)}
                     .materialize()
             }
@@ -59,7 +67,7 @@ final class GlobalSearchUseCase: GlobalSearchUseCaseType {
         
     }
     
-    fileprivate func searchQueryProduct(_ queryText: String, pageNumber: Int = 0, hitsPerPage: UInt = 100) -> Observable<[[String: Any]]> {
+    fileprivate func searchQueryProduct(_ queryText: String, pageNumber: Int = 0, hitsPerPage: UInt = 100, storeIDs: [String]) -> Observable<[[String: Any]]> {
         
         Observable<[[String: Any]]>.create { observer in
             
@@ -67,9 +75,9 @@ final class GlobalSearchUseCase: GlobalSearchUseCaseType {
             let brand = ""
             let category = ""
             
-            AlgoliaApi.sharedInstance.searchProductQueryWithMultiStoreMultiIndex(
+            AlgoliaApi.sharedInstance.searchProductQueryWithStoreIndex(
                 queryText,
-                storeIDs: HomePageData.shared.groceryA?.map{ $0.dbID } ?? [],
+                storeIDs: storeIDs,
                 pageNumber,
                 hitsPerPage,
                 brand,
@@ -82,8 +90,8 @@ final class GlobalSearchUseCase: GlobalSearchUseCaseType {
                     return
                 }
                 
-                let products = (content?["results"] as? [[String:Any]])?
-                    .filter{($0["index"] as? String) == "Product" } ?? []
+                let products = [content ?? [:]]  //(content?["hits"] as? [[String:Any]]) ?? [] //?
+                    //.filter{($0["index"] as? String) == "Product" } ?? []
                 
                 observer.onNext(products)
             }
