@@ -82,6 +82,9 @@ class HomePageData  {
         return config
     }()
     
+    var isLoadingComplete: Bool { fetchOrder.count == 0 && isDataLoading == false && (self.groceryA?.count ?? 0 > 0) }
+    var loadingCompletion: (() -> Void)?
+    
     init() {
         self.dataSource = StoresDataHandler()
         self.dataSource?.delegate = self
@@ -90,7 +93,9 @@ class HomePageData  {
         self.recipeDataHandler?.delegate = self
     }
     
-    func fetchHomeData( _ logEnable : Bool = false) {
+    func fetchHomeData( _ logEnable : Bool = false, completion: (() -> Void)? = nil) {
+        self.loadingCompletion = completion
+        
         self.isFetchingTimeLogEnable = logEnable
         self.resetHomeDataHandler()
         self.fetchOrder = []
@@ -113,6 +118,7 @@ class HomePageData  {
     private func startFetching() {
         guard self.fetchOrder.count > 0 else {
             self.isDataLoading = false
+            self.loadingCompletion?()
             if self.isFetchingTimeLogEnable { self.endFetchFetchingTime = Date()
                 elDebugPrint("DataLoaded: Home Page Call time Duration : \(self.endFetchFetchingTime.timeIntervalSince(self.startFetchingTime))")
             }
@@ -127,10 +133,6 @@ class HomePageData  {
                 self.getStoreData(isOnGlobalDispatch : true)
             case .HomePageLocationOneBanners:
                 self.getBannerLocationOne()
-            if fetchOrder.first == .HomePageLocationTwoBanners {
-                self.fetchOrder.remove(at: 0)
-                self.getBannersLocationTwo()
-            }
             case .HomePageLocationTwoBanners:
                 self.getBannersLocationTwo()
             case .AllChefForDeliveryStores:

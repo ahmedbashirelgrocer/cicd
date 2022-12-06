@@ -38,6 +38,8 @@ class SDKManager: NSObject  {
     var sdkStartTime : Date?
     var homeLastFetch : Date?
     
+    var launchCompletion: (() -> Void)?
+    
     
     var window: UIWindow?
     var rootViewController: UIViewController?
@@ -427,6 +429,8 @@ class SDKManager: NSObject  {
          }
         
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
+        entryController.completion = launchCompletion
+         
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
          LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions?.language ?? "Base", SDKManagers: self)

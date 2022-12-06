@@ -579,6 +579,7 @@ class ElGrocerUtility {
                             }
                             DatabaseHelper.sharedInstance.saveDatabase()
                             // We need to set the new address as the active address
+                            
                             ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
                                 
                                 if (result == true){

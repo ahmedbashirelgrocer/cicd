@@ -73,13 +73,16 @@ class ViewController: UIViewController {
 //        let vc = storyboard?.instantiateViewController(withIdentifier: "PreLoadViewController") as! PreLoadViewController
 //        vc.launchOptions = self.getLaunchOptions()
 //        self.present(vc, animated: true)
-//
-//        self.btnLoadData.isEnabled = false
+
+        // self.btnLoadData.isEnabled = false
         // searchClient = IntegratedSearchClient.init(launchOptions: self.getLaunchOptions())
         
         ElgrocerPreloadManager.shared.loadData(launchOptons: self.getLaunchOptions())
         
+        PreLoadData.shared.loadData(launchOptions: getLaunchOptions()) { }
+        
         self.btnSearch.isEnabled = true
+        self.btnLaunchSDK.isEnabled = true
     }
     
     @IBAction func btnIntegratedSearchPressed(_ sender: Any) {
@@ -195,6 +198,7 @@ extension ViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.btnLoadData.isEnabled = true
         self.btnSearch.isEnabled = false
+        self.btnLaunchSDK.isEnabled = false
     }
     
     @objc func textFieldDidEndEditing() {

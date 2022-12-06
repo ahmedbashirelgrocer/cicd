@@ -17,7 +17,9 @@ public final class ElGrocer {
 
     static var isSDKLoaded = false
     
-    public static func startEngine(with launchOptions: LaunchOptions? = nil) {
+    public static func startEngine(with launchOptions: LaunchOptions? = nil, completion: (() -> Void)?  = nil) {
+        
+        SDKManager.shared.launchCompletion = completion
         
         DispatchQueue.main.async {
 

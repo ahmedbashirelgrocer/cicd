@@ -20,12 +20,12 @@ class PreLoadViewController: UIViewController {
         
         // ElgrocerSearchClient.shared.loadData(launchOptions: self.launchOptions)
         
-        self.dismiss(animated: true)
+//        self.dismiss(animated: true)
         
-//        PreLoadData.shared
-//            .loadData(launchOptions: launchOptions) {
-//                self.dismiss(animated: true)
-//            }
+        PreLoadData.shared
+            .loadData(launchOptions: launchOptions) {
+                self.dismiss(animated: true)
+            }
     }
     
 }

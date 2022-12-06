@@ -362,7 +362,7 @@
                                                     <constraint firstAttribute="bottom" secondItem="27O-sJ-gIb" secondAttribute="bottom" id="VT8-ot-DaY"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lnq-VV-Z4o">
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lnq-VV-Z4o">
                                                 <rect key="frame" x="20" y="700" width="335" height="46"/>
                                                 <color key="backgroundColor" red="0.26274511220000002" green="0.2941176593" blue="0.67450982329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
