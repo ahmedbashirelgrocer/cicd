@@ -10,6 +10,7 @@ import RxSwift
 
 protocol IntegratedSearchUseCaseInputs {
     var queryTextObserver: AnyObserver<String?> { get }
+    var launchOptionsObserver: AnyObserver<LaunchOptions> { get }
 }
 
 protocol IntegratedSearchUseCaseOutputs {
@@ -29,6 +30,7 @@ extension IntegratedSearchUseCaseType {
 class IntegratedSearchUseCase: IntegratedSearchUseCaseType {
     // Inputs
     var queryTextObserver: AnyObserver<String?> { globalSearchUseCase.inputs.queryTextObserver }
+    var launchOptionsObserver: AnyObserver<LaunchOptions> { retailersOnLocationUseCase.inputs.launchOptionsObserver }
     
     // Outputs
     var searchResult: Observable<[SearchResult]> { searchResultSubject.asObservable() }

@@ -10,19 +10,15 @@ public class ElgrocerPreloadManager {
     public static var shared = ElgrocerPreloadManager()
     
     public var searchClient: IntegratedSearchClient!
-//    var userDataPreloadManager: UserDataPreloadManager!
     
     public func loadData(launchOptons: LaunchOptions) {
         
         SDKManager.shared.launchOptions = launchOptons
         
-        self.searchClient = IntegratedSearchClient(launchOptions: launchOptons)
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.userDataPreloadManager = UserDataPreloadManager(launchOptions: launchOptons, completion: { isLoaded in
-//                print(isLoaded)
-//            })
-//        }
-        
+        if searchClient == nil {
+            self.searchClient = IntegratedSearchClient(launchOptions: launchOptons)
+        } else {
+            self.searchClient.setLaunchOptions(launchOptions: launchOptons)
+        }
     }
 }

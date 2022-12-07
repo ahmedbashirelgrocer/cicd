@@ -29,4 +29,8 @@ public class IntegratedSearchClient {
         
         integratedSearchUseCase.inputs.queryTextObserver.onNext(queryText)
     }
+    
+    func setLaunchOptions(launchOptions: LaunchOptions) {
+        integratedSearchUseCase.inputs.launchOptionsObserver.onNext(launchOptions)
+    }
 }

@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         
         ElgrocerPreloadManager.shared.loadData(launchOptons: self.getLaunchOptions())
         
-        PreLoadData.shared.loadData(launchOptions: getLaunchOptions()) { }
+        PreLoadData.shared.loadData(launchOptions: self.getLaunchOptions()) { }
         
         self.btnSearch.isEnabled = true
         self.btnLaunchSDK.isEnabled = true

@@ -13,7 +13,11 @@ import RxCocoa
 
 class IntegratedSearchViewController: UIViewController {
     
-    @IBOutlet weak var txtSearch: UITextField!
+    @IBOutlet weak var txtSearch: UITextField! {
+        didSet {
+            txtSearch.delegate = self
+        }
+    }
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnClose: UIButton!
     @IBAction func btnCloseSearchPressed(_ sender: Any) {
@@ -39,18 +43,14 @@ class IntegratedSearchViewController: UIViewController {
         txtSearch.rx.text
             .filter{ $0 != nil }
             .map{ $0! }
-            .filter{ ($0.isNotEmpty && ($0.count % 2 == 0) ) || ($0.count == 1) }
+            .filter{ ($0.isNotEmpty && ($0.count % 2 != 0) ) }
             .distinctUntilChanged()
             .subscribe(
                 onNext: { [weak self] text in
-                    print("TextSearched:\(text)")
-                    //let lat = launchOptions.latitude ?? 0
-                    //let long = launchOptions?.longitude ?? 0
                     self?.searchProductStore(text) //, lat: lat, long: long)
                 }
             ).disposed(by: disposeBag)
     }
-    
 }
 
 // MARK: - Search List Table View Setup
@@ -75,9 +75,7 @@ extension IntegratedSearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField == self.txtSearch, let text = textField.text, text.isNotEmpty {
-            //let lat = launchOptions.latitude ?? 0
-            //let long = launchOptions?.longitude ?? 0
-            self.searchProductStore(text) //, lat: lat, long: long)
+            self.searchProductStore(text)
         }
         return false
     }
