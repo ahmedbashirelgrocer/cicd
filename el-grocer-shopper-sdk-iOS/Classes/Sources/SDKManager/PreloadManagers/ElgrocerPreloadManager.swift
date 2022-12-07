@@ -11,14 +11,19 @@ public class ElgrocerPreloadManager {
     
     public var searchClient: IntegratedSearchClient!
     
-    public func loadData(launchOptons: LaunchOptions) {
-        
-        SDKManager.shared.launchOptions = launchOptons
-        
+    public func loadSearch(_ launchOptions: LaunchOptions) {
+        SDKManager.shared.launchOptions = launchOptions
         if searchClient == nil {
-            self.searchClient = IntegratedSearchClient(launchOptions: launchOptons)
+            self.searchClient = IntegratedSearchClient(launchOptions: launchOptions)
         } else {
-            self.searchClient.setLaunchOptions(launchOptions: launchOptons)
+            self.searchClient.setLaunchOptions(launchOptions: launchOptions)
         }
     }
+
+    public func loadInitialData(_ launchOptions: LaunchOptions) {
+        SDKManager.shared.launchOptions = launchOptions
+        PreLoadData.shared.loadData(launchOptions: launchOptions, completion: nil)
+    }
+
 }
+

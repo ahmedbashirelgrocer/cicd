@@ -70,16 +70,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func btnLoadDataPressed(_ sender: Any) {
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "PreLoadViewController") as! PreLoadViewController
-//        vc.launchOptions = self.getLaunchOptions()
-//        self.present(vc, animated: true)
-
-        // self.btnLoadData.isEnabled = false
-        // searchClient = IntegratedSearchClient.init(launchOptions: self.getLaunchOptions())
+        let launchOptions = getLaunchOptions()
         
-        ElgrocerPreloadManager.shared.loadData(launchOptons: self.getLaunchOptions())
-        
-        PreLoadData.shared.loadData(launchOptions: self.getLaunchOptions()) { }
+        let vc = storyboard?.instantiateViewController(withIdentifier: "PreLoadViewController") as! PreLoadViewController
+        vc.launchOptions = launchOptions
+        self.present(vc, animated: true)
         
         self.btnSearch.isEnabled = true
         self.btnLaunchSDK.isEnabled = true
