@@ -49,19 +49,3 @@ struct OrderPurchaseEvent: AnalyticsEventType {
         return result
     }
 }
-
-// MARK: Identify User Event
-struct IdentifyUserEvent: AnalyticsEventType {
-    var eventCategory: AnalyticsEventCategory
-    var metaData: [String : Any]?
-
-    init(user: UserProfile?) {
-        self.eventCategory = .identifyUser(userID: String(user?.dbID.intValue ?? -1))
-        self.metaData = [
-            EventParameterKeys.email        : user?.email ?? "",
-            EventParameterKeys.mobileNumber : user?.phone ?? "",
-            EventParameterKeys.name         : user?.name ?? "",
-            EventParameterKeys.onSmilesSDK  : SDKManager.isSmileSDK,
-        ]
-    }
-}
