@@ -18,10 +18,7 @@ public class ElgrocerSearchNavigaion {
     public func navigateToProductHome(_ product: SearchResult) {
         Observable.just(())
             .flatMap{ [unowned self] _ in self.showAppWithMenu() }
-        // .flatMap{ [unowned self] _ in self.goToMain(product: product) }
-        // .flatMap{ [unowned self] _ in self.gotoProductsController(product) }
             .flatMap{ [unowned self] _ in self.goToMainCategoriesVC(product) }
-            .delay(.seconds(2), scheduler: MainScheduler.instance)
             .flatMap{ [unowned self] _ in self.universalSearchViewController() }
             .do(onNext: { [unowned self] _ in self.search(text: product.searchQuery) })
             .subscribe()
@@ -76,6 +73,9 @@ public class ElgrocerSearchNavigaion {
     func goToMainCategoriesVC(_ product: SearchResult)  -> Observable<Void> {
         // HomePageData.shared.isDataLoading
         let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId }
+        
+        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+        
         return Observable.just(())
             .map { _ in
                 if let tabbar = (SDKManager.shared.rootViewController as? UINavigationController)?.viewControllers.first as? UITabBarController {
@@ -85,7 +85,6 @@ public class ElgrocerSearchNavigaion {
                         if navMain.viewControllers.count > 0 {
                             if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
                                 mainVc.grocery = nil
-                                ElGrocerUtility.sharedInstance.activeGrocery = grocery
                                 if ElGrocerUtility.sharedInstance.groceries.count == 0 {
                                     ElGrocerUtility.sharedInstance.groceries = HomePageData.shared.groceryA ?? []
                                 }
@@ -106,20 +105,37 @@ public class ElgrocerSearchNavigaion {
         }
     }
     
+//    func universalSearchViewController() -> Observable<Void> {
+//        Observable.just(()).map { _ in
+//            if let vc = UIApplication.topViewController() as? MainCategoriesViewController {
+//                vc.locationHeader.navigationBarSearchTapped()
+//            }
+//
+////            let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
+////            ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
+////            MixpanelEventLogger.trackStoreSearch()
+////            searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
+////            searchController.searchFor = .isForStoreSearch
+////            vc?.navigationController?.pushViewController(searchController, animated: false)
+//        }.delay(.milliseconds(500), scheduler: MainScheduler.instance)
+//    }
+    
     func universalSearchViewController() -> Observable<Void> {
-        Observable.just(()).map { _ in
-            if let vc = UIApplication.topViewController() as? MainCategoriesViewController {
-                vc.locationHeader.navigationBarSearchTapped()
+        return Observable.just(())
+            .map { _ in
+                let vc = UIApplication.topViewController()
+                let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
+                ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
+                MixpanelEventLogger.trackStoreSearch()
+                searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
+                searchController.searchFor = .isForStoreSearch
+                searchController.extendedLayoutIncludesOpaqueBars = true
+                searchController.edgesForExtendedLayout = UIRectEdge.bottom
+                vc?.navigationController?.pushViewController(searchController, animated: false)
             }
-            
-//            let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
-//            ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
-//            MixpanelEventLogger.trackStoreSearch()
-//            searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
-//            searchController.searchFor = .isForStoreSearch
-//            vc?.navigationController?.pushViewController(searchController, animated: false)
-        }.delay(.milliseconds(500), scheduler: MainScheduler.instance)
+            .delay(.milliseconds(50), scheduler: MainScheduler.instance)
     }
+    
 }
 
 //MARK: - Helpers
