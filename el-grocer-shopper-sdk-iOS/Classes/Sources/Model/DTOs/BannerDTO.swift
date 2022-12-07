@@ -7,12 +7,6 @@
 
 import Foundation
 
-// MARK: - CampaignsResponse
-struct CampaignsResponse: Codable {
-    let status: String?
-    let data: [BannerDTO]
-}
-
 struct BannerDTO: Codable {
     let id: Int = 0
     let name: String?
@@ -39,18 +33,5 @@ struct BannerDTO: Codable {
         case locations
         case storeTypes = "store_types"
         case retailerGroups = "retailer_groups"
-    }
-}
-
-struct BrandDTO: Codable {
-    let id: Int?
-    let name: String?
-    let imageURL: String?
-    let slug: String?
-
-    enum CodingKeys: String, CodingKey {
-       case id, name
-       case imageURL = "image_url"
-       case slug
     }
 }

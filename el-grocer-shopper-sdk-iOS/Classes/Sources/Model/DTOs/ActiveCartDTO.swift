@@ -11,12 +11,6 @@ enum DeliveryType: Codable {
     case instant
     case scheduled
 }
-
-struct ActiveCartResponseDTO: Codable {
-    let status: String?
-    let data: [ActiveCartDTO]
-}
-
 struct ActiveCartDTO: Codable {
     var id: Int
     var companyName: String?
@@ -36,15 +30,5 @@ struct ActiveCartDTO: Codable {
         case isOpened = "is_opened"
         case deliverySlot = "delivery_slot"
         case products
-    }
-}
-
-struct ActiveCartProductDTO: Codable {
-    var photoUrl: String?
-    var quantity: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case photoUrl = "photo_url"
-        case quantity
     }
 }
