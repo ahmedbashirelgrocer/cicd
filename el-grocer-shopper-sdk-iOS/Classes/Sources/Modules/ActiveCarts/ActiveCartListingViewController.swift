@@ -42,15 +42,6 @@ class ActiveCartListingViewController: UIViewController {
         self.tableView.register(UINib(nibName: ActiveCartTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: ActiveCartTableViewCell.defaultIdentifier)
         self.tableView.separatorColor = .clear
         self.bindViews()
-        
-        
-//        self.analyticsEventLogger.logEvent(event: MulticartEvents.screenViewed)
-//
-//        //
-//        self.analyticsEventLogger.logEvent(event: MulticartViewedEvent(type: .sendScreen(screenName: "Multicart Screen")))
-        
-        //
-//        self.analyticsEventLogger.logEvent(event: CartEvents.cartCreated(time: Date(), typesStoreID: "", storeName: ""))
     }
     
     @IBAction func closeButtonTap(_ sender: Any) {
@@ -120,6 +111,6 @@ private extension ActiveCartListingViewController {
 
 extension ActiveCartListingViewController: NoStoreViewDelegate {
     func noDataButtonDelegateClick(_ state: actionState) {
-        self.viewModel.inputs.continueShoppingTapObserver.onNext(())
+        self.dismiss(animated: true)
     }
 }

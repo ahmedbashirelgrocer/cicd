@@ -10,7 +10,6 @@ import RxSwift
 import RxDataSources
 
 protocol ActiveCartListingViewModelInput {
-    var continueShoppingTapObserver: AnyObserver<Void> { get }
     var cellSelectedObserver: AnyObserver<ActiveCartDTO> { get }
 }
 
@@ -20,7 +19,6 @@ protocol ActiveCartListingViewModelOutput {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
     var bannerTap: Observable<BannerDTO> { get }
     var showEmptyView: Observable<Void> { get }
-    var continueShoppingTap: Observable<Void> { get }
     var cellSelected: Observable<ActiveCartDTO> { get }
     var error: Observable<ElGrocerError> { get }
 }
@@ -37,7 +35,6 @@ extension ActiveCartListingViewModelType {
 
 class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableViewCellViewModelType {
     // MARK: Inputs
-    var continueShoppingTapObserver: AnyObserver<Void> { continueShoppingTapSubject.asObserver() }
     var cellSelectedObserver: AnyObserver<ActiveCartDTO> { cellSelectedSubject.asObserver() }
     
     // MARK: Outputs
@@ -46,7 +43,6 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     var title: Observable<String> { titleSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
-    var continueShoppingTap: Observable<Void> { continueShoppingTapSubject.asObservable() }
     var cellSelected: Observable<ActiveCartDTO> { cellSelectedSubject.asObservable() }
     var error: Observable<ElGrocerError> { errorSubject.asObservable() }
     
@@ -56,7 +52,6 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     private let titleSubject = BehaviorSubject<String>(value: NSLocalizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
     private let bannerTapSubject = PublishSubject<BannerDTO>()
     private let showEmptyViewSubject = PublishSubject<Void>()
-    private let continueShoppingTapSubject = PublishSubject<Void>()
     private let cellSelectedSubject = PublishSubject<ActiveCartDTO>()
     private let errorSubject = PublishSubject<ElGrocerError>()
     

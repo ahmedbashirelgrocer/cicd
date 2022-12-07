@@ -603,12 +603,6 @@ extension SmileSdkHomeVC {
             
         }).disposed(by: disposeBag)
         
-        viewModel.outputs.continueShoppingTap.subscribe { [weak self, weak activeCartVC] _ in
-            guard let _ = self else { return }
-            
-            activeCartVC?.dismiss(animated: true)
-        }.disposed(by: disposeBag)
-        
         self.present(activeCartVC, animated: true)
     }
 }
