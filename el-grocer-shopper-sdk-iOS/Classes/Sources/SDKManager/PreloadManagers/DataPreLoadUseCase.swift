@@ -32,10 +32,14 @@ public class PreLoadData {
 
         if self.isNotLoggedin() {
             loginSignup {
-                HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+                self.updateLocationIfNeeded() {
+                    HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+                }
             }
         } else {
-            HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+            self.updateLocationIfNeeded() {
+                HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+            }
         }
     }
 
@@ -111,6 +115,7 @@ public class PreLoadData {
                 HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
         }
+        DatabaseHelper.sharedInstance.saveDatabase()
     }
     
     private func configLoginFailureCase(coompletion: (() -> Void)?) {
