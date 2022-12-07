@@ -71,7 +71,7 @@ class HomePageData  {
     lazy var chefList : [CHEF] = [CHEF]()
     lazy var recipeList : [Recipe] = [Recipe]()
     lazy var featureGroceryBanner : [BannerCampaign] = []
-    private var fetchOrder : [loadingType]  = []
+    var fetchOrder : [loadingType]  = []
             var isDataLoading : Bool = false
     private var isFetchingTimeLogEnable : Bool = false
     private lazy var startFetchingTime : Date = Date()
@@ -84,6 +84,7 @@ class HomePageData  {
     
     var isLoadingComplete: Bool { fetchOrder.count == 0 && isDataLoading == false && (self.groceryA?.count ?? 0 > 0) }
     var loadingCompletion: (() -> Void)?
+    var loadingCompletionSplash: (() -> Void)?
     
     init() {
         self.dataSource = StoresDataHandler()
@@ -119,6 +120,7 @@ class HomePageData  {
         guard self.fetchOrder.count > 0 else {
             self.isDataLoading = false
             self.loadingCompletion?()
+            self.loadingCompletionSplash?()
             if self.isFetchingTimeLogEnable { self.endFetchFetchingTime = Date()
                 elDebugPrint("DataLoaded: Home Page Call time Duration : \(self.endFetchFetchingTime.timeIntervalSince(self.startFetchingTime))")
             }

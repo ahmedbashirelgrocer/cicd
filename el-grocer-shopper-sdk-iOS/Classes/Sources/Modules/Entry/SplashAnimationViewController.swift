@@ -23,7 +23,7 @@ class SplashAnimationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        HomePageData.shared.loadingCompletion = { [weak self] in
+        HomePageData.shared.loadingCompletionSplash = { [weak self] in
             if self?.isAnimationCompleted == true {
                 self?.animationCompletedSetRootVc()
             }
@@ -62,9 +62,11 @@ class SplashAnimationViewController: UIViewController {
             logoAnimator.startAnimate { [weak self] (isCompleted) in
                 if isCompleted {
                     self?.isAnimationCompleted = true
-                    if HomePageData.shared.isDataLoading == false {
+                    if HomePageData.shared.fetchOrder.count == 0 {
                         self?.animationCompletedSetRootVc()
                     }
+                    self?.activityIndicator.isHidden = false
+                    self?.activityIndicator.startAnimating()
                 }
             }
             
@@ -90,8 +92,6 @@ class SplashAnimationViewController: UIViewController {
         
         Thread.OnMainThread {
             self.logoAnimator.highlightedImage = UIImage(name: "ElgrocerLogoAnimation-151")
-            self.activityIndicator.isHidden = false
-            self.activityIndicator.startAnimating()
             // self.isAnimationCompleted = true
             self.setRootVc()
         }

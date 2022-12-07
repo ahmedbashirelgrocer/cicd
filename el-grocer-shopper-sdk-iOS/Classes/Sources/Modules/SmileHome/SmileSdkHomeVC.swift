@@ -358,20 +358,34 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     fileprivate func checkIFDataNotLoadedAndCall() {
         
+        let oldLocation = self.locationHeader.localLoadedAddress
+        
         self.setTableViewHeader()
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return self.tableView.reloadDataOnMain()
         }
         
+        print("old_Location: \(oldLocation?.lat ?? 0), \(oldLocation?.lng ?? 0)")
+        print("new_Location: \(address.latitude), \(address.longitude)")
+        
         var lastFetchMin = 0.0
         if  let lastCheckDate = SDKManager.shared.homeLastFetch {
             lastFetchMin = Date().timeIntervalSince(lastCheckDate) / 60
         }
-        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)) || lastFetchMin > 15 {
+        let notZero = !(oldLocation?.lat ?? 0 == 0 && oldLocation?.lng ?? 0 == 0)
+        if notZero && (!((oldLocation?.lat == address.latitude) && (oldLocation?.lng == address.longitude)) || lastFetchMin > 15) {
             // self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
             self.showDataLoaderIfRequiredForHomeHandler()
+            
+            if var launch = SDKManager.shared.launchOptions {
+                launch.latitude = address.latitude
+                launch.longitude = address.longitude
+                launch.address = address.address
+                ElgrocerPreloadManager.shared
+                    .searchClient.setLaunchOptions(launchOptions: launch)
+            }
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
             // self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)

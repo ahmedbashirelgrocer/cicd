@@ -46,6 +46,7 @@ final class RetailersOnLocationUseCase: RetailersOnLocationUseCaseType {
             .filter{ !($0.latitude == 0 && $0.longitude == 0) }
             .distinctUntilChanged()
             .flatMap{ [unowned self] location in self.fetchRetails(location) }
+            .filter{ $0.count > 0 }
             .bind(to: retailersSubject)
             .disposed(by: disposeBag)
         
