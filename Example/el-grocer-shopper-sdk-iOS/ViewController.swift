@@ -97,6 +97,8 @@ class ViewController: UIViewController {
         txtAccountNumber.text = "+971567362119" //"+971501535327" //"+923416973310"
         txtLat.text = "\(25.06867070)"
         txtLong.text = "\(55.142484)"
+//        txtLat.text = "\(31.411734)"
+//        txtLong.text = "\(73.117063)"
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = "111111111130"
         txtEmail.text = ""

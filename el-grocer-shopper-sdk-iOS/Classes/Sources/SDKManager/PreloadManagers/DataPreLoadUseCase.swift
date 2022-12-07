@@ -74,7 +74,7 @@ public class PreLoadData {
                 isDefaultUpdated = true
                 ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(location, completionHandler: { (result) in
                     if (result == true){
-                        completion?()
+                        HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
                     }else{
                        elDebugPrint("Error while setting default location on Server.")
                     }
@@ -84,10 +84,7 @@ public class PreLoadData {
             }
         }
         
-        if isDefaultUpdated {
-            completion?()
-            return
-        } else {
+        if !isDefaultUpdated {
             let launchOptions = SDKManager.shared.launchOptions!
             let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)!
             
@@ -111,7 +108,7 @@ public class PreLoadData {
                     UserDefaults.setUserLoggedIn(true)
                     UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
                 }
-                completion?()
+                HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
         }
     }
