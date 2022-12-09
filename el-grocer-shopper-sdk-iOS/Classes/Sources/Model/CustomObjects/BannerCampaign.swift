@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum BannerCampaignType : Int {
+enum BannerCampaignType : Int, Codable {
     case brand = 1
     case retailer = 2
     case web = 3
@@ -36,6 +36,7 @@ enum BannerLocation : Int {
     case sdk_subcategory_tier_1 = 23
     case sdk_subcategory_tier_2 = 24
     case sdk_search_tier_2 = 25
+    case sdk_all_carts_tier_2 = 27
     
     
     func getType() -> BannerLocation {

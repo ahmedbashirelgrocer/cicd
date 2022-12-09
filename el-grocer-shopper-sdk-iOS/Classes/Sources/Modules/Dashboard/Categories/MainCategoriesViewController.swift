@@ -1345,6 +1345,17 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         var productQuantity = 1
         
+        //
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        
+        if isNewCart {
+            let cartCreatedEvent = CartCreatedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
+        
         // If the product already is in the basket, just increment its quantity by 1
         if let product = ShoppingBasketItem.checkIfProductIsInBasket(selectedProduct, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             productQuantity += product.count.intValue
@@ -1369,6 +1380,13 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         if productQuantity < 0 {return}
         
         self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
+        
+        let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if cartDeleted {
+            let cartDeletedEvent = CartDeletedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+        }
+        
         MixpanelEventLogger.trackStoreRemoveItem(product: selectedProduct)
     }
     

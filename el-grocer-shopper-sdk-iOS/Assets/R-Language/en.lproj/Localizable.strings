@@ -1259,6 +1259,7 @@
 "No_Selected_Store_Cart" = "Your elGrocer cart is empty";
 "No_Selected_Store_Detail_Cart" = "Choose the store on the Homepage \nto fill your shopping list.";
 "No_Item_Cart" = "Add some items to continue shopping";
+"No_Item_Multi_Cart_Empty_View" = "Choose the store to start shopping";
 
 
 //Mybasket
@@ -2111,3 +2112,8 @@ Oreo";
 //MARK: order details
 "lbl_smile_point_earned" = "Smiles Points Earned";
 "txt_free_delivery_for_smile" = "Free with Smiles Unlimited Free Delivery!";
+
+// MARK: - Cart Listing Screen
+"screen_active_cart_listing_title" = "Active Carts";
+"screen_active_cart_listing_store_close_message" = "Store is closed. Come back tomorrow!";
+"txt_free_delivery_for_smile" = "Free with Smiles Unlimited";

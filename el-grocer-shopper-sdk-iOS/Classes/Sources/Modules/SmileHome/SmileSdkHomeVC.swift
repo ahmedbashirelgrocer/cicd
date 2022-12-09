@@ -7,9 +7,11 @@
 
 import UIKit
 import CoreLocation
+import RxSwift
+
 class SmileSdkHomeVC: BasketBasicViewController {
     
-    
+    private var disposeBag = DisposeBag()
         // MARK: - DataHandler
     var homeDataHandler : HomePageData = HomePageData.shared
     private lazy var orderStatus : OrderStatusMedule = {
@@ -94,6 +96,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setBackButtonHidden(false)
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
+            controller.buttonActionsDelegate = self
            // controller.setBackButtonHidden(false)
         }
         
@@ -447,8 +450,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
     
         self.refreshBasketIconStatus()
-    (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState( ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.lastItemsCount > 0)
-    
+        
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState( ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.lastItemsCount > 0)
     }
     
         // MARK: - ButtonAction
@@ -549,6 +552,74 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     
     
+}
+
+// MARK: Helper Methods
+extension SmileSdkHomeVC {
+    func navigateToMultiCart() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
+        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
+        
+        // MARK: Actions
+        viewModel.outputs.cellSelected.subscribe { [weak self, weak activeCartVC] selectedActiveCart in
+            activeCartVC?.dismiss(animated: true) {
+                guard let grocery = self?.groceryArray.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
+                self?.goToGrocery(grocery, nil)
+            }
+        }.disposed(by: disposeBag)
+        
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            
+            switch campaignType {
+            case .brand:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                })
+                break
+                
+            case .retailer:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                })
+                break
+                
+            case .web:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                })
+                break
+                
+            case .priority:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+                })
+                break
+            }
+            
+        }).disposed(by: disposeBag)
+        
+        self.present(activeCartVC, animated: true)
+    }
+}
+
+// MARK: Navigation Bar Button Actions Delegates
+extension SmileSdkHomeVC: ButtonActionDelegate {
+    func profileButtonTap() {
+        elDebugPrint("profileButtonClick")
+        MixpanelEventLogger.trackNavBarProfile()
+        let settingController = ElGrocerViewControllers.settingViewController()
+        self.navigationController?.pushViewController(settingController, animated: true)
+        hideTabBar()
+    }
+    
+    func cartButtonTap() {
+        self.navigateToMultiCart()
+    }
 }
 
 extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
@@ -672,7 +743,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         return UITableView.automaticDimension
     }
     
-    
+    // MARK: Banner Navigation 
     private func bannerClicked(_ cell : GenericBannersCell) {
         
         cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in

@@ -197,6 +197,7 @@ enum ElGrocerApiEndpoint : String {
     
     case getSubstitutionBasketDetails = "v2/baskets/substitution"
     case orderSubstitutionBasketUpdate = "v4/orders/substitution"
+    case getActiveCarts = "v2/baskets/all_carts"
  }
  
  class ElgrocerAPINonBase  {
@@ -4456,6 +4457,31 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
         }
     }
+      
+      // MARK: Get Active Carts
+      func getActiveCarts(latitude: Double, longitude: Double, completion: @escaping (_ result: Either<[ActiveCartDTO]>) -> Void) {
+          self.setAccessToken()
+          
+          let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
+          
+          NetworkCall.get(ElGrocerApiEndpoint.getActiveCarts.rawValue, parameters: params) { progress in
+              
+          } success: { URLSessionDataTask, responseObject in
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let activeCartResponse = try JSONDecoder().decode(ActiveCartResponseDTO.self, from: data)
+                      completion(.success(activeCartResponse.data))
+                  }
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+              
+          } failure: { URLSessionDataTask, error in
+              completion(.failure(ElGrocerError(error: error as NSError)))
+          }
+
+      }
     
  // MARK: ReasonApi
     

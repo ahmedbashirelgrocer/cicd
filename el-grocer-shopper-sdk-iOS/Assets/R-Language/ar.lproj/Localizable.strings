@@ -1259,7 +1259,7 @@
 
 "No_Selected_Store" = "لم تقم بإختيار المتجر";
 
-"No_Choose_The_Store" = "إختار المتجر";
+"No_Choose_The_Store" = "اختر المتجر";
 "lbl_Shop_Category" = "تسوق حسب الفئة";
 
 
@@ -1281,6 +1281,7 @@
 "lbl_Contnue_shopping" = "مواصلة التسوق";
 "launch_live_chat_text" = "تحدث مع الجروسر";
 "need_assistance_lable" = "بحاجة إلى المزيد من الدعم ؟";
+"No_Item_Multi_Cart_Empty_View" = "إختار المتجر على الصفحة الرئيسية أولاً ثم إبدأ التسوق";
 
 
 "order_Note_lable" = "قد تختلف أسعار الفواكه والخضروات الطازجة واللحوم والمأكولات البحرية في حالة عدم تطابق الأوزان بدقة";
@@ -2149,3 +2150,9 @@
 //MARK: order details
 "lbl_smile_point_earned" = "Smiles Points Earned";
 "txt_free_delivery_for_smile" = "مجانا لمشتركي التوصيل المجاني غير المحدود!";
+
+// MARK: - Cart Listing Screen
+"screen_active_cart_listing_title" = "عربات التسوق النشطة";
+"screen_active_cart_listing_store_close_message" = "المتجر مغلق";
+"screen_active_cart_listing_empty_message" = "No active cart available";
+"txt_free_delivery_for_smile" = "Free with Smiles Unlimited";

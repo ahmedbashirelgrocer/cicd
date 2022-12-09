@@ -147,6 +147,7 @@ Pod::Spec.new do |s|
   s.dependency 'FXPageControl', '~> 1.5'
   s.dependency 'RxSwift', '~>5.1.1'
   s.dependency 'RxCocoa', '~>5.1.1'
+  s.dependency 'RxDataSources'
   #s.dependency 'HMSegmentedControl', '~> 1.5.6'
   s.dependency 'KLCPopup', '~> 1.0'
   s.dependency 'JDFTooltips', '~> 1.1'
@@ -193,6 +194,9 @@ Pod::Spec.new do |s|
   s.dependency 'Mixpanel-swift', '~> 3.3.0'
   s.dependency 'lottie-ios', '~> 3.2.3'
 #s.dependency 'AppsFlyerFramework'
+
+  # Segment analytics dependency
+  s.dependency 'Analytics', '~> 4.1'
 
 
 end

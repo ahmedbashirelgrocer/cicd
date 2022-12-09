@@ -75,6 +75,19 @@ extension Date {
       
     }
     
+    func formateDate(dateFormate: String = "h:mma") -> String {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = dateFormate
+        formatter.amSymbol = "am"
+        formatter.pmSymbol = "pm"
+        
+        formatter.timeZone = TimeZone.getCurrentTimeZone()
+        formatter.locale = Locale.getCurrentLocale()
+        return formatter.string(from: self)
+      
+    }
+    
     func convertDateToString() -> String?{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"

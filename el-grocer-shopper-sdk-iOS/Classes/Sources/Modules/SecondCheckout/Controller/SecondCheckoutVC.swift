@@ -121,6 +121,9 @@ class SecondCheckoutVC: UIViewController {
                 
                 guard order != nil else { return }
                 
+                // MARK: Segment Order Purchase Event logging
+                SegmentAnalyticsEngine.instance.logEvent(event: OrderPurchaseEvent(products: self?.viewModel.getFinalisedProducts() ?? [], grocery: self?.grocery, order: order))
+                
                 func logPurchaseEvents() {
                     self?.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
                     ElGrocerUtility.sharedInstance.delay(0.5) {
