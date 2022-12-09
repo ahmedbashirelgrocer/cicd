@@ -51,7 +51,7 @@ class ProductCell : UICollectionViewCell {
     @IBOutlet weak var productDescriptionLabel: UILabel!
     @IBOutlet weak var sponserdView: UILabel!{
         didSet{
-            sponserdView.backgroundColor = .navigationBarColor()
+            sponserdView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     @IBOutlet weak var lblAddToCart: UILabel!
@@ -64,7 +64,12 @@ class ProductCell : UICollectionViewCell {
     @IBOutlet weak var buttonsView: UIView!
     
     @IBOutlet weak var quickAddToCartButton: UIButton!
-    @IBOutlet weak var addToCartButton: UIButton!
+    @IBOutlet weak var addToCartButton: UIButton! {
+        didSet {
+            addToCartButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
+            addToCartButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+        }
+    }
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
     @IBOutlet weak var quantityLabel: UILabel!
@@ -111,7 +116,7 @@ class ProductCell : UICollectionViewCell {
     }
     @IBOutlet var limitedStockBGView: UIView!{
         didSet{
-            limitedStockBGView.backgroundColor = .limitedStockGreenColor()
+            limitedStockBGView.backgroundColor = ApplicationTheme.currentTheme.viewLimmitedStockSecondaryDarkBGColor
         }
     }
     @IBOutlet var lblLimitedStock: UILabel!{
@@ -375,7 +380,7 @@ class ProductCell : UICollectionViewCell {
     func setChooseReplaceViewSuccess () {
         
         if chooseReplacmentBtn.titleLabel?.text != localizedString("lbl_replace_seleted", comment: "") {
-            chooseReplaceBg.backgroundColor = .navigationBarColor()
+            chooseReplaceBg.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             UIView.performWithoutAnimation {
                 chooseReplacmentBtn.setTitle(localizedString("lbl_replace_seleted", comment: ""), for: .normal)
                 chooseReplacmentBtn.layoutIfNeeded()
@@ -390,7 +395,7 @@ class ProductCell : UICollectionViewCell {
 
     func setNotSelectedReplacementView() {
         if chooseReplacmentBtn.titleLabel?.text != localizedString("choose_substitutions_title", comment: "") {
-            chooseReplaceBg.backgroundColor = .secondaryDarkGreenColor()//.redInfoColor()
+            chooseReplaceBg.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
             UIView.performWithoutAnimation {
                  chooseReplacmentBtn.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
                 chooseReplacmentBtn.layoutIfNeeded()
@@ -509,7 +514,7 @@ class ProductCell : UICollectionViewCell {
                     if self.product.promotion?.boolValue == true {
                         if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0{
                             self.plusButton.isEnabled = true
-                            self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                            self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                         }
                         //self.limitedStockBGView.isHidden = false
                     }
@@ -539,12 +544,12 @@ class ProductCell : UICollectionViewCell {
                         self.promotionBGView.isHidden = false
                         if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0 {
                             self.plusButton.isEnabled = true
-                            self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                            self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                             callDelegateAndAnalytics()
                         }
                     }else{
                         self.plusButton.isEnabled = true
-                        self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                        self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                         //self.limitedStockBGView.isHidden = true
                         self.promotionBGView.isHidden = true
                         callDelegateAndAnalytics()
@@ -561,14 +566,14 @@ class ProductCell : UICollectionViewCell {
                         self.promotionBGView.isHidden = false
                         if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0  {
                             self.plusButton.isEnabled = true
-                            self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                            self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                             callDelegateAndAnalytics()
                            // elDebugPrint("minus button plus buttonenable")
                         }
                     }else{
                         
                         self.plusButton.isEnabled = true
-                        self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                        self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                        // self.limitedStockBGView.isHidden = true
                         self.promotionBGView.isHidden = true
                         callDelegateAndAnalytics()
@@ -697,13 +702,13 @@ class ProductCell : UICollectionViewCell {
                         }
                         
                         if (itemCurrentCount >= self.product.promoProductLimit as! Int) && self.product.promoProductLimit?.intValue ?? 0 > 0 {
-                            self.plusButton.backgroundColor = UIColor.newBorderGreyColor()
+                            self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
                             self.plusButton.isEnabled = false
                             showOverLimitMsg()
                             
                         }else{
                             self.plusButton.isEnabled = true
-                            self.plusButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
+                            self.plusButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
                             addCartAction()
                             
                             ProductQuantiy.checkLimitForDisplayMsgs(selectedProduct: self.product, counter: count)
@@ -726,7 +731,7 @@ class ProductCell : UICollectionViewCell {
                         }
                        
                         self.plusButton.isEnabled = true
-                        self.plusButton.backgroundColor = UIColor.navigationBarColor()
+                        self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                         //self.limitedStockBGView.isHidden = true
                         self.promotionBGView.isHidden = true
                         addCartAction()
@@ -851,8 +856,8 @@ class ProductCell : UICollectionViewCell {
             self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)"
              //self.quantityLabel.textColor = UIColor.newBlackColor()
 
-            self.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
-            self.minusButton.imageView?.tintColor = UIColor.navigationBarColor()
+            self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            self.minusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
 
               self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
             if item.count == 1 {
@@ -865,8 +870,8 @@ class ProductCell : UICollectionViewCell {
             addToCartButton.isHidden = false
             buttonsView.isHidden = true
             self.quantityLabel.text = "0"
-            self.plusButton.imageView?.tintColor = UIColor.darkTextGrayColor()
-            self.minusButton.imageView?.tintColor = UIColor.darkTextGrayColor()
+            self.plusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
+            self.minusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
             self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
             self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
         }
@@ -997,23 +1002,23 @@ class ProductCell : UICollectionViewCell {
                 }
             //}
             self.plusButton.isEnabled = true
-            self.plusButton.tintColor = UIColor.navigationBarColor()
-            self.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
-            self.plusButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+            self.plusButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            self.plusButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
         }
         
         if product.availableQuantity == 0 && grocery?.inventoryControlled?.boolValue ?? false {
             
-            self.addToCartButton.tintColor = UIColor.newBorderGreyColor()
+            self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             self.addToCartButton.isEnabled = false
-            self.addToCartButton.setBackgroundColorForAllState(UIColor.newBorderGreyColor())
+            self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonDisableBGColor)
             
         }else {
           
-            self.addToCartButton.tintColor = UIColor.navigationBarColor()
+            self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             self.addToCartButton.isEnabled = true
             self.addToCartButton.setBody3BoldWhiteStyle()
-            self.addToCartButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+            self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
             
         }
       

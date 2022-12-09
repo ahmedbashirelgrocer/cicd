@@ -44,7 +44,7 @@ class BillView: UIView {
         
         label.text = localizedString("amount_to_pay", comment: "")
         label.textAlignment = .left
-        label.setBody3BoldUpperLimitedStockStyle()
+        label.setBody3BoldUpperSecondaryDarkGreenStyle()
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -56,7 +56,7 @@ class BillView: UIView {
         label.text = "AED 600.00"
         label.textAlignment = .right
         
-        label.setBody3BoldUpperLimitedStockStyle()
+        label.setBody3BoldUpperSecondaryDarkGreenStyle()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -101,7 +101,17 @@ class BillView: UIView {
         view.isHidden = false
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
-        view.backgroundColor = UIColor.promotionRedColor()
+        view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var freeDeliverySmileImageView: UIImageView = {
+        let view = UIImageView()
+        
+        view.isHidden = false
+        view.image = UIImage(name: "SmileFreeDeliverySmilie")
+        view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -111,7 +121,7 @@ class BillView: UIView {
         
         label.text = localizedString("", comment: "")
         label.textAlignment = .left
-        label.setBody3BoldUpperLimitedStockStyle()
+        label.setBody3BoldUpperSecondaryDarkGreenStyle()
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -139,7 +149,7 @@ class BillView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.setUpGradients()
+//        self.setUpGradients()
     }
     
     private func addViews() {
@@ -265,19 +275,23 @@ class BillView: UIView {
     func setFreeDeliveryFeeViewConstraints() {
 
         self.freeDeliveryView.addSubview(lblFreeDelivery)
-        
-        lblFreeDelivery.leadingAnchor.constraint(equalTo: freeDeliveryView.leadingAnchor, constant: 8).isActive = true
-        lblFreeDelivery.trailingAnchor.constraint(equalTo: freeDeliveryView.trailingAnchor, constant: -8).isActive = true
+        self.freeDeliveryView.addSubview(freeDeliverySmileImageView)
         lblFreeDelivery.centerYAnchor.constraint(equalTo: freeDeliveryView.centerYAnchor).isActive = true
+        lblFreeDelivery.centerXAnchor.constraint(equalTo: freeDeliveryView.centerXAnchor, constant: 12).isActive = true
+        
+        freeDeliverySmileImageView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        freeDeliverySmileImageView.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        freeDeliverySmileImageView.trailingAnchor.constraint(equalTo: lblFreeDelivery.leadingAnchor, constant: -5).isActive = true
+        freeDeliverySmileImageView.centerYAnchor.constraint(equalTo: lblFreeDelivery.centerYAnchor).isActive = true
         
         freeDeliveryView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor, constant: -16).isActive = true
         freeDeliveryView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 16).isActive = true
         freeDeliveryView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
-    func setUpGradients () {
-        let greLay = self.freeDeliveryView.setupGradient(height: self.freeDeliveryView.frame.size.height , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
-        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
-    }
+//    func setUpGradients () {
+//        let greLay = self.freeDeliveryView.setupGradient(height: self.freeDeliveryView.frame.size.height , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
+//        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
+//    }
 }
 
 class BillEntryView: UIView {
@@ -373,6 +387,7 @@ class BillEntryView: UIView {
     func configureForFreeServiceFee() {
         self.lblTitle.text = localizedString("service_price", comment: "")
         self.lblAmount.text = localizedString("txt_free", comment: "")
+        self.lblAmount.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     
     func configure(title: String, amount: Double, isNegative: Bool = false) {

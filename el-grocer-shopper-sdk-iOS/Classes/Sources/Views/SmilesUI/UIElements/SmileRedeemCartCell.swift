@@ -43,7 +43,7 @@ class SmileRedeemCartCell: UITableViewCell {
     @IBOutlet var lblInfoMessage: UILabel!{
         didSet {
             lblInfoMessage.setCaptionOneRegDarkStyle()
-            lblInfoMessage.textColor = UIColor.navigationBarColor()
+            lblInfoMessage.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             lblInfoMessage.text = localizedString("smile_point_redeem", comment: "")
         }
     }
@@ -61,8 +61,8 @@ class SmileRedeemCartCell: UITableViewCell {
             imgInfo.visibility = .goneY
         case .redeem:
             // show points to redeeme
-            lblInfoMessage.textColor = .navigationBarColor()
-            imgInfo.changePngColorTo(color: .navigationBarColor())
+            lblInfoMessage.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            imgInfo.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
             lblInfoMessage.visibility = .visible
             imgInfo.visibility = .visible
             lblInfoMessage.text = "\(points) " + localizedString("smile_point_redeem", comment: "")

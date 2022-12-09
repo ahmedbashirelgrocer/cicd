@@ -44,7 +44,7 @@ class PlaceOrderProductsCollectionViewCell: UICollectionViewCell {
             })
         }
          self.productImage.layer.borderWidth = 1
-         self.productImage.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.productImage.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
          self.productImage.layer.cornerRadius = 2
          self.saleView.isHidden = !product.isPromotion.boolValue
         ElGrocerUtility.sharedInstance.setPromoImage(imageView:  self.saleView)

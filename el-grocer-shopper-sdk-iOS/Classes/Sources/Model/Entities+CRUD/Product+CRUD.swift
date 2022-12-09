@@ -1176,7 +1176,7 @@ extension Product {
         }
         
         
-        if product.availableQuantity.intValue > 0 &&  product.availableQuantity.intValue < 11{
+        if product.availableQuantity.intValue > 0 &&  product.availableQuantity.intValue < ProductQuantiy.availableQuantityLimit{
             FireBaseEventsLogger.trackLimitedStockItems(product: product)
         }
 

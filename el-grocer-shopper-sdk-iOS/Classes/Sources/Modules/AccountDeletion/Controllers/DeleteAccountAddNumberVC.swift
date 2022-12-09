@@ -83,7 +83,7 @@ class DeleteAccountAddNumberVC: UIViewController, NavigationBarProtocol {
     //MARK: Appearence
     func setInitialAppearence(){
         
-        self.view.backgroundColor = .navigationBarWhiteColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         
         if self.navigationController is ElGrocerNavigationController{
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
@@ -126,7 +126,7 @@ class DeleteAccountAddNumberVC: UIViewController, NavigationBarProtocol {
     }
     func validatePhoneNumberAndSetPasswordTextFieldAppearance(_ isValid : Bool = false) {
         if  isValid == false {
-            self.phoneNumBGView.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+            self.phoneNumBGView.layer.borderColor = UIColor.textfieldErrorColor().cgColor
             self.phoneNumBGView.layer.borderWidth = 1
         } else {
             self.phoneNumBGView.layer.borderColor = UIColor.green.cgColor
@@ -136,10 +136,10 @@ class DeleteAccountAddNumberVC: UIViewController, NavigationBarProtocol {
     }
     func validatePhoneNumAndSetButtonAppearance(_ isValid : Bool = false) {
         if  isValid == false {
-            self.btnConfirmBGView.backgroundColor = .disableButtonColor()
+            self.btnConfirmBGView.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             self.btnConfirm.isUserInteractionEnabled = false
         } else {
-            self.btnConfirmBGView.backgroundColor = .navigationBarColor()
+            self.btnConfirmBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             self.btnConfirm.isUserInteractionEnabled = true
         }
     }

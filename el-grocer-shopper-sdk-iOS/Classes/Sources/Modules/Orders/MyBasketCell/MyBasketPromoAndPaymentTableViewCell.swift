@@ -21,7 +21,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     @IBOutlet var lblPaymentMethod: UILabel!
     @IBOutlet var txtCvv: UITextField! {
         didSet{
-            self.txtCvv.attributedPlaceholder = NSAttributedString.init(string: self.txtCvv.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+            self.txtCvv.attributedPlaceholder = NSAttributedString.init(string: self.txtCvv.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textViewPlaceHolderColor()])
         }
         
     }
@@ -75,18 +75,6 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     
     @IBOutlet var lblPriceVarience: UILabel!
     @IBOutlet var lblpriceValueAmount: UILabel!
-    
-    //promotion
-//    @IBOutlet var lblPromoCodeDiscount: UILabel!{
-//        didSet{
-//            lblPromoCodeDiscount.setBody3RegGreenStyle()
-//        }
-//    }
-//    @IBOutlet var lblPromoDiscountValue: UILabel!{
-//        didSet{
-//            lblPromoDiscountValue.setBody3RegGreenStyle()
-//        }
-//    }
     @IBOutlet var percentOffBGView: UIView!{
         didSet{
             percentOffBGView.backgroundColor = .promotionRedColor()
@@ -105,14 +93,14 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
             lblSmilesPoints.text = localizedString("txt_smile_point", comment: "")
-        lblSmilesPoints.textColor = .navigationBarColor()
+            lblSmilesPoints.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
     
     @IBOutlet weak var lblSmilesPointsValue: UILabel!{
         didSet{
             lblSmilesPointsValue.setBody3RegGreyStyle()
-            lblSmilesPointsValue.textColor = .navigationBarColor()
+            lblSmilesPointsValue.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
     
@@ -122,7 +110,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.btnChange.setTitle(localizedString("change_button_title", comment: ""), for: .normal)
-        self.txtPromo.attributedPlaceholder = NSAttributedString.init(string: self.txtPromo.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+        self.txtPromo.attributedPlaceholder = NSAttributedString.init(string: self.txtPromo.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textViewPlaceHolderColor()])
         showPromotion()
         //hide smiles points by default
         self.lblSmilesPoints.superview?.visibility = .goneY
@@ -209,7 +197,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             self.creditCardSuperBGView.isHidden = false
             
         }else{
-            self.creditCardBGView.backgroundColor = UIColor.navigationBarColor()
+            self.creditCardBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             self.creditCardBGView.borderWidth = 0.0
             self.creditCardBGView.borderColor = UIColor.clear
             self.imagePayment.changePngColorTo(color: UIColor.navigationBarWhiteColor())
@@ -241,7 +229,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             self.paymentDetailBackGroundHeightConstraint.constant = self.contentView.frame.size.height - 10
             
         }else{
-            self.creditCardBGView.backgroundColor = UIColor.navigationBarColor()
+            self.creditCardBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             self.creditCardBGView.borderWidth = 0.0
             self.creditCardBGView.borderColor = UIColor.clear
             self.imagePayment.changePngColorTo(color: UIColor.navigationBarWhiteColor())
@@ -622,8 +610,8 @@ extension MyBasketPromoAndPaymentTableViewCell {
             self.txtPromo.text = promoCodeValue.code
             self.promoCallActivity.isHidden = true
             self.btnApplyPromo.setTitle("", for: .normal)
-            self.promoView.borderColor =  .navigationBarColor()
-            self.btnApplyPromo.tintColor = .navigationBarColor()
+            self.promoView.borderColor =  ApplicationTheme.currentTheme.themeBasePrimaryColor
+            self.btnApplyPromo.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
             self.btnApplyPromo.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
             return
         }
@@ -650,11 +638,11 @@ extension MyBasketPromoAndPaymentTableViewCell {
         self.txtPromo.isUserInteractionEnabled = false
         self.promoCallActivity.isHidden = true
         self.btnApplyPromo.isHidden = false
-        self.promoView.borderColor =  .navigationBarColor()
+        self.promoView.borderColor =  ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.btnApplyPromo.setTitle("", for: .normal)
-        self.btnApplyPromo.tintColor = .navigationBarColor()
+        self.btnApplyPromo.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
         self.btnApplyPromo.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
-        self.lblpromoMessage.textColor = .navigationBarColor()
+        self.lblpromoMessage.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.lblpromoMessage.isHidden = false
         self.lblpromoMessage.text = text
         self.paymentDetailBackGroundHeightConstraint.constant = 210 + self.getPromoMessageLabelHeight(text: text) + self.lblPromoValue.frame.size.height + (self.percentOffBGView.isHidden ? 0 : 15)

@@ -80,7 +80,7 @@ class SuggestedProductCell : UICollectionViewCell {
     fileprivate func setUpProductDescriptionAppearance() {
         
         self.productDescriptionLabel.font = UIFont.SFProDisplayNormalFont(11.0)
-        self.productDescriptionLabel.textColor = UIColor.navigationBarColor()
+        self.productDescriptionLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.productDescriptionLabel.sizeToFit()
         self.productDescriptionLabel.numberOfLines = 1
     }
@@ -90,13 +90,13 @@ class SuggestedProductCell : UICollectionViewCell {
         self.productNameLabel.font = UIFont.SFProDisplaySemiBoldFont(12.0)
         self.productNameLabel.sizeToFit()
         self.productNameLabel.numberOfLines = 2
-        self.productNameLabel.textColor = UIColor.black
+        self.productNameLabel.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
     }
     
     fileprivate func setUpProductPriceAppearance() {
         
         self.productPriceLabel.font = UIFont.SFProDisplaySemiBoldFont(12.0)
-        self.productPriceLabel.textColor = UIColor.navigationBarColor()
+        self.productPriceLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     
     fileprivate func setUpQuantityLabelAppearance() {
@@ -109,7 +109,7 @@ class SuggestedProductCell : UICollectionViewCell {
         
         self.chooseSubtituteButton.setTitle(localizedString("choose_substitution_button_title", comment: ""), for: UIControl.State())
         self.chooseSubtituteButton.titleLabel?.font =  UIFont.SFProDisplayBoldFont(12.0)
-        self.chooseSubtituteButton.titleLabel?.textColor = UIColor.mediumGreenColor()
+        self.chooseSubtituteButton.titleLabel?.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     
     // MARK: Actions
@@ -167,7 +167,7 @@ class SuggestedProductCell : UICollectionViewCell {
             
             self.activeProductIcon.isHidden = false
             
-            self.productContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
+            self.productContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
             self.productContainer.layer.borderWidth = 3.0
             
         } else {

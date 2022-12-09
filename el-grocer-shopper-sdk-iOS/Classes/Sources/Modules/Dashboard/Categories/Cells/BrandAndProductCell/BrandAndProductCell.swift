@@ -67,6 +67,8 @@ class BrandAndProductCell: UITableViewCell{
         didSet{
             btnViewAll.setTitle(localizedString("view_more_title", comment: ""), for: .normal)
             btnViewAll.titleLabel?.font = UIFont.SFProDisplayBoldFont(14).withWeight(UIFont.Weight(700))
+            btnViewAll.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
+            btnViewAll.setBackgroundColorForAllState(.clear)
         }
     }
     var selectedProduct:Product!

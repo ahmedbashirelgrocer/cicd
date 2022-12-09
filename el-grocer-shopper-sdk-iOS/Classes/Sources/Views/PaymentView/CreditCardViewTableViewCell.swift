@@ -22,7 +22,11 @@ class CreditCardViewTableViewCell: UITableViewCell {
     
     @IBOutlet var selectionImage: UIImageView!
     @IBOutlet var cardImage: UIImageView!
-    @IBOutlet var btnAddNewCard: UIButton!
+    @IBOutlet var btnAddNewCard: UIButton! {
+        didSet {
+            btnAddNewCard.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+        }
+    }
     
     @IBOutlet var radioButton: UIImageView!
     @IBOutlet var cardView: UIView!

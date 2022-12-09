@@ -13,17 +13,17 @@ class StoreHeaderView: UIView {
 
     @IBOutlet var bGView: UIView!{
         didSet{
-            bGView.backgroundColor = .navigationBarColor()
+            bGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet var groceryBGView: UIView!{
         didSet{
-            groceryBGView.backgroundColor = .navigationBarColor()
+            groceryBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet var imgGrocery: UIImageView!{
         didSet{
-            imgGrocery.backgroundColor = .navigationBarWhiteColor()
+            imgGrocery.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
             imgGrocery.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 8, withShadow: false)
         }
     }
@@ -44,12 +44,12 @@ class StoreHeaderView: UIView {
     }
     @IBOutlet var searchSuperBGView: UIView!{
         didSet{
-            searchSuperBGView.backgroundColor = .navigationBarColor()
+            searchSuperBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet var searchBGView: UIView!{
         didSet{
-            searchBGView.backgroundColor = .navigationBarWhiteColor()
+            searchBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
             searchBGView.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 22, withShadow: false)
             searchBGView.layer.borderWidth = 1
             searchBGView.layer.borderColor = UIColor.newBorderGreyColor().cgColor
@@ -74,7 +74,7 @@ class StoreHeaderView: UIView {
     
     @IBOutlet var shoppingListBGView: UIView!{
         didSet{
-            shoppingListBGView.backgroundColor = .navigationBarColor()
+            shoppingListBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet var imgShoppingList: UIImageView!{

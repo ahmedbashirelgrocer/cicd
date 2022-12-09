@@ -33,7 +33,11 @@ class BasketIconOverlayView : UIView {
     
     @IBOutlet weak var cartView: UIView!
     
-    @IBOutlet var progressView: GTProgressBar!
+    @IBOutlet var progressView: GTProgressBar! {
+        didSet {
+            progressView.barFillColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+        }
+    }
 
     @IBOutlet var progressViewLeading: NSLayoutConstraint!
     @IBOutlet var lblFreeDelieveryConstraint: NSLayoutConstraint!
@@ -53,10 +57,23 @@ class BasketIconOverlayView : UIView {
     var toolTipView:JDFTooltipView?
     
     
-    @IBOutlet weak var minOrderLabel: UILabel!
+    @IBOutlet weak var minOrderLabel: UILabel! {
+        didSet {
+            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+        }
+    }
     @IBOutlet weak var minOrderImageView: UIImageView!
-    @IBOutlet weak var minOrderProgressView: UIProgressView!
-    @IBOutlet weak var cartItemsCountLabel: UILabel!
+    @IBOutlet weak var minOrderProgressView: UIProgressView! {
+        didSet {
+            minOrderProgressView.progressTintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+        }
+    }
+    @IBOutlet weak var cartItemsCountLabel: UILabel! {
+        didSet {
+            cartItemsCountLabel.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            cartItemsCountLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+        }
+    }
     @IBOutlet weak var cartTotalPriceLabel: UILabel!
     @IBOutlet weak var cartLabel: UILabel!
     @IBOutlet weak var rightArrowView: UIImageView!
@@ -114,13 +131,13 @@ class BasketIconOverlayView : UIView {
             self.cartTotalPriceLabel.textAlignment = .right
         }
         
-        bottomButtonBg.backgroundColor = .navigationBarColor()
+        bottomButtonBg.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
     }
     
     
     func setUpCountLabelAppearance() {
         
-        self.itemsCount.textColor = UIColor.redTextColor()
+        self.itemsCount.textColor = UIColor.redInfoColor()
         self.itemsCount.font = UIFont.SFProDisplaySemiBoldFont(13.0)
     }
     
@@ -151,7 +168,7 @@ class BasketIconOverlayView : UIView {
         
         if let badgeIs =  barButton?.badge {
             badgeIs.layer.borderWidth = 1
-            badgeIs.layer.borderColor = UIColor.navigationBarColor().cgColor
+            badgeIs.layer.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor.cgColor
         }
         
        elDebugPrint("update cart icon from here")
@@ -242,13 +259,13 @@ class BasketIconOverlayView : UIView {
                         self.minOrderLabel.attributedText =  NSMutableAttributedString()
                             .normal(localizedString("lbl_Add", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
-                                    color: .secondaryDarkGreenColor())
+                                    color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                             .normal(" " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: remainingPrice) + " ",
                                     UIFont.SFProDisplayBoldFont(12),
-                                    color: .secondaryDarkGreenColor())
+                                    color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                             .normal(localizedString("to_reach_minimum_order", comment: ""),
                                     UIFont.SFProDisplayNormalFont(12),
-                                    color: .secondaryDarkGreenColor())
+                                    color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                         self.minOrderImageView.image = UIImage(name: "cart-addmore")
                         let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
                         self.minOrderProgressView.setProgress(progressValue, animated: true)
@@ -284,9 +301,9 @@ class BasketIconOverlayView : UIView {
                             }
                             
                             toolTipView = JDFTooltipView.init(targetBarButtonItem: barButton, hostView: parentController.view.window, tooltipText: toolTipStr, arrowDirection: JDFTooltipViewArrowDirection.up, width: toolTipWidth)
-                            toolTipView?.tooltipBackgroundColour = UIColor.lightGreenColor()
+                            toolTipView?.tooltipBackgroundColour = ApplicationTheme.currentTheme.themeBasePrimaryColor
                             toolTipView!.font = UIFont.SFProDisplaySemiBoldFont(14.0)
-                            toolTipView!.textColour = UIColor.mediumGreenColor()
+                            toolTipView!.textColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
                             toolTipView!.show()
                             
                             ElGrocerUtility.sharedInstance.delay(2.0) {

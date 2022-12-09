@@ -122,7 +122,7 @@ class CheckoutButtonView: AWView {
     
     private func enableButton(isApplePay: Bool) {
         self.buttonCheckout.isUserInteractionEnabled = true
-        self.buttonCheckout.backgroundColor = isApplePay ? UIColor.black : UIColor.navigationBarColor()
+        self.buttonCheckout.backgroundColor = isApplePay ? UIColor.black : ApplicationTheme.currentTheme.buttonEnableBGColor
         
         self.lblPoints.isHidden = isApplePay
         self.lblAmount.isHidden = isApplePay

@@ -70,12 +70,12 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         self.bgView.clipsToBounds = isSelected
         if isSelected {
             self.bgView.borderWidth = 2
-            self.bgView.borderColor = UIColor.navigationBarColor()//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
-            lblCategoryName.textColor = UIColor.navigationBarColor()//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
+            self.bgView.borderColor = ApplicationTheme.currentTheme.primarySelectionColor//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
+            lblCategoryName.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
         }else{
             self.bgView.borderWidth = 0
             self.bgView.borderColor = .clear
-            lblCategoryName.textColor = UIColor.newBlackColor()
+            lblCategoryName.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
         }
         
         
@@ -179,10 +179,10 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
     
     func configuredRecipeCell( ) {
         self.bgView.cornarRadius = 8.0
-        self.bgView.backgroundColor = .navigationBarColor()
+        self.bgView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         self.centerImage.image = UIImage(name: "recipeCategoryImage")
         self.lblCategoryName.text = localizedString("Order_Title", comment: "")
-        self.lblCategoryName.textColor = .navigationBarColor()
+        self.lblCategoryName.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.setImageViewSize(true)
         
     }
@@ -229,12 +229,12 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         self.bgView.clipsToBounds = isSelected
         if isSelected {
             self.bgView.borderWidth = 2
-            self.bgView.borderColor = UIColor.navigationBarColor()//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
-            lblCategoryName.textColor = UIColor.navigationBarColor()//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
+            self.bgView.borderColor = ApplicationTheme.currentTheme.viewPrimaryBGColor//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
+            lblCategoryName.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
         }else{
             self.bgView.borderWidth = 0
             self.bgView.borderColor = .clear
-            lblCategoryName.textColor = UIColor.newBlackColor()
+            lblCategoryName.textColor = ApplicationTheme.currentTheme.primarySelectionColor
         }
         
     }
@@ -243,12 +243,12 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
         self.bgView.clipsToBounds = isSelected
         if isSelected {
             self.bgView.borderWidth = 2
-            self.bgView.borderColor = UIColor.navigationBarColor()//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
-            lblCategoryName.textColor = UIColor.navigationBarColor()//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
+            self.bgView.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            lblCategoryName.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor//UIColor(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
         }else{
             self.bgView.borderWidth = 0
             self.bgView.borderColor = .clear
-            lblCategoryName.textColor = UIColor.newBlackColor()
+            lblCategoryName.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
         }
         self.makeIconTinted(isSelected: isSelected, imageView: imageView)
         
@@ -261,7 +261,7 @@ class StoresCategoriesCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 if let image = self.centerImage.image?.withRenderingMode(.alwaysTemplate) {
                     self.centerImage.image = image
-                    self.centerImage.tintColor = .navigationBarColor()
+                    self.centerImage.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
                 }
                
             }

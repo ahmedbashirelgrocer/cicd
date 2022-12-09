@@ -163,59 +163,61 @@ class SendBirdManager {
         
         var channelTheme = SBUChannelTheme()
         channelTheme = .light
-        channelTheme.leftBarButtonTintColor = .navigationBarColor()
-        channelTheme.rightBarButtonTintColor = .navigationBarColor()
-        channelTheme.menuItemTintColor = .navigationBarColor()
+        channelTheme.leftBarButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        channelTheme.rightBarButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        channelTheme.menuItemTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         var channelSettingsTheme = SBUChannelSettingsTheme()
         channelSettingsTheme = .light
-        channelSettingsTheme.cellSwitchColor = .navigationBarColor()
-        channelSettingsTheme.leftBarButtonTintColor = .navigationBarColor()
-        channelSettingsTheme.rightBarButtonTintColor = .navigationBarColor()
-        channelSettingsTheme.cellArrowIconTintColor = .navigationBarColor()
-        channelSettingsTheme.cellTypeIconTintColor = .navigationBarColor()
+        channelSettingsTheme.cellSwitchColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        channelSettingsTheme.leftBarButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        channelSettingsTheme.rightBarButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        channelSettingsTheme.cellArrowIconTintColor =
+        ApplicationTheme.currentTheme.themeBasePrimaryColor
+        channelSettingsTheme.cellTypeIconTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         
         
         var userListTheme = SBUUserListTheme()
         userListTheme = .light
-        userListTheme.rightBarButtonTintColor = .navigationBarColor()
-        userListTheme.leftBarButtonTintColor = .navigationBarColor()
+        userListTheme.rightBarButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        userListTheme.leftBarButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         var componentTheme = SBUComponentTheme()
         componentTheme = .light
-        componentTheme.buttonTextColor = .navigationBarColor()
-        componentTheme.actionSheetItemColor = .navigationBarColor()
-        componentTheme.loadingSpinnerColor = .navigationBarColor()
-        componentTheme.broadcastIconTintColor = .navigationBarColor()
-        componentTheme.channelTypeSelectorItemTintColor = .navigationBarColor()
-        componentTheme.addReactionTintColor = .unselectedPageControl()
-        componentTheme.reactionBoxSelectedEmojiBackgroundColor = .unselectedPageControl()
-        componentTheme.newMessageButtonTintColor = .navigationBarColor()
-        componentTheme.newMessageTintColor = .navigationBarColor()
-        componentTheme.scrollBottomButtonIconColor = .navigationBarColor()
-        componentTheme.emptyViewRetryButtonTintColor = .navigationBarColor()
-        componentTheme.loadingSpinnerColor = .navigationBarColor()
+        componentTheme.buttonTextColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.actionSheetItemColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.loadingSpinnerColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.broadcastIconTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.channelTypeSelectorItemTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.addReactionTintColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
+        componentTheme.reactionBoxSelectedEmojiBackgroundColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
+        componentTheme.newMessageButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.newMessageTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.scrollBottomButtonIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.emptyViewRetryButtonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        componentTheme.loadingSpinnerColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         var messageCellTheme = SBUMessageCellTheme()
         messageCellTheme = .light
-        messageCellTheme.rightBackgroundColor = .unselectedPageControl()
-        messageCellTheme.rightPressedBackgroundColor = .unselectedPageControl()
-        messageCellTheme.userMessageRightTextColor = .newBlackColor()
-        messageCellTheme.pressedContentBackgroundColor = .unselectedPageControl()
-        messageCellTheme.pendingStateColor = .navigationBarColor()
+        messageCellTheme.rightBackgroundColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
+        messageCellTheme.rightPressedBackgroundColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
+        messageCellTheme.userMessageRightTextColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+        messageCellTheme.pressedContentBackgroundColor = ApplicationTheme.currentTheme.currentOrdersPageControlInActiveColor
+        messageCellTheme.pendingStateColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        messageCellTheme.readReceiptStateColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         
         
         
         var messageInputTheme = SBUMessageInputTheme()
         messageInputTheme = .light
-        messageInputTheme.buttonTintColor = .navigationBarColor()
-        messageInputTheme.textFieldTintColor = .navigationBarColor()
+        messageInputTheme.buttonTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        messageInputTheme.textFieldTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         
         var channelListCellTheme = SBUChannelCellTheme()
-        channelListCellTheme.unreadCountBackgroundColor = .navigationBarColor()
+        channelListCellTheme.unreadCountBackgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         channelListCellTheme.memberCountTextColor = UIColor.clear
         
         let newTheme = SBUTheme(channelListTheme: .light,

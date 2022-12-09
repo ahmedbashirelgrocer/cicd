@@ -29,7 +29,7 @@ class DeleteCardConfirmationBottomSheet: UIViewController {
     @IBOutlet var btnRemove: AWButton! {
         didSet {
             btnRemove.cornarRadius = 28
-            btnRemove.backgroundColor = .navigationBarColor()
+            btnRemove.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             btnRemove.setH4SemiBoldWhiteStyle()
             btnRemove.setTitle(localizedString("btn_remove_title", comment: ""), for: UIControl.State())
         }
@@ -39,7 +39,7 @@ class DeleteCardConfirmationBottomSheet: UIViewController {
             btnKeepUsing.cornarRadius = 28
             btnKeepUsing.backgroundColor = .navigationBarWhiteColor()
             btnKeepUsing.borderWidth = 2.0
-            btnKeepUsing.borderColor = .navigationBarColor()
+            btnKeepUsing.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
             btnKeepUsing.setH4SemiBoldGreenStyle()
             btnKeepUsing.setTitle(localizedString("btn_keep_using", comment: ""), for: UIControl.State())
         }

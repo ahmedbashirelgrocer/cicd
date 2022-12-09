@@ -50,7 +50,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     
     @IBOutlet var imgLogo: UIImageView!{
         didSet {
-            self.imgLogo.changePngColorTo(color: UIColor.navigationBarColor())
+            self.imgLogo.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         }
         
     }
@@ -290,8 +290,8 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         self.emailTextField.placeholder      = localizedString("login_email_placeholder", comment: "")
         self.passwordTextField.placeholder   = localizedString("login_password_placeholder", comment: "")
         
-        self.emailTextField.attributedPlaceholder = NSAttributedString.init(string: self.emailTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-        self.passwordTextField.attributedPlaceholder = NSAttributedString.init(string: self.passwordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+        self.emailTextField.attributedPlaceholder = NSAttributedString.init(string: self.emailTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
+        self.passwordTextField.attributedPlaceholder = NSAttributedString.init(string: self.passwordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
         
         
         
@@ -361,7 +361,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         // Check if the email is correctly filled and if not set the border to red
         // Otherwise the border should be default grey
         if self.emailTextField.text?.isValidEmail() ?? false == false {
-            self.emailTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+            self.emailTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
             self.emailTextField.layer.borderWidth = 1
         } else {
             self.emailTextField.layer.borderColor = UIColor.green.cgColor
@@ -373,7 +373,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     func validatePasswordAndSetPasswordTextFieldAppearance() {
         
         if self.passwordTextField.text?.isValidPassword() ?? false == false {
-            self.passwordTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+            self.passwordTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
             self.passwordTextField.layer.borderWidth = 1
         } else {
             self.passwordTextField.layer.borderColor = UIColor.green.cgColor
@@ -386,7 +386,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     func validatePhoneNumberAndSetPasswordTextFieldAppearance(_ isValid : Bool=false) {
         // self.mobileNumberTextField.text?.isValidPhoneNumber() ?? false == false ||
         if  isValid == false {
-            self.mobileNumberTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+            self.mobileNumberTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
             self.mobileNumberTextField.layer.borderWidth = 1
         } else {
             self.mobileNumberTextField.layer.borderColor = UIColor.green.cgColor

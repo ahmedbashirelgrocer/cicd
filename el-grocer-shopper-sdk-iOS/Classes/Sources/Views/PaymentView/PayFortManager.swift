@@ -44,7 +44,7 @@ struct DynamicOrderStatus {
     var key : String = ""
     var stepNumber : NSNumber = -1
     var imageName : String = "orderStatus0"
-    var color : UIColor = UIColor.navigationBarColor()
+    var color : UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
 }
 
 extension DynamicOrderStatus {
@@ -69,7 +69,7 @@ extension DynamicOrderStatus {
         let OrderType = data.service_id //MARK: 1 for delivery , 2 for C&C
         
         var returnedName : String = ""
-        var returnedColour : UIColor = .navigationBarColor()
+        var returnedColour : UIColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         
         
         if OrderType == 1{
@@ -77,58 +77,58 @@ extension DynamicOrderStatus {
             if status == -1{
                 //Pending Payment Approval
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 0{
                 //pending & scheduled
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 1{
                 // shopping items
                 returnedName = "OrderStatusShopping"
                 //returnedName = "orderStatus1"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 2{
                 // On the way
                 returnedName = "orderStatus2"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 3{
                 //delivery
                 returnedName = "orderStatus3"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 4{
                 //canceled
                 returnedName = "orderStatus4"
-                returnedColour = .redInfoColor()
+                returnedColour = ApplicationTheme.currentTheme.labelHighlightedOOSColor
             }else if status == 5{
                 //delivery -> ambigous status code already handled on status code 3
                 returnedName = "orderStatus3"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 6{
                 returnedName = "orderStatus6"
-                returnedColour = .elGrocerYellowColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPromotionalTextColor
             }else if status == 7{
                 //card payment failed
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 8{
                 // in edit
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 9{
                 //Packing
                 returnedName = "orderStatus9"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 11{
                 // Ready to deliver
                 returnedName = "orderStatus11"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 12{
                 //Packing -> ambigous status code already handled on status code 9
                 returnedName = "orderStatus9"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else{
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }
             
         }else if OrderType == 2{
@@ -136,59 +136,59 @@ extension DynamicOrderStatus {
             if status == -1{
                 //Pending Payment Approval
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 0{
                 //pending & scheduled
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 1{
                 // shopping items
                 returnedName = "OrderStatusShopping"
                 //returnedName = "orderStatus1"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 2{
                 // On the way
                 returnedName = "orderStatus2"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 3{
                 //delivery
                 returnedName = "orderStatus3"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 4{
                 //canceled
                 returnedName = "orderStatus4"
-                returnedColour = .redInfoColor()
+                returnedColour = ApplicationTheme.currentTheme.labelHighlightedOOSColor
             }else if status == 5{
                 //delivery -> ambigous status code already handled on status code 3
                 returnedName = "orderStatus3"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 6{
                 //in substitution
                 returnedName = "orderStatus6"
-                returnedColour = .elGrocerYellowColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPromotionalTextColor
             }else if status == 7{
                 //card payment failed
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 8{
                 // in edit
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 9{
                 //Packing
                 returnedName = "orderStatus9"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 11{
                 // Ready to deliver
                 returnedName = "orderStatus11"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else if status == 12{
                 //Packing -> ambigous status code already handled on status code 9
                 returnedName = "orderStatus9"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else{
                 returnedName = "orderStatus0"
-                returnedColour = .navigationBarColor()
+                returnedColour = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }
         }
         

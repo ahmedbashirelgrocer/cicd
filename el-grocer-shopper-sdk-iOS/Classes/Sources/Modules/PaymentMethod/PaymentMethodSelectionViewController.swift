@@ -19,7 +19,12 @@ class PaymentMethodSelectionViewController: UIViewController {
             lblTitle.setH4SemiBoldStyle()
         }
     }
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView! {
+        didSet {
+            activityIndicator.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            activityIndicator.color = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        }
+    }
     @IBOutlet weak var tableView: UITableView!
 
     private var viewModel: PaymentSelectionViewModelType!

@@ -574,7 +574,7 @@ class SDKManager: NSObject  {
         
         tabController.tabBar.backgroundColor = .white
         tabController.tabBar.barTintColor = .white
-        tabController.tabBar.tintColor = UIColor.navigationBarColor()
+        tabController.tabBar.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         //595959
         
@@ -596,7 +596,7 @@ class SDKManager: NSObject  {
         
             UITabBarItem.appearance().setTitleTextAttributes(
                 [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
-                 NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor()],
+                 NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.themeBasePrimaryColor],
                 for: .selected
             )
         
@@ -612,9 +612,9 @@ class SDKManager: NSObject  {
             appearance.backgroundColor = UIColor.colorWithHexString(hexString: "ffffff")
             appearance.stackedLayoutAppearance.normal.iconColor = UIColor.colorWithHexString(hexString: "595959")
             appearance.stackedLayoutAppearance.normal.badgeBackgroundColor = .colorWithHexString(hexString: "E83737")
-            appearance.stackedLayoutAppearance.selected.iconColor =  UIColor.navigationBarColor()
+            appearance.stackedLayoutAppearance.selected.iconColor =  ApplicationTheme.currentTheme.themeBasePrimaryColor
             appearance.stackedLayoutAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")]
-            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.font:UIFont.SFProDisplayMediumFont(11),NSAttributedString.Key.foregroundColor:UIColor.navigationBarColor()]
+            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [NSAttributedString.Key.font:UIFont.SFProDisplayMediumFont(11),NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.themeBasePrimaryColor]
             appearance.stackedItemPositioning = .automatic
             tabController.tabBar.standardAppearance = appearance
         }
@@ -626,7 +626,7 @@ class SDKManager: NSObject  {
         
         if #available(iOS 10.0, *) {
             tabController.tabBar.unselectedItemTintColor = UIColor.colorWithHexString(hexString: "595959")
-            tabController.tabBar.tintColor =  UIColor.navigationBarColor()
+            tabController.tabBar.tintColor =  ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
 
         let navtabController = UINavigationController()

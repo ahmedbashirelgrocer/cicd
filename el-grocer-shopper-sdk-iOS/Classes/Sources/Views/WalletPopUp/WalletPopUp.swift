@@ -125,7 +125,7 @@ class WalletPopUp: UIView,UITextFieldDelegate {
     fileprivate func setUpLabelsAppearance(){
         
         self.balanceAmountLabel.font = UIFont.bookFont(17.0)
-        self.balanceAmountLabel.textColor = UIColor.navigationBarColor()
+        self.balanceAmountLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.balanceAmountLabel.text = localizedString("wallet_balance", comment: "")
         
         self.totalAmountLabel.font = UIFont.SFProDisplaySemiBoldFont(18.0)

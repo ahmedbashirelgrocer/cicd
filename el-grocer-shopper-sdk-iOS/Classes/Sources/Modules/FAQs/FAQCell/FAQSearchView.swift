@@ -49,7 +49,7 @@ extension FAQSearchView: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchFieldContainerView.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.searchFieldContainerView.layer.borderColor = ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
 //        if self.searchFor == .isForStoreSearch {
 //            self.tableView.backgroundView = nil
 //            self.showCollectionView(false)

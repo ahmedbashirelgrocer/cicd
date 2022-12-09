@@ -195,7 +195,7 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
         self.sendReviewButton.setTitle(localizedString("grocery_review_send_review_button", comment: ""), for: UIControl.State())
         self.sendReviewButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.sendReviewButton.titleLabel?.font = UIFont.bookFont(19.0)
-        self.sendReviewButton.backgroundColor = UIColor.navigationBarColor()
+        self.sendReviewButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         self.sendReviewButton.layer.cornerRadius = 6
     }
     

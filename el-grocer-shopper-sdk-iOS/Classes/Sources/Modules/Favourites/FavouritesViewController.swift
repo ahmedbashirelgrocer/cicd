@@ -44,7 +44,7 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
         super.viewDidLoad()
         
         self.title = localizedString("setting_favourites", comment: "")
-        self.view.backgroundColor = UIColor.productBGColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         
         addEmptyView()
         
@@ -185,12 +185,12 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
     func setButtonAsActiveTab(_ button:UIButton) {
         
         button.backgroundColor = UIColor.white
-        button.setTitleColor(UIColor.lightNavigationBarColor(), for: UIControl.State())
+        button.setTitleColor(ApplicationTheme.currentTheme.buttonWithBorderTextColor, for: UIControl.State())
     }
     
     func setButtonAsPassiveTab(_ button:UIButton) {
         
-        button.backgroundColor = UIColor.lightNavigationBarColor()
+        button.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         button.setTitleColor(UIColor.white, for: UIControl.State())
     }
     

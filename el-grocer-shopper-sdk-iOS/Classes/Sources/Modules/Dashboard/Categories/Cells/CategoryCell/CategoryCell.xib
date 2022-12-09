@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -14,7 +14,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="none" indentationWidth="10" reuseIdentifier="CategoryCell" rowHeight="190" id="jJ3-ca-SBu" customClass="CategoryCell" customModule="ElGrocerShopper" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="none" indentationWidth="10" reuseIdentifier="CategoryCell" rowHeight="190" id="jJ3-ca-SBu" customClass="CategoryCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="188"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jJ3-ca-SBu" id="rSq-Wn-stz">
@@ -25,20 +25,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="32"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tranding Products" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kD6-ke-Yaa">
-                                <rect key="frame" x="16" y="6" width="235" height="20"/>
+                                <rect key="frame" x="16" y="6" width="239" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="MYE-86-OcA">
-                                <rect key="frame" x="341" y="6" width="20" height="20"/>
+                                <rect key="frame" x="345" y="8" width="16" height="16"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="8kw-RU-F4u"/>
+                                    <constraint firstAttribute="width" constant="16" id="8kw-RU-F4u"/>
                                     <constraint firstAttribute="width" secondItem="MYE-86-OcA" secondAttribute="height" multiplier="1:1" id="A4C-Ya-INN"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YTK-0W-qDz" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
-                                <rect key="frame" x="271" y="4" width="70" height="24"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YTK-0W-qDz" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="275" y="4" width="70" height="24"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="8JU-gA-4zD"/>
@@ -70,16 +70,16 @@
                             <constraint firstItem="MYE-86-OcA" firstAttribute="centerY" secondItem="cO8-iA-pp3" secondAttribute="centerY" id="q8W-gy-E3l"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ced-er-LTu" userLabel="SubcateView" customClass="SubCategoryListing" customModule="ElGrocerShopper" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ced-er-LTu" userLabel="SubcateView" customClass="SubCategoryListing" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="44" width="375" height="130"/>
                         <subviews>
-                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jZv-L4-KLL" userLabel="ImageContainer" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jZv-L4-KLL" userLabel="ImageContainer" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="228" y="45" width="147" height="75"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AW1-SJ-lhW">
                                         <rect key="frame" x="0.0" y="0.0" width="147" height="75"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W8K-KI-z4h" customClass="ElGrocerActivityIndicatorView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W8K-KI-z4h" customClass="ElGrocerActivityIndicatorView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="53.5" y="17.5" width="40" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="9XM-Ns-Tfe"/>
@@ -179,6 +179,6 @@
         </designable>
     </designables>
     <resources>
-        <image name="arrowRight" width="24" height="24"/>
+        <image name="arrowRight" width="11.5" height="19"/>
     </resources>
 </document>

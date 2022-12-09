@@ -811,7 +811,7 @@ class PopImageViwerViewController: UIViewController {
                     self.btnAddToCart.isHidden = true
                     self.isAddedToCart = true
                     self.btnPlusButton.isEnabled = true
-                    self.btnPlusButton.backgroundColor = .navigationBarColor()
+                    self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                     
                 } else {
                     
@@ -824,35 +824,6 @@ class PopImageViwerViewController: UIViewController {
         }else{
             self.isAddedToCart = false
         }
-       
-            
-            /*
-            if productCount >= 1{
-                self.btnAddToCart.isHidden = true
-                self.isAddedToCart = true
-                
-                if product.promotion?.boolValue == true {
-                    if (productCount >= product.promoProductLimit!.intValue) && product.promoProductLimit!.intValue > 0  {
-                        self.productCount = item.count.intValue
-                        
-                        self.btnPlusButton.isEnabled = false
-                        self.btnPlusButton.backgroundColor = .newBorderGreyColor()
-                    }else{
-                        self.btnPlusButton.isEnabled = true
-                        self.btnPlusButton.backgroundColor = .navigationBarColor()
-                    }
-                }else{
-                    self.btnPlusButton.isEnabled = true
-                    self.btnPlusButton.backgroundColor = .navigationBarColor()
-                }
-            }
-            
-        }else{
-            self.btnAddToCart.isHidden = false
-            self.isAddedToCart = false
-        }
-        
-        */
         UpdateCountLabel()
         
     }
@@ -913,11 +884,11 @@ class PopImageViwerViewController: UIViewController {
                     
                 }else{
                     self.btnPlusButton.isEnabled = true
-                    self.btnPlusButton.backgroundColor = .navigationBarColor()
+                    self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 }
             }else{
                 self.btnPlusButton.isEnabled = true
-                self.btnPlusButton.backgroundColor = .navigationBarColor()
+                self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
            
         }else{
@@ -959,11 +930,11 @@ class PopImageViwerViewController: UIViewController {
                     self.btnPlusButton.backgroundColor = .newBorderGreyColor()
                 }else{
                     self.btnPlusButton.isEnabled = true
-                    self.btnPlusButton.backgroundColor = .navigationBarColor()
+                    self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 }
             }else{
                 self.btnPlusButton.isEnabled = true
-                self.btnPlusButton.backgroundColor = .navigationBarColor()
+                self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
            
         }else{

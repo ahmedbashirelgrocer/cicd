@@ -41,7 +41,7 @@ class NavigationBarLocationView: UIView {
     }
     
     func setupInitialAppearnce(){
-        self.backgroundColor = UIColor.navigationBarColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
     }
     

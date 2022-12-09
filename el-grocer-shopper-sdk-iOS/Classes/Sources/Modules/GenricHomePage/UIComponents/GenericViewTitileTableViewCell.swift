@@ -48,7 +48,7 @@ class GenericViewTitileTableViewCell: UITableViewCell {
     @IBOutlet var viewAll: AWView!
     @IBOutlet var rightButtonText: UILabel! {
         didSet {
-            rightButtonText.setCaptionOneBoldUpperCaseGreenStyleWithFontScale14()
+            rightButtonText.setCaptionOneBoldUpperCaseGreenButtonStyleWithFontScale14()
             rightButtonText.text = localizedString("view_more_title", comment: "")
         }
     }
@@ -56,11 +56,6 @@ class GenericViewTitileTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       // self.viewAll.backgroundColor = UIColor.navigationBarColor() //(red: 0.349, green: 0.667, blue: 0.275, alpha: 1)
-        
-        //self.viewAll.backgroundColor = UIColor(displayP3Red: 5.0, green: 188.0, blue: 155.0, alpha: 1)
-        
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -77,7 +72,6 @@ class GenericViewTitileTableViewCell: UITableViewCell {
              viewAll.isHidden = true
             lblTopHeader.isHidden = true
         }
-       // viewAll.backgroundColor = .navigationBarColor()
         viewAll.visibility = viewAll.isHidden ? .goneX : .visible
        
         if ElGrocerUtility.sharedInstance.isArabicSelected(){
@@ -99,7 +93,7 @@ class GenericViewTitileTableViewCell: UITableViewCell {
         //viewAll.backgroundColor = .white
         viewAll.visibility = viewAll.isHidden ? .goneX : .visible
         arrowImage.isHidden = false
-        rightButtonText.setBody1BoldStyle()
+        rightButtonText.setBody1BoldButtonStyle()
         rightButtonText.text = localizedString("btn_txt_edit", comment: "")
     }
     

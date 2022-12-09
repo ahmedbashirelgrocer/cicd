@@ -28,9 +28,13 @@ class FaqCell: UITableViewCell {
     fileprivate func setupAccessoryView() {
         let rightArrowIcon =  UIImage(name: "arrowRight")
         let iconView = UIImageView(image: rightArrowIcon)
+        iconView.contentMode = .scaleAspectFit
         iconView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         self.accessoryView = iconView
-        self.accessoryView?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.accessoryView?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
+        
     }
     
     fileprivate func setUpLabelAppearance() {

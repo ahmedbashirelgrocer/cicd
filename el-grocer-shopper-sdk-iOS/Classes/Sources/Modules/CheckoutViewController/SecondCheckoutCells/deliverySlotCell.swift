@@ -45,8 +45,8 @@ class deliverySlotCell: UITableViewCell {
     
     func configureCell (time : String , modeType : OrderType = .delivery) {
         
-        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(17), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
-        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(17), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(17), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.labelTextWithBGColor]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(17), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.labelTextWithBGColor]
         
         let slotText = modeType == .delivery ? localizedString("delivery_time_slot", comment: "") : localizedString("lbl_Self_Collection", comment: "") + ":"
         

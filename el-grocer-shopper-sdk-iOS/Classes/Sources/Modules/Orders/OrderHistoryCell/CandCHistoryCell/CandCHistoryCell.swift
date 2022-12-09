@@ -35,7 +35,7 @@ class CandCHistoryCell: UITableViewCell {
     @IBOutlet var lblOrderNum: UILabel!
     @IBOutlet var lblViewDetails: UILabel!{
         didSet{
-            lblViewDetails.setBody3BoldUpperStyle(true)
+            lblViewDetails.setBody3BoldUpperButtonLabelStyle(true)
             lblViewDetails.text = localizedString("lbl_Order_Details", comment: "")
         }
     }
@@ -166,8 +166,8 @@ class CandCHistoryCell: UITableViewCell {
             self.mainContainerView.borderColor = .elGrocerYellowColor()
             self.progressView.progressTintColor = UIColor.elGrocerYellowColor()
         }else{
-            self.mainContainerView.borderColor = .elGrocerOrderBorderColor()
-            self.progressView.progressTintColor = UIColor.navigationBarColor()
+            self.mainContainerView.borderColor = .newBorderGreyColor()
+            self.progressView.progressTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     

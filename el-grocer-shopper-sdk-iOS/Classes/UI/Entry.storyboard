@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -27,9 +28,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashBGView" translatesAutoresizingMaskIntoConstraints="NO" id="D3F-cN-HbX" customClass="ElGrocerLogoIndicatorView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Di8-E5-L3U" customClass="AnimationView" customModule="Lottie">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NKX-Nh-HgU" customClass="ElGrocerLogoIndicatorView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="hh4-Cv-QZJ">
                                 <rect key="frame" x="150" y="331" width="20" height="20"/>
@@ -41,22 +45,27 @@
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="1yN-qP-Js1"/>
-                            <constraint firstItem="D3F-cN-HbX" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="9Fb-ss-2gd"/>
-                            <constraint firstItem="D3F-cN-HbX" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="9eq-Ul-61d"/>
-                            <constraint firstItem="D3F-cN-HbX" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="IYb-Gq-rWu"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="4UC-02-Vfn"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="4gS-oN-UYH"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="bottom" secondItem="fLG-Nd-Rge" secondAttribute="bottom" id="5l2-rJ-FUC"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="LCY-Gt-hA1"/>
-                            <constraint firstAttribute="bottom" secondItem="D3F-cN-HbX" secondAttribute="bottom" id="gE6-DE-2ta"/>
+                            <constraint firstItem="Di8-E5-L3U" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="V9Q-gD-o70"/>
+                            <constraint firstItem="Di8-E5-L3U" firstAttribute="bottom" secondItem="fLG-Nd-Rge" secondAttribute="bottom" id="fdi-h2-HN2"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="na3-Md-r2r"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerY" secondItem="fLG-Nd-Rge" secondAttribute="centerY" multiplier="1.2" id="tYp-GA-DCi"/>
+                            <constraint firstItem="Di8-E5-L3U" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="xGs-Bm-eBi"/>
+                            <constraint firstItem="Di8-E5-L3U" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="y93-l4-U8u"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="hh4-Cv-QZJ" id="J9B-hz-le5"/>
-                        <outlet property="logoAnimator" destination="D3F-cN-HbX" id="FTG-qF-niY"/>
+                        <outlet property="logoAnimator" destination="NKX-Nh-HgU" id="nRY-ak-ktx"/>
+                        <outlet property="splashLottieLogoAnimator" destination="Di8-E5-L3U" id="S3c-ny-sj3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zRh-Lg-HWv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-431" y="424"/>
+            <point key="canvasLocation" x="-431.25" y="423.59154929577466"/>
         </scene>
         <!--Entry View Controller-->
         <scene sceneID="gLt-aE-fog">
@@ -461,6 +470,8 @@
         <image name="Uk-flag" width="24" height="18"/>
         <image name="entryLine" width="64" height="1"/>
         <image name="entryPin" width="24" height="24"/>
-        <image name="splashBGView" width="1080" height="2339"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

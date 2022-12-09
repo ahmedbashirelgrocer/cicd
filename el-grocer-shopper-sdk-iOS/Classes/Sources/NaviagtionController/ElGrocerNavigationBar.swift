@@ -260,7 +260,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     //MARK: Appearance
     
     func setGreenBackground() {
-        let color = SDKManager.isSmileSDK ? .clear : UIColor.navigationBarColor()
+        let color = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.backgroundColor = color
         self.barTintColor = color
         self.isTranslucent = false
@@ -307,8 +307,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     func setNewLightBackground() {
         
-        self.backgroundColor = UIColor.moreBGColor()
-        self.barTintColor = UIColor.moreBGColor()
+        self.backgroundColor = UIColor.textfieldBackgroundColor()
+        self.barTintColor = UIColor.textfieldBackgroundColor()
         self.isTranslucent = false
     }
     
@@ -407,7 +407,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
     }
     
-    func setChatIconColor ( _ color : UIColor = .navigationBarColor())  {
+    func setChatIconColor ( _ color : UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor)  {
         if let chat = self.chatButton {
             if !chat.navChatButton.isHidden {
                 chat.changeChatIconColor(color: color)
@@ -425,7 +425,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.addSubview(self.logoView)
     }
     
-    func changeLogoColor(color: UIColor = .navigationBarColor()){
+    func changeLogoColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor){
         self.logoView.changePngColorTo(color: .navigationBarWhiteColor())
     }
     
@@ -546,7 +546,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
-        self.locationView.backgroundColor = UIColor.navigationBarColor()
+        self.locationView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         self.addSubview(self.locationView)
     }
     fileprivate func addBackButton(_ isWhite: Bool = false) {

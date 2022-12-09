@@ -89,7 +89,7 @@ class OrderHistoryCell: UITableViewCell {
         
         didSet{
             
-            progressView.progressTintColor = .navigationBarColor()
+            progressView.progressTintColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             progressView.layer.cornerRadius = 4
             progressView.clipsToBounds = true
             
@@ -198,21 +198,16 @@ class OrderHistoryCell: UITableViewCell {
     }
     
     private func setUpPriceLabelAppearance() {
-        
-//        self.totalPriceTitleLabel.textColor = UIColor(red: 135.0 / 255.0, green: 135.0 / 255.0, blue: 135.0 / 255.0, alpha: 1)
-//        self.totalPriceTitleLabel.font = UIFont.openSansSemiBoldFont(14.0)
-//
-//        self.priceLabel.textColor = UIColor.navigationBarColor()
-//        self.priceLabel.font = UIFont.openSansSemiBoldFont(13.0)
+
     }
     
     private func setUpViewOrderLabelAppearance() {
         
-        self.viewOrderLabel.setBody3BoldUpperStyle() 
+        self.viewOrderLabel.setBody3BoldUpperButtonLabelStyle() 
         let image = ElGrocerUtility.sharedInstance.getImageWithName("arrowForward")
         self.nextArrow.image = image
         self.nextArrow.image = self.nextArrow.image!.withRenderingMode(.alwaysTemplate)
-        self.nextArrow.tintColor = UIColor.navigationBarColor()
+        self.nextArrow.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
     
     // MARK: Data
@@ -250,8 +245,8 @@ class OrderHistoryCell: UITableViewCell {
              self.mainContainerView.borderColor = .elGrocerYellowColor()
             self.progressView.progressTintColor = UIColor.elGrocerYellowColor()
         }else{
-            self.mainContainerView.borderColor = .elGrocerOrderBorderColor()
-            self.progressView.progressTintColor = UIColor.navigationBarColor()
+            self.mainContainerView.borderColor = .separatorColor()
+            self.progressView.progressTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             
         }
         
@@ -274,51 +269,51 @@ class OrderHistoryCell: UITableViewCell {
             if order.deliverySlot != nil {
                 let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagViolet")
                 self.orderStatusIcon.image = orderStatusIcon
-                self.orderStatusLabel.textColor = UIColor.navigationBarColor()
+                self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }else{
                 let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagYellow")
                 self.orderStatusIcon.image = orderStatusIcon
-                self.orderStatusLabel.textColor = UIColor.navigationBarColor()
+                self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             }
             
         case OrderStatus.accepted.rawValue:
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagGreen")
             self.orderStatusIcon.image = orderStatusIcon
-            self.orderStatusLabel.textColor = UIColor.navigationBarColor()
+            self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         
         case OrderStatus.inSubtitution.rawValue:
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagOrange")
             self.orderStatusIcon.image = orderStatusIcon
-            self.orderStatusLabel.textColor = UIColor.elGrocerYellowColor()
+            self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPromotionalTextColor
             
         case OrderStatus.enRoute.rawValue:
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagBlue")
             self.orderStatusIcon.image = orderStatusIcon
-            self.orderStatusLabel.textColor = UIColor.navigationBarColor()
+            self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             
         case OrderStatus.completed.rawValue:
             self.lblEstimatedDelivery.text = ""
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagGray")
             self.orderStatusIcon.image = orderStatusIcon
-            self.orderStatusLabel.textColor = UIColor.navigationBarColor()
+            self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             
         case OrderStatus.delivered.rawValue:
                 self.lblEstimatedDelivery.text = ""
                 let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagGray")
                 self.orderStatusIcon.image = orderStatusIcon
-                self.orderStatusLabel.textColor = UIColor.navigationBarColor()
+            self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             
         case OrderStatus.canceled.rawValue:
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagRed")
             self.orderStatusIcon.image = orderStatusIcon
-            self.orderStatusLabel.textColor = UIColor.redInfoColor()
+            self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelHighlightedOOSColor
             self.lblEstimatedDelivery.text  = ""
             self.orderNumberLabel.text = ""
             
         default:
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagYellow")
             self.orderStatusIcon.image = orderStatusIcon
-            self.orderStatusLabel.textColor = UIColor.navigationBarColor()
+            self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
         if order.itemsPossition.count > 0 {
             self.orderProducts = order.itemsPossition

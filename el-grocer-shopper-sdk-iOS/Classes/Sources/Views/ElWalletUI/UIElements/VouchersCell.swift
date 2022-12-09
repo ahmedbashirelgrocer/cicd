@@ -98,8 +98,7 @@ class VouchersCell: UITableViewCell {
         viewDetailButton.setCaption1BoldGreenStyle()
         redeemButton.setBody3BoldGreenStyle()
         voucherCodeLabel.setCaptionOneBoldGreenStyle()
-//        voucherCodeBorderView.addDashedBorder(.navigationBarColor(), withWidth: 1.4, cornerRadius: 4, dashPattern: [3,3])
-        voucherCodeBorderView.addDashedBorderAroundView(color: .navigationBarColor())
+        voucherCodeBorderView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.buttonWithBorderTextColor)
         viewDetailLabel.setCaptionOneBoldDarkGreenStyle()
         voucherDetailsLabel.setBody3RegDarkStyle()
     }

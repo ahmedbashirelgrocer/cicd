@@ -16,7 +16,11 @@ class GenericBannersCell: UITableViewCell {
     private var scrollTimer : Timer?
     @IBOutlet var bgView: UIView!
     @IBOutlet var bannerList: GenricBannerList!
-    @IBOutlet var pageControl: UIPageControl!
+    @IBOutlet var pageControl: UIPageControl! {
+        didSet {
+            pageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
+        }
+    }
     @IBOutlet var topX: NSLayoutConstraint!
     
     var isNeedToScroll : Bool = true

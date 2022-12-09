@@ -390,17 +390,17 @@ class ClickAndCollectMapViewController: UIViewController {
         let isServiceEnabled = LocationManager.sharedInstance.checkLocationService()
         
         let searchController = GMSAutocompleteViewController()
-        UINavigationBar.appearance().tintColor = UIColor.navigationBarColor()
+        UINavigationBar.appearance().tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         searchController.delegate = self
-        searchController.tintColor = UIColor.navigationBarColor()
+        searchController.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         searchController.tableCellBackgroundColor = .white
-        searchController.primaryTextHighlightColor = UIColor.navigationBarColor()
+        searchController.primaryTextHighlightColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         searchController.primaryTextColor = .black
         searchController.secondaryTextColor = .black
         searchController.modalPresentationStyle = .fullScreen
         
         if let nav = searchController.navigationController {
-            nav.navigationBar.barTintColor = UIColor.navigationBarColor()
+            nav.navigationBar.barTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
         MixpanelEventLogger.trackClickAndCollectSearch()
         if isServiceEnabled{

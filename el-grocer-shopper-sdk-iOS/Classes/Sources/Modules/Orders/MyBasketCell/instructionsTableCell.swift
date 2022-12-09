@@ -52,7 +52,7 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
             }
         }
         self.superBGView.borderWidth = isFromCart ? 1 : 0
-        self.superBGView.borderColor = isFromCart ? UIColor.navigationBarColor() : UIColor.clear
+        self.superBGView.borderColor = isFromCart ? ApplicationTheme.currentTheme.textFieldBorderActiveColor : UIColor.clear
     }
     
     @IBAction func crossAction(_ sender: Any) {

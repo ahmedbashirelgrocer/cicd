@@ -96,9 +96,9 @@ class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setNavBarHidden(false)
         }
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.barTintColor = .navigationBarColor()
-        self.navigationController?.navigationBar.backgroundColor = .navigationBarColor()
-        self.view.backgroundColor = .navigationBarWhiteColor()
+        self.navigationController?.navigationBar.barTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.navigationController?.navigationBar.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
     }
     
     func initailCellRegistration() {
@@ -273,9 +273,9 @@ class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelega
             let toolTipStr = localizedString("product_added_to_basket", comment: "")
             if let barButton = self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem {
                 self.toolTipView = JDFTooltipView.init(targetBarButtonItem: barButton, hostView: self.view.window, tooltipText: toolTipStr, arrowDirection: JDFTooltipViewArrowDirection.up, width:  self.view.bounds.width)
-                self.toolTipView!.tooltipBackgroundColour = UIColor.lightGreenColor()
+                self.toolTipView!.tooltipBackgroundColour = ApplicationTheme.currentTheme.themeBasePrimaryColor
                 self.toolTipView!.font = UIFont.SFProDisplaySemiBoldFont(14.0)
-                self.toolTipView!.textColour = UIColor.mediumGreenColor()
+                self.toolTipView!.textColour = ApplicationTheme.currentTheme.themeBasePrimaryColor
                 
             }
         }

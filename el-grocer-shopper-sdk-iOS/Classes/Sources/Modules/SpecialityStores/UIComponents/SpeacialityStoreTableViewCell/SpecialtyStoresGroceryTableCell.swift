@@ -26,7 +26,7 @@ class SpecialtyStoresGroceryTableCell: UITableViewCell {
     }
     @IBOutlet var runVideoBGView: UIView!{
         didSet{
-            runVideoBGView.backgroundColor = .navigationBarColor()
+            runVideoBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             runVideoBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner], radius: 8, withShadow: false)
         }
     }

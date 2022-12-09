@@ -397,7 +397,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.tableViewCategories.bounces = false
         self.tableViewCategories.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableViewCategories.keyboardDismissMode = .onDrag
-        self.tableViewCategories.backgroundColor = UIColor.productBGColor()
+        self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         
         let homeCellNib = UINib(nibName: "HomeCell", bundle: .resource)

@@ -32,6 +32,7 @@ class DashboardLocationCell : UITableViewCell {
     @IBOutlet weak var defaultButton: UIButton! {
         didSet {
             defaultButton.setTitle(localizedString("btn_default", comment: ""), for: UIControl.State())
+            defaultButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
         }
     }
     
@@ -87,9 +88,7 @@ class DashboardLocationCell : UITableViewCell {
     
     fileprivate func setUpActionButtonsAppearance() {
         
-//        self.editButton.backgroundColor = UIColor.navigationBarColor()
         self.editButton.setTitleColor(UIColor.selectionTabDark(), for: UIControl.State())
-       // self.editButton.titleLabel?.font = UIFont.mediumFont(11.0)
         self.editButton.setTitle("  " + localizedString("dashboard_location_edit_button", comment: ""), for: UIControl.State())
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             if let btnImage = self.editButton.currentImage {
@@ -127,13 +126,13 @@ class DashboardLocationCell : UITableViewCell {
         
         if !isFromCart {
             if location.isActive.boolValue == true {
-                borderContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
+                borderContainer.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
                 borderContainer.layer.borderWidth = 2
-                borderContainer.backgroundColor = .navigationBarWhiteColor()
+                borderContainer.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
             }else{
-                borderContainer.layer.borderColor = UIColor.clear.cgColor
+                borderContainer.layer.borderColor = ApplicationTheme.currentTheme.textFieldBorderInActiveClearColor.cgColor
                 borderContainer.layer.borderWidth = 0
-                borderContainer.backgroundColor = .navigationBarWhiteColor()
+                borderContainer.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
             }
         }
         

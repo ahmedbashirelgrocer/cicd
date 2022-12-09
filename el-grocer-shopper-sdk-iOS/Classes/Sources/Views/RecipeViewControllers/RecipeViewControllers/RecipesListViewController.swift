@@ -102,7 +102,7 @@ class RecipesListViewController: BasketBasicViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
-        self.view.backgroundColor = UIColor.navigationBarColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         
         self.view.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9647058824, blue: 0.9725490196, alpha: 1)
         
@@ -309,9 +309,9 @@ class RecipesListViewController: BasketBasicViewController {
             let toolTipStr = localizedString("product_added_to_basket", comment: "")
             if let barButton = self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem {
                 self.toolTipView = JDFTooltipView.init(targetBarButtonItem: barButton, hostView: self.view.window, tooltipText: toolTipStr, arrowDirection: JDFTooltipViewArrowDirection.up, width:  self.view.bounds.width)
-                self.toolTipView!.tooltipBackgroundColour = UIColor.lightGreenColor()
+                self.toolTipView!.tooltipBackgroundColour = ApplicationTheme.currentTheme.themeBasePrimaryColor
                 self.toolTipView!.font = UIFont.SFProDisplaySemiBoldFont(14.0)
-                self.toolTipView!.textColour = UIColor.mediumGreenColor()
+                self.toolTipView!.textColour = ApplicationTheme.currentTheme.themeBasePrimaryColor
                 
             }
         }

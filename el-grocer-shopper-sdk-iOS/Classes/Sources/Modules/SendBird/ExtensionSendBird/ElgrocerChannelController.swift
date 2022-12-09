@@ -253,7 +253,7 @@ extension ElgrocerChannelController {
         self.ratingView.starRatingView.isUserInteractionEnabled = isEnabled
         self.ratingView.growingTextView.isUserInteractionEnabled = isEnabled
         self.ratingView.btnSubmitFeedback.isUserInteractionEnabled = isEnabled
-        self.ratingView.btnSubmitFeedback.backgroundColor = isEnabled ? .navigationBarColor() : .disableButtonColor()
+        self.ratingView.btnSubmitFeedback.backgroundColor = isEnabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
     }
     func assignSubmittedValues(rating: Float, comment: String) {
         self.ratingView.starRatingView.rating = rating

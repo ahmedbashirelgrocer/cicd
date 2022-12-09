@@ -97,14 +97,9 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
         let finalSearchString = " \"" + searchString + "\""
         let finalTitle = localizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + localizedString("lbl_StorethatSell", comment: "") //+ finalSearchString
         let attributedString1 = NSMutableAttributedString(string: finalTitle, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14) , NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()])
-        let attributedString2 = NSMutableAttributedString(string: finalSearchString, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14) , NSAttributedString.Key.foregroundColor : UIColor.navigationBarColor()])
+        let attributedString2 = NSMutableAttributedString(string: finalSearchString, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14) , NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.labelPrimaryBaseTextColor])
         attributedString1.append(attributedString2)
-        /*
-        let nsRange = NSString(string: finalTitle).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
-        if nsRange.location != NSNotFound {
-            attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(14) , range: nsRange )
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.navigationBarColor() , range: nsRange )
-        }*/
+
         DispatchQueue.main.async {
             UIView.performWithoutAnimation {
                 self.lblFoundStore.attributedText = attributedString1
@@ -125,12 +120,7 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
         //let finalTitle = localizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + localizedString("lbl_StorethatSell", comment: "") + finalSearchString + " " + localizedString("lbl_Ingredients", comment: "")
         let finalTitle = localizedString("lbl_weFound", comment: "") + " " +  self.getNumerals(num: groceryA.count) + " " + localizedString("lbl_StorethatSell", comment: "") + " " + localizedString("lbl_Ingredients", comment: "")
         let attributedString = NSMutableAttributedString(string: finalTitle, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14) , NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()])
-        /*
-        let nsRange = NSString(string: finalTitle).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
-        if nsRange.location != NSNotFound {
-            attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplayBoldFont(14) , range: nsRange )
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.navigationBarColor() , range: nsRange )
-        }*/
+
         DispatchQueue.main.async {
             UIView.performWithoutAnimation {
                 self.lblFoundStore.attributedText = attributedString

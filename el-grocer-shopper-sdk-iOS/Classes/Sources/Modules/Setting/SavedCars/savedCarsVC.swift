@@ -34,6 +34,7 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
             btnAddNewCar.cornarRadius = 28
             btnAddNewCar.setButton2SemiBoldWhiteStyle()
             btnAddNewCar.setImage(UIImage(name: "addIconWhite"), for: UIControl.State())
+            btnAddNewCar.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         }
     }
     

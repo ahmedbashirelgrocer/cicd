@@ -33,10 +33,9 @@ class StorlyTableViewCell: UITableViewCell {
             return
         }
         guard self.storylyView != nil else {return}
-        storylyView.storyItemIconBorderColor = [.navigationBarColor() , .navigationBarColor()]
-        storylyView.storyGroupIconBorderColorNotSeen = [.navigationBarColor() , .navigationBarColor()]
-        storylyView.storyGroupPinIconColor = .navigationBarColor()
-     //   storylyView.storyGroupIconForegroundColors = [.navigationBarColor() , .navigationBarColor()]
+        storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
+        storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
+        storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         var someSet = Set<String>()
         someSet.insert(chef?.chefStorlySlug ?? "")
         let segment =  StorylySegmentation.init(segments: someSet)

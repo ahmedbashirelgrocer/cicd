@@ -56,7 +56,7 @@ class RecipeDetailVC: BasketBasicViewController {
     }
     @IBOutlet var cartButtonView: AWView!{
         didSet{
-            cartButtonView.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            cartButtonView.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
         }
     }
     @IBOutlet var lblItemsCount: UILabel!{
@@ -234,10 +234,10 @@ class RecipeDetailVC: BasketBasicViewController {
     
     func setButtonState(enabled : Bool = false){
         if enabled{
-            self.cartButtonView.backgroundColor = UIColor.navigationBarColor()
+            self.cartButtonView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             self.btnGoToCart.isEnabled = enabled
         }else{
-            self.cartButtonView.backgroundColor = UIColor.disableButtonColor()
+            self.cartButtonView.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             self.btnGoToCart.isEnabled = enabled
         }
     }
@@ -261,10 +261,9 @@ class RecipeDetailVC: BasketBasicViewController {
         self.view.addSubview(storylyView)
         storylyView.delegate = self
         storylyView.rootViewController = self
-        storylyView.storyItemIconBorderColor = [.navigationBarColor() , .navigationBarColor()]
-        storylyView.storyGroupIconBorderColorNotSeen = [.navigationBarColor() , .navigationBarColor()]
-        storylyView.storyGroupPinIconColor = .navigationBarColor()
-      //  storylyView.storyGroupIconForegroundColors = [.navigationBarColor() , .navigationBarColor()]
+        storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
+        storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
+        storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         
         

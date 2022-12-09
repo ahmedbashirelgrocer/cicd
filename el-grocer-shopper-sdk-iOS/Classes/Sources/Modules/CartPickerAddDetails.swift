@@ -141,7 +141,7 @@ class CartPickerAddDetails: UIViewController {
         // buttons
         self.btnConfirm.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.btnConfirm.titleLabel?.textColor = UIColor.white
-        self.btnConfirm.setBackgroundColor(.navigationBarColor(), forState: .normal)
+        self.btnConfirm.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: .normal)
         self.btnConfirm.layer.cornerRadius =  28
     }
     @IBAction func btnConfirmHandler(_ sender: Any) {

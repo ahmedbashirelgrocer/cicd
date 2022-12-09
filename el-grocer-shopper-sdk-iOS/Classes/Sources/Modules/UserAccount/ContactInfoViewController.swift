@@ -133,7 +133,7 @@ class ContactInfoViewController: UIViewController {
     }
     
     func setUpNextButtonAppearance() {
-        self.nextButton.backgroundColor = UIColor.navigationBarColor()
+        self.nextButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         self.nextButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(16.0)
         self.nextButton.setTitle(localizedString("intro_next_button", comment: ""), for: UIControl.State())
     }

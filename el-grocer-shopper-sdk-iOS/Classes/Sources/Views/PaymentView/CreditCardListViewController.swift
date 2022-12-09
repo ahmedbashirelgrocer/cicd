@@ -156,7 +156,7 @@ class CreditCardListViewController: UIViewController {
         let linkTextWithColor = localizedString("lbl_TermsAndPayment", comment: "")
         let range = (text as NSString).range(of: linkTextWithColor)
         let attributedString = NSMutableAttributedString(string:text)
-        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.navigationBarColor() , range: range)
+        attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor , range: range)
         self.lblTerms.attributedText = attributedString
         
     }
@@ -442,9 +442,9 @@ class CreditCardListViewController: UIViewController {
         
         UIView.animate(withDuration: 0.2) {
             if self.btnConfirmPayment.isUserInteractionEnabled {
-                self.btnConfirmPayment.backgroundColor = UIColor.navigationBarColor()
+                self.btnConfirmPayment.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }else{
-                self.btnConfirmPayment.backgroundColor = UIColor.disableButtonColor()
+                self.btnConfirmPayment.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             }
         }
         
@@ -898,7 +898,7 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
             
             if self.isFromWallet {
                 self.btnNext.isEnabled = true
-                self.btnNext.backgroundColor = .navigationBarColor()
+                self.btnNext.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
         }
         

@@ -34,7 +34,7 @@ class MenuTableCell : UITableViewCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         
-        self.backgroundColor = highlighted ? UIColor.meunCellSelectedColor() : UIColor.clear
+        self.backgroundColor = highlighted ? UIColor.unselectedPageControl() : UIColor.clear
     }
     
     override func prepareForReuse() {

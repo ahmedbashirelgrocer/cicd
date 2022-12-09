@@ -248,7 +248,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
         lblSmilesPoints.text = localizedString("txt_smile_point", comment: "")
-        lblSmilesPoints.textColor = .navigationBarColor()
+        lblSmilesPoints.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
 }
     var checkoutViewStyle : checkOutViewStyle = .normal
@@ -258,7 +258,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet weak var lblSmilesPointsValue: UILabel!{
         didSet{
             lblSmilesPointsValue.setBody3RegGreyStyle()
-            lblSmilesPointsValue.textColor = .navigationBarColor()
+            lblSmilesPointsValue.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
     
@@ -321,7 +321,17 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         view.isHidden = false
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
-        view.backgroundColor = UIColor.promotionRedColor()
+        view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var freeDeliverySmileImageView: UIImageView = {
+        let view = UIImageView()
+        
+        view.isHidden = false
+        view.image = UIImage(name: "SmileFreeDeliverySmilie")
+        view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -372,7 +382,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         setBillInitialAppearance()
         addViewsInstackView()
         adjustDividerConstraints()
-        setUpGradients()
+//        setUpGradients()
         
         
             //get smile user data
@@ -393,7 +403,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         setBillInitialAppearance()
         addViewsInstackView()
         adjustDividerConstraints()
-        setUpGradients()
+//        setUpGradients()
 
     }
     
@@ -1641,12 +1651,12 @@ extension SubstitutionsProductViewController {
         
         if isReplacmentAvailable {
             self.lblbottomButtonReplaceOrCancel.text = localizedString("btn_Confirm_Replacement", comment: "")
-            self.btnBottomButtonView.backgroundColor = .navigationBarColor()
+            self.btnBottomButtonView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             
             
         }else{
             self.lblbottomButtonReplaceOrCancel.text = localizedString("order_history_cancel_alert_title", comment: "")
-            self.btnBottomButtonView.backgroundColor = .redInfoColor()
+            self.btnBottomButtonView.backgroundColor = ApplicationTheme.currentTheme.buttonOrderCancelTextColor
             self.lblMessage.attributedText = NSMutableAttributedString().normal(localizedString("msg_All_item_not_available", comment: ""), UIFont.SFProDisplaySemiBoldFont(11) , color: .newBlackColor()).bold( localizedString("msg_OOS_Not_Available", comment: "") , UIFont.SFProDisplaySemiBoldFont(11) , color: .redInfoColor())
         }
         self.hideBottomCheckoutView(ishidden: !isReplacmentAvailable)
@@ -2076,14 +2086,14 @@ extension SubstitutionsProductViewController{
             self.imgbasketArrow.isHidden = false
             self.lblPayWithApplePay.isHidden = true
             if self.btnCheckout.isUserInteractionEnabled {
-                self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+                self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
         }
     }
     
     func setCheckOutEnable(_ enable: Bool){
         self.btnCheckout.isUserInteractionEnabled = enable
-        self.btnCheckoutBGView.backgroundColor = enable ? .navigationBarColor() : .disableButtonColor()
+        self.btnCheckoutBGView.backgroundColor = enable ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
     }
     
     func showPaymentDetails(paymentType : PaymentOption? = PaymentOption.none , creditCardNum: String?) {
@@ -2112,7 +2122,7 @@ extension SubstitutionsProductViewController{
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("pay_via_smiles_points", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
-            self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+            self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             showCVV(false)
         }else{
                 //credit card
@@ -2176,20 +2186,24 @@ extension SubstitutionsProductViewController {
     func setFreeDeliveryFeeViewConstraints() {
 
         self.freeDeliveryView.addSubview(lblFreeDelivery)
-        
-        lblFreeDelivery.leadingAnchor.constraint(equalTo: freeDeliveryView.leadingAnchor, constant: 8).isActive = true
-        lblFreeDelivery.trailingAnchor.constraint(equalTo: freeDeliveryView.trailingAnchor, constant: -8).isActive = true
+        self.freeDeliveryView.addSubview(freeDeliverySmileImageView)
         lblFreeDelivery.centerYAnchor.constraint(equalTo: freeDeliveryView.centerYAnchor).isActive = true
+        lblFreeDelivery.centerXAnchor.constraint(equalTo: freeDeliveryView.centerXAnchor, constant: 12).isActive = true
+        
+        freeDeliverySmileImageView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        freeDeliverySmileImageView.widthAnchor.constraint(equalToConstant: 12).isActive = true
+        freeDeliverySmileImageView.trailingAnchor.constraint(equalTo: lblFreeDelivery.leadingAnchor, constant: -5).isActive = true
+        freeDeliverySmileImageView.centerYAnchor.constraint(equalTo: lblFreeDelivery.centerYAnchor).isActive = true
         
         freeDeliveryView.trailingAnchor.constraint(equalTo: billStackBGView.trailingAnchor, constant: -16).isActive = true
         freeDeliveryView.leadingAnchor.constraint(equalTo: billStackBGView.leadingAnchor, constant: 16).isActive = true
         freeDeliveryView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
     
-    func setUpGradients () {
-        let greLay = self.freeDeliveryView.setupGradient(height: self.freeDeliveryView.frame.size.height , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
-        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
-    }
+//    func setUpGradients () {
+//        let greLay = self.freeDeliveryView.setupGradient(height: self.freeDeliveryView.frame.size.height , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
+//        self.freeDeliveryView.layer.insertSublayer(greLay, at: 0)
+//    }
     
     func addViewsInstackView() {
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)

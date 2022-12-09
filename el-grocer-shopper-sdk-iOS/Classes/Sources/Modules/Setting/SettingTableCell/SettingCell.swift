@@ -22,21 +22,25 @@ class SettingCell: UITableViewCell {
         }
     }
     @IBOutlet weak var itemImage: UIImageView!
-    @IBOutlet weak var arrowImage: UIImageView!
+    @IBOutlet weak var arrowImage: UIImageView! {
+        didSet {
+            arrowImage.image = UIImage(name: "SettingArrowForward")
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
-        self.backgroundColor = UIColor.moreBGColor()
-        self.contentView.backgroundColor = UIColor.moreBGColor()
+        self.backgroundColor = UIColor.separatorColor()
+        self.contentView.backgroundColor = UIColor.separatorColor()
         
         
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
-        self.backgroundColor = highlighted ? UIColor.meunCellSelectedColor() : UIColor.clear
+        self.backgroundColor = highlighted ? UIColor.unselectedPageControl() : UIColor.clear
     }
     
     

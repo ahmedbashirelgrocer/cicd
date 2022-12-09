@@ -70,7 +70,6 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var btnRedeem: AWButton! {
         didSet {
-                //            btnRedeem.setBody3BoldGreenStyle()
             btnRedeem.setTitle(localizedString("txt_btn_apply", comment: ""), for: UIControl.State())
         }
     }
@@ -81,7 +80,7 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var promoMessageBGView: UIView! {
         didSet {
-            promoMessageBGView.backgroundColor = .aletBackgroundColor()
+            promoMessageBGView.backgroundColor = .alertBackgroundColor()
             promoMessageBGView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMaxYCorner], radius: 8)
         }
     }
@@ -169,7 +168,7 @@ class ApplyPromoCell: UITableViewCell {
                 self?.lblAppliedBGView.isHidden = false
             }else {
                 self?.btnRedeem.setTitle(localizedString("txt_btn_apply", comment: ""), for: UIControl.State())
-                self?.btnRedeem.setTitleColor(.navigationBarColor(), for: UIControl.State())
+                self?.btnRedeem.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
                 self?.lblAppliedBGView.isHidden = true
             }
         }
@@ -214,6 +213,6 @@ class ApplyPromoCell: UITableViewCell {
     
     func setBorderForPromo() {
         
-        voucherCodeBGView.addDashedBorderAroundView(color: .darkGreenColor())
+        voucherCodeBGView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor)
     }
 }

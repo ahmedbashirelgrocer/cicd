@@ -13,8 +13,17 @@ class LocationChangedViewController: UIViewController {
     
     @IBOutlet weak var mainDescriptionLabel: UILabel!
     @IBOutlet weak var subDescriptionLabel: UILabel!
-    @IBOutlet weak var changeLocationButton: AWButton!
-    @IBOutlet weak var dontChangeButton: AWButton!
+    @IBOutlet weak var changeLocationButton: AWButton! {
+        didSet {
+            changeLocationButton.setH4SemiBoldEnableButtonStyle()
+        }
+    }
+    @IBOutlet weak var dontChangeButton: AWButton! {
+        didSet {
+            dontChangeButton.setBackgroundColorForAllState(UIColor.clear)
+            dontChangeButton.setH4SemiBoldGreenStyle()
+        }
+    }
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!

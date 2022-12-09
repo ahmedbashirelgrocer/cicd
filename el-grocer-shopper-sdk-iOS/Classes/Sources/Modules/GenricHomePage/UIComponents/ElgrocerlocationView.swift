@@ -100,7 +100,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var groceryBGView: UIView!{
         didSet{
-            groceryBGView.backgroundColor = .clear //.navigationBarColor()
+            groceryBGView.backgroundColor = .clear
         }
     }
     @IBOutlet var imgDeliverySlot: UIImageView!{
@@ -110,7 +110,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var searchSuperBGView: UIView!{
         didSet{
-            searchSuperBGView.backgroundColor = .clear //.clear.navigationBarColor()
+            searchSuperBGView.backgroundColor = .clear
         }
     }
     @IBOutlet var searchBGView: UIView!{
@@ -139,7 +139,7 @@ class ElgrocerlocationView:  UIView  {
     
     @IBOutlet var shoppingListBGView: UIView!{
         didSet{
-            shoppingListBGView.backgroundColor = .clear //.navigationBarColor()
+            shoppingListBGView.backgroundColor = .clear
         }
     }
     @IBOutlet var imgShoppingList: UIImageView!{

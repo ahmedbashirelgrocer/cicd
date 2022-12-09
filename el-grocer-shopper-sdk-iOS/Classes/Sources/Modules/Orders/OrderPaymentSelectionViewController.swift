@@ -226,9 +226,9 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
             headerLabel.textAlignment = NSTextAlignment.left
             headerLabel.backgroundColor = UIColor.white
             
-            let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.darkTextGrayColor(),NSAttributedString.Key.font:UIFont.bookFont(10.0)]
+            let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.darkGrayTextColor(),NSAttributedString.Key.font:UIFont.bookFont(10.0)]
             
-            let dict2 = [NSAttributedString.Key.foregroundColor: UIColor.lightBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(12.0)]
+            let dict2 = [NSAttributedString.Key.foregroundColor: UIColor.secondaryBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(12.0)]
             
             let titlePart = NSMutableAttributedString(string:localizedString("payment_method_for_remaining_amount", comment: ""), attributes:dict1)
             

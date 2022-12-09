@@ -10,11 +10,12 @@ import Foundation
 // better to use PromoDiscountLogicHandler - Refactor suggestion
 class ProductQuantiy {
     
+    static var availableQuantityLimit = 3
     
     public static func checkLimitedNeedToDisplayForAvailableQuantity (_ product : Product) -> Bool {
         
         let availableQuantity = product.availableQuantity.intValue
-        if (availableQuantity > 0 && availableQuantity < 11) || (product.promoProductLimit?.intValue ?? 0) > 0 {
+        if (availableQuantity > 0 && availableQuantity <  availableQuantityLimit) || (product.promoProductLimit?.intValue ?? 0) > 0 {
             return true
         }
         return false

@@ -829,7 +829,7 @@
 "last_order_message" = "is taking the last orders for Today's deliveries in";
 
 "vat_title" = "Value Added Tax";
-"service_price" = "Service fee (incl. VAT)";
+"service_price" = "Delivery fee (incl. VAT)";
 "service_price_title" = "Service Fee";
 "total_price" = "Total price (incl. VAT)";
 "total_bill_amount" = "FINAL BILL AMOUNT";
@@ -2110,4 +2110,4 @@ Oreo";
 
 //MARK: order details
 "lbl_smile_point_earned" = "Smiles Points Earned";
-"txt_free_delivery_for_smile" = "Free with Smiles Unlimited";
+"txt_free_delivery_for_smile" = "Free with Smiles Unlimited Free Delivery!";

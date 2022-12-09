@@ -81,7 +81,7 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
     @IBOutlet var lblShare: UILabel! {
         didSet{
             lblShare.text = localizedString("lbl_Share", comment: "")
-            lblShare.setBody1BoldStyle()
+            lblShare.setBody1BoldButtonStyle()
         }
     }
 

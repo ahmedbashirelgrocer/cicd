@@ -144,8 +144,8 @@ class ElGrocerNavigationController : UINavigationController {
     func setWhiteBackgroundColor() {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setWhiteBackground()
-        (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: .navigationBarColor())
-        (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(.navigationBarColor())
+        (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(ApplicationTheme.currentTheme.themeBasePrimaryColor)
         (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(false)
     }
     
@@ -208,7 +208,7 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as! ElGrocerNavigationBar).setLogoHidden(hidden)
         
     }
-    func changeLogoColor(_ color:UIColor = .navigationBarColor()) {
+    func changeLogoColor(_ color:UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor) {
         
         guard self.navigationBar is ElGrocerNavigationBar else {return}
          self.setNavigationBarHidden(false, animated: false)
@@ -232,7 +232,7 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as! ElGrocerNavigationBar).setChatIcon(isNewMessage)
     }
     
-    func setChatIconColor ( _ color : UIColor = .navigationBarColor()) {
+    func setChatIconColor ( _ color : UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(color)
     }
@@ -303,7 +303,7 @@ class ElGrocerNavigationController : UINavigationController {
     func updateBasketItemsCount(_ ItemsCount:String){
         
         let barButton =  self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
-        barButton?.badge.layer.borderColor  = UIColor.navigationBarColor().cgColor
+        barButton?.badge.layer.borderColor  = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         barButton?.badge.layer.borderWidth = 1.0;
         barButton?.badgeValue = ItemsCount
     }

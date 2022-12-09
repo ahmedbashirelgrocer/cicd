@@ -18,7 +18,7 @@ class shareCollectionDetailCell: UITableViewCell , UIActivityItemSource {
     }
     @IBOutlet var lblShare: UILabel!{
         didSet{
-            lblShare.setBody1BoldStyle()
+            lblShare.setBody1BoldButtonStyle()
             lblShare.text = localizedString("lbl_Share", comment: "")
         }
     }

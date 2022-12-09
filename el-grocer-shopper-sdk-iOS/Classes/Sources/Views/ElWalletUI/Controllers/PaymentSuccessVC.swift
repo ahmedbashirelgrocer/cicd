@@ -87,7 +87,7 @@ class PaymentSuccessVC: UIViewController {
         if self.controlerType == .payment {
             if isSuccess {
                 lblTransectionStatus.text = amount + " " + CurrencyManager.getCurrentCurrency() + localizedString("txt_payment_process_success", comment: "")
-                lblTransectionStatus.setH4SemiBoldGreenStyle()
+                lblTransectionStatus.setH4SemiBoldGreenLabelStyle()
             }else {
                 lblTransectionStatus.text = localizedString("txt_payment_process_faliure", comment: "")
                 lblTransectionStatus.setH4SemiBoldErrorStyle()
@@ -95,7 +95,7 @@ class PaymentSuccessVC: UIViewController {
         }else if self.controlerType == .cardAdd {
             if isSuccess {
                 lblTransectionStatus.text = localizedString("txt_card_added_successfully", comment: "")
-                lblTransectionStatus.setH4SemiBoldGreenStyle()
+                lblTransectionStatus.setH4SemiBoldGreenLabelStyle()
             }else {
                 lblTransectionStatus.text = localizedString("txt_card_not_added", comment: "")
                 lblTransectionStatus.setH4SemiBoldErrorStyle()
@@ -107,7 +107,7 @@ class PaymentSuccessVC: UIViewController {
                 let successStringLast = "\n" + (self.voucherValue ?? "") + " " + CurrencyManager.getCurrentCurrency() + localizedString("txt_amount_voucher_amount_elwallet", comment: "")
                 
                 lblTransectionStatus.text = successInitials + successStringLast
-                lblTransectionStatus.setH4SemiBoldGreenStyle()
+                lblTransectionStatus.setH4SemiBoldGreenLabelStyle()
             }else {
                 
                 let faliureText = localizedString("txt_voucher", comment: "") + "\"" + (self.voucher ?? "" ) + "\"" + localizedString("txt_voucher_redeem_faliure", comment: "")
@@ -123,25 +123,25 @@ class PaymentSuccessVC: UIViewController {
     func setButtonViews() {
         if isSuccess {
             tryAgainBGView.isHidden = true
-            backToElwalletBGView.backgroundColor = .navigationBarColor()
+            backToElwalletBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             lblBackToElWallet.setH4SemiBoldWhiteStyle()
         }else {
             if self.controlerType == .payment {
                 tryAgainBGView.isHidden = false
                 backToElwalletBGView.backgroundColor = .navigationBarWhiteColor()
-                lblBackToElWallet.setH4SemiBoldGreenStyle()
+                lblBackToElWallet.setH4SemiBoldGreenLabelButtonStyle()
                 backToElwalletBGView.borderWidth = 2
-                backToElwalletBGView.borderColor = .navigationBarColor()
-                tryAgainBGView.backgroundColor = .navigationBarColor()
+                backToElwalletBGView.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
+                tryAgainBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 lblTryAgain.setH4SemiBoldWhiteStyle()
             }else {
                 lblBackToElWallet.setH4SemiBoldWhiteStyle()
                 tryAgainBGView.backgroundColor = .navigationBarWhiteColor()
                 tryAgainBGView.borderWidth = 2
-                tryAgainBGView.borderColor = .navigationBarColor()
-                lblTryAgain.setH4SemiBoldGreenStyle()
+                tryAgainBGView.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
+                lblTryAgain.setH4SemiBoldGreenLabelButtonStyle()
                 backToElwalletBGView.isHidden = false
-                backToElwalletBGView.backgroundColor = .navigationBarColor()
+                backToElwalletBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
         }
     }

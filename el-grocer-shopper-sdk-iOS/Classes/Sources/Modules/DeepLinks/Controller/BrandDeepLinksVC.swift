@@ -582,10 +582,10 @@ extension BrandDeepLinksVC: UICollectionViewDelegate, UICollectionViewDataSource
         }
         
         cell.addToCartButton.isUserInteractionEnabled = true
-        cell.addToCartButton.tintColor = UIColor.navigationBarColor()
+        cell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         cell.addToCartButton.isEnabled = true
         cell.addToCartButton.setBody3BoldWhiteStyle()
-        cell.addToCartButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+        cell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
         
         return cell
     }

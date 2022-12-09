@@ -367,24 +367,24 @@ class AWPickerViewController : UIViewController {
     @IBAction func segmentOneSelect(_ sender: Any) {
         
         self.configureData(segmentOneSlots)
-        self.segmentOneIndicatorView.backgroundColor = UIColor.navigationBarColor() //.colorWithHexString(hexString: "59aa46")
+        self.segmentOneIndicatorView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor //.colorWithHexString(hexString: "59aa46")
         self.segmentTwoIndicatorView.backgroundColor = UIColor.colorWithHexString(hexString: "ffffff")
-        self.lblSegmentOneDate.textColor = .navigationBarColor()
-        self.lblSegmentOneDesc.textColor = .navigationBarColor()
-        self.lblSegmentTwoDate.textColor = .selectionTabDark()
-        self.lblSegmentTwoDesc.textColor = .selectionTabDark()
+        self.lblSegmentOneDate.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+        self.lblSegmentOneDesc.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+        self.lblSegmentTwoDate.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
+        self.lblSegmentTwoDesc.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
         
     }
         
     @IBAction func segmentTwoSelect(_ sender: Any) {
         
         self.configureData(segmentTwoSlots)
-        self.segmentTwoIndicatorView.backgroundColor = UIColor.navigationBarColor() //.colorWithHexString(hexString: "59aa46")
+        self.segmentTwoIndicatorView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor //.colorWithHexString(hexString: "59aa46")
         self.segmentOneIndicatorView.backgroundColor = UIColor.colorWithHexString(hexString: "ffffff")
-        self.lblSegmentOneDate.textColor = .secondaryBlackColor()
-        self.lblSegmentOneDesc.textColor = .secondaryBlackColor()
-        self.lblSegmentTwoDate.textColor = .navigationBarColor()
-        self.lblSegmentTwoDesc.textColor = .navigationBarColor()
+        self.lblSegmentOneDate.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
+        self.lblSegmentOneDesc.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
+        self.lblSegmentTwoDate.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+        self.lblSegmentTwoDesc.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
 
     }
     

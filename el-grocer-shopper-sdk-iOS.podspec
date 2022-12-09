@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.0.44'
+  s.version          = '1.0.45'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -191,6 +191,7 @@ Pod::Spec.new do |s|
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
   s.dependency 'Mixpanel-swift', '~> 3.3.0'
+  s.dependency 'lottie-ios', '~> 3.2.3'
 #s.dependency 'AppsFlyerFramework'
 
 

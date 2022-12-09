@@ -80,8 +80,16 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     
         //MARK: View outlets
-    @IBOutlet var signView: AWView!
-    @IBOutlet var viewAddAddress: AWView!
+    @IBOutlet var signView: AWView! {
+        didSet {
+            signView.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+        }
+    }
+    @IBOutlet var viewAddAddress: AWView! {
+        didSet {
+            viewAddAddress.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+        }
+    }
     @IBOutlet var tblFooterCheckOutView: AWView!
     @IBOutlet var checkOutViewForButton: AWView!
     @IBOutlet var viewForSearch: UIView!
@@ -103,9 +111,21 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
         //MARK: Buttons outlets
-    @IBOutlet var btnSignIn: AWButton!
-    @IBOutlet var btnSIgnUp: AWButton!
-    @IBOutlet var btnAddAddress: UIButton!
+    @IBOutlet var btnSignIn: AWButton! {
+        didSet {
+            btnSignIn.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
+    @IBOutlet var btnSIgnUp: AWButton!{
+        didSet {
+            btnSIgnUp.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
+    @IBOutlet var btnAddAddress: UIButton!{
+        didSet {
+            btnAddAddress.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
     @IBOutlet weak var checkoutBtn: UIButton!
     
         //MARK: Label outlets
@@ -135,14 +155,22 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    @IBOutlet weak var minOrderLabel: UILabel!
+    @IBOutlet weak var minOrderLabel: UILabel! {
+        didSet {
+            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+        }
+    }
     
     //MARK: ImageView outlets
     @IBOutlet var imgViewTopCardView: UIImageView!
     @IBOutlet var imgbasketArrow: UIImageView!
     @IBOutlet weak var minOrderImageView: UIImageView!
     
-    @IBOutlet weak var minOrderProgressView: UIProgressView!
+    @IBOutlet weak var minOrderProgressView: UIProgressView! {
+        didSet {
+            minOrderProgressView.progressTintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+        }
+    }
     
         //MARK:- Variables
         //MARK:-
@@ -947,8 +975,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if  self.orderToReplace  {
             self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
             self.searchBar.clipsToBounds = true
-            self.searchBar.backgroundColor = .navigationBarColor()
-            self.viewForSearch.backgroundColor = .navigationBarColor()
+            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             self.viewForSearch.addSubview(self.searchBar)
         }
         
@@ -987,7 +1015,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if DispatchQueue.isRunningOnMainQueue {
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
-            self.checkOutViewForButton.backgroundColor  = enabled ? UIColor.navigationBarColor() : UIColor.disableButtonColor()
+            self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
             return
         }
         
@@ -995,7 +1023,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             guard let self = self else {return}
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
-            self.checkOutViewForButton.backgroundColor  = enabled ? UIColor.navigationBarColor() : UIColor.disableButtonColor()
+            self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
         }
         
     }
@@ -1284,7 +1312,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 let indexPath = IndexPath.init(row: index, section: 4)
                 let isVisible = self.tblBasket.indexPathsForVisibleRows?.contains{$0 == indexPath}
                 if let cell = self.tblBasket.cellForRow(at: indexPath) , let validCell = cell as? MyBasketTableViewCell {
-                    validCell.viewMainContainer.backgroundColor = UIColor.newborderColor()
+                    validCell.viewMainContainer.backgroundColor = UIColor.newBorderGreyColor()
                     ElGrocerUtility.sharedInstance.delay(0.5) {
                         validCell.viewMainContainer.backgroundColor = UIColor.white
                     }
@@ -1808,18 +1836,18 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
             self.minOrderLabel.attributedText =  NSMutableAttributedString()
                 .normal(localizedString("lbl_Add", comment: ""),
-                        UIFont.SFProDisplayNormalFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayNormalFont(12), color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                 .normal(" " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: remainingPrice) + " ",
-                        UIFont.SFProDisplayBoldFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayBoldFont(12), color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                 .normal(localizedString("to_reach_minimum_order", comment: ""),
-                        UIFont.SFProDisplayNormalFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayNormalFont(12), color: ApplicationTheme.currentTheme.labelHeadingTextColor)
             
             self.minOrderImageView.image = UIImage(name: "cart-addmore")
             let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
             self.minOrderProgressView.setProgress(progressValue, animated: true)
                 self.title =  self.itemsSummaryValue > 0 ?   localizedString("shopping_OOS_title_label", comment: "") : localizedString("Cart_Title", comment: "")
             self.checkoutBtn.isEnabled = false
-            self.checkOutViewForButton.backgroundColor = UIColor.colorWithHexString(hexString: "909090")
+            self.checkOutViewForButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             //greyish
         }else{
             
@@ -1830,7 +1858,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.minOrderProgressView.setProgress(1.0, animated: true)
             if UserDefaults.isUserLoggedIn() && notAvailableCount == 0 {
             self.checkoutBtn.isEnabled = true
-            self.checkOutViewForButton.backgroundColor = UIColor.colorWithHexString(hexString: "05BC66")
+                self.checkOutViewForButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             //green
             }
         }
@@ -3357,11 +3385,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         let cell = self.tblBasket.cellForRow(at: indexPath) as! MyBasketTableViewCell
-        let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.darkTextGrayColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(6.0)]
+        let dict1 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelHeadingTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(6.0)]
         
-        let dict2 = [NSAttributedString.Key.foregroundColor:UIColor.lightBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
+        let dict2 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labeldiscriptionTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
         
-        let dict3 = [NSAttributedString.Key.foregroundColor: UIColor.red,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
+        let dict3 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.textfieldErrorColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
         
         let partAED = NSMutableAttributedString(string:NSString(format: "%@\n",CurrencyManager.getCurrentCurrency()) as String, attributes:dict1)
         

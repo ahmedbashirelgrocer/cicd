@@ -81,7 +81,7 @@ class FreeGroceriesViewController: UIViewController {
     fileprivate func setFreeGroceryDescriptionLabelAppearance() {
         
         self.freeGroceryDescription.font = UIFont.bookFont(12.0)
-        self.freeGroceryDescription.textColor = UIColor.meunGreenTextColor()
+        self.freeGroceryDescription.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5.0
@@ -93,7 +93,7 @@ class FreeGroceriesViewController: UIViewController {
     fileprivate func setInvitationLinkLabelAppearance() {
         
         self.invitationLink.font = UIFont.bookFont(12.0)
-        self.invitationLink.textColor = UIColor.meunGreenTextColor()
+        self.invitationLink.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.invitationLink.text = localizedString("free_groceries_invitation_link", comment: "")
     }
     
@@ -101,15 +101,15 @@ class FreeGroceriesViewController: UIViewController {
         
         self.invitationView.layer.cornerRadius = 5
         self.invitationView.layer.borderWidth = 1
-        self.invitationView.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.invitationView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
         
         
         self.invitationCode.font = UIFont.SFProDisplaySemiBoldFont(12.0)
-        self.invitationCode.textColor =  UIColor.black
+        self.invitationCode.textColor =  ApplicationTheme.currentTheme.labelHeadingTextColor
         let referralObj = Referral.getReferralObject(DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
         self.invitationCode.text = referralObj?.referralCode
         
-        self.inviteButton.titleLabel?.textColor = UIColor.meunGreenTextColor()
+        self.inviteButton.titleLabel?.textColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
         
         let text = localizedString("how_invite_work", comment: "")
         let titleStr = NSMutableAttributedString(string: text)
@@ -117,7 +117,7 @@ class FreeGroceriesViewController: UIViewController {
         self.inviteButton.setAttributedTitle(titleStr, for: UIControl.State())
         self.inviteButton.titleLabel?.font = UIFont.boldFont(12.0)
         
-        self.copyButton.titleLabel?.textColor = UIColor.meunGreenTextColor()
+        self.copyButton.titleLabel?.textColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
         self.copyButton.titleLabel?.font = UIFont.boldFont(12.0)
         self.copyButton.setTitle(localizedString("copy", comment: ""), for: UIControl.State())
     }

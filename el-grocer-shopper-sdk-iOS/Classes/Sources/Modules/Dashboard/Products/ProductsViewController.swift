@@ -20,7 +20,11 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     
     @IBOutlet weak var checkOutView: UIView!
     var collectionViewBottomConstraint: NSLayoutConstraint?
-
+    @IBOutlet var buttomButtonGoToMainBGView: AWView! {
+        didSet {
+            buttomButtonGoToMainBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+        }
+    }
     @IBOutlet var buttomButtonTitle: UILabel!
     var productsArray = [Product]()
     

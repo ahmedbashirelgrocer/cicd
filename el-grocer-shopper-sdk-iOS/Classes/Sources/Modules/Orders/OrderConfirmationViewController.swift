@@ -604,10 +604,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         guard self.order != nil else {return}
         var statusPart  : NSMutableAttributedString = NSMutableAttributedString.init(string: "")
         if order.deliverySlot != nil && order.status.intValue == 0{
-              let dict2 = [NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor() ,NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(11)]
+            let dict2 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor ,NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(11)]
             statusPart = NSMutableAttributedString(string:String(format:"%@",localizedString("order_status_schedule_order", comment: "")), attributes:dict2)
         }else{
-              let dict2 = [NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor(),NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(11.0)]
+            let dict2 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor,NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(11.0)]
            statusPart = NSMutableAttributedString(string:String(format:"%@",localizedString("order_status_pending", comment: "")), attributes:dict2)
         }
         
@@ -624,7 +624,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
        
         guard self.order != nil else {return}
         //OrderConfirmationNewChat
-        self.lblGrocerName.attributedText =  NSMutableAttributedString().bold(localizedString("lbl_Order_Confirm_Msg", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor()).bold(self.grocery.name ?? "", UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor()).bold( " " + localizedString("lbl_Order_Confirm_Msg_last", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: .navigationBarColor())
+        self.lblGrocerName.attributedText =  NSMutableAttributedString().bold(localizedString("lbl_Order_Confirm_Msg", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor).bold(self.grocery.name ?? "", UIFont.SFProDisplaySemiBoldFont(16) , color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor).bold( " " + localizedString("lbl_Order_Confirm_Msg_last", comment: ""), UIFont.SFProDisplaySemiBoldFont(16) , color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor)
         self.imgViewRetailer.image = UIImage(name: "order_Confirmed")
         
         
@@ -883,12 +883,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.trackOrderBtn.clipsToBounds = true
         self.trackOrderBtn.setTitle(localizedString("order_confirmation_Edit_order_button", comment: ""), for: UIControl.State())
         
-//        self.trackOrderBtn.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
-//        self.trackOrderBtn.setTitleColor(UIColor.white, for: UIControl.State())
         self.trackOrderBtn.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
         
         self.btnOrderDetail.titleLabel?.font =  .SFProDisplayBoldFont(14)
-        self.btnOrderDetail.titleLabel?.textColor = .navigationBarColor()
+        self.btnOrderDetail.titleLabel?.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
        
 //
 //        let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
@@ -1264,11 +1262,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                         self.btnOnMyWay.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.tintColor = .white
                         self.btnAtTheStore.setImage(nil, for: UIControl.State())
-                        self.btnOnMyWay.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
-                        self.btnAtTheStore.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
+                        self.btnOnMyWay.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, forState: UIControl.State())
+                        self.btnAtTheStore.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
                     }else{
-                        self.btnAtTheStore.setBackgroundColor(.secondaryDarkGreenColor(), forState: UIControl.State())
-                        self.btnOnMyWay.setBackgroundColor(.navigationBarColor(), forState: UIControl.State())
+                        self.btnAtTheStore.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, forState: UIControl.State())
+                        self.btnOnMyWay.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
                         self.btnAtTheStore.setImage(UIImage(name: "statusCheckTickIcon"), for: UIControl.State())
                         self.btnOnMyWay.setImage(nil, for: UIControl.State())
                         self.btnAtTheStore.tintColor = .white

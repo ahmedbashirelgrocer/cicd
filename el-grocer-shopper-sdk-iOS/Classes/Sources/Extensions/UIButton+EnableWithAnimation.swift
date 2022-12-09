@@ -15,9 +15,9 @@ extension UIButton {
         self.alpha = enabled ? 1 : 1.0
         self.isUserInteractionEnabled = enabled
         if enabled {
-            self.setBackgroundColor(.navigationBarColor(), forState: self.state)
+            self.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: self.state)
         }else{
-            self.setBackgroundColor(.disableButtonColor() , forState: self.state)
+            self.setBackgroundColor(ApplicationTheme.currentTheme.buttonDisableBGColor , forState: self.state)
         }
         
         

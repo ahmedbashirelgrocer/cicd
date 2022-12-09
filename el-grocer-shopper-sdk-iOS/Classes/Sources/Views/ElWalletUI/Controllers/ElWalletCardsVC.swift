@@ -26,6 +26,7 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
     }
     @IBOutlet weak var addNewCardButton: AWButton!{
         didSet{
+            addNewCardButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             addNewCardButton.cornarRadius = 28
             addNewCardButton.setButton2SemiBoldWhiteStyle()
             addNewCardButton.setTitle(localizedString("btn_add_new_card", comment: ""), for: UIControl.State())

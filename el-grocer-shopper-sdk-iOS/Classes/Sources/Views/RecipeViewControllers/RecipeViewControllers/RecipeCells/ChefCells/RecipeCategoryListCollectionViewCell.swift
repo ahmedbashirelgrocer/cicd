@@ -81,7 +81,7 @@ class RecipeCategoryListCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 if let image = imageView.image?.withRenderingMode(.alwaysTemplate) {
                     imageView.image = image
-                    imageView.tintColor = .navigationBarColor()
+                    imageView.tintColor = ApplicationTheme.currentTheme.primarySelectionColor
                 }
             }
             
@@ -89,10 +89,10 @@ class RecipeCategoryListCollectionViewCell: UICollectionViewCell {
             DispatchQueue.main.async {
                 if let image = imageView.image?.withRenderingMode(.alwaysTemplate) {
                     imageView.image = image
-                    imageView.tintColor = UIColor.newBlackColor()
+                    imageView.tintColor = ApplicationTheme.currentTheme.primaryNoSelectionColor
                 }else{
                     imageView.image = productPlaceholderPhoto
-                    imageView.tintColor =  UIColor.recipelightGrayBGColor()
+                    imageView.tintColor =  ApplicationTheme.currentTheme.secondaryNoSelectionlightColor
                 }
             }
        

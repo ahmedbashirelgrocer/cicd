@@ -851,18 +851,18 @@ extension SmileSdkHomeVC {
             
             if(distance > 999 && intervalInMins > 60)
             {
-                let vc = LocationChangedViewController.getViewController()
-                
-                vc.currentLocation = currentLocation
-                vc.currentSavedLocation = deliveryAddressLocation
-                
-                vc.modalPresentationStyle = .overFullScreen
-                vc.modalTransitionStyle = .crossDissolve
-                self.present(vc, animated: true, completion: nil)
-                
+                DispatchQueue.main.async {
+                    let vc = LocationChangedViewController.getViewController()
+                    
+                    vc.currentLocation = currentLocation
+                    vc.currentSavedLocation = deliveryAddressLocation
+                    
+                    vc.modalPresentationStyle = .overFullScreen
+                    vc.modalTransitionStyle = .crossDissolve
+                    self.present(vc, animated: true, completion: nil)
+                }
                 UserDefaults.setLocationChanged(date: Date()) //saving current date
             }
-            
         } else {
                 //
         }

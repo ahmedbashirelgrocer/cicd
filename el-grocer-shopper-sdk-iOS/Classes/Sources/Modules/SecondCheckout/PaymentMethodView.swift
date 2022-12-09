@@ -72,7 +72,7 @@ class PaymentMethodView: UIView {
             self.lblPaymentTitle.text = name ?? ""
             self.imagePaymentType.image = UIImage(name: "selectedApplePayMethod")
         default:
-            self.lblPaymentTitle.textColor = .navigationBarColor()
+            self.lblPaymentTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.lblPaymentTitle.text = localizedString("payment_method_title", comment: "")
             self.imagePaymentType.image = UIImage(name: "cardGeneric")
             break
@@ -82,7 +82,7 @@ class PaymentMethodView: UIView {
     func configure(paymentTypes: [PaymentType], selectedPaymentId: UInt32?, creditCard: CreditCard? ) {
         
         guard paymentTypes.count > 0, let selectedPaymentId = selectedPaymentId else {
-            self.lblPaymentTitle.textColor = .navigationBarColor()
+            self.lblPaymentTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.lblPaymentTitle.text = localizedString("payment_method_title", comment: "")
             return
         }

@@ -32,7 +32,7 @@ class DeleteAccountVerifyCodeVC: UIViewController, NavigationBarProtocol {
             btnResendOTP.isHidden = false
             btnResendOTP.setTitle(localizedString("Resend_SMS_Button_Title", comment: ""), for: .normal)
             btnResendOTP.setBody2BoldGreenStyle()
-            btnResendOTP.setTitleColor(self.btnResendOTP.isEnabled ? UIColor.navigationBarColor() : UIColor.lightGray , for: .normal)
+            btnResendOTP.setTitleColor(self.btnResendOTP.isEnabled ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor , for: .normal)
         }
     }
     
@@ -56,7 +56,7 @@ class DeleteAccountVerifyCodeVC: UIViewController, NavigationBarProtocol {
     //MARK: Appearence
     func setInitialAppearence(){
         
-        self.view.backgroundColor = .navigationBarWhiteColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         
         if self.navigationController is ElGrocerNavigationController{
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
@@ -94,7 +94,7 @@ class DeleteAccountVerifyCodeVC: UIViewController, NavigationBarProtocol {
     }
     
     func pinFieldStyle() {
-        pinField.backgroundColor = .navigationBarWhiteColor()
+        pinField.backgroundColor = ApplicationTheme.currentTheme.textFieldWhiteBGColor
         pinField.properties.numberOfCharacters = numberOfPassChar
         pinField.appearance.font = .menloBold(40) // Default to appearance.MonospacedFont.menlo(40)
         pinField.appearance.kerning = 40 // Space between characters, default to 16
@@ -104,12 +104,12 @@ class DeleteAccountVerifyCodeVC: UIViewController, NavigationBarProtocol {
         pinField.appearance.backOffset = 16 // Backviews spacing between each other
         pinField.appearance.backColor = .colorWithHexString(hexString: "f5f5f5")
         pinField.appearance.backBorderWidth = 1
-        pinField.appearance.backBorderColor = UIColor.clear
+        pinField.appearance.backBorderColor = ApplicationTheme.currentTheme.textFieldBorderInActiveClearColor
         pinField.appearance.backCornerRadius = 4
         pinField.appearance.backFocusColor = .colorWithHexString(hexString: "f5f5f5")
-        pinField.appearance.backBorderFocusColor = .clear
-        pinField.appearance.backActiveColor = .clear
-        pinField.appearance.backBorderActiveColor = .navigationBarColor()
+        pinField.appearance.backBorderFocusColor = ApplicationTheme.currentTheme.textFieldBorderInActiveClearColor
+        pinField.appearance.backActiveColor = ApplicationTheme.currentTheme.textFieldBorderInActiveClearColor
+        pinField.appearance.backBorderActiveColor = ApplicationTheme.currentTheme.textFieldBorderActiveColor
         pinField.keyboardType = UIKeyboardType.asciiCapableNumberPad // Specify keyboard type
     }
     
@@ -285,7 +285,7 @@ extension DeleteAccountVerifyCodeVC {
             self.btnResendOTP.isEnabled = false
         }
         
-         self.btnResendOTP.setTitleColor(self.btnResendOTP.isEnabled ? UIColor.navigationBarColor() : UIColor.lightGray , for: .normal)
+         self.btnResendOTP.setTitleColor(self.btnResendOTP.isEnabled ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : UIColor.lightGray , for: .normal)
         if self.btnResendOTP.isEnabled{
             self.btnResendOTP.titleLabel?.font = UIFont.SFProDisplayBoldFont(16)
         }else{

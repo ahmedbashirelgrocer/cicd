@@ -842,7 +842,7 @@
 "last_order_message" = "يتم أخذ آخر طلبات للتوصيل اليوم خلال";
 
 "vat_title" = "ضريبة القيمة المضافة";
-"service_price" = "سعر الخدمة (شامل الضريبة)";
+"service_price" = "رسم التوصيل (شامل الضريبة)";
 "total_bill_amount" = "قيمة الفاتورة";
 "promotion_discount_aed" = "خصم الرمز الترويجي";
 "total_price" = "السعر الإجمالي (شامل الضريبة)";
@@ -2148,4 +2148,4 @@
 
 //MARK: order details
 "lbl_smile_point_earned" = "Smiles Points Earned";
-"txt_free_delivery_for_smile" = "Free with Smiles Unlimited";
+"txt_free_delivery_for_smile" = "مجانا لمشتركي التوصيل المجاني غير المحدود!";

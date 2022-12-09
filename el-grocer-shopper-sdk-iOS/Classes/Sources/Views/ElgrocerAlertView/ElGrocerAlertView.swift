@@ -207,9 +207,6 @@ class ElGrocerAlertView : UIView {
         self.positiveButton.setTitleColor(.newBlackColor(), for: self.positiveButton.state)
         self.negativeButton.setTitleColor(.newBlackColor(), for: self.negativeButton.state)
         
-      //  self.positiveButton.titleLabel?.textColor = .navigationBarColor()
-      //  self.negativeButton.titleLabel?.textColor  = .colorWithHexString(hexString: "333333")
-        
 
         self.negativeButton.backgroundColor = .white
         self.negativeButton.backgroundColor = .white

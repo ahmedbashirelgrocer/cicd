@@ -20,7 +20,7 @@ class MyBasketPlaceOrderVC: UIViewController {
 
     @IBOutlet var checkouTableView: UITableView!{
         didSet{
-            checkouTableView.backgroundColor = .tableViewBackgroundColor()//.navigationBarWhiteColor()
+            checkouTableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGGreyColor
         }
     }
     //MARK:SuperCheckout View
@@ -67,13 +67,13 @@ class MyBasketPlaceOrderVC: UIViewController {
     }
     @IBOutlet var lblPromoDiscount: UILabel!{
         didSet{
-            lblPromoDiscount.setBody3RegDarkStyle()//.setBody3RegGreenStyle()
+            lblPromoDiscount.setBody3RegDarkStyle()
             lblPromoDiscount.text = localizedString("promotion_discount_aed", comment: "")
         }
     }
     @IBOutlet var lblPromoDiscountValue: UILabel!{
         didSet{
-            lblPromoDiscountValue.setBody3RegDarkStyle()//.setBody3RegGreenStyle()
+            lblPromoDiscountValue.setBody3RegDarkStyle()
         }
     }
     @IBOutlet var lblGrandTotal: UILabel!{
@@ -146,7 +146,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     }
     @IBOutlet var promoActivityIndicator: UIActivityIndicatorView!{
         didSet{
-            promoActivityIndicator.color = .navigationBarColor()
+            promoActivityIndicator.color = ApplicationTheme.currentTheme.themeBasePrimaryColor
             promoActivityIndicator.hidesWhenStopped = true
             promoActivityIndicator.isHidden = true
         }
@@ -243,14 +243,14 @@ class MyBasketPlaceOrderVC: UIViewController {
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
         lblSmilesPoints.text = localizedString("txt_smile_point", comment: "")
-        lblSmilesPoints.textColor = .navigationBarColor()
+        lblSmilesPoints.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
 }
     
     @IBOutlet weak var lblSmilesPointsValue: UILabel!{
         didSet{
             lblSmilesPointsValue.setBody3RegGreyStyle()
-            lblSmilesPointsValue.textColor = .navigationBarColor()
+            lblSmilesPointsValue.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
 
@@ -434,7 +434,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         }
         
         self.navigationItem.hidesBackButton = true
-        self.view.backgroundColor = .navigationBarWhiteColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         self.title = localizedString("title_checkout_screen", comment: "")
         
         if self.navigationController is ElGrocerNavigationController {
@@ -1620,13 +1620,13 @@ extension MyBasketPlaceOrderVC {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("cash_delivery", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentC")
-            self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+            self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             showCVV(false)
         }else if paymentType == .card {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("pay_via_card", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCD")
-            self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+            self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             showCVV(false)
         }else if paymentType == .applePay {
          
@@ -1639,7 +1639,7 @@ extension MyBasketPlaceOrderVC {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("pay_via_smiles_points", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
-            self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+            self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             showCVV(false)
         }else{
             //credit card
@@ -1647,11 +1647,11 @@ extension MyBasketPlaceOrderVC {
             if let card = self.selectedCreditCard {
                 self.lblSelectedPayment.text = localizedString("lbl_Card_ending_in", comment: "") + card.last4
                 self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
-                self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+                self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 showCVV(false)
             }else{
                 showCVV(false)
-                self.btnCheckoutBGView.backgroundColor = .disableButtonColor()
+                self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
                 self.selectedPaymentImage.image = UIImage(name: "MYBasketPayment")
             }
         }
@@ -1799,9 +1799,9 @@ extension MyBasketPlaceOrderVC {
     func animateSuccessForPromo(){
         self.btnPromoApply.isHidden = false
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.navigationBarColor()
+        self.promoTxtFieldBGView.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.promoTxtFieldBGView.layer.borderWidth = 1
-        self.btnPromoApply.tintColor = .navigationBarColor()
+        self.btnPromoApply.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
         self.btnPromoApply.setTitle("", for: UIControl.State())
         self.btnPromoApply.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
     }
@@ -1809,7 +1809,7 @@ extension MyBasketPlaceOrderVC {
     func animateFailureForPromo(){
         self.btnPromoApply.isHidden = false
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.redValidationErrorColor()
+        self.promoTxtFieldBGView.borderColor = UIColor.textfieldErrorColor()
         self.promoTxtFieldBGView.layer.borderWidth = 1
     }
     
@@ -2249,7 +2249,7 @@ extension MyBasketPlaceOrderVC : UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == self.txtCVV {
-            textField.layer.borderColor = UIColor.navigationBarColor().cgColor
+            textField.layer.borderColor = ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
         }
     }
     
@@ -2268,7 +2268,7 @@ extension MyBasketPlaceOrderVC : UITextFieldDelegate {
         if textField == self.txtCVV {
             
             self.lblCVVError.text = ""
-            textField.layer.borderColor = UIColor.navigationBarColor().cgColor
+            textField.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
             
             
             

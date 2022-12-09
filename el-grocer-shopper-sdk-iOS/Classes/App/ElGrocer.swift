@@ -122,6 +122,7 @@ public struct LaunchOptions  {
     
     var SDKType : SDKType = .smiles
     var environmentType : EnvironmentType = .live
+    var theme: Theme!
         
     @available(*, deprecated)
     public init(accountNumber: String?,
@@ -134,7 +135,8 @@ public struct LaunchOptions  {
                 deepLinkPayload: String? = nil,
                 language: String? = nil,
                 isSmileSDK: Bool,
-                isLoggingEnabled: Bool = false) {
+                isLoggingEnabled: Bool = false,
+                theme: Theme = ApplicationTheme.smilesSdkTheme()) {
         
         self.accountNumber = accountNumber
         self.latitude = latitude
@@ -150,21 +152,24 @@ public struct LaunchOptions  {
         self.SDKType = .smiles
         self.isSmileSDK = true
         self.environmentType =  .live
+        self.theme = theme
         if (pushNotificationPayload?.count ?? 0) > 0 {
             self.isFromPush = true
         }
     }
     
 
-    public init(accountNumber: String?,
-         latitude: Double?,
-         longitude: Double?,
-         address: String?,
-         loyaltyID: String?,
-         email: String? = nil,
-         pushNotificationPayload: [String: AnyHashable]? = nil,
-         deepLinkPayload: String? = nil,
-                language: String? = nil, environmentType : EnvironmentType = .live) {
+    public init(
+        accountNumber: String?,
+        latitude: Double?,
+        longitude: Double?,
+        address: String?,
+        loyaltyID: String?,
+        email: String? = nil,
+        pushNotificationPayload: [String: AnyHashable]? = nil,
+        deepLinkPayload: String? = nil,
+        language: String? = nil, environmentType : EnvironmentType = .live,
+        theme: Theme = ApplicationTheme.smilesSdkTheme()) {
         
         self.accountNumber = accountNumber
         self.latitude = latitude
@@ -179,7 +184,7 @@ public struct LaunchOptions  {
         self.isSmileSDK = true
         self.environmentType =  environmentType
         self.isLoggingEnabled = environmentType == .staging
-        
+        self.theme = theme
         if (pushNotificationPayload?.count ?? 0) > 0 {
             self.isFromPush = true
         }

@@ -17,7 +17,11 @@ class RecipeBannerCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var pageControler: UIPageControl!
+    @IBOutlet weak var pageControler: UIPageControl! {
+        didSet {
+            pageControler.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

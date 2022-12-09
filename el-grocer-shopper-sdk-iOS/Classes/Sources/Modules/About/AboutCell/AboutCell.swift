@@ -50,7 +50,7 @@ class AboutCell : UITableViewCell {
     
     fileprivate func setUpGreenCircleAppearance() {
         
-        self.greenCircle.backgroundColor = UIColor.navigationBarColor()
+        self.greenCircle.backgroundColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.greenCircle.font = UIFont.lightFont(15.0)
         self.greenCircle.textColor = UIColor.white
     }

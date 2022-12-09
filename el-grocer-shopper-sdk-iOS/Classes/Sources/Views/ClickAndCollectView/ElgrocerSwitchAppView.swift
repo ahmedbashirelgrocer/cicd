@@ -31,8 +31,8 @@ class ElgrocerSwitchAppView: UIView {
     
     func setDefaultStates(_ isDelivery : Bool = ElGrocerUtility.sharedInstance.isDeliveryMode ) {
         self.setUpFonts()
-        let deliveryColor = isDelivery ? UIColor.navigationBarColor() : .white
-        let cAndcColor = !isDelivery ? UIColor.navigationBarColor() : .white
+        let deliveryColor = isDelivery ? ApplicationTheme.currentTheme.buttonEnableBGColor : .white
+        let cAndcColor = !isDelivery ? ApplicationTheme.currentTheme.buttonEnableBGColor : .white
         let maskToBoundDelivery = isDelivery ? true : false
         let maskToBoundClickAndCollect = !isDelivery ? true : false
         self.isDeliverySelected = isDelivery

@@ -48,7 +48,7 @@ class SubstitutionsCell: UITableViewCell {
     let cellDiscardButtonSelectedBackgroundColor = UIColor.colorWithHexString(hexString: "FF7F80")
     
     let cellSubstitutionButtonSelectedTitleColor = UIColor.white
-    let cellSubstitutionButtonSelectedBackgroundColor = UIColor.navigationBarColor()
+    let cellSubstitutionButtonSelectedBackgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
     
     weak var delegate:SubstitutionsCellProtocol?
     

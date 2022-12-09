@@ -42,7 +42,12 @@ class HomeCell: UITableViewCell {
     
     @IBOutlet weak var rightArrowImageView: UIImageView!
     // @IBOutlet weak var arrowImgView: UIImageView!
-    @IBOutlet weak var viewMoreButton: UIButton!
+    @IBOutlet weak var viewMoreButton: UIButton! {
+        didSet {
+            viewMoreButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            viewMoreButton.setBackgroundColorForAllState(.clear)
+        }
+    }
     @IBOutlet weak var titleLbl: UILabel!{
         didSet{
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -401,10 +406,10 @@ extension HomeCell: UICollectionViewDataSource {
                 }
                 if homeFeedObj.type == .universalSearchProducts {
                     productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
-                    productCell.addToCartButton.tintColor = UIColor.navigationBarColor()
+                    productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                     productCell.addToCartButton.isEnabled = true
                     productCell.addToCartButton.setBody3BoldWhiteStyle()
-                    productCell.addToCartButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+                    productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
                     productCell.productPriceLabel.isHidden = true
                     productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
                     productCell.addToCartButton.isHidden = false
@@ -485,40 +490,6 @@ extension HomeCell: UICollectionViewDelegate {
                                
                             }
                         }
-                      
-                        
-                        
-               /*
-                        let alertVC = PMAlertController(title: nil  , description: ElGrocerUtility.sharedInstance.appConfigData?.pg_18_msg , image: UIImage(name: "18Plus"), style: .alert)
-                        
-                        alertVC.headerViewHeightConstraint.constant = UIImage(name: "18Plus")?.size.height ?? 0
-                        
-                        
-                        let addAction = PMAlertAction(title: localizedString("over_18", comment: ""), style: .cancel, action: { () in
-                            UserDefaults.setOver18(true)
-                            self.delegate?.navigateToSubCategoryFrom(category: homeFeedObj.categories[indexPath.row])
-                        })
-                        addAction.setTitleColor(.navigationBarColor(), for: UIControl.State())
-                        alertVC.addAction(addAction)
-                        
-                        
-                        let cancel = PMAlertAction(title: localizedString("less_over_18", comment: ""), style: .cancel, action: { () -> Void in
-                            UserDefaults.setOver18(false)
-                           elDebugPrint("Capture action Cancel")
-                        })
-                        cancel.setTitleColor(.redInfoColor(), for: UIControl.State())
-                        alertVC.addAction(cancel)
-                        
-                        alertVC.addAction(PMAlertAction(title: localizedString("promo_code_alert_no", comment: ""), style: .cancel, action: { () -> Void in
-                           elDebugPrint("Capture action Cancel")
-                        }))
-                        
-
-                        
-                        if let topVC = UIApplication.topViewController() {
-                            topVC.present(alertVC, animated: true, completion: nil)
-                        }
-                        */
                         
                     }else{
                         self.delegate?.navigateToSubCategoryFrom(category: homeFeedObj.categories[index])

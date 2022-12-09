@@ -23,23 +23,8 @@ class AddAddressCell: UITableViewCell {
     
     // MARK: Data
     func configureCell() {
-        
-       /* let dict1 = [NSForegroundColorAttributeName: UIColor.navigationBarColor(),NSFontAttributeName:UIFont.bookFont(20.0)]
-        
-        let dict2 = [NSForegroundColorAttributeName: UIColor.navigationBarColor(),NSFontAttributeName:UIFont.bookFont(12.0)]
-        
-        let titlePart = NSMutableAttributedString(string:"+     ", attributes:dict1)
-        
-        let descriptionPart = NSMutableAttributedString(string:"Add Address Manually...", attributes:dict2)
-        
-        let attttributedText = NSMutableAttributedString()
-        
-        attttributedText.appendAttributedString(titlePart)
-        attttributedText.appendAttributedString(descriptionPart)
-        
-        self.locationTitle.attributedText = attttributedText*/
-        
-        self.locationTitle.textColor = UIColor.navigationBarColor()
+
+        self.locationTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.locationTitle.font = UIFont.bookFont(15.0)
         self.locationTitle.sizeToFit()
         self.locationTitle.numberOfLines = 1
@@ -58,10 +43,10 @@ class AddAddressCell: UITableViewCell {
         
         
         if location.isActive.boolValue == true {
-            borderContainer.layer.borderColor = UIColor.navigationBarColor().cgColor
+            borderContainer.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
             borderContainer.layer.borderWidth = 2
         }else{
-            borderContainer.layer.borderColor = UIColor.clear.cgColor
+            borderContainer.layer.borderColor = ApplicationTheme.currentTheme.textFieldBorderInActiveClearColor.cgColor
             borderContainer.layer.borderWidth = 0
         }
         

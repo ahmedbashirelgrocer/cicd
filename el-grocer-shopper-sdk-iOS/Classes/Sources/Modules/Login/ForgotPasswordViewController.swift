@@ -69,14 +69,14 @@ class ForgotPasswordViewController : UIViewController, UITextFieldDelegate {
         self.navigationItem.hidesBackButton = true
         addBackButton()
        // addBackButtonWithCrossIcon()
-        self.navigationController?.navigationBar.tintColor = UIColor.navigationBarColor()
+        self.navigationController?.navigationBar.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
        // self.addRightCrossButton()
         self.setupAppearance()
         
         //tap gesture
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ForgotPasswordViewController.dismissKeyboard))
         self.view.addGestureRecognizer(tap)
-        imgLogo.changePngColorTo(color: .navigationBarColor())
+        imgLogo.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         _ = validateEmail("")
     }
     
@@ -116,7 +116,7 @@ override func rightBackButtonClicked() {
         self.submitButton.setTitle(localizedString("lbl_resetPass", comment: ""), for: UIControl.State())
         
         
-           self.emailTextField.attributedPlaceholder = NSAttributedString.init(string: self.emailTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+           self.emailTextField.attributedPlaceholder = NSAttributedString.init(string: self.emailTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
     }
     
     
@@ -211,7 +211,7 @@ override func rightBackButtonClicked() {
         
         let enableSubmitButton = email.isValidEmail()
         
-        self.emailTextField.layer.borderColor = (!enableSubmitButton && !email.isEmpty) ? UIColor.redValidationErrorColor().cgColor : UIColor.clear.cgColor
+        self.emailTextField.layer.borderColor = (!enableSubmitButton && !email.isEmpty) ? UIColor.textfieldErrorColor().cgColor : UIColor.clear.cgColor
         
         setSubmitButtonEnabled(enableSubmitButton)
         

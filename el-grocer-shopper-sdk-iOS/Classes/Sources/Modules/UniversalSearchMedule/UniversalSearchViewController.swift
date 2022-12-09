@@ -139,7 +139,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     @IBAction func voiceSearchAction(_ sender: Any) {
         self.txtSearch.resignFirstResponder()
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -176,11 +176,11 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         
         if self.searchFor == .isForStoreSearch {
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
-                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
         }else{
             
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,
-                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
   
         }
         
@@ -955,7 +955,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)

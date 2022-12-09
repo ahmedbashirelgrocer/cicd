@@ -20,7 +20,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
     
     @IBOutlet var topBGGreenView: UIView!{
         didSet{
-            topBGGreenView.backgroundColor = .navigationBarColor()
+            topBGGreenView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet weak var shoppingListTableView: UITableView!{

@@ -261,7 +261,7 @@ class PaymentSourceView: UIView {
         mSwitch.addTarget(self, action: #selector(switchChanged(_ :)), for: UIControl.Event.valueChanged)
 
         mSwitch.translatesAutoresizingMaskIntoConstraints = false
-        
+        mSwitch.onTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         return mSwitch
     }()
     

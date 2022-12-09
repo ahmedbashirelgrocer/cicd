@@ -203,7 +203,7 @@ class GroceryCell : UITableViewCell {
         
         if grocery.isOpen.boolValue {
             self.lblIsOpen.text = localizedString("open_now", comment: "")
-            self.isOpenStatusColorView.backgroundColor = UIColor.navigationBarColor()
+            self.isOpenStatusColorView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             
         }else{
             self.lblIsOpen.text = localizedString("closed_Now", comment: "")

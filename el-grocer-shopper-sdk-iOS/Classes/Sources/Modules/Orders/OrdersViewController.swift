@@ -65,17 +65,6 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
     }
     
     func setUpApearence() {
-        
-//        self.navigationController?.navigationBar.isTranslucent = false
-//        self.navigationController?.setNavigationBarHidden(false, animated: false)
-//        self.navigationController?.navigationBar.barTintColor = UIColor.navigationBarColor()
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = false
-        
-      //  self.view.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9647058824, blue: 0.9725490196, alpha: 1)
-
-       //  addBackButton()
   
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
@@ -85,7 +74,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         self.title = localizedString("orders_top_title", comment: "")
         self.addCustomTitleViewWithTitleDarkShade(localizedString("orders_top_title", comment: "") , true)
         

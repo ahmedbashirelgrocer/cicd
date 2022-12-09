@@ -29,7 +29,7 @@ class UniTitleCell: UITableViewCell {
         self.title.textColor = UIColor.newBlackColor()
         
         self.rightButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
-        self.rightButton.setTitleColor(UIColor.navigationBarColor(), for: .normal)
+        self.rightButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: .normal)
         self.rightButton.setTitle(localizedString("clear_button_title", comment: "clear"), for: .normal)
         
     }

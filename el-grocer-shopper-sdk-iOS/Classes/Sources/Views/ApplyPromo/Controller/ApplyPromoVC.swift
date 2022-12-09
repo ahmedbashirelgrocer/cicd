@@ -38,6 +38,7 @@ class ApplyPromoVC: UIViewController {
     @IBOutlet var btnPromoApply: AWButton!{
         didSet{
             btnPromoApply.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
+            btnPromoApply.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
         }
     }
     @IBOutlet var btnPromoRemove: AWButton! {
@@ -48,7 +49,7 @@ class ApplyPromoVC: UIViewController {
     }
     @IBOutlet var promoActivityIndicator: UIActivityIndicatorView!{
         didSet{
-            promoActivityIndicator.color = .navigationBarColor()
+            promoActivityIndicator.color = ApplicationTheme.currentTheme.themeBasePrimaryColor
             promoActivityIndicator.hidesWhenStopped = true
             promoActivityIndicator.isHidden = true
         }
@@ -128,7 +129,7 @@ class ApplyPromoVC: UIViewController {
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
                     self.promoTextField.text = promocode
-                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor)
                 }
             }
             
@@ -142,7 +143,7 @@ class ApplyPromoVC: UIViewController {
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
                     self.promoTextField.text = promoCode
-                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor)
                 }
             }
         }
@@ -294,10 +295,10 @@ extension ApplyPromoVC {
     func animateSuccessForPromo(){
         self.btnPromoApply.isHidden = true
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.navigationBarColor()
+        self.promoTxtFieldBGView.borderColor = ApplicationTheme.currentTheme.textFieldBorderActiveColor
         self.promoTxtFieldBGView.layer.borderWidth = 1
-        self.btnPromoApply.tintColor = .navigationBarColor()
-        self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+        self.btnPromoApply.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
+        self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor)
         self.btnPromoRemove.isHidden = false
             //        self.btnPromoApply.setTitle("", for: UIControl.State())
             //        self.btnPromoApply.setImage(UIImage(named: "MyBasketPromoSuccess"), for: .normal)
@@ -306,7 +307,7 @@ extension ApplyPromoVC {
     func animateFailureForPromo(){
         self.btnPromoApply.isHidden = false
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.redValidationErrorColor()
+        self.promoTxtFieldBGView.borderColor = UIColor.textfieldErrorColor()
         self.promoTxtFieldBGView.layer.borderWidth = 1
     }
 }

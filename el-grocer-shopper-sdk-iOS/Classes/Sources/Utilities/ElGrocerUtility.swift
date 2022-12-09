@@ -1328,8 +1328,8 @@ class ElGrocerUtility {
         view.button?.setImage(buttonIcon, for: .normal)
         view.button?.tintColor = .white
         view.button?.setTitle(isNeedtoShowButton && buttonIcon == nil ? localizedString("lbl_Undo", comment: "") : "", for: .normal)
-        view.button?.backgroundColor = .secondaryDarkGreenColor()
-        view.button?.setBackgroundColor(.secondaryDarkGreenColor() , forState: .normal)
+        view.button?.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+        view.button?.setBackgroundColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor , forState: .normal)
         view.button?.setTitleColor(.white, for: .normal)
         view.button?.titleLabel?.font = .SFProDisplaySemiBoldFont(12)
         view.titleLabel?.setBodyBoldWhiteStyle()
@@ -1372,7 +1372,7 @@ class ElGrocerUtility {
         // Reduce the corner radius (applicable to layouts featuring rounded corners).
         (view.backgroundView as? CornerRoundingView)?.cornerRadius = 8
         
-        (view.backgroundView as? CornerRoundingView)?.backgroundColor = .secondaryDarkGreenColor()
+        (view.backgroundView as? CornerRoundingView)?.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
         
         
         
@@ -1669,16 +1669,11 @@ extension UIViewController {
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.colors = [topColor,bottomColor]
         gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
-        gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+        gradient.startPoint = CGPoint(x: 0.5, y: 0.42)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
         gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: height)
         return gradient
     }
-    
-    
-
-    
-    
 }
 
 extension UIView {
@@ -1686,8 +1681,8 @@ extension UIView {
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.colors = [topColor,bottomColor]
         gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
-        gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradient.endPoint = CGPoint(x: 1, y: 0.25)
         gradient.frame = CGRect(x: 0.0, y: -10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
         return gradient
     }

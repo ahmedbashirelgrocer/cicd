@@ -141,7 +141,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
             let bgColor = retailerType.backGroundColor
             self.backgroundView?.backgroundColor = UIColor.colorWithHexString(hexString: bgColor)
         } else {
-            self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
+            self.backgroundView?.backgroundColor = UIColor.tableViewBackgroundColor()
         }
         
     }
@@ -161,7 +161,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         setUpAppearence(cellType: .ClickAndCollect, showArrow: false)
         self.lblName.text = title
         self.bgImageView.image = UIImage(name: imageName)
-        self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
+        self.backgroundView?.backgroundColor = UIColor.tableViewBackgroundColor()
         
     }
     
@@ -170,7 +170,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         setUpAppearence(cellType: .ClickAndCollect, showArrow: false)
         self.lblName.text = title
         self.bgImageView.image = UIImage(name: "DealsBgImage")
-        self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
+        self.backgroundView?.backgroundColor = UIColor.tableViewBackgroundColor()
         
     }
     
@@ -179,7 +179,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         setUpAppearence(cellType: .Recipe, showArrow: false)
         self.lblName.text = title
         self.bgImageView.image = UIImage(name: imageName)
-        self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
+        self.backgroundView?.backgroundColor = UIColor.tableViewBackgroundColor()
         
     }
     
@@ -193,11 +193,11 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
                 
                 self.backgroundView?.backgroundColor = UIColor.colorWithHexString(hexString: bgColor)
             } else {
-                self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
+                self.backgroundView?.backgroundColor = UIColor.tableViewBackgroundColor()
             }
             self.setImage(imageView: self.bgImageView, imageUrl: retailerType.imageUrl)
         }else {
-            self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
+            self.backgroundView?.backgroundColor = UIColor.tableViewBackgroundColor()
         }
     }
     
