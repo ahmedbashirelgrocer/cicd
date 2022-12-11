@@ -876,10 +876,14 @@ fileprivate extension SDKManager {
             self.checkAdvertPermission ()
         }
         
-        //Google Analytics
+        // Google Analytics
         GoogleAnalyticsHelper.configureGoogleAnalytics()
         self.initiliazeMarketingCampaignTrackingServices()
+        
+        // CleverTap
         CleverTapEventsLogger.shared.startCleverTapSharedSDK()
+        
+        // logToCrashleytics
         self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
         
@@ -894,6 +898,7 @@ fileprivate extension SDKManager {
         //AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
         // MARK:- TODO fixappsflyer
         //AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
+        // Elgolia Events
         AlgoliaApi.sharedInstance.reStartInsights()
         ElGrocerUtility.sharedInstance.delay(2) {
             self.startChatFeature()

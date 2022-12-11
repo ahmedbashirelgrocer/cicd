@@ -116,7 +116,7 @@ class LocationPersonalInfoTableViewCell: UITableViewCell , AWSegmentViewProtocol
             if self.txtShopperName.text?.count == 0 {
                 //self.viewName.layer.borderWidth = 1
                 //self.viewName.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-                self.txtMobileNumber.showError(message: "Please enter your name.")
+                self.txtShopperName.showError(message: "Please enter your name.")
             }
             
             clouser()
@@ -163,5 +163,5 @@ extension LocationPersonalInfoTableViewCell : UITextFieldDelegate {
         }
         
     }
-
+    
 }
