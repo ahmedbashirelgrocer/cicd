@@ -59,6 +59,7 @@ class SDKManager: NSObject  {
     static var shared: SDKManager = SDKManager()
     //var isFromSmile : Bool = fals
     var launchOptions: LaunchOptions? = nil
+    var isLaunchEventConfigured: Bool = false
   
     // MARK: Initializers
     private override init() {
@@ -70,6 +71,7 @@ class SDKManager: NSObject  {
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
         self.rootContext = UIWindow.key?.rootViewController
+        self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
@@ -868,9 +870,13 @@ fileprivate extension SDKManager {
             }
         }
     }
-   
+    
     @objc
-    func configuredElgrocerEventLogger() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+    func configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+        
+        guard !isLaunchEventConfigured else { return }
+        
+        isLaunchEventConfigured = true
         
         ElGrocerUtility.sharedInstance.delay(5) {
             self.checkAdvertPermission ()
@@ -898,11 +904,15 @@ fileprivate extension SDKManager {
         //AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
         // MARK:- TODO fixappsflyer
         //AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
-        // Elgolia Events
-        AlgoliaApi.sharedInstance.reStartInsights()
         ElGrocerUtility.sharedInstance.delay(2) {
             self.startChatFeature()
         }
+    }
+   
+    @objc
+    func configuredElgrocerEventLogger() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+        // Elgolia Events
+        AlgoliaApi.sharedInstance.reStartInsights()
     }
     
     func startChatFeature() {
