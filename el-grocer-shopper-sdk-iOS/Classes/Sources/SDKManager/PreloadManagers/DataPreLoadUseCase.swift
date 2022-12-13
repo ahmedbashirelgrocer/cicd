@@ -7,12 +7,12 @@
 
 import Foundation
 
-public class PreLoadData {
-    public static var shared = PreLoadData()
+class PreLoadData {
+    static var shared = PreLoadData()
     
     fileprivate var completion: (() -> Void)?
 
-    public func loadData(launchOptions: LaunchOptions, completion: (() -> Void)? ) {
+    func loadData(launchOptions: LaunchOptions, completion: (() -> Void)? ) {
         self.completion = completion
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {

@@ -83,8 +83,7 @@ class ViewController: UIViewController {
     @IBAction func btnIntegratedSearchPressed(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "IntegratedSearchViewController")
          as! IntegratedSearchViewController
-        // vc.launchOptions = getLaunchOptions()
-        // vc.searchClient = searchClient
+        vc.launchOptions = getLaunchOptions()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -147,7 +146,7 @@ class ViewController: UIViewController {
     
     @objc func startSDK() {
         let launchOptions = getLaunchOptions()
-        ElGrocer.startEngine(with: launchOptions)
+        ElGrocer.start(with: launchOptions)
     }
     
     

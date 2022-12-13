@@ -92,13 +92,13 @@ fileprivate extension IntegratedSearchUseCase {
 
 public struct SearchResult {
     public var retailerId: Int
-    public var retailerName: String
+    public var retailerName: String?
     public var retailerImgUrl: URL?
     public var searchQuery: String
-    public var searchType: String
+    public var searchType: String?
     public var searchLat: Double
     public var searchLng: Double
-    public var searchPossition: Int
+    public var searchPossition: Int?
 }
 
 struct RetailerShort {

@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-public class IntegratedSearchClient {
+class IntegratedSearchClient {
     
     private var integratedSearchUseCase: IntegratedSearchUseCaseType
     private var completion: (([SearchResult]) -> Void)?
@@ -24,7 +24,7 @@ public class IntegratedSearchClient {
             .disposed(by: disposeBag)
     }
     
-    public func searchProduct(_ queryText: String, completion: @escaping ([SearchResult]) -> Void) {
+    func searchProduct(_ queryText: String, completion: @escaping ([SearchResult]) -> Void) {
         self.completion = completion
         
         integratedSearchUseCase.inputs.queryTextObserver.onNext(queryText)

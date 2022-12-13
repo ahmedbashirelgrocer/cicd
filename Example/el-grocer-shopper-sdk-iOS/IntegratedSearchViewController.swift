@@ -21,18 +21,18 @@ class IntegratedSearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnClose: UIButton!
     @IBAction func btnCloseSearchPressed(_ sender: Any) {
-        self.searchResult = []
+        self.searchResults = []
         self.txtSearch.text = ""
     }
     
     // let searchClient = makeElgrocerSearchClient()
-    var searchClient: IntegratedSearchClient!
+    // var searchClient: IntegratedSearchClient!
     
     var launchOptions: LaunchOptions!
     // var selectedRetailer: [String: Any] = [:]
-    var searchResult: [SearchResult] = [] {
+    var searchResults: [SearchResult] = [] {
         didSet {
-            btnClose.tintColor = searchResult.isEmpty ? .lightGray : .black
+            btnClose.tintColor = searchResults.isEmpty ? .lightGray : .black
             tableView.reloadData()
         }
     }
@@ -56,18 +56,20 @@ class IntegratedSearchViewController: UIViewController {
 // MARK: - Search List Table View Setup
 extension IntegratedSearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResult.count
+        return searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath) as! SearchCell
-        cell.setData(searchResult[indexPath.row])
+        cell.setData(searchResults[indexPath.row])
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedRetailer = searchResult[indexPath.row]
-        ElgrocerSearchNavigaion.shared.navigateToProductHome(selectedRetailer)
+        let selectedSearchResult: SearchResult = searchResults[indexPath.row]
+        let deepLinkPayload = selectedSearchResult.deepLink
+        self.launchOptions?.setDeepLinkPayload(deepLinkPayload)
+        ElGrocer.start(with: launchOptions)
     }
 }
 
@@ -84,14 +86,9 @@ extension IntegratedSearchViewController: UITextFieldDelegate {
 extension IntegratedSearchViewController {
     func searchProductStore(_ text: String) { //, lat: Double, long: Double) {
         
-        ElgrocerPreloadManager.shared.searchClient
-            .searchProduct(text) { response in
-                self.searchResult = response
-            }
-//        ElgrocerSearchClient.shared
-//            .searchProduct(text) { response, error in
-//                self.searchResult = response
-//            }
+        ElGrocer.searchProduct(text) { (_ searchResults: [SearchResult]) in
+            self.searchResults = searchResults
+        }
     }
 }
 

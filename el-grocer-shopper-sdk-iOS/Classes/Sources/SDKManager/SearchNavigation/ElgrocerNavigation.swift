@@ -10,12 +10,12 @@ import RxSwift
 import RxCocoa
 import UIKit
 
-public class ElgrocerSearchNavigaion {
+class ElgrocerSearchNavigaion {
     
-    public static var shared = ElgrocerSearchNavigaion()
+    static var shared = ElgrocerSearchNavigaion()
     private var disposeBag = DisposeBag()
     
-    public func navigateToProductHome(_ product: SearchResult) {
+    func navigateToProductHome(_ product: SearchResult) {
         Observable.just(())
             .flatMap{ [unowned self] _ in self.showAppWithMenu() }
             .flatMap{ [unowned self] _ in self.goToMainCategoriesVC(product) }

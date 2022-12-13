@@ -15,19 +15,14 @@ class PreLoadViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ElgrocerPreloadManager.shared.loadSearch(launchOptions)
+        ElGrocer.configure(with: launchOptions)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        DispatchQueue.main.asyncAfter(deadline: .now()  + 2) { [weak self] in self?.dismissView() }
-    }
-    
-    func dismissView() {
-        ElgrocerPreloadManager.shared.loadInitialData(launchOptions)
-        
-        self.dismiss(animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now()  + 2) { [weak self] in
+            self?.dismiss(animated: true)
+        }
     }
 }
