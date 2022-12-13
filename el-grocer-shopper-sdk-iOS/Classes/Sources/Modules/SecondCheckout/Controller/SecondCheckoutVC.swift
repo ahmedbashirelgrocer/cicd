@@ -121,9 +121,6 @@ class SecondCheckoutVC: UIViewController {
                 
                 guard order != nil else { return }
                 
-                // MARK: Segment Order Purchase Event logging
-                SegmentAnalyticsEngine.instance.logEvent(event: OrderPurchaseEvent(products: self?.viewModel.getFinalisedProducts() ?? [], grocery: self?.grocery, order: order))
-                
                 func logPurchaseEvents() {
                     self?.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
                     ElGrocerUtility.sharedInstance.delay(0.5) {
@@ -155,6 +152,9 @@ class SecondCheckoutVC: UIViewController {
                     if let oldOrder = self?.viewModel.getEditOrderInitialDetail(),oldOrder.cardID == self?.viewModel.getCreditCard()?.cardID {
                         self?.showConfirmationView(order!)
                         logPurchaseEvents()
+                        
+                        // MARK: Segment Order Purchase Event logging
+                        SegmentAnalyticsEngine.instance.logEvent(event: OrderPurchaseEvent(products: self?.viewModel.getFinalisedProducts() ?? [], grocery: self?.grocery, order: order))
                         return
                     }
                     elDebugPrint(order)
@@ -167,6 +167,9 @@ class SecondCheckoutVC: UIViewController {
                 }
                 
                 logPurchaseEvents()
+                
+                // MARK: Segment Order Purchase Event logging
+                SegmentAnalyticsEngine.instance.logEvent(event: OrderPurchaseEvent(products: self?.viewModel.getFinalisedProducts() ?? [], grocery: self?.grocery, order: order))
                 
             }
         }
