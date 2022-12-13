@@ -16,9 +16,9 @@ struct IdentifyUserEvent: AnalyticsEventType {
         self.eventCategory = .identifyUser(userID: String(user?.dbID.intValue ?? -1))
         self.metaData = [
             EventParameterKeys.email        : user?.email ?? "",
-            EventParameterKeys.mobileNumber : user?.phone ?? "",
+            EventParameterKeys.phone        : user?.phone ?? "",
             EventParameterKeys.name         : user?.name ?? "",
-            EventParameterKeys.onSmilesSDK  : SDKManager.isSmileSDK,
+            EventParameterKeys.isSmilesSDK  : false, // need to fetch this value from SDKManager in Single Code Base
         ]
     }
 }

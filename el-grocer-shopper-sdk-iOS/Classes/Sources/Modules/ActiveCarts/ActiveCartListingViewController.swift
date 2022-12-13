@@ -90,12 +90,11 @@ private extension ActiveCartListingViewController {
         }).disposed(by: disposeBag)
         
         self.viewModel.outputs.error.subscribe(onNext: { [weak self] error in
-            self?.showErrorAlert(title: "Error", message: error.localizedMessage)
+            self?.showErrorAlert(title: localizedString("alert_error_title", comment: ""), message: error.localizedMessage)
         }).disposed(by: disposeBag)
     }
     
     func showErrorAlert(title: String, message: String) {
-        let title = localizedString("alert_error_title", comment: "")
         let okayButtonTitle = localizedString("ok_button_title", comment: "")
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

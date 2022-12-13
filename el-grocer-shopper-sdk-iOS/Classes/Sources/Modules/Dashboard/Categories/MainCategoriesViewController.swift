@@ -1362,6 +1362,16 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             
         }
         
+        // Logging Segment Event
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if isNewCart {
+            let cartCreatedEvent = CartCreatedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
+        
         // ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(selectedProduct)
         self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
         MixpanelEventLogger.trackStoreAddItem(product: selectedProduct)
@@ -1385,6 +1395,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         if cartDeleted {
             let cartDeletedEvent = CartDeletedEvent(product: selectedProduct, activeGrocery: self.grocery)
             SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
         }
         
         MixpanelEventLogger.trackStoreRemoveItem(product: selectedProduct)

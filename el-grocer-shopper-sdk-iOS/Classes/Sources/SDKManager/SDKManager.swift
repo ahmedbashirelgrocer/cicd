@@ -346,7 +346,7 @@ class SDKManager: NSObject  {
     }
     
     private func initializeSegmentSDK() {
-        let configuration = AnalyticsConfiguration(writeKey: "Z2Jste7vnggEaRT9H5maGj8PUlFJXL4k")
+        let configuration = AnalyticsConfiguration(writeKey: kSegmentAnalyticsSDKWriteKey)
         
         configuration.trackApplicationLifecycleEvents = true
         configuration.flushAt = 3
