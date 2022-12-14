@@ -8,18 +8,22 @@
 import UIKit
 
 public extension ElGrocer {
-    static func configure(with launchOptions: LaunchOptions) {
-        DispatchQueue.global(qos: .default).async {
-            ElgrocerPreloadManager.shared.loadSearch(launchOptions)
-        }
-        
-        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + 1) {
+    static func configure(with launchOptions: LaunchOptions, completion: ((Bool) -> Void)? ) {
+        ElgrocerPreloadManager.shared.loadSearch(launchOptions) { _ in
+            completion?(true)
             ElgrocerPreloadManager.shared.loadInitialData(launchOptions)
         }
     }
     
     static func start(with launchOptions: LaunchOptions?) {
-        if let launchOptions = launchOptions, let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
+        guard let launchOptions = launchOptions else {
+            ElGrocer.startEngine(with: nil)
+            return
+        }
+        
+        ElgrocerPreloadManager.shared.searchClient.setLaunchOptions(launchOptions: launchOptions)
+        
+        if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
         } else {
             ElGrocer.startEngine(with: launchOptions)

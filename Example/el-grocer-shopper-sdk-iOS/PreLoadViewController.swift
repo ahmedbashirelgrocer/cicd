@@ -15,14 +15,8 @@ class PreLoadViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ElGrocer.configure(with: launchOptions)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()  + 2) { [weak self] in
-            self?.dismiss(animated: true)
+        ElGrocer.configure(with: launchOptions) { (_ isLoaded: Bool) in
+            self.dismiss(animated: true)
         }
     }
 }

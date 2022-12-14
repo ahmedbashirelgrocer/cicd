@@ -32,7 +32,7 @@ final class RetailersOnLocationUseCase: RetailersOnLocationUseCaseType {
     var launchOptionsObserver: AnyObserver<LaunchOptions> { launchOptionsSubject.asObserver() }
     
     // Outputs
-    var retailers: Observable<[RetailLight]> { retailersSubject.asObservable() }
+    var retailers: Observable<[RetailLight]> { retailersSubject.skip(1).share() }
     
     // Subjects
     private let launchOptionsSubject = PublishSubject<LaunchOptions>()
@@ -40,17 +40,16 @@ final class RetailersOnLocationUseCase: RetailersOnLocationUseCaseType {
     
     private let disposeBag = DisposeBag()
     
-    init(with launchOptions: LaunchOptions) {
+    init() {
         launchOptionsSubject
             .map{ Location.init(latitude: $0.latitude ?? 0, longitude: $0.longitude ?? 0) }
             .filter{ !($0.latitude == 0 && $0.longitude == 0) }
             .distinctUntilChanged()
-            .flatMap{ [unowned self] location in self.fetchRetails(location) }
-            .filter{ $0.count > 0 }
+            .flatMapLatest{ [unowned self] location in self.fetchRetails(location) }
             .bind(to: retailersSubject)
             .disposed(by: disposeBag)
         
-        launchOptionsSubject.onNext(launchOptions)
+        // launchOptionsSubject.onNext(launchOptions)
     }
     
     private func fetchRetails(_ location: Location) -> Observable<[RetailLight]> {
@@ -60,6 +59,7 @@ final class RetailersOnLocationUseCase: RetailersOnLocationUseCaseType {
                 case .success(let data):
                     let retailers = data["data"] as? [[String: Any]]
                     observer.onNext(retailers?.map{ RetailLight(data: $0) } ?? [])
+                    observer.onCompleted()
                 case .failure(let error):
                     observer.onError(error)
                 }

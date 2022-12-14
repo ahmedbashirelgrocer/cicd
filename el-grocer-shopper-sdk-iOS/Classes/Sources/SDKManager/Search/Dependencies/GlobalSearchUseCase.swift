@@ -36,11 +36,11 @@ final class GlobalSearchUseCase: GlobalSearchUseCaseType {
     var retailerObserver: AnyObserver<[RetailLight]> { retailerSubject.asObserver() }
     
     // Output
-    var resultObserver: Observable<(String, [[String: Any]])> { resultSubject.asObservable() }
+    var resultObserver: Observable<(String, [[String: Any]])> { resultSubject.share() }
     
     // Subjects
     private var queryTextSubject = PublishSubject<String?>()
-    private var retailerSubject = BehaviorSubject<[RetailLight]>(value: [])
+    private var retailerSubject = PublishSubject<[RetailLight]>()
     private var resultSubject = BehaviorSubject<(String, [[String: Any]])>(value: ("",[]))
     
     private var disposeBag = DisposeBag()
@@ -56,7 +56,7 @@ final class GlobalSearchUseCase: GlobalSearchUseCaseType {
                 retailerSubject     // and filtered Retailers
                     .filter{ $0.count > 0 }
             )
-            .flatMapLatest{ [unowned self] qtext, retailers in
+            .flatMap{ [unowned self] qtext, retailers in
                 self.searchQueryProduct(qtext, storeIDs: retailers.map{ "\($0.retailerId)" })
                     .map{(qtext, $0)}
                     .materialize()
@@ -64,7 +64,6 @@ final class GlobalSearchUseCase: GlobalSearchUseCaseType {
             .compactMap { $0.element }
             .bind(to: resultSubject)
             .disposed(by: disposeBag)
-        
     }
     
     fileprivate func searchQueryProduct(_ queryText: String, pageNumber: Int = 0, hitsPerPage: UInt = 100, storeIDs: [String]) -> Observable<[[String: Any]]> {
@@ -94,6 +93,7 @@ final class GlobalSearchUseCase: GlobalSearchUseCaseType {
                     //.filter{($0["index"] as? String) == "Product" } ?? []
                 
                 observer.onNext(products)
+                observer.onCompleted()
             }
             return Disposables.create()
         }

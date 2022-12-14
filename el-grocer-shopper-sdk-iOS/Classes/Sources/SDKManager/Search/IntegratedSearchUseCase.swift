@@ -51,6 +51,10 @@ class IntegratedSearchUseCase: IntegratedSearchUseCaseType {
         self.globalSearchUseCase = globalSearchUseCase
         self.retailersOnLocationUseCase = retailersOnLocationUseCase
         
+        self.retailersOnLocationUseCase.outputs.retailers
+            .bind(to: self.globalSearchUseCase.inputs.retailerObserver)
+            .disposed(by: disposeBag)
+        
         let searchResult = globalSearchUseCase
             .outputs
             .resultObserver
