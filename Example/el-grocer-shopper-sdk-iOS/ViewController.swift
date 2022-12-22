@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         self.present(vc, animated: true)
         
         self.btnSearch.isEnabled = true
-        self.btnLaunchSDK.isEnabled = true
+        // self.btnLaunchSDK.isEnabled = true
     }
     
     @IBAction func btnIntegratedSearchPressed(_ sender: Any) {
@@ -194,7 +194,7 @@ extension ViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.btnLoadData.isEnabled = true
         self.btnSearch.isEnabled = false
-        self.btnLaunchSDK.isEnabled = false
+        // self.btnLaunchSDK.isEnabled = false
     }
     
     @objc func textFieldDidEndEditing() {

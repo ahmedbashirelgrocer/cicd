@@ -21,7 +21,8 @@ public extension ElGrocer {
             return
         }
         
-        ElgrocerPreloadManager.shared.searchClient.setLaunchOptions(launchOptions: launchOptions)
+        ElgrocerPreloadManager.shared.loadSearch(launchOptions) { _ in }
+        ElgrocerPreloadManager.shared.loadInitialData(launchOptions)
         
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
