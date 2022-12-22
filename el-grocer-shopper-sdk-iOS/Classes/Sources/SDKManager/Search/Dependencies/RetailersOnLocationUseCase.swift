@@ -44,7 +44,7 @@ final class RetailersOnLocationUseCase: RetailersOnLocationUseCaseType {
         launchOptionsSubject
             .map{ Location.init(latitude: $0.latitude ?? 0, longitude: $0.longitude ?? 0) }
             .filter{ !($0.latitude == 0 && $0.longitude == 0) }
-            .distinctUntilChanged()
+            //Handeled at client level .distinctUntilChanged()
             .flatMapLatest{ [unowned self] location in self.fetchRetails(location) }
             .bind(to: retailersSubject)
             .disposed(by: disposeBag)

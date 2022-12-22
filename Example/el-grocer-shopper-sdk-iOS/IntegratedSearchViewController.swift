@@ -41,10 +41,9 @@ class IntegratedSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         txtSearch.rx.text
-            .filter{ $0 != nil }
-            .map{ $0! }
-            .filter{ ($0.isNotEmpty && ($0.count % 2 != 0) ) }
-            .distinctUntilChanged()
+            .compactMap { $0 }
+            .filter{ ($0.count % 2 == 0 ) }
+            // .distinctUntilChanged()
             .subscribe(
                 onNext: { [weak self] text in
                     self?.searchProductStore(text) //, lat: lat, long: long)

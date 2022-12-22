@@ -16,7 +16,7 @@ class ElgrocerPreloadManager {
         if searchClient == nil {
             self.searchClient = IntegratedSearchClient(launchOptions: launchOptions, loadCompletion: completion)
         } else {
-            self.searchClient.setLaunchOptions(launchOptions: launchOptions)
+            self.searchClient.setLaunchOptions(launchOptions: launchOptions, loadCompletion: completion)
         }
     }
 

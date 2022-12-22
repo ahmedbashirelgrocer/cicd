@@ -15,6 +15,12 @@ class IntegratedSearchClient {
     private var completion: (([SearchResult]) -> Void)?
     private var loadCompletion: ((Bool) -> Void)?
     
+    private var launchOptions: LaunchOptions?
+    private var queryText = ""
+    private var searchResults: [SearchResult]?
+    
+    private var retailers: [RetailLight]?
+    
     private var disposeBag = DisposeBag()
     
     init(launchOptions: LaunchOptions, loadCompletion: ((Bool) -> Void)?) {
@@ -29,13 +35,17 @@ class IntegratedSearchClient {
         // Subscription to send result to search completion
         integratedSearchUseCase.outputs.searchResult
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { result in self.completion?(result) })
+            .subscribe(onNext: { result in
+                self.searchResults = result
+                self.completion?(result)
+            })
             .disposed(by: disposeBag)
         
         // Search Data Loading completed
         retailersOnLocationUseCase.outputs.retailers
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: { [weak self] rtls in
+                self?.retailers = rtls
                 self?.loadCompletion?(true)
             } )
             .disposed(by: disposeBag)
@@ -47,11 +57,36 @@ class IntegratedSearchClient {
     func searchProduct(_ queryText: String, completion: @escaping ([SearchResult]) -> Void) {
         self.completion = completion
         
-        integratedSearchUseCase.inputs.queryTextObserver.onNext(queryText)
+        if queryText.isEmpty {
+            self.completion?([])
+            return
+        }
+        
+        if self.queryText == queryText, self.searchResults != nil {
+            self.completion?(self.searchResults!)
+        } else {
+            integratedSearchUseCase.inputs.queryTextObserver.onNext(queryText)
+        }
+        
+        self.queryText = queryText
     }
     
     func setLaunchOptions(launchOptions: LaunchOptions, loadCompletion: ((Bool) -> Void)? = nil) {
+        let locNew = RetailersOnLocationUseCase.Location
+            .init(latitude: launchOptions.latitude ?? 0,
+                  longitude: launchOptions.longitude ?? 0)
+        let locOld = RetailersOnLocationUseCase.Location
+            .init(latitude: self.launchOptions?.latitude ?? 0,
+                  longitude: self.launchOptions?.longitude ?? 0)
+        
         self.loadCompletion = loadCompletion
-        integratedSearchUseCase.inputs.launchOptionsObserver.onNext(launchOptions)
+        
+        if locOld == locNew, (retailers?.count ?? 0) > 0 {
+            self.loadCompletion?(true)
+        } else {
+            integratedSearchUseCase.inputs.launchOptionsObserver.onNext(launchOptions)
+        }
+        
+        self.launchOptions = launchOptions
     }
 }

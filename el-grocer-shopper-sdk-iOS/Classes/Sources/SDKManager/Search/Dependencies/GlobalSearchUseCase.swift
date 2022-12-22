@@ -19,8 +19,7 @@ protocol GlobalSearchUseCaseOutput {
     var resultObserver: Observable<(String, [[String: Any]])> { get }
 }
 
-protocol GlobalSearchUseCaseType: GlobalSearchUseCaseInput,
-                                        GlobalSearchUseCaseOutput {
+protocol GlobalSearchUseCaseType: GlobalSearchUseCaseInput, GlobalSearchUseCaseOutput {
     var inputs: GlobalSearchUseCaseInput { get }
     var outputs: GlobalSearchUseCaseOutput { get }
 }
@@ -51,8 +50,8 @@ final class GlobalSearchUseCase: GlobalSearchUseCaseType {
             .combineLatest(
                 queryTextSubject    // filtered Query Text
                     .compactMap{ $0 }
-                    .filter{ $0.isNotEmpty }
-                    .distinctUntilChanged(),
+                    .filter{ $0.isNotEmpty },
+                    // Handeled at client level .distinctUntilChanged(),
                 retailerSubject     // and filtered Retailers
                     .filter{ $0.count > 0 }
             )
