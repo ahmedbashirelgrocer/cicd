@@ -21,7 +21,13 @@ public extension ElGrocer {
             return
         }
         
-        ElgrocerPreloadManager.shared.loadSearch(launchOptions) { _ in }
+        if SDKManager.shared.launchOptions?.location != launchOptions.location {
+            
+            ElgrocerPreloadManager.shared.loadInitialData(launchOptions)
+            
+            ElgrocerPreloadManager.shared.loadSearch(launchOptions) { _ in }
+            
+        }
         
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
@@ -38,6 +44,12 @@ public extension ElGrocer {
 public extension LaunchOptions {
     mutating func setDeepLinkPayload(_ deepLinkPayload: String) {
         self.deepLinkPayload = deepLinkPayload
+    }
+}
+
+extension LaunchOptions {
+    var location: RetailersOnLocationUseCase.Location {
+        .init(latitude: latitude ?? 0, longitude: longitude ?? 0)
     }
 }
 
