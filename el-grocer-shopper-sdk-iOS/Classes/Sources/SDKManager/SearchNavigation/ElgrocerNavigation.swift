@@ -32,7 +32,7 @@ class ElgrocerSearchNavigaion {
                     observer.onNext(())
                 }
             return Disposables.create()
-        }.delay(.milliseconds(300), scheduler: MainScheduler.instance)
+        }
     }
     
     func goToMainCategoriesVC(_ product: SearchResult)  -> Observable<Void> {

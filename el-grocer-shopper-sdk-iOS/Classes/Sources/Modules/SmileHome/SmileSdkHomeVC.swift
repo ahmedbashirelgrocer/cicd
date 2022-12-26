@@ -9,6 +9,7 @@ import UIKit
 import CoreLocation
 class SmileSdkHomeVC: BasketBasicViewController {
     
+    var launchCompletion: (() -> Void)?
     
         // MARK: - DataHandler
     var homeDataHandler : HomePageData = HomePageData.shared
@@ -69,6 +70,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        launchCompletion?()
+        launchCompletion = nil
+        
         self.checkAddressValidation()
             //to refresh smiles point
         self.getSmileUserInfo()

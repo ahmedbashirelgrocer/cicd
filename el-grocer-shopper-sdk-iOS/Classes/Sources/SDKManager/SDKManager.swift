@@ -431,7 +431,6 @@ class SDKManager: NSObject  {
          }
         
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
-        entryController.completion = launchCompletion
          
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
@@ -545,9 +544,11 @@ class SDKManager: NSObject  {
         let tabController = UITabBarController()
         tabController.delegate = self
         let homeViewEmpty =  ElGrocerViewControllers.getGenericStoresViewController(HomePageData.shared)
+        homeViewEmpty.launchCompletion = launchCompletion
         var smileHomeVc : SmileSdkHomeVC? = nil
         if isSmile {
             smileHomeVc =  ElGrocerViewControllers.getSmileHomeVC(HomePageData.shared)
+            smileHomeVc?.launchCompletion = launchCompletion
         }
         
         let storeMain = ElGrocerViewControllers.mainCategoriesViewController()

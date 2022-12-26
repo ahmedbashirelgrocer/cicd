@@ -19,8 +19,6 @@ class SplashAnimationViewController: UIViewController {
     lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
     
-    var completion: (() -> Void)?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         HomePageData.shared.loadingCompletionSplash = { [weak self] in
@@ -96,7 +94,6 @@ class SplashAnimationViewController: UIViewController {
             self.setRootVc()
         }
         
-        self.completion?()
     }
     
     @objc func cameBackFromSleep(sender : AnyObject) {
