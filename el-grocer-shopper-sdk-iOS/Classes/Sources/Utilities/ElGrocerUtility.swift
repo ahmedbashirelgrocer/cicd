@@ -1107,7 +1107,7 @@ class ElGrocerUtility {
                 && !userProfile!.phone!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 
                 && address.houseNumber != nil && !address.houseNumber!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
+                // && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
         }else{
             
             isValidationSuccessed = profile.name != nil && !profile.name!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty && profile.phone != nil
@@ -1116,7 +1116,7 @@ class ElGrocerUtility {
                 && address.building != nil && !address.building!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && address.floor != nil && !address.floor!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && address.apartment != nil && !address.apartment!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
+                // && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
         }
         
         return isValidationSuccessed

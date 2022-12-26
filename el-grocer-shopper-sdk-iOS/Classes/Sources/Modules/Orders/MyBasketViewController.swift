@@ -549,13 +549,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if !self.isAddressCompleted && (userProfile != nil) && (self.grocery != nil)  {
-//            self.signView.isHidden = false
-//            self.tblViewYPossition.constant = 160
-//            self.lblTopViewEdgeCaseMsg.text = localizedString("lbl_myBasket_add_Address", comment: "")
-//            self.imgViewTopCardView.image = UIImage(name: "addAddress")
-//            self.btnAddAddress.setTitle(localizedString("btn_add_address_alert_title", comment: ""), for: .normal)
-//            self.viewAddAddress.isHidden = false
-            self.btnAddAddressAction(true)
+            self.signView.isHidden = false
+            self.tblViewYPossition.constant = 160
+            self.lblTopViewEdgeCaseMsg.text = localizedString("lbl_myBasket_add_Address", comment: "")
+            self.imgViewTopCardView.image = UIImage(name: "addAddress")
+            self.btnAddAddress.setTitle(localizedString("btn_add_address_alert_title", comment: ""), for: .normal)
+            self.viewAddAddress.isHidden = false
         } else if userProfile == nil && self.grocery != nil {
             self.signView.isHidden = false
             self.tblViewYPossition.constant = 150
