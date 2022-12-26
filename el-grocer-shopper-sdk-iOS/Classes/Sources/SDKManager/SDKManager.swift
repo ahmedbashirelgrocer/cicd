@@ -498,7 +498,8 @@ class SDKManager: NSObject  {
                 if tabVC.viewControllers.count > 0  {
                     if let tabController = tabVC.viewControllers[0] as? UITabBarController {
                         Thread.OnMainThread {
-                            topVC.navigationController?.pushViewControllerFromLeftAndSetRoot(controller: tabController)
+                            //topVC.navigationController?.pushViewControllerFromLeftAndSetRoot(controller: tabController)
+                            topVC.navigationController?.setViewControllers([tabController], animated: true)
                         }
                     }
                 }

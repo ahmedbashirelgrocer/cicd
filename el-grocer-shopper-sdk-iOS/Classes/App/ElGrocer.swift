@@ -30,7 +30,7 @@ public final class ElGrocer {
             
             guard ElGrocerAppState.checkDBCanBeLoaded() else {
                 ElGrocer.showDefaultErrorForDB()
-                return
+                return defers()
             }
             
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
