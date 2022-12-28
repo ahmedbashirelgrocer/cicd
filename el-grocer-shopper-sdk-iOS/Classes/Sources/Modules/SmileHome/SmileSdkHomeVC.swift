@@ -75,6 +75,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
             //to refresh smiles point
         self.getSmileUserInfo()
         self.setDefaultGrocery()
+        
+        // Fetch basket status from server 
+        self.homeDataHandler.fetchBasketStatus()
     }
     
         // MARK: - UI Customization
@@ -450,8 +453,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
     
         self.refreshBasketIconStatus()
-        
-        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState( ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.lastItemsCount > 0)
     }
     
         // MARK: - ButtonAction
@@ -894,6 +895,10 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.tableView.reloadData()
             SpinnerView.hideSpinnerView()
         }
+    }
+    
+    func basketStatusChange(status: Bool) {
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(status)
     }
 }
 

@@ -198,6 +198,7 @@ enum ElGrocerApiEndpoint : String {
     case getSubstitutionBasketDetails = "v2/baskets/substitution"
     case orderSubstitutionBasketUpdate = "v4/orders/substitution"
     case getActiveCarts = "v2/baskets/all_carts"
+    case isActiveCartAvailable = "v2/baskets/is_cart_available"
  }
  
  class ElgrocerAPINonBase  {
@@ -4481,6 +4482,31 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               completion(.failure(ElGrocerError(error: error as NSError)))
           }
 
+      }
+      
+      // MARK: Check available carts
+      func fetchBasketStatus(latitude: Double, longitude: Double, completion: @escaping (Either<BasketStatusDTO>) -> Void) {
+          self.setAccessToken()
+          let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
+          
+          NetworkCall.get(ElGrocerApiEndpoint.isActiveCartAvailable.rawValue, parameters: params) { progress in
+              
+          } success: { URLSessionDataTask, responseObject in
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let basketStatus = try JSONDecoder().decode(HasBasketResponse.self, from: data)
+                      completion(.success(basketStatus.data))
+                      return
+                  }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+          } failure: { URLSessionDataTask, error in
+              completion(.failure(ElGrocerError(error: error as NSError)))
+          }
       }
     
  // MARK: ReasonApi

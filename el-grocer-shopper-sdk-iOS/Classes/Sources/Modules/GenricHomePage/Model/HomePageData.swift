@@ -12,9 +12,11 @@ import CleverTapSDK
 protocol HomePageDataLoadingComplete : class {
     func loadingDataComplete(type : loadingType?)
     func refreshMessageView(msg: String) -> Void
+    func basketStatusChange(status: Bool)
 }
 extension HomePageDataLoadingComplete  {
     func refreshMessageView(msg: String) -> Void {}
+    func basketStatusChange(status: Bool) { }
 }
 
 enum loadingType {
@@ -108,6 +110,23 @@ class HomePageData  {
         self.isDataLoading = true
         if self.isFetchingTimeLogEnable { self.startFetchingTime = Date() }
         self.startFetching()
+    }
+    
+    /// This method fetch the status of active carts from server and notify back the caller through delegate method ``basketStatusChange`` of ``HomePageDataLoadingComplete`` protocol.
+    func fetchBasketStatus() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+        
+        ElGrocerApi.sharedInstance.fetchBasketStatus(latitude: address.latitude, longitude: address.longitude) { [weak self] result in
+            switch result {
+            case .success(let basketStatus):
+                self?.delegate?.basketStatusChange(status: basketStatus.hasBasket ?? false)
+                break
+                
+            case .failure(_):
+                self?.delegate?.basketStatusChange(status: false)
+                break
+            }
+        }
     }
     
     private func startFetching() {
