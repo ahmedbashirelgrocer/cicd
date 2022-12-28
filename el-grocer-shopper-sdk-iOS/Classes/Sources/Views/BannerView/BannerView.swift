@@ -35,7 +35,7 @@ class BannerView: UIView {
         })
         
         let isArbic = ElGrocerUtility.sharedInstance.isArabicSelected()
-        collectionView.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
+        self.collectionView.semanticContentAttribute = isArbic ? .forceRightToLeft : .forceLeftToRight
     }
 
     required init?(coder aDecoder: NSCoder) {

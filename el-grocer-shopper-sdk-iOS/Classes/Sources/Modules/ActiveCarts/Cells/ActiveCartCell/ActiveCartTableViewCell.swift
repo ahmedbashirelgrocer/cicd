@@ -109,8 +109,7 @@ private extension ActiveCartTableViewCell {
         
         self.viewModel.outputs.isArbic.subscribe { [weak self] isArbic in
             self?.buttonNext.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
-            self?.collectionView.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
-            self?.collectionView.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+            self?.collectionView.semanticContentAttribute = isArbic ? .forceRightToLeft : .forceLeftToRight
         }.disposed(by: disposeBag)
     }
 }
