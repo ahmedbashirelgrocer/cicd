@@ -8,12 +8,12 @@
 import Foundation
 
 // MARK: Purchase Order Event
-struct OrderPurchaseEvent: AnalyticsEventType {
-    var eventCategory: AnalyticsEventCategory
+struct OrderPurchaseEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
     var metaData: [String : Any]?
 
     init(products: [Product], grocery: Grocery?, order: Order?) {
-        self.eventCategory = .sendEvent(eventName: AnalyticsEventName.orderPurchased)
+        self.eventType = .track(eventName: AnalyticsEventName.orderPurchased)
         self.metaData = [
             EventParameterKeys.totalOrderAmount : order?.totalValue ?? "",
             EventParameterKeys.paymentMethodId  : order?.payementType ?? "",
@@ -35,7 +35,7 @@ struct OrderPurchaseEvent: AnalyticsEventType {
                 quantity = basketItem.count.intValue
             }
             
-            dictionary[EventParameterKeys.name]             = product.name ?? ""
+            dictionary[EventParameterKeys.productName]      = product.name ?? ""
             dictionary[EventParameterKeys.productId]        = product.productId
             dictionary[EventParameterKeys.categoryID]       = product.categoryId ?? ""
             dictionary[EventParameterKeys.categoryName]     = product.categoryName ?? ""
@@ -48,7 +48,8 @@ struct OrderPurchaseEvent: AnalyticsEventType {
             dictionary[EventParameterKeys.isPromotion]      = product.promotion as? Bool ?? false
             dictionary[EventParameterKeys.isRecipe]         = false
             dictionary[EventParameterKeys.quantity]         = quantity
-            dictionary[EventParameterKeys.promoPrice]       = product.promoPrice
+            // if the isPromotion is false then need to send the actual price in promoPrice
+            dictionary[EventParameterKeys.promoPrice]       = product.promotion as? Bool ?? false ? round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100 : product.price
             
             return dictionary
         }

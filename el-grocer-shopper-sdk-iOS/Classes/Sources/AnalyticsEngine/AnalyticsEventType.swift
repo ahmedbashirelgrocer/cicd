@@ -7,13 +7,18 @@
 
 import Foundation
 
-protocol AnalyticsEventType {
-    var eventCategory: AnalyticsEventCategory { get }
+protocol AnalyticsEventDataType {
+    var eventType: AnalyticsEventType { get }
     var metaData: [String: Any]? { get }
 }
 
-enum AnalyticsEventCategory {
-    case identifyUser(userID: String)
-    case sendEvent(eventName: String)
-    case sendScreen(screenName: String)
+enum AnalyticsEventType {
+    case track(eventName: String)
+    case screen(screenName: String)
+}
+
+protocol IdentifyUserDataType {
+    var userId: String { get }
+    var traits: [String: Any]? { get }
+    
 }

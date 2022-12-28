@@ -8,17 +8,18 @@
 import Foundation
 
 // MARK: Identify User Event
-struct IdentifyUserEvent: AnalyticsEventType {
-    var eventCategory: AnalyticsEventCategory
-    var metaData: [String : Any]?
+// MARK: Identify User Event
+struct IdentifyUserEvent: IdentifyUserDataType {
+    var userId: String
+    var traits: [String : Any]?
 
     init(user: UserProfile?) {
-        self.eventCategory = .identifyUser(userID: String(user?.dbID.intValue ?? -1))
-        self.metaData = [
+        self.userId = String(user?.dbID.intValue ?? -1)
+        self.traits = [
             EventParameterKeys.email        : user?.email ?? "",
             EventParameterKeys.phone        : user?.phone ?? "",
             EventParameterKeys.name         : user?.name ?? "",
-            EventParameterKeys.isSmilesSDK  : false, // need to fetch this value from SDKManager in Single Code Base
+            EventParameterKeys.isSmilesSDK  : SDKManager.shared.launchOptions?.isSmileSDK ?? true,
         ]
     }
 }

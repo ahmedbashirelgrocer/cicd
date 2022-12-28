@@ -694,6 +694,7 @@ class SDKManager: NSObject  {
         ElGrocerUtility.sharedInstance.recipeList = [:]
         SendBirdManager().createNewUserAndDeActivateOld()
 
+        SegmentAnalyticsEngine.instance.reset()
         
         ElGrocerUtility.sharedInstance.delay(1) {
             

@@ -9,7 +9,9 @@ import Foundation
 import Segment
 
 protocol AnalyticsEngineType {
-    func logEvent(event: AnalyticsEventType)
+    func identify(userData: IdentifyUserDataType)
+    func logEvent(event: AnalyticsEventDataType)
+    func reset()
 }
 
 class SegmentAnalyticsEngine: AnalyticsEngineType {
@@ -21,19 +23,23 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
         self.analytics = analytics
     }
     
-    func logEvent(event: AnalyticsEventType) {
-        switch event.eventCategory {
-        case .identifyUser(userID: let userID):
-            self.analytics.identify(userID, traits: event.metaData)
-            break
-            
-        case .sendEvent(let eventName):
+    func identify(userData: IdentifyUserDataType) {
+        self.analytics.identify(userData.userId, traits: userData.traits)
+    }
+    
+    func logEvent(event: AnalyticsEventDataType) {
+        switch event.eventType {
+        case .track(let eventName):
             self.analytics.track(eventName, properties: event.metaData)
             break
             
-        case .sendScreen(let screenName):
+        case .screen(let screenName):
             self.analytics.screen(screenName, properties: event.metaData)
             break
         }
+    }
+    
+    func reset() {
+        self.analytics.reset()
     }
 }

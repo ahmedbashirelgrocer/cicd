@@ -10,13 +10,13 @@ import Foundation
 // If the enum goes long then its better to move this to module level each module will have their own event params enum
 enum EventParameterKeys {
     static let storeId          = "storeId"
-    static let typesStoreID     = "typesStoreID"
+    static let typesStoreID     = "typesStoreId"
     static let storeName        = "storeName"
-    static let retailerID       = "retailerID"
+    static let retailerID       = "retailerId"
     static let retailerName     = "retailerName"
-    static let categoryID       = "categoryID"
+    static let categoryID       = "categoryId"
     static let categoryName     = "categoryName"
-    static let subcategoryID    = "subcategoryID"
+    static let subcategoryID    = "subcategoryId"
     static let subcategoryName  = "subcategoryName"
     static let price            = "price"
     static let brandId          = "brandId"

@@ -47,7 +47,7 @@ struct SDKLoginManager {
                     SendBirdManager().createNewUserAndDeActivateOld()
                     
                     let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    SegmentAnalyticsEngine.instance.logEvent(event: IdentifyUserEvent(user: user))
+                    SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
                 }
                 completionHandler(isSuccess, errorMessage)
             }
