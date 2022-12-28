@@ -4473,7 +4473,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
                       let data = try JSONSerialization.data(withJSONObject: rootJson)
                       let activeCartResponse = try JSONDecoder().decode(ActiveCartResponseDTO.self, from: data)
                       completion(.success(activeCartResponse.data))
+                      return
                   }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
               } catch {
                   completion(.failure(ElGrocerError.parsingError()))
               }
