@@ -105,7 +105,7 @@ public enum EnvironmentType {
     }
 }
 
-public struct LaunchOptions: Equatable  {
+public struct LaunchOptions {
     var accountNumber: String?
     public var latitude: Double?
     public var longitude: Double?
