@@ -730,7 +730,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if self.addressType == "1" {
             enableSubmitButton = !self.locNameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && !self.apartmentNumberTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                && !self.streetTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
+                // && !self.streetTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && !self.addressType.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && self.deliveryAddressLocation != nil
         }else{
@@ -739,7 +739,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             && !self.buildingTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && !self.floorTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && !self.apartmentNumberTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-            && !self.streetTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
+            // && !self.streetTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && !self.addressType.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && self.deliveryAddressLocation != nil
             
@@ -778,15 +778,15 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             self.apartmenttxtView.layer.borderWidth = 0
         }
         
-        if self.streetTextField.text!.count == 0 {
-            //self.streetView.layer.borderWidth = 1
-           // self.streetView.layer.borderColor = UIColor.redInfoColor().cgColor
-            self.streetTextField.showError(message: localizedString("error_enter_street", comment: ""))
-        }else{
-            self.streetView.layer.borderWidth = 0
-        }
-    
-        setUpdateButtonEnabled(true)
+//        if self.streetTextField.text!.count == 0 {
+//            //self.streetView.layer.borderWidth = 1
+//           // self.streetView.layer.borderColor = UIColor.redInfoColor().cgColor
+//            self.streetTextField.showError(message: localizedString("error_enter_street", comment: ""))
+//        }else{
+//            self.streetView.layer.borderWidth = 0
+//        }
+//        setUpdateButtonEnabled(true)
+        
         self.editTableView.reloadData()
         
         if let cell = self.editTableView.cellForRow(at: NSIndexPath.init(row: 0, section: 0) as IndexPath)  {
@@ -801,7 +801,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 if current.txtShopperName.text?.count == 0 {
                     //current.viewName.layer.borderWidth = 1
                     //current.viewName.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-                    current.txtMobileNumber.showError(message: "Please enter your mobile number.")
+                    current.txtShopperName.showError(message: "Please enter your name.")
                     enableSubmitButton = false
                 }
                

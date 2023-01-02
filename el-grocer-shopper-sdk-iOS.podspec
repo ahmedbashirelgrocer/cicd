@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.0.47'
+  s.version          = '1.0.50'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -57,8 +57,8 @@ Pod::Spec.new do |s|
       'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/**/{R-SupportingFiles/*.*,*.storyboard,*.xib,*.xcassets,*.xcdatamodeld,*.m4r,*.otf,*.ttf,*.json,*.strings,*.lproj/*.strings}']
   }
   
-    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+#    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+#    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
     
     
   #.{png,xcassets,xcdatamodeld,plist,strings,json,m4r}
@@ -147,6 +147,7 @@ Pod::Spec.new do |s|
   s.dependency 'FXPageControl', '~> 1.5'
   s.dependency 'RxSwift', '~>5.1.1'
   s.dependency 'RxCocoa', '~>5.1.1'
+  s.dependency 'RxDataSources'
   #s.dependency 'HMSegmentedControl', '~> 1.5.6'
   s.dependency 'KLCPopup', '~> 1.0'
   s.dependency 'JDFTooltips', '~> 1.1'
@@ -193,6 +194,9 @@ Pod::Spec.new do |s|
   s.dependency 'Mixpanel-swift', '~> 3.3.0'
   s.dependency 'lottie-ios', '~> 3.2.3'
 #s.dependency 'AppsFlyerFramework'
+
+  # Segment analytics dependency
+  s.dependency 'Analytics', '~> 4.1'
 
 
 end

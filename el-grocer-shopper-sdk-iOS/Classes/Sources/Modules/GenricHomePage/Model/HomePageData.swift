@@ -12,9 +12,11 @@ import CleverTapSDK
 protocol HomePageDataLoadingComplete : class {
     func loadingDataComplete(type : loadingType?)
     func refreshMessageView(msg: String) -> Void
+    func basketStatusChange(status: Bool)
 }
 extension HomePageDataLoadingComplete  {
     func refreshMessageView(msg: String) -> Void {}
+    func basketStatusChange(status: Bool) { }
 }
 
 enum loadingType {
@@ -71,7 +73,7 @@ class HomePageData  {
     lazy var chefList : [CHEF] = [CHEF]()
     lazy var recipeList : [Recipe] = [Recipe]()
     lazy var featureGroceryBanner : [BannerCampaign] = []
-    private var fetchOrder : [loadingType]  = []
+    var fetchOrder : [loadingType]  = []
             var isDataLoading : Bool = false
     private var isFetchingTimeLogEnable : Bool = false
     private lazy var startFetchingTime : Date = Date()
@@ -82,6 +84,10 @@ class HomePageData  {
         return config
     }()
     
+    var isLoadingComplete: Bool { fetchOrder.count == 0 && isDataLoading == false && (self.groceryA?.count ?? 0 > 0) }
+    var loadingCompletion: (() -> Void)?
+    var loadingCompletionSplash: (() -> Void)?
+    
     init() {
         self.dataSource = StoresDataHandler()
         self.dataSource?.delegate = self
@@ -90,7 +96,9 @@ class HomePageData  {
         self.recipeDataHandler?.delegate = self
     }
     
-    func fetchHomeData( _ logEnable : Bool = false) {
+    func fetchHomeData( _ logEnable : Bool = false, completion: (() -> Void)? = nil) {
+        self.loadingCompletion = completion
+        
         self.isFetchingTimeLogEnable = logEnable
         self.resetHomeDataHandler()
         self.fetchOrder = []
@@ -110,9 +118,28 @@ class HomePageData  {
         self.startFetching()
     }
     
+    /// This method fetch the status of active carts from server and notify back the caller through delegate method ``basketStatusChange`` of ``HomePageDataLoadingComplete`` protocol.
+    func fetchBasketStatus() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+        
+        ElGrocerApi.sharedInstance.fetchBasketStatus(latitude: address.latitude, longitude: address.longitude) { [weak self] result in
+            switch result {
+            case .success(let basketStatus):
+                self?.delegate?.basketStatusChange(status: basketStatus.hasBasket ?? false)
+                break
+                
+            case .failure(_):
+                self?.delegate?.basketStatusChange(status: false)
+                break
+            }
+        }
+    }
+    
     private func startFetching() {
         guard self.fetchOrder.count > 0 else {
             self.isDataLoading = false
+            self.loadingCompletion?()
+            self.loadingCompletionSplash?()
             if self.isFetchingTimeLogEnable { self.endFetchFetchingTime = Date()
                 elDebugPrint("DataLoaded: Home Page Call time Duration : \(self.endFetchFetchingTime.timeIntervalSince(self.startFetchingTime))")
             }

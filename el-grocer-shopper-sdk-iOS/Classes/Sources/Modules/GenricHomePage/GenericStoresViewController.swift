@@ -62,6 +62,7 @@ extension GenericStoresViewController : HomePageDataLoadingComplete {
 }
 class GenericStoresViewController: BasketBasicViewController {
         // MARK:- properties
+    var launchCompletion: (() -> Void)?
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var switchViewHeight: NSLayoutConstraint!
@@ -194,6 +195,10 @@ class GenericStoresViewController: BasketBasicViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        launchCompletion?()
+        launchCompletion = nil
+        
         guard UserDefaults.didUserSetAddress() else {
             return
         }

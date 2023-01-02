@@ -43,6 +43,7 @@ PODS:
     - AFNetworking/NSURLSession
   - AlgoliaSearchClient (8.14.0):
     - Logging
+  - Analytics (4.1.6)
   - AnimatedGradientView (3.1.0)
   - BadgeControl (1.2.1)
   - BetterSegmentedControl (2.0.1)
@@ -50,11 +51,13 @@ PODS:
   - CHDropDownTextField (1.0.0)
   - CleverTap-iOS-SDK (4.0.1):
     - SDWebImage (~> 5.1)
+  - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.0.45):
+  - el-grocer-shopper-sdk-iOS (1.0.50):
     - Adyen (~> 4.7.3)
     - AlgoliaSearchClient (~> 8.0)
+    - Analytics (~> 4.1)
     - AnimatedGradientView (~> 3.1.0)
     - BadgeControl (~> 1.2.1)
     - BetterSegmentedControl (~> 2.0.1)
@@ -88,6 +91,7 @@ PODS:
     - NBBottomSheet (~> 1.2.0)
     - PinCodeTextField (~> 0.1.0)
     - RxCocoa (~> 5.1.1)
+    - RxDataSources
     - RxSwift (~> 5.1.1)
     - SDWebImage (~> 5.12.3)
     - SendBirdDesk (~> 1.0.17)
@@ -321,6 +325,10 @@ PODS:
   - RxCocoa (5.1.3):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
+  - RxDataSources (4.0.1):
+    - Differentiator (~> 4.0)
+    - RxCocoa (~> 5.0)
+    - RxSwift (~> 5.0)
   - RxRelay (5.1.3):
     - RxSwift (~> 5)
   - RxSwift (5.1.3)
@@ -354,12 +362,14 @@ SPEC REPOS:
     - AdyenNetworking
     - AFNetworking
     - AlgoliaSearchClient
+    - Analytics
     - AnimatedGradientView
     - BadgeControl
     - BetterSegmentedControl
     - CCValidator
     - CHDropDownTextField
     - CleverTap-iOS-SDK
+    - Differentiator
     - DisplaySwitcher
     - DoneCancelNumberPadToolbar
     - FBAEMKit
@@ -406,6 +416,7 @@ SPEC REPOS:
     - PinCodeTextField
     - PromisesObjC
     - RxCocoa
+    - RxDataSources
     - RxRelay
     - RxSwift
     - SDWebImage
@@ -429,15 +440,17 @@ SPEC CHECKSUMS:
   AdyenNetworking: 14567bd00c00ba2e2580a904708c7ba5f010b1f9
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
+  Analytics: eefe524436f904b8bb3f8c8c3425280e43b34efc
   AnimatedGradientView: f249740238c6b491a10d505ab06bb98d897ca3a7
   BadgeControl: 67036e7f586930bba15084dbf89ebce7aa2f2bc2
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
   CCValidator: 19c090b536c0152863795aa291bf7be3ffccf457
   CHDropDownTextField: d8a2843acbdd75b5b8d26b27dca9e07c2b1ae5e1
   CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
+  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 9db5a0d0deb5023d8015928676bada42f38a1e9b
+  el-grocer-shopper-sdk-iOS: 94a900a28f01a84a9f38e26389800fcd39a40e90
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -482,6 +495,7 @@ SPEC CHECKSUMS:
   PinCodeTextField: a3c39be58bde3ed1d6888d0fb1d88b0a4a2277cc
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
+  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
@@ -495,6 +509,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: 56af757af557c66305bd75b5495f3719c7b848db
+PODFILE CHECKSUM: 3e6a7031e074e11bdd0b0f9c8c8397b41ebb15f5
 
 COCOAPODS: 1.11.3

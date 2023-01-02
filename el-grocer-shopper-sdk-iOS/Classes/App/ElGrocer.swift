@@ -17,7 +17,9 @@ public final class ElGrocer {
 
     static var isSDKLoaded = false
     
-    public static func startEngine(with launchOptions: LaunchOptions? = nil) {
+    static func startEngine(with launchOptions: LaunchOptions? = nil, completion: (() -> Void)?  = nil) {
+        
+        SDKManager.shared.launchCompletion = completion
         
         DispatchQueue.main.async {
 
@@ -28,7 +30,7 @@ public final class ElGrocer {
             
             guard ElGrocerAppState.checkDBCanBeLoaded() else {
                 ElGrocer.showDefaultErrorForDB()
-                return
+                return defers()
             }
             
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
@@ -79,8 +81,7 @@ public final class ElGrocer {
 }
 
 
-enum SDKType {
-    
+enum SDKType: Int {
     case smiles
     case elGrocerShopper
 }
@@ -104,10 +105,10 @@ public enum EnvironmentType {
     }
 }
 
-public struct LaunchOptions  {
+public struct LaunchOptions {
     var accountNumber: String?
-    var latitude: Double?
-    var longitude: Double?
+    public var latitude: Double?
+    public var longitude: Double?
     var address: String?
     var loyaltyID: String?
     var email: String?

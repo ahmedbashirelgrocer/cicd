@@ -43,7 +43,7 @@ class ElGrocerShopperAppViewController: UIViewController {
             isSmileSDK: false,
             isLoggingEnabled: true
         )
-        ElGrocer.startEngine(with: launchOptions)
+        ElGrocer.start(with: launchOptions)
         
         
     }

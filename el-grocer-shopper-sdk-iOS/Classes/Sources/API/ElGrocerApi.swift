@@ -156,6 +156,7 @@ enum ElGrocerApiEndpoint : String {
     // c And c
     case cAndcAvailability = "v2/retailers/cc_availability" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case retailerscAndc = "v1/retailers/click_and_collect" // https://elgrocerdxb.atlassian.net/browse/EG-584
+    case retailersListLight = "v4/retailers/retailers_list"
     case retailerDetail = "v2/retailers/click_and_collect/show"
     
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
@@ -197,6 +198,8 @@ enum ElGrocerApiEndpoint : String {
     
     case getSubstitutionBasketDetails = "v2/baskets/substitution"
     case orderSubstitutionBasketUpdate = "v4/orders/substitution"
+    case getActiveCarts = "v2/baskets/all_carts"
+    case isActiveCartAvailable = "v2/baskets/is_cart_available"
  }
  
  class ElgrocerAPINonBase  {
@@ -3766,6 +3769,27 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
         }
     }
+      
+    func getRetailersListLight(lat : Double , lng : Double , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+        setAccessToken()
+        var parameters = [String : AnyObject]()
+        parameters["latitude"] = lat as AnyObject
+        parameters["longitude"] = lng as AnyObject
+        
+        NetworkCall.get(ElGrocerApiEndpoint.retailersListLight.rawValue, parameters: parameters, progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+            }
+            completionHandler(Either.success(response))
+        }) { (operation  , error) in
+            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            }
+        }
+    }
     
     func getcAndcRetailerDetail(_ lat : Double? , lng : Double? , dbID : String , parentID : String? , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         setAccessToken()
@@ -4456,6 +4480,59 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
         }
     }
+      
+      // MARK: Get Active Carts
+      func getActiveCarts(latitude: Double, longitude: Double, completion: @escaping (_ result: Either<[ActiveCartDTO]>) -> Void) {
+          self.setAccessToken()
+          
+          let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
+          
+          NetworkCall.get(ElGrocerApiEndpoint.getActiveCarts.rawValue, parameters: params) { progress in
+              
+          } success: { URLSessionDataTask, responseObject in
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let activeCartResponse = try JSONDecoder().decode(ActiveCartResponseDTO.self, from: data)
+                      completion(.success(activeCartResponse.data))
+                      return
+                  }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+              
+          } failure: { URLSessionDataTask, error in
+              completion(.failure(ElGrocerError(error: error as NSError)))
+          }
+
+      }
+      
+      // MARK: Check available carts
+      func fetchBasketStatus(latitude: Double, longitude: Double, completion: @escaping (Either<BasketStatusDTO>) -> Void) {
+          self.setAccessToken()
+          let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
+          
+          NetworkCall.get(ElGrocerApiEndpoint.isActiveCartAvailable.rawValue, parameters: params) { progress in
+              
+          } success: { URLSessionDataTask, responseObject in
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let basketStatus = try JSONDecoder().decode(HasBasketResponse.self, from: data)
+                      completion(.success(basketStatus.data))
+                      return
+                  }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+          } failure: { URLSessionDataTask, error in
+              completion(.failure(ElGrocerError(error: error as NSError)))
+          }
+      }
     
  // MARK: ReasonApi
     

@@ -46,6 +46,8 @@ struct SDKLoginManager {
                     FireBaseEventsLogger.trackSignIn()
                     SendBirdManager().createNewUserAndDeActivateOld()
                     
+                    let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
                 }
                 completionHandler(isSuccess, errorMessage)
             }
@@ -145,7 +147,7 @@ struct SDKLoginManager {
     }
     
     /** Adds a delivery address on the backend and on success saves the local instance in the db */
-    private func addAddressFromDeliveryAddress(_ deliveryAddress: DeliveryAddress, forUser: UserProfile, completionHandler: @escaping CompletionHandler) {
+    func addAddressFromDeliveryAddress(_ deliveryAddress: DeliveryAddress, forUser: UserProfile, completionHandler: @escaping CompletionHandler) {
         
         ElGrocerApi.sharedInstance.addDeliveryAddress(deliveryAddress) { (result, responseObject) -> Void in
             GoogleAnalyticsHelper.trackDeliveryLocationAction(DeliveryLocationActionType.Add)

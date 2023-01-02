@@ -303,6 +303,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.viewAddAddress.isHidden = true
         self.signView.isHidden = true
         hidesBottomBarWhenPushed = true
+        
+        SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1267,6 +1269,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     @IBAction func checkoutButtonHandler(_ sender: Any) {
+        let cartCheckoutEvent = CartCheckoutEvent(products: self.products, activeGrocery: self.grocery)
+        SegmentAnalyticsEngine.instance.logEvent(event: cartCheckoutEvent)
         
         self.proceedToCheckOutWithGrocery(self.grocery!)
     }
@@ -2803,6 +2807,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             if quantity == 0 {
                     // Remove product from basket
                 ShoppingBasketItem.removeProductFromBasket(self.selectedProduct, grocery: self.grocery, orderID: nil , context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
+                    let cartDeletedEvent = CartDeletedEvent(product: self.selectedProduct, activeGrocery: self.grocery)
+                    SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+                }
                 self.removeProductFromAvailableAndProductA ()
                 
             } else {
@@ -2818,6 +2827,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     //remove product from basket
                 ShoppingBasketItem.removeProductFromBasket(self.selectedProduct, grocery: nil, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 self.removeProductFromAvailableAndProductA ()
+                
+                // Log segment delete cart event
+                if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
+                    let cartDeletedEvent = CartDeletedEvent(product: self.selectedProduct, activeGrocery: self.grocery)
+                    SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+                }
                 
             } else {
                 
@@ -3287,6 +3302,10 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 self.updateQuantityAndPriceColour(index)
                 self.logAddProductEvent(self.selectedProduct)
                 
+                // Logging segment event
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: self.selectedProduct, actionType: .added, quantity: counter)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+                
                 if self.selectedProduct.promotion?.boolValue == true {
                     
                     func showOverLimitMsg() {
@@ -3347,6 +3366,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 self.updateSelectedProductsQuantity(counter, andWithProductIndex: index)
                 if(counter > 0){
                     self.updateQuantityAndPriceColour(index)
+                    
+                    let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: counter)
+                    SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
                 }
                 ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("decrease_quantity_at_my_basket_screen")
                 FireBaseEventsLogger.trackDecrementAddToProduct(product: self.selectedProduct)

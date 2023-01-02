@@ -1294,6 +1294,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateForEditNotificationKey), object: nil)
                                 SpinnerView.hideSpinnerView()
                                 spinner?.removeFromSuperview()
+                                NotificationCenter.default.post(name: .MainCategoriesViewDataDidLoaded, object: nil)
                             }
                         })
                     }
@@ -1301,10 +1302,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             }else{
                 SpinnerView.hideSpinnerView()
                 spinner?.removeFromSuperview()
+                NotificationCenter.default.post(name: .MainCategoriesViewDataDidLoaded, object: nil, userInfo: nil)
             }
-            
-            
-           
         }
         
         DispatchQueue.main.async { [weak tableViewCategories] in
@@ -1351,6 +1350,16 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             
         }
         
+        // Logging Segment Event
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if isNewCart {
+            let cartCreatedEvent = CartCreatedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
+        
         // ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(selectedProduct)
         self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
         MixpanelEventLogger.trackStoreAddItem(product: selectedProduct)
@@ -1369,6 +1378,16 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         if productQuantity < 0 {return}
         
         self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
+        
+        let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if cartDeleted {
+            let cartDeletedEvent = CartDeletedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
+        
         MixpanelEventLogger.trackStoreRemoveItem(product: selectedProduct)
     }
     
@@ -1912,4 +1931,8 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
     }
     
   
+}
+
+extension Notification.Name {
+    static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
 }

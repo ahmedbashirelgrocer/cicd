@@ -25,6 +25,7 @@ import Messages
 import SendBirdUIKit
 import SwiftDate
 import Adyen
+import Segment
 // import FirebaseDynamicLinks
 // import FirebaseAuth
 // import FirebaseMessaging
@@ -37,6 +38,8 @@ class SDKManager: NSObject  {
     
     var sdkStartTime : Date?
     var homeLastFetch : Date?
+    
+    var launchCompletion: (() -> Void)?
     
     
     var window: UIWindow?
@@ -57,6 +60,7 @@ class SDKManager: NSObject  {
     static var shared: SDKManager = SDKManager()
     //var isFromSmile : Bool = fals
     var launchOptions: LaunchOptions? = nil
+    var isLaunchEventConfigured: Bool = false
   
     // MARK: Initializers
     private override init() {
@@ -68,6 +72,7 @@ class SDKManager: NSObject  {
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
         self.rootContext = UIWindow.key?.rootViewController
+        self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
@@ -281,6 +286,9 @@ class SDKManager: NSObject  {
         GMSServices.provideAPIKey(kGoogleMapsApiKey)
         self.configuredElgrocerEventLogger() //didFinishLaunchingWithOptions)
         
+        // initialize Segment SDK used for event logging.
+        initializeSegmentSDK()
+        
 //        let action1 = UNNotificationAction(identifier: "action_1", title: "Back", options: [])
 //        let action2 = UNNotificationAction(identifier: "action_2", title: "Next", options: [])
         let action3 = UNNotificationAction(identifier: "action_3", title: "View In App", options: [])
@@ -341,6 +349,15 @@ class SDKManager: NSObject  {
         
     }
     
+    private func initializeSegmentSDK() {
+        let configuration = AnalyticsConfiguration(writeKey: kSegmentAnalyticsSDKWriteKey)
+        
+        configuration.trackApplicationLifecycleEvents = true
+        configuration.flushAt = 3
+        configuration.flushInterval = 10
+        
+        Analytics.setup(with: configuration)
+    }
     
     fileprivate func smileSDKFireBaseSetting() {
         
@@ -427,6 +444,7 @@ class SDKManager: NSObject  {
          }
         
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
+         
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
          LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions?.language ?? "Base", SDKManagers: self)
@@ -492,7 +510,8 @@ class SDKManager: NSObject  {
                 if tabVC.viewControllers.count > 0  {
                     if let tabController = tabVC.viewControllers[0] as? UITabBarController {
                         Thread.OnMainThread {
-                            topVC.navigationController?.pushViewControllerFromLeftAndSetRoot(controller: tabController)
+                            //topVC.navigationController?.pushViewControllerFromLeftAndSetRoot(controller: tabController)
+                            topVC.navigationController?.setViewControllers([tabController], animated: true)
                         }
                     }
                 }
@@ -538,9 +557,11 @@ class SDKManager: NSObject  {
         let tabController = UITabBarController()
         tabController.delegate = self
         let homeViewEmpty =  ElGrocerViewControllers.getGenericStoresViewController(HomePageData.shared)
+        homeViewEmpty.launchCompletion = launchCompletion
         var smileHomeVc : SmileSdkHomeVC? = nil
         if isSmile {
             smileHomeVc =  ElGrocerViewControllers.getSmileHomeVC(HomePageData.shared)
+            smileHomeVc?.launchCompletion = launchCompletion
         }
         
         let storeMain = ElGrocerViewControllers.mainCategoriesViewController()
@@ -681,6 +702,7 @@ class SDKManager: NSObject  {
         ElGrocerUtility.sharedInstance.recipeList = [:]
         SendBirdManager().createNewUserAndDeActivateOld()
 
+        SegmentAnalyticsEngine.instance.reset()
         
         ElGrocerUtility.sharedInstance.delay(1) {
             
@@ -864,18 +886,26 @@ fileprivate extension SDKManager {
             }
         }
     }
-   
+    
     @objc
-    func configuredElgrocerEventLogger() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+    func configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+        
+        guard !isLaunchEventConfigured else { return }
+        
+        isLaunchEventConfigured = true
         
         ElGrocerUtility.sharedInstance.delay(5) {
             self.checkAdvertPermission ()
         }
         
-        //Google Analytics
+        // Google Analytics
         GoogleAnalyticsHelper.configureGoogleAnalytics()
         self.initiliazeMarketingCampaignTrackingServices()
+        
+        // CleverTap
         CleverTapEventsLogger.shared.startCleverTapSharedSDK()
+        
+        // logToCrashleytics
         self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
         
@@ -890,10 +920,15 @@ fileprivate extension SDKManager {
         //AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
         // MARK:- TODO fixappsflyer
         //AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
-        AlgoliaApi.sharedInstance.reStartInsights()
         ElGrocerUtility.sharedInstance.delay(2) {
             self.startChatFeature()
         }
+    }
+   
+    @objc
+    func configuredElgrocerEventLogger() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+        // Elgolia Events
+        AlgoliaApi.sharedInstance.reStartInsights()
     }
     
     func startChatFeature() {
