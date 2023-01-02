@@ -76,11 +76,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             segmenntCollectionView.backgroundColor = .tableViewBackgroundColor()
         }
     }
-    
-    
-    
-    
-    
+  
     //MARK:-  Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -452,7 +448,10 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             guard let self = self else {return}
             self.reloadCollectionView()
         }
-    
+        
+        if SDKManager.shared.launchOptions?.navigationType == .search {
+            SDKManager.shared.launchOptions?.navigationType == .Default
+        }
     }
     
     fileprivate func showCollectionView (_ isNeedToShow : Bool) {

@@ -436,6 +436,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
     func setDefaultGrocery () {
         
         ElGrocerUtility.sharedInstance.groceries = homeDataHandler.groceryA ?? []
+        
+        guard SDKManager.shared.launchOptions?.navigationType == .Default else {
+            return
+        }
+        
+        
         var grocerySelectedIndex = -1
         if ElGrocerUtility.sharedInstance.groceries.count > 0 {
             let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()
@@ -476,6 +482,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - ButtonAction
     override func backButtonClickedHandler() {
+        SDKManager.shared.launchOptions
         super.backButtonClickedHandler()
             //self.tabBarController?.navigationController?.popToRootViewController(animated: true)
             //self.dismiss(animated: true)

@@ -16,16 +16,19 @@ class ElgrocerSearchNavigaion {
     private var disposeBag = DisposeBag()
     
     func navigateToProductHome(_ product: SearchResult) {
+        
+        SDKManager.shared.launchOptions?.navigationType = .search
+        
         Observable.just(())
-            .flatMap{ [unowned self] _ in self.showAppWithMenu() }
+            .flatMap{ [unowned self] _ in self.showAppWithMenuForSearch() }
             .flatMap{ [unowned self] _ in self.goToMainCategoriesVC(product) }
-            .flatMap{ [unowned self] _ in self.universalSearchViewController() }
+            .flatMap{ [unowned self] _ in self.universalSearchViewController(product) }
             .do(onNext: { [unowned self] _ in self.search(text: product.searchQuery) })
             .subscribe()
             .disposed(by: disposeBag)
     }
     
-    func showAppWithMenu() -> Observable<Void> {
+    func showAppWithMenuForSearch() -> Observable<Void> {
         Observable<Void>.create { observer in
             ElGrocer
                 .startEngine(with: SDKManager.shared.launchOptions) {
@@ -37,9 +40,7 @@ class ElgrocerSearchNavigaion {
     
     func goToMainCategoriesVC(_ product: SearchResult)  -> Observable<Void> {
         // HomePageData.shared.isDataLoading
-        let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId }
-        
-        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+        self.setDefaultGroceryForSearch(product)
         
         return Observable.just(())
             .map { _ in
@@ -61,7 +62,7 @@ class ElgrocerSearchNavigaion {
             }
     }
     
-    func universalSearchViewController() -> Observable<Void> {
+    func universalSearchViewController(_ product: SearchResult) -> Observable<Void> {
         return Observable.just(())
             .map { _ in
                 let vc = UIApplication.topViewController()
@@ -77,6 +78,11 @@ class ElgrocerSearchNavigaion {
             .delay(.milliseconds(50), scheduler: MainScheduler.instance)
     }
     
+    func setDefaultGroceryForSearch(_ product : SearchResult) {
+        let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == product.retailerId }
+        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+    }
+    
 }
 
 //MARK: - Helpers
@@ -84,8 +90,9 @@ extension ElgrocerSearchNavigaion {
     func search(text: String) {
         if let usvc = UIApplication.topViewController() {
             if let vc = usvc as? UniversalSearchViewController {
+                guard vc.txtSearch != nil else {return}
                 vc.txtSearch.text = text
-                vc.textFieldShouldReturn(vc.txtSearch)
+                _ = vc.textFieldShouldReturn(vc.txtSearch)
             }
         }
     }

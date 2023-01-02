@@ -4486,7 +4486,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           self.setAccessToken()
           
           let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
-          
+         
           NetworkCall.get(ElGrocerApiEndpoint.getActiveCarts.rawValue, parameters: params) { progress in
               
           } success: { URLSessionDataTask, responseObject in

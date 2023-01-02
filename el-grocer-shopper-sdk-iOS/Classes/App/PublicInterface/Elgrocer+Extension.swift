@@ -44,6 +44,7 @@ public extension ElGrocer {
 public extension LaunchOptions {
     mutating func setDeepLinkPayload(_ deepLinkPayload: String) {
         self.deepLinkPayload = deepLinkPayload
+        self.navigationType = .search
     }
 }
 

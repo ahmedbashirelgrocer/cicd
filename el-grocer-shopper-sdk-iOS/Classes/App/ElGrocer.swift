@@ -86,6 +86,11 @@ enum SDKType: Int {
     case elGrocerShopper
 }
 
+public enum ElgrocerSDKNavigationType: Int {
+    case `Default`
+    case search
+}
+
 public enum EnvironmentType {
     
     case staging
@@ -124,6 +129,7 @@ public struct LaunchOptions {
     var SDKType : SDKType = .smiles
     var environmentType : EnvironmentType = .live
     var theme: Theme!
+    var navigationType : ElgrocerSDKNavigationType? =  ElgrocerSDKNavigationType.Default
         
     @available(*, deprecated)
     public init(accountNumber: String?,
@@ -170,7 +176,7 @@ public struct LaunchOptions {
         pushNotificationPayload: [String: AnyHashable]? = nil,
         deepLinkPayload: String? = nil,
         language: String? = nil, environmentType : EnvironmentType = .live,
-        theme: Theme = ApplicationTheme.smilesSdkTheme()) {
+        theme: Theme = ApplicationTheme.smilesSdkTheme(), navigationType : ElgrocerSDKNavigationType = ElgrocerSDKNavigationType.Default) {
         
         self.accountNumber = accountNumber
         self.latitude = latitude
@@ -183,6 +189,7 @@ public struct LaunchOptions {
         self.language = language
         self.SDKType = .smiles
         self.isSmileSDK = true
+        self.navigationType = navigationType
         self.environmentType =  environmentType
         self.isLoggingEnabled = environmentType == .staging
         self.theme = theme
