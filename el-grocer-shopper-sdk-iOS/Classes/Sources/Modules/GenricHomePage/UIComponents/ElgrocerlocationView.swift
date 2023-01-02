@@ -39,16 +39,8 @@ class ElgrocerlocationView:  UIView  {
     }
     
     var currentSelectedSlot : DeliverySlot?
-    var localLoadedAddress: LocalDeliverAddress? {
-        didSet {
-            print(localLoadedAddress)
-        }
-    }
-    var loadedAddress : DeliveryAddress? {
-        didSet {
-            print(loadedAddress)
-        }
-    }
+    var localLoadedAddress: LocalDeliverAddress?
+    var loadedAddress : DeliveryAddress?
     
     let halfWidth : CGFloat = 0.445
     let FullWidth : CGFloat = 0.9
