@@ -31,7 +31,7 @@ class PresentedViewController: UIViewController {
     @IBAction func action(_ sender: Any) {
         self.dismiss(animated: false)
         DispatchQueue.main.async {
-            ElGrocer.startEngine(with: self.launchOption)
+            ElGrocer.start(with: self.launchOption)
         }
         
         

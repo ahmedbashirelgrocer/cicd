@@ -12,6 +12,7 @@ import RxSwift
 class SmileSdkHomeVC: BasketBasicViewController {
     
     private var disposeBag = DisposeBag()
+    var launchCompletion: (() -> Void)?
         // MARK: - DataHandler
     var homeDataHandler : HomePageData = HomePageData.shared
     private lazy var orderStatus : OrderStatusMedule = {
@@ -71,6 +72,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        launchCompletion?()
+        launchCompletion = nil
+        
         self.checkAddressValidation()
             //to refresh smiles point
         self.getSmileUserInfo()
@@ -328,7 +333,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     func reloadAllData() {
         
         self.setTableViewHeader()
-        HomePageData.shared.resetHomeDataHandler()
+        // HomePageData.shared.resetHomeDataHandler()
         HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
         self.showDataLoaderIfRequiredForHomeHandler()
     }
@@ -364,22 +369,36 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     fileprivate func checkIFDataNotLoadedAndCall() {
         
+        let oldLocation = self.locationHeader.localLoadedAddress
+        
+        self.setTableViewHeader()
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return self.tableView.reloadDataOnMain()
         }
         
+        print("old_Location: \(oldLocation?.lat ?? 0), \(oldLocation?.lng ?? 0)")
+        print("new_Location: \(address.latitude), \(address.longitude)")
+        
         var lastFetchMin = 0.0
         if  let lastCheckDate = SDKManager.shared.homeLastFetch {
             lastFetchMin = Date().timeIntervalSince(lastCheckDate) / 60
         }
-        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)) || lastFetchMin > 15 {
-            self.homeDataHandler.resetHomeDataHandler()
+        let notZero = !(oldLocation?.lat ?? 0 == 0 && oldLocation?.lng ?? 0 == 0)
+        if notZero && (!((oldLocation?.lat == address.latitude) && (oldLocation?.lng == address.longitude)) || lastFetchMin > 15) {
+            // self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
-            self.setTableViewHeader()
             self.showDataLoaderIfRequiredForHomeHandler()
+            
+            if var launch = SDKManager.shared.launchOptions {
+                launch.latitude = address.latitude
+                launch.longitude = address.longitude
+                launch.address = address.address
+                ElgrocerPreloadManager.shared
+                    .searchClient.setLaunchOptions(launchOptions: launch)
+            }
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
-            self.homeDataHandler.resetHomeDataHandler()
+            // self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
         }
         else {
@@ -1063,4 +1082,34 @@ extension SmileSdkHomeVC : UICollectionViewDelegateFlowLayout{
         
     }
     
+}
+
+extension SmileSdkHomeVC {
+    func configureForDataPreloaded() {
+        if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
+            FireBaseEventsLogger.trackStoreListingNoStores()
+        } else {
+            FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
+            self.selectStoreType = self.homeDataHandler.storeTypeA?[0]
+        }
+        
+        ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
+        self.setUserProfileData()
+        self.setDefaultGrocery()
+        self.setSegmentView()
+            
+        if self.homeDataHandler.locationOneBanners?.count == 0 {
+            FireBaseEventsLogger.trackNoBanners()
+        }
+        if self.homeDataHandler.locationTwoBanners?.count == 0 {
+            FireBaseEventsLogger.trackNoDeals()
+        }
+        Thread.OnMainThread {
+            if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
+                self.tableView.backgroundView = UIView()
+            }
+            self.tableView.reloadData()
+            SpinnerView.hideSpinnerView()
+        }
+    }
 }

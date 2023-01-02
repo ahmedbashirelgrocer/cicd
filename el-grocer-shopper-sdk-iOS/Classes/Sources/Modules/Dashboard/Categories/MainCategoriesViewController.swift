@@ -1294,6 +1294,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateForEditNotificationKey), object: nil)
                                 SpinnerView.hideSpinnerView()
                                 spinner?.removeFromSuperview()
+                                NotificationCenter.default.post(name: .MainCategoriesViewDataDidLoaded, object: nil)
                             }
                         })
                     }
@@ -1301,10 +1302,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             }else{
                 SpinnerView.hideSpinnerView()
                 spinner?.removeFromSuperview()
+                NotificationCenter.default.post(name: .MainCategoriesViewDataDidLoaded, object: nil, userInfo: nil)
             }
-            
-            
-           
         }
         
         DispatchQueue.main.async { [weak tableViewCategories] in
@@ -1932,4 +1931,8 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
     }
     
   
+}
+
+extension Notification.Name {
+    static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
 }

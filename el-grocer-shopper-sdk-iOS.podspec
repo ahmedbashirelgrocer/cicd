@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.4.6-beta-02'
+  s.version          = '1.0.50'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -57,8 +57,8 @@ Pod::Spec.new do |s|
       'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/**/{R-SupportingFiles/*.*,*.storyboard,*.xib,*.xcassets,*.xcdatamodeld,*.m4r,*.otf,*.ttf,*.json,*.strings,*.lproj/*.strings}']
   }
   
-    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+#    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+#    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
     
     
   #.{png,xcassets,xcdatamodeld,plist,strings,json,m4r}

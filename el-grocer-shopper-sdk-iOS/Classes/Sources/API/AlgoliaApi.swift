@@ -46,8 +46,8 @@ class AlgoliaApi {
     var ALGOLIA_API_KEY_INSIGHT_LIVE = APIKey(rawValue:"7c36787b0c09ef094db8a3ba93871ce7")
     
     
-    private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
-    private let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
+    let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
+    let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
     
  //   private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "ProductReplica")
     private let algoliaRecipeIndexName  = IndexName.init(stringLiteral: "RecipeBoutique")
@@ -247,6 +247,102 @@ class AlgoliaApi {
  
     }
     
+    // Smiles Search Products
+    func searchProductQueryWithStoreIndex (_ searchText : String , storeIDs : [String] , _ pageNumber : Int = 0 , _ hitsPerPage : UInt = 100 , _ brand : String = "" , _ category : String = "" , searchType: String  , completion : @escaping responseBlock ) -> Void {
+        
+        
+        var filterString = ""
+        
+        for storeID in storeIDs {
+            let facetFiltersForCurrentStoreID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+            if filterString.count == 0 {
+                filterString.append(facetFiltersForCurrentStoreID)
+            } else {
+                filterString.append(OROperator)
+                filterString.append(facetFiltersForCurrentStoreID)
+            }
+        }
+        
+//        for storeID in storeIDs{
+//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(OROperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
+//        if brand.count > 0 {
+//            let facetFiltersForCurrentStoreID : String = "brand.name:'\(brand)'"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(ANDOperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
+//        if category.count > 0 {
+//            let facetFiltersForCurrentStoreID : String = "subcategories.name:'\(category)'"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(ANDOperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
+        
+        var query = Query(searchText)
+            .set(\.filters, to: filterString)
+            .set(\.clickAnalytics, to: true)
+            .set(\.getRankingInfo, to: true)
+            .set(\.analytics, to: true)
+            .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: storeIDs.count > 1 , searchType: searchType))
+      
+        query.page = pageNumber
+        query.hitsPerPage = Int(hitsPerPage)
+        
+        var filterStringRetailer = ""
+        
+        for storeID in storeIDs{
+            let facetFiltersForCurrentStoreID : String = "id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+            if filterStringRetailer.count == 0 {
+                filterStringRetailer.append(facetFiltersForCurrentStoreID)
+            }else{
+                filterStringRetailer.append(OROperator)
+                filterStringRetailer.append(facetFiltersForCurrentStoreID)
+            }
+        }
+       
+        var requestOptions = RequestOptions()
+        requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
+        self.algoliaProductIndex.search(query: query, requestOptions: requestOptions ) { (content) -> Void in
+            if case .success(let response) = content {
+                completion(response.convertHits() , nil)
+            }else if case .failure (let error) = content{
+                completion(nil , error)
+            }
+        }
+        
+//        client.multipleQueries(queries: queries) { result in
+//
+//            if case .success(let response) = result {
+//                completion(response.convertHits() , nil)
+//            }else if case .failure (let error) = result{
+//                completion(nil , error)
+//            }
+//        }
+        
+//        client.multipleQueries(queries: queries, strategy: MultipleQueriesStrategy.init(rawValue: ""), requestOptions: requestOptions) { result in
+//
+//            if case .success(let response) = result {
+//                elDebugPrint("Response: \(response)")
+//            }else if case .failure (let error) = result{
+//                completion(nil , error)
+//            }
+//
+//        }
+ 
+    }
     
     func searchProductQueryWithMultiStoreMultiIndex (_ searchText : String , storeIDs : [String] , _ pageNumber : Int = 0 , _ hitsPerPage : UInt = 100 , _ brand : String = "" , _ category : String = "" , searchType: String  , completion : @escaping responseBlock ) -> Void {
         

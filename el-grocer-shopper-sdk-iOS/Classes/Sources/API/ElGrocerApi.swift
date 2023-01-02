@@ -156,6 +156,7 @@ enum ElGrocerApiEndpoint : String {
     // c And c
     case cAndcAvailability = "v2/retailers/cc_availability" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case retailerscAndc = "v1/retailers/click_and_collect" // https://elgrocerdxb.atlassian.net/browse/EG-584
+    case retailersListLight = "v4/retailers/retailers_list"
     case retailerDetail = "v2/retailers/click_and_collect/show"
     
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
@@ -3764,6 +3765,27 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }) { (operation  , error) in
             if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 
+                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            }
+        }
+    }
+      
+    func getRetailersListLight(lat : Double , lng : Double , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+        setAccessToken()
+        var parameters = [String : AnyObject]()
+        parameters["latitude"] = lat as AnyObject
+        parameters["longitude"] = lng as AnyObject
+        
+        NetworkCall.get(ElGrocerApiEndpoint.retailersListLight.rawValue, parameters: parameters, progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+            }
+            completionHandler(Either.success(response))
+        }) { (operation  , error) in
+            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
                 completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
             }
         }
