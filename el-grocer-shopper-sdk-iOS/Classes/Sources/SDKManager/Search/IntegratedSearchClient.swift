@@ -87,6 +87,7 @@ class IntegratedSearchClient {
         if locOld == locNew, languageOld == languageNew, (retailers?.count ?? 0) > 0 {
             self.loadCompletion?(true)
         } else {
+            LanguageManager.sharedInstance.setLocale(languageNew ?? "")
             integratedSearchUseCase.inputs.launchOptionsObserver.onNext(launchOptions)
         }
         

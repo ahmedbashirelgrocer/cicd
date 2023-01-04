@@ -3768,17 +3768,15 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
     }
       
-    func getRetailersListLight(lat : Double , lng : Double, locale: String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+    func getRetailersListLight(lat : Double , lng : Double, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         setAccessToken()
         var parameters = [String : AnyObject]()
         parameters["latitude"] = lat as AnyObject
         parameters["longitude"] = lng as AnyObject
         
-        let header =  ["Locale": locale]
-        
         NetworkCall.get(ElGrocerApiEndpoint.retailersListLight.rawValue,
                         parameters: parameters,
-                        header: header, progress: { (progress) in
+                        progress: { (progress) in
             // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             guard let response = response as? NSDictionary else {
