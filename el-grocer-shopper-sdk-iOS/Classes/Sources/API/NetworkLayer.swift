@@ -29,14 +29,23 @@ class CallObj {
     var type :  callType
     var URLString: String
     var parameters: Any?
+    var header: [String: String] = [:]
     var progress :  callProgress? = nil
     var success :  SuccessCase
     var failure :  FailureCase
     
-    init( type : callType   , URLString: String, parameters: Any?, progress :  callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase) {
+    init( type: callType,
+          URLString: String,
+          parameters: Any?,
+          header: [String: String] = [:],
+          progress :  callProgress,
+          success : @escaping SuccessCase,
+          failure : @escaping FailureCase) {
+        
         self.type = type
         self.URLString = URLString
         self.parameters = parameters
+        self.header = header
         self.progress = progress
         self.success = success
         self.failure = failure
@@ -141,15 +150,27 @@ class NetworkLayer {
     
     
     @discardableResult
-    func get( _ URLString: String, parameters: Any?, progress :  callProgress ,  success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
+    func get( _ URLString: String,
+              parameters: Any?,
+              header: [String: String] = [:],
+              progress :  callProgress,
+              success : @escaping SuccessCase ,
+              failure : @escaping FailureCase ) -> URLSessionDataTask? {
+        
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard mins > 0  else {
-            queue.enqueue(CallObj.init(type: .get, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
+            queue.enqueue(CallObj.init(type: .get, URLString: URLString , parameters: parameters, header: header, progress: progress, success: success, failure: failure))
             self.getToken()
             return nil
         }
         self.setAuthriztionToken()
-        return self.requestManager.get(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , progress: progress, success: success, failure: failure )
+        
+        var apiHeader = self.requestManager.requestSerializer.httpRequestHeaders
+        for (key, value) in header {
+            apiHeader[key] = value
+        }
+        
+        return self.requestManager.get(URLString, parameters: parameters, headers: apiHeader, progress: progress, success: success, failure: failure )
     }
     @discardableResult
     func post( _ URLString: String, parameters: Any?, progress :   callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {

@@ -340,30 +340,33 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     @objc func showLocationCustomPopUp() {
         
+        guard UIApplication.topViewController() is SmileSdkHomeVC else {
+            return
+        }
+        
         LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
             guard state != nil else {
                 return
             }
-            guard UIApplication.topViewController() is SmileSdkHomeVC else {
-                return
+            Thread.OnMainThread {
+                guard UIApplication.topViewController() is SmileSdkHomeVC else {
+                    return
+                }
+                switch state! {
+                    case LocationManager.State.fetchingLocation:
+                        elDebugPrint("")
+                    case LocationManager.State.initial:
+                        elDebugPrint("")
+                    default:
+                        self?.checkforDifferentDeliveryLocation()
+                        LocationManager.sharedInstance.stopUpdatingCurrentLocation()
+                        LocationManager.sharedInstance.locationWithStatus = nil
+                }
             }
-            
-            switch state! {
-                case LocationManager.State.fetchingLocation:
-                    elDebugPrint("")
-                case LocationManager.State.initial:
-                    elDebugPrint("")
-                default:
-                    self?.checkforDifferentDeliveryLocation()
-                    LocationManager.sharedInstance.stopUpdatingCurrentLocation()
-                    LocationManager.sharedInstance.locationWithStatus = nil
-            }
-            
         }
         ElGrocerUtility.sharedInstance.delay(1) {
             LocationManager.sharedInstance.fetchCurrentLocation()
         }
-        
     }
     
     

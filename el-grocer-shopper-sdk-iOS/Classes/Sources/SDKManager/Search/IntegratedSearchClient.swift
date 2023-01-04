@@ -79,9 +79,12 @@ class IntegratedSearchClient {
             .init(latitude: self.launchOptions?.latitude ?? 0,
                   longitude: self.launchOptions?.longitude ?? 0)
         
+        let languageOld = self.launchOptions?.language
+        let languageNew = launchOptions.language
+        
         self.loadCompletion = loadCompletion
         
-        if locOld == locNew, (retailers?.count ?? 0) > 0 {
+        if locOld == locNew, languageOld == languageNew, (retailers?.count ?? 0) > 0 {
             self.loadCompletion?(true)
         } else {
             integratedSearchUseCase.inputs.launchOptionsObserver.onNext(launchOptions)
