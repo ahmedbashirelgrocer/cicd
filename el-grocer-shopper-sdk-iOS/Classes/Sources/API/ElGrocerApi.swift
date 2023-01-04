@@ -3774,7 +3774,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         parameters["latitude"] = lat as AnyObject
         parameters["longitude"] = lng as AnyObject
         
-        let header =  ["locale": locale]
+        let header =  ["Locale": locale]
         
         NetworkCall.get(ElGrocerApiEndpoint.retailersListLight.rawValue,
                         parameters: parameters,
