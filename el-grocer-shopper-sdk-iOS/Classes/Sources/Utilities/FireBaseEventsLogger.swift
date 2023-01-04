@@ -68,10 +68,10 @@ enum FireBaseScreenName: String {
 
 enum FireBaseParmName : String {
     
-    case SdkLaunch = "SDKLAUNCH"
+    case SdkLaunch = "SDKLaunch"
     case DeliveryType = "DeliveryType"
     case Source = "Source"
-    case SDKHomeStoreSelected = "SdkHome_StoreSelected"
+    case SDKHomeStoreSelected = "StoreSelected"
     case statusId = "order_statusId"
     case SearchTerm = "SearchTerm"
     case OrderId = "OrderId"
@@ -389,7 +389,7 @@ class FireBaseEventsLogger  {
             Analytics.logEvent( eventNameToSend  , parameters:newParms != nil ? newParms : [:]) //40 char limit
             
             if Platform.isDebugBuild {
-                elDebugPrint("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
+                print("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
                 elDebugPrint("*Firebase Logs*  *EventName*: \(eventNameToSend)  *Parms*: \(newParms as Any)  *****")
                 elDebugPrint("=====================*Firebase Logs event Name*=========================")
             }

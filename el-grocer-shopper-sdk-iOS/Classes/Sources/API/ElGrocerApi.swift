@@ -4380,9 +4380,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             parameters["shopper_id"] = userProfile?.dbID
         }
         parameters["location"] = location.rawValue as AnyObject
-        if let ids = retailer_ids {
+        if let ids = retailer_ids, ids.count > 0, ids[0].isNotEmtpy() {
             parameters["retailer_ids"] = ids.joined(separator: ",") as AnyObject
+        }else {
+            completionHandler(Either.failure(ElGrocerError.parsingError()))
+            return
         }
+
         if let ids = store_type_ids {
             parameters["store_type_ids"] = ids.joined(separator: ",") as AnyObject
         }

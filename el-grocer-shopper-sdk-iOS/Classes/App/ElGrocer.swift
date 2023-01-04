@@ -25,7 +25,9 @@ public final class ElGrocer {
 
             func defers() {
                 ElGrocer.isSDKLoaded = true
-                FireBaseEventsLogger.logEventToFirebaseWithEventName(FireBaseScreenName.Splash.rawValue,eventName: FireBaseParmName.SdkLaunch.rawValue, parameter: ["payload" : launchOptions?.pushNotificationPayload?.description ?? "Nil", "deeplink" : launchOptions?.deepLinkPayload ?? "Nil", "phone" : launchOptions?.accountNumber ?? "Nil", "ID" : launchOptions?.loyaltyID ?? "Nil"])
+                ElGrocerUtility.sharedInstance.delay(0.2) {
+                    FireBaseEventsLogger.logEventToFirebaseWithEventName(eventName: FireBaseParmName.SdkLaunch.rawValue, parameter: ["payload" : launchOptions?.pushNotificationPayload?.description ?? "Nil", "deeplink" : launchOptions?.deepLinkPayload ?? "Nil", "phone" : launchOptions?.accountNumber ?? "Nil", "ID" : launchOptions?.loyaltyID ?? "Nil"])
+                }
             }
             
             guard ElGrocerAppState.checkDBCanBeLoaded() else {

@@ -1849,7 +1849,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.minOrderImageView.image = UIImage(name: "cart-addmore")
             let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
             self.minOrderProgressView.setProgress(progressValue, animated: true)
-                self.title =  self.itemsSummaryValue > 0 ?   localizedString("shopping_OOS_title_label", comment: "") : localizedString("Cart_Title", comment: "")
+                self.title =  (self.itemsSummaryValue > 0 && notAvailableCount > 0) ?   localizedString("shopping_OOS_title_label", comment: "") : localizedString("Cart_Title", comment: "")
             self.checkoutBtn.isEnabled = false
             self.checkOutViewForButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             //greyish
