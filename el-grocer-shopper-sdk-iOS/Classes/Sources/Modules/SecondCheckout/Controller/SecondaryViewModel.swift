@@ -257,7 +257,7 @@ extension SecondaryViewModel {
         if let promoRealizationId = self.promoRealizationId {
             finalParams["promotion_code_realization_id"] = promoRealizationId
         }
-        if self.orderId?.count ?? 0 > 0 {
+        if (self.orderId?.count ?? 0) > 0 {
             finalParams["order_id"] = self.orderId
         }
         
@@ -277,7 +277,7 @@ extension SecondaryViewModel {
         }else {
             secondaryPayments["el_wallet"] = false
         }
-        if let promoRealizationId = self.promoRealizationId {
+        if let _ = self.promoRealizationId {
             secondaryPayments["promo_code"] = true
         }else {
             secondaryPayments["promo_code"] = false

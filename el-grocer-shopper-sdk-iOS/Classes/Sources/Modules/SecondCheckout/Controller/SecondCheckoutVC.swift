@@ -108,7 +108,7 @@ class SecondCheckoutVC: UIViewController {
             let orderPlacement = PlaceOrderHandler.init(finalOrderItems: self.viewModel.getShoppingItems() ?? [], activeGrocery: grocery , finalProducts: self.viewModel.getFinalisedProducts() ?? [], orderID: self.viewModel.getOrderId(), finalOrderAmount: self.viewModel.basketDataValue?.finalAmount ?? 0.00, orderPlaceOrEditApiParams: self.viewModel.getOrderPlaceApiParams())
             if let _ = self.viewModel.getOrderId() {
                 orderPlacement.editedOrder()
-            }else {
+            } else {
                 MixpanelEventLogger.trackCheckoutConfirmOrderClicked(value: String(self.viewModel.basketDataValue?.finalAmount ?? 0.00))
                 orderPlacement.placeOrder()
             }
@@ -276,8 +276,10 @@ class SecondCheckoutVC: UIViewController {
     
     func payWithApplePay(selctedApplePayMethod: ApplePayPaymentMethod,order: Order, amount: Double) {
         
-        let configAuthAmount = ElGrocerUtility.sharedInstance.appConfigData.initialAuthAmount
-        var authValue: NSDecimalNumber = NSDecimalNumber.init(floatLiteral: 0.00)
+        
+        
+        let configAuthAmount = ElGrocerUtility.sharedInstance.appConfigData != nil ? ElGrocerUtility.sharedInstance.appConfigData.initialAuthAmount : 0.00
+        var authValue: NSDecimalNumber = NSDecimalNumber.init(floatLiteral: 1.00)
         
         if configAuthAmount < 0 {
             authValue = NSDecimalNumber.init(floatLiteral: amount)
