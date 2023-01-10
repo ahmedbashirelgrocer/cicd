@@ -311,7 +311,7 @@ extension SecondaryViewModel {
         finalParams["payment_type_id"] = primaryPaymentTypeId
         finalParams["selected_delivery_slot"] = self.selectedSlotId
         if let slot = self.getDeliverySlot() {
-            if !(slot.isInstant.boolValue) {
+            if slot.isInstant != nil && !(slot.isInstant.boolValue) {
                 finalParams["usid"] = slot.getdbID()
             }
         }

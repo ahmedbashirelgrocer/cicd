@@ -480,7 +480,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             }
         }
     
-        self.refreshBasketIconStatus()
+       // self.refreshBasketIconStatus()
     }
     
         // MARK: - ButtonAction
