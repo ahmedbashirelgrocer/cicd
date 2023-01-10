@@ -367,10 +367,12 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             if let nav = (self.navigationController as? ElGrocerNavigationController) {
                 if let bar = nav.navigationBar as? ElGrocerNavigationBar {
                     bar.chatButton.chatClick = {
-                            //  ZohoChat.showChat(self.order.dbID.stringValue)
-                        var groceryID = self.order.grocery.getCleanGroceryID()
-                        let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
-                        sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
+                        Thread.OnMainThread {
+                            guard let grocery = self.order.grocery else {return }
+                            var groceryID = grocery.getCleanGroceryID()
+                            let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
+                            sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
+                        }
                     }
                 }
             }
