@@ -45,7 +45,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         super.viewDidAppear(animated)
         setupNavigationAppearence()
         if isFirstTime {
-            let _ = SpinnerView.showSpinnerView()
+            let _ = SpinnerView.showSpinnerViewInView(self.view)
             isFirstTime = false
         }
         viewModel.getWalletAvailableBalance()

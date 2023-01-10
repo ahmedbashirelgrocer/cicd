@@ -368,8 +368,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 if let bar = nav.navigationBar as? ElGrocerNavigationBar {
                     bar.chatButton.chatClick = {
                         Thread.OnMainThread {
-                            guard let grocery = self.order.grocery else {return }
-                            var groceryID = grocery.getCleanGroceryID()
+                            guard self.order.grocery != nil else {return }
+                            let groceryID = self.order.grocery.getCleanGroceryID()
                             let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
                             sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
                         }
