@@ -686,14 +686,13 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard self.dataSource?.model.count ?? 0 > indexPath.row else {
+        guard self.dataSource?.model.count ?? 0 > indexPath.row, let obj = self.dataSource?.model[indexPath.row] else {
             let tableCell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tableCell.cellConfigureForEmpty()
             return tableCell
         }
         
-        let obj = self.dataSource?.model[indexPath.row]
-        if obj?.modelType == SearchResultSuggestionType.title || obj?.modelType == SearchResultSuggestionType.titleWithClearOption {
+        if obj.modelType == SearchResultSuggestionType.title || obj.modelType == SearchResultSuggestionType.titleWithClearOption {
             let tablecell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tablecell.cellConfigureWith(obj)
             tablecell.clearButtonClicked = { [weak self] in
