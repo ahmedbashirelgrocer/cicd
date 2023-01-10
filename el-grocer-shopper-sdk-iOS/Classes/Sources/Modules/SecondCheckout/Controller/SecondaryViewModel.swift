@@ -513,6 +513,9 @@ extension SecondaryViewModel {
     
     
     func getBurnPointsFromAed() -> Int {
+        guard ElGrocerUtility.sharedInstance.appConfigData != nil else {
+            return 0
+        }
         let doubleAmount = self.basketDataValue?.finalAmount ?? 0.0
         let smilesConfig = ElGrocerUtility.sharedInstance.appConfigData.smilesData
         let points =  Int(round(doubleAmount/smilesConfig.burning))
