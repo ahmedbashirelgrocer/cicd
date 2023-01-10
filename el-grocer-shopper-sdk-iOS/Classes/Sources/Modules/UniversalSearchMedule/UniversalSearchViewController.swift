@@ -717,6 +717,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if let obj = self.dataSource?.model[indexPath.row] {
             if obj.modelType == .searchHistory || obj.modelType == .trendingSearch {
                 self.txtSearch.text = obj.title
@@ -738,8 +739,11 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             }
             self.txtSearch.resignFirstResponder()
             self.userSearchClick(obj.title , model: obj)
-            self.reloadCollectionView(true)
             self.userSearchedKeyWords()
+            Thread.OnMainThread {
+                self.reloadCollectionView(true)
+            }
+           
         }
     }
     
