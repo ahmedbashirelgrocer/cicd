@@ -117,8 +117,9 @@ class SecondCheckoutVC: UIViewController {
                 SpinnerView.hideSpinnerView()
                 if error != nil {
                     MixpanelEventLogger.trackCheckoutOrderError(error: error?.localizedMessage ?? "", value: String(self?.viewModel.basketDataValue?.finalAmount ?? 0.00))
+                    return
                 }
-                
+            
                 guard order != nil else { return }
                 
                 func logPurchaseEvents() {
