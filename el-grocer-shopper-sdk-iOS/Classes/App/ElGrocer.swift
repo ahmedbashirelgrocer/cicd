@@ -122,7 +122,8 @@ public struct LaunchOptions {
     var pushNotificationPayload: [String: AnyHashable]?
     var deepLinkPayload: String?
     var language: String?
-    var isSmileSDK: Bool
+    var isSmileSDK: Bool { type == .smiles || type == .singleStore }
+    var type: SDKType = .smiles
     var isLoggingEnabled = false {
         didSet { MixpanelManager.loggingEnabled(isLoggingEnabled) }
     }
@@ -132,6 +133,10 @@ public struct LaunchOptions {
     var environmentType : EnvironmentType = .live
     var theme: Theme!
     var navigationType : ElgrocerSDKNavigationType? =  ElgrocerSDKNavigationType.Default
+    
+    public enum SDKType: Hashable {
+    case smiles, shopper, singleStore
+    }
         
     @available(*, deprecated)
     public init(accountNumber: String?,
@@ -143,7 +148,8 @@ public struct LaunchOptions {
                 pushNotificationPayload: [String: AnyHashable]? = nil,
                 deepLinkPayload: String? = nil,
                 language: String? = nil,
-                isSmileSDK: Bool,
+                isSmileSDK: Bool = true,
+                type: SDKType = .smiles,
                 isLoggingEnabled: Bool = false,
                 theme: Theme = ApplicationTheme.smilesSdkTheme()) {
         
@@ -156,10 +162,9 @@ public struct LaunchOptions {
         self.pushNotificationPayload = pushNotificationPayload
         self.deepLinkPayload = deepLinkPayload
         self.language = language
-        self.isSmileSDK = isSmileSDK
+        self.type = type
         self.isLoggingEnabled = isLoggingEnabled
         self.SDKType = .smiles
-        self.isSmileSDK = true
         self.environmentType =  .live
         self.theme = theme
         if (pushNotificationPayload?.count ?? 0) > 0 {
@@ -177,7 +182,9 @@ public struct LaunchOptions {
         email: String? = nil,
         pushNotificationPayload: [String: AnyHashable]? = nil,
         deepLinkPayload: String? = nil,
-        language: String? = nil, environmentType : EnvironmentType = .live,
+        language: String? = nil,
+        type: SDKType = .smiles,
+        environmentType : EnvironmentType = .live,
         theme: Theme = ApplicationTheme.smilesSdkTheme(), navigationType : ElgrocerSDKNavigationType = ElgrocerSDKNavigationType.Default) {
         
         self.accountNumber = accountNumber
@@ -190,7 +197,7 @@ public struct LaunchOptions {
         self.deepLinkPayload = deepLinkPayload
         self.language = language
         self.SDKType = .smiles
-        self.isSmileSDK = true
+        self.type = type
         self.navigationType = navigationType
         self.environmentType =  environmentType
         self.isLoggingEnabled = environmentType == .staging
