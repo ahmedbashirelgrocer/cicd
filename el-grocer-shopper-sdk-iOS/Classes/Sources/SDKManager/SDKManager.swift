@@ -76,8 +76,78 @@ class SDKManager: NSObject  {
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
-        self.showAnimatedSplashView()
+        if launchOptions?.type == .singleStore {
+            self.startWithSingleStore()
+        } else {
+            self.showAnimatedSplashView()
+        }
         
+    }
+    
+    func startWithSingleStore() {
+        guard let launchOptions = launchOptions else { return }
+        let manager = SDKLoginManager(launchOptions: launchOptions)
+        manager.loginFlowForSDK() { isSuccess, errorMessage in
+            if isSuccess {
+                // ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
+                // MARK: Begin get tabbar vc
+                    
+//                let smileHomeVc =  ElGrocerViewControllers.getSmileHomeVC(HomePageData.shared)
+//                let storeMain = ElGrocerViewControllers.mainCategoriesViewController()
+//                let searchController = ElGrocerViewControllers.getSearchListViewController()
+//                let settingController = ElGrocerViewControllers.settingViewController()
+//                let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
+//
+//                let viewControllers = [smileHomeVc, storeMain, searchController, settingController, myBasketViewController]
+//                    .map { viewController -> UINavigationController in
+//                        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+//                        navigationController.hideSeparationLine()
+//                        navigationController.viewControllers = [viewController]
+//                        return navigationController
+//                    }
+//
+//                let tabController = UITabBarController()
+//                tabController.viewControllers = viewControllers
+//                tabController.delegate = self
+//
+//                self.currentTabBar = tabController
+//
+//                let navController = UINavigationController()
+//                navController.isNavigationBarHidden = true;
+//                navController.viewControllers = [tabController]
+//                navController.modalPresentationStyle = .fullScreen
+                    
+                let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == 289 }
+                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                let storeMain = ElGrocerViewControllers.mainCategoriesViewController()
+                
+                let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                navController.hideSeparationLine()
+                navController.viewControllers = [storeMain]
+                
+                self.rootViewController = navController
+                    
+                if let topVC = UIApplication.topViewController() {
+                    topVC.present(navController, animated: true)
+                }
+                
+            } else {
+                ElGrocerAlertView.createAlert(
+                    localizedString("error_500", comment: ""),
+                    description: nil,
+                    positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
+                    negativeButton: nil)
+                { index in
+                    if let topVC = UIApplication.topViewController() {
+                        if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
+                            navVc.popViewController(animated: true)
+                        } else {
+                            topVC.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                }.show()
+            }
+        }
     }
     
     private func configure() { //_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {

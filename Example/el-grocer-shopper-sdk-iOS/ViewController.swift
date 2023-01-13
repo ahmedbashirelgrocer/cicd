@@ -65,6 +65,25 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func goToSingleStoreSDK(_ sender: Any) {
+        let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+        
+        let launchOptions =  LaunchOptions(
+            accountNumber: self.txtAccountNumber.text,
+            latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue,
+            longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue,
+            address: self.txtAddress.text,
+            loyaltyID: self.txtLoyalityID.text,
+            email: self.txtEmail.text,
+            pushNotificationPayload: pushData,
+            deepLinkPayload: self.txtDLPayload.text,
+            language: self.txtLanguage.text,
+            type: .singleStore,
+            environmentType: environment)
+        
+        ElGrocer.start(with: launchOptions)
+    }
+    
     @IBAction func btnGoToSDK(_ sender: Any) {
         self.startSDK()
     }
