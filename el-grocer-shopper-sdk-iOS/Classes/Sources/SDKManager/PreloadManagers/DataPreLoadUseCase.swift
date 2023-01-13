@@ -64,11 +64,18 @@ class PreLoadData {
         let lat = SDKManager.shared.launchOptions?.latitude
         let lng = SDKManager.shared.launchOptions?.longitude
         
-        if let dLocation = locations.first(where: { $0.isActive == NSNumber(value: true) }),
-           dLocation.latitude == lat && dLocation.longitude == lng {
+        // if there is default location added returned back and don't add/update location
+        if let _ = locations.first(where: { $0.isActive == NSNumber(value: true) }) {
             completion?()
             return
         }
+        
+        // Use this instead of abouve if there is always need to update default location if there is different in launch options.
+        // if let dLocation = locations.first(where: { $0.isActive == NSNumber(value: true) }),
+        // dLocation.latitude == lat && dLocation.longitude == lng {
+        // completion?()
+        // return
+        // }
         
         var isDefaultUpdated = false
         
