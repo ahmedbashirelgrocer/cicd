@@ -106,10 +106,56 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     func noDataButtonDelegateClick(_ state: actionState) {
         self.tabBarController?.selectedIndex = 0
     }
-    lazy var locationHeader : ElgrocerlocationView = {
-        let locationHeader = ElgrocerlocationView.loadFromNib()
+    
+// FixMe: Need to handle in case of Not Single Store APP
+//    lazy var locationHeader : ElgrocerlocationView = {
+//        let locationHeader = ElgrocerlocationView.loadFromNib()
+//        return locationHeader!
+//    }()
+    
+    // MARK: - Colapsing Table Header
+    lazy var locationHeader : ElgrocerStoreHeader = {
+        let locationHeader = ElgrocerStoreHeader.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return locationHeader!
     }()
+    private var effectiveOffset: CGFloat = 0
+    private var offset: CGFloat = 0 {
+        didSet {
+            let diff = offset - oldValue
+            if diff > 0 { effectiveOffset = min(60, effectiveOffset + diff) }
+            else { effectiveOffset = max(0, effectiveOffset + diff) }
+        }
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        offset = scrollView.contentOffset.y
+        let value = min(effectiveOffset, scrollView.contentOffset.y)
+        
+        // self.locationHeader.searchViewTopAnchor.constant = 62 - value
+        // self.locationHeader.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+        self.locationHeader.groceryBGView.alpha = max(0, 1 - (value / 60))
+    }
+    @objc func backButtonPressed() {
+        self.backButtonClick()
+    }
+    private func addLocationHeader() {
+        
+        self.view.addSubview(self.locationHeader)
+        self.setLocationViewConstraints()
+        
+    }
+    
+    private func setLocationViewConstraints() {
+        NSLayoutConstraint.activate([
+           locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+           locationHeader.leftAnchor.constraint(equalTo: view.leftAnchor),
+           locationHeader.rightAnchor.constraint(equalTo: view.rightAnchor),
+           locationHeader.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor)
+        ])
+    }
+    /// End Colapsing Table Header
+    
     @IBOutlet weak var tableViewCategories: UITableView! {
         didSet {
             tableViewCategories.showsVerticalScrollIndicator = false
@@ -170,29 +216,30 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
     }
     
-    private func addLocationHeader() {
-        
-        self.view.addSubview(self.locationHeader)
-        self.setLocationViewConstraints()
-        
-    }
-    
-    private func setLocationViewConstraints() {
-        
-        self.locationHeader.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.locationHeader.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor, constant: 0)
-          
-        ])
-        
-        let widthConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
-        let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
-        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
-      
-    }
+// FixMe: Need to handle in case of Not Single Store APP
+//    private func addLocationHeader() {
+//
+//        self.view.addSubview(self.locationHeader)
+//        self.setLocationViewConstraints()
+//
+//    }
+//
+//    private func setLocationViewConstraints() {
+//
+//        self.locationHeader.translatesAutoresizingMaskIntoConstraints = false
+//
+//        NSLayoutConstraint.activate([
+//            self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+//            self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            self.locationHeader.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor, constant: 0)
+//
+//        ])
+//
+//        let widthConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+//        let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
+//        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
+//
+//    }
     
     override func viewDidLoad() {
         
@@ -207,20 +254,26 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.setNavigationApearance()
+        // FixMe: Need to handle in case of Not Single Store APP
+        // self.setNavigationApearance()
         if UIApplication.topViewController() is GroceryLoaderViewController {
             self.isComingFromGroceryLoaderVc = true
         }
         self.basketIconOverlay?.shouldShow = true        
         self.refreshBasketForGrocery()
+        // FixMe: Need to handle in case of Not Single Store APP
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         defer {
-            self.setNavigationApearance(true)
+            // FixMe: Need to handle in case of Not Single Store APP
+            // self.setNavigationApearance(true)
+            self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
-        self.setNavigationApearance(true)
+        // FixMe: Need to handle in case of Not Single Store APP
+        // self.setNavigationApearance(true)
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.model = ListingViewModel.init(type: .FromStorePage , dataHandler: StoreFeedsHandler.init(.storePage, grocery: nil, delegate: self))
@@ -1904,31 +1957,32 @@ extension MainCategoriesViewController : RecipeDataHandlerDelegate {
 }
 extension MainCategoriesViewController: UIScrollViewDelegate {
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
-       // locationHeader.myGroceryName.sizeToFit()
-        scrollView.layoutIfNeeded()
-        
-        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
-        if constraintA.count > 0 {
-            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-            let headerViewHeightConstraint = constraint
-            let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
-        }
-        
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
-            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
-        }
-       
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
-            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-            self.navigationController?.navigationBar.topItem?.title = title
-        }
-   
-    }
+// FixMe: Need to handle in case of Not Single Store APP
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//
+//       // locationHeader.myGroceryName.sizeToFit()
+//        scrollView.layoutIfNeeded()
+//
+//        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+//        if constraintA.count > 0 {
+//            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+//            let headerViewHeightConstraint = constraint
+//            let maxHeight = self.locationHeader.headerMaxHeight
+//            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+//        }
+//
+//        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+//            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+//        }
+//
+//        UIView.animate(withDuration: 0.2) {
+//            self.view.layoutIfNeeded()
+//            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+//            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+//            self.navigationController?.navigationBar.topItem?.title = title
+//        }
+//
+//    }
     
   
 }
