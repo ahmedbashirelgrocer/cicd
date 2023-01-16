@@ -11,6 +11,7 @@ import FBSDKCoreKit
 import FirebaseCrashlytics
 import StoreKit
 import FirebaseAnalytics
+import RxSwift
 
 
 enum StorePageType {
@@ -103,6 +104,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var dataHandler : RecipeDataHandler!
     var recipelist : [Recipe] = []
     var chefList : [CHEF] = []
+    var disposeBag = DisposeBag()
+    
     func noDataButtonDelegateClick(_ state: actionState) {
         self.tabBarController?.selectedIndex = 0
     }
@@ -249,6 +252,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.registerCellsForTableView()
         self.setObjectAllocationAndDelegate()
         self.setupClearNavBar()
+        (self.navigationController as? ElGrocerNavigationController)?.buttonActionsDelegate = self
         self.hidesBottomBarWhenPushed = true
     }
     
@@ -1989,4 +1993,64 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
 
 extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
+}
+
+extension MainCategoriesViewController: ButtonActionDelegate {
+    func profileButtonTap() {
+        elDebugPrint("profileButtonClick")
+        MixpanelEventLogger.trackNavBarProfile()
+        let settingController = ElGrocerViewControllers.settingViewController()
+        self.navigationController?.pushViewController(settingController, animated: true)
+        hideTabBar()
+    }
+    
+    func cartButtonTap() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
+        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
+        
+        // MARK: Actions
+//        viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
+//            activeCartVC?.dismiss(animated: true) {
+//                guard let grocery = self?.groceryArray.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
+//                self?.goToGrocery(grocery, nil)
+//            }
+//        }).disposed(by: disposeBag)
+//
+//        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
+//            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+//
+//            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+//
+//            switch campaignType {
+//            case .brand:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+//                })
+//                break
+//
+//            case .retailer:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+//                })
+//                break
+//
+//            case .web:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+//                })
+//                break
+//
+//            case .priority:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+//                })
+//                break
+//            }
+//
+//        }).disposed(by: disposeBag)
+        
+        self.present(activeCartVC, animated: true)
+    }
 }
