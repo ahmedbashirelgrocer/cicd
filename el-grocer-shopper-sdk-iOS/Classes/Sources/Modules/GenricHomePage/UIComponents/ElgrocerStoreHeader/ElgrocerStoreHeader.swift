@@ -15,6 +15,7 @@ class ElgrocerStoreHeader:  UIView  {
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
         self.btnMenu.setTitle("", for: .normal)
+        self.btnMenu.addTarget(self, action: #selector(profileBTNClicked), for: .touchUpInside)
     }}
     
     @IBOutlet weak var backButton: UIButton! {
@@ -23,6 +24,7 @@ class ElgrocerStoreHeader:  UIView  {
             if LanguageManager.sharedInstance.getSelectedLocale() == "ar" {
                 backButton.transform = CGAffineTransform.init(rotationAngle: Double.pi)
             }
+            backButton.addTarget(self, action: #selector(btnBackPressed), for: .touchUpInside)
         }
     }
     
@@ -61,6 +63,15 @@ class ElgrocerStoreHeader:  UIView  {
         gradient.endPoint = CGPoint(x: 0.6, y: 0.6)
         return gradient
     }()
+    
+    @objc func btnBackPressed() {
+        SDKManager.shared.rootViewController?.dismiss(animated: true)
+    }
+    @objc func profileBTNClicked() {
+        let navigationController = UIApplication.topViewController()?.navigationController
+        let elNavigationController = navigationController as? ElGrocerNavigationController
+        elNavigationController?.profileButtonClick()
+    }
     
     @IBOutlet var bGView: UIView! { didSet {
         bGView.layer.insertSublayer(gradientLayer, at: 0)
