@@ -79,7 +79,7 @@ class PreLoadData {
         let manager = SDKLoginManager(launchOptions: launchOptions)
         manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage in
             guard let self = self else { return }
-            let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
+            //let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
             if isSuccess {
                 ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
                 self.updateLocationIfNeeded(completion: completion)
@@ -90,13 +90,13 @@ class PreLoadData {
     }
     
     func updateLocationIfNeeded(completion: (() -> Void)? ) {
+        
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         let lat = SDKManager.shared.launchOptions?.latitude
         let lng = SDKManager.shared.launchOptions?.longitude
         
-        if let dLocation = locations.first(where: { $0.isActive == NSNumber(value: true) }),
-           dLocation.latitude == lat && dLocation.longitude == lng {
+        if let _ = locations.first(where: { $0.isActive == NSNumber(value: true) }) {
             completion?()
             return
         }

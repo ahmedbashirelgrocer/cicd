@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina3_5" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -687,7 +687,7 @@
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="hjl-mx-Aji" secondAttribute="bottom" id="Zfb-Db-Gho"/>
-                            <constraint firstItem="hjl-mx-Aji" firstAttribute="top" secondItem="wHb-Z3-gns" secondAttribute="bottom" priority="999" id="bqv-mh-MSY"/>
+                            <constraint firstItem="hjl-mx-Aji" firstAttribute="top" secondItem="wHb-Z3-gns" secondAttribute="bottom" priority="999" id="hah-8X-4yK"/>
                             <constraint firstItem="hjl-mx-Aji" firstAttribute="leading" secondItem="czP-gI-yKS" secondAttribute="leading" id="sEa-Qg-2Jp"/>
                             <constraint firstAttribute="trailing" secondItem="hjl-mx-Aji" secondAttribute="trailing" id="tyM-qG-7HC"/>
                         </constraints>
@@ -1673,7 +1673,7 @@
                                             <rect key="frame" x="0.0" y="83" width="116.33333333333333" height="20"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OFFICE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r0l-10-yLW">
-                                                    <rect key="frame" x="33.666666666666629" y="1.6666666666666714" width="49.333333333333343" height="17"/>
+                                                    <rect key="frame" x="34.333333333333314" y="1.6666666666666714" width="47.666666666666657" height="17"/>
                                                     <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1931,7 +1931,7 @@
                                     <rect key="frame" x="0.0" y="294" width="383" height="132"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="additional directions (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Li-1h-99f">
-                                            <rect key="frame" x="16" y="12" width="161" height="16"/>
+                                            <rect key="frame" x="16" y="12" width="167.33333333333334" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="wjf-f1-Zlg"/>
                                             </constraints>
@@ -2046,7 +2046,7 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWt-Vq-6Ju">
-                            <rect key="frame" x="16" y="142" width="184" height="24"/>
+                            <rect key="frame" x="16" y="142" width="181.33333333333334" height="24"/>
                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -2336,7 +2336,7 @@
         <image name="blackInfoIcon" width="20" height="21"/>
         <image name="button_overlay" width="1" height="1"/>
         <image name="category_placeholder" width="320" height="110"/>
-        <image name="checkGreen" width="24" height="24"/>
+        <image name="checkGreen" width="16" height="16"/>
         <image name="edit-Address" width="24" height="24.333333969116211"/>
         <image name="email" width="20" height="14.666666984558105"/>
         <image name="icBackGray" width="10" height="16"/>

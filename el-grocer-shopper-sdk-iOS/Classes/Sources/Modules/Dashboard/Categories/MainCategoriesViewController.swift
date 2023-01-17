@@ -119,36 +119,14 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     // MARK: - Colapsing Table Header
     lazy var locationHeader : ElgrocerStoreHeader = {
         let locationHeader = ElgrocerStoreHeader.loadFromNib()
-        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return locationHeader!
     }()
-    private var effectiveOffset: CGFloat = 0
-    private var offset: CGFloat = 0 {
-        didSet {
-            let diff = offset - oldValue
-            if diff > 0 { effectiveOffset = min(60, effectiveOffset + diff) }
-            else { effectiveOffset = max(0, effectiveOffset + diff) }
-        }
-    }
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        offset = scrollView.contentOffset.y
-        let value = min(effectiveOffset, scrollView.contentOffset.y)
-        
-        // self.locationHeader.searchViewTopAnchor.constant = 62 - value
-        // self.locationHeader.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
-        self.locationHeader.groceryBGView.alpha = max(0, 1 - (value / 60))
-    }
+    
     @objc func backButtonPressed() {
         self.backButtonClick()
     }
-    private func addLocationHeader() {
-        
-        self.view.addSubview(self.locationHeader)
-        self.setLocationViewConstraints()
-        
-    }
-    
+ 
     private func setLocationViewConstraints() {
         NSLayoutConstraint.activate([
            locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -219,35 +197,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
     }
     
-// FixMe: Need to handle in case of Not Single Store APP
-//    private func addLocationHeader() {
-//
-//        self.view.addSubview(self.locationHeader)
-//        self.setLocationViewConstraints()
-//
-//    }
-//
-//    private func setLocationViewConstraints() {
-//
-//        self.locationHeader.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//            self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-//            self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            self.locationHeader.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor, constant: 0)
-//
-//        ])
-//
-//        let widthConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
-//        let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
-//        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
-//
-//    }
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.addLocationHeader()
+
         self.addNotificationObseverForController()
         self.registerCellsForTableView()
         self.setObjectAllocationAndDelegate()
@@ -258,8 +211,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // FixMe: Need to handle in case of Not Single Store APP
-        // self.setNavigationApearance()
+         self.setNavigationApearance()
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        
         if UIApplication.topViewController() is GroceryLoaderViewController {
             self.isComingFromGroceryLoaderVc = true
         }
@@ -272,12 +226,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         defer {
-            // FixMe: Need to handle in case of Not Single Store APP
-            // self.setNavigationApearance(true)
+             self.setNavigationApearance(true)
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
-        // FixMe: Need to handle in case of Not Single Store APP
-        // self.setNavigationApearance(true)
+         self.setNavigationApearance(true)
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.model = ListingViewModel.init(type: .FromStorePage , dataHandler: StoreFeedsHandler.init(.storePage, grocery: nil, delegate: self))
@@ -355,6 +307,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.backButtonClickedHandler()
         MixpanelEventLogger.trackStoreClose()
     }
+    
+    
+    
+    
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
         //self.tabBarController?.tabBar.isHidden = false
@@ -364,6 +320,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        
         if self.grocery != nil{
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             self.addBackButton(isGreen: false)

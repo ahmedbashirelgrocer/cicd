@@ -69,6 +69,7 @@ class SDKManager: NSObject  {
         DispatchQueue.main.async { [weak self] in self?.configure() }
     }
     
+  
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
         self.rootContext = UIWindow.key?.rootViewController
@@ -76,52 +77,57 @@ class SDKManager: NSObject  {
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
-        if launchOptions?.type == .singleStore {
-            self.startWithSingleStore()
-        } else {
-            self.showAnimatedSplashView()
-        }
+        self.showAnimatedSplashView()
         
     }
     
-    func startWithSingleStore() {
+    func startWithSingleStore(_ grocery: Grocery) {
         guard let launchOptions = launchOptions else { return }
+        self.launchOptions = launchOptions
+        self.rootContext = UIWindow.key?.rootViewController
+        self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         let manager = SDKLoginManager(launchOptions: launchOptions)
         manager.loginFlowForSDK() { isSuccess, errorMessage in
+            
             if isSuccess {
-                let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == 289 }
+                SDKManager.shared.setupLanguage()
+                HomePageData.shared.groceryA = [grocery]
                 ElGrocerUtility.sharedInstance.activeGrocery = grocery
-                let storeMain = ElGrocerViewControllers.mainCategoriesViewController()
-                
-                let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                navController.hideSeparationLine()
-                navController.viewControllers = [storeMain]
-                
-                self.rootViewController = navController
-                    
-                if let topVC = UIApplication.topViewController() {
-                    topVC.present(navController, animated: true)
-                }
-                
-            } else {
-                ElGrocerAlertView.createAlert(
-                    localizedString("error_500", comment: ""),
-                    description: nil,
-                    positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
-                    negativeButton: nil)
-                { index in
-                    if let topVC = UIApplication.topViewController() {
-                        if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
-                            navVc.popViewController(animated: true)
-                        } else {
-                            topVC.dismiss(animated: true, completion: nil)
+                let tabNav = self.getTabbarController(isNeedToShowChangeStoreByDefault: true, selectedGrocery: grocery, nil, true)
+                if let tabVC = tabNav.viewControllers[0] as? UITabBarController {
+                    tabVC.selectedIndex = 1
+                    if let nav = tabVC.viewControllers?[1] as? UINavigationController {
+                        nav.setViewControllers([nav.viewControllers[0]], animated: false)
+                        if let main = nav.viewControllers[0] as? MainCategoriesViewController {
+                            main.grocery = nil
                         }
                     }
-                }.show()
-            }
+                    self.rootViewController = tabNav
+
+                    tabNav.modalPresentationStyle = .fullScreen
+                    if let topVC = self.rootContext {
+                        topVC.present(tabNav, animated: true)
+                    }
+                }
+        } else {
+            ElGrocerAlertView.createAlert(
+                localizedString("error_500", comment: ""),
+                description: nil,
+                positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
+                negativeButton: nil)
+            { index in
+                if let topVC = UIApplication.topViewController() {
+                    if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
+                        navVc.popViewController(animated: true)
+                    } else {
+                        topVC.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }.show()
         }
     }
-    
+}
+
     private func configure() { //_ application: UIApplication, launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
         
         SwiftDate.defaultRegion = Region.getCurrentRegion()
@@ -633,23 +639,9 @@ class SDKManager: NSObject  {
        
         //customize your tab bar
         tabController.viewControllers = vcs
-        //        tabController.tabBar.barTintColor = UIColor(red: 238.0/255.0,green: 238.0/255.0,blue: 238.0/255.0,alpha:0.9)
-        
         tabController.tabBar.backgroundColor = .white
         tabController.tabBar.barTintColor = .white
         tabController.tabBar.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-        
-        //595959
-        
-//        tabController.tabBar.items![0].selectedImage = UIImage(name: "icHomeGreen")
-//        tabController.tabBar.items![1].selectedImage = UIImage(name: "icHomeGreen")
-//        tabController.tabBar.items![2].selectedImage = UIImage(name: "icBrowseGreen")
-//        tabController.tabBar.items![3].selectedImage = UIImage(name: "navSearchGreen")
-//       // tabController.tabBar.items![4].selectedImage = UIImage(name: "selectRecipeGree")
-//        tabController.tabBar.items![4].selectedImage = UIImage(name: "icMoreGreen")
-//
-//
-        
         if SDKManager.isSmileSDK == false {
             UITabBarItem.appearance().setTitleTextAttributes(
                 [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),

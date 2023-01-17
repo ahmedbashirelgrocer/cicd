@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-typealias LoadCompletion = ((Bool) -> Void)?
+typealias LoadCompletion = ((Bool,Grocery?) -> Void)?
 
 protocol FlavorsClientUseCaseInput {
     var launchOptionsObserver: AnyObserver<LaunchOptions> { get }

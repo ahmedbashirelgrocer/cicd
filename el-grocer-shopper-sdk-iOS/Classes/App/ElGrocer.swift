@@ -17,6 +17,37 @@ public final class ElGrocer {
 
     static var isSDKLoaded = false
     
+    
+    static func startEngineForFlavourStore(with grocery: Grocery? = nil, completion: (() -> Void)?  = nil) {
+        
+        SDKManager.shared.launchCompletion = completion
+        let launchOptions = SDKManager.shared.launchOptions
+        
+        DispatchQueue.main.async {
+            
+            func defers() {
+                ElGrocer.isSDKLoaded = true
+                ElGrocerUtility.sharedInstance.delay(0.2) {
+                    FireBaseEventsLogger.logEventToFirebaseWithEventName(eventName: FireBaseParmName.SdkLaunch.rawValue, parameter: ["payload" : launchOptions?.pushNotificationPayload?.description ?? "Nil", "deeplink" : launchOptions?.deepLinkPayload ?? "Nil", "phone" : launchOptions?.accountNumber ?? "Nil", "ID" : launchOptions?.loyaltyID ?? "Nil"])
+                }
+            }
+            
+            guard ElGrocerAppState.checkDBCanBeLoaded() else {
+                ElGrocer.showDefaultErrorForDB()
+                return defers()
+            }
+            
+            guard let grocery = grocery else {
+                ElGrocer.startEngine(with: SDKManager.shared.launchOptions, completion: completion)
+                return
+            }
+            
+            SDKManager.shared.launchOptions = launchOptions
+            SDKManager.shared.startWithSingleStore(grocery)
+        }
+        
+    }
+    
     static func startEngine(with launchOptions: LaunchOptions? = nil, completion: (() -> Void)?  = nil) {
         
         SDKManager.shared.launchCompletion = completion
@@ -91,6 +122,7 @@ enum SDKType: Int {
 public enum ElgrocerSDKNavigationType: Int {
     case `Default`
     case search
+    case singleStore
 }
 
 public enum EnvironmentType {
@@ -205,6 +237,15 @@ public struct LaunchOptions {
         if (pushNotificationPayload?.count ?? 0) > 0 {
             self.isFromPush = true
         }
+    }
+    
+    public init(
+        latitude: Double?,
+        longitude: Double?,
+        type : SDKType) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.type = type
     }
 
 }
