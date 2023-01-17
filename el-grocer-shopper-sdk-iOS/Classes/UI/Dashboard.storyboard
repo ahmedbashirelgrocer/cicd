@@ -684,7 +684,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="hjl-mx-Aji" secondAttribute="bottom" id="Zfb-Db-Gho"/>
                             <constraint firstItem="hjl-mx-Aji" firstAttribute="top" secondItem="czP-gI-yKS" secondAttribute="top" priority="999" id="hah-8X-4yK"/>
@@ -694,7 +694,6 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="C5I-Yy-RUl"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableViewCategories" destination="hjl-mx-Aji" id="5tx-CJ-oSg"/>
                         <segue destination="Kwk-rF-vNq" kind="show" identifier="CategoriesToSubCategories" id="5Za-RP-S4C"/>

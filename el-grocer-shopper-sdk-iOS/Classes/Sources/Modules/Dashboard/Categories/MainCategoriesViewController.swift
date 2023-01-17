@@ -108,6 +108,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     lazy var locationHeader : ElgrocerlocationView = {
         let locationHeader = ElgrocerlocationView.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         return locationHeader!
     }()
     @IBOutlet weak var tableViewCategories: UITableView! {
@@ -303,8 +304,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         let isSingleStore = SDKManager.shared.launchOptions?.marketType == .singleStore
     
         self.hideTabBar()
-        (self.navigationController as? ElGrocerNavigationController)?.setNavBarHidden(isSingleStore)
-        
+        if let controller = self.navigationController as? ElGrocerNavigationController {
+            controller.setNavBarHidden(isSingleStore)
+            controller.setupGradient()
+        }
         if let commingContrller = UIApplication.topViewController() {
             if commingContrller is GroceryLoaderViewController || String(describing: commingContrller.classForCoder) == "STPopupContainerViewController" || viewdidAppear {
                 return

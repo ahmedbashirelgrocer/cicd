@@ -188,7 +188,7 @@ class ElgrocerlocationView:  UIView  {
     
     
     class func loadFromNib() -> ElgrocerlocationView? {
-        return self.loadFromNib(withName: "ElgrocerlocationView")
+        return  self.loadFromNib(withName: "ElgrocerlocationView")
     }
     
     override func awakeFromNib() {
@@ -502,7 +502,11 @@ class ElgrocerlocationView:  UIView  {
   
     }
     
-    func configuredLocationAndGrocey(_ grocery : Grocery?) {
+    func configuredLocationAndGrocey(_ grocery : Grocery?, _ marketType: LaunchOptions.MarketType) {
+        
+        
+        
+        
         
         guard grocery != nil else {
             self.configured()
