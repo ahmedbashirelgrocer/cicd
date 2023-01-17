@@ -30,7 +30,7 @@ final class FlavoursUserCase: FlavorsClientUseCaseType {
     init() {
         
         launchSubject
-            .filter{$0.type == .singleStore}
+            .filter{$0.marketType == .singleStore}
             .flatMap({ self.startFetchProcess($0)})
             .bind(to: self.flavourStoreSubject)
             .disposed(by: disposeBag)

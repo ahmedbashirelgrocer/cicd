@@ -173,7 +173,7 @@ class ElGrocerNavigationController : UINavigationController {
 //        guard self.navigationBar is ElGrocerNavigationBar else {return}
         //(self.navigationBar as! ElGrocerNavigationBar).setNavBarHidden(hidden)
 //        (self.navigationBar as! ElGrocerNavigationBar).barTintColor = UIColor.clear
-        (self.navigationBar as! ElGrocerNavigationBar).isHidden = hidden
+        self.setNavigationBarHidden(hidden, animated: false)
     }
     func setProfileButtonHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}

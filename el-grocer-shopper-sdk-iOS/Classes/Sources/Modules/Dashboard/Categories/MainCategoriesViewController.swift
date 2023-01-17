@@ -11,7 +11,6 @@ import FBSDKCoreKit
 import FirebaseCrashlytics
 import StoreKit
 import FirebaseAnalytics
-import RxSwift
 
 
 enum StorePageType {
@@ -104,39 +103,13 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var dataHandler : RecipeDataHandler!
     var recipelist : [Recipe] = []
     var chefList : [CHEF] = []
-    var disposeBag = DisposeBag()
-    
     func noDataButtonDelegateClick(_ state: actionState) {
         self.tabBarController?.selectedIndex = 0
     }
-    
-// FixMe: Need to handle in case of Not Single Store APP
-//    lazy var locationHeader : ElgrocerlocationView = {
-//        let locationHeader = ElgrocerlocationView.loadFromNib()
-//        return locationHeader!
-//    }()
-    
-    // MARK: - Colapsing Table Header
-    lazy var locationHeader : ElgrocerStoreHeader = {
-        let locationHeader = ElgrocerStoreHeader.loadFromNib()
-        locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+    lazy var locationHeader : ElgrocerlocationView = {
+        let locationHeader = ElgrocerlocationView.loadFromNib()
         return locationHeader!
     }()
-    
-    @objc func backButtonPressed() {
-        self.backButtonClick()
-    }
- 
-    private func setLocationViewConstraints() {
-        NSLayoutConstraint.activate([
-           locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-           locationHeader.leftAnchor.constraint(equalTo: view.leftAnchor),
-           locationHeader.rightAnchor.constraint(equalTo: view.rightAnchor),
-           locationHeader.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor)
-        ])
-    }
-    /// End Colapsing Table Header
-    
     @IBOutlet weak var tableViewCategories: UITableView! {
         didSet {
             tableViewCategories.showsVerticalScrollIndicator = false
@@ -197,39 +170,57 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
     }
     
+    private func addLocationHeader() {
+        
+        self.view.addSubview(self.locationHeader)
+        self.setLocationViewConstraints()
+        
+    }
+    
+    private func setLocationViewConstraints() {
+        
+        self.locationHeader.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.locationHeader.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor, constant: 0)
+          
+        ])
+        
+        let widthConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+        let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
+        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
+      
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
+        self.addLocationHeader()
         self.addNotificationObseverForController()
         self.registerCellsForTableView()
         self.setObjectAllocationAndDelegate()
         self.setupClearNavBar()
-        (self.navigationController as? ElGrocerNavigationController)?.buttonActionsDelegate = self
         self.hidesBottomBarWhenPushed = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-         self.setNavigationApearance()
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        
+        self.setNavigationApearance()
         if UIApplication.topViewController() is GroceryLoaderViewController {
             self.isComingFromGroceryLoaderVc = true
         }
-        self.basketIconOverlay?.shouldShow = true        
+        self.basketIconOverlay?.shouldShow = true
         self.refreshBasketForGrocery()
-        // FixMe: Need to handle in case of Not Single Store APP
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         defer {
-             self.setNavigationApearance(true)
-            self.navigationController?.setNavigationBarHidden(true, animated: false)
+            self.setNavigationApearance(true)
         }
-         self.setNavigationApearance(true)
+        self.setNavigationApearance(true)
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.model = ListingViewModel.init(type: .FromStorePage , dataHandler: StoreFeedsHandler.init(.storePage, grocery: nil, delegate: self))
@@ -307,46 +298,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.backButtonClickedHandler()
         MixpanelEventLogger.trackStoreClose()
     }
-    
-    
-    
-    
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
-        //self.tabBarController?.tabBar.isHidden = false
-        //hide tabbar
+        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .singleStore
+    
         self.hideTabBar()
-        
-        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        
-        if self.grocery != nil{
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            self.addBackButton(isGreen: false)
-        }else{
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-        }
-        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setProfileButtonHidden(true)
-
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        
-        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
-        
-        
-        if let nav = (self.navigationController as? ElGrocerNavigationController) {
-            if let bar = nav.navigationBar as? ElGrocerNavigationBar {
-                bar.chatButton.chatClick = {
-                  //  ZohoChat.showChat()
-                    let sendBirdManager = SendBirdDeskManager(controller: self, orderId: "0", type: .agentSupport)
-                    sendBirdManager.setUpSenBirdDeskWithCurrentUser()
-                }
-            }
-        }
-
+        (self.navigationController as? ElGrocerNavigationController)?.setNavBarHidden(isSingleStore)
         
         if let commingContrller = UIApplication.topViewController() {
             if commingContrller is GroceryLoaderViewController || String(describing: commingContrller.classForCoder) == "STPopupContainerViewController" || viewdidAppear {
@@ -1918,32 +1875,31 @@ extension MainCategoriesViewController : RecipeDataHandlerDelegate {
 }
 extension MainCategoriesViewController: UIScrollViewDelegate {
     
-// FixMe: Need to handle in case of Not Single Store APP
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//
-//       // locationHeader.myGroceryName.sizeToFit()
-//        scrollView.layoutIfNeeded()
-//
-//        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
-//        if constraintA.count > 0 {
-//            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-//            let headerViewHeightConstraint = constraint
-//            let maxHeight = self.locationHeader.headerMaxHeight
-//            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
-//        }
-//
-//        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
-//            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
-//        }
-//
-//        UIView.animate(withDuration: 0.2) {
-//            self.view.layoutIfNeeded()
-//            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
-//            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-//            self.navigationController?.navigationBar.topItem?.title = title
-//        }
-//
-//    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+       // locationHeader.myGroceryName.sizeToFit()
+        scrollView.layoutIfNeeded()
+        
+        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+        if constraintA.count > 0 {
+            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+            let headerViewHeightConstraint = constraint
+            let maxHeight = self.locationHeader.headerMaxHeight
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+        }
+       
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+            self.navigationController?.navigationBar.topItem?.title = title
+        }
+   
+    }
     
   
 }
@@ -1952,62 +1908,3 @@ extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
 }
 
-extension MainCategoriesViewController: ButtonActionDelegate {
-    func profileButtonTap() {
-        elDebugPrint("profileButtonClick")
-        MixpanelEventLogger.trackNavBarProfile()
-        let settingController = ElGrocerViewControllers.settingViewController()
-        self.navigationController?.pushViewController(settingController, animated: true)
-        hideTabBar()
-    }
-    
-    func cartButtonTap() {
-        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
-
-        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
-        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
-        
-        // MARK: Actions
-//        viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
-//            activeCartVC?.dismiss(animated: true) {
-//                guard let grocery = self?.groceryArray.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
-//                self?.goToGrocery(grocery, nil)
-//            }
-//        }).disposed(by: disposeBag)
-//
-//        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
-//            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
-//
-//            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
-//
-//            switch campaignType {
-//            case .brand:
-//                activeCartVC?.dismiss(animated: true, completion: {
-//                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
-//                })
-//                break
-//
-//            case .retailer:
-//                activeCartVC?.dismiss(animated: true, completion: {
-//                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
-//                })
-//                break
-//
-//            case .web:
-//                activeCartVC?.dismiss(animated: true, completion: {
-//                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
-//                })
-//                break
-//
-//            case .priority:
-//                activeCartVC?.dismiss(animated: true, completion: {
-//                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
-//                })
-//                break
-//            }
-//
-//        }).disposed(by: disposeBag)
-        
-        self.present(activeCartVC, animated: true)
-    }
-}
