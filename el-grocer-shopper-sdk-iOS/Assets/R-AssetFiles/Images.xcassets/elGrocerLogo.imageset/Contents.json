@@ -1,7 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "elGrocerLogo.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -10,6 +9,7 @@
       "scale" : "2x"
     },
     {
+      "filename" : "elGrocer Logo-Green@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

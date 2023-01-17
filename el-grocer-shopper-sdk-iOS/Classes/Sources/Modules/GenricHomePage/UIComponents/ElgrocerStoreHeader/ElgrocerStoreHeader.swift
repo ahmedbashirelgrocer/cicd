@@ -9,9 +9,10 @@
 import UIKit
 import STPopup
 
-let KElgrocerStoreHeaderFullHeight : CGFloat = CGFloat(165)
 
 class ElgrocerStoreHeader:  UIView  {
+    
+    let headerMaxHeight: CGFloat = 104
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
         self.btnMenu.setTitle("", for: .normal)
@@ -51,8 +52,7 @@ class ElgrocerStoreHeader:  UIView  {
             print("loaded Address: \(loadedAddress)")
         }
     }
-//    let halfWidth : CGFloat = 0.445
-//    let FullWidth : CGFloat = 0.9
+
     
     private let gradientLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
@@ -106,7 +106,7 @@ class ElgrocerStoreHeader:  UIView  {
     
 //    @IBOutlet var slotdistanceFromClockIcon: NSLayoutConstraint!
     
-    let headerMaxHeight: CGFloat = 155
+   
     
     typealias tapped = (_ isShoppingTapped: Bool)-> Void
     var shoppingListTapped: tapped?

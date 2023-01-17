@@ -111,6 +111,13 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         return locationHeader!
     }()
+    
+    lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
+        let locationHeader = ElgrocerStoreHeader.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        return locationHeader!
+    }()
+    
     @IBOutlet weak var tableViewCategories: UITableView! {
         didSet {
             tableViewCategories.showsVerticalScrollIndicator = false
@@ -173,8 +180,14 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func addLocationHeader() {
         
-        self.view.addSubview(self.locationHeader)
-        self.setLocationViewConstraints()
+        if SDKManager.isGroverySingleStore {
+            self.view.addSubview(self.locationHeaderFlavor)
+            self.setLocationViewFlavorHeaderConstraints()
+        } else {
+            self.view.addSubview(self.locationHeader)
+            self.setLocationViewConstraints()
+        }
+        
         
     }
     
@@ -191,6 +204,23 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         let widthConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
         let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
+        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
+      
+    }
+    
+    private func setLocationViewFlavorHeaderConstraints() {
+        
+        self.locationHeaderFlavor.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.locationHeaderFlavor.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            self.locationHeaderFlavor.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.locationHeaderFlavor.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor, constant: 0)
+          
+        ])
+        
+        let widthConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+        let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
         NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
       
     }
@@ -1883,12 +1913,28 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
        // locationHeader.myGroceryName.sizeToFit()
         scrollView.layoutIfNeeded()
         
+        guard !SDKManager.isGroverySingleStore else {
+            let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeaderFlavor.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,81),maxHeight)
+            }
+            
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+            
+            return
+        }
+        
         let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
         if constraintA.count > 0 {
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
             let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
