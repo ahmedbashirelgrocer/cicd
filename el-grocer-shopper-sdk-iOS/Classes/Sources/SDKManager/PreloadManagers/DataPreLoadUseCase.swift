@@ -42,6 +42,37 @@ class PreLoadData {
             }
         }
     }
+    
+    func loadDataWithOutFetchingHomeCalls(launchOptions: LaunchOptions, completion: (() -> Void)? ) {
+        self.completion = completion
+        
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            // Data already loaded return
+            self.updateLocationIfNeeded() {
+                self.completion?()
+            }
+            return
+        }
+
+        SDKManager.shared.launchOptions = launchOptions
+
+        configureElgrocerShopper()
+        
+        // Remove me
+        // HomePageData.shared.delegate = self
+
+        if self.isNotLoggedin() {
+            loginSignup {
+                self.updateLocationIfNeeded() {
+                    self.completion?()
+                }
+            }
+        } else {
+            self.updateLocationIfNeeded() {
+                self.completion?()
+            }
+        }
+    }
 
     func loginSignup(completion: (() -> Void)?) {
         let launchOptions = SDKManager.shared.launchOptions!

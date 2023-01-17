@@ -81,7 +81,11 @@ class ViewController: UIViewController {
             type: .singleStore,
             environmentType: environment)
         
-        ElGrocer.start(with: launchOptions)
+        
+        FlavorAgent.startFlavorEngine(launchOptions)
+        
+       
+       // ElGrocer.start(with: launchOptions)
     }
     
     @IBAction func btnGoToSDK(_ sender: Any) {
@@ -108,7 +112,7 @@ class ViewController: UIViewController {
     
     func setDefaultData() {
         txtAccountNumber.text = "+971567362119" //"+971501535327" //"+923416973310"
-        txtLat.text = "\(25.06867070)"
+        txtLat.text =  "\(25.06867070)"
         txtLong.text = "\(55.142484)"
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = "111111111130"

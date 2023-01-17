@@ -24,6 +24,11 @@ class ElgrocerPreloadManager {
         SDKManager.shared.launchOptions = launchOptions
         PreLoadData.shared.loadData(launchOptions: launchOptions, completion: nil)
     }
+    
+    func loadInitialDataWithOutHomeCalls(_ launchOptions: LaunchOptions, _ completion: (() -> Void)? = nil) {
+        SDKManager.shared.launchOptions = launchOptions
+        PreLoadData.shared.loadDataWithOutFetchingHomeCalls(launchOptions: launchOptions, completion: completion)
+    }
 
 }
 

@@ -89,34 +89,6 @@ class SDKManager: NSObject  {
         let manager = SDKLoginManager(launchOptions: launchOptions)
         manager.loginFlowForSDK() { isSuccess, errorMessage in
             if isSuccess {
-                // ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-                // MARK: Begin get tabbar vc
-                    
-//                let smileHomeVc =  ElGrocerViewControllers.getSmileHomeVC(HomePageData.shared)
-//                let storeMain = ElGrocerViewControllers.mainCategoriesViewController()
-//                let searchController = ElGrocerViewControllers.getSearchListViewController()
-//                let settingController = ElGrocerViewControllers.settingViewController()
-//                let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
-//
-//                let viewControllers = [smileHomeVc, storeMain, searchController, settingController, myBasketViewController]
-//                    .map { viewController -> UINavigationController in
-//                        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-//                        navigationController.hideSeparationLine()
-//                        navigationController.viewControllers = [viewController]
-//                        return navigationController
-//                    }
-//
-//                let tabController = UITabBarController()
-//                tabController.viewControllers = viewControllers
-//                tabController.delegate = self
-//
-//                self.currentTabBar = tabController
-//
-//                let navController = UINavigationController()
-//                navController.isNavigationBarHidden = true;
-//                navController.viewControllers = [tabController]
-//                navController.modalPresentationStyle = .fullScreen
-                    
                 let grocery = HomePageData.shared.groceryA?.first{ ($0.dbID as NSString).integerValue == 289 }
                 ElGrocerUtility.sharedInstance.activeGrocery = grocery
                 let storeMain = ElGrocerViewControllers.mainCategoriesViewController()
