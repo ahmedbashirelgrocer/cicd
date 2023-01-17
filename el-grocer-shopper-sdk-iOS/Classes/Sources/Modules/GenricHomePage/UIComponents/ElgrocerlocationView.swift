@@ -502,7 +502,7 @@ class ElgrocerlocationView:  UIView  {
   
     }
     
-    func configuredLocationAndGrocey(_ grocery : Grocery?, _ marketType: LaunchOptions.MarketType) {
+    func configuredLocationAndGrocey(_ grocery : Grocery?, _ marketType: LaunchOptions.MarketType = .smiles) {
         
         
         
