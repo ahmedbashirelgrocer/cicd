@@ -1321,7 +1321,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   // MARK: Categories
   
-    func getAllCategories(_ address: DeliveryAddress?, parentCategory:Category?, forGrocery grocery:Grocery?, _ lat : Double = 0 , _ lng : Double = 0, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+      func getAllCategories(_ address: DeliveryAddress?, parentCategory:Category?, forGrocery grocery:Grocery?, _ lat : Double = 0 , _ lng : Double = 0, deliveryTime: Int? = nil, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()
   
@@ -1336,7 +1336,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"]) as AnyObject
   }
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
-        parameters["delivery_time"] = time as AnyObject
+          parameters["delivery_time"] = deliveryTime != nil ? deliveryTime as AnyObject : time as AnyObject
   
   
   // //elDebugPrint("Patameters:%@",parameters)

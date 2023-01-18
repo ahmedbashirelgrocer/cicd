@@ -27,7 +27,13 @@ extension ProductCellProtocol {
     func productDelete(_ product:Product){}
 }
 
-class ProductCell : UICollectionViewCell {
+class ProductCell : RxUICollectionViewCell {
+    override func configure(viewModel: Any) {
+        let viewModel = viewModel as! ProductCellViewModelType
+        
+        
+    }
+    
     let topAddButtonmaxY = 0
     let topAddButtonminY = -32
   

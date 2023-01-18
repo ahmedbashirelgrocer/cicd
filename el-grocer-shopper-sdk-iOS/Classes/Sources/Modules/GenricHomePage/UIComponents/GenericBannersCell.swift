@@ -11,8 +11,21 @@ import UIKit
 let KGenericBannersCell = "GenericBannersCell"
 let KBrandBannerRatio = CGFloat(3.2)
 let KBannerRation = CGFloat(2)
-class GenericBannersCell: UITableViewCell {
 
+protocol GenericBannersCellViewModelType { }
+
+class GenericBannersCellViewModel: GenericBannersCellViewModelType, ReusableTableViewCellViewModelType {
+    var reusableIdentifier: String { GenericBannersCell.defaultIdentifier }
+    
+    init(banners: [BannerDTO]) {
+        
+    }
+}
+
+class GenericBannersCell: RxUITableViewCell {
+    override func configure(viewModel: Any) {
+        
+    }
     private var scrollTimer : Timer?
     @IBOutlet var bgView: UIView!
     @IBOutlet var bannerList: GenricBannerList!

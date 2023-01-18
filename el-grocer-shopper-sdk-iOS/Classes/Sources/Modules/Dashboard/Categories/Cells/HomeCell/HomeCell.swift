@@ -9,6 +9,8 @@
 import UIKit
 import Shimmer
 import SDWebImage
+import RxSwift
+import RxDataSources
 
 // import PMAlertController
 let kHomeCellIdentifier = "HomeCell"
@@ -37,8 +39,19 @@ extension HomeCellDelegate {
     func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home? ) {}
 }
 
-
-class HomeCell: UITableViewCell {
+class HomeCell: RxUITableViewCell {
+    override func configure(viewModel: Any) {
+        let viewModel = viewModel as! HomeCellViewModelType
+        
+        self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
+            cell.configure(viewModel: viewModel)
+            return cell
+        })
+        
+        self.productsCollectionView.dataSource = nil
+        viewModel.outputs.productCollectionCellViewModels.bind(to: self.productsCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+    }
     
     @IBOutlet weak var rightArrowImageView: UIImageView!
     // @IBOutlet weak var arrowImgView: UIImageView!
@@ -97,6 +110,8 @@ class HomeCell: UITableViewCell {
 
     var isGettingProducts = false
     var isNeedToShowRecipe = false
+    
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
 
     override func awakeFromNib() {
         super.awakeFromNib()
