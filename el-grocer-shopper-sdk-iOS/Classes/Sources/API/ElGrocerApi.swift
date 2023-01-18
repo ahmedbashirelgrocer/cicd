@@ -200,8 +200,8 @@ enum ElGrocerApiEndpoint : String {
     case orderSubstitutionBasketUpdate = "v4/orders/substitution"
     case getActiveCarts = "v2/baskets/all_carts"
     case isActiveCartAvailable = "v2/baskets/is_cart_available"
-    
-    case getFlavoredStore = "v4/retailers/single_store"
+    // Flavor Store
+    case getFlavoredStore = "v1/retailers/single_store"
  }
  
  class ElgrocerAPINonBase  {
@@ -4229,7 +4229,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           setAccessToken()
           FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
           elDebugPrint(parameters)
-          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue, parameters: parameters, progress: { (progress) in
+          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue + "?market_type_id=\(SDKManager.isGroverySingleStore ? "1":"0")", parameters: parameters, progress: { (progress) in
                   // debugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
@@ -4248,7 +4248,6 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
                   completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
               }
           }
-          
           
       }
       

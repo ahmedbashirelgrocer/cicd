@@ -13,6 +13,7 @@ import STPopup
 class ElgrocerStoreHeader:  UIView  {
     
     let headerMaxHeight: CGFloat = 104
+    let headerMinHeight: CGFloat = 88
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
         self.btnMenu.setTitle("", for: .normal)
@@ -36,6 +37,9 @@ class ElgrocerStoreHeader:  UIView  {
         }
     }
     
+
+    
+    
     var currentVC : UIViewController? {
         didSet{
             if currentVC != nil {
@@ -47,34 +51,22 @@ class ElgrocerStoreHeader:  UIView  {
     var currentSelectedSlot : DeliverySlot?
     
     var localLoadedAddress: LocalDeliverAddress?
-    var loadedAddress : DeliveryAddress? {
-        didSet {
-            print("loaded Address: \(loadedAddress)")
-        }
-    }
+    var loadedAddress : DeliveryAddress? 
 
-    
-    private let gradientLayer: CAGradientLayer = {
-        let gradient = CAGradientLayer()
-        let purple = #colorLiteral(red: 0.5440375805, green: 0.3271837234, blue: 0.6164366603, alpha: 1)
-        let red = #colorLiteral(red: 0.875736475, green: 0.2409847379, blue: 0.1460545063, alpha: 1)
-        gradient.colors = [purple.cgColor, red.cgColor]
-        gradient.startPoint = CGPoint(x: 0, y: 0)
-        gradient.endPoint = CGPoint(x: 0.6, y: 0.6)
-        return gradient
-    }()
-    
     @objc func btnBackPressed() {
         SDKManager.shared.rootViewController?.dismiss(animated: true)
     }
     @objc func profileBTNClicked() {
-        let navigationController = UIApplication.topViewController()?.navigationController
-        let elNavigationController = navigationController as? ElGrocerNavigationController
-        elNavigationController?.profileButtonClick()
+        
+        MixpanelEventLogger.trackNavBarProfile()
+        if let topVc = UIApplication.topViewController() {
+            let settingController = ElGrocerViewControllers.settingViewController()
+            topVc.navigationController?.pushViewController(settingController, animated: true)
+        }
     }
     
     @IBOutlet var bGView: UIView! { didSet {
-        bGView.layer.insertSublayer(gradientLayer, at: 0)
+        bGView.layer.insertSublayer(setupGradient(height: bGView.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
     }}
     
     @IBOutlet var groceryBGView: UIView!
@@ -95,7 +87,8 @@ class ElgrocerStoreHeader:  UIView  {
     @IBOutlet var imgSearch: UIImageView!
     @IBOutlet var txtSearchBar: UITextField!{
         didSet{
-            txtSearchBar.placeholder = "Search products..." //NSLocalizedString("search_placeholder_store_header", comment: "")
+            //txtSearchBar.text = NSLocalizedString("search_products", comment: "")
+            txtSearchBar.setPlaceHolder(text: localizedString("search_products", comment: ""))
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
                 txtSearchBar.textAlignment = .right
             }else{
@@ -124,7 +117,7 @@ class ElgrocerStoreHeader:  UIView  {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        gradientLayer.frame = bGView.bounds
+      //  gradientLayer.frame = bGView.bounds
     }
     
     func setInitialUI(isExpanded: Bool = true){

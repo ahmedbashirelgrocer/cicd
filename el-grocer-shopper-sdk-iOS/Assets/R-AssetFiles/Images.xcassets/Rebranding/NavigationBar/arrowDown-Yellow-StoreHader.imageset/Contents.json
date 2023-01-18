@@ -1,10 +1,12 @@
 {
   "images" : [
     {
+      "filename" : "arrow dropdown-down.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "arrow dropdown-down@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

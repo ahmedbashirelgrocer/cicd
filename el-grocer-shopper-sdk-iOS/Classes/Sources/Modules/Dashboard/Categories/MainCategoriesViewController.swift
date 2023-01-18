@@ -118,6 +118,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         return locationHeader!
     }()
     
+    lazy var openOrdersView : ElgrocerOpenOrdersView = {
+        let orderView = ElgrocerOpenOrdersView.loadFromNib()
+        orderView?.translatesAutoresizingMaskIntoConstraints = false
+        return orderView!
+    }()
+    
     @IBOutlet weak var tableViewCategories: UITableView! {
         didSet {
             tableViewCategories.showsVerticalScrollIndicator = false
@@ -233,6 +239,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.registerCellsForTableView()
         self.setObjectAllocationAndDelegate()
         self.setupClearNavBar()
+        self.openOrdersView.setViewIn(addIn: self.tableViewCategories, bottomAlignView: self.view, topAlignView: self.basketIconOverlay ?? self.tableViewCategories)
         self.hidesBottomBarWhenPushed = true
     }
     
@@ -250,6 +257,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         super.viewDidAppear(animated)
         defer {
             self.setNavigationApearance(true)
+            self.openOrdersView.refreshOrders()
         }
         self.setNavigationApearance(true)
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
@@ -1919,7 +1927,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
                 let headerViewHeightConstraint = constraint
                 let maxHeight = self.locationHeaderFlavor.headerMaxHeight
-                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,81),maxHeight)
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,self.locationHeaderFlavor.headerMinHeight),maxHeight)
             }
             
             UIView.animate(withDuration: 0.2) {
