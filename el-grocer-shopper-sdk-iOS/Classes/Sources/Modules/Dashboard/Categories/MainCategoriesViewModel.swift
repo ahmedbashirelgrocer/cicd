@@ -16,6 +16,7 @@ protocol MainCategoriesViewModelInput {
 protocol MainCategoriesViewModelOutput {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
     var loading: Observable<Bool> { get }
+    func heightForCell(indexPath: IndexPath) -> CGFloat
 }
 
 protocol MainCategoriesViewModelType: MainCategoriesViewModelInput, MainCategoriesViewModelOutput {
@@ -47,9 +48,13 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var deliveryAddress: DeliveryAddress?
     private var grocery: Grocery?
     
+    private var viewModels: [SectionModel<Int, ReusableTableViewCellViewModelType>] = []
+    
     private var categories = [CategoryDTO]()
-    private var bannerVMs = [ReusableTableViewCellViewModelType]()
+    private var location1BannerVMs = [ReusableTableViewCellViewModelType]()
+    private var location2BannerVMs = [ReusableTableViewCellViewModelType]()
     private var homeCellVMs = [ReusableTableViewCellViewModelType]()
+    private var recentPurchasedVM = [ReusableTableViewCellViewModelType]()
     
     private var dispatchGroup = DispatchGroup()
     private var disposeBag = DisposeBag()
@@ -62,28 +67,44 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.deliveryAddress = deliveryAddress
         
         self.fetchGroceryDeliverySlots()
-        self.fetchBanners(for: .store_tier_1)
+        self.fetchBanners(for: .sdk_store_tier_1)
+        self.fetchBanners(for: .sdk_store_tier_2)
         
         self.loadingSubject.onNext(true)
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
-            self.cellViewModelsSubject.onNext([
-                SectionModel(model: 0, items: self.bannerVMs),
+            self.viewModels = [
+                SectionModel(model: 0, items: self.location1BannerVMs), // optional
                 SectionModel(model: 1, items: [CategoriesCellViewModel(categories: self.categories)]),
-                SectionModel(model: 2, items: self.homeCellVMs),
-            ])
+                SectionModel(model: 2, items: self.recentPurchasedVM), // optional
+                SectionModel(model: 3, items: self.location2BannerVMs), // optional
+                SectionModel(model: 4, items: self.homeCellVMs),
+            ]
+            self.cellViewModelsSubject.onNext(self.viewModels)
             self.loadingSubject.onNext(false)
         }
         
         self.scrollSubject.asObservable().subscribe(onNext: { indexPath in
-            if self.apiCallingStatus[indexPath] == nil && indexPath.section == 2 {
+            if self.apiCallingStatus[indexPath] == nil {
                 guard let vm = self.homeCellVMs[indexPath.row] as? HomeCellViewModel else { return }
                 
                 vm.inputs.fetchProductsObserver.onNext(self.categories[indexPath.row])
                 self.apiCallingStatus[indexPath] = true
             }
         }).disposed(by: self.disposeBag)
+    }
+    
+    func heightForCell(indexPath: IndexPath) -> CGFloat {
+        if self.viewModels[indexPath.section].items.first is GenericBannersCellViewModel {
+            return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
+        } else if self.viewModels[indexPath.section].items.first is CategoriesCellViewModel {
+            return self.categories.count > 5 ? 290 : 180
+        } else if self.viewModels[indexPath.section].items.first is HomeCellViewModel {
+            return 330
+        }
+        
+        return 0.0
     }
 }
 
@@ -137,7 +158,7 @@ private extension MainCategoriesViewModel {
                         let categories = try JSONDecoder().decode(CategoriesResponse.self, from: data).categories
                         
                         self.categories = categories
-                        self.homeCellVMs = self.categories.map { HomeCellViewModel(apiClient: self.apiClient, category: $0, grocery: self.grocery, deliveryTime: deliveryTime) }
+                        self.homeCellVMs = self.categories.map { HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery) }
                         return
                     }
                     
@@ -168,7 +189,14 @@ private extension MainCategoriesViewModel {
                     if let rootJson = response as? [String: Any] {
                         let data = try JSONSerialization.data(withJSONObject: rootJson)
                         let banners = try JSONDecoder().decode(CampaignsResponse.self, from: data).data
-                        self.bannerVMs.append(GenericBannersCellViewModel(banners: banners))
+                        
+                        if banners.isNotEmpty {
+                            if location == .sdk_store_tier_1 {
+                                self.location1BannerVMs.append(GenericBannersCellViewModel(banners: banners))
+                            } else if location == .sdk_store_tier_2 {
+                                self.location1BannerVMs.append(GenericBannersCellViewModel(banners: banners))
+                            }
+                        }
                         return
                     }
                     
@@ -209,7 +237,9 @@ private extension MainCategoriesViewModel {
                     if let rootJson = response as? [String: Any] {
                         let data = try JSONSerialization.data(withJSONObject: rootJson)
                         let products = try JSONDecoder().decode(ProductResponse.self, from: data).data
-                        
+                        if products.isNotEmpty {
+                            self.recentPurchasedVM.append(HomeCellViewModel(title: "Recent Purchases", products: products))
+                        }
                         return
                     }
                     

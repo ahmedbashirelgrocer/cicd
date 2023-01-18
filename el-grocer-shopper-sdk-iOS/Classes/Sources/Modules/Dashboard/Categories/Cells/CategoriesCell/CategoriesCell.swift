@@ -32,7 +32,7 @@ class CategoriesCell: RxUITableViewCell {
     }
 }
 
-extension CategoriesCell: UICollectionViewDelegateFlowLayout {
+private extension CategoriesCell {
     func bindViews() {
         self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
             let cell = tableView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
@@ -40,20 +40,31 @@ extension CategoriesCell: UICollectionViewDelegateFlowLayout {
             return cell
         })
         
-        self.viewModel.outputs.collectionCellViewModels.bind(to: self.collectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        self.viewModel
+            .outputs
+            .collectionCellViewModels
+            .bind(to: self.collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        self.viewModel
+            .outputs
+            .title
+            .bind(to: self.lblTitle.rx.text)
+            .disposed(by: disposeBag)
     }
-    
+}
+
+extension CategoriesCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
           return 13
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 75 , height: 108)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 11 , bottom: 0 , right: 16)
+        return UIEdgeInsets(top: 4, left: 11, bottom: 4, right: 16)
     }
 }
 

@@ -51,6 +51,8 @@ class HomeCell: RxUITableViewCell {
         
         self.productsCollectionView.dataSource = nil
         viewModel.outputs.productCollectionCellViewModels.bind(to: self.productsCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        viewModel.outputs.title.bind(to: self.titleLbl.rx.text).disposed(by: disposeBag)
     }
     
     @IBOutlet weak var rightArrowImageView: UIImageView!

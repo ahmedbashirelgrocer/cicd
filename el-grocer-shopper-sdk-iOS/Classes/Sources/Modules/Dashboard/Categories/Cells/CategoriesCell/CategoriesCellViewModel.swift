@@ -14,6 +14,7 @@ protocol CategoriesCellViewModelInput {
 }
 
 protocol CategoriesCellViewModelOutput {
+    var title: Observable<String> { get }
     var collectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
 }
 
@@ -31,9 +32,11 @@ class CategoriesCellViewModel: CategoriesCellViewModelType, ReusableTableViewCel
     // MARK: Inputs
     
     // MARK: Outputs
+    var title: Observable<String> { self.titleSubject.asObservable() }
     var collectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.collectionCellViewModelsSubject }
     
     // MARK: Subjects
+    private var titleSubject: BehaviorSubject<String>
     private var collectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     
     var reusableIdentifier: String { CategoriesCell.defaultIdentifier }
@@ -41,6 +44,7 @@ class CategoriesCellViewModel: CategoriesCellViewModelType, ReusableTableViewCel
     private var disposeBag = DisposeBag()
     
     init(categories: [CategoryDTO]) {
+        self.titleSubject = BehaviorSubject(value: "Shop by Category")
         self.collectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: categories.map { StoresCategoriesCollectionViewCellViewModel(category: $0) })])
     }
 }

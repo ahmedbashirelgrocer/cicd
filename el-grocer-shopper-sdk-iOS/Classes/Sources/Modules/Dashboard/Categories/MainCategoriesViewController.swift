@@ -210,6 +210,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.setObjectAllocationAndDelegate()
         self.setupClearNavBar()
         self.hidesBottomBarWhenPushed = true
+        
+        tableViewCategories.separatorStyle = .none
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -224,7 +226,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         tableViewCategories.rowHeight = UITableView.automaticDimension
         tableViewCategories.estimatedRowHeight = 220
 
-        self.tableViewCategories.register(UINib(nibName: CategoriesCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: CategoriesCell.defaultIdentifier)
         self.tableViewCategories.dataSource = nil
         self.tableViewCategories.delegate = self
         
@@ -249,27 +250,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             loading
                 ? _ = SpinnerView.showSpinnerViewInView(self.view)
                 : SpinnerView.hideSpinnerView()
-        }).disposed(by: disposeBag)
-        
-        // Experimental things
-        
-        self.tableViewCategories.rx.willDisplayCell.subscribe(onNext: { cell, indexPath in
-            print("willDisplayCell at \(indexPath.row)")
-        }).disposed(by: disposeBag)
-        
-        self.tableViewCategories.rx.didEndDisplayingCell.subscribe(onNext: { cell, indexPath in
-            print("didEndDisplayingCell at \(indexPath.row)")
-        }).disposed(by: disposeBag)
-        
-        self.tableViewCategories.rx.didEndDragging.subscribe(onNext: { bool in
-            // UITableView only moves in one direction, y axis
-            let currentOffset = self.tableViewCategories.contentOffset.y
-            let maximumOffset = self.tableViewCategories.contentSize.height - self.tableViewCategories.frame.size.height
-
-            // Change 10.0 to adjust the distance from bottom
-            if maximumOffset - currentOffset <= 10.0 {
-                print("load more")
-            }
         }).disposed(by: disposeBag)
     }
     
@@ -457,6 +437,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.tableViewCategories.keyboardDismissMode = .onDrag
         self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
+        
+        self.tableViewCategories.register(UINib(nibName: CategoriesCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: CategoriesCell.defaultIdentifier)
         
         let homeCellNib = UINib(nibName: "HomeCell", bundle: .resource)
         self.tableViewCategories.register(homeCellNib, forCellReuseIdentifier: kHomeCellIdentifier)
@@ -748,70 +730,71 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
 //    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 237
-        guard self.grocery != nil else {
-            self.tableViewCategories.tableHeaderView = nil
-            return .leastNormalMagnitude
-        }
-        var rowHeight : CGFloat = 0.0
-        switch indexPath.section {
-            case 2:
-                if indexPath.row == 0 {
-                    if self.chefList.count > 0 && self.recipelist.count > 0 {
-                        rowHeight = KGenericViewTitileTableViewCellHeight + 23
-                    }
-                   
-                }else if indexPath.row == 1 {
-                    if self.chefList.count > 0 && self.recipelist.count > 0{
-                        let final =  singleTypeRowHeight + 15
-                        rowHeight =  CGFloat(final)
-                    }
-                }else if indexPath.row == 2{
-                    if self.recipelist.count > 0 {
-                        let final =  ((ScreenSize.SCREEN_WIDTH - 32))
-                        rowHeight = CGFloat(final + 23)
-                    }
-                }
-                break
-            case 0:
-                rowHeight = 6
-                break
-            case 1:
-                if (indexPath.row < self.model.data.feeds.count) {
-                    let homeFeed = self.model.data.feeds[indexPath.row]
-                    if(homeFeed.type == .ListOfCategories){
-                        if homeFeed.isRunning || homeFeed.data?.categories.count ?? 0 > 0 {
-                            var final =  singleTypeRowHeight + 45
-                            if homeFeed.data?.categories.count ?? 0 > 5 {
-                                final =  doubleTypeRowHeight + 45
-                            }
-                            rowHeight = CGFloat(final)
-                        }
-                    }else if(homeFeed.type == .TopSelling){
-                        if homeFeed.isRunning || homeFeed.data?.products.count ?? 0 > 0 || !homeFeed.isLoaded.value  {
-                            rowHeight = kHomeCellHeight - 10
-                        }else{
-                            elDebugPrint("Failed homeFeed.isRunning: \(homeFeed.isRunning) homeFeed.data?.products.count:\(String(describing: homeFeed.data?.products.count))  homeFeed.isLoaded.value : \(homeFeed.isLoaded.value )")
-                        }
-                        
-                       
-                    }else if(homeFeed.type == .Purchased){
-                        if homeFeed.isRunning || homeFeed.data?.products.count ?? 0 > 0 || !homeFeed.isLoaded.value{
-                            rowHeight = kHomeCellHeight - 10
-                        }
-                    }else if(homeFeed.type == .Banner){
-                        if  homeFeed.data?.banners.count ?? 0 > 0 {
-                            rowHeight =  (ScreenSize.SCREEN_WIDTH/KBannerRation) + 20
-                        }
-                        
-                    }
-                }
-                break
-            default:
-                break
-        }
+        return self.viewModel.outputs.heightForCell(indexPath: indexPath)
         
-        return rowHeight
+//        guard self.grocery != nil else {
+//            self.tableViewCategories.tableHeaderView = nil
+//            return .leastNormalMagnitude
+//        }
+//        var rowHeight : CGFloat = 0.0
+//        switch indexPath.section {
+//            case 2:
+//                if indexPath.row == 0 {
+//                    if self.chefList.count > 0 && self.recipelist.count > 0 {
+//                        rowHeight = KGenericViewTitileTableViewCellHeight + 23
+//                    }
+//
+//                }else if indexPath.row == 1 {
+//                    if self.chefList.count > 0 && self.recipelist.count > 0{
+//                        let final =  singleTypeRowHeight + 15
+//                        rowHeight =  CGFloat(final)
+//                    }
+//                }else if indexPath.row == 2{
+//                    if self.recipelist.count > 0 {
+//                        let final =  ((ScreenSize.SCREEN_WIDTH - 32))
+//                        rowHeight = CGFloat(final + 23)
+//                    }
+//                }
+//                break
+//            case 0:
+//                rowHeight = 6
+//                break
+//            case 1:
+//                if (indexPath.row < self.model.data.feeds.count) {
+//                    let homeFeed = self.model.data.feeds[indexPath.row]
+//                    if(homeFeed.type == .ListOfCategories){
+//                        if homeFeed.isRunning || homeFeed.data?.categories.count ?? 0 > 0 {
+//                            var final =  singleTypeRowHeight + 45
+//                            if homeFeed.data?.categories.count ?? 0 > 5 {
+//                                final =  doubleTypeRowHeight + 45
+//                            }
+//                            rowHeight = CGFloat(final)
+//                        }
+//                    }else if(homeFeed.type == .TopSelling){
+//                        if homeFeed.isRunning || homeFeed.data?.products.count ?? 0 > 0 || !homeFeed.isLoaded.value  {
+//                            rowHeight = kHomeCellHeight - 10
+//                        }else{
+//                            elDebugPrint("Failed homeFeed.isRunning: \(homeFeed.isRunning) homeFeed.data?.products.count:\(String(describing: homeFeed.data?.products.count))  homeFeed.isLoaded.value : \(homeFeed.isLoaded.value )")
+//                        }
+//
+//
+//                    }else if(homeFeed.type == .Purchased){
+//                        if homeFeed.isRunning || homeFeed.data?.products.count ?? 0 > 0 || !homeFeed.isLoaded.value{
+//                            rowHeight = kHomeCellHeight - 10
+//                        }
+//                    }else if(homeFeed.type == .Banner){
+//                        if  homeFeed.data?.banners.count ?? 0 > 0 {
+//                            rowHeight =  (ScreenSize.SCREEN_WIDTH/KBannerRation) + 20
+//                        }
+//
+//                    }
+//                }
+//                break
+//            default:
+//                break
+//        }
+//
+//        return rowHeight
     }
     
 //    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

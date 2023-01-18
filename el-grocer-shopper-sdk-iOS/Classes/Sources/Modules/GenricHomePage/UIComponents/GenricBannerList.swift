@@ -9,6 +9,8 @@
 
 import Foundation
 import MSPeekCollectionViewDelegateImplementation
+import RxSwift
+import RxCocoa
 
 class GenricBannerList : CustomCollectionView {
    
@@ -90,6 +92,23 @@ class GenricBannerList : CustomCollectionView {
     }
     
 }
+
+// MARK: Rx Extension for binding Banner View with BannerDTOs
+extension Reactive where Base: GenricBannerList {
+    var banners: Binder<[BannerDTO]> {
+        return Binder(self.base) { bannerListView, banners in
+            bannerListView.collectionData = banners
+            let behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(8), cellPeekWidth: CGFloat(2), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)
+            bannerListView.collectionView?.configureForPeekingBehavior(behavior: behavior)
+            
+            UIView.performWithoutAnimation {
+                bannerListView.layoutIfNeeded()
+                bannerListView.collectionView?.reloadData()
+            }
+        }
+    }
+}
+
 extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSource , UIScrollViewDelegate {
     
     
@@ -126,6 +145,15 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                 }else{
                     cell.setImage(banner.bannerLinks[0].bannerLinkImageUrl)
                 }
+            } else if self.collectionData[indexPath.row] is BannerDTO {
+                let banner: BannerDTO = self.collectionData[indexPath.row] as! BannerDTO
+                
+                let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+                if currentLang == "ar" {
+                    cell.bannerImage.transform = CGAffineTransform(scaleX: -1, y: 1)
+                    cell.bannerImage.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+                }
+                cell.setImage(banner.imageURL)
             }
         }
         return cell
