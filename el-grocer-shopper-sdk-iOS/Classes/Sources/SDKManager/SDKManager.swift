@@ -82,7 +82,7 @@ class SDKManager: NSObject  {
         
     }
     
-    func startWithSingleStore(_ grocery: Grocery) {
+    func startWithSingleStore(_ grocery: Grocery?) {
         guard let launchOptions = launchOptions else { return }
         self.launchOptions = launchOptions
         self.rootContext = UIWindow.key?.rootViewController
@@ -92,8 +92,10 @@ class SDKManager: NSObject  {
             
             if isSuccess {
                 SDKManager.shared.setupLanguage()
-                HomePageData.shared.groceryA = [grocery]
-                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                if let grocery = grocery {
+                    HomePageData.shared.groceryA = [grocery]
+                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                }
                 let tabNav = self.getTabbarController(isNeedToShowChangeStoreByDefault: true, selectedGrocery: grocery, nil, true)
                 if let tabVC = tabNav.viewControllers[0] as? UITabBarController {
                     tabVC.selectedIndex = 1
@@ -110,6 +112,7 @@ class SDKManager: NSObject  {
                         topVC.present(tabNav, animated: true)
                     }
                 }
+            
         } else {
             ElGrocerAlertView.createAlert(
                 localizedString("error_500", comment: ""),

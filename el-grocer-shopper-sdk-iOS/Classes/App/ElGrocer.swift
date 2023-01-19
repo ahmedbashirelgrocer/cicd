@@ -16,38 +16,7 @@ public final class ElGrocer {
     // elgrocer
 
     static var isSDKLoaded = false
-    
-    
-    static func startEngineForFlavourStore(with grocery: Grocery? = nil, completion: (() -> Void)?  = nil) {
-        
-        SDKManager.shared.launchCompletion = completion
-        let launchOptions = SDKManager.shared.launchOptions
-        
-        DispatchQueue.main.async {
-            
-            func defers() {
-                ElGrocer.isSDKLoaded = true
-                ElGrocerUtility.sharedInstance.delay(0.2) {
-                    FireBaseEventsLogger.logEventToFirebaseWithEventName(eventName: FireBaseParmName.SdkLaunch.rawValue, parameter: ["payload" : launchOptions?.pushNotificationPayload?.description ?? "Nil", "deeplink" : launchOptions?.deepLinkPayload ?? "Nil", "phone" : launchOptions?.accountNumber ?? "Nil", "ID" : launchOptions?.loyaltyID ?? "Nil"])
-                }
-            }
-            
-            guard ElGrocerAppState.checkDBCanBeLoaded() else {
-                ElGrocer.showDefaultErrorForDB()
-                return defers()
-            }
-            
-            guard let grocery = grocery else {
-                ElGrocer.startEngine(with: SDKManager.shared.launchOptions, completion: completion)
-                return
-            }
-            
-            SDKManager.shared.launchOptions = launchOptions
-            SDKManager.shared.startWithSingleStore(grocery)
-        }
-        
-    }
-    
+ 
     static func startEngine(with launchOptions: LaunchOptions? = nil, completion: (() -> Void)?  = nil) {
         
         SDKManager.shared.launchCompletion = completion
@@ -102,7 +71,7 @@ public final class ElGrocer {
         
     }
     
-    private static func showDefaultErrorForDB() {
+    static func showDefaultErrorForDB() {
         
         let refreshAlert = UIAlertController(title:  localizedString("alert_error_title", comment: ""), message:  localizedString("error_500", comment: ""), preferredStyle: UIAlertController.Style.alert)
 

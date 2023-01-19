@@ -21,8 +21,7 @@ final class FlavoursUserCase: FlavorsClientUseCaseType {
     // outputs
     var flavourStore: Observable<Grocery?> { flavourStoreSubject.asObserver() }
     private var flavourStoreSubject = BehaviorSubject<(Grocery?)>(value: (nil))
-  
-   
+    
     // Properties
     private var disposeBag = DisposeBag()
     private var apiClient = FlavorManager()
@@ -34,8 +33,7 @@ final class FlavoursUserCase: FlavorsClientUseCaseType {
             .flatMap({ self.startFetchProcess($0)})
             .bind(to: self.flavourStoreSubject)
             .disposed(by: disposeBag)
-   
-        
+    
     }
     
     fileprivate func startFetchProcess(_ launchOption: LaunchOptions) -> Observable<Grocery?> {

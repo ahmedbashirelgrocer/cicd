@@ -82,10 +82,12 @@ class ViewController: UIViewController {
             environmentType: environment)
         
         
-        FlavorAgent.startFlavorEngine(launchOptions)
-        
-       
-       // ElGrocer.start(with: launchOptions)
+        FlavorAgent.startFlavorEngine(launchOptions) {
+            debugPrint("startAnimation")
+        } completion: { isCompleted in
+            debugPrint("Animation Completed")
+        }
+
     }
     
     @IBAction func btnGoToSDK(_ sender: Any) {

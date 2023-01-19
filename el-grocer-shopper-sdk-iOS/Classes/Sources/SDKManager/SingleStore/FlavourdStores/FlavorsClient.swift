@@ -10,23 +10,54 @@ import RxSwift
 
 public class FlavorAgent {
     
-    public static func startFlavorEngine(_ launchOptions: LaunchOptions) {
+    public static func startFlavorEngine(_ launchOptions: LaunchOptions, startAnimation: (() -> Void)?  = nil , completion: ((Bool?) -> Void)?  = nil) {
+        
+        startAnimation?()
+        
         ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
             if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
                 _ = FlavorsClient.init(address: address, loadCompletion: { isLoaded, grocery in
-                    if isLoaded, let grocery = grocery {
-                        ElGrocer.startEngineForFlavourStore(with: grocery, completion: nil)
-                    }
+                    ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
+                    completion?(isLoaded)
                 })
             } else {
                 _ = FlavorsClient.init(launchOptions: launchOptions, loadCompletion: { isLoaded, grocery in
-                    if isLoaded, let grocery = grocery  {
-                        ElGrocer.startEngineForFlavourStore(with: grocery, completion: nil)
-                    }
+                    guard let isLoaded = isLoaded else { return }
+                    ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
+                    completion?(isLoaded)
                 })
             }
         }
     }
+    
+    class func restartEngine(_ launchOptions: LaunchOptions, startAnimation: (() -> Void)?  = nil , completion: ((Bool?, Grocery?) -> Void)?  = nil) {
+        
+        startAnimation?()
+        ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
+            if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                _ = FlavorsClient.init(address: address, loadCompletion: { isLoaded, grocery in
+                    completion?(isLoaded,grocery)
+                })
+            } else {
+                _ = FlavorsClient.init(launchOptions: launchOptions, loadCompletion: { isLoaded, grocery in
+                    completion?(isLoaded,grocery)
+                })
+            }
+        }
+    }
+    
+    class func restartEngineWithLaunchOptions(_ launchOptions: LaunchOptions, startAnimation: (() -> Void)?  = nil , completion: ((Bool?, Grocery?) -> Void)?  = nil) {
+        
+        startAnimation?()
+        ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
+                _ = FlavorsClient.init(launchOptions: launchOptions, loadCompletion: { isLoaded, grocery in
+                    completion?(isLoaded,grocery)
+                })
+        }
+    }
+    
+    
+   
     
 }
 
@@ -51,11 +82,19 @@ class FlavorsClient  {
         
         flavoursUseCase.outputs.flavourStore
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { result in
-                self.grocery = result
-                self.completion?(result != nil, result)
-            })
+            .subscribe {result in
+                if let result = result {
+                    self.grocery = result
+                    self.completion?(true, result)
+                }
+            } onError: { error in
+                debugPrint(error)
+                self.completion?(false, nil)
+            } onCompleted: {} onDisposed: {}
             .disposed(by: disposeBag)
+        
+        
+        
     }
     
     init(address: DeliveryAddress, loadCompletion: LoadCompletion) {
@@ -69,13 +108,28 @@ class FlavorsClient  {
         flavoursUseCase.inputs.launchOptionsObserver
             .onNext(self.launchOptions)
         
+//        flavoursUseCase.outputs.flavourStore
+//            .observeOn(MainScheduler.instance)
+//            .subscribe(onNext: { result in
+//                self.grocery = result
+//                self.completion?(result != nil, result)
+//            })
+//            .disposed(by: disposeBag)
+        
         flavoursUseCase.outputs.flavourStore
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { result in
-                self.grocery = result
-                self.completion?(result != nil, result)
-            })
+            .subscribe {result in
+                if let result = result {
+                    self.grocery = result
+                    self.completion?(true, result)
+                }
+            } onError: { error in
+                debugPrint(error)
+                self.completion?(false, nil)
+            } onCompleted: {} onDisposed: {}
             .disposed(by: disposeBag)
+
+
     }
     
 }

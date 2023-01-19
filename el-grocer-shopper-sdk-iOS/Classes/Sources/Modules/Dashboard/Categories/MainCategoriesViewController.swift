@@ -573,40 +573,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            /*
-            self.storeSearchBarHeader.setNeedsLayout()
-            self.storeSearchBarHeader.layoutIfNeeded()
-            self.storeSearchBarHeader.setInitialUI(isExpanded: true)
-            if optGrocery != nil{
-                self.storeSearchBarHeader.configureHeader(grocery: optGrocery!)
-            }
-            self.storeSearchBarHeader.shoppingListTapped = {(shoppingListTapped) in
-                if shoppingListTapped{
-                    // show shopping list
-                    self.gotoShoppingListVC()
-                }else{
-                    // show sendBird support chat
-                    let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: "0", type: .agentSupport)
-                    sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
-                }
-            }*/
-           // self.locationHeader.frame = CGRect.init(origin: self.locationHeader.frame.origin, size: CGSize.init(width: ScreenSize.SCREEN_WIDTH, height: self.locationHeader.frame.size.width))
-            self.locationHeader.configuredLocationAndGrocey(grocery)
-//            self.view.addSubview(self.locationHeader)
-//            self.setLocationViewConstraints()
-//
+            SDKManager.isGroverySingleStore ?
+            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
+            
             self.tableViewCategories.tableHeaderView = nil
-            
-            
-           // self.tableViewCategories.tableHeaderView = self.locationHeader
-           // self.storeSearchBarHeader.lblGroceryDeliverySlot.text = self.locationHeader.lblSlot.text
-          //  self.tableViewCategories.layoutTableHeaderView()
-         //   self.tableViewCategories.reloadData()
         })
         
-
-        
-
     }
     
     // MARK: Actions

@@ -397,8 +397,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 launch.latitude = address.latitude
                 launch.longitude = address.longitude
                 launch.address = address.address
-                ElgrocerPreloadManager.shared
-                    .searchClient.setLaunchOptions(launchOptions: launch)
+                ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launch)
             }
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
             // self.homeDataHandler.resetHomeDataHandler()
