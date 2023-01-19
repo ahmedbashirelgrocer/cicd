@@ -21,6 +21,10 @@ public final class ElGrocer {
         
         SDKManager.shared.launchCompletion = completion
         
+        if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType {
+            HomePageData.shared.groceryA = []
+        }
+        
         DispatchQueue.main.async {
 
             func defers() {

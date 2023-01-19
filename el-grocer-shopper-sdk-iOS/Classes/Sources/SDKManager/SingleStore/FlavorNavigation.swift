@@ -53,8 +53,9 @@ class FlavorNavigation {
         return Observable.just(())
             .map { _ in
               let noLocationView = ElgorcerNoLocationViewController.loadViewXib()
+                noLocationView.modalPresentationStyle = .fullScreen
                 if let topVc = UIApplication.topViewController() {
-                    topVc.present(noLocationView, animated: false)
+                    topVc.present(noLocationView, animated: true)
                 }
             }
     }
