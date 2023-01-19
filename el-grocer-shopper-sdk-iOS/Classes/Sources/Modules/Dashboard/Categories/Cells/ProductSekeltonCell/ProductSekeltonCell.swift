@@ -8,10 +8,43 @@
 
 import UIKit
 import Shimmer
+import RxSwift
 
 let kProductSekeltonCellIdentifier = "ProductSekeltonCell"
 
-class ProductSekeltonCell: UICollectionViewCell {
+protocol ProductSekeltonCellViewModelInput {
+}
+
+protocol ProductSekeltonCellViewModelOutput {
+    var shimmring: Observable<Bool> { get }
+}
+
+protocol ProductSekeltonCellViewModelType: ProductSekeltonCellViewModelInput, ProductSekeltonCellViewModelOutput {
+    var inputs: ProductSekeltonCellViewModelInput { get }
+    var outputs: ProductSekeltonCellViewModelOutput { get }
+}
+
+extension ProductSekeltonCellViewModelType {
+    var inputs: ProductSekeltonCellViewModelInput { self }
+    var outputs: ProductSekeltonCellViewModelOutput { self }
+}
+
+class ProductSekeltonCellViewModel: ProductSekeltonCellViewModelType, ReusableCollectionViewCellViewModelType {
+    var reusableIdentifier: String { ProductSekeltonCell.defaultIdentifier }
+    
+    // MARK: Outputs
+    var shimmring: Observable<Bool> { self.shimmringSubject.asObservable() }
+    
+    // MARK: Subjects
+    var shimmringSubject = BehaviorSubject<Bool>(value: false)
+    
+    init() {
+        shimmringSubject.onNext(true)
+    }
+    
+}
+
+class ProductSekeltonCell: RxUICollectionViewCell {
     
     @IBOutlet weak var productContainer: UIView!
     @IBOutlet weak var productView: UIView!
@@ -37,7 +70,24 @@ class ProductSekeltonCell: UICollectionViewCell {
         self.productContainer.layer.masksToBounds = true
     }
     
+    override func configure(viewModel: Any) {
+        let viewModel = viewModel as! ProductSekeltonCellViewModelType
+        
+        viewModel.outputs.shimmring
+            .bind(to: self.productImageView.rx.isShimmerOn)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.shimmring
+            .bind(to: self.productNameLabel.rx.isShimmerOn)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.shimmring
+            .bind(to: self.productDescriptionLabel.rx.isShimmerOn)
+            .disposed(by: disposeBag)
+    }
+    
     func configureSekeltonCell() {
+        
         
         self.imageShimmerView.contentView = self.productImageView
         self.imageShimmerView.isShimmering = true

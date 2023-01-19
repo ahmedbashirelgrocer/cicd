@@ -67,7 +67,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
         self.titleSubject.onNext(title)
         
         self.productCollectionCellViewModelsSubject.onNext([
-            SectionModel(model: 0, items: products.map { ProductCellViewModel(product: $0) })
+            SectionModel(model: 0, items: products.map { ProductCellViewModel(product: $0, grocery: self.grocery) })
         ])
     }
 }
@@ -82,6 +82,11 @@ private extension HomeCellViewModel {
         parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
         parameters["category_id"] = category.id
         parameters["delivery_time"] =  deliveryTime
+        
+        // show shimmring efffect by adding
+        self.productCollectionCellViewModelsSubject.onNext([
+            SectionModel(model: 0, items: [ProductSekeltonCellViewModel(), ProductSekeltonCellViewModel(), ProductSekeltonCellViewModel(), ProductSekeltonCellViewModel()])
+        ])
         
         guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
             self.apiClient?.getTopSellingProductsOfGrocery(parameters) { result in
@@ -124,9 +129,14 @@ private extension HomeCellViewModel {
     
     func handleAlgoliaSuccessResponse(response: [String: Any]?) {
         if let root = response, let hits = root["hits"] as? [[String: Any]] {
-            let products = ProductDTO.fromDictionary(dictionary: hits)
+            var products: [ProductDTO] = []
+            
+            for hit in hits {
+                products.append(ProductDTO(dictionary: hit))
+            }
+
             self.productCollectionCellViewModelsSubject.onNext([
-                SectionModel(model: 0, items: products.map { ProductCellViewModel(product: $0) })
+                SectionModel(model: 0, items: products.map { ProductCellViewModel(product: $0, grocery: self.grocery) })
             ])
         }
     }

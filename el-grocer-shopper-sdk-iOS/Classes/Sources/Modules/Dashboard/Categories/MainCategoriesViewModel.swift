@@ -101,7 +101,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         } else if self.viewModels[indexPath.section].items.first is CategoriesCellViewModel {
             return self.categories.count > 5 ? 290 : 180
         } else if self.viewModels[indexPath.section].items.first is HomeCellViewModel {
-            return 330
+            return 309
         }
         
         return 0.0
