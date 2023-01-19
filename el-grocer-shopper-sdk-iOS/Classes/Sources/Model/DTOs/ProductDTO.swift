@@ -26,6 +26,8 @@ struct ProductDTO: Codable {
     let categories, subcategories: [CategoryDTO]?
     let isAvailable, isPublished, isP: Bool?
     let availableQuantity: Int?
+    
+    var productDB: Product? = nil
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -67,45 +69,30 @@ struct ProductDTO: Codable {
         availableQuantity = (try? values.decode(Int.self, forKey: .availableQuantity))
     }
     
-    init(dictionary: [String: Any]) {
-        id = dictionary["id"] as! Int
-        imageURL = dictionary["photo_url"] as? String
-        name = dictionary["name"] as? String
+    init(product: Product) {
+        id = Int(product.dbID) ?? -1
+        imageURL = product.imageUrl
+        name = product.name
     
-        retailerID = nil
+        retailerID = Int(product.groceryId)
         slug = nil
-        description = nil
+        description = product.description
         barcode = nil
         fullImageURL = nil
         sizeUnit = nil
-        fullPrice = nil
-        priceCurrency = nil
-        promotion = nil
+        fullPrice = product.price.doubleValue
+        priceCurrency = product.currency
+        promotion = product.promotion?.boolValue
+        
         brand = nil
+        
         categories = nil
         subcategories = nil
-        isAvailable = nil
-        isPublished = nil
+        isAvailable = product.isAvailable.boolValue
+        isPublished = product.isPublished.boolValue
         isP = nil
-        availableQuantity = nil
+        availableQuantity = product.availableQuantity.intValue
+        
+        productDB = product
     }
-    
-    // added this method for parsing Algolia response
-//    static func fromDictionary(dictionary: [[String: Any]]) -> [ProductDTO] {
-//        var results = [ProductDTO]()
-//
-//        dictionary.forEach { productDictionary in
-//            let id = productDictionary["id"] as! Int
-//            let imageUrl = productDictionary["photo_url"] as? String
-//            let name = productDictionary["name"] as? String
-//
-//            
-//            let product = ProductDTO(id: id, retailerID: nil, name: name, slug: nil, description: nil, barcode: nil, imageURL: imageUrl, fullImageURL: nil, sizeUnit: nil, fullPrice: nil, priceCurrency: nil, promotion: nil, brand: nil, categories: nil, subcategories: nil, isAvailable: false, isPublished: false, isP: false, availableQuantity: nil)
-//            
-//            results.append(product)
-//        }
-//
-//        return results
-//
-//    }
 }

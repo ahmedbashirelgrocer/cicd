@@ -110,8 +110,8 @@ private extension HomeCellViewModel {
                     print("handle error >>> \(error)")
                     return
                 }
-                
-                self?.handleAlgoliaSuccessResponse(response: content)
+                guard let response = content as? NSDictionary else { return }
+                self?.handleAlgoliaSuccessResponse(response: response)
                 
             }
             return
@@ -123,21 +123,31 @@ private extension HomeCellViewModel {
                 return
             }
             
-            self?.handleAlgoliaSuccessResponse(response: content)
+            guard let response = content as? NSDictionary else { return }
+            self?.handleAlgoliaSuccessResponse(response: response)
         }
     }
     
-    func handleAlgoliaSuccessResponse(response: [String: Any]?) {
-        if let root = response, let hits = root["hits"] as? [[String: Any]] {
-            var products: [ProductDTO] = []
-            
-            for hit in hits {
-                products.append(ProductDTO(dictionary: hit))
-            }
-
-            self.productCollectionCellViewModelsSubject.onNext([
-                SectionModel(model: 0, items: products.map { ProductCellViewModel(product: $0, grocery: self.grocery) })
-            ])
-        }
+    func handleAlgoliaSuccessResponse(response: NSDictionary) {
+        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+        
+        let productDTOs = products.map { ProductDTO(product: $0) }
+//
+        self.productCollectionCellViewModelsSubject.onNext([
+            SectionModel(model: 0, items: productDTOs.map { ProductCellViewModel(product: $0, grocery: self.grocery) })
+        ])
+        
+//        if let root = response, let hits = root["hits"] as? [[String: Any]] {
+//
+//            var products: [ProductDTO] = []
+//
+//            for hit in hits {
+//                products.append(ProductDTO(product: <#Product#>))
+//            }
+//
+//            self.productCollectionCellViewModelsSubject.onNext([
+//                SectionModel(model: 0, items: products.map { ProductCellViewModel(product: $0, grocery: self.grocery) })
+//            ])
+//        }
     }
 }

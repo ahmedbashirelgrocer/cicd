@@ -18,6 +18,8 @@ protocol ProductCellViewModelOutput {
     var productDescription: Observable<String?> { get }
     var price: Observable<String?> { get }
     var isProductInBasket: Observable<Bool> { get }
+    var grocery: Grocery? { get }
+    var product: Observable<ProductDTO?> { get }
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -38,6 +40,8 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var productName: RxSwift.Observable<String?> { self.productNameSubject.asObservable() }
     var productDescription: RxSwift.Observable<String?> { self.productDescriptionSubject.asObservable() }
     var price: Observable<String?> { self.priceSubject.asObservable() }
+    var grocery: Grocery?
+    var product: Observable<ProductDTO?> { self.productSubject.asObservable() }
     
     var isProductInBasket: Observable<Bool> { self.isProductInBasket.asObservable() }
     
@@ -47,6 +51,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var productNameSubject = BehaviorSubject<String?>(value: nil)
     private var productDescriptionSubject = BehaviorSubject<String?>(value: nil)
     private var priceSubject = BehaviorSubject<String?>(value: nil)
+    private var productSubject = BehaviorSubject<ProductDTO?>(value: nil)
     
     private var isProductInBasketSubject = BehaviorSubject<Bool>(value: false)
     
@@ -54,13 +59,8 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
     
     init(product: ProductDTO, grocery: Grocery?) {
-        productNameSubject.onNext(product.name)
-        productDescriptionSubject.onNext(product.description)
-        priceSubject.onNext(String(product.fullPrice ?? 0.0))
-        
-//        if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-//            
-//        }
+        self.grocery = grocery
+        self.productSubject.onNext(product)
     }
 }
 
@@ -83,8 +83,8 @@ public extension UIView {
     }
     
     func startShimmeringEffect() {
-        let light = UIColor.gray.cgColor
-        let alpha = UIColor.lightGray.cgColor
+        let light = UIColor.gray.withAlphaComponent(0.3).cgColor
+        let alpha = UIColor.gray.withAlphaComponent(0.1).cgColor
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(x: 0, y: 0, width:self.bounds.size.width, height: self.bounds.size.height)
         gradient.colors = [light, alpha, alpha, light]

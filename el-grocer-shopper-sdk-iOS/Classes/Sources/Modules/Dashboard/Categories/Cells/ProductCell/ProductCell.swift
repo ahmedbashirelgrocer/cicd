@@ -31,26 +31,31 @@ class ProductCell : RxUICollectionViewCell {
     override func configure(viewModel: Any) {
         let viewModel = viewModel as! ProductCellViewModelType
         
-        addToCartButton.isHidden = false
-        buttonsView.isHidden = true
-        self.quantityLabel.text = "0"
-        self.plusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
-        self.minusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
-        self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
-        self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
-        
-        viewModel.outputs.productName
-            .bind(to: self.productNameLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.outputs.productDescription
-            .map { $0 == nil || $0?.isEmpty == true }
-            .bind(to: self.productDescriptionLabel.rx.isHidden)
-            .disposed(by: disposeBag)
-        
-        viewModel.outputs.productDescription
-            .bind(to: self.productDescriptionLabel.rx.text)
-            .disposed(by: disposeBag)
+        viewModel.outputs.product.subscribe(onNext: { [weak self] product in
+            guard let self = self, let productDB = product?.productDB else { return }
+            
+            self.configureWithProduct(productDB, grocery: viewModel.grocery, cellIndex: self.indexPath)
+        }).disposed(by: disposeBag)
+//        addToCartButton.isHidden = false
+//        buttonsView.isHidden = true
+//        self.quantityLabel.text = "0"
+//        self.plusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
+//        self.minusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
+//        self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
+//        self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
+//
+//        viewModel.outputs.productName
+//            .bind(to: self.productNameLabel.rx.text)
+//            .disposed(by: disposeBag)
+//
+//        viewModel.outputs.productDescription
+//            .map { $0 == nil || $0?.isEmpty == true }
+//            .bind(to: self.productDescriptionLabel.rx.isHidden)
+//            .disposed(by: disposeBag)
+//
+//        viewModel.outputs.productDescription
+//            .bind(to: self.productDescriptionLabel.rx.text)
+//            .disposed(by: disposeBag)
     }
     
     let topAddButtonmaxY = 0
