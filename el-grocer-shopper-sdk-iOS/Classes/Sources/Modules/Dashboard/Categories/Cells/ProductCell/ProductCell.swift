@@ -32,11 +32,19 @@ class ProductCell : RxUICollectionViewCell {
         let viewModel = viewModel as! ProductCellViewModelType
         self.viewModel = viewModel
         
-        viewModel.outputs.product.subscribe(onNext: { [weak self] product in
-            guard let self = self, let productDB = product?.productDB else { return }
-            
-            self.configureWithProduct(productDB, grocery: viewModel.grocery, cellIndex: self.indexPath)
-        }).disposed(by: disposeBag)
+        viewModel.outputs.name
+            .bind(to: productNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.description
+            .bind(to: productDescriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.description
+            .map { $0 == nil || $0!.isEmpty }
+            .bind(to: productDescriptionLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        
 //        addToCartButton.isHidden = false
 //        buttonsView.isHidden = true
 //        self.quantityLabel.text = "0"

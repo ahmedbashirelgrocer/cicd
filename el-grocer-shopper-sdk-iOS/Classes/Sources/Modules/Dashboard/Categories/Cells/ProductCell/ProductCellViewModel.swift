@@ -9,12 +9,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-//func productCellOnFavouriteClick(_ productCell:ProductCell, product:Product) -> Void
-//func productCellOnProductQuickAddButtonClick(_ productCell:ProductCell, product:Product) -> Void // quickAddButtonTapObserver
-//func productCellOnProductQuickRemoveButtonClick(_ productCell:ProductCell, product:Product) -> Void
-//func chooseReplacementWithProduct(_ product:Product) -> Void
-//func productDelete(_ product:Product) -> Void
-
 protocol ProductCellViewModelInput {
     var quickAddButtonTapObserver: AnyObserver<Product> { get }
     
@@ -22,8 +16,12 @@ protocol ProductCellViewModelInput {
 
 protocol ProductCellViewModelOutput {
     var grocery: Grocery? { get }
-    var product: Observable<ProductDTO?> { get }
+    var product: Observable<ProductDTO?> { get } // remove this one
     var quickAddButtonTap: Observable<Product> { get }
+    
+    var name: Observable<String?> { get }
+    var description: Observable<String?> { get }
+    
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -45,16 +43,23 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var product: Observable<ProductDTO?> { self.productSubject.asObservable() }
     var quickAddButtonTap: Observable<Product> { self.quickAddButtonTapSubject.asObservable() }
     
+    var name: Observable<String?> { nameSubject.asObservable() }
+    var description: Observable<String?> { descriptionSubject.asObservable() }
+    
     // MARK: Subjects
     private var productSubject = BehaviorSubject<ProductDTO?>(value: nil)
     private var quickAddButtonTapSubject = PublishSubject<Product>()
     
+    private var nameSubject = BehaviorSubject<String?>(value: nil)
+    private var descriptionSubject = BehaviorSubject<String?>(value: nil)
     
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
     
     init(product: ProductDTO, grocery: Grocery?) {
         self.grocery = grocery
-        self.productSubject.onNext(product)
+        
+        nameSubject.onNext(product.name)
+        descriptionSubject.onNext(nil)
     }
 }
 

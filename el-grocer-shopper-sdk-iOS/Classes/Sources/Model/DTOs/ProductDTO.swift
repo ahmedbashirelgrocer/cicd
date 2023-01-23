@@ -26,8 +26,7 @@ struct ProductDTO: Codable {
     let categories, subcategories: [CategoryDTO]?
     let isAvailable, isPublished, isP: Bool?
     let availableQuantity: Int?
-    
-    var productDB: Product? = nil
+    let promotionalShops, shops: [ShopDTO]?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -43,6 +42,8 @@ struct ProductDTO: Codable {
         case isPublished = "is_published"
         case isP = "is_p"
         case availableQuantity = "available_quantity"
+        case promotionalShops = "promotional_shops"
+        case shops
     }
     
     init(from decoder: Decoder) throws {
@@ -67,32 +68,39 @@ struct ProductDTO: Codable {
         isPublished = (try? values.decode(Bool.self, forKey: .isPublished))
         isP = (try? values.decode(Bool.self, forKey: .isP))
         availableQuantity = (try? values.decode(Int.self, forKey: .availableQuantity))
+        promotionalShops = (try? values.decode([ShopDTO].self, forKey: .promotionalShops))
+        shops = (try? values.decode([ShopDTO].self, forKey: .shops))
+    }
+}
+
+struct ShopDTO: Codable {
+    let retailerId: Int
+    let retailerSlug: String?
+    let price: Double?
+    let promotionOnly: Int?
+    let isP: Bool?
+    let priceCurrency: String?
+    let availableQuantity: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case retailerId = "retailer_id"
+        case retailerSlug = "retailer_slug"
+        case price
+        case promotionOnly = "promotion_only"
+        case isP = "is_p"
+        case priceCurrency = "price_currency"
+        case availableQuantity = "available_quantity"
     }
     
-    init(product: Product) {
-        id = Int(product.dbID) ?? -1
-        imageURL = product.imageUrl
-        name = product.name
-    
-        retailerID = Int(product.groceryId)
-        slug = nil
-        description = product.description
-        barcode = nil
-        fullImageURL = nil
-        sizeUnit = nil
-        fullPrice = product.price.doubleValue
-        priceCurrency = product.currency
-        promotion = product.promotion?.boolValue
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        brand = nil
-        
-        categories = nil
-        subcategories = nil
-        isAvailable = product.isAvailable.boolValue
-        isPublished = product.isPublished.boolValue
-        isP = nil
-        availableQuantity = product.availableQuantity.intValue
-        
-        productDB = product
+        self.retailerId = try container.decode(Int.self, forKey: .retailerId)
+        self.retailerSlug = try container.decodeIfPresent(String.self, forKey: .retailerSlug)
+        self.price = try container.decodeIfPresent(Double.self, forKey: .price)
+        self.promotionOnly = try container.decodeIfPresent(Int.self, forKey: .promotionOnly)
+        self.isP = try container.decodeIfPresent(Bool.self, forKey: .isP)
+        self.priceCurrency = try container.decodeIfPresent(String.self, forKey: .priceCurrency)
+        self.availableQuantity = try container.decodeIfPresent(String.self, forKey: .availableQuantity)
     }
 }

@@ -115,7 +115,7 @@ private extension HomeCellViewModel {
                     print("handle error >>> \(error)")
                     return
                 }
-                guard let response = content as? NSDictionary else { return }
+                guard let response = content else { return }
                 self?.handleAlgoliaSuccessResponse(response: response)
                 
             }
@@ -128,22 +128,27 @@ private extension HomeCellViewModel {
                 return
             }
             
-            guard let response = content as? NSDictionary else { return }
+            guard let response = content else { return }
             self?.handleAlgoliaSuccessResponse(response: response)
         }
     }
     
-    func handleAlgoliaSuccessResponse(response: NSDictionary) {
-        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+    func handleAlgoliaSuccessResponse(response: [String: Any]) {
+        guard let hits = response["hits"] as? [[String: Any]] else { return }
+
+        var productDTOs = [ProductCellViewModel]()
         
-        let productDTOs = products.map { ProductDTO(product: $0) }
+        // Parsing algolia response and creating cell view model
+        hits.forEach { hit in
+            if let data = try? JSONSerialization.data(withJSONObject: hit) {
+                if let productDTO = try? JSONDecoder().decode(ProductDTO.self, from: data) {
+                    let productCellViewModel = ProductCellViewModel(product: productDTO, grocery: self.grocery)
+                    productCellViewModel.outputs.quickAddButtonTap.bind(to: self.quickAddButtonTapSubject).disposed(by: disposeBag)
+                    productDTOs.append(productCellViewModel)
+                }
+            }
+        }
         
-        self.productCollectionCellViewModelsSubject.onNext([
-            SectionModel(model: 0, items: productDTOs.map({ product in
-                let vm = ProductCellViewModel(product: product, grocery: self.grocery)
-                vm.outputs.quickAddButtonTap.bind(to: self.quickAddButtonTapSubject).disposed(by: disposeBag)
-                return vm
-            }))
-        ])
+        self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productDTOs)])
     }
 }
