@@ -17,6 +17,8 @@ protocol MainCategoriesViewModelOutput {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
     var loading: Observable<Bool> { get }
     func heightForCell(indexPath: IndexPath) -> CGFloat
+    
+    var quickAddButtonTap: Observable<Product> { get }
 }
 
 protocol MainCategoriesViewModelType: MainCategoriesViewModelInput, MainCategoriesViewModelOutput {
@@ -37,11 +39,14 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     // MARK: outputs
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
     var loading: Observable<Bool> { self.loadingSubject.asObservable() }
+    var quickAddButtonTap: Observable<Product> { self.quickAddButtonTapSubject.asObserver() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var scrollSubject = PublishSubject<IndexPath>()
+    private var quickAddButtonTapSubject = PublishSubject<Product>()
+    
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -90,6 +95,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 guard let vm = self.homeCellVMs[indexPath.row] as? HomeCellViewModel else { return }
                 
                 vm.inputs.fetchProductsObserver.onNext(self.categories[indexPath.row])
+                vm.outputs.quickAddButtonTap.bind(to: self.quickAddButtonTapSubject).disposed(by: self.disposeBag)
+                
                 self.apiCallingStatus[indexPath] = true
             }
         }).disposed(by: self.disposeBag)

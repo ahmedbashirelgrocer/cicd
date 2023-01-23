@@ -9,17 +9,21 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol ProductCellViewModelInput { }
+//func productCellOnFavouriteClick(_ productCell:ProductCell, product:Product) -> Void
+//func productCellOnProductQuickAddButtonClick(_ productCell:ProductCell, product:Product) -> Void // quickAddButtonTapObserver
+//func productCellOnProductQuickRemoveButtonClick(_ productCell:ProductCell, product:Product) -> Void
+//func chooseReplacementWithProduct(_ product:Product) -> Void
+//func productDelete(_ product:Product) -> Void
+
+protocol ProductCellViewModelInput {
+    var quickAddButtonTapObserver: AnyObserver<Product> { get }
+    
+}
 
 protocol ProductCellViewModelOutput {
-    var isArbic: Observable<Bool> { get }
-    
-    var productName: Observable<String?> { get }
-    var productDescription: Observable<String?> { get }
-    var price: Observable<String?> { get }
-    var isProductInBasket: Observable<Bool> { get }
     var grocery: Grocery? { get }
     var product: Observable<ProductDTO?> { get }
+    var quickAddButtonTap: Observable<Product> { get }
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -33,27 +37,17 @@ extension ProductCellViewModelType {
 }
 
 class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCellViewModelType {
-
-    // MARK: Outputs
-    var isArbic: Observable<Bool> { self.isArbicSebject.asObservable()}
+    // MARK: Inputs
+    var quickAddButtonTapObserver: AnyObserver<Product> { self.quickAddButtonTapSubject.asObserver() }
     
-    var productName: RxSwift.Observable<String?> { self.productNameSubject.asObservable() }
-    var productDescription: RxSwift.Observable<String?> { self.productDescriptionSubject.asObservable() }
-    var price: Observable<String?> { self.priceSubject.asObservable() }
+    // MARK: Outputs
     var grocery: Grocery?
     var product: Observable<ProductDTO?> { self.productSubject.asObservable() }
-    
-    var isProductInBasket: Observable<Bool> { self.isProductInBasket.asObservable() }
+    var quickAddButtonTap: Observable<Product> { self.quickAddButtonTapSubject.asObservable() }
     
     // MARK: Subjects
-    private var isArbicSebject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
-    
-    private var productNameSubject = BehaviorSubject<String?>(value: nil)
-    private var productDescriptionSubject = BehaviorSubject<String?>(value: nil)
-    private var priceSubject = BehaviorSubject<String?>(value: nil)
     private var productSubject = BehaviorSubject<ProductDTO?>(value: nil)
-    
-    private var isProductInBasketSubject = BehaviorSubject<Bool>(value: false)
+    private var quickAddButtonTapSubject = PublishSubject<Product>()
     
     
     var reusableIdentifier: String { ProductCell.defaultIdentifier }

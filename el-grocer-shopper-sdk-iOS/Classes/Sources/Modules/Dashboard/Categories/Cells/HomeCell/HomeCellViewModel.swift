@@ -11,12 +11,14 @@ import RxDataSources
 
 protocol HomeCellViewModelInput {
     var fetchProductsObserver: AnyObserver<CategoryDTO?> { get }
+    var quickAddButtonTapObserver: AnyObserver<Product> { get }
 }
 
 protocol HomeCellViewModelOuput {
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var scroll: Observable<CategoryDTO?> { get }
     var title: Observable<String?> { get }
+    var quickAddButtonTap: Observable<Product> { get }
 }
 
 protocol HomeCellViewModelType: HomeCellViewModelInput, HomeCellViewModelOuput {
@@ -34,16 +36,19 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     
     // MARK: Inputs
     var fetchProductsObserver: AnyObserver<CategoryDTO?> { self.fetchProductsSubject.asObserver() }
+    var quickAddButtonTapObserver: AnyObserver<Product> { self.quickAddButtonTapSubject.asObserver() }
     
     // MARK: Outputs
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.productCollectionCellViewModelsSubject.asObservable() }
     var scroll: Observable<CategoryDTO?> { self.fetchProductsSubject.asObservable() }
     var title: Observable<String?> { self.titleSubject.asObservable() }
+    var quickAddButtonTap: Observable<Product> { quickAddButtonTapSubject.asObservable() }
     
     // MARK: Subjects
     private let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     private let fetchProductsSubject = BehaviorSubject<CategoryDTO?>(value: nil)
     private let titleSubject = BehaviorSubject<String?>(value: nil)
+    private let quickAddButtonTapSubject = PublishSubject<Product>()
     
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
@@ -132,22 +137,13 @@ private extension HomeCellViewModel {
         let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
         
         let productDTOs = products.map { ProductDTO(product: $0) }
-//
-        self.productCollectionCellViewModelsSubject.onNext([
-            SectionModel(model: 0, items: productDTOs.map { ProductCellViewModel(product: $0, grocery: self.grocery) })
-        ])
         
-//        if let root = response, let hits = root["hits"] as? [[String: Any]] {
-//
-//            var products: [ProductDTO] = []
-//
-//            for hit in hits {
-//                products.append(ProductDTO(product: <#Product#>))
-//            }
-//
-//            self.productCollectionCellViewModelsSubject.onNext([
-//                SectionModel(model: 0, items: products.map { ProductCellViewModel(product: $0, grocery: self.grocery) })
-//            ])
-//        }
+        self.productCollectionCellViewModelsSubject.onNext([
+            SectionModel(model: 0, items: productDTOs.map({ product in
+                let vm = ProductCellViewModel(product: product, grocery: self.grocery)
+                vm.outputs.quickAddButtonTap.bind(to: self.quickAddButtonTapSubject).disposed(by: disposeBag)
+                return vm
+            }))
+        ])
     }
 }

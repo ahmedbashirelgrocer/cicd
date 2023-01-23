@@ -243,6 +243,14 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         // binding table view datasource
         self.viewModel.outputs.cellViewModels.bind(to: self.tableViewCategories.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
+        // MARK: Actions
+        self.viewModel.outputs.quickAddButtonTap.subscribe(onNext: { [weak self] product in
+            guard let self = self else { return }
+            
+            print("Great you are getting this callback because you added product >> \(String(describing: product.name))")
+            
+        }).disposed(by: disposeBag)
+        
         // binding loader
         self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }

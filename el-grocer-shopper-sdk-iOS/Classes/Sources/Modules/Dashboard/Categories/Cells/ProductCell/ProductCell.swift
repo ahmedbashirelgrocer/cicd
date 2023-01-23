@@ -30,6 +30,7 @@ extension ProductCellProtocol {
 class ProductCell : RxUICollectionViewCell {
     override func configure(viewModel: Any) {
         let viewModel = viewModel as! ProductCellViewModelType
+        self.viewModel = viewModel
         
         viewModel.outputs.product.subscribe(onNext: { [weak self] product in
             guard let self = self, let productDB = product?.productDB else { return }
@@ -159,6 +160,8 @@ class ProductCell : RxUICollectionViewCell {
     
     
     var cellIndex : IndexPath?
+    
+    private var viewModel: ProductCellViewModelType!
     
     @IBOutlet weak var lblAddToCartProductView: UILabel! {
         didSet{}
@@ -456,12 +459,15 @@ class ProductCell : RxUICollectionViewCell {
         
         guard self.product != nil else {return}
         guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
-            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+            self.viewModel.inputs.quickAddButtonTapObserver.onNext(self.product)
+            
+//            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             return
         }
         
       
         func addCartAction() {
+            self.viewModel.inputs.quickAddButtonTapObserver.onNext(self.product)
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             self.cellAddToCartEvents()
        
@@ -660,6 +666,7 @@ class ProductCell : RxUICollectionViewCell {
         func addCartAction() {
     
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+            self.viewModel.inputs.quickAddButtonTapObserver.onNext(self.product)
             self.cellAddToCartEvents()
             if self.product.isPg18.boolValue {
                 let msg = (self.product.name ?? "") + "\n" + localizedString("tobaco_product_msg", comment: "")
