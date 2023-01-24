@@ -60,6 +60,7 @@ class SDKManager: NSObject  {
     static var shared: SDKManager = SDKManager()
     //var isFromSmile : Bool = fals
     var launchOptions: LaunchOptions? = nil
+    var launchOptionsLocation: CLLocation? = nil
     var isLaunchEventConfigured: Bool = false
   
     // MARK: Initializers

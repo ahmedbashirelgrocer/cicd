@@ -20,9 +20,9 @@ class ElgrocerPreloadManager {
         }
     }
 
-    func loadInitialData(_ launchOptions: LaunchOptions) {
+    func loadInitialData(_ launchOptions: LaunchOptions, completion: (() -> Void)? , basicApiCallCompletion: ((Bool) -> Void)? ) {
         SDKManager.shared.launchOptions = launchOptions
-        PreLoadData.shared.loadData(launchOptions: launchOptions, completion: nil)
+        PreLoadData.shared.loadData(launchOptions: launchOptions, completion: completion, basicApiCallCompletion : basicApiCallCompletion)
     }
 
 }

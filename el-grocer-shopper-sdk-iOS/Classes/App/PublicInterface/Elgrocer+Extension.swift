@@ -8,26 +8,60 @@
 import UIKit
 
 public extension ElGrocer {
+    
+    
     static func configure(with launchOptions: LaunchOptions, completion: ((Bool) -> Void)? ) {
-        ElgrocerPreloadManager.shared.loadSearch(launchOptions) { _ in
+        ElgrocerPreloadManager.shared.loadInitialData(launchOptions) {
             completion?(true)
-            ElgrocerPreloadManager.shared.loadInitialData(launchOptions)
+        } basicApiCallCompletion: { isBasicApiCallsCompleted in elDebugPrint("Basic api calls completed Now proceeding with Home page data fetching; will be use in future for flavour store calls ")}
+    }
+
+    /// Verify is Search Loading is completed or not.
+    ///
+    /// ```
+    /// Please call ElGrocer.configure method first for FAST LOADING ... startSearchEnigne
+    /// ```
+    ///
+    /// > Warning: Start search enigner is more dependent of preloaded data. It might take time for result in case data is not preloaded. It will call other important api that is
+    /// > required to start search engine first.
+    ///
+    /// - Parameters:
+    ///     - launchOptions:  Basic launch option with valid, phone number, loyalityID, lat, lng is important here
+    ///
+    /// - Returns: Completion of success that api is ready for search experience in smile application.
+    ///
+    static func startSearchEnigne(with launchOptions: LaunchOptions, completion: ((Bool) -> Void)? ) {
+        
+        var launchOptions = launchOptions
+        let currentDefaultAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        guard currentDefaultAddress != nil else {
+             completion?(false)
+             return
+        }
+        if let newOption =  launchOptions.getLaunchOption(from: currentDefaultAddress) {
+            launchOptions = newOption
+        }
+        ElgrocerPreloadManager.shared.loadInitialData(launchOptions) {
+            
+        } basicApiCallCompletion: { isBasicApiCallsCompleted in
+            ElgrocerPreloadManager.shared.loadSearch(launchOptions) { _ in
+                completion?(true)
+            }
         }
     }
+
     
     static func start(with launchOptions: LaunchOptions?) {
         guard let launchOptions = launchOptions else {
-            ElGrocer.startEngine(with: nil)
+            //ElGrocer.startEngine(with: nil)
             return
         }
         
-        if SDKManager.shared.launchOptions?.location != launchOptions.location {
-            
-            ElgrocerPreloadManager.shared.loadInitialData(launchOptions)
-            
-            ElgrocerPreloadManager.shared.loadSearch(launchOptions) { _ in }
-            
-        }
+//        if SDKManager.shared.launchOptions?.location != launchOptions.location {
+//            ElGrocer.startSearchEnigne(with: launchOptions) { isLoaded in }
+//        }
+        
+        SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
         
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)

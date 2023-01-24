@@ -12,12 +12,13 @@ class PreLoadData {
     
     fileprivate var completion: (() -> Void)?
 
-    func loadData(launchOptions: LaunchOptions, completion: (() -> Void)? ) {
+    func loadData(launchOptions: LaunchOptions, completion: (() -> Void)?, basicApiCallCompletion: ((Bool) -> Void)? ) {
         self.completion = completion
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             // Data already loaded return
             self.updateLocationIfNeeded() {
+                basicApiCallCompletion?(true)
                 HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
             return
@@ -33,11 +34,13 @@ class PreLoadData {
         if self.isNotLoggedin() {
             loginSignup {
                 self.updateLocationIfNeeded() {
+                    basicApiCallCompletion?(true)
                     HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
                 }
             }
         } else {
             self.updateLocationIfNeeded() {
+                basicApiCallCompletion?(true)
                 HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
         }
