@@ -10,13 +10,13 @@ import RxSwift
 import RxDataSources
 
 protocol CategoriesCellViewModelInput {
-    var viewAllTapObserver: AnyObserver<Void> { get }
+    var viewAllObserver: AnyObserver<Void> { get }
 }
 
 protocol CategoriesCellViewModelOutput {
     var title: Observable<String> { get }
     var collectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
-    var viewAllTap: Observable<Void> { get }
+    var viewAll: Observable<Void> { get }
 }
 
 protocol CategoriesCellViewModelType: CategoriesCellViewModelInput, CategoriesCellViewModelOutput {
@@ -31,17 +31,17 @@ extension CategoriesCellViewModelType {
 
 class CategoriesCellViewModel: CategoriesCellViewModelType, ReusableTableViewCellViewModelType {
     // MARK: Inputs
-    var viewAllTapObserver: RxSwift.AnyObserver<Void> { viewAllTapSubject.asObserver() }
+    var viewAllObserver: RxSwift.AnyObserver<Void> { viewAllSubject.asObserver() }
     
     // MARK: Outputs
     var title: Observable<String> { self.titleSubject.asObservable() }
     var collectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.collectionCellViewModelsSubject }
-    var viewAllTap: Observable<Void> { viewAllTapSubject.asObservable() }
+    var viewAll: Observable<Void> { viewAllSubject.asObservable() }
     
     // MARK: Subjects
     private var titleSubject: BehaviorSubject<String>
     private var collectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
-    private var viewAllTapSubject = PublishSubject<Void>()
+    private var viewAllSubject = PublishSubject<Void>()
     
     var reusableIdentifier: String { CategoriesCell.defaultIdentifier }
     

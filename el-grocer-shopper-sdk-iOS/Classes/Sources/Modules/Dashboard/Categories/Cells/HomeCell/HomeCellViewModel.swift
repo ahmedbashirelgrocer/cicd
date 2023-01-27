@@ -12,6 +12,8 @@ import RxDataSources
 protocol HomeCellViewModelInput {
     var fetchProductsObserver: AnyObserver<CategoryDTO?> { get }
     var quickAddButtonTapObserver: AnyObserver<Product> { get }
+    
+    var viewAllTapObserver: AnyObserver<Void> { get }
 }
 
 protocol HomeCellViewModelOuput {
@@ -19,6 +21,7 @@ protocol HomeCellViewModelOuput {
     var scroll: Observable<CategoryDTO?> { get }
     var title: Observable<String?> { get }
     var quickAddButtonTap: Observable<Product> { get }
+    var viewAll: Observable<CategoryDTO?> { get }
 }
 
 protocol HomeCellViewModelType: HomeCellViewModelInput, HomeCellViewModelOuput {
@@ -37,28 +40,33 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     // MARK: Inputs
     var fetchProductsObserver: AnyObserver<CategoryDTO?> { self.fetchProductsSubject.asObserver() }
     var quickAddButtonTapObserver: AnyObserver<Product> { self.quickAddButtonTapSubject.asObserver() }
+    var viewAllTapObserver: AnyObserver<Void> { viewAllSubject.asObserver() }
     
     // MARK: Outputs
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.productCollectionCellViewModelsSubject.asObservable() }
     var scroll: Observable<CategoryDTO?> { self.fetchProductsSubject.asObservable() }
     var title: Observable<String?> { self.titleSubject.asObservable() }
     var quickAddButtonTap: Observable<Product> { quickAddButtonTapSubject.asObservable() }
+    var viewAll: Observable<CategoryDTO?> { viewAllSubject.map { self.category }.asObservable() }
     
     // MARK: Subjects
     private let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     private let fetchProductsSubject = BehaviorSubject<CategoryDTO?>(value: nil)
     private let titleSubject = BehaviorSubject<String?>(value: nil)
     private let quickAddButtonTapSubject = PublishSubject<Product>()
+    private let viewAllSubject = PublishSubject<Void>()
     
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
     private var deliveryTime: Int?
+    private var category: CategoryDTO?
     private var disposeBag = DisposeBag()
     
     init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi = AlgoliaApi.sharedInstance, deliveryTime: Int, category: CategoryDTO?, grocery: Grocery?) {
         self.apiClient = apiClient
         self.grocery = grocery
         self.deliveryTime = deliveryTime
+        self.category = category
         
         self.titleSubject.onNext(category?.name)
         self.fetchProductsSubject.asObserver().subscribe(onNext: { category in

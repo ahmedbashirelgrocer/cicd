@@ -18,7 +18,9 @@ protocol MainCategoriesViewModelOutput {
     var loading: Observable<Bool> { get }
     func heightForCell(indexPath: IndexPath) -> CGFloat
     
-    var viewAllCategoriesTap: Observable<Void> { get }
+    var viewAllCategories: Observable<Void> { get }
+    var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
+    var viewAllProductOfRecentPurchase: Observable<Void> { get }
     
     var quickAddButtonTap: Observable<Product> { get }
 }
@@ -35,6 +37,7 @@ extension MainCategoriesViewModelType {
 
 
 class MainCategoriesViewModel: MainCategoriesViewModelType {
+    
     // MARK: Inputs
     var scrollObserver: AnyObserver<IndexPath> { self.scrollSubject.asObserver() }
     
@@ -42,15 +45,18 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
     var loading: Observable<Bool> { self.loadingSubject.asObservable() }
     var quickAddButtonTap: Observable<Product> { self.quickAddButtonTapSubject.asObserver() }
-    var viewAllCategoriesTap: Observable<Void> { viewAllCategoriesTapSubject.asObservable() }
+    var viewAllCategories: Observable<Void> { viewAllCategoriesSubject.asObservable() }
+    var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
+    var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var scrollSubject = PublishSubject<IndexPath>()
     private var quickAddButtonTapSubject = PublishSubject<Product>()
-    private var viewAllCategoriesTapSubject = PublishSubject<Void>()
-    
+    private var viewAllCategoriesSubject = PublishSubject<Void>()
+    private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
+    private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -96,7 +102,9 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             self.loadingSubject.onNext(false)
         }
         
-        self.scrollSubject.asObservable().subscribe(onNext: { indexPath in
+        self.scrollSubject.asObservable().subscribe(onNext: { [weak self] indexPath in
+            guard let self = self else { return }
+            
             if self.apiCallingStatus[indexPath] == nil {
                 guard let vm = self.homeCellVMs[indexPath.row] as? HomeCellViewModel else { return }
                 
@@ -174,11 +182,15 @@ private extension MainCategoriesViewModel {
                         
                         // creating home cell view models
                         let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
-                        categoriesCellVM.outputs.viewAllTap.bind(to: self.viewAllCategoriesTapSubject).disposed(by: self.disposeBag)
+                        categoriesCellVM.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
                         self.categoriesCellVMs = [categoriesCellVM]
                         
                         // creating home cell view models
-                        self.homeCellVMs = self.categories.map { HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery) }
+                        self.homeCellVMs = self.categories.map({
+                            let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
+                            viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
+                            return viewModel
+                        })
                         return
                     }
                     
@@ -258,7 +270,14 @@ private extension MainCategoriesViewModel {
                         let data = try JSONSerialization.data(withJSONObject: rootJson)
                         let products = try JSONDecoder().decode(ProductResponse.self, from: data).data
                         if products.isNotEmpty {
-                            self.recentPurchasedVM.append(HomeCellViewModel(title: "Recent Purchases", products: products))
+                            let homeCellViewModel = HomeCellViewModel(title: "Recent Purchases", products: products)
+                            
+                            homeCellViewModel.outputs.viewAll
+                                .map { _ in  }
+                                .bind(to: self.viewAllProductOfRecentPurchaseSubject)
+                                .disposed(by: self.disposeBag)
+                            
+                            self.recentPurchasedVM.append(homeCellViewModel)
                         }
                         return
                     }

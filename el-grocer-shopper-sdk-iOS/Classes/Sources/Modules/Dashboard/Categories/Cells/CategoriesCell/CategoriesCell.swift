@@ -42,7 +42,7 @@ class CategoriesCell: RxUITableViewCell {
     }
     
     @IBAction func viewAllTapped(_ sender: Any) {
-        self.viewModel.viewAllTapObserver.onNext(())
+        self.viewModel.viewAllObserver.onNext(())
     }
 }
 

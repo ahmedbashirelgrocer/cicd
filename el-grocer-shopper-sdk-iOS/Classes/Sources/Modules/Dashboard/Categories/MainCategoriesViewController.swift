@@ -244,16 +244,30 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.viewModel.outputs.cellViewModels.bind(to: self.tableViewCategories.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
         // MARK: Actions
-        self.viewModel.outputs.quickAddButtonTap.subscribe(onNext: { [weak self] product in
+//        self.viewModel.outputs.quickAddButtonTap.subscribe(onNext: { [weak self] product in
+//            guard let self = self else { return }
+//
+//            print("Great you are getting this callback because you added product >> \(String(describing: product.name))")
+//
+//        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
             
-            print("Great you are getting this callback because you added product >> \(String(describing: product.name))")
-            
-        }).disposed(by: disposeBag)
-        
-        self.viewModel.outputs.viewAllCategoriesTap.subscribe(onNext: {
             let browseController = ElGrocerViewControllers.browseViewController()
             self.navigationController?.pushViewController(browseController, animated: true)
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.viewAllProductsOfCategory.subscribe(onNext: { [weak self] category in
+            guard let self = self else { return }
+            
+            print("navigation to products of category \(String(describing: category?.name))")
+        }).disposed(by: disposeBag)
+         
+        self.viewModel.outputs.viewAllProductOfRecentPurchase.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            print("navigation to recent purchases")
         }).disposed(by: disposeBag)
         
         // binding loader
