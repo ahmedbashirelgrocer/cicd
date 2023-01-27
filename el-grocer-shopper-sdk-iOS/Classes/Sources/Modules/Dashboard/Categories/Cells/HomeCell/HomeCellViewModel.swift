@@ -135,20 +135,7 @@ private extension HomeCellViewModel {
     
     func handleAlgoliaSuccessResponse(response: [String: Any]) {
         guard let hits = response["hits"] as? [[String: Any]] else { return }
-
-        var productDTOs = [ProductCellViewModel]()
-        
-        // Parsing algolia response and creating cell view model
-        hits.forEach { hit in
-            if let data = try? JSONSerialization.data(withJSONObject: hit) {
-                if let productDTO = try? JSONDecoder().decode(ProductDTO.self, from: data) {
-                    let productCellViewModel = ProductCellViewModel(product: productDTO, grocery: self.grocery)
-                    productCellViewModel.outputs.quickAddButtonTap.bind(to: self.quickAddButtonTapSubject).disposed(by: disposeBag)
-                    productDTOs.append(productCellViewModel)
-                }
-            }
-        }
-        
-        self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productDTOs)])
+        let productCellVMs = hits.map { ProductCellViewModel(product: ProductDTO(dic: $0), grocery: self.grocery) }
+        self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productCellVMs)])
     }
 }

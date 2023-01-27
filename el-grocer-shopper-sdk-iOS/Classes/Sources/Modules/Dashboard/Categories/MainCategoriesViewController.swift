@@ -443,7 +443,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.tableViewCategories.bounces = false
         self.tableViewCategories.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableViewCategories.keyboardDismissMode = .onDrag
-        self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGGreyColor
         
         
         self.tableViewCategories.register(UINib(nibName: CategoriesCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: CategoriesCell.defaultIdentifier)
