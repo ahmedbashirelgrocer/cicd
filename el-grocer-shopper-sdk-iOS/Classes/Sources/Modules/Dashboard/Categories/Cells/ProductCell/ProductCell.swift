@@ -479,15 +479,12 @@ class ProductCell : RxUICollectionViewCell {
         
         guard self.product != nil else {return}
         guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
-            self.viewModel.inputs.quickAddButtonTapObserver.onNext(self.product)
-            
-//            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             return
         }
         
       
         func addCartAction() {
-            self.viewModel.inputs.quickAddButtonTapObserver.onNext(self.product)
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             self.cellAddToCartEvents()
        
@@ -686,7 +683,6 @@ class ProductCell : RxUICollectionViewCell {
         func addCartAction() {
     
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
-            self.viewModel.inputs.quickAddButtonTapObserver.onNext(self.product)
             self.cellAddToCartEvents()
             if self.product.isPg18.boolValue {
                 let msg = (self.product.name ?? "") + "\n" + localizedString("tobaco_product_msg", comment: "")

@@ -39,10 +39,9 @@ extension HomeCellDelegate {
     func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home? ) {}
 }
 
-class HomeCell: RxUITableViewCell {
-    override func configure(viewModel: Any) {
-        let viewModel = viewModel as! HomeCellViewModelType
-        
+// MARK: Helpers
+private extension HomeCell {
+    func bindViews() {
         self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
             cell.configure(viewModel: viewModel)
@@ -59,6 +58,15 @@ class HomeCell: RxUITableViewCell {
             .disposed(by: disposeBag)
         
         self.setStateWithOutImageView()
+    }
+}
+
+class HomeCell: RxUITableViewCell {
+    override func configure(viewModel: Any) {
+        let viewModel = viewModel as! HomeCellViewModelType
+        
+        self.viewModel = viewModel
+        self.bindViews()
     }
     
     @IBOutlet weak var rightArrowImageView: UIImageView!
@@ -119,6 +127,7 @@ class HomeCell: RxUITableViewCell {
     var isGettingProducts = false
     var isNeedToShowRecipe = false
     
+    private var viewModel: HomeCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
 
     override func awakeFromNib() {
@@ -368,96 +377,96 @@ class HomeCell: RxUITableViewCell {
     }
 }
 
-//extension HomeCell: UICollectionViewDataSource {
-//    
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        
-//        var rows = 3
-//        if let tempHomeFeed = self.homeFeed {
-//            rows  = tempHomeFeed.products.count + 1
-//            if tempHomeFeed.type == .ListOfCategories {
-//                rows  = tempHomeFeed.categories.count + ( self.isNeedToShowRecipe ? 1 : 0)
-//            }
-//            if tempHomeFeed.type == .universalSearchProducts {
-//                rows  = tempHomeFeed.products.count
-//            }
-//        }
-//        return rows
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        
-//        if let homeFeedObj = self.homeFeed {
-//       
-//            if homeFeedObj.type == .ListOfCategories {
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KStoresCategoriesCollectionViewCell, for: indexPath) as! StoresCategoriesCollectionViewCell
-//                var index = indexPath.row
-//                if indexPath.row == 0 && self.isNeedToShowRecipe {
-//                    cell.configuredRecipeCell()
-//                    return cell
-//                }
-//                if self.isNeedToShowRecipe {
-//                    index = index - 1
-//                }
-//                if homeFeedObj.categories.count > 0 {
-//                     cell.configuredCategoryCell (type: homeFeedObj.categories[index])
-//                    let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
-//                    if currentLang == "ar" {
-//                        cell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
-//                    }
-//                    return cell
-//                }
-//                cell.configuredempty()
-//                return cell
-//            }else{
-//                
-//                if indexPath.row == homeFeedObj.products.count {
-//
-//                    let nextCell = collectionView.dequeueReusableCell(withReuseIdentifier: kNextCellIdentifier, for: indexPath) as! NextCell
-//                    nextCell.configureCell()
-//                    return nextCell
-//
-//                }
-//                
-//                let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductCellIdentifier, for: indexPath) as! ProductCell
-//                let product =  homeFeedObj.products[indexPath.row]
-//                productCell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
-//                productCell.delegate = self
-//                let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
-//                if currentLang == "ar" {
-//                    productCell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
-//                }
-//                if homeFeedObj.type == .universalSearchProducts {
-//                    productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
-//                    productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-//                    productCell.addToCartButton.isEnabled = true
-//                    productCell.addToCartButton.setBody3BoldWhiteStyle()
-//                    productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
-//                    productCell.productPriceLabel.isHidden = true
-//                    productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
-//                    productCell.addToCartButton.isHidden = false
-//                    productCell.buttonsView.isHidden = true
-//                    productCell.promotionBGView.isHidden = true
-//                    productCell.limitedStockBGView.isHidden = true
-//                    productCell.saleView.isHidden = true
-//                }else{
-//                    productCell.productPriceLabel.isHidden = false
-//                }
-//               
-//                return productCell
-//                
-//            }
-//            
-//            
-//            
-//        }else{
-//            
-//            let productSekeltonCell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductSekeltonCellIdentifier, for: indexPath) as! ProductSekeltonCell
-//            productSekeltonCell.configureSekeltonCell()
-//            return productSekeltonCell
-//        }
-//    }
-//}
+extension HomeCell: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        var rows = 3
+        if let tempHomeFeed = self.homeFeed {
+            rows  = tempHomeFeed.products.count + 1
+            if tempHomeFeed.type == .ListOfCategories {
+                rows  = tempHomeFeed.categories.count + ( self.isNeedToShowRecipe ? 1 : 0)
+            }
+            if tempHomeFeed.type == .universalSearchProducts {
+                rows  = tempHomeFeed.products.count
+            }
+        }
+        return rows
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if let homeFeedObj = self.homeFeed {
+       
+            if homeFeedObj.type == .ListOfCategories {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KStoresCategoriesCollectionViewCell, for: indexPath) as! StoresCategoriesCollectionViewCell
+                var index = indexPath.row
+                if indexPath.row == 0 && self.isNeedToShowRecipe {
+                    cell.configuredRecipeCell()
+                    return cell
+                }
+                if self.isNeedToShowRecipe {
+                    index = index - 1
+                }
+                if homeFeedObj.categories.count > 0 {
+                     cell.configuredCategoryCell (type: homeFeedObj.categories[index])
+                    let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+                    if currentLang == "ar" {
+                        cell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                    }
+                    return cell
+                }
+                cell.configuredempty()
+                return cell
+            }else{
+                
+                if indexPath.row == homeFeedObj.products.count {
+
+                    let nextCell = collectionView.dequeueReusableCell(withReuseIdentifier: kNextCellIdentifier, for: indexPath) as! NextCell
+                    nextCell.configureCell()
+                    return nextCell
+
+                }
+                
+                let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductCellIdentifier, for: indexPath) as! ProductCell
+                let product =  homeFeedObj.products[indexPath.row]
+                productCell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
+                productCell.delegate = self
+                let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+                if currentLang == "ar" {
+                    productCell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                }
+                if homeFeedObj.type == .universalSearchProducts {
+                    productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
+                    productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                    productCell.addToCartButton.isEnabled = true
+                    productCell.addToCartButton.setBody3BoldWhiteStyle()
+                    productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+                    productCell.productPriceLabel.isHidden = true
+                    productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
+                    productCell.addToCartButton.isHidden = false
+                    productCell.buttonsView.isHidden = true
+                    productCell.promotionBGView.isHidden = true
+                    productCell.limitedStockBGView.isHidden = true
+                    productCell.saleView.isHidden = true
+                }else{
+                    productCell.productPriceLabel.isHidden = false
+                }
+               
+                return productCell
+                
+            }
+            
+            
+            
+        }else{
+            
+            let productSekeltonCell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductSekeltonCellIdentifier, for: indexPath) as! ProductSekeltonCell
+            productSekeltonCell.configureSekeltonCell()
+            return productSekeltonCell
+        }
+    }
+}
 
 extension HomeCell: UICollectionViewDelegate {
     
