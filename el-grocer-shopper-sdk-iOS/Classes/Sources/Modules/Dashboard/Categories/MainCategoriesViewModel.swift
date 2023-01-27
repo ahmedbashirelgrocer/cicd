@@ -18,6 +18,8 @@ protocol MainCategoriesViewModelOutput {
     var loading: Observable<Bool> { get }
     func heightForCell(indexPath: IndexPath) -> CGFloat
     
+    var viewAllCategoriesTap: Observable<Void> { get }
+    
     var quickAddButtonTap: Observable<Product> { get }
 }
 
@@ -40,12 +42,14 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
     var loading: Observable<Bool> { self.loadingSubject.asObservable() }
     var quickAddButtonTap: Observable<Product> { self.quickAddButtonTapSubject.asObserver() }
+    var viewAllCategoriesTap: Observable<Void> { viewAllCategoriesTapSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var scrollSubject = PublishSubject<IndexPath>()
     private var quickAddButtonTapSubject = PublishSubject<Product>()
+    private var viewAllCategoriesTapSubject = PublishSubject<Void>()
     
     
     // MARK: properties
@@ -56,6 +60,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewModels: [SectionModel<Int, ReusableTableViewCellViewModelType>] = []
     
     private var categories = [CategoryDTO]()
+    
+    private var categoriesCellVMs = [ReusableTableViewCellViewModelType]()
     private var location1BannerVMs = [ReusableTableViewCellViewModelType]()
     private var location2BannerVMs = [ReusableTableViewCellViewModelType]()
     private var homeCellVMs = [ReusableTableViewCellViewModelType]()
@@ -81,7 +87,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             
             self.viewModels = [
                 SectionModel(model: 0, items: self.location1BannerVMs), // optional
-                SectionModel(model: 1, items: [CategoriesCellViewModel(categories: self.categories)]),
+                SectionModel(model: 1, items: self.categoriesCellVMs),
                 SectionModel(model: 2, items: self.recentPurchasedVM), // optional
                 SectionModel(model: 3, items: self.location2BannerVMs), // optional
                 SectionModel(model: 4, items: self.homeCellVMs),
@@ -165,6 +171,13 @@ private extension MainCategoriesViewModel {
                         let categories = try JSONDecoder().decode(CategoriesResponse.self, from: data).categories
                         
                         self.categories = categories
+                        
+                        // creating home cell view models
+                        let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
+                        categoriesCellVM.outputs.viewAllTap.bind(to: self.viewAllCategoriesTapSubject).disposed(by: self.disposeBag)
+                        self.categoriesCellVMs = [categoriesCellVM]
+                        
+                        // creating home cell view models
                         self.homeCellVMs = self.categories.map { HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery) }
                         return
                     }

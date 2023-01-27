@@ -251,6 +251,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             
         }).disposed(by: disposeBag)
         
+        self.viewModel.outputs.viewAllCategoriesTap.subscribe(onNext: {
+            let browseController = ElGrocerViewControllers.browseViewController()
+            self.navigationController?.pushViewController(browseController, animated: true)
+        }).disposed(by: disposeBag)
+        
         // binding loader
         self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }

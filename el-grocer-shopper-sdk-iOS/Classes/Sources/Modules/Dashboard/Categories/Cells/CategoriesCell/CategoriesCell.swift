@@ -15,6 +15,12 @@ class CategoriesCell: RxUITableViewCell {
             self.lblTitle.setH4SemiBoldStyle()
         }
     }
+    @IBOutlet weak var btnViewAll: AWButton! {
+        didSet {
+            btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            btnViewAll.setBackgroundColorForAllState(.clear)
+        }
+    }
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var viewModel: CategoriesCellViewModelType!
@@ -33,6 +39,10 @@ class CategoriesCell: RxUITableViewCell {
         
         self.viewModel = viewModel
         self.bindViews()
+    }
+    
+    @IBAction func viewAllTapped(_ sender: Any) {
+        self.viewModel.viewAllTapObserver.onNext(())
     }
 }
 

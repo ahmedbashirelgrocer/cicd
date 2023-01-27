@@ -51,6 +51,9 @@
                                                 <real key="value" value="12"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="viewAllTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hfM-Kr-eic"/>
+                                        </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="Kdc-VT-DDZ">
                                         <rect key="frame" x="296" y="14.666666666666664" width="16" height="16"/>
@@ -105,6 +108,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="btnViewAll" destination="V6d-sV-IxY" id="SVr-DS-1CL"/>
                 <outlet property="collectionView" destination="SUj-yY-hTI" id="uFt-Jv-1sB"/>
                 <outlet property="lblTitle" destination="20c-5R-myQ" id="a5z-a4-8LQ"/>
             </connections>
