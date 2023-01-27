@@ -10,7 +10,11 @@ import RxSwift
 import RxDataSources
 
 class CategoriesCell: RxUITableViewCell {
-    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblTitle: UILabel! {
+        didSet {
+            self.lblTitle.setH4SemiBoldStyle()
+        }
+    }
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var viewModel: CategoriesCellViewModelType!
