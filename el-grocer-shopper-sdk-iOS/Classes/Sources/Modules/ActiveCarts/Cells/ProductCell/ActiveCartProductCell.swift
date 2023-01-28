@@ -17,6 +17,11 @@ class ActiveCartProductCell: RxUICollectionViewCell {
             lblQuantity.setProductCountWhiteStyle()
         }
     }
+    @IBOutlet weak var lblQuantityBg: UIView! {
+        didSet {
+            lblQuantityBg.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        }
+    }
     
     
     private var viewModel: ActiveCartProductCellViewModelType!
