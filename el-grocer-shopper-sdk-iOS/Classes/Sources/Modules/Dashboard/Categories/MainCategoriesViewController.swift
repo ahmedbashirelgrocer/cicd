@@ -270,6 +270,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             print("navigation to recent purchases")
         }).disposed(by: disposeBag)
         
+        viewModel.outputs.refreshBasket.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.basketIconOverlay!.refreshStatus(self)
+        }).disposed(by: disposeBag)
+        
         // binding loader
         self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }

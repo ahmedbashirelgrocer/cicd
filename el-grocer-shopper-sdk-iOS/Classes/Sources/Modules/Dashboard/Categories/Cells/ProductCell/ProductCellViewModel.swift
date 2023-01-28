@@ -17,7 +17,7 @@ protocol ProductCellViewModelInput {
 
 protocol ProductCellViewModelOutput {
     var grocery: Grocery? { get }
-    var quickAddButtonTap: Observable<Void> { get }
+    var quickAddButtonTap: Observable<ProductDTO> { get }
     
     var name: Observable<String?> { get }
     var description: Observable<String?> { get }
@@ -60,7 +60,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     
     // MARK: Outputs
     var grocery: Grocery?
-    var quickAddButtonTap: Observable<Void> { self.quickAddButtonTapSubject.asObservable() }
+    var quickAddButtonTap: Observable<ProductDTO> { self.quickAddButtonTapSubject.map { self.product }.asObservable() }
     
     var name: Observable<String?> { nameSubject.asObservable() }
     var description: Observable<String?> { descriptionSubject.asObservable() }
@@ -233,8 +233,8 @@ private extension ProductCellViewModel {
     }
     
     func addProductToCart() {
-        if let productDB = self.product.productDB {
-            if let item = ShoppingBasketItem.checkIfProductIsInBasket(productDB, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+        if let retailer = grocery {
+            if let item = ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: retailer, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
                 let count = item.count.intValue + 1
                 
                 if count != 1 {
@@ -260,9 +260,8 @@ private extension ProductCellViewModel {
         var productQuantity = 1
         
         // If the product already is in the basket, just increment its quantity by 1
-        if let product = ShoppingBasketItem.checkIfProductIsInBasket(selectedProduct, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+        if let product = ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: grocery!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             productQuantity += product.count.intValue
-            
         }
         
         // Logging Segment Event

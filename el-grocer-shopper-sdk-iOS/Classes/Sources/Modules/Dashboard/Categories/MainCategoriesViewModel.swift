@@ -22,7 +22,7 @@ protocol MainCategoriesViewModelOutput {
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Void> { get }
     
-    var quickAddButtonTap: Observable<Product> { get }
+    var refreshBasket: Observable<ProductDTO> { get }
 }
 
 protocol MainCategoriesViewModelType: MainCategoriesViewModelInput, MainCategoriesViewModelOutput {
@@ -38,13 +38,14 @@ extension MainCategoriesViewModelType {
 
 class MainCategoriesViewModel: MainCategoriesViewModelType {
     
+    
     // MARK: Inputs
     var scrollObserver: AnyObserver<IndexPath> { self.scrollSubject.asObserver() }
     
     // MARK: outputs
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
     var loading: Observable<Bool> { self.loadingSubject.asObservable() }
-    var quickAddButtonTap: Observable<Product> { self.quickAddButtonTapSubject.asObserver() }
+    var refreshBasket: Observable<ProductDTO> { self.refreshBasketSubject.asObserver() }
     var viewAllCategories: Observable<Void> { viewAllCategoriesSubject.asObservable() }
     var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
     var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
@@ -53,7 +54,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var scrollSubject = PublishSubject<IndexPath>()
-    private var quickAddButtonTapSubject = PublishSubject<Product>()
+    private var refreshBasketSubject = PublishSubject<ProductDTO>()
     private var viewAllCategoriesSubject = PublishSubject<Void>()
     private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
@@ -109,7 +110,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 guard let vm = self.homeCellVMs[indexPath.row] as? HomeCellViewModel else { return }
                 
                 vm.inputs.fetchProductsObserver.onNext(self.categories[indexPath.row])
-                vm.outputs.quickAddButtonTap.bind(to: self.quickAddButtonTapSubject).disposed(by: self.disposeBag)
+                vm.outputs.productAddedToCart.bind(to: self.refreshBasketSubject).disposed(by: self.disposeBag)
                 
                 self.apiCallingStatus[indexPath] = true
             }
@@ -117,15 +118,14 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     }
     
     func heightForCell(indexPath: IndexPath) -> CGFloat {
-        if self.viewModels[indexPath.section].items.first is GenericBannersCellViewModel {
-            return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
-        } else if self.viewModels[indexPath.section].items.first is CategoriesCellViewModel {
-            return self.categories.count > 5 ? 290 : 180
-        } else if self.viewModels[indexPath.section].items.first is HomeCellViewModel {
-            return 309
+        switch self.viewModels[indexPath.section].items.first {
+            
+            case is GenericBannersCellViewModel : return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
+            case is CategoriesCellViewModel     : return categories.count > 5 ? 290 : 180
+            case is HomeCellViewModel           : return 309
+            
+            default: return 0
         }
-        
-        return 0.0
     }
 }
 
@@ -265,30 +265,27 @@ private extension MainCategoriesViewModel {
             
             switch result {
             case .success(let response):
-                do {
-                    if let rootJson = response as? [String: Any] {
-                        let data = try JSONSerialization.data(withJSONObject: rootJson)
-                        let products = try JSONDecoder().decode(ProductResponse.self, from: data).data
-                        if products.isNotEmpty {
-                            let homeCellViewModel = HomeCellViewModel(title: "Recent Purchases", products: products)
-                            
-                            homeCellViewModel.outputs.viewAll
-                                .map { _ in  }
-                                .bind(to: self.viewAllProductOfRecentPurchaseSubject)
-                                .disposed(by: self.disposeBag)
-                            
-                            self.recentPurchasedVM.append(homeCellViewModel)
-                        }
-                        return
-                    }
+                let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+                
+                let productDTOs = products.map { ProductDTO(product: $0) }
+                
+                if productDTOs.isNotEmpty {
+                    let homeCellViewModel = HomeCellViewModel(title: "Recent Purchases", products: productDTOs, grocery: self.grocery)
                     
-                    // handle parsing error
-                } catch {
-                    // handle parsing error
-                    print("parsing error >> \(error)")
+                    homeCellViewModel.outputs.viewAll.map { _ in }
+                        .bind(to: self.viewAllProductOfRecentPurchaseSubject)
+                        .disposed(by: self.disposeBag)
+                    
+                    homeCellViewModel.outputs.productAddedToCart
+                        .bind(to: self.refreshBasketSubject)
+                        .disposed(by: self.disposeBag)
+                    
+                    self.recentPurchasedVM.append(homeCellViewModel)
                 }
+                
                 break
             case .failure(let error):
+                print("handle error >> \(error)")
                 break
             }
         }

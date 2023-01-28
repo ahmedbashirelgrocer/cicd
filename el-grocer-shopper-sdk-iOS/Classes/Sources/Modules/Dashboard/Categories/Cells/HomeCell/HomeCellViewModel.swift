@@ -11,7 +11,6 @@ import RxDataSources
 
 protocol HomeCellViewModelInput {
     var fetchProductsObserver: AnyObserver<CategoryDTO?> { get }
-    var quickAddButtonTapObserver: AnyObserver<Product> { get }
     
     var viewAllTapObserver: AnyObserver<Void> { get }
 }
@@ -20,7 +19,7 @@ protocol HomeCellViewModelOuput {
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var scroll: Observable<CategoryDTO?> { get }
     var title: Observable<String?> { get }
-    var quickAddButtonTap: Observable<Product> { get }
+    var productAddedToCart: Observable<ProductDTO> { get }
     var viewAll: Observable<CategoryDTO?> { get }
 }
 
@@ -39,21 +38,20 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     
     // MARK: Inputs
     var fetchProductsObserver: AnyObserver<CategoryDTO?> { self.fetchProductsSubject.asObserver() }
-    var quickAddButtonTapObserver: AnyObserver<Product> { self.quickAddButtonTapSubject.asObserver() }
     var viewAllTapObserver: AnyObserver<Void> { viewAllSubject.asObserver() }
     
     // MARK: Outputs
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.productCollectionCellViewModelsSubject.asObservable() }
     var scroll: Observable<CategoryDTO?> { self.fetchProductsSubject.asObservable() }
     var title: Observable<String?> { self.titleSubject.asObservable() }
-    var quickAddButtonTap: Observable<Product> { quickAddButtonTapSubject.asObservable() }
+    var productAddedToCart: Observable<ProductDTO> { quickAddButtonTapSubject.asObservable() }
     var viewAll: Observable<CategoryDTO?> { viewAllSubject.map { self.category }.asObservable() }
     
     // MARK: Subjects
     private let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     private let fetchProductsSubject = BehaviorSubject<CategoryDTO?>(value: nil)
     private let titleSubject = BehaviorSubject<String?>(value: nil)
-    private let quickAddButtonTapSubject = PublishSubject<Product>()
+    private let quickAddButtonTapSubject = PublishSubject<ProductDTO>()
     private let viewAllSubject = PublishSubject<Void>()
     
     private var apiClient: ElGrocerApi?
@@ -76,12 +74,21 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
         }).disposed(by: disposeBag)
     }
     
-    init(title: String, products: [ProductDTO]) {
+    init(title: String, products: [ProductDTO], grocery: Grocery?) {
         self.titleSubject.onNext(title)
+        self.grocery = grocery
         
-        self.productCollectionCellViewModelsSubject.onNext([
-            SectionModel(model: 0, items: products.map { ProductCellViewModel(product: $0, grocery: self.grocery) })
-        ])
+        let productCellViewModels = products.map { productDTO in
+            let viewModel = ProductCellViewModel(product: productDTO, grocery: grocery)
+            
+            viewModel.outputs.quickAddButtonTap
+                .bind(to: self.quickAddButtonTapSubject)
+                .disposed(by: disposeBag)
+            
+            return viewModel
+        }
+        
+        self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productCellViewModels)])
     }
 }
 
@@ -105,9 +112,11 @@ private extension HomeCellViewModel {
             self.apiClient?.getTopSellingProductsOfGrocery(parameters) { result in
                 switch result {
                 case .success(let response):
+                    self.handleAlgoliaSuccessResponse(response: response)
                     break
                     
                 case .failure(let error):
+                    print("hanlde error >> \(error)")
                     break
                 }
             }
@@ -123,7 +132,7 @@ private extension HomeCellViewModel {
                     print("handle error >>> \(error)")
                     return
                 }
-                guard let response = content else { return }
+                guard let response = content as? NSDictionary else { return }
                 self?.handleAlgoliaSuccessResponse(response: response)
                 
             }
@@ -131,39 +140,27 @@ private extension HomeCellViewModel {
         }
         
         AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: storeId, pageNumber: 0, categoryId: String(category.id)) { [weak self] content, error in
+            guard let self = self else { return }
+            
             if let error = error {
                 print("handle error >>> \(error)")
                 return
             }
             
-            guard let response = content else { return }
-            
-            let products = Product.insertOrReplaceProductsFromDictionary(response as NSDictionary, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
-            
-            let productCellVMs = products.map { ProductCellViewModel(product: ProductDTO(product: $0), grocery: self?.grocery)}
-            self?.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productCellVMs)])
-//            self?.handleAlgoliaSuccessResponse(response: response)
+            guard let response = content as? NSDictionary else { return }
+            self.handleAlgoliaSuccessResponse(response: response)
         }
     }
     
-    func handleAlgoliaSuccessResponse(response: [String: Any]) {
-        guard let hits = response["hits"] as? NSDictionary else { return }
+    func handleAlgoliaSuccessResponse(response: NSDictionary) {
+        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
         
-        let products = Product.insertOrReplaceProductsFromDictionary(hits as NSDictionary, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+        let productCellVMs = products.map { product in
+            let vm = ProductCellViewModel(product: ProductDTO(product: product), grocery: self.grocery)
+            vm.outputs.quickAddButtonTap.bind(to: self.quickAddButtonTapSubject).disposed(by: self.disposeBag)
+            return vm
+        }
         
-        let productCellVMs = products.map { ProductCellViewModel(product: ProductDTO(product: $0), grocery: grocery)}
-        
-        
-//        let productCellVMs = hits.map { hit in
-//
-//            let product = Product.createProductFromDictionary(hit as NSDictionary, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
-//            var productDTO = ProductDTO(dic: hit)
-//            productDTO.productDB = product
-//
-//            return ProductCellViewModel(product: productDTO, grocery: self.grocery)
-//        }
-//
-////        let productCellVMs = hits.map { ProductCellViewModel(product: ProductDTO(dic: $0), grocery: self.grocery) }
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productCellVMs)])
     }
 }
