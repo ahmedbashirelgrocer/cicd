@@ -155,7 +155,7 @@ class DatabaseManager : NSObject {
     override init() {
         super.init()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(DatabaseManager.contextHasChangedNotification(_:)), name:  NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+      //  NotificationCenter.default.addObserver(self, selector: #selector(DatabaseManager.contextHasChangedNotification(_:)), name:  NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
     deinit {
@@ -171,28 +171,28 @@ class DatabaseManager : NSObject {
         guard context.persistentStoreCoordinator == self.persistentStoreCoordinator else {
                  return
         }
-        //context.mergeChanges(fromContextDidSave: notification)
-        //return
+        context.mergeChanges(fromContextDidSave: notification)
+        
     
-        if (context != self.mainManagedObjectContext) {
-            if (context.persistentStoreCoordinator == self.persistentStoreCoordinator) {
-                context.mergeChanges(fromContextDidSave: notification)
-            }
-        } else if context == self.mainManagedObjectContext {
-            
-            self.backgroundManagedObjectContext.mergeChanges(fromContextDidSave: notification)
-           
-        } else if context == self.backgroundManagedObjectContext {
-            
-            self.mainManagedObjectContext.mergeChanges(fromContextDidSave: notification)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "MainManagedObjectContextMergedChangesFromBackground"), object: nil)
-            //self.saveObjectContext.mergeChangesFromContextDidSaveNotification(notification)
-            
-        } else if context == self.saveObjectContext {
-            
-            //self.backgroundManagedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
-            //self.mainManagedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
-        }
+//        if (context != self.mainManagedObjectContext) {
+//            if (context.persistentStoreCoordinator == self.persistentStoreCoordinator) {
+//                context.mergeChanges(fromContextDidSave: notification)
+//            }
+//        } else if context == self.mainManagedObjectContext {
+//
+//            self.backgroundManagedObjectContext.mergeChanges(fromContextDidSave: notification)
+//
+//        } else if context == self.backgroundManagedObjectContext {
+//
+//            self.mainManagedObjectContext.mergeChanges(fromContextDidSave: notification)
+//            NotificationCenter.default.post(name: Notification.Name(rawValue: "MainManagedObjectContextMergedChangesFromBackground"), object: nil)
+//            //self.saveObjectContext.mergeChangesFromContextDidSaveNotification(notification)
+//
+//        } else if context == self.saveObjectContext {
+//
+//            //self.backgroundManagedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
+//            //self.mainManagedObjectContext.mergeChangesFromContextDidSaveNotification(notification)
+//        }
          
     }
     

@@ -122,6 +122,9 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             
             self.txtSearch.becomeFirstResponder()
         }
+        
+        self.checkChangeLocationForSmileSearch()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -131,6 +134,21 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     private func addBasketOverlay() {
         addBasketIconOverlay(self, grocery: self.dataSource?.currentGrocery, shouldShowGroceryActiveBasket: true)
+    }
+    
+    private func checkChangeLocationForSmileSearch() {
+        
+        guard SDKManager.isSmileSDK, SDKManager.shared.launchOptions?.navigationType == .search else {
+            return
+        }
+        guard let _ = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)else {
+            return
+        }
+        
+        ElgrocerFarLocationCheck.shared.showLocationCustomPopUp(false)
+        SDKManager.shared.launchOptions?.navigationType = .Default
+        
+
     }
     
     @IBAction func voiceSearchAction(_ sender: Any) {
@@ -686,14 +704,13 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard self.dataSource?.model.count ?? 0 > indexPath.row else {
+        guard self.dataSource?.model.count ?? 0 > indexPath.row, let obj = self.dataSource?.model[indexPath.row] else {
             let tableCell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tableCell.cellConfigureForEmpty()
             return tableCell
         }
         
-        let obj = self.dataSource?.model[indexPath.row]
-        if obj?.modelType == SearchResultSuggestionType.title || obj?.modelType == SearchResultSuggestionType.titleWithClearOption {
+        if obj.modelType == SearchResultSuggestionType.title || obj.modelType == SearchResultSuggestionType.titleWithClearOption {
             let tablecell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tablecell.cellConfigureWith(obj)
             tablecell.clearButtonClicked = { [weak self] in
@@ -718,6 +735,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if let obj = self.dataSource?.model[indexPath.row] {
             if obj.modelType == .searchHistory || obj.modelType == .trendingSearch {
                 self.txtSearch.text = obj.title
@@ -739,8 +757,11 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             }
             self.txtSearch.resignFirstResponder()
             self.userSearchClick(obj.title , model: obj)
-            self.reloadCollectionView(true)
             self.userSearchedKeyWords()
+            Thread.OnMainThread {
+                self.reloadCollectionView(true)
+            }
+           
         }
     }
     

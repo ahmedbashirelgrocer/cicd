@@ -231,7 +231,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             
             let storeID = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
             let parentID = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
-            let _ = SpinnerView.showSpinnerView()
+            let _ = SpinnerView.showSpinnerViewInView(self.view)
             ElGrocerApi.sharedInstance.checkIfGroceryAvailable(location, storeID: storeID ?? "", parentID: parentID ?? "") { (result) in
                 switch result {
                     case .success(let responseObject):

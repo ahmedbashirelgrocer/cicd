@@ -1269,6 +1269,13 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.dismiss(animated: true) {
             
             if SDKManager.isSmileSDK {
+                if UIApplication.topViewController() is UniversalSearchViewController, ElGrocerUtility.sharedInstance.activeGrocery == nil {
+                    
+                    if let topVc = UIApplication.topViewController() {
+                        topVc.dismiss(animated: false)
+                        topVc.tabBarController?.selectedIndex = 0
+                    }
+                }
                 
             } else if UIApplication.topViewController() is GenericStoresViewController {
 

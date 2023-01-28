@@ -29,7 +29,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     func bindViews(_ order: Order, address: DeliveryAddress) {
         
         self.lblBanners.visibility = .gone
-        self.lottieAnimation.visibility = .gone
+       // self.lottieAnimation.visibility = .gone
         self.lblGroceryName.text = self.order.grocery.name
         self.lblOrderNumber.text = localizedString("order_number_label", comment: "") + self.order.dbID.stringValue
         self.lblOrderDetailNote.attributedText = setBoldForText(CompleteValue: localizedString("Msg_Edit_Order", comment: ""), textForAttribute: localizedString("lbl_Order_Details", comment: ""))
@@ -418,10 +418,12 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             if let nav = (self.navigationController as? ElGrocerNavigationController) {
                 if let bar = nav.navigationBar as? ElGrocerNavigationBar {
                     bar.chatButton.chatClick = {
-                            //  ZohoChat.showChat(self.order.dbID.stringValue)
-                        var groceryID = self.order.grocery.getCleanGroceryID()
-                        let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
-                        sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
+                        Thread.OnMainThread {
+                            guard self.order.grocery != nil else {return }
+                            let groceryID = self.order.grocery.getCleanGroceryID()
+                            let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
+                            sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
+                        }
                     }
                 }
             }

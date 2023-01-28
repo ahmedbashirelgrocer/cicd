@@ -93,8 +93,10 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
             self.setSearchTextFieldAppearance()
             self.getNextProductIndex()
             self.addTapGestureToProductView()
+            if let name = self.currentAlternativeProduct.name {
+                self.searchText = name
+            }
             
-            self.searchText = self.currentAlternativeProduct.name!
             self.getReplacementProductsFromServer(true)
             self.hideProductView(true)
         }else{

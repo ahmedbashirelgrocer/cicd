@@ -257,7 +257,7 @@ extension SecondaryViewModel {
         if let promoRealizationId = self.promoRealizationId {
             finalParams["promotion_code_realization_id"] = promoRealizationId
         }
-        if self.orderId?.count ?? 0 > 0 {
+        if (self.orderId?.count ?? 0) > 0 {
             finalParams["order_id"] = self.orderId
         }
         
@@ -277,7 +277,7 @@ extension SecondaryViewModel {
         }else {
             secondaryPayments["el_wallet"] = false
         }
-        if let promoRealizationId = self.promoRealizationId {
+        if let _ = self.promoRealizationId {
             secondaryPayments["promo_code"] = true
         }else {
             secondaryPayments["promo_code"] = false
@@ -311,7 +311,7 @@ extension SecondaryViewModel {
         finalParams["payment_type_id"] = primaryPaymentTypeId
         finalParams["selected_delivery_slot"] = self.selectedSlotId
         if let slot = self.getDeliverySlot() {
-            if !(slot.isInstant.boolValue) {
+            if slot.isInstant != nil && !(slot.isInstant.boolValue) {
                 finalParams["usid"] = slot.getdbID()
             }
         }
@@ -513,6 +513,9 @@ extension SecondaryViewModel {
     
     
     func getBurnPointsFromAed() -> Int {
+        guard ElGrocerUtility.sharedInstance.appConfigData != nil else {
+            return 0
+        }
         let doubleAmount = self.basketDataValue?.finalAmount ?? 0.0
         let smilesConfig = ElGrocerUtility.sharedInstance.appConfigData.smilesData
         let points =  Int(round(doubleAmount/smilesConfig.burning))

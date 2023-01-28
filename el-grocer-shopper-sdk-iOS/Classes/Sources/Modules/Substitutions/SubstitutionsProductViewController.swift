@@ -1165,9 +1165,13 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
         let product = self.orderProducts[indexPath.row]
-        let item = shoppingItemForProduct(product)
-        let isProductAvailable = item!.wasInShop.boolValue
-        let isProductSubstituted = item!.hasSubtitution.boolValue
+        guard let item = shoppingItemForProduct(product) else {
+            let cell : SpaceTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "SpaceTableViewCell", for: indexPath) as! SpaceTableViewCell
+            return cell
+        }
+        
+        let isProductAvailable = item.wasInShop.boolValue
+        let isProductSubstituted = item.hasSubtitution.boolValue
         
         
         guard isProductAvailable else {
@@ -1255,33 +1259,35 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             }
             cell.deleteUnAvailableRow = { [weak self ] (  selectedProduct  ) in
                 guard let self = self else { return }
-                
-                if let index = self.orderProducts.firstIndex(of: selectedProduct) {
-                    
-                    self.tableView.beginUpdates()
-                    self.orderProducts.remove(at: index)
-                    self.tableView.reloadSections(IndexSet.init(arrayLiteral: 0), with: .fade)
-                    self.tableView.endUpdates()
-                    
+                Thread.OnMainThread {
                     if let index = self.orderProducts.firstIndex(of: selectedProduct) {
+                        
+                        self.tableView.beginUpdates()
                         self.orderProducts.remove(at: index)
-                    }
-                    
-                    ElGrocerUtility.sharedInstance.delay(1) {
-                        self.discardProductInBasketWithProductIndex(selectedProduct)
-                    }
-                    ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
-                        if isUnDo {
-                            Thread.OnMainThread {
-                                ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery:self?.order.grocery, brandName:nil, quantity: 1, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                                self?.orderProducts.insert(selectedProduct, at: index )
-                                self?.tableView.reloadData()
-                            }
-                        }else{
-                                //   self?.deleteProduct(-1, selectedProduct)
+                        self.tableView.reloadSections(IndexSet.init(arrayLiteral: 0), with: .fade)
+                        self.tableView.endUpdates()
+                        
+                        if let index = self.orderProducts.firstIndex(of: selectedProduct) {
+                            self.orderProducts.remove(at: index)
                         }
-                    })
+                        
+                        ElGrocerUtility.sharedInstance.delay(1) {
+                            self.discardProductInBasketWithProductIndex(selectedProduct)
+                        }
+                        ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
+                            if isUnDo {
+                                Thread.OnMainThread {
+                                    ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery:self?.order.grocery, brandName:nil, quantity: 1, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                                    self?.orderProducts.insert(selectedProduct, at: index )
+                                    self?.tableView.reloadData()
+                                }
+                            }else{
+                                    //   self?.deleteProduct(-1, selectedProduct)
+                            }
+                        })
+                    }
                 }
+                
             }
             
             cell.btnCross.isHidden  =  (cell.customCollectionView.moreCellType == .ShowOutOfStockSubstitueForOrders)
@@ -1298,7 +1304,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         }
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: kSubstitutionItemCellIdentifier, for: indexPath) as! SubstitutionItemCell
-        cell.configureWithProduct(item!, product: product, shouldHidePrice: false, isProductAvailable: isProductAvailable,isSubstitutionAvailable:isProductSubstituted ,priceDictFromGrocery: nil)
+        cell.configureWithProduct(item, product: product, shouldHidePrice: false, isProductAvailable: isProductAvailable,isSubstitutionAvailable:isProductSubstituted ,priceDictFromGrocery: nil)
         
         return cell
     }

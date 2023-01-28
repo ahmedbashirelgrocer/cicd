@@ -12,12 +12,13 @@ class PreLoadData {
     
     fileprivate var completion: (() -> Void)?
 
-    func loadData(launchOptions: LaunchOptions, completion: (() -> Void)? ) {
+    func loadData(launchOptions: LaunchOptions, completion: (() -> Void)?, basicApiCallCompletion: ((Bool) -> Void)? ) {
         self.completion = completion
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             // Data already loaded return
             self.updateLocationIfNeeded() {
+                basicApiCallCompletion?(true)
                 HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
             return
@@ -33,11 +34,13 @@ class PreLoadData {
         if self.isNotLoggedin() {
             loginSignup {
                 self.updateLocationIfNeeded() {
+                    basicApiCallCompletion?(true)
                     HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
                 }
             }
         } else {
             self.updateLocationIfNeeded() {
+                basicApiCallCompletion?(true)
                 HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
         }
@@ -96,10 +99,17 @@ class PreLoadData {
         let lat = SDKManager.shared.launchOptions?.latitude
         let lng = SDKManager.shared.launchOptions?.longitude
         
+
         if let _ = locations.first(where: { $0.isActive == NSNumber(value: true) }) {
             completion?()
             return
         }
+        // Use this instead of abouve if there is always need to update default location if there is different in launch options.
+        // if let dLocation = locations.first(where: { $0.isActive == NSNumber(value: true) }),
+        // dLocation.latitude == lat && dLocation.longitude == lng {
+        // completion?()
+        // return
+        // }
         
         var isDefaultUpdated = false
         

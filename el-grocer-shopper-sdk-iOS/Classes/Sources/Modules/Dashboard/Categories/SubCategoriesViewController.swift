@@ -151,6 +151,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     override func refreshSlotChange() {
         
+        guard self.viewHandler != nil else {
+            return
+        }
+        
         self.viewHandler.removeLocalCache()
         self.productDataUpdated()
         self.viewHandler.loadMore()
