@@ -9,6 +9,7 @@
 import UIKit
 import Shimmer
 import RxSwift
+import RxCocoa
 
 let kProductSekeltonCellIdentifier = "ProductSekeltonCell"
 

@@ -160,6 +160,7 @@ private extension ProductCellViewModel {
             addToCartButtonTypeSubject.onNext(true)
             quantitySubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)")
             isSubtitutedSubject.onNext(item.isSubtituted.boolValue)
+            return
         }
         
         plusButtonIconNameSubject.onNext("add_product_cell")
