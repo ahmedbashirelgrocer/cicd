@@ -124,6 +124,25 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
         self.grocery = grocery
         self.product = product
         
+        showProductAttributes()
+        checkProductExistanceInCartAndUpdateUI()
+        checkPromotionValidityAndUpdateUI()
+        checkStockAvailabilityAndUpdateUI()
+        
+        quickAddButtonTapSubject.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            product.isPg18
+                ? self.showPg18PopupAndAddToCart()
+                : self.checkActiveCartExistanceAndAddToCart()
+            
+        }).disposed(by: disposeBag)
+    }
+}
+
+// MARK: Helpers
+private extension ProductCellViewModel {
+    func showProductAttributes() {
         nameSubject.onNext(product.name)
         descriptionSubject.onNext(product.sizeUnit)
         priceSubject.onNext(ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: product.fullPrice ?? 0.0))
@@ -131,63 +150,33 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
         isSponsoredSubject.onNext(product.isSponsored ?? false)
         isAvailableSubject.onNext(product.isAvailable ?? true)
         isPublishedSubject.onNext(product.isPublished ?? true)
-        
-        // displying limited stock view logic
-        if let aQuantity = product.availableQuantity, let promoProductLimit = product.promoProductLimit {
-            isShowLimittedStockSubject.onNext((aQuantity > 0 && aQuantity < PRODUCT_LIMIT) || (promoProductLimit > 0))
-        }
-        
-        let _ = self.isItemInBasket()
-        checkPromotionValidity()
-        
-        quickAddButtonTapSubject.subscribe(onNext: { [weak self] in
-            guard let self = self else { return }
-                
-            let product = self.product
-            
-            if product.isPg18 {
-                self.showPg18PopupAndAddToCart()
-            } else {
-                self.addProductToCart()
-            }
-            
-        }).disposed(by: disposeBag)
     }
     
-}
-
-private extension ProductCellViewModel {
-    func isItemInBasket() -> ShoppingBasketItem? {
-        
-        if let grocery = grocery, let item = ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            
-            self.plusButtonIconNameSubject.onNext("add_product_cell")
-            self.minusButtonIconNameSubject.onNext(item.count == 1 ? "delete_product_cell" : "remove_product_cell")
-            self.cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
-            self.addToCartButtonTypeSubject.onNext(true)
-            self.quantitySubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)")
-            self.isSubtitutedSubject.onNext(item.isSubtituted.boolValue)
-            
-            return item
+    func checkProductExistanceInCartAndUpdateUI() {
+        if let item = isProductExistInBasket() {
+            plusButtonIconNameSubject.onNext("add_product_cell")
+            minusButtonIconNameSubject.onNext(item.count == 1 ? "delete_product_cell" : "remove_product_cell")
+            cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+            addToCartButtonTypeSubject.onNext(true)
+            quantitySubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)")
+            isSubtitutedSubject.onNext(item.isSubtituted.boolValue)
         }
         
-        self.plusButtonIconNameSubject.onNext("add_product_cell")
-        self.minusButtonIconNameSubject.onNext("delete_product_cell")
-        self.cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
-        self.addToCartButtonTypeSubject.onNext(false)
-        self.quantitySubject.onNext("0")
-        
-        return nil
+        plusButtonIconNameSubject.onNext("add_product_cell")
+        minusButtonIconNameSubject.onNext("delete_product_cell")
+        cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        addToCartButtonTypeSubject.onNext(false)
+        quantitySubject.onNext("0")
     }
     
-    func checkPromotionValidity() {
+    func checkPromotionValidityAndUpdateUI() {
         let promotionValidity = ProductQuantiy.checkPromoValidity(product: product)
         
         displayPromotionViewSubject.onNext(promotionValidity.displayPromo)
         
         if promotionValidity.displayPromo {
             if promotionValidity.showPercentage {
-                let percentage = getPercentage()
+                let percentage = getPromoPercentage()
                 strikeLabelTextSubject.onNext(ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: product.fullPrice ?? 0.0))
                 strikeLabelTextColorSubject.onNext(.navigationBarWhiteColor())
                 strickThroughSubject.onNext(true)
@@ -220,98 +209,49 @@ private extension ProductCellViewModel {
         }
     }
     
-    func getPercentage() -> Int {
-        var percentage : Double = 0
-        guard let actualPrice = product.fullPrice, let promoPrice = product.promoPrice else { return 0 }
-        
-        if actualPrice > 0 {
-            let percentageDecimal = ((actualPrice - promoPrice) / actualPrice)
-            percentage = percentageDecimal * 100
+    func checkStockAvailabilityAndUpdateUI() {
+        if let aQuantity = product.availableQuantity, let promoProductLimit = product.promoProductLimit {
+            isShowLimittedStockSubject.onNext((aQuantity > 0 && aQuantity < PRODUCT_LIMIT) || (promoProductLimit > 0))
         }
-
-        return Int(percentage.rounded())
     }
-    
-    func addProductToCart() {
-        if let retailer = grocery {
-            if let item = ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: retailer, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                let count = item.count.intValue + 1
-                
-                if count != 1 {
-                    let updatedQuantity = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic()
-                    quantitySubject.onNext(updatedQuantity)
-                    return
-                }
+}
+
+// MARK: Helpers ( Operations )
+private extension ProductCellViewModel {
+    func checkActiveCartExistanceAndAddToCart() {
+        if let item = self.isProductExistInBasket() {
+            let count = item.count.intValue + 1
+            
+            if count != 1 {
+                let updatedQuantity = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic()
+                quantitySubject.onNext(updatedQuantity)
+                return
             }
         }
         
-        let isActiveBasket = checkForOtherGroceryActiveBasket(product: self.product)
-        
-        if isActiveBasket {
-            // show active cart popup
-        } else {
-            addProductInShoppingBasketFromQuickAdd(product: product)
-        }
+        isActiveBasketExistForOtherGrocery()
+            ? addProductToBasket()
+            : addProductToBasket()
     }
     
-    func addProductInShoppingBasketFromQuickAdd(product: ProductDTO) {
+    func addProductToBasket() {
         guard let selectedProduct = product.productDB else { return }
+        
+        let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
         
         var productQuantity = 1
         
-        // If the product already is in the basket, just increment its quantity by 1
-        if let product = ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: grocery!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+        if let product = ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: grocery!, context: context) {
             productQuantity += product.count.intValue
         }
         
-        // Logging Segment Event
-        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
-        if isNewCart {
-            let cartCreatedEvent = CartCreatedEvent(product: selectedProduct, activeGrocery: self.grocery)
-            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+        if productQuantity == 0 {
+            ShoppingBasketItem.removeProductFromBasket(selectedProduct, grocery: self.grocery, context: context)
         } else {
-            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
-            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+            ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: self.grocery, brandName: selectedProduct.brandNameEn , quantity: productQuantity, context: context)
         }
         
-        // ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(selectedProduct)
-        self.updateProductsQuantity(productQuantity, product: self.product)
-        MixpanelEventLogger.trackStoreAddItem(product: selectedProduct)
-    }
-    
-    func updateProductsQuantity(_ quantity: Int, product: ProductDTO) {
-        guard let selectedProduct = product.productDB else { return }
-        
-        if quantity == 0 {
-            
-            //remove product from basket
-            ShoppingBasketItem.removeProductFromBasket(selectedProduct, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            
-        } else {
-            
-            //Add or update item in basket
-            ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: self.grocery, brandName: selectedProduct.brandNameEn , quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        }
-        
-        DatabaseHelper.sharedInstance.saveDatabase()
-        isItemInBasket()
-        
-//        self.refreshBasketIconStatus()
-    }
-    
-    func checkForOtherGroceryActiveBasket(product: ProductDTO) -> Bool {
-        var isAnOtherActiveBasket = false
-        guard let grocery = grocery else { return false }
-        
-        //check if other grocery basket is active
-        let isOtherGroceryBasketActive = ShoppingBasketItem.checkIfBasketForOtherGroceryIsActive(grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        let activeBasketGrocery = ShoppingBasketItem.getGroceryForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        
-        if isOtherGroceryBasketActive && activeBasketGrocery != nil && activeBasketGrocery!.dbID != String(product.retailerID ?? 0) {
-            isAnOtherActiveBasket = true
-        }
-        
-        return isAnOtherActiveBasket
+        checkProductExistanceInCartAndUpdateUI()
     }
     
     func showPg18PopupAndAddToCart() {
@@ -324,85 +264,40 @@ private extension ProductCellViewModel {
                 
                 UserDefaults.setOver18(buttonIndex == 0)
                 if buttonIndex == 0 {
-                    self.addProductToCart()
+                    self.checkActiveCartExistanceAndAddToCart()
                 }
             }
         }
     }
-}
+    
+    func isProductExistInBasket() -> ShoppingBasketItem? {
+        guard let retailer = self.grocery else { return nil }
+        
+        return ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: retailer, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+    }
+    
+    func isActiveBasketExistForOtherGrocery() -> Bool {
+        guard let grocery = grocery else { return false }
+        
+        let isOtherGroceryBasketActive = ShoppingBasketItem.checkIfBasketForOtherGroceryIsActive(grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let activeBasketGrocery = ShoppingBasketItem.getGroceryForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        
+        if isOtherGroceryBasketActive && activeBasketGrocery != nil && activeBasketGrocery!.dbID != String(product.retailerID ?? 0) {
+            return true
+        }
+        
+        return false
+    }
+    
+    func getPromoPercentage() -> Int {
+        var percentage : Double = 0
+        guard let actualPrice = product.fullPrice, let promoPrice = product.promoPrice else { return 0 }
+        
+        if actualPrice > 0 {
+            let percentageDecimal = ((actualPrice - promoPrice) / actualPrice)
+            percentage = percentageDecimal * 100
+        }
 
-// MARK: View + Shimmer layer
-public extension UIView {
-    var isShimmerOn: Bool {
-        get { return shimmerable }
-        set { shimmerable = newValue
-            newValue ? startShimmeringEffect() : stopShimmeringEffect()
-        }
-    }
-
-    private var shimmerable: Bool {
-        get { return objc_getAssociatedObject(self, "pkey") as? Bool ?? false }
-        set { objc_setAssociatedObject(self, "pkey", newValue, objc_AssociationPolicy(rawValue: 1)!) }
-    }
-    
-    private  func removeShimmerLayer(){
-        layer.mask = nil
-    }
-    
-    func startShimmeringEffect() {
-        let light = UIColor.gray.withAlphaComponent(0.3).cgColor
-        let alpha = UIColor.gray.withAlphaComponent(0.1).cgColor
-        let gradient = CAGradientLayer()
-        gradient.frame = CGRect(x: 0, y: 0, width:self.bounds.size.width, height: self.bounds.size.height)
-        gradient.colors = [light, alpha, alpha, light]
-        gradient.startPoint = CGPoint(x: 0.0, y: 1)
-        gradient.endPoint = CGPoint(x: 1.0,y: 1)
-        gradient.locations = [0.0, 0.3, 0.5, 1]
-        
-        gradient.cornerRadius = 5
-        gradient.masksToBounds = true
-        
-        self.layer.addSublayer(gradient)
-        clipsToBounds = true
-        
-        let animation = CABasicAnimation(keyPath: "locations")
-        
-        animation.fromValue = [-1, -0.3, -0.5, 0]
-        animation.toValue = [1.0, 1.3, 1.5, 2]
-        animation.duration = 1.7
-        animation.repeatCount = .infinity
-        
-        gradient.add(animation, forKey: "shimmer")
-    
-        addObserver(self, forKeyPath: "bounds", options: .new, context: nil)
-        
-    }
-    
-    func stopShimmeringEffect() {
-        if let gradientLayer =  self.layer.sublayers?.first(where: { (layer) -> Bool in
-            return layer.isKind(of: CAGradientLayer.self)
-        })
-        {
-            gradientLayer.removeFromSuperlayer()
-        }
-        layer.mask = nil
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-    
-        if let gradientLayer =  self.layer.sublayers?.first(where: { (layer) -> Bool in
-            return layer.isKind(of: CAGradientLayer.self)
-        })
-        {
-            gradientLayer.frame = CGRect(x:0 , y: 0, width: self.bounds.size.width, height: self.bounds.size.height)
-        }
-    }
-}
-
-extension Reactive where Base: UIView {
-    public var isShimmerOn: Binder<Bool> {
-        return Binder(self.base) { view, shimmering in
-            view.isShimmerOn = shimmering
-        }
+        return Int(percentage.rounded())
     }
 }

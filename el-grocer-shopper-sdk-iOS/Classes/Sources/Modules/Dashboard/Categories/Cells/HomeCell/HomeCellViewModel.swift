@@ -103,7 +103,7 @@ private extension HomeCellViewModel {
         parameters["category_id"] = category.id
         parameters["delivery_time"] =  deliveryTime
         
-        // show shimmring efffect by adding
+        // Show shimmring efffect by adding Product Skeleton Cells
         self.productCollectionCellViewModelsSubject.onNext([
             SectionModel(model: 0, items: [ProductSekeltonCellViewModel(), ProductSekeltonCellViewModel(), ProductSekeltonCellViewModel(), ProductSekeltonCellViewModel()])
         ])
