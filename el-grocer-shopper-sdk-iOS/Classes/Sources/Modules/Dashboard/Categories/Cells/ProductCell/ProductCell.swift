@@ -476,8 +476,14 @@ class ProductCell : RxUICollectionViewCell {
     }
 
     @IBAction func addToCartHandler(_ sender: AnyObject) {
+        if viewModel != nil {
+            self.viewModel.inputs.quickAddButtonTapObserver.onNext(())
+            return
+        }
         
         guard self.product != nil else {return}
+        // need to confirm this check from ABM bhai or suboor
+        // i think this is for universal search
         guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             return
@@ -1277,6 +1283,14 @@ private extension ProductCell {
         viewModel.outputs.promoPriceAttributedText
             .bind(to: lblOfferPrice.rx.attributedText)
             .disposed(by: disposeBag)
+        
+        viewModel.outputs.quantity.subscribe(onNext: { [weak self] sQuantity in
+            guard let self = self else { return }
+            
+            UIView.transition(with: self.quantityLabel, duration: 0.25) {
+                self.quantityLabel.text = sQuantity
+            }
+        }).disposed(by: disposeBag)
         
         
         

@@ -11,67 +11,13 @@ import RxCocoa
 import UIKit
 
 protocol ProductCellViewModelInput {
-    var quickAddButtonTapObserver: AnyObserver<Product> { get }
+    var quickAddButtonTapObserver: AnyObserver<Void> { get }
     
 }
-
-// isPercentageShown
-// isPercentageNonZero
-
-// combineLatest(isPercentage, isPercentageNonZero)
-
-func abc() {
-    let isP = false
-    let p = 4
-    
-    if isP {
-        ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: 0.0)
-    } else {
-        localizedString("lbl_Special_Discount", comment: "")
-    }
-}
-// strikeLabelText
-//  - percentage FALSE          => localizedString("lbl_Special_Discount", comment: "")
-//  - percentage TRUE           => ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: product.price.doubleValue)
-//      - percentage ZERO       => localizedString("lbl_Special_Discount", comment: "")
-//      - percentage NOT-ZERO   =>
-
-// strikeLableTextColor
-//  - percentage FALSE          => .elGrocerYellowColor()
-//  - percentage TRUE           => .navigationBarWhiteColor()
-//      - percentage ZERO       => .elGrocerYellowColor()
-//      - percentage NOT-ZERO   =>
-
-// strikeThrough
-//  - percentage FALSE          => false
-//  - percentage TRUE           => true
-//      - percentage ZERO       => false
-//      - percentage NOT-ZERO   =>
-
-
-// discountPercentage
-//  - percentage FALSE          => ""
-//  - percentage TRUE           =>
-//      - percentage ZERO       => ""
-//      - percentage NOT-ZERO   => "-" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(percentage)) + "%"
-
-
-// offText
-//  - percentage FALSE          => ""
-//  - percentage TRUE           =>
-//      - percentage ZERO       => ""
-//      - percentage NOT-ZERO   => localizedString("txt_off_Single", comment: "")
-
-
-// saleViewVisible
-//  - percentage FALSE          => self.saleView.isHidden = false
-//  - percentage TRUE           =>
-//      - percentage ZERO       => self.saleView.isHidden = false
-//      - percentage NOT-ZERO   => self.saleView.isHidden = true
 
 protocol ProductCellViewModelOutput {
     var grocery: Grocery? { get }
-    var quickAddButtonTap: Observable<Product> { get }
+    var quickAddButtonTap: Observable<Void> { get }
     
     var name: Observable<String?> { get }
     var description: Observable<String?> { get }
@@ -110,11 +56,11 @@ extension ProductCellViewModelType {
 
 class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCellViewModelType {
     // MARK: Inputs
-    var quickAddButtonTapObserver: AnyObserver<Product> { self.quickAddButtonTapSubject.asObserver() }
+    var quickAddButtonTapObserver: AnyObserver<Void> { self.quickAddButtonTapSubject.asObserver() }
     
     // MARK: Outputs
     var grocery: Grocery?
-    var quickAddButtonTap: Observable<Product> { self.quickAddButtonTapSubject.asObservable() }
+    var quickAddButtonTap: Observable<Void> { self.quickAddButtonTapSubject.asObservable() }
     
     var name: Observable<String?> { nameSubject.asObservable() }
     var description: Observable<String?> { descriptionSubject.asObservable() }
@@ -141,7 +87,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var saleViewVisibility: RxSwift.Observable<Bool> { saleViewVisibilitySubject.asObservable() }
     
     // MARK: Subjects
-    private var quickAddButtonTapSubject = PublishSubject<Product>()
+    private var quickAddButtonTapSubject = PublishSubject<Void>()
     
     private var nameSubject = BehaviorSubject<String?>(value: nil)
     private var descriptionSubject = BehaviorSubject<String?>(value: nil)
@@ -170,6 +116,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
     
+    private var disposeBag = DisposeBag()
     private var product: ProductDTO
     private let PRODUCT_LIMIT = 3
     
@@ -192,13 +139,28 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
         
         let _ = self.isItemInBasket()
         checkPromotionValidity()
+        
+        quickAddButtonTapSubject.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+                
+            let product = self.product
+            
+            if product.isPg18 {
+                self.showPg18PopupAndAddToCart()
+            } else {
+                self.addProductToCart()
+            }
+            
+        }).disposed(by: disposeBag)
     }
     
 }
 
 private extension ProductCellViewModel {
     func isItemInBasket() -> ShoppingBasketItem? {
-        if let item = ShoppingBasketItem.checkIfProductIsInBasket(productId: self.product.id, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+        
+        if let grocery = grocery, let item = ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            
             self.plusButtonIconNameSubject.onNext("add_product_cell")
             self.minusButtonIconNameSubject.onNext(item.count == 1 ? "delete_product_cell" : "remove_product_cell")
             self.cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
@@ -258,8 +220,6 @@ private extension ProductCellViewModel {
         }
     }
     
-    
-    
     func getPercentage() -> Int {
         var percentage : Double = 0
         guard let actualPrice = product.fullPrice, let promoPrice = product.promoPrice else { return 0 }
@@ -270,6 +230,105 @@ private extension ProductCellViewModel {
         }
 
         return Int(percentage.rounded())
+    }
+    
+    func addProductToCart() {
+        if let productDB = self.product.productDB {
+            if let item = ShoppingBasketItem.checkIfProductIsInBasket(productDB, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                let count = item.count.intValue + 1
+                
+                if count != 1 {
+                    let updatedQuantity = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic()
+                    quantitySubject.onNext(updatedQuantity)
+                    return
+                }
+            }
+        }
+        
+        let isActiveBasket = checkForOtherGroceryActiveBasket(product: self.product)
+        
+        if isActiveBasket {
+            // show active cart popup
+        } else {
+            addProductInShoppingBasketFromQuickAdd(product: product)
+        }
+    }
+    
+    func addProductInShoppingBasketFromQuickAdd(product: ProductDTO) {
+        guard let selectedProduct = product.productDB else { return }
+        
+        var productQuantity = 1
+        
+        // If the product already is in the basket, just increment its quantity by 1
+        if let product = ShoppingBasketItem.checkIfProductIsInBasket(selectedProduct, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            productQuantity += product.count.intValue
+            
+        }
+        
+        // Logging Segment Event
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if isNewCart {
+            let cartCreatedEvent = CartCreatedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
+        
+        // ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(selectedProduct)
+        self.updateProductsQuantity(productQuantity, product: self.product)
+        MixpanelEventLogger.trackStoreAddItem(product: selectedProduct)
+    }
+    
+    func updateProductsQuantity(_ quantity: Int, product: ProductDTO) {
+        guard let selectedProduct = product.productDB else { return }
+        
+        if quantity == 0 {
+            
+            //remove product from basket
+            ShoppingBasketItem.removeProductFromBasket(selectedProduct, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            
+        } else {
+            
+            //Add or update item in basket
+            ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: self.grocery, brandName: selectedProduct.brandNameEn , quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        }
+        
+        DatabaseHelper.sharedInstance.saveDatabase()
+        isItemInBasket()
+        
+//        self.refreshBasketIconStatus()
+    }
+    
+    func checkForOtherGroceryActiveBasket(product: ProductDTO) -> Bool {
+        var isAnOtherActiveBasket = false
+        guard let grocery = grocery else { return false }
+        
+        //check if other grocery basket is active
+        let isOtherGroceryBasketActive = ShoppingBasketItem.checkIfBasketForOtherGroceryIsActive(grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let activeBasketGrocery = ShoppingBasketItem.getGroceryForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        
+        if isOtherGroceryBasketActive && activeBasketGrocery != nil && activeBasketGrocery!.dbID != String(product.retailerID ?? 0) {
+            isAnOtherActiveBasket = true
+        }
+        
+        return isAnOtherActiveBasket
+    }
+    
+    func showPg18PopupAndAddToCart() {
+        // TODO: This is view controller on coordinator responsibility to show popup
+        if let SDKManager = UIApplication.shared.delegate {
+            let alertView = TobbacoPopup.showNotificationPopup(topView: (SDKManager.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: localizedString("over_18", comment: "") , buttonTwoText: localizedString("less_over_18", comment: ""))
+            
+            alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
+                guard let self = self else { return }
+                
+                UserDefaults.setOver18(buttonIndex == 0)
+                if buttonIndex == 0 {
+                    self.addProductToCart()
+                }
+            }
+        }
     }
 }
 
