@@ -137,13 +137,33 @@ private extension HomeCellViewModel {
             }
             
             guard let response = content else { return }
-            self?.handleAlgoliaSuccessResponse(response: response)
+            
+            let products = Product.insertOrReplaceProductsFromDictionary(response as NSDictionary, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+            
+            let productCellVMs = products.map { ProductCellViewModel(product: ProductDTO(product: $0), grocery: self?.grocery)}
+            self?.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productCellVMs)])
+//            self?.handleAlgoliaSuccessResponse(response: response)
         }
     }
     
     func handleAlgoliaSuccessResponse(response: [String: Any]) {
-        guard let hits = response["hits"] as? [[String: Any]] else { return }
-        let productCellVMs = hits.map { ProductCellViewModel(product: ProductDTO(dic: $0), grocery: self.grocery) }
+        guard let hits = response["hits"] as? NSDictionary else { return }
+        
+        let products = Product.insertOrReplaceProductsFromDictionary(hits as NSDictionary, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+        
+        let productCellVMs = products.map { ProductCellViewModel(product: ProductDTO(product: $0), grocery: grocery)}
+        
+        
+//        let productCellVMs = hits.map { hit in
+//
+//            let product = Product.createProductFromDictionary(hit as NSDictionary, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+//            var productDTO = ProductDTO(dic: hit)
+//            productDTO.productDB = product
+//
+//            return ProductCellViewModel(product: productDTO, grocery: self.grocery)
+//        }
+//
+////        let productCellVMs = hits.map { ProductCellViewModel(product: ProductDTO(dic: $0), grocery: self.grocery) }
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productCellVMs)])
     }
 }

@@ -45,6 +45,23 @@ struct ProductDTO: Codable {
     var promoEndTime: Date?
     var promoPrice: Double?
     var promoProductLimit: Int?
+    
+    var productDB: Product? = nil
+    
+    var isPg18: Bool {
+        var result = false
+        guard let subcategories = self.categories, subcategories.isEmpty else {
+            return result
+        }
+        
+        subcategories.forEach { subcategory in
+            if let pg18 = subcategory.pg18 {
+                result = pg18
+            }
+        }
+        
+        return result
+    }
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -354,5 +371,46 @@ extension ProductDTO {
         } else {
             self.promotion = false
         }
+    }
+}
+
+extension ProductDTO {
+    init(product: Product) {
+        self.productDB = product
+        
+        self.id = product.productId.intValue
+        self.retailerID = Int(product.groceryId)
+        self.name = product.name
+        self.slug = nil
+        self.description = product.descr
+        barcode = nil
+        imageURL = product.imageUrl
+        fullImageURL = nil
+        sizeUnit = product.descr
+        fullPrice = product.price.doubleValue
+        priceCurrency = product.currency
+        promotion = product.promotion?.boolValue
+        brand = nil
+        categories = nil
+        subcategories = nil
+        isAvailable = product.isAvailable.boolValue
+        isPublished = product.isPublished.boolValue
+        isP = product.isPromotion.boolValue
+        availableQuantity = product.availableQuantity.intValue
+        
+        promotionalShops = []
+        shops = []
+        
+        objectID = product.objectId
+        nameAr = nil
+        subcategoryRank = nil
+        categoryRank = nil
+        productRank = nil
+        isSponsored = product.isSponsored?.boolValue
+        promotionOnly = product.promotionOnly.boolValue
+        promoStartTime = product.promoStartTime
+        promoEndTime = product.promoEndTime
+        promoPrice = product.promoPrice?.doubleValue
+        promoProductLimit = product.promoProductLimit?.intValue
     }
 }
