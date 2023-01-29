@@ -13,6 +13,7 @@ import UIKit
 protocol ProductCellViewModelInput {
     var addToCartButtonTapObserver: AnyObserver<Void> { get }
     var plusButtonTapObserver: AnyObserver<Void> { get }
+    var minusButtonTapObserver: AnyObserver<Void> { get }
 }
 
 protocol ProductCellViewModelOutput {
@@ -58,6 +59,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     // MARK: Inputs
     var addToCartButtonTapObserver: AnyObserver<Void> { self.quickAddButtonTapSubject.asObserver() }
     var plusButtonTapObserver: AnyObserver<Void> { plusButtonTapSubject.asObserver() }
+    var minusButtonTapObserver: AnyObserver<Void> { minusButtonTapSubject.asObserver() }
     
     // MARK: Outputs
     var grocery: Grocery?
@@ -114,6 +116,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var offLabelTextSubject = BehaviorSubject<String?>(value: nil)
     private var saleViewVisibilitySubject = BehaviorSubject<Bool>(value: true)
     private var plusButtonTapSubject = PublishSubject<Void>()
+    private var minusButtonTapSubject = PublishSubject<Void>()
 
     
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
@@ -147,6 +150,12 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
                 ? self.showPg18PopupAndAddToCart()
                 : self.plusButtonTapHandler()
             
+        }).disposed(by: disposeBag)
+        
+        minusButtonTapSubject.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            self.removeProductFromCart()
         }).disposed(by: disposeBag)
     }
 }
@@ -365,5 +374,22 @@ private extension ProductCellViewModel {
         }
         
         addProductToBasket()
+    }
+    
+    func removeProductFromCart() {
+        if let item = isProductExistInBasket(), let product = product.productDB {
+            let updatedQuantity = item.count.intValue - 1
+            
+            if updatedQuantity < 0 { return }
+            
+            if updatedQuantity == 0 {
+                ShoppingBasketItem.removeProductFromBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+            } else {
+                ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: product.brandNameEn , quantity: updatedQuantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            }
+            
+            checkProductExistanceInCartAndUpdateUI()
+        }
     }
 }

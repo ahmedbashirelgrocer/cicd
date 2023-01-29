@@ -561,6 +561,10 @@ class ProductCell : RxUICollectionViewCell {
     }
     
     @IBAction func minusButtonHandler(_ sender: AnyObject) {
+        if viewModel != nil {
+            self.viewModel.inputs.minusButtonTapObserver.onNext(())
+            return
+        }
         DispatchQueue.main.async {
         func callDelegateAndAnalytics() {
             FireBaseEventsLogger.trackDecrementAddToProduct(product: self.product)
