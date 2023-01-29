@@ -682,6 +682,10 @@ class ProductCell : RxUICollectionViewCell {
     }
     
     @IBAction func plusButtonHandler(_ sender: AnyObject) {
+        if viewModel != nil {
+            self.viewModel.inputs.plusButtonTap.onNext(())
+        }
+        
         DispatchQueue.main.async {
         
         guard self.product != nil else {return}

@@ -12,7 +12,6 @@ import UIKit
 
 protocol ProductCellViewModelInput {
     var quickAddButtonTapObserver: AnyObserver<Void> { get }
-    
 }
 
 protocol ProductCellViewModelOutput {
@@ -57,6 +56,7 @@ extension ProductCellViewModelType {
 class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCellViewModelType {
     // MARK: Inputs
     var quickAddButtonTapObserver: AnyObserver<Void> { self.quickAddButtonTapSubject.asObserver() }
+    var plusButtonTap: AnyObserver<Void> { plusButtonTapSubject.asObserver() }
     
     // MARK: Outputs
     var grocery: Grocery?
@@ -85,6 +85,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var discountPercentage: RxSwift.Observable<String> { discountPercentageSubject.asObservable() }
     var offLabelText: RxSwift.Observable<String?> { offLabelTextSubject.asObservable() }
     var saleViewVisibility: RxSwift.Observable<Bool> { saleViewVisibilitySubject.asObservable() }
+    var isPlusButtonDisable: Observable<Bool> { isPlusButtonDisableSubject.asObservable() }
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
@@ -112,6 +113,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var discountPercentageSubject = BehaviorSubject<String>(value: "0")
     private var offLabelTextSubject = BehaviorSubject<String?>(value: nil)
     private var saleViewVisibilitySubject = BehaviorSubject<Bool>(value: true)
+    private var plusButtonTapSubject = PublishSubject<Void>()
 
     
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
@@ -135,6 +137,15 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
             product.isPg18
                 ? self.showPg18PopupAndAddToCart()
                 : self.checkActiveCartExistanceAndAddToCart()
+            
+        }).disposed(by: disposeBag)
+        
+        plusButtonTapSubject.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            product.isPg18
+                ? self.showPg18PopupAndAddToCart()
+                : self.plusButtonTapHandler()
             
         }).disposed(by: disposeBag)
     }
@@ -300,5 +311,59 @@ private extension ProductCellViewModel {
         }
 
         return Int(percentage.rounded())
+    }
+    
+    func showOverLimitMsg() {
+        let msg = localizedString("msg_limited_stock_start", comment: "") + "\(self.product.availableQuantity)" + localizedString("msg_limited_stock_end", comment: "")
+        let title = localizedString("msg_limited_stock_Quantity_title", comment: "")
+        ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
+    }
+    
+    func plusButtonTapHandler() {
+        var currentQuantity = 0
+        var updatedQuantity = 0
+        
+        if let item = isProductExistInBasket() {
+            currentQuantity = item.count.intValue
+            updatedQuantity = item.count.intValue
+            
+            if product.promotion == true {
+                if (currentQuantity >= product.promoProductLimit ?? 0) && (product.promoProductLimit ?? 0 > 0) {
+                    // TODO: Show promo over limit message
+                    showOverLimitMsg()
+                } else {
+                    updatedQuantity += 1
+                }
+            } else {
+                updatedQuantity += 1
+            }
+            
+        }
+        
+        if updatedQuantity != 1 {
+            if product.promotion == true {
+                if (currentQuantity >= product.promoProductLimit ?? 0) && (product.promoProductLimit ?? 0 > 0) {
+                    showOverLimitMsg()
+                    self.checkProductExistanceInCartAndUpdateUI()
+                } else {
+                    addProductToBasket()
+                    
+                    // ProductQuantiy.checkLimitForDisplayMsgs(selectedProduct: self.product, counter: updatedQuantity)
+                }
+                
+            } else {
+                
+                if (product.availableQuantity ?? 0 >= 0) && (product.availableQuantity ?? 0 <= updatedQuantity) {
+                    showOverLimitMsg()
+                    return
+                }
+                
+                addProductToBasket()
+            }
+            
+            return
+        }
+        
+        addProductToBasket()
     }
 }
