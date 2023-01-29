@@ -11,8 +11,8 @@ import RxCocoa
 import UIKit
 
 protocol ProductCellViewModelInput {
-    var quickAddButtonTapObserver: AnyObserver<Void> { get }
-    var plusButtonTap: AnyObserver<Void> { get }
+    var addToCartButtonTapObserver: AnyObserver<Void> { get }
+    var plusButtonTapObserver: AnyObserver<Void> { get }
 }
 
 protocol ProductCellViewModelOutput {
@@ -56,8 +56,8 @@ extension ProductCellViewModelType {
 
 class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCellViewModelType {
     // MARK: Inputs
-    var quickAddButtonTapObserver: AnyObserver<Void> { self.quickAddButtonTapSubject.asObserver() }
-    var plusButtonTap: AnyObserver<Void> { plusButtonTapSubject.asObserver() }
+    var addToCartButtonTapObserver: AnyObserver<Void> { self.quickAddButtonTapSubject.asObserver() }
+    var plusButtonTapObserver: AnyObserver<Void> { plusButtonTapSubject.asObserver() }
     
     // MARK: Outputs
     var grocery: Grocery?

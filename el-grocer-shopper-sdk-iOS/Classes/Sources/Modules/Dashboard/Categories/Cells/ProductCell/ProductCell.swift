@@ -477,7 +477,7 @@ class ProductCell : RxUICollectionViewCell {
 
     @IBAction func addToCartHandler(_ sender: AnyObject) {
         if viewModel != nil {
-            self.viewModel.inputs.quickAddButtonTapObserver.onNext(())
+            self.viewModel.inputs.addToCartButtonTapObserver.onNext(())
             return
         }
         
@@ -683,7 +683,7 @@ class ProductCell : RxUICollectionViewCell {
     
     @IBAction func plusButtonHandler(_ sender: AnyObject) {
         if viewModel != nil {
-            self.viewModel.inputs.plusButtonTap.onNext(())
+            self.viewModel.inputs.plusButtonTapObserver.onNext(())
         }
         
         DispatchQueue.main.async {
