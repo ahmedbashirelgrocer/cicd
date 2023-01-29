@@ -43,6 +43,7 @@ protocol ProductCellViewModelOutput {
     var offLabelText: Observable<String?> { get }
     var saleViewVisibility: Observable<Bool> { get }
     var promoPriceAttributedText: Observable<NSAttributedString?> { get }
+    var isArabic: Observable<Bool> { get }
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -88,6 +89,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var discountPercentage: RxSwift.Observable<String> { discountPercentageSubject.asObservable() }
     var offLabelText: RxSwift.Observable<String?> { offLabelTextSubject.asObservable() }
     var saleViewVisibility: RxSwift.Observable<Bool> { saleViewVisibilitySubject.asObservable() }
+    var isArabic: Observable<Bool> { isArabicSubject.asObserver() }
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
@@ -118,8 +120,8 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var saleViewVisibilitySubject = BehaviorSubject<Bool>(value: true)
     private var plusButtonTapSubject = PublishSubject<Void>()
     private var minusButtonTapSubject = PublishSubject<Void>()
+    private var isArabicSubject = BehaviorSubject<Bool>(value: false)
 
-    
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
     
     private var disposeBag = DisposeBag()

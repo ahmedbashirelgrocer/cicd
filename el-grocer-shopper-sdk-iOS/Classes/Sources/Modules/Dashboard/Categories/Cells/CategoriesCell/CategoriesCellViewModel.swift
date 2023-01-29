@@ -17,6 +17,8 @@ protocol CategoriesCellViewModelOutput {
     var title: Observable<String> { get }
     var collectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var viewAll: Observable<Void> { get }
+    var isArbic: Observable<Bool> { get }
+    
 }
 
 protocol CategoriesCellViewModelType: CategoriesCellViewModelInput, CategoriesCellViewModelOutput {
@@ -37,11 +39,13 @@ class CategoriesCellViewModel: CategoriesCellViewModelType, ReusableTableViewCel
     var title: Observable<String> { self.titleSubject.asObservable() }
     var collectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.collectionCellViewModelsSubject }
     var viewAll: Observable<Void> { viewAllSubject.asObservable() }
+    var isArbic: Observable<Bool> {isArabicSubject.asObservable() }
     
     // MARK: Subjects
     private var titleSubject: BehaviorSubject<String>
     private var collectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     private var viewAllSubject = PublishSubject<Void>()
+    private var isArabicSubject = BehaviorSubject<Bool>(value: false)
     
     var reusableIdentifier: String { CategoriesCell.defaultIdentifier }
     

@@ -21,6 +21,7 @@ protocol HomeCellViewModelOuput {
     var title: Observable<String?> { get }
     var basketUpdated: Observable<Void> { get }
     var viewAll: Observable<CategoryDTO?> { get }
+    var isArabic: Observable<Bool> { get }
 }
 
 protocol HomeCellViewModelType: HomeCellViewModelInput, HomeCellViewModelOuput {
@@ -46,6 +47,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     var title: Observable<String?> { self.titleSubject.asObservable() }
     var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
     var viewAll: Observable<CategoryDTO?> { viewAllSubject.map { self.category }.asObservable() }
+    var isArabic: Observable<Bool> { isArabicSubject.asObserver() }
     
     // MARK: Subjects
     private let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
@@ -53,6 +55,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     private let titleSubject = BehaviorSubject<String?>(value: nil)
     private let basketUpdatedSubject = PublishSubject<Void>()
     private let viewAllSubject = PublishSubject<Void>()
+    private var isArabicSubject = BehaviorSubject<Bool>(value: false)
     
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
