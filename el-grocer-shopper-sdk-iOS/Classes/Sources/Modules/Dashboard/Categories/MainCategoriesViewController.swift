@@ -223,70 +223,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.basketIconOverlay?.shouldShow = true
         self.refreshBasketForGrocery()
         
-        tableViewCategories.rowHeight = UITableView.automaticDimension
-        tableViewCategories.estimatedRowHeight = 220
-
-        self.tableViewCategories.dataSource = nil
-        self.tableViewCategories.delegate = self
-        
-        self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
-        
-        self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
-            let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
-            
-            self.viewModel.inputs.scrollObserver.onNext(indexPath)
-            cell.configure(viewModel: viewModel)
-            
-            return cell
-        })
-        
-        // binding table view datasource
-        self.viewModel.outputs.cellViewModels.bind(to: self.tableViewCategories.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
-        
-        // MARK: Actions
-//        self.viewModel.outputs.quickAddButtonTap.subscribe(onNext: { [weak self] product in
-//            guard let self = self else { return }
-//
-//            print("Great you are getting this callback because you added product >> \(String(describing: product.name))")
-//
-//        }).disposed(by: disposeBag)
-        
-        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] in
-            guard let self = self else { return }
-            
-            let browseController = ElGrocerViewControllers.browseViewController()
-            self.navigationController?.pushViewController(browseController, animated: true)
-        }).disposed(by: disposeBag)
-        
-        self.viewModel.outputs.viewAllProductsOfCategory.subscribe(onNext: { [weak self] category in
-            guard let self = self else { return }
-            
-            self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
-        }).disposed(by: disposeBag)
-         
-        self.viewModel.outputs.viewAllProductOfRecentPurchase.subscribe(onNext: { [weak self] in
-            guard let self = self else { return }
-            
-            print("navigation to recent purchases")
-            let productsVC = ElGrocerViewControllers.productsViewController()
-            productsVC.grocery = self.grocery
-            self.navigationController?.pushViewController(productsVC, animated: true)
-        }).disposed(by: disposeBag)
-        
-        viewModel.outputs.refreshBasket.subscribe(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            
-            self.basketIconOverlay!.refreshStatus(self)
-        }).disposed(by: disposeBag)
-        
-        // binding loader
-        self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
-            guard let self = self else { return }
-            
-            loading
-                ? _ = SpinnerView.showSpinnerViewInView(self.view)
-                : SpinnerView.hideSpinnerView()
-        }).disposed(by: disposeBag)
+        bindViews()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1522,6 +1459,70 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
     }
 
+}
+
+private extension MainCategoriesViewController {
+    func bindViews() {
+        self.tableViewCategories.dataSource = nil
+        self.tableViewCategories.delegate = self
+        
+        self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
+        
+        self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
+            let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
+            
+            self.viewModel.inputs.scrollObserver.onNext(indexPath)
+            cell.configure(viewModel: viewModel)
+            
+            return cell
+        })
+        
+        // binding table view datasource
+        self.viewModel.outputs.cellViewModels
+            .bind(to: self.tableViewCategories.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        // MARK: Actions
+        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            let browseController = ElGrocerViewControllers.browseViewController()
+            self.navigationController?.pushViewController(browseController, animated: true)
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.viewAllProductsOfCategory.subscribe(onNext: { [weak self] category in
+            guard let self = self else { return }
+            
+            self.selectedCategory = category?.categoryDB
+            
+            MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category?.id ?? 0), categoryName: category?.name ?? "")
+            self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+            
+        }).disposed(by: disposeBag)
+         
+        self.viewModel.outputs.viewAllProductOfRecentPurchase.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            let productsVC = ElGrocerViewControllers.productsViewController()
+            productsVC.grocery = self.grocery
+            self.navigationController?.pushViewController(productsVC, animated: true)
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.refreshBasket.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.basketIconOverlay!.refreshStatus(self)
+        }).disposed(by: disposeBag)
+        
+        // binding loader
+        self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
+            guard let self = self else { return }
+            
+            loading
+                ? _ = SpinnerView.showSpinnerViewInView(self.view)
+                : SpinnerView.hideSpinnerView()
+        }).disposed(by: disposeBag)
+    }
 }
 
 extension MainCategoriesViewController: HomeCellDelegate {
