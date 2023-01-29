@@ -173,36 +173,34 @@ private extension MainCategoriesViewModel {
             switch result {
                 
             case .success(let response):
-                do {
-                    if let rootJson = response as? [String: Any] {
-                        let data = try JSONSerialization.data(withJSONObject: rootJson)
-                        let categories = try JSONDecoder().decode(CategoriesResponse.self, from: data).categories
-                        
-                        self.categories = categories
-                        
-                        // creating home cell view models
-                        let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
-                        categoriesCellVM.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
-                        self.categoriesCellVMs = [categoriesCellVM]
-                        
-                        // creating home cell view models
-                        self.homeCellVMs = self.categories.map({
-                            let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
-                            viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
-                            return viewModel
-                        })
-                        return
-                    }
-                    
-                    // handle parsing error
-                } catch {
-                    // handle parsing error
-                    print("parsing error >> \(error)")
+                guard let categoriesDictionary = response["data"] as? [NSDictionary], let grocery = self.grocery else {
+                    // TODO: Show error message
+                    return
                 }
+                
+                guard let categoriesDB = Category.insertOrUpdateCategoriesForGrocery(grocery, categoriesArray: categoriesDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) else {
+                    // TODO: Show error message
+                    return
+                }
+                DatabaseHelper.sharedInstance.saveDatabase()
+                
+                self.categories = categoriesDB.map { CategoryDTO(category: $0) }
+                let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
+                
+                categoriesCellVM.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                self.categoriesCellVMs = [categoriesCellVM]
+                
+                // creating home cell view models
+                self.homeCellVMs = self.categories.map({
+                    let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
+                    viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
+                    return viewModel
+                })
+                
                 break
                 
             case .failure(let error):
-                // handle error
+                // TODO: Show error message
                 break
             }
         }

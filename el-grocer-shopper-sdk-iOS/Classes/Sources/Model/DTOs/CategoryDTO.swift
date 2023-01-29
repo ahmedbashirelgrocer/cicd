@@ -32,7 +32,7 @@ struct CategoryDTO: Codable {
     
     let messageAr: String?
     let nameAr: String?
-    
+    var categoryDB: Category? = nil
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -116,5 +116,24 @@ extension CategoryDTO {
         
         self.coloredImageUrl = nil
         self.description = nil
+    }
+}
+
+extension CategoryDTO {
+    init(category: Category) {
+        self.categoryDB = category
+        
+        self.id = category.dbID.intValue
+        self.name = category.name
+        self.coloredImageUrl = category.coloredImageUrl
+        self.description = category.desc
+        self.isFood = nil
+        self.isShowBrand = nil
+        self.message = nil
+        self.pg18 = category.isPg18.boolValue
+        self.photoUrl = category.imageUrl
+        self.slug = nil
+        self.nameAr = nil
+        self.messageAr = nil
     }
 }
