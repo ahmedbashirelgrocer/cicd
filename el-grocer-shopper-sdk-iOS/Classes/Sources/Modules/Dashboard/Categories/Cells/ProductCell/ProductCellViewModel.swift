@@ -12,6 +12,7 @@ import UIKit
 
 protocol ProductCellViewModelInput {
     var quickAddButtonTapObserver: AnyObserver<Void> { get }
+    var plusButtonTap: AnyObserver<Void> { get }
 }
 
 protocol ProductCellViewModelOutput {
@@ -85,7 +86,6 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var discountPercentage: RxSwift.Observable<String> { discountPercentageSubject.asObservable() }
     var offLabelText: RxSwift.Observable<String?> { offLabelTextSubject.asObservable() }
     var saleViewVisibility: RxSwift.Observable<Bool> { saleViewVisibilitySubject.asObservable() }
-    var isPlusButtonDisable: Observable<Bool> { isPlusButtonDisableSubject.asObservable() }
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
@@ -353,7 +353,7 @@ private extension ProductCellViewModel {
                 
             } else {
                 
-                if (product.availableQuantity ?? 0 >= 0) && (product.availableQuantity ?? 0 <= updatedQuantity) {
+                if (product.availableQuantity ?? 0 >= 0) && (product.availableQuantity ?? 0 <= currentQuantity) {
                     showOverLimitMsg()
                     return
                 }
