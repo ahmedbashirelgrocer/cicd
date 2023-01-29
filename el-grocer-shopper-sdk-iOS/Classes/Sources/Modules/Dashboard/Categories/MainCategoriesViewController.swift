@@ -261,13 +261,16 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.viewModel.outputs.viewAllProductsOfCategory.subscribe(onNext: { [weak self] category in
             guard let self = self else { return }
             
-            print("navigation to products of category \(String(describing: category?.name))")
+            self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
         }).disposed(by: disposeBag)
          
         self.viewModel.outputs.viewAllProductOfRecentPurchase.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
             
             print("navigation to recent purchases")
+            let productsVC = ElGrocerViewControllers.productsViewController()
+            productsVC.grocery = self.grocery
+            self.navigationController?.pushViewController(productsVC, animated: true)
         }).disposed(by: disposeBag)
         
         viewModel.outputs.refreshBasket.subscribe(onNext: { [weak self] _ in

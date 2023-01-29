@@ -19,7 +19,7 @@ protocol HomeCellViewModelOuput {
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var scroll: Observable<CategoryDTO?> { get }
     var title: Observable<String?> { get }
-    var productAddedToCart: Observable<ProductDTO> { get }
+    var basketUpdated: Observable<Void> { get }
     var viewAll: Observable<CategoryDTO?> { get }
 }
 
@@ -44,14 +44,14 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.productCollectionCellViewModelsSubject.asObservable() }
     var scroll: Observable<CategoryDTO?> { self.fetchProductsSubject.asObservable() }
     var title: Observable<String?> { self.titleSubject.asObservable() }
-    var productAddedToCart: Observable<ProductDTO> { quickAddButtonTapSubject.asObservable() }
+    var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
     var viewAll: Observable<CategoryDTO?> { viewAllSubject.map { self.category }.asObservable() }
     
     // MARK: Subjects
     private let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     private let fetchProductsSubject = BehaviorSubject<CategoryDTO?>(value: nil)
     private let titleSubject = BehaviorSubject<String?>(value: nil)
-    private let quickAddButtonTapSubject = PublishSubject<ProductDTO>()
+    private let basketUpdatedSubject = PublishSubject<Void>()
     private let viewAllSubject = PublishSubject<Void>()
     
     private var apiClient: ElGrocerApi?
@@ -80,10 +80,8 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
         
         let productCellViewModels = products.map { productDTO in
             let viewModel = ProductCellViewModel(product: productDTO, grocery: grocery)
-            
-            viewModel.outputs.quickAddButtonTap
-                .bind(to: self.quickAddButtonTapSubject)
-                .disposed(by: disposeBag)
+        
+            viewModel.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: disposeBag)
             
             return viewModel
         }
@@ -157,7 +155,7 @@ private extension HomeCellViewModel {
         
         let productCellVMs = products.map { product in
             let vm = ProductCellViewModel(product: ProductDTO(product: product), grocery: self.grocery)
-            vm.outputs.quickAddButtonTap.bind(to: self.quickAddButtonTapSubject).disposed(by: self.disposeBag)
+            vm.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: self.disposeBag)
             return vm
         }
         

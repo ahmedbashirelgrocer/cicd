@@ -22,7 +22,7 @@ protocol MainCategoriesViewModelOutput {
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Void> { get }
     
-    var refreshBasket: Observable<ProductDTO> { get }
+    var refreshBasket: Observable<Void> { get }
 }
 
 protocol MainCategoriesViewModelType: MainCategoriesViewModelInput, MainCategoriesViewModelOutput {
@@ -45,7 +45,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     // MARK: outputs
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
     var loading: Observable<Bool> { self.loadingSubject.asObservable() }
-    var refreshBasket: Observable<ProductDTO> { self.refreshBasketSubject.asObserver() }
+    var refreshBasket: Observable<Void> { self.refreshBasketSubject.asObserver() }
     var viewAllCategories: Observable<Void> { viewAllCategoriesSubject.asObservable() }
     var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
     var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
@@ -54,7 +54,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var scrollSubject = PublishSubject<IndexPath>()
-    private var refreshBasketSubject = PublishSubject<ProductDTO>()
+    private var refreshBasketSubject = PublishSubject<Void>()
     private var viewAllCategoriesSubject = PublishSubject<Void>()
     private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
@@ -110,7 +110,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 guard let vm = self.homeCellVMs[indexPath.row] as? HomeCellViewModel else { return }
                 
                 vm.inputs.fetchProductsObserver.onNext(self.categories[indexPath.row])
-                vm.outputs.productAddedToCart.bind(to: self.refreshBasketSubject).disposed(by: self.disposeBag)
+                vm.outputs.basketUpdated.bind(to: self.refreshBasketSubject).disposed(by: self.disposeBag)
                 
                 self.apiCallingStatus[indexPath] = true
             }
@@ -272,13 +272,8 @@ private extension MainCategoriesViewModel {
                 if productDTOs.isNotEmpty {
                     let homeCellViewModel = HomeCellViewModel(title: "Recent Purchases", products: productDTOs, grocery: self.grocery)
                     
-                    homeCellViewModel.outputs.viewAll.map { _ in }
-                        .bind(to: self.viewAllProductOfRecentPurchaseSubject)
-                        .disposed(by: self.disposeBag)
-                    
-                    homeCellViewModel.outputs.productAddedToCart
-                        .bind(to: self.refreshBasketSubject)
-                        .disposed(by: self.disposeBag)
+                    homeCellViewModel.outputs.viewAll.map { _ in }.bind(to: self.viewAllProductOfRecentPurchaseSubject).disposed(by: self.disposeBag)
+                    homeCellViewModel.outputs.basketUpdated.bind(to: self.refreshBasketSubject).disposed(by: self.disposeBag)
                     
                     self.recentPurchasedVM.append(homeCellViewModel)
                 }

@@ -18,7 +18,7 @@ protocol ProductCellViewModelInput {
 
 protocol ProductCellViewModelOutput {
     var grocery: Grocery? { get }
-    var quickAddButtonTap: Observable<ProductDTO> { get }
+    var basketUpdated: Observable<Void> { get }
     
     var name: Observable<String?> { get }
     var description: Observable<String?> { get }
@@ -63,7 +63,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     
     // MARK: Outputs
     var grocery: Grocery?
-    var quickAddButtonTap: Observable<ProductDTO> { self.quickAddButtonTapSubject.map { self.product }.asObservable() }
+    var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
     
     var name: Observable<String?> { nameSubject.asObservable() }
     var description: Observable<String?> { descriptionSubject.asObservable() }
@@ -91,6 +91,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
+    private var basketUpdatedSubject = PublishSubject<Void>()
     
     private var nameSubject = BehaviorSubject<String?>(value: nil)
     private var descriptionSubject = BehaviorSubject<String?>(value: nil)
@@ -134,24 +135,27 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
         checkPromotionValidityAndUpdateUI()
         checkStockAvailabilityAndUpdateUI()
         
+        // MARK: Add To Cart Button Tap Listner
         quickAddButtonTapSubject.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
             
             product.isPg18
                 ? self.showPg18PopupAndAddToCart()
-                : self.checkActiveCartExistanceAndAddToCart()
+                : self.isActiveBasketExistForOtherGrocery() ? self.showActiveBasketPopup() : self.addProductToCart()
             
         }).disposed(by: disposeBag)
         
+        // MARK: Plus Button Tap Listner
         plusButtonTapSubject.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
             
             product.isPg18
                 ? self.showPg18PopupAndAddToCart()
-                : self.plusButtonTapHandler()
+                : self.addProductToCart()
             
         }).disposed(by: disposeBag)
         
+        // MARK: Minus Button Tap Listner
         minusButtonTapSubject.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
             
@@ -173,13 +177,14 @@ private extension ProductCellViewModel {
     }
     
     func checkProductExistanceInCartAndUpdateUI() {
-        if let item = isProductExistInBasket() {
+        if let item = getShoppingBasketItemForActiveRetailer() {
             plusButtonIconNameSubject.onNext("add_product_cell")
             minusButtonIconNameSubject.onNext(item.count == 1 ? "delete_product_cell" : "remove_product_cell")
             cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
             addToCartButtonTypeSubject.onNext(true)
             quantitySubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)")
             isSubtitutedSubject.onNext(item.isSubtituted.boolValue)
+            
             return
         }
         
@@ -239,59 +244,56 @@ private extension ProductCellViewModel {
 
 // MARK: Helpers ( Operations )
 private extension ProductCellViewModel {
-    func checkActiveCartExistanceAndAddToCart() {
-        if let item = self.isProductExistInBasket() {
-            let count = item.count.intValue + 1
-            
-            if count != 1 {
-                let updatedQuantity = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic()
-                quantitySubject.onNext(updatedQuantity)
+    func addProductToCart() {
+        var currentQuantity = 0
+        var updatedQuantity = 0
+
+        if let item = getShoppingBasketItemForActiveRetailer() {
+            currentQuantity = item.count.intValue
+            updatedQuantity = item.count.intValue
+
+            if (product.promotion == true) && (currentQuantity >= product.promoProductLimit ?? 0) && (product.promoProductLimit ?? 0 > 0) {
+                showOverLimitMsg()
                 return
+            } else if (product.availableQuantity ?? 0 > 0) && (product.availableQuantity ?? 0 <= currentQuantity) {
+                showOverLimitMsg()
+            } else {
+                updatedQuantity += 1
             }
+            
+        } else {
+            updatedQuantity += 1
         }
         
-        isActiveBasketExistForOtherGrocery()
-            ? addProductToBasket()
-            : addProductToBasket()
+        createOrUpdateBasketItem(updatedQuantity: updatedQuantity)
     }
     
-    func addProductToBasket() {
+    func removeProductFromCart() {
+        if let item = getShoppingBasketItemForActiveRetailer() {
+            let updatedQuantity = item.count.intValue - 1
+            
+            if updatedQuantity < 0 { return }
+            
+            createOrUpdateBasketItem(updatedQuantity: updatedQuantity)
+        }
+    }
+    
+    func createOrUpdateBasketItem(updatedQuantity: Int) {
         guard let selectedProduct = product.productDB else { return }
         
         let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
         
-        var productQuantity = 1
-        
-        if let product = ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: grocery!, context: context) {
-            productQuantity += product.count.intValue
-        }
-        
-        if productQuantity == 0 {
+        if updatedQuantity == 0 {
             ShoppingBasketItem.removeProductFromBasket(selectedProduct, grocery: self.grocery, context: context)
         } else {
-            ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: self.grocery, brandName: selectedProduct.brandNameEn , quantity: productQuantity, context: context)
+            ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: self.grocery, brandName: selectedProduct.brandNameEn , quantity: updatedQuantity, context: context)
         }
         
         checkProductExistanceInCartAndUpdateUI()
+        basketUpdatedSubject.onNext(())
     }
     
-    func showPg18PopupAndAddToCart() {
-        // TODO: This is view controller on coordinator responsibility to show popup
-        if let SDKManager = UIApplication.shared.delegate {
-            let alertView = TobbacoPopup.showNotificationPopup(topView: (SDKManager.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: localizedString("over_18", comment: "") , buttonTwoText: localizedString("less_over_18", comment: ""))
-            
-            alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
-                guard let self = self else { return }
-                
-                UserDefaults.setOver18(buttonIndex == 0)
-                if buttonIndex == 0 {
-                    self.checkActiveCartExistanceAndAddToCart()
-                }
-            }
-        }
-    }
-    
-    func isProductExistInBasket() -> ShoppingBasketItem? {
+    func getShoppingBasketItemForActiveRetailer() -> ShoppingBasketItem? {
         guard let retailer = self.grocery else { return nil }
         
         return ShoppingBasketItem.checkIfProductIsInBasket(productId: product.id, grocery: retailer, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -322,74 +324,50 @@ private extension ProductCellViewModel {
         return Int(percentage.rounded())
     }
     
+    // TODO: Move these methods to Views or Coordinator
     func showOverLimitMsg() {
-        let msg = localizedString("msg_limited_stock_start", comment: "") + "\(self.product.availableQuantity)" + localizedString("msg_limited_stock_end", comment: "")
+        let msg = localizedString("msg_limited_stock_start", comment: "") + "\(product.availableQuantity ?? 0)" + localizedString("msg_limited_stock_end", comment: "")
         let title = localizedString("msg_limited_stock_Quantity_title", comment: "")
         ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
     }
     
-    func plusButtonTapHandler() {
-        var currentQuantity = 0
-        var updatedQuantity = 0
+    func showActiveBasketPopup() {
         
-        if let item = isProductExistInBasket() {
-            currentQuantity = item.count.intValue
-            updatedQuantity = item.count.intValue
-            
-            if product.promotion == true {
-                if (currentQuantity >= product.promoProductLimit ?? 0) && (product.promoProductLimit ?? 0 > 0) {
-                    // TODO: Show promo over limit message
-                    showOverLimitMsg()
-                } else {
-                    updatedQuantity += 1
-                }
-            } else {
-                updatedQuantity += 1
-            }
-            
-        }
-        
-        if updatedQuantity != 1 {
-            if product.promotion == true {
-                if (currentQuantity >= product.promoProductLimit ?? 0) && (product.promoProductLimit ?? 0 > 0) {
-                    showOverLimitMsg()
-                    self.checkProductExistanceInCartAndUpdateUI()
-                } else {
-                    addProductToBasket()
+        if !UserDefaults.isUserLoggedIn() {
+            let SDKManager = SDKManager.shared
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
+                
+                if buttonIndex == 1 {
+                    //clear active basket and add product
+                    ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    ElGrocerUtility.sharedInstance.resetBasketPresistence()
                     
-                    // ProductQuantiy.checkLimitForDisplayMsgs(selectedProduct: self.product, counter: updatedQuantity)
+                    self.addProductToCart()
                 }
-                
-            } else {
-                
-                if (product.availableQuantity ?? 0 >= 0) && (product.availableQuantity ?? 0 <= currentQuantity) {
-                    showOverLimitMsg()
-                    return
-                }
-                
-                addProductToBasket()
             }
             
             return
         }
         
-        addProductToBasket()
+        ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        ElGrocerUtility.sharedInstance.resetBasketPresistence()
+        
+        addProductToCart()
     }
     
-    func removeProductFromCart() {
-        if let item = isProductExistInBasket(), let product = product.productDB {
-            let updatedQuantity = item.count.intValue - 1
+    func showPg18PopupAndAddToCart() {
+        // TODO: This is view controller on coordinator responsibility to show popup
+        if let SDKManager = UIApplication.shared.delegate {
+            let alertView = TobbacoPopup.showNotificationPopup(topView: (SDKManager.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: localizedString("over_18", comment: "") , buttonTwoText: localizedString("less_over_18", comment: ""))
             
-            if updatedQuantity < 0 { return }
-            
-            if updatedQuantity == 0 {
-                ShoppingBasketItem.removeProductFromBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
+                guard let self = self else { return }
                 
-            } else {
-                ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: product.brandNameEn , quantity: updatedQuantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                UserDefaults.setOver18(buttonIndex == 0)
+                if buttonIndex == 0 {
+                    self.addProductToCart()
+                }
             }
-            
-            checkProductExistanceInCartAndUpdateUI()
         }
     }
 }

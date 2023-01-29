@@ -298,7 +298,11 @@ class HomeCell: RxUITableViewCell {
 
     
     @IBAction func viewMoreHandler(_ sender: Any) {
-        self.viewModel.inputs.viewAllTapObserver.onNext(())
+        if viewModel != nil {
+            self.viewModel.inputs.viewAllTapObserver.onNext(())
+            return
+        }
+        
         if let homeFeed =  self.homeFeed {
             FireBaseEventsLogger.trackViewMoreClick(["Name" : homeFeed.title])
             if homeFeed.type == .ListOfCategories {
