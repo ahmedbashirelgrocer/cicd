@@ -1100,9 +1100,9 @@ class ProductCell : RxUICollectionViewCell {
                 return
             }
         }
-        guard self.product != nil else {
-            return
-        }
+        
+        guard let product = self.viewModel.outputs.productDB else { return }
+        
         let popupViewController = PopImageViwerViewController(nibName: "PopImageViwerViewController", bundle: Bundle.resource)
         popupViewController.view.frame = UIScreen.main.bounds
         let popupController = STPopupController(rootViewController: popupViewController)
@@ -1124,9 +1124,9 @@ class ProductCell : RxUICollectionViewCell {
             }
             //popupViewController.productImage.image = self.productImageView.image
             popupViewController.lblProductName.text = self.productNameLabel.text
-            popupViewController.productQuantity.text =  self.product.descr ?? ""
-            popupViewController.product = self.product
-            popupViewController.checkPromotionView(product: self.product)
+            popupViewController.productQuantity.text =  product.descr ?? ""
+            popupViewController.product = product
+            popupViewController.checkPromotionView(product: product)
             if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
                  popupViewController.storeImageURL = grocery.smallImageUrl
             }

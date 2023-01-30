@@ -44,6 +44,7 @@ protocol ProductCellViewModelOutput {
     var saleViewVisibility: Observable<Bool> { get }
     var promoPriceAttributedText: Observable<NSAttributedString?> { get }
     var isArabic: Observable<Bool> { get }
+    var productDB: Product? { get }
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -90,6 +91,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var offLabelText: RxSwift.Observable<String?> { offLabelTextSubject.asObservable() }
     var saleViewVisibility: RxSwift.Observable<Bool> { saleViewVisibilitySubject.asObservable() }
     var isArabic: Observable<Bool> { isArabicSubject.asObserver() }
+    var productDB: Product? { self.product.productDB }
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
