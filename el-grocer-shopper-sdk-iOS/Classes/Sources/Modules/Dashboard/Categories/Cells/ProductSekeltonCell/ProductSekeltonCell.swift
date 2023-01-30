@@ -74,17 +74,17 @@ class ProductSekeltonCell: RxUICollectionViewCell {
     override func configure(viewModel: Any) {
         let viewModel = viewModel as! ProductSekeltonCellViewModelType
         
-        viewModel.outputs.shimmring
-            .bind(to: self.productImageView.rx.isShimmerOn)
-            .disposed(by: disposeBag)
+        self.imageShimmerView.contentView = self.productImageView
+        self.imageShimmerView.isShimmering = true
         
-        viewModel.outputs.shimmring
-            .bind(to: self.productNameLabel.rx.isShimmerOn)
-            .disposed(by: disposeBag)
+        self.productNameShimmerView.contentView = self.productNameLabel
+        self.productNameShimmerView.isShimmering = true
         
-        viewModel.outputs.shimmring
-            .bind(to: self.productDescriptionLabel.rx.isShimmerOn)
-            .disposed(by: disposeBag)
+        self.productPriceShimmerView.contentView = self.productPriceLabel
+        self.productPriceShimmerView.isShimmering = true
+        
+        self.productDescriptionShimmerView.contentView = self.productDescriptionLabel
+        self.productDescriptionShimmerView.isShimmering = true
     }
     
     func configureSekeltonCell() {

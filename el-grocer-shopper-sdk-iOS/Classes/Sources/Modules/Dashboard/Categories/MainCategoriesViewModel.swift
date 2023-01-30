@@ -112,7 +112,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             if self.apiCallingStatus[indexPath] == nil {
                 guard let vm = self.homeCellVMs[indexPath.row] as? HomeCellViewModel else { return }
                 
-                vm.inputs.fetchProductsObserver.onNext(self.categories[indexPath.row])
+                vm.inputs.fetchProductsObserver.onNext(())
                 vm.outputs.basketUpdated.bind(to: self.refreshBasketSubject).disposed(by: self.disposeBag)
                 
                 self.apiCallingStatus[indexPath] = true

@@ -49,9 +49,23 @@ private extension HomeCell {
         })
         
         self.productsCollectionView.dataSource = nil
+        
+        // Table View datasource binging
         viewModel.outputs.productCollectionCellViewModels
             .bind(to: self.productsCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        // Pagination
+        productsCollectionView.rx.didScroll.subscribe { [weak self] _ in
+            guard let self = self else { return }
+            
+            let offSetX = self.productsCollectionView.contentOffset.x
+            let contentWidth = self.productsCollectionView.contentSize.width
+
+            if offSetX > (contentWidth - self.productsCollectionView.frame.size.width - 200) {
+                self.viewModel.inputs.fetchProductsObserver.onNext(())
+            }
+        }.disposed(by: disposeBag)
         
         viewModel.outputs.title
             .bind(to: self.titleLbl.rx.text)
