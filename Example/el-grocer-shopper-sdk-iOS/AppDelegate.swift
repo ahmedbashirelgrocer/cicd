@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //
-//  Dev merging with  DevSDK/ElWalletAndSplitPayment
+// from Development commit: Update Segments Key to Live Commit: 8307fa82c79d5b2af874f1d72c28a9a328d7faf2
 
 import UIKit
 import IQKeyboardManagerSwift
