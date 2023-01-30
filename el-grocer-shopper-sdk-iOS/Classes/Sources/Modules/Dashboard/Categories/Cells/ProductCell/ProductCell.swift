@@ -1300,33 +1300,28 @@ private extension ProductCell {
             }
         }).disposed(by: disposeBag)
         
+        viewModel.outputs.plusButtonEnabled.subscribe(onNext: { [weak self] enabled in
+            guard let self = self else { return }
+            
+            self.plusButton.isEnabled = enabled
+            self.plusButton.tintColor = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : UIColor.newBorderGreyColor()
+            self.plusButton.setBackgroundColorForAllState(enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : UIColor.newBorderGreyColor())
+        }).disposed(by: disposeBag)
         
-        
-//        if promotionValues.isNeedToDisplayPromo {
-////            setPromotionView(promotionValues.isNeedToDisplayPromo, promotionValues.isNeedToShowPromoPercentage, isNeedToShowPercentage: promotionValues.isNeedToShowPromoPercentage)
-//        }  else {
-//            setPromotionView()
-//            self.saleView.isHidden = true
-//        }
-//        Observable
-//            .combineLatest(viewModel.outputs.displayPromotionView, viewModel.outputs.promoPercentage)
-//            .subscribe(onNext: { [weak self] displayPromo, percentage in
-//                guard let self = self else { return }
-//
-//                if displayPromo {
-//                    self.lblStrikePrice.text = localizedString("lbl_Special_Discount", comment: "")
-//                    self.lblStrikePrice.textColor = .elGrocerYellowColor()
-//                    self.lblDiscountPercent.text = ""
-//                    self.lblOFF.text = ""
-//                    self.limitedStockBGView.isHidden = true
-//                    self.saleView.isHidden = false
-//                    self.lblStrikePrice.strikeThrough(false)
-//                } else {
-//
-//                }
-//            }).disposed(by: disposeBag)
-        
-        
+        viewModel.outputs.addToCartButtonEnabled.subscribe(onNext: { [weak self] enabled in
+            guard let self = self else { return }
+            
+            if enabled {
+                self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.addToCartButton.isEnabled = true
+                self.addToCartButton.setBody3BoldWhiteStyle()
+                self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+            } else {
+                self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonDisableBGColor
+                self.addToCartButton.isEnabled = false
+                self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonDisableBGColor)
+            }
+        }).disposed(by: disposeBag)
     }
 }
 

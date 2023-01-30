@@ -45,6 +45,8 @@ protocol ProductCellViewModelOutput {
     var promoPriceAttributedText: Observable<NSAttributedString?> { get }
     var isArabic: Observable<Bool> { get }
     var productDB: Product? { get }
+    var plusButtonEnabled: Observable<Bool> { get }
+    var addToCartButtonEnabled: Observable<Bool> { get }
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -92,6 +94,8 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var saleViewVisibility: RxSwift.Observable<Bool> { saleViewVisibilitySubject.asObservable() }
     var isArabic: Observable<Bool> { isArabicSubject.asObserver() }
     var productDB: Product? { self.product.productDB }
+    var plusButtonEnabled: Observable<Bool> { plusButtonEnabledSubject.asObservable() }
+    var addToCartButtonEnabled: Observable<Bool> { addToCartButtonEnabledSubject.asObservable() }
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
@@ -123,6 +127,8 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var plusButtonTapSubject = PublishSubject<Void>()
     private var minusButtonTapSubject = PublishSubject<Void>()
     private var isArabicSubject = BehaviorSubject<Bool>(value: false)
+    private var plusButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
+    private var addToCartButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
 
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
     
@@ -169,6 +175,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
 }
 
 // MARK: Helpers
+// TODO: Renaming these methods
 private extension ProductCellViewModel {
     func showProductAttributes() {
         nameSubject.onNext(product.name)
@@ -178,17 +185,24 @@ private extension ProductCellViewModel {
         isSponsoredSubject.onNext(product.isSponsored ?? false)
         isAvailableSubject.onNext(product.isAvailable ?? true)
         isPublishedSubject.onNext(product.isPublished ?? true)
+        
+        let isEnabled = product.availableQuantity != 0 && grocery?.inventoryControlled?.boolValue == true
+        addToCartButtonEnabledSubject.onNext(isEnabled)
     }
     
     func checkProductExistanceInCartAndUpdateUI() {
         if let item = getShoppingBasketItemForActiveRetailer() {
             plusButtonIconNameSubject.onNext("add_product_cell")
             minusButtonIconNameSubject.onNext(item.count == 1 ? "delete_product_cell" : "remove_product_cell")
-            cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+            cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.navigationBarWhiteColor)
             addToCartButtonTypeSubject.onNext(true)
             quantitySubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)")
             isSubtitutedSubject.onNext(item.isSubtituted.boolValue)
             
+            if let productDB = product.productDB {
+                let isLimitReached = ProductQuantiy.checkPromoLimitReached(productDB, count: item.count.intValue)
+                self.plusButtonEnabledSubject.onNext(!isLimitReached)
+            }
             return
         }
         
@@ -254,17 +268,14 @@ private extension ProductCellViewModel {
 
         if let item = getShoppingBasketItemForActiveRetailer() {
             currentQuantity = item.count.intValue
-            updatedQuantity = item.count.intValue
+            updatedQuantity = item.count.intValue + 1
 
             if (product.promotion == true) && (currentQuantity >= product.promoProductLimit ?? 0) && (product.promoProductLimit ?? 0 > 0) {
                 showOverLimitMsg()
                 return
-            } else if (product.availableQuantity ?? 0 > 0) && (product.availableQuantity ?? 0 <= currentQuantity) {
+            } else if (product.availableQuantity ?? 0 > 0) && (product.availableQuantity ?? 0 <= updatedQuantity) {
                 showOverLimitMsg()
-            } else {
-                updatedQuantity += 1
             }
-            
         } else {
             updatedQuantity += 1
         }
