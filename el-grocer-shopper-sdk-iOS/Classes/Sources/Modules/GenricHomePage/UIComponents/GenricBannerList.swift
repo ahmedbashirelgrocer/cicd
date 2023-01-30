@@ -21,6 +21,7 @@ class GenricBannerList : CustomCollectionView {
     var collectionData : [Any] = [Any]()
     var bannerCliked: ((_ bannerLink : Banner )->Void)?
     var bannerCampaignClicked: ((_ bannerLink : BannerCampaign )->Void)?
+    var bannerClicked: ((BannerDTO)->())?
     var currentPage: ((_ currentPage : Int , _ collectionView : UICollectionView )->Void)?
    // private var indexOfCellBeforeDragging = 0
     override func awakeFromNib() {
@@ -209,6 +210,11 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                     if let clouser = self.bannerCliked {
                         clouser(banner)
                     }
+                }
+            } else if self.collectionData[indexPath.row] is BannerDTO {
+                let bannerDTO = self.collectionData[indexPath.row] as! BannerDTO
+                if let bannerClicked = self.bannerClicked {
+                    bannerClicked(bannerDTO)
                 }
             }
             return

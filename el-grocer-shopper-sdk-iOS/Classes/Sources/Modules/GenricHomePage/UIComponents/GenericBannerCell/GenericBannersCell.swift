@@ -25,6 +25,9 @@ class GenericBannersCell: RxUITableViewCell {
     @IBOutlet var topX: NSLayoutConstraint!
     
     var isNeedToScroll : Bool = true
+    
+    private var viewModel: GenericBannersCellViewModelType!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
        
@@ -59,7 +62,10 @@ class GenericBannersCell: RxUITableViewCell {
     override func configure(viewModel: Any) {
         let viewModel = viewModel as! GenericBannersCellViewModelType
         
+        self.viewModel = viewModel
+        
         viewModel.outputs.banners.bind(to: self.bannerList.rx.banners).disposed(by: disposeBag)
+        
         viewModel.outputs.bannersCount.subscribe(onNext: { [weak self] bannersCount in
             guard let self = self else { return }
             
@@ -71,7 +77,12 @@ class GenericBannersCell: RxUITableViewCell {
             timer.invalidate()
             self.scrollTimer  = nil
         }
+        
         self.scrollTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(moveToNext), userInfo: nil, repeats: true)
+        
+        bannerList.bannerClicked = { [weak self] banner in
+            self?.viewModel.bannerTapObserver.onNext(banner)
+        }
     }
     
     override func prepareForReuse() {

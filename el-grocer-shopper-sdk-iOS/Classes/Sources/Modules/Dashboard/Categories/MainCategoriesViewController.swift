@@ -1514,6 +1514,12 @@ private extension MainCategoriesViewController {
             self.basketIconOverlay!.refreshStatus(self)
         }).disposed(by: disposeBag)
         
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self] banner in
+            guard let self = self else { return }
+            
+            self.bannerNavigation(banner: banner)
+        }).disposed(by: disposeBag)
+        
         // binding loader
         self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
@@ -1522,6 +1528,29 @@ private extension MainCategoriesViewController {
                 ? _ = SpinnerView.showSpinnerViewInView(self.view)
                 : SpinnerView.hideSpinnerView()
         }).disposed(by: disposeBag)
+    }
+    
+    func bannerNavigation(banner: BannerDTO) {
+        guard let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+        
+        let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+        switch campaignType {
+            
+        case .brand:
+            bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: ElGrocerUtility.sharedInstance.groceries)
+            MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
+            break
+            
+        case .web:
+            ElGrocerUtility.sharedInstance.showWebUrl(bannerCampaign.url, controller: self)
+            MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
+            break
+            
+        case .priority, .retailer:
+            bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: ElGrocerUtility.sharedInstance.groceries)
+            MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
+            break
+        }
     }
 }
 

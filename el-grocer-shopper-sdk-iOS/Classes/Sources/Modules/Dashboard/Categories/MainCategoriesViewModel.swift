@@ -21,6 +21,7 @@ protocol MainCategoriesViewModelOutput {
     var viewAllCategories: Observable<Void> { get }
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Void> { get }
+    var bannerTap: Observable<BannerDTO> { get }
     
     var refreshBasket: Observable<Void> { get }
 }
@@ -49,6 +50,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var viewAllCategories: Observable<Void> { viewAllCategoriesSubject.asObservable() }
     var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
     var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
+    var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -58,6 +60,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewAllCategoriesSubject = PublishSubject<Void>()
     private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
+    private var bannerTapSubject = PublishSubject<BannerDTO>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -222,9 +225,13 @@ private extension MainCategoriesViewModel {
                         
                         if banners.isNotEmpty {
                             if location == .sdk_store_tier_1 {
-                                self.location1BannerVMs.append(GenericBannersCellViewModel(banners: banners))
+                                let bannerCellVM = GenericBannersCellViewModel(banners: banners)
+                                bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                                self.location1BannerVMs.append(bannerCellVM)
                             } else if location == .sdk_store_tier_2 {
-                                self.location1BannerVMs.append(GenericBannersCellViewModel(banners: banners))
+                                let bannerCellVM = GenericBannersCellViewModel(banners: banners)
+                                bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                                self.location1BannerVMs.append(bannerCellVM)
                             }
                         }
                         return
