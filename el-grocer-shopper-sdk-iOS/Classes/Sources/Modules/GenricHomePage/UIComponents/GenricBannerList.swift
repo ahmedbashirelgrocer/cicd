@@ -9,6 +9,8 @@
 
 import Foundation
 import MSPeekCollectionViewDelegateImplementation
+import RxSwift
+import RxCocoa
 
 class GenricBannerList : CustomCollectionView {
    
@@ -19,6 +21,7 @@ class GenricBannerList : CustomCollectionView {
     var collectionData : [Any] = [Any]()
     var bannerCliked: ((_ bannerLink : Banner )->Void)?
     var bannerCampaignClicked: ((_ bannerLink : BannerCampaign )->Void)?
+    var bannerClicked: ((BannerDTO)->())?
     var currentPage: ((_ currentPage : Int , _ collectionView : UICollectionView )->Void)?
    // private var indexOfCellBeforeDragging = 0
     override func awakeFromNib() {
@@ -90,6 +93,23 @@ class GenricBannerList : CustomCollectionView {
     }
     
 }
+
+// MARK: Rx Extension for binding Banner View with BannerDTOs
+extension Reactive where Base: GenricBannerList {
+    var banners: Binder<[BannerDTO]> {
+        return Binder(self.base) { bannerListView, banners in
+            bannerListView.collectionData = banners
+            bannerListView.behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(8), cellPeekWidth: CGFloat(2), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)
+            bannerListView.collectionView?.configureForPeekingBehavior(behavior: bannerListView.behavior)
+            
+            UIView.performWithoutAnimation {
+                bannerListView.layoutIfNeeded()
+                bannerListView.collectionView?.reloadData()
+            }
+        }
+    }
+}
+
 extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSource , UIScrollViewDelegate {
     
     
@@ -126,6 +146,15 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                 }else{
                     cell.setImage(banner.bannerLinks[0].bannerLinkImageUrl)
                 }
+            } else if self.collectionData[indexPath.row] is BannerDTO {
+                let banner: BannerDTO = self.collectionData[indexPath.row] as! BannerDTO
+                
+                let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+                if currentLang == "ar" {
+                    cell.bannerImage.transform = CGAffineTransform(scaleX: -1, y: 1)
+                    cell.bannerImage.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+                }
+                cell.setImage(banner.imageURL)
             }
         }
         return cell
@@ -181,6 +210,11 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                     if let clouser = self.bannerCliked {
                         clouser(banner)
                     }
+                }
+            } else if self.collectionData[indexPath.row] is BannerDTO {
+                let bannerDTO = self.collectionData[indexPath.row] as! BannerDTO
+                if let bannerClicked = self.bannerClicked {
+                    bannerClicked(bannerDTO)
                 }
             }
             return

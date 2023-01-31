@@ -151,6 +151,19 @@ extension ShoppingBasketItem {
         return shoppingBasketItem
     }
     
+    // Created to remove dependency on DB product model
+    class func checkIfProductIsInBasket(productId: Int, grocery: Grocery, context: NSManagedObjectContext) -> ShoppingBasketItem? {
+        
+        let cleanGroceryId = Grocery.getGroceryIdForGrocery(grocery)
+        let combinedGroceryId = "\(cleanGroceryId)_\(productId)"
+
+         let predicate = NSPredicate(format: "productId == %@ AND orderId == %@ AND groceryId == %@", combinedGroceryId, kTemporaryBasketId, cleanGroceryId)
+        
+        let shoppingBasketItem = DatabaseHelper.sharedInstance.getEntitiesWithName(ShoppingBasketItemEntity, sortKey: nil, predicate: predicate, ascending: true, context: context).first as? ShoppingBasketItem
+        
+        return shoppingBasketItem
+    }
+    
     class func checkIfProductIsInBasketWithProductId(_ product: String , groceryId: String , context: NSManagedObjectContext) -> ShoppingBasketItem? {
         
     
