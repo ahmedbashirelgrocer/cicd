@@ -36,6 +36,7 @@ private let SharedInstance = DynamicLinksHelper()
 
 class DynamicLinksHelper {
    
+    var marketType = ""
     var serviceId = ""
     var parentIds = ""
     var parentId = ""
@@ -76,7 +77,7 @@ class DynamicLinksHelper {
             }
         }
         // }
-        if ElGrocerUtility.sharedInstance.groceries.count == 0 {
+        if ElGrocerUtility.sharedInstance.groceries.count == 0 && !SDKManager.isGroverySingleStore {
             ElGrocerUtility.sharedInstance.delay(2) {
                 handleIncomingDynamicLinksWithUrl(dynamicLinkURL)
             }
@@ -255,7 +256,11 @@ class DynamicLinksHelper {
         self.productBarcode = ""
         self.productId = ""
         
-        
+
+        let marketType = dUrl?.getQueryItemValueForKey("marketType")
+        if marketType != nil , marketType == "1" {
+            self.marketType = marketType ?? "0"
+        }
         let isChat = dUrl?.getQueryItemValueForKey("Chat")
         if isChat != nil , isChat == "1" {
             self.goToChat()
