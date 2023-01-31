@@ -805,7 +805,7 @@ extension AlgoliaApi {
         tags.append(type)
         
         
-        let apptype =  "atyp_" + (SDKManager.isSmileSDK ? "SmileSDK" : "Shopper")
+        let apptype =  "atyp_" + (SDKManager.isSmileSDK ? "SmilesSDK" : "Shopper")
         tags.append(apptype)
         
         

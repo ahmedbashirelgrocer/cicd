@@ -39,22 +39,19 @@ class ElGrocerNavigationController : UINavigationController {
         return view
     }()
     func setupGradient() {
-        let height : CGFloat = 100 // Height of the nav bar
+        
+        let height : CGFloat = KElgrocerlocationViewFullHeight // Height of the nav bar
         let color = UIColor.smileBaseColor().cgColor
         let clear = UIColor.smileSecondaryColor().cgColor
         gradient = setupGradient(height: height, topColor: color,bottomColor: clear)
-        let gradient2 = setupGradient(height: height, topColor: color,bottomColor: clear)
         view.addSubview(gradientView)
         view.sendSubviewToBack(gradientView)
         NSLayoutConstraint.activate([
             gradientView.topAnchor.constraint(equalTo: view.topAnchor),
             gradientView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
-        
         gradientView.layer.insertSublayer(gradient!, at: 0)
-       // self.navigationBar.layer.addSublayer(gradient2)
-        //self.navigationBar.inputView?.layer.insertSublayer(gradient2, at: 2)
-        
+
     }
     
    
@@ -173,7 +170,7 @@ class ElGrocerNavigationController : UINavigationController {
 //        guard self.navigationBar is ElGrocerNavigationBar else {return}
         //(self.navigationBar as! ElGrocerNavigationBar).setNavBarHidden(hidden)
 //        (self.navigationBar as! ElGrocerNavigationBar).barTintColor = UIColor.clear
-        (self.navigationBar as! ElGrocerNavigationBar).isHidden = hidden
+        self.setNavigationBarHidden(hidden, animated: false)
     }
     func setProfileButtonHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}

@@ -40,6 +40,11 @@ class IntegratedSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        txtSearch.isUserInteractionEnabled = false
+        ElGrocer.startSearchEnigne(with: launchOptions) { isLoaded in
+            self.txtSearch.isUserInteractionEnabled = isLoaded
+        }
+        
         txtSearch.rx.text
             .compactMap { $0 }
             .filter{ ($0.count % 2 == 0 ) }

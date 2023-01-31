@@ -88,6 +88,7 @@
             <connections>
                 <outlet property="ivProductIcon" destination="Kaf-4W-Fjh" id="TLK-wY-NOx"/>
                 <outlet property="lblQuantity" destination="6vi-hh-OVX" id="pU3-hn-Fvf"/>
+                <outlet property="lblQuantityBg" destination="yre-wd-X2O" id="gQH-2a-XLd"/>
             </connections>
             <point key="canvasLocation" x="198.46153846153845" y="40.876777251184834"/>
         </collectionViewCell>

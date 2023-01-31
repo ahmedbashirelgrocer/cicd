@@ -375,7 +375,7 @@ class FireBaseEventsLogger  {
                 return
             }
         }
-        ElGrocerUtility.sharedInstance.eventMap[eventNameToSend] = Date().timeIntervalSince1970
+     //   ElGrocerUtility.sharedInstance.eventMap[eventNameToSend] = Date().timeIntervalSince1970
         eventNameToSend = eventNameToSend.replacingOccurrences(of: "EG_EG_", with: "EG_")
         DispatchQueue.global(qos: .background).async {
           

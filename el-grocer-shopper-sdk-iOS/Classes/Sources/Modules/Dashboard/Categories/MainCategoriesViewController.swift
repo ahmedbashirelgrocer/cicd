@@ -112,8 +112,22 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     lazy var locationHeader : ElgrocerlocationView = {
         let locationHeader = ElgrocerlocationView.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         return locationHeader!
     }()
+    
+    lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
+        let locationHeader = ElgrocerStoreHeader.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        return locationHeader!
+    }()
+    
+    lazy var openOrdersView : ElgrocerOpenOrdersView = {
+        let orderView = ElgrocerOpenOrdersView.loadFromNib()
+        orderView?.translatesAutoresizingMaskIntoConstraints = false
+        return orderView!
+    }()
+    
     @IBOutlet weak var tableViewCategories: UITableView! {
         didSet {
             tableViewCategories.showsVerticalScrollIndicator = false
@@ -179,8 +193,14 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func addLocationHeader() {
         
-        self.view.addSubview(self.locationHeader)
-        self.setLocationViewConstraints()
+        if SDKManager.isGroverySingleStore {
+            self.view.addSubview(self.locationHeaderFlavor)
+            self.setLocationViewFlavorHeaderConstraints()
+        } else {
+            self.view.addSubview(self.locationHeader)
+            self.setLocationViewConstraints()
+        }
+        
         
     }
     
@@ -201,6 +221,23 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
       
     }
     
+    private func setLocationViewFlavorHeaderConstraints() {
+        
+        self.locationHeaderFlavor.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.locationHeaderFlavor.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            self.locationHeaderFlavor.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.locationHeaderFlavor.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor, constant: 0)
+          
+        ])
+        
+        let widthConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+        let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
+        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
+      
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -209,6 +246,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.registerCellsForTableView()
         self.setObjectAllocationAndDelegate()
         self.setupClearNavBar()
+        self.openOrdersView.setViewIn(addIn: self.tableViewCategories, bottomAlignView: self.view, topAlignView: self.basketIconOverlay ?? self.tableViewCategories)
         self.hidesBottomBarWhenPushed = true
         
         tableViewCategories.separatorStyle = .none
@@ -230,6 +268,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         super.viewDidAppear(animated)
         defer {
             self.setNavigationApearance(true)
+            self.openOrdersView.refreshOrders()
         }
         self.setNavigationApearance(true)
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
@@ -311,40 +350,13 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
-        //self.tabBarController?.tabBar.isHidden = false
-        //hide tabbar
+        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .singleStore
+    
         self.hideTabBar()
-        
-        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        if self.grocery != nil{
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            self.addBackButton(isGreen: false)
-        }else{
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+        if let controller = self.navigationController as? ElGrocerNavigationController {
+            controller.setNavBarHidden(isSingleStore)
+            controller.setupGradient()
         }
-        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setProfileButtonHidden(true)
-
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        
-        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
-        
-        
-        if let nav = (self.navigationController as? ElGrocerNavigationController) {
-            if let bar = nav.navigationBar as? ElGrocerNavigationBar {
-                bar.chatButton.chatClick = {
-                  //  ZohoChat.showChat()
-                    let sendBirdManager = SendBirdDeskManager(controller: self, orderId: "0", type: .agentSupport)
-                    sendBirdManager.setUpSenBirdDeskWithCurrentUser()
-                }
-            }
-        }
-
-        
         if let commingContrller = UIApplication.topViewController() {
             if commingContrller is GroceryLoaderViewController || String(describing: commingContrller.classForCoder) == "STPopupContainerViewController" || viewdidAppear {
                 return
@@ -574,40 +586,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            /*
-            self.storeSearchBarHeader.setNeedsLayout()
-            self.storeSearchBarHeader.layoutIfNeeded()
-            self.storeSearchBarHeader.setInitialUI(isExpanded: true)
-            if optGrocery != nil{
-                self.storeSearchBarHeader.configureHeader(grocery: optGrocery!)
-            }
-            self.storeSearchBarHeader.shoppingListTapped = {(shoppingListTapped) in
-                if shoppingListTapped{
-                    // show shopping list
-                    self.gotoShoppingListVC()
-                }else{
-                    // show sendBird support chat
-                    let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: "0", type: .agentSupport)
-                    sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
-                }
-            }*/
-           // self.locationHeader.frame = CGRect.init(origin: self.locationHeader.frame.origin, size: CGSize.init(width: ScreenSize.SCREEN_WIDTH, height: self.locationHeader.frame.size.width))
-            self.locationHeader.configuredLocationAndGrocey(grocery)
-//            self.view.addSubview(self.locationHeader)
-//            self.setLocationViewConstraints()
-//
+            SDKManager.isGroverySingleStore ?
+            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
+            
             self.tableViewCategories.tableHeaderView = nil
-            
-            
-           // self.tableViewCategories.tableHeaderView = self.locationHeader
-           // self.storeSearchBarHeader.lblGroceryDeliverySlot.text = self.locationHeader.lblSlot.text
-          //  self.tableViewCategories.layoutTableHeaderView()
-         //   self.tableViewCategories.reloadData()
         })
         
-
-        
-
     }
     
     // MARK: Actions
@@ -2016,12 +2000,28 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
        // locationHeader.myGroceryName.sizeToFit()
         scrollView.layoutIfNeeded()
         
+        guard !SDKManager.isGroverySingleStore else {
+            let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeaderFlavor.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,self.locationHeaderFlavor.headerMinHeight),maxHeight)
+            }
+            
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+            
+            return
+        }
+        
         let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
         if constraintA.count > 0 {
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
             let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
@@ -2043,3 +2043,4 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
 extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
 }
+

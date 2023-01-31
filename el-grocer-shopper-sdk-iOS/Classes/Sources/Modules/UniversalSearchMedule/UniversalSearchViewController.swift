@@ -122,6 +122,9 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             
             self.txtSearch.becomeFirstResponder()
         }
+        
+        self.checkChangeLocationForSmileSearch()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -131,6 +134,21 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     private func addBasketOverlay() {
         addBasketIconOverlay(self, grocery: self.dataSource?.currentGrocery, shouldShowGroceryActiveBasket: true)
+    }
+    
+    private func checkChangeLocationForSmileSearch() {
+        
+        guard SDKManager.isSmileSDK, SDKManager.shared.launchOptions?.navigationType == .search else {
+            return
+        }
+        guard let _ = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)else {
+            return
+        }
+        
+        ElgrocerFarLocationCheck.shared.showLocationCustomPopUp(false)
+        SDKManager.shared.launchOptions?.navigationType = .Default
+        
+
     }
     
     @IBAction func voiceSearchAction(_ sender: Any) {

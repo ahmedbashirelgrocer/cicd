@@ -39,6 +39,17 @@ enum BannerLocation : Int {
     case sdk_all_carts_tier_2 = 27
     
     
+    // single Store Grocery
+    case sdk_Flavor_Grocery_store_tier_1 = 28
+    case sdk_Flavor_Grocery_store_tier_2 = 29
+    case sdk_Flavor_Grocery_in_search = 30
+    case sdk_Flavor_Grocery_search_tier_2 = 31
+    case sdk_Flavor_Grocery_subcategory_tier_1 = 32
+    case sdk_Flavor_Grocery_subcategory_tier_2 = 33
+    case sdk_Flavor_Grocery_post_checkout = 34
+   
+    
+    
     func getType() -> BannerLocation {
         
     
@@ -49,22 +60,22 @@ enum BannerLocation : Int {
             return (SDKManager.isSmileSDK ? BannerLocation.sdk_Home_tier_2 : BannerLocation.home_tier_2)
         }
         else if self == BannerLocation.store_tier_1 {
-            return (SDKManager.isSmileSDK ? BannerLocation.sdk_store_tier_1 : BannerLocation.store_tier_1)
+            return (SDKManager.isSmileSDK ? (SDKManager.isGroverySingleStore ? BannerLocation.sdk_Flavor_Grocery_store_tier_1 : BannerLocation.sdk_store_tier_1) : BannerLocation.store_tier_1)
         }
         else if self == BannerLocation.store_tier_2 {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_store_tier_2 : BannerLocation.store_tier_2
+            return SDKManager.isSmileSDK ? (SDKManager.isGroverySingleStore ? BannerLocation.sdk_Flavor_Grocery_store_tier_2 : BannerLocation.sdk_store_tier_2) : BannerLocation.store_tier_2
         }
         else if self == BannerLocation.in_search_tier_1 {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_in_search : BannerLocation.in_search_tier_1
+            return SDKManager.isSmileSDK ? (SDKManager.isGroverySingleStore ? BannerLocation.sdk_Flavor_Grocery_in_search :BannerLocation.sdk_in_search) : BannerLocation.in_search_tier_1
         }
         else if self == BannerLocation.post_checkout {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_post_checkout : BannerLocation.post_checkout
+            return SDKManager.isSmileSDK ? (SDKManager.isGroverySingleStore ? BannerLocation.sdk_Flavor_Grocery_post_checkout : BannerLocation.sdk_post_checkout) : BannerLocation.post_checkout
         }
         else if self == BannerLocation.in_search_tier_2 {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_search_tier_2 : BannerLocation.in_search_tier_2
+            return SDKManager.isSmileSDK ? (SDKManager.isGroverySingleStore ? BannerLocation.sdk_Flavor_Grocery_search_tier_2 :BannerLocation.sdk_search_tier_2) : BannerLocation.in_search_tier_2
         }
         else if self == BannerLocation.subCategory_tier_1 {
-            return SDKManager.isSmileSDK ? BannerLocation.sdk_subcategory_tier_1 : BannerLocation.subCategory_tier_1
+            return SDKManager.isSmileSDK ? (SDKManager.isGroverySingleStore ? BannerLocation.sdk_Flavor_Grocery_subcategory_tier_1 : BannerLocation.sdk_subcategory_tier_1) : BannerLocation.subCategory_tier_1
         }
         return self
     }

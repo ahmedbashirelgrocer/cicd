@@ -820,12 +820,12 @@ extension Product {
             product.isPromotion = 0
         }
         
-        
+        /*
         if let isSponsored = productDict["is_sponsored"] as? NSNumber {
             product.isSponsored = isSponsored
         }else{
             product.isSponsored =  0  //product.isSponsored != nil ?  product.isSponsored :
-        }
+        }*/
         
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
            // elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
@@ -838,7 +838,7 @@ extension Product {
         
         
         
-       
+       /*
         var searchKeyWord = searchString ?? ""
         if !(searchKeyWord.isEmpty) {
             if var sponsoredkeywords = productDict["sponsored_keywords"] as? String {
@@ -872,7 +872,7 @@ extension Product {
                     }
                 }
             }
-        }
+        }*/
         
         
         
@@ -1055,12 +1055,14 @@ extension Product {
             product.promotion = 0
         }
         
-        
+        /*
         if let isSponsored = productDict["is_sponsored"] as? NSNumber {
             product.isSponsored = isSponsored
         }else{
             product.isSponsored =  0  // product.isSponsored != nil ?  product.isSponsored :
         }
+        */
+        product.isPromotion = 0
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
             //elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
             if let promoted = _rankingInfo["promoted"] as? Bool {
