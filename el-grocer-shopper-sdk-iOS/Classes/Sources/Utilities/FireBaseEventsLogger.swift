@@ -172,6 +172,8 @@ enum FireBaseParmName : String {
     case PromoCode = "Promo"
     case PromoIndex = "Index"
     case StoreSearch = "StoreSearch"
+    
+    case markeyType = "Market_type"
 
 }
 
@@ -333,7 +335,7 @@ class FireBaseEventsLogger  {
                 newParms?[FireBaseParmName.UserId.rawValue] = id
             }
         
-    
+        newParms?[FireBaseParmName.markeyType.rawValue] = SDKManager.isGroverySingleStore ? "1" : "0"
         
         if let removeNull = newParms {
              newParms = removeNull.compactMapValues { $0 }
