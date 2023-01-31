@@ -2274,7 +2274,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             }
             
         }
-        
+        /// display pre OOS cart
         if indexPath.section == 2 {
             
             let product = self.notAvailableProductsList[(indexPath as NSIndexPath).row]
@@ -2414,16 +2414,29 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     
                     ElGrocerUtility.sharedInstance.delay(0.1) {
                         self.deleteProduct(-1, selectedProduct)
+                        if self.notAvailableProductsList.count == 0 {
+                            self.isOutOfStockProductAvailablePreCart = false
+                            self.checkData()
+                        }
                     }
                     ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                         
                         if isUnDo {
                             ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery:self?.grocery, brandName:nil, quantity: 1, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                            self?.notAvailableProductsList.insert(selectedProduct, at: index )
+                            if self?.notAvailableProducts?.count ?? 0 == 0 {
+                                self?.notAvailableProductsList.insert(selectedProduct, at: 0 )
+                            }else {
+                                self?.notAvailableProductsList.insert(selectedProduct, at: index )
+                            }
+                            self?.isOutOfStockProductAvailablePreCart = true
                             self?.products.append(selectedProduct)
                             self?.tblBasket.reloadData()
                         }else{
                             self?.deleteProduct(-1, selectedProduct)
+                            if self?.notAvailableProductsList.count == 0 {
+                                self?.isOutOfStockProductAvailablePreCart = false
+                                self?.checkData()
+                            }
                         }
                     })
                 }
