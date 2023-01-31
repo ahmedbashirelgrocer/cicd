@@ -21,6 +21,7 @@ class CategoriesCell: RxUITableViewCell {
             btnViewAll.setBackgroundColorForAllState(.clear)
         }
     }
+    @IBOutlet weak var ivArrow: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var viewModel: CategoriesCellViewModelType!
@@ -65,6 +66,22 @@ private extension CategoriesCell {
             .title
             .bind(to: self.lblTitle.rx.text)
             .disposed(by: disposeBag)
+        
+        viewModel
+            .outputs
+            .viewAllText
+            .bind(to: self.btnViewAll.rx.title(for: UIControl.State()))
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.isArbic.subscribe(onNext: { [weak self] isArbic in
+            guard let self = self else { return }
+            
+            if isArbic {
+                self.ivArrow.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.collectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.collectionView.semanticContentAttribute = .forceLeftToRight
+            }
+        }).disposed(by: disposeBag)
     }
 }
 

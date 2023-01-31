@@ -126,7 +126,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var saleViewVisibilitySubject = BehaviorSubject<Bool>(value: true)
     private var plusButtonTapSubject = PublishSubject<Void>()
     private var minusButtonTapSubject = PublishSubject<Void>()
-    private var isArabicSubject = BehaviorSubject<Bool>(value: false)
+    private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     private var plusButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
     private var addToCartButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
 

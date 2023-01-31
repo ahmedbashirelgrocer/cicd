@@ -275,7 +275,8 @@ private extension MainCategoriesViewModel {
                 let productDTOs = products.map { ProductDTO(product: $0) }
                 
                 if productDTOs.isNotEmpty {
-                    let homeCellViewModel = HomeCellViewModel(title: "Recent Purchases", products: productDTOs, grocery: self.grocery)
+                    let title = NSLocalizedString("previously_purchased_products_title", bundle: .resource, comment: "")
+                    let homeCellViewModel = HomeCellViewModel(title: title, products: productDTOs, grocery: self.grocery)
                     
                     homeCellViewModel.outputs.viewAll.map { _ in }.bind(to: self.viewAllProductOfRecentPurchaseSubject).disposed(by: self.disposeBag)
                     homeCellViewModel.outputs.basketUpdated.bind(to: self.refreshBasketSubject).disposed(by: self.disposeBag)

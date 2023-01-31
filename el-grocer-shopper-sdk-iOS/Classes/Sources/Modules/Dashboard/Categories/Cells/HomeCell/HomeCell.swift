@@ -74,8 +74,16 @@ private extension HomeCell {
         viewModel.outputs.isArabic.subscribe(onNext: { [weak self] isArbic in
             guard let self = self else { return }
             
-            self.rightArrowImageView.transform = CGAffineTransform(scaleX: -1, y: 1)
+            if isArbic {
+                self.rightArrowImageView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.productsCollectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.productsCollectionView.semanticContentAttribute = .forceLeftToRight
+            }
         }).disposed(by: disposeBag)
+        
+        viewModel.outputs.viewAllText
+            .bind(to: self.viewMoreButton.rx.title(for: UIControl.State()))
+            .disposed(by: disposeBag)
         
         self.setStateWithOutImageView()
     }

@@ -1322,6 +1322,14 @@ private extension ProductCell {
                 self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonDisableBGColor)
             }
         }).disposed(by: disposeBag)
+        
+        viewModel.outputs.isArabic.subscribe(onNext: { [weak self] isArbic in
+            guard let self = self else { return }
+            
+            if isArbic {
+                self.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
+        }).disposed(by: disposeBag)
     }
 }
 

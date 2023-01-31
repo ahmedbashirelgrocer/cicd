@@ -18,6 +18,7 @@ protocol CategoriesCellViewModelOutput {
     var collectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var viewAll: Observable<Void> { get }
     var isArbic: Observable<Bool> { get }
+    var viewAllText: Observable<String> { get }
     
 }
 
@@ -40,19 +41,20 @@ class CategoriesCellViewModel: CategoriesCellViewModelType, ReusableTableViewCel
     var collectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.collectionCellViewModelsSubject }
     var viewAll: Observable<Void> { viewAllSubject.asObservable() }
     var isArbic: Observable<Bool> {isArabicSubject.asObservable() }
+    var viewAllText: Observable<String> { viewAllTextSubject.asObservable() }
     
     // MARK: Subjects
-    private var titleSubject: BehaviorSubject<String>
+    private var titleSubject = BehaviorSubject<String>(value: NSLocalizedString("lbl_Shop_Category", bundle: .resource, comment: ""))
     private var collectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     private var viewAllSubject = PublishSubject<Void>()
-    private var isArabicSubject = BehaviorSubject<Bool>(value: false)
+    private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
+    private var viewAllTextSubject = BehaviorSubject<String>(value: NSLocalizedString("view_more_title", bundle: .resource, comment: ""))
     
     var reusableIdentifier: String { CategoriesCell.defaultIdentifier }
     
     private var disposeBag = DisposeBag()
     
     init(categories: [CategoryDTO]) {
-        self.titleSubject = BehaviorSubject(value: "Shop by Category")
         self.collectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: categories.map { StoresCategoriesCollectionViewCellViewModel(category: $0) })])
     }
 }

@@ -17,6 +17,7 @@ protocol StoresCategoriesCollectionViewCellViewModelInput { }
 protocol StoresCategoriesCollectionViewCellViewModelOutput {
     var categoryName: Observable<String?> { get }
     var coloredImageUrl: Observable<String?> { get }
+    var isArbic: Observable<Bool> { get }
 }
 
 protocol StoresCategoriesCollectionViewCellViewModelType: StoresCategoriesCollectionViewCellViewModelOutput, StoresCategoriesCollectionViewCellViewModelInput  {
@@ -33,10 +34,12 @@ class StoresCategoriesCollectionViewCellViewModel: StoresCategoriesCollectionVie
     // MARK: Outputs
     var categoryName: RxSwift.Observable<String?> { self.categoryNameSubject.asObservable() }
     var coloredImageUrl: RxSwift.Observable<String?> { self.coloredImageUrlSubject.asObservable() }
+    var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
     
     // MARK: Subjects
     private var categoryNameSubject = BehaviorSubject<String?>(value: nil)
     private var coloredImageUrlSubject = BehaviorSubject<String?>(value: nil)
+    private var isArbicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     
     var reusableIdentifier: String { StoresCategoriesCollectionViewCell.defaultIdentifier }
     
@@ -56,6 +59,14 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
             guard let self = self else { return }
             
             self.setChefImage(sUrl, isSelected : false, imageView: self.centerImage)
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.isArbic.subscribe(onNext: { [weak self] isArbic in
+            guard let self = self else { return }
+            
+            if isArbic {
+                self.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
         }).disposed(by: disposeBag)
         
         self.bgView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)

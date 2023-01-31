@@ -110,6 +110,7 @@
             <connections>
                 <outlet property="btnViewAll" destination="V6d-sV-IxY" id="SVr-DS-1CL"/>
                 <outlet property="collectionView" destination="SUj-yY-hTI" id="uFt-Jv-1sB"/>
+                <outlet property="ivArrow" destination="Kdc-VT-DDZ" id="tPi-Rg-rux"/>
                 <outlet property="lblTitle" destination="20c-5R-myQ" id="a5z-a4-8LQ"/>
             </connections>
             <point key="canvasLocation" x="93.84615384615384" y="112.67772511848341"/>

@@ -21,6 +21,7 @@ protocol HomeCellViewModelOuput {
     var basketUpdated: Observable<Void> { get }
     var viewAll: Observable<CategoryDTO?> { get }
     var isArabic: Observable<Bool> { get }
+    var viewAllText: Observable<String> { get }
 }
 
 protocol HomeCellViewModelType: HomeCellViewModelInput, HomeCellViewModelOuput {
@@ -47,6 +48,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
     var viewAll: Observable<CategoryDTO?> { viewAllSubject.map { self.category }.asObservable() }
     var isArabic: Observable<Bool> { isArabicSubject.asObserver() }
+    var viewAllText: Observable<String> { viewAllTextSubject.asObservable() }
     
     // MARK: Subjects
     private let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
@@ -54,7 +56,8 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     private let titleSubject = BehaviorSubject<String?>(value: nil)
     private let basketUpdatedSubject = PublishSubject<Void>()
     private let viewAllSubject = PublishSubject<Void>()
-    private var isArabicSubject = BehaviorSubject<Bool>(value: false)
+    private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
+    private var viewAllTextSubject = BehaviorSubject<String>(value: NSLocalizedString("view_more_title", bundle: .resource, comment: ""))
     
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
