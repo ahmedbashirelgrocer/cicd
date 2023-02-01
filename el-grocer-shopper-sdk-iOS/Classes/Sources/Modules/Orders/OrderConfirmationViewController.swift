@@ -279,6 +279,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         self.cncCheckOutView.isHidden = true
         self.deliveryCheckOutView.isHidden = true
+        
+        // Logginge segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderConfirmationScreen))
 
     }
     

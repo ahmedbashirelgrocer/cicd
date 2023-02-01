@@ -112,6 +112,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             self.getGroceryDetail()
         }
         
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderDetailsScreen))
     }
     
     func setUpInitailizers() {

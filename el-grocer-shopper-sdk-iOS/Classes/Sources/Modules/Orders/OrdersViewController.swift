@@ -56,6 +56,9 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         refreshData()
         
         NotificationCenter.default.addObserver(self,selector: #selector(OrdersViewController.getForgroundOrderList), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderListingScreen))
     }
     
     deinit {

@@ -304,7 +304,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.signView.isHidden = true
         hidesBottomBarWhenPushed = true
         
-        SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
+        if UserDefaults.isOrderInEdit() {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderEditScreen))
+        } else {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .cartScreen))
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -3501,6 +3505,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 case .success(let responseDict):
                    elDebugPrint("Fetch Basket Response:%@",responseDict)
                     self.saveResponseData(responseDict, andWithGrocery: grocery)
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
                 case .failure(let error):
                    elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
                     spinnerView?.removeFromSuperview()

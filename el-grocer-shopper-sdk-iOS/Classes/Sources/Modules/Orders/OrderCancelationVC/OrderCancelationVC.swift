@@ -43,6 +43,8 @@ class OrderCancelationVC: UIViewController {
         setInitialAppearence()
         fetchReason()
         
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderCancelScreen))
     }
     func setInitialAppearence(){
         

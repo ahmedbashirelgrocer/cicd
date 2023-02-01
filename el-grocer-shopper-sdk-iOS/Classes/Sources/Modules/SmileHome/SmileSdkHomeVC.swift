@@ -56,7 +56,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.setSegmentView()
         setupClearNavBar()
        
-        
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {

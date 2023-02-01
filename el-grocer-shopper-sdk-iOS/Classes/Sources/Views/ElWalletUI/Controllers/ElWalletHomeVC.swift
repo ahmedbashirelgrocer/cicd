@@ -39,6 +39,9 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
             // Do any additional setup after loading the view.
         setInitialAppearence()
         bindData()
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .elWalletScreen))
     }
     
     override func viewDidAppear(_ animated: Bool) {

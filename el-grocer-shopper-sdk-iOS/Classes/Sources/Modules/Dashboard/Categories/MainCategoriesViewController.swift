@@ -149,6 +149,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var grocerySlotbasketWorkItem:DispatchWorkItem?
     var chefCall:DispatchWorkItem?
     var recipeListCall:DispatchWorkItem?
+    
+    private var isSegmentEventLogged = false
 
     private func getCurrentDeliveryAddress() -> DeliveryAddress? {
         return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -213,6 +215,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
         self.basketIconOverlay?.shouldShow = true        
         self.refreshBasketForGrocery()
+        
+        // Logging Segment Event/Screen
+        if self.grocery != nil && self.isSegmentEventLogged == false {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .storeScreen))
+            self.isSegmentEventLogged = true
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -297,6 +305,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     override func backButtonClick() {
         self.backButtonClickedHandler()
         MixpanelEventLogger.trackStoreClose()
+        self.isSegmentEventLogged = false
     }
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         

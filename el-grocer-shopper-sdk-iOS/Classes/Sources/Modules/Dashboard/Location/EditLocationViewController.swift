@@ -310,8 +310,8 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             self.fetcher?.delegate = self
         }
         
-        
-       
+        // Logging Segment Screen Event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .deliveryAddressScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {

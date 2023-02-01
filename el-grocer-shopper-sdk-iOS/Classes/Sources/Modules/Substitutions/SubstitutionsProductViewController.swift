@@ -359,6 +359,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         hideBottomCheckoutView(ishidden: true)
         
         self.setupSmiles()
+        
+        // Logging segment screen event 
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderSubstitutionScreen))
     }
     
     deinit {

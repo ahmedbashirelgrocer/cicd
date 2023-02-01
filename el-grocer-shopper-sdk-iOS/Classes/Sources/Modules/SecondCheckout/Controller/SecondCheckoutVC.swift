@@ -200,7 +200,9 @@ class SecondCheckoutVC: UIViewController {
         })
         .disposed(by: disposeBag)
         self.viewModel.getCreditCardsFromAdyen()
-        
+     
+        // Logging segment screen event 
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .checkoutScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
