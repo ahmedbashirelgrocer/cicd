@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import RxSwift
 
 let KGenericBannersCell = "GenericBannersCell"
 let KBrandBannerRatio = CGFloat(3.2)
 let KBannerRation = CGFloat(2)
-class GenericBannersCell: UITableViewCell {
 
+class GenericBannersCell: RxUITableViewCell {
     private var scrollTimer : Timer?
     @IBOutlet var bgView: UIView!
     @IBOutlet var bannerList: GenricBannerList!
@@ -24,6 +25,9 @@ class GenericBannersCell: UITableViewCell {
     @IBOutlet var topX: NSLayoutConstraint!
     
     var isNeedToScroll : Bool = true
+    
+    private var viewModel: GenericBannersCellViewModelType!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
        
@@ -52,6 +56,32 @@ class GenericBannersCell: UITableViewCell {
                 }
             }
             
+        }
+    }
+    
+    override func configure(viewModel: Any) {
+        let viewModel = viewModel as! GenericBannersCellViewModelType
+        
+        self.viewModel = viewModel
+        
+        viewModel.outputs.banners.bind(to: self.bannerList.rx.banners).disposed(by: disposeBag)
+        
+        viewModel.outputs.bannersCount.subscribe(onNext: { [weak self] bannersCount in
+            guard let self = self else { return }
+            
+            self.setViewForMultiBanner(isMultiBanner: bannersCount > 1)
+            self.pageControl.numberOfPages = bannersCount
+        }).disposed(by: disposeBag)
+        
+        if let timer = self.scrollTimer {
+            timer.invalidate()
+            self.scrollTimer  = nil
+        }
+        
+        self.scrollTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(moveToNext), userInfo: nil, repeats: true)
+        
+        bannerList.bannerClicked = { [weak self] banner in
+            self?.viewModel.bannerTapObserver.onNext(banner)
         }
     }
     

@@ -42,6 +42,26 @@ class ProductQuantiy {
         return (false , false)
     }
     
+    /// This function is same as `checkPromoNeedToDisplay` using the function remove the dependecy on product
+    public static func checkPromoValidity(product: ProductDTO) -> (displayPromo: Bool, showPercentage: Bool) {
+        if product.promotion == true {
+            let now = ElGrocerUtility.sharedInstance.getCurrentMillis()
+            
+            let promoStartTime = product.promoStartTime?.millisecondsSince1970 ?? now
+            let promoEndTime = product.promoEndTime?.millisecondsSince1970 ?? now
+            
+            if promoStartTime <= now && promoEndTime >= now {
+                if (product.fullPrice ?? 0.0) <= (product.promoPrice ?? 0.0) {
+                    return (true, false)
+                } else {
+                    return (true, true)
+                }
+            }
+        }
+        
+        return (false, false)
+    }
+    
     public static func checkPromoNeedToDisplayWithoutTimeCheck (_ product : Product) -> ( isNeedToDisplayPromo : Bool , isNeedToShowPromoPercentage : Bool) {
         if product.promotion?.boolValue == true {
             if product.price.doubleValue <= product.promoPrice?.doubleValue ?? 0 {
