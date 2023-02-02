@@ -22,7 +22,7 @@ protocol MainCategoriesViewModelOutput {
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Void> { get }
     var bannerTap: Observable<BannerDTO> { get }
-    
+    var reloadTable: Observable<Void> { get }
     var refreshBasket: Observable<Void> { get }
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
@@ -53,6 +53,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
     var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
+    var reloadTable: Observable<Void> { reloadTableSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -63,6 +64,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
     private var bannerTapSubject = PublishSubject<BannerDTO>()
+    private var reloadTableSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -200,6 +202,12 @@ private extension MainCategoriesViewModel {
                 self.homeCellVMs = self.categories.map({
                     let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                     viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
+                    viewModel.outputs.isProductAvailable
+                        .filter { $0 }
+                        .map { _ in () }
+                        .bind(to: self.reloadTableSubject)
+                        .disposed(by: self.disposeBag)
+//
                     return viewModel
                 })
                 
