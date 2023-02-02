@@ -351,7 +351,21 @@ class SDKManager: NSObject  {
     }
     
     private func initializeSegmentSDK() {
-        let configuration = AnalyticsConfiguration(writeKey: kSegmentAnalyticsSDKWriteKey)
+        // launch options are nil here
+        let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
+        let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
+        let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
+        let dictionary = environmentsDict![configurationName] as! NSDictionary
+        
+        guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
+
+        print("Segment SDK write key >>> \(segmentSDKWriteKey)")
+        
+        let writeAPIKey = (Platform.isDebugBuild || Platform.isSimulator)
+            ? kSegmentAnalyticsSDKWriteKeyDebug
+            : kSegmentAnalyticsSDKWriteKey
+        
+        let configuration = AnalyticsConfiguration(writeKey: writeAPIKey)
         
         configuration.trackApplicationLifecycleEvents = true
         configuration.flushAt = 3
