@@ -186,7 +186,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func addLocationHeader() {
         
-        if SDKManager.isGroverySingleStore {
+        if SDKManager.isGrocerySingleStore {
             self.view.addSubview(self.locationHeaderFlavor)
             self.setLocationViewFlavorHeaderConstraints()
         } else {
@@ -339,7 +339,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
-        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .singleStore
+        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
     
         self.hideTabBar()
         if let controller = self.navigationController as? ElGrocerNavigationController {
@@ -353,7 +353,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             self.tableViewCategories.setContentOffset(.zero, animated: false)
             self.navigationController?.navigationBar.topItem?.title =  ""
         }
-        
         
     }
     
@@ -573,7 +572,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            SDKManager.isGroverySingleStore ?
+            SDKManager.isGrocerySingleStore ?
             self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
             
             self.tableViewCategories.tableHeaderView = nil
@@ -1893,7 +1892,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
        // locationHeader.myGroceryName.sizeToFit()
         scrollView.layoutIfNeeded()
         
-        guard !SDKManager.isGroverySingleStore else {
+        guard !SDKManager.isGrocerySingleStore else {
             let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
             if constraintA.count > 0 {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]

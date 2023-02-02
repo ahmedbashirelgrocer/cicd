@@ -122,8 +122,8 @@ public struct LaunchOptions {
     var pushNotificationPayload: [String: AnyHashable]?
     var deepLinkPayload: String?
     var language: String?
-    var marketType : MarketType = .smiles
-    var isSmileSDK: Bool { marketType == .smiles || marketType == .singleStore }
+    var marketType : MarketType = .marketPlace
+    var isSmileSDK: Bool { marketType == .marketPlace || marketType == .grocerySingleStore }
     var isLoggingEnabled = false {
         didSet { MixpanelManager.loggingEnabled(isLoggingEnabled) }
     }
@@ -135,9 +135,9 @@ public struct LaunchOptions {
     var navigationType : ElgrocerSDKNavigationType? =  ElgrocerSDKNavigationType.Default
     
     public enum MarketType: Hashable {
-    case smiles, shopper, singleStore
+    case marketPlace, shopper, grocerySingleStore
     }
-        
+            
     @available(*, deprecated)
     public init(accountNumber: String?,
                 latitude: Double?,
@@ -149,7 +149,7 @@ public struct LaunchOptions {
                 deepLinkPayload: String? = nil,
                 language: String? = nil,
                 isSmileSDK: Bool = true,
-                type: MarketType = .smiles,
+                type: MarketType = .marketPlace,
                 isLoggingEnabled: Bool = false,
                 theme: Theme = ApplicationTheme.smilesSdkTheme()) {
         
@@ -182,7 +182,7 @@ public struct LaunchOptions {
         pushNotificationPayload: [String: AnyHashable]? = nil,
         deepLinkPayload: String? = nil,
         language: String? = nil,
-        type: MarketType = .smiles,
+        type: MarketType = .marketPlace,
         environmentType : EnvironmentType = .live,
         theme: Theme = ApplicationTheme.smilesSdkTheme(), navigationType : ElgrocerSDKNavigationType = ElgrocerSDKNavigationType.Default) {
         

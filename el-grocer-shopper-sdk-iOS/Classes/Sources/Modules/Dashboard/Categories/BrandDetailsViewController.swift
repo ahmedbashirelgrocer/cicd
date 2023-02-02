@@ -289,8 +289,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             return
         }
         
-        
-        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", 25, self.subCategory.subCategoryId.stringValue, "\(self.brand.brandId)", completion: { [weak self] (content, error) in
+        //self.subCategory.subCategoryId.stringValue
+        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", 25, "", "\(self.brand.brandId)", completion: { [weak self] (content, error) in
             
             if  let responseObject : NSDictionary = content as NSDictionary? {
                 self?.saveAlgoliaResponse(responseObject)

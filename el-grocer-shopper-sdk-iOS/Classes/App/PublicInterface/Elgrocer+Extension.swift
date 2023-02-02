@@ -50,21 +50,36 @@ public extension ElGrocer {
         }
     }
 
+    static func start(with launchOptions: LaunchOptions?, startAnimation: (() -> Void)?  = nil , completion: ((Bool?) -> Void)?  = nil) {
+        guard let launchOptions = launchOptions else {
+            completion?(false)
+            return
+        }
+        SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
+        if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
+            ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
+        } else if launchOptions.marketType == .grocerySingleStore {
+            FlavorAgent.startFlavorEngine(launchOptions, startAnimation: startAnimation, completion: completion)
+        } else {
+            ElGrocer.startEngine(with: launchOptions)
+        }
+        
+    }
     
     static func start(with launchOptions: LaunchOptions?) {
         guard let launchOptions = launchOptions else {
             //ElGrocer.startEngine(with: nil)
             return
         }
-        
-//        if SDKManager.shared.launchOptions?.location != launchOptions.location {
-//            ElGrocer.startSearchEnigne(with: launchOptions) { isLoaded in }
-//        }
-        
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
-        
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
+        } else if launchOptions.marketType == .grocerySingleStore {
+            FlavorAgent.startFlavorEngine(launchOptions) {
+                debugPrint("startAnimation")
+            } completion: { isCompleted in
+                debugPrint("Animation Completed")
+            }
         } else {
             ElGrocer.startEngine(with: launchOptions)
         }

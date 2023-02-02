@@ -395,7 +395,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         let sdkManage = SDKManager.shared
         if let tab = sdkManage.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
-            tab.selectedIndex = SDKManager.isGroverySingleStore ? 1 : 0
+            tab.selectedIndex = SDKManager.isGrocerySingleStore ? 1 : 0
         }
     }
     
@@ -472,7 +472,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     func getBanners() {
         let location =  BannerLocation.post_checkout.getType()
-        let retailer_ids = SDKManager.isGroverySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        let retailer_ids = SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
         
         ElGrocerApi.sharedInstance.getBannersFor(location: location, retailer_ids: retailer_ids) { result in
             switch result {

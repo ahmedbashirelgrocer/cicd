@@ -78,15 +78,17 @@ class ViewController: UIViewController {
             pushNotificationPayload: pushData,
             deepLinkPayload: self.txtDLPayload.text,
             language: self.txtLanguage.text,
-            type: .singleStore,
+            type: .grocerySingleStore,
             environmentType: environment)
         
+        ElGrocer.start(with: launchOptions)
         
-        FlavorAgent.startFlavorEngine(launchOptions) {
-            debugPrint("startAnimation")
-        } completion: { isCompleted in
-            debugPrint("Animation Completed")
-        }
+        
+//        FlavorAgent.startFlavorEngine(launchOptions) {
+//            debugPrint("startAnimation")
+//        } completion: { isCompleted in
+//            debugPrint("Animation Completed")
+//        }
 
     }
     

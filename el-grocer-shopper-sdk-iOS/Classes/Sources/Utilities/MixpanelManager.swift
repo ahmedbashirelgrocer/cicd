@@ -27,7 +27,7 @@ class MixpanelManager {
     
     class func trackEvent(_ eventName : String , params :  [String : Any]? = nil) {
         
-        var finalParms:Properties = ["User_SmilesSDK": SDKManager.isSmileSDK, FireBaseParmName.markeyType.rawValue : SDKManager.isGroverySingleStore ? "1" : "0"]
+        var finalParms:Properties = ["User_SmilesSDK": SDKManager.isSmileSDK, FireBaseParmName.markeyType.rawValue : SDKManager.isGrocerySingleStore ? "1" : "0"]
         
         if let dataDict = params {
             for (key, value) in dataDict {

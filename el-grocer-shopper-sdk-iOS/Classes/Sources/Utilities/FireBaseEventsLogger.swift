@@ -335,7 +335,7 @@ class FireBaseEventsLogger  {
                 newParms?[FireBaseParmName.UserId.rawValue] = id
             }
         
-        newParms?[FireBaseParmName.markeyType.rawValue] = SDKManager.isGroverySingleStore ? "1" : "0"
+        newParms?[FireBaseParmName.markeyType.rawValue] = SDKManager.isGrocerySingleStore ? "1" : "0"
         
         if let removeNull = newParms {
              newParms = removeNull.compactMapValues { $0 }
