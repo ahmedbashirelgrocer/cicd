@@ -26,5 +26,10 @@ enum AnalyticsEventName {
     static let elWalletToggleEnabled    = "elWallet Toggle Enabled"
     static let promoCodeApplied         = "Promo Code Applied"
     static let promoCodeViewed          = "Promo Code Viewed"
+    static let fundMethodSelected       = "Fund Method Selected"
+    static let cardAdded                = "Card Added"
+    static let cardRemoved              = "Card Removed"
+    static let fundAdded                = "Funds Added"
+    static let voucherRedeemed          = "Voucher Redeemed"
     
 }

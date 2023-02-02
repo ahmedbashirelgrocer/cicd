@@ -361,6 +361,9 @@ extension savedCarsVC {
                 }
             }else{
                 self.getAdyenPaymentMethods()
+                
+                // Logging segment event for card added
+                SegmentAnalyticsEngine.instance.logEvent(event: CardAddedEvent())
             }
         }
     }

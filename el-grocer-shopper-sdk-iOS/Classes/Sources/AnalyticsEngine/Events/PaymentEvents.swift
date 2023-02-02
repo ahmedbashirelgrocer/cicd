@@ -68,3 +68,58 @@ struct PromoCodeViewedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct FundMethodSelectedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(paymentMethodId: Int) {
+        self.eventType = .track(eventName: AnalyticsEventName.fundMethodSelected)
+        self.metaData = [
+            EventParameterKeys.paymentMethodId: paymentMethodId,
+        ]
+    }
+}
+
+struct CardAddedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.cardAdded)
+    }
+}
+
+struct CardRemovedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.cardRemoved)
+    }
+}
+
+struct FundAddedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(paymentMethodId: Int, amount: Double) {
+        self.eventType = .track(eventName: AnalyticsEventName.fundAdded)
+        self.metaData = [
+            EventParameterKeys.paymentMethodId: paymentMethodId,
+            EventParameterKeys.amount: amount,
+        ]
+    }
+}
+
+struct VoucherRedeemedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(code: String?) {
+        self.eventType = .track(eventName: AnalyticsEventName.voucherRedeemed)
+        self.metaData = [
+            EventParameterKeys.voucherCode: code ?? "",
+        ]
+    }
+}

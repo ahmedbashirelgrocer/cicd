@@ -41,4 +41,6 @@ enum EventParameterKeys {
     static let isApplied        = "isApplied"
     static let promoCode        = "promoCode"
     static let realizationId    = "realizationId"
+    static let amount           = "amount"
+    static let voucherCode      = "voucherCode"
 }

@@ -157,6 +157,9 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
                 //handle success case
                 self.parseAdyenResponse(response: response)
                 self.navigateToPaymentSuccessVC(isSuccess: true, creditCard: nil, controllerType: .cardAdd)
+                
+                // Logging segment event card added
+                SegmentAnalyticsEngine.instance.logEvent(event: CardAddedEvent())
             }
         }
     }
@@ -211,6 +214,9 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
                         let status = response?["status"] as? String
                         if status ==  "success" {
                             self.creditCardA.remove(at: index)
+                            
+                            // Logging segment event for card removed event
+                            SegmentAnalyticsEngine.instance.logEvent(event: CardRemovedEvent())
                         }
                         self.tableView.reloadDataOnMain()
                     }
