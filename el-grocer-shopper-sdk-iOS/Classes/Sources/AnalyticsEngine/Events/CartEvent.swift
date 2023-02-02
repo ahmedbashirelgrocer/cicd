@@ -79,7 +79,9 @@ struct CartUpdatedEvent: AnalyticsEventDataType {
     var metaData: [String : Any]?
     
     init(grocery: Grocery?, product: Product, actionType: CartActionType, quantity: Int) {
-        self.eventType = .track(eventName: AnalyticsEventName.cartUpdated)
+        let eventName = actionType == .added ? AnalyticsEventName.productAdded : AnalyticsEventName.productRemoved
+        
+        self.eventType = .track(eventName: eventName)
         self.metaData = [
             EventParameterKeys.typesStoreID     : grocery?.retailerType ?? "",
             EventParameterKeys.retailerID       : grocery?.dbID ?? "",
@@ -93,7 +95,6 @@ struct CartUpdatedEvent: AnalyticsEventDataType {
             EventParameterKeys.brandName        : product.brandName ?? "",
             EventParameterKeys.productId        : product.productId,
             EventParameterKeys.productName      : product.name ?? "",
-            EventParameterKeys.actionType       : actionType.rawValue,
             // if the isPromotion is false then need to send the actual price in promoPrice
             EventParameterKeys.promoPrice       : product.promotion as? Bool ?? false ? round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100 : product.price,
             EventParameterKeys.isSponsored      : product.isSponsored as? Bool ?? false,
