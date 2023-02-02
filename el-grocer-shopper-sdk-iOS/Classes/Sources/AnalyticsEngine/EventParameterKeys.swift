@@ -37,4 +37,8 @@ enum EventParameterKeys {
     static let promoPrice       = "promoPrice"
     static let quantity         = "quantity"
     static let actionType       = "actionType"
+    static let isEnabled        = "isEnabled"
+    static let isApplied        = "isApplied"
+    static let promoCode        = "promoCode"
+    static let realizationId    = "realizationId"
 }

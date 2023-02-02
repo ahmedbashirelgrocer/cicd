@@ -19,4 +19,12 @@ enum AnalyticsEventName {
     
     // MARK: Order Events
     static let orderPurchased = "Order Purchased"
+    
+    // MARK: Payment Methods
+    static let paymentMethodChanged     = "Payment Method Changed"
+    static let smilesPointsEnabled      = "Smiles Points Enabled"
+    static let elWalletToggleEnabled    = "elWallet Toggle Enabled"
+    static let promoCodeApplied         = "Promo Code Applied"
+    static let promoCodeViewed          = "Promo Code Viewed"
+    
 }

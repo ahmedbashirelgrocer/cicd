@@ -411,6 +411,9 @@ extension SecondCheckoutVC: PaymentMethodViewDelegate {
                 self.viewModel.setSelectedPaymentOption(id: Int(option.rawValue))
                 self.viewModel.updatePaymentMethod(option)
                 MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(option.rawValue)",cardId: creditCard?.cardID ?? "-1", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
+                
+                // Logging segment event for payment method changed
+                SegmentAnalyticsEngine.instance.logEvent(event: PaymentMethodChangedEvent(paymentMethodId: Int(option.rawValue)))
             }
         }
         MixpanelEventLogger.trackCheckoutPrimaryPaymentMethodClicked()
@@ -494,6 +497,10 @@ extension SecondCheckoutVC: PromocodeDelegate {
                 self.viewModel.setPromoCodeRealisationId(realizationId: "", promoAmount: nil)
                 self.viewModel.updateSecondaryPaymentMethods()
             }
+            
+            // Logging segment event for promo code applied
+            let promoCodeAppliedEvent = PromoCodeAppliedEvent(isApplied: success, promoCode: promoCode?.code, realizationId: promoCode?.promotionCodeRealizationId)
+            SegmentAnalyticsEngine.instance.logEvent(event: promoCodeAppliedEvent)
         }
         
         vc.dismissWithoutPromoClosure = { [weak self] (isDismisingWithPromoApplied) in
@@ -523,6 +530,9 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
             }else {
                 MixpanelEventLogger.trackCheckoutElwalletSwitchOff(balance: String(self.viewModel.basketDataValue?.elWalletBalance ?? 0.00))
             }
+            
+            // Logging segment event for el-wallet toggle enabled
+            SegmentAnalyticsEngine.instance.logEvent(event: ElWalletToggleEnabledEvent(isEnabled: switchState))
             break
             
         case .smile:
@@ -534,6 +544,9 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
             }else {
                 MixpanelEventLogger.trackCheckoutSmilesSwitchOff(balance: String(self.viewModel.basketDataValue?.smilesBalance ?? 0.00))
             }
+            
+            // Logging segment event for smiles points enabled
+            SegmentAnalyticsEngine.instance.logEvent(event: SmilesPointEnabledEvent(isEnabled: switchState))
             break
         }
         

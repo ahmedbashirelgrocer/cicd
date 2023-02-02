@@ -380,6 +380,9 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
             
         }
         
+        // Logging segment event for promo code viewed
+        SegmentAnalyticsEngine.instance.logEvent(event: PromoCodeViewedEvent(promoCode: self.promoCodeArray[indexPath.row]))
+        
     }
         //
     
