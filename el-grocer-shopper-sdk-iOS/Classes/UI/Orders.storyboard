@@ -241,7 +241,7 @@
                                                         <visualEffectView opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GjR-km-IpO">
                                                             <rect key="frame" x="0.0" y="0.0" width="187.66666666666666" height="70"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gf0-jW-udv">
-                                                                <rect key="frame" x="0.0" y="0.0" width="187.66666666666666" height="70"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="187" height="70"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T6g-Wn-96n">
@@ -1942,16 +1942,16 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GE6-eI-avU" customClass="BannerView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="479.66666666666674" width="320" height="200"/>
+                                                        <rect key="frame" x="16" y="479.66666666666674" width="288" height="144"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="200" id="qVy-S9-HGE"/>
+                                                            <constraint firstAttribute="width" secondItem="GE6-eI-avU" secondAttribute="height" multiplier="2:1" id="2Nt-sk-EwH"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="GE6-eI-avU" secondAttribute="trailing" id="1kv-oV-nq1"/>
+                                                    <constraint firstAttribute="trailing" secondItem="GE6-eI-avU" secondAttribute="trailing" constant="16" id="1kv-oV-nq1"/>
                                                     <constraint firstAttribute="trailing" secondItem="h32-5Y-Ugj" secondAttribute="trailing" constant="16" id="2gI-VQ-Iij"/>
                                                     <constraint firstItem="h32-5Y-Ugj" firstAttribute="top" secondItem="bLU-nM-GwM" secondAttribute="bottom" constant="16" id="9Fl-TH-Kj2"/>
                                                     <constraint firstItem="bLU-nM-GwM" firstAttribute="top" secondItem="l1b-YR-z2h" secondAttribute="bottom" constant="16" id="BPP-3U-kBR"/>
@@ -1960,7 +1960,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                     <constraint firstItem="l1b-YR-z2h" firstAttribute="leading" secondItem="LyT-Oj-b7R" secondAttribute="leading" constant="24" id="EW9-CE-VSV"/>
                                                     <constraint firstItem="JYa-RR-2bf" firstAttribute="centerX" secondItem="LyT-Oj-b7R" secondAttribute="centerX" id="GjG-of-oka"/>
                                                     <constraint firstItem="l1b-YR-z2h" firstAttribute="top" secondItem="JYa-RR-2bf" secondAttribute="bottom" constant="16" id="NGB-q9-N1P"/>
-                                                    <constraint firstItem="GE6-eI-avU" firstAttribute="leading" secondItem="LyT-Oj-b7R" secondAttribute="leading" id="QRJ-SK-kia"/>
+                                                    <constraint firstItem="GE6-eI-avU" firstAttribute="leading" secondItem="LyT-Oj-b7R" secondAttribute="leading" constant="16" id="QRJ-SK-kia"/>
                                                     <constraint firstItem="GE6-eI-avU" firstAttribute="top" secondItem="h32-5Y-Ugj" secondAttribute="bottom" constant="16" id="Thr-R8-bBU"/>
                                                     <constraint firstItem="bLU-nM-GwM" firstAttribute="leading" secondItem="LyT-Oj-b7R" secondAttribute="leading" constant="16" id="fF4-oB-Mi3"/>
                                                     <constraint firstAttribute="trailing" secondItem="bLU-nM-GwM" secondAttribute="trailing" constant="16" id="pko-ML-F6y"/>

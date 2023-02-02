@@ -81,7 +81,10 @@ class ViewController: UIViewController {
             type: .grocerySingleStore,
             environmentType: environment)
         
-        ElGrocer.start(with: launchOptions)
+       // ElGrocer.start(with: launchOptions)
+        
+        ElGrocer.start(with: launchOptions) {  } completion: { isLoaded in }
+
         
         
 //        FlavorAgent.startFlavorEngine(launchOptions) {

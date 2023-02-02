@@ -339,9 +339,31 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
-        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
-    
+        
         self.hideTabBar()
+        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
+        if !isSingleStore {
+            
+            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            if self.grocery != nil{
+                (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+                self.addBackButton(isGreen: false)
+            }else{
+                (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+            }
+            (self.navigationController as? ElGrocerNavigationController)?.setCartButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setProfileButtonHidden(true)
+
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+            
+        }
+    
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)
             controller.setupGradient()

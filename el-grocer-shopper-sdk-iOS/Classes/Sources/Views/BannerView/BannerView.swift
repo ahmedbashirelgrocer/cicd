@@ -22,6 +22,7 @@ class BannerView: UIView {
             collectionView.reloadData()
         }
     }
+    var bannerType : BannerLocation? = .post_checkout
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -72,7 +73,14 @@ extension BannerView: UICollectionViewDataSource {
 
 extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width * 0.19)
+        guard let type = bannerType else {
+            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width * 0.19)
+        }
+        if type.getType() == .sdk_all_carts_tier_2 {
+            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width * 0.19)
+        }else {
+            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width)
+        }
         
     }
     

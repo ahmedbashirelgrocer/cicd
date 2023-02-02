@@ -31,6 +31,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         //self.lblBanners.visibility = .gone
        // self.lottieAnimation.visibility = .gone
+        self.viewBanner.roundCorners(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 8)
         self.lblGroceryName.text = self.order.grocery.name
         self.lblOrderNumber.text = localizedString("order_number_label", comment: "") + self.order.dbID.stringValue
         self.lblOrderDetailNote.attributedText = setBoldForText(CompleteValue: localizedString("Msg_Edit_Order", comment: ""), textForAttribute: localizedString("lbl_Order_Details", comment: ""))
@@ -42,6 +43,28 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             self.groceryImage.sd_setImage(with: url)
         }
         self.viewBanner.bannerTapped = { [weak self] banner in
+        
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            
+            switch campaignType {
+            case .brand:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+                
+            case .retailer:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+                
+            case .web:
+                ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                break
+                
+            case .priority:
+                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+            }
            
         }
         LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in
@@ -472,6 +495,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     func getBanners() {
         let location =  BannerLocation.post_checkout.getType()
+        self.viewBanner.bannerType = BannerLocation.post_checkout
         let retailer_ids = SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
         
         ElGrocerApi.sharedInstance.getBannersFor(location: location, retailer_ids: retailer_ids) { result in
