@@ -135,6 +135,9 @@ public struct LaunchOptions {
     var navigationType : ElgrocerSDKNavigationType? =  ElgrocerSDKNavigationType.Default
     
     public enum MarketType: Hashable {
+            /// - Parameter marketPlace: Smile App, market place.
+            /// - Parameter shopper: Elgrocer Shopper App; Not for external Use (Smile Team PLease dont use this in sdk)
+           /// - Parameter grocerySingleStore: Single Store for smile app
     case marketPlace, shopper, grocerySingleStore
     }
             
@@ -149,7 +152,7 @@ public struct LaunchOptions {
                 deepLinkPayload: String? = nil,
                 language: String? = nil,
                 isSmileSDK: Bool = true,
-                type: MarketType = .marketPlace,
+                marketType: MarketType = .marketPlace,
                 isLoggingEnabled: Bool = false,
                 theme: Theme = ApplicationTheme.smilesSdkTheme()) {
         
@@ -162,7 +165,7 @@ public struct LaunchOptions {
         self.pushNotificationPayload = pushNotificationPayload
         self.deepLinkPayload = deepLinkPayload
         self.language = language
-        self.marketType = type
+        self.marketType = marketType
         self.isLoggingEnabled = isLoggingEnabled
         self.environmentType =  .live
         self.theme = theme
@@ -182,7 +185,7 @@ public struct LaunchOptions {
         pushNotificationPayload: [String: AnyHashable]? = nil,
         deepLinkPayload: String? = nil,
         language: String? = nil,
-        type: MarketType = .marketPlace,
+        marketype: MarketType = .marketPlace,
         environmentType : EnvironmentType = .live,
         theme: Theme = ApplicationTheme.smilesSdkTheme(), navigationType : ElgrocerSDKNavigationType = ElgrocerSDKNavigationType.Default) {
         
@@ -195,7 +198,7 @@ public struct LaunchOptions {
         self.pushNotificationPayload = pushNotificationPayload
         self.deepLinkPayload = deepLinkPayload
         self.language = language
-        self.marketType = type
+        self.marketType = marketype
         self.navigationType = navigationType
         self.environmentType =  environmentType
         self.isLoggingEnabled = environmentType == .staging
@@ -208,10 +211,10 @@ public struct LaunchOptions {
     public init(
         latitude: Double?,
         longitude: Double?,
-        type : MarketType) {
+        marketType : MarketType) {
         self.latitude = latitude
         self.longitude = longitude
-        self.marketType = type
+        self.marketType = marketType
     }
 
 }

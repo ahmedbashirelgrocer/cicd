@@ -99,7 +99,7 @@ class FlavorsClient  {
     
     init(address: DeliveryAddress, loadCompletion: LoadCompletion) {
         
-        let launchOptions =  LaunchOptions.init(latitude: address.latitude, longitude: address.longitude, type: .grocerySingleStore)
+        let launchOptions =  LaunchOptions.init(latitude: address.latitude, longitude: address.longitude, marketType: .grocerySingleStore)
         self.completion = loadCompletion
         self.launchOptions = launchOptions
         
