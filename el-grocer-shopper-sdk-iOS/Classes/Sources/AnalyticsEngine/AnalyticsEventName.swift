@@ -32,4 +32,10 @@ enum AnalyticsEventName {
     static let fundAdded                = "Funds Added"
     static let voucherRedeemed          = "Voucher Redeemed"
     
+    // MARK: Address
+    static let addressClicked           = "Address Clicked"
+    static let confirmDeliveryLocation  = "Confirm Delivery Location"
+    static let confirmAddressDetails     = "Confirm Address Details"
+    
+    
 }

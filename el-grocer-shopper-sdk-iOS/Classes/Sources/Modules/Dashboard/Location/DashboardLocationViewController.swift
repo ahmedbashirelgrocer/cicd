@@ -1645,7 +1645,8 @@ extension DashboardLocationViewController: LocationMapViewControllerDelegate {
         self.navigationController?.popViewController(animated: true)
         self.addDeliveryAddressWithLocation(selectedLocation: location!, withLocationName: name!, andWithUserAddress: address!, building: building ?? "", cityName: cityName)
         
-        
+        // Logging segment for confirm delivery location
+        SegmentAnalyticsEngine.instance.logEvent(event: ConfirmDeliveryLocationEvent(address: address))
     }
     
     

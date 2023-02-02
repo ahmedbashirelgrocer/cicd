@@ -1553,6 +1553,10 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 // IntercomeHelper.updateUserAddressInfoToIntercom()
                 // PushWooshTracking.updateUserAddressInfo()
                 
+                // Logging segment events for confirm address details and identify user
+                SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
+                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                
                 if self.editScreenState == .isFromCart {
                     if  self.navigationController?.viewControllers.count ?? 1 > 1 {
                         self.navigationController?.popViewController(animated: true)

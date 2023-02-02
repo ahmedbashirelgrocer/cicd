@@ -615,6 +615,9 @@ class ElgrocerlocationView:  UIView  {
         DispatchQueue.main.async {
             if let top = UIApplication.topViewController() {
                 top.present(navigationController, animated: true, completion: nil)
+                
+                // Logging segment event for address clicked
+                SegmentAnalyticsEngine.instance.logEvent(event: AddressClickedEvent(source: .settings))
             }
         }
     }
