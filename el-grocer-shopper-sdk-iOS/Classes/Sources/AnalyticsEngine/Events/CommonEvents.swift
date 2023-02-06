@@ -16,3 +16,18 @@ struct HelpClickedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.helpClicked)
     }
 }
+
+// MARK: General API Error event
+struct GeneralAPIErrorEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(endPoint: String?, message: String, code: Int) {
+        self.eventType = .track(eventName: AnalyticsEventName.generalAPIError)
+        self.metaData = [
+            EventParameterKeys.apiEndpoint: endPoint ?? "",
+            EventParameterKeys.message: message,
+            EventParameterKeys.code: code,
+        ]
+    }
+}

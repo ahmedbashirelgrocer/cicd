@@ -39,6 +39,5 @@ enum AnalyticsEventName {
     
     // MARK: Common
     static let helpClicked              = "Help Click"
-    
-    
+    static let generalAPIError          = "General API Error"
 }
