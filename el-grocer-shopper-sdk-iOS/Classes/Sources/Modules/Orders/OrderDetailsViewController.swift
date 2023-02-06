@@ -680,6 +680,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             self.orderCancelled(isSuccess: isCancel)
         }
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
+        
+        // Logging segment event for cancel order clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: CancelOrderClickedEvent(orderId: orderId))
     }
     func orderCancelled(isSuccess: Bool) {
        elDebugPrint(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
@@ -784,6 +787,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         guard order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue || order.status.intValue == OrderStatus.payment_pending.rawValue || order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue  else {
             
+            // Logging segment event for repeat order clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: RepeatOrderClickedEvent(order: order, grocery: self.currentGrocery))
             
             if self.order.isCandCOrder() {
                 if ElGrocerUtility.sharedInstance.cAndcRetailerList.count == 0 {

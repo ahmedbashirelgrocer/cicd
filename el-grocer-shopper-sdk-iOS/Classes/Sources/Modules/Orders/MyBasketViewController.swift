@@ -2975,6 +2975,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.orderCancelled(isSuccess: isCancel)
         }
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
+        
+        // Logging segment event for cancel order clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: CancelOrderClickedEvent(orderId: orderId))
     }
     
     func orderCancelled(isSuccess: Bool) {

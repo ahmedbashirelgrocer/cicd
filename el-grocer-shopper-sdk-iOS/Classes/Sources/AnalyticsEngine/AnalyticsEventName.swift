@@ -23,6 +23,9 @@ enum AnalyticsEventName {
     static let orderEditClicked         = "Edit Order Clicked"
     static let orderDetailsClicked      = "Order Details Clicked"
     static let orderCancelled           = "Order Cancelled"
+    static let orderSubstitutionCompleted    = "Substitution Completed"
+    static let orderCancelClicked       = "Cancel Order Clicked"
+    static let repeatOrderClicked       = "Repeat Order Clicked"
     
     // MARK: Payment Methods
     static let paymentMethodChanged     = "Payment Method Changed"

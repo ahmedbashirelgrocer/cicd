@@ -817,6 +817,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     
                     NotificationCenter.default.post(name: Notification.Name(rawValue: kOrderUpdateNotificationKey), object: nil)
                 
+                // Logging segment event for order substitution completed
+                SegmentAnalyticsEngine.instance.logEvent(event: OrderSubstitutionCompletedEvent(orderId: String(describing: self.order.dbID)))
+                
                 case .failure(let error):
                     spinner?.removeFromSuperview()
                 let availablePoints = self.smileUser?.availablePoints ?? 0
