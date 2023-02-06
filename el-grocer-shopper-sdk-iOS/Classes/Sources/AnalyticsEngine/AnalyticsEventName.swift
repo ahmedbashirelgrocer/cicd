@@ -37,5 +37,8 @@ enum AnalyticsEventName {
     static let confirmDeliveryLocation  = "Confirm Delivery Location"
     static let confirmAddressDetails     = "Confirm Address Details"
     
+    // MARK: Common
+    static let helpClicked              = "Help Click"
+    
     
 }

@@ -549,6 +549,9 @@ class SendBirdDeskManager{
         
         ElGrocerEventsLogger.sharedInstance.chatWithSupportClicked(orderId: orderId)
         
+        // Loggine segment event for help clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: HelpClickedEvent())
+        
         if let user = SBDMain.getCurrentUser() {
             let userID = user.userId
             SBUGlobals.CurrentUser = SBUUser(userId: userID, nickname: user.nickname, profileUrl: nil)
