@@ -549,6 +549,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         navigator.startEditNavigationProcess { (isNavigationDone) in
             elDebugPrint("Navigation Completed")
         }
+        
+        // Logging segment event for edit order clicked
+        let orderEditEvent = OrderEditClickedEvent(order: order, grocery: currentGrocery, products: orderProducts)
+        SegmentAnalyticsEngine.instance.logEvent(event: orderEditEvent)
+        
         /*
         func processDataForDeliveryMode() {
             let groceryID = ElGrocerUtility.sharedInstance.cleanGroceryID(order.grocery.dbID)

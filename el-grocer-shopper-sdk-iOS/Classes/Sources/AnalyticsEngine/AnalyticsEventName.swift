@@ -20,6 +20,9 @@ enum AnalyticsEventName {
     // MARK: Order Events
     static let orderPurchased           = "Order Purchased"
     static let editOrderCompleted       = "Edit Order Completed"
+    static let orderEditClicked         = "Edit Order Clicked"
+    static let orderDetailsClicked      = "Order Details Clicked"
+    static let orderCancelled           = "Order Cancelled"
     
     // MARK: Payment Methods
     static let paymentMethodChanged     = "Payment Method Changed"
@@ -36,7 +39,7 @@ enum AnalyticsEventName {
     // MARK: Address
     static let addressClicked           = "Address Clicked"
     static let confirmDeliveryLocation  = "Confirm Delivery Location"
-    static let confirmAddressDetails     = "Confirm Address Details"
+    static let confirmAddressDetails    = "Confirm Address Details"
     
     // MARK: Common
     static let helpClicked              = "Help Click"

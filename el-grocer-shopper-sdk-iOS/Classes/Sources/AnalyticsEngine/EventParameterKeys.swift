@@ -57,4 +57,6 @@ enum EventParameterKeys {
     static let isSmilesEnabled = "isSmilesEnabled"
     static let isWalletEnabled = "isWalletEnabled"
     static let isPromoCodeApplied = "isPromoCodeApplied"
+    static let reason           = "reason"
+    static let suggestion       = "suggestion"
 }

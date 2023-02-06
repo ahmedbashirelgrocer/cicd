@@ -1333,6 +1333,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         controller.mode = .dismiss
         self.navigationController?.pushViewController(controller, animated: true)
         
+        // Logging segment event for order details clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: OrderDetailsClickedEvent(order: order))
         
     }
     
