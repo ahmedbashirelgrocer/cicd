@@ -421,6 +421,19 @@ extension SecondaryViewModel {
         self.isWalletTrue = isWalletTrue
         
     }
+    
+    func isElWalletEnabled() -> Bool {
+        return isWalletTrue
+    }
+    
+    func isSmilesEnabled() -> Bool {
+        return isSmileTrue
+    }
+    
+    func isPromoApplied() -> Bool {
+        return isPromoCodeTrue
+    }
+    
     func setIsPromoTrue(isPromoTrue: Bool) {
         self.isPromoCodeTrue = isPromoTrue
     }

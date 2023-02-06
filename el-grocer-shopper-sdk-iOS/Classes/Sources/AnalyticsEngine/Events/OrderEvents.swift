@@ -12,7 +12,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
 
-    init(products: [Product], grocery: Grocery?, order: Order?) {
+    init(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?) {
         self.eventType = .track(eventName: AnalyticsEventName.orderPurchased)
         self.metaData = [
             EventParameterKeys.totalOrderAmount : order?.totalValue ?? "",
@@ -20,6 +20,14 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             EventParameterKeys.typesStoreID     : grocery?.retailerType ?? "",
             EventParameterKeys.retailerID       : grocery?.dbID ?? "",
             EventParameterKeys.retailerName     : grocery?.name ?? "",
+            EventParameterKeys.parentId         : grocery?.parentID.intValue ?? "",
+            EventParameterKeys.orderId          : order?.dbID.stringValue ?? "",
+            EventParameterKeys.isWalletEnabled  : isWalletEnabled,
+            EventParameterKeys.isSmilesEnabled  : isSmilesEnabled,
+            EventParameterKeys.isPromoCodeApplied: isPromoCodeApplied,
+            EventParameterKeys.smilesPointsEarned: smilesPointsEarned,
+            EventParameterKeys.smilesPointsBurnt: smilesPointsBurnt,
+            EventParameterKeys.realizationId    : realizationId ?? "",
             EventParameterKeys.products         : self.getProductDic(products: products, gorcery: grocery),
         ]
     }
@@ -44,16 +52,29 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             dictionary[EventParameterKeys.price]            = product.price
             dictionary[EventParameterKeys.brandId]          = product.brandId ?? ""
             dictionary[EventParameterKeys.brandName]        = product.brandName ?? ""
-            dictionary[EventParameterKeys.isSponsored]      = product.isSponsored as? Bool ?? false
-            dictionary[EventParameterKeys.isPromotion]      = product.promotion as? Bool ?? false
+            dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
+            dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
             dictionary[EventParameterKeys.isRecipe]         = false
             dictionary[EventParameterKeys.quantity]         = quantity
             // if the isPromotion is false then need to send the actual price in promoPrice
-            dictionary[EventParameterKeys.promoPrice]       = product.promotion as? Bool ?? false ? round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100 : product.price
+            dictionary[EventParameterKeys.promoPrice]       = product.promotion?.boolValue ?? false ? round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100 : product.price
             
             return dictionary
         }
         
         return result
+    }
+}
+
+struct EditOrderCompletedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(order: Order?, grocery: Grocery?) {
+        self.eventType = .track(eventName: AnalyticsEventName.editOrderCompleted)
+        self.metaData = [
+            EventParameterKeys.orderId: order?.dbID.stringValue ?? "",
+            EventParameterKeys.retailerID: ElGrocerUtility.sharedInstance.cleanGroceryID(grocery),
+        ]
     }
 }

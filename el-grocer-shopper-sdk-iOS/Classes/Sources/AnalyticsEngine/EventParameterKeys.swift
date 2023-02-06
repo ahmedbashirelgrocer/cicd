@@ -50,4 +50,11 @@ enum EventParameterKeys {
     static let code             = "code"
     static let searchQuery      = "searchQuery"
     static let isSuggestion     = "isSuggestion"
+    static let parentId         = "parentId"
+    static let orderId          = "orderId"
+    static let smilesPointsBurnt = "smilesPointsBurnt"
+    static let smilesPointsEarned = "smilesPointsEarned"
+    static let isSmilesEnabled = "isSmilesEnabled"
+    static let isWalletEnabled = "isWalletEnabled"
+    static let isPromoCodeApplied = "isPromoCodeApplied"
 }

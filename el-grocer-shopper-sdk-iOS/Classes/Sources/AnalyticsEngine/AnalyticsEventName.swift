@@ -10,15 +10,16 @@ import Foundation
 enum AnalyticsEventName {
     
     // MARK: Cart Events
-    static let cartCreated   = "Cart Created"
-    static let productAdded   = "Product Added"
-    static let productRemoved = "Product Removed"
-    static let cartDeleted   = "Cart Deleted"
-    static let cartViewed    = "Cart Viewed"
-    static let cartCheckout  = "Cart Checkout"
+    static let cartCreated              = "Cart Created"
+    static let productAdded             = "Product Added"
+    static let productRemoved           = "Product Removed"
+    static let cartDeleted              = "Cart Deleted"
+    static let cartViewed               = "Cart Viewed"
+    static let cartCheckout             = "Cart Checkout"
     
     // MARK: Order Events
-    static let orderPurchased = "Order Purchased"
+    static let orderPurchased           = "Order Purchased"
+    static let editOrderCompleted       = "Edit Order Completed"
     
     // MARK: Payment Methods
     static let paymentMethodChanged     = "Payment Method Changed"
