@@ -48,4 +48,6 @@ enum EventParameterKeys {
     static let apiEndpoint      = "apiEndpoint"
     static let message          = "message"
     static let code             = "code"
+    static let searchQuery      = "searchQuery"
+    static let isSuggestion     = "isSuggestion"
 }

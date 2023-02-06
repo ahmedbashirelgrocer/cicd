@@ -1094,6 +1094,23 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 self.dataSource?.getBanners(searchInput: searchData)
             }
         }
+        
+        // Logging segment event for Universal & Store Search
+        switch self.searchFor {
+        case .isForUniversalSearch:
+            SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: model != nil))
+            break
+
+        case .isForStoreSearch:
+            let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: model != nil, retailerId: retailerId))
+            break
+
+        case .isProductListing:
+            break
+        }
+        // End Segment Logging
+        
         self.dataSource?.resetForNewGrocery()
         self.segmenntCollectionView.segmentTitles = []
         self.segmenntCollectionView.lastSelection = NSIndexPath.init(row: 0, section: 0) as IndexPath
@@ -1185,6 +1202,22 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.reloadCollectionView(true)
         self.dataSource?.setUsersearchData(searchData)
         self.dataSource?.getProductDataForStore(true, searchString: searchData,  "" , "" , storeIds: storeIDs, pageNumber: self.pageNumber , hitsPerPage: hitsPerPage)
+        
+        // Logging segment event for Universal & Store Search
+        switch self.searchFor {
+        case .isForUniversalSearch:
+            SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: false))
+            break
+
+        case .isForStoreSearch:
+            let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: false, retailerId: retailerId))
+            break
+
+        case .isProductListing:
+            break
+        }
+        // End Segment Logging
     }
     
     
