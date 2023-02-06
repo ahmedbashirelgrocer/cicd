@@ -123,3 +123,12 @@ struct VoucherRedeemedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct AddFundClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.addFundClicked)
+    }
+}

@@ -171,6 +171,9 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     
     @IBAction func addFundsButtonTapped(_ sender: UIButton) {
         
+        // Logging segment event for add fund clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: AddFundClickedEvent())
+        
         MixpanelEventLogger.trackElWalletAddFundsClicked()
         let creditVC = CreditCardListViewController(nibName: "CreditCardListViewController", bundle: .resource)
         if #available(iOS 13, *) {
