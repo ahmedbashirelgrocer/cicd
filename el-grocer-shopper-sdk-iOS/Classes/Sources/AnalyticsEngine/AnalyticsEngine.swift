@@ -24,22 +24,39 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
     }
     
     func identify(userData: IdentifyUserDataType) {
-        self.analytics.identify(userData.userId, traits: userData.traits)
+        let traits = self.addMarketTypeProperty(metaData: userData.traits ?? [:])
+        self.analytics.identify(userData.userId, traits: traits)
     }
     
     func logEvent(event: AnalyticsEventDataType) {
         switch event.eventType {
         case .track(let eventName):
-            self.analytics.track(eventName, properties: event.metaData)
+            var metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
+            self.analytics.track(eventName, properties: metaData)
             break
             
         case .screen(let screenName):
-            self.analytics.screen(screenName, properties: event.metaData)
+            var metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
+            self.analytics.screen(screenName, properties: metaData)
             break
         }
     }
     
     func reset() {
         self.analytics.reset()
+    }
+}
+
+private extension SegmentAnalyticsEngine {
+    func addMarketTypeProperty(metaData: [String: Any]) -> [String: Any] {
+        if SDKManager.isSmileSDK {
+            var metaData = metaData
+            metaData["marketType"] = "Smile Marketplace"
+            return metaData
+        }
+        
+        var metaData = metaData
+        metaData["marketType"] = "Shopper Marketplace"
+        return metaData
     }
 }
