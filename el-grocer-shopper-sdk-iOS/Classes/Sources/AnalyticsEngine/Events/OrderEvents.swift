@@ -201,3 +201,23 @@ struct ChooseReplacementClickedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct ItemReplacedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(oosProduct: Product, choosedProduct: Product) {
+        self.eventType = .track(eventName: AnalyticsEventName.itemReplaced)
+        self.metaData = [
+            EventParameterKeys.oosProduct: self.getProductDictionary(product: oosProduct),
+            EventParameterKeys.substituteProduct: self.getProductDictionary(product: choosedProduct),
+        ]
+    }
+    
+    private func getProductDictionary(product: Product) -> [String: Any] {
+        return [
+            EventParameterKeys.productId        : product.productId,
+            EventParameterKeys.productName      : product.name ?? "",
+        ]
+    }
+}

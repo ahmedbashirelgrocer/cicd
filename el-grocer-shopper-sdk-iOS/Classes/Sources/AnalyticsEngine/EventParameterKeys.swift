@@ -59,4 +59,6 @@ enum EventParameterKeys {
     static let isPromoCodeApplied = "isPromoCodeApplied"
     static let reason           = "reason"
     static let suggestion       = "suggestion"
+    static let oosProduct       = "oosProduct"
+    static let substituteProduct   = "substituteProduct"
 }

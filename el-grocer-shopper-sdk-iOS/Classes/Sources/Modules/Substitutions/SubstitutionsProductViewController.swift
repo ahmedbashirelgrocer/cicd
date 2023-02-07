@@ -1319,6 +1319,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         if let _ = self.orderProducts.firstIndex(where: {$0.dbID == oldProdct.dbID}) {
             self.quickAddSubsituteReplacment(product: oldProdct, subtituteProduct: newProduct , quantity)
+            
+            // Logging segment event for item replaced
+            SegmentAnalyticsEngine.instance.logEvent(event: ItemReplacedEvent(oosProduct: oldProdct, choosedProduct: newProduct))
         }else{
             self.tableView.reloadData()
         }
