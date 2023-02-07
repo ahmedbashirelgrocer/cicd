@@ -644,6 +644,9 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         let settingController = ElGrocerViewControllers.settingViewController()
         self.navigationController?.pushViewController(settingController, animated: true)
         hideTabBar()
+        
+        // Logging segment event for menu button clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
     }
     
     func cartButtonTap() {

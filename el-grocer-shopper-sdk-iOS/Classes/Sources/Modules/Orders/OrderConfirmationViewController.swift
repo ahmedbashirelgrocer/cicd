@@ -1400,6 +1400,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             substitutionsProductsVC.orderId = orderId
             ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
             self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
+            
+            // Logging segment event for choose replacement clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: ChooseReplacementClickedEvent(order: self.order, grocery: self.grocery))
         }
     }
 

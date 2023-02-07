@@ -41,3 +41,12 @@ struct UserSignedInEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.userSignedIn)
     }
 }
+
+struct MenuButtonClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.menuButtonClicked)
+    }
+}

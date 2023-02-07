@@ -1769,6 +1769,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                         substitutionsProductsVC.orderId = orderId
                         ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
                         self?.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
+                        
+                        // Logging segment event for choose replacement clicked
+                        SegmentAnalyticsEngine.instance.logEvent(event: ChooseReplacementClickedEvent(order: self?.order, grocery: self?.currentGrocery))
+                        
                     }else if (self?.order.status.intValue == OrderStatus.payment_pending.rawValue || self?.order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue) {
                         self?.editOrderSuccess(nil)
                     }else if (self?.order.status.intValue == OrderStatus.inEdit.rawValue) {

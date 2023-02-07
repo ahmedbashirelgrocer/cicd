@@ -188,3 +188,16 @@ struct RepeatOrderClickedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct ChooseReplacementClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(order: Order?, grocery: Grocery?) {
+        self.eventType = .track(eventName: AnalyticsEventName.chooseReplacementClicked)
+        self.metaData = [
+            EventParameterKeys.orderId: order?.dbID.stringValue ?? "",
+            EventParameterKeys.retailerID: ElGrocerUtility.sharedInstance.cleanGroceryID(grocery),
+        ]
+    }
+}
