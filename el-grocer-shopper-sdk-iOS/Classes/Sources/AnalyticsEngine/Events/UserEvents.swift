@@ -23,3 +23,21 @@ struct IdentifyUserEvent: IdentifyUserDataType {
         ]
     }
 }
+
+struct UserRegisteredEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.userRegistered)
+    }
+}
+
+struct UserSignedInEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.userSignedIn)
+    }
+}

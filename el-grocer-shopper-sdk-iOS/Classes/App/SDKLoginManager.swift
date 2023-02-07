@@ -103,11 +103,17 @@ struct SDKLoginManager {
                 let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if deliveryAddress.count == 0 {
                     self.createNewDefaultAddressForNewUser(for: userProfile, completion: completionHandler)
+                    
+                    // Logging segment event for user registered
+                    SegmentAnalyticsEngine.instance.logEvent(event: UserRegisteredEvent())
                 } else {
                     UserDefaults.setDidUserSetAddress(true)
                     UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
                     UserDefaults.setUserLoggedIn(true)
                     completionHandler(true, "")
+                    
+                    // Logging segment event for user signed in
+                    SegmentAnalyticsEngine.instance.logEvent(event: UserSignedInEvent())
                 }
     
             } else {
