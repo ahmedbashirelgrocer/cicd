@@ -200,6 +200,8 @@ enum ElGrocerApiEndpoint : String {
     case orderSubstitutionBasketUpdate = "v4/orders/substitution"
     case getActiveCarts = "v2/baskets/all_carts"
     case isActiveCartAvailable = "v2/baskets/is_cart_available"
+    // Flavor Store
+    case getFlavoredStore = "v1/retailers/single_store"
  }
  
  class ElgrocerAPINonBase  {
@@ -1321,7 +1323,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   // MARK: Categories
   
-    func getAllCategories(_ address: DeliveryAddress?, parentCategory:Category?, forGrocery grocery:Grocery?, _ lat : Double = 0 , _ lng : Double = 0, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+      func getAllCategories(_ address: DeliveryAddress?, parentCategory:Category?, forGrocery grocery:Grocery?, _ lat : Double = 0 , _ lng : Double = 0, deliveryTime: Int? = nil, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()
   
@@ -1336,7 +1338,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"]) as AnyObject
   }
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
-        parameters["delivery_time"] = time as AnyObject
+          parameters["delivery_time"] = deliveryTime != nil ? deliveryTime as AnyObject : time as AnyObject
   
   
   // //elDebugPrint("Patameters:%@",parameters)
@@ -4227,7 +4229,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           setAccessToken()
           FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
           elDebugPrint(parameters)
-          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue, parameters: parameters, progress: { (progress) in
+          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue + "?market_type_id=\(SDKManager.isGroverySingleStore ? "1":"0")", parameters: parameters, progress: { (progress) in
                   // debugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
@@ -4246,7 +4248,6 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
                   completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
               }
           }
-          
           
       }
       
@@ -4674,6 +4675,32 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
                   completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
               }
           }
+      }
+      
+      
+      // MARK: Flavor StoreApi
+      
+      
+      // MARK: Get Active Carts
+      func getFlavorStore(latitude: Double, longitude: Double, completion: @escaping (_ result: Either<Grocery>) -> Void) {
+        
+          self.setAccessToken()
+          let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
+          NetworkCall.get(ElGrocerApiEndpoint.getFlavoredStore.rawValue, parameters: params) { progress in
+          } success: { URLSessionDataTask, responseObject in
+              let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+              if  let responseObject = responseObject as? NSDictionary {
+                  let grocery =  Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
+                  if grocery.count > 0 {
+                      completion(.success(grocery[0]))
+                      return
+                  }
+              }
+              completion(.failure(ElGrocerError.genericError()))
+          } failure: { URLSessionDataTask, error in
+              completion(.failure(ElGrocerError(error: error as NSError)))
+          }
+
       }
       
     

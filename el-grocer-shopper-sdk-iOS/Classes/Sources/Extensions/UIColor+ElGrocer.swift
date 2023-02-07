@@ -24,6 +24,9 @@ extension UIColor {
     class func navigationBarWhiteColor() -> UIColor {
         return ApplicationTheme.currentTheme.navigationBarWhiteColor
     }
+    class func navigationBarColor() -> UIColor {
+        return #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1) //05bc66
+    }
     class func replacementGreenBGColor() -> UIColor {
         return ApplicationTheme.currentTheme.replacementGreenBGColor
     }

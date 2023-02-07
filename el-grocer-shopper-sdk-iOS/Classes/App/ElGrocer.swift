@@ -16,10 +16,14 @@ public final class ElGrocer {
     // elgrocer
 
     static var isSDKLoaded = false
-    
+ 
     static func startEngine(with launchOptions: LaunchOptions? = nil, completion: (() -> Void)?  = nil) {
         
         SDKManager.shared.launchCompletion = completion
+        
+        if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType {
+            HomePageData.shared.groceryA = []
+        }
         
         DispatchQueue.main.async {
 
@@ -71,7 +75,7 @@ public final class ElGrocer {
         
     }
     
-    private static func showDefaultErrorForDB() {
+    static func showDefaultErrorForDB() {
         
         let refreshAlert = UIAlertController(title:  localizedString("alert_error_title", comment: ""), message:  localizedString("error_500", comment: ""), preferredStyle: UIAlertController.Style.alert)
 
@@ -83,14 +87,10 @@ public final class ElGrocer {
 }
 
 
-enum SDKType: Int {
-    case smiles
-    case elGrocerShopper
-}
-
 public enum ElgrocerSDKNavigationType: Int {
     case `Default`
     case search
+    case singleStore
 }
 
 public enum EnvironmentType {
@@ -122,16 +122,21 @@ public struct LaunchOptions {
     var pushNotificationPayload: [String: AnyHashable]?
     var deepLinkPayload: String?
     var language: String?
-    var isSmileSDK: Bool
+    var marketType : MarketType = .smiles
+    var isSmileSDK: Bool { marketType == .smiles || marketType == .singleStore }
     var isLoggingEnabled = false {
         didSet { MixpanelManager.loggingEnabled(isLoggingEnabled) }
     }
     var isFromPush = false
     
-    var SDKType : SDKType = .smiles
+    
     var environmentType : EnvironmentType = .live
     var theme: Theme!
     var navigationType : ElgrocerSDKNavigationType? =  ElgrocerSDKNavigationType.Default
+    
+    public enum MarketType: Hashable {
+    case smiles, shopper, singleStore
+    }
         
     @available(*, deprecated)
     public init(accountNumber: String?,
@@ -143,7 +148,8 @@ public struct LaunchOptions {
                 pushNotificationPayload: [String: AnyHashable]? = nil,
                 deepLinkPayload: String? = nil,
                 language: String? = nil,
-                isSmileSDK: Bool,
+                isSmileSDK: Bool = true,
+                type: MarketType = .smiles,
                 isLoggingEnabled: Bool = false,
                 theme: Theme = ApplicationTheme.smilesSdkTheme()) {
         
@@ -156,10 +162,8 @@ public struct LaunchOptions {
         self.pushNotificationPayload = pushNotificationPayload
         self.deepLinkPayload = deepLinkPayload
         self.language = language
-        self.isSmileSDK = isSmileSDK
+        self.marketType = type
         self.isLoggingEnabled = isLoggingEnabled
-        self.SDKType = .smiles
-        self.isSmileSDK = true
         self.environmentType =  .live
         self.theme = theme
         if (pushNotificationPayload?.count ?? 0) > 0 {
@@ -177,7 +181,9 @@ public struct LaunchOptions {
         email: String? = nil,
         pushNotificationPayload: [String: AnyHashable]? = nil,
         deepLinkPayload: String? = nil,
-        language: String? = nil, environmentType : EnvironmentType = .live,
+        language: String? = nil,
+        type: MarketType = .smiles,
+        environmentType : EnvironmentType = .live,
         theme: Theme = ApplicationTheme.smilesSdkTheme(), navigationType : ElgrocerSDKNavigationType = ElgrocerSDKNavigationType.Default) {
         
         self.accountNumber = accountNumber
@@ -189,8 +195,7 @@ public struct LaunchOptions {
         self.pushNotificationPayload = pushNotificationPayload
         self.deepLinkPayload = deepLinkPayload
         self.language = language
-        self.SDKType = .smiles
-        self.isSmileSDK = true
+        self.marketType = type
         self.navigationType = navigationType
         self.environmentType =  environmentType
         self.isLoggingEnabled = environmentType == .staging
@@ -198,6 +203,15 @@ public struct LaunchOptions {
         if (pushNotificationPayload?.count ?? 0) > 0 {
             self.isFromPush = true
         }
+    }
+    
+    public init(
+        latitude: Double?,
+        longitude: Double?,
+        type : MarketType) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.marketType = type
     }
 
 }

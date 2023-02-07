@@ -13,9 +13,44 @@ import FirebaseAnalytics
 import FirebaseCrashlytics
 import FBSDKCoreKit
 
-
+import Lottie
+import RxSwift
 
 class OrderConfirmationViewController : UIViewController, MFMailComposeViewControllerDelegate , MyBasketViewProtocol {
+    
+    @IBOutlet var lottieAnimation: AnimationView!
+    @IBOutlet weak var groceryImage: UIImageView!
+    @IBOutlet weak var lblGroceryName: UILabel!
+    @IBOutlet weak var lblOrderNumber: UILabel!
+    @IBOutlet weak var lblOrderDetailNote: UILabel!
+    @IBOutlet weak var lblFreshItemNote: UILabel!
+    @IBOutlet weak var lblAddressNote: UILabel!
+    @IBOutlet weak var lblBanners: UIView!
+    func bindViews(_ order: Order, address: DeliveryAddress) {
+        
+        self.lblBanners.visibility = .gone
+       // self.lottieAnimation.visibility = .gone
+        self.lblGroceryName.text = self.order.grocery.name
+        self.lblOrderNumber.text = localizedString("order_number_label", comment: "") + self.order.dbID.stringValue
+        self.lblOrderDetailNote.attributedText = setBoldForText(CompleteValue: localizedString("Msg_Edit_Order", comment: ""), textForAttribute: localizedString("lbl_Order_Details", comment: ""))
+        self.lblFreshItemNote.attributedText = setBoldForText(CompleteValue: localizedString("order_note_label_complete", comment: ""), textForAttribute: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+        let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(order.deliveryAddress) + order.deliveryAddress.address
+        self.lblAddressNote.text = addressString
+        
+        if let imageUrlString = self.grocery.imageUrl, let url = URL.init(string: imageUrlString) {
+            self.groceryImage.sd_setImage(with: url)
+        }
+      
+    }
+    
+    @IBAction func orderDetailButtonAction(_ sender: Any) {
+        self.goToOrderDetailAction("")
+    }
+    
+    
+    
+    
+    
     
     var shouldScroll : Bool = false
     var isNeedToDoViewAllocation : Bool = true
@@ -92,7 +127,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     func setup() {
         
-        
+        // Fixit: need to remove
         setUpTitleLabelAppearance()
         setUpDelevryScheduleDetail()
         setNoteOrderLable()
@@ -109,6 +144,19 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
        
     }
+    
+    fileprivate func playLottieAnimation() {
+        
+        let frame = self.lottieAnimation.frame
+        self.lottieAnimation = AnimationView(name: "Order Confirmation Smiles")
+        self.lottieAnimation.frame = frame
+        lottieAnimation.contentMode = .scaleAspectFill
+        lottieAnimation.center = self.view.center
+        lottieAnimation.play()
+        
+    }
+    
+    
     
     func cellRegistration() {
         let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle: Bundle.resource)
@@ -154,6 +202,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func addStatusHeader () {
+        
+         return
         
         guard self.order != nil else {return}
         
@@ -325,7 +375,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     
     override func backButtonClick() {
+        
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
+        
         if let vcA = self.navigationController?.viewControllers {
             elDebugPrint(vcA)
             if vcA.count == 1 {
@@ -342,12 +394,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             }
         }
         
-        let SDKManager = SDKManager.shared
-        if let tab = SDKManager.currentTabBar  {
+        let sdkManage = SDKManager.shared
+        if let tab = sdkManage.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
-            tab.selectedIndex = 0
+            tab.selectedIndex = SDKManager.isGroverySingleStore ? 1 : 0
         }
-
     }
     
 
@@ -386,6 +437,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         }
    
         self.getOrderDetail()
+        
+        self.playLottieAnimation()
     }
    
     override func viewDidAppear(_ animated: Bool) {
@@ -458,6 +511,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                         self.setRetailerImage()
                         self.setup()
                         self.addStatusHeader()
+                        self.bindViews(self.order, address: self.order.deliveryAddress)
                         ElGrocerUtility.sharedInstance.delay(0.5) { [weak self] in
                             self?.setStatusProgress()
                         }

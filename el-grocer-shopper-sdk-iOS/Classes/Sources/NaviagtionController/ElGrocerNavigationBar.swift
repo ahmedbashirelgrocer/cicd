@@ -593,7 +593,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addSideMenuButton() {
-        let image = UIImage(name: "sideMenu")
+        let image = UIImage(name: "menu")
         self.profileButton  = UIButton(type: .custom)
         self.profileButton.setImage(image, for: .normal)
         self.addSubview(self.profileButton)

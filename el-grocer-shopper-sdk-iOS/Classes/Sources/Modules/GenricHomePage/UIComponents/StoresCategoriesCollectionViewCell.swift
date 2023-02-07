@@ -8,10 +8,72 @@
 
 import UIKit
 import SDWebImage
+import RxSwift
 
 let KStoresCategoriesCollectionViewCell = "StoresCategoriesCollectionViewCell"
-class StoresCategoriesCollectionViewCell: UICollectionViewCell {
+
+protocol StoresCategoriesCollectionViewCellViewModelInput { }
     
+protocol StoresCategoriesCollectionViewCellViewModelOutput {
+    var categoryName: Observable<String?> { get }
+    var coloredImageUrl: Observable<String?> { get }
+    var isArbic: Observable<Bool> { get }
+}
+
+protocol StoresCategoriesCollectionViewCellViewModelType: StoresCategoriesCollectionViewCellViewModelOutput, StoresCategoriesCollectionViewCellViewModelInput  {
+    var inputs: StoresCategoriesCollectionViewCellViewModelInput { get }
+    var outputs: StoresCategoriesCollectionViewCellViewModelOutput { get }
+}
+
+extension StoresCategoriesCollectionViewCellViewModelType {
+    var inputs: StoresCategoriesCollectionViewCellViewModelInput { self }
+    var outputs: StoresCategoriesCollectionViewCellViewModelOutput { self }
+}
+
+class StoresCategoriesCollectionViewCellViewModel: StoresCategoriesCollectionViewCellViewModelType, ReusableCollectionViewCellViewModelType {
+    // MARK: Outputs
+    var categoryName: RxSwift.Observable<String?> { self.categoryNameSubject.asObservable() }
+    var coloredImageUrl: RxSwift.Observable<String?> { self.coloredImageUrlSubject.asObservable() }
+    var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
+    
+    // MARK: Subjects
+    private var categoryNameSubject = BehaviorSubject<String?>(value: nil)
+    private var coloredImageUrlSubject = BehaviorSubject<String?>(value: nil)
+    private var isArbicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
+    
+    var reusableIdentifier: String { StoresCategoriesCollectionViewCell.defaultIdentifier }
+    
+    init(category: CategoryDTO) {
+        self.categoryNameSubject.onNext(category.name)
+        self.coloredImageUrlSubject.onNext(category.coloredImageUrl)
+    }
+}
+
+class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
+    override func configure(viewModel: Any) {
+        
+        guard let viewModel = viewModel as? StoresCategoriesCollectionViewCellViewModelType else { return }
+        
+        viewModel.outputs.categoryName.bind(to: self.lblCategoryName.rx.text).disposed(by: disposeBag)
+        viewModel.outputs.coloredImageUrl.subscribe(onNext: { [weak self] sUrl in
+            guard let self = self else { return }
+            
+            self.setChefImage(sUrl, isSelected : false, imageView: self.centerImage)
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.isArbic.subscribe(onNext: { [weak self] isArbic in
+            guard let self = self else { return }
+            
+            if isArbic {
+                self.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
+        }).disposed(by: disposeBag)
+        
+        self.bgView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        self.bgView.cornarRadius = 8.0
+        self.setImageViewSizeWithRaidus(false , 8.0)
+        self.lblCategoryName.textColor = UIColor.newBlackColor()
+    }
     
     @IBOutlet var imageViewWidth: NSLayoutConstraint!
     @IBOutlet var imageViewHeight: NSLayoutConstraint!

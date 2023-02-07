@@ -45,13 +45,44 @@ class PreLoadData {
             }
         }
     }
+    
+    func loadDataWithOutFetchingHomeCalls(launchOptions: LaunchOptions, completion: (() -> Void)? ) {
+        self.completion = completion
+        
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            // Data already loaded return
+            self.updateLocationIfNeeded() {
+                self.completion?()
+            }
+            return
+        }
+
+        SDKManager.shared.launchOptions = launchOptions
+
+        configureElgrocerShopper()
+        
+        // Remove me
+        // HomePageData.shared.delegate = self
+
+        if self.isNotLoggedin() {
+            loginSignup {
+                self.updateLocationIfNeeded() {
+                    self.completion?()
+                }
+            }
+        } else {
+            self.updateLocationIfNeeded() {
+                self.completion?()
+            }
+        }
+    }
 
     func loginSignup(completion: (() -> Void)?) {
         let launchOptions = SDKManager.shared.launchOptions!
         let manager = SDKLoginManager(launchOptions: launchOptions)
         manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage in
             guard let self = self else { return }
-            let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
+            //let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
             if isSuccess {
                 ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
                 self.updateLocationIfNeeded(completion: completion)
@@ -62,17 +93,17 @@ class PreLoadData {
     }
     
     func updateLocationIfNeeded(completion: (() -> Void)? ) {
+        
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         let lat = SDKManager.shared.launchOptions?.latitude
         let lng = SDKManager.shared.launchOptions?.longitude
         
-        // if there is default location added returned back and don't add/update location
+
         if let _ = locations.first(where: { $0.isActive == NSNumber(value: true) }) {
             completion?()
             return
         }
-        
         // Use this instead of abouve if there is always need to update default location if there is different in launch options.
         // if let dLocation = locations.first(where: { $0.isActive == NSNumber(value: true) }),
         // dLocation.latitude == lat && dLocation.longitude == lng {

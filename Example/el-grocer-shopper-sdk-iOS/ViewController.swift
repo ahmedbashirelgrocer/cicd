@@ -65,6 +65,31 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func goToSingleStoreSDK(_ sender: Any) {
+        let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+        
+        let launchOptions =  LaunchOptions(
+            accountNumber: self.txtAccountNumber.text,
+            latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue,
+            longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue,
+            address: self.txtAddress.text,
+            loyaltyID: self.txtLoyalityID.text,
+            email: self.txtEmail.text,
+            pushNotificationPayload: pushData,
+            deepLinkPayload: self.txtDLPayload.text,
+            language: self.txtLanguage.text,
+            type: .singleStore,
+            environmentType: environment)
+        
+        
+        FlavorAgent.startFlavorEngine(launchOptions) {
+            debugPrint("startAnimation")
+        } completion: { isCompleted in
+            debugPrint("Animation Completed")
+        }
+
+    }
+    
     @IBAction func btnGoToSDK(_ sender: Any) {
         self.startSDK()
     }
@@ -88,6 +113,7 @@ class ViewController: UIViewController {
     }
     
     func setDefaultData() {
+
         txtAccountNumber.text = "+923138157011" 
         txtLat.text = "\(25.06867070)"
         txtLong.text = "\(55.142484)"
@@ -95,7 +121,7 @@ class ViewController: UIViewController {
         txtLoyalityID.text = "111111111130"
         txtEmail.text = ""
         txtPushPayload.text =  nil//"[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
-        txtDLPayload.text = "" // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
+        txtDLPayload.text =  "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18,marketType=1"
         txtLanguage.text = "Base"
     }
     

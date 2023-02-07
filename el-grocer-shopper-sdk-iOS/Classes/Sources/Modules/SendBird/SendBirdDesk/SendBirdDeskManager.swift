@@ -21,6 +21,8 @@ enum SendBirdDeskType {
 class SendBirdDeskManager{
 
     //let APP_ID = "F061BADA-1171-4478-8CFB-CBACC012301C"
+    lazy var KSingleGroceryStore: String = "GrocerySingleStore"
+    lazy var KSmileMarketPlace: String = "SmileMarketPlace"
     let shoperPrefix = "s_"
     let OrderUrlPrefix = "Order: "
     let SupportUrlPrefix = "Support: "
@@ -534,6 +536,8 @@ class SendBirdDeskManager{
                 customFields["shopperid"] = id
             }
         }
+        customFields["market-type"] = SDKManager.isSmileSDK ? (SDKManager.isGroverySingleStore ? KSingleGroceryStore : KSmileMarketPlace) : "ShopperGroceryApp"
+        
 
         SBDSKMain.setCustomerCustomFields(customFields) { (error) in
             guard error == nil else {
