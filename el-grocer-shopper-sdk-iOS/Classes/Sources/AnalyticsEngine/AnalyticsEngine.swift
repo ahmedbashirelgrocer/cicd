@@ -49,14 +49,26 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
 
 private extension SegmentAnalyticsEngine {
     func addMarketTypeProperty(metaData: [String: Any]) -> [String: Any] {
-        if SDKManager.isSmileSDK {
-            var metaData = metaData
-            metaData["marketType"] = "Smile Marketplace"
-            return metaData
+        if let launchOptions = SDKManager.shared.launchOptions {
+            switch launchOptions.marketType {
+                
+            case .smiles:
+                var metaData = metaData
+                metaData["marketType"] = "Smile Marketplace"
+                return metaData
+                
+            case .shopper:
+                var metaData = metaData
+                metaData["marketType"] = "Shopper Marketplace"
+                return metaData
+                
+            case .singleStore:
+                var metaData = metaData
+                metaData["marketType"] = "Smile Single Store"
+                return metaData
+            }
         }
         
-        var metaData = metaData
-        metaData["marketType"] = "Shopper Marketplace"
         return metaData
     }
 }
