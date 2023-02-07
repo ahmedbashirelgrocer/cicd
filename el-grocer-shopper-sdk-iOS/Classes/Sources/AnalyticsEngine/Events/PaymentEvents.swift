@@ -11,10 +11,11 @@ struct PaymentMethodChangedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(paymentMethodId: Int) {
+    init(paymentMethodId: Int, paymentMethodName: String) {
         self.eventType = .track(eventName: AnalyticsEventName.paymentMethodChanged)
         self.metaData = [
-            EventParameterKeys.paymentMethodId: paymentMethodId
+            EventParameterKeys.paymentMethodId: paymentMethodId,
+            EventParameterKeys.paymentMethodName: paymentMethodName,
         ]
     }
 }

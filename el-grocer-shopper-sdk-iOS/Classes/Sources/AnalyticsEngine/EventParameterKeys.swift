@@ -31,6 +31,7 @@ enum EventParameterKeys {
     static let phone            = "phone"
     static let name             = "name"
     static let paymentMethodId  = "paymentMethodId"
+    static let paymentMethodName = "paymentMethodName"
     static let totalOrderAmount = "totalOrderAmount"
     static let productId        = "productId"
     static let productName      = "productName"

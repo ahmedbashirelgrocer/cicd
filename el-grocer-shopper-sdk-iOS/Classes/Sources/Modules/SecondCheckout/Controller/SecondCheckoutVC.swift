@@ -439,7 +439,7 @@ extension SecondCheckoutVC: PaymentMethodViewDelegate {
                 MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(option.rawValue)",cardId: creditCard?.cardID ?? "-1", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
                 
                 // Logging segment event for payment method changed
-                SegmentAnalyticsEngine.instance.logEvent(event: PaymentMethodChangedEvent(paymentMethodId: Int(option.rawValue)))
+                SegmentAnalyticsEngine.instance.logEvent(event: PaymentMethodChangedEvent(paymentMethodId: Int(option.rawValue), paymentMethodName: option.paymentMethodName))
             }
         }
         MixpanelEventLogger.trackCheckoutPrimaryPaymentMethodClicked()
