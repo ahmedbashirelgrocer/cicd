@@ -169,3 +169,43 @@ struct CartCheckoutEvent: AnalyticsEventDataType {
         return result
     }
 }
+
+struct MultiCartViewedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.multiCartViewed)
+    }
+}
+
+struct CartClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery?) {
+        self.eventType = .track(eventName: AnalyticsEventName.cartClicked)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery?.dbID ?? "",
+            EventParameterKeys.retailerName: grocery?.name ?? "",
+        ]
+    }
+}
+
+struct CheckoutStartedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.checkoutStarted)
+    }
+}
+
+struct MultiCartsClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.multiCartsClicked)
+    }
+}

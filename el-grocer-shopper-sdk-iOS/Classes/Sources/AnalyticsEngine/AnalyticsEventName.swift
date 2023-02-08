@@ -16,6 +16,10 @@ enum AnalyticsEventName {
     static let cartDeleted              = "Cart Deleted"
     static let cartViewed               = "Cart Viewed"
     static let cartCheckout             = "Cart Checkout"
+    static let multiCartViewed          = "MultiCarts Viewed"
+    static let cartClicked              = "Cart Clicked"
+    static let checkoutStarted          = "Checkout Started"
+    static let multiCartsClicked        = "Multi Carts Clicked"
     
     // MARK: Order Events
     static let orderPurchased           = "Order Purchased"

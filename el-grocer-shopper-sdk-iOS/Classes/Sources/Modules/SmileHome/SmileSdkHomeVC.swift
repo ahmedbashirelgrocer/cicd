@@ -651,6 +651,9 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
     
     func cartButtonTap() {
         self.navigateToMultiCart()
+        
+        // Logging segment event for multicart clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MultiCartsClickedEvent())
     }
 }
 
