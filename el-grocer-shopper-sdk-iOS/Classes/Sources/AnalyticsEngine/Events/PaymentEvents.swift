@@ -14,7 +14,7 @@ struct PaymentMethodChangedEvent: AnalyticsEventDataType {
     init(paymentMethodId: Int, paymentMethodName: String) {
         self.eventType = .track(eventName: AnalyticsEventName.paymentMethodChanged)
         self.metaData = [
-            EventParameterKeys.paymentMethodId: paymentMethodId,
+            EventParameterKeys.paymentMethodId: String(paymentMethodId),
             EventParameterKeys.paymentMethodName: paymentMethodName,
         ]
     }
@@ -53,7 +53,7 @@ struct PromoCodeAppliedEvent: AnalyticsEventDataType {
         self.metaData = [
             EventParameterKeys.isApplied: isApplied,
             EventParameterKeys.promoCode: promoCode ?? "",
-            EventParameterKeys.realizationId: realizationId ?? -1,
+            EventParameterKeys.realizationId: String(realizationId ?? 0),
         ]
     }
 }
@@ -77,7 +77,7 @@ struct FundMethodSelectedEvent: AnalyticsEventDataType {
     init(paymentMethodId: Int) {
         self.eventType = .track(eventName: AnalyticsEventName.fundMethodSelected)
         self.metaData = [
-            EventParameterKeys.paymentMethodId: paymentMethodId,
+            EventParameterKeys.paymentMethodId: String(paymentMethodId),
         ]
     }
 }
@@ -107,8 +107,8 @@ struct FundAddedEvent: AnalyticsEventDataType {
     init(paymentMethodId: Int, amount: Double) {
         self.eventType = .track(eventName: AnalyticsEventName.fundAdded)
         self.metaData = [
-            EventParameterKeys.paymentMethodId: paymentMethodId,
-            EventParameterKeys.amount: amount,
+            EventParameterKeys.paymentMethodId: String(paymentMethodId),
+            EventParameterKeys.amount: String(amount),
         ]
     }
 }

@@ -27,7 +27,7 @@ struct GeneralAPIErrorEvent: AnalyticsEventDataType {
         self.metaData = [
             EventParameterKeys.apiEndpoint: endPoint ?? "",
             EventParameterKeys.message: message,
-            EventParameterKeys.code: code,
+            EventParameterKeys.code: String(code),
         ]
     }
 }

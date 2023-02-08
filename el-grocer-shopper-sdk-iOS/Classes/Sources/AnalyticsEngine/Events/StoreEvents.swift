@@ -14,9 +14,9 @@ struct StoreCategorySwitchedEvent: AnalyticsEventDataType {
     init(currentStoreCategoryType: StoreType?, nextStoreCategoryType: StoreType?) {
         self.eventType = .track(eventName: AnalyticsEventName.storeCategorySwitched)
         self.metaData = [
-            EventParameterKeys.currentCategoryId    : currentStoreCategoryType?.storeTypeid ?? "",
+            EventParameterKeys.currentCategoryId    : String(currentStoreCategoryType?.storeTypeid ?? -1),
             EventParameterKeys.currentCategoryName  : currentStoreCategoryType?.name ?? "",
-            EventParameterKeys.nextCategoryId       : nextStoreCategoryType?.storeTypeid ?? "",
+            EventParameterKeys.nextCategoryId       : String(nextStoreCategoryType?.storeTypeid ?? -1),
             EventParameterKeys.nextCategoryName     : nextStoreCategoryType?.name ?? "",
         ]
     }
@@ -32,7 +32,7 @@ struct StoreClickedEvent: AnalyticsEventDataType {
             EventParameterKeys.retailerID       : grocery.dbID,
             EventParameterKeys.retailerName     : grocery.name ?? "",
             EventParameterKeys.isFeatured       : grocery.featured?.boolValue ?? false,
-            EventParameterKeys.parentId         : grocery.parentID.intValue,
+            EventParameterKeys.parentId         : grocery.parentID.stringValue,
             EventParameterKeys.typesStoreID     : grocery.retailerType.stringValue,
             EventParameterKeys.address          : grocery.address ?? "",
         ]
@@ -56,7 +56,7 @@ struct StoresInRangeEvent: AnalyticsEventDataType {
             
             dictionary[EventParameterKeys.retailerID] = grocery.dbID
             dictionary[EventParameterKeys.zoneId] = grocery.deliveryZoneId
-            dictionary[EventParameterKeys.parentId] = grocery.parentID
+            dictionary[EventParameterKeys.parentId] = grocery.parentID.stringValue
             dictionary[EventParameterKeys.typesStoreID] = grocery.retailerType.stringValue
             
             return dictionary

@@ -20,24 +20,24 @@ struct CartCreatedEvent: AnalyticsEventDataType {
     init(product: Product, activeGrocery: Grocery?) {
         self.eventType = .track(eventName: AnalyticsEventName.cartCreated)
         self.metaData = [
-            EventParameterKeys.productId        : product.productId,
+            EventParameterKeys.productId        : product.productId.stringValue,
             EventParameterKeys.productName      : product.name ?? "",
-            EventParameterKeys.quantity         : 1,
+            EventParameterKeys.quantity         : "1",
             EventParameterKeys.brandName        : product.brandName ?? "",
             EventParameterKeys.retailerID       : ElGrocerUtility.sharedInstance.cleanGroceryID(activeGrocery),
             EventParameterKeys.isPromotion      : product.promotion?.boolValue ?? false,
             EventParameterKeys.categoryName     : product.categoryName ?? "",
-            EventParameterKeys.subcategoryID    : product.subcategoryId,
+            EventParameterKeys.subcategoryID    : product.subcategoryId.stringValue,
             EventParameterKeys.subcategoryName  : product.subcategoryName ?? "",
             EventParameterKeys.isSponsored      : product.isSponsored?.boolValue ?? false,
-            EventParameterKeys.brandId          : product.brandId ?? "",
-            EventParameterKeys.price            : product.price,
+            EventParameterKeys.brandId          : product.brandId?.stringValue ?? "",
+            EventParameterKeys.price            : product.price.stringValue,
             EventParameterKeys.isRecipe         : false,
             EventParameterKeys.retailerName     : activeGrocery?.name ?? "",
             EventParameterKeys.typesStoreID     : activeGrocery?.retailerType.stringValue ?? "",
-            EventParameterKeys.categoryID       : product.categoryId ?? "",
+            EventParameterKeys.categoryID       : product.categoryId?.stringValue ?? "",
             // if the isPromotion is false then need to send the actual price in promoPrice
-            EventParameterKeys.promoPrice       : product.promotion?.boolValue ?? false ? round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100 : product.price,
+            EventParameterKeys.promoPrice       : product.promotion?.boolValue ?? false ? "\(round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100)" : product.price.stringValue,
             EventParameterKeys.deeplink         : product.queryID ?? "",
         ]
     }
@@ -51,23 +51,23 @@ struct CartDeletedEvent: AnalyticsEventDataType {
     init(product: Product, activeGrocery: Grocery?) {
         self.eventType = .track(eventName: AnalyticsEventName.cartDeleted)
         self.metaData = [
-            EventParameterKeys.productId        : product.productId,
+            EventParameterKeys.productId        : product.productId.stringValue,
             EventParameterKeys.productName      : product.name ?? "",
             EventParameterKeys.typesStoreID     : activeGrocery?.retailerType.stringValue ?? "",
             EventParameterKeys.retailerID       : ElGrocerUtility.sharedInstance.cleanGroceryID(activeGrocery),
             EventParameterKeys.retailerName     : activeGrocery?.name ?? "",
-            EventParameterKeys.price            : product.price,
-            EventParameterKeys.brandId          : product.brandId ?? "",
+            EventParameterKeys.price            : product.price.stringValue,
+            EventParameterKeys.brandId          : product.brandId?.stringValue ?? "",
             EventParameterKeys.brandName        : product.brandName ?? "",
             EventParameterKeys.isSponsored      : product.isSponsored?.boolValue ?? false,
             EventParameterKeys.isPromotion      : product.promotion?.boolValue ?? false,
             EventParameterKeys.isRecipe         : false,
             // if the isPromotion is false then need to send the actual price in promoPrice
-            EventParameterKeys.promoPrice       : product.promotion?.boolValue ?? false ? round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100 : product.price,
-            EventParameterKeys.quantity         : 0,
-            EventParameterKeys.categoryID       : product.categoryId ?? "",
+            EventParameterKeys.promoPrice       : product.promotion?.boolValue ?? false ? "\(round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100)" : product.price.stringValue,
+            EventParameterKeys.quantity         : "0",
+            EventParameterKeys.categoryID       : product.categoryId?.stringValue ?? "",
             EventParameterKeys.categoryName     : product.categoryName ?? "",
-            EventParameterKeys.subcategoryID    : product.subcategoryId,
+            EventParameterKeys.subcategoryID    : product.subcategoryId.stringValue,
             EventParameterKeys.subcategoryName  : product.subcategoryName ?? "",
             EventParameterKeys.deeplink         : product.queryID ?? "",
         ]
@@ -89,21 +89,21 @@ struct CartUpdatedEvent: AnalyticsEventDataType {
             EventParameterKeys.typesStoreID     : grocery?.retailerType.stringValue ?? "",
             EventParameterKeys.retailerID       : ElGrocerUtility.sharedInstance.cleanGroceryID(grocery),
             EventParameterKeys.retailerName     : grocery?.name ?? "",
-            EventParameterKeys.categoryID       : product.categoryId ?? "",
+            EventParameterKeys.categoryID       : product.categoryId?.stringValue ?? "",
             EventParameterKeys.categoryName     : product.categoryName ?? "",
-            EventParameterKeys.subcategoryID    : product.subcategoryId,
+            EventParameterKeys.subcategoryID    : product.subcategoryId.stringValue,
             EventParameterKeys.subcategoryName  : product.subcategoryName ?? "",
-            EventParameterKeys.price            : product.price,
-            EventParameterKeys.brandId          : product.brandId ?? "",
+            EventParameterKeys.price            : product.price.stringValue,
+            EventParameterKeys.brandId          : product.brandId?.stringValue ?? "",
             EventParameterKeys.brandName        : product.brandName ?? "",
-            EventParameterKeys.productId        : product.productId,
+            EventParameterKeys.productId        : product.productId.stringValue,
             EventParameterKeys.productName      : product.name ?? "",
             // if the isPromotion is false then need to send the actual price in promoPrice
-            EventParameterKeys.promoPrice       : product.promotion?.boolValue ?? false ? round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100 : product.price,
+            EventParameterKeys.promoPrice       : product.promotion?.boolValue ?? false ? "\(round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100)" : product.price.stringValue,
             EventParameterKeys.isSponsored      : product.isSponsored?.boolValue ?? false,
             EventParameterKeys.isPromotion      : product.promotion?.boolValue ?? false,
             EventParameterKeys.isRecipe         : false,
-            EventParameterKeys.quantity         : quantity,
+            EventParameterKeys.quantity         : String(quantity),
             EventParameterKeys.deeplink         : product.queryID ?? "",
         ]
     }
@@ -117,7 +117,7 @@ struct CartViewdEvent: AnalyticsEventDataType {
     init(grocery: Grocery?) {
         self.eventType = .track(eventName: AnalyticsEventName.cartViewed)
         self.metaData = [
-            EventParameterKeys.retailerID      : ElGrocerUtility.sharedInstance.cleanGroceryID(grocery),
+            EventParameterKeys.retailerID      : grocery?.dbID ?? "",
             EventParameterKeys.retailerName    : grocery?.name ?? "",
         ]
     }
@@ -149,19 +149,19 @@ struct CartCheckoutEvent: AnalyticsEventDataType {
             }
             
             dictionary[EventParameterKeys.productName]      = product.name ?? ""
-            dictionary[EventParameterKeys.productId]        = product.productId
-            dictionary[EventParameterKeys.categoryID]       = product.categoryId ?? ""
+            dictionary[EventParameterKeys.productId]        = product.productId.stringValue
+            dictionary[EventParameterKeys.categoryID]       = product.categoryId?.stringValue ?? ""
             dictionary[EventParameterKeys.categoryName]     = product.categoryName ?? ""
-            dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId
+            dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId.stringValue
             dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryName ?? ""
-            dictionary[EventParameterKeys.price]            = product.price
-            dictionary[EventParameterKeys.brandId]          = product.brandId ?? ""
+            dictionary[EventParameterKeys.price]            = product.price.stringValue
+            dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
             dictionary[EventParameterKeys.brandName]        = product.brandName ?? ""
             dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
             dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
-            dictionary[EventParameterKeys.quantity]         = quantity
+            dictionary[EventParameterKeys.quantity]         = String(quantity)
             // if the isPromotion is false then need to send the actual price in promoPrice
-            dictionary[EventParameterKeys.promoPrice]       = product.promotion?.boolValue ?? false ? round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100 : product.price
+            dictionary[EventParameterKeys.promoPrice]       = product.promotion?.boolValue ?? false ? "\(round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100)" : product.price.stringValue
             
             return dictionary
         }
