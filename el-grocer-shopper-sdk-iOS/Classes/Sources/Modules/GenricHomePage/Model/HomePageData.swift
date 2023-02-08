@@ -510,6 +510,9 @@ extension HomePageData : StoresDataHandlerDelegate {
             self.startFetching()
         }
         
+        // Logging segment event for store in range
+        SegmentAnalyticsEngine.instance.logEvent(event: StoresInRangeEvent(retailers: groceryA))
+        
     }
     func genericBannersList(list : [BannerCampaign]) -> Void {
         self.locationOneBanners = list

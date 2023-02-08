@@ -59,4 +59,9 @@ enum AnalyticsEventName {
     static let userRegistered           = "User Registered"
     static let userSignedIn             = "User Signed In"
     static let menuButtonClicked        = "Menu Button Clicked"
+    
+    // MARK: Store
+    static let storeCategorySwitched    = "Store Category Switched"
+    static let storeClicked             = "Store Clicked"
+    static let storesInRange            = "Stores In Range"
 }

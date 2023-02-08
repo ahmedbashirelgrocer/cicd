@@ -755,12 +755,18 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.filteredGroceryArray.count > 0 &&  indexPath.row < self.filteredGroceryArray.count && indexPath.section == 1 {
             self.goToGrocery(self.filteredGroceryArray[indexPath.row], nil)
+            
+            // Logging segment event for store clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row]))
         }
         if self.filteredGroceryArray.count > 0 && indexPath.section == 3 {
             var indexPathRow = indexPath.row
             if self.filteredGroceryArray.count > separatorCount {
                 indexPathRow = indexPathRow + separatorCount + 1
                 self.goToGrocery(self.filteredGroceryArray[indexPathRow], nil)
+                
+                // Logging segment event for store clicked
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow]))
             }
         }
     }
@@ -1005,6 +1011,11 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         self.tableView.reloadDataOnMain()
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
+        
+        // Logging segment for store category switch
+        let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: lastSelectType, nextStoreCategoryType: selectedType)
+        SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
+        
         self.lastSelectType = selectedType
         
     }

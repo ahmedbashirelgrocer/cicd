@@ -61,4 +61,11 @@ enum EventParameterKeys {
     static let oosProduct       = "oosProduct"
     static let substituteProduct   = "substituteProduct"
     static let deeplink         = "deeplink"
+    static let currentCategoryId    = "currentCategoryId"
+    static let currentCategoryName  = "currentCategoryName"
+    static let nextCategoryId       = "nextCategoryId"
+    static let nextCategoryName     = "nextCategoryName"
+    static let isFeatured           = "isFeatured"
+    static let zoneId               = "zoneId"
+    static let availableStores      = "availableStores"
 }
