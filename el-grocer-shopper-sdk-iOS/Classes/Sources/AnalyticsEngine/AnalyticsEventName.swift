@@ -50,6 +50,7 @@ enum AnalyticsEventName {
     // MARK: Common
     static let helpClicked              = "Help Click"
     static let generalAPIError          = "General API Error"
+    static let menuItemClicked          = "Menu Item Clicked"
     
     // MARK: Search
     static let universalSearch          = "Universal Search"

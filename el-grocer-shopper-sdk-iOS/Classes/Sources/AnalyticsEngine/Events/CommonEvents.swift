@@ -31,3 +31,15 @@ struct GeneralAPIErrorEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct MenuItemClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(name: String) {
+        self.eventType = .track(eventName: AnalyticsEventName.menuItemClicked)
+        self.metaData = [
+            EventParameterKeys.name: name,
+        ]
+    }
+}
