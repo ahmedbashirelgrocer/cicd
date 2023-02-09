@@ -260,8 +260,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
         self.basketIconOverlay?.shouldShow = true
         self.refreshBasketForGrocery()
-        
-        bindViews()
+        self.initViewModel()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1467,11 +1466,26 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
 }
 
 private extension MainCategoriesViewController {
+    
+    func initViewModel() {
+        
+        defer {
+            bindViews()
+        }
+        
+        guard self.viewModel == nil else {
+            if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
+                self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
+            }
+            return
+        }
+        
+        self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
+    }
+    
     func bindViews() {
         self.tableViewCategories.dataSource = nil
         self.tableViewCategories.delegate = self
-        
-        self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
         
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
@@ -1486,6 +1500,10 @@ private extension MainCategoriesViewController {
         self.viewModel.outputs.cellViewModels
             .bind(to: self.tableViewCategories.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        viewModel.outputs.reloadTable.subscribe(onNext: { [weak self] in
+            self?.tableViewCategories.reloadDataOnMain()
+        }).disposed(by: disposeBag)
         
         // MARK: Actions
         self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] in
@@ -2064,4 +2082,6 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
 extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
 }
+
+
 

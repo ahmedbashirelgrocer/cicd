@@ -679,7 +679,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="gVz-Kz-Y8I" id="rdj-kf-Vee"/>
                                     <outlet property="delegate" destination="gVz-Kz-Y8I" id="uyN-eR-4g4"/>
                                 </connections>
                             </tableView>

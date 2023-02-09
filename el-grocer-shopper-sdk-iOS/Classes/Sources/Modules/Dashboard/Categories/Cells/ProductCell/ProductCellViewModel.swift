@@ -186,7 +186,7 @@ private extension ProductCellViewModel {
         isAvailableSubject.onNext(product.isAvailable ?? true)
         isPublishedSubject.onNext(product.isPublished ?? true)
         
-        let isEnabled = product.availableQuantity != 0 && grocery?.inventoryControlled?.boolValue == true
+        let isEnabled = grocery?.inventoryControlled?.boolValue == true ?  product.availableQuantity != 0 : true
         addToCartButtonEnabledSubject.onNext(isEnabled)
     }
     
