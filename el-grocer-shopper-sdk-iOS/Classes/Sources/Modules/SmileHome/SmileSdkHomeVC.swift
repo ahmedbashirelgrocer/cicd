@@ -340,9 +340,15 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     @objc func showLocationCustomPopUp() {
         
+        guard SDKManager.shared.launchOptions?.navigationType != .search else {
+            return
+        }
+        
         guard UIApplication.topViewController() is SmileSdkHomeVC else {
             return
         }
+        
+        
         
         LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
             guard state != nil else {
@@ -397,8 +403,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 launch.latitude = address.latitude
                 launch.longitude = address.longitude
                 launch.address = address.address
-                ElgrocerPreloadManager.shared
-                    .searchClient.setLaunchOptions(launchOptions: launch)
+                if ElgrocerPreloadManager.shared.searchClient != nil {
+                    ElgrocerPreloadManager.shared
+                        .searchClient.setLaunchOptions(launchOptions: launch)
+                }
             }
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
             // self.homeDataHandler.resetHomeDataHandler()

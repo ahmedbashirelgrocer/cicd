@@ -31,8 +31,8 @@ class ElgrocerFarLocationCheck {
                 }
             }
         }
-        ElGrocerUtility.sharedInstance.delay(1) {
-            LocationManager.sharedInstance.fetchCurrentLocation()
+        ElGrocerUtility.sharedInstance.delay(2) {
+            LocationManager.sharedInstance.fetchCurrentLocation(true)
         }
     }
     
