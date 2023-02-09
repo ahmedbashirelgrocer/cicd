@@ -63,17 +63,25 @@ class SDKManager: NSObject  {
     var launchOptions: LaunchOptions? = nil
     var launchOptionsLocation: CLLocation? = nil
     var isLaunchEventConfigured: Bool = false
-  
+    var isInitialized = false
+    
     // MARK: Initializers
     private override init() {
         super.init()
         window = .key
-        DispatchQueue.main.async { [weak self] in self?.configure() }
+        
     }
     
   
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
+        
+        if !isInitialized {
+            DispatchQueue.main.async { [weak self] in self?.configure() }
+            isInitialized = true
+            print("initlization completed")
+        }
+        
         self.rootContext = UIWindow.key?.rootViewController
         self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         _ = ReachabilityManager.sharedInstance
@@ -418,14 +426,8 @@ class SDKManager: NSObject  {
         let dictionary = environmentsDict![configurationName] as! NSDictionary
         
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
-
-        print("Segment SDK write key >>> \(segmentSDKWriteKey)")
         
-        let writeAPIKey = (Platform.isDebugBuild || Platform.isSimulator)
-            ? kSegmentAnalyticsSDKWriteKeyDebug
-            : kSegmentAnalyticsSDKWriteKey
-        
-        let configuration = AnalyticsConfiguration(writeKey: writeAPIKey)
+        let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
         
         configuration.trackApplicationLifecycleEvents = true
         configuration.flushAt = 3
