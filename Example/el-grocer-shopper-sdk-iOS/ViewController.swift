@@ -78,7 +78,7 @@ class ViewController: UIViewController {
             pushNotificationPayload: pushData,
             deepLinkPayload: self.txtDLPayload.text,
             language: self.txtLanguage.text,
-            type: .grocerySingleStore,
+            marketype: .grocerySingleStore,
             environmentType: environment)
         
        // ElGrocer.start(with: launchOptions)
