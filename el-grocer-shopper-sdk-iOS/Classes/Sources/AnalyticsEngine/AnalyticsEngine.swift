@@ -31,12 +31,12 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
     func logEvent(event: AnalyticsEventDataType) {
         switch event.eventType {
         case .track(let eventName):
-            var metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
+            let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
             self.analytics.track(eventName, properties: metaData)
             break
             
         case .screen(let screenName):
-            var metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
+            let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
             self.analytics.screen(screenName, properties: metaData)
             break
         }
@@ -51,8 +51,7 @@ private extension SegmentAnalyticsEngine {
     func addMarketTypeProperty(metaData: [String: Any]) -> [String: Any] {
         if let launchOptions = SDKManager.shared.launchOptions {
             switch launchOptions.marketType {
-                
-            case .smiles:
+            case .marketPlace:
                 var metaData = metaData
                 metaData["marketType"] = "Smile Marketplace"
                 return metaData
@@ -62,7 +61,7 @@ private extension SegmentAnalyticsEngine {
                 metaData["marketType"] = "Shopper Marketplace"
                 return metaData
                 
-            case .singleStore:
+            case .grocerySingleStore:
                 var metaData = metaData
                 metaData["marketType"] = "Smile Single Store"
                 return metaData
