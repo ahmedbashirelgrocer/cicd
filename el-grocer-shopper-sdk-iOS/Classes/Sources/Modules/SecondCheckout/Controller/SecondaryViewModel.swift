@@ -1010,11 +1010,18 @@ struct DeliverySlotsData: Codable {
 }
 
 struct Retailer: Codable {
-    let id: String
-    let isOpened: Bool
+    let id: String?
+    let isOpened: Bool?
     
     enum CodingKeys: String, CodingKey {
         case id
         case isOpened = "is_opened"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = (try? values.decode(String.self, forKey: .id))
+        isOpened = (try? values.decode(Bool.self, forKey: .isOpened))
     }
 }

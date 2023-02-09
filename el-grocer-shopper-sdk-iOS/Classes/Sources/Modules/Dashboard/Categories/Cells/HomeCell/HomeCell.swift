@@ -9,6 +9,8 @@
 import UIKit
 import Shimmer
 import SDWebImage
+import RxSwift
+import RxDataSources
 
 // import PMAlertController
 let kHomeCellIdentifier = "HomeCell"
@@ -37,8 +39,63 @@ extension HomeCellDelegate {
     func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home? ) {}
 }
 
+// MARK: Helpers
+private extension HomeCell {
+    func bindViews() {
+        self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
+            cell.configure(viewModel: viewModel)
+            return cell
+        })
+        
+        self.productsCollectionView.dataSource = nil
+        
+        // Table View datasource binging
+        viewModel.outputs.productCollectionCellViewModels
+            .bind(to: self.productsCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        // Pagination
+        productsCollectionView.rx.didScroll.subscribe { [weak self] _ in
+            guard let self = self else { return }
+            
+            let offSetX = self.productsCollectionView.contentOffset.x
+            let contentWidth = self.productsCollectionView.contentSize.width
 
-class HomeCell: UITableViewCell {
+            if offSetX > (contentWidth - self.productsCollectionView.frame.size.width - 200) {
+                self.viewModel.inputs.fetchProductsObserver.onNext(())
+            }
+        }.disposed(by: disposeBag)
+        
+        viewModel.outputs.title
+            .bind(to: self.titleLbl.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.isArabic.subscribe(onNext: { [weak self] isArbic in
+            guard let self = self else { return }
+            
+            if isArbic {
+                self.rightArrowImageView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.productsCollectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.productsCollectionView.semanticContentAttribute = .forceLeftToRight
+            }
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.viewAllText
+            .bind(to: self.viewMoreButton.rx.title(for: UIControl.State()))
+            .disposed(by: disposeBag)
+        
+        self.setStateWithOutImageView()
+    }
+}
+
+class HomeCell: RxUITableViewCell {
+    override func configure(viewModel: Any) {
+        let viewModel = viewModel as! HomeCellViewModelType
+        
+        self.viewModel = viewModel
+        self.bindViews()
+    }
     
     @IBOutlet weak var rightArrowImageView: UIImageView!
     // @IBOutlet weak var arrowImgView: UIImageView!
@@ -97,6 +154,9 @@ class HomeCell: UITableViewCell {
 
     var isGettingProducts = false
     var isNeedToShowRecipe = false
+    
+    private var viewModel: HomeCellViewModelType!
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -266,6 +326,11 @@ class HomeCell: UITableViewCell {
 
     
     @IBAction func viewMoreHandler(_ sender: Any) {
+        if viewModel != nil {
+            self.viewModel.inputs.viewAllTapObserver.onNext(())
+            return
+        }
+        
         if let homeFeed =  self.homeFeed {
             FireBaseEventsLogger.trackViewMoreClick(["Name" : homeFeed.title])
             if homeFeed.type == .ListOfCategories {

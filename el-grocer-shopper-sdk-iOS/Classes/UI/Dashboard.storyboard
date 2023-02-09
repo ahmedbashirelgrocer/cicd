@@ -2349,9 +2349,6 @@
         <image name="rating-04" width="46" height="59"/>
         <image name="requestGrocery" width="186" height="120"/>
         <image name="sCross" width="16" height="16"/>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

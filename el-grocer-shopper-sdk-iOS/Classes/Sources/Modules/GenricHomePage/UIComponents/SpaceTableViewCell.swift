@@ -8,7 +8,12 @@
 
 import UIKit
 
-class SpaceTableViewCell: UITableViewCell {
+protocol SpaceTableViewCellViewModelType { }
+class SpaceTableViewCellViewModel: SpaceTableViewCellViewModelType, ReusableTableViewCellViewModelType {
+    var reusableIdentifier: String { SpaceTableViewCell.defaultIdentifier }
+}
+
+class SpaceTableViewCell: RxUITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
