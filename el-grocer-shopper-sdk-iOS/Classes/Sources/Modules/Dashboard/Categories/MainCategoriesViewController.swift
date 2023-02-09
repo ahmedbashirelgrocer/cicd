@@ -1483,6 +1483,7 @@ private extension MainCategoriesViewController {
         
         viewModel.outputs.reloadTable.subscribe(onNext: {
             self.tableViewCategories.reloadDataOnMain()
+            print("table view reloaded")
         }).disposed(by: disposeBag)
         
         // MARK: Actions

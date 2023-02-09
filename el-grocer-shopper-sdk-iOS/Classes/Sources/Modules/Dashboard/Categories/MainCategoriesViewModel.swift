@@ -203,11 +203,11 @@ private extension MainCategoriesViewModel {
                     let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                     viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
                     viewModel.outputs.isProductAvailable
-                        .filter { $0 }
+                        .filter { !$0 }
                         .map { _ in () }
                         .bind(to: self.reloadTableSubject)
                         .disposed(by: self.disposeBag)
-//
+
                     return viewModel
                 })
                 

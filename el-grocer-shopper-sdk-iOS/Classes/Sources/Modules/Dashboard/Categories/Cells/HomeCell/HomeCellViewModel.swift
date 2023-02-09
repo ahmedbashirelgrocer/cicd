@@ -183,7 +183,6 @@ private extension HomeCellViewModel {
         let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
         
         self.moreAvailable = products.count >= self.limit
-        self.offset += limit
         
         let cellVMs = products.map { product in
             let vm = ProductCellViewModel(product: ProductDTO(product: product), grocery: self.grocery)
@@ -195,7 +194,8 @@ private extension HomeCellViewModel {
         self.isLoading = false
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: self.productCellVMs)])
         
-        self.isProductAvailableSubject.onNext(self.productCellVMs.isNotEmpty)
+        self.isProductAvailableSubject.onNext(products.count != 0 && offset == 0)
+        self.offset += limit
     }
 }
 
