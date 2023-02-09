@@ -202,7 +202,7 @@ private extension MainCategoriesViewModel {
                 self.categories = categoriesDB.map { CategoryDTO(category: $0) }
                 let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
                 
-                categoriesCellVM.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                categoriesCellVM.outputs.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
                 self.categoriesCellVMs = [categoriesCellVM]
                 
                 // creating home cell view models

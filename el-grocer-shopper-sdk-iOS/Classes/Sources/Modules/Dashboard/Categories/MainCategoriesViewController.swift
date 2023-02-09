@@ -1469,13 +1469,10 @@ private extension MainCategoriesViewController {
     
     func initViewModel() {
         
-        defer {
-            bindViews()
-        }
-        
         guard self.viewModel == nil else {
             if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
                 self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
+                bindViews()
             }
             return
         }
