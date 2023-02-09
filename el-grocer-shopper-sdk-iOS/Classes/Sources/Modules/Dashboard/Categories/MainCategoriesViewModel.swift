@@ -22,8 +22,10 @@ protocol MainCategoriesViewModelOutput {
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Void> { get }
     var bannerTap: Observable<BannerDTO> { get }
-    
+    var reloadTable: Observable<Void> { get }
     var refreshBasket: Observable<Void> { get }
+    
+    func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
 }
 
 protocol MainCategoriesViewModelType: MainCategoriesViewModelInput, MainCategoriesViewModelOutput {
@@ -51,6 +53,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
     var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
+    var reloadTable: Observable<Void> { reloadTableSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -61,6 +64,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
     private var bannerTapSubject = PublishSubject<BannerDTO>()
+    private var reloadTableSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -95,13 +99,21 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
-            self.viewModels = [
-                SectionModel(model: 0, items: self.location1BannerVMs), // optional
-                SectionModel(model: 1, items: self.categoriesCellVMs),
-                SectionModel(model: 2, items: self.recentPurchasedVM), // optional
-                SectionModel(model: 3, items: self.location2BannerVMs), // optional
-                SectionModel(model: 4, items: self.homeCellVMs),
-            ]
+            if self.location1BannerVMs.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 0, items: self.location1BannerVMs))
+            }
+            
+            self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
+            
+            if self.recentPurchasedVM.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
+            }
+            
+            if self.location2BannerVMs.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 3, items: self.location2BannerVMs))
+            }
+            
+            self.viewModels.append(SectionModel(model: 4, items: self.homeCellVMs))
             self.cellViewModelsSubject.onNext(self.viewModels)
             self.loadingSubject.onNext(false)
         }
@@ -125,7 +137,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             
             case is GenericBannersCellViewModel : return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
             case is CategoriesCellViewModel     : return categories.count > 5 ? 290 : 180
-            case is HomeCellViewModel           : return 309
+            case is HomeCellViewModel           : return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
             
             default: return 0
         }
@@ -190,13 +202,19 @@ private extension MainCategoriesViewModel {
                 self.categories = categoriesDB.map { CategoryDTO(category: $0) }
                 let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
                 
-                categoriesCellVM.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                categoriesCellVM.outputs.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
                 self.categoriesCellVMs = [categoriesCellVM]
                 
                 // creating home cell view models
                 self.homeCellVMs = self.categories.map({
                     let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                     viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
+                    viewModel.outputs.isProductAvailable
+                        .filter { !$0 }
+                        .map { _ in () }
+                        .bind(to: self.reloadTableSubject)
+                        .disposed(by: self.disposeBag)
+
                     return viewModel
                 })
                 
@@ -291,4 +309,15 @@ private extension MainCategoriesViewModel {
             }
         }
     }
+}
+//MARK:- Utils
+extension MainCategoriesViewModel {
+    
+    func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool {
+        if newGrocery?.dbID == self.grocery?.dbID {
+            return false
+        }
+        return true
+    }
+    
 }

@@ -288,7 +288,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }
         if (indexOfDefaultLocation != nil){
             let location = self.locations[indexOfDefaultLocation!]
-            guard !SDKManager.isGroverySingleStore else {
+            guard !SDKManager.isGrocerySingleStore else {
                 self.updateStore(location: location) { [weak self ] (isStoreChange) in
                     if isStoreChange {
                         self?.startUpdatingLocationToServerProcess(location)
@@ -383,7 +383,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
             self.makeLocationToDefault(location)
         
-        if !SDKManager.isGroverySingleStore {
+        if !SDKManager.isGrocerySingleStore {
             ElGrocerUtility.sharedInstance.activeGrocery = nil
                 ElGrocerUtility.sharedInstance.resetRecipeView()
         }
@@ -1025,7 +1025,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 }
                  let location = self.locations[(indexPath as NSIndexPath).row]
                 
-                guard !SDKManager.isGroverySingleStore else {
+                guard !SDKManager.isGrocerySingleStore else {
                     self.updateStore(location: location) { [weak self ] (isStoreChange) in
                         if isStoreChange {
                             self?.startUpdatingLocationToServerProcess(location)
@@ -1231,7 +1231,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     fileprivate func updateStore(location: DeliveryAddress?, completion:@escaping ((Bool) -> Void)) {
         
         if var launch = SDKManager.shared.launchOptions {
-            launch.marketType = .singleStore
+            launch.marketType = .grocerySingleStore
             launch.latitude = location?.latitude ?? 0.0
             launch.longitude = location?.longitude ?? 0.0
             FlavorAgent.restartEngineWithLaunchOptions(launch) {
@@ -1510,7 +1510,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             self.dismiss(animated: true) {
                                 if ElGrocerUtility.sharedInstance.activeGrocery == nil {
                                     if let topVc = UIApplication.topViewController() {
-                                        topVc.tabBarController?.selectedIndex = SDKManager.isGroverySingleStore ? 1 : 0
+                                        topVc.tabBarController?.selectedIndex = SDKManager.isGrocerySingleStore ? 1 : 0
                                     }
                                     //self.tabBarController?.selectedIndex = 0
                                 }
@@ -1525,7 +1525,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             self.redirectIfLogged(editLocationController,  false)
                         }
                     }else {
-                        if !SDKManager.isGroverySingleStore { self.fetchGroceries() } else {
+                        if !SDKManager.isGrocerySingleStore { self.fetchGroceries() } else {
                             self.dismiss(animated: true)
                         }
                     }

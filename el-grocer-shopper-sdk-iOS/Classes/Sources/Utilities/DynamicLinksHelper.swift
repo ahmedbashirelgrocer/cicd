@@ -77,7 +77,7 @@ class DynamicLinksHelper {
             }
         }
         // }
-        if ElGrocerUtility.sharedInstance.groceries.count == 0 && !SDKManager.isGroverySingleStore {
+        if ElGrocerUtility.sharedInstance.groceries.count == 0 && !SDKManager.isGrocerySingleStore {
             ElGrocerUtility.sharedInstance.delay(2) {
                 handleIncomingDynamicLinksWithUrl(dynamicLinkURL)
             }

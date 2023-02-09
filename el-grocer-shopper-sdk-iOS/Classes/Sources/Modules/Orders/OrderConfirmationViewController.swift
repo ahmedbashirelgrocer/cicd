@@ -18,7 +18,7 @@ import RxSwift
 
 class OrderConfirmationViewController : UIViewController, MFMailComposeViewControllerDelegate , MyBasketViewProtocol {
     
-    @IBOutlet var lottieAnimation: AnimationView!
+    @IBOutlet var lottieAnimation: UIView!
     @IBOutlet weak var groceryImage: UIImageView!
     @IBOutlet weak var lblGroceryName: UILabel!
     @IBOutlet weak var lblOrderNumber: UILabel!
@@ -26,10 +26,12 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet weak var lblFreshItemNote: UILabel!
     @IBOutlet weak var lblAddressNote: UILabel!
     @IBOutlet weak var lblBanners: UIView!
+    @IBOutlet weak var viewBanner: BannerView!
     func bindViews(_ order: Order, address: DeliveryAddress) {
         
-        self.lblBanners.visibility = .gone
+        //self.lblBanners.visibility = .gone
        // self.lottieAnimation.visibility = .gone
+        self.viewBanner.roundCorners(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 8)
         self.lblGroceryName.text = self.order.grocery.name
         self.lblOrderNumber.text = localizedString("order_number_label", comment: "") + self.order.dbID.stringValue
         self.lblOrderDetailNote.attributedText = setBoldForText(CompleteValue: localizedString("Msg_Edit_Order", comment: ""), textForAttribute: localizedString("lbl_Order_Details", comment: ""))
@@ -40,7 +42,35 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         if let imageUrlString = self.grocery.imageUrl, let url = URL.init(string: imageUrlString) {
             self.groceryImage.sd_setImage(with: url)
         }
-      
+        self.viewBanner.bannerTapped = { [weak self] banner in
+        
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            
+            switch campaignType {
+            case .brand:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+                
+            case .retailer:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+                
+            case .web:
+                ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                break
+                
+            case .priority:
+                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+            }
+           
+        }
+        LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in
+            
+        }
+     
     }
     
     @IBAction func orderDetailButtonAction(_ sender: Any) {
@@ -147,13 +177,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     fileprivate func playLottieAnimation() {
         
-        let frame = self.lottieAnimation.frame
-        self.lottieAnimation = AnimationView(name: "Order Confirmation Smiles")
-        self.lottieAnimation.frame = frame
-        lottieAnimation.contentMode = .scaleAspectFill
-        lottieAnimation.center = self.view.center
-        lottieAnimation.play()
-        
+       
     }
     
     
@@ -397,7 +421,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         let sdkManage = SDKManager.shared
         if let tab = sdkManage.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
-            tab.selectedIndex = SDKManager.isGroverySingleStore ? 1 : 0
+            tab.selectedIndex = SDKManager.isGrocerySingleStore ? 1 : 0
         }
     }
     
@@ -473,8 +497,30 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func getBanners() {
-        let location = BannerLocation.post_checkout.getType()
-        let retailer_ids = ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        let location =  BannerLocation.post_checkout.getType()
+        self.viewBanner.bannerType = BannerLocation.post_checkout
+        let retailer_ids = SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        
+        ElGrocerApi.sharedInstance.getBannersFor(location: location, retailer_ids: retailer_ids) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: data)
+                    let compaings: CampaignsResponse = try JSONDecoder().decode(CampaignsResponse.self, from: data)
+                    self.viewBanner.banners = compaings.data
+                } catch {
+                    print("error >>> \(error)")
+                }
+                break
+                
+            case .failure(_):
+                break
+            }
+        }
+        return
+        
+        
+        /*
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: retailer_ids, store_type_ids: nil , retailer_group_ids: nil , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
                 case .success(let response):
@@ -485,7 +531,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                     elDebugPrint(error.jsonValue)
                     //error.showErrorAlert()
             }
-        }
+        }*/
     }
     
     

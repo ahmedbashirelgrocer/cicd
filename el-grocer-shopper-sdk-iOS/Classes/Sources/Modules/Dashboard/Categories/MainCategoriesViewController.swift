@@ -195,7 +195,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func addLocationHeader() {
         
-        if SDKManager.isGroverySingleStore {
+        if SDKManager.isGrocerySingleStore {
             self.view.addSubview(self.locationHeaderFlavor)
             self.setLocationViewFlavorHeaderConstraints()
         } else {
@@ -268,7 +268,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .storeScreen))
             self.isSegmentEventLogged = true
         }
-        bindViews()
+        
+        self.initViewModel()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -358,9 +359,31 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
-        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .singleStore
-    
+        
         self.hideTabBar()
+        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
+        if !isSingleStore {
+            
+            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            if self.grocery != nil{
+                (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+                self.addBackButton(isGreen: false)
+            }else{
+                (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+            }
+            (self.navigationController as? ElGrocerNavigationController)?.setCartButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setProfileButtonHidden(true)
+
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+            
+        }
+    
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)
             controller.setupGradient()
@@ -372,7 +395,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             self.tableViewCategories.setContentOffset(.zero, animated: false)
             self.navigationController?.navigationBar.topItem?.title =  ""
         }
-        
         
     }
     
@@ -594,7 +616,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            SDKManager.isGroverySingleStore ?
+            SDKManager.isGrocerySingleStore ?
             self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
             
             self.tableViewCategories.tableHeaderView = nil
@@ -1454,11 +1476,23 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
 }
 
 private extension MainCategoriesViewController {
+    
+    func initViewModel() {
+        
+        guard self.viewModel == nil else {
+            if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
+                self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
+                bindViews()
+            }
+            return
+        }
+        
+        self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
+    }
+    
     func bindViews() {
         self.tableViewCategories.dataSource = nil
         self.tableViewCategories.delegate = self
-        
-        self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
         
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
@@ -1473,6 +1507,10 @@ private extension MainCategoriesViewController {
         self.viewModel.outputs.cellViewModels
             .bind(to: self.tableViewCategories.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        viewModel.outputs.reloadTable.subscribe(onNext: { [weak self] in
+            self?.tableViewCategories.reloadDataOnMain()
+        }).disposed(by: disposeBag)
         
         // MARK: Actions
         self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] in
@@ -2008,7 +2046,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
        // locationHeader.myGroceryName.sizeToFit()
         scrollView.layoutIfNeeded()
         
-        guard !SDKManager.isGroverySingleStore else {
+        guard !SDKManager.isGrocerySingleStore else {
             let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
             if constraintA.count > 0 {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]

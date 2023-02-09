@@ -318,7 +318,7 @@ class NetworkLayer {
         }
         let isDelivery = ElGrocerUtility.sharedInstance.isDeliveryMode ? "1" : "2"
         self.requestManager.requestSerializer.setValue(isDelivery , forHTTPHeaderField: "service_id")
-        self.requestManager.requestSerializer.setValue(SDKManager.isGroverySingleStore ? "1":"0" , forHTTPHeaderField: "Market-Type")
+        self.requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "Market-Type")
         self.setLocale()
         self.setDateTimeOffset()
         self.setAuthenticationToken()

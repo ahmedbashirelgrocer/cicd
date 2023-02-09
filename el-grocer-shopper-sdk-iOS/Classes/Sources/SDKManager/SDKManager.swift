@@ -32,7 +32,7 @@ import Segment
 
 extension SDKManager {
     static var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
-    static var isGroverySingleStore: Bool { SDKManager.shared.launchOptions?.marketType == .singleStore }
+    static var isGrocerySingleStore: Bool { SDKManager.shared.launchOptions?.marketType == .grocerySingleStore }
 }
 
 class SDKManager: NSObject  {

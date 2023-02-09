@@ -78,15 +78,20 @@ class ViewController: UIViewController {
             pushNotificationPayload: pushData,
             deepLinkPayload: self.txtDLPayload.text,
             language: self.txtLanguage.text,
-            type: .singleStore,
+            marketype: .grocerySingleStore,
             environmentType: environment)
         
+       // ElGrocer.start(with: launchOptions)
         
-        FlavorAgent.startFlavorEngine(launchOptions) {
-            debugPrint("startAnimation")
-        } completion: { isCompleted in
-            debugPrint("Animation Completed")
-        }
+        ElGrocer.start(with: launchOptions) {  } completion: { isLoaded in }
+
+        
+        
+//        FlavorAgent.startFlavorEngine(launchOptions) {
+//            debugPrint("startAnimation")
+//        } completion: { isCompleted in
+//            debugPrint("Animation Completed")
+//        }
 
     }
     
@@ -121,7 +126,7 @@ class ViewController: UIViewController {
         txtLoyalityID.text = "111111111130"
         txtEmail.text = ""
         txtPushPayload.text =  nil//"[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
-        txtDLPayload.text =  "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18,marketType=1"
+        txtDLPayload.text = ""// "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18,marketType=1"
         txtLanguage.text = "Base"
     }
     

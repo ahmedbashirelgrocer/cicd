@@ -22,6 +22,8 @@ protocol HomeCellViewModelOuput {
     var viewAll: Observable<CategoryDTO?> { get }
     var isArabic: Observable<Bool> { get }
     var viewAllText: Observable<String> { get }
+    var isProductAvailable: Observable<Bool> { get }
+    func isProductsAvailable() -> Bool
 }
 
 protocol HomeCellViewModelType: HomeCellViewModelInput, HomeCellViewModelOuput {
@@ -49,6 +51,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     var viewAll: Observable<CategoryDTO?> { viewAllSubject.map { self.category }.asObservable() }
     var isArabic: Observable<Bool> { isArabicSubject.asObserver() }
     var viewAllText: Observable<String> { viewAllTextSubject.asObservable() }
+    var isProductAvailable: Observable<Bool> { isProductAvailableSubject.asObservable() }
     
     // MARK: Subjects
     private let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
@@ -58,6 +61,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     private let viewAllSubject = PublishSubject<Void>()
     private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     private var viewAllTextSubject = BehaviorSubject<String>(value: NSLocalizedString("view_more_title", bundle: .resource, comment: ""))
+    private var isProductAvailableSubject = PublishSubject<Bool>()
     
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
@@ -179,7 +183,6 @@ private extension HomeCellViewModel {
         let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
         
         self.moreAvailable = products.count >= self.limit
-        self.offset += limit
         
         let cellVMs = products.map { product in
             let vm = ProductCellViewModel(product: ProductDTO(product: product), grocery: self.grocery)
@@ -190,5 +193,18 @@ private extension HomeCellViewModel {
         self.productCellVMs.append(contentsOf: cellVMs)
         self.isLoading = false
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: self.productCellVMs)])
+        
+        self.isProductAvailableSubject.onNext(products.count != 0 && offset == 0)
+        self.offset += limit
+    }
+}
+
+extension HomeCellViewModel {
+    func isProductsAvailable() -> Bool {
+        guard !self.isLoading else {
+            return true
+        }
+        return self.productCellVMs.isNotEmpty ?  true :  false
+        
     }
 }

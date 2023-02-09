@@ -19,6 +19,8 @@ extension ElGrocer {
             func handleDeepLinkOrPush() {
                 if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
                     ElGrocerDynamicLink.handleDeepLink(url)
+                }else if let data = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 , let dataObj = data["elgrocerMap"] as? String, dataObj.count > 0 {
+                    ElGrocerNotification.handlePushNotification(launchOptions)
                 }
             }
             
