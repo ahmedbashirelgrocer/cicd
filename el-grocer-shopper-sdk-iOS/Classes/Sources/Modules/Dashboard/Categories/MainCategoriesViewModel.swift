@@ -99,13 +99,21 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
-            self.viewModels = [
-                SectionModel(model: 0, items: self.location1BannerVMs), // optional
-                SectionModel(model: 1, items: self.categoriesCellVMs),
-                SectionModel(model: 2, items: self.recentPurchasedVM), // optional
-                SectionModel(model: 3, items: self.location2BannerVMs), // optional
-                SectionModel(model: 4, items: self.homeCellVMs),
-            ]
+            if self.location1BannerVMs.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 0, items: self.location1BannerVMs))
+            }
+            
+            self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
+            
+            if self.recentPurchasedVM.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
+            }
+            
+            if self.location2BannerVMs.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 3, items: self.location2BannerVMs))
+            }
+            
+            self.viewModels.append(SectionModel(model: 4, items: self.homeCellVMs))
             self.cellViewModelsSubject.onNext(self.viewModels)
             self.loadingSubject.onNext(false)
         }
@@ -129,8 +137,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             
             case is GenericBannersCellViewModel : return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
             case is CategoriesCellViewModel     : return categories.count > 5 ? 290 : 180
-            case is HomeCellViewModel:
-            return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
+            case is HomeCellViewModel           : return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
             
             default: return 0
         }
