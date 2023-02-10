@@ -245,10 +245,6 @@ class OrderNavigationHandler {
         }
         
         GoogleAnalyticsHelper.trackEditOrderClick(false)
-        
-        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
-            self.deleteBasketFromServerWithGrocery(grocery)
-        }
         ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         if self.order.isCandCOrder() {
             processDataForCandCMode()
