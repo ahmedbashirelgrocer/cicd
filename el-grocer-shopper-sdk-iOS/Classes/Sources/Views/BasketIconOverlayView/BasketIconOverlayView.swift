@@ -224,6 +224,10 @@ class BasketIconOverlayView : UIView {
                             }
                             
                             var price = product.price.doubleValue
+                            let promotion = ProductQuantiy.checkPromoNeedToDisplay(product)
+                            if promotion.isNeedToDisplayPromo {
+                                price = product.promoPrice?.doubleValue ?? 0.00
+                            }
                             if let priceFromGrocery = priceDict?["price_full"] as? NSNumber {
                                 price = priceFromGrocery.doubleValue
                             }
