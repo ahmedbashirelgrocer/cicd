@@ -1098,6 +1098,11 @@ extension Order {
         
     }
     
+    
+    func getSlotDisplayStringOnOrder() -> String {
+        return self.deliverySlot?.getSlotFormattedString(isDeliveryMode: self.isDeliveryOrder()) ?? localizedString("delivery_within_60_min", comment: "")
+    }
+    
     func getAttributedString( prefixText:String, SuffixBold:String , attachedImage : UIImage? , _ extraNonBoldString : String = "") -> NSMutableAttributedString {
         
         let semiBold = UIFont.SFProDisplayNormalFont(14)
