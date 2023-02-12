@@ -75,7 +75,42 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setNavigationAppearance()
+        /*
+        if isNeedToDoViewAllocation {
+            
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
+                // cross is used against backbutton
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+            if let nav = (self.navigationController as? ElGrocerNavigationController) {
+                if let bar = nav.navigationBar as? ElGrocerNavigationBar {
+                    bar.chatButton.chatClick = {
+                        Thread.OnMainThread {
+                            guard self.order.grocery != nil else {return }
+                            let groceryID = self.order.grocery.getCleanGroceryID()
+                            let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
+                            sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
+                        }
+                    }
+                }
+            }
+            addBackButtonWithCrossIconLeftSide()
+            self.addStatusHeader()
+//            self.isNeedToDoViewAllocation = false
+            
+        }
+   
+        self.getOrderDetail()
+        */
+        
+        //Todo: this should be removed; all data handling should be from view model.
+        self.getOrderDetail()
+    }
     
     private func setNavigationAppearance() {
         
@@ -84,11 +119,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-        addBackButtonWithCrossIconLeftSide()
-        
+        self.addBackButtonWithCrossIconLeftSide(.white)
         
     }
-    
     private func bindViews() {
         
         
@@ -275,11 +308,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }*/
      
     }
-    
     @IBAction func orderDetailButtonAction(_ sender: Any) {
         self.goToOrderDetailAction("")
     }
-    
     @IBAction func orderStatusUserAction(_ sender: Any) {
         let substitutionsProductsVC = ElGrocerViewControllers.substitutionsProductsViewController()
         let orderId = self.viewModel.orderIdForPublicUse
@@ -287,15 +318,15 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
         self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
     }
-    
     @IBAction func pickerChatAction(_ sender: Any) {
         
     }
     
     
     
-    
-    
+    //Warning:-
+    // Following needs to remove once other dependency remove all other UI part will be removed in future
+    // Please dont use following properties in near future update (addComent data: 13feb 2023)
     
     var shouldScroll : Bool = false
     var isNeedToDoViewAllocation : Bool = true
@@ -616,40 +647,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         super.viewWillLayoutSubviews()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        /*
-        if isNeedToDoViewAllocation {
-            
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
-            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
-                // cross is used against backbutton
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            if let nav = (self.navigationController as? ElGrocerNavigationController) {
-                if let bar = nav.navigationBar as? ElGrocerNavigationBar {
-                    bar.chatButton.chatClick = {
-                        Thread.OnMainThread {
-                            guard self.order.grocery != nil else {return }
-                            let groceryID = self.order.grocery.getCleanGroceryID()
-                            let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
-                            sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
-                        }
-                    }
-                }
-            }
-            addBackButtonWithCrossIconLeftSide()
-            self.addStatusHeader()
-//            self.isNeedToDoViewAllocation = false
-            
-        }
-   
-        self.getOrderDetail()
-        */
-        
-        self.getOrderDetail()
-    }
+
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -740,6 +738,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         self.order = latestOrderObj
                         self.grocery = self.order.grocery
+                        /*
                         self.setRetailerImage()
                         self.setup()
                         self.addStatusHeader()
@@ -775,6 +774,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                             self.view.setNeedsLayout()
                             self.tableview.reloadData()
                         }
+                        */
                     }
                     
                     SpinnerView.hideSpinnerView()
@@ -991,6 +991,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
 
     func setUpItemsLabelAppearance() {
+        guard self.orderItems != nil else {return}
         
         var itemsCount = 0
         for item in self.orderItems {
@@ -1014,6 +1015,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func setUpTotalAmountAppearance() {
+        
+        guard self.orderProducts != nil else {return}
         guard self.order != nil else {return}
         var priceSum = 0.00
         for product in self.orderProducts {
