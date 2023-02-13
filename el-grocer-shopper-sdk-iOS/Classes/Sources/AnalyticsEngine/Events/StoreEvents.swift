@@ -65,3 +65,29 @@ struct StoresInRangeEvent: AnalyticsEventDataType {
         return retailerDictionaryArray
     }
 }
+
+struct CategoryViewAllClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery?) {
+        self.eventType = .track(eventName: AnalyticsEventName.categoryViewAllClicked)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery?.dbID ?? "",
+            EventParameterKeys.retailerName: grocery?.name ?? "",
+        ]
+    }
+}
+
+struct ProductCategoryViewAllClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(category: Category?) {
+        self.eventType = .track(eventName: AnalyticsEventName.productCategoryViewAllClicked)
+        self.metaData = [
+            EventParameterKeys.categoryID: category?.dbID.stringValue ?? "",
+            EventParameterKeys.categoryName: category?.name ?? "",
+        ]
+    }
+}

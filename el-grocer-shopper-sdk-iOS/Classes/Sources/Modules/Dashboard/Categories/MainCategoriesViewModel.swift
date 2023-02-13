@@ -18,7 +18,7 @@ protocol MainCategoriesViewModelOutput {
     var loading: Observable<Bool> { get }
     func heightForCell(indexPath: IndexPath) -> CGFloat
     
-    var viewAllCategories: Observable<Void> { get }
+    var viewAllCategories: Observable<Grocery?> { get }
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Void> { get }
     var bannerTap: Observable<BannerDTO> { get }
@@ -49,7 +49,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
     var loading: Observable<Bool> { self.loadingSubject.asObservable() }
     var refreshBasket: Observable<Void> { self.refreshBasketSubject.asObserver() }
-    var viewAllCategories: Observable<Void> { viewAllCategoriesSubject.asObservable() }
+    var viewAllCategories: Observable<Grocery?> { viewAllCategoriesSubject.asObservable() }
     var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
     var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
@@ -60,7 +60,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var scrollSubject = PublishSubject<IndexPath>()
     private var refreshBasketSubject = PublishSubject<Void>()
-    private var viewAllCategoriesSubject = PublishSubject<Void>()
+    private var viewAllCategoriesSubject = PublishSubject<Grocery?>()
     private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
     private var bannerTapSubject = PublishSubject<BannerDTO>()
@@ -202,7 +202,7 @@ private extension MainCategoriesViewModel {
                 self.categories = categoriesDB.map { CategoryDTO(category: $0) }
                 let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
                 
-                categoriesCellVM.outputs.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                categoriesCellVM.outputs.viewAll.map { self.grocery } .bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
                 self.categoriesCellVMs = [categoriesCellVM]
                 
                 // creating home cell view models

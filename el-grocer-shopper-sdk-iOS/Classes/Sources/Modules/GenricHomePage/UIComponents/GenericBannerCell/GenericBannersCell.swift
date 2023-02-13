@@ -73,9 +73,9 @@ class GenericBannersCell: RxUITableViewCell {
             self?.banners = banners.map({ banner -> BannerCampaign in
                 let bannerCampign: BannerCampaign = BannerCampaign.init()
                 
-                bannerCampign.dbId = banner.id as NSNumber
+                bannerCampign.dbId = (banner.id ?? 0) as NSNumber
                 bannerCampign.title = banner.name ?? ""
-                bannerCampign.priority = banner.priority as NSNumber
+                bannerCampign.priority = (banner.priority ?? 0) as NSNumber
                 bannerCampign.campaignType = (banner.campaignType?.rawValue ?? -1) as NSNumber
                 bannerCampign.imageUrl = banner.imageURL ?? ""
                 bannerCampign.bannerImageUrl = banner.bannerImageURL ?? ""

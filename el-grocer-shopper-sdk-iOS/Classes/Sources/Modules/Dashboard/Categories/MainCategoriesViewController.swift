@@ -1513,11 +1513,15 @@ private extension MainCategoriesViewController {
         }).disposed(by: disposeBag)
         
         // MARK: Actions
-        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] in
+        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] grocery in
             guard let self = self else { return }
             
             let browseController = ElGrocerViewControllers.browseViewController()
             self.navigationController?.pushViewController(browseController, animated: true)
+            
+            // Logging segment event for category view all clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: CategoryViewAllClickedEvent(grocery: grocery))
+            
         }).disposed(by: disposeBag)
         
         self.viewModel.outputs.viewAllProductsOfCategory.subscribe(onNext: { [weak self] category in
@@ -1527,6 +1531,9 @@ private extension MainCategoriesViewController {
             
             MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category?.id ?? 0), categoryName: category?.name ?? "")
             self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+            
+            // Logging segment event for product category view all clicked"
+            SegmentAnalyticsEngine.instance.logEvent(event: ProductCategoryViewAllClickedEvent(category: category?.categoryDB))
             
         }).disposed(by: disposeBag)
          
