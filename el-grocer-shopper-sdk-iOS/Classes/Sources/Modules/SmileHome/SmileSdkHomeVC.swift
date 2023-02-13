@@ -601,12 +601,12 @@ extension SmileSdkHomeVC {
         let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
         
         // MARK: Actions
-        viewModel.outputs.cellSelected.subscribe { [weak self, weak activeCartVC] selectedActiveCart in
+        viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
             activeCartVC?.dismiss(animated: true) {
                 guard let grocery = self?.groceryArray.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
                 self?.goToGrocery(grocery, nil)
             }
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
         viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
             guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }

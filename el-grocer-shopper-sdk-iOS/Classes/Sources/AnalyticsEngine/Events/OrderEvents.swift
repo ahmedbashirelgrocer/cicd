@@ -25,7 +25,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
     }
     
     private func getProductDic(products: [Product], gorcery: Grocery?) -> [[String: Any]] {
-        let result = products.map { product in
+        let result = products.map { product -> [String: Any] in
             var dictionary: [String: Any] = [:]
             
             // compute the quantity of product in cart
