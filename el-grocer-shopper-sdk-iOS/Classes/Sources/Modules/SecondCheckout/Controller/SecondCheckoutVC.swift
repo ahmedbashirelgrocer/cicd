@@ -328,12 +328,9 @@ class SecondCheckoutVC: UIViewController {
         UserDefaults.resetEditOrder()
     
         self.resetLocalDBData(order)
-        let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-        orderConfirmationController.order = order
-        orderConfirmationController.grocery = self.viewModel.getGrocery()
-        orderConfirmationController.finalOrderItems = self.viewModel.getShoppingItems() ?? []
-        orderConfirmationController.finalProducts = self.viewModel.getFinalisedProducts()
-        orderConfirmationController.deliveryAddress = self.viewModel.getAddress()
+       
+        let viewModel = OrderConfirmationViewModel(OrderStatusMedule(), orderId: order.dbID.stringValue, true)
+        let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
         self.navigationController?.pushViewController(orderConfirmationController, animated: true)
         
     }

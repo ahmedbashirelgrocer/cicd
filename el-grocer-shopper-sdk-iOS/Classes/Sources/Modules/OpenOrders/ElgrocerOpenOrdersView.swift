@@ -151,6 +151,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let order = openOrders[indexPath.row]
     let key = DynamicOrderStatus.getKeyFrom(status_id: order["status_id"] as? NSNumber ?? -1000, service_id: order["retailer_service_id"]  as? NSNumber ?? -1000 , delivery_type: order["delivery_type_id"]  as? NSNumber ?? -1000)
+    
     if let orderNumber = order["id"] as? NSNumber {
         let statusId = order["status_id"] as? NSNumber ?? -1000
         ElGrocerEventsLogger.OrderStatusCardClick(orderId: orderNumber.stringValue, statusID: statusId.stringValue)
@@ -167,18 +168,19 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
         return
     }
     
-    let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-    orderConfirmationController.orderDict = order
-    orderConfirmationController.isNeedToRemoveActiveBasket = false
-    let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-    navigationController.hideSeparationLine()
-    navigationController.viewControllers = [orderConfirmationController]
-   // orderConfirmationController.modalPresentationStyle = .fullScreen
-    navigationController.modalPresentationStyle = .fullScreen
-    if let topVc = UIApplication.topViewController(){
-        topVc.navigationController?.present(navigationController, animated: true, completion: {  })
+    if let orderNumber = order["id"] as? NSNumber {
+        let viewModel = OrderConfirmationViewModel(orderId: orderNumber.stringValue)
+        let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
+        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.hideSeparationLine()
+        navigationController.viewControllers = [orderConfirmationController]
+       // orderConfirmationController.modalPresentationStyle = .fullScreen
+        navigationController.modalPresentationStyle = .fullScreen
+        if let topVc = UIApplication.topViewController(){
+            topVc.navigationController?.present(navigationController, animated: true, completion: {  })
+        }
     }
-    
+  
 }
 
 func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
