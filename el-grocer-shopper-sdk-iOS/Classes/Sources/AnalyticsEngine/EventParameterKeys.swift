@@ -68,4 +68,11 @@ enum EventParameterKeys {
     static let isFeatured           = "isFeatured"
     static let zoneId               = "zoneId"
     static let availableStores      = "availableStores"
+    static let bannerId             = "bannerId"
+    static let title                = "title"
+    static let priority             = "priority"
+    static let campaignType         = "campaignType"
+    static let imageUrl             = "imageUrl"
+    static let location             = "bannerLocation"
+    static let position             = "position"
 }

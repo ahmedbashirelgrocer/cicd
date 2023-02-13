@@ -119,7 +119,7 @@ class BannerCampaign: NSObject {
     var storeTypes  : [Int]? = nil
     var retailerGroups  : [Int]? = nil
     
-    
+    var isViewed = false
     
     // Used for save Banner from API Response
     class func getBannersFromResponse(_ dictionary:NSDictionary) -> [BannerCampaign] {
