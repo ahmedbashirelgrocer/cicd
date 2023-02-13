@@ -202,20 +202,20 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
                 self.getElWalletViewAll()
                 
                 // Logging segment event for fund method selected
-                SegmentAnalyticsEngine.instance.logEvent(event: FundMethodSelectedEvent(paymentMethodId: Int(PaymentOption.voucher.rawValue)))
+                SegmentAnalyticsEngine.instance.logEvent(event: FundMethodSelectedEvent(paymentMethod: PaymentOption.voucher))
                 return
             }
             if methodSelect is CreditCard {
                 MixpanelEventLogger.trackElwalletAddFundPaymentMethodSelection(methodName: "CARD")
                 
                 // Logging segment event for fund method selected
-                SegmentAnalyticsEngine.instance.logEvent(event: FundMethodSelectedEvent(paymentMethodId: Int(PaymentOption.creditCard.rawValue)))
+                SegmentAnalyticsEngine.instance.logEvent(event: FundMethodSelectedEvent(paymentMethod: PaymentOption.creditCard))
                 
             }else if (methodSelect as? PaymentOption) == PaymentOption.applePay {
                 MixpanelEventLogger.trackElwalletAddFundPaymentMethodSelection(methodName: "APPLE_PAY")
                 
                 // Logging segment event for fund method selected
-                SegmentAnalyticsEngine.instance.logEvent(event: FundMethodSelectedEvent(paymentMethodId: Int(PaymentOption.applePay.rawValue)))
+                SegmentAnalyticsEngine.instance.logEvent(event: FundMethodSelectedEvent(paymentMethod: PaymentOption.applePay))
             }
             self.navigateToAddFundsVC(methodSelect: methodSelect as Any)
         }

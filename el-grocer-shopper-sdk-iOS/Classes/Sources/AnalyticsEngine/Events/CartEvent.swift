@@ -87,7 +87,7 @@ struct CartUpdatedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: eventName)
         self.metaData = [
             EventParameterKeys.typesStoreID     : grocery?.retailerType.stringValue ?? "",
-            EventParameterKeys.retailerID       : ElGrocerUtility.sharedInstance.cleanGroceryID(grocery),
+            EventParameterKeys.retailerID       : grocery?.dbID ?? "",
             EventParameterKeys.retailerName     : grocery?.name ?? "",
             EventParameterKeys.categoryID       : product.categoryId?.stringValue ?? "",
             EventParameterKeys.categoryName     : product.categoryName ?? "",
@@ -132,7 +132,7 @@ struct CartCheckoutEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.cartCheckout)
         self.metaData = [
             EventParameterKeys.typesStoreID     : activeGrocery?.retailerType.stringValue ?? "",
-            EventParameterKeys.retailerID       : ElGrocerUtility.sharedInstance.cleanGroceryID(activeGrocery),
+            EventParameterKeys.retailerID       : activeGrocery?.dbID ?? "",
             EventParameterKeys.retailerName     : activeGrocery?.name ?? "",
             EventParameterKeys.products         : self.getProductDic(products: products, gorcery: activeGrocery)
         ]

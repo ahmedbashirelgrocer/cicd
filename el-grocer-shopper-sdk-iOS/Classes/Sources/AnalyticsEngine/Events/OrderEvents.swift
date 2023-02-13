@@ -17,6 +17,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
         self.metaData = [
             EventParameterKeys.totalOrderAmount : String(order?.totalValue ?? 0.0),
             EventParameterKeys.paymentMethodId  : order?.payementType?.stringValue ?? "",
+            EventParameterKeys.paymentMethodName: PaymentOption(rawValue: UInt32(order?.payementType?.int32Value ?? 0))?.paymentMethodName ?? "",
             EventParameterKeys.typesStoreID     : grocery?.retailerType.stringValue ?? "",
             EventParameterKeys.retailerID       : grocery?.dbID ?? "",
             EventParameterKeys.retailerName     : grocery?.name ?? "",

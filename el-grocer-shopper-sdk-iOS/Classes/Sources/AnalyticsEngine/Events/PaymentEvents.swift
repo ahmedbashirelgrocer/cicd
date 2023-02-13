@@ -74,10 +74,11 @@ struct FundMethodSelectedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(paymentMethodId: Int) {
+    init(paymentMethod: PaymentOption) {
         self.eventType = .track(eventName: AnalyticsEventName.fundMethodSelected)
         self.metaData = [
-            EventParameterKeys.paymentMethodId: String(paymentMethodId),
+            EventParameterKeys.paymentMethodId: String(paymentMethod.rawValue),
+            EventParameterKeys.paymentMethodName: paymentMethod.paymentMethodName,
         ]
     }
 }
@@ -104,10 +105,11 @@ struct FundAddedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(paymentMethodId: Int, amount: Double) {
+    init(paymentOption: PaymentOption, amount: Double) {
         self.eventType = .track(eventName: AnalyticsEventName.fundAdded)
         self.metaData = [
-            EventParameterKeys.paymentMethodId: String(paymentMethodId),
+            EventParameterKeys.paymentMethodId: String(paymentOption.rawValue),
+            EventParameterKeys.paymentMethodName: paymentOption.paymentMethodName,
             EventParameterKeys.amount: String(amount),
         ]
     }
