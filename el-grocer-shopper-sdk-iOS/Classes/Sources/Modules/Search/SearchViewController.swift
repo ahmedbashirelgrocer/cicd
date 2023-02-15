@@ -180,7 +180,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
       
         
         // self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+        // (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
@@ -190,7 +190,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.locationHeader.setSlotData()
         if isNeedToHideSearchBar {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            //addBackButton(isGreen: true)
+            addBackButton(isGreen: false)
             //addBackButtonWithCrossIconRightSide()
         }
         
@@ -222,7 +222,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
        
         self.navigationItem.hidesBackButton = true
         searchBgView.backgroundColor =  SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.viewPrimaryBGColor : ApplicationTheme.currentTheme.viewPrimaryBGColor
-        self.extendedLayoutIncludesOpaqueBars = true
+        // self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = .tableViewBackgroundColor()
     }
     override func viewDidAppear(_ animated: Bool) {

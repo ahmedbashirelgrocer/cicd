@@ -722,11 +722,11 @@ extension ShoppingListViewController : UITableViewDelegate , UITableViewDataSour
                 searchController.isNeedToHideSearchBar = true
                 searchController.isFromShoppingListViewAll = true
                 searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? FireBaseScreenName.MultiSearch.rawValue
-                searchController.modalTransitionStyle = .crossDissolve
-                searchController.modalPresentationStyle = .overCurrentContext
-                Thread.OnMainThread {
-                    self.navigationController?.pushViewController(searchController, animated: false)
-                }
+                //searchController.modalTransitionStyle = .crossDissolve
+                //searchController.modalPresentationStyle = .overCurrentContext
+                //Thread.OnMainThread {
+                    self.navigationController?.pushViewController(searchController, animated: true)
+                //}
             }
         }
     }
