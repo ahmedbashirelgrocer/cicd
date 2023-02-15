@@ -350,10 +350,11 @@ extension HomeCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         var rows = 3
+        let shopingListCell = 1
         if let tempHomeFeed = self.homeFeed {
             rows  = tempHomeFeed.products.count + 1
             if tempHomeFeed.type == .ListOfCategories {
-                rows  = tempHomeFeed.categories.count + ( self.isNeedToShowRecipe ? 1 : 0)
+                rows  = shopingListCell + tempHomeFeed.categories.count + ( self.isNeedToShowRecipe ? 1 : 0)
             }
             if tempHomeFeed.type == .universalSearchProducts {
                 rows  = tempHomeFeed.products.count
@@ -369,7 +370,19 @@ extension HomeCell: UICollectionViewDataSource {
             if homeFeedObj.type == .ListOfCategories {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KStoresCategoriesCollectionViewCell, for: indexPath) as! StoresCategoriesCollectionViewCell
                 var index = indexPath.row
-                if indexPath.row == 0 && self.isNeedToShowRecipe {
+                
+                if index == 0 { // Shopling List Cell
+                    cell.centerImage.image = UIImage(name: "shoping_list_cell_icon")
+                    cell.centerImage.backgroundColor = .alertBackgroundColor()
+                    cell.lblCategoryName.text = localizedString("Shopping_list_Titile", comment: "")
+                    return cell
+                } else {
+                    cell.centerImage.backgroundColor = .navigationBarWhiteColor()
+                }
+                
+                index -= 1
+                
+                if index == 0 && self.isNeedToShowRecipe {
                     cell.configuredRecipeCell()
                     return cell
                 }
@@ -446,7 +459,23 @@ extension HomeCell: UICollectionViewDelegate {
                 
                 
                 var index = indexPath.row
-                if indexPath.row == 0 && self.isNeedToShowRecipe {
+                if index == 0 {
+                    if let vcA = UIApplication.topViewController()?.navigationController?.viewControllers {
+                        for vc in vcA {
+                            if vc is ShoppingListViewController {
+                                UIApplication.topViewController()?.navigationController?.popToViewController(vc, animated: true)
+                                return
+                            }
+                        }
+                    }
+                    gotoShoppingListVC()
+                    return
+                }
+                
+                index -= 1
+                
+                
+                if index == 0 && self.isNeedToShowRecipe {
                     ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric(source: FireBaseScreenName.Home.rawValue)
                     MixpanelEventLogger.trackStoreCategoryClick(categoryId: "recipe", categoryName: "-1")
                     let recipeStory = ElGrocerViewControllers.recipesBoutiqueListVC()
@@ -566,5 +595,20 @@ extension HomeCell: ProductCellProtocol {
     
     func productCellOnFavouriteClick(_ productCell: ProductCell, product: Product) {
        elDebugPrint("Product Favourite Click Handler")
+    }
+}
+
+extension HomeCell {
+    func gotoShoppingListVC(){
+        guard let vc = UIApplication.topViewController() else {
+            return
+        }
+        MixpanelEventLogger.trackStoreShoppingList()
+        let controller : SearchListViewController = ElGrocerViewControllers.getSearchListViewController()
+        controller.isFromHeader = true
+        let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navController.viewControllers = [controller]
+        navController.modalPresentationStyle = .fullScreen
+        vc.navigationController?.present(navController, animated: true, completion: nil)
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21D62" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Brand" representedClassName=".Brand" syncable="YES" codeGenerationType="class">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
@@ -98,6 +98,7 @@
         <attribute name="openingTime" optional="YES" attributeType="String"/>
         <attribute name="parentID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="paymentAvailableID" optional="YES" attributeType="Transformable"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="ranking" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="retailerGroupName" optional="YES" attributeType="String"/>
         <attribute name="retailerType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -298,4 +299,27 @@
         <attribute name="vehicleModel_name" optional="YES" attributeType="String"/>
         <relationship name="order" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Order"/>
     </entity>
+    <elements>
+        <element name="Brand" positionX="160" positionY="192" width="128" height="89"/>
+        <element name="CarouselProducts" positionX="160" positionY="192" width="128" height="104"/>
+        <element name="Category" positionX="160" positionY="192" width="128" height="194"/>
+        <element name="CollectorDetail" positionX="160" positionY="192" width="128" height="89"/>
+        <element name="DeliveryAddress" positionX="160" positionY="192" width="128" height="344"/>
+        <element name="DeliverySlot" positionX="160" positionY="192" width="128" height="164"/>
+        <element name="Grocery" positionX="160" positionY="192" width="128" height="779"/>
+        <element name="GroceryCategoryBrands" positionX="160" positionY="192" width="128" height="74"/>
+        <element name="GroceryReview" positionX="160" positionY="192" width="128" height="104"/>
+        <element name="Order" positionX="160" positionY="192" width="128" height="629"/>
+        <element name="OrderSubstitution" positionX="160" positionY="192" width="128" height="89"/>
+        <element name="Picker" positionX="160" positionY="192" width="128" height="89"/>
+        <element name="PickupLocation" positionX="160" positionY="192" width="128" height="134"/>
+        <element name="Product" positionX="160" positionY="192" width="128" height="644"/>
+        <element name="RecipeCart" positionX="160" positionY="192" width="128" height="104"/>
+        <element name="Referral" positionX="160" positionY="192" width="128" height="134"/>
+        <element name="ReferralWallet" positionX="160" positionY="192" width="128" height="104"/>
+        <element name="ShoppingBasketItem" positionX="160" positionY="192" width="128" height="194"/>
+        <element name="SubstitutionBasketItem" positionX="160" positionY="192" width="128" height="104"/>
+        <element name="UserProfile" positionX="160" positionY="192" width="128" height="134"/>
+        <element name="VehicleDetail" positionX="160" positionY="192" width="128" height="164"/>
+    </elements>
 </model>
