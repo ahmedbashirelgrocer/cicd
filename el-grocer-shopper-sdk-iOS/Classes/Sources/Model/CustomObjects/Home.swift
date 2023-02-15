@@ -34,6 +34,8 @@ class Home {
     var products = [Product]()
     var categories  = [Category]()
     
+    var hasMoreProduct: Bool = false
+    
     init() {
         self.title = ""
     }

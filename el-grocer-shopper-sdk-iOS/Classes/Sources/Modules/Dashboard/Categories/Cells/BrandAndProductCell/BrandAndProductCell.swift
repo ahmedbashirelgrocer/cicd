@@ -268,7 +268,7 @@ extension BrandAndProductCell: UICollectionViewDataSource {
                 context.performAndWait({ () -> Void in
                     let newProduct = Product.insertOrReplaceAllProductsFromDictionary(responseObject, context:context)
                     if self.currentPaginationbrand != nil {
-                        self.currentPaginationbrand.products += newProduct
+                        self.currentPaginationbrand.products += newProduct.products
                         self.brandCellIndex  =  self.FakebrandCellIndexToNoTShow
                     }
                 })
