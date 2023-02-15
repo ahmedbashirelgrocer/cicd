@@ -62,5 +62,5 @@ class Grocery: NSManagedObject, DBEntity  {
     @NSManaged var initialDeliverySlotData : String?
     
     @NSManaged var smileSupport: NSNumber?
-   
+    @NSManaged var priority: NSNumber?
 }

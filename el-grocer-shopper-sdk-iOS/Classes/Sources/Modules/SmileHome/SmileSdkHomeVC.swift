@@ -34,7 +34,21 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - Properties
     var groceryArray: [Grocery] = []
-    var filteredGroceryArray: [Grocery] = []
+    
+    var sortedGroceryArray: [Grocery] = []
+    var filteredGroceryArray: [Grocery] = [] {
+        didSet {
+            sortedGroceryArray = filteredGroceryArray
+                .filter{ $0.featured == 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+            + filteredGroceryArray
+                .filter{ $0.featured != 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+            
+            tableView.reloadDataOnMain()
+        }
+    }
+    
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
     var lastSelectType : StoreType? = nil
@@ -225,7 +239,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
        
         self.filteredGroceryArray = self.groceryArray
-        self.tableView.reloadDataOnMain()
+        // self.tableView.reloadDataOnMain()
         
         if  self.selectStoreType != nil {
             if let indexOfType = self.availableStoreTypeA.firstIndex(where: { type in
@@ -688,11 +702,11 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             case 0:
                 return 1
             case 1:
-                return self.filteredGroceryArray.count > separatorCount ? separatorCount + 1 : self.filteredGroceryArray.count
+                return self.sortedGroceryArray.count > separatorCount ? separatorCount + 1 : self.sortedGroceryArray.count
             case 2:
                 return 1
             case 3:
-                return self.filteredGroceryArray.count > separatorCount ? self.filteredGroceryArray.count - ( separatorCount + 1 ) : 0
+                return self.sortedGroceryArray.count > separatorCount ? self.sortedGroceryArray.count - ( separatorCount + 1 ) : 0
             default:
                 return 0
                 
@@ -732,8 +746,8 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
            
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
             elDebugPrint("indexPath.section == 1: indexPath.row: \(indexPath.row)")
-            if self.filteredGroceryArray.count > 0 {
-                cell.configureCell(grocery: self.filteredGroceryArray[indexPath.row])
+            if self.sortedGroceryArray.count > 0 {
+                cell.configureCell(grocery: self.sortedGroceryArray[indexPath.row])
             }
             return cell
             
@@ -742,31 +756,31 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
             var indexPathRow = indexPath.row
             
-            if self.filteredGroceryArray.count > separatorCount {
+            if self.sortedGroceryArray.count > separatorCount {
                 indexPathRow = indexPathRow + separatorCount + 1
             }
             
-            cell.configureCell(grocery: self.filteredGroceryArray[indexPathRow])
+            cell.configureCell(grocery: self.sortedGroceryArray[indexPathRow])
             return cell
             
         }
         
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
-        if self.filteredGroceryArray.count > 0 {
-            cell.configureCell(grocery: self.filteredGroceryArray[indexPath.row])
+        if self.sortedGroceryArray.count > 0 {
+            cell.configureCell(grocery: self.sortedGroceryArray[indexPath.row])
         }
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.filteredGroceryArray.count > 0 &&  indexPath.row < self.filteredGroceryArray.count && indexPath.section == 1 {
-            self.goToGrocery(self.filteredGroceryArray[indexPath.row], nil)
+        if self.sortedGroceryArray.count > 0 &&  indexPath.row < self.sortedGroceryArray.count && indexPath.section == 1 {
+            self.goToGrocery(self.sortedGroceryArray[indexPath.row], nil)
         }
-        if self.filteredGroceryArray.count > 0 && indexPath.section == 3 {
+        if self.sortedGroceryArray.count > 0 && indexPath.section == 3 {
             var indexPathRow = indexPath.row
-            if self.filteredGroceryArray.count > separatorCount {
+            if self.sortedGroceryArray.count > separatorCount {
                 indexPathRow = indexPathRow + separatorCount + 1
-                self.goToGrocery(self.filteredGroceryArray[indexPathRow], nil)
+                self.goToGrocery(self.sortedGroceryArray[indexPathRow], nil)
             }
         }
     }
@@ -775,7 +789,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
         } else if indexPath.section == 2 {
-            return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.filteredGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+            return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.sortedGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
             
         }
         return UITableView.automaticDimension
@@ -1008,7 +1022,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         }
         self.filteredGroceryArray = filterA
         self.filteredGroceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.filteredGroceryArray)
-        self.tableView.reloadDataOnMain()
+        // self.tableView.reloadDataOnMain()
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
         self.lastSelectType = selectedType
