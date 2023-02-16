@@ -412,12 +412,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     override func backButtonClick() {
         MixpanelEventLogger.trackOrderDetailsclose()
         
-        if self.navigationController?.viewControllers.count == 1 {
+        if isCommingFromOrderConfirmationScreen{
+            self.navigationController?.popViewController(animated: true)
+        }else if self.navigationController?.viewControllers.count == 1  {
             self.dismiss(animated: true)
-        }else if isCommingFromOrderConfirmationScreen {
-            self.navigationController?.popToRootViewController(animated: true)
-                //            self.tabBarController?.tabBar.isHidden = false
-                //            self.tabBarController?.selectedIndex = 1
         }else{
             self.navigationController?.popViewController(animated: true)
         }
