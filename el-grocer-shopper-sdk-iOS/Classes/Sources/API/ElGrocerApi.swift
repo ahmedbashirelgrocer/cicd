@@ -4720,6 +4720,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
+          
+          let sdkType = SDKManager.isGrocerySingleStore ? "1":"0"
+          self.requestManager.requestSerializer.setValue(sdkType, forHTTPHeaderField: "market_type_id")
         
       }
     
