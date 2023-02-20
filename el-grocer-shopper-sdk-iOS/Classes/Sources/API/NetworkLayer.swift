@@ -153,6 +153,9 @@ class NetworkLayer {
               success: @escaping SuccessCase ,
               failure: @escaping FailureCase ) -> URLSessionDataTask? {
         
+        requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
+        requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard mins > 0  else {
             queue.enqueue(CallObj.init(type: .get, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
@@ -166,6 +169,9 @@ class NetworkLayer {
     @discardableResult
     func post( _ URLString: String, parameters: Any?, progress :   callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
         
+        requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
+        requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard  mins > 0  else {
             queue.enqueue(CallObj.init(type: .post, URLString: URLString , parameters: parameters, progress: progress, success: success, failure: failure))
@@ -178,8 +184,14 @@ class NetworkLayer {
     
     @discardableResult
     func delete(_ URLString: String, parameters: Any? , success : @escaping SuccessCase , failure : @escaping FailureCase) -> URLSessionDataTask? {
+        
+        
+        requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
+        requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard  mins > 0  else {
+            
         queue.enqueue(CallObj.init(type: .delete, URLString: URLString , parameters: parameters, progress: nil  , success: success, failure: failure))
         self.getToken()
         return nil
@@ -190,6 +202,10 @@ class NetworkLayer {
     }
     
     func put(_ URLString: String, parameters: Any? , success : @escaping SuccessCase , failure : @escaping FailureCase) {
+        
+        requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
+        requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard  mins > 0  else {
             queue.enqueue(CallObj.init(type: .put, URLString: URLString , parameters: parameters, progress: nil  , success: success, failure: failure))
@@ -323,6 +339,7 @@ class NetworkLayer {
         self.setDateTimeOffset()
         self.setAuthenticationToken()
         self.setUserAgent()
+        //self.requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
     }
     
     func setAuthenticationToken() {

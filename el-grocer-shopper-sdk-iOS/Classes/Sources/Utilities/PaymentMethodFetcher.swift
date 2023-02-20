@@ -156,11 +156,7 @@ class PaymentMethodFetcher {
                             completion(nil, ElGrocerError.parsingError())
                         }
                     }
-                }
-                
-                completion(nil, ElGrocerError.parsingError())
-                break
-                
+                }                
             case .failure(let error):
                 completion(nil, error)
                 break
