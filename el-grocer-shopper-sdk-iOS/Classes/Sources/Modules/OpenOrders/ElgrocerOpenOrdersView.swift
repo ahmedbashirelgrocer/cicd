@@ -37,7 +37,7 @@ class ElgrocerOpenOrdersView: UIView {
         
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSizeMake(50, 50)
+        layout.itemSize = CGSize(width: 50, height: 50)
         ordersCollectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height), collectionViewLayout: layout)
         ordersCollectionView?.delegate = self
         ordersCollectionView?.dataSource = self

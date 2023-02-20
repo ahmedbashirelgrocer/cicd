@@ -96,7 +96,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
         self.titleSubject.onNext(title)
         self.grocery = grocery
         
-        let productCellViewModels = products.map { productDTO in
+        let productCellViewModels = products.map { productDTO -> ProductCellViewModel in
             let viewModel = ProductCellViewModel(product: productDTO, grocery: grocery)
         
             viewModel.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: disposeBag)
@@ -184,7 +184,7 @@ private extension HomeCellViewModel {
         
         self.moreAvailable = products.count >= self.limit
         
-        let cellVMs = products.map { product in
+        let cellVMs = products.map { product -> ProductCellViewModel in
             let vm = ProductCellViewModel(product: ProductDTO(product: product), grocery: self.grocery)
             vm.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: self.disposeBag)
             return vm
