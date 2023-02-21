@@ -125,9 +125,10 @@ extension Product {
         }
     }
     
-    class func insertOrReplaceAllProductsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext) -> [Product] {
+    class func insertOrReplaceAllProductsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext) -> (products: [Product], algoliaCount: Int) {
         
         var resultProducts = [Product]()
+        var algoliaProductCount: Int = 0
         //Parsing All Products Response here
             //sab
 //            if let  productDict = dataDict["products"] as? NSDictionary {
@@ -211,7 +212,8 @@ extension Product {
             } else  if let _ = dictionary["hits"] as? [NSDictionary] {//dataDict["products"] as? [NSDictionary] {
                 
                 let products = Product.insertOrReplaceProductsFromDictionary(dictionary, context: context)
-                for product in products {
+                algoliaProductCount = products.algoliaCount ?? 0
+                for product in products.products {
                     if(product.isPublished.boolValue == true && product.isAvailable.boolValue == true){
                         resultProducts.append(product)
                     }
@@ -257,7 +259,7 @@ extension Product {
             }
 
         try? context.save()
-        return resultProducts
+        return (resultProducts, algoliaProductCount)
         
     }
 
@@ -383,16 +385,17 @@ extension Product {
     }
     
     /// Used for products from elastic_search
-    class func insertOrReplaceProductsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext, searchString : String? = "" ,  _ currentProduct : Product? = nil, _ onlyCurrentStoreProducts : Bool = true) -> [Product] {
+    class func insertOrReplaceProductsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext, searchString : String? = "" ,  _ currentProduct : Product? = nil, _ onlyCurrentStoreProducts : Bool = true) -> (products: [Product], algoliaCount: Int?) {
         
         var resultProducts = [Product]()
+        var algoliaProductsCount: Int = 0
         var queryID = ""
         if let isQueryID = dictionary["queryID"] as? String {
             queryID = isQueryID
         }
         if let algoliaObj = dictionary["hits"] as? [NSDictionary] {
             
-            
+            algoliaProductsCount = algoliaObj.count
             for productDict in algoliaObj {
                 
                 if let productID = productDict["id"] as? Int , productID ==  currentProduct?.getCleanProductId() {
@@ -407,10 +410,19 @@ extension Product {
                             return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
                         }
                         if finalData.count == 0 {
-                            if UIApplication.topViewController() is UniversalSearchViewController {
-                                if (UIApplication.topViewController() as! UniversalSearchViewController).searchFor == .isForStoreSearch {
-                                    continue
+                            if let promotionA = productDict["promotional_shops"] as? [NSDictionary]{
+                                let promotionalShopFinalData =  promotionA.filter { (dict) -> Bool in
+                                    let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
+                                    return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
                                 }
+                                if promotionalShopFinalData.count == 0 {
+                                    if UIApplication.topViewController() is UniversalSearchViewController {
+                                        if (UIApplication.topViewController() as! UniversalSearchViewController).searchFor == .isForStoreSearch {
+                                            continue
+                                        }
+                                    }
+                                }
+                                
                             }
                         }
                     }
@@ -569,12 +581,14 @@ extension Product {
 
                 } else {
                     
-                    product.brandId = nil
+                    product.brandId = -100
                 }
         
-                if(product.isPublished.boolValue == true && product.brandId != nil){
+                if(product.isPublished.boolValue == true && product.brandId != nil && product.availableQuantity != 0 ){
                     //add product to the list
                     resultProducts.append(product)
+                }else {
+                    elDebugPrint("printing append product")
                 }
             }
             
@@ -634,7 +648,7 @@ extension Product {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
         
-        return resultProducts
+        return (resultProducts, algoliaProductsCount)
     }
     
     class func createProductForSearchFromDictionary(_ productDict:NSDictionary, context:NSManagedObjectContext, searchString : String? = "" , _ queryID : String = "") -> Product {
@@ -908,7 +922,7 @@ extension Product {
             }
         }
         
-        
+        product.availableQuantity = -1
         product.queryID = queryID
   
         return product

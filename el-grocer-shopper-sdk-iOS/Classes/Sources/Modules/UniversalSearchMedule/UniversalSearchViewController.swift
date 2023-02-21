@@ -673,13 +673,13 @@ extension UniversalSearchViewController : AWSegmentViewProtocol {
         self.dataSource?.selectedIndex = NSIndexPath.init(row: selectedSegmentIndex , section: 0)
         if selectedSegmentIndex == 0 {
             self.loadedProductList = self.dataSource?.productsList ?? []
-            self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+            self.pageNumber =  (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
             self.dataSource?.getProductDataForStore(true, searchString: finalSearchString ,  "", segmenntCollectionView.segmentTitles[segmenntCollectionView.lastSelection.row] , storeIds: storeIDs, pageNumber: self.pageNumber   , hitsPerPage: hitsPerPage)
         }else{
             let selectedDataTitle =  segmenntCollectionView.segmentTitles[selectedSegmentIndex]
             if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
                 self.loadedProductList = productsAvailableToLoad
-                self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
             }else{
                 self.pageNumber  = 0
             }
@@ -945,13 +945,13 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                         let selectedDataTitle =  segmenntCollectionView.segmentTitles[selectedSegmentIndex]
                         if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
                             self.loadedProductList = productsAvailableToLoad
-                            self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                            self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
                         }else{
                             self.pageNumber  = 0
                         }
                         self.dataSource?.getProductDataForStore(true, searchString: self.txtSearch.text ?? "",  "", segmenntCollectionView.segmentTitles[segmenntCollectionView.lastSelection.row] , storeIds: storeIDs, pageNumber: self.pageNumber  + 1 , hitsPerPage: hitsPerPage)
                     }else{
-                        self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                        self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
                         self.dataSource?.getProductDataForStore(true, searchString: self.txtSearch.text ?? "" ,  "", "" , storeIds: storeIDs, pageNumber: self.pageNumber , hitsPerPage: hitsPerPage)
                     }
                 }
