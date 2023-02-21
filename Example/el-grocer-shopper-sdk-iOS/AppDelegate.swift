@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //
-//  Dev merging with  DevSDK/ElWalletAndSplitPayment
+//  Development commit : tag 1.3.1  
 
 import UIKit
 import IQKeyboardManagerSwift
