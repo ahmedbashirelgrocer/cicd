@@ -119,9 +119,9 @@ class ViewController: UIViewController {
     
     func setDefaultData() {
 
-        txtAccountNumber.text = "+923138157011" 
-        txtLat.text = "\(25.06867070)"
-        txtLong.text = "\(55.142484)"
+        txtAccountNumber.text = "+923138157023" 
+        txtLat.text = "\(31.4125128)"
+        txtLong.text = "\(73.1165197)"
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = "111111111130"
         txtEmail.text = ""
