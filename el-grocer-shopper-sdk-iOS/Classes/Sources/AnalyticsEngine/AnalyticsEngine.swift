@@ -63,7 +63,7 @@ private extension SegmentAnalyticsEngine {
                 
             case .grocerySingleStore:
                 var metaData = metaData
-                metaData["marketType"] = "Smile Single Store"
+                metaData["marketType"] = "Market"
                 return metaData
             }
         }
