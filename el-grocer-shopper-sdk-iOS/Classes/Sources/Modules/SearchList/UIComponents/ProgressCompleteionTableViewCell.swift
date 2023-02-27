@@ -55,16 +55,32 @@ class ProgressCompleteionTableViewCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var progressLineOne: AWView!
+    @IBOutlet weak var progressLineTwo: AWView!
+    @IBOutlet weak var oneSuperView: AWView!
+    @IBOutlet weak var twoSuperView: AWView!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        themeSetup()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func themeSetup() {
+        lblCreatShoppingList.textColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor
+        lblSearchAndShop.textColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor
+        lblOne.textColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor
+        lblTwo.textColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor
+        progressLineOne.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+        progressLineTwo.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+        oneSuperView.layer.borderColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor.cgColor
+        twoSuperView.layer.borderColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor.cgColor
     }
     
 }

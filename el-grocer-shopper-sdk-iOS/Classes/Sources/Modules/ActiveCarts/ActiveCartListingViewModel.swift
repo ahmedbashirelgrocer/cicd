@@ -90,6 +90,7 @@ private extension ActiveCartListingViewModel {
                     self.showEmptyViewSubject.onNext(())
                     return
                 }
+                
                 let activeCartVMs = activeCarts.map { cart -> ActiveCartCellViewModel in
                     let cartCellViewModel = ActiveCartCellViewModel(activeCart: cart)
                     cartCellViewModel.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)             

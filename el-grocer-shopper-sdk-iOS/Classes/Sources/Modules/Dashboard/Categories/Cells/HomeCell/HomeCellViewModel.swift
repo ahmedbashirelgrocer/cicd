@@ -182,9 +182,9 @@ private extension HomeCellViewModel {
     func handleAlgoliaSuccessResponse(response: NSDictionary) {
         let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
         
-        self.moreAvailable = products.count >= self.limit
+        self.moreAvailable = products.products.count >= self.limit
         
-        let cellVMs = products.map { product -> ProductCellViewModel in
+        let cellVMs = products.products.map { product -> ProductCellViewModel in
             let vm = ProductCellViewModel(product: ProductDTO(product: product), grocery: self.grocery)
             vm.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: self.disposeBag)
             return vm
@@ -194,7 +194,7 @@ private extension HomeCellViewModel {
         self.isLoading = false
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: self.productCellVMs)])
         
-        self.isProductAvailableSubject.onNext(products.count != 0 && offset == 0)
+        self.isProductAvailableSubject.onNext(products.products.count != 0 && offset == 0)
         self.offset += limit
     }
 }

@@ -348,7 +348,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
         addBackButtonWithCrossIconRightSide(.white)
-        addBackButton(isGreen: false)
+//        addBackButton(isGreen: false)
         setUpButtonAppearance()
         setupLabelAppearance()
         registerCell()
@@ -1142,13 +1142,13 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
             }else if indexPath.row == 2 {
                 
                 let cell : SubsitutionActionButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SubsitutionActionButtonTableViewCell" , for: indexPath) as! SubsitutionActionButtonTableViewCell
-                cell.configure(false)
+                let shouldShowCancel = (self.orderProducts.count  == self.TotalOrderProducts.count)
+                cell.configure(shouldShowCancel)
                 cell.contentView.backgroundColor = UIColor.clear
                 cell.buttonclicked = { [weak self] (isCancel) in
                     
                     if isCancel {
                         MixpanelEventLogger.trackSubstitutionCancelOrder(orderId: self?.orderId ?? "")
-                            //                         self?.cancelOrderHandler("")
                         self?.cancelOrderHandler(self?.order.dbID.stringValue ?? "")
                     }else{
                         MixpanelEventLogger.trackSubstitutitonRemoveAllClicked()
@@ -1156,7 +1156,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                             self?.discardProductInBasketWithProductIndex(prod)
                         }
                         self?.tableView.reloadData()
-                            // self?.continueHandler("fromremoveButton")
+                        self?.continueHandler("fromremoveButton")
                         
                     }
                     

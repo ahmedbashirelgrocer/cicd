@@ -44,9 +44,10 @@ class ElWalletNetworkManager {
             }
             completionHandler(Either.success(response))
       }) { (operation  , error: Error) -> Void in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+          let errorToParse = ElGrocerError(error: error as NSError)
+          if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+              completionHandler(Either.failure(errorToParse))
+          }
       }
     }
     
@@ -67,9 +68,10 @@ class ElWalletNetworkManager {
             completionHandler(Either.success(response))
       
       }) { (operation  , error: Error) -> Void in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+          let errorToParse = ElGrocerError(error: error as NSError)
+          if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+              completionHandler(Either.failure(errorToParse))
+          }
       }
         
     }
@@ -87,9 +89,10 @@ class ElWalletNetworkManager {
             completionHandler(Either.success(response))
       
       }) { (operation  , error: Error) -> Void in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+          let errorToParse = ElGrocerError(error: error as NSError)
+          if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+              completionHandler(Either.failure(errorToParse))
+          }
         }
     }
     
@@ -109,9 +112,10 @@ class ElWalletNetworkManager {
             completionHandler(Either.success(response))
       
       }) { (operation  , error: Error) -> Void in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+          let errorToParse = ElGrocerError(error: error as NSError)
+          if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+              completionHandler(Either.failure(errorToParse))
+          }
       }
     }
 }

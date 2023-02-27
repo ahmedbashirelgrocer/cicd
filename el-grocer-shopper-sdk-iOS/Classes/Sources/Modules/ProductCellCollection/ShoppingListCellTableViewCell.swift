@@ -43,6 +43,10 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 editbutton.transform = CGAffineTransform(scaleX: -1, y: 1)
             }
+            let image = editbutton.imageView?.image?.withRenderingMode(.alwaysTemplate)
+            editbutton.setImage(image, for: .normal)
+            editbutton.imageView?.tintColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            
         }
     }
     @IBOutlet var btnConfirm: UIButton! {

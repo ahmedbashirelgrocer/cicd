@@ -635,9 +635,9 @@ class PopImageViwerViewController: UIViewController {
             if  let responseObject : NSDictionary = data as NSDictionary? {
                 Thread.OnMainThread {
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    if newProducts.count > 0 {
+                    if newProducts.products.count > 0 {
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        let newProduct  = newProducts[0]
+                        let newProduct  = newProducts.products[0]
                         self.product = newProduct
                         self.btnAddToCrtHandler(self)
                     }else{
@@ -1076,9 +1076,9 @@ class PopImageViwerViewController: UIViewController {
                     Thread.OnMainThread {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         
-                        if newProducts.count > 0 {
+                        if newProducts.products.count > 0 {
                             DatabaseHelper.sharedInstance.saveDatabase()
-                            self.product = newProducts[0]
+                            self.product = newProducts.products[0]
                             self.configureProduct()
                             
                         }else{
@@ -1466,11 +1466,11 @@ extension PopImageViwerViewController {
                     Thread.OnMainThread {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(final, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         
-                        self?.lblFrequentlyBought.isHidden = (newProducts.count == 0)
+                        self?.lblFrequentlyBought.isHidden = (newProducts.products.count == 0)
                         
                         
-                        if newProducts.count > 0 {
-                            self?.boughtItems = newProducts
+                        if newProducts.products.count > 0 {
+                            self?.boughtItems = newProducts.products
                            // self?.topScrollView.contentSize = CGSize(width: ScreenSize.SCREEN_WIDTH, height: 1000)
                             self?.boughtItemView.visibility = .visible
                         }else {
@@ -1493,10 +1493,10 @@ extension PopImageViwerViewController {
                     Thread.OnMainThread {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(final, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         
-                        self?.lblReatedTogether.isHidden = (newProducts.count == 0)
+                        self?.lblReatedTogether.isHidden = (newProducts.products.count == 0)
                         
-                        if newProducts.count > 0 {
-                            self?.relatedItems = newProducts
+                        if newProducts.products.count > 0 {
+                            self?.relatedItems = newProducts.products
                                 // self?.topScrollView.contentSize = CGSize(width: ScreenSize.SCREEN_WIDTH, height: 1000)
                             self?.relatedItemView.visibility = .visible
                         }else {

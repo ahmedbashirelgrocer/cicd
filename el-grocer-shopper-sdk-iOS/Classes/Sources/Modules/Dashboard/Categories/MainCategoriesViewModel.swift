@@ -290,7 +290,7 @@ private extension MainCategoriesViewModel {
             case .success(let response):
                 let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
                 
-                let productDTOs = products.map { ProductDTO(product: $0) }
+                let productDTOs = products.products.map { ProductDTO(product: $0) }
                 
                 if productDTOs.isNotEmpty {
                     let title = NSLocalizedString("previously_purchased_products_title", bundle: .resource, comment: "")
