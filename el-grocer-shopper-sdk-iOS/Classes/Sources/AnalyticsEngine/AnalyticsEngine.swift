@@ -53,17 +53,20 @@ private extension SegmentAnalyticsEngine {
             switch launchOptions.marketType {
             case .marketPlace:
                 var metaData = metaData
-                metaData["marketType"] = "Smile Marketplace"
+                metaData[EventParameterKeys.marketType] = "Smile Marketplace"
+                metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
                 return metaData
                 
             case .shopper:
                 var metaData = metaData
-                metaData["marketType"] = "Shopper Marketplace"
+                metaData[EventParameterKeys.marketType] = "Shopper Marketplace"
+                metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
                 return metaData
                 
             case .grocerySingleStore:
                 var metaData = metaData
-                metaData["marketType"] = "Market"
+                metaData[EventParameterKeys.marketType] = "Market"
+                metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
                 return metaData
             }
         }

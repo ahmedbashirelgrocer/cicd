@@ -212,6 +212,12 @@ class ElGrocerUtility {
         return versionNumber + "-" + latlng
     }
     
+    func getSesstionId() -> String {
+        let appStartMilli = Int64((SDKManager.shared.sdkStartTime?.timeIntervalSince1970 ?? Date().timeIntervalSince1970) * 1000)
+        let uuid = UIDevice.current.identifierForVendor?.uuidString ?? ""
+        return "\(appStartMilli)_\(uuid)"
+    }
+    
     func GenerateRetailerIdString(groceryA : [Grocery]?) -> String{
         
         var retailerIDString = ""
