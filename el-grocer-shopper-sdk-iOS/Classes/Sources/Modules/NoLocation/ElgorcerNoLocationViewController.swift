@@ -22,11 +22,9 @@ class ElgorcerNoLocationViewController: UIViewController {
     }
     @IBOutlet weak var btnChangeLocation: UIButton! {
         didSet {
-            btnChangeLocation.titleLabel?.text = localizedString("screen_NoLocationSingleStore_BtnTitle", comment: "")
+            btnChangeLocation.setTitle( localizedString("screen_NoLocationSingleStore_BtnTitle", comment: ""), for: .normal)
         }
     }
-    
-    
     
     
     class func loadViewXib() -> ElgorcerNoLocationViewController {
@@ -54,10 +52,8 @@ class ElgorcerNoLocationViewController: UIViewController {
             self.backButtonClicked("")
             return
         }
-        self.dismiss(animated: true) {
-            FlavorNavigation.shared.changeLocationNavigation(nil)
-        }
-        
+       
+        FlavorNavigation.shared.changeLocationNavigation(nil)
         
     }
     @IBAction func backButtonClicked(_ sender: Any) {

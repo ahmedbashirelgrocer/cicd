@@ -2161,6 +2161,6 @@
 
 
 // MARK: - SingleStore Not Deliver screen
-"screen_NoLocationSingleStore_title" = "Sorry! We don’t deliver here yet";
-"screen_NoLocationSingleStore_detailMsg" = "Would you like to change your location?";
-"screen_NoLocationSingleStore_BtnTitle" = "Change location";
+"screen_NoLocationSingleStore_title" = "عذراً، لا نوصل لهذه  المنطقة حالياً";
+"screen_NoLocationSingleStore_detailMsg" = "هل ترغب في تغيير موقعك؟";
+"screen_NoLocationSingleStore_BtnTitle" = "تغيير الموقع";

@@ -924,8 +924,6 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         if UserDefaults.isUserLoggedIn() {
             
-            
-            
             let cell:DashboardLocationCell = tableView.dequeueReusableCell(withIdentifier: kDashboardLocationCellIdentifier, for: indexPath) as! DashboardLocationCell
             
             if self.isFormCart {
@@ -1526,7 +1524,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                         }
                     }else {
                         if !SDKManager.isGrocerySingleStore { self.fetchGroceries() } else {
-                            self.dismiss(animated: true)
+                            ElGrocer.start(with: SDKManager.shared.launchOptions) {
+                              let _ = SpinnerView.showSpinnerViewInView(self.view)
+                            } completion: { isCompleted in
+                                if isCompleted ?? false {
+                                    SpinnerView.hideSpinnerView()
+                                    self.dismiss(animated: true)
+                                }
+                            }
                         }
                     }
                     
