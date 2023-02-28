@@ -9,6 +9,25 @@ import UIKit
 
 class ElgorcerNoLocationViewController: UIViewController {
     
+    @IBOutlet weak var lblSorrytitle: UILabel! {
+        didSet {
+            lblSorrytitle.text = localizedString("", comment: "")
+        }
+    }
+    @IBOutlet weak var lblSorryDetailMsg: UILabel! {
+        didSet {
+            lblSorryDetailMsg.text = localizedString("", comment: "")
+        }
+    }
+    @IBOutlet weak var btnChangeLocation: UIButton! {
+        didSet {
+            btnChangeLocation.titleLabel?.text = localizedString("", comment: "")
+        }
+    }
+    
+    
+    
+    
     class func loadViewXib() -> ElgorcerNoLocationViewController {
        return ElgorcerNoLocationViewController(nibName: "ElgorcerNoLocationViewController", bundle: Bundle.resource)
     }

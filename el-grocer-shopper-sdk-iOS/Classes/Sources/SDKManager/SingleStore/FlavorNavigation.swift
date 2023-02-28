@@ -21,9 +21,10 @@ class FlavorNavigation {
      func navigateToStorePage(_ grocery: Grocery?) {
         
         SDKManager.shared.launchOptions?.navigationType = .singleStore
-        self.setDefaultGroceryForSearch(grocery)
+        
          
         Observable.just(())
+            .map{ [unowned self] _ in self.setLanguage() }
             .flatMap{ [unowned self] _ in self.showAppWithMenuForSearch(grocery) }
             .subscribe()
             .disposed(by: disposeBag)
@@ -81,9 +82,6 @@ class FlavorNavigation {
     }
     
     
-    
-    
-    
     fileprivate func showAppWithMenuForSearch(_ grocery : Grocery?) -> Observable<Void> {
         
         return Observable.just(())
@@ -96,6 +94,11 @@ class FlavorNavigation {
         guard let grocery = grocery else { return }
         let filterGrocery = HomePageData.shared.groceryA?.first{ $0.dbID == grocery.dbID }
         ElGrocerUtility.sharedInstance.activeGrocery = filterGrocery
+    }
+    
+    fileprivate func setLanguage() {
+        SDKManager.shared.setupLanguage()
+        LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: SDKManager.shared.launchOptions?.language ?? "Base", SDKManagers: SDKManager.shared)
     }
     
     

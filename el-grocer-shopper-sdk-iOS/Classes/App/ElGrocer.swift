@@ -211,10 +211,12 @@ public struct LaunchOptions {
     public init(
         latitude: Double?,
         longitude: Double?,
-        marketType : MarketType) {
+        marketType : MarketType,
+        _ language: String? = nil) {
         self.latitude = latitude
         self.longitude = longitude
         self.marketType = marketType
+        self.language = language
     }
 
 }

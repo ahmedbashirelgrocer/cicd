@@ -39,6 +39,8 @@ final class FlavoursUserCase: FlavorsClientUseCaseType {
     fileprivate func startFetchProcess(_ launchOption: LaunchOptions) -> Observable<Grocery?> {
         
         Observable.create { observer in
+            self.apiClient.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
+            self.setLocale(language: launchOption.language)
             self.apiClient.getFlavorStore(latitude: launchOption.latitude ?? 0.0, longitude: launchOption.longitude ?? 0.0) { result in
                 switch result {
                 case .success(let grocery):
@@ -51,5 +53,13 @@ final class FlavoursUserCase: FlavorsClientUseCaseType {
             return Disposables.create()
         }
         
+    }
+    
+    fileprivate func setLocale( language : String?) {
+        var currentLang = language
+        if currentLang == nil || currentLang == "Base" {
+          currentLang = "en"
+        }
+        self.apiClient.requestManager.requestSerializer.setValue(currentLang, forHTTPHeaderField: "Locale")
     }
 }

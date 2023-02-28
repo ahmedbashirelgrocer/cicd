@@ -371,6 +371,9 @@
 "need_assistance_lable" = "Need more support? ";
 "launch_live_chat_text" = "Chat with elGrocer";
 
+"lbl_Hurray_Success_Msg" = "HURRAY!\nYOUR ORDER SUCCESSFULLY PLACED";
+
+
 // Orders history
 "orders_top_title" = "My Orders";
 
@@ -2117,3 +2120,5 @@ Oreo";
 "screen_active_cart_listing_title" = "Active Carts";
 "screen_active_cart_listing_store_close_message" = "Store is closed. Come back tomorrow!";
 "txt_free_delivery_for_smile" = "Free with Smiles Unlimited";
+
+
