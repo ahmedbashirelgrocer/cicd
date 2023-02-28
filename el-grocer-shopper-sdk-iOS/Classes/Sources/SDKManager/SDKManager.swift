@@ -77,9 +77,7 @@ class SDKManager: NSObject  {
         self.launchOptions = launchOptions
         
         if !isInitialized {
-//            DispatchQueue.main.async { [weak self] in
             self.configure()
-//            }
             isInitialized = true
         }
         
