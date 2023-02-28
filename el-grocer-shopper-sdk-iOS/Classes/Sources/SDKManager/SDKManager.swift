@@ -69,17 +69,19 @@ class SDKManager: NSObject  {
     private override init() {
         super.init()
         window = .key
-        DispatchQueue.main.async { [weak self] in self?.configure() }
+//        DispatchQueue.main.async { [weak self] in self?.configure() }
     }
     
   
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
         
-//        if !isInitialized {
-//            DispatchQueue.main.async { [weak self] in self?.configure() }
-//            isInitialized = true
-//        }
+        if !isInitialized {
+//            DispatchQueue.main.async { [weak self] in
+            self.configure()
+//            }
+            isInitialized = true
+        }
         
         self.rootContext = UIWindow.key?.rootViewController
         self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
@@ -432,7 +434,7 @@ class SDKManager: NSObject  {
         
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
         
-        let configuration = AnalyticsConfiguration(writeKey: "Z2Jste7vnggEaRT9H5maGj8PUlFJXL4k")
+        let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
         
         configuration.trackApplicationLifecycleEvents = true
         configuration.flushAt = 3
