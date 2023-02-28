@@ -5,23 +5,24 @@
 //  Created by M Abubaker Majeed on 19/01/2023.
 //
 
+
 import UIKit
 
 class ElgorcerNoLocationViewController: UIViewController {
     
     @IBOutlet weak var lblSorrytitle: UILabel! {
         didSet {
-            lblSorrytitle.text = localizedString("", comment: "")
+            lblSorrytitle.text = localizedString("screen_NoLocationSingleStore_title", comment: "")
         }
     }
     @IBOutlet weak var lblSorryDetailMsg: UILabel! {
         didSet {
-            lblSorryDetailMsg.text = localizedString("", comment: "")
+            lblSorryDetailMsg.text = localizedString("screen_NoLocationSingleStore_detailMsg", comment: "")
         }
     }
     @IBOutlet weak var btnChangeLocation: UIButton! {
         didSet {
-            btnChangeLocation.titleLabel?.text = localizedString("", comment: "")
+            btnChangeLocation.titleLabel?.text = localizedString("screen_NoLocationSingleStore_BtnTitle", comment: "")
         }
     }
     

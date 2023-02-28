@@ -2158,3 +2158,9 @@
 "screen_active_cart_listing_store_close_message" = "المتجر مغلق";
 "screen_active_cart_listing_empty_message" = "No active cart available";
 "txt_free_delivery_for_smile" = "Free with Smiles Unlimited";
+
+
+// MARK: - SingleStore Not Deliver screen
+"screen_NoLocationSingleStore_title" = "Sorry! We don’t deliver here yet";
+"screen_NoLocationSingleStore_detailMsg" = "Would you like to change your location?";
+"screen_NoLocationSingleStore_BtnTitle" = "Change location";
