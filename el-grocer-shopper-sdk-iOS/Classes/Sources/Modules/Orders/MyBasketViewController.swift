@@ -2826,8 +2826,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 ShoppingBasketItem.removeProductFromBasket(self.selectedProduct, grocery: self.grocery, orderID: nil , context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
-                    let cartDeletedEvent = CartDeletedEvent(product: self.selectedProduct, activeGrocery: self.grocery)
-                    SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: self.grocery))
                 }
                 self.removeProductFromAvailableAndProductA ()
                 
@@ -2847,8 +2846,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 // Log segment delete cart event
                 if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
-                    let cartDeletedEvent = CartDeletedEvent(product: self.selectedProduct, activeGrocery: self.grocery)
-                    SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: self.grocery))
                 }
                 
             } else {
@@ -3386,12 +3384,14 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 self.updateSelectedProductsQuantity(counter, andWithProductIndex: index)
                 if(counter > 0){
                     self.updateQuantityAndPriceColour(index)
-                    
-                    let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: counter)
-                    SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
                 }
+                
                 ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("decrease_quantity_at_my_basket_screen")
                 FireBaseEventsLogger.trackDecrementAddToProduct(product: self.selectedProduct)
+                
+                // Logging segment event for product removed
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: counter)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
             }else if (counter == 0){
                 self.updateSelectedProductsQuantity(counter, andWithProductIndex: index)
                 

@@ -1381,7 +1381,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         // Logging Segment Event
         let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
         if isNewCart {
-            let cartCreatedEvent = CartCreatedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            let cartCreatedEvent = CartCreatedEvent(grocery: self.grocery)
             SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
         } else {
             let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
@@ -1409,7 +1409,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
         if cartDeleted {
-            let cartDeletedEvent = CartDeletedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            let cartDeletedEvent = CartDeletedEvent(grocery: self.grocery)
             SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
         } else {
             let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity)

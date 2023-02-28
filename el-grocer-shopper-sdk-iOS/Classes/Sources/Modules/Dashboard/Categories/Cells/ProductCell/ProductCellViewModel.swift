@@ -284,10 +284,10 @@ private extension ProductCellViewModel {
         if let product = self.product.productDB {
             let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
             if isNewCart {
-                SegmentAnalyticsEngine.instance.logEvent(event: CartCreatedEvent(product: product, activeGrocery: self.grocery))
-            } else {
-                SegmentAnalyticsEngine.instance.logEvent(event: CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: updatedQuantity))
+                SegmentAnalyticsEngine.instance.logEvent(event: CartCreatedEvent(grocery: self.grocery))
             }
+            
+            SegmentAnalyticsEngine.instance.logEvent(event: CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: updatedQuantity))
         }
         
         createOrUpdateBasketItem(updatedQuantity: updatedQuantity)
@@ -305,10 +305,10 @@ private extension ProductCellViewModel {
             if let product = self.product.productDB {
                 let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
                 if cartDeleted {
-                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(product: product, activeGrocery: self.grocery))
-                } else {
-                    SegmentAnalyticsEngine.instance.logEvent(event: CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .removed, quantity: updatedQuantity))
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: self.grocery))
                 }
+                
+                SegmentAnalyticsEngine.instance.logEvent(event: CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .removed, quantity: updatedQuantity))
             }
         }
     }
