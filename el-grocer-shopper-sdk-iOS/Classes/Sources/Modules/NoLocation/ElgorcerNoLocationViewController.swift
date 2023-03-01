@@ -52,9 +52,10 @@ class ElgorcerNoLocationViewController: UIViewController {
             self.backButtonClicked("")
             return
         }
-       
-        FlavorNavigation.shared.changeLocationNavigation(nil)
-        
+        self.dismiss(animated: true) {
+            FlavorNavigation.shared.changeLocationNavigation(nil)
+        }
+   
     }
     @IBAction func backButtonClicked(_ sender: Any) {
         self.dismiss(animated: true)

@@ -1524,14 +1524,16 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                         }
                     }else {
                         if !SDKManager.isGrocerySingleStore { self.fetchGroceries() } else {
-                            ElGrocer.start(with: SDKManager.shared.launchOptions) {
-                              let _ = SpinnerView.showSpinnerViewInView(self.view)
-                            } completion: { isCompleted in
-                                if isCompleted ?? false {
-                                    SpinnerView.hideSpinnerView()
-                                    self.dismiss(animated: true)
-                                }
-                            }
+                            self.dismiss(animated: true)
+
+//                            ElGrocer.start(with: SDKManager.shared.launchOptions) {
+//                              let _ = SpinnerView.showSpinnerViewInView(self.view)
+//                            } completion: { isCompleted in
+//                                if isCompleted ?? false {
+//                                    SpinnerView.hideSpinnerView()
+//                                    self.dismiss(animated: true)
+//                                }
+//                            }
                         }
                     }
                     

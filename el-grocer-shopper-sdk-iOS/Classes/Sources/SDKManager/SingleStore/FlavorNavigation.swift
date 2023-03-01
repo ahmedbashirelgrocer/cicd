@@ -43,7 +43,7 @@ class FlavorNavigation {
        
        SDKManager.shared.launchOptions?.navigationType = .singleStore
        Observable.just(())
-           //.flatMap{ [unowned self] _ in self.showAppWithMenuForSearch(grocery) }
+           .flatMap{ [unowned self] _ in self.showAppWithMenuForSearch(grocery) }
            .flatMap{ [unowned self] _ in self.showAddressListing() }
            .subscribe()
            .disposed(by: disposeBag)
@@ -78,7 +78,7 @@ class FlavorNavigation {
                     }
                 }
 
-            }.delay(.milliseconds(0), scheduler: MainScheduler.instance)
+            }.delay(.milliseconds(500), scheduler: MainScheduler.instance)
     }
     
     

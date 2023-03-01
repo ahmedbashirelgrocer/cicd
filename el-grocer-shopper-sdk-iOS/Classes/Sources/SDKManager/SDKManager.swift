@@ -110,12 +110,10 @@ class SDKManager: NSObject  {
 
                     tabNav.modalPresentationStyle = .fullScreen
                     if let topVC = self.rootContext {
-                        if self.rootContext?.presentedViewController is ElgorcerNoLocationViewController {
-                            self.rootContext?.dismiss(animated: false)
-                        }
-                        ElGrocerUtility.sharedInstance.delay(2) {
-                            topVC.present(tabNav, animated: true)
-                        }
+//                        if self.rootContext?.presentedViewController is ElgorcerNoLocationViewController {
+//                            self.rootContext?.dismiss(animated: false)
+//                        }
+                        topVC.present(tabNav, animated: true)
                         
                     }
                 }
