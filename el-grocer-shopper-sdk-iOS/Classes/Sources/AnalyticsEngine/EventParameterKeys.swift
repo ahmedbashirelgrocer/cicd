@@ -44,7 +44,7 @@ enum EventParameterKeys {
     static let voucherCode          = "voucherCode"
     static let source               = "source"
     static let address              = "address"
-    static let apiEndpoint          = "apiEndpoint"
+    static let apiEndpoint          = "apiEndPoint"
     static let message              = "message"
     static let code                 = "code"
     static let searchQuery          = "searchQuery"
