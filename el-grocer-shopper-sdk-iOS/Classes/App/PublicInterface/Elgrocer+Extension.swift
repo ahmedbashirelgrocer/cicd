@@ -76,6 +76,7 @@ public extension ElGrocer {
             return
         }
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
+        SDKManager.shared.launchOptions = launchOptions
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
         } else if launchOptions.marketType == .grocerySingleStore {
