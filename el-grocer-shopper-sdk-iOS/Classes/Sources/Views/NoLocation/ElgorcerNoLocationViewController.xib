@@ -18,6 +18,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ElgorcerNoLocationViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <connections>
+                <outlet property="btnChangeLocation" destination="41n-rO-lcp" id="DeR-yj-RIn"/>
+                <outlet property="lblSorryDetailMsg" destination="eo1-5g-an8" id="mQp-it-WqK"/>
+                <outlet property="lblSorrytitle" destination="7St-Gf-KUi" id="044-Q0-TIt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -53,16 +56,14 @@ deliver here yet</string>
                         <constraint firstAttribute="height" constant="223" id="Ewg-1O-8Cm"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eo1-5g-an8">
-                    <rect key="frame" x="16" y="521" width="358" height="33.666666666666629"/>
-                    <string key="text">This Location is outside UAE.
-Would you like to change your location?</string>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Would you like to change your location?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eo1-5g-an8">
+                    <rect key="frame" x="16" y="521" width="358" height="17"/>
                     <fontDescription key="fontDescription" name="SFUIDisplay-Medium" family="SF UI Display" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="41n-rO-lcp" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
-                    <rect key="frame" x="16" y="602.66666666666663" width="358" height="56"/>
+                    <rect key="frame" x="16" y="586" width="358" height="56"/>
                     <color key="backgroundColor" red="0.52941176470588236" green="0.32941176470588235" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="56" id="19x-sh-3bT"/>
@@ -103,6 +104,11 @@ Would you like to change your location?</string>
             <point key="canvasLocation" x="-66.153846153846146" y="20.616113744075829"/>
         </view>
     </objects>
+    <designables>
+        <designable name="41n-rO-lcp">
+            <size key="intrinsicContentSize" width="126" height="33"/>
+        </designable>
+    </designables>
     <resources>
         <image name="backPinPurple" width="24" height="24"/>
         <image name="noLocationPin" width="250" height="223"/>

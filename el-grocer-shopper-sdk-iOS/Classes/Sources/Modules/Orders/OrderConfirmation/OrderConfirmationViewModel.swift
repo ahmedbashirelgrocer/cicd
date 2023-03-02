@@ -16,6 +16,7 @@ protocol OrderConfirmationViewModelInput {
 }
 
 protocol OrderConfirmationViewModelOutput {
+    var isArbic: Observable<Bool> { get }
     var loading: Observable<Bool> { get } //  to show api loading progress
     var isNewOrder: Observable<Bool> { get } // will use to display is new order; order coming from place order screen on candidate for new order true value only
     var groceryUrl: Observable<URL?> { get } // order grocery image url
@@ -61,6 +62,7 @@ class OrderConfirmationViewModel: OrderConfirmationViewModelType {
     var address: Observable<String> { addressSubject.asObservable() }
     var banners: Observable<[BannerDTO]?> { bannersSubject.asObservable() }
     var error: Observable<ElGrocerError> { errorSubject.asObservable() }
+    var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
     
     // MARK: Subjects
     private let orderIdSubject = PublishSubject<String>()
@@ -78,6 +80,7 @@ class OrderConfirmationViewModel: OrderConfirmationViewModelType {
     private let addressSubject = BehaviorSubject<String>(value: "")
     private let bannersSubject = BehaviorSubject<[BannerDTO]?>(value: nil)
     private let errorSubject = PublishSubject<ElGrocerError>()
+    private let isArbicSubject = BehaviorSubject<Bool>(value: false)
     
     // MARK: Properties
     var orderIdForPublicUse : String = ""
@@ -95,6 +98,8 @@ class OrderConfirmationViewModel: OrderConfirmationViewModelType {
         }.disposed(by: disposeBag)
         self.orderId.onNext(orderId)
         self.getBanners()
+        self.isArbicSubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected())
+        
     }
     
     

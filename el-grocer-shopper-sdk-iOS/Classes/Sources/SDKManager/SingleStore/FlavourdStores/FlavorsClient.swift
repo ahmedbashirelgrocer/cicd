@@ -16,7 +16,7 @@ public class FlavorAgent {
         
         ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
             if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                _ = FlavorsClient.init(address: address, loadCompletion: { isLoaded, grocery in
+                _ = FlavorsClient.init(address: address, launchOptions.language, loadCompletion: { isLoaded, grocery in
                     ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
                     completion?(isLoaded)
                 })
@@ -97,9 +97,9 @@ class FlavorsClient  {
         
     }
     
-    init(address: DeliveryAddress, loadCompletion: LoadCompletion) {
+    init(address: DeliveryAddress, _ language: String? = "", loadCompletion: LoadCompletion) {
         
-        let launchOptions =  LaunchOptions.init(latitude: address.latitude, longitude: address.longitude, marketType: .grocerySingleStore)
+        let launchOptions =  LaunchOptions.init(latitude: address.latitude, longitude: address.longitude, marketType: .grocerySingleStore, language)
         self.completion = loadCompletion
         self.launchOptions = launchOptions
         
@@ -107,14 +107,6 @@ class FlavorsClient  {
         
         flavoursUseCase.inputs.launchOptionsObserver
             .onNext(self.launchOptions)
-        
-//        flavoursUseCase.outputs.flavourStore
-//            .observeOn(MainScheduler.instance)
-//            .subscribe(onNext: { result in
-//                self.grocery = result
-//                self.completion?(result != nil, result)
-//            })
-//            .disposed(by: disposeBag)
         
         flavoursUseCase.outputs.flavourStore
             .observeOn(MainScheduler.instance)

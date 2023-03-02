@@ -144,7 +144,7 @@ enum ElGrocerApiEndpoint : String {
     case genericCustomBanners = "v1/banners/show"
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     // Dark store new UI Changes 10nov https://elgrocerdxb.atlassian.net/wiki/spaces/CNC/pages/1270218754/Launching+Dark+Store+w+New+UI
-    case genericRetailersList = "v3/retailers/delivery"
+    case genericRetailersList = "v4/retailers/delivery"
     case genericMocRetailersList = "v3/retailers"
     
     
@@ -806,6 +806,19 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     }
     
   }
+      
+      func getDeliveryAddressesDefault(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
+      
+        setAccessToken()
+        NetworkCall.get(ElGrocerApiEndpoint.DeliveryAddressV2.rawValue, parameters: nil , progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            completionHandler(true, response as? NSDictionary)
+        }) { (operation  , error) in
+            completionHandler(false, nil)
+        }
+        
+      }
     
     func getaddressTag(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
         setAccessToken()

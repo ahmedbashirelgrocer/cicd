@@ -24,10 +24,21 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
 
     @IBOutlet var lottieAnimation: UIView!
-    @IBOutlet weak var lblNewOrderSuccessMsg: UILabel!
+    @IBOutlet weak var lblNewOrderSuccessMsg: UILabel! {
+        didSet {
+            lblNewOrderSuccessMsg.text =  localizedString("lbl_Hurray_Success_Msg", comment: "")
+        }
+    }
     @IBOutlet weak var groceryImage: UIImageView!
     @IBOutlet weak var lblGroceryName: UILabel!
     @IBOutlet weak var lblOrderNumber: UILabel!
+    
+    @IBOutlet weak var lblOrderDetail: UILabel! {
+        didSet {
+            lblOrderDetail.text =  localizedString("lbl_Order_Details", comment: "")
+        }
+    }
+    @IBOutlet weak var lblOrderDetailArrow: UIImageView!
     @IBOutlet weak var lblOrderDetailNote: UILabel!
     @IBOutlet weak var lblFreshItemNote: UILabel!
     @IBOutlet weak var lblAddressNote: UILabel!
@@ -35,7 +46,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     // status view
     @IBOutlet weak var statusView: UIView!
-    @IBOutlet weak var lblEstimatedDelivery: UILabel!
+    @IBOutlet weak var lblEstimatedDelivery: UILabel! {
+        didSet {
+            lblEstimatedDelivery.text = localizedString("title_estimated_delivery", comment: "")
+        }
+    }
     @IBOutlet weak var lblDeliveryTime: UILabel!
     @IBOutlet weak var orderProgressView: UIProgressView!
     @IBOutlet weak var lblOrderStatus: UILabel!
@@ -248,6 +263,13 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             }
            
         }
+        
+        self.viewModel.outputs.isArbic.subscribe (onNext: { [weak self] isArbic in
+            self?.lblOrderDetailArrow.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
+            //self?.view.semanticContentAttribute = isArbic ? .forceRightToLeft : .forceLeftToRight
+        }).disposed(by: disposeBag)
+        
+        // lblOrderDetailArrow
         
         /*
          

@@ -46,7 +46,10 @@ extension ElGrocer {
                 SDKManager.shared.launchOptions = launchOptions
                 FlavorNavigation.shared.navigateToStorePage(grocery)
             }
-            handleDeepLinkOrPush()
+            ElGrocerUtility.sharedInstance.delay(1.0) {
+                handleDeepLinkOrPush()
+            }
+            
             return defers()
             
         }

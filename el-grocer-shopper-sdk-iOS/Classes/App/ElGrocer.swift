@@ -41,6 +41,10 @@ public final class ElGrocer {
             
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
                 
+                if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 {
+                    HomePageData.shared.fetchHomeData(true) {  }
+                }
+                
                 func basicHomeViewSetUp() {
                     if let launchOptions = launchOptions {
                         let manager = SDKLoginManager(launchOptions: launchOptions)
@@ -57,7 +61,8 @@ public final class ElGrocer {
                     ElGrocerDynamicLink.handleDeepLink(url)
                     return defers()
                 }else {
-                    SDKManager.shared.start(with: launchOptions)
+                    basicHomeViewSetUp()
+                   // SDKManager.shared.start(with: launchOptions)
                 }
                 return defers()
             }
@@ -211,10 +216,12 @@ public struct LaunchOptions {
     public init(
         latitude: Double?,
         longitude: Double?,
-        marketType : MarketType) {
+        marketType : MarketType,
+        _ language: String? = nil) {
         self.latitude = latitude
         self.longitude = longitude
         self.marketType = marketType
+        self.language = language
     }
 
 }

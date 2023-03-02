@@ -245,10 +245,10 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T6g-Wn-96n">
-                                                                        <rect key="frame" x="-1" y="-3" width="185" height="68"/>
+                                                                        <rect key="frame" x="-1" y="-3" width="184.5" height="68"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="0DX-rL-rLs">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="185" height="68"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="184.5" height="68"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </view>
                                                                         <vibrancyEffect>
@@ -1260,25 +1260,25 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="22h-1G-TCj" userLabel="totalLabel">
-                                        <rect key="frame" x="20" y="12" width="24.666666666666671" height="11.666666666666664"/>
+                                        <rect key="frame" x="20" y="12" width="27.666666666666671" height="10"/>
                                         <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="10"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSd-dF-pw3" userLabel="promotionDiscountLabel">
-                                        <rect key="frame" x="20" y="38.333333333333371" width="24.666666666666671" height="11.666666666666664"/>
+                                        <rect key="frame" x="20" y="40" width="27.666666666666671" height="10"/>
                                         <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="10"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0cc-hY-DSV" userLabel="promotionDiscountPriceLabel">
-                                        <rect key="frame" x="353.33333333333331" y="38.333333333333371" width="24.666666666666686" height="11.666666666666664"/>
+                                        <rect key="frame" x="350.33333333333331" y="40" width="27.666666666666686" height="10"/>
                                         <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="10"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFc-Jd-YQg" userLabel="totalPriceLabel">
-                                        <rect key="frame" x="353.33333333333331" y="12" width="24.666666666666686" height="11.666666666666664"/>
+                                        <rect key="frame" x="350.33333333333331" y="12" width="27.666666666666686" height="10"/>
                                         <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="10"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1469,13 +1469,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery Fee:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gXr-p3-92D">
-                                                    <rect key="frame" x="10" y="0.0" width="293.33333333333331" height="25"/>
+                                                    <rect key="frame" x="10" y="0.0" width="285.66666666666669" height="25"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
                                                     <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="67.50 AED" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOz-v6-vUK">
-                                                    <rect key="frame" x="313.33333333333331" y="0.0" width="66.666666666666686" height="25"/>
+                                                    <rect key="frame" x="305.66666666666669" y="0.0" width="74.333333333333314" height="25"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -2084,7 +2084,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GE6-eI-avU" customClass="BannerView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="777" width="358" height="179"/>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" secondItem="GE6-eI-avU" secondAttribute="height" multiplier="2:1" id="2Nt-sk-EwH"/>
                                                         </constraints>
@@ -2190,7 +2190,9 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                         <outlet property="lblGrocerName" destination="fEd-po-SWR" id="fLb-hs-IoR"/>
                         <outlet property="lblGroceryName" destination="blH-Qr-p7U" id="oe6-dv-0As"/>
                         <outlet property="lblNewOrderSuccessMsg" destination="l1b-YR-z2h" id="uku-Vj-Hf2"/>
-                        <outlet property="lblOrderDetailNote" destination="tY9-SG-njz" id="ods-Ma-lUN"/>
+                        <outlet property="lblOrderDetail" destination="xQv-hf-YhT" id="2Gb-kd-rKc"/>
+                        <outlet property="lblOrderDetailArrow" destination="Iga-Wo-uXE" id="SNK-08-sg1"/>
+                        <outlet property="lblOrderDetailNote" destination="tY9-SG-njz" id="F2Q-ej-N71"/>
                         <outlet property="lblOrderNumber" destination="Nli-8S-gtv" id="PSK-Ck-9o1"/>
                         <outlet property="lblOrderStatus" destination="dzb-gn-3Vx" id="Zlv-bO-zDW"/>
                         <outlet property="lblOrderStatusAccepted" destination="aaS-qN-Vtr" id="fE5-QL-mnS"/>
@@ -2751,7 +2753,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                 <rect key="frame" x="15" y="47" width="360" height="0.0"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need more support?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000001192092896" translatesAutoresizingMaskIntoConstraints="NO" id="Wsp-e3-x5Y">
-                                        <rect key="frame" x="10" y="-8.3333333333333357" width="129.66666666666666" height="16.666666666666668"/>
+                                        <rect key="frame" x="10" y="-8.3333333333333357" width="129.66666666666666" height="17"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -2763,13 +2765,13 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat with elGrocer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGc-Zs-w6a">
-                                        <rect key="frame" x="235" y="-8.3333333333333357" width="117" height="16.666666666666668"/>
+                                        <rect key="frame" x="234" y="-8.3333333333333357" width="118" height="17"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="14"/>
                                         <color key="textColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OrderConfirmationNewChat" translatesAutoresizingMaskIntoConstraints="NO" id="Ymh-32-MwB">
-                                        <rect key="frame" x="209" y="-12" width="24" height="24"/>
+                                        <rect key="frame" x="208" y="-12" width="24" height="24"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

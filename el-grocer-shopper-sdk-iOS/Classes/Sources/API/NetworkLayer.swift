@@ -163,7 +163,7 @@ class NetworkLayer {
             return nil
         }
         self.setAuthriztionToken()
-        
+        debugPrint(" APILOGS: GET: URLString: \(URLString)")
         return self.requestManager.get(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders, progress: progress, success: success, failure: failure )
     }
     @discardableResult
@@ -179,6 +179,7 @@ class NetworkLayer {
             return nil
         }
         self.setAuthriztionToken()
+        debugPrint(" APILOGS: POST: URLString: \(URLString)")
         return self.requestManager.post(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , progress: progress, success: success, failure: failure )
     }
     

@@ -5,9 +5,27 @@
 //  Created by M Abubaker Majeed on 19/01/2023.
 //
 
+
 import UIKit
 
 class ElgorcerNoLocationViewController: UIViewController {
+    
+    @IBOutlet weak var lblSorrytitle: UILabel! {
+        didSet {
+            lblSorrytitle.text = localizedString("screen_NoLocationSingleStore_title", comment: "")
+        }
+    }
+    @IBOutlet weak var lblSorryDetailMsg: UILabel! {
+        didSet {
+            lblSorryDetailMsg.text = localizedString("screen_NoLocationSingleStore_detailMsg", comment: "")
+        }
+    }
+    @IBOutlet weak var btnChangeLocation: UIButton! {
+        didSet {
+            btnChangeLocation.setTitle( localizedString("screen_NoLocationSingleStore_BtnTitle", comment: ""), for: .normal)
+        }
+    }
+    
     
     class func loadViewXib() -> ElgorcerNoLocationViewController {
        return ElgorcerNoLocationViewController(nibName: "ElgorcerNoLocationViewController", bundle: Bundle.resource)
@@ -37,8 +55,7 @@ class ElgorcerNoLocationViewController: UIViewController {
         self.dismiss(animated: true) {
             FlavorNavigation.shared.changeLocationNavigation(nil)
         }
-        
-        
+   
     }
     @IBAction func backButtonClicked(_ sender: Any) {
         self.dismiss(animated: true)

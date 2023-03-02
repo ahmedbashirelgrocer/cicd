@@ -400,6 +400,8 @@
 "order_schedule_Instant_lable" = "سيتم توصيل طلبك في غضون الـ ";
 "order_schedule_InstantTime_lable" = "60 دقيقة القادمة";
 
+"lbl_Hurray_Success_Msg" = "HURRAY!\nYOUR ORDER SUCCESSFULLY PLACED";
+
     // Orders history
 "orders_top_title" = "طلباتي";
 
@@ -2157,3 +2159,9 @@
 "screen_active_cart_listing_store_close_message" = "المتجر مغلق";
 "screen_active_cart_listing_empty_message" = "No active cart available";
 "txt_free_delivery_for_smile" = "Free with Smiles Unlimited";
+
+
+// MARK: - SingleStore Not Deliver screen
+"screen_NoLocationSingleStore_title" = "عذراً، لا نوصل لهذه  المنطقة حالياً";
+"screen_NoLocationSingleStore_detailMsg" = "هل ترغب في تغيير موقعك؟";
+"screen_NoLocationSingleStore_BtnTitle" = "تغيير الموقع";
