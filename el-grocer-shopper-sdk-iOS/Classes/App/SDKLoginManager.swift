@@ -192,6 +192,7 @@ extension SDKLoginManager {
                         NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
+                        
                         SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
 //
 //                        if !UIApplication.isElGrocerSDKClass() {

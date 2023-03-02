@@ -11,9 +11,13 @@ public extension ElGrocer {
     
     
     static func configure(with launchOptions: LaunchOptions, completion: ((Bool) -> Void)? ) {
-        ElgrocerPreloadManager.shared.loadInitialData(launchOptions) {
+        ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
             completion?(true)
-        } basicApiCallCompletion: { isBasicApiCallsCompleted in elDebugPrint("Basic api calls completed Now proceeding with Home page data fetching; will be use in future for flavour store calls ")}
+        }
+        
+//        ElgrocerPreloadManager.shared.loadInitialData(launchOptions) {
+//            completion?(true)
+//        } basicApiCallCompletion: { isBasicApiCallsCompleted in elDebugPrint("Basic api calls completed Now proceeding with Home page data fetching; will be use in future for flavour store calls ")}
     }
 
     /// Verify is Search Loading is completed or not.
