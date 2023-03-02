@@ -97,7 +97,7 @@ struct SDKLoginManager {
         FireBaseEventsLogger.setUserID(userProfile.dbID.stringValue)
         
         // Get the user delivery addresses
-        ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result, responseObject) -> Void in
+        ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ (result, responseObject) -> Void in
          
             if result {
                 let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
