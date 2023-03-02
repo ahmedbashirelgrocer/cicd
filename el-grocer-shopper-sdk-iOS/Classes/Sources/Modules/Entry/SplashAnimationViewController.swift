@@ -91,7 +91,11 @@ class SplashAnimationViewController: UIViewController {
                     self?.activityIndicator.startAnimating()
                 }
             }
-                        
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-121")
+            }
+            
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(cameBackFromSleep(sender:)),
@@ -113,7 +117,6 @@ class SplashAnimationViewController: UIViewController {
     private func animationCompletedSetRootVc() {
         
         Thread.OnMainThread {
-            self.logoAnimator.highlightedImage = UIImage(name: "ElgrocerLogoAnimation-151")
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
             self.isAnimationCompleted = true
