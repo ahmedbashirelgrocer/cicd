@@ -267,7 +267,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         super.viewDidAppear(animated)
         defer {
             self.setNavigationApearance(true)
-            self.openOrdersView.refreshOrders()
+            self.openOrdersView.refreshOrders { loaded in
+                Thread.OnMainThread {
+                    self.openOrdersView.setNeedsLayout()
+                    self.openOrdersView.layoutIfNeeded()
+                }
+            }
         }
         self.setNavigationApearance(true)
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {

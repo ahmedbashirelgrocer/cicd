@@ -41,6 +41,8 @@ class ElgrocerOpenOrdersView: UIView {
         ordersCollectionView = UICollectionView.init(frame: CGRect.init(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height), collectionViewLayout: layout)
         ordersCollectionView?.delegate = self
         ordersCollectionView?.dataSource = self
+        ordersCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+        
         
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.ordersCollectionView!.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
@@ -64,8 +66,8 @@ class ElgrocerOpenOrdersView: UIView {
         
         NSLayoutConstraint.activate([
             //self.topAnchor.constraint(equalTo: topAlignView.bottomAnchor),
-            self.leftAnchor.constraint(equalTo: view.leftAnchor),
-            self.rightAnchor.constraint(equalTo: view.rightAnchor),
+            self.leftAnchor.constraint(equalTo: bottomAlignView.leftAnchor),
+            self.rightAnchor.constraint(equalTo: bottomAlignView.rightAnchor),
             self.bottomAnchor.constraint(equalTo: bottomAlignView.bottomAnchor, constant: -10),
             self.heightAnchor.constraint(equalToConstant: KCurrentOrderCollectionViewHeight),
           
@@ -83,7 +85,7 @@ class ElgrocerOpenOrdersView: UIView {
     }
     
     
-    func refreshOrders() {
+    func refreshOrders(completion: ((Bool) -> Void)?  = nil) {
         
         orderStatus.orderWorkItem  = DispatchWorkItem {
             self.orderStatus.getOpenOrders { [weak self] (data) in
@@ -94,9 +96,11 @@ class ElgrocerOpenOrdersView: UIView {
                             DispatchQueue.main.async {
                                 self?.ordersCollectionView?.reloadDataOnMainThread()
                             }
+                            completion?(true)
                         }
                     case .failure(let error):
                         debugPrint(error.localizedMessage)
+                        completion?(false)
                 }
                 self?.updateFrameWithData()
             }
@@ -149,6 +153,11 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 }
 
 func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    
+    guard ElGrocerUtility.sharedInstance.appConfigData != nil else {
+        return
+    }
+    
     let order = openOrders[indexPath.row]
     let key = DynamicOrderStatus.getKeyFrom(status_id: order["status_id"] as? NSNumber ?? -1000, service_id: order["retailer_service_id"]  as? NSNumber ?? -1000 , delivery_type: order["delivery_type_id"]  as? NSNumber ?? -1000)
     
@@ -208,6 +217,10 @@ func collectionView(_ collectionView: UICollectionView, layout collectionViewLay
     
     
     if cellSize.width > self.frame.width {
+        cellSize.width = self.frame.width
+    }
+    
+    if self.frame.width > cellSize.width   {
         cellSize.width = self.frame.width
     }
     

@@ -42,7 +42,9 @@ public final class ElGrocer {
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
                 
                 if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 {
-                    HomePageData.shared.fetchHomeData(true) {  }
+                    HomePageData.shared.fetchHomeData(true) {
+                        SDKManager.shared.launchCompletion?()
+                    }
                 }
                 
                 func basicHomeViewSetUp() {
@@ -62,7 +64,7 @@ public final class ElGrocer {
                     return defers()
                 }else {
                     basicHomeViewSetUp()
-                   // SDKManager.shared.start(with: launchOptions)
+                  //  SDKManager.shared.start(with: launchOptions)
                 }
                 return defers()
             }
