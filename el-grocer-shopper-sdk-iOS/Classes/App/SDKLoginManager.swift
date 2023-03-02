@@ -170,43 +170,39 @@ struct SDKLoginManager {
 extension SDKLoginManager {
     
     func setHomeView() -> Void {
+        
+        if SDKManager.shared.rootContext == nil {
+            SDKManager.shared.rootContext = UIWindow.key?.rootViewController
+        }
+        
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-        //let signInView = self
-        if let nav = SDKManager.shared.rootViewController as? UINavigationController {
-            if nav.viewControllers.count > 0 {
-                if  nav.viewControllers[0] as? UITabBarController != nil {
-                    let tababarController = nav.viewControllers[0] as! UITabBarController
-                    tababarController.selectedIndex = 0
-                    ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
-                   
-                    Thread.OnMainThread {
-                        
-                        if let topVc = UIApplication.topViewController()?.navigationController?.classForCoder {
-                            let className = "\(topVc)"
-                            if className.contains("ElGrocer") {
-                                NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
-                                return
-                            }
+        guard let nav = SDKManager.shared.rootViewController as? UINavigationController else {
+            let tabVC = SDKManager.shared.getTabbarController(isNeedToShowChangeStoreByDefault: false, selectedGrocery: nil, nil, true)
+            tabVC.modalPresentationStyle = .fullScreen
+            SDKManager.shared.rootContext?.present(tabVC, animated: true)
+            return
+        }
+        
+        if nav.viewControllers.count > 0 {
+            if  nav.viewControllers[0] as? UITabBarController != nil {
+                let tababarController = nav.viewControllers[0] as! UITabBarController
+                tababarController.selectedIndex = 0
+                ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
+                Thread.OnMainThread {
+                    
+                    if let topVc = UIApplication.topViewController()?.navigationController?.classForCoder {
+                        let className = "\(topVc)"
+                        if className.contains("ElGrocer") {
+                            NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
+                            return
                         }
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
-                        
-                        SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
-//
-//                        if !UIApplication.isElGrocerSDKClass() {
-//                            UIApplication.topViewController()?.present(nav, animated: true, completion: nil)
-//                        } else {
-//                            // send notifcation push to refresh
-//                            NotificationCenter.default.post(name: SDKLoginManager.KOpenOrderRefresh, object: SDKManager.shared.launchOptions)
-//                        }
                     }
-                    return
+                    SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
                 }
+                return
             }
         }
-        SDKManager.shared.showAppWithMenu()
+        
     }
 }
 
