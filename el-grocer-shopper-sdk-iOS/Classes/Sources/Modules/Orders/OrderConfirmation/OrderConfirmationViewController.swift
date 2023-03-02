@@ -73,6 +73,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.setNavigationAppearance()
         self.checkForPushNotificationRegisteration()
         
+        // Logging segment event for segment order confirmation screen
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderConfirmationScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
