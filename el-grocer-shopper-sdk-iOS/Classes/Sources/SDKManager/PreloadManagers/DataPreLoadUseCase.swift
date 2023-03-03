@@ -78,6 +78,7 @@ class PreLoadData {
     }
 
     func loginSignup(completion: (() -> Void)?) {
+       
         let launchOptions = SDKManager.shared.launchOptions!
         let manager = SDKLoginManager(launchOptions: launchOptions)
         manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage in
