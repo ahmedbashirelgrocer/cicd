@@ -631,11 +631,11 @@ class ElGrocerViewControllers {
     //MARK: Location 
     
     class func addLocationViewController() -> AddLocationViewController {
-        return AddLocationViewController(nibName: "AddLocationViewController", bundle: .main)
+        return AddLocationViewController(nibName: "AddLocationViewController", bundle: .resource)
     }
     
     class func editLocationSignupViewController() -> EditLocationSignupViewController {
-        return EditLocationSignupViewController(nibName: "EditLocationSignupViewController", bundle: .main)
+        return EditLocationSignupViewController(nibName: "EditLocationSignupViewController", bundle: .resource)
     }
     
     

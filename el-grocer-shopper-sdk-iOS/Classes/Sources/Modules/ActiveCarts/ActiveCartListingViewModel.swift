@@ -49,7 +49,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
-    private let titleSubject = BehaviorSubject<String>(value: NSLocalizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
+    private let titleSubject = BehaviorSubject<String>(value: localizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
     private let bannerTapSubject = PublishSubject<BannerDTO>()
     private let showEmptyViewSubject = PublishSubject<Void>()
     private let cellSelectedSubject = PublishSubject<ActiveCartDTO>()

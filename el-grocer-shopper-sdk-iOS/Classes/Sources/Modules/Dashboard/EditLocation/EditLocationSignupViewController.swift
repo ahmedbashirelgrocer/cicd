@@ -41,14 +41,14 @@ class EditLocationSignupViewController: UIViewController {
     var isPresented: Bool = false
     
     convenience init (locationDetails: LocationDetails, _ userProfile : UserProfile?, _ flowOrientation: FlowOrientation = FlowOrientation.defaultNav) {
-        self.init(nibName: "EditLocationSignupViewController", bundle: .main)
+        self.init(nibName: "EditLocationSignupViewController", bundle: .resource)
         self.locationDetails = locationDetails
         self.userProfile = userProfile
         self.flowOrientation = flowOrientation
     }
     
     convenience init (locationDetails: LocationDetails) {
-        self.init(nibName: "EditLocationSignupViewController", bundle: .main)
+        self.init(nibName: "EditLocationSignupViewController", bundle: .resource)
         self.locationDetails = locationDetails
     }
     
@@ -99,7 +99,7 @@ class EditLocationSignupViewController: UIViewController {
     
     private func uiUpdates() {
         
-        title = NSLocalizedString("add_delivery_address", comment: "")
+        title = localizedString("add_delivery_address", comment: "")
         self.addBackButton(isGreen: false)
         view.backgroundColor = ApplicationTheme.currentTheme.lightGrayBGColor // .locationScreenLightColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
@@ -188,7 +188,7 @@ fileprivate extension EditLocationSignupViewController {
             } else {
                 if code == 4200 { // Add code for email error
                     self.tableView.beginUpdates()
-                    (self.tableCells[2] as? TextFieldCell)?.setError(NSLocalizedString("This email is already registered in elGrocer.", comment: ""))
+                    (self.tableCells[2] as? TextFieldCell)?.setError(localizedString("This email is already registered in elGrocer.", comment: ""))
                     DatabaseHelper.sharedInstance.saveDatabase()
                     self.tableView.endUpdates()
                 }
@@ -267,9 +267,42 @@ fileprivate extension EditLocationSignupViewController {
                 if self.flowOrientation == .basketNav {
                     LoginSignupService.goToBasketView(from: self)
                 } else {
-                    self.isPresented
-                        ? self.navigationController?.dismiss(animated: true)
-                        : LoginSignupService.setHomeView(from: self)
+                    if self.isPresented {
+                        if SDKManager.shared.launchOptions?.navigationType == .singleStore {
+                            FlavorAgent.restartEngineWithLaunchOptions(SDKManager.shared.launchOptions!) {
+                                let _ = SpinnerView.showSpinnerViewInView(self.view)
+                            } completion: { isCompleted, grocery in
+                                SpinnerView.hideSpinnerView()
+                                if grocery == nil {
+                                    SDKManager.shared.rootContext?.dismiss(animated: true)
+                                } else {
+                                    self.navigationController?.dismiss(animated: true)
+                                }
+                            }
+                        } else {
+                            self.navigationController?.dismiss(animated: true)
+                        }
+                      
+                    } else {
+                        
+                        if SDKManager.shared.launchOptions?.navigationType == .singleStore {
+                            FlavorAgent.restartEngineWithLaunchOptions(SDKManager.shared.launchOptions!) {
+                                let _ = SpinnerView.showSpinnerViewInView(self.view)
+                            } completion: { isCompleted, grocery in
+                                SpinnerView.hideSpinnerView()
+                                if grocery == nil {
+                                    SDKManager.shared.rootContext?.dismiss(animated: true)
+                                } else {
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                            }
+                        }else {
+                            LoginSignupService.setHomeView(from: self)
+                        }
+                        
+                        
+                    }
+
                 }
             }else {
                 if code == 4200 { // Add code for email error
@@ -290,24 +323,24 @@ fileprivate extension EditLocationSignupViewController {
         tableView.beginUpdates()
         
         if let cell = (tableCells[1] as? TextFieldCell), cell.textField.text?.count == 0 {
-            cell.setError(NSLocalizedString("Enter your name", comment: ""))
+            cell.setError(localizedString("Enter your name", comment: ""))
             isValid = false
         }
         
         if let cell = (tableCells[2] as? TextFieldCell),
            let text = cell.textField.text,
            text.count > 0 && !text.isValidEmail() {
-            cell.setError(NSLocalizedString("Please enter valid email id", comment: ""))
+            cell.setError(localizedString("Please enter valid email id", comment: ""))
             isValid = false
         }
         
         if let cell = (tableCells[3] as? TextFieldCell), cell.textField.text?.count == 0 {
-            cell.setError(NSLocalizedString("Enter your building name", comment: ""))
+            cell.setError(localizedString("Enter your building name", comment: ""))
             isValid = false
         }
         
         if let cell = (tableCells[5] as? TextFieldCell), cell.textField.text?.count == 0 {
-            cell.setError(NSLocalizedString("Enter your apartment/office/villa number", comment: ""))
+            cell.setError(localizedString("Enter your apartment/office/villa number", comment: ""))
             isValid = false
         }
         
@@ -370,14 +403,14 @@ fileprivate extension EditLocationSignupViewController {
              keyboardType: UIKeyboardType?)
         ] = [
             ("locationPop", "", UIKeyboardType.default),
-            (nil, NSLocalizedString("your_name*", comment: ""), UIKeyboardType.default),
-            (nil, NSLocalizedString("email_optional", comment: ""), UIKeyboardType.emailAddress),
-            (nil, NSLocalizedString("building_name*", comment: ""), UIKeyboardType.default),
-            (nil, NSLocalizedString("floor_(optional)", comment: ""), UIKeyboardType.numberPad),
-            (nil, NSLocalizedString("apartment/office/villa_number*", comment: ""), UIKeyboardType.numberPad),
-            (nil, NSLocalizedString("lbl_AreaStreet", comment: ""), UIKeyboardType.default),
-            (nil, NSLocalizedString("additional_direction", comment: ""), UIKeyboardType.default),
-            (nil, NSLocalizedString("confirm_address", comment: ""), nil)
+            (nil, localizedString("your_name*", comment: ""), UIKeyboardType.default),
+            (nil, localizedString("email_optional", comment: ""), UIKeyboardType.emailAddress),
+            (nil, localizedString("building_name*", comment: ""), UIKeyboardType.default),
+            (nil, localizedString("floor_(optional)", comment: ""), UIKeyboardType.numberPad),
+            (nil, localizedString("apartment/office/villa_number*", comment: ""), UIKeyboardType.numberPad),
+            (nil, localizedString("lbl_AreaStreet", comment: ""), UIKeyboardType.default),
+            (nil, localizedString("additional_direction", comment: ""), UIKeyboardType.default),
+            (nil, localizedString("confirm_address", comment: ""), nil)
         ]
         
 //        if locationDetails.editLocation != nil || (self.userProfile?.email.count ?? 0) > 0 {
@@ -434,7 +467,7 @@ fileprivate extension EditLocationSignupViewController {
 
 extension UITableViewCell {
     static func getInstance(nibName: String) -> UITableViewCell? {
-        if let nibContents = Bundle.main.loadNibNamed(nibName, owner: UITableViewCell(), options: nil) {
+        if let nibContents = Bundle.resource.loadNibNamed(nibName, owner: UITableViewCell(), options: nil) {
             for item in nibContents {
                 if let cell = item as? UITableViewCell {
                     return cell

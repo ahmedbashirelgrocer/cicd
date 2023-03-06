@@ -74,12 +74,12 @@ struct LoginSignupService {
                     } else {                    //otp un verified
                         isSuccess = false
                         SpinnerView.hideSpinnerView()
-                        errorMessage = NSLocalizedString("error_PinCode", comment: "")
+                        errorMessage = localizedString("error_PinCode", comment: "")
                     }
                 }
                 completion?(isSuccess, errorMessage, 199, isNewUser)
             case .failure(let error):
-                var errorMessage = NSLocalizedString("error_PinCode", comment: "")
+                var errorMessage = localizedString("error_PinCode", comment: "")
                 var errorCode = 0
                 if let errorDict = error.jsonValue, let msgDict = errorDict["messages"] as? NSDictionary {
                     if let errorCod = msgDict["error_code"] as? Int {
@@ -310,13 +310,13 @@ struct LoginSignupService {
                 DatabaseHelper.sharedInstance.mainManagedObjectContext.delete(deliveryAddress)
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-                var errorMsg = NSLocalizedString("my_account_saving_error", comment: "")
+                var errorMsg = localizedString("my_account_saving_error", comment: "")
                 if let errorStr = (responseObject?["messages"] as? NSDictionary)?["error_message"] as? String {
                     errorMsg =  errorStr
                 }
                 ElGrocerAlertView.createAlert(errorMsg,
                                               description: nil,
-                                              positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                              positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                               negativeButton: nil, buttonClickCallback: nil).show()
             }
         }
@@ -366,13 +366,13 @@ struct LoginSignupService {
                 DatabaseHelper.sharedInstance.mainManagedObjectContext.delete(deliveryAddress)
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-                var errorMsg = NSLocalizedString("my_account_saving_error", comment: "")
+                var errorMsg = localizedString("my_account_saving_error", comment: "")
                 if let errorStr = (responseObject?["messages"] as? NSDictionary)?["error_message"] as? String {
                     errorMsg =  errorStr
                 }
                 ElGrocerAlertView.createAlert(errorMsg,
                                               description: nil,
-                                              positiveButton: NSLocalizedString("no_internet_connection_alert_button", comment: ""),
+                                              positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                                               negativeButton: nil, buttonClickCallback: nil).show()
             }
         }

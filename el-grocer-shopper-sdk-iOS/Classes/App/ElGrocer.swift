@@ -52,6 +52,7 @@ public final class ElGrocer {
                     if let launchOptions = launchOptions {
                         let manager = SDKLoginManager(launchOptions: launchOptions)
                         SDKManager.shared.launchOptions = launchOptions
+                        SDKManager.shared.startBasicThirdPartyInit()
                         manager.setHomeView()
                     }
                 }

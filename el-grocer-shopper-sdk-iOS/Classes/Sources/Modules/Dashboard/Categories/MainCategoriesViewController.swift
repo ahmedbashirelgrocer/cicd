@@ -1562,6 +1562,17 @@ private extension MainCategoriesViewController {
             self.bannerNavigation(banner: banner)
         }).disposed(by: disposeBag)
         
+        viewModel.outputs.categoryTap.subscribe(onNext: { [weak self] category in
+            
+            if category.id == -1 {
+                self?.gotoShoppingListVC()
+            } else {
+                self?.selectedCategory = category.categoryDB
+                MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
+                self?.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+            }
+        }).disposed(by: disposeBag)
+        
         // binding loader
         self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }

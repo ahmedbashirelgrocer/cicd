@@ -973,6 +973,7 @@
 "location_error_title" = "Location services currently unavailable";
 "location_error_message" = "Please use the map picker to select your location.";
 "location_error_ok_button" = "Select Address";
+"add_delivery_address" = "Add delivery address";
 
 
 "stay_updated_title" = "Stay Updated";

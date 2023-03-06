@@ -36,11 +36,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6d-sV-IxY" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="236" y="10.666666666666664" width="60" height="24"/>
+                                        <rect key="frame" x="248" y="10.666666666666664" width="48" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Uoc-rb-cKS"/>
-                                            <constraint firstAttribute="width" constant="60" id="hDf-5f-6Sf"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="80" id="hDf-5f-6Sf"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
                                         <state key="normal" title="View all">

@@ -18,6 +18,7 @@ protocol StoresCategoriesCollectionViewCellViewModelOutput {
     var categoryName: Observable<String?> { get }
     var coloredImageUrl: Observable<String?> { get }
     var isArbic: Observable<Bool> { get }
+    var iconName: Observable<String> { get }
 }
 
 protocol StoresCategoriesCollectionViewCellViewModelType: StoresCategoriesCollectionViewCellViewModelOutput, StoresCategoriesCollectionViewCellViewModelInput  {
@@ -35,17 +36,26 @@ class StoresCategoriesCollectionViewCellViewModel: StoresCategoriesCollectionVie
     var categoryName: RxSwift.Observable<String?> { self.categoryNameSubject.asObservable() }
     var coloredImageUrl: RxSwift.Observable<String?> { self.coloredImageUrlSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
+    var iconName: Observable<String> { iconNameSubject.asObservable() }
     
     // MARK: Subjects
     private var categoryNameSubject = BehaviorSubject<String?>(value: nil)
     private var coloredImageUrlSubject = BehaviorSubject<String?>(value: nil)
     private var isArbicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
+    private var iconNameSubject = BehaviorSubject<String>(value: "")
     
     var reusableIdentifier: String { StoresCategoriesCollectionViewCell.defaultIdentifier }
+    var category: CategoryDTO
     
     init(category: CategoryDTO) {
+        self.category = category
+        
         self.categoryNameSubject.onNext(category.name)
         self.coloredImageUrlSubject.onNext(category.coloredImageUrl)
+        
+        if category.photoUrl?.contains("http") == false {
+            self.coloredImageUrlSubject.onNext(category.photoUrl)
+        }
     }
 }
 
@@ -55,9 +65,16 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
         guard let viewModel = viewModel as? StoresCategoriesCollectionViewCellViewModelType else { return }
         
         viewModel.outputs.categoryName.bind(to: self.lblCategoryName.rx.text).disposed(by: disposeBag)
+        
         viewModel.outputs.coloredImageUrl.subscribe(onNext: { [weak self] sUrl in
             guard let self = self else { return }
-            self.setChefImage(sUrl, isSelected : false, imageView: self.centerImage)
+            
+            if sUrl?.starts(with: "http") == true {
+                self.setChefImage(sUrl, isSelected : false, imageView: self.centerImage)
+            } else {
+                self.centerImage.image = UIImage(named: sUrl ?? "", in: .resource, compatibleWith: nil)
+            }
+            
         }).disposed(by: disposeBag)
         
         viewModel.outputs.isArbic.subscribe(onNext: { [weak self] isArbic in

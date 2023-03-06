@@ -95,8 +95,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.deliveryAddress = deliveryAddress
         
         self.fetchGroceryDeliverySlots()
-        self.fetchBanners(for: .sdk_store_tier_1)
-        self.fetchBanners(for: .sdk_store_tier_2)
+        self.fetchBanners(for: .store_tier_1.getType())
+        self.fetchBanners(for: .store_tier_2.getType())
         
         self.loadingSubject.onNext(true)
         dispatchGroup.notify(queue: .main) { [weak self] in
@@ -112,11 +112,29 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
             }
             
-            if self.location2BannerVMs.isNotEmpty {
-                self.viewModels.append(SectionModel(model: 3, items: self.location2BannerVMs))
+            var result: [ReusableTableViewCellViewModelType] = []
+            for index in 0...self.homeCellVMs.count - 1 {
+                result.append(self.homeCellVMs[index])
+                
+                if let bannerVM = self.location2BannerVMs.first {
+                    if self.recentPurchasedVM.isEmpty {
+                        if index == 2 {
+                            result.append(bannerVM)
+                        }
+                    } else {
+                        if index == 1 {
+                            result.append(bannerVM)
+                        }
+                    }
+                }
+                
             }
             
-            self.viewModels.append(SectionModel(model: 4, items: self.homeCellVMs))
+            self.viewModels.append(SectionModel(model: 4, items: result))
+//            self.viewModels.append(SectionModel(model: 4, items: self.homeCellVMs))
+            
+            
+            
             self.cellViewModelsSubject.onNext(self.viewModels)
             self.loadingSubject.onNext(false)
         }
@@ -137,12 +155,24 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     
     func heightForCell(indexPath: IndexPath) -> CGFloat {
         switch self.viewModels[indexPath.section].items.first {
-            
-            case is GenericBannersCellViewModel : return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
-            case is CategoriesCellViewModel     : return categories.count > 5 ? 290 : 180
-            case is HomeCellViewModel           : return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
-            
-            default: return 0
+
+        case is GenericBannersCellViewModel:
+            return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
+        
+        case is CategoriesCellViewModel:
+            return categories.count > 5 ? 290 : 180
+        
+        case is HomeCellViewModel:
+            if self.viewModels[indexPath.section].items[indexPath.row] is HomeCellViewModel {
+                return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
+            } else if self.viewModels[indexPath.section].items[indexPath.row] is GenericBannersCellViewModel {
+                return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
+            } else {
+                return 0
+            }
+        
+        default:
+            return 0
         }
     }
 }
@@ -202,11 +232,15 @@ private extension MainCategoriesViewModel {
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-               // self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : "Search by Shopping List" , "name_ar" : "البحث بقائمة التسوق"]))
-                self.categories.append(contentsOf: categoriesDB.map { CategoryDTO(category: $0) })
-                let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
+                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : "Search by Shopping List" , "name_ar" : "البحث بقائمة التسوق"]))
+                categoriesDB.forEach { categoryDB in
+                    self.categories.append(CategoryDTO(category: categoryDB))
+                }
                 
-                categoriesCellVM.outputs.viewAll.map { self.grocery } .bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
+                //categoriesCellVM.outputs.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                //bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                categoriesCellVM.outputs.tap.bind(to: self.categoryTapSubject).disposed(by: self.disposeBag)
                 self.categoriesCellVMs = [categoriesCellVM]
                 
                 // creating home cell view models
@@ -230,7 +264,7 @@ private extension MainCategoriesViewModel {
     
     func fetchBanners(for location: BannerLocation) {
         self.dispatchGroup.enter()
-        self.apiClient.getBannersFor(location: location.getType(), retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)]) { [weak self] result in
+        self.apiClient.getBannersFor(location: location, retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)]) { [weak self] result in
             guard let self = self else { return }
             
             self.dispatchGroup.leave()
@@ -243,11 +277,11 @@ private extension MainCategoriesViewModel {
                         let banners = try JSONDecoder().decode(CampaignsResponse.self, from: data).data
                         
                         if banners.isNotEmpty {
-                            if location == .sdk_store_tier_1 {
+                            if location == .store_tier_1.getType() {
                                 let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                                 bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                                 self.location1BannerVMs.append(bannerCellVM)
-                            } else if location == .sdk_store_tier_2 {
+                            } else if location == .store_tier_2.getType() {
                                 let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                                 bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                                 self.location2BannerVMs.append(bannerCellVM)
@@ -294,7 +328,7 @@ private extension MainCategoriesViewModel {
                 let productDTOs = products.products.map { ProductDTO(product: $0) }
                 
                 if productDTOs.isNotEmpty {
-                    let title = NSLocalizedString("previously_purchased_products_title", bundle: .resource, comment: "")
+                    let title = localizedString("previously_purchased_products_title", bundle: .resource, comment: "")
                     let homeCellViewModel = HomeCellViewModel(title: title, products: productDTOs, grocery: self.grocery)
                     
                     homeCellViewModel.outputs.viewAll.map { _ in }.bind(to: self.viewAllProductOfRecentPurchaseSubject).disposed(by: self.disposeBag)

@@ -24,7 +24,7 @@ enum BannerLocation : Int {
     case post_checkout = 6
     case in_search_tier_2 = 9
     case subCategory_tier_1 = 7
-    
+    case all_carts_tier_1 = 26
     
     // sdk
     case sdk_Home_tier_1 = 17
@@ -51,36 +51,74 @@ enum BannerLocation : Int {
     
     
     func getType() -> BannerLocation {
+        guard let marketType = SDKManager.shared.launchOptions?.marketType else { return self }
         
-    
-        if self == BannerLocation.home_tier_1 {
-            return (SDKManager.isSmileSDK ? BannerLocation.sdk_Home_tier_1 : BannerLocation.home_tier_1)
+        if self == .home_tier_1 {
+            switch marketType {
+                case .grocerySingleStore: return self
+                case .marketPlace: return BannerLocation.sdk_Home_tier_1
+                case .shopper: return BannerLocation.home_tier_1
+                
+            }
         }
-        else if self == BannerLocation.home_tier_2 {
-            return (SDKManager.isSmileSDK ? BannerLocation.sdk_Home_tier_2 : BannerLocation.home_tier_2)
+        else if self == .home_tier_2 {
+            switch marketType {
+                case .grocerySingleStore: return self
+                case .marketPlace: return BannerLocation.sdk_Home_tier_2
+                case .shopper: return BannerLocation.home_tier_2
+            }
         }
-        else if self == BannerLocation.store_tier_1 {
-            return (SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? BannerLocation.sdk_Flavor_Grocery_store_tier_1 : BannerLocation.sdk_store_tier_1) : BannerLocation.store_tier_1)
+        else if self == .store_tier_1 {
+            switch marketType {
+                case .grocerySingleStore: return BannerLocation.sdk_Flavor_Grocery_store_tier_1
+                case .marketPlace: return BannerLocation.sdk_store_tier_1
+                case .shopper: return BannerLocation.store_tier_1
+            }
         }
-        else if self == BannerLocation.store_tier_2 {
-            return SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? BannerLocation.sdk_Flavor_Grocery_store_tier_2 : BannerLocation.sdk_store_tier_2) : BannerLocation.store_tier_2
+        else if self == .store_tier_2 {
+            switch marketType {
+                case .grocerySingleStore: return BannerLocation.sdk_Flavor_Grocery_store_tier_2
+                case .marketPlace: return BannerLocation.sdk_store_tier_2
+                case .shopper: return BannerLocation.store_tier_2
+            }
         }
-        else if self == BannerLocation.in_search_tier_1 {
-            return SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? BannerLocation.sdk_Flavor_Grocery_in_search :BannerLocation.sdk_in_search) : BannerLocation.in_search_tier_1
+        else if self == .in_search_tier_1 {
+            switch marketType {
+                case .grocerySingleStore: return BannerLocation.sdk_Flavor_Grocery_in_search
+                case .marketPlace: return BannerLocation.sdk_in_search
+                case .shopper: return BannerLocation.in_search_tier_1
+            }
         }
-        else if self == BannerLocation.post_checkout {
-            return SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? BannerLocation.sdk_Flavor_Grocery_post_checkout : BannerLocation.sdk_post_checkout) : BannerLocation.post_checkout
+        else if self == .post_checkout {
+            switch marketType {
+                case .grocerySingleStore: return BannerLocation.sdk_Flavor_Grocery_post_checkout
+                case .marketPlace: return BannerLocation.sdk_post_checkout
+                case .shopper: return BannerLocation.post_checkout
+            }
         }
-        else if self == BannerLocation.in_search_tier_2 {
-            return SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? BannerLocation.sdk_Flavor_Grocery_search_tier_2 :BannerLocation.sdk_search_tier_2) : BannerLocation.in_search_tier_2
+        else if self == .in_search_tier_2 {
+            switch marketType {
+                case .grocerySingleStore: return BannerLocation.sdk_Flavor_Grocery_search_tier_2
+                case .marketPlace: return BannerLocation.sdk_search_tier_2
+                case .shopper: return BannerLocation.in_search_tier_2
+            }
         }
-        else if self == BannerLocation.subCategory_tier_1 {
-            return SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? BannerLocation.sdk_Flavor_Grocery_subcategory_tier_1 : BannerLocation.sdk_subcategory_tier_1) : BannerLocation.subCategory_tier_1
+        else if self == .subCategory_tier_1 {
+            switch marketType {
+                case .grocerySingleStore: return BannerLocation.sdk_Flavor_Grocery_subcategory_tier_1
+                case .marketPlace: return BannerLocation.sdk_subcategory_tier_1
+                case .shopper: return BannerLocation.subCategory_tier_1
+            }
+        } else if self == .all_carts_tier_1 {
+            switch marketType {
+                case .grocerySingleStore: return self
+                case .marketPlace: return BannerLocation.sdk_all_carts_tier_2
+                case .shopper: return BannerLocation.all_carts_tier_1
+            }
+        } else {
+            return self
         }
-        return self
     }
-    
-    
 }
 
 struct bannerCategories {

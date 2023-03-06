@@ -19,13 +19,13 @@ class AddLocationViewController: UIViewController {
     @IBOutlet weak var lblSetLocation: UILabel! {
         didSet {
             lblSetLocation.setH4RegDarkStyle()
-            lblSetLocation.text = NSLocalizedString("set_your_location", comment: "")
+            lblSetLocation.text = localizedString("set_your_location", comment: "")
         }
     }
     @IBOutlet weak var btnDetectLocation: AWButton! {
         didSet {
             btnDetectLocation.setH4SemiBoldWhiteStyle()
-            let btnTitle = NSLocalizedString("detect_current_location", comment: "")
+            let btnTitle = localizedString("detect_current_location", comment: "")
             btnDetectLocation.setTitle(btnTitle, for: .normal)
             if LanguageManager.sharedInstance.getSelectedLocale() == "ar" {
                 btnDetectLocation.imageEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)

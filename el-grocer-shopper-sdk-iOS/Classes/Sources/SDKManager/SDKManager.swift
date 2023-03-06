@@ -72,15 +72,17 @@ class SDKManager: NSObject  {
 //        DispatchQueue.main.async { [weak self] in self?.configure() }
     }
     
-  
-    func start(with launchOptions: LaunchOptions?) {
-        self.launchOptions = launchOptions
-        
+    func startBasicThirdPartyInit() {
         if !isInitialized {
             self.configure()
             isInitialized = true
         }
-        
+    }
+    
+  
+    func start(with launchOptions: LaunchOptions?) {
+        self.launchOptions = launchOptions
+        self.startBasicThirdPartyInit()
         self.rootContext = UIWindow.key?.rootViewController
         self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         _ = ReachabilityManager.sharedInstance
