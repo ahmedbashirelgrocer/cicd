@@ -77,6 +77,13 @@ class PreLoadData {
         }
     }
 
+    func loadConfigData(completion: (() -> Void)? ) {
+        self.completion = completion
+        configureElgrocerShopper()
+    }
+
+    
+    
     func loginSignup(completion: (() -> Void)?) {
        
         let launchOptions = SDKManager.shared.launchOptions!

@@ -42,6 +42,7 @@ public final class ElGrocer {
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
                 
                 if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 {
+                    PreLoadData.shared.loadConfigData {}
                     HomePageData.shared.fetchHomeData(true) {
                         SDKManager.shared.launchCompletion?()
                     }

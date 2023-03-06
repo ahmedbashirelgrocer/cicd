@@ -3648,16 +3648,21 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func btnAddAddressAction(_ sender: Any) {
         
         if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let editLocationController = ElGrocerViewControllers.editLocationViewController()
-            editLocationController.deliveryAddress = deliveryAddress
-            editLocationController.editScreenState = .isFromCart
+            let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+            let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
             
             
             let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            
             navigationController.hideSeparationLine()
+            navigationController.setLogoHidden(true)
+            navigationController.setGreenBackgroundColor()
+            navigationController.setBackButtonHidden(true)
+            editLocationController.isPresented = true
+            
             navigationController.viewControllers = [editLocationController]
             navigationController.modalPresentationStyle = .fullScreen
-            self.navigationController?.present(navigationController, animated: true, completion: nil) //pushViewController(editLocationController, animated: true)
+            self.navigationController?.present(navigationController, animated: true, completion: nil)
         }
         
     }

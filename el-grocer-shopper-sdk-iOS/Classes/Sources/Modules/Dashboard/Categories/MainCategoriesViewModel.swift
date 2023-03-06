@@ -124,7 +124,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.scrollSubject.asObservable().subscribe(onNext: { [weak self] indexPath in
             guard let self = self else { return }
             
-            if self.apiCallingStatus[indexPath] == nil {
+            if self.apiCallingStatus[indexPath] == nil, self.homeCellVMs.count >  indexPath.row {
                 guard let vm = self.homeCellVMs[indexPath.row] as? HomeCellViewModel else { return }
                 
                 vm.inputs.fetchProductsObserver.onNext(())

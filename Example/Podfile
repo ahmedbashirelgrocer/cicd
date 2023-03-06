@@ -28,8 +28,6 @@ post_install do |installer|
     fix_config(config)
   end
 end
-
-
 # arch -x86_64 pod install for simulator
 # pod install
 

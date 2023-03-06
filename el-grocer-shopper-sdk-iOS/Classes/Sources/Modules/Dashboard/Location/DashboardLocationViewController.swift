@@ -1090,14 +1090,26 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func dashboardLocationCellDidTouchEditButton(_ cell: DashboardLocationCell) {
         
-        MixpanelEventLogger.trackChooseLocationEditClick()
+        /*MixpanelEventLogger.trackChooseLocationEditClick()
         let indexPath = self.tableView.indexPath(for: cell)
         let location = self.locations[(indexPath! as NSIndexPath).row]
         
         let editLocationController = ElGrocerViewControllers.editLocationViewController()
         editLocationController.deliveryAddress = location
         editLocationController.editScreenState = .isFromEdit
+        redirectIfLogged(editLocationController)*/
+        
+        
+        
+        MixpanelEventLogger.trackChooseLocationEditClick()
+        let indexPath = self.tableView.indexPath(for: cell)
+        let location = self.locations[(indexPath! as NSIndexPath).row]
+        let address = location.address != "" ? location.address : ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+        let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: address, building: location.building, cityName: location.city ?? "")
+        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
         redirectIfLogged(editLocationController)
+        
+        
     }
     
     func dashboardLocationCellDidTouchDeleteButton(_ cell: DashboardLocationCell) {
@@ -1371,9 +1383,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 if UserDefaults.isUserLoggedIn(){
                     ElGrocerAlertView.createAlert(localizedString("exist_location_title", comment: ""),description: localizedString("exist_location_message", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
                         if buttonIndex == 0 {
-                            let existingLocation = self.locations[existingLocationIndex!]
-                            let editLocationController = ElGrocerViewControllers.editLocationViewController()
-                            editLocationController.deliveryAddress = existingLocation
+                            let location = self.locations[existingLocationIndex!]
+                            let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: location.address, building: location.building, cityName: "")
+                            let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
                             self.redirectIfLogged(editLocationController)
                         }else{
                             self.refreshData()
@@ -1584,9 +1596,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     func presentContactInfoViewController(_ location: DeliveryAddress) {
         
         
-        let editLocationController = ElGrocerViewControllers.editLocationViewController()
-        editLocationController.deliveryAddress = location
-        redirectIfLogged(editLocationController,  false)
+        let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: location.address, building: location.building, cityName: "")
+        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
+        redirectIfLogged(editLocationController,  true)
         
         
         /*
