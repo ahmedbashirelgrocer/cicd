@@ -126,6 +126,9 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     override func backButtonClickedHandler() {
         self.navigationController?.popViewController(animated: true)
     }
+    override func backButtonClick() {
+        self.navigationController?.popViewController(animated: true)
+    }
     
     func setData() {
         
@@ -234,13 +237,15 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-         self.navigationItem.backBarButtonItem = nil
+        self.navigationItem.backBarButtonItem = nil
+        self.addBackButton(isGreen: false)
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
          self.navigationItem.hidesBackButton = true;
         self.setTableViewHeader(ElGrocerUtility.sharedInstance.activeGrocery)
@@ -255,6 +260,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.Category.rawValue, screenClass: String(describing: self.classForCoder))
        // self.addImages()
     }
+    
     
     
     func addImages(){

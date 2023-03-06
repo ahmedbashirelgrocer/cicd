@@ -1518,14 +1518,15 @@ private extension MainCategoriesViewController {
         }).disposed(by: disposeBag)
         
         // MARK: Actions
-        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] grocery in
+        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self]  in
             guard let self = self else { return }
             
             let browseController = ElGrocerViewControllers.browseViewController()
             self.navigationController?.pushViewController(browseController, animated: true)
             
+            // fixme
             // Logging segment event for category view all clicked
-            SegmentAnalyticsEngine.instance.logEvent(event: CategoryViewAllClickedEvent(grocery: grocery))
+           // SegmentAnalyticsEngine.instance.logEvent(event: CategoryViewAllClickedEvent(grocery: grocery))
             
         }).disposed(by: disposeBag)
         
