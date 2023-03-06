@@ -112,11 +112,29 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
             }
             
-            if self.location2BannerVMs.isNotEmpty {
-                self.viewModels.append(SectionModel(model: 3, items: self.location2BannerVMs))
+            var result: [ReusableTableViewCellViewModelType] = []
+            for index in 0...self.homeCellVMs.count - 1 {
+                result.append(self.homeCellVMs[index])
+                
+                if let bannerVM = self.location2BannerVMs.first {
+                    if self.recentPurchasedVM.isEmpty {
+                        if index == 2 {
+                            result.append(bannerVM)
+                        }
+                    } else {
+                        if index == 1 {
+                            result.append(bannerVM)
+                        }
+                    }
+                }
+                
             }
             
-            self.viewModels.append(SectionModel(model: 4, items: self.homeCellVMs))
+            self.viewModels.append(SectionModel(model: 4, items: result))
+//            self.viewModels.append(SectionModel(model: 4, items: self.homeCellVMs))
+            
+            
+            
             self.cellViewModelsSubject.onNext(self.viewModels)
             self.loadingSubject.onNext(false)
         }
@@ -137,12 +155,24 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     
     func heightForCell(indexPath: IndexPath) -> CGFloat {
         switch self.viewModels[indexPath.section].items.first {
-            
-            case is GenericBannersCellViewModel : return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
-            case is CategoriesCellViewModel     : return categories.count > 5 ? 290 : 180
-            case is HomeCellViewModel           : return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
-            
-            default: return 0
+
+        case is GenericBannersCellViewModel:
+            return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
+        
+        case is CategoriesCellViewModel:
+            return categories.count > 5 ? 290 : 180
+        
+        case is HomeCellViewModel:
+            if self.viewModels[indexPath.section].items[indexPath.row] is HomeCellViewModel {
+                return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
+            } else if self.viewModels[indexPath.section].items[indexPath.row] is GenericBannersCellViewModel {
+                return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
+            } else {
+                return 0
+            }
+        
+        default:
+            return 0
         }
     }
 }
