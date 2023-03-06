@@ -11,6 +11,7 @@ import RxDataSources
 
 protocol CategoriesCellViewModelInput {
     var viewAllObserver: AnyObserver<Void> { get }
+    var tapObserver: AnyObserver<CategoryDTO> { get }
 }
 
 protocol CategoriesCellViewModelOutput {
@@ -19,7 +20,7 @@ protocol CategoriesCellViewModelOutput {
     var viewAll: Observable<Void> { get }
     var isArbic: Observable<Bool> { get }
     var viewAllText: Observable<String> { get }
-    
+    var tap: Observable<CategoryDTO> { get }
 }
 
 protocol CategoriesCellViewModelType: CategoriesCellViewModelInput, CategoriesCellViewModelOutput {
@@ -35,6 +36,7 @@ extension CategoriesCellViewModelType {
 class CategoriesCellViewModel: CategoriesCellViewModelType, ReusableTableViewCellViewModelType {
     // MARK: Inputs
     var viewAllObserver: RxSwift.AnyObserver<Void> { viewAllSubject.asObserver() }
+    var tapObserver: AnyObserver<CategoryDTO> { tapSubject.asObserver() }
     
     // MARK: Outputs
     var title: Observable<String> { self.titleSubject.asObservable() }
@@ -42,6 +44,7 @@ class CategoriesCellViewModel: CategoriesCellViewModelType, ReusableTableViewCel
     var viewAll: Observable<Void> { viewAllSubject.asObservable() }
     var isArbic: Observable<Bool> {isArabicSubject.asObservable() }
     var viewAllText: Observable<String> { viewAllTextSubject.asObservable() }
+    var tap: Observable<CategoryDTO> { tapSubject.asObservable() }
     
     // MARK: Subjects
     private var titleSubject = BehaviorSubject<String>(value: NSLocalizedString("lbl_Shop_Category", bundle: .resource, comment: ""))
@@ -49,6 +52,7 @@ class CategoriesCellViewModel: CategoriesCellViewModelType, ReusableTableViewCel
     private var viewAllSubject = PublishSubject<Void>()
     private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     private var viewAllTextSubject = BehaviorSubject<String>(value: NSLocalizedString("view_more_title", bundle: .resource, comment: ""))
+    private var tapSubject = PublishSubject<CategoryDTO>()
     
     var reusableIdentifier: String { CategoriesCell.defaultIdentifier }
     

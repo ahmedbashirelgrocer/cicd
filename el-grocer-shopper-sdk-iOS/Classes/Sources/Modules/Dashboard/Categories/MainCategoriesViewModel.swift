@@ -202,11 +202,15 @@ private extension MainCategoriesViewModel {
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-               // self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : "Search by Shopping List" , "name_ar" : "البحث بقائمة التسوق"]))
-                self.categories.append(contentsOf: categoriesDB.map { CategoryDTO(category: $0) })
+                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : "Search by Shopping List" , "name_ar" : "البحث بقائمة التسوق"]))
+                categoriesDB.forEach { categoryDB in
+                    self.categories.append(CategoryDTO(category: categoryDB))
+                }
+                
                 let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
                 
                 categoriesCellVM.outputs.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                categoriesCellVM.outputs.tap.bind(to: self.categoryTapSubject).disposed(by: self.disposeBag)
                 self.categoriesCellVMs = [categoriesCellVM]
                 
                 // creating home cell view models

@@ -61,6 +61,13 @@ private extension CategoriesCell {
             .bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        self.collectionView
+            .rx
+            .modelSelected(StoresCategoriesCollectionViewCellViewModel.self)
+            .map { $0.category }
+            .bind(to: self.viewModel.inputs.tapObserver)
+            .disposed(by: disposeBag)
+        
         self.viewModel
             .outputs
             .title
@@ -85,7 +92,7 @@ private extension CategoriesCell {
     }
 }
 
-extension CategoriesCell: UICollectionViewDelegateFlowLayout {
+extension CategoriesCell: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
           return 13
     }
