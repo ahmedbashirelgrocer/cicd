@@ -95,8 +95,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.deliveryAddress = deliveryAddress
         
         self.fetchGroceryDeliverySlots()
-        self.fetchBanners(for: .sdk_store_tier_1)
-        self.fetchBanners(for: .sdk_store_tier_2)
+        self.fetchBanners(for: .store_tier_1.getType())
+        self.fetchBanners(for: .store_tier_2.getType())
         
         self.loadingSubject.onNext(true)
         dispatchGroup.notify(queue: .main) { [weak self] in
@@ -230,7 +230,7 @@ private extension MainCategoriesViewModel {
     
     func fetchBanners(for location: BannerLocation) {
         self.dispatchGroup.enter()
-        self.apiClient.getBannersFor(location: location.getType(), retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)]) { [weak self] result in
+        self.apiClient.getBannersFor(location: location, retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)]) { [weak self] result in
             guard let self = self else { return }
             
             self.dispatchGroup.leave()
@@ -243,11 +243,11 @@ private extension MainCategoriesViewModel {
                         let banners = try JSONDecoder().decode(CampaignsResponse.self, from: data).data
                         
                         if banners.isNotEmpty {
-                            if location == .sdk_store_tier_1 {
+                            if location == .store_tier_1.getType() {
                                 let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                                 bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                                 self.location1BannerVMs.append(bannerCellVM)
-                            } else if location == .sdk_store_tier_2 {
+                            } else if location == .store_tier_2.getType() {
                                 let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                                 bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                                 self.location2BannerVMs.append(bannerCellVM)
