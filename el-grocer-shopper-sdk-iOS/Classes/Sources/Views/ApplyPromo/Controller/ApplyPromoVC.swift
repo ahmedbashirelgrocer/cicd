@@ -262,6 +262,11 @@ extension ApplyPromoVC {
             if let isPromoApplied = self.isPromoApplied {
                 isPromoApplied(true, promoCode)
             }
+            
+            // Loggign segment event for promocode applied
+            let promoCodeAppliedEvent = PromoCodeAppliedEvent(isApplied: true, promoCode: promoCode?.code, realizationId: promoCode?.promotionCodeRealizationId)
+            SegmentAnalyticsEngine.instance.logEvent(event: promoCodeAppliedEvent)
+            
             if withAnimation {
                 MixpanelEventLogger.trackCheckoutPromoApplied(promoCode: promoCode!)
                 self.showPromoError(true, message: "")
@@ -353,6 +358,11 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
                 UserDefaults.setPromoCodeValue(nil)
                 UserDefaults.setPromoCodeIsFromText(nil)
                 self?.btnPromoRemoveHandler(self)
+                
+                // Logging segment event for promo code applied
+                let promoCodeAppliedEvent = PromoCodeAppliedEvent(isApplied: false, promoCode: promoCode.code, realizationId: promoCode.promotionCodeRealizationId)
+                SegmentAnalyticsEngine.instance.logEvent(event: promoCodeAppliedEvent)
+                
                 return
             }
             self?.checkPromoCodeRealisation(promoCode.code, self?.priviousOrderId, withAnimation: false)
@@ -379,10 +389,7 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
             }
             
         }
-        
     }
-        //
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension

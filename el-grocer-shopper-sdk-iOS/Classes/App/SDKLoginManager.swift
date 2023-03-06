@@ -62,10 +62,12 @@ struct SDKLoginManager {
                     let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     if (locations.count > 0 && locations[0].address.count > 0) {
                         self.updateProfileAndData(responseObject!)
-                        ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult) in
+                        ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult, errorMsg) in
                             if isResult {
                                 UserDefaults.setDidUserSetAddress(true)
                                 completionHandler(true, "")
+                            }else {
+                                completionHandler(false, errorMsg)
                             }
                         }
                     }else{
@@ -103,11 +105,17 @@ struct SDKLoginManager {
                 let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if deliveryAddress.count == 0 {
                     self.createNewDefaultAddressForNewUser(for: userProfile, completion: completionHandler)
+                    
+                    // Logging segment event for user registered
+                    SegmentAnalyticsEngine.instance.logEvent(event: UserRegisteredEvent())
                 } else {
                     UserDefaults.setDidUserSetAddress(true)
                     UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
                     UserDefaults.setUserLoggedIn(true)
                     completionHandler(true, "")
+                    
+                    // Logging segment event for user signed in
+                    SegmentAnalyticsEngine.instance.logEvent(event: UserSignedInEvent())
                 }
     
             } else {

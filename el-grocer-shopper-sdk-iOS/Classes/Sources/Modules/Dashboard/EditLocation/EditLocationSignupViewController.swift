@@ -101,7 +101,7 @@ class EditLocationSignupViewController: UIViewController {
         
         title = NSLocalizedString("add_delivery_address", comment: "")
         self.addBackButton(isGreen: false)
-        view.backgroundColor = .locationScreenLightColor()
+        view.backgroundColor = ApplicationTheme.currentTheme.lightGrayBGColor // .locationScreenLightColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
     }

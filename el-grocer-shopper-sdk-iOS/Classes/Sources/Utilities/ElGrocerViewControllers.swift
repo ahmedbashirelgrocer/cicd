@@ -628,7 +628,12 @@ class ElGrocerViewControllers {
         return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "DeleteCardConfirmationBottomSheet")
     }
     
-    //MARK: Location Edit
+    //MARK: Location 
+    
+    class func addLocationViewController() -> AddLocationViewController {
+        return AddLocationViewController(nibName: "AddLocationViewController", bundle: .main)
+    }
+    
     class func editLocationSignupViewController() -> EditLocationSignupViewController {
         return EditLocationSignupViewController(nibName: "EditLocationSignupViewController", bundle: .main)
     }

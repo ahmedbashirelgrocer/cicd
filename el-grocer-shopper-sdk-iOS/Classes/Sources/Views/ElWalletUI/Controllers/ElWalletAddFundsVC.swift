@@ -129,7 +129,9 @@ class ElWalletAddFundsVC: UIViewController {
                         vc.amount = "\(adyenObj.amount)"
                         vc.controlerType = .payment
                         self.navigationController?.pushViewController(vc, animated: true)
-
+                        
+                        // Logging segment event for fund added
+                        SegmentAnalyticsEngine.instance.logEvent(event: FundAddedEvent(paymentOption: PaymentOption.creditCard, amount: adyenObj.amount.doubleValue))
                         //show message/view here
                         //self.showConfirmationView()
                     }
@@ -169,6 +171,9 @@ class ElWalletAddFundsVC: UIViewController {
                         vc.controlerType = .payment
                         vc.ispushed = true
                         self.navigationController?.pushViewController(vc, animated: true)
+                        
+                        // Logging segment event for fund added
+                        SegmentAnalyticsEngine.instance.logEvent(event: FundAddedEvent(paymentOption: PaymentOption.applePay, amount: adyenObj.amount.doubleValue))
                     }
                 }
             }

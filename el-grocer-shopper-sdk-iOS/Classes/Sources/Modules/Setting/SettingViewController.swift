@@ -623,7 +623,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         
         if SDKManager.isSmileSDK {
-        
+            var index = -1
+            
             switch indexPath.section {
             case 1:
                 switch (indexPath as NSIndexPath).row {
@@ -636,6 +637,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 4: self.goToElWalletVC()
                 default: break
                 }
+                
+                index = (indexPath.row >= 2 || indexPath.row >= 3) ? (indexPath.row + 2) : indexPath.row
             case 2:
                 switch (indexPath as NSIndexPath).row {
                 case 0: self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
@@ -643,9 +646,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 2: self.showFAQs()
                 default: break
                 }
+                
+                index = indexPath.row + accountSectionCells + settingsSectionCells + deleteAccountCell
             default: return
             }
             
+            if index < titles.count && index != -1 {
+                SegmentAnalyticsEngine.instance.logEvent(event: MenuItemClickedEvent(name: titles[index]))
+            }
             return
         }
        

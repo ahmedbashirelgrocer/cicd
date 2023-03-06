@@ -8,9 +8,9 @@
 import Foundation
 
 struct BannerDTO: Codable {
-    let id: Int = 0
+    let id: Int?
     let name: String?
-    let priority: Int = 0
+    let priority: Int?
     let campaignType: BannerCampaignType?
     let imageURL: String?
     let bannerImageURL: String?

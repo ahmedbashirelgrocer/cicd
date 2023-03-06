@@ -58,13 +58,15 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
     private var apiClinet: ElGrocerApi
+    private var analyticsEngine: AnalyticsEngineType
     private var latitude: Double
     private var longitude: Double
     private var disposeBag = DisposeBag()
     
     // MARK: Initlizations
-    init(apiClinet: ElGrocerApi, latitude: Double, longitude: Double) {
+    init(apiClinet: ElGrocerApi, analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine(), latitude: Double, longitude: Double) {
         self.apiClinet = apiClinet
+        self.analyticsEngine = analyticsEngine
         self.latitude = latitude
         self.longitude = longitude
 
@@ -95,6 +97,7 @@ private extension ActiveCartListingViewModel {
                 }
                 
                 self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCartVMs)])
+                self.analyticsEngine.logEvent(event: MultiCartViewedEvent())
                 break
 
             case .failure(let error):

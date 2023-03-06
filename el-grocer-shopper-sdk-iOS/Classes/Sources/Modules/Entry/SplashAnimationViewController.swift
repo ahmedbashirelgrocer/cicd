@@ -38,6 +38,9 @@ class SplashAnimationViewController: UIViewController {
             }
         }
         // self.configureElgrocerShopper()
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
     }
  
     override func viewWillAppear(_ animated: Bool) {

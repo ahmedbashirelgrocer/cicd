@@ -50,6 +50,8 @@ enum ElGrocerApiEndpoint : String {
     case ClientVersion = "v1/versions/check_version.json"
     case Registration = "v3/shoppers/register"
     case Login = "v1/sessions/shopper.json"
+    case VerifyPhone = "v4/sessions/shopper/verify-phone"
+    case signinWithOTP = "v4/sessions/shopper/signin-with-otp"
     case ForgotPassword = "v1/shoppers/reset_password_request"
     case ProfileUpdate = "v1/shoppers/update.json"
     case EmailExist = "v2/shoppers/check_shopper.json"
@@ -704,6 +706,139 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   completionHandler(false, nil)
   }
   }
+      
+      func verifyPhone(_ phoneNumber: String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          var parameters = [String : AnyObject]()
+      
+          let pushToken = UserDefaults.getDevicePushToken()
+          if pushToken != nil {
+              parameters = [
+                "phone_number" : phoneNumber as AnyObject,
+                "registration_id" : pushToken! as AnyObject,
+                "device_type" : 1 as AnyObject
+              ]
+      
+          } else {
+              parameters = [
+                "phone_number" : phoneNumber as AnyObject
+              ]
+          }
+      
+          NetworkCall.post(ElGrocerApiEndpoint.VerifyPhone.rawValue , parameters: parameters, progress: { (progress) in
+            // debugPrint("Progress for API :  \(progress)")
+          }, success: { (operation, response) in
+            guard let response = response as? NSDictionary else {
+                completionHandler(Either.failure(ElGrocerError.parsingError()))
+                return
+            }
+            completionHandler(Either.success(response))
+        }) { (operation  , error: Error) -> Void in
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+        }
+      }
+      
+      func signinWithOTP(phoneNum: String, otp: String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+         
+          let parameters: [String: Any] =  ["phone_number": phoneNum,"otp": otp]
+          NetworkCall.post(ElGrocerApiEndpoint.signinWithOTP.rawValue, parameters: parameters , progress: { (progress) in
+              
+          }, success: { [weak self] (operation  , response: Any) -> Void in
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              self?.extractAccessToken(response)
+              completionHandler(Either.success(response))
+          }) { (operation  , error: Error) -> Void in
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                    completionHandler(Either.failure(errorToParse))
+              }
+          }
+  
+      }
+      
+      func addOrUpdateDeliveryAddress(withEmail email: String, and address: DeliveryAddress, completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
+          
+          setAccessToken()
+      
+          var addressParameters: [String : AnyObject] = ["email": email as AnyObject]
+        
+          if address.locationName.count > 0 {
+              addressParameters["address_name"] = address.locationName as AnyObject
+          } else {
+              addressParameters["location_address"] = address.address as AnyObject
+          }
+          if address.dbID != "" {
+              addressParameters["address_id"] = address.dbID as AnyObject
+          }
+          addressParameters["location_address"] = address.address as AnyObject
+          addressParameters["latitude"] = address.latitude as AnyObject
+          addressParameters["longitude"] = address.longitude as AnyObject
+          addressParameters["default_address"] = address.isActive.boolValue as AnyObject
+          addressParameters["address_type_id"] = address.addressType as AnyObject
+        
+          if address.street != nil {
+              addressParameters["street"] = address.street! as AnyObject
+          }
+      
+          if address.building != nil {
+              addressParameters["building_name"] = address.building! as AnyObject
+          }
+      
+          if address.apartment != nil {
+              addressParameters["apartment_number"] = address.apartment! as AnyObject
+          }
+      
+          if address.floor != nil {
+              addressParameters["floor"] = address.floor! as AnyObject
+          }
+      
+          if address.houseNumber != nil {
+              addressParameters["house_number"] = address.houseNumber! as AnyObject
+          }
+      
+          if address.additionalDirection != nil {
+              addressParameters["additional_direction"] = address.additionalDirection! as AnyObject
+          }
+      
+          if address.userProfile.phone != nil {
+              addressParameters["phone_number"] = address.userProfile.phone as AnyObject
+          }
+      
+          if address.userProfile.name != nil {
+              addressParameters["name"] = address.userProfile.name as AnyObject
+          }
+          
+          guard address.dbID == "" else {
+              NetworkCall.put( ElGrocerApiEndpoint.DeliveryAddressV2.rawValue , parameters: addressParameters, success: { (operation, response) in
+                  completionHandler(true, response as? NSDictionary)
+              }) { (operation, error) in
+                  completionHandler(false, ElGrocerError.init(error: error as NSError).jsonValue as NSDictionary?)
+              }
+              return
+          }
+        
+          let endpoint = ElGrocerApiEndpoint.DeliveryAddressV2.rawValue
+          
+//          if email.isEmpty {
+//              endpoint = ElGrocerApiEndpoint.DeliveryAddress.rawValue
+//          }
+          
+          NetworkCall.post(endpoint, parameters: addressParameters, progress: { (progress) in
+              
+          }, success: { (operation, response) in
+              completionHandler(true, response as? NSDictionary)
+          }) { (operation, error) in
+              completionHandler(false, ElGrocerError.init(error: error as NSError).jsonValue as NSDictionary?)
+          }
+          
+      }
+      
+      
   
   // MARK: User profile
   

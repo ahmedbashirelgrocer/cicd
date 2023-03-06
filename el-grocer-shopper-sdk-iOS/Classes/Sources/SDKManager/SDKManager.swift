@@ -63,17 +63,24 @@ class SDKManager: NSObject  {
     var launchOptions: LaunchOptions? = nil
     var launchOptionsLocation: CLLocation? = nil
     var isLaunchEventConfigured: Bool = false
-  
+    var isInitialized = false
+    
     // MARK: Initializers
     private override init() {
         super.init()
         window = .key
-        DispatchQueue.main.async { [weak self] in self?.configure() }
+//        DispatchQueue.main.async { [weak self] in self?.configure() }
     }
     
   
     func start(with launchOptions: LaunchOptions?) {
         self.launchOptions = launchOptions
+        
+        if !isInitialized {
+            self.configure()
+            isInitialized = true
+        }
+        
         self.rootContext = UIWindow.key?.rootViewController
         self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         _ = ReachabilityManager.sharedInstance
@@ -86,6 +93,12 @@ class SDKManager: NSObject  {
     func startWithSingleStore(_ grocery: Grocery?) {
         guard let launchOptions = launchOptions else { return }
         self.launchOptions = launchOptions
+        
+        if !isInitialized {
+            DispatchQueue.main.async { [weak self] in self?.configure() }
+            isInitialized = true
+        }
+        
         self.rootContext = UIWindow.key?.rootViewController
         self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         let manager = SDKLoginManager(launchOptions: launchOptions)
@@ -190,6 +203,10 @@ class SDKManager: NSObject  {
                 }
 //                FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  apiData  , false)
                 
+                // Logging segment event for general api error
+                let elError = ElGrocerError(error: error)
+                SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: apiData["url"] as? String, message: elError.message ?? elError.localizedMessage, code: elError.code))
+                
                
             }else{
                 
@@ -198,7 +215,11 @@ class SDKManager: NSObject  {
                 } else {
                     FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
                 }
-//                FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)" , [:] , false )
+                // FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)" , [:] , false )
+                
+                // Logging segment event for general api error
+                let elError = ElGrocerError(error: error)
+                SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: "", message: elError.message ?? elError.localizedMessage, code: elError.code))
             }
         }
     }
@@ -407,7 +428,15 @@ class SDKManager: NSObject  {
     }
     
     private func initializeSegmentSDK() {
-        let configuration = AnalyticsConfiguration(writeKey: kSegmentAnalyticsSDKWriteKey)
+        // launch options are nil here
+        let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
+        let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
+        let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
+        let dictionary = environmentsDict![configurationName] as! NSDictionary
+        
+        guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
+        
+        let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
         
         configuration.trackApplicationLifecycleEvents = true
         configuration.flushAt = 3

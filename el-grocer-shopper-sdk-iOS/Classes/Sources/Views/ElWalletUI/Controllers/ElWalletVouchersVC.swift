@@ -97,6 +97,9 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
                     }else {
                         self.navigateToSuccessVC(voucher: self.txtVoucherCode.text ?? "", isSuccess: false, voucherValue: "")
                     }
+                    
+                    // Logging segment event for voucher redeemed
+                    SegmentAnalyticsEngine.instance.logEvent(event: VoucherRedeemedEvent(code: self.txtVoucherCode.text))
                 } else {
                     print("something wrong ho gaya")
                     MixpanelEventLogger.trackElwalletActiveVoucherVoucherRedeemError()

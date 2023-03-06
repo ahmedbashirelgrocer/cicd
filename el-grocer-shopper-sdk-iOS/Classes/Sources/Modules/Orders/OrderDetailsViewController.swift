@@ -112,6 +112,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             self.getGroceryDetail()
         }
         
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderDetailsScreen))
     }
     
     func setUpInitailizers() {
@@ -547,6 +549,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         navigator.startEditNavigationProcess { (isNavigationDone) in
             elDebugPrint("Navigation Completed")
         }
+        
+        // Logging segment event for edit order clicked
+        let orderEditEvent = OrderEditClickedEvent(order: order, grocery: currentGrocery, products: orderProducts)
+        SegmentAnalyticsEngine.instance.logEvent(event: orderEditEvent)
+        
         /*
         func processDataForDeliveryMode() {
             let groceryID = ElGrocerUtility.sharedInstance.cleanGroceryID(order.grocery.dbID)
@@ -673,6 +680,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             self.orderCancelled(isSuccess: isCancel)
         }
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
+        
+        // Logging segment event for cancel order clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: CancelOrderClickedEvent(orderId: orderId))
     }
     func orderCancelled(isSuccess: Bool) {
        elDebugPrint(" OrderCancelationHandlerProtocol checkIfOrderCancelled fuction called")
@@ -777,6 +787,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         guard order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue || order.status.intValue == OrderStatus.payment_pending.rawValue || order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue  else {
             
+            // Logging segment event for repeat order clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: RepeatOrderClickedEvent(order: order, grocery: self.currentGrocery))
             
             if self.order.isCandCOrder() {
                 if ElGrocerUtility.sharedInstance.cAndcRetailerList.count == 0 {
@@ -1757,6 +1769,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                         substitutionsProductsVC.orderId = orderId
                         ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
                         self?.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
+                        
+                        // Logging segment event for choose replacement clicked
+                        SegmentAnalyticsEngine.instance.logEvent(event: ChooseReplacementClickedEvent(order: self?.order, grocery: self?.currentGrocery))
+                        
                     }else if (self?.order.status.intValue == OrderStatus.payment_pending.rawValue || self?.order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue) {
                         self?.editOrderSuccess(nil)
                     }else if (self?.order.status.intValue == OrderStatus.inEdit.rawValue) {

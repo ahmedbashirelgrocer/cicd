@@ -195,6 +195,9 @@ class PopImageViwerViewController: UIViewController {
         super.viewDidLoad()
         setUpApearance()
         self.setDeepLink()
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productDetailsScreen))
     }
     override func viewDidAppear(_ animated: Bool) {
         super

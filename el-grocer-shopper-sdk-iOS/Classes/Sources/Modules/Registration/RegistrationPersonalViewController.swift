@@ -496,7 +496,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                
                 if self.isFromCart {
                     
-                    ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (result) in
+                    ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (result,errorMsg) in
                         if result {
                             UserDefaults.setUserLoggedIn(true)
                             

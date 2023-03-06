@@ -359,6 +359,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         hideBottomCheckoutView(ishidden: true)
         
         self.setupSmiles()
+        
+        // Logging segment screen event 
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderSubstitutionScreen))
     }
     
     deinit {
@@ -813,6 +816,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
                     
                     
                     NotificationCenter.default.post(name: Notification.Name(rawValue: kOrderUpdateNotificationKey), object: nil)
+                
+                // Logging segment event for order substitution completed
+                SegmentAnalyticsEngine.instance.logEvent(event: OrderSubstitutionCompletedEvent(orderId: String(describing: self.order.dbID)))
                 
                 case .failure(let error):
                     spinner?.removeFromSuperview()
@@ -1313,6 +1319,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         if let _ = self.orderProducts.firstIndex(where: {$0.dbID == oldProdct.dbID}) {
             self.quickAddSubsituteReplacment(product: oldProdct, subtituteProduct: newProduct , quantity)
+            
+            // Logging segment event for item replaced
+            SegmentAnalyticsEngine.instance.logEvent(event: ItemReplacedEvent(oosProduct: oldProdct, choosedProduct: newProduct))
         }else{
             self.tableView.reloadData()
         }

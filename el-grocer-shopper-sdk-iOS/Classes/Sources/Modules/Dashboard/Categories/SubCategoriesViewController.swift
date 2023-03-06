@@ -59,6 +59,9 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         self.viewHandler.trackCateNavClick()
         self.addLocationHeader()
         self.hidesBottomBarWhenPushed = true
+        
+        // Logging segment screen event 
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productListingScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {

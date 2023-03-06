@@ -280,6 +280,16 @@ private extension ProductCellViewModel {
             updatedQuantity += 1
         }
         
+        // Logging segment event for cart created and product added
+        if let product = self.product.productDB {
+            let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+            if isNewCart {
+                SegmentAnalyticsEngine.instance.logEvent(event: CartCreatedEvent(grocery: self.grocery))
+            }
+            
+            SegmentAnalyticsEngine.instance.logEvent(event: CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: updatedQuantity))
+        }
+        
         createOrUpdateBasketItem(updatedQuantity: updatedQuantity)
     }
     
@@ -290,6 +300,16 @@ private extension ProductCellViewModel {
             if updatedQuantity < 0 { return }
             
             createOrUpdateBasketItem(updatedQuantity: updatedQuantity)
+            
+            // Logging segment event for cart deleted and product removed
+            if let product = self.product.productDB {
+                let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+                if cartDeleted {
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: self.grocery))
+                }
+                
+                SegmentAnalyticsEngine.instance.logEvent(event: CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .removed, quantity: updatedQuantity))
+            }
         }
     }
     

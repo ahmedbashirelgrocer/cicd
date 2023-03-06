@@ -34,6 +34,9 @@ class ElWalletTransactionVC: UIViewController, NavigationBarProtocol {
 
         // Do any additional setup after loading the view.
         setInitialAppearence()
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .transactionHistoryScreen))
     }
     
     private func setInitialAppearence() {

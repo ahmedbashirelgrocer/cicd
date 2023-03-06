@@ -168,6 +168,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var chefCall:DispatchWorkItem?
     var recipeListCall:DispatchWorkItem?
     
+    private var isSegmentEventLogged = false
+
     private var disposeBag = DisposeBag()
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, ReusableTableViewCellViewModelType>>!
     
@@ -260,6 +262,13 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
         self.basketIconOverlay?.shouldShow = true
         self.refreshBasketForGrocery()
+        
+        // Logging Segment Event/Screen
+        if self.grocery != nil && self.isSegmentEventLogged == false {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .storeScreen))
+            self.isSegmentEventLogged = true
+        }
+        
         self.initViewModel()
     }
     
@@ -351,6 +360,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     override func backButtonClick() {
         self.backButtonClickedHandler()
         MixpanelEventLogger.trackStoreClose()
+        self.isSegmentEventLogged = false
     }
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
@@ -1376,7 +1386,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         // Logging Segment Event
         let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
         if isNewCart {
-            let cartCreatedEvent = CartCreatedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            let cartCreatedEvent = CartCreatedEvent(grocery: self.grocery)
             SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
         } else {
             let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
@@ -1404,7 +1414,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
         if cartDeleted {
-            let cartDeletedEvent = CartDeletedEvent(product: selectedProduct, activeGrocery: self.grocery)
+            let cartDeletedEvent = CartDeletedEvent(grocery: self.grocery)
             SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
         } else {
             let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity)
@@ -1508,11 +1518,15 @@ private extension MainCategoriesViewController {
         }).disposed(by: disposeBag)
         
         // MARK: Actions
-        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] in
+        self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] grocery in
             guard let self = self else { return }
             
             let browseController = ElGrocerViewControllers.browseViewController()
             self.navigationController?.pushViewController(browseController, animated: true)
+            
+            // Logging segment event for category view all clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: CategoryViewAllClickedEvent(grocery: grocery))
+            
         }).disposed(by: disposeBag)
         
         self.viewModel.outputs.viewAllProductsOfCategory.subscribe(onNext: { [weak self] category in
@@ -1522,6 +1536,9 @@ private extension MainCategoriesViewController {
             
             MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category?.id ?? 0), categoryName: category?.name ?? "")
             self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+            
+            // Logging segment event for product category view all clicked"
+            SegmentAnalyticsEngine.instance.logEvent(event: ProductCategoryViewAllClickedEvent(category: category?.categoryDB))
             
         }).disposed(by: disposeBag)
          
@@ -2084,6 +2101,4 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
 extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
 }
-
-
 

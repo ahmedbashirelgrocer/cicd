@@ -348,6 +348,9 @@ class BasketIconOverlayView : UIView {
                 MixpanelEventLogger.trackStoreCart()
                 let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
                 topVc.navigationController?.pushViewController(myBasketViewController, animated: true)
+                
+                // Logging segment event for cart clicked
+                SegmentAnalyticsEngine.instance.logEvent(event: CartClickedEvent(grocery: self.grocery))
             }
         }
     }

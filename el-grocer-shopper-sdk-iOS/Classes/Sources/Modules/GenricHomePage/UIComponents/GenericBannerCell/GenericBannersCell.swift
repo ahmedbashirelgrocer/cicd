@@ -26,6 +26,8 @@ class GenericBannersCell: RxUITableViewCell {
     
     var isNeedToScroll : Bool = true
     
+    private var banners: [BannerCampaign] = []
+    
     private var viewModel: GenericBannersCellViewModelType!
     
     override func awakeFromNib() {
@@ -66,6 +68,31 @@ class GenericBannersCell: RxUITableViewCell {
         
         viewModel.outputs.banners.bind(to: self.bannerList.rx.banners).disposed(by: disposeBag)
         
+        viewModel.outputs.banners.subscribe(onNext: { [weak self] banners in
+            
+            self?.banners = banners.map({ banner -> BannerCampaign in
+                let bannerCampign: BannerCampaign = BannerCampaign.init()
+                
+                bannerCampign.dbId = (banner.id ?? 0) as NSNumber
+                bannerCampign.title = banner.name ?? ""
+                bannerCampign.priority = (banner.priority ?? 0) as NSNumber
+                bannerCampign.campaignType = (banner.campaignType?.rawValue ?? -1) as NSNumber
+                bannerCampign.imageUrl = banner.imageURL ?? ""
+                bannerCampign.bannerImageUrl = banner.bannerImageURL ?? ""
+                bannerCampign.url = banner.url ?? ""
+                bannerCampign.categories = banner.categories?.map { bannerCategories(dbId: $0.id as? NSNumber ?? -1, name: $0.name ?? "", slug: $0.slug ?? "") }
+                bannerCampign.subCategories = banner.subcategories?.map { bannerSubCategories(dbId: $0.id as? NSNumber ?? -1, name: $0.name ?? "", slug: $0.slug ?? "") }
+                bannerCampign.brands = banner.brands?.map { bannerBrands(dbId: $0.id as? NSNumber ?? -1, name: $0.name ?? "", slug: $0.slug ?? "", image_url: $0.imageURL ?? "") }
+                bannerCampign.retailerIds = banner.retailerIDS
+                bannerCampign.locations = banner.locations
+                bannerCampign.storeTypes = banner.storeTypes
+                bannerCampign.retailerGroups = banner.retailerGroups
+                
+                return bannerCampign
+            })
+            
+        }).disposed(by: self.disposeBag)
+        
         viewModel.outputs.bannersCount.subscribe(onNext: { [weak self] bannersCount in
             guard let self = self else { return }
             
@@ -101,6 +128,14 @@ class GenericBannersCell: RxUITableViewCell {
         }
         guard !(self.bannerList.collectionView?.isDecelerating ?? false) else {
             return
+        }
+        
+        if self.banners.count > self.pageControl.currentPage {
+            let banner = self.banners[self.pageControl.currentPage]
+            if !banner.isViewed {
+                SegmentAnalyticsEngine.instance.logEvent(event: BannerViewedEvent(banner: banner, position: self.pageControl.currentPage + 1))
+                banner.isViewed.toggle()
+            }
         }
        
         if  self.pageControl.numberOfPages > (self.pageControl.currentPage + 1){
@@ -144,6 +179,9 @@ class GenericBannersCell: RxUITableViewCell {
     
     func configured(_ bannersList : [BannerCampaign] ) {
         self.bannerList.configureData(bannersList)
+        
+        self.banners = bannersList
+        
         self.pageControl.numberOfPages = bannersList.count
         self.setViewForMultiBanner(isMultiBanner: bannersList.count > 1)
         if let timer = self.scrollTimer {

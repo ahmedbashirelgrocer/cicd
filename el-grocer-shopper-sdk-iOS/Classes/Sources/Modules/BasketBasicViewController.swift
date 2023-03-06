@@ -30,6 +30,21 @@ enum PaymentOption : UInt32 {
     
 }
 
+extension PaymentOption {
+    var paymentMethodName: String {
+        switch self {
+        case .none          : return ""
+        case .cash          : return "Cash"
+        case .card          : return "Payment by Card"
+        case .creditCard    : return "Payment Online"
+        case .smilePoints   : return "Smile Point"
+        case .voucher       : return "Voucher"
+        case .PromoCode     : return "Promo Code"
+        case .applePay      : return "Apple Pay"
+        }
+    }
+}
+
 
 class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtocol, ShoppingBasketViewProtocol, NavigationBarSearchProtocol, ProductCellProtocol, shoppingLisDelegate , GrocerySelectionProtocol, ProductDetailsViewProtocol,MyBasketViewProtocol , NavigationBarProtocol   {
     

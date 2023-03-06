@@ -70,7 +70,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.setSegmentView()
         setupClearNavBar()
        
-        
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -417,7 +417,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 launch.latitude = address.latitude
                 launch.longitude = address.longitude
                 launch.address = address.address
-
                 if ElgrocerPreloadManager.shared.searchClient != nil {
                     ElgrocerPreloadManager.shared
                         .searchClient.setLaunchOptions(launchOptions: launch)
@@ -668,10 +667,16 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         let settingController = ElGrocerViewControllers.settingViewController()
         self.navigationController?.pushViewController(settingController, animated: true)
         hideTabBar()
+        
+        // Logging segment event for menu button clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
     }
     
     func cartButtonTap() {
         self.navigateToMultiCart()
+        
+        // Logging segment event for multicart clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MultiCartsClickedEvent())
     }
 }
 
@@ -776,12 +781,18 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if self.sortedGroceryArray.count > 0 &&  indexPath.row < self.sortedGroceryArray.count && indexPath.section == 1 {
             self.goToGrocery(self.sortedGroceryArray[indexPath.row], nil)
+
+            // Logging segment event for store clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row]))
         }
         if self.sortedGroceryArray.count > 0 && indexPath.section == 3 {
             var indexPathRow = indexPath.row
             if self.sortedGroceryArray.count > separatorCount {
                 indexPathRow = indexPathRow + separatorCount + 1
                 self.goToGrocery(self.sortedGroceryArray[indexPathRow], nil)
+
+                // Logging segment event for store clicked
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow]))
             }
         }
     }
@@ -1026,6 +1037,11 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         // self.tableView.reloadDataOnMain()
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
+        
+        // Logging segment for store category switch
+        let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: lastSelectType, nextStoreCategoryType: selectedType)
+        SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
+        
         self.lastSelectType = selectedType
         
     }

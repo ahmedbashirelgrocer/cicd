@@ -103,7 +103,7 @@ class SignInViewModel {
                let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if (locations.count > 0) {
                     self.updateProfileAndData(responseObject!, completionHandler: {
-                        ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult) in
+                        ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult,errorMsg) in
                             completionHandler()
                         }
                     })

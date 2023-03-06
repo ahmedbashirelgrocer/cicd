@@ -88,6 +88,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.setNavigationAppearance()
         self.checkForPushNotificationRegisteration()
         
+        // Logging segment event for segment order confirmation screen
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderConfirmationScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -596,8 +598,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             return  UIStatusBarStyle.default
         }
     }
-
-    
     
     private func setRightBarItem(_ image : UIImage) {
         
@@ -1644,6 +1644,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         controller.mode = .dismiss
         self.navigationController?.pushViewController(controller, animated: true)
         
+        // Logging segment event for order details clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: OrderDetailsClickedEvent(order: order))
         
     }
     
@@ -1655,6 +1657,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             substitutionsProductsVC.orderId = orderId
             ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
             self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
+            
+            // Logging segment event for choose replacement clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: ChooseReplacementClickedEvent(order: self.order, grocery: self.grocery))
         }
     }
 

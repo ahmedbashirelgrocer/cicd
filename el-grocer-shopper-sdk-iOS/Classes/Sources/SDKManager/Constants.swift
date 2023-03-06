@@ -33,6 +33,5 @@ let KGoBackToOrderScreen = "PendingStageReactiveted"
 let kBasketUpdateForEditNotificationKey = "UpdateBasketForEditNotification"
 let kStartCheckOutProcessKey = "allDataDonenPleaseStartCheckoutProcessFromMYBasketScreen"
 let kGoogleMapsApiKey   =   "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0" // forlive
-let kSegmentAnalyticsSDKWriteKey =  "Z2Jste7vnggEaRT9H5maGj8PUlFJXL4k" // "cSnpTPUfDsW8zvEiA1AslFPegtWjNIlo" // for live
 let KGoToBasket = "gotoBackFromTabBar"
 let KCancelOldAllCalls = "CancelDataCalls"

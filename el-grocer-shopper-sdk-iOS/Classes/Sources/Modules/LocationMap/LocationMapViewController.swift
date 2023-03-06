@@ -178,6 +178,9 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             guard let self = self else {return}
             self.configureMapView()
         }
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .searchLocationScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {

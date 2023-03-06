@@ -162,6 +162,8 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                 ElGrocerUtility.sharedInstance.isUserProfileUpdated = true
                 self.navigationController?.popToRootViewController(animated: true)
                 
+                // Identify segment call
+                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: self.userProfile))
             } else {
                 
                 SpinnerView.hideSpinnerView()
