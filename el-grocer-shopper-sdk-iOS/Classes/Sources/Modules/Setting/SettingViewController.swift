@@ -63,7 +63,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else{
             self.lblversionNumber.text = "Unknown"
         }
-       
+        self.navigationCustimzation()
         self.registerTableViewCell()
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableView.separatorColor =  .separatorColor() //.borderGrayColor()

@@ -249,7 +249,7 @@ private extension MainCategoriesViewModel {
                             } else if location == .sdk_store_tier_2 {
                                 let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                                 bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
-                                self.location1BannerVMs.append(bannerCellVM)
+                                self.location2BannerVMs.append(bannerCellVM)
                             }
                         }
                         return

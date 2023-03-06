@@ -221,6 +221,7 @@
                 <outlet property="backButton" destination="2ou-QN-EoU" id="z04-r0-y7E"/>
                 <outlet property="btnHelp" destination="DxT-jV-evr" id="W2t-X4-nJF"/>
                 <outlet property="btnMenu" destination="bUW-oF-AP1" id="2la-MH-G7A"/>
+                <outlet property="elgrocerLogoImgView" destination="zQB-zT-0wW" id="rb5-2s-RCS"/>
                 <outlet property="groceryBGView" destination="iYk-ca-3Nn" id="Crn-aZ-eBg"/>
                 <outlet property="iconLocation" destination="ppb-xP-Idw" id="3Nd-ly-a73"/>
                 <outlet property="imgSearch" destination="Nbs-8M-Y4I" id="FV3-Jd-rjM"/>
