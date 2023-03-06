@@ -2,7 +2,8 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //
-//  initialCommit
+
+// 1.4.3 merge into single store latest code 
 
 import UIKit
 import IQKeyboardManagerSwift

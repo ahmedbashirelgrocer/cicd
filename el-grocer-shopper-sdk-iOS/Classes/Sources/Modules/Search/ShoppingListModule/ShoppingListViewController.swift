@@ -279,22 +279,22 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
                     Thread.OnMainThread {
                         if result {
                             var newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                            for product in newProducts {
+                            for product in newProducts.products {
                                 if product.brandId == nil {
-                                    let removedObjectIndex = newProducts.firstIndex(of: product)!
+                                    let removedObjectIndex = newProducts.products.firstIndex(of: product)!
                                    elDebugPrint("Object Remove Index:%@",removedObjectIndex)
-                                    newProducts.remove(at: removedObjectIndex)
+                                    newProducts.products.remove(at: removedObjectIndex)
                                 }
                             }
-                           elDebugPrint("searched Products Array After Filtering Brand ID:%@",newProducts.count)
+                            elDebugPrint("searched Products Array After Filtering Brand ID:%@",newProducts.products.count)
                             if replaceIndex != nil {
-                                self.productsA[replaceIndex!] = newProducts
+                                self.productsA[replaceIndex!] = newProducts.products
                                 Thread.OnMainThread {
                                     self.shoppingListTableView.reloadRows(at: [IndexPath.init(row: replaceIndex!, section: 0)], with: .fade)
                                 }
                                 
                             }else{
-                                self.productsA.append(newProducts)
+                                self.productsA.append(newProducts.products)
                                 Thread.OnMainThread {
                                     self.shoppingListTableView.reloadRows(at: [NSIndexPath.init(row: self.index , section: 0) as IndexPath], with: .fade)
                                 }
@@ -314,19 +314,19 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
                     if content != nil {
                         if let responseObject = content as NSDictionary? {
                                 var newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , searchString: currentSearchString)
-                                for product in newProducts {
+                            for product in newProducts.products {
                                     if product.brandId == nil {
-                                        let removedObjectIndex = newProducts.firstIndex(of: product)!
+                                        let removedObjectIndex = newProducts.products.firstIndex(of: product)!
                                         //                                   elDebugPrint("Object Remove Index:%@",removedObjectIndex)
-                                        newProducts.remove(at: removedObjectIndex)
+                                        newProducts.products.remove(at: removedObjectIndex)
                                     }
                                 }
                                 //print("searched Products Array After Filtering Brand ID:%@",newProducts.count)
                                 if replaceIndex != nil {
-                                    self.productsA[replaceIndex!] = newProducts
+                                    self.productsA[replaceIndex!] = newProducts.products
                                     self.shoppingListTableView.reloadRows(at: [IndexPath.init(row: replaceIndex!, section: 0)], with: .fade)
                                 }else{
-                                    self.productsA.append(newProducts)
+                                    self.productsA.append(newProducts.products)
                                     self.shoppingListTableView.reloadRows(at: [NSIndexPath.init(row: self.index , section: 0) as IndexPath], with: .fade)
                                     self.index += 1
                                     
@@ -722,11 +722,11 @@ extension ShoppingListViewController : UITableViewDelegate , UITableViewDataSour
                 searchController.isNeedToHideSearchBar = true
                 searchController.isFromShoppingListViewAll = true
                 searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? FireBaseScreenName.MultiSearch.rawValue
-                searchController.modalTransitionStyle = .crossDissolve
-                searchController.modalPresentationStyle = .overCurrentContext
-                Thread.OnMainThread {
-                    self.navigationController?.pushViewController(searchController, animated: false)
-                }
+                //searchController.modalTransitionStyle = .crossDissolve
+                //searchController.modalPresentationStyle = .overCurrentContext
+                //Thread.OnMainThread {
+                    self.navigationController?.pushViewController(searchController, animated: true)
+                //}
             }
         }
     }

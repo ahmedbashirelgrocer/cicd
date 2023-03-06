@@ -181,7 +181,7 @@ class LocationManager: NSObject {
         
     }
     
-     func fetchCurrentLocation() {
+    func fetchCurrentLocation(_ needToFetchNew: Bool = false) {
          
          DispatchQueue.global().async { [weak self] in
             
@@ -195,7 +195,7 @@ class LocationManager: NSObject {
                  }
                  switch CLLocationManager.authorizationStatus(){
                      case .authorizedWhenInUse, .authorizedAlways:
-                           return
+                     if !needToFetchNew { return }
                      case .notDetermined:
                          self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
                      case .restricted:
@@ -486,7 +486,7 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-       elDebugPrint("location Manager Fail With Error:%@",error.localizedDescription)
+       elDebugPrint("loc≈rror:%@",error.localizedDescription)
     }
     
     

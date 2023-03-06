@@ -57,7 +57,6 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
         viewModel.outputs.categoryName.bind(to: self.lblCategoryName.rx.text).disposed(by: disposeBag)
         viewModel.outputs.coloredImageUrl.subscribe(onNext: { [weak self] sUrl in
             guard let self = self else { return }
-            
             self.setChefImage(sUrl, isSelected : false, imageView: self.centerImage)
         }).disposed(by: disposeBag)
         

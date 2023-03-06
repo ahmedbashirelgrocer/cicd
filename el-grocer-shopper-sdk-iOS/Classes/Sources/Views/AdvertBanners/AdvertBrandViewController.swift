@@ -113,7 +113,7 @@ extension AdvertBrandViewController {
         var newProduct = [Product]()
         let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
         context.performAndWait({ () -> Void in
-            newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context)
+            newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context).products
            elDebugPrint("New ungrouped Products Array Count:",newProduct.count)
             
         })

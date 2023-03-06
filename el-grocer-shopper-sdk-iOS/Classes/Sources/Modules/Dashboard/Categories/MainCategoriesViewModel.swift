@@ -21,6 +21,7 @@ protocol MainCategoriesViewModelOutput {
     var viewAllCategories: Observable<Void> { get }
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Void> { get }
+    var categoryTap: Observable<CategoryDTO> { get }
     var bannerTap: Observable<BannerDTO> { get }
     var reloadTable: Observable<Void> { get }
     var refreshBasket: Observable<Void> { get }
@@ -53,6 +54,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
     var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
+    var categoryTap: Observable<CategoryDTO> { categoryTapSubject.asObservable() }
     var reloadTable: Observable<Void> { reloadTableSubject.asObservable() }
     
     // MARK: subjects
@@ -64,6 +66,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
     private var bannerTapSubject = PublishSubject<BannerDTO>()
+    private var categoryTapSubject = PublishSubject<CategoryDTO>()
     private var reloadTableSubject = PublishSubject<Void>()
     
     // MARK: properties
@@ -199,7 +202,8 @@ private extension MainCategoriesViewModel {
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-                self.categories = categoriesDB.map { CategoryDTO(category: $0) }
+               // self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : "Search by Shopping List" , "name_ar" : "البحث بقائمة التسوق"]))
+                self.categories.append(contentsOf: categoriesDB.map { CategoryDTO(category: $0) })
                 let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
                 
                 categoriesCellVM.outputs.viewAll.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
@@ -214,12 +218,9 @@ private extension MainCategoriesViewModel {
                         .map { _ in () }
                         .bind(to: self.reloadTableSubject)
                         .disposed(by: self.disposeBag)
-
                     return viewModel
                 })
-                
                 break
-                
             case .failure(let error):
                 // TODO: Show error message
                 break
@@ -290,7 +291,7 @@ private extension MainCategoriesViewModel {
             case .success(let response):
                 let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
                 
-                let productDTOs = products.map { ProductDTO(product: $0) }
+                let productDTOs = products.products.map { ProductDTO(product: $0) }
                 
                 if productDTOs.isNotEmpty {
                     let title = NSLocalizedString("previously_purchased_products_title", bundle: .resource, comment: "")

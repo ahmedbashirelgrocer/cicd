@@ -457,7 +457,7 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
                         self.currentOffset = self.currentOffset + productCount
                         self.isMoreProductsAvailable = productCount % self.currentLimit == 0
                         
-                        self.alternativeProducts += newProducts
+                        self.alternativeProducts += newProducts.products
                         DatabaseHelper.sharedInstance.saveDatabase()
                     }
                     
@@ -492,9 +492,9 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
                 
                 Thread.OnMainThread {
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    self.isMoreProductsAvailable = newProducts.count > 0
+                    self.isMoreProductsAvailable = newProducts.products.count > 0
                     
-                    self.alternativeProducts += newProducts
+                    self.alternativeProducts += newProducts.products
                     DatabaseHelper.sharedInstance.saveDatabase()
                 }
                 

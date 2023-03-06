@@ -106,9 +106,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //                elDebugPrint("PARAMS NAME : \(parameters)")
 //                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
             
         })
@@ -248,9 +248,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //                elDebugPrint("PARAMS NAME : \(parameters)")
 //                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
             
         })
@@ -305,9 +305,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //                elDebugPrint("PARAMS NAME : \(parameters)")
 //                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         })
         
@@ -366,9 +366,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //                elDebugPrint("PARAMS NAME : \(parameters)")
 //                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         })
         
@@ -416,9 +416,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //                elDebugPrint("PARAMS NAME : \(parameters)")
 //                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         })
         
@@ -456,9 +456,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
             
         }, failure: { (operation, error) in
 
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
             
         })
@@ -516,9 +516,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //                elDebugPrint("PARAMS NAME : \(parameters)")
 //                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         })
        
@@ -573,9 +573,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //                elDebugPrint("PARAMS NAME : \(parameters)")
 //                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
             
         })
@@ -638,9 +638,9 @@ class ELGrocerRecipeMeduleAPI : ElGrocerApi {
 //                elDebugPrint("PARAMS NAME : \(parameters)")
 //                elDebugPrint("resPonse : \(error.localizedDescription)")
 //            }
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
             
         })

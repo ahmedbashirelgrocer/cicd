@@ -307,8 +307,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         Thread.OnMainThread {
             let newProduct = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            if newProduct.count > 0 {
-                self.products += newProduct
+            if newProduct.products.count > 0 {
+                self.products += newProduct.products
                 self.isMoreProducts =  self.products.count % 25 == 0
                 
                 if self.isFromDynamicLink {
@@ -357,7 +357,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             Thread.OnMainThread {
                 let context = DatabaseHelper.sharedInstance.groceryManagedObjectContext
                 let newProduct = Product.insertOrReplaceAllProductsFromDictionary(responseObject, context:context)
-                self.products += newProduct
+                self.products += newProduct.products
                 self.isMoreProducts =  self.products.count % 25 == 0
             }
          

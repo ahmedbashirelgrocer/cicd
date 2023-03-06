@@ -6,6 +6,9 @@
   Copyright (c) 2015 RST IT. All rights reserved.
 */
 
+// New
+"Shopping_list_Titile" = "Shopping list";
+
 // Error Messages
 
 "alert_error_title" = "Error";

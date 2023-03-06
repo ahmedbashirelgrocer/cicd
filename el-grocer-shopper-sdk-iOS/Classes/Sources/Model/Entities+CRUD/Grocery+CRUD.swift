@@ -233,6 +233,12 @@ extension Grocery {
         grocery.latitude = responseDict["latitude"] as? Double ?? 0.0
         grocery.longitude = responseDict["longitude"] as? Double ?? 0.0
         
+        if let priority = responseDict["priority"] as? NSNumber {
+            grocery.priority = priority
+        } else {
+            grocery.priority = nil
+        }
+        
         grocery.smileSupport = false
         if let supported = responseDict["smile_Support"] as? NSNumber {
             grocery.smileSupport = supported
