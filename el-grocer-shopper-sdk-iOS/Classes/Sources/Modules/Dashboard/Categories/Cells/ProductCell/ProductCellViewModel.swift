@@ -14,6 +14,7 @@ protocol ProductCellViewModelInput {
     var addToCartButtonTapObserver: AnyObserver<Void> { get }
     var plusButtonTapObserver: AnyObserver<Void> { get }
     var minusButtonTapObserver: AnyObserver<Void> { get }
+    var refreshDataObserver: AnyObserver<Void> { get }
 }
 
 protocol ProductCellViewModelOutput {
@@ -64,6 +65,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var addToCartButtonTapObserver: AnyObserver<Void> { self.quickAddButtonTapSubject.asObserver() }
     var plusButtonTapObserver: AnyObserver<Void> { plusButtonTapSubject.asObserver() }
     var minusButtonTapObserver: AnyObserver<Void> { minusButtonTapSubject.asObserver() }
+    var refreshDataObserver: AnyObserver<Void> { refreshDataSubject.asObserver() }
     
     // MARK: Outputs
     var grocery: Grocery?
@@ -129,6 +131,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     private var plusButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
     private var addToCartButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
+    private var refreshDataSubject = PublishSubject<Void>()
 
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
     
@@ -140,10 +143,11 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
         self.grocery = grocery
         self.product = product
         
-        showProductAttributes()
-        checkProductExistanceInCartAndUpdateUI()
-        checkPromotionValidityAndUpdateUI()
-        checkStockAvailabilityAndUpdateUI()
+        self.refreshCell()
+        
+        refreshDataSubject.asObservable().subscribe(onNext: { [weak self] in
+            self?.refreshCell()
+        }).disposed(by: disposeBag)
         
         // MARK: Add To Cart Button Tap Listner
         quickAddButtonTapSubject.subscribe(onNext: { [weak self] in
@@ -171,6 +175,13 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
             
             self.removeProductFromCart()
         }).disposed(by: disposeBag)
+    }
+    
+    private func refreshCell() {
+        showProductAttributes()
+        checkProductExistanceInCartAndUpdateUI()
+        checkPromotionValidityAndUpdateUI()
+        checkStockAvailabilityAndUpdateUI()
     }
 }
 

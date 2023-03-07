@@ -1488,7 +1488,10 @@ private extension MainCategoriesViewController {
             if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
                 self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
                 bindViews()
+                return
             }
+            
+            self.viewModel.inputs.refreshProductCellObserver.onNext(())
             return
         }
         
