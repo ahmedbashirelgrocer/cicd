@@ -53,10 +53,7 @@ class ElGrocerNavigationController : UINavigationController {
         gradientView.layer.insertSublayer(gradient!, at: 0)
 
     }
-    
-   
-   
-    
+ 
     override func viewDidLoad() {
       
         

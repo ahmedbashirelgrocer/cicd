@@ -13,7 +13,7 @@ public class FlavorAgent {
     public static func startFlavorEngine(_ launchOptions: LaunchOptions, startAnimation: (() -> Void)?  = nil , completion: ((Bool?) -> Void)?  = nil) {
         
         startAnimation?()
-        
+        SDKManager.shared.startBasicThirdPartyInit()
         ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
             if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
                 _ = FlavorsClient.init(address: address, launchOptions.language, loadCompletion: { isLoaded, grocery in
