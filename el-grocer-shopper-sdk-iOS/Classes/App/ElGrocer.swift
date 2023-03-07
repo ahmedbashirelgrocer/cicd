@@ -41,7 +41,7 @@ public final class ElGrocer {
             
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
                 
-                if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 {
+                if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 || SDKManager.shared.launchOptions?.language !=  UserDefaults.getCurrentLanguage() {
                     PreLoadData.shared.loadConfigData {}
                     HomePageData.shared.fetchHomeData(true) {
                         SDKManager.shared.launchCompletion?()
@@ -53,6 +53,8 @@ public final class ElGrocer {
                         let manager = SDKLoginManager(launchOptions: launchOptions)
                         SDKManager.shared.launchOptions = launchOptions
                         SDKManager.shared.startBasicThirdPartyInit()
+                        SDKManager.shared.setupLanguage()
+                        LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: SDKManager.shared.launchOptions?.language ?? "Base", SDKManagers: SDKManager.shared)
                         manager.setHomeView()
                         SDKManager.shared.launchCompletion?()
                     }

@@ -33,6 +33,7 @@ class FlavorNavigation {
     func navigateToNoLocation() {
         
         Observable.just(())
+            .map{ [unowned self] _ in self.setLanguage() }
             .flatMap{ [unowned self] _ in showNoLocationView() }
             .subscribe()
             .disposed(by: disposeBag)

@@ -56,14 +56,8 @@ class PreLoadData {
             }
             return
         }
-
         SDKManager.shared.launchOptions = launchOptions
-
         configureElgrocerShopper()
-        
-        // Remove me
-        // HomePageData.shared.delegate = self
-
         if self.isNotLoggedin() {
             loginSignup {
                 self.updateLocationIfNeeded() {

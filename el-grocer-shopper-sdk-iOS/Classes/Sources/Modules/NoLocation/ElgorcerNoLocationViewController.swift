@@ -10,6 +10,13 @@ import UIKit
 
 class ElgorcerNoLocationViewController: UIViewController {
     
+    @IBOutlet weak var btnBackButton: UIButton! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                self.btnBackButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
+        }
+    }
     @IBOutlet weak var smileMarketLogoImg: UIImageView! {
         didSet {
             smileMarketLogoImg.image = ElGrocerUtility.sharedInstance.isArabicSelected() ? UIImage(name: "smiles market-colored-ar") : UIImage(name: "smiles market-colored-en")
