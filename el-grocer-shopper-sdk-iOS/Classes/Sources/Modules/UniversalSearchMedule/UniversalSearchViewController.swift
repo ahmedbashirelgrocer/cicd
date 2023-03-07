@@ -767,7 +767,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     
     private func showClearHistoryPopup() {
         ElGrocerAlertView.createAlert(
-            "",
+            localizedString("Search_Title", comment: ""),
             description: localizedString("universal_search_clear_history_popup_text", comment: ""),
             positiveButton: localizedString("promo_code_alert_no", comment: ""),
             negativeButton: localizedString("clear_button_title", comment: ""),
