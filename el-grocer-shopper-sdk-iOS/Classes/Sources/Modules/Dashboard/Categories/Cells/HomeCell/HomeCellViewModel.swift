@@ -12,6 +12,7 @@ import RxDataSources
 protocol HomeCellViewModelInput {
     var fetchProductsObserver: AnyObserver<Void> { get }
     var viewAllTapObserver: AnyObserver<Void> { get }
+    var refreshProductCellObserver: AnyObserver<Void> { get }
 }
 
 protocol HomeCellViewModelOuput {
@@ -42,6 +43,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     // MARK: Inputs
     var fetchProductsObserver: AnyObserver<Void> { self.fetchProductsSubject.asObserver() }
     var viewAllTapObserver: AnyObserver<Void> { viewAllSubject.asObserver() }
+    var refreshProductCellObserver: AnyObserver<Void> { refreshProductCellSubject.asObserver() }
     
     // MARK: Outputs
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.productCollectionCellViewModelsSubject.asObservable() }
@@ -62,6 +64,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     private var viewAllTextSubject = BehaviorSubject<String>(value: localizedString("view_more_title", bundle: .resource, comment: ""))
     private var isProductAvailableSubject = PublishSubject<Bool>()
+    private var refreshProductCellSubject = PublishSubject<Void>()
     
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
@@ -186,6 +189,7 @@ private extension HomeCellViewModel {
         let cellVMs = products.products.map { product -> ProductCellViewModel in
             let vm = ProductCellViewModel(product: ProductDTO(product: product), grocery: self.grocery)
             vm.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: self.disposeBag)
+            refreshProductCellSubject.asObservable().bind(to: vm.inputs.refreshDataObserver).disposed(by: disposeBag)
             return vm
         }
         

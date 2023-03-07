@@ -11,6 +11,7 @@ import RxDataSources
 
 protocol MainCategoriesViewModelInput {
     var scrollObserver: AnyObserver<IndexPath> { get }
+    var refreshProductCellObserver: AnyObserver<Void> { get }
 }
 
 protocol MainCategoriesViewModelOutput {
@@ -45,6 +46,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     
     // MARK: Inputs
     var scrollObserver: AnyObserver<IndexPath> { self.scrollSubject.asObserver() }
+    var refreshProductCellObserver: AnyObserver<Void> { refreshProductCellSubject.asObserver() }
     
     // MARK: outputs
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
@@ -68,6 +70,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var bannerTapSubject = PublishSubject<BannerDTO>()
     private var categoryTapSubject = PublishSubject<CategoryDTO>()
     private var reloadTableSubject = PublishSubject<Void>()
+    private var refreshProductCellSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -248,6 +251,8 @@ private extension MainCategoriesViewModel {
                 self.homeCellVMs = self.categories.map({
                     let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                     viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
+                    self.refreshProductCellSubject.bind(to: viewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
+                    
                     viewModel.outputs.isProductAvailable
                         .filter { !$0 }
                         .map { _ in () }
@@ -334,6 +339,7 @@ private extension MainCategoriesViewModel {
                     
                     homeCellViewModel.outputs.viewAll.map { _ in }.bind(to: self.viewAllProductOfRecentPurchaseSubject).disposed(by: self.disposeBag)
                     homeCellViewModel.outputs.basketUpdated.bind(to: self.refreshBasketSubject).disposed(by: self.disposeBag)
+                    self.refreshProductCellSubject.bind(to: homeCellViewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
                     
                     self.recentPurchasedVM.append(homeCellViewModel)
                 }
