@@ -777,7 +777,11 @@ class SDKManager: NSObject  {
         SendBirdManager().createNewUserAndDeActivateOld()
 
         ElGrocerUtility.sharedInstance.delay(1) {
+            
+            if SDKManager.shared.isInitialized {
             SegmentAnalyticsEngine.instance.reset() // delay added so config load sdk to avoid crash when access analytic shared instance// location sdkmanage , dispatch ... config ... segment need to init first before accesing shared intance
+            }
+          
             DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             
             //cancel all previously scheduled notifications

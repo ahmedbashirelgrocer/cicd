@@ -54,6 +54,7 @@ public final class ElGrocer {
                         SDKManager.shared.launchOptions = launchOptions
                         SDKManager.shared.startBasicThirdPartyInit()
                         manager.setHomeView()
+                        SDKManager.shared.launchCompletion?()
                     }
                 }
                 

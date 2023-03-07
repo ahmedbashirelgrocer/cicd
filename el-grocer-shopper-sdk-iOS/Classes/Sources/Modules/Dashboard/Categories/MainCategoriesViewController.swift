@@ -250,7 +250,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.setupClearNavBar()
         self.openOrdersView.setViewIn(addIn: self.tableViewCategories, bottomAlignView: self.view, topAlignView: self.basketIconOverlay ?? self.tableViewCategories)
         self.hidesBottomBarWhenPushed = true
-        
         tableViewCategories.separatorStyle = .none
     }
     

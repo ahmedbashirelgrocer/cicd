@@ -45,9 +45,11 @@ struct SDKLoginManager {
                     ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
                     FireBaseEventsLogger.trackSignIn()
                     SendBirdManager().createNewUserAndDeActivateOld()
+                    if SDKManager.shared.isInitialized {
+                        let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
+                    }
                     
-                    let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
                 }
                 completionHandler(isSuccess, errorMessage)
             }
