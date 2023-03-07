@@ -10,6 +10,11 @@ import UIKit
 
 class ElgorcerNoLocationViewController: UIViewController {
     
+    @IBOutlet weak var smileMarketLogoImg: UIImageView! {
+        didSet {
+            smileMarketLogoImg.image = ElGrocerUtility.sharedInstance.isArabicSelected() ? UIImage(name: "smiles market-colored-ar") : UIImage(name: "smiles market-colored-en")
+        }
+    }
     @IBOutlet weak var lblSorrytitle: UILabel! {
         didSet {
             lblSorrytitle.text = localizedString("screen_NoLocationSingleStore_title", comment: "")
