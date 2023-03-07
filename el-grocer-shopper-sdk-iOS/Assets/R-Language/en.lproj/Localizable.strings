@@ -2128,8 +2128,8 @@ Oreo";
 
 
 // MARK: - SingleStore Not Deliver screen
-"screen_NoLocationSingleStore_title" = "Sorry! We don’t deliver here yet";
-"screen_NoLocationSingleStore_detailMsg" = "Would you like to change your location?";
-"screen_NoLocationSingleStore_BtnTitle" = "Change location";
+"screen_NoLocationSingleStore_title" = "Ooops! We don’t deliver here yet";
+"screen_NoLocationSingleStore_detailMsg" = "But all good 🤗! You can still order groceries from other stores available on our marketplace!";
+"screen_NoLocationSingleStore_BtnTitle" = "Shop from other stores 👉";
 
 
