@@ -1550,12 +1550,12 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             if result {
                 
                 DatabaseHelper.sharedInstance.saveDatabase()
-                // IntercomeHelper.updateUserAddressInfoToIntercom()
-                // PushWooshTracking.updateUserAddressInfo()
                 
                 // Logging segment events for confirm address details and identify user
                 SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
                 SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                
+                ElGrocerUtility.sharedInstance.activeAddress = nil
                 
                 if self.editScreenState == .isFromCart {
                     if  self.navigationController?.viewControllers.count ?? 1 > 1 {
@@ -1578,6 +1578,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                     }
                     self.navigationController?.dismiss(animated: true) { }
                 }else{
+                    ElGrocerUtility.sharedInstance.activeGrocery = nil
                     self.navigationController?.popViewController(animated: true)
                 }
                

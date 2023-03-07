@@ -2133,3 +2133,35 @@ Oreo";
 "screen_NoLocationSingleStore_BtnTitle" = "Shop from other stores 👉";
 
 
+
+//MARK: - Login using OTP Updates
+"Allow Location Access" = "Allow Location Access";
+"This email is already registered in elGrocer." = "This email is already registered in Smiles.";
+"Your request has been successfully sent!" = "Your request has been successfully sent!";
+"stores_notify_text" = "Please, tell us about the store you’d like to receive the delivery from.";
+"SMS_Verifcation_Title" = "Please enter the code sent to your mobile number %@";
+"lbl_use_current_location" = "Use current location";
+"lbl_Manuall_Location" = "Search location";
+"lbl_setyourlocation" = "Set delivery location";
+"lbl_yourlocation" = "Your location";
+"btn_sendRequest" = "Send request";
+"lbl_StoreName" = "Store name and area";
+"enter_mobile_num_placeholder" = "Enter mobile number";
+"lbl_CreateAccount" = "Welcome to elGrocer!";
+"enter_phone_number" = "Let us confirm your phone number";
+"set_your_location" = "Set your location to\nstart ordering";
+"detect_current_location" = "Detect current location";
+"add_delivery_address" = "Add delivery address";
+"your_name*" = "Your name*";
+"email*" = "Email*";
+"email_optional" = "Email (Optional)";
+"building_name*" = "Building name*";
+"floor_(optional)" = "Floor (Optional)";
+"apartment/office/villa_number*" = "Apartment/Office/Villa number*";
+"confirm_address" = "Confirm address";
+"invalid_code_unfortunately_you_reached_the_daily_limit" = "Invalid code. Unfortunately, you reached the daily limit of code requests for that number. Please, try again within 24 h.";
+"Enter your name" = "Enter your name";
+"Please enter valid email id" = "Please enter valid email id";
+"Enter your building name" = "Enter your building name";
+"Enter your apartment/office/villa number" = "Enter your apartment/office/villa number";
+"search_manually_text" = "Search your location manually";

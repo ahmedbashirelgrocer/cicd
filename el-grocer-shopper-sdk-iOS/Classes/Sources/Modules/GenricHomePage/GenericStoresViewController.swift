@@ -542,7 +542,7 @@ class GenericStoresViewController: BasketBasicViewController {
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return
         }
-        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)){
+        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)) {
             self.selectStoreType = nil
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)

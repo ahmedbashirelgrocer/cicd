@@ -191,6 +191,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.refreshData()
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsDeliveryAddressScreen)
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.DashBoard.rawValue, screenClass: String(describing: self.classForCoder))
+        fetchLocations()
     }
     
     func checkLocation() {
@@ -1536,6 +1537,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                         }
                     }else {
                         if !SDKManager.isGrocerySingleStore { self.fetchGroceries() } else {
+                            
+                            ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
                             self.dismiss(animated: true)
 
 //                            ElGrocer.start(with: SDKManager.shared.launchOptions) {

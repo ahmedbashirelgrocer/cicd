@@ -200,6 +200,12 @@ struct LoginSignupService {
     
     static func setHomeView(from contextView: UIViewController) -> Void {
         
+        guard !SDKManager.isSmileSDK else {
+            contextView.navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
         
         let appDelegate = SDKManager.shared

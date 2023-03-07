@@ -2170,3 +2170,36 @@
 
 // MARK: addlocation
 "add_delivery_address" = "ناﻮﻨﻋ ﻒﺿا";
+
+// Login using OTP Updates
+"Allow Location Access" = "السماح بالدخول إلى الموقع";
+"This email is already registered in elGrocer." = "هذا البريد الإلكتروني مسجل بالفعل في Smiles.";
+"Your request has been successfully sent!" = "تم ارسال طلبك بنجاح!";
+"stores_notify_text" = "من فضلك ، أخبرنا عن المتجر الذي ترغب في الطلب منه.";
+"SMS_Verifcation_Title" = "الرجاء إدخال رمز التحقق المرسل إلى رقم هاتفك المحمول %@";
+"lbl_use_current_location" = "تحديد موقعي الحالي";
+"lbl_Manuall_Location" = "البحث عن عنوان";
+"lbl_setyourlocation" = "تحديد عنوان التوصيل";
+"lbl_yourlocation" = "الموقع الحالي";
+"btn_sendRequest" = " إضافة المتجر";
+"lbl_StoreName" = "اسم المتجر و المنطقة";
+"enter_mobile_num_placeholder" = "أدخل رقم هاتفك الخليوي";
+"lbl_CreateAccount" = "مرحباً بك في الجروسر";
+"enter_phone_number" = "دعنا نؤكد رقم هاتفك";
+"set_your_location" = "حدد موقعك وابدأ التسوق";
+"detect_current_location" = " تحديد موقعي الحالي ";
+"add_delivery_address" = "ناﻮﻨﻋ ﻒﺿا";
+"your_name*" = "ﻢﺳﺈﻟا*";
+
+"email*" = "البريد الإلكتروني*";
+"email_optional" = "البريد الإلكتروني (غير إلزامي)";
+"building_name*" = "ﻰﻨﺒﻤﻟا*";
+"floor_(optional)" = "الطابق (غير إلزامي)";
+"apartment/office/villa_number*" = "رقم الشقه/ المكتب/الفيلا*";
+"confirm_address" = "ناﻮﻨﻌﻟا ﻒﺿا";
+"invalid_code_unfortunately_you_reached_the_daily_limit" = "الرمز غير صحيح. للأسف ، لقد وصلت إلى الحد اليومي لطلبات الرمز لهذا الرقم. من فضلك ، حاول مرة أخرى في غضون 24 ساعة.";
+"Enter your name" = "الرجاء إدخال الاسم";
+"Please enter valid email id" = "الرجاء إدخال البريد الإلكتروني الصحيح";
+"Enter your building name" = "الرجاء إدخال اسم المبني";
+"Enter your apartment/office/villa number" = "الرجاء إدخال رقم الشقه/ المكتب/الفيلا";
+"search_manually_text" = "Search your location manually";

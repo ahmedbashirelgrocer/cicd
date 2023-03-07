@@ -1688,7 +1688,7 @@ extension UIView {
         gradient.locations = [0.0 , 1.0]
         gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradient.endPoint = CGPoint(x: 1, y: 0.25)
-        gradient.frame = CGRect(x: 0.0, y: 10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
+        gradient.frame = CGRect(x: 0.0, y: -10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
         return gradient
     }
 }

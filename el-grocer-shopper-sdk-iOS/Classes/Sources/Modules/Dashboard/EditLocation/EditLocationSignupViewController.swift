@@ -174,10 +174,16 @@ fileprivate extension EditLocationSignupViewController {
             guard let self = self else { return }
             SpinnerView.hideSpinnerView()
             if code == 200 {
+               
+                _ = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 // Logging segment Confrim Address Details event
                 SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
                 SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                
+            
+                
+                
                 
                 if self.flowOrientation == .basketNav {
                     LoginSignupService.goToBasketView(from: self)
@@ -258,6 +264,8 @@ fileprivate extension EditLocationSignupViewController {
             guard let self = self else { return }
             SpinnerView.hideSpinnerView()
             if code == 200 {
+                
+                _ = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 // Logging segment Confrim Address Details event
                 SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
