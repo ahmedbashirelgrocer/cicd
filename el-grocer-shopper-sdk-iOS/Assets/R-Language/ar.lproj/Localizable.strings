@@ -240,6 +240,7 @@
 
     // Search
 "search_placeholder" = "بحث";
+"universal_search_clear_history_popup_text" = "هل تريد مسح سجل البحث الخاص بك؟";
 
     // Dashboard
 "dashboard_location_button" = "عنوان التسليم";

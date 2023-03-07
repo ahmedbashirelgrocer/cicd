@@ -214,6 +214,7 @@
 
 // Search
 "search_placeholder" = "Search";
+"universal_search_clear_history_popup_text" = "Do you want to clear your search history?";
 
 // Dashboard
 "dashboard_location_button" = "Delivery Address";
