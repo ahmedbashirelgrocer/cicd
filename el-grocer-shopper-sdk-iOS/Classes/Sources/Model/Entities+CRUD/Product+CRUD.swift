@@ -841,10 +841,12 @@ extension Product {
             product.isSponsored =  0  //product.isSponsored != nil ?  product.isSponsored :
         }*/
         
+        
+         product.isSponsored = false
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
            // elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
-            if let promoted = _rankingInfo["promoted"] as? Bool {
-                if promoted {
+            if let promoted = _rankingInfo["promoted"] as? Bool , let promotedByReRanking = _rankingInfo["promotedByReRanking"] as?  Bool {
+                if !promotedByReRanking && promoted {
                     product.isSponsored = NSNumber(booleanLiteral: promoted)
                 }
             }
@@ -1076,16 +1078,17 @@ extension Product {
             product.isSponsored =  0  // product.isSponsored != nil ?  product.isSponsored :
         }
         */
-        product.isPromotion = 0
+        product.isSponsored = false
+       
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
             //elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
-            if let promoted = _rankingInfo["promoted"] as? Bool {
-                if promoted {
+            if let promoted = _rankingInfo["promoted"] as? Bool , let promotedByReRanking = _rankingInfo["promotedByReRanking"] as?  Bool {
+                if !promotedByReRanking && promoted {
                     product.isSponsored = NSNumber(booleanLiteral: promoted)
                 }
             }
         }
-        
+        product.isPromotion = false
         if let isPromotion = productDict["is_promotion"] as? NSNumber {
             product.isPromotion = isPromotion
         }else if let isPromotion = productDict["is_p"] as? NSNumber {

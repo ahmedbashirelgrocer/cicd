@@ -1101,7 +1101,7 @@ class ProductCell : RxUICollectionViewCell {
             }
         }
         
-        guard let product = self.viewModel.outputs.productDB else { return }
+        guard let product = self.viewModel == nil ? self.product : self.viewModel.outputs.productDB else { return }
         
         let popupViewController = PopImageViwerViewController(nibName: "PopImageViwerViewController", bundle: Bundle.resource)
         popupViewController.view.frame = UIScreen.main.bounds

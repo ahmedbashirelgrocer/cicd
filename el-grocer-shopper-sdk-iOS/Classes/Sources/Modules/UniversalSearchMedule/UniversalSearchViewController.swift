@@ -714,6 +714,10 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             let tablecell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tablecell.cellConfigureWith(obj)
             tablecell.clearButtonClicked = { [weak self] in
+                
+                //show pop
+                //user confitmation following step
+                
                 self?.dataSource?.clearSearchHistory()
                 UserDefaults.clearUserSearchData()
             }
