@@ -714,12 +714,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             let tablecell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tablecell.cellConfigureWith(obj)
             tablecell.clearButtonClicked = { [weak self] in
-                
-                //show pop
-                //user confitmation following step
-                
-                self?.dataSource?.clearSearchHistory()
-                UserDefaults.clearUserSearchData()
+                self?.showClearHistoryPopup()
             }
             return tablecell
         }else{
@@ -770,7 +765,19 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     }
     
     
-   
+    private func showClearHistoryPopup() {
+        ElGrocerAlertView.createAlert(
+            localizedString("Search_Title", comment: ""),
+            description: localizedString("universal_search_clear_history_popup_text", comment: ""),
+            positiveButton: localizedString("promo_code_alert_no", comment: ""),
+            negativeButton: localizedString("clear_button_title", comment: ""),
+            buttonClickCallback: { (buttonIndex:Int) -> Void in
+                if buttonIndex == 1 {
+                    self.dataSource?.clearSearchHistory()
+                    UserDefaults.clearUserSearchData()
+                }
+        }).show()
+    }
 }
 
 // MARK:- UICollectionViewDataSourceDelegate Extension
