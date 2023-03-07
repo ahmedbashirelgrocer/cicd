@@ -10,11 +10,18 @@ import UIKit
 import STPopup
 
 
+enum ElgrocerStoreHeaderDismissType {
+    case dismisSDK
+    case dismisVC
+    case popVc
+}
+
 class ElgrocerStoreHeader:  UIView  {
     
     let headerMaxHeight: CGFloat = 104
     let headerMinHeight: CGFloat = 88
     
+    private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
     
     @IBOutlet weak var elgrocerLogoImgView: UIImageView! {
         
@@ -103,7 +110,17 @@ class ElgrocerStoreHeader:  UIView  {
     
  
     @objc func btnBackPressed() {
-        SDKManager.shared.rootViewController?.dismiss(animated: true)
+        
+        switch self.dimisType {
+        case .dismisVC:
+            UIApplication.topViewController()?.dismiss(animated: true)
+        case .dismisSDK:
+            SDKManager.shared.rootContext?.dismiss(animated: true)
+        case .popVc:
+            UIApplication.topViewController()?.navigationController?.popViewController(animated: true)
+        }
+        
+        
     }
     @objc func profileBTNClicked() {
         
@@ -114,6 +131,18 @@ class ElgrocerStoreHeader:  UIView  {
         }
     }
     
+    func setDismisType(_ type: ElgrocerStoreHeaderDismissType) {
+        self.dimisType = type
+        
+        switch self.dimisType {
+        case .dismisVC:
+            self.btnMenu.isHidden = true
+        case .dismisSDK:
+            self.btnMenu.isHidden = false
+        case .popVc:
+            self.btnMenu.isHidden = true
+        }
+    }
     
     
     var currentSelectedSlot : DeliverySlot?

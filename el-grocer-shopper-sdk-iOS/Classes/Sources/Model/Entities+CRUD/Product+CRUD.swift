@@ -898,7 +898,7 @@ extension Product {
             if subCatDictA.count > 0 {
                 if let subCatDict = subCatDictA.first {
                     product.subcategoryId = subCatDict["id"] as? NSNumber ?? -1
-                    product.subcategoryName = subCatDict["name"] as? String
+                    product.subcategoryName = subCatDict["name_ar"] as? String
                     product.subcategoryNameEn = subCatDict["name"] as? String
                    
                 }
@@ -913,7 +913,7 @@ extension Product {
         if let categories = productDict["categories"] as? [NSDictionary] {
             
             if let subcategory = categories.first?["children"] as? NSDictionary {
-                product.subcategoryName = subcategory["name"] as? String
+                product.subcategoryName = subcategory["name_ar"] as? String
                 product.subcategoryNameEn = subcategory["name"] as? String
                 product.subcategoryId = subcategory["id"] as! NSNumber
             }

@@ -7,7 +7,7 @@
 		<key>segmentSDKWriteKey</key>
 		<string>cSnpTPUfDsW8zvEiA1AslFPegtWjNIlo</string>
 		<key>backendUrl</key>
-		<string>https://api.elgrocer.com/api/</string>
+		<string>https://elgrocer-admin-br-single-store.herokuapp.com/api</string>
 	</dict>
 	<key>Debug</key>
 	<dict>

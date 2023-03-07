@@ -363,8 +363,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     func setNavigationApearance(_ viewdidAppear : Bool = false) {
         
-        
         self.hideTabBar()
+        
         let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
         if !isSingleStore {
             
@@ -392,6 +392,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             controller.setNavBarHidden(isSingleStore)
             controller.setupGradient()
         }
+        
         if let commingContrller = UIApplication.topViewController() {
             if commingContrller is GroceryLoaderViewController || String(describing: commingContrller.classForCoder) == "STPopupContainerViewController" || viewdidAppear {
                 return

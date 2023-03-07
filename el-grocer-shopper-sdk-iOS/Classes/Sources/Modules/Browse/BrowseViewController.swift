@@ -52,6 +52,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
         let locationHeader = ElgrocerStoreHeader.loadFromNib()
         locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        locationHeader?.setDismisType(.popVc)
         return locationHeader!
     }()
     
@@ -131,6 +132,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.registerCellsForTableView()
+        self.setupClearNavBar()
         DispatchQueue.main.async {
             self.setData()
         }
@@ -268,16 +270,29 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         
         super.viewWillAppear(animated)
         self.navigationItem.backBarButtonItem = nil
-        self.addBackButton(isGreen: false)
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
-         self.navigationItem.hidesBackButton = true;
+       
+        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
+        
+        if !isSingleStore {
+            
+            self.addBackButton(isGreen: false)
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
+             self.navigationItem.hidesBackButton = true;
+        }
+   
+        if let controller = self.navigationController as? ElGrocerNavigationController {
+            controller.setNavBarHidden(isSingleStore)
+            controller.setupGradient()
+        }
+        
+        
         self.setTableViewHeader(ElGrocerUtility.sharedInstance.activeGrocery)
         
         self.refreshBasketIconStatus()
