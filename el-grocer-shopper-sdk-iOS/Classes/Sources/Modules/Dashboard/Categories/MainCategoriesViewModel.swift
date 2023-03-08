@@ -26,6 +26,7 @@ protocol MainCategoriesViewModelOutput {
     var bannerTap: Observable<BannerDTO> { get }
     var reloadTable: Observable<Void> { get }
     var refreshBasket: Observable<Void> { get }
+    var showEmptyView: Observable<Void> { get }
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
 }
@@ -58,6 +59,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     var categoryTap: Observable<CategoryDTO> { categoryTapSubject.asObservable() }
     var reloadTable: Observable<Void> { reloadTableSubject.asObservable() }
+    var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -71,6 +73,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var categoryTapSubject = PublishSubject<CategoryDTO>()
     private var reloadTableSubject = PublishSubject<Void>()
     private var refreshProductCellSubject = PublishSubject<Void>()
+    private var showEmptyViewSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -105,40 +108,43 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
-            if self.location1BannerVMs.isNotEmpty {
-                self.viewModels.append(SectionModel(model: 0, items: self.location1BannerVMs))
-            }
-            
-            self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
-            
-            if self.recentPurchasedVM.isNotEmpty {
-                self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
-            }
-            
-            var result: [ReusableTableViewCellViewModelType] = []
-            for index in 0...self.homeCellVMs.count - 1 {
-                result.append(self.homeCellVMs[index])
+            //
+            if self.homeCellVMs.isNotEmpty {
                 
-                if let bannerVM = self.location2BannerVMs.first {
-                    if self.recentPurchasedVM.isEmpty {
-                        if index == 2 {
-                            result.append(bannerVM)
-                        }
-                    } else {
-                        if index == 1 {
-                            result.append(bannerVM)
-                        }
-                    }
+                if self.location1BannerVMs.isNotEmpty {
+                    self.viewModels.append(SectionModel(model: 0, items: self.location1BannerVMs))
                 }
                 
+                self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
+                
+                if self.recentPurchasedVM.isNotEmpty {
+                    self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
+                }
+                
+                var result: [ReusableTableViewCellViewModelType] = []
+                for index in 0...self.homeCellVMs.count - 1 {
+                    result.append(self.homeCellVMs[index])
+                    
+                    if let bannerVM = self.location2BannerVMs.first {
+                        if self.recentPurchasedVM.isEmpty {
+                            if index == 2 {
+                                result.append(bannerVM)
+                            }
+                        } else {
+                            if index == 1 {
+                                result.append(bannerVM)
+                            }
+                        }
+                    }
+                    
+                }
+                
+                self.viewModels.append(SectionModel(model: 4, items: result))
+                self.cellViewModelsSubject.onNext(self.viewModels)
+            } else {
+                self.showEmptyViewSubject.onNext(())
             }
             
-            self.viewModels.append(SectionModel(model: 4, items: result))
-//            self.viewModels.append(SectionModel(model: 4, items: self.homeCellVMs))
-            
-            
-            
-            self.cellViewModelsSubject.onNext(self.viewModels)
             self.loadingSubject.onNext(false)
         }
         

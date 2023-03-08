@@ -108,7 +108,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var recipelist : [Recipe] = []
     var chefList : [CHEF] = []
     func noDataButtonDelegateClick(_ state: actionState) {
-        self.tabBarController?.selectedIndex = 0
+        if SDKManager.isGrocerySingleStore {
+            self.dismiss(animated: true)
+        } else {
+            self.tabBarController?.selectedIndex = 0
+        }
     }
     lazy var locationHeader : ElgrocerlocationView = {
         let locationHeader = ElgrocerlocationView.loadFromNib()
@@ -1577,6 +1581,12 @@ private extension MainCategoriesViewController {
             }
         }).disposed(by: disposeBag)
         
+        self.viewModel.outputs.showEmptyView.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            self.showNoDataView()
+        }).disposed(by: disposeBag)
+        
         // binding loader
         self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
@@ -1607,6 +1617,21 @@ private extension MainCategoriesViewController {
             bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: ElGrocerUtility.sharedInstance.groceries)
             MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
             break
+        }
+    }
+    
+    private func showNoDataView() {
+        self.tableViewCategories.backgroundView = self.NoDataView
+        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        self.title = localizedString("Store_Title", comment: "")
+        
+        if SDKManager.isGrocerySingleStore {
+            self.locationHeaderFlavor.visibility = .gone
+        } else {
+            self.locationHeader.visibility = .gone
         }
     }
 }
