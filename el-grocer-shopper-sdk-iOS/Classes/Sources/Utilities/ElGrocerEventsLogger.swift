@@ -716,7 +716,7 @@ extension  ElGrocerEventsLogger   {
             paymentstr = "SmilesPoints"
         }
         
-        CleverTapEventsLogger.shared.cleverTapApp?.recordChargedEvent(withDetails: ["Amount" : priceSum , "PaymentMode" : paymentstr , "ChargedID" : finalOrder.dbID.stringValue, "IsSmiles": IsSmiles, "IsWallet": isWallet ], andItems: cleverTap)
+//        CleverTapEventsLogger.shared.cleverTapApp?.recordChargedEvent(withDetails: ["Amount" : priceSum , "PaymentMode" : paymentstr , "ChargedID" : finalOrder.dbID.stringValue, "IsSmiles": IsSmiles, "IsWallet": isWallet ], andItems: cleverTap)
 
     }
     

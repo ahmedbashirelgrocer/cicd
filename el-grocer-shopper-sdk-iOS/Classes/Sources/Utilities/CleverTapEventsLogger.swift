@@ -96,19 +96,19 @@ extension CleverTapEventsLogger {
             FireBaseParmName.UserFrom.rawValue : SDKManager.isSmileSDK,
             "foodSubscription" : SmilesNetworkManager.sharedInstance().smileUser?.foodSubscriptionStatus ?? false
         ]
-        CleverTapEventsLogger.shared.cleverTapApp?.onUserLogin(profile)
-        if StoreIDs.count > 0{
-            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(StoreIDs, forKey: "StoreIDs")
-        }
-        if ParentIDs.count > 0 {
-            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(ParentIDs, forKey: "ParentIDs")
-        }
-        if ZoneIDs.count > 0 {
-            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(ZoneIDs, forKey: "ZoneIDs")
-        }
-        if retailerGroup_Ids.count > 0 {
-            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(retailerGroup_Ids, forKey: "retailerGroupIDs")
-        }
+//        CleverTapEventsLogger.shared.cleverTapApp?.onUserLogin(profile)
+//        if StoreIDs.count > 0{
+//            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(StoreIDs, forKey: "StoreIDs")
+//        }
+//        if ParentIDs.count > 0 {
+//            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(ParentIDs, forKey: "ParentIDs")
+//        }
+//        if ZoneIDs.count > 0 {
+//            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(ZoneIDs, forKey: "ZoneIDs")
+//        }
+//        if retailerGroup_Ids.count > 0 {
+//            CleverTapEventsLogger.shared.cleverTapApp?.profileAddMultiValues(retailerGroup_Ids, forKey: "retailerGroupIDs")
+//        }
         
         
         
@@ -119,13 +119,13 @@ extension CleverTapEventsLogger {
     class func setUserLocationName (_ locationName : String) {
         let profile: Dictionary<String, Any> = [
             "Location": locationName ]
-        CleverTapEventsLogger.shared.cleverTapApp?.profilePush(profile)
+//        CleverTapEventsLogger.shared.cleverTapApp?.profilePush(profile)
        
     }
     
     
     class func pushMoreProfileData (_ data : Dictionary<String, Any>) {
-        CleverTapEventsLogger.shared.cleverTapApp?.profilePush(data)
+//        CleverTapEventsLogger.shared.cleverTapApp?.profilePush(data)
     }
     
     class func setUserLocationCoardinatedName (_ coordinate : CLLocationCoordinate2D ) {
@@ -135,7 +135,7 @@ extension CleverTapEventsLogger {
     
  
     class func setUserlocation (_ location : CLLocationCoordinate2D) {
-       CleverTapEventsLogger.shared.cleverTapApp?.setLocation(location)
+//       CleverTapEventsLogger.shared.cleverTapApp?.setLocation(location)
     }
 
     class func appLaunch (_ name : String) {
