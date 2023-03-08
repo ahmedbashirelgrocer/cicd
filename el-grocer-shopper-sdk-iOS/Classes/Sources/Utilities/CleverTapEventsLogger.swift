@@ -47,18 +47,18 @@ class CleverTapEventsLogger  {
     class func recordEvent(_ name : String , properties : [AnyHashable : Any]?) {
         
 
-        if let dataToSend = properties {
-            CleverTapEventsLogger.shared.cleverTapApp?.recordEvent(name, withProps: dataToSend)
-        }else{
-            CleverTapEventsLogger.shared.cleverTapApp?.recordEvent(name)
-        }
+//        if let dataToSend = properties {
+//            CleverTapEventsLogger.shared.cleverTapApp?.recordEvent(name, withProps: dataToSend)
+//        }else{
+//            CleverTapEventsLogger.shared.cleverTapApp?.recordEvent(name)
+//        }
         
         
         
        // elDebugPrint("*CleverTap Logs*  *EventName *: \(name)   * properties *: \(String(describing: properties))  *****")
     }
     class func recordScreenName(_ name : String) {
-        CleverTapEventsLogger.shared.cleverTapApp?.recordScreenView(name)
+//        CleverTapEventsLogger.shared.cleverTapApp?.recordScreenView(name)
     }
     
 }
