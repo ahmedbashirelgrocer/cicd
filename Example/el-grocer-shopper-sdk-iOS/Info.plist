@@ -76,7 +76,7 @@
 	<key>CleverTapToken</key>
 	<string>136-5a6</string>
 	<key>CleverTapUseIFA</key>
-	<true/>
+	<false/>
 	<key>Configuration</key>
 	<string>$(CONFIGURATION)</string>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>

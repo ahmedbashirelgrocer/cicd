@@ -141,7 +141,7 @@ Pod::Spec.new do |s|
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
-  s.dependency 'CleverTap-iOS-SDK', '~> 4.0.1'
+  s.dependency 'CleverTap-iOS-SDK'
   s.dependency 'Storyly', '~> 1.19.3'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
   s.dependency 'FXPageControl', '~> 1.5'
@@ -197,6 +197,5 @@ Pod::Spec.new do |s|
 
   # Segment analytics dependency
   s.dependency 'Analytics', '~> 4.1'
-
-
+  s.dependency 'Segment-CleverTap'
 end

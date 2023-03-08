@@ -26,6 +26,7 @@ import SendBirdUIKit
 import SwiftDate
 import Adyen
 import Segment
+import Segment_CleverTap
 // import FirebaseDynamicLinks
 // import FirebaseAuth
 // import FirebaseMessaging
@@ -440,7 +441,7 @@ class SDKManager: NSObject  {
         
         let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
         
-        configuration.trackApplicationLifecycleEvents = true
+        configuration.use(SEGCleverTapIntegrationFactory())
         configuration.flushAt = 3
         configuration.flushInterval = 10
         
