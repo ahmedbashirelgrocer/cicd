@@ -317,20 +317,8 @@ class SDKManager: NSObject  {
     
     
     // MARK: Methods
-    func initializeExternalServices() { //_ application: UIApplication, didFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?) {
+    func initializeExternalServices() {
         
-        
-        //crashlitics
-        #if DEBUG
-        /*Fabric.sharedSDK().debug = true
-<<<<<<< HEAD
-         Crashlytics.sharedInstance().delegate = self
-         Fabric.with([Crashlytics.self(), MoPub.self()])
-         Fabric.with([Crashlytics.self(), Answers.self()])*/
-        #else
-//        Fabric.with([Crashlytics.self(), MoPub.self()])
-//        Fabric.with([Crashlytics.self(), Answers.self()])
-        #endif
         
         //MARK: swizzling view will appear call for screen name event logging
         UIViewController.swizzleViewDidAppear()
@@ -347,9 +335,9 @@ class SDKManager: NSObject  {
         // Intercom.setApiKey(IntercomeHelper.apiKey, forAppId: IntercomeHelper.appId)
         
         // Marketing
-        self.initiliazeMarketingCampaignTrackingServices()
+       // self.initiliazeMarketingCampaignTrackingServices()
         //MARK: Mispanel Initialization
-        MixpanelManager.configMixpanel()
+       // MixpanelManager.configMixpanel() // with segment implementation we dont need mixpanel
     
         //MARK: sendBird
 
@@ -445,7 +433,8 @@ class SDKManager: NSObject  {
         configuration.flushAt = 3
         configuration.flushInterval = 10
         
-        Analytics.setup(with: configuration)
+        Segment.Analytics.setup(with: configuration)
+    
     }
     
     fileprivate func smileSDKFireBaseSetting() {
