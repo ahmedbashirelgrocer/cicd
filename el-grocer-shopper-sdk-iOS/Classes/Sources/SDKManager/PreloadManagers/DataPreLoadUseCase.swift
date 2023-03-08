@@ -53,6 +53,13 @@ class PreLoadData {
             // Data already loaded return
             self.updateLocationIfNeeded() {
                 self.completion?()
+                
+                // Logging segment identify event every time user launch our Single Store
+                if SDKManager.shared.isInitialized {
+                    if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                    }
+                }
             }
             return
         }

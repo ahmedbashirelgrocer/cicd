@@ -117,7 +117,9 @@ struct SDKLoginManager {
                     completionHandler(true, "")
                     
                     // Logging segment event for user signed in
-                    SegmentAnalyticsEngine.instance.logEvent(event: UserSignedInEvent())
+                    if SDKManager.shared.isInitialized {
+                        SegmentAnalyticsEngine.instance.logEvent(event: UserSignedInEvent())
+                    }
                 }
     
             } else {

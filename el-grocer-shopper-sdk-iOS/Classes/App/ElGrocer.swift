@@ -57,6 +57,13 @@ public final class ElGrocer {
                         LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: SDKManager.shared.launchOptions?.language ?? "Base", SDKManagers: SDKManager.shared)
                         manager.setHomeView()
                         SDKManager.shared.launchCompletion?()
+                        
+                        // Logging segment identify event for every time user launch our SDK
+                        if SDKManager.shared.isInitialized {
+                            if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                            }
+                        }
                     }
                 }
                 
