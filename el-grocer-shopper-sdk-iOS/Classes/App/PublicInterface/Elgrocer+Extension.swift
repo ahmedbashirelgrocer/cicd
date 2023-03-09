@@ -72,19 +72,40 @@ public extension ElGrocer {
     
     static func start(with launchOptions: LaunchOptions?) {
         guard let launchOptions = launchOptions else {
-            //ElGrocer.startEngine(with: nil)
             return
         }
-        SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
-        SDKManager.shared.launchOptions = launchOptions
-        if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
-            ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
-        } else if launchOptions.marketType == .grocerySingleStore {
+        
+        func startFlavorStore(_ launchOptions: LaunchOptions ) {
+            SDKManager.shared.launchOptions = launchOptions
             FlavorAgent.startFlavorEngine(launchOptions) {
                 debugPrint("startAnimation")
             } completion: { isCompleted in
                 debugPrint("Animation Completed")
             }
+        }
+      
+        SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
+        
+        
+        if var dUrl = URL(string: launchOptions.deepLinkPayload ?? ""), (launchOptions.deepLinkPayload?.count ?? 0) > 0 {
+            if let encoded = launchOptions.deepLinkPayload?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
+                let finalUrl = URL(string: encoded) {
+                dUrl = finalUrl
+                    let component =  URLComponents(string: finalUrl.valueOf("link") ?? "")
+                    if component?.path.contains("market_type_id=1") ?? false {
+                                    var updatedLaunchOption = launchOptions
+                                    updatedLaunchOption.marketType = .grocerySingleStore
+                                    startFlavorStore(updatedLaunchOption)
+                        return
+                    }
+            }
+        }
+        
+        if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
+            SDKManager.shared.launchOptions = launchOptions
+            ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
+        } else if launchOptions.marketType == .grocerySingleStore {
+            startFlavorStore(launchOptions)
         } else {
             ElGrocer.startEngine(with: launchOptions)
         }

@@ -20,9 +20,8 @@ enum SendBirdDeskType {
 
 class SendBirdDeskManager{
 
-    //let APP_ID = "F061BADA-1171-4478-8CFB-CBACC012301C"
-    lazy var KSingleGroceryStore: String = "ShopperAppMarketPlace"
-    lazy var KSmileMarketPlace: String = "SmilesMarketPlace"
+    lazy var KSingleGroceryStore: String = "Smiles_Market"
+    lazy var KSmileMarketPlace: String = "Smiles_MarketPlace"
     let shoperPrefix = "s_"
     let OrderUrlPrefix = "Order: "
     let SupportUrlPrefix = "Support: "

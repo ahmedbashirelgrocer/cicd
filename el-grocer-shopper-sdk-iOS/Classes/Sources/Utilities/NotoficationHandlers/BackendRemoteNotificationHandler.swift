@@ -472,8 +472,9 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                         }
                         if dataA.count > 0 {
                             ElGrocerUtility.sharedInstance.activeGrocery = dataA[0]
-                            let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-                            orderConfirmationController.orderDict = ["id" : orderID]
+                            
+                            let viewModel = OrderConfirmationViewModel(orderId: "\(orderID)")
+                            let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
                             orderConfirmationController.isNeedToRemoveActiveBasket = false
                             let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                             navigationController.hideSeparationLine()
@@ -485,7 +486,6 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                             if let topVC = UIApplication.topViewController() {
                                 topVC.navigationController?.present(navigationController, animated: false)
                             }
-                            
                             
                         }else{
                             SpinnerView.hideSpinnerView()

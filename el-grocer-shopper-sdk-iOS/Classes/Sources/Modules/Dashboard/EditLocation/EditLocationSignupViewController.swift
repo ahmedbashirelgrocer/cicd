@@ -298,14 +298,10 @@ fileprivate extension EditLocationSignupViewController {
                                 let _ = SpinnerView.showSpinnerViewInView(self.view)
                             } completion: { isCompleted, grocery in
                                 SpinnerView.hideSpinnerView()
-                                if grocery == nil {
-                                    SDKManager.shared.rootContext?.dismiss(animated: true)
-                                } else {
-                                    self.navigationController?.popViewController(animated: true)
-                                }
+                                self.navigationController?.popViewController(animated: false)
                             }
                         }else {
-                            LoginSignupService.setHomeView(from: self)
+                            self.navigationController?.popViewController(animated: false)
                         }
                         
                         

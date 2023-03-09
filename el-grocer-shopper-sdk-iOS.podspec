@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.4.7'
+  s.version          = '1.4.8'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -105,9 +105,6 @@ Pod::Spec.new do |s|
   #s.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => 'el-grocer-shopper-sdk-iOS/Bridging-Header.h' }
   
   s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'AdSupport', 'AppTrackingTransparency', 'SystemConfiguration'
-  
- # s.dependency 'AFNetworking' , '~> 4.0'
-  
   s.dependency 'MSPeekCollectionViewDelegateImplementation', '~> 3.2.0'
  
   #s.dependency 'FlagPhoneNumber', '~> 0.7.6'
@@ -141,7 +138,7 @@ Pod::Spec.new do |s|
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
-  s.dependency 'CleverTap-iOS-SDK'
+  
   s.dependency 'Storyly', '~> 1.19.3'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
   s.dependency 'FXPageControl', '~> 1.5'
@@ -191,11 +188,12 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-  s.dependency 'Mixpanel-swift', '~> 3.3.0'
   s.dependency 'lottie-ios', '~> 3.2.3'
 #s.dependency 'AppsFlyerFramework'
 
   # Segment analytics dependency
-  s.dependency 'Analytics', '~> 4.1'
-  s.dependency 'Segment-CleverTap'
+   s.dependency 'Mixpanel-swift'
+   s.dependency 'CleverTap-iOS-SDK'
+   s.dependency 'Analytics'
+   s.dependency 'Segment-CleverTap'
 end

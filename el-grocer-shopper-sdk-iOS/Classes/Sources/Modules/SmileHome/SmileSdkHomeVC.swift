@@ -29,6 +29,14 @@ class SmileSdkHomeVC: BasketBasicViewController {
         let searchHeader = GenericHomePageSearchHeader.loadFromNib()
         return searchHeader!
     }()
+    
+    private lazy var NoDataView : NoStoreView = {
+        let noStoreView = NoStoreView.loadFromNib()
+        noStoreView?.delegate = self
+        noStoreView?.configureNoStore()
+        return noStoreView!
+    }()
+    
     private (set) var header : SegmentHeader? = nil
    
     
@@ -261,6 +269,14 @@ class SmileSdkHomeVC: BasketBasicViewController {
     @objc
     func getOpenOrders() {
         
+        guard ElGrocerUtility.sharedInstance.appConfigData != nil else {
+            ElGrocerUtility.sharedInstance.delay(2) {
+                PreLoadData.shared.loadConfigData {}
+                self.getOpenOrders()
+            }
+            return
+        }
+        
         orderStatus.orderWorkItem  = DispatchWorkItem {
             self.orderStatus.getOpenOrders { (data) in
                 switch data {
@@ -311,15 +327,19 @@ class SmileSdkHomeVC: BasketBasicViewController {
             }
             return false
         }) {
-            let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-            orderConfirmationController.orderDict = availableDict
-            orderConfirmationController.isNeedToRemoveActiveBasket = false
-            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-            navigationController.hideSeparationLine()
-            navigationController.viewControllers = [orderConfirmationController]
-            orderConfirmationController.modalPresentationStyle = .fullScreen
-            navigationController.modalPresentationStyle = .fullScreen
-            self.navigationController?.present(navigationController, animated: true, completion: {  })
+            
+            if let orderIdString = availableDict["id"] as? NSNumber {
+                let viewModel = OrderConfirmationViewModel(orderId: orderIdString.stringValue)
+                let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
+                orderConfirmationController.isNeedToRemoveActiveBasket = false
+                let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                navigationController.hideSeparationLine()
+                navigationController.viewControllers = [orderConfirmationController]
+                orderConfirmationController.modalPresentationStyle = .fullScreen
+                navigationController.modalPresentationStyle = .fullScreen
+                self.navigationController?.present(navigationController, animated: true, completion: {  })
+            }
+ 
         }
         
     }
@@ -411,6 +431,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         if notZero && (!((oldLocation?.lat == address.latitude) && (oldLocation?.lng == address.longitude)) || lastFetchMin > 15) {
             // self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
+            self.homeDataHandler.delegate = self
             self.showDataLoaderIfRequiredForHomeHandler()
             
             if var launch = SDKManager.shared.launchOptions {
@@ -423,8 +444,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 }
             }
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
-            // self.homeDataHandler.resetHomeDataHandler()
+             //self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
+            self.homeDataHandler.delegate = self
         }
         else {
             self.tableView.reloadDataOnMain()
@@ -933,6 +955,10 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
                 // self.setFilterCount(self.filterdGrocerA)
             if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
                 FireBaseEventsLogger.trackStoreListingNoStores()
+                self.NoDataView.setNoDataForLocation ()
+                if self.tableView != nil {
+                    self.tableView.backgroundView = self.NoDataView
+                }
             }else {
                 FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
             }
@@ -1082,15 +1108,20 @@ extension SmileSdkHomeVC : UICollectionViewDelegate , UICollectionViewDataSource
             return
         }
         
-        let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-        orderConfirmationController.orderDict = order
-        orderConfirmationController.isNeedToRemoveActiveBasket = false
-        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navigationController.hideSeparationLine()
-        navigationController.viewControllers = [orderConfirmationController]
-       // orderConfirmationController.modalPresentationStyle = .fullScreen
-        navigationController.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(navigationController, animated: true, completion: {  })
+        
+        
+        if let orderIdString = order["id"] as? NSNumber {
+            let viewModel = OrderConfirmationViewModel(orderId: orderIdString.stringValue)
+            let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
+            orderConfirmationController.isNeedToRemoveActiveBasket = false
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [orderConfirmationController]
+            orderConfirmationController.modalPresentationStyle = .fullScreen
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: {  })
+        }
+  
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

@@ -195,15 +195,47 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func addLocationHeader() {
         
-        if SDKManager.isGrocerySingleStore {
-            self.view.addSubview(self.locationHeaderFlavor)
-            self.setLocationViewFlavorHeaderConstraints()
-        } else {
-            self.view.addSubview(self.locationHeader)
-            self.setLocationViewConstraints()
+        self.view.addSubview(self.locationHeaderFlavor)
+        self.setLocationViewFlavorHeaderConstraints()
+
+        self.view.addSubview(self.locationHeader)
+        self.setLocationViewConstraints()
+        
+    }
+    
+    private func adjustHeaderDisplay() {
+        
+        print("SDKManager.isGrocerySingleStore: \(SDKManager.isGrocerySingleStore)")
+
+        self.locationHeaderFlavor.isHidden = !SDKManager.isGrocerySingleStore
+        self.locationHeader.isHidden = SDKManager.isGrocerySingleStore
+        
+        let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+        if constraintA.count > 0 {
+            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+            let headerViewHeightConstraint = constraint
+            headerViewHeightConstraint.isActive  = SDKManager.isGrocerySingleStore
+        }else {
+            
+            if SDKManager.isGrocerySingleStore {
+                let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
+                NSLayoutConstraint.activate([heightConstraint])
+            }
+           
         }
         
-        
+        let locationHeaderConstraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+        if locationHeaderConstraintA.count > 0 {
+            let constraint = locationHeaderConstraintA.count > 1 ? locationHeaderConstraintA[1] : locationHeaderConstraintA[0]
+            let headerViewHeightConstraint = constraint
+            headerViewHeightConstraint.isActive  = !SDKManager.isGrocerySingleStore
+        } else {
+            if !SDKManager.isGrocerySingleStore {
+                let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
+                NSLayoutConstraint.activate([heightConstraint])
+            }
+        }
+        self.view.layoutIfNeeded()
     }
     
     private func setLocationViewConstraints() {
@@ -256,6 +288,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setNavigationApearance()
+        self.adjustHeaderDisplay()
         if UIApplication.topViewController() is GroceryLoaderViewController {
             self.isComingFromGroceryLoaderVc = true
         }
@@ -283,6 +316,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             }
         }
         self.setNavigationApearance(true)
+        self.adjustHeaderDisplay()
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.model = ListingViewModel.init(type: .FromStorePage , dataHandler: StoreFeedsHandler.init(.storePage, grocery: nil, delegate: self))
@@ -1025,12 +1059,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
             self.title = localizedString("Store_Title", comment: "")
-            self.locationHeader.visibility = .gone
+           // self.locationHeader.visibility = .gone
         }else{
             self.tableViewCategories.backgroundView = UIView()
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             self.tableViewCategories.reloadDataOnMain()
-            self.locationHeader.visibility = .visible
+           // self.locationHeader.visibility = SDKManager.isGrocerySingleStore ? .invisible : .visible
         }
         
 //        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
@@ -2106,6 +2140,8 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            self.title = title
         }
    
     }

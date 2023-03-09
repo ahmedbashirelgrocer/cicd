@@ -245,7 +245,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="USM-Ap-X4o">
-                                <rect key="frame" x="0.0" y="47" width="390" height="763"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="akD-sL-Ewo">
                                     <size key="itemSize" width="50" height="50"/>
@@ -268,7 +268,7 @@
                             <constraint firstItem="KR9-jv-ulx" firstAttribute="leading" secondItem="fye-hb-XJH" secondAttribute="leading" id="H1e-Ut-sDj"/>
                             <constraint firstAttribute="trailing" secondItem="KR9-jv-ulx" secondAttribute="trailing" id="K4w-RR-3mU"/>
                             <constraint firstItem="aM5-is-8rM" firstAttribute="leading" secondItem="fye-hb-XJH" secondAttribute="leading" id="Naw-lx-PxU"/>
-                            <constraint firstItem="EEF-5k-FsL" firstAttribute="top" secondItem="USM-Ap-X4o" secondAttribute="bottom" priority="999" id="PBR-SB-YC0"/>
+                            <constraint firstAttribute="bottom" secondItem="USM-Ap-X4o" secondAttribute="bottom" priority="999" id="PBR-SB-YC0"/>
                             <constraint firstAttribute="trailing" secondItem="USM-Ap-X4o" secondAttribute="trailing" id="S3X-Sz-fwJ"/>
                             <constraint firstAttribute="trailing" secondItem="aM5-is-8rM" secondAttribute="trailing" id="UZy-ZY-3M8"/>
                             <constraint firstItem="USM-Ap-X4o" firstAttribute="top" secondItem="VBp-1Y-rxR" secondAttribute="bottom" priority="999" id="YY9-zh-fVm"/>
@@ -745,7 +745,7 @@
         <!--Sub Categories View Controller-->
         <scene sceneID="l2D-In-786">
             <objects>
-                <viewController storyboardIdentifier="SubCategoriesVC" modalPresentationStyle="fullScreen" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kwk-rF-vNq" customClass="SubCategoriesViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SubCategoriesVC" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kwk-rF-vNq" customClass="SubCategoriesViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="awt-z5-ICW"/>
                         <viewControllerLayoutGuide type="bottom" id="tSk-3r-iTd"/>
@@ -755,7 +755,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-vu-LCC">
-                                <rect key="frame" x="0.0" y="47" width="390" height="763"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="aic-Jw-Uv7">
                                     <size key="itemSize" width="50" height="50"/>
@@ -774,11 +774,11 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="dI9-vu-LCC" secondAttribute="trailing" id="Jnf-uU-xMH"/>
                             <constraint firstItem="dI9-vu-LCC" firstAttribute="leading" secondItem="9Mn-YR-5Bs" secondAttribute="leading" id="a6N-Kx-imB"/>
-                            <constraint firstItem="tSk-3r-iTd" firstAttribute="top" secondItem="dI9-vu-LCC" secondAttribute="bottom" priority="999" id="gzo-12-Kiv"/>
+                            <constraint firstAttribute="bottom" secondItem="dI9-vu-LCC" secondAttribute="bottom" priority="999" id="gzo-12-Kiv"/>
                             <constraint firstItem="dI9-vu-LCC" firstAttribute="top" secondItem="awt-z5-ICW" secondAttribute="bottom" priority="999" id="t9P-ch-IIf"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="bY3-16-b4h"/>
                     <connections>
                         <outlet property="collectionView" destination="dI9-vu-LCC" id="S4f-7L-4Gw"/>
@@ -2322,7 +2322,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="eIG-1n-EkA"/>
+        <segue reference="5Za-RP-S4C"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Apartment" width="58" height="58"/>

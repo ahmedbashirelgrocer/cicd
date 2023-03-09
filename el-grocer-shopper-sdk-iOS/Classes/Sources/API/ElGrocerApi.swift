@@ -2833,8 +2833,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       
     func getGroceryDeliverySlotsWithGroceryId(_ groceryId:String?, andWithDeliveryZoneId  deliveryZoneId:String? , _ allSlotForCandC : Bool = true , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
-  setAccessToken()
+        setAccessToken()
   
+        guard groceryId != nil else {
+            completionHandler(Either.failure(ElGrocerError.genericError()))
+            return
+        }
+        
   let parameters = NSMutableDictionary()
   
   if let retailerId = groceryId {
@@ -2855,7 +2860,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   parameters["item_count"] = itemsCount
 
-    var url = ElGrocerApiEndpoint.DeliverySlots.rawValue
+    var url = ElGrocerApiEndpoint.fetchDeliverySlots.rawValue
     if !ElGrocerUtility.sharedInstance.isDeliveryMode {
         url = ElGrocerApiEndpoint.cAndcDeliverySlots.rawValue
         parameters["for_checkout"] = allSlotForCandC

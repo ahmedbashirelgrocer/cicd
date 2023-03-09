@@ -26,21 +26,6 @@ PODS:
   - Adyen/Encryption (4.7.3)
   - Adyen3DS2 (2.2.6)
   - AdyenNetworking (1.0.0)
-  - AFNetworking (3.2.1):
-    - AFNetworking/NSURLSession (= 3.2.1)
-    - AFNetworking/Reachability (= 3.2.1)
-    - AFNetworking/Security (= 3.2.1)
-    - AFNetworking/Serialization (= 3.2.1)
-    - AFNetworking/UIKit (= 3.2.1)
-  - AFNetworking/NSURLSession (3.2.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.2.1)
-  - AFNetworking/Security (3.2.1)
-  - AFNetworking/Serialization (3.2.1)
-  - AFNetworking/UIKit (3.2.1):
-    - AFNetworking/NSURLSession
   - AlgoliaSearchClient (8.14.0):
     - Logging
   - Analytics (4.1.6)
@@ -49,21 +34,21 @@ PODS:
   - BetterSegmentedControl (2.0.1)
   - CCValidator (1.2.0)
   - CHDropDownTextField (1.0.0)
-  - CleverTap-iOS-SDK (4.0.1):
+  - CleverTap-iOS-SDK (4.1.4):
     - SDWebImage (~> 5.1)
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.4.5):
+  - el-grocer-shopper-sdk-iOS (1.4.8):
     - Adyen (~> 4.7.3)
     - AlgoliaSearchClient (~> 8.0)
-    - Analytics (~> 4.1)
+    - Analytics
     - AnimatedGradientView (~> 3.1.0)
     - BadgeControl (~> 1.2.1)
     - BetterSegmentedControl (~> 2.0.1)
     - CCValidator (~> 1.2.0)
     - CHDropDownTextField (~> 1.0.0)
-    - CleverTap-iOS-SDK (~> 4.0.1)
+    - CleverTap-iOS-SDK
     - DisplaySwitcher (~> 2.0)
     - DoneCancelNumberPadToolbar (~> 0.6)
     - FBSDKCoreKit (~> 12.3.1)
@@ -86,7 +71,7 @@ PODS:
     - lottie-ios (~> 3.2.3)
     - MaterialComponents/ActivityIndicator (~> 124.2.0)
     - MaterialComponents/BottomSheet (~> 124.2.0)
-    - Mixpanel-swift (~> 3.3.0)
+    - Mixpanel-swift
     - MSPeekCollectionViewDelegateImplementation (~> 3.2.0)
     - NBBottomSheet (~> 1.2.0)
     - PinCodeTextField (~> 0.1.0)
@@ -94,6 +79,7 @@ PODS:
     - RxDataSources
     - RxSwift (~> 5.1.1)
     - SDWebImage (~> 5.12.3)
+    - Segment-CleverTap
     - SendBirdDesk (~> 1.0.17)
     - SendBirdUIKit (~> 2.1.16)
     - Shimmer (~> 1.0)
@@ -307,9 +293,9 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
   - MDFInternationalization (3.0.0)
-  - Mixpanel-swift (3.3.0):
-    - Mixpanel-swift/Complete (= 3.3.0)
-  - Mixpanel-swift/Complete (3.3.0)
+  - Mixpanel-swift (4.0.4):
+    - Mixpanel-swift/Complete (= 4.0.4)
+  - Mixpanel-swift/Complete (4.0.4)
   - MotionAnimator (4.0.1):
     - MotionInterchange (~> 3.0)
   - MotionInterchange (3.0.0)
@@ -335,6 +321,9 @@ PODS:
   - SDWebImage (5.12.5):
     - SDWebImage/Core (= 5.12.5)
   - SDWebImage/Core (5.12.5)
+  - Segment-CleverTap (1.2.4):
+    - Analytics
+    - CleverTap-iOS-SDK (= 4.1.4)
   - SendBirdDesk (1.0.17):
     - SendBirdSDK (~> 3.0.221)
   - SendBirdSDK (3.0.238)
@@ -350,7 +339,6 @@ PODS:
   - SwiftMessages/App (9.0.6)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.2.1)
   - el-grocer-shopper-sdk-iOS (from `../`)
   - FBSnapshotTestCase (~> 2.1.4)
   - IQKeyboardManagerSwift
@@ -360,7 +348,6 @@ SPEC REPOS:
     - Adyen
     - Adyen3DS2
     - AdyenNetworking
-    - AFNetworking
     - AlgoliaSearchClient
     - Analytics
     - AnimatedGradientView
@@ -420,6 +407,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SDWebImage
+    - Segment-CleverTap
     - SendBirdDesk
     - SendBirdSDK
     - SendBirdUIKit
@@ -438,7 +426,6 @@ SPEC CHECKSUMS:
   Adyen: 0c6a07071c872876641790f3a8bc77a2c735506a
   Adyen3DS2: e683a519946e99a78adec8d89459e6eec53b0a4f
   AdyenNetworking: 14567bd00c00ba2e2580a904708c7ba5f010b1f9
-  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
   Analytics: eefe524436f904b8bb3f8c8c3425280e43b34efc
   AnimatedGradientView: f249740238c6b491a10d505ab06bb98d897ca3a7
@@ -446,11 +433,11 @@ SPEC CHECKSUMS:
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
   CCValidator: 19c090b536c0152863795aa291bf7be3ffccf457
   CHDropDownTextField: d8a2843acbdd75b5b8d26b27dca9e07c2b1ae5e1
-  CleverTap-iOS-SDK: 8cec56be29a19ac4e96dcb0a465aedeb65635f1a
+  CleverTap-iOS-SDK: ec4a641fcec7255759252eb91ff3ee603bd5e5e3
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 64bb8ac4331fadfe0b47c9120e70ab49f96fbf82
+  el-grocer-shopper-sdk-iOS: fcd9b2bc4fca305b0bc677150d6cb83cabd4d9c3
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -486,7 +473,7 @@ SPEC CHECKSUMS:
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
-  Mixpanel-swift: 6ffe368bcfc3b538f540f31372bc798afd90c1ad
+  Mixpanel-swift: 95fa64d39f15141f1c5b7797003e2123d4c3207e
   MotionAnimator: 5f99d7c9592928c0f28a66283eda9c3b657dc480
   MotionInterchange: 13adae439b377e31d1674cc165539d50e1d1566a
   MSPeekCollectionViewDelegateImplementation: be35a217bd302976a9e4476151be992c1f150127
@@ -499,6 +486,7 @@ SPEC CHECKSUMS:
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
+  Segment-CleverTap: 985696b61005f0cbe52e32912e71a199fafbd9bb
   SendBirdDesk: 9edef670a160575d7da9174318e18aefa06a8b64
   SendBirdSDK: 4b1f346ed2f76c5f53baa199d0fcfe2eb686f608
   SendBirdUIKit: 4c5def2bbf2ce09117b3b88c7c60d8ac48dd6fa6
@@ -509,6 +497,6 @@ SPEC CHECKSUMS:
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: 5120e28096da60f973459e4109d5b6ebec017120
+PODFILE CHECKSUM: e3bfc5ffc4d1eac3b8e558498e49713292f5c9aa
 
 COCOAPODS: 1.11.3

@@ -257,7 +257,7 @@ class DynamicLinksHelper {
         self.productId = ""
         
 
-        let marketType = dUrl?.getQueryItemValueForKey("marketType")
+        let marketType = dUrl?.getQueryItemValueForKey("market_type_id")
         if marketType != nil , marketType == "1" {
             self.marketType = marketType ?? "0"
         }

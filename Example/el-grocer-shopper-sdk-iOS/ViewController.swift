@@ -126,7 +126,7 @@ class ViewController: UIViewController {
         txtLoyalityID.text = "111111111130"
         txtEmail.text = ""
         txtPushPayload.text =  nil//"[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
-        txtDLPayload.text =  "" //https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=16,BrandID=18,marketType=1"
+        txtDLPayload.text =  "https://smilesmobile.page.link/?link=https%3A%2F%2Fsmilesmobile.page.link%2Fexy-too-trana%2F%2Felgrocer%3A%2F%2Fuser_id%3D379910%2Corder_id%3D1290668554%2CsubstituteOrderID%3D1290668554%2Cmarket_type_id%3D1&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp" //https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=16,BrandID=18,marketType=1"
         txtLanguage.text = "Base"
     }
     

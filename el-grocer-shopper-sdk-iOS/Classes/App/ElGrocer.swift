@@ -23,6 +23,7 @@ public final class ElGrocer {
         
         if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType {
             HomePageData.shared.groceryA = []
+            SDKManager.shared.launchOptions = launchOptions
         }
         
         DispatchQueue.main.async {
