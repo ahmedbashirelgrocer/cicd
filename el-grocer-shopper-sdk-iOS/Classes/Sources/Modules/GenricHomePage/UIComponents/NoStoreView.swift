@@ -85,7 +85,7 @@ class NoStoreView: UIView {
         self.imgNoData.image = UIImage(name: "noSelectedStore")
         self.lblTopMsg.text = localizedString("No_Selected_Store", comment: "")
         self.lblExtraDetail.text = localizedString("No_Selected_Store_Detail", comment: "")
-        self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.btnNoData.setTitle(SDKManager.isGrocerySingleStore ? localizedString("btn_Go_Back", comment: "") :  localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
     }

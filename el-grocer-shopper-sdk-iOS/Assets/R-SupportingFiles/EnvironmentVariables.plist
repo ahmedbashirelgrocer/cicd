@@ -5,7 +5,7 @@
 	<key>Release</key>
 	<dict>
 		<key>segmentSDKWriteKey</key>
-		<string>cSnpTPUfDsW8zvEiA1AslFPegtWjNIlo</string>
+		<string>6yu9WwWVSHEQAWtzrLZMhGfvTEDppWCC</string>
 		<key>backendUrl</key>
 		<string>https://elgrocer-admin-br-single-store.herokuapp.com/api</string>
 	</dict>
