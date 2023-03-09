@@ -845,9 +845,14 @@ extension Product {
          product.isSponsored = false
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
            // elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
-            if let promoted = _rankingInfo["promoted"] as? Bool , let promotedByReRanking = _rankingInfo["promotedByReRanking"] as?  Bool {
-                if !promotedByReRanking && promoted {
+            if let promoted = _rankingInfo["promoted"] as? Bool {
+                if promoted {
                     product.isSponsored = NSNumber(booleanLiteral: promoted)
+                }
+                if let promotedByReRanking = _rankingInfo["promotedByReRanking"] as? Bool {
+                    if promotedByReRanking {
+                        product.isSponsored = NSNumber(booleanLiteral: false)
+                    }
                 }
             }
         }

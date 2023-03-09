@@ -105,6 +105,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         // Fetch basket status from server 
         self.homeDataHandler.fetchBasketStatus()
+        
+        if let controller = self.navigationController as? ElGrocerNavigationController {
+            controller.refreshLogoView()
+        }
     }
     
         // MARK: - UI Customization
@@ -127,6 +131,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             controller.buttonActionsDelegate = self
+            controller.refreshLogoView()
            // controller.setBackButtonHidden(false)
         }
         

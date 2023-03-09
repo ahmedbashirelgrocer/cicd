@@ -7,14 +7,14 @@
 		<key>segmentSDKWriteKey</key>
 		<string>6yu9WwWVSHEQAWtzrLZMhGfvTEDppWCC</string>
 		<key>backendUrl</key>
-		<string>https://elgrocer-admin-br-single-store.herokuapp.com/api</string>
+		<string>https://api.elgrocer.com/api/</string>
 	</dict>
 	<key>Debug</key>
 	<dict>
 		<key>segmentSDKWriteKey</key>
 		<string>Z2Jste7vnggEaRT9H5maGj8PUlFJXL4k</string>
 		<key>backendUrl</key>
-		<string>https://elgrocer-admin-br-single-store.herokuapp.com/admin</string>
+		<string>https://api.elgrocer.com/api/</string>
 	</dict>
 	<key>StagingProduction</key>
 	<dict>

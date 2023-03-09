@@ -191,6 +191,14 @@ class ElGrocerNavigationController : UINavigationController {
     
     // MARK: Logo
     
+    func refreshLogoView() {
+        
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+         self.setNavigationBarHidden(false, animated: false)
+        (self.navigationBar as! ElGrocerNavigationBar).refreshLogoView()
+        
+    }
+    
     func setLogoHidden(_ hidden:Bool) {
         
         guard self.navigationBar is ElGrocerNavigationBar else {return}
