@@ -498,7 +498,13 @@ class SmileSdkHomeVC: BasketBasicViewController {
             //self.tabBarController?.navigationController?.popToRootViewController(animated: true)
             //self.dismiss(animated: true)
         NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
-        self.tabBarController?.dismiss(animated: true)
+        if let _ = self.tabBarController {
+            self.tabBarController?.dismiss(animated: true)
+        }else if let _ = SDKManager.shared.currentTabBar {
+            SDKManager.shared.currentTabBar?.dismiss(animated: true)
+        }else if let _ = SDKManager.shared.rootViewController {
+            SDKManager.shared.rootViewController?.dismiss(animated: true)
+        }
     }
     
     func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?) {
