@@ -405,7 +405,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 launch.address = address.address
                 if ElgrocerPreloadManager.shared.searchClient != nil {
                     ElgrocerPreloadManager.shared
-                        .searchClient.setLaunchOptions(launchOptions: launch)
+                        .searchClient?.setLaunchOptions(launchOptions: launch)
                 }
             }
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
