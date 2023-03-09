@@ -150,16 +150,15 @@ class SecondCheckoutVC: UIViewController {
                 }
                 
                 if self?.viewModel.getSelectedPaymentOption() == .creditCard, let card = self?.viewModel.getCreditCard()?.adyenPaymentMethod {
-                    if let oldOrder = self?.viewModel.getEditOrderInitialDetail(),oldOrder.cardID == self?.viewModel.getCreditCard()?.cardID {
+                    if let oldOrderCard = self?.viewModel.getEditOrderInitialDetail()?.cardID,oldOrderCard.elementsEqual(card.identifier){
                         self?.showConfirmationView(order!)
                         logPurchaseEvents()
                         
                         // MARK: Segment Order Purchase Event logging
                         SegmentAnalyticsEngine.instance.logEvent(event: OrderPurchaseEvent(products: self?.viewModel.getFinalisedProducts() ?? [], grocery: self?.grocery, order: order))
-                        return
+                    }else {
+                        self?.paymentWithCard(card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
                     }
-                    elDebugPrint(order)
-                    self?.paymentWithCard(card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
                 }else if self?.viewModel.getSelectedPaymentOption() == .applePay, let card = self?.viewModel.getApplePay(){
                     elDebugPrint(order)
                     self?.payWithApplePay(selctedApplePayMethod: card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
