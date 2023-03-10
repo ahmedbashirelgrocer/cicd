@@ -1668,24 +1668,26 @@ extension UIViewController {
     }
     
     func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [topColor,bottomColor]
-        gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradient.endPoint = CGPoint(x: 1, y: 0.25)
-        gradient.frame = CGRect(x: 0.0, y: -10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
-        return gradient
+            let gradient: CAGradientLayer = CAGradientLayer()
+            gradient.colors = [topColor,bottomColor]
+            gradient.locations = [0.0 , 1.0]
+            gradient.startPoint = CGPoint(x: 0.5, y: 0.42)
+            gradient.endPoint = CGPoint(x: 1, y: 1)
+            gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: height)
+            return gradient
+        }
     }
-}
 
 extension UIView {
-    func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [topColor,bottomColor]
-        gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0, y: 0)
-        gradient.endPoint = CGPoint(x: 1, y: 0.25)
-        gradient.frame = CGRect(x: 0.0, y: -10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
-        return gradient
-    }
+    
+        func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
+            let gradient: CAGradientLayer = CAGradientLayer()
+            gradient.colors = [topColor,bottomColor]
+            gradient.locations = [0.0 , 1.0]
+            gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+            gradient.endPoint = CGPoint(x: 1, y: 0.25)
+            gradient.frame = CGRect(x: 0.0, y: -10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
+            return gradient
+        }
 }
+
