@@ -87,7 +87,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.bindViews()
         self.setNavigationAppearance()
         self.checkForPushNotificationRegisteration()
-        
         // Logging segment event for segment order confirmation screen
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderConfirmationScreen))
     }
@@ -137,6 +136,18 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         self.addBackButtonWithCrossIconLeftSide(.white)
+        if let nav = (self.navigationController as? ElGrocerNavigationController) {
+            if let bar = nav.navigationBar as? ElGrocerNavigationBar {
+                bar.chatButton.chatClick = {
+                    Thread.OnMainThread {
+                        guard self.order.grocery != nil else {return }
+                        let groceryID = self.order.grocery.getCleanGroceryID()
+                        let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.viewModel.orderIdForPublicUse, type: .orderSupport, groceryID)
+                        sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
+                    }
+                }
+            }
+        }
         
     }
     private func bindViews() {
@@ -1712,7 +1723,6 @@ extension OrderConfirmationViewController {
                 case .failure(_): break
                    // error.showErrorAlert()
             }
-           // self.isGettingProducts = false
         }
         
         

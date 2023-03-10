@@ -102,6 +102,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         let noStoreView = NoStoreView.loadFromNib()
         noStoreView?.delegate = self
         noStoreView?.configureNoDefaultSelectedStore()
+        noStoreView?.btnBottomConstraint.constant = 100
         return noStoreView!
     }()
     var dataHandler : RecipeDataHandler!
@@ -318,6 +319,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                     self.openOrdersView.layoutIfNeeded()
                 }
             }
+            SpinnerView.hideSpinnerView()
         }
         self.setNavigationApearance(true)
         self.adjustHeaderDisplay()
@@ -1063,6 +1065,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
             self.title = localizedString("Store_Title", comment: "")
+            self.locationHeaderFlavor.lblSlots.text = "  "
            // self.locationHeader.visibility = .gone
         }else{
             self.tableViewCategories.backgroundView = UIView()

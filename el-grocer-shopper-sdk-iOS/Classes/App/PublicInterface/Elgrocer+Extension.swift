@@ -59,6 +59,7 @@ public extension ElGrocer {
             completion?(false)
             return
         }
+        SDKManager.shared.startBasicThirdPartyInit()
         ElGrocer.trackSDKLaunch()
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
@@ -86,6 +87,7 @@ public extension ElGrocer {
         }
       
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
+        SDKManager.shared.startBasicThirdPartyInit()
         ElGrocer.trackSDKLaunch()
         
         if var dUrl = URL(string: launchOptions.deepLinkPayload ?? ""), (launchOptions.deepLinkPayload?.count ?? 0) > 0 {

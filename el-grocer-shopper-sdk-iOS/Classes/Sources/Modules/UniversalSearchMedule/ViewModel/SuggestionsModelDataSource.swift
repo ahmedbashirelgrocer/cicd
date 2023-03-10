@@ -585,7 +585,7 @@ extension SuggestionsModelDataSource {
         var dataDict : Dictionary<String, Array<Product>> = [:]
         var stringA : [String] = []
         for product in self.productsList {
-            let subcategoryName  =  product.subcategoryName ?? ""
+            let subcategoryName  = ElGrocerUtility.sharedInstance.isArabicSelected() ? (product.subcategoryName ?? "") : (product.subcategoryNameEn ?? "")
             if var isContain = dataDict[subcategoryName] {
                 isContain.append(product)
                 dataDict[subcategoryName] = isContain
