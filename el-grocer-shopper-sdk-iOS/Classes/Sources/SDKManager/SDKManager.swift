@@ -432,9 +432,9 @@ class SDKManager: NSObject  {
         configuration.use(SEGCleverTapIntegrationFactory())
         configuration.flushAt = 3
         configuration.flushInterval = 10
-        
+        configuration.trackApplicationLifecycleEvents = false
         Segment.Analytics.setup(with: configuration)
-    
+        
     }
     
     fileprivate func smileSDKFireBaseSetting() {

@@ -59,6 +59,7 @@ public extension ElGrocer {
             completion?(false)
             return
         }
+        ElGrocer.trackSDKLaunch()
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
@@ -85,7 +86,7 @@ public extension ElGrocer {
         }
       
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
-        
+        ElGrocer.trackSDKLaunch()
         
         if var dUrl = URL(string: launchOptions.deepLinkPayload ?? ""), (launchOptions.deepLinkPayload?.count ?? 0) > 0 {
             if let encoded = launchOptions.deepLinkPayload?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
@@ -113,6 +114,10 @@ public extension ElGrocer {
     
     static func searchProduct(_ queryText: String, completion: @escaping ([SearchResult]) -> Void) {
         ElgrocerPreloadManager.shared.searchClient.searchProduct(queryText, completion: completion)
+    }
+    
+    static func trackSDKLaunch() {
+        SegmentAnalyticsEngine.instance.logEvent(event: SDKEvent())
     }
 }
 

@@ -7,6 +7,20 @@
 
 import Foundation
 
+
+
+// MARK: SDK Only Events
+struct SDKEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.sdkLaunched)
+    }
+}
+
+
+
 // MARK: Help Event
 struct HelpClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
