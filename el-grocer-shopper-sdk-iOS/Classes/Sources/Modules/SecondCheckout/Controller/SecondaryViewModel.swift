@@ -332,6 +332,11 @@ extension SecondaryViewModel {
         if primaryPaymentTypeId == PaymentOption.creditCard.rawValue, let card = self.getCreditCard() {
             finalParams["card_id"] = card.cardID
             finalParams["auth_amount"] = self.basketDataValue?.finalAmount
+            if let orderCard = self.getEditOrderInitialDetail()?.cardID, orderCard.elementsEqual(card.cardID) {
+                finalParams["same_card"] = true
+            }else {
+                finalParams["same_card"] = false
+            }
         }
         
         return finalParams

@@ -445,7 +445,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 launch.address = address.address
                 if ElgrocerPreloadManager.shared.searchClient != nil {
                     ElgrocerPreloadManager.shared
-                        .searchClient.setLaunchOptions(launchOptions: launch)
+                        .searchClient?.setLaunchOptions(launchOptions: launch)
                 }
             }
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
@@ -534,12 +534,22 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - ButtonAction
     override func backButtonClickedHandler() {
-        SDKManager.shared.launchOptions
+        
         super.backButtonClickedHandler()
-            //self.tabBarController?.navigationController?.popToRootViewController(animated: true)
-            //self.dismiss(animated: true)
         NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
-        self.tabBarController?.dismiss(animated: true)
+        
+        if let rootContext = SDKManager.shared.rootContext {
+            rootContext.dismiss(animated: true)
+        }else {
+            if let _ = self.tabBarController {
+                self.tabBarController?.dismiss(animated: true)
+            }else if let _ = SDKManager.shared.currentTabBar {
+                SDKManager.shared.currentTabBar?.dismiss(animated: true)
+            }else if let _ = SDKManager.shared.rootViewController {
+                SDKManager.shared.rootViewController?.dismiss(animated: true)
+            }
+        }
+      
     }
     
     func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?) {
