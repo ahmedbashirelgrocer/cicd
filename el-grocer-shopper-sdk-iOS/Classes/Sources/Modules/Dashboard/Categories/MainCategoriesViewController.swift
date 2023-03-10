@@ -90,7 +90,7 @@ extension MainCategoriesViewController : StoreFeedsDelegate {
 }
 
 class MainCategoriesViewController: BasketBasicViewController, UITableViewDelegate, NoStoreViewDelegate  {
-    
+    private var porgressHud : SpinnerView? = nil
     private var viewModel: MainCategoriesViewModelType!
     
     override func backButtonClickedHandler(){
@@ -319,7 +319,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                     self.openOrdersView.layoutIfNeeded()
                 }
             }
-            SpinnerView.hideSpinnerView()
+            //SpinnerView.hideSpinnerView()
         }
         self.setNavigationApearance(true)
         self.adjustHeaderDisplay()
@@ -1539,6 +1539,7 @@ private extension MainCategoriesViewController {
         self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
     }
     
+   
     func bindViews() {
         self.tableViewCategories.dataSource = nil
         self.tableViewCategories.delegate = self
@@ -1629,8 +1630,8 @@ private extension MainCategoriesViewController {
             guard let self = self else { return }
             
             loading
-                ? _ = SpinnerView.showSpinnerViewInView(self.view)
-                : SpinnerView.hideSpinnerView()
+            ? self.porgressHud = SpinnerView.showSpinnerViewInView(self.view)
+            : self.porgressHud?.removeFromSuperview()
         }).disposed(by: disposeBag)
     }
     
