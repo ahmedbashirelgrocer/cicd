@@ -3,7 +3,7 @@
 //  el-grocer-shopper-sdk-iOS
 //
 //  Development commit : tag 1.3.1
-// from origin/Support-EEN-2923/master => commit Merge branch 'Support-EEN-2923/EEN-3444' into Support-EEN-2923/master - origin/Support-EEN-2923/EEN-3444 merge into developmet code done
+// from release version 1.4.3 => tag 1.4.3
 
 import UIKit
 import IQKeyboardManagerSwift
