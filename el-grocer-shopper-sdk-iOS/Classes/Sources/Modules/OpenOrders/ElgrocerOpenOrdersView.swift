@@ -52,8 +52,15 @@ class ElgrocerOpenOrdersView: UIView {
         ordersCollectionView?.showsHorizontalScrollIndicator = false
         ordersCollectionView?.showsVerticalScrollIndicator = false
         ordersCollectionView?.backgroundColor = .clear
-      
         
+        
+        let flowLayout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.invalidateLayout()
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.minimumLineSpacing = 0
+        ordersCollectionView?.collectionViewLayout = flowLayout
+      
         self.addSubview(ordersCollectionView!)
         self.clipsToBounds = true
         

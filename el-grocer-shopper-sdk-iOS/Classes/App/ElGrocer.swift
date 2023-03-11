@@ -238,6 +238,17 @@ public struct LaunchOptions {
         self.marketType = marketType
         self.language = language
     }
+    
+    func toString() -> String? {
+        var data : [String : Any] = ["lat": self.latitude ?? 0.0,
+                    "lng" : self.longitude ?? 0.0,
+                    "providedType" : self.marketType ,
+                    "phone" : self.accountNumber ?? "",
+                    "layNumber" : self.loyaltyID ?? "",
+                    "deeplink" : self.deepLinkPayload ?? "",
+                    "push" : self.pushNotificationPayload?.description ?? ""]
+        return data.description
+    }
 
 }
 

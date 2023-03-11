@@ -60,7 +60,7 @@ public extension ElGrocer {
             return
         }
         SDKManager.shared.startBasicThirdPartyInit()
-        ElGrocer.trackSDKLaunch()
+        ElGrocer.trackSDKLaunch(launchOptions)
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
@@ -88,22 +88,19 @@ public extension ElGrocer {
       
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
         SDKManager.shared.startBasicThirdPartyInit()
-        ElGrocer.trackSDKLaunch()
-        
-        if var dUrl = URL(string: launchOptions.deepLinkPayload ?? ""), (launchOptions.deepLinkPayload?.count ?? 0) > 0 {
+        ElGrocer.trackSDKLaunch(launchOptions)
+       
+        if var _ = URL(string: launchOptions.deepLinkPayload ?? ""), (launchOptions.deepLinkPayload?.count ?? 0) > 0 {
             if let encoded = launchOptions.deepLinkPayload?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
                 let finalUrl = URL(string: encoded) {
-                dUrl = finalUrl
-                    let component =  URLComponents(string: finalUrl.valueOf("link") ?? "")
-                    if component?.path.contains("market_type_id=1") ?? false {
-                                    var updatedLaunchOption = launchOptions
-                                    updatedLaunchOption.marketType = .grocerySingleStore
-                                    startFlavorStore(updatedLaunchOption)
+                    if finalUrl.absoluteString.contains("market_type_id=1") {
+                        var updatedLaunchOption = launchOptions
+                            updatedLaunchOption.marketType = .grocerySingleStore
+                            startFlavorStore(updatedLaunchOption)
                         return
                     }
-            }
+              }
         }
-        
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
             SDKManager.shared.launchOptions = launchOptions
             ElgrocerSearchNavigaion.shared.navigateToProductHome(searchResult)
@@ -118,8 +115,8 @@ public extension ElGrocer {
         ElgrocerPreloadManager.shared.searchClient.searchProduct(queryText, completion: completion)
     }
     
-    static func trackSDKLaunch() {
-        SegmentAnalyticsEngine.instance.logEvent(event: SDKEvent())
+    static func trackSDKLaunch(_ launchOption: LaunchOptions) {
+        SegmentAnalyticsEngine.instance.logEvent(event: SDKEvent(launchOption: launchOption))
     }
 }
 

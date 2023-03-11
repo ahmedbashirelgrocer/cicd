@@ -14,8 +14,16 @@ struct SDKEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init() {
+    init(launchOption: LaunchOptions?) {
         self.eventType = .track(eventName: AnalyticsEventName.sdkLaunched)
+        self.metaData = [
+            EventParameterKeys.latitude: launchOption?.latitude ?? 0.0,
+            EventParameterKeys.longitude: launchOption?.longitude ?? 0.0,
+            EventParameterKeys.phone: launchOption?.accountNumber ?? "" ,
+            EventParameterKeys.loyaltyId: launchOption?.loyaltyID ?? "",
+            EventParameterKeys.deeplink: launchOption?.deepLinkPayload ?? "",
+            EventParameterKeys.pushNotifcation: launchOption?.pushNotificationPayload?.description ?? "",
+        ]
     }
 }
 

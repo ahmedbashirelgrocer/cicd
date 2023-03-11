@@ -77,4 +77,11 @@ enum EventParameterKeys {
     static let position             = "position"
     static let sessionId            = "sessionId"
     static let marketType           = "marketType"
+    
+    static let latitude             = "latitude"
+    static let longitude            = "longitude"
+    static let loyaltyId            = "loyaltyId"
+    static let deepLink             = "deepLink"
+    static let pushNotifcation      = "pushNotification"
+    
 }
