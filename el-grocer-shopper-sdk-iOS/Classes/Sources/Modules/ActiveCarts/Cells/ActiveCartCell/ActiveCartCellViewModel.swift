@@ -82,7 +82,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
 private extension ActiveCartCellViewModel {
     
     func fetchBanner() {
-        ElGrocerApi.sharedInstance.getBannersFor(location: .sdk_all_carts_tier_2, retailer_ids: [String(self.activeCart.id)]) { result in
+        ElGrocerApi.sharedInstance.getBannersFor(location: .sdk_all_carts_tier_2.getType(), retailer_ids: [String(self.activeCart.id)]) { result in
             switch result {
             case .success(let data):
                 do {
