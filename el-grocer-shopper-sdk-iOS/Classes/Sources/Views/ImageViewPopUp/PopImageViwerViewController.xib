@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,7 +14,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PopImageViwerViewController" customModule="ElGrocerShopper" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PopImageViwerViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <connections>
                 <outlet property="addToCartBGView" destination="plA-Fn-x3i" id="zeN-LR-kUx"/>
                 <outlet property="boughtItemView" destination="9pb-Xe-5da" id="0WM-4n-sQ8"/>
@@ -73,7 +73,7 @@
                                         <constraint firstAttribute="width" constant="142" id="99P-f7-ONG"/>
                                     </constraints>
                                 </imageView>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="idW-ol-d1g" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="idW-ol-d1g" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="10" width="142" height="36"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="OFFER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9X0-oG-nsq">
@@ -119,7 +119,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W0M-Zq-Scr" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W0M-Zq-Scr" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                     <rect key="frame" x="67.5" y="385" width="66" height="25"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pSK-PS-9ga">
@@ -153,7 +153,7 @@
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view contentMode="scaleToFill" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="9pb-Xe-5da" userLabel="Bought-items" customClass="CustomCollectionView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                        <view contentMode="scaleToFill" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="9pb-Xe-5da" userLabel="Bought-items" customClass="CustomCollectionView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="44" width="414" height="300"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
@@ -181,7 +181,7 @@
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view contentMode="scaleToFill" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="FrH-Cz-3zn" userLabel="Bought-items" customClass="CustomCollectionView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                        <view contentMode="scaleToFill" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="FrH-Cz-3zn" userLabel="Bought-items" customClass="CustomCollectionView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="44" width="414" height="300"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
@@ -251,10 +251,10 @@
                         <outlet property="delegate" destination="-1" id="4AS-DO-hns"/>
                     </connections>
                 </scrollView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="plA-Fn-x3i" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="plA-Fn-x3i" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="1391" width="414" height="120"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q0A-v8-RVp" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q0A-v8-RVp" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                             <rect key="frame" x="235" y="16" width="163" height="56"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -266,7 +266,7 @@
                                 <action selector="btnAddToCrtHandler:" destination="-1" eventType="touchUpInside" id="dHo-nJ-NHx"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IqK-5Z-OtP" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IqK-5Z-OtP" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                             <rect key="frame" x="130" y="22" width="44" height="44"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -278,7 +278,7 @@
                                 <action selector="btnPlusButtonHandler:" destination="-1" eventType="touchUpInside" id="tEC-3h-vwc"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qdv-in-A5Y" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qdv-in-A5Y" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                             <rect key="frame" x="16" y="22" width="44" height="44"/>
                             <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -302,7 +302,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RDT-Nx-ePN">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aA2-eY-Si9" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aA2-eY-Si9" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                     <rect key="frame" x="32" y="32" width="350" height="56"/>
                                     <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
@@ -351,10 +351,10 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGk-oj-9O4">
-                    <rect key="frame" x="16" y="16" width="30" height="30"/>
+                    <rect key="frame" x="363" y="32" width="35" height="35"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="30" id="5g3-cD-N6d"/>
-                        <constraint firstAttribute="height" constant="30" id="vzB-aS-QSe"/>
+                        <constraint firstAttribute="width" constant="35" id="5g3-cD-N6d"/>
+                        <constraint firstAttribute="height" constant="35" id="vzB-aS-QSe"/>
                     </constraints>
                     <state key="normal" image="CrossGreen"/>
                     <connections>
@@ -365,13 +365,13 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="tGk-oj-9O4" secondAttribute="trailing" constant="16" id="3ub-WA-NUq"/>
                 <constraint firstItem="MTT-DL-rzq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="CTQ-Tt-dyv"/>
                 <constraint firstAttribute="bottom" secondItem="plA-Fn-x3i" secondAttribute="bottom" id="MzD-WZ-1wk"/>
-                <constraint firstItem="tGk-oj-9O4" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="16" id="QxK-aw-AJX"/>
+                <constraint firstItem="tGk-oj-9O4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="-16" id="QxK-aw-AJX"/>
                 <constraint firstItem="MTT-DL-rzq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="XeF-B3-OiN"/>
                 <constraint firstItem="plA-Fn-x3i" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="dGv-Bb-Gdw"/>
                 <constraint firstItem="plA-Fn-x3i" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="gsZ-jA-nv9"/>
-                <constraint firstItem="tGk-oj-9O4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="k0u-tL-kj6"/>
                 <constraint firstItem="MTT-DL-rzq" firstAttribute="bottom" secondItem="plA-Fn-x3i" secondAttribute="top" id="l8C-Bc-Pme"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MTT-DL-rzq" secondAttribute="trailing" id="wNu-iN-C4s"/>
             </constraints>

@@ -693,7 +693,6 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="C5I-Yy-RUl"/>
                     <connections>
-                        <outlet property="tableViewBottomConstraint" destination="Zfb-Db-Gho" id="5H0-nv-VP0"/>
                         <outlet property="tableViewCategories" destination="hjl-mx-Aji" id="5tx-CJ-oSg"/>
                         <segue destination="Kwk-rF-vNq" kind="show" identifier="CategoriesToSubCategories" id="5Za-RP-S4C"/>
                     </connections>
