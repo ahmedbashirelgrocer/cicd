@@ -24,7 +24,10 @@ public class ElGrocerDynamicLink {
             if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
                 let finalUrl = URL(string: encoded) {
                 let component =  URLComponents(string: finalUrl.valueOf("link") ?? "")
-                urlString = component?.path ?? ""
+                let path = component?.path ?? ""
+                if path.count > 2 {
+                    urlString = component?.path ?? ""
+                }
             }
         }
 

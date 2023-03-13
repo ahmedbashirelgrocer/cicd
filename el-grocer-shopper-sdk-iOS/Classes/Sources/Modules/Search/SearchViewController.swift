@@ -8,6 +8,7 @@
 import UIKit
 //import BBBadgeBarButtonItem
 import SDWebImage
+import IQKeyboardManagerSwift
 
 
 class SearchViewController: BasketBasicViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource , UIGestureRecognizerDelegate {
@@ -166,6 +167,9 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.navigationItem.backBarButtonItem?.title = ""
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.enable = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -253,7 +257,9 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.collectionView.reloadData()
             
         }
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
+        
+        IQKeyboardManager.shared.disabledDistanceHandlingClasses.append(SearchViewController.self)
    
     }
     
@@ -356,6 +362,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        IQKeyboardManager.shared.enable = true
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -819,7 +827,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
         self.basketIconOverlay?.grocery = self.grocery
         self.refreshBasketIconStatus()
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
 
 
     }
@@ -989,7 +997,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.tableView.reloadData()
         self.basketIconOverlay?.grocery = self.grocery
         self.refreshBasketIconStatus()
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
     }
     
     
