@@ -28,13 +28,13 @@ public class ElGrocerDynamicLink {
             }
         }
 
-        let components = urlString.components(separatedBy: ",")
-        var dictionary: [String : String] = [:]
-        
-        for component in components {
-            let pair = component.components(separatedBy: "=")
-            dictionary[pair[0]] = pair[1]
-        }
+//        let components = urlString.components(separatedBy: ",")
+//        var dictionary: [String : String] = [:]
+//
+//        for component in components {
+//            let pair = component.components(separatedBy: "=")
+//            dictionary[pair[0]] = pair[1]
+//        }
         
         let stringA = urlString.components(separatedBy: "elgrocer://")
         var finalURL =  "https://www.elgrocer.com?"  + (stringA.last ?? "")

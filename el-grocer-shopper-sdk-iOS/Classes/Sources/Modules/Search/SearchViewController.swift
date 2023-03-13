@@ -121,7 +121,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.setupClearNavBar()
         if isNavigateToSearch == true {
             self.title = localizedString("search_placeholder", comment: "")
-            self.addRightCrossButton(true)
+           // self.addRightCrossButton(true)
            //  addBackButton()
         }else{
             self.navigationController!.navigationBar.topItem!.title = localizedString("search_placeholder", comment: "")

@@ -75,7 +75,7 @@ class ElgrocerOpenOrdersView: UIView {
             //self.topAnchor.constraint(equalTo: topAlignView.bottomAnchor),
             self.leftAnchor.constraint(equalTo: bottomAlignView.leftAnchor),
             self.rightAnchor.constraint(equalTo: bottomAlignView.rightAnchor),
-            self.bottomAnchor.constraint(equalTo: bottomAlignView.bottomAnchor, constant: -10),
+            self.bottomAnchor.constraint(equalTo: bottomAlignView.bottomAnchor, constant: 0),
             self.heightAnchor.constraint(equalToConstant: KCurrentOrderCollectionViewHeight),
           
             ordersCollectionView!.leftAnchor.constraint(equalTo: self.leftAnchor),
