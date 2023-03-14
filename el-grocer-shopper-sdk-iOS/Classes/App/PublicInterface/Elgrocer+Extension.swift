@@ -54,6 +54,20 @@ public extension ElGrocer {
         }
     }
 
+    /// Method is used to handle Single store of marketplace ...
+    ///
+    /// ```
+    /// ElGrocer.start(with: launchOptions) {  } completion: { isLoaded in }
+    /// ```
+    ///
+    /// > Warning:  Please dont use it for deeplink
+    /// > and
+    /// >  Pushnotifcation navigation. USE.
+    /// >  ``ElGrocer.start(with: launchOptions)``  instead
+    /// - Parameters:
+    ///     - LaunchOptions: provided launch Options
+    ///
+    /// - Returns: completion blocks `animation start` & `animation end`.
     static func start(with launchOptions: LaunchOptions?, startAnimation: (() -> Void)?  = nil , completion: ((Bool?) -> Void)?  = nil) {
         guard let launchOptions = launchOptions else {
             completion?(false)
