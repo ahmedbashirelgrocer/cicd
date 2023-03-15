@@ -1598,7 +1598,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     func AddUserAddressWithProfile(_ userProfile: UserProfile) {
   
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { (result:Bool) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { result, error in
              SpinnerView.hideSpinnerView()
         }
     }

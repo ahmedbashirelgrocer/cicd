@@ -563,7 +563,7 @@ class DeliveryInfoViewController: UIViewController {
         
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { (result:Bool) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { result, error in
             
             if result {
                 
@@ -610,7 +610,7 @@ class DeliveryInfoViewController: UIViewController {
         
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { (result:Bool) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { result,error in
             
             if result {
                 

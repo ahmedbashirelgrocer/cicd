@@ -344,8 +344,6 @@ class SDKManager: NSObject  {
         
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
 
-        
-        
         // Initialize Facebook SDK
         // FixMe:
         // ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
@@ -463,7 +461,7 @@ class SDKManager: NSObject  {
         // FirebaseApp.configure() // defualt info plist
         var filePath:String!
         filePath = Bundle.resource.path(forResource: "GoogleService-Info", ofType: "plist")
-        let projectName = "elgrocer"
+        //let projectName = "elgrocer"
         let options = FirebaseOptions.init(contentsOfFile: filePath)!
         FirebaseApp.configure(options: options)
         

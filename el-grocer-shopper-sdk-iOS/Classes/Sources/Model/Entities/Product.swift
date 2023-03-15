@@ -23,7 +23,7 @@ class Product: NSManagedObject, DBEntity {
     @NSManaged var price: NSNumber
     @NSManaged var brandId: NSNumber?
     @NSManaged var brandName: String?
-    @NSManaged var brandNameEn: String?
+    @NSManaged var brandNameEn: String? // slug
     @NSManaged var brandImageUrl: String?
     @NSManaged var subcategoryId: NSNumber
     @NSManaged var subcategoryName: String?

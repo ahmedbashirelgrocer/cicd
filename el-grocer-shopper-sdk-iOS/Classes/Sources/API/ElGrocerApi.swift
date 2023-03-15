@@ -842,7 +842,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   // MARK: User profile
   
-  func updateUserProfile(_ name:String, email:String, phone:String, completionHandler:@escaping (_ result:Bool) -> Void) {
+      func updateUserProfile(_ name:String, email:String, phone:String, completionHandler:@escaping (_ result:Bool, _ elError : ElGrocerError? ) -> Void) {
   
   setAccessToken()
   
@@ -856,10 +856,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   NetworkCall.put(ElGrocerApiEndpoint.ProfileUpdate.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
-  completionHandler(true)
+  completionHandler(true, nil)
   
   }) { (operation  , error: Error) -> Void in
-  completionHandler(false)
+      let elgrocerError = ElGrocerError.init(error: error as NSError)
+  completionHandler(false, elgrocerError)
   }
   }
   
