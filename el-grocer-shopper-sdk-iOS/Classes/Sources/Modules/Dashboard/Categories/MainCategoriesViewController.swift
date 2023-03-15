@@ -1631,9 +1631,12 @@ private extension MainCategoriesViewController {
             guard let self = self else { return }
             
             loading
-            ? self.porgressHud = SpinnerView.showSpinnerViewInView(self.view)
+            ? self.porgressHud == nil
+            ? self.porgressHud = SpinnerView.showSpinnerViewInView(self.view) : nil
             : self.porgressHud?.removeFromSuperview()
         }).disposed(by: disposeBag)
+        
+       
     }
     
     func bannerNavigation(banner: BannerDTO) {

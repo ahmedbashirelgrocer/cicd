@@ -639,7 +639,7 @@ class SDKManager: NSObject  {
         var smileHomeVc : SmileSdkHomeVC? = nil
         if isSmile {
             smileHomeVc =  ElGrocerViewControllers.getSmileHomeVC(HomePageData.shared)
-            smileHomeVc?.launchCompletion = launchCompletion
+            smileHomeVc?.launchCompletion = self.launchOptions?.navigationType == .search ? nil : launchCompletion
         }
         
         let storeMain = ElGrocerViewControllers.mainCategoriesViewController()

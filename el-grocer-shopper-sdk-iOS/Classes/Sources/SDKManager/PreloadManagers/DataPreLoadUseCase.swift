@@ -11,6 +11,7 @@ class PreLoadData {
     static var shared = PreLoadData()
     
     fileprivate var completion: (() -> Void)?
+    fileprivate var retryAttemp: Int = 0
 
     func loadData(launchOptions: LaunchOptions, completion: (() -> Void)?, basicApiCallCompletion: ((Bool) -> Void)? ) {
         self.completion = completion
@@ -32,10 +33,14 @@ class PreLoadData {
         // HomePageData.shared.delegate = self
 
         if self.isNotLoggedin() {
-            loginSignup {
-                self.updateLocationIfNeeded() {
-                    basicApiCallCompletion?(true)
-                    HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+            loginSignup { isSucceed in
+                if isSucceed {
+                    self.updateLocationIfNeeded() {
+                        basicApiCallCompletion?(true)
+                        HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+                    }
+                } else {
+                    basicApiCallCompletion?(false)
                 }
             }
         } else {
@@ -66,10 +71,15 @@ class PreLoadData {
         SDKManager.shared.launchOptions = launchOptions
         configureElgrocerShopper()
         if self.isNotLoggedin() {
-            loginSignup {
-                self.updateLocationIfNeeded() {
+            loginSignup { isSucceed in
+                if isSucceed {
+                    self.updateLocationIfNeeded() {
+                        self.completion?()
+                    }
+                } else {
                     self.completion?()
                 }
+                
             }
         } else {
             self.updateLocationIfNeeded() {
@@ -85,18 +95,25 @@ class PreLoadData {
 
     
     
-    func loginSignup(completion: (() -> Void)?) {
+    func loginSignup(completion: ((_ isSucceed: Bool) -> Void)?) {
        
         let launchOptions = SDKManager.shared.launchOptions!
         let manager = SDKLoginManager(launchOptions: launchOptions)
+        self.retryAttemp += 1
         manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage in
             guard let self = self else { return }
             //let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
+            print("self.retryAttemp: \(self.retryAttemp)")
             if isSuccess {
                 ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-                self.updateLocationIfNeeded(completion: completion)
-            } else {
+                self.updateLocationIfNeeded {
+                    self.retryAttemp = 0
+                    completion?(true)
+                }
+            } else if self.retryAttemp < 4 {
                 self.configLoginFailureCase(coompletion: completion)
+            } else {
+                completion?(false)
             }
         }
     }
@@ -168,7 +185,7 @@ class PreLoadData {
         DatabaseHelper.sharedInstance.saveDatabase()
     }
     
-    private func configLoginFailureCase(coompletion: (() -> Void)?) {
+    private func configLoginFailureCase(coompletion: ((_ isSucceed: Bool) -> Void)?) {
         var delay : Double = 3
         if  ReachabilityManager.sharedInstance.isNetworkAvailable() {
             delay = 1.0

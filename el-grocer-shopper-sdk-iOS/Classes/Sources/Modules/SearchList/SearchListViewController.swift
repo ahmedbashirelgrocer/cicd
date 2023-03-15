@@ -53,7 +53,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     }
     @IBOutlet var searchListBGSuperView: UIView!{
         didSet{
-            searchListBGSuperView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24, withShadow: false)
+           // searchListBGSuperView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24, withShadow: false)
         }
     }
     

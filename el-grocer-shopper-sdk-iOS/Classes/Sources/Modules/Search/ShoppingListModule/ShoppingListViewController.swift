@@ -23,6 +23,13 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
             topBGGreenView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
+    
+    @IBOutlet weak var topBGRightSideView: UIView!{
+        didSet{
+          //  topBGGreenView.backgroundColor = ApplicationTheme.currentTheme.viewSecondaryDarkBGColor
+        }
+    }
+    
     @IBOutlet weak var shoppingListTableView: UITableView!{
         didSet{
             shoppingListTableView.bounces = false

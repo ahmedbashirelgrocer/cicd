@@ -83,6 +83,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewModels: [SectionModel<Int, ReusableTableViewCellViewModelType>] = []
     
     private var categories = [CategoryDTO]()
+    private var isCategoriesApiCompleted = false
     
     private var categoriesCellVMs = [ReusableTableViewCellViewModelType]()
     private var location1BannerVMs = [ReusableTableViewCellViewModelType]()
@@ -91,6 +92,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var recentPurchasedVM = [ReusableTableViewCellViewModelType]()
     
     private var dispatchGroup = DispatchGroup()
+    private var bannersDispatchGroup = DispatchGroup()
     private var disposeBag = DisposeBag()
     private var apiCallingStatus: [IndexPath: Bool] = [:]
 
@@ -99,12 +101,17 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.apiClient = apiClient
         self.grocery = grocery
         self.deliveryAddress = deliveryAddress
+        self.isCategoriesApiCompleted = false
         
         self.fetchGroceryDeliverySlots()
         self.fetchBanners(for: .store_tier_1.getType())
         self.fetchBanners(for: .store_tier_2.getType())
         
         self.loadingSubject.onNext(true)
+        bannersDispatchGroup.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            elDebugPrint("bannersLoaded")
+        }
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
@@ -142,10 +149,14 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 self.viewModels.append(SectionModel(model: 4, items: result))
                 self.cellViewModelsSubject.onNext(self.viewModels)
             } else {
-                self.showEmptyViewSubject.onNext(())
+                if self.isCategoriesApiCompleted {
+                    self.showEmptyViewSubject.onNext(())
+                }
+            }
+             if self.isCategoriesApiCompleted {
+                self.loadingSubject.onNext(false)
             }
             
-            self.loadingSubject.onNext(false)
         }
         
         self.scrollSubject.asObservable().subscribe(onNext: { [weak self] indexPath in
@@ -190,7 +201,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
 private extension MainCategoriesViewModel {
     func fetchGroceryDeliverySlots() {
         self.dispatchGroup.enter()
-        
+
         self.apiClient.getGroceryDeliverySlotsWithGroceryId(self.grocery?.dbID, andWithDeliveryZoneId: self.grocery?.deliveryZoneId, false) { [weak self] result in
             guard let self = self else { return }
             
@@ -204,6 +215,10 @@ private extension MainCategoriesViewModel {
                         if let selectedSlot = deliverySlotsResponse.data.deliverySlots?.first, let deliveryTime = selectedSlot.timeMilli {
                             self.fetchCategories(deliveryTime: deliveryTime)
                             self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
+                        } else {
+                            let currentTime = Int(Date().getUTCDate().timeIntervalSince1970 * 1000)
+                            self.fetchCategories(deliveryTime: currentTime)
+                            self.fetchPreviousPurchasedProducts(deliveryTime: currentTime)
                         }
                         return
                     }
@@ -217,6 +232,7 @@ private extension MainCategoriesViewModel {
                 break
                 
             case .failure(_):
+                self.dispatchGroup.leave()
                 break
             }
         }
@@ -225,18 +241,19 @@ private extension MainCategoriesViewModel {
     func fetchCategories(deliveryTime: Int) {
         self.apiClient.getAllCategories(self.deliveryAddress, parentCategory: nil, forGrocery: self.grocery, deliveryTime: deliveryTime) { [weak self] result in
             guard let self = self else { return }
-            
-            self.dispatchGroup.leave()
+            self.isCategoriesApiCompleted = true
             switch result {
                 
             case .success(let response):
                 guard let categoriesDictionary = response["data"] as? [NSDictionary], let grocery = self.grocery else {
                     // TODO: Show error message
+                    self.dispatchGroup.leave()
                     return
                 }
                 
                 guard let categoriesDB = Category.insertOrUpdateCategoriesForGrocery(grocery, categoriesArray: categoriesDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) else {
                     // TODO: Show error message
+                    self.dispatchGroup.leave()
                     return
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
@@ -266,20 +283,22 @@ private extension MainCategoriesViewModel {
                         .disposed(by: self.disposeBag)
                     return viewModel
                 })
+                self.dispatchGroup.leave()
                 break
             case .failure(let error):
                 // TODO: Show error message
+                self.dispatchGroup.leave()
                 break
             }
         }
     }
     
     func fetchBanners(for location: BannerLocation) {
-        self.dispatchGroup.enter()
+        self.bannersDispatchGroup.enter()
         self.apiClient.getBannersFor(location: location, retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)]) { [weak self] result in
             guard let self = self else { return }
             
-            self.dispatchGroup.leave()
+            self.bannersDispatchGroup.leave()
             
             switch result {
             case .success(let response):

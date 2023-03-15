@@ -128,7 +128,7 @@ public extension ElGrocer {
     }
     
     static func searchProduct(_ queryText: String, completion: @escaping ([SearchResult]) -> Void) {
-        ElgrocerPreloadManager.shared.searchClient.searchProduct(queryText, completion: completion)
+        ElgrocerPreloadManager.shared.searchClient?.searchProduct(queryText, completion: completion)
     }
     
     static func trackSDKLaunch(_ launchOption: LaunchOptions) {
