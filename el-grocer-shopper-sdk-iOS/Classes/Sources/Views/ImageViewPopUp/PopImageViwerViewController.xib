@@ -50,7 +50,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTT-DL-rzq">
-                    <rect key="frame" x="0.0" y="64" width="414" height="1327"/>
+                    <rect key="frame" x="0.0" y="92" width="414" height="1299"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iKN-Lm-78C" userLabel="bGView">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="1138"/>
@@ -351,7 +351,7 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGk-oj-9O4">
-                    <rect key="frame" x="363" y="32" width="35" height="35"/>
+                    <rect key="frame" x="14" y="41" width="35" height="35"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="5g3-cD-N6d"/>
                         <constraint firstAttribute="height" constant="35" id="vzB-aS-QSe"/>
@@ -365,14 +365,14 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="tGk-oj-9O4" secondAttribute="trailing" constant="16" id="3ub-WA-NUq"/>
-                <constraint firstItem="MTT-DL-rzq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="CTQ-Tt-dyv"/>
+                <constraint firstItem="MTT-DL-rzq" firstAttribute="top" secondItem="tGk-oj-9O4" secondAttribute="bottom" constant="16" id="CTQ-Tt-dyv"/>
                 <constraint firstAttribute="bottom" secondItem="plA-Fn-x3i" secondAttribute="bottom" id="MzD-WZ-1wk"/>
-                <constraint firstItem="tGk-oj-9O4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="-16" id="QxK-aw-AJX"/>
+                <constraint firstItem="tGk-oj-9O4" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="41" id="OtL-3B-wAQ"/>
                 <constraint firstItem="MTT-DL-rzq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="XeF-B3-OiN"/>
                 <constraint firstItem="plA-Fn-x3i" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="dGv-Bb-Gdw"/>
                 <constraint firstItem="plA-Fn-x3i" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="gsZ-jA-nv9"/>
                 <constraint firstItem="MTT-DL-rzq" firstAttribute="bottom" secondItem="plA-Fn-x3i" secondAttribute="top" id="l8C-Bc-Pme"/>
+                <constraint firstItem="tGk-oj-9O4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="14" id="lnv-vJ-khP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MTT-DL-rzq" secondAttribute="trailing" id="wNu-iN-C4s"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
