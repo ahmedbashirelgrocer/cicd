@@ -203,7 +203,7 @@ extension ApplyPromoVC {
         promoHandler.grocery = self.previousGrocery
         isGettingPromo = true
         let offset = self.promoCodeArray.count
-        print("offset: \(offset)")
+       //  print("offset: \(offset)")
         promoHandler.getPromoList (limmit: 10, offset: offset){ promoCodeArray, error in
             self.isGettingPromo = false
             self.isFirstTime = false

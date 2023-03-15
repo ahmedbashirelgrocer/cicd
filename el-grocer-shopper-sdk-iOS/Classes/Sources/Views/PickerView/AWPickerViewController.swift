@@ -146,7 +146,7 @@ class AWPickerViewController : UIViewController {
                         self.saveResponseData(response, grocery: self.currentGrocery)
                         self.activityIndication.stopAnimating()
                         self.lblNoSlot.isHidden =  self.collectionData.count > 0
-                        print("slots count >>> \(self.collectionData.count)")
+                       //  print("slots count >>> \(self.collectionData.count)")
                         if self.collectionData.count == 0 {
                             FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Successrespone" , ["error" : response.description])
                         }

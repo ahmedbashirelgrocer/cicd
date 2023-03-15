@@ -425,8 +425,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
             return self.tableView.reloadDataOnMain()
         }
         
-        print("old_Location: \(oldLocation?.lat ?? 0), \(oldLocation?.lng ?? 0)")
-        print("new_Location: \(address.latitude), \(address.longitude)")
+       //  print("old_Location: \(oldLocation?.lat ?? 0), \(oldLocation?.lng ?? 0)")
+       //  print("new_Location: \(address.latitude), \(address.longitude)")
         
         var lastFetchMin = 0.0
         if  let lastCheckDate = SDKManager.shared.homeLastFetch {
@@ -1170,7 +1170,7 @@ extension SmileSdkHomeVC : UICollectionViewDelegateFlowLayout{
         if cellSize.height > collectionView.frame.height {
             cellSize.height = collectionView.frame.height
         }
-        debugPrint("cell Size is : \(cellSize)")
+       // debugPrint("cell Size is : \(cellSize)")
         return cellSize
         
             //  return CGSize(width: 320, height: 78)

@@ -68,7 +68,7 @@ class PaymentMethodFetcher {
           }
           Thread.OnMainThread {
             if let paymentMethod = paymentMethods {
-              print(paymentMethods)
+             //  print(paymentMethods)
               for method in paymentMethod.regular{
                 if method.type.elementsEqual("scheme") {
                     

@@ -262,7 +262,7 @@ class SecondCheckoutVC: UIViewController {
                 SpinnerView.hideSpinnerView()
                 if error {
                     if let resultCode = response["resultCode"] as? String,  resultCode.count > 0 {
-                        print(resultCode)
+                        // print(resultCode)
                         let refusalReason =  (response["refusalReason"] as? String) ?? resultCode
                         AdyenManager.showErrorAlert(descr: refusalReason)
                         MixpanelEventLogger.trackCheckoutPaymentMethodError(error: refusalReason)
@@ -296,7 +296,7 @@ class SecondCheckoutVC: UIViewController {
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                        print(resultCode)
+                        //  print(resultCode)
                         if let reason = response["refusalReason"] as? String {
                             AdyenManager.showErrorAlert(descr: reason)
                             MixpanelEventLogger.trackCheckoutApplePayError(error: reason)
@@ -542,7 +542,7 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
     func switchStateChange(type: SourceType, switchState: Bool) {
         switch type {
         case .elWallet:
-            print("elwallet switch changed to >> \(switchState)")
+            //  print("elwallet switch changed to >> \(switchState)")
             self.viewModel.setIsWalletTrue(isWalletTrue: switchState)
             self.viewModel.updateSecondaryPaymentMethods()
             if switchState {
@@ -556,7 +556,7 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
             break
             
         case .smile:
-            print("smiles switch changed to >> \(switchState)")
+            // print("smiles switch changed to >> \(switchState)")
             self.viewModel.setIsSmileTrue(isSmileTrue: switchState)
             self.viewModel.updateSecondaryPaymentMethods()
             if switchState {

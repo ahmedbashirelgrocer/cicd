@@ -87,7 +87,7 @@ class ElWalletAddFundsVC: UIViewController {
             self.startPaymentProcess()
         }else{
             //
-            print("enter a valid amount please")
+           //  print("enter a valid amount please")
         }
         
     }
@@ -115,7 +115,7 @@ class ElWalletAddFundsVC: UIViewController {
                     let vc = ElGrocerViewControllers.getPaymentSuccessVC()
                     if error {
                         if let resultCode = response["resultCode"] as? String {
-                            print(resultCode)
+                           //  print(resultCode)
                             vc.isSuccess = false
                             vc.ispushed = true
                             vc.controlerType = .payment
@@ -123,7 +123,7 @@ class ElWalletAddFundsVC: UIViewController {
                         }
                     }else {
                         //TODO: success case
-                        print(" funds transfer successfully")
+                       //  print(" funds transfer successfully")
                         vc.isSuccess = true
                         vc.ispushed = true
                         vc.amount = "\(adyenObj.amount)"
@@ -144,7 +144,7 @@ class ElWalletAddFundsVC: UIViewController {
                 return
             }
             if paymentOption == PaymentOption.voucher {
-                print("voucher")
+               //  print("voucher")
                 return
             }
             if let selectedApplePayMethod = self.applePaymentMethod {
@@ -156,7 +156,7 @@ class ElWalletAddFundsVC: UIViewController {
                     
                     if error {
                         if let resultCode = response["resultCode"] as? String {
-                            print(resultCode)
+                           //  print(resultCode)
                             let vc = ElGrocerViewControllers.getPaymentSuccessVC()
                             vc.isSuccess = false
                             vc.ispushed = true

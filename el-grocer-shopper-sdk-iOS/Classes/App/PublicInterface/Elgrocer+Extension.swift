@@ -94,9 +94,9 @@ public extension ElGrocer {
         func startFlavorStore(_ launchOptions: LaunchOptions ) {
             SDKManager.shared.launchOptions = launchOptions
             FlavorAgent.startFlavorEngine(launchOptions) {
-                debugPrint("startAnimation")
+               // debugPrint("startAnimation")
             } completion: { isCompleted in
-                debugPrint("Animation Completed")
+              //  debugPrint("Animation Completed")
             }
         }
       

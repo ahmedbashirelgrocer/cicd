@@ -103,7 +103,7 @@ class PreLoadData {
         manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage in
             guard let self = self else { return }
             //let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
-            print("self.retryAttemp: \(self.retryAttemp)")
+           //  print("self.retryAttemp: \(self.retryAttemp)")
             if isSuccess {
                 ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
                 self.updateLocationIfNeeded {

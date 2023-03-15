@@ -206,7 +206,7 @@ class ElgrocerStoreHeader:  UIView  {
     
     
     func navigationBarSearchTapped() {
-        print("Implement in controller")
+        //  print("Implement in controller")
         
         guard let vc = UIApplication.topViewController() else {
             return

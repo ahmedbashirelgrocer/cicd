@@ -210,7 +210,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func adjustHeaderDisplay() {
         
-        print("SDKManager.isGrocerySingleStore: \(SDKManager.isGrocerySingleStore)")
+        // print("SDKManager.isGrocerySingleStore: \(SDKManager.isGrocerySingleStore)")
 
         self.locationHeaderFlavor.isHidden = !SDKManager.isGrocerySingleStore
         self.locationHeader.isHidden = SDKManager.isGrocerySingleStore
@@ -1309,9 +1309,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         
         var spinner : SpinnerView?
+        Thread.OnMainThread {
         if let topVc = UIApplication.topViewController() {
             if topVc is GroceryFromBottomSheetViewController || topVc is UniversalSearchViewController || topVc is GlobalSearchResultsViewController {}else{
-                Thread.OnMainThread {
                     spinner = SpinnerView.showSpinnerViewInView(topVc.view)
                 }
             }

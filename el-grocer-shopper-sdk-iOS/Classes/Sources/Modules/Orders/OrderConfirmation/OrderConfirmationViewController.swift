@@ -726,7 +726,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                     let compaings: CampaignsResponse = try JSONDecoder().decode(CampaignsResponse.self, from: data)
                     self.viewBanner.banners = compaings.data
                 } catch {
-                    print("error >>> \(error)")
+                    //  print("error >>> \(error)")
                 }
                 break
                 

@@ -379,15 +379,18 @@ class BannerCampaign: NSObject {
         controller.viewHandler.setLastScreenName(UIApplication.gettopViewControllerName() ?? "")
         controller.hidesBottomBarWhenPushed = false
         controller.grocery = currentActive
-        if let topVc = UIApplication.topViewController() {
-            if topVc is GroceryLoaderViewController {
-                ElGrocerUtility.sharedInstance.delay(2) {
-                    self.goToSubcate(currentActive: currentActive, cateSelect: cateSelect, subCate: subCate)
+        Thread.OnMainThread {
+            if let topVc = UIApplication.topViewController() {
+                if topVc is GroceryLoaderViewController {
+                    ElGrocerUtility.sharedInstance.delay(2) {
+                        self.goToSubcate(currentActive: currentActive, cateSelect: cateSelect, subCate: subCate)
+                    }
+                }else{
+                    topVc.navigationController?.pushViewController(controller, animated: true)
                 }
-            }else{
-                topVc.navigationController?.pushViewController(controller, animated: true)
             }
         }
+   
     }
     
     func goToBrandOrCate(currentActive : Grocery? , subCate : SubCategory? , brand : GroceryBrand?) {
@@ -426,26 +429,29 @@ class BannerCampaign: NSObject {
         productsVC.bannerCampaign = self
        // productsVC.bannerlinks = bannerlinks
         productsVC.grocery = grocery
-
-        if let topVc = UIApplication.topViewController() {
-            if topVc is GroceryLoaderViewController {
-                ElGrocerUtility.sharedInstance.delay(2) {
-                    self.goToProductViewController(grocery)
-                }
-            }else{
-                if let topVc = UIApplication.topViewController() {
-                    if let nav = topVc.navigationController {
-                        nav.pushViewController(productsVC, animated: true)
-                    }else{
-                        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                        navigationController.viewControllers = [productsVC]
-                        navigationController.setLogoHidden(true)
-                        UIApplication.topViewController()?.present(navigationController, animated: false) {
-                            elDebugPrint("VC Presented") }
+        
+        Thread.OnMainThread {
+            if let topVc = UIApplication.topViewController() {
+                if topVc is GroceryLoaderViewController {
+                    ElGrocerUtility.sharedInstance.delay(2) {
+                        self.goToProductViewController(grocery)
+                    }
+                }else{
+                    if let topVc = UIApplication.topViewController() {
+                        if let nav = topVc.navigationController {
+                            nav.pushViewController(productsVC, animated: true)
+                        }else{
+                            let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                            navigationController.viewControllers = [productsVC]
+                            navigationController.setLogoHidden(true)
+                            UIApplication.topViewController()?.present(navigationController, animated: false) {
+                                elDebugPrint("VC Presented") }
+                        }
                     }
                 }
             }
         }
+
     }
     
     func fetchCategories(_ grocery : Grocery , completionHandler:@escaping (_ result: [Category]) -> Void) {

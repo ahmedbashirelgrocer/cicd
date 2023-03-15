@@ -163,7 +163,7 @@ class NetworkLayer {
             return nil
         }
         self.setAuthriztionToken()
-        debugPrint(" APILOGS: GET: URLString: \(URLString)")
+       // debugPrint(" APILOGS: GET: URLString: \(URLString)")
         return self.requestManager.get(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders, progress: progress, success: success, failure: failure )
     }
     @discardableResult
@@ -258,7 +258,7 @@ class NetworkLayer {
                             continue
                         }
                         urlList[call.URLString] = call.type
-                    print("dequeue call\(call.URLString) && \(call.parameters ?? "")")
+                 //   print("dequeue call\(call.URLString) && \(call.parameters ?? "")")
                        call.startNetWorkLayerCall(self)
                         
                     }
@@ -302,7 +302,10 @@ class NetworkLayer {
                             if buttonIndex == 1 {
                                 self.getToken()
                             } else {
-                                UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+                                Thread.OnMainThread {
+                                    UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+                                }
+                                
                             }
                         }
                     }else{

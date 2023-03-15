@@ -416,8 +416,9 @@ extension Product {
                                     return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
                                 }
                                 if promotionalShopFinalData.count == 0 {
-                                    if UIApplication.topViewController() is UniversalSearchViewController {
-                                        if (UIApplication.topViewController() as! UniversalSearchViewController).searchFor == .isForStoreSearch {
+                                    let topVc = UIApplication.topViewController()
+                                    if topVc is UniversalSearchViewController {
+                                        if (topVc as! UniversalSearchViewController).searchFor == .isForStoreSearch {
                                             continue
                                         }
                                     }

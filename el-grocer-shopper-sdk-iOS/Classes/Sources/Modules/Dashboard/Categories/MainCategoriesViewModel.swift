@@ -226,7 +226,7 @@ private extension MainCategoriesViewModel {
                     // handle parsing error
                 } catch {
                     // handle parsing error
-                    print("parsing error >> \(error)")
+                    //  print("parsing error >> \(error)")
                 }
                 
                 break
@@ -324,7 +324,7 @@ private extension MainCategoriesViewModel {
                     // handle parsing error
                 } catch {
                     // handle parsing error
-                    print("parsing error >> \(error)")
+                    //  print("parsing error >> \(error)")
                 }
                 break
                 
@@ -371,7 +371,7 @@ private extension MainCategoriesViewModel {
                 
                 break
             case .failure(let error):
-                print("handle error >> \(error)")
+                //    print("handle error >> \(error)")
                 break
             }
         }

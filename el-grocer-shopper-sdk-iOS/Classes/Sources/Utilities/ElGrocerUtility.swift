@@ -569,14 +569,14 @@ class ElGrocerUtility {
                         
                         if(location.isActive.boolValue == true){
                             
-                            print("%@ is an Active Location",location.locationName)
+                           //  print("%@ is an Active Location",location.locationName)
                             let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                            print("Locations Count:%d",locations.count)
+                           //  print("Locations Count:%d",locations.count)
                             
                             for tempLoc in locations {
                                 
-                                print("tempLoc.dbID:%@",tempLoc.dbID)
-                                print("location.dbID:%@",location.dbID)
+                               //  print("tempLoc.dbID:%@",tempLoc.dbID)
+                               //  print("location.dbID:%@",location.dbID)
                                 if tempLoc.dbID == location.dbID{
                                     tempLoc.isActive = NSNumber(value: true as Bool)
                                 }else{
@@ -591,12 +591,12 @@ class ElGrocerUtility {
                                     completionHandler(true, "")
                                     
                                 }else{
-                                    print("Error while setting default location on Server.")
+                                   //  print("Error while setting default location on Server.")
                                     completionHandler(false, "Error while setting default location on Server")
                                 }
                             })
                         }else{
-                            print("\(location.locationName) is Not an Active Location")
+                           //  print("\(location.locationName) is Not an Active Location")
                             completionHandler(false, "\(location.locationName) is Not an Active Location")
                         }
                         

@@ -103,10 +103,10 @@ public class ElWalletHomeViewModel {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: dataDict, options: .prettyPrinted)
                         let balance = try WalletBalance.init(data: jsonData)
-                        print(balance)
+                        // print(balance)
                         self.walletBalance.value = balance.balance
                     } catch {
-                        print(error)
+                        //   print(error)
                         if let showAlertClosure = self.showAlertClosure {
                             showAlertClosure()
                         }
@@ -150,7 +150,7 @@ public class ElWalletHomeViewModel {
                         self.transactionInfo.value = transactionData
                         self.allTransactions.value = transactionData.transactionHistory
                     } catch (let error){
-                        print(error)
+                        //    print(error)
                         if let showAlertClosure = self.showAlertClosure {
                             showAlertClosure()
                         }
@@ -173,11 +173,11 @@ public class ElWalletHomeViewModel {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
                         let voucherData = try VoucherRecord.init(data: jsonData)
-                        print(voucherData)
+                        //  print(voucherData)
                         self.voucherInfo.value = voucherData
                         self.allVouchers.value = voucherData.vouchers
                     } catch {
-                        print(error)
+                        //    print(error)
                         if let showAlertClosure = self.showAlertClosure {
                             showAlertClosure()
                         }

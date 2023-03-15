@@ -391,7 +391,7 @@ class FireBaseEventsLogger  {
 //            Analytics.logEvent( eventNameToSend  , parameters:newParms != nil ? newParms : [:]) //40 char limit
             
             if Platform.isDebugBuild {
-                print("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
+               //  print("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
                 elDebugPrint("*Firebase Logs*  *EventName*: \(eventNameToSend)  *Parms*: \(newParms as Any)  *****")
                 elDebugPrint("=====================*Firebase Logs event Name*=========================")
             }

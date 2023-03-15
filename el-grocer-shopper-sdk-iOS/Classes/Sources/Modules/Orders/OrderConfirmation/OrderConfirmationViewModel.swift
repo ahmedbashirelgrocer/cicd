@@ -182,7 +182,7 @@ private extension OrderConfirmationViewModel {
                     let compaings: CampaignsResponse = try JSONDecoder().decode(CampaignsResponse.self, from: data)
                     self.bannersSubject.onNext(compaings.data)
                 } catch {
-                    print("error >>> \(error)")
+                    //   print("error >>> \(error)")
                 }
                 break
                 

@@ -885,7 +885,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                        print(resultCode)
+                       // print(resultCode)
                         if let reason = response["refusalReason"] as? String {
                             AdyenManager.showErrorAlert(descr: reason)
                         }
@@ -930,7 +930,7 @@ class MyBasketPlaceOrderVC: UIViewController {
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String,  resultCode.count > 0 {
-                        print(resultCode)
+                       // print(resultCode)
                         let refusalReason =  (response["refusalReason"] as? String) ?? resultCode
                         AdyenManager.showErrorAlert(descr: refusalReason)
                     }
@@ -1036,7 +1036,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             AdyenManager.sharedInstance.isNewCardAdded = { (error, response,adyenObj) in
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                        print(resultCode)
+                        //   print(resultCode)
                         AdyenManager.showErrorAlert(descr: resultCode)
                     }
                 }else{

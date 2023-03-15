@@ -267,15 +267,15 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         }
         AdyenManager.sharedInstance.isNewCardAdded = { (error , response, adyenObj) in
             if error {
-                print("error in authorization")
+               //  print("error in authorization")
                 if let resultCode = response["resultCode"] as? String {
-                    print(resultCode)
+                   //  print(resultCode)
                     self.navigateToPaymentSuccessVC(isSuccess: false, creditCard: nil, controllerType: .cardAdd)
                         // handle faliure case
                 }
             }else{
                     //handle success case
-                print(response)
+               //  print(response)
                 self.navigateToPaymentSuccessVC(isSuccess: true, creditCard: nil, controllerType: .cardAdd)
                 
                 // Logging segment event for card added event
@@ -350,7 +350,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
                         self?.navigateToSuccessVCForVoucher(voucher: voucher, isSuccess: false, voucherValue: "")
                     }
                 } else {
-                    print("something wrong ho gaya")
+                   //  print("something wrong ho gaya")
                     self?.navigateToSuccessVCForVoucher(voucher: voucher, isSuccess: false, voucherValue: "")
                 }
             }

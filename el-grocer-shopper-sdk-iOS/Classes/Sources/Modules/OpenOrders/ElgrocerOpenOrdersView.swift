@@ -234,7 +234,7 @@ func collectionView(_ collectionView: UICollectionView, layout collectionViewLay
     if cellSize.height > self.frame.height {
         cellSize.height = self.frame.height
     }
-    debugPrint("cell Size is : \(cellSize)")
+    //debugPrint("cell Size is : \(cellSize)")
     return cellSize
 }
 

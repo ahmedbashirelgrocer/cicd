@@ -125,7 +125,7 @@ private extension HomeCellViewModel {
             parameters["category_id"] = category.id
             parameters["delivery_time"] =  deliveryTime
             
-            print("pagination >> offset >>> \(self.offset)")
+           // print("pagination >> offset >>> \(self.offset)")
             // Shows shimmring effect only for 1st page
             if self.offset == 0 {
                 self.productCollectionCellViewModelsSubject.onNext([
@@ -141,7 +141,7 @@ private extension HomeCellViewModel {
                         break
                         
                     case .failure(let error):
-                        print("hanlde error >> \(error)")
+                        //    print("hanlde error >> \(error)")
                         break
                     }
                 }
@@ -156,7 +156,7 @@ private extension HomeCellViewModel {
             guard category.id > 1 else {
                 AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: 0, 10, Int64(deliveryTime)) { [weak self] content, error in
                     if let error = error {
-                        print("handle error >>> \(error)")
+                        //  print("handle error >>> \(error)")
                         return
                     }
                     guard let response = content as? NSDictionary else { return }
@@ -170,7 +170,7 @@ private extension HomeCellViewModel {
                 guard let self = self else { return }
                 
                 if let error = error {
-                    print("handle error >>> \(error)")
+                    //  print("handle error >>> \(error)")
                     return
                 }
                 

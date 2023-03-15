@@ -4234,7 +4234,7 @@ extension MyBasketViewController {
                             secondVC.viewModel = vm
                             self.navigationController?.pushViewController(secondVC, animated: true)
                         }else {
-                            print("show error")
+                            //  print("show error")
                         }
                         
                     }

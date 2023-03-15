@@ -181,7 +181,7 @@ class StoresDataHandler {
     }()
     
     func getRetailerData(for Location : DeliveryAddress) {
-        print("\(Location.latitude), \(Location.longitude)")
+        //  print("\(Location.latitude), \(Location.longitude)")
             apiHandler.getAllretailers(latitude: Location.latitude, longitude: Location.longitude, success: { (task, responseObj) in
             if  responseObj is NSDictionary {
                 let data: NSDictionary = responseObj as? NSDictionary ?? [:]

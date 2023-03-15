@@ -121,11 +121,11 @@ class SecondaryViewModel {
             self.apiCall.onNext(false)
             switch result {
                 case .success(let response):
-                    print(response)
+                //  print(response)
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
-                        print(checkoutData)
+                        //  print(checkoutData)
                         if let slot = checkoutData.data.selectedDeliverySlot {
                             UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
                         }
@@ -133,7 +133,7 @@ class SecondaryViewModel {
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
                     } catch(let error) {
-                        print(error)
+                        //  print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
                     }
                 case .failure(let error):
@@ -155,11 +155,11 @@ class SecondaryViewModel {
             self.apiCall.onNext(false)
             switch result {
                 case .success(let response):
-                    print(response)
+                //  print(response)
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
-                        print(checkoutData)
+                        //    print(checkoutData)
                         if let slot = checkoutData.data.selectedDeliverySlot {
                             UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
                         }
@@ -170,7 +170,7 @@ class SecondaryViewModel {
                         // Logging segment event for checkout started
                         SegmentAnalyticsEngine.instance.logEvent(event: CheckoutStartedEvent())
                     } catch(let error) {
-                        print(error)
+                        //    print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
                     }
                 case .failure(let error):
@@ -187,7 +187,7 @@ class SecondaryViewModel {
             self.getApiCall.onNext(false)
             switch result {
                 case .success(let response):
-                    print(response)
+                //     print(response)
                     guard let success = (response["data"] as? NSDictionary)?["Success"] as? Bool else {
                         self.getBasketError.onNext(ElGrocerError.parsingError())
                         return

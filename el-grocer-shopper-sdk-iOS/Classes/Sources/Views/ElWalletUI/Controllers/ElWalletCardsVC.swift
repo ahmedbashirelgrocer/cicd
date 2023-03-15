@@ -146,9 +146,9 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
         }
         AdyenManager.sharedInstance.isNewCardAdded = { (error , response, adyenObj) in
             if error {
-                print("error in authorization")
+               //  print("error in authorization")
                 if let resultCode = response["resultCode"] as? String {
-                    print(resultCode)
+                   //  print(resultCode)
                     self.parseAdyenResponse(response: response)
                     self.navigateToPaymentSuccessVC(isSuccess: false, creditCard: nil, controllerType: .cardAdd)
                     //handle faliure Case
@@ -166,7 +166,7 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
     
     func parseAdyenResponse(response: NSDictionary) {
         
-        print(response)
+       //  print(response)
     }
     
     func getAdyenPaymentMethods() {

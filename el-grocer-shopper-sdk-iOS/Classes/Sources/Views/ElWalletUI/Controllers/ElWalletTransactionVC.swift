@@ -167,11 +167,11 @@ extension ElWalletTransactionVC {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let transactionData = try TransactionRecord.init(data: jsonData)
-                        print(transactionData)
+                       //  print(transactionData)
                         self.allTransection.append(contentsOf: transactionData.transactionHistory)
                         self.filterTransectionInArray(transectionArray: transactionData.transactionHistory)
                     } catch (let error){
-                        print(error)
+                       //  print(error)
                     }
                 }
                 case .failure(let error):
