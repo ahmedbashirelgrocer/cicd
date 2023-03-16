@@ -277,7 +277,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     func logMixpanelConfirmClick (_ location : CLLocation )  {
         
-        self.viewModel.updateAddressForLocation(location) { (result, returnLocation) in
+       /* self.viewModel.updateAddressForLocation(location) { (result, returnLocation) in
             var addressString = ""
             if result {
                 if (self.viewModel.selectedAddress.value?.formattedAddress) != nil {
@@ -287,7 +287,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 }
                 MixpanelEventLogger.trackCreateLocationConfirmClick(addressText: addressString)
             }
-        }
+        }*/
     }
     
     func updateAddress(_ location : CLLocation )  {
