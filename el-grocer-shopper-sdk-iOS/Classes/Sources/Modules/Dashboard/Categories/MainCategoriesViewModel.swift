@@ -21,7 +21,7 @@ protocol MainCategoriesViewModelOutput {
     
     var viewAllCategories: Observable<Grocery?> { get }
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
-    var viewAllProductOfRecentPurchase: Observable<Void> { get }
+    var viewAllProductOfRecentPurchase: Observable<Grocery?> { get }
     var categoryTap: Observable<CategoryDTO> { get }
     var bannerTap: Observable<BannerDTO> { get }
     var reloadTable: Observable<Void> { get }
@@ -55,7 +55,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var refreshBasket: Observable<Void> { self.refreshBasketSubject.asObserver() }
     var viewAllCategories: Observable<Grocery?> { viewAllCategoriesSubject.asObservable() }
     var viewAllProductsOfCategory: RxSwift.Observable<CategoryDTO?> { viewAllProductsOfCategorySubject.asObservable() }
-    var viewAllProductOfRecentPurchase: Observable<Void> {viewAllProductOfRecentPurchaseSubject.asObservable() }
+    var viewAllProductOfRecentPurchase: Observable<Grocery?> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     var categoryTap: Observable<CategoryDTO> { categoryTapSubject.asObservable() }
     var reloadTable: Observable<Void> { reloadTableSubject.asObservable() }
@@ -68,7 +68,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var refreshBasketSubject = PublishSubject<Void>()
     private var viewAllCategoriesSubject = PublishSubject<Grocery?>()
     private var viewAllProductsOfCategorySubject = PublishSubject<CategoryDTO?>()
-    private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Void>()
+    private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Grocery?>()
     private var bannerTapSubject = PublishSubject<BannerDTO>()
     private var categoryTapSubject = PublishSubject<CategoryDTO>()
     private var reloadTableSubject = PublishSubject<Void>()
@@ -146,7 +146,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                     
                 }
                 
-                self.viewModels.append(SectionModel(model: 4, items: result))
+                self.viewModels.append(SectionModel(model: 3, items: result))
                 self.cellViewModelsSubject.onNext(self.viewModels)
             } else {
                 if self.isCategoriesApiCompleted {
@@ -183,6 +183,10 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             return categories.count > 5 ? 290 : 180
         
         case is HomeCellViewModel:
+            if indexPath.row == 0 && self.recentPurchasedVM.isNotEmpty {
+                return 309
+            }
+            
             if self.viewModels[indexPath.section].items[indexPath.row] is HomeCellViewModel {
                 return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
             } else if self.viewModels[indexPath.section].items[indexPath.row] is GenericBannersCellViewModel {
@@ -271,7 +275,8 @@ private extension MainCategoriesViewModel {
                 self.categoriesCellVMs = [categoriesCellVM]
                 
                 // creating home cell view models
-                self.homeCellVMs = self.categories.map({
+                // TODO: Need to update the logic of
+                self.homeCellVMs = self.categories.filter { $0.id != -1 }.map({
                     let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                     viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
                     self.refreshProductCellSubject.bind(to: viewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
@@ -281,6 +286,7 @@ private extension MainCategoriesViewModel {
                         .map { _ in () }
                         .bind(to: self.reloadTableSubject)
                         .disposed(by: self.disposeBag)
+                    
                     return viewModel
                 })
                 self.dispatchGroup.leave()
@@ -362,7 +368,7 @@ private extension MainCategoriesViewModel {
                     let title = localizedString("previously_purchased_products_title", bundle: .resource, comment: "")
                     let homeCellViewModel = HomeCellViewModel(title: title, products: productDTOs, grocery: self.grocery)
                     
-                    homeCellViewModel.outputs.viewAll.map { _ in }.bind(to: self.viewAllProductOfRecentPurchaseSubject).disposed(by: self.disposeBag)
+                    homeCellViewModel.outputs.viewAll.map { _ in self.grocery }.bind(to: self.viewAllProductOfRecentPurchaseSubject).disposed(by: self.disposeBag)
                     homeCellViewModel.outputs.basketUpdated.bind(to: self.refreshBasketSubject).disposed(by: self.disposeBag)
                     self.refreshProductCellSubject.bind(to: homeCellViewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
                     

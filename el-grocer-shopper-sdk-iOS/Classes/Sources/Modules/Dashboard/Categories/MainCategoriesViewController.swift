@@ -1589,11 +1589,11 @@ private extension MainCategoriesViewController {
             
         }).disposed(by: disposeBag)
          
-        self.viewModel.outputs.viewAllProductOfRecentPurchase.subscribe(onNext: { [weak self] in
+        self.viewModel.outputs.viewAllProductOfRecentPurchase.subscribe(onNext: { [weak self] grocery in
             guard let self = self else { return }
             
             let productsVC = ElGrocerViewControllers.productsViewController()
-            productsVC.grocery = self.grocery
+            productsVC.grocery = grocery
             self.navigationController?.pushViewController(productsVC, animated: true)
         }).disposed(by: disposeBag)
         
