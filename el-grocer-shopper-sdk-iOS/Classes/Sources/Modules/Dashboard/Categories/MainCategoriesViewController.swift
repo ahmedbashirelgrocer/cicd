@@ -1588,11 +1588,13 @@ private extension MainCategoriesViewController {
             SegmentAnalyticsEngine.instance.logEvent(event: ProductCategoryViewAllClickedEvent(category: category?.categoryDB))
             
         }).disposed(by: disposeBag)
-         
+        
         self.viewModel.outputs.viewAllProductOfRecentPurchase.subscribe(onNext: { [weak self] grocery in
             guard let self = self else { return }
             
+            // TODO: We need to remove the home object dependency
             let productsVC = ElGrocerViewControllers.productsViewController()
+            productsVC.homeObj = Home.init("", withCategory: nil, withBanners: nil, withType: .Purchased, andWithResponse: nil, grocery)
             productsVC.grocery = grocery
             self.navigationController?.pushViewController(productsVC, animated: true)
         }).disposed(by: disposeBag)
