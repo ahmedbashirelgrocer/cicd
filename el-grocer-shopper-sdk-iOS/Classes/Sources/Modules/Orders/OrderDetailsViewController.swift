@@ -818,6 +818,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                     return
                 }
             }
+            
+            let _ = SpinnerView.showSpinnerViewInView(self.view)
+            
             if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
                 self.StoreDataSource.getRetailerData(for: currentAddress)
             }
@@ -865,6 +868,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
         //let index = ElGrocerUtility.sharedInstance.cAndcRetailerList.firstIndex(of: groceryID)
         if index == nil {
+            SpinnerView.hideSpinnerView()
             ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("reorder_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
             return
         }
@@ -876,6 +880,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     private func createBasketAndNavigateToView() {
         
         guard self.order != nil else {
+            SpinnerView.hideSpinnerView()
             return
         }
         
@@ -910,7 +915,6 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                                     DatabaseHelper.sharedInstance.saveDatabase()
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
                                     self.naviagteToGroceryView()
-                                    
                                 }
                         }
                     case .failure(let error):
@@ -945,6 +949,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                                     DatabaseHelper.sharedInstance.saveDatabase()
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
                                     self.naviagteToGroceryView()
+                                    SpinnerView.hideSpinnerView()
                                     
                                 }
                            // }
@@ -992,7 +997,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }
         }
         
-        
+        SpinnerView.hideSpinnerView()
         if self.mode == .pop {
             self.navigationController?.popViewController(animated: true)
         }else if self.mode == .popToRoot {

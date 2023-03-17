@@ -1154,12 +1154,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     // MARK: DeepLink
     @objc func handleDeepLink() {
-        if !(UIApplication.topViewController() is GenericStoresViewController) {
-            if (ElGrocerUtility.sharedInstance.deepLinkURL.isEmpty == false){
-                DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
-                ElGrocerUtility.sharedInstance.deepLinkURL = ""
-            }
-        }
+//        if !(UIApplication.topViewController() is GenericStoresViewController)  {
+//            if (ElGrocerUtility.sharedInstance.deepLinkURL.isEmpty == false){
+//                DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
+//                ElGrocerUtility.sharedInstance.deepLinkURL = ""
+//            }
+//        }
     }
     
     @objc func deepLinkErrorHandle() {

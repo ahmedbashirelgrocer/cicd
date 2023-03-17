@@ -272,13 +272,7 @@ class DynamicLinksHelper {
             self.gotoOrderDetail(order_id)
             return
         }
-        let orderID = dUrl?.getQueryItemValueForKey("orderID")
-        if orderID != nil  {
-            self.gotoOrderDetail(orderID)
-            return
-        }
-        
-        
+      
         let serviceID = dUrl?.getQueryItemValueForKey("serviceID")
         //elDebugPrint("tmpParent  is:%@", serviceID ?? "nil")
         if serviceID != nil {
@@ -1121,6 +1115,7 @@ class DynamicLinksHelper {
         
         let ordersController = ElGrocerViewControllers.orderDetailsViewController()
         ordersController.orderIDFromNotification = "\(orderId)"
+        ordersController.mode = .dismiss
         let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
         navigationController.viewControllers = [ordersController]
         navigationController.modalPresentationStyle = .fullScreen

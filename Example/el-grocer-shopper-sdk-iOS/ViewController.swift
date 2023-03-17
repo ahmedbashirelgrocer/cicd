@@ -12,6 +12,7 @@ import CoreLocation
 import AppTrackingTransparency
 import el_grocer_shopper_sdk_iOS
 import RxSwift
+import SwiftSpinner
 
 class ViewController: UIViewController {
     
@@ -83,7 +84,13 @@ class ViewController: UIViewController {
         
        // ElGrocer.start(with: launchOptions)
         
-        ElGrocer.start(with: launchOptions) {  } completion: { isLoaded in }
+        ElGrocer.start(with: launchOptions) {
+            
+            SwiftSpinner.show("Calling Pyari Api")
+            
+        } completion: { isLoaded in
+            SwiftSpinner.hide()
+        }
 
         
         

@@ -786,7 +786,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         // self.loadedProductList.count > 30 ||
-        if  !self.moreProductsAvailable {
+        if  !self.moreProductsAvailable && !SDKManager.isGrocerySingleStore {
             return  CGSize.init(width: self.view.frame.size.width , height: 146)
         }
         return CGSize.zero
