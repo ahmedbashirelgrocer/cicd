@@ -44,6 +44,9 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             var viewHandler : CateAndSubcategoryView!
     private var selectedBrand : GroceryBrand?
     private var searchHeaderHeight : CGFloat = KElgrocerlocationViewFullHeight
+    private func getCurrentDeliveryAddress() -> DeliveryAddress? {
+        return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+    }
 
     var collectionViewBottomConstraint: NSLayoutConstraint?
     
@@ -141,6 +144,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         
     }
     
+    
     private func setLocationViewFlavorHeaderConstraints() {
         
         self.locationHeaderFlavor.translatesAutoresizingMaskIntoConstraints = false
@@ -185,13 +189,14 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     
     func setlocationView(_ optGrocery : Grocery?) {
-        
-        if optGrocery != nil {
-            self.locationHeader.configuredLocationAndGrocey(optGrocery!)
-        }else{
-            self.locationHeader.configured()
+        guard let grocery = optGrocery  else{
+            return
         }
+        
+        SDKManager.isGrocerySingleStore ?
+        self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
         self.locationHeader.currentVC = self
+  
     }
     
     override func refreshSlotChange() {

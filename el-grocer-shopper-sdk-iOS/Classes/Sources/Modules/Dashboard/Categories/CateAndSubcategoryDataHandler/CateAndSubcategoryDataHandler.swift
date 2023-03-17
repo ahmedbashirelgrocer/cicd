@@ -267,6 +267,7 @@ extension CateAndSubcategoryView {
     // MARK: fetchAllProductsOfCategory
     
     private func fetchAllProdctusOfCategory(_ isLoadMore : Bool = false) {
+        guard self.parentCategory?.dbID != nil else { return }
         var pageNumber = 0
         var currentOffSet = self.currentOffset
         let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)

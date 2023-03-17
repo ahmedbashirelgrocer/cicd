@@ -285,8 +285,8 @@ class NoStoreView: UIView {
             imgNoData.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
         self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  localizedString("lbl_atOurStores", comment: "")
-        self.lblExtraDetail.text = localizedString("lbl_NoDataStoreSearch", comment: "")
-        self.btnNoData.isHidden = false
+        self.lblExtraDetail.text = SDKManager.isGrocerySingleStore ? "" : localizedString("lbl_NoDataStoreSearch", comment: "")
+        self.btnNoData.isHidden = SDKManager.isGrocerySingleStore
         self.btnNoData.setTitle(" " + localizedString("btn_NoSearch_noDataView", comment: ""), for: .normal)
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             let flippedImage = UIImage(name: "searchButtonWhite")?.imageFlippedForRightToLeftLayoutDirection() ?? UIImage(name: "searchButtonWhite")

@@ -75,21 +75,26 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     
     func setTableViewHeader(_ optGrocery : Grocery?) {
         
-        DispatchQueue.main.async(execute: {
+        guard let grocery = optGrocery else {
+            return
+        }
+        
+        DispatchQueue.main.async {
             [weak self] in
             guard let self = self else {return}
-//            var rect = self.locationHeader.frame
-//            rect.size = CGSize.init(width: UIScreen.main.bounds.size.width , height: self.locationHeader.frame.size.height)
-//            self.locationHeader.frame = rect
-            if optGrocery != nil {
-                self.locationHeader.configuredLocationAndGrocey(optGrocery!)
-            }else{
-                self.locationHeader.configured()
+            if SDKManager.isGrocerySingleStore {
+                self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.deliveryAddress)
+            } else {
+                self.locationHeader.configuredLocationAndGrocey(grocery)
+                if optGrocery != nil { } else {
+                    self.locationHeader.configured()
+                }
+                self.locationHeader.setNeedsLayout()
+                self.locationHeader.layoutIfNeeded()
             }
-            self.locationHeader.setNeedsLayout()
-            self.locationHeader.layoutIfNeeded()
             self.collectionView.reloadData()
-        })
+        }
+      
     }
     
     // MARK: Life cycle
@@ -194,12 +199,11 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             self.setLocationViewFlavorHeaderConstraints()
         } else {
             if  self.grocery != nil {
-                self.setTableViewHeader(self.grocery)
                 self.view.addSubview(self.locationHeader)
                 self.setLocationViewConstraints()
             }
         }
-        
+        self.setTableViewHeader(self.grocery)
         
     }
     
