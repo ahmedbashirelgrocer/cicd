@@ -98,7 +98,13 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.dataSource?.getBanners(searchInput: universalSearchString ?? "")
         }else if let homeFeed = self.homeObj {
             self.productsArray = homeFeed.products
-            self.checkEmptyView()
+            
+            self.isGettingProducts = true
+            if (homeFeed.type == HomeType.Featured){
+                self.getFeaturedProductsFromServer((self.grocery?.dbID)!)
+            }else{
+                self.getTopSellingProductsFromServer((self.grocery?.dbID)!, withHomeFeed: homeFeed, campaign: nil)
+            }
         }else if let banner = self.bannerCampaign {
             self.productsArray = []
             if let groceryID   = self.grocery?.dbID {
@@ -307,6 +313,8 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     }
     
     func checkEmptyView() {
+        guard self.isGettingProducts == false else { return }
+        
         if let emptyView = self.emptyView {
             if self.productsArray.count == 0 {
                 DispatchQueue.main.async {
