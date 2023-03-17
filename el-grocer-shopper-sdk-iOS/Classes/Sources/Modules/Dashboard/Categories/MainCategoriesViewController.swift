@@ -662,7 +662,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             [weak self] in
             guard let self = self else {return}
             SDKManager.isGrocerySingleStore ?
-            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
+            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
             
             self.tableViewCategories.tableHeaderView = nil
         })
@@ -1527,7 +1527,7 @@ private extension MainCategoriesViewController {
         
         guard self.viewModel == nil else {
             if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
-                self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
+                self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
                 bindViews()
                 return
             }
@@ -1536,7 +1536,7 @@ private extension MainCategoriesViewController {
             return
         }
         
-        self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: self.getCurrentDeliveryAddress())
+        self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
     }
     
    

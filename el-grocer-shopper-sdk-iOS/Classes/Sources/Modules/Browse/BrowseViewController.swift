@@ -331,7 +331,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
             [weak self] in
             guard let self = self else {return}
             SDKManager.isGrocerySingleStore ?
-            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
+            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
             
             self.tableViewCategories.tableHeaderView = nil
         })

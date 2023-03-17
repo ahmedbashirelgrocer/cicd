@@ -266,6 +266,19 @@ class DynamicLinksHelper {
             self.goToChat()
             return
         }
+        
+        let order_id = dUrl?.getQueryItemValueForKey("order_id")
+        if order_id != nil  {
+            self.gotoOrderDetail(order_id)
+            return
+        }
+        let orderID = dUrl?.getQueryItemValueForKey("orderID")
+        if orderID != nil  {
+            self.gotoOrderDetail(orderID)
+            return
+        }
+        
+        
         let serviceID = dUrl?.getQueryItemValueForKey("serviceID")
         //elDebugPrint("tmpParent  is:%@", serviceID ?? "nil")
         if serviceID != nil {
@@ -1099,6 +1112,21 @@ class DynamicLinksHelper {
             }
         }
         
+      
+    }
+    
+    private func gotoOrderDetail(_ orderID: String?) {
+        
+        guard let orderId = orderID else { return }
+        
+        let ordersController = ElGrocerViewControllers.orderDetailsViewController()
+        ordersController.orderIDFromNotification = "\(orderId)"
+        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.viewControllers = [ordersController]
+        navigationController.modalPresentationStyle = .fullScreen
+        if let vc = UIApplication.topViewController() {
+            vc.present(navigationController, animated: true, completion: nil)
+        }
       
     }
     
