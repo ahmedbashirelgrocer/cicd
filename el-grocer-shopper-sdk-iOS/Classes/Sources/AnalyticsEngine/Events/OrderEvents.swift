@@ -44,15 +44,15 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
                 quantity = basketItem.count.intValue
             }
             
-            dictionary[EventParameterKeys.productName]      = product.name ?? ""
+            dictionary[EventParameterKeys.productName]      = product?.nameEn ?? ""
             dictionary[EventParameterKeys.productId]        = product.productId.stringValue
             dictionary[EventParameterKeys.categoryID]       = product.categoryId?.stringValue ?? ""
-            dictionary[EventParameterKeys.categoryName]     = product.categoryName ?? ""
+            dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId.stringValue
-            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryName ?? ""
+            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryNameEn ?? ""
             dictionary[EventParameterKeys.price]            = product.price.stringValue
             dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
-            dictionary[EventParameterKeys.brandName]        = product.brandName ?? ""
+            dictionary[EventParameterKeys.brandName]        = product?.brandNameEn ?? ""
             dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
             dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
             dictionary[EventParameterKeys.isRecipe]         = false
@@ -91,15 +91,15 @@ struct OrderEditClickedEvent: AnalyticsEventDataType {
                 quantity = basketItem.count.intValue
             }
             
-            dictionary[EventParameterKeys.productName]      = product.name ?? ""
+            dictionary[EventParameterKeys.productName]      = product.nameEn ?? ""
             dictionary[EventParameterKeys.productId]        = product.productId.stringValue
             dictionary[EventParameterKeys.categoryID]       = product.categoryId?.stringValue ?? ""
-            dictionary[EventParameterKeys.categoryName]     = product.categoryName ?? ""
+            dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId.stringValue
-            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryName ?? ""
+            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryNameEn ?? ""
             dictionary[EventParameterKeys.price]            = product.price.stringValue
             dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
-            dictionary[EventParameterKeys.brandName]        = product.brandName ?? ""
+            dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
             dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
             dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
             dictionary[EventParameterKeys.quantity]         = String(quantity)
@@ -218,7 +218,7 @@ struct ItemReplacedEvent: AnalyticsEventDataType {
     private func getProductDictionary(product: Product) -> [String: Any] {
         return [
             EventParameterKeys.productId        : product.productId.stringValue,
-            EventParameterKeys.productName      : product.name ?? "",
+            EventParameterKeys.productName      : product.nameEn ?? "",
         ]
     }
 }

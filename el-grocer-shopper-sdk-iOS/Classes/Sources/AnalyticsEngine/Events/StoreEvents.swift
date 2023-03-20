@@ -87,7 +87,7 @@ struct ProductCategoryViewAllClickedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.productCategoryViewAllClicked)
         self.metaData = [
             EventParameterKeys.categoryID: category?.dbID.stringValue ?? "",
-            EventParameterKeys.categoryName: category?.name ?? "",
+            EventParameterKeys.categoryName: category?.nameEn ?? "",
         ]
     }
 }
