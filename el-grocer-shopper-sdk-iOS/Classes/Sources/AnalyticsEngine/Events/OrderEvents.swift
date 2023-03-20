@@ -159,7 +159,7 @@ struct EditOrderCompletedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.editOrderCompleted)
         self.metaData = [
             EventParameterKeys.orderId: order?.dbID.stringValue ?? "",
-            EventParameterKeys.retailerID: ElGrocerUtility.sharedInstance.cleanGroceryID(grocery),
+            EventParameterKeys.retailerID: ElGrocerUtility.sharedInstance.cleanGroceryID(grocery?.dbID),
         ]
     }
 }
@@ -184,7 +184,7 @@ struct RepeatOrderClickedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.repeatOrderClicked)
         self.metaData = [
             EventParameterKeys.orderId: order?.dbID.stringValue ?? "",
-            EventParameterKeys.retailerID: ElGrocerUtility.sharedInstance.cleanGroceryID(grocery),
+            EventParameterKeys.retailerID: ElGrocerUtility.sharedInstance.cleanGroceryID(grocery?.dbID),
             
         ]
     }
@@ -198,7 +198,7 @@ struct ChooseReplacementClickedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.chooseReplacementClicked)
         self.metaData = [
             EventParameterKeys.orderId: order?.dbID.stringValue ?? "",
-            EventParameterKeys.retailerID: ElGrocerUtility.sharedInstance.cleanGroceryID(grocery),
+            EventParameterKeys.retailerID: ElGrocerUtility.sharedInstance.cleanGroceryID(grocery?.dbID),
         ]
     }
 }
