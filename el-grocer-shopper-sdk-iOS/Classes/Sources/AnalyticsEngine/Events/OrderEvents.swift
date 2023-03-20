@@ -44,7 +44,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
                 quantity = basketItem.count.intValue
             }
             
-            dictionary[EventParameterKeys.productName]      = product?.nameEn ?? ""
+            dictionary[EventParameterKeys.productName]      = product.nameEn ?? ""
             dictionary[EventParameterKeys.productId]        = product.productId.stringValue
             dictionary[EventParameterKeys.categoryID]       = product.categoryId?.stringValue ?? ""
             dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
@@ -52,7 +52,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryNameEn ?? ""
             dictionary[EventParameterKeys.price]            = product.price.stringValue
             dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
-            dictionary[EventParameterKeys.brandName]        = product?.brandNameEn ?? ""
+            dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
             dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
             dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
             dictionary[EventParameterKeys.isRecipe]         = false

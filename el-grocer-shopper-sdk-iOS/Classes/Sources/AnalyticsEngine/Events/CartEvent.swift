@@ -116,12 +116,12 @@ struct CartCheckoutEvent: AnalyticsEventDataType {
                 quantity = basketItem.count.intValue
             }
             
-            dictionary[EventParameterKeys.productName]      = product?.nameEn ?? ""
+            dictionary[EventParameterKeys.productName]      = product.nameEn ?? ""
             dictionary[EventParameterKeys.productId]        = product.productId.stringValue
             dictionary[EventParameterKeys.categoryID]       = product.categoryId?.stringValue ?? ""
             dictionary[EventParameterKeys.categoryName]     = product.categoryNameEn ?? ""
             dictionary[EventParameterKeys.subcategoryID]    = product.subcategoryId.stringValue
-            dictionary[EventParameterKeys.subcategoryName]  = product?.subcategoryNameEn ?? ""
+            dictionary[EventParameterKeys.subcategoryName]  = product.subcategoryNameEn ?? ""
             dictionary[EventParameterKeys.price]            = product.price.stringValue
             dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
             dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""

@@ -5,6 +5,7 @@ target 'el-grocer-shopper-sdk-iOS_Example' do
   pod 'el-grocer-shopper-sdk-iOS', :path => '../'
   #pod 'AFNetworking', '~> 3.2.1'
   pod 'IQKeyboardManagerSwift'
+  pod 'SwiftSpinner'
   
   
   target 'el-grocer-shopper-sdk-iOS_Tests' do
