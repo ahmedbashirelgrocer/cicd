@@ -387,8 +387,10 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
             DispatchQueue.main.async { [weak cell] in
                 cell?.setBorderForPromo()
             }
-            
         }
+        
+        // Logging segment event for Promo Code Viewed
+        SegmentAnalyticsEngine.instance.logEvent(event: PromoCodeViewedEvent(promoCode: self.promoCodeArray[indexPath.row]))
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
