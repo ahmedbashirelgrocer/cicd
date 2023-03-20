@@ -390,7 +390,9 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         // Logging segment event for Promo Code Viewed
-        SegmentAnalyticsEngine.instance.logEvent(event: PromoCodeViewedEvent(promoCode: self.promoCodeArray[indexPath.row]))
+        if indexPath.row < self.promoCodeArray.count {
+            SegmentAnalyticsEngine.instance.logEvent(event: PromoCodeViewedEvent(promoCode: self.promoCodeArray[indexPath.row]))
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
