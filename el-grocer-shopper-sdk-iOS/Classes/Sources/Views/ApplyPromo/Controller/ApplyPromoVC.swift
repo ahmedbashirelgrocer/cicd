@@ -391,7 +391,10 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         
         // Logging segment event for Promo Code Viewed
         if indexPath.row < self.promoCodeArray.count {
-            SegmentAnalyticsEngine.instance.logEvent(event: PromoCodeViewedEvent(promoCode: self.promoCodeArray[indexPath.row]))
+            if !self.promoCodeArray[indexPath.row].isViewed {
+                SegmentAnalyticsEngine.instance.logEvent(event: PromoCodeViewedEvent(promoCode: self.promoCodeArray[indexPath.row]))
+                self.promoCodeArray[indexPath.row].isViewed = true
+            }
         }
     }
     

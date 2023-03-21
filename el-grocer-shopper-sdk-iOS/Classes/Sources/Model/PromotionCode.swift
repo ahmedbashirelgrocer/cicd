@@ -28,6 +28,9 @@ class PromotionCode: NSObject, NSCoding, NSSecureCoding {
     var groceryName: String?
     var groceryImage: String?
     
+    // Keep track of viewed event logging
+    var isViewed = false
+    
     required convenience init(coder decoder: NSCoder) {
         self.init()
         
