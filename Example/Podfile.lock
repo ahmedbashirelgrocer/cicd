@@ -39,7 +39,7 @@ PODS:
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.4.8):
+  - el-grocer-shopper-sdk-iOS (1.4.96):
     - Adyen (~> 4.7.3)
     - AlgoliaSearchClient (~> 8.0)
     - Analytics
@@ -337,11 +337,13 @@ PODS:
   - SwiftMessages (9.0.6):
     - SwiftMessages/App (= 9.0.6)
   - SwiftMessages/App (9.0.6)
+  - SwiftSpinner (2.2.0)
 
 DEPENDENCIES:
   - el-grocer-shopper-sdk-iOS (from `../`)
   - FBSnapshotTestCase (~> 2.1.4)
   - IQKeyboardManagerSwift
+  - SwiftSpinner
 
 SPEC REPOS:
   trunk:
@@ -417,6 +419,7 @@ SPEC REPOS:
     - STPopup
     - SwiftDate
     - SwiftMessages
+    - SwiftSpinner
 
 EXTERNAL SOURCES:
   el-grocer-shopper-sdk-iOS:
@@ -437,7 +440,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: fcd9b2bc4fca305b0bc677150d6cb83cabd4d9c3
+  el-grocer-shopper-sdk-iOS: 60c7ab42a40fa6dd15db83202cf8abad093f0f22
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -496,7 +499,8 @@ SPEC CHECKSUMS:
   STPopup: a9045557bc48a0df51fbb7bf0544447c5fe84d34
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
+  SwiftSpinner: f9b59477fe107427f2b5b835497d6636fa167ede
 
-PODFILE CHECKSUM: e3bfc5ffc4d1eac3b8e558498e49713292f5c9aa
+PODFILE CHECKSUM: 40de5093fcafea86c8c9c4771fab885c94d4fb83
 
 COCOAPODS: 1.11.3
