@@ -36,6 +36,7 @@ private let SharedInstance = DynamicLinksHelper()
 
 class DynamicLinksHelper {
    
+    var marketType = ""
     var serviceId = ""
     var parentIds = ""
     var parentId = ""
@@ -76,7 +77,7 @@ class DynamicLinksHelper {
             }
         }
         // }
-        if ElGrocerUtility.sharedInstance.groceries.count == 0 {
+        if ElGrocerUtility.sharedInstance.groceries.count == 0 && !SDKManager.isGrocerySingleStore {
             ElGrocerUtility.sharedInstance.delay(2) {
                 handleIncomingDynamicLinksWithUrl(dynamicLinkURL)
             }
@@ -255,12 +256,23 @@ class DynamicLinksHelper {
         self.productBarcode = ""
         self.productId = ""
         
-        
+
+        let marketType = dUrl?.getQueryItemValueForKey("market_type_id")
+        if marketType != nil , marketType == "1" {
+            self.marketType = marketType ?? "0"
+        }
         let isChat = dUrl?.getQueryItemValueForKey("Chat")
         if isChat != nil , isChat == "1" {
             self.goToChat()
             return
         }
+        
+        let order_id = dUrl?.getQueryItemValueForKey("order_id")
+        if order_id != nil  {
+            self.gotoOrderDetail(order_id)
+            return
+        }
+      
         let serviceID = dUrl?.getQueryItemValueForKey("serviceID")
         //elDebugPrint("tmpParent  is:%@", serviceID ?? "nil")
         if serviceID != nil {
@@ -1094,6 +1106,22 @@ class DynamicLinksHelper {
             }
         }
         
+      
+    }
+    
+    private func gotoOrderDetail(_ orderID: String?) {
+        
+        guard let orderId = orderID else { return }
+        
+        let ordersController = ElGrocerViewControllers.orderDetailsViewController()
+        ordersController.orderIDFromNotification = "\(orderId)"
+        ordersController.mode = .dismiss
+        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.viewControllers = [ordersController]
+        navigationController.modalPresentationStyle = .fullScreen
+        if let vc = UIApplication.topViewController() {
+            vc.present(navigationController, animated: true, completion: nil)
+        }
       
     }
     

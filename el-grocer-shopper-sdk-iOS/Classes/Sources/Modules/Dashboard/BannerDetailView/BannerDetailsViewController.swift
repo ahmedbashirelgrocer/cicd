@@ -232,7 +232,7 @@ class BannerDetailsViewController: BasketBasicViewController,UICollectionViewDat
             let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
             context.performAndWait({ () -> Void in
                 let newProduct = Product.insertOrReplaceAllProductsFromDictionary(responseObject, context:context)
-                self.productsArray += newProduct
+                self.productsArray += newProduct.products
             })
             
            elDebugPrint("Products Array Count:%@",self.productsArray.count)

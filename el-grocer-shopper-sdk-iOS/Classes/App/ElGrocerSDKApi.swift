@@ -6,7 +6,7 @@
 //
 
 enum ElGrocerSDKApiEndpoint : String {
-    case RegisterPhone = "v4/shoppers/register"
+    case RegisterPhone = "v5/shoppers/register"
 }
 
 extension ElGrocerApi {

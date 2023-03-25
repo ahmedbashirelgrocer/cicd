@@ -34,6 +34,9 @@ class ElWalletTransactionVC: UIViewController, NavigationBarProtocol {
 
         // Do any additional setup after loading the view.
         setInitialAppearence()
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .transactionHistoryScreen))
     }
     
     private func setInitialAppearence() {
@@ -164,11 +167,11 @@ extension ElWalletTransactionVC {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let transactionData = try TransactionRecord.init(data: jsonData)
-                        print(transactionData)
+                       //  print(transactionData)
                         self.allTransection.append(contentsOf: transactionData.transactionHistory)
                         self.filterTransectionInArray(transectionArray: transactionData.transactionHistory)
                     } catch (let error){
-                        print(error)
+                       //  print(error)
                     }
                 }
                 case .failure(let error):

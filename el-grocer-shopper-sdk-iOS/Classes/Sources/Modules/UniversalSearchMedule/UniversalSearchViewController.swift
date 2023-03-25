@@ -673,13 +673,13 @@ extension UniversalSearchViewController : AWSegmentViewProtocol {
         self.dataSource?.selectedIndex = NSIndexPath.init(row: selectedSegmentIndex , section: 0)
         if selectedSegmentIndex == 0 {
             self.loadedProductList = self.dataSource?.productsList ?? []
-            self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+            self.pageNumber =  (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
             self.dataSource?.getProductDataForStore(true, searchString: finalSearchString ,  "", segmenntCollectionView.segmentTitles[segmenntCollectionView.lastSelection.row] , storeIds: storeIDs, pageNumber: self.pageNumber   , hitsPerPage: hitsPerPage)
         }else{
             let selectedDataTitle =  segmenntCollectionView.segmentTitles[selectedSegmentIndex]
             if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
                 self.loadedProductList = productsAvailableToLoad
-                self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
             }else{
                 self.pageNumber  = 0
             }
@@ -714,8 +714,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             let tablecell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tablecell.cellConfigureWith(obj)
             tablecell.clearButtonClicked = { [weak self] in
-                self?.dataSource?.clearSearchHistory()
-                UserDefaults.clearUserSearchData()
+                self?.showClearHistoryPopup()
             }
             return tablecell
         }else{
@@ -766,7 +765,19 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     }
     
     
-   
+    private func showClearHistoryPopup() {
+        ElGrocerAlertView.createAlert(
+            localizedString("Search_Title", comment: ""),
+            description: localizedString("universal_search_clear_history_popup_text", comment: ""),
+            positiveButton: localizedString("promo_code_alert_no", comment: ""),
+            negativeButton: localizedString("clear_button_title", comment: ""),
+            buttonClickCallback: { (buttonIndex:Int) -> Void in
+                if buttonIndex == 1 {
+                    self.dataSource?.clearSearchHistory()
+                    UserDefaults.clearUserSearchData()
+                }
+        }).show()
+    }
 }
 
 // MARK:- UICollectionViewDataSourceDelegate Extension
@@ -775,7 +786,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         // self.loadedProductList.count > 30 ||
-        if  !self.moreProductsAvailable {
+        if  !self.moreProductsAvailable && !SDKManager.isGrocerySingleStore {
             return  CGSize.init(width: self.view.frame.size.width , height: 146)
         }
         return CGSize.zero
@@ -945,13 +956,13 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                         let selectedDataTitle =  segmenntCollectionView.segmentTitles[selectedSegmentIndex]
                         if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
                             self.loadedProductList = productsAvailableToLoad
-                            self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                            self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
                         }else{
                             self.pageNumber  = 0
                         }
                         self.dataSource?.getProductDataForStore(true, searchString: self.txtSearch.text ?? "",  "", segmenntCollectionView.segmentTitles[segmenntCollectionView.lastSelection.row] , storeIds: storeIDs, pageNumber: self.pageNumber  + 1 , hitsPerPage: hitsPerPage)
                     }else{
-                        self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                        self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
                         self.dataSource?.getProductDataForStore(true, searchString: self.txtSearch.text ?? "" ,  "", "" , storeIds: storeIDs, pageNumber: self.pageNumber , hitsPerPage: hitsPerPage)
                     }
                 }
@@ -1094,6 +1105,23 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 self.dataSource?.getBanners(searchInput: searchData)
             }
         }
+        
+        // Logging segment event for Universal & Store Search
+        switch self.searchFor {
+        case .isForUniversalSearch:
+            SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: model != nil))
+            break
+
+        case .isForStoreSearch:
+            let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: model != nil, retailerId: retailerId))
+            break
+
+        case .isProductListing:
+            break
+        }
+        // End Segment Logging
+        
         self.dataSource?.resetForNewGrocery()
         self.segmenntCollectionView.segmentTitles = []
         self.segmenntCollectionView.lastSelection = NSIndexPath.init(row: 0, section: 0) as IndexPath
@@ -1185,6 +1213,22 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.reloadCollectionView(true)
         self.dataSource?.setUsersearchData(searchData)
         self.dataSource?.getProductDataForStore(true, searchString: searchData,  "" , "" , storeIds: storeIDs, pageNumber: self.pageNumber , hitsPerPage: hitsPerPage)
+        
+        // Logging segment event for Universal & Store Search
+        switch self.searchFor {
+        case .isForUniversalSearch:
+            SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: false))
+            break
+
+        case .isForStoreSearch:
+            let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: false, retailerId: retailerId))
+            break
+
+        case .isProductListing:
+            break
+        }
+        // End Segment Logging
     }
     
     

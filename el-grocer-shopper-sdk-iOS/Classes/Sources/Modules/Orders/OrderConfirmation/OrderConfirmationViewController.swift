@@ -13,9 +13,355 @@ import FirebaseAnalytics
 import FirebaseCrashlytics
 import FBSDKCoreKit
 
-
+import Lottie
+import RxSwift
 
 class OrderConfirmationViewController : UIViewController, MFMailComposeViewControllerDelegate , MyBasketViewProtocol {
+    
+    private var viewModel: OrderConfirmationViewModelType!
+    private var analyticsEventLogger: AnalyticsEngineType!
+    private var disposeBag = DisposeBag()
+    
+
+    @IBOutlet var lottieAnimation: UIView!
+    @IBOutlet weak var lblNewOrderSuccessMsg: UILabel! {
+        didSet {
+            lblNewOrderSuccessMsg.text =  localizedString("lbl_Hurray_Success_Msg", comment: "")
+        }
+    }
+    @IBOutlet weak var groceryImage: UIImageView!
+    @IBOutlet weak var lblGroceryName: UILabel!
+    @IBOutlet weak var lblOrderNumber: UILabel!
+    
+    @IBOutlet weak var lblOrderDetail: UILabel! {
+        didSet {
+            lblOrderDetail.text =  localizedString("lbl_Order_Details", comment: "")
+        }
+    }
+    @IBOutlet weak var lblOrderDetailArrow: UIImageView!
+    @IBOutlet weak var lblOrderDetailNote: UILabel!
+    @IBOutlet weak var lblFreshItemNote: UILabel!
+    @IBOutlet weak var lblAddressNote: UILabel!
+    @IBOutlet weak var viewBanner: BannerView!
+    
+    // status view
+    @IBOutlet weak var statusView: UIView!
+    @IBOutlet weak var lblEstimatedDelivery: UILabel! {
+        didSet {
+            lblEstimatedDelivery.text = localizedString("title_estimated_delivery", comment: "")
+        }
+    }
+    @IBOutlet weak var lblDeliveryTime: UILabel!
+    @IBOutlet weak var orderProgressView: UIProgressView!
+    @IBOutlet weak var lblOrderStatus: UILabel!
+    @IBOutlet weak var btnOrderStatusUserAction: AWButton!
+    
+    // PickerDetailView
+    @IBOutlet weak var pickerDetailView: UIView!
+    @IBOutlet weak var pickerImage: UIImageView!
+    @IBOutlet weak var lblPickerDetail: UILabel!
+    
+    @IBOutlet weak var pickerChatImageView: UIImageView!
+    @IBOutlet weak var lblPickerChat: UILabel!
+    
+    // constraints
+    @IBOutlet weak var orderDetailTopContraint: NSLayoutConstraint!
+    @IBOutlet weak var orderDetailHeightContstraint: NSLayoutConstraint!
+    @IBOutlet weak var addressDetailTopWithOrderDetailBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var orderStatusViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var addressDetailTopWithOrderStatusBottomConstraint: NSLayoutConstraint!
+    
+    static func make(viewModel: OrderConfirmationViewModelType, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine()) -> OrderConfirmationViewController {
+        let vc = ElGrocerViewControllers.orderConfirmationViewController()
+        vc.viewModel = viewModel
+        vc.analyticsEventLogger = analyticsEventLogger
+        return vc
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+     
+        self.title =  localizedString("order_confirmation_title", comment: "")
+        self.navigationItem.hidesBackButton = true
+        self.bindViews()
+        self.setNavigationAppearance()
+        self.checkForPushNotificationRegisteration()
+        // Logging segment event for segment order confirmation screen
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderConfirmationScreen))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setNavigationAppearance()
+        /*
+        if isNeedToDoViewAllocation {
+            
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
+                // cross is used against backbutton
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+            if let nav = (self.navigationController as? ElGrocerNavigationController) {
+                if let bar = nav.navigationBar as? ElGrocerNavigationBar {
+                    bar.chatButton.chatClick = {
+                        Thread.OnMainThread {
+                            guard self.order.grocery != nil else {return }
+                            let groceryID = self.order.grocery.getCleanGroceryID()
+                            let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
+                            sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
+                        }
+                    }
+                }
+            }
+            addBackButtonWithCrossIconLeftSide()
+            self.addStatusHeader()
+//            self.isNeedToDoViewAllocation = false
+            
+        }
+   
+        self.getOrderDetail()
+        */
+        
+        //Todo: this should be removed; all data handling should be from view model.
+        self.getOrderDetail()
+    }
+    
+    private func setNavigationAppearance() {
+        
+        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+        self.addBackButtonWithCrossIconLeftSide(.white)
+        if let nav = (self.navigationController as? ElGrocerNavigationController) {
+            if let bar = nav.navigationBar as? ElGrocerNavigationBar {
+                bar.chatButton.chatClick = {
+                    Thread.OnMainThread {
+                        guard self.order.grocery != nil else {return }
+                        let groceryID = self.order.grocery.getCleanGroceryID()
+                        let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.viewModel.orderIdForPublicUse, type: .orderSupport, groceryID)
+                        sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
+                    }
+                }
+            }
+        }
+        
+    }
+    private func bindViews() {
+        
+        
+        self.viewModel.outputs.error.subscribe(onNext: { [weak self] loading in
+            guard let self = self else { return }
+            self.backButtonClick()
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
+            guard let self = self else { return }
+            loading
+            ? _ = SpinnerView.showSpinnerViewInView(self.view)
+            : SpinnerView.hideSpinnerView()
+        }).disposed(by: disposeBag)
+        self.viewModel.outputs.isNewOrder.subscribe(onNext: { [weak self] isNeedOrder in
+            
+            guard let self = self else { return }
+            
+            if isNeedOrder {
+                
+                LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }
+                self.orderDetailTopContraint.priority = UILayoutPriority.init(990)
+                self.addressDetailTopWithOrderDetailBottomConstraint.priority = UILayoutPriority.init(1000)
+                self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(100)
+                
+            } else {
+                self.orderDetailTopContraint.priority = UILayoutPriority.init(1000)
+            }
+            self.statusView.isHidden = isNeedOrder
+            
+            DispatchQueue.main.async {
+                self.view.layoutIfNeeded()
+                self.view.setNeedsLayout()
+            }
+            
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.groceryName
+            .bind(to: self.lblGroceryName.rx.text)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.orderNumber.subscribe(onNext: { orderNumber in
+            self.lblOrderNumber.text = localizedString("order_number_label", comment: "") + orderNumber
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.groceryUrl.subscribe { [weak self] url in
+            self?.groceryImage.sd_setImage(with: url, placeholderImage: UIImage(name: ""), context: nil)
+        }.disposed(by: disposeBag)
+        
+        self.lblOrderDetailNote.attributedText = setBoldForText(CompleteValue: localizedString("Msg_Edit_Order", comment: ""), textForAttribute: localizedString("lbl_Order_Details", comment: ""))
+        
+        self.lblFreshItemNote.attributedText = setBoldForText(CompleteValue: localizedString("order_note_label_complete", comment: ""), textForAttribute: localizedString("order_Note_Bold_Price_May_Vary", comment: ""))
+        
+        self.viewModel.outputs.address
+            .bind(to: self.lblAddressNote.rx.text)
+            .disposed(by: disposeBag)
+        
+        
+        self.viewModel.outputs.orderDeliveryDateString
+            .bind(to: self.lblDeliveryTime.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.orderProgressValue
+            .bind(to: self.orderProgressView.rx.progress)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.orderStatusString
+            .bind(to: self.lblOrderStatus.rx.text)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.picketName
+            .bind(to: self.lblPickerDetail.rx.text)
+            .disposed(by: disposeBag)
+        
+        
+        self.viewModel.outputs.banners.subscribe(onNext: { [weak self] banners in
+            guard let self = self else { return }
+            self.viewBanner.bannerType = .post_checkout
+            if let banners = banners {
+                self.viewBanner.banners = banners
+            }
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.orderStatus.subscribe(onNext: {  [weak self] status in
+            guard let self = self else { return }
+            self.orderStatusViewHeightConstraint.constant = 110
+            if status == OrderStatus.inSubtitution {
+                self.orderStatusViewHeightConstraint.constant = 180
+            }
+            if status != .enRoute {
+                self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(1000.0)
+            }
+            
+            DispatchQueue.main.async {
+                self.view.layoutIfNeeded()
+                self.view.setNeedsLayout()
+            }
+        }).disposed(by: disposeBag)
+        
+        self.viewBanner.bannerTapped = { [weak self] banner in
+        
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            
+            switch campaignType {
+            case .brand:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+                
+            case .retailer:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+                
+            case .web:
+                ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                break
+                
+            case .priority:
+                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+            }
+           
+        }
+        
+        self.viewModel.outputs.isArbic.subscribe (onNext: { [weak self] isArbic in
+            self?.lblOrderDetailArrow.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
+            //self?.view.semanticContentAttribute = isArbic ? .forceRightToLeft : .forceLeftToRight
+        }).disposed(by: disposeBag)
+        
+        // lblOrderDetailArrow
+        
+        /*
+         
+         if let slotString = order?.getDeliveryTimeAttributedString() {
+             self.lblSelfCollection.attributedText = slotString
+         }else{
+             self.lblSelfCollection.text = ""
+         }
+         
+         */
+        
+     
+        
+        //localizedString("order_number_label", comment: "") + self.order.dbID.stringValue
+        
+        
+//        self.viewModel.outputs.groceryName.subscribe(onNext: { string in
+//            self.lblGroceryName.text = string
+//        }).disposed(by: disposeBag)
+            
+        
+        /*
+        //self.lblBanners.visibility = .gone
+       // self.lottieAnimation.visibility = .gone
+        self.viewBanner.roundCorners(corners: [.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 8)
+        self.lblGroceryName.text = self.order.grocery.name
+        self.lblOrderNumber.text = localizedString("order_number_label", comment: "") + self.order.dbID.stringValue
+       
+        let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(order.deliveryAddress) + order.deliveryAddress.address
+        self.lblAddressNote.text = addressString
+        
+        if let imageUrlString = self.grocery.imageUrl, let url = URL.init(string: imageUrlString) {
+            self.groceryImage.sd_setImage(with: url)
+        }
+        self.viewBanner.bannerTapped = { [weak self] banner in
+        
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            
+            switch campaignType {
+            case .brand:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+                
+            case .retailer:
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+                
+            case .web:
+                ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                break
+                
+            case .priority:
+                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                break
+            }
+           
+        }
+        LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }*/
+     
+    }
+    @IBAction func orderDetailButtonAction(_ sender: Any) {
+        self.goToOrderDetailAction("")
+    }
+    @IBAction func orderStatusUserAction(_ sender: Any) {
+        let substitutionsProductsVC = ElGrocerViewControllers.substitutionsProductsViewController()
+        let orderId = self.viewModel.orderIdForPublicUse
+        substitutionsProductsVC.orderId = orderId
+        ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
+        self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
+    }
+    @IBAction func pickerChatAction(_ sender: Any) {
+        
+    }
+    
+    
+    
+    //Warning:-
+    // Following needs to remove once other dependency remove all other UI part will be removed in future
+    // Please dont use following properties in near future update (addComent data: 13feb 2023)
     
     var shouldScroll : Bool = false
     var isNeedToDoViewAllocation : Bool = true
@@ -92,7 +438,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     func setup() {
         
-        
+        // Fixit: need to remove
         setUpTitleLabelAppearance()
         setUpDelevryScheduleDetail()
         setNoteOrderLable()
@@ -109,6 +455,13 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
        
     }
+    
+    fileprivate func playLottieAnimation() {
+        
+       
+    }
+    
+    
     
     func cellRegistration() {
         let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle: Bundle.resource)
@@ -155,6 +508,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     func addStatusHeader () {
         
+         return
+        
         guard self.order != nil else {return}
         
         let data = order.getOrderDynamicStatus()
@@ -198,8 +553,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         }
     }
     
-    @IBOutlet var lblDeliveryTime: UILabel!
-    
+   
     @IBOutlet var btnContinueShoppinglable: UILabel! {
         didSet{
             btnContinueShoppinglable.text = localizedString("lbl_Contnue_shopping", comment: "")
@@ -255,34 +609,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             return  UIStatusBarStyle.default
         }
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-     
-        self.title =  localizedString("order_confirmation_title", comment: "")
-        self.navigationItem.hidesBackButton = true
-        //addBackButton()
-        
-        
-        
-        
-        self.orderProducts = ShoppingBasketItem.getBasketProductsForOrder(self.order, grocery: nil, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        self.orderItems = ShoppingBasketItem.getBasketItemsForOrder(self.order, grocery: nil, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        cellRegistration()
-        checkForPushNotificationRegisteration()
-        setup()
-        self.getBanners()
-        trackPWEvent()
-        GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsOrderConfirmationScreen)
-        FireBaseEventsLogger.setScreenName( FireBaseScreenName.PurchaseOrder.rawValue , screenClass: String(describing: self.classForCoder))
-        
-        
-        
-        self.cncCheckOutView.isHidden = true
-        self.deliveryCheckOutView.isHidden = true
-
-    }
-    
-    
     
     private func setRightBarItem(_ image : UIImage) {
         
@@ -322,7 +648,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     
     override func backButtonClick() {
+        
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
+        
         if let vcA = self.navigationController?.viewControllers {
             elDebugPrint(vcA)
             if vcA.count == 1 {
@@ -339,12 +667,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             }
         }
         
-        let SDKManager = SDKManager.shared
-        if let tab = SDKManager.currentTabBar  {
+        let sdkManage = SDKManager.shared
+        if let tab = sdkManage.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
-            tab.selectedIndex = 0
+            tab.selectedIndex = SDKManager.isGrocerySingleStore ? 1 : 0
         }
-
     }
     
 
@@ -353,47 +680,17 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         super.viewWillLayoutSubviews()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if isNeedToDoViewAllocation {
-            
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
-            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
-                // cross is used against backbutton
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            if let nav = (self.navigationController as? ElGrocerNavigationController) {
-                if let bar = nav.navigationBar as? ElGrocerNavigationBar {
-                    bar.chatButton.chatClick = {
-                        Thread.OnMainThread {
-                            guard self.order.grocery != nil else {return }
-                            let groceryID = self.order.grocery.getCleanGroceryID()
-                            let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
-                            sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
-                        }
-                    }
-                }
-            }
-            addBackButtonWithCrossIconLeftSide()
-            self.addStatusHeader()
-//            self.isNeedToDoViewAllocation = false
-            
-        }
-   
-        self.getOrderDetail()
-    }
+
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
        
         DispatchQueue.main.async {
-            self.tabBarController?.tabBarController?.selectedIndex = 1
+          //  self.tabBarController?.tabBarController?.selectedIndex = 1
         }
        
-        self.tableview.backgroundColor = .white
-        if isNeedToRemoveActiveBasket { self.logFirstOrderEvents () }
+      //  self.tableview.backgroundColor = .white
+     //   if isNeedToRemoveActiveBasket { self.logFirstOrderEvents () }
        // self.tableview.tableHeaderView = self.topHeaderView
       
     }
@@ -417,8 +714,30 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func getBanners() {
-        let location = BannerLocation.post_checkout.getType()
-        let retailer_ids = ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        let location =  BannerLocation.post_checkout.getType()
+        self.viewBanner.bannerType = BannerLocation.post_checkout
+        let retailer_ids = SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        
+        ElGrocerApi.sharedInstance.getBannersFor(location: location, retailer_ids: retailer_ids) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: data)
+                    let compaings: CampaignsResponse = try JSONDecoder().decode(CampaignsResponse.self, from: data)
+                    self.viewBanner.banners = compaings.data
+                } catch {
+                    //  print("error >>> \(error)")
+                }
+                break
+                
+            case .failure(_):
+                break
+            }
+        }
+        return
+        
+        
+        /*
         ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: retailer_ids, store_type_ids: nil , retailer_group_ids: nil , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
                 case .success(let response):
@@ -429,15 +748,15 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                     elDebugPrint(error.jsonValue)
                     //error.showErrorAlert()
             }
-        }
+        }*/
     }
     
     
     @objc func getOrderDetail () {
       
-        let _ = SpinnerView.showSpinnerViewInView(self.view)
+       // let _ = SpinnerView.showSpinnerViewInView(self.view)
         
-        var orderID = ""
+        var orderID = self.viewModel.orderIdForPublicUse
         if self.order != nil {
             orderID = self.order.dbID.stringValue
         }else if self.orderDict != nil , let orderIdString = self.orderDict?["id"] as? NSNumber {
@@ -452,9 +771,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         self.order = latestOrderObj
                         self.grocery = self.order.grocery
+                        /*
                         self.setRetailerImage()
                         self.setup()
                         self.addStatusHeader()
+                  //      self.bindViews(self.order, address: self.order.deliveryAddress)
                         ElGrocerUtility.sharedInstance.delay(0.5) { [weak self] in
                             self?.setStatusProgress()
                         }
@@ -486,6 +807,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                             self.view.setNeedsLayout()
                             self.tableview.reloadData()
                         }
+                        */
                     }
                     
                     SpinnerView.hideSpinnerView()
@@ -702,6 +1024,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
 
     func setUpItemsLabelAppearance() {
+        guard self.orderItems != nil else {return}
         
         var itemsCount = 0
         for item in self.orderItems {
@@ -725,6 +1048,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func setUpTotalAmountAppearance() {
+        
+        guard self.orderProducts != nil else {return}
         guard self.order != nil else {return}
         var priceSum = 0.00
         for product in self.orderProducts {
@@ -1330,6 +1655,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         controller.mode = .dismiss
         self.navigationController?.pushViewController(controller, animated: true)
         
+        // Logging segment event for order details clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: OrderDetailsClickedEvent(order: order))
         
     }
     
@@ -1341,6 +1668,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             substitutionsProductsVC.orderId = orderId
             ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
             self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
+            
+            // Logging segment event for choose replacement clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: ChooseReplacementClickedEvent(order: self.order, grocery: self.grocery))
         }
     }
 
@@ -1393,7 +1723,6 @@ extension OrderConfirmationViewController {
                 case .failure(_): break
                    // error.showErrorAlert()
             }
-           // self.isGettingProducts = false
         }
         
         

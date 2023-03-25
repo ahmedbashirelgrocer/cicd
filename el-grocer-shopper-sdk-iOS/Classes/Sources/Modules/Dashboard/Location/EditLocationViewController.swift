@@ -310,8 +310,8 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             self.fetcher?.delegate = self
         }
         
-        
-       
+        // Logging Segment Screen Event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .deliveryAddressScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1550,8 +1550,12 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             if result {
                 
                 DatabaseHelper.sharedInstance.saveDatabase()
-                // IntercomeHelper.updateUserAddressInfoToIntercom()
-                // PushWooshTracking.updateUserAddressInfo()
+                
+                // Logging segment events for confirm address details and identify user
+                SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
+                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                
+                ElGrocerUtility.sharedInstance.activeAddress = nil
                 
                 if self.editScreenState == .isFromCart {
                     if  self.navigationController?.viewControllers.count ?? 1 > 1 {
@@ -1574,6 +1578,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                     }
                     self.navigationController?.dismiss(animated: true) { }
                 }else{
+                    ElGrocerUtility.sharedInstance.activeGrocery = nil
                     self.navigationController?.popViewController(animated: true)
                 }
                
@@ -1593,7 +1598,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     func AddUserAddressWithProfile(_ userProfile: UserProfile) {
   
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { (result:Bool) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { result, error in
              SpinnerView.hideSpinnerView()
         }
     }

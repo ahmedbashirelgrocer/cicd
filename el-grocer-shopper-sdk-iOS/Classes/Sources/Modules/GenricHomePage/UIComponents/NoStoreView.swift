@@ -84,8 +84,8 @@ class NoStoreView: UIView {
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSelectedStore")
         self.lblTopMsg.text = localizedString("No_Selected_Store", comment: "")
-        self.lblExtraDetail.text = localizedString("No_Selected_Store_Detail", comment: "")
-        self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.lblExtraDetail.text = SDKManager.isGrocerySingleStore ? "" : localizedString("No_Selected_Store_Detail", comment: "")
+        self.btnNoData.setTitle(SDKManager.isGrocerySingleStore ? localizedString("btn_Go_Back", comment: "") :  localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
     }
@@ -285,8 +285,8 @@ class NoStoreView: UIView {
             imgNoData.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
         self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  localizedString("lbl_atOurStores", comment: "")
-        self.lblExtraDetail.text = localizedString("lbl_NoDataStoreSearch", comment: "")
-        self.btnNoData.isHidden = false
+        self.lblExtraDetail.text = SDKManager.isGrocerySingleStore ? "" : localizedString("lbl_NoDataStoreSearch", comment: "")
+        self.btnNoData.isHidden = SDKManager.isGrocerySingleStore
         self.btnNoData.setTitle(" " + localizedString("btn_NoSearch_noDataView", comment: ""), for: .normal)
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             let flippedImage = UIImage(name: "searchButtonWhite")?.imageFlippedForRightToLeftLayoutDirection() ?? UIImage(name: "searchButtonWhite")

@@ -10,10 +10,10 @@ import UIKit
 
 
 protocol OrderCancelationVCAction {
-    func startCancellationProcess (_ orderID : String ,  reason : NSNumber , improvement : String , reasonString : String)
+    func startCancellationProcess (_ orderID : String ,  reason : Reasons , improvement : String , reasonString : String)
 }
 extension OrderCancelationVCAction {
-    func startCancellationProcess (_ orderID : String , reason : NSNumber , improvement : String , reasonString : String){}
+    func startCancellationProcess (_ orderID : String , reason : Reasons , improvement : String , reasonString : String){}
 }
 
 
@@ -43,6 +43,8 @@ class OrderCancelationVC: UIViewController {
         setInitialAppearence()
         fetchReason()
         
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderCancelScreen))
     }
     func setInitialAppearence(){
         
@@ -129,11 +131,11 @@ class OrderCancelationVC: UIViewController {
                     insCell?.txtNoteView.becomeFirstResponder()
                     ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("write_reason_alert", comment: "") , image: UIImage(name: "CancelOrderSnakeBar"), -1 , false) { (t1, t2, t3) in }
                 }else{
-                    self.delegate?.startCancellationProcess(self.orderID , reason: self.questionsArray[self.selectedOptionIndex].reasonKey , improvement: insCell?.txtNoteView.text ?? "" , reasonString : self.questionsArray[self.selectedOptionIndex].reasonString)
+                    self.delegate?.startCancellationProcess(self.orderID , reason: self.questionsArray[self.selectedOptionIndex], improvement: insCell?.txtNoteView.text ?? "" , reasonString : self.questionsArray[self.selectedOptionIndex].reasonString)
                 }
                 
             }else{
-                self.delegate?.startCancellationProcess(self.orderID , reason: self.questionsArray[self.selectedOptionIndex].reasonKey , improvement: insCell?.txtNoteView.text ?? "", reasonString: self.questionsArray[self.selectedOptionIndex].reasonString)
+                self.delegate?.startCancellationProcess(self.orderID , reason: self.questionsArray[self.selectedOptionIndex], improvement: insCell?.txtNoteView.text ?? "", reasonString: self.questionsArray[self.selectedOptionIndex].reasonString)
             }
             
         }else{

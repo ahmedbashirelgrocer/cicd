@@ -362,6 +362,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     // MARK: Logo
     
+    
+    
     func setLogoHidden(_ hidden:Bool) {
         
         if let logo = self.logoView {
@@ -419,10 +421,37 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         var image = UIImage(name: "menu_logo")!
         if SDKManager.isSmileSDK {
-            image = UIImage(name: "smile_Logo_elgrocer")!
+            if SDKManager.shared.launchOptions?.navigationType == .singleStore {
+                if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                    image = UIImage(name: "smiles-Single-Store-ar")!
+                } else {
+                    image = UIImage(name: "smiles-Single-Store-en")!
+                }
+            } else {
+                image = UIImage(name: "smile_Logo_elgrocer")!
+            }
+           
         }
         self.logoView = UIImageView(image: image)
         self.addSubview(self.logoView)
+    }
+    
+     func refreshLogoView() {
+        
+        var image = UIImage(name: "menu_logo")!
+        if SDKManager.isSmileSDK {
+            if SDKManager.shared.launchOptions?.navigationType == .singleStore {
+                if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                    image = UIImage(name: "smiles-Single-Store-ar")!
+                } else {
+                    image = UIImage(name: "smiles-Single-Store-en")!
+                }
+            } else {
+                image = UIImage(name: "smile_Logo_elgrocer")!
+            }
+           
+        }
+         self.logoView.image = image
     }
     
     func changeLogoColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor){
@@ -593,7 +622,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addSideMenuButton() {
-        let image = UIImage(name: "sideMenu")
+        let image = UIImage(name: "menu")
         self.profileButton  = UIButton(type: .custom)
         self.profileButton.setImage(image, for: .normal)
         self.addSubview(self.profileButton)

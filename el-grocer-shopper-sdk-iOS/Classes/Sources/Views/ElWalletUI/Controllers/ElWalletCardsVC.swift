@@ -146,9 +146,9 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
         }
         AdyenManager.sharedInstance.isNewCardAdded = { (error , response, adyenObj) in
             if error {
-                print("error in authorization")
+               //  print("error in authorization")
                 if let resultCode = response["resultCode"] as? String {
-                    print(resultCode)
+                   //  print(resultCode)
                     self.parseAdyenResponse(response: response)
                     self.navigateToPaymentSuccessVC(isSuccess: false, creditCard: nil, controllerType: .cardAdd)
                     //handle faliure Case
@@ -157,13 +157,16 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
                 //handle success case
                 self.parseAdyenResponse(response: response)
                 self.navigateToPaymentSuccessVC(isSuccess: true, creditCard: nil, controllerType: .cardAdd)
+                
+                // Logging segment event card added
+                SegmentAnalyticsEngine.instance.logEvent(event: CardAddedEvent())
             }
         }
     }
     
     func parseAdyenResponse(response: NSDictionary) {
         
-        print(response)
+       //  print(response)
     }
     
     func getAdyenPaymentMethods() {
@@ -211,6 +214,9 @@ class ElWalletCardsVC: UIViewController, NavigationBarProtocol {
                         let status = response?["status"] as? String
                         if status ==  "success" {
                             self.creditCardA.remove(at: index)
+                            
+                            // Logging segment event for card removed event
+                            SegmentAnalyticsEngine.instance.logEvent(event: CardRemovedEvent())
                         }
                         self.tableView.reloadDataOnMain()
                     }

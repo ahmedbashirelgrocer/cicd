@@ -16,10 +16,15 @@ public final class ElGrocer {
     // elgrocer
 
     static var isSDKLoaded = false
-    
+ 
     static func startEngine(with launchOptions: LaunchOptions? = nil, completion: (() -> Void)?  = nil) {
         
         SDKManager.shared.launchCompletion = completion
+        
+        if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType {
+            HomePageData.shared.groceryA = []
+            SDKManager.shared.launchOptions = launchOptions
+        }
         
         DispatchQueue.main.async {
 
@@ -37,11 +42,29 @@ public final class ElGrocer {
             
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
                 
+                if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 || SDKManager.shared.launchOptions?.language !=  UserDefaults.getCurrentLanguage() {
+                    PreLoadData.shared.loadConfigData {}
+                    HomePageData.shared.fetchHomeData(true) {
+                        SDKManager.shared.launchCompletion?()
+                    }
+                }
+                
                 func basicHomeViewSetUp() {
                     if let launchOptions = launchOptions {
                         let manager = SDKLoginManager(launchOptions: launchOptions)
                         SDKManager.shared.launchOptions = launchOptions
+                        SDKManager.shared.startBasicThirdPartyInit()
+                        SDKManager.shared.setupLanguage()
+                        LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: SDKManager.shared.launchOptions?.language ?? "Base", SDKManagers: SDKManager.shared)
                         manager.setHomeView()
+                        SDKManager.shared.launchCompletion?()
+                        
+                        // Logging segment identify event for every time user launch our SDK
+                        if SDKManager.shared.isInitialized {
+                            if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                            }
+                        }
                     }
                 }
                 
@@ -53,7 +76,8 @@ public final class ElGrocer {
                     ElGrocerDynamicLink.handleDeepLink(url)
                     return defers()
                 }else {
-                    SDKManager.shared.start(with: launchOptions)
+                    basicHomeViewSetUp()
+                  //  SDKManager.shared.start(with: launchOptions)
                 }
                 return defers()
             }
@@ -71,7 +95,7 @@ public final class ElGrocer {
         
     }
     
-    private static func showDefaultErrorForDB() {
+    static func showDefaultErrorForDB() {
         
         let refreshAlert = UIAlertController(title:  localizedString("alert_error_title", comment: ""), message:  localizedString("error_500", comment: ""), preferredStyle: UIAlertController.Style.alert)
 
@@ -83,14 +107,10 @@ public final class ElGrocer {
 }
 
 
-enum SDKType: Int {
-    case smiles
-    case elGrocerShopper
-}
-
 public enum ElgrocerSDKNavigationType: Int {
     case `Default`
     case search
+    case singleStore
 }
 
 public enum EnvironmentType {
@@ -122,17 +142,25 @@ public struct LaunchOptions {
     var pushNotificationPayload: [String: AnyHashable]?
     var deepLinkPayload: String?
     var language: String?
-    var isSmileSDK: Bool
+    var marketType : MarketType = .marketPlace
+    var isSmileSDK: Bool { marketType == .marketPlace || marketType == .grocerySingleStore }
     var isLoggingEnabled = false {
         didSet { MixpanelManager.loggingEnabled(isLoggingEnabled) }
     }
     var isFromPush = false
     
-    var SDKType : SDKType = .smiles
+    
     var environmentType : EnvironmentType = .live
     var theme: Theme!
     var navigationType : ElgrocerSDKNavigationType? =  ElgrocerSDKNavigationType.Default
-        
+    
+    public enum MarketType: Hashable {
+            /// - Parameter marketPlace: Smile App, market place.
+            /// - Parameter shopper: Elgrocer Shopper App; Not for external Use (Smile Team PLease dont use this in sdk)
+           /// - Parameter grocerySingleStore: Single Store for smile app
+    case marketPlace, shopper, grocerySingleStore
+    }
+            
     @available(*, deprecated)
     public init(accountNumber: String?,
                 latitude: Double?,
@@ -143,7 +171,8 @@ public struct LaunchOptions {
                 pushNotificationPayload: [String: AnyHashable]? = nil,
                 deepLinkPayload: String? = nil,
                 language: String? = nil,
-                isSmileSDK: Bool,
+                isSmileSDK: Bool = true,
+                marketType: MarketType = .marketPlace,
                 isLoggingEnabled: Bool = false,
                 theme: Theme = ApplicationTheme.smilesSdkTheme()) {
         
@@ -156,10 +185,8 @@ public struct LaunchOptions {
         self.pushNotificationPayload = pushNotificationPayload
         self.deepLinkPayload = deepLinkPayload
         self.language = language
-        self.isSmileSDK = isSmileSDK
+        self.marketType = marketType
         self.isLoggingEnabled = isLoggingEnabled
-        self.SDKType = .smiles
-        self.isSmileSDK = true
         self.environmentType =  .live
         self.theme = theme
         if (pushNotificationPayload?.count ?? 0) > 0 {
@@ -177,7 +204,9 @@ public struct LaunchOptions {
         email: String? = nil,
         pushNotificationPayload: [String: AnyHashable]? = nil,
         deepLinkPayload: String? = nil,
-        language: String? = nil, environmentType : EnvironmentType = .live,
+        language: String? = nil,
+        marketype: MarketType = .marketPlace,
+        environmentType : EnvironmentType = .live,
         theme: Theme = ApplicationTheme.smilesSdkTheme(), navigationType : ElgrocerSDKNavigationType = ElgrocerSDKNavigationType.Default) {
         
         self.accountNumber = accountNumber
@@ -189,8 +218,7 @@ public struct LaunchOptions {
         self.pushNotificationPayload = pushNotificationPayload
         self.deepLinkPayload = deepLinkPayload
         self.language = language
-        self.SDKType = .smiles
-        self.isSmileSDK = true
+        self.marketType = marketype
         self.navigationType = navigationType
         self.environmentType =  environmentType
         self.isLoggingEnabled = environmentType == .staging
@@ -198,6 +226,28 @@ public struct LaunchOptions {
         if (pushNotificationPayload?.count ?? 0) > 0 {
             self.isFromPush = true
         }
+    }
+    
+    public init(
+        latitude: Double?,
+        longitude: Double?,
+        marketType : MarketType,
+        _ language: String? = nil) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.marketType = marketType
+        self.language = language
+    }
+    
+    func toString() -> String? {
+        var data : [String : Any] = ["lat": self.latitude ?? 0.0,
+                    "lng" : self.longitude ?? 0.0,
+                    "providedType" : self.marketType ,
+                    "phone" : self.accountNumber ?? "",
+                    "layNumber" : self.loyaltyID ?? "",
+                    "deeplink" : self.deepLinkPayload ?? "",
+                    "push" : self.pushNotificationPayload?.description ?? ""]
+        return data.description
     }
 
 }

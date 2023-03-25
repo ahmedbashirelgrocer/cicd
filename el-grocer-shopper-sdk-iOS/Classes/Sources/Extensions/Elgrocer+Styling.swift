@@ -353,6 +353,13 @@ extension UILabel {
         self.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
     }
+    
+    func setYellowSemiBoldStyle(){
+        self.font = UIFont.SFProDisplaySemiBoldFont(12)
+        self.textColor = ApplicationTheme.currentTheme.promotionYellowColor
+    }
+    
+    
     func setBody1RegDarkStyle() {
         self.font = UIFont.SFProDisplayNormalFont(17)
         self.textColor = UIColor.newBlackColor()

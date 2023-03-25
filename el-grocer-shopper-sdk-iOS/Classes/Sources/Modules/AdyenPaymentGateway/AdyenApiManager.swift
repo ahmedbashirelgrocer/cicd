@@ -149,7 +149,7 @@ class AdyenApiManager {
         
         
         ElGrocerApi.sharedInstance.makePayment(params) { results in
-            print(results)
+          //  print(results)
             switch results {
                 case .success(let data):
                     guard let dataDict = data["data"] as? NSDictionary else {
@@ -181,7 +181,7 @@ class AdyenApiManager {
                             completion(error,response)
                         }
                     }
-                    print(response)
+                 //   print(response)
                     
                 case .failure(let error):
                     debugPrint(error.localizedMessage)

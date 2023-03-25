@@ -121,11 +121,11 @@ class SecondaryViewModel {
             self.apiCall.onNext(false)
             switch result {
                 case .success(let response):
-                    print(response)
+                //  print(response)
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
-                        print(checkoutData)
+                        //  print(checkoutData)
                         if let slot = checkoutData.data.selectedDeliverySlot {
                             UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
                         }
@@ -133,7 +133,7 @@ class SecondaryViewModel {
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
                     } catch(let error) {
-                        print(error)
+                        //  print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
                     }
                 case .failure(let error):
@@ -155,19 +155,22 @@ class SecondaryViewModel {
             self.apiCall.onNext(false)
             switch result {
                 case .success(let response):
-                    print(response)
+                //  print(response)
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
-                        print(checkoutData)
+                        //    print(checkoutData)
                         if let slot = checkoutData.data.selectedDeliverySlot {
                             UserDefaults.setCurrentSelectedDeliverySlotId(NSNumber.init(value: slot))
                         }
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
+                        
+                        // Logging segment event for checkout started
+                        SegmentAnalyticsEngine.instance.logEvent(event: CheckoutStartedEvent())
                     } catch(let error) {
-                        print(error)
+                        //    print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
                     }
                 case .failure(let error):
@@ -184,7 +187,7 @@ class SecondaryViewModel {
             self.getApiCall.onNext(false)
             switch result {
                 case .success(let response):
-                    print(response)
+                //     print(response)
                     guard let success = (response["data"] as? NSDictionary)?["Success"] as? Bool else {
                         self.getBasketError.onNext(ElGrocerError.parsingError())
                         return
@@ -329,6 +332,11 @@ extension SecondaryViewModel {
         if primaryPaymentTypeId == PaymentOption.creditCard.rawValue, let card = self.getCreditCard() {
             finalParams["card_id"] = card.cardID
             finalParams["auth_amount"] = self.basketDataValue?.finalAmount
+            if let orderCard = self.getEditOrderInitialDetail()?.cardID, orderCard.elementsEqual(card.cardID) {
+                finalParams["same_card"] = true
+            }else {
+                finalParams["same_card"] = false
+            }
         }
         
         return finalParams
@@ -421,6 +429,19 @@ extension SecondaryViewModel {
         self.isWalletTrue = isWalletTrue
         
     }
+    
+    func isElWalletEnabled() -> Bool {
+        return isWalletTrue
+    }
+    
+    func isSmilesEnabled() -> Bool {
+        return isSmileTrue
+    }
+    
+    func isPromoApplied() -> Bool {
+        return isPromoCodeTrue
+    }
+    
     func setIsPromoTrue(isPromoTrue: Bool) {
         self.isPromoCodeTrue = isPromoTrue
     }
@@ -1010,11 +1031,18 @@ struct DeliverySlotsData: Codable {
 }
 
 struct Retailer: Codable {
-    let id: String
-    let isOpened: Bool
+    let id: String?
+    let isOpened: Bool?
     
     enum CodingKeys: String, CodingKey {
         case id
         case isOpened = "is_opened"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = (try? values.decode(String.self, forKey: .id))
+        isOpened = (try? values.decode(Bool.self, forKey: .isOpened))
     }
 }

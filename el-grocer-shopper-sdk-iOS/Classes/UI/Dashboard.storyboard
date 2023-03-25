@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina3_5" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -245,7 +245,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="USM-Ap-X4o">
-                                <rect key="frame" x="0.0" y="47" width="390" height="763"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="akD-sL-Ewo">
                                     <size key="itemSize" width="50" height="50"/>
@@ -260,7 +260,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="USM-Ap-X4o" firstAttribute="leading" secondItem="fye-hb-XJH" secondAttribute="leading" id="1SK-gE-UMi"/>
                             <constraint firstItem="KR9-jv-ulx" firstAttribute="top" secondItem="aM5-is-8rM" secondAttribute="bottom" id="ADr-29-mbT"/>
@@ -268,7 +268,7 @@
                             <constraint firstItem="KR9-jv-ulx" firstAttribute="leading" secondItem="fye-hb-XJH" secondAttribute="leading" id="H1e-Ut-sDj"/>
                             <constraint firstAttribute="trailing" secondItem="KR9-jv-ulx" secondAttribute="trailing" id="K4w-RR-3mU"/>
                             <constraint firstItem="aM5-is-8rM" firstAttribute="leading" secondItem="fye-hb-XJH" secondAttribute="leading" id="Naw-lx-PxU"/>
-                            <constraint firstItem="EEF-5k-FsL" firstAttribute="top" secondItem="USM-Ap-X4o" secondAttribute="bottom" priority="999" id="PBR-SB-YC0"/>
+                            <constraint firstAttribute="bottom" secondItem="USM-Ap-X4o" secondAttribute="bottom" priority="999" id="PBR-SB-YC0"/>
                             <constraint firstAttribute="trailing" secondItem="USM-Ap-X4o" secondAttribute="trailing" id="S3X-Sz-fwJ"/>
                             <constraint firstAttribute="trailing" secondItem="aM5-is-8rM" secondAttribute="trailing" id="UZy-ZY-3M8"/>
                             <constraint firstItem="USM-Ap-X4o" firstAttribute="top" secondItem="VBp-1Y-rxR" secondAttribute="bottom" priority="999" id="YY9-zh-fVm"/>
@@ -675,26 +675,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="85" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="hjl-mx-Aji" customClass="ElgrocerTableView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
-                                <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="85" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hjl-mx-Aji" customClass="ElgrocerTableView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="gVz-Kz-Y8I" id="rdj-kf-Vee"/>
                                     <outlet property="delegate" destination="gVz-Kz-Y8I" id="uyN-eR-4g4"/>
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="hjl-mx-Aji" secondAttribute="bottom" id="Zfb-Db-Gho"/>
-                            <constraint firstItem="hjl-mx-Aji" firstAttribute="top" secondItem="wHb-Z3-gns" secondAttribute="bottom" priority="999" id="bqv-mh-MSY"/>
+                            <constraint firstItem="hjl-mx-Aji" firstAttribute="top" secondItem="czP-gI-yKS" secondAttribute="top" priority="999" id="hah-8X-4yK"/>
                             <constraint firstItem="hjl-mx-Aji" firstAttribute="leading" secondItem="czP-gI-yKS" secondAttribute="leading" id="sEa-Qg-2Jp"/>
                             <constraint firstAttribute="trailing" secondItem="hjl-mx-Aji" secondAttribute="trailing" id="tyM-qG-7HC"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="C5I-Yy-RUl"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableViewCategories" destination="hjl-mx-Aji" id="5tx-CJ-oSg"/>
                         <segue destination="Kwk-rF-vNq" kind="show" identifier="CategoriesToSubCategories" id="5Za-RP-S4C"/>
@@ -707,17 +704,17 @@
         <!--Browse View Controller-->
         <scene sceneID="Vme-dW-y0G">
             <objects>
-                <viewController storyboardIdentifier="BrowseVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="oAz-Eh-uVn" customClass="BrowseViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BrowseVC" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="oAz-Eh-uVn" customClass="BrowseViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ev2-53-TDm"/>
                         <viewControllerLayoutGuide type="bottom" id="yol-AG-btJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ZfJ-Y4-F9G">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="761"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="85" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="pFK-cR-j6o">
-                                <rect key="frame" x="0.0" y="47" width="390" height="714"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="oAz-Eh-uVn" id="KVh-yb-TTr"/>
@@ -725,15 +722,14 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="pFK-cR-j6o" firstAttribute="leading" secondItem="ZfJ-Y4-F9G" secondAttribute="leading" id="73v-R6-bwb"/>
                             <constraint firstAttribute="trailing" secondItem="pFK-cR-j6o" secondAttribute="trailing" id="7to-iE-Xsa"/>
                             <constraint firstItem="pFK-cR-j6o" firstAttribute="top" secondItem="ev2-53-TDm" secondAttribute="bottom" priority="999" id="BMf-tg-e3U"/>
-                            <constraint firstItem="yol-AG-btJ" firstAttribute="top" secondItem="pFK-cR-j6o" secondAttribute="bottom" priority="999" id="lxg-xy-NYP"/>
+                            <constraint firstAttribute="bottom" secondItem="pFK-cR-j6o" secondAttribute="bottom" id="hiT-JG-e4h"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="rqs-vk-RV2"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -743,12 +739,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zxu-4U-FXc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-485.625" y="575"/>
+            <point key="canvasLocation" x="-486.15384615384613" y="574.4075829383886"/>
         </scene>
         <!--Sub Categories View Controller-->
         <scene sceneID="l2D-In-786">
             <objects>
-                <viewController storyboardIdentifier="SubCategoriesVC" modalPresentationStyle="fullScreen" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kwk-rF-vNq" customClass="SubCategoriesViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SubCategoriesVC" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kwk-rF-vNq" customClass="SubCategoriesViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="awt-z5-ICW"/>
                         <viewControllerLayoutGuide type="bottom" id="tSk-3r-iTd"/>
@@ -758,7 +754,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-vu-LCC">
-                                <rect key="frame" x="0.0" y="47" width="390" height="763"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="aic-Jw-Uv7">
                                     <size key="itemSize" width="50" height="50"/>
@@ -773,15 +769,15 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="dI9-vu-LCC" secondAttribute="trailing" id="Jnf-uU-xMH"/>
                             <constraint firstItem="dI9-vu-LCC" firstAttribute="leading" secondItem="9Mn-YR-5Bs" secondAttribute="leading" id="a6N-Kx-imB"/>
-                            <constraint firstItem="tSk-3r-iTd" firstAttribute="top" secondItem="dI9-vu-LCC" secondAttribute="bottom" priority="999" id="gzo-12-Kiv"/>
+                            <constraint firstAttribute="bottom" secondItem="dI9-vu-LCC" secondAttribute="bottom" priority="999" id="gzo-12-Kiv"/>
                             <constraint firstItem="dI9-vu-LCC" firstAttribute="top" secondItem="awt-z5-ICW" secondAttribute="bottom" priority="999" id="t9P-ch-IIf"/>
                         </constraints>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="bY3-16-b4h"/>
                     <connections>
                         <outlet property="collectionView" destination="dI9-vu-LCC" id="S4f-7L-4Gw"/>
@@ -1673,7 +1669,7 @@
                                             <rect key="frame" x="0.0" y="83" width="116.33333333333333" height="20"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OFFICE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r0l-10-yLW">
-                                                    <rect key="frame" x="33.666666666666629" y="1.6666666666666714" width="49.333333333333343" height="17"/>
+                                                    <rect key="frame" x="34.333333333333314" y="1.6666666666666714" width="47.666666666666657" height="17"/>
                                                     <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1931,7 +1927,7 @@
                                     <rect key="frame" x="0.0" y="294" width="383" height="132"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="additional directions (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Li-1h-99f">
-                                            <rect key="frame" x="16" y="12" width="161" height="16"/>
+                                            <rect key="frame" x="16" y="12" width="167.33333333333334" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="16" id="wjf-f1-Zlg"/>
                                             </constraints>
@@ -2046,7 +2042,7 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWt-Vq-6Ju">
-                            <rect key="frame" x="16" y="142" width="184" height="24"/>
+                            <rect key="frame" x="16" y="142" width="181.33333333333334" height="24"/>
                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -2153,8 +2149,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ubS-a1-WUL">
-                                <rect key="frame" x="0.0" y="47" width="390" height="763"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="HgH-2Z-k6J">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -2248,13 +2244,13 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Q2y-yS-0NS" secondAttribute="trailing" id="4gm-h2-LeX"/>
                             <constraint firstItem="ubS-a1-WUL" firstAttribute="top" secondItem="JYj-1i-IZx" secondAttribute="bottom" priority="999" id="GRy-U1-TFf"/>
                             <constraint firstItem="Q2y-yS-0NS" firstAttribute="leading" secondItem="Qhs-9L-vTb" secondAttribute="leading" id="WeC-jS-BZ8"/>
                             <constraint firstItem="ubS-a1-WUL" firstAttribute="leading" secondItem="Qhs-9L-vTb" secondAttribute="leading" id="hYs-Zy-aIF"/>
-                            <constraint firstItem="Q2y-yS-0NS" firstAttribute="top" secondItem="ubS-a1-WUL" secondAttribute="bottom" id="hpF-TL-jZG"/>
+                            <constraint firstItem="Q2y-yS-0NS" firstAttribute="top" secondItem="ubS-a1-WUL" secondAttribute="bottom" constant="-34" id="hpF-TL-jZG"/>
                             <constraint firstItem="Azs-8z-M7X" firstAttribute="top" secondItem="Q2y-yS-0NS" secondAttribute="bottom" priority="999" id="k57-xR-X3H"/>
                             <constraint firstAttribute="trailing" secondItem="ubS-a1-WUL" secondAttribute="trailing" id="qcX-07-yXX"/>
                         </constraints>
@@ -2269,7 +2265,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="utB-fb-Qts" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="375" y="561.25"/>
+            <point key="canvasLocation" x="373.84615384615381" y="560.90047393364921"/>
         </scene>
         <!--Grocery Loader View Controller-->
         <scene sceneID="tTg-Sg-hRs">
@@ -2325,7 +2321,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="5Za-RP-S4C"/>
+        <segue reference="eIG-1n-EkA"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Apartment" width="58" height="58"/>
@@ -2336,7 +2332,7 @@
         <image name="blackInfoIcon" width="20" height="21"/>
         <image name="button_overlay" width="1" height="1"/>
         <image name="category_placeholder" width="320" height="110"/>
-        <image name="checkGreen" width="24" height="24"/>
+        <image name="checkGreen" width="16" height="16"/>
         <image name="edit-Address" width="24" height="24.333333969116211"/>
         <image name="email" width="20" height="14.666666984558105"/>
         <image name="icBackGray" width="10" height="16"/>
@@ -2350,9 +2346,6 @@
         <image name="rating-04" width="46" height="59"/>
         <image name="requestGrocery" width="186" height="120"/>
         <image name="sCross" width="16" height="16"/>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

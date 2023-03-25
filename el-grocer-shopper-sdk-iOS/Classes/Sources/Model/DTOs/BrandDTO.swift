@@ -19,3 +19,31 @@ struct BrandDTO: Codable {
        case slug
     }
 }
+
+extension BrandDTO {
+    init(from dic: [String: Any]) {
+        if let id = dic["id"] as? Int {
+            self.id = id
+        } else {
+            self.id = nil
+        }
+        
+        if let name = dic["name"] as? String {
+            self.name = name
+        } else {
+            self.name = nil
+        }
+        
+        if let imageURL = dic["photo_url"] as? String {
+            self.imageURL = imageURL
+        } else {
+            self.imageURL = nil
+        }
+        
+        if let slug = dic["slug"] as? String {
+            self.slug = slug
+        } else {
+            self.slug = nil
+        }
+    }
+}

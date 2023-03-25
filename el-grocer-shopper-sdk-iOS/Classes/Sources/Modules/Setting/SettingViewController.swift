@@ -63,7 +63,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else{
             self.lblversionNumber.text = "Unknown"
         }
-       
+        self.navigationCustimzation()
         self.registerTableViewCell()
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableView.separatorColor =  .separatorColor() //.borderGrayColor()
@@ -623,7 +623,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         
         if SDKManager.isSmileSDK {
-        
+            var index = -1
+            
             switch indexPath.section {
             case 1:
                 switch (indexPath as NSIndexPath).row {
@@ -636,6 +637,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 4: self.goToElWalletVC()
                 default: break
                 }
+                
+                index = (indexPath.row >= 2 || indexPath.row >= 3) ? (indexPath.row + 2) : indexPath.row
             case 2:
                 switch (indexPath as NSIndexPath).row {
                 case 0: self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
@@ -643,9 +646,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 2: self.showFAQs()
                 default: break
                 }
+                
+                index = indexPath.row + accountSectionCells + settingsSectionCells + deleteAccountCell
             default: return
             }
             
+            if index < titles.count && index != -1 {
+                SegmentAnalyticsEngine.instance.logEvent(event: MenuItemClickedEvent(name: titles[index]))
+            }
             return
         }
        
@@ -656,7 +664,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     switch (indexPath as NSIndexPath).row {
                         case 0:
                                 //call api here
-                            print("Show smiles point view")
+                           //  print("Show smiles point view")
                             if UserDefaults.getIsSmileUser() {
                                 let smilepoints = UserDefaults.getSmilesPoints()//100
                                 SmilesEventsLogger.smilePointsClickedEvent(isSmileslogin: true, smilePoints: smilepoints)
@@ -673,36 +681,36 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 1 + smilePointSection:
                     switch (indexPath as NSIndexPath).row {
                         case 0:
-                            print("Show Live Chat")
+                           //  print("Show Live Chat")
                             self.showLiveChat()
                             break
                         case 1:
-                            print("show Order")
+                           //  print("show Order")
                             self.showOrderVC()
                             break
                         case 2:
-                            print("saved recipes")
+                           //  print("saved recipes")
                             self.goToSavedRecipesVC()
                             break
                         case 3:
-                            print("saved cars")
+                           //  print("saved cars")
                             self.goToSavedCarsVC()
                             break
                         case 4:
-                            print("addresses")
+                           //  print("addresses")
                             self.locationHeader.changeLocation()
                             break
                         case 5:
-                            print("show card list")
+                           //  print("show card list")
                             self.goToAddNewCardVC()
                                 //self.showManageCard()
                             break
                         case 6:
-                            print("show elwallet")
+                           //  print("show elwallet")
                             self.goToElWalletVC()
                             break
                         case 7:
-                            print("change Passowrd")
+                           //  print("change Passowrd")
                             self.goToChangePasswordVC();
                             break
                             
@@ -713,11 +721,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     switch (indexPath as NSIndexPath).row {
                             
                         case 0:
-                            print("Language Selection")
+                           //  print("Language Selection")
                             self.showLanguageSelectionVC()
                             break
                         case 1:
-                            print("delete account selection")
+                           //  print("delete account selection")
                             self.showDeleteAccountVC()
                             break
                         default:
@@ -727,15 +735,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     switch (indexPath as NSIndexPath).row {
                             
                         case 0:
-                            print("Terms Conditions")
+                           //  print("Terms Conditions")
                             self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
                             break
                         case 1:
-                            print("Privacy Policy")
+                           //  print("Privacy Policy")
                             self.navigateToPrivacyPolicyViewControllerWithTermsEnable()
                             break
                         case 2:
-                            print("FAQ's")
+                           //  print("FAQ's")
                             self.showFAQs()
                             break
                         default:

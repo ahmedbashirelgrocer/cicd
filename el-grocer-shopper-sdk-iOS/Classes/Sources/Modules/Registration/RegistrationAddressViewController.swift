@@ -276,7 +276,7 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
         
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!, completionHandler: { (result) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!, completionHandler: { result, error in
             
             SpinnerView.hideSpinnerView()
             

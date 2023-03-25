@@ -613,7 +613,7 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
         FireBaseEventsLogger.trackOTPEvents(event: FireBaseEventsName.OtpConfirm.rawValue)
 
         userProfile.phone = phoneNumber
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name ?? "" , email: userProfile.email , phone: phoneNumber ?? "") { (result:Bool) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name ?? "" , email: userProfile.email , phone: phoneNumber ?? "") { result,error in
             SpinnerView.hideSpinnerView()
             if result {
                 DatabaseHelper.sharedInstance.saveDatabase()

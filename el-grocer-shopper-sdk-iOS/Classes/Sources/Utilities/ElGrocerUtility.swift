@@ -212,6 +212,12 @@ class ElGrocerUtility {
         return versionNumber + "-" + latlng
     }
     
+    func getSesstionId() -> String {
+        let appStartMilli = Int64((SDKManager.shared.sdkStartTime?.timeIntervalSince1970 ?? Date().timeIntervalSince1970) * 1000)
+        let uuid = UIDevice.current.identifierForVendor?.uuidString ?? ""
+        return "\(appStartMilli)_\(uuid)"
+    }
+    
     func GenerateRetailerIdString(groceryA : [Grocery]?) -> String{
         
         var retailerIDString = ""
@@ -540,11 +546,11 @@ class ElGrocerUtility {
     
     
     
-    func addDeliveryToServerWithBlock(_ locations:[DeliveryAddress],  completionHandler:@escaping (_ result: Bool) -> Void){
+    func addDeliveryToServerWithBlock(_ locations:[DeliveryAddress],  completionHandler:@escaping (_ result: Bool, _ errorMessage: String) -> Void){
     
             let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         guard locations.count > 0 else {
-            return  completionHandler(false)
+            return  completionHandler(false, "")
         }
             for location in locations {
                 
@@ -563,14 +569,14 @@ class ElGrocerUtility {
                         
                         if(location.isActive.boolValue == true){
                             
-                           elDebugPrint("%@ is an Active Location",location.locationName)
+                           //  print("%@ is an Active Location",location.locationName)
                             let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                           elDebugPrint("Locations Count:%d",locations.count)
+                           //  print("Locations Count:%d",locations.count)
                             
                             for tempLoc in locations {
                                 
-                               elDebugPrint("tempLoc.dbID:%@",tempLoc.dbID)
-                               elDebugPrint("location.dbID:%@",location.dbID)
+                               //  print("tempLoc.dbID:%@",tempLoc.dbID)
+                               //  print("location.dbID:%@",location.dbID)
                                 if tempLoc.dbID == location.dbID{
                                     tempLoc.isActive = NSNumber(value: true as Bool)
                                 }else{
@@ -579,25 +585,23 @@ class ElGrocerUtility {
                             }
                             DatabaseHelper.sharedInstance.saveDatabase()
                             // We need to set the new address as the active address
-                            
                             ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
                                 
                                 if (result == true){
-                                    completionHandler(true)
+                                    completionHandler(true, "")
                                     
                                 }else{
-                                   elDebugPrint("Error while setting default location on Server.")
-                                    completionHandler(false)
+                                   //  print("Error while setting default location on Server.")
+                                    completionHandler(false, "Error while setting default location on Server")
                                 }
                             })
                         }else{
-                           elDebugPrint("%@ is Not an Active Location",location.locationName)
-                            completionHandler(false)
+                           //  print("\(location.locationName) is Not an Active Location")
+                            completionHandler(false, "\(location.locationName) is Not an Active Location")
                         }
                         
                     }else{
-                       elDebugPrint("Error while add location on Server.")
-                        completionHandler(false)
+                        completionHandler(false, "Error while add location on Server.")
                     }
                 })
             }
@@ -1105,8 +1109,6 @@ class ElGrocerUtility {
             
             isValidationSuccessed = profile.name != nil && !profile.name!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty && profile.phone != nil
                 && !userProfile!.phone!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                
-                && address.houseNumber != nil && !address.houseNumber!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 // && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
         }else{
             
@@ -1114,7 +1116,6 @@ class ElGrocerUtility {
                 && !userProfile!.phone!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 
                 && address.building != nil && !address.building!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                && address.floor != nil && !address.floor!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && address.apartment != nil && !address.apartment!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 // && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
         }
@@ -1667,24 +1668,27 @@ extension UIViewController {
     }
     
     func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [topColor,bottomColor]
-        gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.5, y: 0.42)
-        gradient.endPoint = CGPoint(x: 1, y: 1)
-        gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: height)
-        return gradient
-    }
+            let gradient: CAGradientLayer = CAGradientLayer()
+            gradient.colors = [topColor,bottomColor]
+            gradient.locations = [0.0 , 1.0]
+            gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
+            gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+            gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: height)
+            return gradient
+        }
 }
 
+
 extension UIView {
-    func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [topColor,bottomColor]
-        gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradient.endPoint = CGPoint(x: 1, y: 0.25)
-        gradient.frame = CGRect(x: 0.0, y: -10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
-        return gradient
-    }
+    
+        func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
+            let gradient: CAGradientLayer = CAGradientLayer()
+            gradient.colors = [topColor,bottomColor]
+            gradient.locations = [0.0 , 1.0]
+            gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
+            gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+            gradient.frame = CGRect(x: 0.0, y: 0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
+            return gradient
+        }
 }
+

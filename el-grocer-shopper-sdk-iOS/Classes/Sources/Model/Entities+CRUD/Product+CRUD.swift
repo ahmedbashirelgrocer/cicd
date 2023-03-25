@@ -125,9 +125,10 @@ extension Product {
         }
     }
     
-    class func insertOrReplaceAllProductsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext) -> [Product] {
+    class func insertOrReplaceAllProductsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext) -> (products: [Product], algoliaCount: Int) {
         
         var resultProducts = [Product]()
+        var algoliaProductCount: Int = 0
         //Parsing All Products Response here
             //sab
 //            if let  productDict = dataDict["products"] as? NSDictionary {
@@ -211,7 +212,8 @@ extension Product {
             } else  if let _ = dictionary["hits"] as? [NSDictionary] {//dataDict["products"] as? [NSDictionary] {
                 
                 let products = Product.insertOrReplaceProductsFromDictionary(dictionary, context: context)
-                for product in products {
+                algoliaProductCount = products.algoliaCount ?? 0
+                for product in products.products {
                     if(product.isPublished.boolValue == true && product.isAvailable.boolValue == true){
                         resultProducts.append(product)
                     }
@@ -257,7 +259,7 @@ extension Product {
             }
 
         try? context.save()
-        return resultProducts
+        return (resultProducts, algoliaProductCount)
         
     }
 
@@ -383,16 +385,17 @@ extension Product {
     }
     
     /// Used for products from elastic_search
-    class func insertOrReplaceProductsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext, searchString : String? = "" ,  _ currentProduct : Product? = nil, _ onlyCurrentStoreProducts : Bool = true) -> [Product] {
+    class func insertOrReplaceProductsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext, searchString : String? = "" ,  _ currentProduct : Product? = nil, _ onlyCurrentStoreProducts : Bool = true) -> (products: [Product], algoliaCount: Int?) {
         
         var resultProducts = [Product]()
+        var algoliaProductsCount: Int = 0
         var queryID = ""
         if let isQueryID = dictionary["queryID"] as? String {
             queryID = isQueryID
         }
         if let algoliaObj = dictionary["hits"] as? [NSDictionary] {
             
-            
+            algoliaProductsCount = algoliaObj.count
             for productDict in algoliaObj {
                 
                 if let productID = productDict["id"] as? Int , productID ==  currentProduct?.getCleanProductId() {
@@ -407,10 +410,20 @@ extension Product {
                             return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
                         }
                         if finalData.count == 0 {
-                            if UIApplication.topViewController() is UniversalSearchViewController {
-                                if (UIApplication.topViewController() as! UniversalSearchViewController).searchFor == .isForStoreSearch {
-                                    continue
+                            if let promotionA = productDict["promotional_shops"] as? [NSDictionary]{
+                                let promotionalShopFinalData =  promotionA.filter { (dict) -> Bool in
+                                    let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
+                                    return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
                                 }
+                                if promotionalShopFinalData.count == 0 {
+                                    let topVc = UIApplication.topViewController()
+                                    if topVc is UniversalSearchViewController {
+                                        if (topVc as! UniversalSearchViewController).searchFor == .isForStoreSearch {
+                                            continue
+                                        }
+                                    }
+                                }
+                                
                             }
                         }
                     }
@@ -569,12 +582,14 @@ extension Product {
 
                 } else {
                     
-                    product.brandId = nil
+                    product.brandId = -100
                 }
         
-                if(product.isPublished.boolValue == true && product.brandId != nil){
+                if(product.isPublished.boolValue == true && product.brandId != nil && product.availableQuantity != 0 ){
                     //add product to the list
                     resultProducts.append(product)
+                }else {
+                    elDebugPrint("printing append product")
                 }
             }
             
@@ -634,7 +649,7 @@ extension Product {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
         
-        return resultProducts
+        return (resultProducts, algoliaProductsCount)
     }
     
     class func createProductForSearchFromDictionary(_ productDict:NSDictionary, context:NSManagedObjectContext, searchString : String? = "" , _ queryID : String = "") -> Product {
@@ -827,11 +842,18 @@ extension Product {
             product.isSponsored =  0  //product.isSponsored != nil ?  product.isSponsored :
         }*/
         
+        
+         product.isSponsored = false
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
            // elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
             if let promoted = _rankingInfo["promoted"] as? Bool {
                 if promoted {
                     product.isSponsored = NSNumber(booleanLiteral: promoted)
+                }
+                if let promotedByReRanking = _rankingInfo["promotedByReRanking"] as? Bool {
+                    if promotedByReRanking {
+                        product.isSponsored = NSNumber(booleanLiteral: false)
+                    }
                 }
             }
         }
@@ -882,7 +904,7 @@ extension Product {
             if subCatDictA.count > 0 {
                 if let subCatDict = subCatDictA.first {
                     product.subcategoryId = subCatDict["id"] as? NSNumber ?? -1
-                    product.subcategoryName = subCatDict["name"] as? String
+                    product.subcategoryName = subCatDict["name_ar"] as? String
                     product.subcategoryNameEn = subCatDict["name"] as? String
                    
                 }
@@ -897,7 +919,7 @@ extension Product {
         if let categories = productDict["categories"] as? [NSDictionary] {
             
             if let subcategory = categories.first?["children"] as? NSDictionary {
-                product.subcategoryName = subcategory["name"] as? String
+                product.subcategoryName = subcategory["name_ar"] as? String
                 product.subcategoryNameEn = subcategory["name"] as? String
                 product.subcategoryId = subcategory["id"] as! NSNumber
             }
@@ -908,7 +930,7 @@ extension Product {
             }
         }
         
-        
+        product.availableQuantity = -1
         product.queryID = queryID
   
         return product
@@ -1062,16 +1084,17 @@ extension Product {
             product.isSponsored =  0  // product.isSponsored != nil ?  product.isSponsored :
         }
         */
-        product.isPromotion = 0
+        product.isSponsored = false
+       
         if let _rankingInfo = productDict["_rankingInfo"] as? NSDictionary {
             //elDebugPrint("_rankingInfo : \(String(describing: _rankingInfo["promoted"]))")
-            if let promoted = _rankingInfo["promoted"] as? Bool {
-                if promoted {
+            if let promoted = _rankingInfo["promoted"] as? Bool , let promotedByReRanking = _rankingInfo["promotedByReRanking"] as?  Bool {
+                if !promotedByReRanking && promoted {
                     product.isSponsored = NSNumber(booleanLiteral: promoted)
                 }
             }
         }
-        
+        product.isPromotion = false
         if let isPromotion = productDict["is_promotion"] as? NSNumber {
             product.isPromotion = isPromotion
         }else if let isPromotion = productDict["is_p"] as? NSNumber {

@@ -208,7 +208,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     var serviceFee = 0.0
     
         //MARK: Bool Var
-    
+    var isComingFromLocation = false
     var isComingFromReplacement = false
     var isAddressCompleted = false
     var isNextSlotAvailable = true
@@ -304,7 +304,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.signView.isHidden = true
         hidesBottomBarWhenPushed = true
         
-        SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
+        if UserDefaults.isOrderInEdit() {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderEditScreen))
+        } else {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .cartScreen))
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1050,7 +1054,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         MixpanelEventLogger.trackCartclose()
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
-        self.navigationController?.popViewController(animated: true)
+        if isComingFromLocation {
+            self.navigationController?.popToRootViewController(animated: true)
+            return
+        }else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     override func plusButtonClick() {
@@ -1633,7 +1642,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     DispatchQueue.main.async {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        self.substituteProduct[product.dbID] = newProducts
+                        self.substituteProduct[product.dbID] = newProducts.products
                         
                         if let first  =   self.notAvailableProductsList.firstIndex(of: product) {
                             let indexPath = NSIndexPath.init(row: first, section: self.notAvailableProductSectionNumber) as IndexPath
@@ -1670,7 +1679,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     Thread.OnMainThread {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , product )
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        self.substituteProduct[product.dbID] = newProducts
+                        self.substituteProduct[product.dbID] = newProducts.products
                         self.reloadTableData()
                     }
                     return
@@ -2274,7 +2283,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             }
             
         }
-        
+        /// display pre OOS cart
         if indexPath.section == 2 {
             
             let product = self.notAvailableProductsList[(indexPath as NSIndexPath).row]
@@ -2414,16 +2423,29 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     
                     ElGrocerUtility.sharedInstance.delay(0.1) {
                         self.deleteProduct(-1, selectedProduct)
+                        if self.notAvailableProductsList.count == 0 {
+                            self.isOutOfStockProductAvailablePreCart = false
+                            self.checkData()
+                        }
                     }
                     ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                         
                         if isUnDo {
                             ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery:self?.grocery, brandName:nil, quantity: 1, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                            self?.notAvailableProductsList.insert(selectedProduct, at: index )
+                            if self?.notAvailableProducts?.count ?? 0 == 0 {
+                                self?.notAvailableProductsList.insert(selectedProduct, at: 0 )
+                            }else {
+                                self?.notAvailableProductsList.insert(selectedProduct, at: index )
+                            }
+                            self?.isOutOfStockProductAvailablePreCart = true
                             self?.products.append(selectedProduct)
                             self?.tblBasket.reloadData()
                         }else{
                             self?.deleteProduct(-1, selectedProduct)
+                            if self?.notAvailableProductsList.count == 0 {
+                                self?.isOutOfStockProductAvailablePreCart = false
+                                self?.checkData()
+                            }
                         }
                     })
                 }
@@ -2809,8 +2831,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 ShoppingBasketItem.removeProductFromBasket(self.selectedProduct, grocery: self.grocery, orderID: nil , context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
-                    let cartDeletedEvent = CartDeletedEvent(product: self.selectedProduct, activeGrocery: self.grocery)
-                    SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: self.grocery))
                 }
                 self.removeProductFromAvailableAndProductA ()
                 
@@ -2830,8 +2851,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 // Log segment delete cart event
                 if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
-                    let cartDeletedEvent = CartDeletedEvent(product: self.selectedProduct, activeGrocery: self.grocery)
-                    SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: self.grocery))
                 }
                 
             } else {
@@ -2971,6 +2991,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.orderCancelled(isSuccess: isCancel)
         }
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
+        
+        // Logging segment event for cancel order clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: CancelOrderClickedEvent(orderId: orderId))
     }
     
     func orderCancelled(isSuccess: Bool) {
@@ -3199,7 +3222,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 Thread.OnMainThread {
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     DatabaseHelper.sharedInstance.saveDatabase()
-                    self.replaceProductsList = newProducts
+                    self.replaceProductsList = newProducts.products
                     self.tblBasket.reloadRows(at: [IndexPath], with: .fade)
                 }
             }
@@ -3366,12 +3389,14 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 self.updateSelectedProductsQuantity(counter, andWithProductIndex: index)
                 if(counter > 0){
                     self.updateQuantityAndPriceColour(index)
-                    
-                    let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: counter)
-                    SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
                 }
+                
                 ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("decrease_quantity_at_my_basket_screen")
                 FireBaseEventsLogger.trackDecrementAddToProduct(product: self.selectedProduct)
+                
+                // Logging segment event for product removed
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: counter)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
             }else if (counter == 0){
                 self.updateSelectedProductsQuantity(counter, andWithProductIndex: index)
                 
@@ -3501,6 +3526,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 case .success(let responseDict):
                    elDebugPrint("Fetch Basket Response:%@",responseDict)
                     self.saveResponseData(responseDict, andWithGrocery: grocery)
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
                 case .failure(let error):
                    elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
                     spinnerView?.removeFromSuperview()
@@ -3635,16 +3662,21 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func btnAddAddressAction(_ sender: Any) {
         
         if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let editLocationController = ElGrocerViewControllers.editLocationViewController()
-            editLocationController.deliveryAddress = deliveryAddress
-            editLocationController.editScreenState = .isFromCart
+            let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+            let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
             
             
             let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            
             navigationController.hideSeparationLine()
+            navigationController.setLogoHidden(true)
+            navigationController.setGreenBackgroundColor()
+            navigationController.setBackButtonHidden(true)
+            editLocationController.isPresented = true
+            
             navigationController.viewControllers = [editLocationController]
             navigationController.modalPresentationStyle = .fullScreen
-            self.navigationController?.present(navigationController, animated: true, completion: nil) //pushViewController(editLocationController, animated: true)
+            self.navigationController?.present(navigationController, animated: true, completion: nil)
         }
         
     }
@@ -4202,7 +4234,7 @@ extension MyBasketViewController {
                             secondVC.viewModel = vm
                             self.navigationController?.pushViewController(secondVC, animated: true)
                         }else {
-                            print("show error")
+                            //  print("show error")
                         }
                         
                     }

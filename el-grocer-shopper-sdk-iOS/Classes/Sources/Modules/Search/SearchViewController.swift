@@ -8,6 +8,7 @@
 import UIKit
 //import BBBadgeBarButtonItem
 import SDWebImage
+import IQKeyboardManagerSwift
 
 
 class SearchViewController: BasketBasicViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource , UIGestureRecognizerDelegate {
@@ -121,7 +122,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.setupClearNavBar()
         if isNavigateToSearch == true {
             self.title = localizedString("search_placeholder", comment: "")
-            self.addRightCrossButton(true)
+           // self.addRightCrossButton(true)
            //  addBackButton()
         }else{
             self.navigationController!.navigationBar.topItem!.title = localizedString("search_placeholder", comment: "")
@@ -166,6 +167,9 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.navigationItem.backBarButtonItem?.title = ""
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.enable = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -180,7 +184,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
       
         
         // self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+        // (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
@@ -190,7 +194,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.locationHeader.setSlotData()
         if isNeedToHideSearchBar {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            //addBackButton(isGreen: true)
+            addBackButton(isGreen: false)
             //addBackButtonWithCrossIconRightSide()
         }
         
@@ -222,7 +226,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
        
         self.navigationItem.hidesBackButton = true
         searchBgView.backgroundColor =  SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.viewPrimaryBGColor : ApplicationTheme.currentTheme.viewPrimaryBGColor
-        self.extendedLayoutIncludesOpaqueBars = true
+        // self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = .tableViewBackgroundColor()
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -253,7 +257,9 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.collectionView.reloadData()
             
         }
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
+        
+        IQKeyboardManager.shared.disabledDistanceHandlingClasses.append(SearchViewController.self)
    
     }
     
@@ -356,6 +362,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        IQKeyboardManager.shared.enable = true
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -819,7 +827,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
         self.basketIconOverlay?.grocery = self.grocery
         self.refreshBasketIconStatus()
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
 
 
     }
@@ -902,6 +910,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
     }
     
@@ -988,7 +997,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.tableView.reloadData()
         self.basketIconOverlay?.grocery = self.grocery
         self.refreshBasketIconStatus()
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
     }
     
     

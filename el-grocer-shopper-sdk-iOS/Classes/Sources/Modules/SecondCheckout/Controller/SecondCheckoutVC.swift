@@ -150,28 +150,25 @@ class SecondCheckoutVC: UIViewController {
                 }
                 
                 if self?.viewModel.getSelectedPaymentOption() == .creditCard, let card = self?.viewModel.getCreditCard()?.adyenPaymentMethod {
-                    if let oldOrder = self?.viewModel.getEditOrderInitialDetail(),oldOrder.cardID == self?.viewModel.getCreditCard()?.cardID {
+                    if let oldOrderCard = self?.viewModel.getEditOrderInitialDetail()?.cardID,oldOrderCard.elementsEqual(card.identifier){
                         self?.showConfirmationView(order!)
                         logPurchaseEvents()
-                        
-                        // MARK: Segment Order Purchase Event logging
-                        SegmentAnalyticsEngine.instance.logEvent(event: OrderPurchaseEvent(products: self?.viewModel.getFinalisedProducts() ?? [], grocery: self?.grocery, order: order))
+                        // Logging segment event for for edit order completed or order purchased
+                        self?.logOrderEditedOrCompletedEvent(order: order)
                         return
+                    }else {
+                        self?.paymentWithCard(card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
                     }
-                    elDebugPrint(order)
-                    self?.paymentWithCard(card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
                 }else if self?.viewModel.getSelectedPaymentOption() == .applePay, let card = self?.viewModel.getApplePay(){
-                    elDebugPrint(order)
                     self?.payWithApplePay(selctedApplePayMethod: card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
                 } else {
                     self?.showConfirmationView(order!)
+                    
+                    // Logging segment event for for edit order completed or order purchased
+                    self?.logOrderEditedOrCompletedEvent(order: order)
                 }
                 
                 logPurchaseEvents()
-                
-                // MARK: Segment Order Purchase Event logging
-                SegmentAnalyticsEngine.instance.logEvent(event: OrderPurchaseEvent(products: self?.viewModel.getFinalisedProducts() ?? [], grocery: self?.grocery, order: order))
-                
             }
         }
         
@@ -200,7 +197,9 @@ class SecondCheckoutVC: UIViewController {
         })
         .disposed(by: disposeBag)
         self.viewModel.getCreditCardsFromAdyen()
-        
+     
+        // Logging segment screen event 
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .checkoutScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -259,17 +258,20 @@ class SecondCheckoutVC: UIViewController {
         }
         
         AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: authValue, orderNum: order.dbID.stringValue, method: selectedMethod )
-            AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
+            AdyenManager.sharedInstance.isPaymentMade = { [weak self] (error, response,adyenObj) in
                 SpinnerView.hideSpinnerView()
                 if error {
                     if let resultCode = response["resultCode"] as? String,  resultCode.count > 0 {
-                        print(resultCode)
+                        // print(resultCode)
                         let refusalReason =  (response["refusalReason"] as? String) ?? resultCode
                         AdyenManager.showErrorAlert(descr: refusalReason)
                         MixpanelEventLogger.trackCheckoutPaymentMethodError(error: refusalReason)
                     }
                 }else {
-                    self.showConfirmationView(order)
+                    self?.showConfirmationView(order)
+                    
+                    // Logging segment event for for edit order completed or order purchased
+                    self?.logOrderEditedOrCompletedEvent(order: order)
                 }
             }
     }
@@ -288,13 +290,13 @@ class SecondCheckoutVC: UIViewController {
         }
             
             AdyenManager.sharedInstance.makePaymentWithApple(controller: self, amount: authValue, orderNum: order.dbID.stringValue, method: selctedApplePayMethod)
-            AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
+            AdyenManager.sharedInstance.isPaymentMade = { [weak self] (error, response,adyenObj) in
                
                 SpinnerView.hideSpinnerView()
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                        print(resultCode)
+                        //  print(resultCode)
                         if let reason = response["refusalReason"] as? String {
                             AdyenManager.showErrorAlert(descr: reason)
                             MixpanelEventLogger.trackCheckoutApplePayError(error: reason)
@@ -302,7 +304,10 @@ class SecondCheckoutVC: UIViewController {
                        
                     }
                 }else {
-                    self.showConfirmationView(order)
+                    self?.showConfirmationView(order)
+                    
+                    // Logging segment event for for edit order completed or order purchased
+                    self?.logOrderEditedOrCompletedEvent(order: order)
                 }
                 
             }
@@ -321,12 +326,9 @@ class SecondCheckoutVC: UIViewController {
         UserDefaults.resetEditOrder()
     
         self.resetLocalDBData(order)
-        let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-        orderConfirmationController.order = order
-        orderConfirmationController.grocery = self.viewModel.getGrocery()
-        orderConfirmationController.finalOrderItems = self.viewModel.getShoppingItems() ?? []
-        orderConfirmationController.finalProducts = self.viewModel.getFinalisedProducts()
-        orderConfirmationController.deliveryAddress = self.viewModel.getAddress()
+       
+        let viewModel = OrderConfirmationViewModel(OrderStatusMedule(), orderId: order.dbID.stringValue, true)
+        let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
         self.navigationController?.pushViewController(orderConfirmationController, animated: true)
         
     }
@@ -373,6 +375,26 @@ private extension SecondCheckoutVC {
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         self.title = localizedString("order_CheckOut_label", comment: "")
     }
+    
+    func logOrderEditedOrCompletedEvent(order: Order?) {
+        if (self.viewModel.getOrderId() != nil) {
+            // Edit Completed Event
+            SegmentAnalyticsEngine.instance.logEvent(event: EditOrderCompletedEvent(order: order, grocery: self.grocery))
+        } else {
+            let orderCompletedEvent = OrderPurchaseEvent(
+                products: self.viewModel.getFinalisedProducts() ?? [],
+                grocery: self.grocery,
+                order: order,
+                isWalletEnabled: viewModel.isElWalletEnabled(),
+                isSmilesEnabled: viewModel.isSmilesEnabled(),
+                isPromoCodeApplied: viewModel.isPromoApplied(),
+                smilesPointsEarned: viewModel.basketDataValue?.smilesEarn ?? 0,
+                smilesPointsBurnt: viewModel.basketDataValue?.smilesRedeem ?? 0,
+                realizationId: viewModel.basketDataValue?.promoCode?.promotionCodeRealizationID
+            )
+            SegmentAnalyticsEngine.instance.logEvent(event: orderCompletedEvent)
+        }
+    }
 }
 
 extension SecondCheckoutVC: NavigationBarProtocol {
@@ -409,6 +431,9 @@ extension SecondCheckoutVC: PaymentMethodViewDelegate {
                 self.viewModel.setSelectedPaymentOption(id: Int(option.rawValue))
                 self.viewModel.updatePaymentMethod(option)
                 MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(option.rawValue)",cardId: creditCard?.cardID ?? "-1", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
+                
+                // Logging segment event for payment method changed
+                SegmentAnalyticsEngine.instance.logEvent(event: PaymentMethodChangedEvent(paymentMethodId: Int(option.rawValue), paymentMethodName: option.paymentMethodName))
             }
         }
         MixpanelEventLogger.trackCheckoutPrimaryPaymentMethodClicked()
@@ -492,6 +517,10 @@ extension SecondCheckoutVC: PromocodeDelegate {
                 self.viewModel.setPromoCodeRealisationId(realizationId: "", promoAmount: nil)
                 self.viewModel.updateSecondaryPaymentMethods()
             }
+            
+            // Logging segment event for promo code applied
+            let promoCodeAppliedEvent = PromoCodeAppliedEvent(isApplied: success, promoCode: promoCode?.code, realizationId: promoCode?.promotionCodeRealizationId)
+            SegmentAnalyticsEngine.instance.logEvent(event: promoCodeAppliedEvent)
         }
         
         vc.dismissWithoutPromoClosure = { [weak self] (isDismisingWithPromoApplied) in
@@ -513,7 +542,7 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
     func switchStateChange(type: SourceType, switchState: Bool) {
         switch type {
         case .elWallet:
-            print("elwallet switch changed to >> \(switchState)")
+            //  print("elwallet switch changed to >> \(switchState)")
             self.viewModel.setIsWalletTrue(isWalletTrue: switchState)
             self.viewModel.updateSecondaryPaymentMethods()
             if switchState {
@@ -521,10 +550,13 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
             }else {
                 MixpanelEventLogger.trackCheckoutElwalletSwitchOff(balance: String(self.viewModel.basketDataValue?.elWalletBalance ?? 0.00))
             }
+            
+            // Logging segment event for el-wallet toggle enabled
+            SegmentAnalyticsEngine.instance.logEvent(event: ElWalletToggleEnabledEvent(isEnabled: switchState))
             break
             
         case .smile:
-            print("smiles switch changed to >> \(switchState)")
+            // print("smiles switch changed to >> \(switchState)")
             self.viewModel.setIsSmileTrue(isSmileTrue: switchState)
             self.viewModel.updateSecondaryPaymentMethods()
             if switchState {
@@ -532,6 +564,9 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
             }else {
                 MixpanelEventLogger.trackCheckoutSmilesSwitchOff(balance: String(self.viewModel.basketDataValue?.smilesBalance ?? 0.00))
             }
+            
+            // Logging segment event for smiles points enabled
+            SegmentAnalyticsEngine.instance.logEvent(event: SmilesPointEnabledEvent(isEnabled: switchState))
             break
         }
         

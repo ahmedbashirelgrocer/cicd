@@ -12,6 +12,7 @@ import CoreLocation
 import AppTrackingTransparency
 import el_grocer_shopper_sdk_iOS
 import RxSwift
+import SwiftSpinner
 
 class ViewController: UIViewController {
     
@@ -65,6 +66,42 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func goToSingleStoreSDK(_ sender: Any) {
+        let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
+        
+        let launchOptions =  LaunchOptions(
+            accountNumber: self.txtAccountNumber.text,
+            latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue,
+            longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue,
+            address: self.txtAddress.text,
+            loyaltyID: self.txtLoyalityID.text,
+            email: self.txtEmail.text,
+            pushNotificationPayload: pushData,
+            deepLinkPayload: self.txtDLPayload.text,
+            language: self.txtLanguage.text,
+            marketype: .grocerySingleStore,
+            environmentType: environment)
+        
+       // ElGrocer.start(with: launchOptions)
+        
+        ElGrocer.start(with: launchOptions) {
+            
+            SwiftSpinner.show("Calling Pyari Api")
+            
+        } completion: { isLoaded in
+            SwiftSpinner.hide()
+        }
+
+        
+        
+//        FlavorAgent.startFlavorEngine(launchOptions) {
+//            debugPrint("startAnimation")
+//        } completion: { isCompleted in
+//            debugPrint("Animation Completed")
+//        }
+
+    }
+    
     @IBAction func btnGoToSDK(_ sender: Any) {
         self.startSDK()
     }
@@ -88,14 +125,15 @@ class ViewController: UIViewController {
     }
     
     func setDefaultData() {
-        txtAccountNumber.text = "+923138157011" 
-        txtLat.text = "\(25.06867070)"
-        txtLong.text = "\(55.142484)"
+
+        txtAccountNumber.text = "+923138157023" 
+        txtLat.text = "\(31.4125128)"
+        txtLong.text = "\(73.1165197)"
         txtAddress.text = "Cluster D, United Arab Emirates"
         txtLoyalityID.text = "111111111130"
         txtEmail.text = ""
         txtPushPayload.text =  nil//"[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
-        txtDLPayload.text = "" // "https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=17,BrandID=18"
+        txtDLPayload.text = "" //"https://elgrocer://user_id=26368,order_id=9***,substituteOrderID=9***,market_type_id=1" //"https://smilesmobile.page.link/?link=https://smilesmobile.page.link/exy-too-trana//elgrocer://user_id=26368,order_id=955939541,substituteOrderID=955939541,market_type_id=1&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp" // nil //"https://smilesmobile.page.link/?link=https%3A%2F%2Fsmilesmobile.page.link%2Fexy-too-trana%2F%2Felgrocer%3A%2F%2Fuser_id%3D379910%2Corder_id%3D1290668554%2CsubstituteOrderID%3D1290668554%2Cmarket_type_id%3D1&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp" //https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=16,BrandID=18,marketType=1"
         txtLanguage.text = "Base"
     }
     
@@ -140,7 +178,12 @@ class ViewController: UIViewController {
     
     @objc func startSDK() {
         let launchOptions = getLaunchOptions()
+        
         ElGrocer.start(with: launchOptions)
+        
+       // ElGrocer.configure(with: launchOptions) { (_ isLoaded: Bool) in  }
+        
+        
     }
     
     
@@ -242,7 +285,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error.localizedDescription)
+     //   print(error.localizedDescription)
     }
 }
 

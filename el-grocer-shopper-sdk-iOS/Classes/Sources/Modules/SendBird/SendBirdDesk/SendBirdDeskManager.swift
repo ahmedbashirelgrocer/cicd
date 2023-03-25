@@ -20,7 +20,8 @@ enum SendBirdDeskType {
 
 class SendBirdDeskManager{
 
-    //let APP_ID = "F061BADA-1171-4478-8CFB-CBACC012301C"
+    lazy var KSingleGroceryStore: String = "Smiles_Market"
+    lazy var KSmileMarketPlace: String = "Smiles_MarketPlace"
     let shoperPrefix = "s_"
     let OrderUrlPrefix = "Order: "
     let SupportUrlPrefix = "Support: "
@@ -534,6 +535,8 @@ class SendBirdDeskManager{
                 customFields["shopperid"] = id
             }
         }
+        customFields["market-type"] = SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? KSingleGroceryStore : KSmileMarketPlace) : "ShopperAppMarketPlace"
+        
 
         SBDSKMain.setCustomerCustomFields(customFields) { (error) in
             guard error == nil else {
@@ -548,6 +551,9 @@ class SendBirdDeskManager{
     func navigateTochannelViewController(channel : SBDGroupChannel , controller : UIViewController , orderId : String){
         
         ElGrocerEventsLogger.sharedInstance.chatWithSupportClicked(orderId: orderId)
+        
+        // Loggine segment event for help clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: HelpClickedEvent())
         
         if let user = SBDMain.getCurrentUser() {
             let userID = user.userId

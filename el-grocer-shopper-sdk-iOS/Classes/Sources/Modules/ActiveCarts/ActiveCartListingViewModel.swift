@@ -49,7 +49,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
-    private let titleSubject = BehaviorSubject<String>(value: NSLocalizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
+    private let titleSubject = BehaviorSubject<String>(value: localizedString("screen_active_cart_listing_title", bundle: .resource, comment: ""))
     private let bannerTapSubject = PublishSubject<BannerDTO>()
     private let showEmptyViewSubject = PublishSubject<Void>()
     private let cellSelectedSubject = PublishSubject<ActiveCartDTO>()
@@ -58,13 +58,15 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     // MARK: Properties
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
     private var apiClinet: ElGrocerApi
+    private var analyticsEngine: AnalyticsEngineType
     private var latitude: Double
     private var longitude: Double
     private var disposeBag = DisposeBag()
     
     // MARK: Initlizations
-    init(apiClinet: ElGrocerApi, latitude: Double, longitude: Double) {
+    init(apiClinet: ElGrocerApi, analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine(), latitude: Double, longitude: Double) {
         self.apiClinet = apiClinet
+        self.analyticsEngine = analyticsEngine
         self.latitude = latitude
         self.longitude = longitude
 
@@ -88,14 +90,14 @@ private extension ActiveCartListingViewModel {
                     self.showEmptyViewSubject.onNext(())
                     return
                 }
-                
-                let activeCartVMs = activeCarts.map { cart in
+                let activeCartVMs = activeCarts.map { cart -> ActiveCartCellViewModel in
                     let cartCellViewModel = ActiveCartCellViewModel(activeCart: cart)
                     cartCellViewModel.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)             
                     return cartCellViewModel
                 }
                 
                 self.cellViewModelsSubject.onNext([SectionModel(model: 0, items: activeCartVMs)])
+                self.analyticsEngine.logEvent(event: MultiCartViewedEvent())
                 break
 
             case .failure(let error):

@@ -97,8 +97,11 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
                     }else {
                         self.navigateToSuccessVC(voucher: self.txtVoucherCode.text ?? "", isSuccess: false, voucherValue: "")
                     }
+                    
+                    // Logging segment event for voucher redeemed
+                    SegmentAnalyticsEngine.instance.logEvent(event: VoucherRedeemedEvent(code: self.txtVoucherCode.text))
                 } else {
-                    print("something wrong ho gaya")
+                   //  print("something wrong ho gaya")
                     MixpanelEventLogger.trackElwalletActiveVoucherVoucherRedeemError()
                     self.navigateToSuccessVC(voucher: self.txtVoucherCode.text ?? "", isSuccess: false, voucherValue: "")
                 }
@@ -157,7 +160,7 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
                         self?.navigateToSuccessVC(voucher: voucher.code ?? "", isSuccess: false, voucherValue: "")
                     }
                 } else {
-                    print("something wrong ho gaya")
+                   //  print("something wrong ho gaya")
                     MixpanelEventLogger.trackElwalletActiveVoucherVoucherRedeemError()
                     self?.navigateToSuccessVC(voucher: voucher.code ?? "", isSuccess: false, voucherValue: "")
                 }
@@ -260,11 +263,11 @@ extension ElWalletVouchersVC {
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
                         let transactionData = try VoucherRecord.init(data: jsonData)
-                        print(transactionData)
+                       //  print(transactionData)
                         self.allVouchers.append(contentsOf: transactionData.vouchers)
                         self.vouchersTableView.reloadDataOnMain()
                     } catch (let error){
-                        print(error)
+                       //  print(error)
                     }
                 }
                 case .failure(let error):

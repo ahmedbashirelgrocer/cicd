@@ -51,11 +51,11 @@ extension UserProfile {
         }
         
         //create invoice address
-        let invoiceAddress = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(DeliveryAddressEntity, entityDbId: "0" as AnyObject, keyId: "dbID", context: context) as! DeliveryAddress
-        invoiceAddress.isInvoiceAddress = NSNumber(value: true as Bool)
-        invoiceAddress.street = userDictionary["invoice_street"] as? String
-        invoiceAddress.building = userDictionary["invoice_building_name"] as? String
-        invoiceAddress.apartment = userDictionary["invoice_apartment_number"] as? String
+//        let invoiceAddress = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(DeliveryAddressEntity, entityDbId: "0" as AnyObject, keyId: "dbID", context: context) as! DeliveryAddress
+//        invoiceAddress.isInvoiceAddress = NSNumber(value: true as Bool)
+//        invoiceAddress.street = userDictionary["invoice_street"] as? String
+//        invoiceAddress.building = userDictionary["invoice_building_name"] as? String
+//        invoiceAddress.apartment = userDictionary["invoice_apartment_number"] as? String
         
         return userProfile
     }

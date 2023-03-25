@@ -102,7 +102,7 @@ class AdyenManager {
             }
             Thread.OnMainThread {
                 if let paymentMethod = paymentMethods {
-                    print(paymentMethods)
+                //    print(paymentMethods)
                     for method in paymentMethod.regular{
                         if method.type.elementsEqual("scheme") {
                             
@@ -213,7 +213,7 @@ class AdyenManager {
                 SpinnerView.hideSpinnerView()
                 if response != nil {
                     let resultCode = response?["resultCode"] as? String ?? ""
-                    print(resultCode)
+                   // print(resultCode)
                     let refusalReason = response?["refusalReason"] as? String ?? ""
                     AdyenManager.showErrorAlert(title: resultCode, descr: refusalReason)
                 }else {
@@ -303,7 +303,7 @@ class AdyenManager {
                 
             }else{
                 guard response != nil else {
-                    print("something went Wrong")
+                   // print("something went Wrong")
                     SpinnerView.hideSpinnerView()
                     let error = ElGrocerError()
                     error.showErrorAlert()
@@ -321,7 +321,7 @@ class AdyenManager {
                         self.setActionComponent(actionData: jsonData)
                         
                     } catch let error {
-                        print(error.localizedDescription)
+                      //  print(error.localizedDescription)
                         let errorGrocer = ElGrocerError.parsingError()
                         errorGrocer.showErrorAlert()
                     }

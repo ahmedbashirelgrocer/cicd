@@ -354,13 +354,16 @@ extension savedCarsVC {
         AdyenManager.sharedInstance.performZeroTokenization(controller: self)
         AdyenManager.sharedInstance.isNewCardAdded = { (error , response,adyenObj) in
             if error {
-                print("error in authorization")
+               //  print("error in authorization")
                 if let resultCode = response["resultCode"] as? String {
-                    print(resultCode)
+                   //  print(resultCode)
                     AdyenManager.showErrorAlert(descr: resultCode)
                 }
             }else{
                 self.getAdyenPaymentMethods()
+                
+                // Logging segment event for card added
+                SegmentAnalyticsEngine.instance.logEvent(event: CardAddedEvent())
             }
         }
     }

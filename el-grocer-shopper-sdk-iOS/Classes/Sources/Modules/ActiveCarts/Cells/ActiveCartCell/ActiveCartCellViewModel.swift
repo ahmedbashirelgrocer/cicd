@@ -82,7 +82,7 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
 private extension ActiveCartCellViewModel {
     
     func fetchBanner() {
-        ElGrocerApi.sharedInstance.getBannersFor(location: .sdk_all_carts_tier_2, retailer_ids: [String(self.activeCart.id)]) { result in
+        ElGrocerApi.sharedInstance.getBannersFor(location: .all_carts_tier_1.getType(), retailer_ids: [String(self.activeCart.id)]) { result in
             switch result {
             case .success(let data):
                 do {
@@ -90,7 +90,7 @@ private extension ActiveCartCellViewModel {
                     let compaings: CampaignsResponse = try JSONDecoder().decode(CampaignsResponse.self, from: data)
                     self.bannersSubject.onNext(compaings.data)
                 } catch {
-                    print("error >>> \(error)")
+                 //   print("error >>> \(error)")
                 }
                 break
                 
@@ -105,7 +105,7 @@ private extension ActiveCartCellViewModel {
     
         switch cart.deliveryType {
         case .instant:
-            let text = NSLocalizedString("instant_delivery", bundle: .resource, comment: "")
+            let text = localizedString("instant_delivery", bundle: .resource, comment: "")
             let attributedString = NSMutableAttributedString(string: text)
             
             attributedString.addAttribute(.font, value: UIFont.SFProDisplayNormalFont(13), range: NSRange(location: 0, length: text.count))
@@ -116,7 +116,7 @@ private extension ActiveCartCellViewModel {
             break
             
         case .scheduled:
-            let prefix = NSLocalizedString("lbl_next_delivery", bundle: .resource, comment: "")
+            let prefix = localizedString("lbl_next_delivery", bundle: .resource, comment: "")
             let formattedTimesString = self.formattedSlot()
             let text = prefix + formattedTimesString
             let attributedString = NSMutableAttributedString(string: text)
@@ -135,7 +135,7 @@ private extension ActiveCartCellViewModel {
               let startDate = slot.startTime?.convertStringToCurrentTimeZoneDate(),
               let endDate = slot.endTime?.convertStringToCurrentTimeZoneDate() else { return "" }
         
-        let day = slot.isToday ? NSLocalizedString("today_title", bundle: .resource, comment: "") : slot.isTomorrow ? NSLocalizedString("tomorrow_title", bundle: .resource, comment: "") : startDate.getDayName() ?? ""
+        let day = slot.isToday ? localizedString("today_title", bundle: .resource, comment: "") : slot.isTomorrow ? localizedString("tomorrow_title", bundle: .resource, comment: "") : startDate.getDayName() ?? ""
         let formattedStart = startDate.formateDate().replacingOccurrences(of: ":00", with: "")
         let formattedEnd = endDate.formateDate().replacingOccurrences(of: ":00", with: "")
         

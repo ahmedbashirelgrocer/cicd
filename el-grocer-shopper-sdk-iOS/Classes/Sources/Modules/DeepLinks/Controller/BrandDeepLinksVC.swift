@@ -299,18 +299,18 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                     
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: nil, nil, false)
                     
-                    if newProducts.count > 0 {
+                    if newProducts.products.count > 0 {
                         
                         DatabaseHelper.sharedInstance.saveDatabase()
                         
                         var dataProducts : [Product] = []
-                        for pro in newProducts {
+                        for pro in newProducts.products {
                             if pro.getCleanProductId() != self.productIDToRemove {
                                 dataProducts.append(pro)
                             }
                         }
                         self.filterProducts(dataArray: dataProducts)
-                        self.productsArray = newProducts
+                        self.productsArray = newProducts.products
                     }else{
                        elDebugPrint("no product found")
                         
@@ -525,9 +525,9 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                 Thread.OnMainThread {
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     
-                    if newProducts.count > 0 {
+                    if newProducts.products.count > 0 {
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        let newProduct  = newProducts[0]
+                        let newProduct  = newProducts.products[0]
                         self.filteredProductsArray.insert(newProduct, at: 0)
                         self.productIDToRemove = newProduct.getCleanProductId()
                         self.productCellOnProductQuickAddButtonClick(ProductCell(), product: newProduct)
@@ -792,6 +792,7 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
                 self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
                 let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
                 self.navigationController?.navigationBar.topItem?.title = title
+                (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
             }
             
             

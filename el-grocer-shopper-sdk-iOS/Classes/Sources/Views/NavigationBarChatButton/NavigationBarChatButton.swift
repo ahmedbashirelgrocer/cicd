@@ -13,7 +13,7 @@ class NavigationBarChatButton: UIView {
     @IBOutlet var navChatButton: UIButton!
     @IBOutlet var lblChat: UILabel!{
         didSet{
-            lblChat.text = localizedString("btn_help", comment: "")
+            //lblChat.text = localizedString("btn_help", comment: "")
         }
     }
     var chatClick: (()->Void)?
@@ -34,7 +34,7 @@ class NavigationBarChatButton: UIView {
     
     func setupInitialAppearnce(){
         self.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-        lblChat.setCaptionTwoSemiboldWhiteStyle()
+      //  lblChat.setCaptionTwoSemiboldWhiteStyle()
         changeChatIconColor()
     }
     
@@ -51,7 +51,7 @@ class NavigationBarChatButton: UIView {
     
     func changeChatIconColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor){
         self.navChatButton.imageView?.changePngColorTo(color: color)
-        self.lblChat.textColor = color
+       // self.lblChat.textColor = color
         
         if color == ApplicationTheme.currentTheme.themeBasePrimaryColor{
             self.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()

@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import SDWebImage
 import STPopup
+import RxSwift
+import RxCocoa
+
 // import PMAlertController
 let kProductCellIdentifier = "ProductCell"
 let kProductCellHeight: CGFloat = 264
@@ -23,11 +26,19 @@ protocol ProductCellProtocol : class {
     func chooseReplacementWithProduct(_ product:Product) -> Void
     func productDelete(_ product:Product) -> Void
 }
+
 extension ProductCellProtocol {
     func productDelete(_ product:Product){}
 }
 
-class ProductCell : UICollectionViewCell {
+class ProductCell : RxUICollectionViewCell {
+    override func configure(viewModel: Any) {
+        let viewModel = viewModel as! ProductCellViewModelType
+        self.viewModel = viewModel
+        
+        self.bindViews()
+    }
+    
     let topAddButtonmaxY = 0
     let topAddButtonminY = -32
   
@@ -130,6 +141,8 @@ class ProductCell : UICollectionViewCell {
     
     var cellIndex : IndexPath?
     
+    private var viewModel: ProductCellViewModelType!
+    
     @IBOutlet weak var lblAddToCartProductView: UILabel! {
         didSet{}
     }
@@ -201,12 +214,52 @@ class ProductCell : UICollectionViewCell {
     func configurePromotionView(isNeedToShowPercentage : Bool) {
         
         if !isNeedToShowPercentage {
+            // strikeLabelText
+            //  - percentage FALSE          => localizedString("lbl_Special_Discount", comment: "")
+            //  - percentage TRUE           => ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: product.price.doubleValue)
+            //      - percentage ZERO       => localizedString("lbl_Special_Discount", comment: "")
+            //      - percentage NOT-ZERO   =>
+            
+            // strikeLableTextColor
+            //  - percentage FALSE          => .elGrocerYellowColor()
+            //  - percentage TRUE           => .navigationBarWhiteColor()
+            //      - percentage ZERO       => .elGrocerYellowColor()
+            //      - percentage NOT-ZERO   =>
+            
+            // strikeThrough
+            //  - percentage FALSE          => false
+            //  - percentage TRUE           => true
+            //      - percentage ZERO       => false
+            //      - percentage NOT-ZERO   =>
+            
+            
+            // discountPercentage
+            //  - percentage FALSE          => ""
+            //  - percentage TRUE           =>
+            //      - percentage ZERO       => ""
+            //      - percentage NOT-ZERO   => "-" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(percentage)) + "%"
+            
+            
+            // offText
+            //  - percentage FALSE          => ""
+            //  - percentage TRUE           =>
+            //      - percentage ZERO       => ""
+            //      - percentage NOT-ZERO   => localizedString("txt_off_Single", comment: "")
+            
+            
+            // saleViewVisible
+            //  - percentage FALSE          => self.saleView.isHidden = false
+            //  - percentage TRUE           =>
+            //      - percentage ZERO       => self.saleView.isHidden = false
+            //      - percentage NOT-ZERO   => self.saleView.isHidden = true
             
             self.lblStrikePrice.attributedText = nil
             self.lblStrikePrice.text = localizedString("lbl_Special_Discount", comment: "")
             self.lblStrikePrice.textColor = .elGrocerYellowColor()
+            
             self.lblDiscountPercent.text = ""
             self.lblOFF.text = ""
+            
             self.limitedStockBGView.isHidden = true
             self.saleView.isHidden = false
             self.lblStrikePrice.strikeThrough(false)
@@ -423,8 +476,14 @@ class ProductCell : UICollectionViewCell {
     }
 
     @IBAction func addToCartHandler(_ sender: AnyObject) {
+        if viewModel != nil {
+            self.viewModel.inputs.addToCartButtonTapObserver.onNext(())
+            return
+        }
         
         guard self.product != nil else {return}
+        // need to confirm this check from ABM bhai or suboor
+        // i think this is for universal search
         guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             return
@@ -502,6 +561,10 @@ class ProductCell : UICollectionViewCell {
     }
     
     @IBAction func minusButtonHandler(_ sender: AnyObject) {
+        if viewModel != nil {
+            self.viewModel.inputs.minusButtonTapObserver.onNext(())
+            return
+        }
         DispatchQueue.main.async {
         func callDelegateAndAnalytics() {
             FireBaseEventsLogger.trackDecrementAddToProduct(product: self.product)
@@ -623,6 +686,10 @@ class ProductCell : UICollectionViewCell {
     }
     
     @IBAction func plusButtonHandler(_ sender: AnyObject) {
+        if viewModel != nil {
+            self.viewModel.inputs.plusButtonTapObserver.onNext(())
+        }
+        
         DispatchQueue.main.async {
         
         guard self.product != nil else {return}
@@ -1033,9 +1100,9 @@ class ProductCell : UICollectionViewCell {
                 return
             }
         }
-        guard self.product != nil else {
-            return
-        }
+        
+        guard let product = self.viewModel == nil ? self.product : self.viewModel.outputs.productDB else { return }
+        
         let popupViewController = PopImageViwerViewController(nibName: "PopImageViwerViewController", bundle: Bundle.resource)
         popupViewController.view.frame = UIScreen.main.bounds
         let popupController = STPopupController(rootViewController: popupViewController)
@@ -1057,9 +1124,9 @@ class ProductCell : UICollectionViewCell {
             }
             //popupViewController.productImage.image = self.productImageView.image
             popupViewController.lblProductName.text = self.productNameLabel.text
-            popupViewController.productQuantity.text =  self.product.descr ?? ""
-            popupViewController.product = self.product
-            popupViewController.checkPromotionView(product: self.product)
+            popupViewController.productQuantity.text =  product.descr ?? ""
+            popupViewController.product = product
+            popupViewController.checkPromotionView(product: product)
             if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
                  popupViewController.storeImageURL = grocery.smallImageUrl
             }
@@ -1094,6 +1161,178 @@ class ProductCell : UICollectionViewCell {
         }
     }
 }
+
+private extension ProductCell {
+    func bindViews() {
+        viewModel.outputs.name
+            .bind(to: productNameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.description
+            .bind(to: productDescriptionLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.description
+            .map { $0 == nil || $0!.isEmpty }
+            .bind(to: productDescriptionLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.price
+            .bind(to: productPriceLabel.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.imageUrl.subscribe(onNext: { [weak self] imageUrl in
+            guard let self = self else { return }
+            
+            self.productImageView.sd_setImage(with: imageUrl, placeholderImage: self.placeholderPhoto, options: SDWebImageOptions(rawValue: 1), completed: {[weak self] (image, error, cacheType, imageURL) in
+                guard let self = self else {
+                    return
+                }
+                if cacheType == SDImageCacheType.none {
+                    UIView.transition(with: self.productImageView , duration: 0.2, options:  [.transitionCrossDissolve], animations: {
+                        self.productImageView.image = image
+                    }, completion: { (completed) in
+                    })
+                }
+            })
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.isSponsored
+            .map { !$0 }
+            .bind(to: self.sponserdView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.plusButtonIconName
+            .map { UIImage(name: $0, in: .resource)?.withRenderingMode(.alwaysTemplate) }
+            .bind(to: self.plusButton.rx.image(for: .normal))
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.minusButtonIconName
+            .map { UIImage(name: $0, in: .resource)?.withRenderingMode(.alwaysTemplate) }
+            .bind(to: self.minusButton.rx.image(for: .normal))
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.cartButtonTintColor.subscribe(onNext: { [weak self] color in
+            guard let self = self else { return }
+            
+            self.plusButton.imageView?.tintColor = color
+            self.minusButton.imageView?.tintColor = color
+            
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.addToCartButtonType.subscribe(onNext: { [weak self] in
+            guard  let self = self else { return }
+            
+            self.addToCartButton.isHidden = $0
+            self.buttonsView.isHidden = !$0
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.isSubtituted.subscribe(onNext: { [weak self] substituted in
+            guard let self = self, let substituted = substituted else { return }
+            
+            if substituted {
+                self.setChooseReplaceViewSuccess()
+            }else{
+                self.setNotSelectedReplacementView()
+            }
+        }).disposed(by: disposeBag)
+        
+        Observable
+            .combineLatest(viewModel.outputs.isPublished, viewModel.outputs.isAvailable)
+            .map { $0 && $1 }
+            .bind(to: outOfStockContainer.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.isSponsored
+            .map { !$0 }
+            .bind(to: sponserdView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.isShowLimittedStock
+            .map { !$0 }
+            .bind(to: limitedStockBGView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        // Binding promo view
+        viewModel.outputs.displayPromotionView
+            .subscribe(onNext: { [weak self] in
+                self?.promotionBGView.isHidden = !$0
+                if $0 {
+                    self?.setPromotionAppearence()
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.strikeLabelText
+            .bind(to: lblStrikePrice.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.strikeLabelTextColor
+            .subscribe(onNext: { [weak self] in
+                self?.lblStrikePrice.textColor = $0
+            }).disposed(by: disposeBag)
+        
+        viewModel.outputs.strickThrough.subscribe(onNext: { [weak self] in
+            self?.lblStrikePrice.strikeThrough($0)
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.discountPercentage
+            .bind(to: lblDiscountPercent.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.saleViewVisibility
+            .bind(to: saleView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.offLabelText
+            .bind(to: lblOFF.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.promoPriceAttributedText
+            .bind(to: lblOfferPrice.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.quantity.subscribe(onNext: { [weak self] sQuantity in
+            guard let self = self else { return }
+            
+            UIView.transition(with: self.quantityLabel, duration: 0.25) {
+                self.quantityLabel.text = sQuantity
+            }
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.plusButtonEnabled.subscribe(onNext: { [weak self] enabled in
+            guard let self = self else { return }
+            
+            self.plusButton.isEnabled = enabled
+            self.plusButton.tintColor = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : UIColor.newBorderGreyColor()
+            self.plusButton.setBackgroundColorForAllState(enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : UIColor.newBorderGreyColor())
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.addToCartButtonEnabled.subscribe(onNext: { [weak self] enabled in
+            guard let self = self else { return }
+            
+            if enabled {
+                self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.addToCartButton.isEnabled = true
+                self.addToCartButton.setBody3BoldWhiteStyle()
+                self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+            } else {
+                self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonDisableBGColor
+                self.addToCartButton.isEnabled = false
+                self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonDisableBGColor)
+            }
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.isArabic.subscribe(onNext: { [weak self] isArbic in
+            guard let self = self else { return }
+            
+            if isArbic {
+                self.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
+        }).disposed(by: disposeBag)
+    }
+}
+
 extension ProductCell : STPopupControllerTransitioning {
 
     // MARK: STPopupControllerTransitioning

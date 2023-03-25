@@ -105,7 +105,7 @@ class CheckoutButtonView: AWView {
     }
     
     @objc func checkoutButtonTap(_ sender: UITapGestureRecognizer) {
-        print("Implement ME <<>> checkout button tapped ... ")
+        //   print("Implement ME <<>> checkout button tapped ... ")
     }
     
     override func layoutSubviews() {

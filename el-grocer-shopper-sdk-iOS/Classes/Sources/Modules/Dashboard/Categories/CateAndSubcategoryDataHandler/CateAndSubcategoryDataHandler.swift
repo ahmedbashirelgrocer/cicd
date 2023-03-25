@@ -267,6 +267,7 @@ extension CateAndSubcategoryView {
     // MARK: fetchAllProductsOfCategory
     
     private func fetchAllProdctusOfCategory(_ isLoadMore : Bool = false) {
+        guard self.parentCategory?.dbID != nil else { return }
         var pageNumber = 0
         var currentOffSet = self.currentOffset
         let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
@@ -340,7 +341,7 @@ extension CateAndSubcategoryView {
         Thread.OnMainThread {
             
             let newProduct = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            self.gridProductA += newProduct
+            self.gridProductA += newProduct.products
             self.moreGridProducts = (self.gridProductA.count % self.currentLimit) == 0
             let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
             ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] =  self.gridProductA
@@ -515,7 +516,7 @@ extension CateAndSubcategoryView {
         Thread.OnMainThread {
             var newProduct = [Product]()
             let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-            newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context)
+            newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context).products
             self.gridProductA += newProduct
             self.isGridView = true
             self.isLoadingMoreGridProducts = false

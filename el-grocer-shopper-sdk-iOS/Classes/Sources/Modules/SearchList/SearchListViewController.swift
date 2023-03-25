@@ -14,7 +14,6 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
 
     @IBOutlet var btnCross: UIButton!
     var grocery : Grocery?
-
     @IBOutlet var viewCreateSHppingListProcess: AWView!
     @IBOutlet var checkMarkCreateSHppingListProcess: UIImageView!
     @IBOutlet var txtCreateShoppingList: UILabel! {
@@ -37,6 +36,8 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     @IBOutlet var lblOne: UILabel! {
         didSet {
             lblOne.text = localizedString("lbl_One", comment: "")
+            lblOne.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            lblOne.superview?.layer.borderColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor.cgColor
         }
     }
     @IBOutlet var lblTwo: UILabel!{
@@ -52,7 +53,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
     }
     @IBOutlet var searchListBGSuperView: UIView!{
         didSet{
-            searchListBGSuperView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24, withShadow: false)
+           // searchListBGSuperView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24, withShadow: false)
         }
     }
     

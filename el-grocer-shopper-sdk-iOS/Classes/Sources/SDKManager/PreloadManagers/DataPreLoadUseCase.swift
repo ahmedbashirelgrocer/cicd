@@ -11,6 +11,7 @@ class PreLoadData {
     static var shared = PreLoadData()
     
     fileprivate var completion: (() -> Void)?
+    fileprivate var retryAttemp: Int = 0
 
     func loadData(launchOptions: LaunchOptions, completion: (() -> Void)?, basicApiCallCompletion: ((Bool) -> Void)? ) {
         self.completion = completion
@@ -32,10 +33,14 @@ class PreLoadData {
         // HomePageData.shared.delegate = self
 
         if self.isNotLoggedin() {
-            loginSignup {
-                self.updateLocationIfNeeded() {
-                    basicApiCallCompletion?(true)
-                    HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+            loginSignup { isSucceed in
+                if isSucceed {
+                    self.updateLocationIfNeeded() {
+                        basicApiCallCompletion?(true)
+                        HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+                    }
+                } else {
+                    basicApiCallCompletion?(false)
                 }
             }
         } else {
@@ -45,34 +50,86 @@ class PreLoadData {
             }
         }
     }
+    
+    func loadDataWithOutFetchingHomeCalls(launchOptions: LaunchOptions, completion: (() -> Void)? ) {
+        self.completion = completion
+        
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+            // Data already loaded return
+            self.updateLocationIfNeeded() {
+                self.completion?()
+                
+                // Logging segment identify event every time user launch our Single Store
+                if SDKManager.shared.isInitialized {
+                    if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                    }
+                }
+            }
+            return
+        }
+        SDKManager.shared.launchOptions = launchOptions
+        configureElgrocerShopper()
+        if self.isNotLoggedin() {
+            loginSignup { isSucceed in
+                if isSucceed {
+                    self.updateLocationIfNeeded() {
+                        self.completion?()
+                    }
+                } else {
+                    self.completion?()
+                }
+                
+            }
+        } else {
+            self.updateLocationIfNeeded() {
+                self.completion?()
+            }
+        }
+    }
 
-    func loginSignup(completion: (() -> Void)?) {
+    func loadConfigData(completion: (() -> Void)? ) {
+        self.completion = completion
+        configureElgrocerShopper()
+    }
+
+    
+    
+    func loginSignup(completion: ((_ isSucceed: Bool) -> Void)?) {
+       
         let launchOptions = SDKManager.shared.launchOptions!
         let manager = SDKLoginManager(launchOptions: launchOptions)
+        self.retryAttemp += 1
         manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage in
             guard let self = self else { return }
-            let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
+            //let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
+           //  print("self.retryAttemp: \(self.retryAttemp)")
             if isSuccess {
                 ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-                self.updateLocationIfNeeded(completion: completion)
-            } else {
+                self.updateLocationIfNeeded {
+                    self.retryAttemp = 0
+                    completion?(true)
+                }
+            } else if self.retryAttemp < 4 {
                 self.configLoginFailureCase(coompletion: completion)
+            } else {
+                completion?(false)
             }
         }
     }
     
     func updateLocationIfNeeded(completion: (() -> Void)? ) {
+        
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         let lat = SDKManager.shared.launchOptions?.latitude
         let lng = SDKManager.shared.launchOptions?.longitude
         
-        // if there is default location added returned back and don't add/update location
+
         if let _ = locations.first(where: { $0.isActive == NSNumber(value: true) }) {
             completion?()
             return
         }
-        
         // Use this instead of abouve if there is always need to update default location if there is different in launch options.
         // if let dLocation = locations.first(where: { $0.isActive == NSNumber(value: true) }),
         // dLocation.latitude == lat && dLocation.longitude == lng {
@@ -128,7 +185,7 @@ class PreLoadData {
         DatabaseHelper.sharedInstance.saveDatabase()
     }
     
-    private func configLoginFailureCase(coompletion: (() -> Void)?) {
+    private func configLoginFailureCase(coompletion: ((_ isSucceed: Bool) -> Void)?) {
         var delay : Double = 3
         if  ReachabilityManager.sharedInstance.isNetworkAvailable() {
             delay = 1.0

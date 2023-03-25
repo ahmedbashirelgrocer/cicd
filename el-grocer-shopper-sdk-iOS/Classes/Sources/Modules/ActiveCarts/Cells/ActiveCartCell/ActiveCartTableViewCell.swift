@@ -107,10 +107,10 @@ private extension ActiveCartTableViewCell {
             self?.invalidateIntrinsicContentSize()
         }).disposed(by: disposeBag)
         
-        self.viewModel.outputs.isArbic.subscribe { [weak self] isArbic in
+        self.viewModel.outputs.isArbic.subscribe (onNext: { [weak self] isArbic in
             self?.buttonNext.transform = isArbic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
             self?.collectionView.semanticContentAttribute = isArbic ? .forceRightToLeft : .forceLeftToRight
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
 }
 

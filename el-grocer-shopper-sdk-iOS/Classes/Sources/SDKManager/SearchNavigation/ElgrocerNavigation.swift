@@ -18,7 +18,6 @@ class ElgrocerSearchNavigaion {
     func navigateToProductHome(_ product: SearchResult) {
         
         SDKManager.shared.launchOptions?.navigationType = .search
-        
         Observable.just(())
             .flatMap{ [unowned self] _ in self.showAppWithMenuForSearch() }
             .flatMap{ [unowned self] _ in self.goToMainCategoriesVC(product) }
@@ -46,7 +45,7 @@ class ElgrocerSearchNavigaion {
             .map { _ in
                 if let tabbar = (SDKManager.shared.rootViewController as? UINavigationController)?.viewControllers.first as? UITabBarController {
                     tabbar.selectedIndex = 1
-                    
+                    tabbar.tabBar.isHidden = true
                     if  let navMain  = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController  {
                         if navMain.viewControllers.count > 0 {
                             if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
@@ -75,7 +74,7 @@ class ElgrocerSearchNavigaion {
                 searchController.edgesForExtendedLayout = UIRectEdge.bottom
                 vc?.navigationController?.pushViewController(searchController, animated: false)
             }
-            .delay(.milliseconds(50), scheduler: MainScheduler.instance)
+            .delay(.milliseconds(100), scheduler: MainScheduler.instance)
     }
     
     func setDefaultGroceryForSearch(_ product : SearchResult) {
@@ -88,11 +87,13 @@ class ElgrocerSearchNavigaion {
 //MARK: - Helpers
 extension ElgrocerSearchNavigaion {
     func search(text: String) {
-        if let usvc = UIApplication.topViewController() {
-            if let vc = usvc as? UniversalSearchViewController {
-                guard vc.txtSearch != nil else {return}
-                vc.txtSearch.text = text
-                _ = vc.textFieldShouldReturn(vc.txtSearch)
+        ElGrocerUtility.sharedInstance.delay(0.2) {
+            if let usvc = UIApplication.topViewController() {
+                if let vc = usvc as? UniversalSearchViewController {
+                    guard vc.txtSearch != nil else {return}
+                    vc.txtSearch.text = text
+                    _ = vc.textFieldShouldReturn(vc.txtSearch)
+                }
             }
         }
     }

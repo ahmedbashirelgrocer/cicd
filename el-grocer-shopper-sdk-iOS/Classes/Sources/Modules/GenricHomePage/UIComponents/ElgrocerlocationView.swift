@@ -188,7 +188,7 @@ class ElgrocerlocationView:  UIView  {
     
     
     class func loadFromNib() -> ElgrocerlocationView? {
-        return self.loadFromNib(withName: "ElgrocerlocationView")
+        return  self.loadFromNib(withName: "ElgrocerlocationView")
     }
     
     override func awakeFromNib() {
@@ -502,7 +502,8 @@ class ElgrocerlocationView:  UIView  {
   
     }
     
-    func configuredLocationAndGrocey(_ grocery : Grocery?) {
+    func configuredLocationAndGrocey(_ grocery : Grocery?, _ marketType: LaunchOptions.MarketType = .marketPlace) {
+        
         
         guard grocery != nil else {
             self.configured()
@@ -615,6 +616,9 @@ class ElgrocerlocationView:  UIView  {
         DispatchQueue.main.async {
             if let top = UIApplication.topViewController() {
                 top.present(navigationController, animated: true, completion: nil)
+                
+                // Logging segment event for address clicked
+                SegmentAnalyticsEngine.instance.logEvent(event: AddressClickedEvent(source: .settings))
             }
         }
     }
