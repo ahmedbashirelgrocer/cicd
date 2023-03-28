@@ -10,7 +10,7 @@ import Foundation
 
 
 // MARK: SDK Only Events
-struct SDKEvent: AnalyticsEventDataType {
+struct SDKLaunchedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     

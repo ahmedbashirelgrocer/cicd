@@ -76,11 +76,12 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
         guard let type = bannerType else {
             return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width * 0.19)
         }
-        if type.getType() == .sdk_all_carts_tier_2 {
+        if type.getType() == .sdk_all_carts_tier_2  {
             return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width * 0.19)
         }else {
-            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width)
+            return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
         }
+        
         
     }
     

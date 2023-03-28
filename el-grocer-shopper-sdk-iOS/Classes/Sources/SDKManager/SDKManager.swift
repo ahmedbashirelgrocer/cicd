@@ -349,8 +349,11 @@ class SDKManager: NSObject  {
         // ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
         
         // Google Maps
-        GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
-        GMSServices.provideAPIKey(kGoogleMapsApiKey)
+        if Platform.isDebugBuild {
+            GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
+            GMSServices.provideAPIKey(kGoogleMapsApiKey)
+        }
+     
         self.configuredElgrocerEventLogger() //didFinishLaunchingWithOptions)
         
         // initialize Segment SDK used for event logging.

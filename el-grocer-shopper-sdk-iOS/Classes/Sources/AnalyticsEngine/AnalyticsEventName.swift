@@ -22,7 +22,7 @@ enum AnalyticsEventName {
     static let multiCartsClicked        = "Multi Carts Clicked"
     
     // MARK: Order Events
-    static let orderPurchased           = "Order Purchased"
+    static let orderPurchased           = "Order Completed"
     static let editOrderCompleted       = "Edit Order Completed"
     static let orderEditClicked         = "Edit Order Clicked"
     static let orderDetailsClicked      = "Order Details Clicked"

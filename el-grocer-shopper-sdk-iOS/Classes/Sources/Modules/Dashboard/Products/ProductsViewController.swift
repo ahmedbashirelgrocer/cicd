@@ -378,8 +378,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             SDKManager.isGrocerySingleStore ?
             self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
             
-            
-            
         }
     }
     
@@ -516,12 +514,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        
-        
-        
-        
-        
         
         guard self.bannerCampaign != nil else {
         

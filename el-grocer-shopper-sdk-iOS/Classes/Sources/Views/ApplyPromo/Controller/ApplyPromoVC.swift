@@ -387,7 +387,14 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
             DispatchQueue.main.async { [weak cell] in
                 cell?.setBorderForPromo()
             }
-            
+        }
+        
+        // Logging segment event for Promo Code Viewed
+        if indexPath.row < self.promoCodeArray.count {
+            if !self.promoCodeArray[indexPath.row].isViewed {
+                SegmentAnalyticsEngine.instance.logEvent(event: PromoCodeViewedEvent(promoCode: self.promoCodeArray[indexPath.row]))
+                self.promoCodeArray[indexPath.row].isViewed = true
+            }
         }
     }
     

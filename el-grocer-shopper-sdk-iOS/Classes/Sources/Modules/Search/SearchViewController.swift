@@ -89,6 +89,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     private var bannerWorkItem:DispatchWorkItem?
     var topSearchesArray = [String]()
     var isNavigateToSearch = false
+    var isForEditOrder = false
     var notSupportedSearchTexts = [String]()
     var searchSuggestions = [SearchSuggestion]()
     
@@ -122,10 +123,11 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.setupClearNavBar()
         if isNavigateToSearch == true {
             self.title = localizedString("search_placeholder", comment: "")
-           // self.addRightCrossButton(true)
-           //  addBackButton()
         }else{
             self.navigationController!.navigationBar.topItem!.title = localizedString("search_placeholder", comment: "")
+        }
+        if !isForEditOrder && isNavigateToSearch{
+            self.addRightCrossButton(true)
         }
    
       //  self.collectionView.backgroundColor = UIColor.white // removed while merging
@@ -455,7 +457,9 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     override func backButtonClick() {
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
-        if isNavigateToSearch == true {
+        if isForEditOrder {
+            self.dismiss(animated: true)
+        }else if isNavigateToSearch == true {
             self.navigationController?.popViewController(animated: false)
         }else{
             

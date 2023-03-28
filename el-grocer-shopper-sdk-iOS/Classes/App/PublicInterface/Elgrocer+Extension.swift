@@ -132,7 +132,7 @@ public extension ElGrocer {
     }
     
     static func trackSDKLaunch(_ launchOption: LaunchOptions) {
-        SegmentAnalyticsEngine.instance.logEvent(event: SDKEvent(launchOption: launchOption))
+        SegmentAnalyticsEngine.instance.logEvent(event: SDKLaunchedEvent(launchOption: launchOption))
     }
 }
 
