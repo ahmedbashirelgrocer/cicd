@@ -92,7 +92,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     }
     @IBOutlet var tblFooterCheckOutView: AWView!
     @IBOutlet var checkOutViewForButton: AWView!
-    @IBOutlet var viewForSearch: UIView!
+    @IBOutlet var viewForSearch: UIView! {
+        didSet {
+            self.viewForSearch.isHidden = true
+        }
+    }
     @IBOutlet var checkOutView: UIView!
     @IBOutlet var savedAmountBGView: UIView!{
         didSet{
@@ -366,7 +370,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }else {
             self.isDeliveryMode = ElGrocerUtility.sharedInstance.isDeliveryMode
         }
-        self.searchBar.isHidden = !self.orderToReplace
+        
 
         self.reloadTableData()
         self.setControlerTitle()
@@ -382,7 +386,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.checkIsAddressFull(groceryA)
         }
         let _ = self.getFinalAmount()
-        
+        self.searchBar.isHidden = !self.orderToReplace
         //hide tabbar
         self.hideTabBar()
     }
@@ -608,6 +612,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         if  self.orderToReplace  {
             self.tblViewYPossition.constant = 76
+            self.viewForSearch.isHidden = false
             self.view.bringSubviewToFront(self.viewForSearch)
         }
         
@@ -977,21 +982,20 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.tblBasket.separatorInset = UIEdgeInsets.zero
         self.tblBasket.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)//UIColor.white
         self.view.backgroundColor = .navigationBarWhiteColor()//#colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)// UIColor.white
-        
+        self.setupBottomView()
+        self.setUpCheckoutButtonAppearance()
+        self.setSummaryData()
         if  self.orderToReplace  {
             self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
             self.searchBar.clipsToBounds = true
             self.searchBar.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             self.viewForSearch.addSubview(self.searchBar)
+//            self.viewForSearch.isHidden = false
         }
-        
-        self.setupBottomView()
-        self.setUpCheckoutButtonAppearance()
-        self.setSummaryData()
-        
         //self.checkOutView.alpha = 0.0
         self.tblFooterCheckOutView.alpha = 0.0
+        
     }
     
     fileprivate func setupBottomView(){
@@ -3695,12 +3699,14 @@ extension MyBasketViewController : CategorySearchBarDelegate {
         
         let searchController = ElGrocerViewControllers.searchViewController()
         searchController.isNavigateToSearch = true
+        searchController.isForEditOrder = true
         searchController.navigationFromControllerName = FireBaseScreenName.MyBasket.rawValue
         MixpanelEventLogger.trackEditCartSearchClick()
         if let topName = FireBaseEventsLogger.gettopViewControllerName() {
             searchController.navigationFromControllerName = topName
         }
-        self.navigationController?.pushViewController(searchController, animated: true)
+        searchController.modalPresentationStyle = .fullScreen
+        self.present(searchController, animated: true)
     }
     
 }

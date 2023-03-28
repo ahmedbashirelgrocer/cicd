@@ -198,15 +198,15 @@ class AlgoliaApi {
             }
         }
         
-        for storeID in storeIDs{
-            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-            if filterString.count == 0 {
-                filterString.append(facetFiltersForCurrentStoreID)
-            }else{
-                filterString.append(OROperator)
-                filterString.append(facetFiltersForCurrentStoreID)
-            }
-        }
+//        for storeID in storeIDs{
+//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(OROperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
         if brand.count > 0 {
             let facetFiltersForCurrentStoreID : String = "brand.name:'\(brand)'"
             if filterString.count == 0 {
@@ -359,15 +359,15 @@ class AlgoliaApi {
             }
         }
         
-        for storeID in storeIDs{
-            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-            if filterString.count == 0 {
-                filterString.append(facetFiltersForCurrentStoreID)
-            }else{
-                filterString.append(OROperator)
-                filterString.append(facetFiltersForCurrentStoreID)
-            }
-        }
+//        for storeID in storeIDs{
+//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(OROperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
         if brand.count > 0 {
             let facetFiltersForCurrentStoreID : String = "brand.name:'\(brand)'"
             if filterString.count == 0 {
@@ -841,15 +841,15 @@ extension AlgoliaApi {
             }
         }
         
-        for storeID in storeIDs{
-            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-            if filterString.count == 0 {
-                filterString.append(facetFiltersForCurrentStoreID)
-            }else{
-                filterString.append(OROperator)
-                filterString.append(facetFiltersForCurrentStoreID)
-            }
-        }
+//        for storeID in storeIDs{
+//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(OROperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
         
         if brand.count > 0 {
             let facetFiltersForCurrentStoreID : String = "brand.id:\(brand)"

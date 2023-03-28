@@ -42,7 +42,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet weak var lblOrderDetailNote: UILabel!
     @IBOutlet weak var lblFreshItemNote: UILabel!
     @IBOutlet weak var lblAddressNote: UILabel!
-    @IBOutlet weak var viewBanner: BannerView!
+    @IBOutlet weak var viewBanner: BannerView! {
+        didSet{
+            viewBanner.layer.cornerRadius = 5
+        }
+    }
     
     // status view
     @IBOutlet weak var statusView: UIView!

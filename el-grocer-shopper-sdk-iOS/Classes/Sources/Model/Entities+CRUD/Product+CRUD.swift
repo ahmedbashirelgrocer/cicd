@@ -409,21 +409,12 @@ extension Product {
                             let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
                             return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
                         }
-                        if finalData.count == 0 {
+                        if finalData.count > 0 {
                             if let promotionA = productDict["promotional_shops"] as? [NSDictionary]{
                                 let promotionalShopFinalData =  promotionA.filter { (dict) -> Bool in
                                     let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
                                     return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
-                                }
-                                if promotionalShopFinalData.count == 0 {
-                                    let topVc = UIApplication.topViewController()
-                                    if topVc is UniversalSearchViewController {
-                                        if (topVc as! UniversalSearchViewController).searchFor == .isForStoreSearch {
-                                            continue
-                                        }
-                                    }
-                                }
-                                
+                                }                                
                             }
                         }
                     }
@@ -460,82 +451,84 @@ extension Product {
                                 is_P = true
                             }
                         }
+                        
+                        if let promotionA = productDict["promotional_shops"] as? [NSDictionary]{
+                            let finalData =  promotionA.filter { (dict) -> Bool in
+                                 let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
+                                    return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
+                            }
+                            if finalData.count > 0 {
+                                
+                                
+                                for promotion in finalData {
+                                    if let startTime = promotion["start_time"] as? NSNumber , let endTime = promotion["end_time"] as? NSNumber  {
+                                        let currentSlot = ElGrocerUtility.sharedInstance.getCurrentMillis()
+                                        if  currentSlot > startTime.int64Value  &&  currentSlot < endTime.int64Value {
+                                            if let standard_price = promotion["standard_price"] as? NSNumber{
+                                                if product.promotionOnly.boolValue || is_P {
+                                                    product.price = standard_price
+                                                }
+                                            }
+                                            product.promotion = 1
+                                            
+                                            if let startTime = promotion["start_time"] as? NSNumber   {
+                                                
+                                                let epochTime = TimeInterval(startTime.doubleValue) / 1000
+                                                let date = Date(timeIntervalSince1970: epochTime)
+                                                product.promoStartTime =  date
+                                            }else{
+                                                product.promoStartTime = nil
+                                            }
+                                            
+                                            if let endTime = promotion["end_time"] as? NSNumber {
+                                                let epochTime = TimeInterval(endTime.doubleValue) / 1000
+                                                let date = Date(timeIntervalSince1970: epochTime)
+                                                product.promoEndTime =  date
+                                            }else{
+                                                product.promoEndTime = nil
+                                            }
+                                            
+                                            if let promoPrice = promotion["price"] as? NSNumber{
+                                                product.promoPrice = promoPrice
+                                            }else{
+                                                product.promoPrice = NSNumber(0)
+                                            }
+                                            
+                                            
+                                            
+                                            if let productLimit = promotion["product_limit"] as? NSNumber{
+                                                product.promoProductLimit =  productLimit
+                                            }else{
+                                                product.promoProductLimit = NSNumber(0)
+                                                
+                                            }
+                                            
+                                            break;
+                                        }
+                                       
+                                    }
+                                
+                                }
+                        
+                            }else{
+                                product.promotion = 0
+                            }
+                        }else{
+                            
+                            product.promotion = 0
+                        }
+                        
                     }else{
                         product.promotionOnly = false
-                       
+                        // deleting because product is not available in shops dictionary for current store https://elgrocerdxb.atlassian.net/browse/EEN-4110
+                        context.delete(product)
+                        continue
                     }
                     
                 }else{
                     product.promotionOnly = false
                 }
-                
-                
-                if let promotionA = productDict["promotional_shops"] as? [NSDictionary]{
-                    let finalData =  promotionA.filter { (dict) -> Bool in
-                         let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
-                            return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
-                    }
-                    if finalData.count > 0 {
-                        
-                        
-                        for promotion in finalData {
-                            if let startTime = promotion["start_time"] as? NSNumber , let endTime = promotion["end_time"] as? NSNumber  {
-                                let currentSlot = ElGrocerUtility.sharedInstance.getCurrentMillis()
-                                if  currentSlot > startTime.int64Value  &&  currentSlot < endTime.int64Value {
-                                    if let standard_price = promotion["standard_price"] as? NSNumber{
-                                        if product.promotionOnly.boolValue || is_P {
-                                            product.price = standard_price
-                                        }
-                                    }
-                                    product.promotion = 1
-                                    
-                                    if let startTime = promotion["start_time"] as? NSNumber   {
-                                        
-                                        let epochTime = TimeInterval(startTime.doubleValue) / 1000
-                                        let date = Date(timeIntervalSince1970: epochTime)
-                                        product.promoStartTime =  date
-                                    }else{
-                                        product.promoStartTime = nil
-                                    }
-                                    
-                                    if let endTime = promotion["end_time"] as? NSNumber {
-                                        let epochTime = TimeInterval(endTime.doubleValue) / 1000
-                                        let date = Date(timeIntervalSince1970: epochTime)
-                                        product.promoEndTime =  date
-                                    }else{
-                                        product.promoEndTime = nil
-                                    }
-                                    
-                                    if let promoPrice = promotion["price"] as? NSNumber{
-                                        product.promoPrice = promoPrice
-                                    }else{
-                                        product.promoPrice = NSNumber(0)
-                                    }
-                                    
-                                    
-                                    
-                                    if let productLimit = promotion["product_limit"] as? NSNumber{
-                                        product.promoProductLimit =  productLimit
-                                    }else{
-                                        product.promoProductLimit = NSNumber(0)
-                                        
-                                    }
-                                    
-                                    break;
-                                }
-                               
-                            }
-                        
-                        }
-                
-                    }else{
-                        product.promotion = 0
-                    }
-                }else{
-                    
-                    product.promotion = 0
-                }
-                
+
                 if product.promotionOnly.boolValue && product.promotion == 0 {
                     context.delete(product)
                     continue
@@ -680,30 +673,31 @@ extension Product {
                 let data = finalData[0]
                 groceryID = "\(String(describing: data["retailer_id"] ?? 0))"
                 shopsDict = data
+                
+                if let shopsA = productDict["promotional_shops"] as? [NSDictionary] {
+                    for shop in shopsA {
+                        if let reID = shop["retailer_id"] as? NSNumber {
+                            shopIdsA.append(reID)
+                        }
+                    }
+                    let finalData =  shopsA.filter { (dict) -> Bool in
+                         let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
+                            return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
+                    }
+                    if finalData.count > 0 {
+                        let data = finalData[0]
+                        groceryID = "\(String(describing: data["retailer_id"] ?? 0))"
+                        shopsDict = data
+                    }
+                }
+                    
+                
             }
         }else {
             groceryID = "0"
         }
         
-        if shopIdsA.isEmpty {
-            if let shopsA = productDict["promotional_shops"] as? [NSDictionary] {
-                for shop in shopsA {
-                    if let reID = shop["retailer_id"] as? NSNumber {
-                        shopIdsA.append(reID)
-                    }
-                }
-                let finalData =  shopsA.filter { (dict) -> Bool in
-                     let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
-                        return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
-                }
-                if finalData.count > 0 {
-                    let data = finalData[0]
-                    groceryID = "\(String(describing: data["retailer_id"] ?? 0))"
-                    shopsDict = data
-                }
-            }
-            
-        }
+        
         
          
 

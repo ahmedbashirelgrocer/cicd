@@ -198,7 +198,7 @@ extension OrderStatusVC : UITableViewDelegate , UITableViewDataSource {
                 return kCandCLocationCellHeight
             }
         }else{
-            return kBannerCellHeight + 10
+            return ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner()
         }
     }
     

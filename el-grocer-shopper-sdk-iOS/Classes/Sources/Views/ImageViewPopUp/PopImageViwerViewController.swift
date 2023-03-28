@@ -311,37 +311,40 @@ class PopImageViwerViewController: UIViewController {
                             }
                         }
                     }
-                }
-                if priceValue != nil {
-                    product.price = priceValue!
-                }
-                if let shopsA = product.promotionalShops {
-                    let shopsList = product.convertToDictionaryArray(text: shopsA)
-                    let shops = shopsList?.filter({ data in
-                        let isDataAvailable =  ElGrocerUtility.sharedInstance.groceries.filter { grocery in
-                            return (data["retailer_id"] as! NSNumber).stringValue == grocery.getCleanGroceryID()
-                        }
-                        return isDataAvailable.count > 0
-                    })
-                    for shop in shops ?? [] {
-                        let strtTime = shop["start_time"] as? Int ?? 0
-                        let endTime = shop["end_time"] as? Int ?? 0
+                    if (shops?.count ?? 0) > 0 {
+                        if let shopsA = product.promotionalShops {
+                            let shopsList = product.convertToDictionaryArray(text: shopsA)
+                            let shops = shopsList?.filter({ data in
+                                let isDataAvailable =  ElGrocerUtility.sharedInstance.groceries.filter { grocery in
+                                    return (data["retailer_id"] as! NSNumber).stringValue == grocery.getCleanGroceryID()
+                                }
+                                return isDataAvailable.count > 0
+                            })
+                            for shop in shops ?? [] {
+                                let strtTime = shop["start_time"] as? Int ?? 0
+                                let endTime = shop["end_time"] as? Int ?? 0
 
-                        let retailerId = shop["retailer_id"] as? String ?? "-1"
-                        let time = ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: retailerId)
-                        if strtTime <= time && endTime >= time {
-                            if let price = shop["price"] as? NSNumber,let standardPrice = shop["standard_price"] as? NSNumber {
-                                if priceValue == nil || price < (priceValue ?? NSNumber.init(value : Double.greatestFiniteMagnitude)) {
-                                    priceValue = price
-                                    product.price = standardPrice
-                                    product.promotion = true
-                                    product.promoPrice = price
-                                    isPromotional = true
+                                let retailerId = shop["retailer_id"] as? String ?? "-1"
+                                let time = ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: retailerId)
+                                if strtTime <= time && endTime >= time {
+                                    if let price = shop["price"] as? NSNumber,let standardPrice = shop["standard_price"] as? NSNumber {
+                                        if priceValue == nil || price < (priceValue ?? NSNumber.init(value : Double.greatestFiniteMagnitude)) {
+                                            priceValue = price
+                                            product.price = standardPrice
+                                            product.promotion = true
+                                            product.promoPrice = price
+                                            isPromotional = true
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                if priceValue != nil {
+                    product.price = priceValue!
+                }
+                
 
                 if priceValue != nil {
 

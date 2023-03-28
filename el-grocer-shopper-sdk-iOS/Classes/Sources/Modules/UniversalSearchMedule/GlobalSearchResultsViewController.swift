@@ -307,8 +307,7 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
         if indexPath.row < self.groceryAndBannersList.count {
             let homeFeed = self.groceryAndBannersList[indexPath.row]
             if homeFeed.type == .Banner {
-                let rowHeight =  (ScreenSize.SCREEN_WIDTH/KBannerRation) + 20
-                return rowHeight
+                return ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner()
             }
         }else if indexPath.row == self.groceryAndBannersList.count {
             return self.dataSource.recipeList?.count ?? 0 > 0 ?  50  : minCellHeight
