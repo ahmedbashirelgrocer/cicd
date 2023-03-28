@@ -133,7 +133,7 @@ class GenericBannersCell: RxUITableViewCell {
         if self.banners.count > self.pageControl.currentPage {
             let banner = self.banners[self.pageControl.currentPage]
             if !banner.isViewed {
-                SegmentAnalyticsEngine.instance.logEvent(event: BannerViewedEvent(banner: banner, position: self.pageControl.currentPage + 1))
+              //  SegmentAnalyticsEngine.instance.logEvent(event: BannerViewedEvent(banner: banner, position: self.pageControl.currentPage + 1))
                 banner.isViewed.toggle()
             }
         }
