@@ -338,7 +338,7 @@ extension Product {
     
     // MARK: Insert Products
     
-    class func insertOrReplaceSixProductsFromDictionary(_ brandsArray:NSArray, context:NSManagedObjectContext) -> [Product] {
+    class func insertOrReplaceSixProductsFromDictionary(_ brandsArray:NSArray, context:NSManagedObjectContext) -> (products: [Product], productCount: Int) {
         
         var resultProducts = [Product]()
         
@@ -381,7 +381,7 @@ extension Product {
             elDebugPrint(error.localizedDescription)
         }
         
-        return resultProducts
+        return (resultProducts,brandsArray.count)
     }
     
     /// Used for products from elastic_search

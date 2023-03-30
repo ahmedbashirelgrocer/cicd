@@ -975,7 +975,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         
         let context = self.productsArray.count == 0 ? DatabaseHelper.sharedInstance.mainManagedObjectContext :  DatabaseHelper.sharedInstance.backgroundManagedObjectContext
         let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-        self.productsArray += newProduct
+        self.productsArray += newProduct.products
         
 
         

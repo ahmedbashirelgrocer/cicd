@@ -206,7 +206,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         }
         
         self.viewHandler.removeLocalCache()
-        self.productDataUpdated()
+        self.productDataUpdated(nil)
         self.viewHandler.loadMore()
     }
     
@@ -429,6 +429,15 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
                 guard let self = self else {return}
                 self.navigateToBrandsDetailViewBrand(brand!)
             }
+            cell.loadMoreProducts = {[weak self] in
+                guard let self = self else {return}
+                if self.viewHandler.ListbrandsArray[indexPath.row].isNextProducts {
+                    
+                    self.viewHandler.callFetchBrandProductsFromServer(indexPath: indexPath, brand: self.viewHandler.ListbrandsArray[indexPath.row], productCount: self.viewHandler.ListbrandsArray[indexPath.row].products.count)
+                }
+                
+//                self.viewHandler.fetchSubCategories()
+            }
         }
         return cell
     }
@@ -593,7 +602,10 @@ extension SubCategoriesViewController : ProductUpdationDelegate {
 
 extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
     
-    func productDataUpdated() {
+    func productDataUpdated(_ index: IndexPath? = nil) {
+        if self.viewHandler.isGridView && index != nil {
+            self.collectionView.reloadItems(at: [index!])
+        }
         self.collectionView.reloadDataOnMainThread()
     }
     func bannerDataUpdated(_ grocerID:String?) {

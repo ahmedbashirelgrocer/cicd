@@ -38,17 +38,19 @@ class GroceryBrand {
 
 
         
-        //Parsing All Products Response here
-        let responseObjects = dictionary["products"] as! [NSDictionary]
-        
-        let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
-        
-        context.performAndWait({ () -> Void in
-            
-            let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-            brand.products = newProduct
-           elDebugPrint("Brands Product Count:%d",brand.products.count)
-        })
+//        //Parsing All Products Response here
+//        let responseObjects = dictionary["products"] as! [NSDictionary]
+//        
+//        let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
+//        
+//        context.performAndWait({ () -> Void in
+//            
+//            let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
+//            brand.products += newProduct.products
+//            brand.productsCount = NSNumber(value: newProduct.productCount)
+//            brand.isNextProducts = (newProduct.productCount % 10 == 0)
+//           elDebugPrint("Brands Product Count:%d",brand.products.count)
+//        })
         
         return brand
     }

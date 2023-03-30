@@ -39,6 +39,8 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
         }
     }
     var brandViewAllClicked: ((_ brand : GroceryBrand?)->Void)?
+    var loadMoreProducts : (()->Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         registerCellsForCollection()
@@ -99,6 +101,12 @@ extension SubCategoryBrandWiseProductsViewCollectionViewCell : UICollectionViewD
             let product = self.productA[(indexPath as NSIndexPath).row]
             cell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
             cell.delegate = self.productDelegate
+        }
+        
+        if (indexPath.item == productA.count - 2) {
+            if let loadMoreProducts = loadMoreProducts {
+                loadMoreProducts()
+            }
         }
            // cell.delegate = self
         return cell
