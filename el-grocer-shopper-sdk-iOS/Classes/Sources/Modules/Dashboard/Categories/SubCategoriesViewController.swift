@@ -429,11 +429,20 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
                 guard let self = self else {return}
                 self.navigateToBrandsDetailViewBrand(brand!)
             }
-            cell.loadMoreProducts = {[weak self] in
-                guard let self = self else {return}
-                if self.viewHandler.ListbrandsArray[indexPath.row].isNextProducts {
+            cell.loadMoreProducts = {[weak self] (brand) in
+                guard let self = self,let brand = brand else {return}
+                
+                let index = self.viewHandler.ListbrandsArray.firstIndex { GroceryBrand in
+                    return GroceryBrand.brandId == brand.brandId
+                }
+                guard let index = index, index >= 0 || index <= self.viewHandler.ListbrandsArray.count else {
+                    elDebugPrint("missing brand id")
+                    return
+                }
+                
+                if self.viewHandler.ListbrandsArray[index].isNextProducts {
                     
-                    self.viewHandler.callFetchBrandProductsFromServer(indexPath: indexPath, brand: self.viewHandler.ListbrandsArray[indexPath.row], productCount: self.viewHandler.ListbrandsArray[indexPath.row].products.count)
+                    self.viewHandler.callFetchBrandProductsFromServer(indexPath: IndexPath(item: index, section: 1), brand: self.viewHandler.ListbrandsArray[index], productCount: self.viewHandler.ListbrandsArray[index].products.count)
                 }
                 
 //                self.viewHandler.fetchSubCategories()
@@ -603,8 +612,13 @@ extension SubCategoriesViewController : ProductUpdationDelegate {
 extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
     
     func productDataUpdated(_ index: IndexPath? = nil) {
-        if self.viewHandler.isGridView && index != nil {
-            self.collectionView.reloadItems(at: [index!])
+        if !self.viewHandler.isGridView && index != nil {
+            UIView.animate(withDuration: 0, animations: {
+                self.collectionView.performBatchUpdates {
+                    self.collectionView.reloadItems(at: [index!])
+                }
+            })
+            return
         }
         self.collectionView.reloadDataOnMainThread()
     }

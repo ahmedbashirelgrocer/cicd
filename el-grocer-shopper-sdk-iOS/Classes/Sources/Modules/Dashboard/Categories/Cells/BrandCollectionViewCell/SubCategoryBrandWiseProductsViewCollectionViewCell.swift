@@ -39,7 +39,7 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
         }
     }
     var brandViewAllClicked: ((_ brand : GroceryBrand?)->Void)?
-    var loadMoreProducts : (()->Void)?
+    var loadMoreProducts : ((_ brand : GroceryBrand?)->Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -103,9 +103,11 @@ extension SubCategoryBrandWiseProductsViewCollectionViewCell : UICollectionViewD
             cell.delegate = self.productDelegate
         }
         
-        if (indexPath.item == productA.count - 2) {
+        if (indexPath.item == productA.count - 1) {
             if let loadMoreProducts = loadMoreProducts {
-                loadMoreProducts()
+                if let brand = self.groceryBrand {
+                    loadMoreProducts(brand)
+                }
             }
         }
            // cell.delegate = self
