@@ -71,7 +71,13 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
         self.grocery = grocery
         self.groceryBrand = groceryBand
         self.brandNameLbl.text = groceryBand.name
-        self.collectionView.reloadData()
+        self.reloadWithOffsetMaintain(collectionView: self.collectionView)
+    }
+    
+    func reloadWithOffsetMaintain(collectionView: UICollectionView) {
+        let contentOffset = collectionView.contentOffset
+        collectionView.reloadData()
+        collectionView.setContentOffset(contentOffset, animated: false)
     }
     
     

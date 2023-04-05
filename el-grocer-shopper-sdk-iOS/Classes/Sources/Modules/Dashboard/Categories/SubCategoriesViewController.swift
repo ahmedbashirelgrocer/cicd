@@ -432,20 +432,18 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             cell.loadMoreProducts = {[weak self] (brand) in
                 guard let self = self,let brand = brand else {return}
                 
-                let index = self.viewHandler.ListbrandsArray.firstIndex { GroceryBrand in
+                let brandIndex = self.viewHandler.ListbrandsArray.firstIndex { GroceryBrand in
                     return GroceryBrand.brandId == brand.brandId
                 }
-                guard let index = index, index >= 0 || index <= self.viewHandler.ListbrandsArray.count else {
+                guard let brandIndex = brandIndex, brandIndex >= 0 || brandIndex <= self.viewHandler.ListbrandsArray.count else {
                     elDebugPrint("missing brand id")
                     return
                 }
                 
-                if self.viewHandler.ListbrandsArray[index].isNextProducts {
+                if self.viewHandler.ListbrandsArray[brandIndex].isNextProducts {
                     
-                    self.viewHandler.callFetchBrandProductsFromServer(indexPath: IndexPath(item: index, section: 1), brand: self.viewHandler.ListbrandsArray[index], productCount: self.viewHandler.ListbrandsArray[index].products.count)
+                    self.viewHandler.callFetchBrandProductsFromServer(indexPath: IndexPath(item: brandIndex, section: 1), brand: self.viewHandler.ListbrandsArray[brandIndex], productCount: self.viewHandler.ListbrandsArray[brandIndex].products.count)
                 }
-                
-//                self.viewHandler.fetchSubCategories()
             }
         }
         return cell
@@ -498,7 +496,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         if section == 0 {
             return UIEdgeInsets.init(top: 0 , left: 0, bottom: 0, right: 0)
         }
-        return UIEdgeInsets.init(top: 5, left: 5 , bottom: 10, right: 10)
+        return UIEdgeInsets.init(top: 5, left: 5 , bottom: 20, right: 10)
     }
     
    // MARK:- Scroll Delegate
@@ -551,7 +549,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         }
         
         if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-            let kLoadingDistance = 2 * kProductCellHeight + 8
+            var kLoadingDistance = 2 * kProductCellHeight + 8
+            if self.viewHandler.isGridView {
+                kLoadingDistance = CGFloat(10)
+            }
             let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
             if y + kLoadingDistance > scrollView.contentSize.height - 250 {
                 self.viewHandler.loadMore()
@@ -620,7 +621,9 @@ extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
             })
             return
         }
-        self.collectionView.reloadDataOnMainThread()
+        UIView.animate(withDuration: 0.2, animations: {
+            self.collectionView.reloadDataOnMainThread()
+        })
     }
     func bannerDataUpdated(_ grocerID:String?) {
         DispatchQueue.main.async {
