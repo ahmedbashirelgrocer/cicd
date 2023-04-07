@@ -103,7 +103,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
             let viewModel = ProductCellViewModel(product: productDTO, grocery: grocery)
         
             viewModel.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: disposeBag)
-            
+            refreshProductCellSubject.asObservable().bind(to: viewModel.inputs.refreshDataObserver).disposed(by: disposeBag)
             return viewModel
         }
         

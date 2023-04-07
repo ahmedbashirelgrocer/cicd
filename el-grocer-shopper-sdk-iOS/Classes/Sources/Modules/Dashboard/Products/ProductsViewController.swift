@@ -245,6 +245,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.dataSource?.getBanners(searchInput: universalSearchString ?? "")
         }else if let homeFeed = self.homeObj {
             self.productsArray = homeFeed.products
+//            self.getTopSellingProductsFromServer((self.grocery?.dbID)!, withHomeFeed: homeFeed, campaign: nil)
            // self.checkEmptyView()
         }else if let banner = self.bannerCampaign {
             self.productsArray = []
@@ -624,10 +625,11 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     func configureCellForSearchedProducts(_ indexPath:IndexPath) -> ProductCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductCellIdentifier, for: indexPath) as! ProductCell
-        
-        let product = self.productsArray[(indexPath as NSIndexPath).row]
-        cell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
-        cell.delegate = self
+        if productsArray.count > 0 && productsArray.count > indexPath.row {
+            let product = self.productsArray[indexPath.row]
+            cell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
+            cell.delegate = self
+        }
         return cell
     }
     
@@ -976,6 +978,10 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         let context = self.productsArray.count == 0 ? DatabaseHelper.sharedInstance.mainManagedObjectContext :  DatabaseHelper.sharedInstance.backgroundManagedObjectContext
         let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
         self.productsArray += newProduct.products
+        if let _ = self.homeObj {
+            self.homeObj!.products += newProduct.products
+        }
+        
         
 
         

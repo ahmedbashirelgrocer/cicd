@@ -1594,7 +1594,8 @@ private extension MainCategoriesViewController {
             
             // TODO: We need to remove the home object dependency
             let productsVC = ElGrocerViewControllers.productsViewController()
-            productsVC.homeObj = Home.init("", withCategory: nil, withBanners: nil, withType: .Purchased, andWithResponse: nil, grocery)
+            let homeObjToPass = Home.init("", withCategory: nil, withBanners: nil, withType: .Purchased, andWithResponse: nil, grocery)
+            productsVC.homeObj = homeObjToPass
             productsVC.grocery = grocery
             self.navigationController?.pushViewController(productsVC, animated: true)
         }).disposed(by: disposeBag)
