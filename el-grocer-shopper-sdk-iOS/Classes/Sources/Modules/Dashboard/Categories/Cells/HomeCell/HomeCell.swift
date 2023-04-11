@@ -398,8 +398,8 @@ class HomeCell: RxUITableViewCell {
             let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
             context.performAndWait({ () -> Void in
                 let newProducts = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-               elDebugPrint("New Products Count:%d",newProducts.count)
-                homeObj.products += newProducts
+                elDebugPrint("New Products Count:%d",newProducts.products.count)
+                homeObj.products += newProducts.products
             })
             
             DispatchQueue.main.async {

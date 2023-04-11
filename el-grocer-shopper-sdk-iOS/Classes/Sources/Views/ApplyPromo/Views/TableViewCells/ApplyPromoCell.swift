@@ -155,8 +155,13 @@ class ApplyPromoCell: UITableViewCell {
     }
     
     func showInfoMessage (isHidden: Bool = false, message: String = "") {
-        self.promoMessageBGView.isHidden = isHidden
-        self.btnRedeem.isHidden = !isHidden
+        if isHidden {
+            self.promoMessageBGView.isHidden = true
+            self.btnRedeem.isHidden = true
+        }else {
+            self.promoMessageBGView.isHidden = true
+            self.btnRedeem.isHidden = false
+        }
         self.lblPromoMessage.text = localizedString("txt_add_to_use_initial", comment: "") + " \(message) " + localizedString("txt_add_to_use_end", comment: "")
     }
     fileprivate func setApplyButtonState(isApplied: Bool = false) {

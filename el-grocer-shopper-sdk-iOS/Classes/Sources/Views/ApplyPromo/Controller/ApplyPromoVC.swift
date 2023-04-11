@@ -344,11 +344,13 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         if (self.promoCode?.code ?? "") == promoCodeArray[indexPath.row].code {
             self.isDismisingWithPromoApplied = true
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: true, grocery: self.previousGrocery)
+            cell.showInfoMessage(isHidden: true, message: "")
+            cell.btnRedeem.isHidden = false
         }else {
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: false, grocery: self.previousGrocery)
             
             let infoMessageResult = PromotionCodeHandler.checkIfBrandProductAdded(products: self.priviousFinalizedProductA!, brandDict: promoCodeArray[indexPath.row].brands)
-            cell.showInfoMessage(isHidden: !(infoMessageResult.brandName.count > 0), message: infoMessageResult.brandName)
+            cell.showInfoMessage(isHidden: !(infoMessageResult.isFound), message: infoMessageResult.brandName)
             
         }
         

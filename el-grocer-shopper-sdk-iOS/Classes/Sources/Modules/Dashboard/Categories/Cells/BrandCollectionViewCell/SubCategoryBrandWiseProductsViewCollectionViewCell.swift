@@ -39,6 +39,8 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
         }
     }
     var brandViewAllClicked: ((_ brand : GroceryBrand?)->Void)?
+    var loadMoreProducts : ((_ brand : GroceryBrand?)->Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         registerCellsForCollection()
@@ -69,7 +71,13 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
         self.grocery = grocery
         self.groceryBrand = groceryBand
         self.brandNameLbl.text = groceryBand.name
-        self.collectionView.reloadData()
+        self.reloadWithOffsetMaintain(collectionView: self.collectionView)
+    }
+    
+    func reloadWithOffsetMaintain(collectionView: UICollectionView) {
+        let contentOffset = collectionView.contentOffset
+        collectionView.reloadData()
+        collectionView.setContentOffset(contentOffset, animated: false)
     }
     
     
@@ -99,6 +107,14 @@ extension SubCategoryBrandWiseProductsViewCollectionViewCell : UICollectionViewD
             let product = self.productA[(indexPath as NSIndexPath).row]
             cell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
             cell.delegate = self.productDelegate
+        }
+        
+        if (indexPath.item == productA.count - 1) {
+            if let loadMoreProducts = loadMoreProducts {
+                if let brand = self.groceryBrand {
+                    loadMoreProducts(brand)
+                }
+            }
         }
            // cell.delegate = self
         return cell

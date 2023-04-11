@@ -1685,7 +1685,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   // MARK: Brands With Six Random Product
   
-  func getBrandsForCategoryWithProducts(_ parentCategory:SubCategory?, forGrocery grocery:Grocery?,limit:Int,offset:Int, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+      func getBrandsForCategoryWithProducts(_ parentCategory:SubCategory?, forGrocery grocery:Grocery?,limit:Int,offset:Int,productLimmit: Int = 10,productOffset: Int = 0, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()
   
@@ -1694,8 +1694,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["limit"] = limit as AnyObject
   parameters["offset"] = offset as AnyObject
   
-  parameters["products_limit"] = 5 as AnyObject
-  parameters["products_offset"] = 0 as AnyObject
+  parameters["products_limit"] = productLimmit as AnyObject
+  parameters["products_offset"] = productOffset as AnyObject
   
   if let subCategory = parentCategory {
   parameters["subcategory_id"] = subCategory.subCategoryId.intValue as AnyObject
