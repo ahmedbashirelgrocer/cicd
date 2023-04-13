@@ -349,7 +349,7 @@ class SDKManager: NSObject  {
         // ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
         
         // Google Maps
-        if Platform.isDebugBuild {
+        if Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" || Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK"  {
             GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
             GMSServices.provideAPIKey(kGoogleMapsApiKey)
         }

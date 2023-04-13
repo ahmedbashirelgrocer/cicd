@@ -743,7 +743,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.tblBasket.setNeedsLayout()
         self.tblBasket.layoutIfNeeded()
         self.tblViewYPossition.constant = 0
-        
         self.checkOutView.isHidden = true
         
     }
