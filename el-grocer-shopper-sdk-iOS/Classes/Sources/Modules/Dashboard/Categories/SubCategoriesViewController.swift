@@ -518,7 +518,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             }
             
             if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-                let kLoadingDistance = 2 * kProductCellHeight + 8
+                var kLoadingDistance = 2 * kProductCellHeight + 8
+                if self.viewHandler.isGridView {
+                    kLoadingDistance = CGFloat(10)
+                }
                 let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
                 if y + kLoadingDistance > scrollView.contentSize.height - 250 {
                     self.viewHandler.loadMore()

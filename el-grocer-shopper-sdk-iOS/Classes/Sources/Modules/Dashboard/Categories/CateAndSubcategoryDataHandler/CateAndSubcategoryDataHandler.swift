@@ -275,7 +275,8 @@ extension CateAndSubcategoryView {
         if let productsArray:[Product] = ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] {
             currentOffSet += productsArray.count
             if productsArray.count % 20 == 0 {
-                pageNumber = productsArray.count / 20
+                // formula use int pageCount = (records + recordsPerPage - 1) / recordsPerPage;
+                pageNumber = (productsArray.count + 20 - 1 ) / 20
             }else{
                 return
             }
@@ -413,11 +414,12 @@ extension CateAndSubcategoryView {
             
             var pageNumber = 0
             if offset % 20 == 0 {
-                pageNumber = offset / 20
+                // (records + recordsPerPage - 1) / recordsPerPage;
+                pageNumber = (offset + 20 - 1) / 20
             }else {
                 return
             }
-            elDebugPrint("PageNumber of algolia: \(pageNumber)")
+            print("PageNumber of algolia: \(pageNumber)")
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
               
