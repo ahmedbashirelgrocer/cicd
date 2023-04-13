@@ -5,7 +5,7 @@
 // Segment code merging into single store latest branch
 // 1.4.96 merge 133fe8f14d02aeedd76d7e5ef72fda185cac6ce1
 // from development = > https://elgrocerdxb.atlassian.net/browse/EEN-4111 Commit: d87ddae28af91781ae026395ba86d80c57d03e0d
-
+// 4.0 87 verfication build
 
 import UIKit
 import IQKeyboardManagerSwift
