@@ -977,8 +977,12 @@ extension AlgoliaApi {
         let facetFiltersForCurrentStoreID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
         facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
         
-        let facetFiltersForCategoryId : String = "categories.id:\(categoryId)"
-        facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        
+        if categoryId.count > 0 {
+            let facetFiltersForCategoryId : String = "categories.id:\(categoryId)"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }
+        
         
         if subCategoryID.count > 0 {
             let facetFiltersForCategoryId : String = "subcategories.id:\(subCategoryID)"
