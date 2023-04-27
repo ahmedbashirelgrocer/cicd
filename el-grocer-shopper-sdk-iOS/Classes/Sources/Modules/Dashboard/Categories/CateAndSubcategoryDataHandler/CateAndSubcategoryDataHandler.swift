@@ -657,13 +657,11 @@ extension CateAndSubcategoryView {
         }
         
         //self.subCategory.subCategoryId.stringValue
-        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", self.productPerBrandLimmit, "", "\(brand.brandId)", completion: { [weak self] (content, error) in
+        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", self.productPerBrandLimmit, subcategory.subCategoryId.stringValue, "\(brand.brandId)", completion: { [weak self] (content, error) in
             
             if  let responseObject : NSDictionary = content as NSDictionary? {
                 self?.saveAlgoliaResponse(responseObject,indexPath: indexPath,brand: brand)
-            } else {
-                
-            }
+            } else { }
             SpinnerView.hideSpinnerView()
         })
         
