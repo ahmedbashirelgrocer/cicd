@@ -61,6 +61,7 @@ class CateAndSubcategoryView {
     var gridProductA : [Product] = []
     var ListbrandsArray = [GroceryBrand]()
     let productPerBrandLimmit: Int = 10
+    private let brandDispatchGroup = DispatchGroup()
     
 
     // Mark:- current Address
@@ -607,52 +608,58 @@ extension CateAndSubcategoryView {
         }
         self.isLoadingMoreBrandProducts = false
         self.delegate?.productDataUpdated(index)
-        for brand in brands {
-            callFetchBrandProductsFromServer(brand: brand)
+        
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            for brand in brands {
+                self?.callFetchBrandProductsFromServer(brand: brand)
+            }
         }
+        
     }
     
     
     func callFetchBrandProductsFromServer(indexPath: IndexPath? = nil , brand: GroceryBrand, productCount: Int = 0) {
         
-        
+        self.brandDispatchGroup.enter()
         var pageNumber = 0
         
         if productCount % self.productPerBrandLimmit == 0 {
             pageNumber = productCount / productPerBrandLimmit
         }else {
+            self.brandDispatchGroup.leave()
             return
         }
         elDebugPrint("PageNumber of algolia: \(pageNumber)")
         let parentSubcategory = self.getParentSubCategory()
-        let parentCategory = self.getParentCategory()
+        //let parentCategory = self.getParentCategory()
+        
         
         getProductsForSelectedBrand(indexPath: indexPath, brand: brand, pageNumber: pageNumber, offset: productCount, subcategory: parentSubcategory)
+        self.brandDispatchGroup.wait()
     }
     
     
     func getProductsForSelectedBrand(indexPath: IndexPath? = nil, brand: GroceryBrand, pageNumber: Int, offset: Int, subcategory: SubCategory? ){
         guard let subcategory = subcategory else {
-            elDebugPrint("missing sub category")
+            brandDispatchGroup.leave()
             return
         }
 
         guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
             
-            ElGrocerApi.sharedInstance.getProductsForBrand(brand, forSubCategory: subcategory, andForGrocery: self.grocery!,limit: self.productPerBrandLimmit ,offset: offset, completionHandler: { (result) -> Void in
+            ElGrocerApi.sharedInstance.getProductsForBrand(brand, forSubCategory: subcategory, andForGrocery: self.grocery!,limit: self.productPerBrandLimmit ,offset: offset, completionHandler: { [weak self] (result) -> Void in
                 
                 switch result {
                         
                     case .success(let response):
                        elDebugPrint("SERVER Response:%@",response)
-                        self.saveResponseData(response,indexPath: indexPath,brand: brand)
+                        self?.saveResponseData(response,indexPath: indexPath,brand: brand)
                     case .failure(let error):
                         SpinnerView.hideSpinnerView()
                         error.showErrorAlert()
                 }
+                self?.brandDispatchGroup.leave()
             })
-            
-            
             return
         }
         
@@ -662,10 +669,9 @@ extension CateAndSubcategoryView {
             if  let responseObject : NSDictionary = content as NSDictionary? {
                 self?.saveAlgoliaResponse(responseObject,indexPath: indexPath,brand: brand)
             } else { }
+            self?.brandDispatchGroup.leave()
             SpinnerView.hideSpinnerView()
         })
-        
-         
     }
     
     func saveAlgoliaResponse (_ responseObject:NSDictionary, indexPath: IndexPath? = nil, brand: GroceryBrand) {
@@ -687,7 +693,7 @@ extension CateAndSubcategoryView {
                 
                elDebugPrint("Products Array Count:%@",self.ListbrandsArray[index].products.count)
                 
-                self.delegate?.productDataUpdated(indexPath)
+                self.delegate?.productDataUpdated(IndexPath(row: index, section: 0))
                                
             }
         }
