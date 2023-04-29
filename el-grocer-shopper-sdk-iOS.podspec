@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.4.98.4'
+  s.version          = '1.4.98.5'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -179,7 +179,7 @@ Pod::Spec.new do |s|
   s.dependency 'SendBirdUIKit', '~> 2.1.16'
   s.dependency 'SendBirdDesk', '~> 1.0.17'
       # add file
-  s.dependency 'Adyen', '~> 4.7.3'
+  s.dependency 'Adyen', '~> 4.10.0'
   
   s.dependency 'SDWebImage', '~> 5.12.3'
   
