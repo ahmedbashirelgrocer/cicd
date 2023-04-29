@@ -47,6 +47,10 @@ public final class ElGrocer {
                     HomePageData.shared.fetchHomeData(true) {
                         SDKManager.shared.launchCompletion?()
                     }
+                }else if HomePageData.shared.groceryA?.count == 1 {
+                    HomePageData.shared.fetchHomeData(true) {
+                        SDKManager.shared.launchCompletion?()
+                    }
                 }
                 
                 func basicHomeViewSetUp() {
