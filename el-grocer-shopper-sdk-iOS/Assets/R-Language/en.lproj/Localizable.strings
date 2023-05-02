@@ -1552,9 +1552,11 @@ Add delivery details";
 "lbl_weFound" = "We found";
 "lbl_StorethatSell" = "stores that sell";
 
-"lbl_SearchInAllStore" = "Search for inspiration...";
+"lbl_SearchInAllStore" = "Search products, stores";
 "all_cate" = "All Categories";
 "lbl_Ingredients" = "ingredients";
+"global_search_nav_title" = "Search products, store";
+"store_search_nav_title" = "Search";
 //zendesk string
 
 "ios.ZDKHelpCenter.articleAttachmentsError" = "Failed to fetch attachments";

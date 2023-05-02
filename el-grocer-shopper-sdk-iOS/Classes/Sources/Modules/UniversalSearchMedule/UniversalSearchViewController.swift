@@ -87,7 +87,6 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         addBasketOverlay()
     }
     override func viewWillAppear(_ animated: Bool) {
-        (self.navigationController as? ElGrocerNavigationController)?.setNavigationBarHidden(true, animated: true)
         guard self.searchFor == .isForUniversalSearch else {
             return
         }
@@ -182,20 +181,29 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     }
 
     fileprivate func setUpAppearance() {
-        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setNavigationBarHidden(true, animated: true)
+        if self.navigationController is ElGrocerNavigationController {
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+        }
+            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        
         self.txtSearch.font = UIFont.SFProDisplayNormalFont(14)
         self.txtSearch.placeholder =  localizedString("search_products", comment: "")
         
         if self.searchFor == .isForStoreSearch {
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
+
+            self.title = localizedString("store_search_nav_title", comment: "")
         }else{
-            
+
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
-  
+            
+            self.title = localizedString("global_search_nav_title", comment: "")
         }
         
        
@@ -1542,6 +1550,11 @@ extension UniversalSearchViewController {
     
 }
 
+extension UniversalSearchViewController: NavigationBarProtocol {
+    func backButtonClickedHandler() {
+        self.cancelAction("")
+    }
+}
 // Mark:- get Banners
 
 
