@@ -73,7 +73,7 @@ open class OrderTrackingView: UIView {
         self.supportButton.layer.cornerRadius = 9.0
         self.supportButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(13.0)
         self.supportButton.layer.borderWidth = 1
-        self.supportButton.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.supportButton.layer.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor.cgColor
         
         self.supportButton.imageEdgeInsets = UIEdgeInsets(top: 0,left: -8,bottom: 0,right: 0)
     }

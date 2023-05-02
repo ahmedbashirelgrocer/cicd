@@ -94,7 +94,7 @@ class OrderNavigationHandler {
         
         
         
-        if order.status.intValue == OrderStatus.payment_pending.rawValue  {
+        if order.status.intValue == OrderStatus.payment_pending.rawValue ||  order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue  {
             self.editOrderSuccess(nil)
             return
         }
@@ -245,10 +245,6 @@ class OrderNavigationHandler {
         }
         
         GoogleAnalyticsHelper.trackEditOrderClick(false)
-        
-        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
-            self.deleteBasketFromServerWithGrocery(grocery)
-        }
         ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         if self.order.isCandCOrder() {
             processDataForCandCMode()

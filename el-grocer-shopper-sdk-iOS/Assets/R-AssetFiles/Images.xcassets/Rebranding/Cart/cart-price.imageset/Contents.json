@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "cart-price.pdf",
-      "idiom" : "universal"
+      "filename" : "price.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "price@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "price@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

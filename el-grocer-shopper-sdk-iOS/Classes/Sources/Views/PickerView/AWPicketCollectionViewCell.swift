@@ -23,11 +23,11 @@ class AWPicketCollectionViewCell: UICollectionViewCell {
     func setState(_ isSelected : Bool) {
         
         if isSelected {
-            self.lblSlotName.textColor  = UIColor.navigationBarWhiteColor()
-            self.bgView.backgroundColor = UIColor.navigationBarColor()   // .colorWithHexString(hexString: "59aa46")
+            self.lblSlotName.textColor  = ApplicationTheme.currentTheme.pillSelectedTextColor
+            self.bgView.backgroundColor = ApplicationTheme.currentTheme.pillSelectedBGColor   // .colorWithHexString(hexString: "59aa46")
         }else{
-            self.lblSlotName.textColor = .newBlackColor()
-            self.bgView.backgroundColor = UIColor.textfieldBackgroundColor()
+            self.lblSlotName.textColor = ApplicationTheme.currentTheme.pillUnSelectedTextColor
+            self.bgView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
             
         }
         

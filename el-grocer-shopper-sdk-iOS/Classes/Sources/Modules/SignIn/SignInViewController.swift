@@ -233,7 +233,7 @@ class SignInViewController: RegistrationViewController, Form {
     
     func changeLogoColor() {
         
-        self.imgLogo.changePngColorTo(color: UIColor.navigationBarColor())
+        self.imgLogo.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         
     }
     
@@ -248,7 +248,7 @@ class SignInViewController: RegistrationViewController, Form {
         self.submitButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for:UIControl.State())
         
         // Setting Forgot Password Title with Underline
-        let dictF       = [NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
+        let dictF       = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
         
         let forgotTitle = NSMutableAttributedString(string:localizedString("btn_forget_password_title", comment: ""), attributes:dictF)
         self.forgotPasswordButton.setAttributedTitle(forgotTitle, for: UIControl.State())
@@ -732,7 +732,7 @@ extension SignInViewController {
                         }
                     }
                     self.isPhoneExsists = true
-                    self.phoneNumberTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+                    self.phoneNumberTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
                     self.phoneNumberTextField.layer.borderWidth = 1
                     phoneErrorLabel.isHidden = false
                     phoneErrorLabel.text = errorMsgStr
@@ -745,7 +745,7 @@ extension SignInViewController {
     func validatePhoneNumberAndSetPasswordTextFieldAppearance(_ isValid : Bool=false) {
         // self.mobileNumberTextField.text?.isValidPhoneNumber() ?? false == false ||
         if  isValid == false {
-            self.phoneNumberTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
+            self.phoneNumberTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
             self.phoneNumberTextField.layer.borderWidth = 1
         } else {
             self.phoneNumberTextField.layer.borderColor = UIColor.green.cgColor

@@ -76,7 +76,7 @@
 	<key>CleverTapToken</key>
 	<string>136-5a6</string>
 	<key>CleverTapUseIFA</key>
-	<true/>
+	<false/>
 	<key>Configuration</key>
 	<string>$(CONFIGURATION)</string>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
@@ -157,6 +157,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>branch_key</key>
 	<dict>
 		<key>live</key>

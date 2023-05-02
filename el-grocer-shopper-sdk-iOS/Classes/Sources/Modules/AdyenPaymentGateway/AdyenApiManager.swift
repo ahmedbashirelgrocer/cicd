@@ -18,9 +18,10 @@ enum AdyenApiEndPoints: String {
 }
 
 class AdyenApiManager {
-    // S- for pre auth , O- for order placing
+    // S- for pre auth , O- for order placing , W- for elwallet
     let shopperRefernceInitial = "S-"
     let orderRefernceInitial = "O-"
+    let walletReferenceInitial = "W-"
     typealias adyenApiCompletionHandler = (_ error: ElGrocerError?, _ response: NSDictionary?)-> Void
     //MARK: Adyen payment gateway
     func getPaymentMethods(amount: Amount, completion: @escaping (_ error: ElGrocerError?, _ paymentMethods: PaymentMethods?)-> Void) {
@@ -82,10 +83,10 @@ class AdyenApiManager {
         
     }
     
-    func makePayment(amount: Amount, orderNum: String, paymentMethodDict: [String: Any],isForZeroAuth: Bool, browserInfo : BrowserInfo?, completion: @escaping adyenApiCompletionHandler) {
-     
+    func makePayment(amount: Amount, orderNum: String, paymentMethodDict: [String: Any],isForZeroAuth: Bool,isForWallet: Bool, browserInfo : BrowserInfo?, completion: @escaping adyenApiCompletionHandler) {
+        
         let userID = UserDefaults.getLogInUserID()
-     
+        
         guard userID != "0" else {
             let error = ElGrocerError.genericError()
             completion(error,nil)
@@ -97,10 +98,14 @@ class AdyenApiManager {
         amountDict["value"] = "\(amount.value)"
         
         let params = NSMutableDictionary()
-       
+        
         params["channel"] = "iOS"
         params["amount"] = amountDict
-        params["reference"] = isForZeroAuth ? shopperRefernceInitial + userID : orderRefernceInitial + orderNum
+        if isForWallet && isForZeroAuth == false {
+            params["reference"] =  walletReferenceInitial + userID
+        }else {
+            params["reference"] = isForZeroAuth ? shopperRefernceInitial + userID : orderRefernceInitial + orderNum
+        }
         params["shopperInteraction"] = isForZeroAuth ? "Ecommerce" : "ContAuth"
         params["recurringProcessingModel"] = "CardOnFile"
         params["storePaymentMethod"] = true
@@ -116,76 +121,77 @@ class AdyenApiManager {
         if let browser = browserInfo, let userAgent = browser.userAgent {
             params["browserInfo"] = ["userAgent" :  userAgent, "acceptHeader" : header ]
         }
-   
+        
         
         let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()
         let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(address)
         params["billingAddress"] = formatAddressStr
-      
+        
         if let userProfile = UserProfile.getOptionalUserProfile( DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             params["shopperEmail"] = userProfile.email
         }
         
         
-    
+        
         params["paymentMethod"] = paymentMethodDict
         
         
         
-//        params["shopperEmail"] = user.email
-//        if let ip = DeviceIp.getWiFiAddress() {
-//            params["remote_ip"] = ip
-//        }else {
-//            if let publicAddress = DeviceIp.getPublicAddress() {
-//                params["remote_ip"] = publicAddress
-//            }
-//
-//        }
+            //        params["shopperEmail"] = user.email
+            //        if let ip = DeviceIp.getWiFiAddress() {
+            //            params["remote_ip"] = ip
+            //        }else {
+            //            if let publicAddress = DeviceIp.getPublicAddress() {
+            //                params["remote_ip"] = publicAddress
+            //            }
+            //
+            //        }
         
         
         ElGrocerApi.sharedInstance.makePayment(params) { results in
-           elDebugPrint(results)
+          //  print(results)
             switch results {
                 case .success(let data):
-                guard let dataDict = data["data"] as? NSDictionary else {
-                    let error = ElGrocerError.parsingError()
-                    completion(error, nil)
-                    return
-                }
-                guard let response = dataDict["response"] as? NSDictionary else {
-                    let error = ElGrocerError.parsingError()
-                    completion(error, nil)
-                    return
-                }
-                
-            
+                    guard let dataDict = data["data"] as? NSDictionary else {
+                        let error = ElGrocerError.parsingError()
+                        completion(error, nil)
+                        return
+                    }
+                    guard let response = dataDict["response"] as? NSDictionary else {
+                        let error = ElGrocerError.parsingError()
+                        completion(error, nil)
+                        return
+                    }
+                    
+                    
                     if let code = response["errorCode"] as? String {
                         let error = ElGrocerError(forAdyen: response)
                         completion(error, nil)
                         return
                     }
-                
-                if let action = response["action"] as? NSDictionary {
-                    completion(nil,response)
-                }else {
-                    let resultCode = response["resultCode"] as? String ?? ""
-                    if resultCode.elementsEqual("Authorised") || resultCode.elementsEqual("Received") || resultCode.elementsEqual("Pending") {
+                    
+                    if let action = response["action"] as? NSDictionary {
                         completion(nil,response)
-                    }else{
-                        let error = ElGrocerError.genericError()
-                        completion(error,response)
+                    }else {
+                        let resultCode = response["resultCode"] as? String ?? ""
+                        if resultCode.elementsEqual("Authorised") || resultCode.elementsEqual("Received") || resultCode.elementsEqual("Pending") {
+                            completion(nil,response)
+                        }else{
+                            let error = ElGrocerError.genericError()
+                            completion(error,response)
+                        }
                     }
-                }
-               elDebugPrint(response)
-                
+                 //   print(response)
+                    
                 case .failure(let error):
-                    elDebugPrint(error.localizedMessage)
+                    debugPrint(error.localizedMessage)
                     completion(error, nil)
                     
             }
         }
         
     }
+    
     //handlePayment additional steps
     func handlePaymentAction(data: ActionComponentData, completion: @escaping adyenApiCompletionHandler) {
         

@@ -233,6 +233,12 @@ extension Grocery {
         grocery.latitude = responseDict["latitude"] as? Double ?? 0.0
         grocery.longitude = responseDict["longitude"] as? Double ?? 0.0
         
+        if let priority = responseDict["priority"] as? NSNumber {
+            grocery.priority = priority
+        } else {
+            grocery.priority = nil
+        }
+        
         grocery.smileSupport = false
         if let supported = responseDict["smile_Support"] as? NSNumber {
             grocery.smileSupport = supported
@@ -422,7 +428,12 @@ extension Grocery {
     
     class func updateGroceryOpeningStatus(_ responseDict:NSDictionary, context:NSManagedObjectContext) -> Grocery? {
         
-        if let groceryIntId = responseDict["id"] as? Int {
+        var groceryIntId = responseDict["id"] as? Int
+        if groceryIntId == nil, let groceryNumId =  responseDict["id"] {
+            groceryIntId = Int("\(groceryNumId)")
+        }
+        
+        if let groceryIntId = groceryIntId {
             let groceryId = "\(groceryIntId)"
             let grocery = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(GroceryEntity, entityDbId: groceryId as AnyObject, keyId: "dbID", context: context) as! Grocery
             
@@ -462,17 +473,19 @@ extension Grocery {
            currentGrocery =  ElGrocerUtility.sharedInstance.activeGrocery
         }
         guard currentGrocery != nil else {return }
-        if  let groceryDict = ResponseDict["data"] as? NSDictionary {
-            if let deliverySlotA = groceryDict["delivery_slots"] as? [NSDictionary] {
-                if let groceryID = currentGrocery?.dbID {
-                    if let groceryBgContext = DatabaseHelper.sharedInstance.getEntityWithName(GroceryEntity, entityDbId: groceryID as AnyObject, keyId: "dbID", context: context) as? Grocery {
-                        DeliverySlot.insertOrUpdateDeliverySlotsForGrocery(groceryBgContext , deliverySlotsArray: deliverySlotA, context: context)
-                    }
-                }
+        var deliverySlotA = ResponseDict["delivery_slots"] as? [NSDictionary]
+        if deliverySlotA == nil {
+            if  let groceryDict = ResponseDict["data"] as? NSDictionary {
+                deliverySlotA = groceryDict["delivery_slots"] as? [NSDictionary]
             }
-            DatabaseHelper.sharedInstance.saveDatabase()
-            NotificationCenter.default.post(name: Notification.Name(rawValue: KSlotsUpdate), object: nil)
         }
+        if let groceryID = currentGrocery?.dbID, let deliverySlotA = deliverySlotA {
+            if let groceryBgContext = DatabaseHelper.sharedInstance.getEntityWithName(GroceryEntity, entityDbId: groceryID as AnyObject, keyId: "dbID", context: context) as? Grocery {
+                DeliverySlot.insertOrUpdateDeliverySlotsForGrocery(groceryBgContext , deliverySlotsArray: deliverySlotA, context: context)
+            }
+        }
+        DatabaseHelper.sharedInstance.saveDatabase()
+        NotificationCenter.default.post(name: Notification.Name(rawValue: KSlotsUpdate), object: nil)
     }
     
     class func updateGroceryPaymentFromDictioanry (_ responseDict:NSDictionary, orderId: NSNumber? = nil, context:NSManagedObjectContext ) -> Grocery {

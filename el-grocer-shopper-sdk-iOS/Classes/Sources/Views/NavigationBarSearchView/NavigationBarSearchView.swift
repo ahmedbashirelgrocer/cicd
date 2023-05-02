@@ -68,7 +68,7 @@ class NavigationBarSearchView : UIView, UITextFieldDelegate {
         self.searchTextField.textAlignment = .justified
         self.searchPlaceholder.text = localizedString("search_products", comment: "")
         self.searchPlaceholder.font = UIFont.SFProDisplayNormalFont(14)
-        self.searchPlaceholder.textColor = UIColor.searchPlaceholderTextColor()
+        self.searchPlaceholder.textColor = UIColor.textFieldPlaceHolderColor()
         self.searchTextField.clearButtonMode = .unlessEditing
         self.searchTextField.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
     }

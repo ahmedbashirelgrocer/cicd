@@ -123,12 +123,12 @@ class DeliveryInfoViewController: UIViewController {
         self.apartmentLabel.font = UIFont.SFProDisplayBoldFont(14)
         
         if isSelected {
-            self.apartmentView.layer.borderColor = UIColor.navigationBarColor().cgColor
-            self.apartmentLabel.textColor = UIColor.navigationBarColor()
+            self.apartmentView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
+            self.apartmentLabel.textColor = ApplicationTheme.currentTheme.primarySelectionColor
             self.apartmentImgView.image = UIImage(name: "Apartment-Selected")
         }else{
-            self.apartmentView.layer.borderColor = UIColor.darkBorderGrayColor().cgColor
-            self.apartmentLabel.textColor = UIColor.lightTextGrayColor()
+            self.apartmentView.layer.borderColor = ApplicationTheme.currentTheme.primaryNoSelectionColor.cgColor
+            self.apartmentLabel.textColor = ApplicationTheme.currentTheme.secondaryNoSelectionlightColor
             self.apartmentImgView.image = UIImage(name: "Apartment")
         }
     }
@@ -140,12 +140,12 @@ class DeliveryInfoViewController: UIViewController {
         self.houseLabel.font = UIFont.SFProDisplayBoldFont(14).withWeight(UIFont.Weight(600))
         
         if isSelected {
-            self.houseView.layer.borderColor = UIColor.navigationBarColor().cgColor
-            self.houseLabel.textColor = UIColor.navigationBarColor()
+            self.houseView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
+            self.houseLabel.textColor = ApplicationTheme.currentTheme.primarySelectionColor
             self.houseImgView.image = UIImage(name: "House-Selected")
         }else{
-            self.houseView.layer.borderColor = UIColor.darkBorderGrayColor().cgColor
-            self.houseLabel.textColor = UIColor.lightTextGrayColor()
+            self.houseView.layer.borderColor = ApplicationTheme.currentTheme.primaryNoSelectionColor.cgColor
+            self.houseLabel.textColor = ApplicationTheme.currentTheme.primaryNoSelectionColor
             self.houseImgView.image = UIImage(name: "House")
         }
     }
@@ -157,8 +157,8 @@ class DeliveryInfoViewController: UIViewController {
         self.officeLabel.font = UIFont.SFProDisplayBoldFont(14).withWeight(UIFont.Weight(600))
         
         if isSelected {
-            self.officeView.layer.borderColor = UIColor.navigationBarColor().cgColor
-            self.officeLabel.textColor = UIColor.navigationBarColor()
+            self.officeView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
+            self.officeLabel.textColor = ApplicationTheme.currentTheme.primarySelectionColor
             self.officeImgView.image = UIImage(name: "Office-Selected")
         }else{
             self.officeView.layer.borderColor = UIColor.darkBorderGrayColor().cgColor
@@ -255,7 +255,7 @@ class DeliveryInfoViewController: UIViewController {
     }
     
     func setUpDoneButtonAppearance() {
-        self.doneButton.backgroundColor = UIColor.navigationBarColor()
+        self.doneButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         self.doneButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(16.0)
         self.doneButton.setTitle(localizedString("done_button_title", comment: ""), for: UIControl.State())
     }
@@ -563,7 +563,7 @@ class DeliveryInfoViewController: UIViewController {
         
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { (result:Bool) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { result, error in
             
             if result {
                 
@@ -610,7 +610,7 @@ class DeliveryInfoViewController: UIViewController {
         
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { (result:Bool) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { result,error in
             
             if result {
                 

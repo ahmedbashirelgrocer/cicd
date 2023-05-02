@@ -254,7 +254,7 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
         
         let enableSubmitButton = email.isValidEmail()
         
-        self.emailTextField.layer.borderColor = (!enableSubmitButton && !email.isEmpty) ? UIColor.redValidationErrorColor().cgColor : UIColor.borderGrayColor().cgColor
+        self.emailTextField.layer.borderColor = (!enableSubmitButton && !email.isEmpty) ? UIColor.textfieldErrorColor().cgColor : UIColor.borderGrayColor().cgColor
         
         setSubmitButtonEnabled(enableSubmitButton)
         

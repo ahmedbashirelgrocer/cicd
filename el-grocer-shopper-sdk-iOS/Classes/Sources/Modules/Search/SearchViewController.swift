@@ -8,6 +8,7 @@
 import UIKit
 //import BBBadgeBarButtonItem
 import SDWebImage
+import IQKeyboardManagerSwift
 
 
 class SearchViewController: BasketBasicViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource , UIGestureRecognizerDelegate {
@@ -88,6 +89,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     private var bannerWorkItem:DispatchWorkItem?
     var topSearchesArray = [String]()
     var isNavigateToSearch = false
+    var isForEditOrder = false
     var notSupportedSearchTexts = [String]()
     var searchSuggestions = [SearchSuggestion]()
     
@@ -121,10 +123,11 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.setupClearNavBar()
         if isNavigateToSearch == true {
             self.title = localizedString("search_placeholder", comment: "")
-            self.addRightCrossButton(true)
-           //  addBackButton()
         }else{
             self.navigationController!.navigationBar.topItem!.title = localizedString("search_placeholder", comment: "")
+        }
+        if !isForEditOrder && isNavigateToSearch{
+            self.addRightCrossButton(true)
         }
    
       //  self.collectionView.backgroundColor = UIColor.white // removed while merging
@@ -166,6 +169,9 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.navigationItem.backBarButtonItem?.title = ""
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.enable = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -180,7 +186,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
       
         
         // self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+        // (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
@@ -190,7 +196,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.locationHeader.setSlotData()
         if isNeedToHideSearchBar {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            //addBackButton(isGreen: true)
+            addBackButton(isGreen: false)
             //addBackButtonWithCrossIconRightSide()
         }
         
@@ -208,10 +214,10 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         if isFromShoppingListViewAll {
             searchViewHeader.isHidden = false
             self.progressCompletionBGView.isHidden = false
-            searchViewHeader.backgroundColor = .navigationBarColor()
+            searchViewHeader.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }else {
             searchViewHeight.constant = 0.0
-            searchViewHeader.backgroundColor = .textfieldBackgroundColor()
+            searchViewHeader.backgroundColor = ApplicationTheme.currentTheme.textFieldGreyBGColor
             self.progressCompletionBGView.isHidden = true
             self.addLocationHeader()
             searchViewHeader.isHidden = true
@@ -221,8 +227,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.view.layoutIfNeeded()
        
         self.navigationItem.hidesBackButton = true
-        searchBgView.backgroundColor =  sdkManager.isSmileSDK ? .smileBaseColor() : .navigationBarColor()
-        self.extendedLayoutIncludesOpaqueBars = true
+        searchBgView.backgroundColor =  SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.viewPrimaryBGColor : ApplicationTheme.currentTheme.viewPrimaryBGColor
+        // self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = .tableViewBackgroundColor()
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -253,7 +259,9 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.collectionView.reloadData()
             
         }
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
+        
+        IQKeyboardManager.shared.disabledDistanceHandlingClasses.append(SearchViewController.self)
    
     }
     
@@ -356,6 +364,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        IQKeyboardManager.shared.enable = true
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -447,13 +457,15 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     override func backButtonClick() {
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
-        if isNavigateToSearch == true {
+        if isForEditOrder {
+            self.dismiss(animated: true)
+        }else if isNavigateToSearch == true {
             self.navigationController?.popViewController(animated: false)
         }else{
             
             
-            let SDKManager: SDKManagerType! = sdkManager
-            if let nav = sdkManager.rootViewController as? UINavigationController {
+            let SDKManager = SDKManager.shared
+            if let nav = SDKManager.rootViewController as? UINavigationController {
                 if nav.viewControllers.count > 0 {
                     if  nav.viewControllers[0] as? UITabBarController != nil {
                         let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -480,7 +492,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.searchTextField.font = UIFont.SFProDisplayNormalFont(14)
         self.searchTextField.placeholder =  localizedString("search_products", comment: "")
         self.searchTextField.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
-                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
+                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
         self.searchTextField.textColor = UIColor.newBlackColor()
         self.searchTextField.clipsToBounds = false
         
@@ -819,7 +831,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
         self.basketIconOverlay?.grocery = self.grocery
         self.refreshBasketIconStatus()
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
 
 
     }
@@ -897,12 +909,12 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
             self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
         }
-        
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
     }
     
@@ -989,7 +1001,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.tableView.reloadData()
         self.basketIconOverlay?.grocery = self.grocery
         self.refreshBasketIconStatus()
-        self.setCollectionViewBottomConstraint()
+        //self.setCollectionViewBottomConstraint()
     }
     
     
@@ -1124,7 +1136,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor().cgColor :  UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor :  ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor

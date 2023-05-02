@@ -50,6 +50,8 @@ enum ElGrocerApiEndpoint : String {
     case ClientVersion = "v1/versions/check_version.json"
     case Registration = "v3/shoppers/register"
     case Login = "v1/sessions/shopper.json"
+    case VerifyPhone = "v4/sessions/shopper/verify-phone"
+    case signinWithOTP = "v4/sessions/shopper/signin-with-otp"
     case ForgotPassword = "v1/shoppers/reset_password_request"
     case ProfileUpdate = "v1/shoppers/update.json"
     case EmailExist = "v2/shoppers/check_shopper.json"
@@ -128,6 +130,7 @@ enum ElGrocerApiEndpoint : String {
     case Banners = "v1/banners"
     case ChangePassword = "v1/shoppers/update_password"
     case PlaceOrder = "v3/orders/generate"
+    case createOrder = "v4/orders/generate"
     //case UpdateOrder = "v3/orders/generate"
     case OrderList = "v3/orders"
     case newOrderList = "v3/orders/history" // https://elgrocerdxb.atlassian.net/browse/EG-584
@@ -143,7 +146,7 @@ enum ElGrocerApiEndpoint : String {
     case genericCustomBanners = "v1/banners/show"
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     // Dark store new UI Changes 10nov https://elgrocerdxb.atlassian.net/wiki/spaces/CNC/pages/1270218754/Launching+Dark+Store+w+New+UI
-    case genericRetailersList = "v3/retailers/delivery"
+    case genericRetailersList = "v4/retailers/delivery"
     case genericMocRetailersList = "v3/retailers"
     
     
@@ -155,13 +158,14 @@ enum ElGrocerApiEndpoint : String {
     // c And c
     case cAndcAvailability = "v2/retailers/cc_availability" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case retailerscAndc = "v1/retailers/click_and_collect" // https://elgrocerdxb.atlassian.net/browse/EG-584
+    case retailersListLight = "v4/retailers/retailers_list"
     case retailerDetail = "v2/retailers/click_and_collect/show"
     
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     case DeliverySlots = "v2/delivery_slots/delivery"
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     case cAndcDeliverySlots = "v2/delivery_slots/click_and_collect"
-    
+    case fetchDeliverySlots = "v4/delivery_slots/all"
     
     case getCollectorDetails = "v1/collector_details/all"
     case getCarDetails = "v1/vehicle_details/all"
@@ -177,7 +181,7 @@ enum ElGrocerApiEndpoint : String {
     case vehicleAttributes = "v1/vehicle_details/vehicle_attributes"
     case pickupLocations = "v1/pickup_locations/all"
     
-    case orderDetail = "v3/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
+    case orderDetail = "v4/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case updateOrderCollectorStatus = "v1/order_collection_details/update"
     case openOrderDetail = "v1/orders/show/cnc_open_orders"
     
@@ -190,6 +194,16 @@ enum ElGrocerApiEndpoint : String {
     case getIfOOSReasons = "v1/orders/substitution/preferences"
     case payWithApplePay = "online_payments/applepay_authorization_call"
     
+    case getSecondCheckoutDetails = "v2/baskets/payment_details"// not using
+    case getSecondCheckoutDetailsForEditOrder = "v2/baskets/order_basket"
+    case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
+    
+    case getSubstitutionBasketDetails = "v2/baskets/substitution"
+    case orderSubstitutionBasketUpdate = "v4/orders/substitution"
+    case getActiveCarts = "v2/baskets/all_carts"
+    case isActiveCartAvailable = "v2/baskets/is_cart_available"
+    // Flavor Store
+    case getFlavoredStore = "v1/retailers/single_store"
  }
  
  class ElgrocerAPINonBase  {
@@ -498,10 +512,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
+            
         }
         
     }
@@ -525,8 +540,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-             InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) 
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+
             
         }
         
@@ -608,8 +626,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           completionHandler(Either.success(response))
           
       }) { (operation  , error) in
-           InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError))
-              completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+          let errorToParse = ElGrocerError(error: error as NSError)
+          if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+              completionHandler(Either.failure(errorToParse))
+          }
+
           
       }
       
@@ -685,10 +706,143 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   completionHandler(false, nil)
   }
   }
+      
+      func verifyPhone(_ phoneNumber: String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          var parameters = [String : AnyObject]()
+      
+          let pushToken = UserDefaults.getDevicePushToken()
+          if pushToken != nil {
+              parameters = [
+                "phone_number" : phoneNumber as AnyObject,
+                "registration_id" : pushToken! as AnyObject,
+                "device_type" : 1 as AnyObject
+              ]
+      
+          } else {
+              parameters = [
+                "phone_number" : phoneNumber as AnyObject
+              ]
+          }
+      
+          NetworkCall.post(ElGrocerApiEndpoint.VerifyPhone.rawValue , parameters: parameters, progress: { (progress) in
+            // debugPrint("Progress for API :  \(progress)")
+          }, success: { (operation, response) in
+            guard let response = response as? NSDictionary else {
+                completionHandler(Either.failure(ElGrocerError.parsingError()))
+                return
+            }
+            completionHandler(Either.success(response))
+        }) { (operation  , error: Error) -> Void in
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+        }
+      }
+      
+      func signinWithOTP(phoneNum: String, otp: String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+         
+          let parameters: [String: Any] =  ["phone_number": phoneNum,"otp": otp]
+          NetworkCall.post(ElGrocerApiEndpoint.signinWithOTP.rawValue, parameters: parameters , progress: { (progress) in
+              
+          }, success: { [weak self] (operation  , response: Any) -> Void in
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              self?.extractAccessToken(response)
+              completionHandler(Either.success(response))
+          }) { (operation  , error: Error) -> Void in
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                    completionHandler(Either.failure(errorToParse))
+              }
+          }
+  
+      }
+      
+      func addOrUpdateDeliveryAddress(withEmail email: String, and address: DeliveryAddress, completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
+          
+          setAccessToken()
+      
+          var addressParameters: [String : AnyObject] = ["email": email as AnyObject]
+        
+          if address.locationName.count > 0 {
+              addressParameters["address_name"] = address.locationName as AnyObject
+          } else {
+              addressParameters["location_address"] = address.address as AnyObject
+          }
+          if address.dbID != "" {
+              addressParameters["address_id"] = address.dbID as AnyObject
+          }
+          addressParameters["location_address"] = address.address as AnyObject
+          addressParameters["latitude"] = address.latitude as AnyObject
+          addressParameters["longitude"] = address.longitude as AnyObject
+          addressParameters["default_address"] = address.isActive.boolValue as AnyObject
+          addressParameters["address_type_id"] = address.addressType as AnyObject
+        
+          if address.street != nil {
+              addressParameters["street"] = address.street! as AnyObject
+          }
+      
+          if address.building != nil {
+              addressParameters["building_name"] = address.building! as AnyObject
+          }
+      
+          if address.apartment != nil {
+              addressParameters["apartment_number"] = address.apartment! as AnyObject
+          }
+      
+          if address.floor != nil {
+              addressParameters["floor"] = address.floor! as AnyObject
+          }
+      
+          if address.houseNumber != nil {
+              addressParameters["house_number"] = address.houseNumber! as AnyObject
+          }
+      
+          if address.additionalDirection != nil {
+              addressParameters["additional_direction"] = address.additionalDirection! as AnyObject
+          }
+      
+          if address.userProfile.phone != nil {
+              addressParameters["phone_number"] = address.userProfile.phone as AnyObject
+          }
+      
+          if address.userProfile.name != nil {
+              addressParameters["name"] = address.userProfile.name as AnyObject
+          }
+          
+          guard address.dbID == "" else {
+              NetworkCall.put( ElGrocerApiEndpoint.DeliveryAddressV2.rawValue , parameters: addressParameters, success: { (operation, response) in
+                  completionHandler(true, response as? NSDictionary)
+              }) { (operation, error) in
+                  completionHandler(false, ElGrocerError.init(error: error as NSError).jsonValue as NSDictionary?)
+              }
+              return
+          }
+        
+          let endpoint = ElGrocerApiEndpoint.DeliveryAddressV2.rawValue
+          
+//          if email.isEmpty {
+//              endpoint = ElGrocerApiEndpoint.DeliveryAddress.rawValue
+//          }
+          
+          NetworkCall.post(endpoint, parameters: addressParameters, progress: { (progress) in
+              
+          }, success: { (operation, response) in
+              completionHandler(true, response as? NSDictionary)
+          }) { (operation, error) in
+              completionHandler(false, ElGrocerError.init(error: error as NSError).jsonValue as NSDictionary?)
+          }
+          
+      }
+      
+      
   
   // MARK: User profile
   
-  func updateUserProfile(_ name:String, email:String, phone:String, completionHandler:@escaping (_ result:Bool) -> Void) {
+      func updateUserProfile(_ name:String, email:String, phone:String, completionHandler:@escaping (_ result:Bool, _ elError : ElGrocerError? ) -> Void) {
   
   setAccessToken()
   
@@ -702,10 +856,11 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   NetworkCall.put(ElGrocerApiEndpoint.ProfileUpdate.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
-  completionHandler(true)
+  completionHandler(true, nil)
   
   }) { (operation  , error: Error) -> Void in
-  completionHandler(false)
+      let elgrocerError = ElGrocerError.init(error: error as NSError)
+  completionHandler(false, elgrocerError)
   }
   }
   
@@ -787,6 +942,19 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     }
     
   }
+      
+      func getDeliveryAddressesDefault(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
+      
+        setAccessToken()
+        NetworkCall.get(ElGrocerApiEndpoint.DeliveryAddressV2.rawValue, parameters: nil , progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            completionHandler(true, response as? NSDictionary)
+        }) { (operation  , error) in
+            completionHandler(false, nil)
+        }
+        
+      }
     
     func getaddressTag(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
         setAccessToken()
@@ -1029,9 +1197,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -1077,9 +1245,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -1126,10 +1294,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         completionHandler(Either.success(response))
         
     }) { (operation  , error) in
-        if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
   
   }
@@ -1152,10 +1320,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         completionHandler(Either.success(response))
     }) { (operation  , error) in
-         if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
 
   }
@@ -1186,10 +1354,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -1216,10 +1384,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         completionHandler(Either.success(status))
     }) { (operation  , error) in
-        if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
 
   }
@@ -1311,7 +1479,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   // MARK: Categories
   
-    func getAllCategories(_ address: DeliveryAddress?, parentCategory:Category?, forGrocery grocery:Grocery?, _ lat : Double = 0 , _ lng : Double = 0, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+      func getAllCategories(_ address: DeliveryAddress?, parentCategory:Category?, forGrocery grocery:Grocery?, _ lat : Double = 0 , _ lng : Double = 0, deliveryTime: Int? = nil, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()
   
@@ -1326,7 +1494,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"]) as AnyObject
   }
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
-        parameters["delivery_time"] = time as AnyObject
+          parameters["delivery_time"] = deliveryTime != nil ? deliveryTime as AnyObject : time as AnyObject
   
   
   // //elDebugPrint("Patameters:%@",parameters)
@@ -1345,12 +1513,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
         completionHandler(Either.success(response))
     }) { (operation  , error) in
-        if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-            //if (error as NSError).code == 500 {
-            //    (ElGrocerError.serverNotResponding()).showErrorAlert()
-            //}else {
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            //}
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
         }
     }
 
@@ -1386,10 +1551,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         completionHandler(Either.success(response))
     }) { (operation  , error) in
-        if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
 
   }
@@ -1426,10 +1591,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         completionHandler(Either.success(response))
     }) { (operation  , error) in
-        if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
   }
   
@@ -1470,10 +1635,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
         completionHandler(Either.success(response))
     }) { (operation  , error) in
-         if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
   }
   
@@ -1510,17 +1675,17 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         completionHandler(Either.success(response))
     }) { (operation  , error) in
-        if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
   
   }
   
   // MARK: Brands With Six Random Product
   
-  func getBrandsForCategoryWithProducts(_ parentCategory:SubCategory?, forGrocery grocery:Grocery?,limit:Int,offset:Int, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+      func getBrandsForCategoryWithProducts(_ parentCategory:SubCategory?, forGrocery grocery:Grocery?,limit:Int,offset:Int,productLimmit: Int = 10,productOffset: Int = 0, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
   setAccessToken()
   
@@ -1529,8 +1694,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   parameters["limit"] = limit as AnyObject
   parameters["offset"] = offset as AnyObject
   
-  parameters["products_limit"] = 5 as AnyObject
-  parameters["products_offset"] = 0 as AnyObject
+  parameters["products_limit"] = productLimmit as AnyObject
+  parameters["products_offset"] = productOffset as AnyObject
   
   if let subCategory = parentCategory {
   parameters["subcategory_id"] = subCategory.subCategoryId.intValue as AnyObject
@@ -1557,10 +1722,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
         completionHandler(Either.success(response))
     }) { (operation  , error) in
-        if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
   
   }
@@ -1616,9 +1781,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               completionHandler(Either.success(response))
               
           }) { (operation  , error) in
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                  
-                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
               }
           }
       
@@ -1663,10 +1828,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -1696,10 +1861,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -1726,9 +1891,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             
         }) { (operation  , error: Error) -> Void in
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -1754,10 +1919,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
     //https://api.elgrocer.com/api/v1/orders/show/order_positions?order_ids=1580542368
@@ -1780,9 +1945,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             
         }) { (operation  , error: Error) -> Void in
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -1878,10 +2043,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }) { (operation  , error: Error) -> Void in
   
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -1991,10 +2156,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   
   }
@@ -2020,10 +2185,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -2042,10 +2207,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
     
@@ -2068,9 +2233,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             
         }) { (operation  , error: Error) -> Void in
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -2113,10 +2278,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
     
@@ -2136,9 +2301,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
         
         }) { (operation  , error: Error) -> Void in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                          
-                          completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
   }
@@ -2159,9 +2324,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               completionHandler(Either.success(response))
           
           }) { (operation  , error: Error) -> Void in
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                            
-                            completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
               }
           }
     }
@@ -2181,9 +2346,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               completionHandler(Either.success(response))
           
           }) { (operation  , error: Error) -> Void in
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                            
-                            completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
               }
           }
     }
@@ -2204,9 +2369,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               completionHandler(Either.success(response))
           
           }) { (operation  , error: Error) -> Void in
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                            
-                            completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
               }
           }
     }
@@ -2245,10 +2410,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -2443,10 +2608,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       }) { (operation  , error: Error) -> Void in
       
       // //elDebugPrint("SERVER Response:%@",operation.response ?? "Response is Some Null Value")
-      if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                    
-                    completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-                }
+          let errorToParse = ElGrocerError(error: error as NSError)
+          if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+              completionHandler(Either.failure(errorToParse))
+          }
       }
   }
   
@@ -2569,10 +2734,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
     //by abdul
@@ -2597,10 +2762,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     
     }) { (operation  , error: Error) -> Void in
     
-    if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
     }
   
@@ -2627,19 +2792,55 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
+      func getDeliverySlots(retailerID: Int, retailerDeliveryZondID: Int, orderID: Int?, orderItemCount: Int, completion: @escaping (Either<NSDictionary>) -> Void) {
+          
+          // Parameters
+          let params = NSMutableDictionary()
+          params["retailer_id"] = retailerID
+          params["retailer_delivery_zone_id"] = retailerDeliveryZondID
+          params["item_count"] = orderItemCount
+          
+          if let orderID = orderID {
+              params["order_id"] = orderID
+          }
+          
+          setAccessToken()
+          
+          NetworkCall.get(ElGrocerApiEndpoint.fetchDeliverySlots.rawValue, parameters: params) { progress in
+              // handle progress here ...
+          } success: { URLSessionDataTask, response in
+              guard let data = ((response as? NSDictionary)?["data"] as? NSDictionary) else {
+                  completion(.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              
+              completion(.success(data))
+              
+          } failure: { URLSessionDataTask, error in
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completion(Either.failure(errorToParse))
+              }
+          }
+      }
   // MARK: Delivery Slots
-  
+      
     func getGroceryDeliverySlotsWithGroceryId(_ groceryId:String?, andWithDeliveryZoneId  deliveryZoneId:String? , _ allSlotForCandC : Bool = true , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
-  setAccessToken()
+        setAccessToken()
   
+        guard groceryId != nil else {
+            completionHandler(Either.failure(ElGrocerError.genericError()))
+            return
+        }
+        
   let parameters = NSMutableDictionary()
   
   if let retailerId = groceryId {
@@ -2660,7 +2861,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   parameters["item_count"] = itemsCount
 
-    var url = ElGrocerApiEndpoint.DeliverySlots.rawValue
+    var url = ElGrocerApiEndpoint.fetchDeliverySlots.rawValue
     if !ElGrocerUtility.sharedInstance.isDeliveryMode {
         url = ElGrocerApiEndpoint.cAndcDeliverySlots.rawValue
         parameters["for_checkout"] = allSlotForCandC
@@ -2679,10 +2880,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -2705,10 +2906,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -2740,12 +2941,40 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
+      
+      
+      func orderSubstitutionBasketDetails (_ orderId:String ,products: [[String: Any]], completionHandler:@escaping (Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          let parameters: [String : Any] = ["order_id" : orderId, "products" : products]
+          
+          elDebugPrint("parameters subs\(parameters)")
+          NetworkCall.post(ElGrocerApiEndpoint.getSubstitutionBasketDetails.rawValue, parameters: parameters, progress: { progress in
+              elDebugPrint(progress)
+          }, success: { (operation  , response: Any) -> Void in
+              
+              guard let ordersDict = ((response as? NSDictionary)?["data"] as? NSDictionary) else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              completionHandler(Either.success(ordersDict))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
+              }
+          }
+      }
+      
+      
   
     func sendSubstitutionForOrder(_ order:Order, withProducts productsArray:[Product]  ,  ref: String = "" , amount : Double = 0.0, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
@@ -2798,7 +3027,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   parameters["products"] = products
   
-  NetworkCall.put(ElGrocerApiEndpoint.OrderSubstitutions.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+  NetworkCall.put(ElGrocerApiEndpoint.orderSubstitutionBasketUpdate.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
   guard let response = response as? NSDictionary else {
   completionHandler(Either.failure(ElGrocerError.genericError()))
@@ -2809,10 +3038,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -2832,10 +3061,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -2877,10 +3106,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -2941,10 +3170,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -2983,10 +3212,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -3035,10 +3264,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -3069,10 +3298,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -3283,9 +3512,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             
         }) { (operation  , error: Error) -> Void in
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3321,10 +3550,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
     
@@ -3350,9 +3579,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             
         }) { (operation  , error: Error) -> Void in
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -3381,10 +3610,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -3410,10 +3639,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
   
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
   
@@ -3448,10 +3677,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         
     }) { (operation  , error: Error) -> Void in
         
-        if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+        let errorToParse = ElGrocerError(error: error as NSError)
+        if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+            completionHandler(Either.failure(errorToParse))
+        }
     }
 
   }
@@ -3486,9 +3715,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             
         }) { (operation  , error: Error) -> Void in
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -3516,10 +3745,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
   }) { (operation  , error: Error) -> Void in
     
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
   }
   }
     
@@ -3540,9 +3769,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3575,9 +3804,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3599,9 +3828,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         }) {  (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
             
         }
@@ -3634,9 +3863,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3667,9 +3896,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -3695,9 +3924,33 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+        }
+    }
+      
+    func getRetailersListLight(lat : Double , lng : Double, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+        setAccessToken()
+        var parameters = [String : AnyObject]()
+        parameters["latitude"] = lat as AnyObject
+        parameters["longitude"] = lng as AnyObject
+        
+        NetworkCall.get(ElGrocerApiEndpoint.retailersListLight.rawValue,
+                        parameters: parameters,
+                        progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+            }
+            completionHandler(Either.success(response))
+        }) { (operation  , error) in
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -3731,9 +3984,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -3762,9 +4015,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3792,9 +4045,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3826,9 +4079,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         } failure: { (operation, error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
 
@@ -3855,9 +4108,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         } failure: { (operation, error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3873,9 +4126,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         } failure: {  (operation, error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -3893,9 +4146,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         } failure: {  (operation, error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -3920,9 +4173,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3952,9 +4205,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -3985,9 +4238,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         } failure: { (operation, error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -4013,9 +4266,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         } failure: { (operation, error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -4123,12 +4376,67 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }) { (operation  , error: Error) -> Void in
             
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
+      
+      
+      func placeOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          elDebugPrint(parameters)
+          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue + "?market_type_id=\(SDKManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, progress: { (progress) in
+                  // debugPrint("Progress for API :  \(progress)")
+          }, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
+              }
+          }
+          
+      }
+      
+      func placeEditOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          NetworkCall.put(ElGrocerApiEndpoint.createOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
+              }
+          }
+          
+          
+      }
+      
+      
     
     //MARK: promoCode
       func getPromoList(limmit: Int, Offset: Int, grocery:String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
@@ -4152,9 +4460,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }) { (operation  , error: Error) -> Void in
             
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -4182,9 +4490,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -4213,9 +4521,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             
         }) { (operation  , error: Error) -> Void in
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -4233,9 +4541,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             parameters["shopper_id"] = userProfile?.dbID
         }
         parameters["location"] = location.rawValue as AnyObject
-        if let ids = retailer_ids {
+        if let ids = retailer_ids, ids.count > 0, ids[0].isNotEmtpy() {
             parameters["retailer_ids"] = ids.joined(separator: ",") as AnyObject
+        }else {
+            completionHandler(Either.failure(ElGrocerError.parsingError()))
+            return
         }
+
         if let ids = store_type_ids {
             parameters["store_type_ids"] = ids.joined(separator: ",") as AnyObject
         }
@@ -4255,7 +4567,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             parameters["search_input"] = ids as AnyObject
         }
  
-        debugPrint("banner call: \(parameters)")
+     
+        elDebugPrint("banner call: \(parameters)")
         NetworkCall.get(ElGrocerApiEndpoint.campaignAPi.rawValue, parameters: parameters, progress: { (progress) in
             
         }, success: { (operation  , response) in
@@ -4264,13 +4577,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
                 completionHandler(Either.failure(ElGrocerError.parsingError()))
                 return
             }
-            debugPrint("banner call: \(response)")
+            elDebugPrint("banner call: \(response)")
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -4296,9 +4609,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(Either.success(response))
             
         }) { (operation  , error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
         
@@ -4328,12 +4641,65 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             
         }) { (operation  , error: Error) -> Void in
             
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
+      
+      // MARK: Get Active Carts
+      func getActiveCarts(latitude: Double, longitude: Double, completion: @escaping (_ result: Either<[ActiveCartDTO]>) -> Void) {
+          self.setAccessToken()
+          
+          let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
+         
+          NetworkCall.get(ElGrocerApiEndpoint.getActiveCarts.rawValue, parameters: params) { progress in
+              
+          } success: { URLSessionDataTask, responseObject in
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let activeCartResponse = try JSONDecoder().decode(ActiveCartResponseDTO.self, from: data)
+                      completion(.success(activeCartResponse.data))
+                      return
+                  }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+              
+          } failure: { URLSessionDataTask, error in
+              completion(.failure(ElGrocerError(error: error as NSError)))
+          }
+
+      }
+      
+      // MARK: Check available carts
+      func fetchBasketStatus(latitude: Double, longitude: Double, completion: @escaping (Either<BasketStatusDTO>) -> Void) {
+          self.setAccessToken()
+          let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
+          
+          NetworkCall.get(ElGrocerApiEndpoint.isActiveCartAvailable.rawValue, parameters: params) { progress in
+              
+          } success: { URLSessionDataTask, responseObject in
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let basketStatus = try JSONDecoder().decode(HasBasketResponse.self, from: data)
+                      completion(.success(basketStatus.data))
+                      return
+                  }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+          } failure: { URLSessionDataTask, error in
+              completion(.failure(ElGrocerError(error: error as NSError)))
+          }
+      }
     
  // MARK: ReasonApi
     
@@ -4350,8 +4716,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             completionHandler(Either.success(response))
         }) { (operation  , error: Error) -> Void in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
             }
         }
     }
@@ -4379,9 +4746,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               
           }) { (operation  , error: Error) -> Void in
               
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                  
-                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
               }
           }
       }
@@ -4408,9 +4775,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               
           }) { (operation  , error: Error) -> Void in
               
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                  
-                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
               }
           }
       }
@@ -4436,9 +4803,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               
           }) { (operation  , error: Error) -> Void in
               
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                  
-                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
               }
           }
       }
@@ -4464,11 +4831,37 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               
           }) { (operation  , error: Error) -> Void in
               
-              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                  
-                  completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
               }
           }
+      }
+      
+      
+      // MARK: Flavor StoreApi
+      
+      
+      // MARK: Get Active Carts
+      func getFlavorStore(latitude: Double, longitude: Double, completion: @escaping (_ result: Either<Grocery>) -> Void) {
+        
+          self.setAccessToken()
+          let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
+          NetworkCall.get(ElGrocerApiEndpoint.getFlavoredStore.rawValue, parameters: params) { progress in
+          } success: { URLSessionDataTask, responseObject in
+              let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+              if  let responseObject = responseObject as? NSDictionary {
+                  let grocery =  Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
+                  if grocery.count > 0 {
+                      completion(.success(grocery[0]))
+                      return
+                  }
+              }
+              completion(.failure(ElGrocerError.genericError()))
+          } failure: { URLSessionDataTask, error in
+              completion(.failure(ElGrocerError(error: error as NSError)))
+          }
+
       }
       
     
@@ -4488,6 +4881,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
+          
+          let sdkType = SDKManager.isGrocerySingleStore ? "1":"0"
+          self.requestManager.requestSerializer.setValue(sdkType, forHTTPHeaderField: "market_type_id")
         
       }
     
@@ -4530,10 +4926,10 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }) { (operation  , error: Error) -> Void in
   //elDebugPrint(error.localizedDescription)
     
-  if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                
-                completionHandler(Either.failure(ElGrocerError(error: error as NSError)))
-            }
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
     
     
     
@@ -4572,8 +4968,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             completionHandler(false, Either.success(response))
             
         }) { (operation, error) in
-            if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
-                completionHandler(false, Either.failure(ElGrocerError(error: error as NSError)))
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(false,Either.failure(errorToParse))
             }
         }
       }
@@ -4624,18 +5021,33 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     /// - Returns: returns Arabic number
     func changeToArabic()-> String{
         
-        var sum = ""
-        let letters = self.map { String($0) }
-        for letter in letters {
-            if (Int(letter) != nil) {
-                let persianNumber = ["۰","۱","۲","۳","٤","۵","٦","۷","۸","۹"]
-                sum = sum+persianNumber[Int("\(letter)")!]
-            } else {
-                sum = sum+letter
-            }
-        }
-        sum = sum.replacingOccurrences(of: ".", with: ",")
-        return sum
+        return self
+        
+//        let format = NumberFormatter()
+//        format.locale = Locale(identifier: "ar-ae")
+//        format.allowsFloats = true
+//        format.numberStyle = .decimal
+//        let number =   format.number(from: self)
+//        let faNumber = format.string(from: number!)
+//        return faNumber!
+//        
+//        
+//        
+//        var sum = ""
+//        elDebugPrint("numerals start: \(self)")
+//        let letters = self.reversed().map { String($0) }
+//        elDebugPrint("numerals: \(letters)")
+//        for letter in letters {
+//            if (Int(letter) != nil) {
+//                let persianNumber = ["۰","۱","۲","۳","٤","۵","٦","۷","۸","۹"]
+//                sum = sum+persianNumber[Int("\(letter)")!]
+//            } else {
+//                sum = sum+letter
+//            }
+//        }
+//        sum = sum.replacingOccurrences(of: ".", with: ",")
+//        elDebugPrint("numerals sum: \(sum)")
+//        return sum
     }
     
  }

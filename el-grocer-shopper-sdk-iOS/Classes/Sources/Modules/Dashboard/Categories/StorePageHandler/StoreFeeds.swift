@@ -15,7 +15,6 @@ import RxSwift
 
 protocol StoreFeedsDelegate {
     func categoriesFetchingCompleted (_ index : Int , categories : [Category])
-    func categoriesFetchingError (error : ElGrocerError?)
     func fetchingCompleted (_ index : Int)
 }
 
@@ -31,6 +30,11 @@ class StoreFeeds {
     var isRunning : Bool = false
     var grocery : Grocery?
     var isLoaded : Variable<Bool> = Variable(false)
+    
+    var offset: Int = 0
+    var limit: Int = 20
+    var isFirstPage: Bool = true
+    
     init(type : HomeType  , index : Int , grocery : Grocery? , delegate : StoreFeedsDelegate? ) {
         self.delegate = delegate
         self.grocery = grocery
@@ -100,8 +104,8 @@ extension StoreFeeds {
         }
         self.fetchProductsWorkItem = DispatchWorkItem {
             let parameters = NSMutableDictionary()
-            parameters["limit"] = 10
-            parameters["offset"] = 0
+            parameters["limit"] = self.limit
+            parameters["offset"] = self.offset
             parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
             if let tempCategory = self.data?.category {
                 parameters["category_id"] = tempCategory.dbID
@@ -116,6 +120,9 @@ extension StoreFeeds {
                 return
             }
             
+            // find weather this 2nd page
+            // if so we need to refresh specific cell instead of refresing whole table
+            self.isFirstPage = self.offset < self.limit
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
                 
@@ -133,8 +140,14 @@ extension StoreFeeds {
                 
             }
             
+            // calculating the page number for algolia
+            // for first request 0 / 20  = 0
+            // for first request 20 / 20 = 1
+            // for first request 60 / 20 = 2
+            let pageNumber = self.offset / self.limit
+            
             guard (self.data?.category?.dbID.intValue ?? 0) > 1 else {
-                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: 0, 10, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak tempCategory] (content, error) in
+                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, self.limit, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak tempCategory] (content, error) in
                     if  let responseObject : NSDictionary = content as NSDictionary? {
                         self.saveAlgoliaResponseDataOfCategoryWithTitle(responseObject, category: tempCategory)
                     } else {
@@ -146,9 +159,7 @@ extension StoreFeeds {
                 return
             }
             
-            
-            
-            AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: 0, categoryId: tempCategory.dbID.stringValue , completion: { [weak tempCategory] (content, error) in
+            AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: tempCategory.dbID.stringValue , completion: { [weak tempCategory] (content, error) in
                 
                 if  let responseObject : NSDictionary = content as NSDictionary? {
                     self.saveAlgoliaResponseDataOfCategoryWithTitle(responseObject, category: tempCategory)
@@ -169,7 +180,11 @@ extension StoreFeeds {
     
     func saveResponseDataOfCategoryWithTitle( _  responseObject:NSDictionary , category : Category?) {
         if let forceCategory = category {
+            let existingProducts = self.data?.products ?? []
             self.data = Home.init(forceCategory.name ?? "", withCategory: forceCategory , withBanners: nil, withType: HomeType.Category, andWithResponse: responseObject, self.grocery)
+            self.data?.products.append(contentsOf: existingProducts)
+            
+            self.data?.hasMoreProduct = ((self.data?.products.count ?? 0) - existingProducts.count) == self.limit ? true : false
         }
         self.isRunning = false
         self.isLoaded.value = true
@@ -179,11 +194,13 @@ extension StoreFeeds {
     func saveAlgoliaResponseDataOfCategoryWithTitle( _  responseObject:NSDictionary , category : Category?) {
         
         Thread.OnMainThread { [category , responseObject]
-        if let forceCategory = category {
+            if let forceCategory = category {
                 let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 let home = Home.init(forceCategory.name ?? "", withCategory: forceCategory, withType: HomeType.Category)
-                home.products = newProducts
+                home.products.append(contentsOf: self.data?.products ?? [])
+                home.products.append(contentsOf: newProducts.products)
                 home.attachGrocery = self.grocery
+                home.hasMoreProduct = newProducts.products.count == self.limit ? true : false
                 self.data = home
             }
         }
@@ -218,12 +235,17 @@ extension StoreFeeds {
         }
     
         let parameters = NSMutableDictionary()
-        parameters["limit"] = 10
-        parameters["offset"] = 0
+        parameters["limit"] = self.limit
+        parameters["offset"] = self.offset
         parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
         parameters["shopper_id"] = UserDefaults.getLogInUserID()
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
         parameters["delivery_time"] =  time as AnyObject
+        
+        // find weather this 2nd page
+        // if so we need to refresh specific cell instead of refresing whole table
+        self.isFirstPage = self.offset < self.limit
+        
         ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
             switch result {
                 case .success(let response):
@@ -238,7 +260,13 @@ extension StoreFeeds {
     }
     
     func saveResponseDataWithTitle(_ homeTitle:String, withServerResponse  responseObject:NSDictionary) {
+        let existingProducts = self.data?.products ?? []
         self.data = Home.init(homeTitle, withCategory: nil, withBanners: nil, withType: .Purchased, andWithResponse: responseObject, self.grocery)
+        self.data?.products.append(contentsOf: existingProducts)
+    
+        // check the new
+        self.data?.hasMoreProduct = ((self.data?.products.count ?? 0) - existingProducts.count) == self.limit ? true : false
+        
         self.isRunning = false
         self.isLoaded.value = true
         
@@ -267,16 +295,12 @@ extension StoreFeeds {
             ElGrocerApi.sharedInstance.getAllCategories(currentAddress,
                                                         parentCategory:nil , forGrocery: self.grocery) { (result) -> Void in
                 switch result {
-                case .success(let response):
-                    elDebugPrint(response)
-                    self.saveAllCategories(responseDict: response, grocery: self.grocery)
-                    
-                    self.delegate?.categoriesFetchingError(error: nil)
-                case .failure( let error):
-                    self.isRunning = false
-                    self.isLoaded.value = true
-                    
-                    self.delegate?.categoriesFetchingError(error: error)
+                    case .success(let response):
+                        self.saveAllCategories(responseDict: response, grocery: self.grocery)
+                    case .failure( _):
+                        self.isRunning = false
+                        self.isLoaded.value = true
+                   
                 }
             }
         }

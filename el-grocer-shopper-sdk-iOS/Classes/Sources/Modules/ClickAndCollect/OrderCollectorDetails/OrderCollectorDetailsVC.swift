@@ -29,7 +29,7 @@ class OrderCollectorDetailsVC: UIViewController {
     @IBOutlet var lblHeading: UILabel!
     @IBOutlet var detailsTableView: UITableView!{
         didSet{
-            detailsTableView.backgroundColor = UIColor.navigationBarWhiteColor()
+            detailsTableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     @IBOutlet var imgSomeoneElse: UIImageView!
@@ -379,7 +379,7 @@ extension OrderCollectorDetailsVC : UITableViewDelegate , UITableViewDataSource 
            elDebugPrint("edit pressed")
 
         }
-        more.backgroundColor = UIColor.redValidationErrorColor()
+        more.backgroundColor = UIColor.textfieldErrorColor()
         return [ more , edit]
     }
     

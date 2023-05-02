@@ -47,7 +47,7 @@ class savedCarCell: UITableViewCell {
     }
     @IBOutlet var lblDelete: UILabel!{
         didSet{
-            lblDelete.setBody3BoldUpperStyle(false)
+            lblDelete.setBody3BoldUpperButtonLabelStyle(false)
         }
     }
     @IBOutlet var imgDelete: UIImageView!
@@ -59,7 +59,7 @@ class savedCarCell: UITableViewCell {
     }
     @IBOutlet var lblEdit: UILabel!{
         didSet{
-            lblEdit.setBody3BoldUpperStyle(false)
+            lblEdit.setBody3BoldUpperButtonLabelStyle(false)
         }
     }
     @IBOutlet var imgEdit: UIImageView!
@@ -140,7 +140,7 @@ class savedCarCell: UITableViewCell {
         
         if isSelected {
             self.cellBGView.layer.borderWidth = 2
-            self.cellBGView.layer.borderColor = UIColor.navigationBarColor().cgColor
+            self.cellBGView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
             self.defaultBGView.isHidden = !isSelected
         }else{
             self.cellBGView.layer.borderWidth = 0

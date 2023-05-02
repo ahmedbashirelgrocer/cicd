@@ -212,6 +212,12 @@ class ElGrocerUtility {
         return versionNumber + "-" + latlng
     }
     
+    func getSesstionId() -> String {
+        let appStartMilli = Int64((SDKManager.shared.sdkStartTime?.timeIntervalSince1970 ?? Date().timeIntervalSince1970) * 1000)
+        let uuid = UIDevice.current.identifierForVendor?.uuidString ?? ""
+        return "\(appStartMilli)_\(uuid)"
+    }
+    
     func GenerateRetailerIdString(groceryA : [Grocery]?) -> String{
         
         var retailerIDString = ""
@@ -540,11 +546,11 @@ class ElGrocerUtility {
     
     
     
-    func addDeliveryToServerWithBlock(_ locations:[DeliveryAddress],  completionHandler:@escaping (_ result: Bool) -> Void){
+    func addDeliveryToServerWithBlock(_ locations:[DeliveryAddress],  completionHandler:@escaping (_ result: Bool, _ errorMessage: String) -> Void){
     
             let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         guard locations.count > 0 else {
-            return  completionHandler(false)
+            return  completionHandler(false, "")
         }
             for location in locations {
                 
@@ -563,14 +569,14 @@ class ElGrocerUtility {
                         
                         if(location.isActive.boolValue == true){
                             
-                           elDebugPrint("%@ is an Active Location",location.locationName)
+                           //  print("%@ is an Active Location",location.locationName)
                             let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                           elDebugPrint("Locations Count:%d",locations.count)
+                           //  print("Locations Count:%d",locations.count)
                             
                             for tempLoc in locations {
                                 
-                               elDebugPrint("tempLoc.dbID:%@",tempLoc.dbID)
-                               elDebugPrint("location.dbID:%@",location.dbID)
+                               //  print("tempLoc.dbID:%@",tempLoc.dbID)
+                               //  print("location.dbID:%@",location.dbID)
                                 if tempLoc.dbID == location.dbID{
                                     tempLoc.isActive = NSNumber(value: true as Bool)
                                 }else{
@@ -582,21 +588,20 @@ class ElGrocerUtility {
                             ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
                                 
                                 if (result == true){
-                                    completionHandler(true)
+                                    completionHandler(true, "")
                                     
                                 }else{
-                                   elDebugPrint("Error while setting default location on Server.")
-                                    completionHandler(false)
+                                   //  print("Error while setting default location on Server.")
+                                    completionHandler(false, "Error while setting default location on Server")
                                 }
                             })
                         }else{
-                           elDebugPrint("%@ is Not an Active Location",location.locationName)
-                            completionHandler(false)
+                           //  print("\(location.locationName) is Not an Active Location")
+                            completionHandler(false, "\(location.locationName) is Not an Active Location")
                         }
                         
                     }else{
-                       elDebugPrint("Error while add location on Server.")
-                        completionHandler(false)
+                        completionHandler(false, "Error while add location on Server.")
                     }
                 })
             }
@@ -1104,18 +1109,15 @@ class ElGrocerUtility {
             
             isValidationSuccessed = profile.name != nil && !profile.name!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty && profile.phone != nil
                 && !userProfile!.phone!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                
-                && address.houseNumber != nil && !address.houseNumber!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
+                // && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
         }else{
             
             isValidationSuccessed = profile.name != nil && !profile.name!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty && profile.phone != nil
                 && !userProfile!.phone!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 
                 && address.building != nil && !address.building!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                && address.floor != nil && !address.floor!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && address.apartment != nil && !address.apartment!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
+                // && address.street != nil && !address.street!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
         }
         
         return isValidationSuccessed
@@ -1222,7 +1224,7 @@ class ElGrocerUtility {
                  attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
             }
             
-            let price =  String(format: " %.2f" , priceValue)
+            let price = String(format: " %.2f" , priceValue)
             let stringPrice = price.changeToArabic()
             let attributedString1 = NSMutableAttributedString(string:stringPrice as String , attributes:attrs1 as [NSAttributedString.Key : Any])
             let attributedString2 = NSMutableAttributedString(string: CurrencyManager.getCurrentCurrency() , attributes:attrs2 as [NSAttributedString.Key : Any])
@@ -1310,10 +1312,11 @@ class ElGrocerUtility {
     }
     
     
-    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true , backButtonClicked: @escaping (Any? , Int , Bool) -> Void ) {
+    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true , backButtonClicked: @escaping (Any? , Int , Bool) -> Void, buttonIcon: UIImage? = nil) {
         let view = MessageView.viewFromNib(layout: .cardView)
         //  view.configureTheme(.warning)
         
+        view.iconImageView?.isHidden = true
         if let data = image {
             view.iconImageView?.image = data
             view.iconImageView?.image = view.iconImageView?.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
@@ -1324,9 +1327,11 @@ class ElGrocerUtility {
         view.id = "\(index)"
         view.iconLabel?.text = nil
         view.iconLabel?.isHidden = true
-        view.button?.setTitle(isNeedtoShowButton ? localizedString("lbl_Undo", comment: "") : "", for: .normal)
-        view.button?.backgroundColor = .secondaryDarkGreenColor()
-        view.button?.setBackgroundColor(.secondaryDarkGreenColor() , forState: .normal)
+        view.button?.setImage(buttonIcon, for: .normal)
+        view.button?.tintColor = .white
+        view.button?.setTitle(isNeedtoShowButton && buttonIcon == nil ? localizedString("lbl_Undo", comment: "") : "", for: .normal)
+        view.button?.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+        view.button?.setBackgroundColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor , forState: .normal)
         view.button?.setTitleColor(.white, for: .normal)
         view.button?.titleLabel?.font = .SFProDisplaySemiBoldFont(12)
         view.titleLabel?.setBodyBoldWhiteStyle()
@@ -1339,6 +1344,9 @@ class ElGrocerUtility {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             view.titleLabel?.textAlignment = .right
             view.bodyLabel?.textAlignment = .right
+        } else {
+            view.titleLabel?.textAlignment = .left
+            view.bodyLabel?.textAlignment = .left
         }
         
         if msg.contains(localizedString("tobaco_product_msg", comment: "")) {
@@ -1366,7 +1374,7 @@ class ElGrocerUtility {
         // Reduce the corner radius (applicable to layouts featuring rounded corners).
         (view.backgroundView as? CornerRoundingView)?.cornerRadius = 8
         
-        (view.backgroundView as? CornerRoundingView)?.backgroundColor = .secondaryDarkGreenColor()
+        (view.backgroundView as? CornerRoundingView)?.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
         
         
         
@@ -1660,29 +1668,27 @@ extension UIViewController {
     }
     
     func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [topColor,bottomColor]
-        gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
-        gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
-        gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: height)
-        return gradient
-    }
-    
-    
-
-    
-    
+            let gradient: CAGradientLayer = CAGradientLayer()
+            gradient.colors = [topColor,bottomColor]
+            gradient.locations = [0.0 , 1.0]
+            gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
+            gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+            gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: height)
+            return gradient
+        }
 }
+
 
 extension UIView {
-    func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [topColor,bottomColor]
-        gradient.locations = [0.0 , 1.0]
-        gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
-        gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
-        gradient.frame = CGRect(x: 0.0, y: -10.0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
-        return gradient
-    }
+    
+        func setupGradient(height: CGFloat, topColor: CGColor, bottomColor: CGColor) ->  CAGradientLayer {
+            let gradient: CAGradientLayer = CAGradientLayer()
+            gradient.colors = [topColor,bottomColor]
+            gradient.locations = [0.0 , 1.0]
+            gradient.startPoint = CGPoint(x: 0.25, y: 0.5)
+            gradient.endPoint = CGPoint(x: 0.75, y: 0.5)
+            gradient.frame = CGRect(x: 0.0, y: 0, width: ScreenSize.SCREEN_WIDTH, height: height + 10)
+            return gradient
+        }
 }
+

@@ -21,11 +21,8 @@ class EnvironmentVariables {
     // MARK: Init
     fileprivate init() {
         
-        // let bundle = NSBundle(forClass: EnvironmentVariables.self)
         let bundle = Bundle.resource
-        // "Debug"
-        let infoDict = Bundle.main.infoDictionary
-        let configurationName = infoDict![kConfigurationKey] as! String
+        let configurationName = SDKManager.shared.launchOptions?.environmentType.value() ??  "Release"
         //load our configuration plist
         let environmentsPath = bundle.path(forResource: kEnvironmentPlistName, ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)

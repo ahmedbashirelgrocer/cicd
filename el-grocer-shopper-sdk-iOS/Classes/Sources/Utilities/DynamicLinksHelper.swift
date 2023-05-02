@@ -36,6 +36,7 @@ private let SharedInstance = DynamicLinksHelper()
 
 class DynamicLinksHelper {
    
+    var marketType = ""
     var serviceId = ""
     var parentIds = ""
     var parentId = ""
@@ -76,7 +77,7 @@ class DynamicLinksHelper {
             }
         }
         // }
-        if ElGrocerUtility.sharedInstance.groceries.count == 0 {
+        if ElGrocerUtility.sharedInstance.groceries.count == 0 && !SDKManager.isGrocerySingleStore {
             ElGrocerUtility.sharedInstance.delay(2) {
                 handleIncomingDynamicLinksWithUrl(dynamicLinkURL)
             }
@@ -255,12 +256,23 @@ class DynamicLinksHelper {
         self.productBarcode = ""
         self.productId = ""
         
-        
+
+        let marketType = dUrl?.getQueryItemValueForKey("market_type_id")
+        if marketType != nil , marketType == "1" {
+            self.marketType = marketType ?? "0"
+        }
         let isChat = dUrl?.getQueryItemValueForKey("Chat")
         if isChat != nil , isChat == "1" {
             self.goToChat()
             return
         }
+        
+        let order_id = dUrl?.getQueryItemValueForKey("order_id")
+        if order_id != nil  {
+            self.gotoOrderDetail(order_id)
+            return
+        }
+      
         let serviceID = dUrl?.getQueryItemValueForKey("serviceID")
         //elDebugPrint("tmpParent  is:%@", serviceID ?? "nil")
         if serviceID != nil {
@@ -425,6 +437,11 @@ class DynamicLinksHelper {
             return
         }
         
+        if let multiCart = dUrl?.getQueryItemValueForKey("multiCart"), multiCart == "1" {
+            handleMulticartDeeplink()
+            return
+        }
+        
         /*
         if self.parentId.count > 0  {
             self.navigateToScreen()
@@ -444,6 +461,18 @@ class DynamicLinksHelper {
             }
             return
         }*/
+    }
+    
+    private func handleMulticartDeeplink() {
+        if SDKManager.shared.launchOptions?.isSmileSDK == true {
+            if let topVC = UIApplication.topViewController() {
+                if let topVC = topVC as? SmileSdkHomeVC {
+                    topVC.navigateToMultiCart()
+                }
+            }
+        } else {
+            // handle deep link of shooper application here
+        }
     }
     
     func loadGroceryAlreadySelected() {
@@ -1080,6 +1109,22 @@ class DynamicLinksHelper {
       
     }
     
+    private func gotoOrderDetail(_ orderID: String?) {
+        
+        guard let orderId = orderID else { return }
+        
+        let ordersController = ElGrocerViewControllers.orderDetailsViewController()
+        ordersController.orderIDFromNotification = "\(orderId)"
+        ordersController.mode = .dismiss
+        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.viewControllers = [ordersController]
+        navigationController.modalPresentationStyle = .fullScreen
+        if let vc = UIApplication.topViewController() {
+            vc.present(navigationController, animated: true, completion: nil)
+        }
+      
+    }
+    
     
     func gotToController (_ controller : SubCategoriesViewController) {
         if let topVc = UIApplication.topViewController() {
@@ -1192,7 +1237,7 @@ class MeterialProgress {
                 progressView = UIActivityIndicatorView(frame: CGRect(x: (topVc.bounds.width / 2) - 25 , y: topVc.bounds.height / 2, width: 50, height: 50))
             }
           
-            progressView?.color = UIColor.secondaryDarkGreenColor()
+            progressView?.color = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
             
           
             if #available(iOS 13.0, *)  {

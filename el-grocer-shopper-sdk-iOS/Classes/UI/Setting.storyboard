@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,7 +22,7 @@
         <!--Setting View Controller-->
         <scene sceneID="9ps-Z8-bpk">
             <objects>
-                <viewController storyboardIdentifier="SettingViewController" id="lM2-cM-idw" customClass="SettingViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingViewController" id="lM2-cM-idw" customClass="SettingViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="v8f-LA-HHG"/>
                         <viewControllerLayoutGuide type="bottom" id="Zrv-fX-gtU"/>
@@ -73,7 +73,7 @@
         <!--Saved CarsVC-->
         <scene sceneID="Fda-pe-pPK">
             <objects>
-                <viewController storyboardIdentifier="savedCarsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="29O-Ln-qX3" customClass="savedCarsVC" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="savedCarsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="29O-Ln-qX3" customClass="savedCarsVC" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BeC-yZ-bAy"/>
                         <viewControllerLayoutGuide type="bottom" id="Ooc-6x-m6L"/>
@@ -90,10 +90,10 @@
                                     <outlet property="delegate" destination="29O-Ln-qX3" id="0Fv-D8-D19"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gGP-fG-hKo" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gGP-fG-hKo" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="582" width="375" height="85"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Emu-nE-CAN" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Emu-nE-CAN" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="16" y="8" width="343" height="56"/>
                                         <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -102,6 +102,11 @@
                                         <state key="normal" title="Add new car">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                                <real key="value" value="28"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="btnAddNewCarHandler:" destination="29O-Ln-qX3" eventType="touchUpInside" id="eTj-vh-sDN"/>
                                         </connections>
@@ -154,7 +159,7 @@
         <!--Privacy Policy View Controller-->
         <scene sceneID="wcR-gw-dgK">
             <objects>
-                <viewController storyboardIdentifier="PrivacyPolicyVC" hidesBottomBarWhenPushed="YES" id="ha9-PX-Xvj" customClass="PrivacyPolicyViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PrivacyPolicyVC" hidesBottomBarWhenPushed="YES" id="ha9-PX-Xvj" customClass="PrivacyPolicyViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OpM-Fl-kgN"/>
                         <viewControllerLayoutGuide type="bottom" id="hjl-IT-dm2"/>
@@ -193,7 +198,7 @@
         <!--Change Password View Controller-->
         <scene sceneID="3uo-zn-goF">
             <objects>
-                <viewController storyboardIdentifier="ChangePasswordViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mgd-uN-5HS" customClass="ChangePasswordViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChangePasswordViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="mgd-uN-5HS" customClass="ChangePasswordViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hcL-74-gOy"/>
                         <viewControllerLayoutGuide type="bottom" id="qAC-G2-xYm"/>
@@ -202,7 +207,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l9q-5g-jRk" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l9q-5g-jRk" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="563" width="343" height="56"/>
                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
@@ -248,7 +253,7 @@
                                     <action selector="saveHandler:" destination="mgd-uN-5HS" eventType="touchUpInside" id="Gb1-zJ-roi"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Old Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jwo-tS-HRe" customClass="ElgrocerTextField" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Old Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jwo-tS-HRe" customClass="ElgrocerTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="300" width="343" height="56"/>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -285,7 +290,7 @@
                                     <action selector="oldPassowrdEye:" destination="mgd-uN-5HS" eventType="touchUpInside" id="q4m-Pa-rfS"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2hN-js-0ut" customClass="ElgrocerTextField" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2hN-js-0ut" customClass="ElgrocerTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="376" width="343" height="56"/>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -319,7 +324,7 @@
                                     <action selector="newPassowrdEye:" destination="mgd-uN-5HS" eventType="touchUpInside" id="4ZE-Yf-dAx"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gsh-Bx-TEk" customClass="ElgrocerTextField" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gsh-Bx-TEk" customClass="ElgrocerTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="452" width="343" height="56"/>
                                 <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

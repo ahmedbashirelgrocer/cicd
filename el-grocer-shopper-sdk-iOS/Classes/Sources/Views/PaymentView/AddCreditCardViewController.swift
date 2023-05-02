@@ -20,7 +20,7 @@ class SpinnerViewController: UIViewController {
     override func loadView() {
         view = UIView()
         view.backgroundColor = UIColor(white: 0, alpha: 0.7)
-        spinner.tintColor = UIColor.navigationBarColor()
+        spinner.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         spinner.translatesAutoresizingMaskIntoConstraints = false
         spinner.startAnimating()
         view.addSubview(spinner)

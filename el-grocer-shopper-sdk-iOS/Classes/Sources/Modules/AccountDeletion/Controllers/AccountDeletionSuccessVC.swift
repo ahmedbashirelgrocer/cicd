@@ -14,7 +14,7 @@ class AccountDeletionSuccessVC: UIViewController, NoStoreViewDelegate {
         let noStoreView = NoStoreView.loadFromNib()
         noStoreView?.delegate = self
         noStoreView?.configureAccountDeletedSuccess()
-        noStoreView?.backgroundColor = .navigationBarWhiteColor()
+        noStoreView?.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         return noStoreView!
     }()
     func noDataButtonDelegateClick(_ state: actionState) {
@@ -36,7 +36,7 @@ class AccountDeletionSuccessVC: UIViewController, NoStoreViewDelegate {
     }
     func setInitialAppearence(){
         
-        self.view.backgroundColor = .navigationBarWhiteColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         self.navigationController?.removeBackButton()
         self.navigationItem.setHidesBackButton(true, animated: false)
         if self.navigationController is ElGrocerNavigationController{

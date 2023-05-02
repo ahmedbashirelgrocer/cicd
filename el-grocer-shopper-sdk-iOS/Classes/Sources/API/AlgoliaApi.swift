@@ -39,8 +39,15 @@ class AlgoliaApi {
     var algoliaApplicationID  =  ApplicationID(rawValue: "AS47I7FT15")
     var algoliaApplicationIDStaging = ApplicationID(rawValue: "3LIB7IY3OL")
     var ALGOLIA_API_KEY_STAGING = "688bccc1dcc7f10e040c36ec148557b6"
-    private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
-    private let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
+    
+    
+    var ALGOLIA_API_KEY_BROWSE_LIVE = APIKey(rawValue: "7c36787b0c09ef094db8a3ba93871ce7")
+    var ALGOLIA_API_KEY_SEARCH_LIVE = APIKey(rawValue: "52414084ccefd742bcf424dfc170614c")
+    var ALGOLIA_API_KEY_INSIGHT_LIVE = APIKey(rawValue:"7c36787b0c09ef094db8a3ba93871ce7")
+    
+    
+    let algoliadefaultIndexName  = IndexName.init(stringLiteral: "Product")
+    let algoliaRetailerIndexName  = IndexName.init(stringLiteral: "Retailer")
     
  //   private let algoliadefaultIndexName  = IndexName.init(stringLiteral: "ProductReplica")
     private let algoliaRecipeIndexName  = IndexName.init(stringLiteral: "RecipeBoutique")
@@ -65,8 +72,8 @@ class AlgoliaApi {
     
     init() {
         
-         client = SearchClient(appID:  algoliaApplicationID , apiKey: "f64accc4672a9125533fc1d64baf93ab")
-        browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: "7c36787b0c09ef094db8a3ba93871ce7")
+         client = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_SEARCH_LIVE)
+        browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_BROWSE_LIVE)
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
            algoliaApplicationID = "3LIB7IY3OL"
            client = SearchClient(appID: algoliaApplicationID , apiKey: "688bccc1dcc7f10e040c36ec148557b6")
@@ -104,7 +111,7 @@ class AlgoliaApi {
         if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             token = userProfile.dbID.stringValue
         }
-        Insights.register(appId:  algoliaApplicationID , apiKey: APIKey(rawValue: "f64accc4672a9125533fc1d64baf93ab") , userToken: UserToken(rawValue: token))
+        Insights.register(appId:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_INSIGHT_LIVE , userToken: UserToken(rawValue: token))
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
             Insights.register(appId:  algoliaApplicationID , apiKey: APIKey(rawValue: "7df145d4ee0d2219199fe615cb2100cd") , userToken:  UserToken(rawValue: token))
         }
@@ -191,15 +198,15 @@ class AlgoliaApi {
             }
         }
         
-        for storeID in storeIDs{
-            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-            if filterString.count == 0 {
-                filterString.append(facetFiltersForCurrentStoreID)
-            }else{
-                filterString.append(OROperator)
-                filterString.append(facetFiltersForCurrentStoreID)
-            }
-        }
+//        for storeID in storeIDs{
+//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(OROperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
         if brand.count > 0 {
             let facetFiltersForCurrentStoreID : String = "brand.name:'\(brand)'"
             if filterString.count == 0 {
@@ -240,6 +247,102 @@ class AlgoliaApi {
  
     }
     
+    // Smiles Search Products
+    func searchProductQueryWithStoreIndex (_ searchText : String , storeIDs : [String] , _ pageNumber : Int = 0 , _ hitsPerPage : UInt = 100 , _ brand : String = "" , _ category : String = "" , searchType: String  , completion : @escaping responseBlock ) -> Void {
+        
+        
+        var filterString = ""
+        
+        for storeID in storeIDs {
+            let facetFiltersForCurrentStoreID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+            if filterString.count == 0 {
+                filterString.append(facetFiltersForCurrentStoreID)
+            } else {
+                filterString.append(OROperator)
+                filterString.append(facetFiltersForCurrentStoreID)
+            }
+        }
+        
+//        for storeID in storeIDs{
+//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(OROperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
+//        if brand.count > 0 {
+//            let facetFiltersForCurrentStoreID : String = "brand.name:'\(brand)'"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(ANDOperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
+//        if category.count > 0 {
+//            let facetFiltersForCurrentStoreID : String = "subcategories.name:'\(category)'"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(ANDOperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
+        
+        var query = Query(searchText)
+            .set(\.filters, to: filterString)
+            .set(\.clickAnalytics, to: true)
+            .set(\.getRankingInfo, to: true)
+            .set(\.analytics, to: true)
+            .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: storeIDs.count > 1 , searchType: searchType))
+      
+        query.page = pageNumber
+        query.hitsPerPage = Int(hitsPerPage)
+        
+        var filterStringRetailer = ""
+        
+        for storeID in storeIDs{
+            let facetFiltersForCurrentStoreID : String = "id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+            if filterStringRetailer.count == 0 {
+                filterStringRetailer.append(facetFiltersForCurrentStoreID)
+            }else{
+                filterStringRetailer.append(OROperator)
+                filterStringRetailer.append(facetFiltersForCurrentStoreID)
+            }
+        }
+       
+        var requestOptions = RequestOptions()
+        requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
+        self.algoliaProductIndex.search(query: query, requestOptions: requestOptions ) { (content) -> Void in
+            if case .success(let response) = content {
+                completion(response.convertHits() , nil)
+            }else if case .failure (let error) = content{
+                completion(nil , error)
+            }
+        }
+        
+//        client.multipleQueries(queries: queries) { result in
+//
+//            if case .success(let response) = result {
+//                completion(response.convertHits() , nil)
+//            }else if case .failure (let error) = result{
+//                completion(nil , error)
+//            }
+//        }
+        
+//        client.multipleQueries(queries: queries, strategy: MultipleQueriesStrategy.init(rawValue: ""), requestOptions: requestOptions) { result in
+//
+//            if case .success(let response) = result {
+//                elDebugPrint("Response: \(response)")
+//            }else if case .failure (let error) = result{
+//                completion(nil , error)
+//            }
+//
+//        }
+ 
+    }
     
     func searchProductQueryWithMultiStoreMultiIndex (_ searchText : String , storeIDs : [String] , _ pageNumber : Int = 0 , _ hitsPerPage : UInt = 100 , _ brand : String = "" , _ category : String = "" , searchType: String  , completion : @escaping responseBlock ) -> Void {
         
@@ -256,15 +359,15 @@ class AlgoliaApi {
             }
         }
         
-        for storeID in storeIDs{
-            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-            if filterString.count == 0 {
-                filterString.append(facetFiltersForCurrentStoreID)
-            }else{
-                filterString.append(OROperator)
-                filterString.append(facetFiltersForCurrentStoreID)
-            }
-        }
+//        for storeID in storeIDs{
+//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(OROperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
         if brand.count > 0 {
             let facetFiltersForCurrentStoreID : String = "brand.name:'\(brand)'"
             if filterString.count == 0 {
@@ -701,8 +804,8 @@ extension AlgoliaApi {
         let type =  "styp_" + searchType;
         tags.append(type)
         
-        
-        let apptype =  "atyp_" + (sdkManager.isSmileSDK ? "SmileSDK" : "Shopper")
+
+        let apptype =  "atyp_" + (SDKManager.isSmileSDK ? "SmilesSDK" : "Shopper")
         tags.append(apptype)
         
         
@@ -738,15 +841,15 @@ extension AlgoliaApi {
             }
         }
         
-        for storeID in storeIDs{
-            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-            if filterString.count == 0 {
-                filterString.append(facetFiltersForCurrentStoreID)
-            }else{
-                filterString.append(OROperator)
-                filterString.append(facetFiltersForCurrentStoreID)
-            }
-        }
+//        for storeID in storeIDs{
+//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+//            if filterString.count == 0 {
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }else{
+//                filterString.append(OROperator)
+//                filterString.append(facetFiltersForCurrentStoreID)
+//            }
+//        }
         
         if brand.count > 0 {
             let facetFiltersForCurrentStoreID : String = "brand.id:\(brand)"
@@ -874,8 +977,12 @@ extension AlgoliaApi {
         let facetFiltersForCurrentStoreID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
         facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
         
-        let facetFiltersForCategoryId : String = "categories.id:\(categoryId)"
-        facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        
+        if categoryId.count > 0 {
+            let facetFiltersForCategoryId : String = "categories.id:\(categoryId)"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }
+        
         
         if subCategoryID.count > 0 {
             let facetFiltersForCategoryId : String = "subcategories.id:\(subCategoryID)"

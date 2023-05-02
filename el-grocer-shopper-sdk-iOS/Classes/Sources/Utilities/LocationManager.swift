@@ -181,38 +181,43 @@ class LocationManager: NSObject {
         
     }
     
-     func fetchCurrentLocation() {
-        
-        guard CLLocationManager.locationServicesEnabled() == true && CLLocationManager.authorizationStatus() != .denied &&
-        CLLocationManager.authorizationStatus() != .notDetermined &&
-        CLLocationManager.authorizationStatus() != .restricted  else {
+    func fetchCurrentLocation(_ needToFetchNew: Bool = false) {
+         
+         DispatchQueue.global().async { [weak self] in
             
-            guard CLLocationManager.locationServicesEnabled() else {
-                self.state.value = .error(ElGrocerError.locationServicesDisabledError())
-                return
-            }
-            switch CLLocationManager.authorizationStatus(){
-                case .authorizedWhenInUse, .authorizedAlways:
-                      return
-                case .notDetermined:
-                    self.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
-                case .restricted:
-                    self.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
-                    
-                case .denied:
-                    self.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
-                    
-                @unknown default:
-                    self.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
-            }
-            return
-        }
+             guard CLLocationManager.locationServicesEnabled() == true && CLLocationManager.authorizationStatus() != .denied &&
+             CLLocationManager.authorizationStatus() != .notDetermined &&
+             CLLocationManager.authorizationStatus() != .restricted  else {
+                 
+                 guard CLLocationManager.locationServicesEnabled() else {
+                     self?.state.value = .error(ElGrocerError.locationServicesDisabledError())
+                     return
+                 }
+                 switch CLLocationManager.authorizationStatus(){
+                     case .authorizedWhenInUse, .authorizedAlways:
+                     if !needToFetchNew { return }
+                     case .notDetermined:
+                         self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
+                     case .restricted:
+                         self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
+                         
+                     case .denied:
+                         self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
+                         
+                     @unknown default:
+                         self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
+                 }
+                 return
+             }
+                 
             
-       
-       elDebugPrint("fetchCurrentLocation")
-        state.value = .fetchingLocation
-        self.locationManager.startUpdatingLocation()
-        
+            elDebugPrint("fetchCurrentLocation")
+             self?.state.value = .fetchingLocation
+             DispatchQueue.main.async {
+                 self?.locationManager.startUpdatingLocation()
+             }
+         }
+    
     }
     
     func stopUpdatingCurrentLocation() {
@@ -481,7 +486,7 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-       elDebugPrint("location Manager Fail With Error:%@",error.localizedDescription)
+       elDebugPrint("loc≈rror:%@",error.localizedDescription)
     }
     
     

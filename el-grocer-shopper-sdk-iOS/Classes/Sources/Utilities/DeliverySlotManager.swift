@@ -23,11 +23,11 @@ class DeliverySlotManager {
             return  (localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️" , true)
         }else if  slot.isToday() {
             hideSlotImage = false
-            let name = (startDate.getDayName() ?? "")
+            let name = localizedString("today_title", comment: "")
             orderTypeDescription = String(format: "%@ %@", name ,orderTypeDescription)
         }else if slot.isTomorrow() {
             hideSlotImage = false
-            let name = (startDate.getDayName() ?? "")
+            let name = localizedString("tomorrow_title", comment: "")
             orderTypeDescription = String(format: "%@ %@", name,orderTypeDescription)
         }else{
             hideSlotImage = false
@@ -98,25 +98,26 @@ class DeliverySlotManager {
             var dayTitle = ""
             if let startDate = (slotDict["start_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
                 if let endDate = (slotDict["end_time"] as? String)?.convertStringToCurrentTimeZoneDate() {
+                    let slotId = slotDict["id"] as? Int
                     let dayName = startDate.getDayName() ?? ""
-                    if startDate.isToday {
+                    if startDate.isToday || slotId == 0 {
                         if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayTitle = localizedString("lbl_next_delivery", comment: "")
+                            dayTitle = localizedString("lbl_next_delivery", comment: "") + " " + localizedString("today_title", comment: "")
                         }else {
                             dayTitle = localizedString("lbl_next_self_collection", comment: "")
                         }
                         
                     }else if startDate.isTomorrow {
                         if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayTitle = localizedString("lbl_next_delivery", comment: "")
+                            dayTitle = localizedString("lbl_next_delivery", comment: "") + " " + localizedString("tomorrow_title", comment: "")
                         }else {
                             dayTitle = localizedString("lbl_next_self_collection", comment: "")
                         }
                     }else {
-                        dayTitle = startDate.getDayName() ?? ""
+                        dayTitle = localizedString("lbl_next_delivery", comment: "") + " " + (startDate.getDayName() ?? "")
                     }
                     let timeSlot = ( isDeliveryMode ?  startDate.formatDateForDeliveryFormateString() : startDate.formatDateForCandCFormateString() ) + " - " + ( isDeliveryMode ?  endDate.formatDateForDeliveryFormateString() : endDate.formatDateForCandCFormateString())
-                    groceryNextDeliveryString =  dayTitle + (dayTitle.count > 0 ? "\n" : "") + "\(dayName) " + "\(timeSlot)"
+                    groceryNextDeliveryString =  dayTitle + (dayTitle.count > 0 ? "\n" : "") + ( dayTitle.count > 0 ? "" : "\(dayName) ") + "\(timeSlot)"
                 }
             }
         }

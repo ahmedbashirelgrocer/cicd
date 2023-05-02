@@ -20,9 +20,16 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
     
     @IBOutlet var topBGGreenView: UIView!{
         didSet{
-            topBGGreenView.backgroundColor = .navigationBarColor()
+            topBGGreenView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
+    
+    @IBOutlet weak var topBGRightSideView: UIView!{
+        didSet{
+          //  topBGGreenView.backgroundColor = ApplicationTheme.currentTheme.viewSecondaryDarkBGColor
+        }
+    }
+    
     @IBOutlet weak var shoppingListTableView: UITableView!{
         didSet{
             shoppingListTableView.bounces = false
@@ -279,22 +286,22 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
                     Thread.OnMainThread {
                         if result {
                             var newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                            for product in newProducts {
+                            for product in newProducts.products {
                                 if product.brandId == nil {
-                                    let removedObjectIndex = newProducts.firstIndex(of: product)!
+                                    let removedObjectIndex = newProducts.products.firstIndex(of: product)!
                                    elDebugPrint("Object Remove Index:%@",removedObjectIndex)
-                                    newProducts.remove(at: removedObjectIndex)
+                                    newProducts.products.remove(at: removedObjectIndex)
                                 }
                             }
-                           elDebugPrint("searched Products Array After Filtering Brand ID:%@",newProducts.count)
+                            elDebugPrint("searched Products Array After Filtering Brand ID:%@",newProducts.products.count)
                             if replaceIndex != nil {
-                                self.productsA[replaceIndex!] = newProducts
+                                self.productsA[replaceIndex!] = newProducts.products
                                 Thread.OnMainThread {
                                     self.shoppingListTableView.reloadRows(at: [IndexPath.init(row: replaceIndex!, section: 0)], with: .fade)
                                 }
                                 
                             }else{
-                                self.productsA.append(newProducts)
+                                self.productsA.append(newProducts.products)
                                 Thread.OnMainThread {
                                     self.shoppingListTableView.reloadRows(at: [NSIndexPath.init(row: self.index , section: 0) as IndexPath], with: .fade)
                                 }
@@ -314,19 +321,19 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
                     if content != nil {
                         if let responseObject = content as NSDictionary? {
                                 var newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , searchString: currentSearchString)
-                                for product in newProducts {
+                            for product in newProducts.products {
                                     if product.brandId == nil {
-                                        let removedObjectIndex = newProducts.firstIndex(of: product)!
+                                        let removedObjectIndex = newProducts.products.firstIndex(of: product)!
                                         //                                   elDebugPrint("Object Remove Index:%@",removedObjectIndex)
-                                        newProducts.remove(at: removedObjectIndex)
+                                        newProducts.products.remove(at: removedObjectIndex)
                                     }
                                 }
                                 //print("searched Products Array After Filtering Brand ID:%@",newProducts.count)
                                 if replaceIndex != nil {
-                                    self.productsA[replaceIndex!] = newProducts
+                                    self.productsA[replaceIndex!] = newProducts.products
                                     self.shoppingListTableView.reloadRows(at: [IndexPath.init(row: replaceIndex!, section: 0)], with: .fade)
                                 }else{
-                                    self.productsA.append(newProducts)
+                                    self.productsA.append(newProducts.products)
                                     self.shoppingListTableView.reloadRows(at: [NSIndexPath.init(row: self.index , section: 0) as IndexPath], with: .fade)
                                     self.index += 1
                                     
@@ -722,11 +729,11 @@ extension ShoppingListViewController : UITableViewDelegate , UITableViewDataSour
                 searchController.isNeedToHideSearchBar = true
                 searchController.isFromShoppingListViewAll = true
                 searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? FireBaseScreenName.MultiSearch.rawValue
-                searchController.modalTransitionStyle = .crossDissolve
-                searchController.modalPresentationStyle = .overCurrentContext
-                Thread.OnMainThread {
-                    self.navigationController?.pushViewController(searchController, animated: false)
-                }
+                //searchController.modalTransitionStyle = .crossDissolve
+                //searchController.modalPresentationStyle = .overCurrentContext
+                //Thread.OnMainThread {
+                    self.navigationController?.pushViewController(searchController, animated: true)
+                //}
             }
         }
     }
@@ -770,32 +777,26 @@ extension ShoppingListViewController : ShoopingListDataHandlerDelegate {
 extension ShoppingListViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         scrollView.layoutIfNeeded()
-        locationHeader.myGroceryName.sizeToFit()
-        if var headerFrame = shoppingListTableView.tableHeaderView?.frame {
-            
-            if scrollView.contentOffset.y > 0 {
-                headerFrame.origin.y = scrollView.contentOffset.y }
-            let maxHeight = locationHeader.headerMaxHeight + 10
-            headerFrame.size.height = min(max(maxHeight-scrollView.contentOffset.y,75),maxHeight)
-            shoppingListTableView.tableHeaderView?.frame = headerFrame
-            
-                //storeSearchBarHeader.frame = headerFrame
-                //scrollView.contentOffset.y = scrollView.contentOffset.y + headerFrame.size.height
-                // self.tableViewCategories.contentOffset = CGPoint.init(x: 0, y: 20)
-//           elDebugPrint("scrollView.contentOffset.y",scrollView.contentOffset.y)
-//           elDebugPrint("headerFrame.size.height",headerFrame.size.height)
-            
-            if maxHeight == headerFrame.size.height {
-                self.shoppingListTableView.tableHeaderView = locationHeader
-            }
-            
+        
+        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+        if constraintA.count > 0 {
+            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+            let headerViewHeightConstraint = constraint
+            let maxHeight = self.locationHeader.headerMaxHeight
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
         }
-       // self.navigationController?.navigationBar.topItem?.title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-        locationHeader.setNeedsLayout()
-        locationHeader.layoutIfNeeded()
-            // self.tableViewCategories.tableHeaderView = storeSearchBarHeader
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+        }
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+            self.navigationController?.navigationBar.topItem?.title = title
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+        }
         
     }
 }

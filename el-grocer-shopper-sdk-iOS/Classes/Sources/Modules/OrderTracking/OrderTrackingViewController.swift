@@ -280,7 +280,7 @@ class OrderTrackingViewController: UIViewController,UITableViewDelegate,UITableV
             cell.descriptionLabel.text = description
             
             if indexPath.row == orderCurrentStatus {
-                cell.backgroundColor = UIColor.navigationBarColor()
+                cell.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
                 cell.titleLabel.textColor = UIColor.white
                 cell.descriptionLabel.textColor = UIColor.white
             }else{

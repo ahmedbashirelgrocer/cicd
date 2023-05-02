@@ -19,6 +19,7 @@ public let CleverTapElgrocerPrefix : String = Platform.isDebugBuild ?  "EG1_" : 
 enum FireBaseScreenName: String {
     
     case Splash = "Splash"
+    case SdkHome = "SdkHome"
     case DefaultForNav = "DefaultNavigationController"
     case GenericHome = "Home"
     case Home = "HomeStore"
@@ -67,9 +68,10 @@ enum FireBaseScreenName: String {
 
 enum FireBaseParmName : String {
     
+    case SdkLaunch = "SDKLaunch"
     case DeliveryType = "DeliveryType"
     case Source = "Source"
-  
+    case SDKHomeStoreSelected = "StoreSelected"
     case statusId = "order_statusId"
     case SearchTerm = "SearchTerm"
     case OrderId = "OrderId"
@@ -141,7 +143,8 @@ enum FireBaseParmName : String {
     case UserId = "User_id"
     case Userlatlon = "User_latlon"
     case UserPlatform = "User_platform"
-    case UserFrom = "User_SmileSDK"
+    case UserFrom = "User_SmilesSDK"
+    case UserFoodSubscription = "User_FoodSubscription"
     case PickerID = "PickerId"
     case OrderStatusID = "OrderStausId"
     
@@ -169,6 +172,8 @@ enum FireBaseParmName : String {
     case PromoCode = "Promo"
     case PromoIndex = "Index"
     case StoreSearch = "StoreSearch"
+    
+    case markeyType = "Market_type"
 
 }
 
@@ -313,6 +318,8 @@ class FireBaseEventsLogger  {
         newParms?[FireBaseParmName.UserFrom.rawValue] = sdkManager.isSmileSDK
         newParms?[FireBaseParmName.UserPlatform.rawValue] = "ios"
         
+        newParms?[FireBaseParmName.UserFoodSubscription.rawValue] = SmilesNetworkManager.sharedInstance().smileUser?.foodSubscriptionStatus ?? false
+        
         if let newLocation = ElGrocerUtility.sharedInstance.activeAddress {
             newParms?[FireBaseParmName.LocationId.rawValue] = newLocation.dbID.count > 0 ? newLocation.dbID : "1"
             newParms?[FireBaseParmName.Userlatlon.rawValue] = String(describing: newLocation.latitude )  + "," + String(describing: newLocation.longitude )
@@ -328,7 +335,7 @@ class FireBaseEventsLogger  {
                 newParms?[FireBaseParmName.UserId.rawValue] = id
             }
         
-    
+        newParms?[FireBaseParmName.markeyType.rawValue] = SDKManager.isGrocerySingleStore ? "1" : "0"
         
         if let removeNull = newParms {
              newParms = removeNull.compactMapValues { $0 }
@@ -337,10 +344,12 @@ class FireBaseEventsLogger  {
         let finalParm = newParms
         for (key, value) in finalParm ?? [:] {
             
-           // elDebugPrint("check logger for type  type : \(String(describing: value.self)) : \(key) : valure : \(value) ")
+           
             
              if value is [NSNumber] {
-                newParms?[key] = (value as AnyObject).description
+                 if value != nil {
+                     newParms?[key] = (value as AnyObject).description
+                 }
             }
             
             if value is String {
@@ -368,9 +377,8 @@ class FireBaseEventsLogger  {
                 return
             }
         }
-        ElGrocerUtility.sharedInstance.eventMap[eventNameToSend] = Date().timeIntervalSince1970
-        
-        
+     //   ElGrocerUtility.sharedInstance.eventMap[eventNameToSend] = Date().timeIntervalSince1970
+        eventNameToSend = eventNameToSend.replacingOccurrences(of: "EG_EG_", with: "EG_")
         DispatchQueue.global(qos: .background).async {
           
             usleep(1)
@@ -380,10 +388,10 @@ class FireBaseEventsLogger  {
                 nameForCleverTap = nameForCleverTap.replacingOccurrences(of: FireBaseElgrocerPrefix , with: CleverTapElgrocerPrefix )
                 CleverTapEventsLogger.recordEvent( nameForCleverTap  , properties: newParms != nil ? newParms : [:] )
             }
-            Analytics.logEvent( eventNameToSend  , parameters:newParms != nil ? newParms : [:]) //40 char limit
+//            Analytics.logEvent( eventNameToSend  , parameters:newParms != nil ? newParms : [:]) //40 char limit
             
             if Platform.isDebugBuild {
-                elDebugPrint("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
+               //  print("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
                 elDebugPrint("*Firebase Logs*  *EventName*: \(eventNameToSend)  *Parms*: \(newParms as Any)  *****")
                 elDebugPrint("=====================*Firebase Logs event Name*=========================")
             }
@@ -397,7 +405,7 @@ class FireBaseEventsLogger  {
         finalScreenName = finalScreenName?.replacingOccurrences(of: "-", with: "_")
         finalScreenName = finalScreenName?.replacingOccurrences(of: ">", with: "To_")
         if let _ = screenName {
-            Analytics.logEvent(AnalyticsEventScreenView , parameters: ["screenName" : finalScreenName ?? "" , "screenClass" : screenClass ?? ""])
+//            Analytics.logEvent(AnalyticsEventScreenView , parameters: ["screenName" : finalScreenName ?? "" , "screenClass" : screenClass ?? ""])
            // Analytics.setScreenName(finalScreenName, screenClass: screenClass ?? "") //100 char limit
         }
     
@@ -406,7 +414,7 @@ class FireBaseEventsLogger  {
     
     class func setUserID (_ userID : String?) {
         if let _ = userID {
-            Analytics.setUserID(userID)
+//            Analytics.setUserID(userID)
             Crashlytics.crashlytics().setUserID(userID ?? "")
             
 //            elDebugPrint("=====================*Firebase Logs Property*=========================")
@@ -419,7 +427,7 @@ class FireBaseEventsLogger  {
     class func setUserProperty (_ value :  String? , key : String) {
         if let _ = value {
             Crashlytics.crashlytics().setCustomValue(value ?? "" , forKey: key )
-            Analytics.setUserProperty(value, forName: key)
+//            Analytics.setUserProperty(value, forName: key)
 //            elDebugPrint("=====================*Firebase Logs Property*=========================")
 //            elDebugPrint("*Firebase Logs* *setUserProperty*  value: \(value ?? "" )   key: \(key)  ***** ")
 //            elDebugPrint("=====================*Firebase Logs Property*=========================")
@@ -665,7 +673,14 @@ class FireBaseEventsLogger  {
             parms[FireBaseParmName.Position.rawValue] = possition
             if link.campaignType.intValue == BannerCampaignType.priority.rawValue {
                 parms[FireBaseParmName.BannerType.rawValue] = "PriorityStore"
+            }else if link.campaignType.intValue == BannerCampaignType.brand.rawValue {
+                parms[FireBaseParmName.BannerType.rawValue] = "Brand"
+            }else if link.campaignType.intValue == BannerCampaignType.retailer.rawValue {
+                parms[FireBaseParmName.BannerType.rawValue] = "Retailer"
+            }else if link.campaignType.intValue == BannerCampaignType.web.rawValue {
+                parms[FireBaseParmName.BannerType.rawValue] = "Web"
             }
+            
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: eventName , parameter: parms )
             elDebugPrint(topControllerName)
         }
@@ -1133,7 +1148,7 @@ class FireBaseEventsLogger  {
         
     }
   
-    class func trackPurchase ( coupon : String , coupanValue : String , currency : String , value : String , tax : NSNumber , shipping : NSNumber , transactionID : String , PurchasedItems : [[String : Any]]? , discount : Double, IsSmiles: Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int ) {
+    class func trackPurchase ( coupon : String , coupanValue : String , currency : String , value : String , tax : NSNumber , shipping : NSNumber , transactionID : String , PurchasedItems : [[String : Any]]? , discount : Double, IsSmiles: Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int, _ isWallet : Bool, _ walletUseAmount: Double ) {
         
         
         func json(from object:Any) -> String {
@@ -1170,7 +1185,9 @@ class FireBaseEventsLogger  {
                     SmilesEventsParmName.IsSmile.rawValue: IsSmiles,
                     SmilesEventsParmName.Points.rawValue: smilePoints,
                     SmilesEventsParmName.SmilesPointsEarned.rawValue: pointsEarned,
-                    SmilesEventsParmName.SmilesPointsSpent.rawValue: pointsBurned
+                    SmilesEventsParmName.SmilesPointsSpent.rawValue: pointsBurned,
+                    "IsWallet" : isWallet,
+                    "WalletSpent" : walletUseAmount
                     ] as [String : Any]
                 FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "PurchaseOrder" + (UserDefaults.isOrderInEdit() ? "Edited" : "")  , parameter: finalParms)
             }
@@ -1195,7 +1212,7 @@ class FireBaseEventsLogger  {
         }
     }
     
-    class func trackPurchaseItems (  productList : [Product] , orderId : String , carosalA : [Product] = []  , grocerID : String , eventName : String) {
+    class func trackPurchaseItems (  productList : [Product] , orderId : String , carosalA : [Product] = []  , grocerID : String , eventName : String, _ isWallet : Bool,_ walletUseAmount: Double) {
         
         
             let getSponseredList = UserDefaults.getSponsoredItemArray(grocerID: grocerID) ?? []
@@ -1970,7 +1987,9 @@ class FireBaseEventsLogger  {
 //
 //        }
 //
-        if controller is  ShopByCategoriesViewController {
+        if controller is SmileSdkHomeVC {
+            title = "SdkHome"
+        }else if controller is  ShopByCategoriesViewController {
             title = "CategoryListing_"
         }else if controller is SpecialtyStoresGroceryViewController {
             let vc = controller as! SpecialtyStoresGroceryViewController
@@ -1987,7 +2006,7 @@ class FireBaseEventsLogger  {
         } else if controller is GenericProfileViewController {
             title = FireBaseScreenName.Profile.rawValue
         }  else if controller is SplashAnimationViewController {
-            title = FireBaseScreenName.GenericHome.rawValue
+            title = FireBaseScreenName.Splash.rawValue
         }else if controller is GenericStoresViewController {
             title = FireBaseScreenName.GenericHome.rawValue
         } else if controller is GroceryLoaderViewController {

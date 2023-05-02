@@ -63,7 +63,7 @@ class OrderTrackingLocationCell: UITableViewCell {
         
         self.notesImgView.image = UIImage(name: "Notes-Icon")
         self.notesImgView.image = self.notesImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        self.notesImgView.tintColor = UIColor.navigationBarColor()
+        self.notesImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
     
     private func hideNotesView(_ hidden:Bool){

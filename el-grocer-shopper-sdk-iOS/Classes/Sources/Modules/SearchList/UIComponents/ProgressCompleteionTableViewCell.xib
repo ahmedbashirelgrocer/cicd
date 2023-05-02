@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,7 +18,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProgressCompleteionTableViewCell" rowHeight="80" id="KGk-i7-Jjw" customClass="ProgressCompleteionTableViewCell" customModule="ElGrocerShopper" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProgressCompleteionTableViewCell" rowHeight="80" id="KGk-i7-Jjw" customClass="ProgressCompleteionTableViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -28,7 +28,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XMT-bh-VOo">
                         <rect key="frame" x="0.0" y="19.5" width="375" height="45"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8M4-IP-40y" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8M4-IP-40y" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="17" y="8" width="165" height="8"/>
                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -47,7 +47,7 @@
                                     <constraint firstAttribute="height" constant="24" id="MVF-dD-oYS"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J9a-dQ-RWc" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J9a-dQ-RWc" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="194" y="8" width="165" height="8"/>
                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <userDefinedRuntimeAttributes>
@@ -75,7 +75,7 @@
                                 <color key="textColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xj8-xe-hJg" userLabel="oneview" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xj8-xe-hJg" userLabel="oneview" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="83.5" y="-4" width="32" height="32"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVR-MI-Lcf">
@@ -107,7 +107,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oC3-Y6-uJp" userLabel="twoview" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oC3-Y6-uJp" userLabel="twoview" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="260.5" y="-4" width="32" height="32"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gzw-7d-KXj">
@@ -181,6 +181,10 @@
                 <outlet property="lblOne" destination="TVR-MI-Lcf" id="ndw-Gn-9OT"/>
                 <outlet property="lblSearchAndShop" destination="TyU-Ar-oq0" id="D44-8D-jtf"/>
                 <outlet property="lblTwo" destination="Gzw-7d-KXj" id="HcL-PR-hmB"/>
+                <outlet property="oneSuperView" destination="Xj8-xe-hJg" id="AjQ-1G-et2"/>
+                <outlet property="progressLineOne" destination="8M4-IP-40y" id="Jad-we-6A3"/>
+                <outlet property="progressLineTwo" destination="J9a-dQ-RWc" id="Pvn-ea-aYT"/>
+                <outlet property="twoSuperView" destination="oC3-Y6-uJp" id="vgT-R9-PmS"/>
             </connections>
             <point key="canvasLocation" x="75.9375" y="28.52112676056338"/>
         </tableViewCell>

@@ -6,6 +6,9 @@
   Copyright (c) 2015 RST IT. All rights reserved.
 */
 
+// New
+"Shopping_list_Titile" = "Shopping list";
+
 // Error Messages
 
 "alert_error_title" = "Error";
@@ -211,6 +214,7 @@
 
 // Search
 "search_placeholder" = "Search";
+"universal_search_clear_history_popup_text" = "Do you want to clear your search history?";
 
 // Dashboard
 "dashboard_location_button" = "Delivery Address";
@@ -314,6 +318,7 @@
 "pay_via_CreditCard" = "Online";
 "pay_via_card" = "Card machine";
 "pay_via_cash" = "Pay via Cash";
+"txt_pay_cash" = "Cash";
 "payment_method_for_remaining_amount" = "Select payment method for the remaining AED";
 "leave_us_note" = "Leave Us a Note";
 "enter_promo_code" = "Enter coupon code";
@@ -369,6 +374,9 @@
 
 "need_assistance_lable" = "Need more support? ";
 "launch_live_chat_text" = "Chat with elGrocer";
+
+"lbl_Hurray_Success_Msg" = "HURRAY!\nYOUR ORDER SUCCESSFULLY PLACED";
+
 
 // Orders history
 "orders_top_title" = "My Orders";
@@ -828,7 +836,7 @@
 "last_order_message" = "is taking the last orders for Today's deliveries in";
 
 "vat_title" = "Value Added Tax";
-"service_price" = "Service fee (incl. VAT)";
+"service_price" = "Delivery fee (incl. VAT)";
 "service_price_title" = "Service Fee";
 "total_price" = "Total price (incl. VAT)";
 "total_bill_amount" = "FINAL BILL AMOUNT";
@@ -966,6 +974,7 @@
 "location_error_title" = "Location services currently unavailable";
 "location_error_message" = "Please use the map picker to select your location.";
 "location_error_ok_button" = "Select Address";
+"add_delivery_address" = "Add delivery address";
 
 
 "stay_updated_title" = "Stay Updated";
@@ -1258,6 +1267,7 @@
 "No_Selected_Store_Cart" = "Your elGrocer cart is empty";
 "No_Selected_Store_Detail_Cart" = "Choose the store on the Homepage \nto fill your shopping list.";
 "No_Item_Cart" = "Add some items to continue shopping";
+"No_Item_Multi_Cart_Empty_View" = "Choose the store to start shopping";
 
 
 //Mybasket
@@ -1525,6 +1535,7 @@ Add delivery details";
 "lbl_ReturnHome" = "Return to Home";
 "lbl_atThisStore" = "at this store";
 "lbl_NoDataStoreSearch" = "Try a different spelling or search in other stores.";
+"lbl_Error_No_Store_On_This_Location_Selling_Products" = "No store on this location is selling such products. ";
 
 "lblSearchHistory" = "SEARCH HISTORY";
 "lbl_TrendingSearch" = "Trending searches";
@@ -2006,8 +2017,9 @@ Oreo";
 "lbl_StartShopping" = "Start Shopping";
 
     //MARK: Apply promoCode controller
-"title_apply_promo" = "Apply Promocode";
+"title_apply_promo" = "Promocodes";
 "title_available_promo" = "Available Promocodes";
+"txt_details" = "Details";
 "txt_view_details" = "View details";
 "txt_hide_details" = "Hide details";
 "txt_btn_apply" = "APPLY";
@@ -2034,3 +2046,122 @@ Oreo";
 
 //MARK: mybasket place order
 "txt_free" = "Free";
+
+    //MARK: elWallet
+"txt_title_elWallet" = "elWallet";
+"txt_title_transaction_history" = "Transaction History";
+"txt_add_funds" = "Add Funds";
+"txt_view_all" = "View all";
+"txt_active_vouchers" = "ACTIVE VOUCHERS ";
+"txt_cards_capital" = "CARDS";
+"txt_manage_cards" = "Manage cards";
+"txt_transection_history" = "TRANSACTIONS HISTORY";
+"txt_redeem_capital" = "REDEEM";
+"txt_add_funds_from" = "Add funds from";
+"btn_next" = "Next";
+"btn_add_new_card" = "Add new card";
+"txt_cards_small" = "Cards";
+"txt_elwallet_balance" = "elWallet balance:";
+"txt_active_vouchers_small" = "Active Vouchers ";
+"txt_do_you_have_voucher" = "Do you have a voucher code?";
+"txt_voucher_code" = "Voucher Code";
+"txt_payment_process_faliure" = "Sorry, we couldn’t process your payment.";
+"txt_payment_process_success" = " successfully added to elWallet!";
+"txt_btn_try_again" = "Try again";
+"txt_btn_back_to_elwallet" = "Back to elWallet";
+"txt_card_added_successfully" = "Card added successfully!";
+"txt_card_not_added" = "Sorry, we couldn’t add this card";
+"txt_voucher" = "Voucher ";
+"txt_voucher_redeem_faliure" = " is not valid.\nPlease, enter the correct code or try to redeem a different voucher.";
+"txt_voucher_redeem_success" = " successfully redeemed and added";
+"txt_amount_voucher_amount_elwallet" = " to your elWallet balance!";
+"txt_no_voucher" = "Your active vouchers will be displayed here.";
+"txt_no_card_found" = "Add a card to enjoy the best grocery shopping experience";
+"txt_add_new_card_with_plus" = "Add new card";
+"txt_no_transection_history" = "Your transaction will be displayed here.";
+"txt_do_you_want_remove_card" = "Do you want to remove this card?";
+"btn_remove_title" = "Remove";
+"btn_keep_using" = "Keep using";
+"btn_edit_card" = "Edit cards";
+"btn_done_edit_card" = "Done";
+"txt_cards_title" = "CARDS";
+"title_how_much_like_to_add" = "How much would you like to add?";
+"btn_add_funds" = "Add funds";
+"txt_payment_option_voucher" = "Voucher";
+"txt_use_a_new_card" = "Use a new card";
+"lbl_Expires_on" = "Expires on ";
+
+
+    //MARK: secondCheckout
+"use_elwallet_text" = "Use elWallet";
+"use_smile_text" = "Use Smiles";
+"pay_using_text" = "PAY USING";
+"use_points_text" = "USE POINTS";
+"secondry_payment_error_msg_elwallet" = "To use elWallet your balance has to be more than 1 AED";
+"secondary_payment_promocode_error" = "To apply a promo code please, choose the payment method first.";
+"collector_text" = "Who is collecting the order?";
+"collector_car_text" = "Which car is collecting the order?";
+"click_collect_warning_text" = "Please, make sure you arrive on time. Your order will be held for 15 min max.";
+"click_collect_warning_text_highlighted" = "Your order will be held for 15 min max.";
+"discount_text" = "Discount";
+"elwallet_credit_applied" = "elWallet credit applied";
+"smiles_points_applied" = "Smiles Points applied";
+"txt_applied_promocode" = "(Applied)";
+"amount_to_pay" = "AMOUNT TO PAY";
+"secondry_payment_error_msg_smiles" = "To use smiles your balance has to be more than 1 AED";
+"promo_code_apply_notification" = "You must apply a promo code to get discount";
+"extra_balacnce_details" = "Balance details";
+
+//MARK: substitution
+
+"sub_extra_amount_refund_initial" = "Price difference of ";
+"sub_extra_amount_refund_final" = " will be added to your elWallet balance";
+
+//MARK: order details
+"lbl_smile_point_earned" = "Smiles Points Earned";
+"txt_free_delivery_for_smile" = "Free with Smiles Unlimited Free Delivery!";
+
+// MARK: - Cart Listing Screen
+"screen_active_cart_listing_title" = "Active Carts";
+"screen_active_cart_listing_store_close_message" = "Store is closed. Come back tomorrow!";
+"txt_free_delivery_for_smile" = "Free with Smiles Unlimited";
+
+
+// MARK: - SingleStore Not Deliver screen
+"screen_NoLocationSingleStore_title" = "Ooops! We don’t deliver here yet";
+"screen_NoLocationSingleStore_detailMsg" = "But all good 🤗! You can still order groceries from other stores available on our marketplace!";
+"screen_NoLocationSingleStore_BtnTitle" = "Shop from other stores 👉";
+
+
+
+//MARK: - Login using OTP Updates
+"Allow Location Access" = "Allow Location Access";
+"This email is already registered in elGrocer." = "This email is already registered in Smiles.";
+"Your request has been successfully sent!" = "Your request has been successfully sent!";
+"stores_notify_text" = "Please, tell us about the store you’d like to receive the delivery from.";
+"SMS_Verifcation_Title" = "Please enter the code sent to your mobile number %@";
+"lbl_use_current_location" = "Use current location";
+"lbl_Manuall_Location" = "Search location";
+"lbl_setyourlocation" = "Set delivery location";
+"lbl_yourlocation" = "Your location";
+"btn_sendRequest" = "Send request";
+"lbl_StoreName" = "Store name and area";
+"enter_mobile_num_placeholder" = "Enter mobile number";
+"lbl_CreateAccount" = "Welcome to elGrocer!";
+"enter_phone_number" = "Let us confirm your phone number";
+"set_your_location" = "Set your location to\nstart ordering";
+"detect_current_location" = "Detect current location";
+"add_delivery_address" = "Add delivery address";
+"your_name*" = "Your name*";
+"email*" = "Email*";
+"email_optional" = "Email (Optional)";
+"building_name*" = "Building name*";
+"floor_(optional)" = "Floor (Optional)";
+"apartment/office/villa_number*" = "Apartment/Office/Villa number*";
+"confirm_address" = "Confirm address";
+"invalid_code_unfortunately_you_reached_the_daily_limit" = "Invalid code. Unfortunately, you reached the daily limit of code requests for that number. Please, try again within 24 h.";
+"Enter your name" = "Enter your name";
+"Please enter valid email id" = "Please enter valid email id";
+"Enter your building name" = "Enter your building name";
+"Enter your apartment/office/villa number" = "Enter your apartment/office/villa number";
+"search_manually_text" = "Search your location manually";

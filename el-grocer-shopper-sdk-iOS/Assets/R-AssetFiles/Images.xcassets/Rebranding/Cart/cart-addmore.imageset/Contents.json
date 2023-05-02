@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "cart-addmore.pdf",
-      "idiom" : "universal"
+      "filename" : "cart-add.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "cart-add 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "cart-add 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

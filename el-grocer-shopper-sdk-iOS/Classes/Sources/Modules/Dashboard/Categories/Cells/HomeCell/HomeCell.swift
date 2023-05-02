@@ -9,6 +9,8 @@
 import UIKit
 import Shimmer
 import SDWebImage
+import RxSwift
+import RxDataSources
 
 // import PMAlertController
 let kHomeCellIdentifier = "HomeCell"
@@ -37,12 +39,72 @@ extension HomeCellDelegate {
     func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home? ) {}
 }
 
+// MARK: Helpers
+private extension HomeCell {
+    func bindViews() {
+        self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
+            cell.configure(viewModel: viewModel)
+            return cell
+        })
+        
+        self.productsCollectionView.dataSource = nil
+        
+        // Table View datasource binging
+        viewModel.outputs.productCollectionCellViewModels
+            .bind(to: self.productsCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        // Pagination
+        productsCollectionView.rx.didScroll.subscribe { [weak self] _ in
+            guard let self = self else { return }
+            
+            let offSetX = self.productsCollectionView.contentOffset.x
+            let contentWidth = self.productsCollectionView.contentSize.width
 
-class HomeCell: UITableViewCell {
+            if offSetX > (contentWidth - self.productsCollectionView.frame.size.width - 200) {
+                self.viewModel.inputs.fetchProductsObserver.onNext(())
+            }
+        }.disposed(by: disposeBag)
+        
+        viewModel.outputs.title
+            .bind(to: self.titleLbl.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.isArabic.subscribe(onNext: { [weak self] isArbic in
+            guard let self = self else { return }
+            
+            if isArbic {
+                self.rightArrowImageView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.productsCollectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.productsCollectionView.semanticContentAttribute = .forceLeftToRight
+            }
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.viewAllText
+            .bind(to: self.viewMoreButton.rx.title(for: UIControl.State()))
+            .disposed(by: disposeBag)
+        
+        self.setStateWithOutImageView()
+    }
+}
+
+class HomeCell: RxUITableViewCell {
+    override func configure(viewModel: Any) {
+        let viewModel = viewModel as! HomeCellViewModelType
+        
+        self.viewModel = viewModel
+        self.bindViews()
+    }
     
     @IBOutlet weak var rightArrowImageView: UIImageView!
     // @IBOutlet weak var arrowImgView: UIImageView!
-    @IBOutlet weak var viewMoreButton: UIButton!
+    @IBOutlet weak var viewMoreButton: UIButton! {
+        didSet {
+            viewMoreButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            viewMoreButton.setBackgroundColorForAllState(.clear)
+        }
+    }
     @IBOutlet weak var titleLbl: UILabel!{
         didSet{
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -92,6 +154,9 @@ class HomeCell: UITableViewCell {
 
     var isGettingProducts = false
     var isNeedToShowRecipe = false
+    
+    private var viewModel: HomeCellViewModelType!
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -261,6 +326,11 @@ class HomeCell: UITableViewCell {
 
     
     @IBAction func viewMoreHandler(_ sender: Any) {
+        if viewModel != nil {
+            self.viewModel.inputs.viewAllTapObserver.onNext(())
+            return
+        }
+        
         if let homeFeed =  self.homeFeed {
             FireBaseEventsLogger.trackViewMoreClick(["Name" : homeFeed.title])
             if homeFeed.type == .ListOfCategories {
@@ -328,8 +398,8 @@ class HomeCell: UITableViewCell {
             let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
             context.performAndWait({ () -> Void in
                 let newProducts = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-               elDebugPrint("New Products Count:%d",newProducts.count)
-                homeObj.products += newProducts
+                elDebugPrint("New Products Count:%d",newProducts.products.count)
+                homeObj.products += newProducts.products
             })
             
             DispatchQueue.main.async {
@@ -345,10 +415,11 @@ extension HomeCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         var rows = 3
+        let shopingListCell = 1
         if let tempHomeFeed = self.homeFeed {
             rows  = tempHomeFeed.products.count + 1
             if tempHomeFeed.type == .ListOfCategories {
-                rows  = tempHomeFeed.categories.count + ( self.isNeedToShowRecipe ? 1 : 0)
+                rows  = shopingListCell + tempHomeFeed.categories.count + ( self.isNeedToShowRecipe ? 1 : 0)
             }
             if tempHomeFeed.type == .universalSearchProducts {
                 rows  = tempHomeFeed.products.count
@@ -364,7 +435,19 @@ extension HomeCell: UICollectionViewDataSource {
             if homeFeedObj.type == .ListOfCategories {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: KStoresCategoriesCollectionViewCell, for: indexPath) as! StoresCategoriesCollectionViewCell
                 var index = indexPath.row
-                if indexPath.row == 0 && self.isNeedToShowRecipe {
+                
+                if index == 0 { // Shopling List Cell
+                    cell.centerImage.image = UIImage(name: "shoping_list_cell_icon")
+                    cell.centerImage.backgroundColor = .alertBackgroundColor()
+                    cell.lblCategoryName.text = localizedString("Shopping_list_Titile", comment: "")
+                    return cell
+                } else {
+                    cell.centerImage.backgroundColor = .navigationBarWhiteColor()
+                }
+                
+                index -= 1
+                
+                if index == 0 && self.isNeedToShowRecipe {
                     cell.configuredRecipeCell()
                     return cell
                 }
@@ -401,10 +484,10 @@ extension HomeCell: UICollectionViewDataSource {
                 }
                 if homeFeedObj.type == .universalSearchProducts {
                     productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
-                    productCell.addToCartButton.tintColor = UIColor.navigationBarColor()
+                    productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                     productCell.addToCartButton.isEnabled = true
                     productCell.addToCartButton.setBody3BoldWhiteStyle()
-                    productCell.addToCartButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+                    productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
                     productCell.productPriceLabel.isHidden = true
                     productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
                     productCell.addToCartButton.isHidden = false
@@ -441,7 +524,23 @@ extension HomeCell: UICollectionViewDelegate {
                 
                 
                 var index = indexPath.row
-                if indexPath.row == 0 && self.isNeedToShowRecipe {
+                if index == 0 {
+                    if let vcA = UIApplication.topViewController()?.navigationController?.viewControllers {
+                        for vc in vcA {
+                            if vc is ShoppingListViewController {
+                                UIApplication.topViewController()?.navigationController?.popToViewController(vc, animated: true)
+                                return
+                            }
+                        }
+                    }
+                    gotoShoppingListVC()
+                    return
+                }
+                
+                index -= 1
+                
+                
+                if index == 0 && self.isNeedToShowRecipe {
                     ElGrocerEventsLogger.sharedInstance.trackRecipeViewAllClickedFromNewGeneric(source: FireBaseScreenName.Home.rawValue)
                     MixpanelEventLogger.trackStoreCategoryClick(categoryId: "recipe", categoryName: "-1")
                     let recipeStory = ElGrocerViewControllers.recipesBoutiqueListVC()
@@ -485,40 +584,6 @@ extension HomeCell: UICollectionViewDelegate {
                                
                             }
                         }
-                      
-                        
-                        
-               /*
-                        let alertVC = PMAlertController(title: nil  , description: ElGrocerUtility.sharedInstance.appConfigData?.pg_18_msg , image: UIImage(name: "18Plus"), style: .alert)
-                        
-                        alertVC.headerViewHeightConstraint.constant = UIImage(name: "18Plus")?.size.height ?? 0
-                        
-                        
-                        let addAction = PMAlertAction(title: localizedString("over_18", comment: ""), style: .cancel, action: { () in
-                            UserDefaults.setOver18(true)
-                            self.delegate?.navigateToSubCategoryFrom(category: homeFeedObj.categories[indexPath.row])
-                        })
-                        addAction.setTitleColor(.navigationBarColor(), for: UIControl.State())
-                        alertVC.addAction(addAction)
-                        
-                        
-                        let cancel = PMAlertAction(title: localizedString("less_over_18", comment: ""), style: .cancel, action: { () -> Void in
-                            UserDefaults.setOver18(false)
-                           elDebugPrint("Capture action Cancel")
-                        })
-                        cancel.setTitleColor(.redInfoColor(), for: UIControl.State())
-                        alertVC.addAction(cancel)
-                        
-                        alertVC.addAction(PMAlertAction(title: localizedString("promo_code_alert_no", comment: ""), style: .cancel, action: { () -> Void in
-                           elDebugPrint("Capture action Cancel")
-                        }))
-                        
-
-                        
-                        if let topVC = UIApplication.topViewController() {
-                            topVC.present(alertVC, animated: true, completion: nil)
-                        }
-                        */
                         
                     }else{
                         self.delegate?.navigateToSubCategoryFrom(category: homeFeedObj.categories[index])
@@ -595,5 +660,20 @@ extension HomeCell: ProductCellProtocol {
     
     func productCellOnFavouriteClick(_ productCell: ProductCell, product: Product) {
        elDebugPrint("Product Favourite Click Handler")
+    }
+}
+
+extension HomeCell {
+    func gotoShoppingListVC(){
+        guard let vc = UIApplication.topViewController() else {
+            return
+        }
+        MixpanelEventLogger.trackStoreShoppingList()
+        let controller : SearchListViewController = ElGrocerViewControllers.getSearchListViewController()
+        controller.isFromHeader = true
+        let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navController.viewControllers = [controller]
+        navController.modalPresentationStyle = .fullScreen
+        vc.navigationController?.present(navController, animated: true, completion: nil)
     }
 }

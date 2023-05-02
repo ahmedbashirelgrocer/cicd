@@ -40,9 +40,7 @@ class ElgrocerlocationView:  UIView  {
     
     var currentSelectedSlot : DeliverySlot?
     var localLoadedAddress: LocalDeliverAddress?
-    var loadedAddress : DeliveryAddress? {
-        didSet {  }
-    }
+    var loadedAddress : DeliveryAddress?
     
     let halfWidth : CGFloat = 0.445
     let FullWidth : CGFloat = 0.9
@@ -100,7 +98,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var groceryBGView: UIView!{
         didSet{
-            groceryBGView.backgroundColor = .clear //.navigationBarColor()
+            groceryBGView.backgroundColor = .clear
         }
     }
     @IBOutlet var imgDeliverySlot: UIImageView!{
@@ -110,7 +108,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var searchSuperBGView: UIView!{
         didSet{
-            searchSuperBGView.backgroundColor = .clear //.clear.navigationBarColor()
+            searchSuperBGView.backgroundColor = .clear
         }
     }
     @IBOutlet var searchBGView: UIView!{
@@ -139,7 +137,7 @@ class ElgrocerlocationView:  UIView  {
     
     @IBOutlet var shoppingListBGView: UIView!{
         didSet{
-            shoppingListBGView.backgroundColor = .clear //.navigationBarColor()
+            shoppingListBGView.backgroundColor = .clear
         }
     }
     @IBOutlet var imgShoppingList: UIImageView!{
@@ -190,7 +188,7 @@ class ElgrocerlocationView:  UIView  {
     
     
     class func loadFromNib() -> ElgrocerlocationView? {
-        return self.loadFromNib(withName: "ElgrocerlocationView")
+        return  self.loadFromNib(withName: "ElgrocerlocationView")
     }
     
     override func awakeFromNib() {
@@ -509,7 +507,8 @@ class ElgrocerlocationView:  UIView  {
   
     }
     
-    func configuredLocationAndGrocey(_ grocery : Grocery?) {
+    func configuredLocationAndGrocey(_ grocery : Grocery?, _ marketType: LaunchOptions.MarketType = .marketPlace) {
+        
         
         guard grocery != nil else {
             self.configured()
@@ -537,8 +536,8 @@ class ElgrocerlocationView:  UIView  {
     
     
     func configureCell (_ grocery : Grocery) {
-        
-        self.myGroceryName.text = grocery.name ?? ""
+        let name = grocery.name ?? ""
+        self.myGroceryName.text = name
         if grocery.smallImageUrl != nil && grocery.smallImageUrl?.range(of: "http") != nil {
             self.setGroceryImage(grocery.smallImageUrl!)
         }else{
@@ -622,6 +621,9 @@ class ElgrocerlocationView:  UIView  {
         DispatchQueue.main.async {
             if let top = UIApplication.topViewController() {
                 top.present(navigationController, animated: true, completion: nil)
+                
+                // Logging segment event for address clicked
+                SegmentAnalyticsEngine.instance.logEvent(event: AddressClickedEvent(source: .settings))
             }
         }
     }

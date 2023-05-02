@@ -17,6 +17,7 @@ class deliverySlotCell: UITableViewCell {
     @IBOutlet var lblSlotValue: UILabel!
     @IBOutlet var imgArrow: UIImageView!
     @IBOutlet var imgTime: UIImageView!
+    var newUpdatedSlots : ((_ slots : [DeliverySlot]) -> Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -44,8 +45,8 @@ class deliverySlotCell: UITableViewCell {
     
     func configureCell (time : String , modeType : OrderType = .delivery) {
         
-        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(17), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
-        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(17), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(17), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.labelTextWithBGColor]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(17), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.labelTextWithBGColor]
         
         let slotText = modeType == .delivery ? localizedString("delivery_time_slot", comment: "") : localizedString("lbl_Self_Collection", comment: "") + ":"
         
@@ -66,6 +67,11 @@ class deliverySlotCell: UITableViewCell {
         
         
         let popupViewController = AWPickerViewController(nibName: "AWPickerViewController", bundle: Bundle.resource)
+        popupViewController.newUpdatedSlots = { [weak self] (slots) in
+            if let clouser = self?.newUpdatedSlots {
+                clouser(slots)
+            }
+        }
         let popupController = STPopupController(rootViewController: popupViewController)
         if NSClassFromString("UIBlurEffect") != nil {
             // let blurEffect = UIBlurEffect(style: .dark)

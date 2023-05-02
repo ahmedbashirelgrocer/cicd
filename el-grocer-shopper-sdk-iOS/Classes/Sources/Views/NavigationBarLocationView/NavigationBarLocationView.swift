@@ -41,7 +41,7 @@ class NavigationBarLocationView: UIView {
     }
     
     func setupInitialAppearnce(){
-        self.backgroundColor = UIColor.navigationBarColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
     }
     
@@ -51,6 +51,9 @@ class NavigationBarLocationView: UIView {
             clouser()
         }
         MixpanelEventLogger.trackHomeAddressClick()
+        
+        // Logging segment event for address clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: AddressClickedEvent(source: .home))
     }
     func changeLocation() {
         

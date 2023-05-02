@@ -31,7 +31,8 @@ class PromoTitleView: UIView {
     }
     
     func configureView (title: String) {
-        self.lblTitle.text = title
+        self.lblTitle.isHidden = true
+//        self.lblTitle.text = title
     }
     
 

@@ -18,6 +18,7 @@ class stetchyRecipeHeaderView: UIView {
     @IBOutlet var headerPageControl: UIPageControl!{
         didSet{
             headerPageControl.numberOfPages = 0
+            headerPageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
         }
     }
     

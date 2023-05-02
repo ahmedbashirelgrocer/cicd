@@ -17,7 +17,7 @@ import PassKit
 
 typealias PaymentCompletionHandler = (Bool) -> Void
 typealias PaymentDetailsAuthorisation = ([String: Any]) -> Void
-let applicationNameForApple = "el Grocer DMCC"
+let applicationNameForApple = SDKManager.isSmileSDK ? "el grocer DMCC via Smiles" : "el Grocer DMCC"
 class ApplePaymentHandler: NSObject {
     
     var paymentController: PKPaymentAuthorizationController?

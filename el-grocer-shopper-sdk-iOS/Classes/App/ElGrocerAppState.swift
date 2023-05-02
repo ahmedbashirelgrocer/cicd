@@ -18,10 +18,17 @@ class ElGrocerAppState {
         }
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        guard (userProfile == nil || userProfile?.phone?.count == 0) || launchOptions.accountNumber != userProfile?.phone || locations.count == 0 || ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0  else {
+        guard (userProfile == nil || userProfile?.phone?.count == 0) || launchOptions.accountNumber != userProfile?.phone || locations.count == 0  else {
             return true
         }
         return false
+    }
+    
+    
+    class func checkDBCanBeLoaded() -> Bool {
+       // let _ = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let _ = DatabaseHelper.sharedInstance.persistentStoreCoordinator
+        return DatabaseHelper.sharedInstance.ispersistentStoreCoordinatorAvailable
     }
     
     

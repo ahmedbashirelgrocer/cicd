@@ -212,10 +212,10 @@ class AddCarDetailsVC: UIViewController {
         //textFields
         self.plateNumTextfield.font = UIFont.SFProDisplayNormalFont(17)
         self.plateNumTextfield.textColor = UIColor.newBlackColor()
-        self.plateNumTextfield.dtLayer.backgroundColor = UIColor.navigationBarWhiteColor().cgColor
+        self.plateNumTextfield.dtLayer.backgroundColor = ApplicationTheme.currentTheme.textFieldWhiteBGColor.cgColor
         self.carModelTextfield.font = UIFont.SFProDisplayNormalFont(17)
         self.carModelTextfield.textColor = UIColor.newBlackColor()
-        self.carModelTextfield.dtLayer.backgroundColor = UIColor.navigationBarWhiteColor().cgColor
+        self.carModelTextfield.dtLayer.backgroundColor = ApplicationTheme.currentTheme.textFieldWhiteBGColor.cgColor
         // buttons
         self.btnAddCar.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.btnAddCar.titleLabel?.textColor = UIColor.white
@@ -272,7 +272,7 @@ class AddCarDetailsVC: UIViewController {
         }else{
             btnCheckBox.setImage(UIImage(name: "CheckboxFilled"), for: .normal)
             checked = true
-            self.btnAddCar.setBackgroundColor(.navigationBarColor() , forState: UIControl.State())
+            self.btnAddCar.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor , forState: UIControl.State())
         }
         self.btnAddCar.isUserInteractionEnabled = checked
     }

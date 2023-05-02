@@ -38,7 +38,7 @@ class OrderTrackingProductCell: UITableViewCell {
         
         self.cartImgView.image = UIImage(name: "icBasket")
         self.cartImgView.image = self.cartImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        self.cartImgView.tintColor = UIColor.navigationBarColor()
+        self.cartImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
     
     func configureCell(_ products: Array<Product>){

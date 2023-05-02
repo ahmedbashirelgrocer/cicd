@@ -27,6 +27,13 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         return locationHeader!
     }()
     
+    lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
+        let locationHeader = ElgrocerStoreHeader.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        locationHeader?.setDismisType(.popVc)
+        return locationHeader!
+    }()
+    
     private lazy var productDelegate : ProductDelegate = {
         let productsD  = ProductDelegate()
         productsD.delegate = self
@@ -37,6 +44,9 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             var viewHandler : CateAndSubcategoryView!
     private var selectedBrand : GroceryBrand?
     private var searchHeaderHeight : CGFloat = KElgrocerlocationViewFullHeight
+    private func getCurrentDeliveryAddress() -> DeliveryAddress? {
+        return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+    }
 
     var collectionViewBottomConstraint: NSLayoutConstraint?
     
@@ -59,6 +69,9 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         self.viewHandler.trackCateNavClick()
         self.addLocationHeader()
         self.hidesBottomBarWhenPushed = true
+        
+        // Logging segment screen event 
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productListingScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,24 +106,60 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     private func customizedNavigationView() {
         
-        self.navigationItem.hidesBackButton = true
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
-        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
+        
+        if !isSingleStore {
+            
+            self.navigationItem.hidesBackButton = true
+            self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        }
+   
+        if let controller = self.navigationController as? ElGrocerNavigationController {
+            controller.setNavBarHidden(isSingleStore)
+            controller.setupGradient()
+        }
+        
+        
+      
         
     }
     
     private func addLocationHeader() {
         
-        self.view.addSubview(self.locationHeader)
-        self.setLocationViewConstraints()
+        if SDKManager.isGrocerySingleStore {
+            self.view.addSubview(self.locationHeaderFlavor)
+            self.setLocationViewFlavorHeaderConstraints()
+        } else {
+            self.view.addSubview(self.locationHeader)
+            self.setLocationViewConstraints()
+        }
         
+    }
+    
+    
+    private func setLocationViewFlavorHeaderConstraints() {
+        
+        self.locationHeaderFlavor.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.locationHeaderFlavor.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            self.locationHeaderFlavor.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.locationHeaderFlavor.bottomAnchor.constraint(equalTo: self.collectionView.topAnchor, constant: 0)
+          
+        ])
+        
+        let widthConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+        let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
+        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
+      
     }
     
     private func setLocationViewConstraints() {
@@ -140,20 +189,25 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     
     func setlocationView(_ optGrocery : Grocery?) {
-        
-        if optGrocery != nil {
-            self.locationHeader.configuredLocationAndGrocey(optGrocery!)
-        }else{
-            self.locationHeader.configured()
+        guard let grocery = optGrocery  else{
+            return
         }
+        
+        SDKManager.isGrocerySingleStore ?
+        self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
         self.locationHeader.currentVC = self
+  
     }
     
     override func refreshSlotChange() {
         
+        guard self.viewHandler != nil else {
+            return
+        }
+        
         self.viewHandler.removeLocalCache()
-        self.productDataUpdated()
-        self.viewHandler.loadMore()
+       // self.productDataUpdated(nil)
+        //self.viewHandler.loadMore()
     }
     
     
@@ -375,6 +429,24 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
                 guard let self = self else {return}
                 self.navigateToBrandsDetailViewBrand(brand!)
             }
+            cell.loadMoreProducts = {[weak self] (brand) in
+                guard let self = self,let brand = brand else {return}
+                
+                let brandIndex = self.viewHandler.ListbrandsArray.firstIndex { GroceryBrand in
+                    return GroceryBrand.brandId == brand.brandId
+                }
+                guard let brandIndex = brandIndex, brandIndex >= 0 || brandIndex <= self.viewHandler.ListbrandsArray.count else {
+                    elDebugPrint("missing brand id")
+                    return
+                }
+                
+                if self.viewHandler.ListbrandsArray[brandIndex].isNextProducts {
+                    DispatchQueue.global(qos: .background).async { [weak self] in
+                        guard let self = self else { return }
+                        self.viewHandler.callFetchBrandProductsFromServer(indexPath: IndexPath(item: brandIndex, section: 1), brand: self.viewHandler.ListbrandsArray[brandIndex], productCount: self.viewHandler.ListbrandsArray[brandIndex].products.count)
+                    }
+                }
+            }
         }
         return cell
     }
@@ -383,6 +455,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        print("collectionviewheight : \(collectionView.frame.size)")
         
         guard indexPath.section != 0 else {
             
@@ -426,22 +499,41 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         if section == 0 {
             return UIEdgeInsets.init(top: 0 , left: 0, bottom: 0, right: 0)
         }
-        return UIEdgeInsets.init(top: 5, left: 5 , bottom: 10, right: 10)
+        return UIEdgeInsets.init(top: 5, left: 5 , bottom: 20, right: 10)
     }
     
    // MARK:- Scroll Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-            let kLoadingDistance = 2 * kProductCellHeight + 8
-            let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
-            if y + kLoadingDistance > scrollView.contentSize.height - 250 {
-                self.viewHandler.loadMore()
-                return
-            }
-        }
-        
         
         scrollView.layoutIfNeeded()
+        
+        guard !SDKManager.isGrocerySingleStore else {
+            let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeaderFlavor.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,self.locationHeaderFlavor.headerMinHeight),maxHeight)
+            }
+            
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+            
+            if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
+                var kLoadingDistance = 2 * kProductCellHeight + 8
+                if self.viewHandler.isGridView {
+                    kLoadingDistance = CGFloat(10)
+                }
+                let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
+                if y + kLoadingDistance > scrollView.contentSize.height - 250 {
+                    self.viewHandler.loadMore()
+                    return
+                }
+            }
+            
+            return
+        }
         
         let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
         if constraintA.count > 0 {
@@ -456,11 +548,30 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         }
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
         
+        if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
+            var kLoadingDistance = 2 * kProductCellHeight + 8
+            if self.viewHandler.isGridView {
+                kLoadingDistance = CGFloat(10)
+            }
+            let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
+            if y + kLoadingDistance > scrollView.contentSize.height - 250 {
+                self.viewHandler.loadMore()
+                return
+            }
+        }
+        
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if self.viewHandler.isGridView {
+            self.collectionView.reloadDataOnMainThread()
+        }
     }
  
     // MARK: Navigation
@@ -513,8 +624,26 @@ extension SubCategoriesViewController : ProductUpdationDelegate {
 
 extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
     
-    func productDataUpdated() {
-        self.collectionView.reloadDataOnMainThread()
+    func productDataUpdated(_ index: IndexPath? = nil) {
+        
+        if !self.viewHandler.isGridView && index != nil {
+            let visibleIndexPaths = self.collectionView.indexPathsForVisibleItems
+            if visibleIndexPaths.first(where: { indexs in
+                indexs == index
+            }) != nil, ((index?.row ?? -1)) % 5 != 0   {
+                self.collectionView.performBatchUpdates {
+                    self.collectionView.reloadItems(at: [index!])
+                }
+                return
+            } else { }
+        }
+        if index == nil  || (index?.row ?? Int.max) < 2 ||  (index?.row ?? Int.max) % 5 == 0 || (index?.row ?? Int.max) % 5 == 2  {
+            self.collectionView.reloadDataOnMainThread()
+        }
+        
+//        UIView.animate(withDuration: 0.2, animations: {
+//
+//        })
     }
     func bannerDataUpdated(_ grocerID:String?) {
         DispatchQueue.main.async {

@@ -7,9 +7,12 @@
 
 import UIKit
 import CoreLocation
+import RxSwift
+
 class SmileSdkHomeVC: BasketBasicViewController {
     
-    
+    private var disposeBag = DisposeBag()
+    var launchCompletion: (() -> Void)?
         // MARK: - DataHandler
     var homeDataHandler : HomePageData = HomePageData.shared
     private lazy var orderStatus : OrderStatusMedule = {
@@ -26,12 +29,34 @@ class SmileSdkHomeVC: BasketBasicViewController {
         let searchHeader = GenericHomePageSearchHeader.loadFromNib()
         return searchHeader!
     }()
+    
+    private lazy var NoDataView : NoStoreView = {
+        let noStoreView = NoStoreView.loadFromNib()
+        noStoreView?.delegate = self
+        noStoreView?.configureNoStore()
+        return noStoreView!
+    }()
+    
     private (set) var header : SegmentHeader? = nil
    
     
         // MARK: - Properties
     var groceryArray: [Grocery] = []
-    var filteredGroceryArray: [Grocery] = []
+    
+    var sortedGroceryArray: [Grocery] = []
+    var filteredGroceryArray: [Grocery] = [] {
+        didSet {
+            sortedGroceryArray = filteredGroceryArray
+                .filter{ $0.featured == 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+            + filteredGroceryArray
+                .filter{ $0.featured != 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+            
+            tableView.reloadDataOnMain()
+        }
+    }
+    
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
     var lastSelectType : StoreType? = nil
@@ -53,7 +78,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.setSegmentView()
         setupClearNavBar()
        
-        
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,10 +94,21 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        launchCompletion?()
+        launchCompletion = nil
+        
         self.checkAddressValidation()
             //to refresh smiles point
         self.getSmileUserInfo()
         self.setDefaultGrocery()
+        
+        // Fetch basket status from server 
+        self.homeDataHandler.fetchBasketStatus()
+        
+        if let controller = self.navigationController as? ElGrocerNavigationController {
+            controller.refreshLogoView()
+        }
     }
     
         // MARK: - UI Customization
@@ -94,6 +130,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setBackButtonHidden(false)
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
+            controller.buttonActionsDelegate = self
+            controller.refreshLogoView()
            // controller.setBackButtonHidden(false)
         }
         
@@ -214,7 +252,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
        
         self.filteredGroceryArray = self.groceryArray
-        self.tableView.reloadDataOnMain()
+        // self.tableView.reloadDataOnMain()
         
         if  self.selectStoreType != nil {
             if let indexOfType = self.availableStoreTypeA.firstIndex(where: { type in
@@ -236,6 +274,14 @@ class SmileSdkHomeVC: BasketBasicViewController {
     @objc
     func getOpenOrders() {
         
+        guard ElGrocerUtility.sharedInstance.appConfigData != nil else {
+            ElGrocerUtility.sharedInstance.delay(2) {
+                PreLoadData.shared.loadConfigData {}
+                self.getOpenOrders()
+            }
+            return
+        }
+        
         orderStatus.orderWorkItem  = DispatchWorkItem {
             self.orderStatus.getOpenOrders { (data) in
                 switch data {
@@ -255,7 +301,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                                     // self.reloadAllData()
                             }
                             
-                            self.isFromPushAndForNavigation()
+                            //self.isFromPushAndForNavigation()
                             
                         }
                     case .failure(let error):
@@ -286,15 +332,19 @@ class SmileSdkHomeVC: BasketBasicViewController {
             }
             return false
         }) {
-            let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-            orderConfirmationController.orderDict = availableDict
-            orderConfirmationController.isNeedToRemoveActiveBasket = false
-            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-            navigationController.hideSeparationLine()
-            navigationController.viewControllers = [orderConfirmationController]
-            orderConfirmationController.modalPresentationStyle = .fullScreen
-            navigationController.modalPresentationStyle = .fullScreen
-            self.navigationController?.present(navigationController, animated: true, completion: {  })
+            
+            if let orderIdString = availableDict["id"] as? NSNumber {
+                let viewModel = OrderConfirmationViewModel(orderId: orderIdString.stringValue)
+                let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
+                orderConfirmationController.isNeedToRemoveActiveBasket = false
+                let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                navigationController.hideSeparationLine()
+                navigationController.viewControllers = [orderConfirmationController]
+                orderConfirmationController.modalPresentationStyle = .fullScreen
+                navigationController.modalPresentationStyle = .fullScreen
+                self.navigationController?.present(navigationController, animated: true, completion: {  })
+            }
+ 
         }
         
     }
@@ -322,59 +372,86 @@ class SmileSdkHomeVC: BasketBasicViewController {
     func reloadAllData() {
         
         self.setTableViewHeader()
-        HomePageData.shared.resetHomeDataHandler()
+        // HomePageData.shared.resetHomeDataHandler()
         HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
         self.showDataLoaderIfRequiredForHomeHandler()
     }
     
     @objc func showLocationCustomPopUp() {
         
+        guard SDKManager.shared.launchOptions?.navigationType != .search else {
+            return
+        }
+        
+        guard UIApplication.topViewController() is SmileSdkHomeVC else {
+            return
+        }
+        
+        
+        
         LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
             guard state != nil else {
                 return
             }
-            guard UIApplication.topViewController() is SmileSdkHomeVC else {
-                return
+            Thread.OnMainThread {
+                guard UIApplication.topViewController() is SmileSdkHomeVC else {
+                    return
+                }
+                switch state! {
+                    case LocationManager.State.fetchingLocation:
+                        elDebugPrint("")
+                    case LocationManager.State.initial:
+                        elDebugPrint("")
+                    default:
+                        self?.checkforDifferentDeliveryLocation()
+                        LocationManager.sharedInstance.stopUpdatingCurrentLocation()
+                        LocationManager.sharedInstance.locationWithStatus = nil
+                }
             }
-            
-            switch state! {
-                case LocationManager.State.fetchingLocation:
-                    elDebugPrint("")
-                case LocationManager.State.initial:
-                    elDebugPrint("")
-                default:
-                    self?.checkforDifferentDeliveryLocation()
-                    LocationManager.sharedInstance.stopUpdatingCurrentLocation()
-                    LocationManager.sharedInstance.locationWithStatus = nil
-            }
-            
         }
         ElGrocerUtility.sharedInstance.delay(1) {
             LocationManager.sharedInstance.fetchCurrentLocation()
         }
-        
     }
     
     
     fileprivate func checkIFDataNotLoadedAndCall() {
         
+        let oldLocation = self.locationHeader.localLoadedAddress
+        
+        self.setTableViewHeader()
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return self.tableView.reloadDataOnMain()
         }
         
+       //  print("old_Location: \(oldLocation?.lat ?? 0), \(oldLocation?.lng ?? 0)")
+       //  print("new_Location: \(address.latitude), \(address.longitude)")
+        
         var lastFetchMin = 0.0
         if  let lastCheckDate = sdkManager.homeLastFetch {
             lastFetchMin = Date().timeIntervalSince(lastCheckDate) / 60
         }
-        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)) || lastFetchMin > 15 {
-            self.homeDataHandler.resetHomeDataHandler()
+        let notZero = !(oldLocation?.lat ?? 0 == 0 && oldLocation?.lng ?? 0 == 0)
+        if notZero && (!((oldLocation?.lat == address.latitude) && (oldLocation?.lng == address.longitude)) || lastFetchMin > 15) {
+            // self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
-            self.setTableViewHeader()
+            self.homeDataHandler.delegate = self
             self.showDataLoaderIfRequiredForHomeHandler()
+            
+            if var launch = SDKManager.shared.launchOptions {
+                launch.latitude = address.latitude
+                launch.longitude = address.longitude
+                launch.address = address.address
+                if ElgrocerPreloadManager.shared.searchClient != nil {
+                    ElgrocerPreloadManager.shared
+                        .searchClient?.setLaunchOptions(launchOptions: launch)
+                }
+            }
         }else if !self.homeDataHandler.isDataLoading && (self.homeDataHandler.groceryA?.count ?? 0  == 0 ) {
-            self.homeDataHandler.resetHomeDataHandler()
+             //self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
+            self.homeDataHandler.delegate = self
         }
         else {
             self.tableView.reloadDataOnMain()
@@ -399,6 +476,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             if smileUser == nil {
                 self?.smileRetryTime += 1
                 self?.getSmileUserInfo()
+                
             }else {
                 self?.smileRetryTime  = 0
             }
@@ -410,6 +488,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
     func setDefaultGrocery () {
         
         ElGrocerUtility.sharedInstance.groceries = homeDataHandler.groceryA ?? []
+        
+        guard SDKManager.shared.launchOptions?.navigationType == .Default else {
+            return
+        }
+        
+        
         var grocerySelectedIndex = -1
         if ElGrocerUtility.sharedInstance.groceries.count > 0 {
             let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()
@@ -445,21 +529,37 @@ class SmileSdkHomeVC: BasketBasicViewController {
             }
         }
     
-        self.refreshBasketIconStatus()
-    (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState( ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.lastItemsCount > 0)
-    
+       // self.refreshBasketIconStatus()
     }
     
         // MARK: - ButtonAction
     override func backButtonClickedHandler() {
+        
         super.backButtonClickedHandler()
-            //self.tabBarController?.navigationController?.popToRootViewController(animated: true)
-            //self.dismiss(animated: true)
-        NotificationCenter.default.removeObserver(sdkManager, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
-        self.tabBarController?.dismiss(animated: true)
+
+        NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
+        
+        if let rootContext = SDKManager.shared.rootContext {
+            rootContext.dismiss(animated: true)
+        }else {
+            if let _ = self.tabBarController {
+                self.tabBarController?.dismiss(animated: true)
+            }else if let _ = SDKManager.shared.currentTabBar {
+                SDKManager.shared.currentTabBar?.dismiss(animated: true)
+            }else if let _ = SDKManager.shared.rootViewController {
+                SDKManager.shared.rootViewController?.dismiss(animated: true)
+            }
+        }
+      
     }
     
     func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?) {
+        
+        
+        defer {
+          FireBaseEventsLogger.logEventToFirebaseWithEventName(FireBaseScreenName.SdkHome.rawValue,eventName: FireBaseParmName.SDKHomeStoreSelected.rawValue)
+            MixpanelEventLogger.trackHomeStoreClick(grocery.dbID)
+        }
         
         UserDefaults.setCurrentSelectedDeliverySlotId(0)
         UserDefaults.setPromoCodeValue(nil)
@@ -520,7 +620,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 }
             }else{
                     // elDebugPrint(self.grocerA[12312321])
-                FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
+                FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash \(SDKManager.shared.rootViewController))")
             }
                 //}
         }
@@ -542,6 +642,80 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     
     
+}
+
+// MARK: Helper Methods
+extension SmileSdkHomeVC {
+    func navigateToMultiCart() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
+        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
+        
+        // MARK: Actions
+        viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
+            activeCartVC?.dismiss(animated: true) {
+                guard let grocery = self?.groceryArray.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
+                self?.goToGrocery(grocery, nil)
+            }
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            
+            switch campaignType {
+            case .brand:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                })
+                break
+                
+            case .retailer:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                })
+                break
+                
+            case .web:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                })
+                break
+                
+            case .priority:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+                })
+                break
+            }
+            
+        }).disposed(by: disposeBag)
+        
+        self.present(activeCartVC, animated: true)
+    }
+}
+
+// MARK: Navigation Bar Button Actions Delegates
+extension SmileSdkHomeVC: ButtonActionDelegate {
+    func profileButtonTap() {
+        elDebugPrint("profileButtonClick")
+        MixpanelEventLogger.trackNavBarProfile()
+        let settingController = ElGrocerViewControllers.settingViewController()
+        self.navigationController?.pushViewController(settingController, animated: true)
+        hideTabBar()
+        
+        // Logging segment event for menu button clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
+    }
+    
+    func cartButtonTap() {
+        self.navigateToMultiCart()
+        
+        // Logging segment event for multicart clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MultiCartsClickedEvent())
+    }
 }
 
 extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
@@ -572,11 +746,11 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             case 0:
                 return 1
             case 1:
-                return self.filteredGroceryArray.count > separatorCount ? separatorCount + 1 : self.filteredGroceryArray.count
+                return self.sortedGroceryArray.count > separatorCount ? separatorCount + 1 : self.sortedGroceryArray.count
             case 2:
                 return 1
             case 3:
-                return self.filteredGroceryArray.count > separatorCount ? self.filteredGroceryArray.count - ( separatorCount + 1 ) : 0
+                return self.sortedGroceryArray.count > separatorCount ? self.sortedGroceryArray.count - ( separatorCount + 1 ) : 0
             default:
                 return 0
                 
@@ -615,9 +789,9 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
            
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
-            debugPrint("indexPath.section == 1: indexPath.row: \(indexPath.row)")
-            if self.filteredGroceryArray.count > 0 {
-                cell.configureCell(grocery: self.filteredGroceryArray[indexPath.row])
+            elDebugPrint("indexPath.section == 1: indexPath.row: \(indexPath.row)")
+            if self.sortedGroceryArray.count > 0 {
+                cell.configureCell(grocery: self.sortedGroceryArray[indexPath.row])
             }
             return cell
             
@@ -626,32 +800,37 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
             var indexPathRow = indexPath.row
             
-            if self.filteredGroceryArray.count > separatorCount {
+            if self.sortedGroceryArray.count > separatorCount {
                 indexPathRow = indexPathRow + separatorCount + 1
             }
-            debugPrint("indexPath.section == 3: indexPathRow: \(indexPathRow)")
-            debugPrint("indexPath.section == 3: indexPath.row: \(indexPath.row)")
-            cell.configureCell(grocery: self.filteredGroceryArray[indexPathRow])
+            
+            cell.configureCell(grocery: self.sortedGroceryArray[indexPathRow])
             return cell
             
         }
         
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
-        if self.filteredGroceryArray.count > 0 {
-            cell.configureCell(grocery: self.filteredGroceryArray[indexPath.row])
+        if self.sortedGroceryArray.count > 0 {
+            cell.configureCell(grocery: self.sortedGroceryArray[indexPath.row])
         }
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.filteredGroceryArray.count > 0 &&  indexPath.row < self.filteredGroceryArray.count && indexPath.section == 1 {
-            self.goToGrocery(self.filteredGroceryArray[indexPath.row], nil)
+        if self.sortedGroceryArray.count > 0 &&  indexPath.row < self.sortedGroceryArray.count && indexPath.section == 1 {
+            self.goToGrocery(self.sortedGroceryArray[indexPath.row], nil)
+
+            // Logging segment event for store clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row]))
         }
-        if self.filteredGroceryArray.count > 0 && indexPath.section == 3 {
+        if self.sortedGroceryArray.count > 0 && indexPath.section == 3 {
             var indexPathRow = indexPath.row
-            if self.filteredGroceryArray.count > separatorCount {
+            if self.sortedGroceryArray.count > separatorCount {
                 indexPathRow = indexPathRow + separatorCount + 1
-                self.goToGrocery(self.filteredGroceryArray[indexPathRow], nil)
+                self.goToGrocery(self.sortedGroceryArray[indexPathRow], nil)
+
+                // Logging segment event for store clicked
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow]))
             }
         }
     }
@@ -660,13 +839,13 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
         } else if indexPath.section == 2 {
-            return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.filteredGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+            return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.sortedGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
             
         }
         return UITableView.automaticDimension
     }
     
-    
+    // MARK: Banner Navigation 
     private func bannerClicked(_ cell : GenericBannersCell) {
         
         cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
@@ -792,6 +971,10 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
                 // self.setFilterCount(self.filterdGrocerA)
             if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
                 FireBaseEventsLogger.trackStoreListingNoStores()
+                self.NoDataView.setNoDataForLocation ()
+                if self.tableView != nil {
+                    self.tableView.backgroundView = self.NoDataView
+                }
             }else {
                 FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
             }
@@ -817,6 +1000,10 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.tableView.reloadData()
             SpinnerView.hideSpinnerView()
         }
+    }
+    
+    func basketStatusChange(status: Bool) {
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(status)
     }
 }
 
@@ -845,18 +1032,18 @@ extension SmileSdkHomeVC {
             
             if(distance > 999 && intervalInMins > 60)
             {
-                let vc = LocationChangedViewController.getViewController()
-                
-                vc.currentLocation = currentLocation
-                vc.currentSavedLocation = deliveryAddressLocation
-                
-                vc.modalPresentationStyle = .overFullScreen
-                vc.modalTransitionStyle = .crossDissolve
-                self.present(vc, animated: true, completion: nil)
-                
+                DispatchQueue.main.async {
+                    let vc = LocationChangedViewController.getViewController()
+                    
+                    vc.currentLocation = currentLocation
+                    vc.currentSavedLocation = deliveryAddressLocation
+                    
+                    vc.modalPresentationStyle = .overFullScreen
+                    vc.modalTransitionStyle = .crossDissolve
+                    self.present(vc, animated: true, completion: nil)
+                }
                 UserDefaults.setLocationChanged(date: Date()) //saving current date
             }
-            
         } else {
                 //
         }
@@ -889,9 +1076,14 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         }
         self.filteredGroceryArray = filterA
         self.filteredGroceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.filteredGroceryArray)
-        self.tableView.reloadDataOnMain()
+        // self.tableView.reloadDataOnMain()
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
+        
+        // Logging segment for store category switch
+        let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: lastSelectType, nextStoreCategoryType: selectedType)
+        SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
+        
         self.lastSelectType = selectedType
         
     }
@@ -932,15 +1124,20 @@ extension SmileSdkHomeVC : UICollectionViewDelegate , UICollectionViewDataSource
             return
         }
         
-        let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-        orderConfirmationController.orderDict = order
-        orderConfirmationController.isNeedToRemoveActiveBasket = false
-        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navigationController.hideSeparationLine()
-        navigationController.viewControllers = [orderConfirmationController]
-       // orderConfirmationController.modalPresentationStyle = .fullScreen
-        navigationController.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(navigationController, animated: true, completion: {  })
+        
+        
+        if let orderIdString = order["id"] as? NSNumber {
+            let viewModel = OrderConfirmationViewModel(orderId: orderIdString.stringValue)
+            let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
+            orderConfirmationController.isNeedToRemoveActiveBasket = false
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [orderConfirmationController]
+            orderConfirmationController.modalPresentationStyle = .fullScreen
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: {  })
+        }
+  
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -974,11 +1171,41 @@ extension SmileSdkHomeVC : UICollectionViewDelegateFlowLayout{
         if cellSize.height > collectionView.frame.height {
             cellSize.height = collectionView.frame.height
         }
-        debugPrint("cell Size is : \(cellSize)")
+       // debugPrint("cell Size is : \(cellSize)")
         return cellSize
         
             //  return CGSize(width: 320, height: 78)
         
     }
     
+}
+
+extension SmileSdkHomeVC {
+    func configureForDataPreloaded() {
+        if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
+            FireBaseEventsLogger.trackStoreListingNoStores()
+        } else {
+            FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
+            self.selectStoreType = self.homeDataHandler.storeTypeA?[0]
+        }
+        
+        ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
+        self.setUserProfileData()
+        self.setDefaultGrocery()
+        self.setSegmentView()
+            
+        if self.homeDataHandler.locationOneBanners?.count == 0 {
+            FireBaseEventsLogger.trackNoBanners()
+        }
+        if self.homeDataHandler.locationTwoBanners?.count == 0 {
+            FireBaseEventsLogger.trackNoDeals()
+        }
+        Thread.OnMainThread {
+            if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
+                self.tableView.backgroundView = UIView()
+            }
+            self.tableView.reloadData()
+            SpinnerView.hideSpinnerView()
+        }
+    }
 }

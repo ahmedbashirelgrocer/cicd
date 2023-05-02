@@ -62,7 +62,11 @@ class OrderReviewViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var pageControl: UIPageControl! {
+        didSet {
+            pageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
+        }
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13, *) {

@@ -62,26 +62,39 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         return locationHeader!
     }()
     
+    lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
+        let locationHeader = ElgrocerStoreHeader.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        locationHeader?.setDismisType(.popVc)
+        return locationHeader!
+    }()
+    
+    
     var collectionViewBottomConstraint: NSLayoutConstraint?
     
     
     func setTableViewHeader(_ optGrocery : Grocery?) {
         
-        DispatchQueue.main.async(execute: {
+        guard let grocery = optGrocery else {
+            return
+        }
+        
+        DispatchQueue.main.async {
             [weak self] in
             guard let self = self else {return}
-//            var rect = self.locationHeader.frame
-//            rect.size = CGSize.init(width: UIScreen.main.bounds.size.width , height: self.locationHeader.frame.size.height)
-//            self.locationHeader.frame = rect
-            if optGrocery != nil {
-                self.locationHeader.configuredLocationAndGrocey(optGrocery!)
-            }else{
-                self.locationHeader.configured()
+            if SDKManager.isGrocerySingleStore {
+                self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.deliveryAddress)
+            } else {
+                self.locationHeader.configuredLocationAndGrocey(grocery)
+                if optGrocery != nil { } else {
+                    self.locationHeader.configured()
+                }
+                self.locationHeader.setNeedsLayout()
+                self.locationHeader.layoutIfNeeded()
             }
-            self.locationHeader.setNeedsLayout()
-            self.locationHeader.layoutIfNeeded()
             self.collectionView.reloadData()
-        })
+        }
+      
     }
     
     // MARK: Life cycle
@@ -97,7 +110,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // UIColor.productBGColor()
+        self.view.backgroundColor = SDKManager.isGrocerySingleStore ? .clear : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // UIColor.productBGColor()
         self.collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) //UIColor.productBGColor()
         
         NotificationCenter.default.addObserver(self,selector: #selector(BrandDetailsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
@@ -128,16 +141,31 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
-        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.hideBorder(true)
+        
+        let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
+        
+        if !isSingleStore {
+            
+            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.hideBorder(true)
+           
+        }
+   
         self.addLocationHeader()
+        
+        if let controller = self.navigationController as? ElGrocerNavigationController {
+            controller.setNavBarHidden(isSingleStore)
+            controller.setupGradient()
+        }
+        
+     
         self.basketIconOverlay?.shouldShow = true
         refreshBasketIconStatus()
         self.setCollectionViewBottomConstraint()
@@ -164,11 +192,36 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     }
     
     func addLocationHeader() {
-        if  self.grocery != nil {
-            self.setTableViewHeader(self.grocery)
-            self.view.addSubview(self.locationHeader)
-            self.setLocationViewConstraints()
+        
+        
+        if SDKManager.isGrocerySingleStore {
+            self.view.addSubview(self.locationHeaderFlavor)
+            self.setLocationViewFlavorHeaderConstraints()
+        } else {
+            if  self.grocery != nil {
+                self.view.addSubview(self.locationHeader)
+                self.setLocationViewConstraints()
+            }
         }
+        self.setTableViewHeader(self.grocery)
+        
+    }
+    
+    private func setLocationViewFlavorHeaderConstraints() {
+        
+        self.locationHeaderFlavor.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.locationHeaderFlavor.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            self.locationHeaderFlavor.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.locationHeaderFlavor.bottomAnchor.constraint(equalTo: self.collectionView.topAnchor, constant: 0)
+          
+        ])
+        
+        let widthConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+        let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
+        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
+      
     }
     
  
@@ -289,8 +342,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             return
         }
         
-        
-        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", 25, self.subCategory.subCategoryId.stringValue, "\(self.brand.brandId)", completion: { [weak self] (content, error) in
+        //self.subCategory.subCategoryId.stringValue
+        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", 25, "", "\(self.brand.brandId)", completion: { [weak self] (content, error) in
             
             if  let responseObject : NSDictionary = content as NSDictionary? {
                 self?.saveAlgoliaResponse(responseObject)
@@ -307,8 +360,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         Thread.OnMainThread {
             let newProduct = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            if newProduct.count > 0 {
-                self.products += newProduct
+            if newProduct.products.count > 0 {
+                self.products += newProduct.products
                 self.isMoreProducts =  self.products.count % 25 == 0
                 
                 if self.isFromDynamicLink {
@@ -357,7 +410,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             Thread.OnMainThread {
                 let context = DatabaseHelper.sharedInstance.groceryManagedObjectContext
                 let newProduct = Product.insertOrReplaceAllProductsFromDictionary(responseObject, context:context)
-                self.products += newProduct
+                self.products += newProduct.products
                 self.isMoreProducts =  self.products.count % 25 == 0
             }
          
@@ -672,10 +725,24 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             }
         }
         
-        
-        
         scrollView.layoutIfNeeded()
         
+        guard !SDKManager.isGrocerySingleStore else {
+            let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeaderFlavor.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,self.locationHeaderFlavor.headerMinHeight),maxHeight)
+            }
+            
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+            
+            return
+        }
+      
         let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
         if constraintA.count > 0 {
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
@@ -687,15 +754,14 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
             self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
         }
-        
+       
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
+            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
-
-        self.scrollLastY = scrollView.contentOffset.y
         
     }
         

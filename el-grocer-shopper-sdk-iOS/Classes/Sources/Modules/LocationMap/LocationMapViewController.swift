@@ -178,6 +178,9 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             guard let self = self else {return}
             self.configureMapView()
         }
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .searchLocationScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -231,7 +234,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             
             let storeID = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
             let parentID = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
-            let _ = SpinnerView.showSpinnerView()
+            let _ = SpinnerView.showSpinnerViewInView(self.view)
             ElGrocerApi.sharedInstance.checkIfGroceryAvailable(location, storeID: storeID ?? "", parentID: parentID ?? "") { (result) in
                 switch result {
                     case .success(let responseObject):
@@ -274,7 +277,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     func logMixpanelConfirmClick (_ location : CLLocation )  {
         
-        self.viewModel.updateAddressForLocation(location) { (result, returnLocation) in
+       /* self.viewModel.updateAddressForLocation(location) { (result, returnLocation) in
             var addressString = ""
             if result {
                 if (self.viewModel.selectedAddress.value?.formattedAddress) != nil {
@@ -284,7 +287,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 }
                 MixpanelEventLogger.trackCreateLocationConfirmClick(addressText: addressString)
             }
-        }
+        }*/
     }
     
     func updateAddress(_ location : CLLocation )  {
@@ -443,7 +446,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                             self.confirmButton.layer.cornerRadius = 28
                             self.confirmButton.layer.masksToBounds = true
                             self.confirmButton.layer.borderWidth = 2
-                            self.confirmButton.layer.borderColor = UIColor.navigationBarColor().cgColor
+                            self.confirmButton.layer.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor.cgColor
                             
                             
                             if self.manualTextField.text?.count ?? 0 > 0 {
@@ -557,8 +560,8 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 DispatchQueue.main.async {
                     self.lblError.text = ""
                     self.lblErrorTwo.text = ""
-                    self.lblCurrentSearchView.layer.borderColor = UIColor.newborderColor().cgColor
-                     self.maunalSearchView.layer.borderColor = UIColor.newborderColor().cgColor
+                    self.lblCurrentSearchView.layer.borderColor = UIColor.newBorderGreyColor().cgColor
+                     self.maunalSearchView.layer.borderColor = UIColor.newBorderGreyColor().cgColor
                     UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
                         self.view.layoutIfNeeded()
                         self.buttonsView.setNeedsLayout()
@@ -864,7 +867,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     func setupButtonsAppearance() {
     self.confirmButton.setTitle(localizedString("confirm_location_button_title", comment: ""), for: UIControl.State())
         self.confirmButton.setH4SemiBoldWhiteStyle()
-        self.confirmButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
+        self.confirmButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
         self.confirmButton.layer.cornerRadius = 28
         self.confirmButton.layer.masksToBounds = true
         
@@ -873,7 +876,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         self.cancelButton.setBackgroundColor(UIColor.white, forState: UIControl.State())
         self.cancelButton.layer.cornerRadius = 28
         self.cancelButton.layer.borderWidth = 1.0
-        self.cancelButton.layer.borderColor = UIColor.greenInfoColor().cgColor
+        self.cancelButton.layer.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor.cgColor
         self.cancelButton.layer.masksToBounds = true
     }
     
@@ -995,17 +998,17 @@ extension LocationMapViewController: UITextFieldDelegate {
        
         
         let searchController = GMSAutocompleteViewController()
-        UINavigationBar.appearance().tintColor = UIColor.navigationBarColor()
+        UINavigationBar.appearance().tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         searchController.delegate = self
-        searchController.tintColor = UIColor.navigationBarColor()
+        searchController.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         searchController.tableCellBackgroundColor = .white
-        searchController.primaryTextHighlightColor = UIColor.navigationBarColor()
+        searchController.primaryTextHighlightColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         searchController.primaryTextColor = .black
         searchController.secondaryTextColor = .black
         searchController.modalPresentationStyle = .fullScreen
         
         if let nav = searchController.navigationController {
-            nav.navigationBar.barTintColor = UIColor.navigationBarColor()
+            nav.navigationBar.barTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
         
         if isServiceEnabled{

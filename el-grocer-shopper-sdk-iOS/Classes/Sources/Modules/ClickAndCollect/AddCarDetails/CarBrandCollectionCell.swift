@@ -23,16 +23,14 @@ class CarBrandCollectionCell: UICollectionViewCell {
         self.lblBrandName.text = title
     }
     func setSelected() {
-        //self.lblBrandName.textColor = UIColor.navigationBarColor()
-        //self.backGroundView.layer.borderColor = UIColor.navigationBarColor().cgColor
-        self.lblBrandName.textColor = .white
-        self.backGroundView.backgroundColor = .navigationBarColor()
+        self.lblBrandName.textColor = ApplicationTheme.currentTheme.pillSelectedTextColor
+        self.backGroundView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
         self.backGroundView.layer.borderWidth = 0
         self.backGroundView?.clipsToBounds = true
     }
     func setDesSelected() {
         self.lblBrandName.textColor = UIColor.colorWithHexString(hexString: "004736")
-        self.backGroundView.backgroundColor = .white
+        self.backGroundView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
         //self.lblBrandName.textColor = UIColor.newBlackColor()
         self.backGroundView.layer.borderWidth = 0
         self.backGroundView?.clipsToBounds = false

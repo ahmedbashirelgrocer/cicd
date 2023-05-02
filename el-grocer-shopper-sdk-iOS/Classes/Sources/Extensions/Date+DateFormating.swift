@@ -75,6 +75,19 @@ extension Date {
       
     }
     
+    func formateDate(dateFormate: String = "h:mma") -> String {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = dateFormate
+        formatter.amSymbol = "am"
+        formatter.pmSymbol = "pm"
+        
+        formatter.timeZone = TimeZone.getCurrentTimeZone()
+        formatter.locale = Locale.getCurrentLocale()
+        return formatter.string(from: self)
+      
+    }
+    
     func convertDateToString() -> String?{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
@@ -122,6 +135,11 @@ extension Date {
     func minsBetweenDate(toDate: Date) -> Int {
         let components = Calendar.current.dateComponents([.minute], from: self, to: toDate)
         return components.minute ?? 0
+    }
+    
+    func nanosecondBetweenDate(toDate: Date) -> Int {
+        let components = Calendar.current.dateComponents([.nanosecond], from: self, to: toDate)
+        return components.nanosecond ?? 0
     }
     
     func dataInGST() -> Date? {

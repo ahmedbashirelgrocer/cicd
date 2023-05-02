@@ -299,18 +299,18 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                     
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: nil, nil, false)
                     
-                    if newProducts.count > 0 {
+                    if newProducts.products.count > 0 {
                         
                         DatabaseHelper.sharedInstance.saveDatabase()
                         
                         var dataProducts : [Product] = []
-                        for pro in newProducts {
+                        for pro in newProducts.products {
                             if pro.getCleanProductId() != self.productIDToRemove {
                                 dataProducts.append(pro)
                             }
                         }
                         self.filterProducts(dataArray: dataProducts)
-                        self.productsArray = newProducts
+                        self.productsArray = newProducts.products
                     }else{
                        elDebugPrint("no product found")
                         
@@ -525,9 +525,9 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                 Thread.OnMainThread {
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     
-                    if newProducts.count > 0 {
+                    if newProducts.products.count > 0 {
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        let newProduct  = newProducts[0]
+                        let newProduct  = newProducts.products[0]
                         self.filteredProductsArray.insert(newProduct, at: 0)
                         self.productIDToRemove = newProduct.getCleanProductId()
                         self.productCellOnProductQuickAddButtonClick(ProductCell(), product: newProduct)
@@ -582,10 +582,10 @@ extension BrandDeepLinksVC: UICollectionViewDelegate, UICollectionViewDataSource
         }
         
         cell.addToCartButton.isUserInteractionEnabled = true
-        cell.addToCartButton.tintColor = UIColor.navigationBarColor()
+        cell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         cell.addToCartButton.isEnabled = true
         cell.addToCartButton.setBody3BoldWhiteStyle()
-        cell.addToCartButton.setBackgroundColorForAllState(UIColor.navigationBarColor())
+        cell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
         
         return cell
     }
@@ -776,7 +776,6 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
             
             scrollView.layoutIfNeeded()
             
-            self.groceryBgViewHeight?.isActive = false
             let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
             if constraintA.count > 0 {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
@@ -788,14 +787,12 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
                 self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
             }
-            
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
-                self.locationHeader.myGroceryImage.backgroundColor = scrollView.contentOffset.y > 40 ? .clear : .navigationBarWhiteColor()
-                let title = scrollView.contentOffset.y > 40 ? localizedString("lbl_goToStore", comment: ""): ""
-                self.titleLabel.text = title
-                    //self.addCustomTitleViewLeftSide(title)
-                    // self.navigationController?.navigationBar.topItem?.title = title
+                self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+                let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+                self.navigationController?.navigationBar.topItem?.title = title
+                (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
             }
             
             

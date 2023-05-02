@@ -337,6 +337,15 @@ public class UserDefaults {
         Foundation.UserDefaults.standard.set(viewCount, forKey: "OrderReviewPopUpCount")
         Foundation.UserDefaults.standard.synchronize()
     }
+    //MARK: checkout place order aditional instructions
+    class func getAdditionalInstructionsNote() -> String? {
+        return Foundation.UserDefaults.standard.string(forKey: "AdditionalInstructionsNote")
+    }
+    
+    class func setAdditionalInstructionsNote(_ Note:String?) {
+        Foundation.UserDefaults.standard.set(Note, forKey: "AdditionalInstructionsNote")
+        Foundation.UserDefaults.standard.synchronize()
+    }
     // MARK: Set View Option
     class func isGridView() -> Bool {
         return Foundation.UserDefaults.standard.bool(forKey: "GridView")

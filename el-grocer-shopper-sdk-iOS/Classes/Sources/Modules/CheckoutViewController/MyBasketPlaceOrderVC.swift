@@ -20,7 +20,7 @@ class MyBasketPlaceOrderVC: UIViewController {
 
     @IBOutlet var checkouTableView: UITableView!{
         didSet{
-            checkouTableView.backgroundColor = .tableViewBackgroundColor()//.navigationBarWhiteColor()
+            checkouTableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGGreyColor
         }
     }
     //MARK:SuperCheckout View
@@ -43,7 +43,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         didSet{
             lblTotalPriceVAT.setBody3RegDarkStyle()
             lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + " 6 " + localizedString("brand_items_count_label", comment: "")
-            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+            lblTotalPriceVAT.highlight(searchedText: " 6 " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: UIFont.SFProDisplayBoldFont(14))
             
         }
     }
@@ -67,13 +67,13 @@ class MyBasketPlaceOrderVC: UIViewController {
     }
     @IBOutlet var lblPromoDiscount: UILabel!{
         didSet{
-            lblPromoDiscount.setBody3RegDarkStyle()//.setBody3RegGreenStyle()
+            lblPromoDiscount.setBody3RegDarkStyle()
             lblPromoDiscount.text = localizedString("promotion_discount_aed", comment: "")
         }
     }
     @IBOutlet var lblPromoDiscountValue: UILabel!{
         didSet{
-            lblPromoDiscountValue.setBody3RegDarkStyle()//.setBody3RegGreenStyle()
+            lblPromoDiscountValue.setBody3RegDarkStyle()
         }
     }
     @IBOutlet var lblGrandTotal: UILabel!{
@@ -146,7 +146,7 @@ class MyBasketPlaceOrderVC: UIViewController {
     }
     @IBOutlet var promoActivityIndicator: UIActivityIndicatorView!{
         didSet{
-            promoActivityIndicator.color = .navigationBarColor()
+            promoActivityIndicator.color = ApplicationTheme.currentTheme.themeBasePrimaryColor
             promoActivityIndicator.hidesWhenStopped = true
             promoActivityIndicator.isHidden = true
         }
@@ -243,14 +243,14 @@ class MyBasketPlaceOrderVC: UIViewController {
         didSet{
         lblSmilesPoints.setBody3RegGreyStyle()
         lblSmilesPoints.text = localizedString("txt_smile_point", comment: "")
-        lblSmilesPoints.textColor = .navigationBarColor()
+        lblSmilesPoints.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
 }
     
     @IBOutlet weak var lblSmilesPointsValue: UILabel!{
         didSet{
             lblSmilesPointsValue.setBody3RegGreyStyle()
-            lblSmilesPointsValue.textColor = .navigationBarColor()
+            lblSmilesPointsValue.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
 
@@ -434,7 +434,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         }
         
         self.navigationItem.hidesBackButton = true
-        self.view.backgroundColor = .navigationBarWhiteColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         self.title = localizedString("title_checkout_screen", comment: "")
         
         if self.navigationController is ElGrocerNavigationController {
@@ -544,6 +544,8 @@ class MyBasketPlaceOrderVC: UIViewController {
         
         self.dataHandler.delegate = self
         self.secondCheckOutDataHandler?.delegate = self
+        
+        
     }
     
     
@@ -877,17 +879,17 @@ class MyBasketPlaceOrderVC: UIViewController {
             let authValue = round(authAmount * 100) / 100.0
             
             AdyenManager.sharedInstance.makePaymentWithApple(controller: self, amount: NSDecimalNumber.init(string: "\(authValue)"), orderNum: self.secondCheckOutDataHandler?.order?.dbID.stringValue ?? "", method: selectedApplePayMethod)
-            AdyenManager.sharedInstance.isPaymentMade = { (error, response) in
-               
+            AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
+                
                 SpinnerView.hideSpinnerView()
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                       elDebugPrint(resultCode)
+                       // print(resultCode)
                         if let reason = response["refusalReason"] as? String {
                             AdyenManager.showErrorAlert(descr: reason)
                         }
-                       
+                        
                     }
                 }else {
                     self.showConfirmationView()
@@ -919,16 +921,16 @@ class MyBasketPlaceOrderVC: UIViewController {
         Thread.sleep(forTimeInterval: 1.0)
         
         let authValue = round(authAmount * 100) / 100.0
- 
+        
         if let selectedMethod = self.selectedCreditCard?.adyenPaymentMethod {
             AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: NSDecimalNumber.init(string: "\(authValue)"), orderNum: order?.dbID.stringValue ?? "", method: selectedMethod )
-            AdyenManager.sharedInstance.isPaymentMade = { (error, response) in
+            AdyenManager.sharedInstance.isPaymentMade = { (error, response,adyenObj) in
                 
                 SpinnerView.hideSpinnerView()
                 
                 if error {
                     if let resultCode = response["resultCode"] as? String,  resultCode.count > 0 {
-                       elDebugPrint(resultCode)
+                       // print(resultCode)
                         let refusalReason =  (response["refusalReason"] as? String) ?? resultCode
                         AdyenManager.showErrorAlert(descr: refusalReason)
                     }
@@ -1023,7 +1025,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             self.setBillDetails()
             self.checkPromoAdded()
             if let method = methodSelect as? PaymentOption {
-                MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(method.rawValue)")
+                MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(method.rawValue)", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
             }
         }
         creditVC.goToAddNewCard = { [weak self] (credit) in
@@ -1031,16 +1033,15 @@ class MyBasketPlaceOrderVC: UIViewController {
 //            self.goToAddNewCardController()
             self.isPayingBySmilePoints = false
             AdyenManager.sharedInstance.performZeroTokenization(controller: self)
-            AdyenManager.sharedInstance.isNewCardAdded = { (error, response) in
+            AdyenManager.sharedInstance.isNewCardAdded = { (error, response,adyenObj) in
                 if error {
                     if let resultCode = response["resultCode"] as? String {
-                       elDebugPrint(resultCode)
+                        //   print(resultCode)
                         AdyenManager.showErrorAlert(descr: resultCode)
                     }
                 }else{
                     self.getPaymentMethods()
                 }
-                
             }
         }
         creditVC.newCardAdded = {(paymentArray) in
@@ -1056,7 +1057,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             creditVC.dismiss(animated: true) {}
             self.isPayingBySmilePoints = false
             self.setPaymentState ()
-            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.creditCard.rawValue)", cardId: creditCardSelected?.cardID ?? "")
+            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.creditCard.rawValue)", cardId: creditCardSelected?.cardID ?? "", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
         }
         
         creditVC.applePaySelected = { [weak self] (applePaySelected) in
@@ -1066,7 +1067,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             creditVC.dismiss(animated: true) {}
             self.isPayingBySmilePoints = false
             self.setPaymentState ()
-            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.applePay.rawValue)")
+            MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(PaymentOption.applePay.rawValue)", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
         }
         
         creditVC.creditCardDeleted = { [weak self] (creditCardSelected) in
@@ -1111,7 +1112,7 @@ class MyBasketPlaceOrderVC: UIViewController {
         vc.priviousShoppingItems = self.secondCheckOutDataHandler?.shoppingItemsA
         vc.priviousOrderId = self.secondCheckOutDataHandler?.order?.dbID.stringValue
         vc.priviousFinalizedProductA = self.secondCheckOutDataHandler?.finalizedProductsA
-        vc.isPromoApplied = {[weak self] (success) in
+        vc.isPromoApplied = {[weak self] (success, promoCode) in
             self?.setBillDetails()
         }
         ElGrocerEventsLogger.sharedInstance.trackScreenNav([FireBaseParmName.CurrentScreen.rawValue : FireBaseScreenName.MyBasket.rawValue , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.ApplyPromoVC.rawValue])
@@ -1333,7 +1334,7 @@ extension MyBasketPlaceOrderVC {
 //        self.lblGrandTotalValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
 //        self.lblFinalAmountValue.text = String(format:"%@ %.2f",CurrencyManager.getCurrentCurrency() ,grandTotal)
         lblTotalPriceVAT.text = localizedString("total_price_incl_VAT", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: " \(itemCount) ") + localizedString("brand_items_count_label", comment: "")
-        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: 14)
+        lblTotalPriceVAT.highlight(searchedText: " \(itemCount) " + localizedString("brand_items_count_label", comment: ""), color: UIColor.textFieldPlaceHolderColor(), size: UIFont.SFProDisplayBoldFont(14))
         
         self.lblTotalPriceVATValue.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: totalPrice)
         if self.smileUser?.foodSubscriptionStatus ?? false {
@@ -1619,13 +1620,13 @@ extension MyBasketPlaceOrderVC {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("cash_delivery", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentC")
-            self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+            self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             showCVV(false)
         }else if paymentType == .card {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("pay_via_card", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCD")
-            self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+            self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             showCVV(false)
         }else if paymentType == .applePay {
          
@@ -1638,7 +1639,7 @@ extension MyBasketPlaceOrderVC {
             setApplePayAppearence(false)
             self.lblSelectedPayment.text = localizedString("pay_via_smiles_points", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
-            self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+            self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             showCVV(false)
         }else{
             //credit card
@@ -1646,11 +1647,11 @@ extension MyBasketPlaceOrderVC {
             if let card = self.selectedCreditCard {
                 self.lblSelectedPayment.text = localizedString("lbl_Card_ending_in", comment: "") + card.last4
                 self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCC")
-                self.btnCheckoutBGView.backgroundColor = .navigationBarColor()
+                self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 showCVV(false)
             }else{
                 showCVV(false)
-                self.btnCheckoutBGView.backgroundColor = .disableButtonColor()
+                self.btnCheckoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
                 self.selectedPaymentImage.image = UIImage(name: "MYBasketPayment")
             }
         }
@@ -1798,9 +1799,9 @@ extension MyBasketPlaceOrderVC {
     func animateSuccessForPromo(){
         self.btnPromoApply.isHidden = false
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.navigationBarColor()
+        self.promoTxtFieldBGView.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.promoTxtFieldBGView.layer.borderWidth = 1
-        self.btnPromoApply.tintColor = .navigationBarColor()
+        self.btnPromoApply.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
         self.btnPromoApply.setTitle("", for: UIControl.State())
         self.btnPromoApply.setImage(UIImage(name: "MyBasketPromoSuccess"), for: .normal)
     }
@@ -1808,7 +1809,7 @@ extension MyBasketPlaceOrderVC {
     func animateFailureForPromo(){
         self.btnPromoApply.isHidden = false
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.redValidationErrorColor()
+        self.promoTxtFieldBGView.borderColor = UIColor.textfieldErrorColor()
         self.promoTxtFieldBGView.layer.borderWidth = 1
     }
     
@@ -2030,11 +2031,13 @@ extension MyBasketPlaceOrderVC : UITableViewDelegate , UITableViewDataSource{
                 cell.configureCell(title: localizedString("dashboard_location_navigation_bar_title", comment: "s"))
                 return cell
             }else if indexPath.row == 2{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "deliverySlotCell", for: indexPath) as! deliverySlotCell
+                let cell : deliverySlotCell = tableView.dequeueReusableCell(withIdentifier: "deliverySlotCell", for: indexPath) as! deliverySlotCell
                 if secondCheckOutDataHandler != nil{
                     cell.configureCell(time: secondCheckOutDataHandler!.setOrderTypeLabelText() ,modeType: .delivery)
                 }
-                
+                cell.newUpdatedSlots = { [weak self] (slots) in
+                    self?.secondCheckOutDataHandler?.deliverySlotsA = slots
+                }
                 return cell
             }else if indexPath.row == 3{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "instructionsTableCell", for: indexPath) as! instructionsTableCell
@@ -2246,7 +2249,7 @@ extension MyBasketPlaceOrderVC : UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == self.txtCVV {
-            textField.layer.borderColor = UIColor.navigationBarColor().cgColor
+            textField.layer.borderColor = ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
         }
     }
     
@@ -2265,7 +2268,7 @@ extension MyBasketPlaceOrderVC : UITextFieldDelegate {
         if textField == self.txtCVV {
             
             self.lblCVVError.text = ""
-            textField.layer.borderColor = UIColor.navigationBarColor().cgColor
+            textField.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
             
             
             

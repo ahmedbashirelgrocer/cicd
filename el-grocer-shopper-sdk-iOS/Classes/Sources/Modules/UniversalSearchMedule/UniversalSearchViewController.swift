@@ -58,7 +58,6 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     var collectionViewBottomConstraint: NSLayoutConstraint?
 
-    @IBOutlet weak var viewBG: UIView!
     @IBOutlet var searchBarView: AWView!
     @IBOutlet var txtSearch: UITextField!
     @IBOutlet var storeNameViewHeight: NSLayoutConstraint!
@@ -77,11 +76,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             segmenntCollectionView.backgroundColor = .tableViewBackgroundColor()
         }
     }
-    
-    
-    
-    
-    
+  
     //MARK:-  Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,9 +85,6 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.setDataSource()
         self.dataSource?.getDefaultSearchData()
         addBasketOverlay()
-        
-        // setting navigation color
-        self.viewBG.backgroundColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor() : UIColor.navigationBarColor()
     }
     override func viewWillAppear(_ animated: Bool) {
         (self.navigationController as? ElGrocerNavigationController)?.setNavigationBarHidden(true, animated: true)
@@ -130,6 +122,9 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             
             self.txtSearch.becomeFirstResponder()
         }
+        
+        self.checkChangeLocationForSmileSearch()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -141,9 +136,24 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         addBasketIconOverlay(self, grocery: self.dataSource?.currentGrocery, shouldShowGroceryActiveBasket: true)
     }
     
+    private func checkChangeLocationForSmileSearch() {
+        
+        guard SDKManager.isSmileSDK, SDKManager.shared.launchOptions?.navigationType == .search else {
+            return
+        }
+        guard let _ = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)else {
+            return
+        }
+        
+        ElgrocerFarLocationCheck.shared.showLocationCustomPopUp(false)
+        SDKManager.shared.launchOptions?.navigationType = .Default
+        
+
+    }
+    
     @IBAction func voiceSearchAction(_ sender: Any) {
         self.txtSearch.resignFirstResponder()
-        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -180,11 +190,11 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         
         if self.searchFor == .isForStoreSearch {
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
-                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
         }else{
             
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,
-                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.searchPlaceholderTextColor()])
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
   
         }
         
@@ -243,7 +253,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         
         
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionFootersPinToVisibleBounds = true
+        flowLayout.sectionFootersPinToVisibleBounds = false
         flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10 , right: 10)
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 0
@@ -456,7 +466,10 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             guard let self = self else {return}
             self.reloadCollectionView()
         }
-    
+        
+        if SDKManager.shared.launchOptions?.navigationType == .search {
+            SDKManager.shared.launchOptions?.navigationType == .Default
+        }
     }
     
     fileprivate func showCollectionView (_ isNeedToShow : Bool) {
@@ -507,6 +520,10 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             if topVc is GroceryFromBottomSheetViewController {
                 let groc : GroceryFromBottomSheetViewController = topVc as! GroceryFromBottomSheetViewController
                 groc.configuer(grocery, searchString: self.txtSearch.text ?? "")
+                if grocery.count == 0 {
+                    groc.showErrorMessage(localizedString("lbl_Error_No_Store_On_This_Location_Selling_Products", comment: ""))
+                }
+                
                 return
             }
         }
@@ -656,13 +673,13 @@ extension UniversalSearchViewController : AWSegmentViewProtocol {
         self.dataSource?.selectedIndex = NSIndexPath.init(row: selectedSegmentIndex , section: 0)
         if selectedSegmentIndex == 0 {
             self.loadedProductList = self.dataSource?.productsList ?? []
-            self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+            self.pageNumber =  (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
             self.dataSource?.getProductDataForStore(true, searchString: finalSearchString ,  "", segmenntCollectionView.segmentTitles[segmenntCollectionView.lastSelection.row] , storeIds: storeIDs, pageNumber: self.pageNumber   , hitsPerPage: hitsPerPage)
         }else{
             let selectedDataTitle =  segmenntCollectionView.segmentTitles[selectedSegmentIndex]
             if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
                 self.loadedProductList = productsAvailableToLoad
-                self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
             }else{
                 self.pageNumber  = 0
             }
@@ -687,19 +704,17 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard self.dataSource?.model.count ?? 0 > indexPath.row else {
+        guard self.dataSource?.model.count ?? 0 > indexPath.row, let obj = self.dataSource?.model[indexPath.row] else {
             let tableCell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tableCell.cellConfigureForEmpty()
             return tableCell
         }
         
-        let obj = self.dataSource?.model[indexPath.row]
-        if obj?.modelType == SearchResultSuggestionType.title || obj?.modelType == SearchResultSuggestionType.titleWithClearOption {
+        if obj.modelType == SearchResultSuggestionType.title || obj.modelType == SearchResultSuggestionType.titleWithClearOption {
             let tablecell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tablecell.cellConfigureWith(obj)
             tablecell.clearButtonClicked = { [weak self] in
-                self?.dataSource?.clearSearchHistory()
-                UserDefaults.clearUserSearchData()
+                self?.showClearHistoryPopup()
             }
             return tablecell
         }else{
@@ -719,6 +734,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if let obj = self.dataSource?.model[indexPath.row] {
             if obj.modelType == .searchHistory || obj.modelType == .trendingSearch {
                 self.txtSearch.text = obj.title
@@ -740,13 +756,28 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             }
             self.txtSearch.resignFirstResponder()
             self.userSearchClick(obj.title , model: obj)
-            self.reloadCollectionView(true)
             self.userSearchedKeyWords()
+            Thread.OnMainThread {
+                self.reloadCollectionView(true)
+            }
+           
         }
     }
     
     
-   
+    private func showClearHistoryPopup() {
+        ElGrocerAlertView.createAlert(
+            localizedString("Search_Title", comment: ""),
+            description: localizedString("universal_search_clear_history_popup_text", comment: ""),
+            positiveButton: localizedString("promo_code_alert_no", comment: ""),
+            negativeButton: localizedString("clear_button_title", comment: ""),
+            buttonClickCallback: { (buttonIndex:Int) -> Void in
+                if buttonIndex == 1 {
+                    self.dataSource?.clearSearchHistory()
+                    UserDefaults.clearUserSearchData()
+                }
+        }).show()
+    }
 }
 
 // MARK:- UICollectionViewDataSourceDelegate Extension
@@ -754,7 +785,8 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
     
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if self.loadedProductList.count > 30 || !self.moreProductsAvailable {
+        // self.loadedProductList.count > 30 ||
+        if  !self.moreProductsAvailable && !SDKManager.isGrocerySingleStore {
             return  CGSize.init(width: self.view.frame.size.width , height: 146)
         }
         return CGSize.zero
@@ -924,13 +956,13 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                         let selectedDataTitle =  segmenntCollectionView.segmentTitles[selectedSegmentIndex]
                         if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
                             self.loadedProductList = productsAvailableToLoad
-                            self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                            self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
                         }else{
                             self.pageNumber  = 0
                         }
                         self.dataSource?.getProductDataForStore(true, searchString: self.txtSearch.text ?? "",  "", segmenntCollectionView.segmentTitles[segmenntCollectionView.lastSelection.row] , storeIds: storeIDs, pageNumber: self.pageNumber  + 1 , hitsPerPage: hitsPerPage)
                     }else{
-                        self.pageNumber =  self.loadedProductList.count / Int(hitsPerPage)
+                        self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
                         self.dataSource?.getProductDataForStore(true, searchString: self.txtSearch.text ?? "" ,  "", "" , storeIds: storeIDs, pageNumber: self.pageNumber , hitsPerPage: hitsPerPage)
                     }
                 }
@@ -954,7 +986,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor().cgColor : UIColor.navigationBarColor().cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -1073,6 +1105,23 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 self.dataSource?.getBanners(searchInput: searchData)
             }
         }
+        
+        // Logging segment event for Universal & Store Search
+        switch self.searchFor {
+        case .isForUniversalSearch:
+            SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: model != nil))
+            break
+
+        case .isForStoreSearch:
+            let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: model != nil, retailerId: retailerId))
+            break
+
+        case .isProductListing:
+            break
+        }
+        // End Segment Logging
+        
         self.dataSource?.resetForNewGrocery()
         self.segmenntCollectionView.segmentTitles = []
         self.segmenntCollectionView.lastSelection = NSIndexPath.init(row: 0, section: 0) as IndexPath
@@ -1107,11 +1156,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                     UserDefaults.setGroceryId(grocery.dbID , WithLocationId: (currentAddress?.dbID)!)
                 }
                 Thread.OnMainThread { [weak self] in
-                    self?.dismiss(animated: false)
-                    
                     self?.presentingVC?.navigationController?.dismiss(animated: false, completion: {
-                        let SDKManager: SDKManagerType! = sdkManager
-                        if let tab = sdkManager.currentTabBar  {
+                        let SDKManager = SDKManager.shared
+                        if let tab = SDKManager.currentTabBar  {
                             ElGrocerUtility.sharedInstance.resetTabbar(tab)
                             tab.selectedIndex = 1
                         }
@@ -1166,6 +1213,22 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.reloadCollectionView(true)
         self.dataSource?.setUsersearchData(searchData)
         self.dataSource?.getProductDataForStore(true, searchString: searchData,  "" , "" , storeIds: storeIDs, pageNumber: self.pageNumber , hitsPerPage: hitsPerPage)
+        
+        // Logging segment event for Universal & Store Search
+        switch self.searchFor {
+        case .isForUniversalSearch:
+            SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: false))
+            break
+
+        case .isForStoreSearch:
+            let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: false, retailerId: retailerId))
+            break
+
+        case .isProductListing:
+            break
+        }
+        // End Segment Logging
     }
     
     
@@ -1200,7 +1263,7 @@ extension UniversalSearchViewController : ProductCellProtocol {
                 }else{
                     
                     
-                    let sdkManager: SDKManagerType! = sdkManager
+                    let sdkManager = SDKManager.shared
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {

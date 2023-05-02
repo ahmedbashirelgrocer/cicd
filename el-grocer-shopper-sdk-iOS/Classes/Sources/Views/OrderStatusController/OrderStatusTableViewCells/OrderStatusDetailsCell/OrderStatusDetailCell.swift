@@ -39,7 +39,7 @@ class OrderStatusDetailCell: UITableViewCell {
         didSet{
             btnChatWithPicker.setCornerRadiusStyle()
             btnChatWithPicker.setCaption1BoldWhiteStyle()
-            btnChatWithPicker.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+            btnChatWithPicker.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
             //self.chatWithPickerBGView.isHidden = true
         }
     }
@@ -47,7 +47,7 @@ class OrderStatusDetailCell: UITableViewCell {
     @IBOutlet var imgOrderDetailsForward: UIImageView!
     @IBOutlet var lblOrderDetails: UILabel!{
         didSet{
-            lblOrderDetails.setBody3BoldUpperStyle(true)
+            lblOrderDetails.setBody3BoldUpperButtonLabelStyle(true)
             self.lblOrderDetails.text = localizedString("lbl_Order_Details", comment: "")
         }
     }

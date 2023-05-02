@@ -28,7 +28,7 @@ class CollectorDetailCell: UITableViewCell {
         self.selectionStyle = .none
     }
     func setInitialAppearance(){
-        self.backgroundColor = UIColor.navigationBarWhiteColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
     }
     func assignValues(detailsType : CollectorDetailsType){
         //MARK: Only For setup remove

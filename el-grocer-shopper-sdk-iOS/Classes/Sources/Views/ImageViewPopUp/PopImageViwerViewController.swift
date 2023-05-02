@@ -117,7 +117,11 @@ class PopImageViwerViewController: UIViewController {
         }
     }
     
-    @IBOutlet var topScrollView: UIScrollView!
+    @IBOutlet var topScrollView: UIScrollView! {
+        didSet {
+            topScrollView.isScrollEnabled = false
+        }
+    }
     @IBOutlet var boughtItemView: CustomCollectionView!
     
     lazy var boughtItems : [Product] = []
@@ -191,6 +195,9 @@ class PopImageViwerViewController: UIViewController {
         super.viewDidLoad()
         setUpApearance()
         self.setDeepLink()
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productDetailsScreen))
     }
     override func viewDidAppear(_ animated: Bool) {
         super
@@ -304,37 +311,40 @@ class PopImageViwerViewController: UIViewController {
                             }
                         }
                     }
-                }
-                if priceValue != nil {
-                    product.price = priceValue!
-                }
-                if let shopsA = product.promotionalShops {
-                    let shopsList = product.convertToDictionaryArray(text: shopsA)
-                    let shops = shopsList?.filter({ data in
-                        let isDataAvailable =  ElGrocerUtility.sharedInstance.groceries.filter { grocery in
-                            return (data["retailer_id"] as! NSNumber).stringValue == grocery.getCleanGroceryID()
-                        }
-                        return isDataAvailable.count > 0
-                    })
-                    for shop in shops ?? [] {
-                        let strtTime = shop["start_time"] as? Int ?? 0
-                        let endTime = shop["end_time"] as? Int ?? 0
+                    if (shops?.count ?? 0) > 0 {
+                        if let shopsA = product.promotionalShops {
+                            let shopsList = product.convertToDictionaryArray(text: shopsA)
+                            let shops = shopsList?.filter({ data in
+                                let isDataAvailable =  ElGrocerUtility.sharedInstance.groceries.filter { grocery in
+                                    return (data["retailer_id"] as! NSNumber).stringValue == grocery.getCleanGroceryID()
+                                }
+                                return isDataAvailable.count > 0
+                            })
+                            for shop in shops ?? [] {
+                                let strtTime = shop["start_time"] as? Int ?? 0
+                                let endTime = shop["end_time"] as? Int ?? 0
 
-                        let retailerId = shop["retailer_id"] as? String ?? "-1"
-                        let time = ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: retailerId)
-                        if strtTime <= time && endTime >= time {
-                            if let price = shop["price"] as? NSNumber,let standardPrice = shop["standard_price"] as? NSNumber {
-                                if priceValue == nil || price < (priceValue ?? NSNumber.init(value : Double.greatestFiniteMagnitude)) {
-                                    priceValue = price
-                                    product.price = standardPrice
-                                    product.promotion = true
-                                    product.promoPrice = price
-                                    isPromotional = true
+                                let retailerId = shop["retailer_id"] as? String ?? "-1"
+                                let time = ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: retailerId)
+                                if strtTime <= time && endTime >= time {
+                                    if let price = shop["price"] as? NSNumber,let standardPrice = shop["standard_price"] as? NSNumber {
+                                        if priceValue == nil || price < (priceValue ?? NSNumber.init(value : Double.greatestFiniteMagnitude)) {
+                                            priceValue = price
+                                            product.price = standardPrice
+                                            product.promotion = true
+                                            product.promoPrice = price
+                                            isPromotional = true
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                if priceValue != nil {
+                    product.price = priceValue!
+                }
+                
 
                 if priceValue != nil {
 
@@ -628,9 +638,9 @@ class PopImageViwerViewController: UIViewController {
             if  let responseObject : NSDictionary = data as NSDictionary? {
                 Thread.OnMainThread {
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    if newProducts.count > 0 {
+                    if newProducts.products.count > 0 {
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        let newProduct  = newProducts[0]
+                        let newProduct  = newProducts.products[0]
                         self.product = newProduct
                         self.btnAddToCrtHandler(self)
                     }else{
@@ -807,7 +817,7 @@ class PopImageViwerViewController: UIViewController {
                     self.btnAddToCart.isHidden = true
                     self.isAddedToCart = true
                     self.btnPlusButton.isEnabled = true
-                    self.btnPlusButton.backgroundColor = .navigationBarColor()
+                    self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                     
                 } else {
                     
@@ -820,35 +830,6 @@ class PopImageViwerViewController: UIViewController {
         }else{
             self.isAddedToCart = false
         }
-       
-            
-            /*
-            if productCount >= 1{
-                self.btnAddToCart.isHidden = true
-                self.isAddedToCart = true
-                
-                if product.promotion?.boolValue == true {
-                    if (productCount >= product.promoProductLimit!.intValue) && product.promoProductLimit!.intValue > 0  {
-                        self.productCount = item.count.intValue
-                        
-                        self.btnPlusButton.isEnabled = false
-                        self.btnPlusButton.backgroundColor = .newBorderGreyColor()
-                    }else{
-                        self.btnPlusButton.isEnabled = true
-                        self.btnPlusButton.backgroundColor = .navigationBarColor()
-                    }
-                }else{
-                    self.btnPlusButton.isEnabled = true
-                    self.btnPlusButton.backgroundColor = .navigationBarColor()
-                }
-            }
-            
-        }else{
-            self.btnAddToCart.isHidden = false
-            self.isAddedToCart = false
-        }
-        
-        */
         UpdateCountLabel()
         
     }
@@ -909,11 +890,11 @@ class PopImageViwerViewController: UIViewController {
                     
                 }else{
                     self.btnPlusButton.isEnabled = true
-                    self.btnPlusButton.backgroundColor = .navigationBarColor()
+                    self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 }
             }else{
                 self.btnPlusButton.isEnabled = true
-                self.btnPlusButton.backgroundColor = .navigationBarColor()
+                self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
            
         }else{
@@ -955,11 +936,11 @@ class PopImageViwerViewController: UIViewController {
                     self.btnPlusButton.backgroundColor = .newBorderGreyColor()
                 }else{
                     self.btnPlusButton.isEnabled = true
-                    self.btnPlusButton.backgroundColor = .navigationBarColor()
+                    self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                 }
             }else{
                 self.btnPlusButton.isEnabled = true
-                self.btnPlusButton.backgroundColor = .navigationBarColor()
+                self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
            
         }else{
@@ -1098,9 +1079,9 @@ class PopImageViwerViewController: UIViewController {
                     Thread.OnMainThread {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         
-                        if newProducts.count > 0 {
+                        if newProducts.products.count > 0 {
                             DatabaseHelper.sharedInstance.saveDatabase()
-                            self.product = newProducts[0]
+                            self.product = newProducts.products[0]
                             self.configureProduct()
                             
                         }else{
@@ -1488,11 +1469,11 @@ extension PopImageViwerViewController {
                     Thread.OnMainThread {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(final, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         
-                        self?.lblFrequentlyBought.isHidden = (newProducts.count == 0)
+                        self?.lblFrequentlyBought.isHidden = (newProducts.products.count == 0)
                         
                         
-                        if newProducts.count > 0 {
-                            self?.boughtItems = newProducts
+                        if newProducts.products.count > 0 {
+                            self?.boughtItems = newProducts.products
                            // self?.topScrollView.contentSize = CGSize(width: ScreenSize.SCREEN_WIDTH, height: 1000)
                             self?.boughtItemView.visibility = .visible
                         }else {
@@ -1515,10 +1496,10 @@ extension PopImageViwerViewController {
                     Thread.OnMainThread {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(final, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         
-                        self?.lblReatedTogether.isHidden = (newProducts.count == 0)
+                        self?.lblReatedTogether.isHidden = (newProducts.products.count == 0)
                         
-                        if newProducts.count > 0 {
-                            self?.relatedItems = newProducts
+                        if newProducts.products.count > 0 {
+                            self?.relatedItems = newProducts.products
                                 // self?.topScrollView.contentSize = CGSize(width: ScreenSize.SCREEN_WIDTH, height: 1000)
                             self?.relatedItemView.visibility = .visible
                         }else {

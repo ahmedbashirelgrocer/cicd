@@ -8,6 +8,28 @@
 
 
 extension URL {
+   
+    func valueOf(_ queryParameterName: String) -> String? {
+        guard let url = URLComponents(string: self.absoluteString) else { return nil }
+        return url.queryItems?.first(where: { $0.name == queryParameterName })?.value
+    }
+    
+    var parameters: [String: String?]?
+    {
+        if  let components = URLComponents(url: self, resolvingAgainstBaseURL: false),
+            let queryItems = components.queryItems
+        {
+            var parameters = [String: String?]()
+            for item in queryItems {
+                parameters[item.name] = item.value
+            }
+            return parameters
+        } else {
+            return nil
+        }
+    }
+
+    
     func getQueryItemValueForKey(_ key: String) -> String? {
         
         guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
@@ -19,4 +41,6 @@ extension URL {
             $0.name == key
         }.first?.value
     }
+    
+   
 }

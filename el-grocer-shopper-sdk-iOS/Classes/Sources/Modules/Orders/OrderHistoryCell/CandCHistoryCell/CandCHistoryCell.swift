@@ -35,7 +35,7 @@ class CandCHistoryCell: UITableViewCell {
     @IBOutlet var lblOrderNum: UILabel!
     @IBOutlet var lblViewDetails: UILabel!{
         didSet{
-            lblViewDetails.setBody3BoldUpperStyle(true)
+            lblViewDetails.setBody3BoldUpperButtonLabelStyle(true)
             lblViewDetails.text = localizedString("lbl_Order_Details", comment: "")
         }
     }
@@ -166,8 +166,8 @@ class CandCHistoryCell: UITableViewCell {
             self.mainContainerView.borderColor = .elGrocerYellowColor()
             self.progressView.progressTintColor = UIColor.elGrocerYellowColor()
         }else{
-            self.mainContainerView.borderColor = .elGrocerOrderBorderColor()
-            self.progressView.progressTintColor = UIColor.navigationBarColor()
+            self.mainContainerView.borderColor = .newBorderGreyColor()
+            self.progressView.progressTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     
@@ -292,8 +292,9 @@ class CandCHistoryCell: UITableViewCell {
             }
             let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: self.currentOrder!.grocery, totalPrice: priceSum)
             var grandTotal = priceSum + serviceFee
-            if let price = Double(self.currentOrder?.priceVariance ?? "0") {
-                grandTotal = grandTotal + price
+            if let price = self.currentOrder?.priceVariance {
+                let priceDouble = Double(price) ?? 0.0
+                grandTotal = grandTotal + priceDouble
             }
             if let totalProducts = self.currentOrder?.totalProducts {
                 if totalProducts > 0 {
@@ -315,8 +316,9 @@ class CandCHistoryCell: UITableViewCell {
             }
             var serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: self.currentOrder!.grocery, totalPrice: priceSum)
             var grandTotal = priceSum + serviceFee
-            if let price = Double(self.currentOrder?.priceVariance ?? "0") {
-                grandTotal = grandTotal + price
+            if let price = self.currentOrder?.priceVariance {
+                let priceDouble = Double(price) ?? 0.0
+                grandTotal = grandTotal + priceDouble
             }
             if let totalProducts = self.currentOrder?.totalProducts {
                 if totalProducts > 0 {

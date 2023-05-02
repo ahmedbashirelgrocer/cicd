@@ -92,7 +92,7 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
         self.confirmButton.layer.cornerRadius = 28
         self.confirmButton.setH4SemiBoldWhiteStyle()
         self.confirmButton.setTitle(localizedString("confirm_button_title", comment: ""), for: UIControl.State())
-        self.confirmButton.backgroundColor = UIColor.navigationBarColor()
+        self.confirmButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
     }
     
     fileprivate func setLanguageTitleLabelAppearance() {

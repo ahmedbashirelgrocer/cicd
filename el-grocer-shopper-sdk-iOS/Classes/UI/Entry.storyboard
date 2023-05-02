@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FK0-ki-RXS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FK0-ki-RXS">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -22,17 +23,17 @@
         <!--Splash Animation View Controller-->
         <scene sceneID="UUd-1J-n8K">
             <objects>
-                <viewController storyboardIdentifier="SplashAnimationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GmM-wx-SQG" customClass="SplashAnimationViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="fLG-Nd-Rge">
+                <viewController storyboardIdentifier="SplashAnimationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="GmM-wx-SQG" customClass="SplashAnimationViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="fLG-Nd-Rge">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="D3F-cN-HbX" customClass="ElGrocerLogoIndicatorView" customModule="ElGrocerShopper" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="95.5" width="320" height="320"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="D3F-cN-HbX" secondAttribute="height" multiplier="1:1" id="lpm-p4-nO2"/>
-                                </constraints>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Di8-E5-L3U" customClass="AnimationView" customModule="Lottie">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ElgrocerLogoAnimation-1" translatesAutoresizingMaskIntoConstraints="NO" id="NKX-Nh-HgU" customClass="ElGrocerLogoIndicatorView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="hh4-Cv-QZJ">
                                 <rect key="frame" x="150" y="331" width="20" height="20"/>
@@ -40,31 +41,36 @@
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="nbT-Gq-Rbo"/>
-                        <color key="backgroundColor" red="0.14117647058823529" green="0.84313725490196079" blue="0.41960784313725491" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="D3F-cN-HbX" firstAttribute="centerY" secondItem="fLG-Nd-Rge" secondAttribute="centerY" multiplier="0.9" id="1OW-Qi-ooZ"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="1yN-qP-Js1"/>
-                            <constraint firstItem="D3F-cN-HbX" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="6Tc-a5-LHo"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="4UC-02-Vfn"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="4gS-oN-UYH"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="bottom" secondItem="fLG-Nd-Rge" secondAttribute="bottom" id="5l2-rJ-FUC"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="LCY-Gt-hA1"/>
-                            <constraint firstItem="nbT-Gq-Rbo" firstAttribute="trailing" secondItem="D3F-cN-HbX" secondAttribute="trailing" id="W3C-M0-Fy7"/>
-                            <constraint firstItem="D3F-cN-HbX" firstAttribute="leading" secondItem="nbT-Gq-Rbo" secondAttribute="leading" id="fcc-n2-4yi"/>
+                            <constraint firstItem="Di8-E5-L3U" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="V9Q-gD-o70"/>
+                            <constraint firstItem="Di8-E5-L3U" firstAttribute="bottom" secondItem="fLG-Nd-Rge" secondAttribute="bottom" id="fdi-h2-HN2"/>
+                            <constraint firstItem="NKX-Nh-HgU" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="na3-Md-r2r"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerY" secondItem="fLG-Nd-Rge" secondAttribute="centerY" multiplier="1.2" id="tYp-GA-DCi"/>
+                            <constraint firstItem="Di8-E5-L3U" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="xGs-Bm-eBi"/>
+                            <constraint firstItem="Di8-E5-L3U" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="y93-l4-U8u"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="hh4-Cv-QZJ" id="J9B-hz-le5"/>
-                        <outlet property="logoAnimator" destination="D3F-cN-HbX" id="FTG-qF-niY"/>
+                        <outlet property="logoAnimator" destination="NKX-Nh-HgU" id="nRY-ak-ktx"/>
+                        <outlet property="splashLottieLogoAnimator" destination="Di8-E5-L3U" id="S3c-ny-sj3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zRh-Lg-HWv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-431" y="424"/>
+            <point key="canvasLocation" x="-431.25" y="423.59154929577466"/>
         </scene>
         <!--Entry View Controller-->
         <scene sceneID="gLt-aE-fog">
             <objects>
-                <viewController storyboardIdentifier="EntryViewController" id="FK0-ki-RXS" customClass="EntryViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EntryViewController" id="FK0-ki-RXS" customClass="EntryViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vte-b6-fDW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -85,7 +91,7 @@
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOQ-EX-2Sk">
                                                 <rect key="frame" x="0.0" y="425.5" width="320" height="310"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sqk-3H-NoA" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sqk-3H-NoA" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="39" width="288" height="56"/>
                                                         <color key="backgroundColor" red="0.019607843137254902" green="0.73725490196078436" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
@@ -187,7 +193,7 @@
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tWj-sy-8J9" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tWj-sy-8J9" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="230.5" width="288" height="56"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
@@ -320,7 +326,7 @@
         <!--Language View Controller-->
         <scene sceneID="f8q-Ft-hqV">
             <objects>
-                <viewController storyboardIdentifier="LanguageVC" hidesBottomBarWhenPushed="YES" id="rfx-ao-fnA" customClass="LanguageViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LanguageVC" hidesBottomBarWhenPushed="YES" id="rfx-ao-fnA" customClass="LanguageViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Aoh-KF-Ifv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -345,7 +351,7 @@
                                 <rect key="frame" x="0.0" y="165" width="320" height="157"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="LanguageCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LanguageCell" id="pvE-As-cxX" customClass="LanguageCell" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="LanguageCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LanguageCell" id="pvE-As-cxX" customClass="LanguageCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pvE-As-cxX" id="fVc-ZA-jN7">
@@ -395,7 +401,7 @@
                                     <outlet property="delegate" destination="rfx-ao-fnA" id="v1h-pd-XDQ"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6FW-b9-O96" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6FW-b9-O96" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="20" y="492" width="280" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="y8b-EH-zMX"/>
@@ -459,10 +465,14 @@
     <color key="tintColor" red="0.1215686275" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
     <resources>
         <image name="AppGreenLogo" width="235" height="83"/>
+        <image name="ElgrocerLogoAnimation-1" width="720" height="1559"/>
         <image name="EntryScreenBgView" width="375" height="812"/>
         <image name="RadioButtonUnfilled" width="24" height="24"/>
         <image name="Uk-flag" width="24" height="18"/>
         <image name="entryLine" width="64" height="1"/>
         <image name="entryPin" width="24" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

@@ -24,7 +24,25 @@ enum PaymentOption : UInt32 {
     case card = 2
     case creditCard = 3
     case smilePoints = 4
+    case voucher = 5
+    case PromoCode = 6
     case applePay = 1000
+    
+}
+
+extension PaymentOption {
+    var paymentMethodName: String {
+        switch self {
+        case .none          : return ""
+        case .cash          : return "Cash"
+        case .card          : return "Payment by Card"
+        case .creditCard    : return "Payment Online"
+        case .smilePoints   : return "Smile Point"
+        case .voucher       : return "Voucher"
+        case .PromoCode     : return "Promo Code"
+        case .applePay      : return "Apple Pay"
+        }
+    }
 }
 
 
@@ -576,9 +594,9 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                     
                     //, searchString: self.searchString
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(content! as NSDictionary , context: DatabaseHelper.sharedInstance.mainManagedObjectContext , searchString: self.searchString  )
-                    self.moreProductsAvailable = newProducts.count > 0
+                    self.moreProductsAvailable = newProducts.products.count > 0
                     
-                    self.searchedProducts += newProducts
+                    self.searchedProducts += newProducts.products
                     DatabaseHelper.sharedInstance.saveDatabase()
                     
                     for product in self.searchedProducts {

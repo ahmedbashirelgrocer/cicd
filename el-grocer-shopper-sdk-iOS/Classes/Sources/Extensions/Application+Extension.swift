@@ -33,8 +33,8 @@ extension UIApplication {
     
     class func isElGrocerSDKClass() -> Bool {
         if let topVc = UIApplication.topViewController()?.classForCoder {
-            let className = "\(topVc)"
-            if className.contains("el_grocer_shopper_sdk_iOS.") {
+            let className = NSStringFromClass(topVc)
+            if className.contains("el_grocer_shopper_sdk_iOS.") && !className.contains("NavigationController") {
                 return true
             }
         }

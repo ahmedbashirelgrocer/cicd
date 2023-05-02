@@ -110,7 +110,7 @@ class RecipeDetailViewController: BasketBasicViewController   {
         self.navigationController?.interactivePopGestureRecognizer!.delegate = self
         
       
-        self.btnAddToCart.setBackgroundColor(UIColor.navigationBarColor(), forState: .normal)
+        self.btnAddToCart.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: .normal)
         self.setAddCartButtonIntraction(false)
         
         self.btnAddToCart.setTitle(localizedString("btn_Recipe_Add_To_Cart_Title", comment: ""), for: .normal)

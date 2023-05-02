@@ -62,7 +62,7 @@ private let errorCodes: [Int: String] = [
     serverNotRespondingErrorCode: localizedString("error_500", comment: "")
 ]
 
-struct ElGrocerError {
+struct ElGrocerError: Error {
     
     // Static Methods
     

@@ -1,0 +1,93 @@
+//
+//  StoreEvents.swift
+//  el-grocer-shopper-sdk-iOS
+//
+//  Created by Rashid Khan on 08/02/2023.
+//
+
+import Foundation
+
+struct StoreCategorySwitchedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(currentStoreCategoryType: StoreType?, nextStoreCategoryType: StoreType?) {
+        self.eventType = .track(eventName: AnalyticsEventName.storeCategorySwitched)
+        self.metaData = [
+            EventParameterKeys.currentCategoryId    : String(currentStoreCategoryType?.storeTypeid ?? -1),
+            EventParameterKeys.currentCategoryName  : currentStoreCategoryType?.name ?? "",
+            EventParameterKeys.nextCategoryId       : String(nextStoreCategoryType?.storeTypeid ?? -1),
+            EventParameterKeys.nextCategoryName     : nextStoreCategoryType?.name ?? "",
+        ]
+    }
+}
+
+struct StoreClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery) {
+        self.eventType = .track(eventName: AnalyticsEventName.storeClicked)
+        self.metaData = [
+            EventParameterKeys.retailerID       : grocery.dbID,
+            EventParameterKeys.retailerName     : grocery.name ?? "",
+            EventParameterKeys.isFeatured       : grocery.featured?.boolValue ?? false,
+            EventParameterKeys.parentId         : grocery.parentID.stringValue,
+            EventParameterKeys.typesStoreID     : grocery.retailerType.stringValue,
+            EventParameterKeys.address          : grocery.address ?? "",
+        ]
+    }
+}
+
+struct StoresInRangeEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(retailers: [Grocery]?) {
+        self.eventType = .track(eventName: AnalyticsEventName.storesInRange)
+        self.metaData = [
+            EventParameterKeys.availableStores: getAvailableStores(retailers: retailers ?? [])
+        ]
+    }
+    
+    private func getAvailableStores(retailers: [Grocery]) -> [[String: Any]] {
+        let retailerDictionaryArray = retailers.map { grocery in
+            var dictionary: [String: Any] = [:]
+            
+            dictionary[EventParameterKeys.retailerID] = grocery.dbID
+            dictionary[EventParameterKeys.zoneId] = grocery.deliveryZoneId
+            dictionary[EventParameterKeys.parentId] = grocery.parentID.stringValue
+            dictionary[EventParameterKeys.typesStoreID] = grocery.retailerType.stringValue
+            
+            return dictionary
+        }
+        
+        return retailerDictionaryArray
+    }
+}
+
+struct CategoryViewAllClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery?) {
+        self.eventType = .track(eventName: AnalyticsEventName.categoryViewAllClicked)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery?.dbID ?? "",
+            EventParameterKeys.retailerName: grocery?.name ?? "",
+        ]
+    }
+}
+
+struct ProductCategoryViewAllClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(category: Category?) {
+        self.eventType = .track(eventName: AnalyticsEventName.productCategoryViewAllClicked)
+        self.metaData = [
+            EventParameterKeys.categoryID: category?.dbID.stringValue ?? "",
+            EventParameterKeys.categoryName: category?.nameEn ?? "",
+        ]
+    }
+}

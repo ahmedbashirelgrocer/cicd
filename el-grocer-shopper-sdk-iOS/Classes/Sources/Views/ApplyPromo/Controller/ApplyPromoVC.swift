@@ -38,6 +38,7 @@ class ApplyPromoVC: UIViewController {
     @IBOutlet var btnPromoApply: AWButton!{
         didSet{
             btnPromoApply.setTitle(localizedString("promo_code_alert_yes", comment: ""), for: UIControl.State())
+            btnPromoApply.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
         }
     }
     @IBOutlet var btnPromoRemove: AWButton! {
@@ -48,7 +49,7 @@ class ApplyPromoVC: UIViewController {
     }
     @IBOutlet var promoActivityIndicator: UIActivityIndicatorView!{
         didSet{
-            promoActivityIndicator.color = .navigationBarColor()
+            promoActivityIndicator.color = ApplicationTheme.currentTheme.themeBasePrimaryColor
             promoActivityIndicator.hidesWhenStopped = true
             promoActivityIndicator.isHidden = true
         }
@@ -72,8 +73,10 @@ class ApplyPromoVC: UIViewController {
         let view = PromoTitleView.loadFromNib()
         return view!
     }()
-    typealias promoApplied = (_ promoApplied: Bool)-> Void
+    typealias promoApplied = (_ promoApplied: Bool,_ promoCode: PromotionCode?)-> Void
     var isPromoApplied : promoApplied?
+    var dismissWithoutPromoClosure: ((Bool)->())?
+    var isDismisingWithPromoApplied: Bool = false
     var promoCodeArray: [PromotionCode] = []
     var extensionArray: [Bool] = []
     var priviousPaymentOption: PaymentOption?
@@ -84,6 +87,7 @@ class ApplyPromoVC: UIViewController {
     var priviousOrderId: String?
     var isGettingPromo: Bool = false
     var isFirstTime: Bool = true
+    var promoCode: PromoCode?
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableView()
@@ -110,30 +114,36 @@ class ApplyPromoVC: UIViewController {
     }
     func checkPromoCodeIsFromTextOrList() {
         if self.priviousOrderId?.count ?? 0 > 0 {
-            if let promocode = UserDefaults.getPromoCodeValue() {
+            if let promocode = self.promoCode?.code {
                 let promo = promoCodeArray.filter { (promo) -> Bool in
-                    promo.code.elementsEqual(promocode.code)
+                    promo.code.elementsEqual(promocode)
                 }
                 if promo.count > 0 {
                     UserDefaults.setPromoCodeIsFromText(nil)
                     self.btnPromoRemove.isHidden = true
                     self.btnPromoApply.isHidden = false
+                    self.isDismisingWithPromoApplied = false
                 }else {
+                    self.isDismisingWithPromoApplied = true
                     UserDefaults.setPromoCodeIsFromText(true)
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
-                    self.promoTextField.text = promocode.code
-                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+                    self.promoTextField.text = promocode
+                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor)
                 }
             }
             
         }else {
-            if let promoCode = UserDefaults.getPromoCodeValue(), let isFromText = UserDefaults.getPromoCodeIsFromText() {
-                if isFromText {
+            if let promoCode = self.promoCode?.code {
+                let promo = promoCodeArray.filter { (promo) -> Bool in
+                    promo.code.elementsEqual(promoCode)
+                }
+                if promo.count == 0 {
+                    self.isDismisingWithPromoApplied = true
                     self.btnPromoRemove.isHidden = false
                     self.btnPromoApply.isHidden = true
-                    self.promoTextField.text = promoCode.code
-                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+                    self.promoTextField.text = promoCode
+                    self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor)
                 }
             }
         }
@@ -141,16 +151,23 @@ class ApplyPromoVC: UIViewController {
     }
     @IBAction func btnCloseHandler(_ sender: Any) {
         self.dismiss(animated: true)
+        elDebugPrint(self.isDismisingWithPromoApplied)
+        if let dismissWithoutPromoClosure = self.dismissWithoutPromoClosure {
+            dismissWithoutPromoClosure(self.isDismisingWithPromoApplied)
+        }
     }
     @IBAction func btnPromoRemoveHandler(_ sender: Any) {
         UserDefaults.setPromoCodeValue(nil)
         UserDefaults.setPromoCodeIsFromText(nil)
+        self.isDismisingWithPromoApplied = false
         self.promoTextField.text = ""
         self.btnPromoApply.isHidden = false
         self.btnPromoRemove.isHidden = true
         self.showPromoError(true, message: "")
+        MixpanelEventLogger.trackCheckoutVoucherRemoved(code: promoCode?.code ?? "", id: String(promoCode?.promotionCodeRealizationID ?? -1))
+        self.promoCode = nil
         if let isPromoApplied = self.isPromoApplied {
-            isPromoApplied(false)
+            isPromoApplied(false, nil)
         }
         self.tblView.reloadDataOnMain()
     }
@@ -186,7 +203,7 @@ extension ApplyPromoVC {
         promoHandler.grocery = self.previousGrocery
         isGettingPromo = true
         let offset = self.promoCodeArray.count
-        print("offset: \(offset)")
+       //  print("offset: \(offset)")
         promoHandler.getPromoList (limmit: 10, offset: offset){ promoCodeArray, error in
             self.isGettingPromo = false
             self.isFirstTime = false
@@ -226,8 +243,10 @@ extension ApplyPromoVC {
             SpinnerView.hideSpinnerView()
             
             if error != nil {
+                MixpanelEventLogger.trackCheckoutPromoError(promoCode: text, error: error?.localizedMessage ?? "")
+                self.isDismisingWithPromoApplied = false
                 if let isPromoApplied = self.isPromoApplied {
-                    isPromoApplied(false)
+                    isPromoApplied(false, nil)
                 }
                 if withAnimation {
                     self.showPromoError(false, message: error?.message ?? "")
@@ -237,14 +256,23 @@ extension ApplyPromoVC {
                 }
                 return
             }
-            
+            let promoCodeToSet = PromoCode(code: promoCode?.code, promotionCodeRealizationID: promoCode?.id, value: promoCode?.valueCents, errorMessage: "")
+            self.promoCode = promoCodeToSet
+            self.isDismisingWithPromoApplied = true
             if let isPromoApplied = self.isPromoApplied {
-                isPromoApplied(true)
+                isPromoApplied(true, promoCode)
             }
+            
+            // Loggign segment event for promocode applied
+            let promoCodeAppliedEvent = PromoCodeAppliedEvent(isApplied: true, promoCode: promoCode?.code, realizationId: promoCode?.promotionCodeRealizationId)
+            SegmentAnalyticsEngine.instance.logEvent(event: promoCodeAppliedEvent)
+            
             if withAnimation {
+                MixpanelEventLogger.trackCheckoutPromoApplied(promoCode: promoCode!)
                 self.showPromoError(true, message: "")
                 self.animateSuccessForPromo()
             }else {
+                MixpanelEventLogger.trackCheckoutVoucherApplied(code: promoCode?.code ?? "", id: String(promoCode?.id ?? -1))
                 SpinnerView.hideSpinnerView()
                 self.tblView.reloadDataOnMain()
             }
@@ -272,10 +300,10 @@ extension ApplyPromoVC {
     func animateSuccessForPromo(){
         self.btnPromoApply.isHidden = true
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.navigationBarColor()
+        self.promoTxtFieldBGView.borderColor = ApplicationTheme.currentTheme.textFieldBorderActiveColor
         self.promoTxtFieldBGView.layer.borderWidth = 1
-        self.btnPromoApply.tintColor = .navigationBarColor()
-        self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: .navigationBarColor())
+        self.btnPromoApply.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
+        self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor)
         self.btnPromoRemove.isHidden = false
             //        self.btnPromoApply.setTitle("", for: UIControl.State())
             //        self.btnPromoApply.setImage(UIImage(named: "MyBasketPromoSuccess"), for: .normal)
@@ -284,7 +312,7 @@ extension ApplyPromoVC {
     func animateFailureForPromo(){
         self.btnPromoApply.isHidden = false
         self.promoActivityIndicator.stopAnimating()
-        self.promoTxtFieldBGView.borderColor = UIColor.redValidationErrorColor()
+        self.promoTxtFieldBGView.borderColor = UIColor.textfieldErrorColor()
         self.promoTxtFieldBGView.layer.borderWidth = 1
     }
 }
@@ -312,14 +340,17 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ApplyPromoCell", for: indexPath) as! ApplyPromoCell
         
-        let promocode = UserDefaults.getPromoCodeValue()
-        if (promocode?.code ?? "") == promoCodeArray[indexPath.row].code {
+            //        let promocodeDefault = UserDefaults.getPromoCodeValue()?.code ?? ""
+        if (self.promoCode?.code ?? "") == promoCodeArray[indexPath.row].code {
+            self.isDismisingWithPromoApplied = true
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: true, grocery: self.previousGrocery)
+            cell.showInfoMessage(isHidden: true, message: "")
+            cell.btnRedeem.isHidden = false
         }else {
             cell.configureCell(promoCode: promoCodeArray[indexPath.row], isExpanded: extensionArray[indexPath.row], isApplied: false, grocery: self.previousGrocery)
             
             let infoMessageResult = PromotionCodeHandler.checkIfBrandProductAdded(products: self.priviousFinalizedProductA!, brandDict: promoCodeArray[indexPath.row].brands)
-            cell.showInfoMessage(isHidden: !(infoMessageResult.brandName.count > 0), message: infoMessageResult.brandName)
+            cell.showInfoMessage(isHidden: !(infoMessageResult.isFound), message: infoMessageResult.brandName)
             
         }
         
@@ -329,6 +360,11 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
                 UserDefaults.setPromoCodeValue(nil)
                 UserDefaults.setPromoCodeIsFromText(nil)
                 self?.btnPromoRemoveHandler(self)
+                
+                // Logging segment event for promo code applied
+                let promoCodeAppliedEvent = PromoCodeAppliedEvent(isApplied: false, promoCode: promoCode.code, realizationId: promoCode.promotionCodeRealizationId)
+                SegmentAnalyticsEngine.instance.logEvent(event: promoCodeAppliedEvent)
+                
                 return
             }
             self?.checkPromoCodeRealisation(promoCode.code, self?.priviousOrderId, withAnimation: false)
@@ -353,12 +389,16 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
             DispatchQueue.main.async { [weak cell] in
                 cell?.setBorderForPromo()
             }
-            
         }
         
+        // Logging segment event for Promo Code Viewed
+        if indexPath.row < self.promoCodeArray.count {
+            if !self.promoCodeArray[indexPath.row].isViewed {
+                SegmentAnalyticsEngine.instance.logEvent(event: PromoCodeViewedEvent(promoCode: self.promoCodeArray[indexPath.row]))
+                self.promoCodeArray[indexPath.row].isViewed = true
+            }
+        }
     }
-        //
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -370,7 +410,7 @@ extension ApplyPromoVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 8
     }
 }
 extension ApplyPromoVC: UIScrollViewDelegate {

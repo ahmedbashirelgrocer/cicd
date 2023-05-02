@@ -84,7 +84,6 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
         self.saveButton.setTitle(localizedString("save_button_title", comment: ""), for: .normal)
        
        self.setSaveButtonEnabled(true)
-        //self.imgLogo.changePngColorTo(color: .navigationBarColor())
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.btnBack.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -93,9 +92,9 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
         
         
         
-          self.oldPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.oldPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-          self.newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.newPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-          self.confirmPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.confirmPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+          self.oldPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.oldPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
+          self.newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.newPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
+          self.confirmPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.confirmPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
         
         
         
@@ -131,7 +130,7 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
         
        // addBackButtonWithCrossIcon()
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        self.navigationController?.navigationBar.barTintColor = UIColor.navigationBarColor()
+        self.navigationController?.navigationBar.barTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         self.title = localizedString("lbl_page_title", comment: "")

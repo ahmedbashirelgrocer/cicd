@@ -52,7 +52,7 @@ class NoStoreView: UIView {
         self.lblTopMsg.setH3SemiBoldDarkStyle()
         self.lblExtraDetail.setBody3RegSecondaryDarkStyle()
         self.btnNoData.setH4SemiBoldWhiteStyle()
-        self.btnNoData.backgroundColor = UIColor.navigationBarColor()
+        self.btnNoData.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         
     }
 
@@ -84,8 +84,8 @@ class NoStoreView: UIView {
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSelectedStore")
         self.lblTopMsg.text = localizedString("No_Selected_Store", comment: "")
-        self.lblExtraDetail.text = localizedString("No_Selected_Store_Detail", comment: "")
-        self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.lblExtraDetail.text = SDKManager.isGrocerySingleStore ? "" : localizedString("No_Selected_Store_Detail", comment: "")
+        self.btnNoData.setTitle(SDKManager.isGrocerySingleStore ? localizedString("btn_Go_Back", comment: "") :  localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
     }
@@ -159,7 +159,7 @@ class NoStoreView: UIView {
     func configureNoDefaultSelectedStoreCart() {
         //You elGrocer cart is empty
         self.setUpApearence()
-        self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")
+        self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")?.applyTintEffect(with: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
         self.lblExtraDetail.text = localizedString("No_Selected_Store_Detail", comment: "")
         self.btnNoData.isHidden = false
@@ -189,15 +189,31 @@ class NoStoreView: UIView {
         self.state = .defaultAction
         self.btnNoData.isHidden = false
     }
+    
     func configureNoCart() {
-        //You elGrocer cart is empty
         self.setUpApearence()
-        self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")
         self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
-        self.lblExtraDetail.text = localizedString("No_Item_Cart", comment: "")
         self.btnNoData.isHidden = false
-        self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
         self.state = .defaultAction
+        self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")
+        self.lblExtraDetail.text = localizedString("No_Item_Cart", comment: "")
+        self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
+        self.backgroundColor = .colorWithHexString(hexString: "ffffff")
+    }
+
+    func configureNoActiveCart() {
+        self.lblTopMsg.setBody2SemiboldDarkStyle()
+        self.lblExtraDetail.setBody3RegDarkStyle()
+        self.btnNoData.setH4SemiBoldWhiteStyle()
+//        self.btnNoData.setBackgroundColor( ApplicationTheme.currentTheme.themeBasePrimaryColor, forState: .normal )
+        
+        self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
+        self.lblExtraDetail.text = localizedString("No_Item_Multi_Cart_Empty_View", comment: "")
+        self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.btnNoData.isHidden = false
+        self.state = .defaultAction
+        self.imgNoData.image = UIImage(name: "empty-cart-white-bg")
+        self.backgroundColor = .colorWithHexString(hexString: "f5f5f5")
     }
     
     
@@ -251,7 +267,7 @@ class NoStoreView: UIView {
         let nsRange = NSString(string: title).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
         if nsRange.location != NSNotFound {
             attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(20) , range: nsRange )
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.secondaryDarkGreenColor() , range: nsRange )
+            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: ApplicationTheme.currentTheme.labelSecondaryBaseColor , range: nsRange )
         }
         self.lblTopMsg.attributedText = attributedString
         self.state = .defaultAction
@@ -269,8 +285,8 @@ class NoStoreView: UIView {
             imgNoData.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
         self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  localizedString("lbl_atOurStores", comment: "")
-        self.lblExtraDetail.text = localizedString("lbl_NoDataStoreSearch", comment: "")
-        self.btnNoData.isHidden = false
+        self.lblExtraDetail.text = SDKManager.isGrocerySingleStore ? "" : localizedString("lbl_NoDataStoreSearch", comment: "")
+        self.btnNoData.isHidden = SDKManager.isGrocerySingleStore
         self.btnNoData.setTitle(" " + localizedString("btn_NoSearch_noDataView", comment: ""), for: .normal)
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             let flippedImage = UIImage(name: "searchButtonWhite")?.imageFlippedForRightToLeftLayoutDirection() ?? UIImage(name: "searchButtonWhite")
@@ -285,7 +301,7 @@ class NoStoreView: UIView {
         let nsRange = NSString(string: title).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
         if nsRange.location != NSNotFound {
             attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(20) , range: nsRange )
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.secondaryDarkGreenColor() , range: nsRange )
+            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: ApplicationTheme.currentTheme.labelSecondaryBaseColor , range: nsRange )
         }
         self.lblTopMsg.attributedText = attributedString
         self.state = .defaultAction
@@ -311,7 +327,7 @@ class NoStoreView: UIView {
         let nsRange = NSString(string: title).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
         if nsRange.location != NSNotFound {
             attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(20) , range: nsRange )
-            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.secondaryDarkGreenColor() , range: nsRange )
+            attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: ApplicationTheme.currentTheme.labelSecondaryBaseColor , range: nsRange )
         }
         self.lblTopMsg.attributedText = attributedString
         self.state = .defaultAction

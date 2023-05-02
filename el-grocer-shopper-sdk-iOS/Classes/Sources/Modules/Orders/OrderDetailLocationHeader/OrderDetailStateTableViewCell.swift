@@ -55,7 +55,7 @@ class OrderDetailStateTableViewCell: UITableViewCell {
         
         didSet{
             
-            progressView.progressTintColor = .navigationBarColor()
+            progressView.progressTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             progressView.layer.cornerRadius = 4
             progressView.clipsToBounds = true
             
@@ -132,8 +132,8 @@ class OrderDetailStateTableViewCell: UITableViewCell {
 extension OrderDetailStateTableViewCell {
     
     func setButtonType (_ order : Order) {
-
-        if order.status.intValue == OrderStatus.payment_pending.rawValue {
+        
+        if order.status.intValue == OrderStatus.payment_pending.rawValue || order.status.intValue == OrderStatus.STATUS_WAITING_APPROVAL.rawValue {
             self.btnChoose.setTitle(localizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
         }else if order.status.intValue == OrderStatus.inSubtitution.rawValue {
             self.btnChoose.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
@@ -166,24 +166,6 @@ extension OrderDetailStateTableViewCell {
         string.setColorForText(order?.dbID.stringValue ?? ""  , with: UIColor.newBlackColor())
         string.setFontForText(order?.dbID.stringValue ?? "" , with: .SFProDisplaySemiBoldFont(12))
         self.lblOrder.attributedText = string
-        //order status
-//        if order?.status.intValue == -1 {
-//            self.lblOrderStatus.text = localizedString("lbl_Payment_Pending", comment: "")
-//        }else{
-//            self.lblOrderStatus.text = localizedString(OrderStatus.labels[order?.status.intValue ?? 7], comment: "")
-//        }
-//        self.lblOrderStatus.text =  self.lblOrderStatus.text?.uppercased()
-//
-//        if order?.status.intValue == 6 {
-//            self.lblOrderStatus.textColor = .elGrocerYellowColor()
-//            lblOrderType.text = "in substitution".capitalized
-//        }else if order?.status.intValue  == 4 {
-//            self.lblOrderStatus.textColor = .textfieldErrorColor()
-//            lblOrderType.text = ""
-//        }else{
-//            self.lblOrderStatus.textColor = .navigationBarColor()
-//            lblOrderType.text = localizedString("title_estimated_delivery", comment: "")
-//        }
         
         //sab
         guard order != nil else {return}
@@ -253,7 +235,7 @@ extension OrderDetailStateTableViewCell {
             }
         }
         let countLabel = orderProducts.count == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
-        self.lblNumberOfItems.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount) ") + countLabel + ")"
+        self.lblNumberOfItems.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(order?.totalProducts ?? 0) ") + countLabel + ")"
         let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: order!.grocery, totalPrice: priceSum)
             priceSum = priceSum + serviceFee
         if let promoCode = order!.promoCode {
@@ -265,11 +247,12 @@ extension OrderDetailStateTableViewCell {
             }
         }
         var grandTotal = priceSum
-        if let price = Double(order!.priceVariance ?? "0") {
-            grandTotal = grandTotal + price
+        if let price = order?.priceVariance {
+            let priceDouble = Double(price) ?? 0.0
+            grandTotal = grandTotal + priceDouble
         }
 //        self.lblPrice.text = ("\(CurrencyManager.getCurrentCurrency()) " + (NSString(format: "%.2f", grandTotal) as String) as String)
-        self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: grandTotal)
+        self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: order?.finalBillAmount?.doubleValue ?? 0.00)
         if order!.deliverySlot != nil  ,  order?.deliverySlot?.dbID != nil {
             self.lblDate.text  = order!.deliverySlot!.getSlotDisplayStringOnOrder(order!.grocery)
         }else{

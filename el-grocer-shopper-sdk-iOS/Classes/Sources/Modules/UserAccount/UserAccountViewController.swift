@@ -111,19 +111,19 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
     
     func setUpEditProfileButtonAppearance() {
      
-        self.editProfileButton.layer.borderColor = UIColor.navigationBarColor().cgColor
+        self.editProfileButton.layer.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor.cgColor
         self.editProfileButton.layer.borderWidth = 1
         self.editProfileButton.setTitle(localizedString("my_account_edit_profile_button", comment: ""), for: UIControl.State())
-        self.editProfileButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.editProfileButton.setTitleColor(ApplicationTheme.currentTheme.buttonWithBorderTextColor, for: UIControl.State())
         self.editProfileButton.titleLabel?.font = UIFont.lightFont(17.0)
     }
     
     func setUpShopNowButtonAppearance() {
         
-        self.shopNowButton.layer.borderColor = UIColor.redTextColor().cgColor
+        self.shopNowButton.layer.borderColor = UIColor.redInfoColor().cgColor
         self.shopNowButton.layer.borderWidth = 1
         self.shopNowButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: UIControl.State())
-        self.shopNowButton.setTitleColor(UIColor.redTextColor(), for: UIControl.State())
+        self.shopNowButton.setTitleColor(UIColor.redInfoColor(), for: UIControl.State())
         self.shopNowButton.titleLabel?.font = UIFont.lightFont(17.0)
     }
     

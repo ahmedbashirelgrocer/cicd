@@ -79,7 +79,7 @@ class LocationPopUp: UIView {
         self.titleLabel.numberOfLines = 1
         
         self.descriptionLabel.font = UIFont.SFProDisplaySemiBoldFont(15.0)
-        self.descriptionLabel.textColor = UIColor.darkTextGrayColor()
+        self.descriptionLabel.textColor = UIColor.darkGrayTextColor()
         self.descriptionLabel.text = localizedString("location_services_message", comment: "")
         self.descriptionLabel.sizeToFit()
         self.descriptionLabel.numberOfLines = 3
@@ -89,12 +89,12 @@ class LocationPopUp: UIView {
         
         self.notificationImgView.image = UIImage(name: "location-enable")
         self.notificationImgView.image = self.notificationImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        self.notificationImgView.tintColor = UIColor.navigationBarColor()
+        self.notificationImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
     
     private func setButtonAppearance(){
         
-        self.doneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
+        self.doneButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
         self.doneButton.setTitle(localizedString("enable_location_services_title", comment: ""), for: UIControl.State())
         self.doneButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.doneButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)

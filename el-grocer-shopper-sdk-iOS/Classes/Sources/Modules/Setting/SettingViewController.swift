@@ -63,7 +63,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else{
             self.lblversionNumber.text = "Unknown"
         }
-       
+        self.navigationCustimzation()
         self.registerTableViewCell()
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableView.separatorColor =  .separatorColor() //.borderGrayColor()
@@ -105,8 +105,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 guard let self = self else {return}
                 elDebugPrint(self)
                 
-                let SDKManager: SDKManagerType! = sdkManager
-                if let nav = sdkManager.rootViewController as? UINavigationController {
+                let SDKManager = SDKManager.shared
+                if let nav = SDKManager.rootViewController as? UINavigationController {
                     if nav.viewControllers.count > 0 {
                         if  nav.viewControllers[0] as? UITabBarController != nil {
                             let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -127,22 +127,45 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
        
         
         if UserDefaults.isUserLoggedIn()  {
-
-            titles =  [localizedString("live_chat", comment: ""), localizedString("orders_Settings", comment: "") ,
-                       localizedString("saved_recipies", comment: ""),
-                       localizedString("saved_Cars", comment: ""),
-                       localizedString("address_settings", comment: ""),
-                       
-                       localizedString("payment_methods", comment: ""),
-                       localizedString("password_settings", comment: ""),
-                       localizedString("language_settings", comment: ""),
-                       localizedString("delete_account", comment: ""),
-                       localizedString("terms_settings", comment: ""),
-                       localizedString("privacy_policy", comment: ""),
-                       localizedString("FAQ_settings", comment: "")]
             
-            Images = ["liveChatSettings","ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" , "paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings", "faqSettings"]
-         
+            
+            if SDKManager.isSmileSDK {
+                
+                titles =  [localizedString("live_chat", comment: ""), localizedString("orders_Settings", comment: "") ,
+                           localizedString("saved_recipies", comment: ""),
+                           localizedString("saved_Cars", comment: ""),
+                           localizedString("address_settings", comment: ""),
+                           
+                           localizedString("payment_methods", comment: ""),
+                           localizedString("txt_title_elWallet", comment: ""),
+                           localizedString("language_settings", comment: ""),
+                           localizedString("delete_account", comment: ""),
+                           localizedString("terms_settings", comment: ""),
+                           localizedString("privacy_policy", comment: ""),
+                           localizedString("FAQ_settings", comment: "")]
+                
+                Images = ["liveChatSettings","ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" , "paymentMethodSettings", "paymentMethodSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings", "faqSettings"]
+                
+            } else {
+                
+                titles =  [localizedString("live_chat", comment: ""),
+                           localizedString("orders_Settings", comment: "") ,
+                           localizedString("saved_recipies", comment: ""),
+                           localizedString("saved_Cars", comment: ""),
+                           localizedString("address_settings", comment: ""),
+                           
+                           localizedString("payment_methods", comment: ""),
+                           localizedString("txt_title_elWallet", comment: ""),
+                           localizedString("password_settings", comment: ""),
+                           localizedString("language_settings", comment: ""),
+                           localizedString("delete_account", comment: ""),
+                           localizedString("terms_settings", comment: ""),
+                           localizedString("privacy_policy", comment: ""),
+                           localizedString("FAQ_settings", comment: "")]
+                
+                Images =  ["liveChatSettings" , "ordersSettings","savedRecipesSettings","savedCarsSettings","addressSettings" ,"paymentMethodSettings","paymentMethodSettings","passwordSettings","languageSettings", "DeleteAccountSettings","termsSettings","privacyPolicySettings" , "faqSettings"]
+                
+            }
 
         }else{
 
@@ -250,7 +273,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if sdkManager.isSmileSDK {
+        if SDKManager.isSmileSDK {
             return 40
         }
         
@@ -271,7 +294,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if sdkManager.isSmileSDK {
+        if SDKManager.isSmileSDK {
             if section == 1 {
                 return  localizedString("cell_Title_Account", comment: "")
             }else if section == 2 {
@@ -340,7 +363,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if sdkManager.isSmileSDK {
+        if SDKManager.isSmileSDK {
             if indexPath.section == 0 {
                 return kUserInfoCellHeight
             }
@@ -369,7 +392,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if sdkManager.isSmileSDK {
+        if SDKManager.isSmileSDK {
             return 3
             // -1 for Benifits (Smile points)
             // -1 for logout
@@ -385,11 +408,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if sdkManager.isSmileSDK {
+        if SDKManager.isSmileSDK {
             if section == 0 {
                 return 1
             } else if section == 1 {
-                return accountSectionCells - 3
+                return accountSectionCells - 2
                 // -1 for recipes
                 // -1 for change password
             }
@@ -421,7 +444,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        if sdkManager.isSmileSDK {
+        if SDKManager.isSmileSDK {
             return
         }
         
@@ -438,7 +461,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if sdkManager.isSmileSDK {
+        if SDKManager.isSmileSDK {
             if indexPath.section == 0 {
                 let cell:UserInfoCell = tableView.dequeueReusableCell(withIdentifier: kUserInfoCellIdentifier, for: indexPath) as! UserInfoCell
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -481,7 +504,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             if indexPath.section == 1 && smilePointSection == 1 {
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
-                //var title = localizedString("txt_smile_point", comment: "") +  localizedString("txt_bracket_login", comment: "")
+                    //var title = NSLocalizedString("txt_smile_point", comment: "") +  NSLocalizedString("txt_bracket_login", comment: "")
                 var title = localizedString("txt_earn_smiles", comment: "")
                 if UserDefaults.getIsSmileUser() {
                     let points = UserDefaults.getSmilesPoints()
@@ -490,7 +513,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let imageName = "smilesCellLogo"
                 cell.configureCellWithTitle(title, withImage: imageName)
                 cell.selectionStyle = UITableViewCell.SelectionStyle.none
-
+                
                 return cell
             }
             
@@ -500,16 +523,16 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.configureCellWithTitle(userProfile?.name ?? "", withPhoneNumber:userProfile?.phone ?? "" , andWithEmail: userProfile?.email ?? "")
                 cell.selectionStyle = UITableViewCell.SelectionStyle.none
                 cell.btnEditProfile.addTarget(self, action: #selector(self.editPressed(sender:)), for: .touchUpInside)
-
+                
                 return cell
                 
-
+                
                 
                 
             }else  if indexPath.section == 1 + smilePointSection  {
-
+                
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
-
+                
                 if  indexPath.row < titles.count {
                     let title = titles[(indexPath as NSIndexPath).row]
                     let imageName = Images[(indexPath as NSIndexPath).row]
@@ -519,12 +542,12 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.selectionStyle = UITableViewCell.SelectionStyle.none
                 
                 let lastRowIndex = tableView.numberOfRows(inSection: indexPath.section)
-
+                
                 
                 return cell
                 
             }else  if indexPath.section == 2 + smilePointSection{
-
+                
                 let cell:SettingCell = tableView.dequeueReusableCell(withIdentifier: kSettingCellIdentifier, for: indexPath) as! SettingCell
                 let addForIndex = accountSectionCells
                 let title = titles[(indexPath as NSIndexPath).row + addForIndex]
@@ -564,7 +587,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 
             }
-
+            
         }
         //not logged in state
         if indexPath.section == 0{
@@ -599,8 +622,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if sdkManager.isSmileSDK {
-        
+        if SDKManager.isSmileSDK {
+            var index = -1
+            
             switch indexPath.section {
             case 1:
                 switch (indexPath as NSIndexPath).row {
@@ -609,9 +633,12 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 //case 2: self.goToSavedRecipesVC()
 //                case 2: self.goToSavedCarsVC()
                 case 2: self.locationHeader.changeLocation()
-                case 3: self.goToSavedCardsVC()
+                case 3: self.goToAddNewCardVC()
+                case 4: self.goToElWalletVC()
                 default: break
                 }
+                
+                index = (indexPath.row >= 2 || indexPath.row >= 3) ? (indexPath.row + 2) : indexPath.row
             case 2:
                 switch (indexPath as NSIndexPath).row {
                 case 0: self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
@@ -619,146 +646,113 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 case 2: self.showFAQs()
                 default: break
                 }
+                
+                index = indexPath.row + accountSectionCells + settingsSectionCells + deleteAccountCell
             default: return
             }
             
+            if index < titles.count && index != -1 {
+                SegmentAnalyticsEngine.instance.logEvent(event: MenuItemClickedEvent(name: titles[index]))
+            }
             return
         }
        
         if UserDefaults.isUserLoggedIn() {
-
-            /*
-            //sab new
-            if  (indexPath as NSIndexPath).section == 1 + smilePointSection && ElGrocerUtility.sharedInstance.isZenDesk {
-                
-                 switch (indexPath as NSIndexPath).row {
-                    case 0:
-                       elDebugPrint("Show Live Chat")
-                        self.showLiveChat()
-                        break
-                    case 1:
-                       elDebugPrint("show Order")
-                        self.showOrderVC()
-                        break
-                    case 2:
-                       elDebugPrint("saved recipes")
-                        self.goToSavedRecipesVC()
-                        break
-                    case 3:
-                       elDebugPrint("saved cars")
-                        self.goToSavedCarsVC()
-                        break
-                    case 4:
-                       elDebugPrint("addresses")
-                        self.locationHeader.changeLocation()
-                        break
-                    case 5:
-                       elDebugPrint("show card list")
-                        self.goToSavedCardsVC()
-                        //self.showManageCard()
-                        break
-                    case 6:
-                       elDebugPrint("change Passowrd")
-                        self.goToChangePasswordVC();
-                        break
-                    
-                    default:
-                        break
-                }
-                return
-            }
-            */
-    
+            
             switch (indexPath as NSIndexPath).section {
-            case 0 + smilePointSection:
-                switch (indexPath as NSIndexPath).row {
-                case 0:
-                    //call api here
-                   elDebugPrint("Show smiles point view")
-                    if UserDefaults.getIsSmileUser() {
-                        let smilepoints = UserDefaults.getSmilesPoints()//100
-                        SmilesEventsLogger.smilePointsClickedEvent(isSmileslogin: true, smilePoints: smilepoints)
-                        self.showSmilePointsVC()
-                    } else {
-                        SmilesEventsLogger.smilesSignUpClickedEvent()
-                        //self.goToSmileWithPermission()
-                        self.gotToSmileLoginVC()
+                case 0 + smilePointSection:
+                    switch (indexPath as NSIndexPath).row {
+                        case 0:
+                                //call api here
+                           //  print("Show smiles point view")
+                            if UserDefaults.getIsSmileUser() {
+                                let smilepoints = UserDefaults.getSmilesPoints()//100
+                                SmilesEventsLogger.smilePointsClickedEvent(isSmileslogin: true, smilePoints: smilepoints)
+                                self.showSmilePointsVC()
+                            } else {
+                                SmilesEventsLogger.smilesSignUpClickedEvent()
+                                    //self.goToSmileWithPermission()
+                                self.gotToSmileLoginVC()
+                            }
+                            break
+                        default:
+                            break
                     }
-                    break
+                case 1 + smilePointSection:
+                    switch (indexPath as NSIndexPath).row {
+                        case 0:
+                           //  print("Show Live Chat")
+                            self.showLiveChat()
+                            break
+                        case 1:
+                           //  print("show Order")
+                            self.showOrderVC()
+                            break
+                        case 2:
+                           //  print("saved recipes")
+                            self.goToSavedRecipesVC()
+                            break
+                        case 3:
+                           //  print("saved cars")
+                            self.goToSavedCarsVC()
+                            break
+                        case 4:
+                           //  print("addresses")
+                            self.locationHeader.changeLocation()
+                            break
+                        case 5:
+                           //  print("show card list")
+                            self.goToAddNewCardVC()
+                                //self.showManageCard()
+                            break
+                        case 6:
+                           //  print("show elwallet")
+                            self.goToElWalletVC()
+                            break
+                        case 7:
+                           //  print("change Passowrd")
+                            self.goToChangePasswordVC();
+                            break
+                            
+                        default:
+                            break
+                    }
+                case 2 + smilePointSection:
+                    switch (indexPath as NSIndexPath).row {
+                            
+                        case 0:
+                           //  print("Language Selection")
+                            self.showLanguageSelectionVC()
+                            break
+                        case 1:
+                           //  print("delete account selection")
+                            self.showDeleteAccountVC()
+                            break
+                        default:
+                            break
+                    }
+                case 3 + smilePointSection:
+                    switch (indexPath as NSIndexPath).row {
+                            
+                        case 0:
+                           //  print("Terms Conditions")
+                            self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
+                            break
+                        case 1:
+                           //  print("Privacy Policy")
+                            self.navigateToPrivacyPolicyViewControllerWithTermsEnable()
+                            break
+                        case 2:
+                           //  print("FAQ's")
+                            self.showFAQs()
+                            break
+                        default:
+                            break
+                    }
                 default:
-                    break
-                }
-            case 1 + smilePointSection:
-                switch (indexPath as NSIndexPath).row {
-                case 0:
-                   elDebugPrint("Show Live Chat")
-                    self.showLiveChat()
-                    break
-                case 1:
-                   elDebugPrint("show Order")
-                    self.showOrderVC()
-                    break
-                case 2:
-                   elDebugPrint("saved recipes")
-                    self.goToSavedRecipesVC()
-                    break
-                case 3:
-                   elDebugPrint("saved cars")
-                    self.goToSavedCarsVC()
-                    break
-                case 4:
-                   elDebugPrint("addresses")
-                    self.locationHeader.changeLocation()
-                    break
-                case 5:
-                   elDebugPrint("show card list")
-                    self.goToSavedCardsVC()
-                    //self.showManageCard()
-                    break
-                case 6:
-                   elDebugPrint("change Passowrd")
-                    self.goToChangePasswordVC();
-                    break
-                
-                default:
-                    break
-                }
-            case 2 + smilePointSection:
-                switch (indexPath as NSIndexPath).row {
-                    
-                case 0:
-                   elDebugPrint("Language Selection")
-                    self.showLanguageSelectionVC()
-                    break
-                case 1:
-                   elDebugPrint("delete account selection")
-                    self.showDeleteAccountVC()
-                    break
-                default:
-                    break
-                }
-            case 3 + smilePointSection:
-                switch (indexPath as NSIndexPath).row {
-                    
-                case 0:
-                   elDebugPrint("Terms Conditions")
-                        self.navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
-                    break
-                case 1:
-                   elDebugPrint("Privacy Policy")
-                        self.navigateToPrivacyPolicyViewControllerWithTermsEnable()
-                    break
-                case 2:
-                   elDebugPrint("FAQ's")
-                        self.showFAQs()
-                    break
-                default:
-                    break
-                }
-            default:
-                return;
+                    return;
             }
-
+            
         }else{
 
             switch (indexPath as NSIndexPath).section {
@@ -1080,7 +1074,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                                       negativeButton: localizedString("sign_out_alert_no", comment: ""),
                                       buttonClickCallback: { (buttonIndex:Int) -> Void in
                                         if buttonIndex == 0 {
-                                             let SDKManager: SDKManagerType! = sdkManager
+                                             let SDKManager = SDKManager.shared
                                             if UIApplication.topViewController() is GenericProfileViewController {
                                                 SDKManager.currentTabBar?.dismiss(animated: false, completion: {
                                                     SDKManager.logoutAndShowEntryView()
@@ -1153,7 +1147,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.pushViewController(passVC, animated: true)
     }
     
-    private func goToSavedCardsVC() {
+    private func goToAddNewCardVC() {
         ElGrocerEventsLogger.sharedInstance.trackSettingClicked("saved recipes")
         let passVC = ElGrocerViewControllers.savedCarsViewController()
         passVC.modalPresentationStyle = .fullScreen
@@ -1164,6 +1158,21 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         navigationController.viewControllers = [passVC]
         navigationController.modalPresentationStyle = .fullScreen
         //self.navigationController?.present(navigationController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(passVC, animated: true)
+    }
+    
+    private func goToElWalletVC() {
+        
+            //ElGrocerEventsLogger.sharedInstance.trackSettingClicked("saved recipes")
+        let passVC = ElGrocerViewControllers.getElWalletHomeVC()
+        passVC.modalPresentationStyle = .fullScreen
+        
+        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.hideSeparationLine()
+        navigationController.viewControllers = [passVC]
+        navigationController.modalPresentationStyle = .fullScreen
+        
+            //self.navigationController?.present(navigationController, animated: true, completion: nil)
         self.navigationController?.pushViewController(passVC, animated: true)
     }
    

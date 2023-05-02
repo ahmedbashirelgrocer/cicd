@@ -16,6 +16,7 @@ import NBBottomSheet
 import FirebaseCrashlytics
 import RxSwift
 
+
 protocol MyBasketViewProtocol : class {
     
     func shoppingBasketViewCheckOutTapped(_ isGroceryBasket:Bool, grocery:Grocery?, notAvailableItems:[Int]?, availableProductsPrices:NSDictionary?) -> Void
@@ -79,11 +80,23 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     
         //MARK: View outlets
-    @IBOutlet var signView: AWView!
-    @IBOutlet var viewAddAddress: AWView!
+    @IBOutlet var signView: AWView! {
+        didSet {
+            signView.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+        }
+    }
+    @IBOutlet var viewAddAddress: AWView! {
+        didSet {
+            viewAddAddress.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+        }
+    }
     @IBOutlet var tblFooterCheckOutView: AWView!
     @IBOutlet var checkOutViewForButton: AWView!
-    @IBOutlet var viewForSearch: UIView!
+    @IBOutlet var viewForSearch: UIView! {
+        didSet {
+            self.viewForSearch.isHidden = true
+        }
+    }
     @IBOutlet var checkOutView: UIView!
     @IBOutlet var savedAmountBGView: UIView!{
         didSet{
@@ -102,9 +115,21 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
         //MARK: Buttons outlets
-    @IBOutlet var btnSignIn: AWButton!
-    @IBOutlet var btnSIgnUp: AWButton!
-    @IBOutlet var btnAddAddress: UIButton!
+    @IBOutlet var btnSignIn: AWButton! {
+        didSet {
+            btnSignIn.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
+    @IBOutlet var btnSIgnUp: AWButton!{
+        didSet {
+            btnSIgnUp.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
+    @IBOutlet var btnAddAddress: UIButton!{
+        didSet {
+            btnAddAddress.setTitleColor(ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor, for: UIControl.State())
+        }
+    }
     @IBOutlet weak var checkoutBtn: UIButton!
     
         //MARK: Label outlets
@@ -134,14 +159,22 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    @IBOutlet weak var minOrderLabel: UILabel!
+    @IBOutlet weak var minOrderLabel: UILabel! {
+        didSet {
+            minOrderLabel.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+        }
+    }
     
     //MARK: ImageView outlets
     @IBOutlet var imgViewTopCardView: UIImageView!
     @IBOutlet var imgbasketArrow: UIImageView!
     @IBOutlet weak var minOrderImageView: UIImageView!
     
-    @IBOutlet weak var minOrderProgressView: UIProgressView!
+    @IBOutlet weak var minOrderProgressView: UIProgressView! {
+        didSet {
+            minOrderProgressView.progressTintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+        }
+    }
     
         //MARK:- Variables
         //MARK:-
@@ -179,7 +212,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     var serviceFee = 0.0
     
         //MARK: Bool Var
-    
+    var isComingFromLocation = false
     var isComingFromReplacement = false
     var isAddressCompleted = false
     var isNextSlotAvailable = true
@@ -238,7 +271,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     }()
     
     var searchBar:CategorySearchBar!
-    
+    let disposeBag = DisposeBag()
     
         //MARK: Float & Double Var
     var scrollY: CGFloat = 0
@@ -274,11 +307,20 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.viewAddAddress.isHidden = true
         self.signView.isHidden = true
         hidesBottomBarWhenPushed = true
+        
+        if UserDefaults.isOrderInEdit() {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderEditScreen))
+        } else {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .cartScreen))
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if  !(UserDefaults.isOrderInEdit() && self.order != nil) {
+            self.searchBar.isHidden = true
+        }
         userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let topVc = UIApplication.topViewController()
         guard !(topVc is ReplacementViewController) else {
@@ -328,6 +370,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }else {
             self.isDeliveryMode = ElGrocerUtility.sharedInstance.isDeliveryMode
         }
+        
 
         self.reloadTableData()
         self.setControlerTitle()
@@ -343,7 +386,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.checkIsAddressFull(groceryA)
         }
         let _ = self.getFinalAmount()
-        
+        self.searchBar.isHidden = !self.orderToReplace
         //hide tabbar
         self.hideTabBar()
     }
@@ -569,6 +612,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         if  self.orderToReplace  {
             self.tblViewYPossition.constant = 76
+            self.viewForSearch.isHidden = false
             self.view.bringSubviewToFront(self.viewForSearch)
         }
         
@@ -699,7 +743,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.tblBasket.setNeedsLayout()
         self.tblBasket.layoutIfNeeded()
         self.tblViewYPossition.constant = 0
-        
         self.checkOutView.isHidden = true
         
     }
@@ -938,20 +981,20 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.tblBasket.separatorInset = UIEdgeInsets.zero
         self.tblBasket.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)//UIColor.white
         self.view.backgroundColor = .navigationBarWhiteColor()//#colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)// UIColor.white
-        
-        if  self.orderToReplace  {
-            self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
-            self.searchBar.backgroundColor = .navigationBarColor()
-            self.viewForSearch.backgroundColor = .navigationBarColor()
-            self.viewForSearch.addSubview(self.searchBar)
-        }
-        
         self.setupBottomView()
         self.setUpCheckoutButtonAppearance()
         self.setSummaryData()
-        
+        if  self.orderToReplace  {
+            self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
+            self.searchBar.clipsToBounds = true
+            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            self.viewForSearch.addSubview(self.searchBar)
+//            self.viewForSearch.isHidden = false
+        }
         //self.checkOutView.alpha = 0.0
         self.tblFooterCheckOutView.alpha = 0.0
+        
     }
     
     fileprivate func setupBottomView(){
@@ -981,7 +1024,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if DispatchQueue.isRunningOnMainQueue {
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
-            self.checkOutViewForButton.backgroundColor  = enabled ? UIColor.navigationBarColor() : UIColor.disableButtonColor()
+            self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
             return
         }
         
@@ -989,7 +1032,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             guard let self = self else {return}
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
-            self.checkOutViewForButton.backgroundColor  = enabled ? UIColor.navigationBarColor() : UIColor.disableButtonColor()
+            self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
         }
         
     }
@@ -997,7 +1040,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         // MARK: Actions
     override func backButtonClick() {
         
-        
+        UserDefaults.setAdditionalInstructionsNote("")
         if self.orderToReplace {
             UserDefaults.resetEditOrder(false)
         }
@@ -1014,7 +1057,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         MixpanelEventLogger.trackCartclose()
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
-        self.navigationController?.popViewController(animated: true)
+        if isComingFromLocation {
+            self.navigationController?.popToRootViewController(animated: true)
+            return
+        }else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     override func plusButtonClick() {
@@ -1233,6 +1281,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     @IBAction func checkoutButtonHandler(_ sender: Any) {
+        let cartCheckoutEvent = CartCheckoutEvent(products: self.products, activeGrocery: self.grocery)
+        SegmentAnalyticsEngine.instance.logEvent(event: cartCheckoutEvent)
         
         self.proceedToCheckOutWithGrocery(self.grocery!)
     }
@@ -1278,7 +1328,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 let indexPath = IndexPath.init(row: index, section: 4)
                 let isVisible = self.tblBasket.indexPathsForVisibleRows?.contains{$0 == indexPath}
                 if let cell = self.tblBasket.cellForRow(at: indexPath) , let validCell = cell as? MyBasketTableViewCell {
-                    validCell.viewMainContainer.backgroundColor = UIColor.newborderColor()
+                    validCell.viewMainContainer.backgroundColor = UIColor.newBorderGreyColor()
                     ElGrocerUtility.sharedInstance.delay(0.5) {
                         validCell.viewMainContainer.backgroundColor = UIColor.white
                     }
@@ -1595,7 +1645,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     DispatchQueue.main.async {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        self.substituteProduct[product.dbID] = newProducts
+                        self.substituteProduct[product.dbID] = newProducts.products
                         
                         if let first  =   self.notAvailableProductsList.firstIndex(of: product) {
                             let indexPath = NSIndexPath.init(row: first, section: self.notAvailableProductSectionNumber) as IndexPath
@@ -1632,7 +1682,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     Thread.OnMainThread {
                         let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , product )
                         DatabaseHelper.sharedInstance.saveDatabase()
-                        self.substituteProduct[product.dbID] = newProducts
+                        self.substituteProduct[product.dbID] = newProducts.products
                         self.reloadTableData()
                     }
                     return
@@ -1802,18 +1852,18 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
             self.minOrderLabel.attributedText =  NSMutableAttributedString()
                 .normal(localizedString("lbl_Add", comment: ""),
-                        UIFont.SFProDisplayNormalFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayNormalFont(12), color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                 .normal(" " + ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: remainingPrice) + " ",
-                        UIFont.SFProDisplayBoldFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayBoldFont(12), color: ApplicationTheme.currentTheme.labelHeadingTextColor)
                 .normal(localizedString("to_reach_minimum_order", comment: ""),
-                        UIFont.SFProDisplayNormalFont(12), color: .secondaryDarkGreenColor())
+                        UIFont.SFProDisplayNormalFont(12), color: ApplicationTheme.currentTheme.labelHeadingTextColor)
             
             self.minOrderImageView.image = UIImage(name: "cart-addmore")
             let progressValue = Float(priceSum/(self.grocery?.minBasketValue)!)
             self.minOrderProgressView.setProgress(progressValue, animated: true)
-            self.title = localizedString("shopping_OOS_title_label", comment: "")
+                self.title =  (self.itemsSummaryValue > 0 && notAvailableCount > 0) ?   localizedString("shopping_OOS_title_label", comment: "") : localizedString("Cart_Title", comment: "")
             self.checkoutBtn.isEnabled = false
-            self.checkOutViewForButton.backgroundColor = UIColor.colorWithHexString(hexString: "909090")
+            self.checkOutViewForButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             //greyish
         }else{
             
@@ -1824,7 +1874,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.minOrderProgressView.setProgress(1.0, animated: true)
             if UserDefaults.isUserLoggedIn() && notAvailableCount == 0 {
             self.checkoutBtn.isEnabled = true
-            self.checkOutViewForButton.backgroundColor = UIColor.colorWithHexString(hexString: "05BC66")
+                self.checkOutViewForButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             //green
             }
         }
@@ -2236,7 +2286,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             }
             
         }
-        
+        /// display pre OOS cart
         if indexPath.section == 2 {
             
             let product = self.notAvailableProductsList[(indexPath as NSIndexPath).row]
@@ -2376,16 +2426,29 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     
                     ElGrocerUtility.sharedInstance.delay(0.1) {
                         self.deleteProduct(-1, selectedProduct)
+                        if self.notAvailableProductsList.count == 0 {
+                            self.isOutOfStockProductAvailablePreCart = false
+                            self.checkData()
+                        }
                     }
                     ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("lbl_outODStock_Undo", comment: ""), image: UIImage(name: "MyBasketOutOfStockStatusBar"), index , backButtonClicked: { [weak self] (sender , index , isUnDo) in
                         
                         if isUnDo {
                             ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery:self?.grocery, brandName:nil, quantity: 1, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                            self?.notAvailableProductsList.insert(selectedProduct, at: index )
+                            if self?.notAvailableProducts?.count ?? 0 == 0 {
+                                self?.notAvailableProductsList.insert(selectedProduct, at: 0 )
+                            }else {
+                                self?.notAvailableProductsList.insert(selectedProduct, at: index )
+                            }
+                            self?.isOutOfStockProductAvailablePreCart = true
                             self?.products.append(selectedProduct)
                             self?.tblBasket.reloadData()
                         }else{
                             self?.deleteProduct(-1, selectedProduct)
+                            if self?.notAvailableProductsList.count == 0 {
+                                self?.isOutOfStockProductAvailablePreCart = false
+                                self?.checkData()
+                            }
                         }
                     })
                 }
@@ -2769,6 +2832,10 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             if quantity == 0 {
                     // Remove product from basket
                 ShoppingBasketItem.removeProductFromBasket(self.selectedProduct, grocery: self.grocery, orderID: nil , context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: self.grocery))
+                }
                 self.removeProductFromAvailableAndProductA ()
                 
             } else {
@@ -2784,6 +2851,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     //remove product from basket
                 ShoppingBasketItem.removeProductFromBasket(self.selectedProduct, grocery: nil, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 self.removeProductFromAvailableAndProductA ()
+                
+                // Log segment delete cart event
+                if ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count <= 0 {
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: self.grocery))
+                }
                 
             } else {
                 
@@ -2922,6 +2994,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.orderCancelled(isSuccess: isCancel)
         }
         cancelationHandler.startCancelationProcess(inVC: self, with: orderId)
+        
+        // Logging segment event for cancel order clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: CancelOrderClickedEvent(orderId: orderId))
     }
     
     func orderCancelled(isSuccess: Bool) {
@@ -3150,7 +3225,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 Thread.OnMainThread {
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     DatabaseHelper.sharedInstance.saveDatabase()
-                    self.replaceProductsList = newProducts
+                    self.replaceProductsList = newProducts.products
                     self.tblBasket.reloadRows(at: [IndexPath], with: .fade)
                 }
             }
@@ -3253,6 +3328,10 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 self.updateQuantityAndPriceColour(index)
                 self.logAddProductEvent(self.selectedProduct)
                 
+                // Logging segment event
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: self.selectedProduct, actionType: .added, quantity: counter)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+                
                 if self.selectedProduct.promotion?.boolValue == true {
                     
                     func showOverLimitMsg() {
@@ -3314,8 +3393,13 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 if(counter > 0){
                     self.updateQuantityAndPriceColour(index)
                 }
+                
                 ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("decrease_quantity_at_my_basket_screen")
                 FireBaseEventsLogger.trackDecrementAddToProduct(product: self.selectedProduct)
+                
+                // Logging segment event for product removed
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: counter)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
             }else if (counter == 0){
                 self.updateSelectedProductsQuantity(counter, andWithProductIndex: index)
                 
@@ -3351,11 +3435,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         let cell = self.tblBasket.cellForRow(at: indexPath) as! MyBasketTableViewCell
-        let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.darkTextGrayColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(6.0)]
+        let dict1 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelHeadingTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(6.0)]
         
-        let dict2 = [NSAttributedString.Key.foregroundColor:UIColor.lightBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
+        let dict2 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labeldiscriptionTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
         
-        let dict3 = [NSAttributedString.Key.foregroundColor: UIColor.red,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
+        let dict3 = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.textfieldErrorColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(11.0)]
         
         let partAED = NSMutableAttributedString(string:NSString(format: "%@\n",CurrencyManager.getCurrentCurrency()) as String, attributes:dict1)
         
@@ -3445,6 +3529,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 case .success(let responseDict):
                    elDebugPrint("Fetch Basket Response:%@",responseDict)
                     self.saveResponseData(responseDict, andWithGrocery: grocery)
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
                 case .failure(let error):
                    elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
                     spinnerView?.removeFromSuperview()
@@ -3579,16 +3665,21 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func btnAddAddressAction(_ sender: Any) {
         
         if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let editLocationController = ElGrocerViewControllers.editLocationViewController()
-            editLocationController.deliveryAddress = deliveryAddress
-            editLocationController.editScreenState = .isFromCart
+            let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+            let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
             
             
             let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            
             navigationController.hideSeparationLine()
+            navigationController.setLogoHidden(true)
+            navigationController.setGreenBackgroundColor()
+            navigationController.setBackButtonHidden(true)
+            editLocationController.isPresented = true
+            
             navigationController.viewControllers = [editLocationController]
             navigationController.modalPresentationStyle = .fullScreen
-            self.navigationController?.present(navigationController, animated: true, completion: nil) //pushViewController(editLocationController, animated: true)
+            self.navigationController?.present(navigationController, animated: true, completion: nil)
         }
         
     }
@@ -3607,12 +3698,14 @@ extension MyBasketViewController : CategorySearchBarDelegate {
         
         let searchController = ElGrocerViewControllers.searchViewController()
         searchController.isNavigateToSearch = true
+        searchController.isForEditOrder = true
         searchController.navigationFromControllerName = FireBaseScreenName.MyBasket.rawValue
         MixpanelEventLogger.trackEditCartSearchClick()
         if let topName = FireBaseEventsLogger.gettopViewControllerName() {
             searchController.navigationFromControllerName = topName
         }
-        self.navigationController?.pushViewController(searchController, animated: true)
+        searchController.modalPresentationStyle = .fullScreen
+        self.present(searchController, animated: true)
     }
     
 }
@@ -3833,22 +3926,6 @@ extension MyBasketViewController {
     
     func getFinalAmountToDisplay () -> Double {
         
-            //        var discountedPriceis = 0.0
-            //        var isPromoCode = false
-            //        if let promoCodeValue = UserDefaults.getPromoCodeValue() {
-            //            discountedPriceis = priceSum - promoCodeValue.valueCents
-            //            isPromoCode = true
-            //        }
-            //        var finpriceToShow = discountedPriceis
-            //        if discountedPriceis == 0 {
-            //            discountedPriceis = priceSum
-            //        }
-            //        if finpriceToShow <= 0  && isPromoCode {
-            //            finpriceToShow = 0.00
-            //        }else{
-            //            finpriceToShow = discountedPriceis
-            //        }
-        
         return priceSum
         
     }
@@ -3891,13 +3968,7 @@ extension MyBasketViewController {
                 }
             }
         }
-        
-            //        if isPromo{
-            //            if promoValue != nil && promoValue.valueCents > 0{
-            //                Discount = (promoValue.valueCents) + Discount
-            //            }
-            //        }
-        
+   
         return Discount
         
     }
@@ -3950,22 +4021,6 @@ extension MyBasketViewController {
         
         self.priceSum   = self.itemsSummaryValue
         
-        /*
-         if (self.itemsSummaryValue ) < self.grocery?.minBasketValue ?? 0 {
-         
-         // Order amount is less then minimum basket amount
-         // add delivery fees + service fees
-         self.serviceFee = (self.grocery?.serviceFee ?? 0) + (self.grocery?.deliveryFee ?? 0)
-         self.priceSum  = (self.itemsSummaryValue ) + (self.serviceFee )
-         
-         }else{
-         
-         // Order amount more then or eqaul to minimum basket amount
-         // add rider fees + service fees
-         self.serviceFee = (self.grocery?.riderFee ?? 0) + (self.grocery?.serviceFee ?? 0)
-         self.priceSum   = (self.itemsSummaryValue ) + (self.serviceFee )
-         }
-         */
         
     }
     
@@ -4066,6 +4121,27 @@ extension MyBasketViewController {
         }
     }
     
+    func logMixPannelAvailablePaymentMethodsEvents(payments: [PaymentType]?, retailerId: String) {
+        guard let paymentTypes = payments else {
+            return
+        }
+        var cashAvailable: Bool = false
+        var cardAvailable: Bool = false
+        var onlineAvailable: Bool = false
+
+        for payment in paymentTypes {
+            let paymentOption =  payment.getLocalPaymentOption()
+            if paymentOption == .cash {
+                cashAvailable = true
+            }else if paymentOption == .card {
+                cardAvailable = true
+            }else if paymentOption == .creditCard {
+                onlineAvailable = true
+            }
+        }
+        MixpanelEventLogger.trackCheckoutAvailablePaymentMethods(retailerId: retailerId, cash: cashAvailable, card: cardAvailable, online: onlineAvailable)
+    }
+    
     private func naviagteUserToOrderSummary(){
         
         
@@ -4088,146 +4164,101 @@ extension MyBasketViewController {
             MixpanelEventLogger.trackCartBeginCheckout(value: "\(self.itemsSummaryValue)")
         }
         
-        setRecipeCartAnalyticsAndRemoveRecipe()
+      //  setRecipeCartAnalyticsAndRemoveRecipe()
+        
+        guard self.isDeliveryMode else {
+            
+            let vc = ElGrocerViewControllers.myBasketPlaceOrderVC()
+            vc.hidesBottomBarWhenPushed = true
+            vc.secondCheckOutDataHandler = self.populateMyBasketObjForCheckout()
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
+            
+        }
+        
+        let _ = SpinnerView.showSpinnerViewInView(self.view)
+        
+        var deliveryAddress : DeliveryAddress? = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        var slotId: Int = self.currentDeliverySlot != nil ? self.currentDeliverySlot.dbID.intValue : 0
+        var slot: DeliverySlot? = self.currentDeliverySlot != nil ? self.currentDeliverySlot : nil
+        var orderID : String? = nil
+        var orderForEdit : Order? = nil
+        if UserDefaults.isOrderInEdit(), order != nil {
+            deliveryAddress = order.deliveryAddress
+            slotId = order.deliverySlot?.dbID.intValue ?? 0
+            slot = order.deliverySlot
+            orderID = UserDefaults.getEditOrderDbId()?.stringValue
+            orderForEdit = order
+            
+        }
+        
+        if let deliveryAddress = deliveryAddress {
+            let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            let vm = SecondaryViewModel(address: deliveryAddress, grocery: self.grocery!, slotId: slotId,orderId: orderID,shopingItems: self.shoppingItems, finalisedProducts: self.products, selectedPreferenceId: self.myBasketDataObj.getSelectedReason()?.reasonKey.intValue ?? 1, deliverySlot: slot)
+            vm.setEditOrderInitialDetail(orderForEdit)
+            vm.callSetCartBalanceAccountCacheApi()
+            vm.setUserId(userId: user?.dbID)
+            vm.basketData
+                .subscribe(onNext: { [weak self] data in
+                    guard let self = self, let data = data else { return }
+//                    Thread.OnMainThread {
+////                        guard UIApplication.topViewController() == self else { return }
+////                        SpinnerView.hideSpinnerView()
+////                        let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
+////                        secondVC.viewModel = vm
+////                        self.navigationController?.pushViewController(secondVC, animated: true)
+//                    }
+                    self.logMixPannelAvailablePaymentMethodsEvents(payments: data.paymentTypes, retailerId: self.grocery?.dbID ?? "-1")
+                })
+                .disposed(by: disposeBag)
+            
+            vm.basketError
+                .subscribe (onNext: { cartApiError in
+                    guard cartApiError != nil else{
+                        return
+                    }
+                    SpinnerView.hideSpinnerView()
+                    cartApiError?.showErrorAlert()
+                })
+                .disposed(by: disposeBag)
+            vm.getBasketData
+                .subscribe(onNext: { [weak self] data in
+                    guard let self = self, let isSuccess = data else { return }
+                    Thread.OnMainThread {
+                        if isSuccess {
+                            guard UIApplication.topViewController() == self else { return }
+                            SpinnerView.hideSpinnerView()
+                            if UserDefaults.isOrderInEdit(), self.order != nil {
+                                vm.setInitialDataForEditOrder(self.order)
+                                vm.getEditOrderBasketDetailWithSlot()
+                            }else {
+                                vm.getBasketDetailWithSlot()
+                            }
+                            
+                            let secondVC = ElGrocerViewControllers.getSecondCheckoutVC()
+                            secondVC.viewModel = vm
+                            self.navigationController?.pushViewController(secondVC, animated: true)
+                        }else {
+                            //  print("show error")
+                        }
+                        
+                    }
+                })
+                .disposed(by: disposeBag)
+            
+            vm.getBasketError
+                .subscribe (onNext: { cartApiError in
+                    guard cartApiError != nil else{
+                        return
+                    }
+                    SpinnerView.hideSpinnerView()
+                    cartApiError?.showErrorAlert()
+                })
+                .disposed(by: disposeBag)
+        }
         
         
-        
-        
-            //sab
-        let vc = ElGrocerViewControllers.myBasketPlaceOrderVC()
-        vc.hidesBottomBarWhenPushed = true
-        vc.secondCheckOutDataHandler = self.populateMyBasketObjForCheckout()
-        self.navigationController?.pushViewController(vc, animated: true)
-        
-        
-        
-        /*
-         self.currentCvv = self.txtCvv.text ?? ""
-         
-         guard self.grocery != nil else {
-         self.tabBarController?.selectedIndex = 0
-         return
-         }
-         
-         if  let _ : NSNumber = UserDefaults.getEditOrderDbId() {
-         if self.order.status == OrderStatusId.orderStatusPending.rawValue {
-         self.makeOrderEdit()
-         return
-         }
-         }
-         guard self.selectedPaymentOption != nil else {
-         self.lblCvvError.text = localizedString("shopping_basket_payment_info_label", comment: "")
-         self.txtCvv.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-         return
-         }
-         if self.selectedPaymentOption == PaymentOption.creditCard {
-         guard self.selectedCreditCard != nil else {
-         self.lblCvvError.text = localizedString("shopping_basket_payment_info_label", comment: "")
-         self.txtCvv.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-         return
-         }
-         if self.currentCvv.count < 3 {
-         self.lblCvvError.text = localizedString("lbl_enter_Cvv", comment: "")
-         self.txtCvv.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-         return
-         }
-         }
-         if  self.currentDeliverySlot != nil && Int(truncating: self.currentDeliverySlot!.dbID) != asapDbId && (self.currentDeliverySlot.estimated_delivery_at.minutesFrom(Date())) < 0  {
-         self.showSlotExpiryAlert()
-         FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click ", action: "Expiry slot \(String(describing: self.currentDeliverySlot.estimated_delivery_at.minutesFrom(Date())))")
-         return
-         }
-         var productIds : [String] = []
-         var brandNames : [String] = []
-         var fbDataA : [[AnyHashable : Any]] = []
-         for finalItem in self.shoppingItems {
-         let facebookProductParams = ["id" : "\(Product.getCleanProductId(fromId:finalItem.productId))"  , "quantity" : finalItem.count.intValue ] as [AnyHashable: Any]
-         fbDataA.append(facebookProductParams)
-         productIds.append("\(Product.getCleanProductId(fromId:finalItem.productId))")
-         brandNames.append(finalItem.brandName ?? "")
-         }
-         let paramsJSON = JSON(fbDataA)
-         let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
-         
-         ElGrocerEventsLogger.sharedInstance.trackCheckOut(coupon: productIds.joined(separator: ","), currency: kProductCurrencyEngAEDName, value: self.itemsSummaryValue , isEdit: UserDefaults.isOrderInEdit(), itemsCount: self.itemsCount.text ?? "", productIds: productIds.joined(separator: ","), appFlayerJsonString: paramsString )
-         
-         setRecipeCartAnalyticsAndRemoveRecipe()
-         
-         var deliveryFee = 0.0
-         var riderFee = 0.0
-         
-         if self.itemsSummaryValue < self.grocery?.minBasketValue ?? 0 {
-         deliveryFee = self.grocery?.deliveryFee ?? 0
-         }else{
-         riderFee = self.grocery?.riderFee ?? 0
-         }
-         
-         var shopperNote  = ""
-         
-         let indexPath:IndexPath = IndexPath(row: 4, section: 0)
-         if let cell = self.tblBasket.cellForRow(at: indexPath) as? MyBasketInstructionTableViewCell {
-         //            if cell.txtInsutrction.text?.count ?? 0 > 0   {
-         //                shopperNote = cell.txtInsutrction.text ?? ""
-         //            }
-         }
-         if shopperNote.count == 0 {
-         if let note = UserDefaults.getLeaveUsNote() {
-         shopperNote = note
-         }
-         }
-         
-         if  let orderDBID : NSNumber = UserDefaults.getEditOrderDbId() {
-         
-         let spinner = SpinnerView.showSpinnerViewInView(self.view)
-         ElGrocerApi.sharedInstance.editOrder(self.shoppingItems , inGrocery: self.order.grocery , atAddress:  self.order.deliveryAddress , withNote: shopperNote , withPaymentType: self.selectedPaymentOption! , walletPaidAmount: 0 , riderFee: riderFee , deliveryFee: deliveryFee , andWithDeliverySlot: self.currentDeliverySlot , orderID: orderDBID , self.selectedPaymentOption == .creditCard ?  UserDefaults.getMerchantRef(userID: self.userProfile?.dbID.stringValue ?? "-1") : nil , String(describing: self.selectedCreditCard?.cardID ?? 0), UserDefaults.getAmountRef(userID: self.userProfile?.dbID.stringValue ?? "-1") , selectedCar: self.isDeliveryMode ? nil : self.dataHandler.selectedCar!, selectedCollector: self.isDeliveryMode ? nil :  self.dataHandler.selectedCollector!, pickUpLocation: self.isDeliveryMode ? nil :  self.dataHandler.pickUpLocation!) {(result) -> Void in
-         spinner?.removeFromSuperview()
-         SpinnerView.hideSpinnerView()
-         switch result {
-         case .success( _):
-         self.finalHandlerResult(result: result , finalOrderItems: self.shoppingItems , activeGrocery:self.order.grocery , finalProducts: self.products, orderID: orderDBID )
-         
-         case .failure(let error):
-         if error.code == 10000 || error.code == 4052 { // for edit order only
-         if let message = error.message {
-         if !message.isEmpty {
-         ElGrocerAlertView.createAlert(localizedString("order_confirmation_Edit_order_button", comment: ""),description:localizedString("edit_Order_TimePassed", comment: ""),positiveButton: localizedString("products_adding_different_grocery_alert_cancel_button", comment: ""),negativeButton: localizedString("setting_feedback", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
-         let orderID = self.order.dbID.stringValue
-         UserDefaults.resetEditOrder(false)
-         self.order.status = NSNumber(value: OrderStatus.pending.rawValue)
-         if buttonIndex == 0 {
-         // cancelButton action
-         self.backButtonClick()
-         }else{
-         //livechat action
-         //                                            if ElGrocerUtility.sharedInstance.isZenDesk {
-         //                                                ZenDesk.sharedInstance.showLiveChatWithReplacingCurrentNavigation(orderID: orderID, inNavigation: self.navigationController)
-         //                                            }else{
-         //                                                NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
-         //                                                self.navigationController?.popViewController(animated: false)
-         //                                                ZohoChat.showChat(orderID)
-         //                                            }
-         let sendBirdManager = SendBirdDeskManager(controller: self, orderId: orderID, type: .orderSupport)
-         sendBirdManager.setUpSenBirdDeskWithCurrentUser()
-         
-         }
-         }).show()
-         return
-         }
-         }
-         }
-         error.showErrorAlert()
-         }
-         }
-         return
-         }
-         
-         let spinner = SpinnerView.showSpinnerViewInView(self.view)
-         ElGrocerApi.sharedInstance.placeOrder(self.shoppingItems, inGrocery: self.grocery! , atAddress: self.currentAddress! , withNote: shopperNote, withPaymentType: self.selectedPaymentOption! , walletPaidAmount: 0, riderFee: riderFee, deliveryFee: deliveryFee , andWithDeliverySlot: self.currentDeliverySlot , self.selectedPaymentOption == .creditCard ?  UserDefaults.getMerchantRef(userID: self.userProfile?.dbID.stringValue ?? "-1") : nil , String(describing: self.selectedCreditCard?.cardID ?? 0) , ammount: UserDefaults.getAmountRef(userID: self.userProfile?.dbID.stringValue ?? "-1") , selectedCar: self.isDeliveryMode ? nil : self.dataHandler.selectedCar!, selectedCollector: self.isDeliveryMode ? nil :  self.dataHandler.selectedCollector!, pickUpLocation: self.isDeliveryMode ? nil :  self.dataHandler.pickUpLocation!)  {  (result) -> Void in
-         self.finalHandlerResult(result: result , finalOrderItems: self.shoppingItems , activeGrocery: self.grocery! , finalProducts: self.products, orderID: nil )
-         spinner?.removeFromSuperview()
-         
-         }
-         */
+   
     }
     
     func finalHandlerResult ( result: Either<NSDictionary> , finalOrderItems:[ShoppingBasketItem] , activeGrocery:Grocery! , finalProducts:[Product]! , orderID: NSNumber?) {
@@ -4390,3 +4421,4 @@ extension MyBasketViewController: GroceryChangeProtocol {
         }
     }
 }
+

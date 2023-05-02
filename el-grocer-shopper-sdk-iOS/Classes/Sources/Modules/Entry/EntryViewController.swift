@@ -383,12 +383,12 @@ class EntryViewController: UIViewController {
         
         lblNewToElgrocer.text = localizedString("lbl_new_to_elgrocer", comment: "")
         
-        loginButton.layer.backgroundColor = UIColor.navigationBarColor().cgColor
+        loginButton.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
         loginButton.setButton2SemiBoldWhiteStyle()
         loginButton.setTitle("  " + localizedString("entry_detect_my_location_button_title", comment: ""), for: UIControl.State())
         
         
-        signUpButton.layer.borderColor = UIColor.navigationBarColor().cgColor
+        signUpButton.layer.borderColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor.cgColor
         signUpButton.setH4SemiBoldGreenStyle()
         signUpButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: UIControl.State())
 

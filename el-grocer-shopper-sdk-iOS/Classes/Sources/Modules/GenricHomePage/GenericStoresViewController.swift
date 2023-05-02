@@ -62,6 +62,7 @@ extension GenericStoresViewController : HomePageDataLoadingComplete {
 }
 class GenericStoresViewController: BasketBasicViewController {
         // MARK:- properties
+    var launchCompletion: (() -> Void)?
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var switchViewHeight: NSLayoutConstraint!
@@ -194,6 +195,10 @@ class GenericStoresViewController: BasketBasicViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        launchCompletion?()
+        launchCompletion = nil
+        
         guard UserDefaults.didUserSetAddress() else {
             return
         }
@@ -534,7 +539,7 @@ class GenericStoresViewController: BasketBasicViewController {
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return
         }
-        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)){
+        if !((self.locationHeader.localLoadedAddress?.lat == address.latitude) && (self.locationHeader.localLoadedAddress?.lng == address.longitude)) {
             self.selectStoreType = nil
             self.homeDataHandler.resetHomeDataHandler()
             self.homeDataHandler.fetchHomeData(Platform.isDebugBuild)
@@ -2069,15 +2074,22 @@ extension GenericStoresViewController : UICollectionViewDelegate , UICollectionV
             return
         }
         
-        let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-        orderConfirmationController.orderDict = order
-        orderConfirmationController.isNeedToRemoveActiveBasket = false
-        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navigationController.hideSeparationLine()
-        navigationController.viewControllers = [orderConfirmationController]
-        orderConfirmationController.modalPresentationStyle = .fullScreen
-        navigationController.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(navigationController, animated: true, completion: {  })
+        
+        if let orderIdString = order["id"] as? NSNumber {
+            let viewModel = OrderConfirmationViewModel(orderId: orderIdString.stringValue)
+            let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
+            orderConfirmationController.orderDict = order
+            orderConfirmationController.isNeedToRemoveActiveBasket = false
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [orderConfirmationController]
+            orderConfirmationController.modalPresentationStyle = .fullScreen
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: {  })
+        }
+        
+        
+      
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

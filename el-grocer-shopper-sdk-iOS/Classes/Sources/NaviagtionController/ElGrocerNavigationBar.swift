@@ -38,7 +38,8 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.setSearchBarHidden(true)
         setChatButtonHidden(true)
         setLocationHidden(true)
-        sdkManager.isSmileSDK ? self.addSideMenuButton() : self.addProfileButton()
+        self.addProfileButton()
+        self.addSideMenuButton()
         self.addCartButton()
         NotificationCenter.default.addObserver(self, selector: #selector(ElGrocerNavigationBar.chatStateChange(notification:)), name: KChatNotifcation, object: nil)
     }
@@ -214,7 +215,7 @@ class ElGrocerNavigationBar : UINavigationBar {
                 self.profileButton.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
             }
         } else if self.profileButton != nil {
-            self.profileButton.frame = CGRect(x: 16, y: (self.frame.size.height*0.5)-13 , width: 24, height: 24)
+            self.profileButton.frame = CGRect(x: 32, y: (self.frame.size.height*0.5)-13 , width: 24, height: 24)
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.profileButton.frame = CGRect(x: self.frame.size.width-16-24  , y: (self.frame.size.height*0.5)-13, width: 24, height: 24)
                 self.profileButton.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -259,7 +260,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     //MARK: Appearance
     
     func setGreenBackground() {
-        let color = sdkManager.isSmileSDK ? .clear : UIColor.navigationBarColor()
+        let color = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.backgroundColor = color
         self.barTintColor = color
         self.isTranslucent = false
@@ -278,20 +279,20 @@ class ElGrocerNavigationBar : UINavigationBar {
             // Fallback on earlier versions
         }
         
-        if sdkManager.isSmileSDK {
+        if SDKManager.isSmileSDK {
             self.setClearBackground()
         }
     }
     func setWhiteBackground() {
         
-        self.backgroundColor = sdkManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
-        self.barTintColor = sdkManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+        self.backgroundColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+        self.barTintColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
         self.isTranslucent = false
         
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithDefaultBackground()
-            barAppearance.backgroundColor = sdkManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+            barAppearance.backgroundColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
@@ -306,8 +307,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     func setNewLightBackground() {
         
-        self.backgroundColor = UIColor.moreBGColor()
-        self.barTintColor = UIColor.moreBGColor()
+        self.backgroundColor = UIColor.textfieldBackgroundColor()
+        self.barTintColor = UIColor.textfieldBackgroundColor()
         self.isTranslucent = false
     }
     
@@ -361,6 +362,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     // MARK: Logo
     
+    
+    
     func setLogoHidden(_ hidden:Bool) {
         
         if let logo = self.logoView {
@@ -406,7 +409,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
     }
     
-    func setChatIconColor ( _ color : UIColor = .navigationBarColor())  {
+    func setChatIconColor ( _ color : UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor)  {
         if let chat = self.chatButton {
             if !chat.navChatButton.isHidden {
                 chat.changeChatIconColor(color: color)
@@ -417,14 +420,41 @@ class ElGrocerNavigationBar : UINavigationBar {
     fileprivate func addLogoView() {
         
         var image = UIImage(name: "menu_logo")!
-        if sdkManager.isSmileSDK {
-            image = UIImage(name: "smile_Logo_elgrocer")!
+        if SDKManager.isSmileSDK {
+            if SDKManager.shared.launchOptions?.navigationType == .singleStore {
+                if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                    image = UIImage(name: "smiles-Single-Store-ar")!
+                } else {
+                    image = UIImage(name: "smiles-Single-Store-en")!
+                }
+            } else {
+                image = UIImage(name: "smile_Logo_elgrocer")!
+            }
+           
         }
         self.logoView = UIImageView(image: image)
         self.addSubview(self.logoView)
     }
     
-    func changeLogoColor(color: UIColor = .navigationBarColor()){
+     func refreshLogoView() {
+        
+        var image = UIImage(name: "menu_logo")!
+        if SDKManager.isSmileSDK {
+            if SDKManager.shared.launchOptions?.navigationType == .singleStore {
+                if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                    image = UIImage(name: "smiles-Single-Store-ar")!
+                } else {
+                    image = UIImage(name: "smiles-Single-Store-en")!
+                }
+            } else {
+                image = UIImage(name: "smile_Logo_elgrocer")!
+            }
+           
+        }
+         self.logoView.image = image
+    }
+    
+    func changeLogoColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor){
         self.logoView.changePngColorTo(color: .navigationBarWhiteColor())
     }
     
@@ -545,7 +575,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
-        self.locationView.backgroundColor = UIColor.navigationBarColor()
+        self.locationView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         self.addSubview(self.locationView)
     }
     fileprivate func addBackButton(_ isWhite: Bool = false) {
@@ -592,7 +622,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addSideMenuButton() {
-        let image = UIImage(name: "sideMenu")
+        let image = UIImage(name: "menu")
         self.profileButton  = UIButton(type: .custom)
         self.profileButton.setImage(image, for: .normal)
         self.addSubview(self.profileButton)
@@ -600,8 +630,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addCartButton() {
-        let imageNormal = sdkManager.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
-        let imageSelected = sdkManager.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
+        let imageNormal = SDKManager.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
+        let imageSelected = SDKManager.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
         
         
         self.cartButton = UIButton(type: .custom)

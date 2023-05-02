@@ -30,7 +30,7 @@ class GroceryReviewCell : UITableViewCell {
     
     fileprivate func setUpCustomerNameAppearance() {
         
-        self.customerName.textColor = UIColor.navigationBarColor()
+        self.customerName.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.customerName.font = UIFont.SFProDisplaySemiBoldFont(11.0)
     }
     

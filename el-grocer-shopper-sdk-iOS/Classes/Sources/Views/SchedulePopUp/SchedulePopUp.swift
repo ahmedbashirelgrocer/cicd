@@ -49,7 +49,7 @@ class SchedulePopUp: UIView {
                 
                 self.deliveryImgView.image = self.deliveryImgView.image!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
                 
-                self.deliveryImgView.tintColor = UIColor.navigationBarColor()
+                self.deliveryImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
                 
                 message = localizedString("instant_delivery_message", comment: "")
                 

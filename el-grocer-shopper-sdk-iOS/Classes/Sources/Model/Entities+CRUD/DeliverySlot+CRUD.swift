@@ -17,10 +17,10 @@ extension DeliverySlot {
     // MARK: DBEntity
     @nonobjc static let entityName = DeliverySlotEntity
     // MARK: Insert
-    class func insertOrReplaceDeliverySlotsFromDictionary(_ dictionary:NSDictionary, context:NSManagedObjectContext ) -> [DeliverySlot]{
+    class func insertOrReplaceDeliverySlotsFromDictionary(_ dictionary:NSDictionary,  groceryObj : Grocery? = nil, context:NSManagedObjectContext ) -> [DeliverySlot]{
         var deliverySlots = [DeliverySlot]()
         if  let response = dictionary["data"] as? NSDictionary {
-            var grocery : Grocery? = nil
+            var grocery : Grocery? = groceryObj
             if let groceryDict = response["retailer"] as? NSDictionary{
                 if let grocer = Grocery.updateGroceryOpeningStatus(groceryDict, context: context) {
                     grocery = grocer
@@ -42,6 +42,28 @@ extension DeliverySlot {
                     }
             }
 
+        } else if let  responseObjects = dictionary["delivery_slots"] as? [NSDictionary] {
+            
+            var grocery : Grocery? = groceryObj
+            if let groceryDict = dictionary["retailer"] as? NSDictionary {
+                if let grocer = Grocery.updateGroceryOpeningStatus(groceryDict, context: context) {
+                    grocery = grocer
+                }
+            }
+            
+            var jsonSlotIds = [Int]()
+            for responseDict in responseObjects {
+                let deliverySlot = createDeliverySlotsFromDictionary(responseDict, groceryID: grocery?.dbID ?? "-1", context: context)
+                deliverySlots.append(deliverySlot)
+                jsonSlotIds.append(deliverySlot.dbID.intValue)
+            }
+                do {
+                    self.deleteSlotsNotInJSON(jsonSlotIds, groceryID:  grocery?.dbID ?? "-1" , context: context)
+                    try context.save()
+                } catch (let error) {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                    elDebugPrint("self.deleteSlotsNotInJSON(jsonSlotIds, context: context)")
+                }
         }
         return deliverySlots
     }
@@ -57,6 +79,8 @@ extension DeliverySlot {
                     deliverySlot.isInstant = false
                 }
             }
+            deliverySlot.usid = dbID
+            deliverySlot.backendDbId = responseDict["id"] as? NSNumber ?? 0
             deliverySlot.groceryID = groceryID
             deliverySlot.time_milli = responseDict["time_milli"] as? NSNumber ?? 0
             deliverySlot.start_time = (responseDict["start_time"] as? String)?.convertStringToCurrentTimeZoneDate() ?? Date()

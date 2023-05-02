@@ -11,10 +11,20 @@ import UIKit
 import SwiftDate
 import UIKit
 import FBSDKCoreKit
+
+
+enum PicketSlotViewType : Int {
+    
+    case `default` = 0
+    case basket = 1
+    
+}
+
+
+
 class AWPickerViewController : UIViewController {
     
-    
-    
+    var viewType : PicketSlotViewType =  .default
     
     @IBOutlet var slotDaySegmentView: UIView!
     @IBOutlet var segmentHeights: NSLayoutConstraint!
@@ -40,7 +50,8 @@ class AWPickerViewController : UIViewController {
             lblNoSlot.isHidden = true
         }
     }
-    
+
+    var newUpdatedSlots : ((_ slots : [DeliverySlot]) -> Void)?
     var changeSlot : ((_ slot : DeliverySlot?) -> Void)?
     var currentGrocery : Grocery? = ElGrocerUtility.sharedInstance.activeGrocery
     var collectionData = [DeliverySlot]()
@@ -104,15 +115,64 @@ class AWPickerViewController : UIViewController {
     
     func getGroceryDeliverySlots(){
            
+       
         self.slotDaySegmentView.isHidden = true
-            self.activityIndication.startAnimating()
+        self.activityIndication.startAnimating()
+        
+        guard let dbID = self.currentGrocery?.dbID, let zoneId = self.currentGrocery?.deliveryZoneId else {
+            self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
+            self.activityIndication.stopAnimating()
+            self.setSegmentControlAppearance()
+            self.lblNoSlot.isHidden =  self.collectionData.count > 0
+            FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Filurerespone" , ["error" : "No delivery zone"])
+            return
+        }
+        
+        guard self.viewType == .default else {
+            
+            if let retailerID = Int(dbID), let deliveryZoneID = Int(zoneId) {
+                let basketItems = ShoppingBasketItem.getBasketItemsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                var itemsCount = 0
+
+                for item in basketItems {
+                    itemsCount += item.count.intValue
+                }
+                
+                ElGrocerApi.sharedInstance.getDeliverySlots(retailerID: retailerID, retailerDeliveryZondID: deliveryZoneID, orderID: nil, orderItemCount: itemsCount) { result in
+                    switch result {
+                        
+                    case .success(let response):
+                        elDebugPrint(response)
+                        self.saveResponseData(response, grocery: self.currentGrocery)
+                        self.activityIndication.stopAnimating()
+                        self.lblNoSlot.isHidden =  self.collectionData.count > 0
+                       //  print("slots count >>> \(self.collectionData.count)")
+                        if self.collectionData.count == 0 {
+                            FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Successrespone" , ["error" : response.description])
+                        }
+                        break
+                        
+                    case .failure(let error):
+                        self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
+                        self.activityIndication.stopAnimating()
+                        self.setSegmentControlAppearance()
+                        self.lblNoSlot.isHidden =  self.collectionData.count > 0
+                        FireBaseEventsLogger.trackCustomEvent(eventType: "DeliveryApiCall", action: "Filurerespone" , ["error" : error.localizedMessage])
+                        break
+                    }
+                }
+            }
+            return
+        }
+        
+        
         ElGrocerApi.sharedInstance.getGroceryDeliverySlotsWithGroceryId(self.currentGrocery?.dbID, andWithDeliveryZoneId: self.currentGrocery?.deliveryZoneId, completionHandler: { (result) -> Void in
             
             switch result {
                 
                 case .success(let response):
                    elDebugPrint("SERVER Response:%@",response)
-                    self.saveResponseData(response)
+                    self.saveResponseData(response, grocery: self.currentGrocery)
                     self.activityIndication.stopAnimating()
                     self.lblNoSlot.isHidden =  self.collectionData.count > 0
                     if self.collectionData.count == 0 {
@@ -129,17 +189,17 @@ class AWPickerViewController : UIViewController {
         })
     }
     
-    // MARK: Data
-    func saveResponseData(_ responseObject:NSDictionary) {
+        // MARK: Data
+    func saveResponseData(_ responseObject:NSDictionary, grocery : Grocery?) {
         
         let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-        self.collectionData = DeliverySlot.insertOrReplaceDeliverySlotsFromDictionary(responseObject, context: context)
         Grocery.updateActiveGroceryDeliverySlots(with: responseObject, context: context)
+        self.collectionData = DeliverySlot.insertOrReplaceDeliverySlotsFromDictionary(responseObject, groceryObj: grocery, context: context)
         self.collectionData = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: self.currentGrocery?.dbID ?? "-1")
         if let slots =  UserDefaults.getEditOrderSelectedDeliverySlot()  {
             if UserDefaults.isOrderInEdit() {
                 let alreadyOrderSlot = DeliverySlot.createDeliverySlotFromCustomDictionary(slots as! NSDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-              let isSlot =   self.collectionData.filter { (slot) -> Bool in
+                let isSlot =   self.collectionData.filter { (slot) -> Bool in
                     return slot.dbID == alreadyOrderSlot.dbID
                 }
                 if isSlot.count == 0 {
@@ -307,24 +367,24 @@ class AWPickerViewController : UIViewController {
     @IBAction func segmentOneSelect(_ sender: Any) {
         
         self.configureData(segmentOneSlots)
-        self.segmentOneIndicatorView.backgroundColor = UIColor.navigationBarColor() //.colorWithHexString(hexString: "59aa46")
+        self.segmentOneIndicatorView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor //.colorWithHexString(hexString: "59aa46")
         self.segmentTwoIndicatorView.backgroundColor = UIColor.colorWithHexString(hexString: "ffffff")
-        self.lblSegmentOneDate.textColor = .navigationBarColor()
-        self.lblSegmentOneDesc.textColor = .navigationBarColor()
-        self.lblSegmentTwoDate.textColor = .selectionTabDark()
-        self.lblSegmentTwoDesc.textColor = .selectionTabDark()
+        self.lblSegmentOneDate.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+        self.lblSegmentOneDesc.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+        self.lblSegmentTwoDate.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
+        self.lblSegmentTwoDesc.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
         
     }
         
     @IBAction func segmentTwoSelect(_ sender: Any) {
         
         self.configureData(segmentTwoSlots)
-        self.segmentTwoIndicatorView.backgroundColor = UIColor.navigationBarColor() //.colorWithHexString(hexString: "59aa46")
+        self.segmentTwoIndicatorView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor //.colorWithHexString(hexString: "59aa46")
         self.segmentOneIndicatorView.backgroundColor = UIColor.colorWithHexString(hexString: "ffffff")
-        self.lblSegmentOneDate.textColor = .secondaryBlackColor()
-        self.lblSegmentOneDesc.textColor = .secondaryBlackColor()
-        self.lblSegmentTwoDate.textColor = .navigationBarColor()
-        self.lblSegmentTwoDesc.textColor = .navigationBarColor()
+        self.lblSegmentOneDate.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
+        self.lblSegmentOneDesc.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
+        self.lblSegmentTwoDate.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+        self.lblSegmentTwoDesc.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
 
     }
     
@@ -334,6 +394,7 @@ class AWPickerViewController : UIViewController {
     }
 
     @IBAction func crossAction(_ sender: Any) {
+        MixpanelEventLogger.trackElWalletUnifiedClose()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -342,11 +403,18 @@ class AWPickerViewController : UIViewController {
         defer {
              NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateGenericSlotView), object: nil)
         }
-        let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.backgroundManagedObjectContext, forGroceryID: currentGrocery?.dbID ?? "-1")
+
+        let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: currentGrocery?.dbID ?? "-1")
+        if let clouser = self.newUpdatedSlots {
+            clouser(slots)
+        }
         if let firstObj  = slots.first(where: {$0.dbID == self.slotsCollectionView.selectedSlotID }) {
             UserDefaults.setCurrentSelectedDeliverySlotId(firstObj.dbID)
             UserDefaults.setEditOrderSelectedDelivery(nil)
-            MixpanelEventLogger.trackCheckoutDeliverySlotSelected(slot: firstObj)
+            MixpanelEventLogger.trackCheckoutDeliverySlotSelected(slot: firstObj, retailerID: currentGrocery?.dbID ?? "-1")
+            if let clouser = self.changeSlot {
+                clouser(firstObj)
+            }
         }
         self.dismiss(animated: true) { }
         

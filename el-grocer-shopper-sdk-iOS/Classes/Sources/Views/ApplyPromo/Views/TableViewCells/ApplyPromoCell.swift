@@ -40,12 +40,13 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var viewDetailsBGView: UIView! {
         didSet {
-            imgArrowViewDetails.image = UIImage(named: "arrowDown16")
+            imgArrowViewDetails.image = UIImage(name: "arrow-up-black")
         }
     }
     @IBOutlet var lblViewDetails: UILabel! {
         didSet {
-            lblViewDetails.setCaptionOneBoldUperCaseGreenStyle()
+            lblViewDetails.text = localizedString("txt_details", comment: "")
+            lblViewDetails.setCaptionOneBoldDarkStyle()
         }
     }
     @IBOutlet var imgArrowViewDetails: UIImageView!
@@ -69,18 +70,17 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var btnRedeem: AWButton! {
         didSet {
-                //            btnRedeem.setBody3BoldGreenStyle()
             btnRedeem.setTitle(localizedString("txt_btn_apply", comment: ""), for: UIControl.State())
         }
     }
     @IBOutlet var imgVoucherCupon: UIImageView! {
         didSet {
-            imgVoucherCupon.image = UIImage(named: "EnterPromoDark")
+            imgVoucherCupon.image = UIImage(name: "EnterPromoDark")
         }
     }
     @IBOutlet var promoMessageBGView: UIView! {
         didSet {
-            promoMessageBGView.backgroundColor = .aletBackgroundColor()
+            promoMessageBGView.backgroundColor = .alertBackgroundColor()
             promoMessageBGView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMaxYCorner], radius: 8)
         }
     }
@@ -145,18 +145,23 @@ class ApplyPromoCell: UITableViewCell {
     fileprivate func setViewDetailsButtonView(isExpanded: Bool) {
         if isExpanded {
             self.lblVoucherDetails.visibility = .visible
-            self.lblViewDetails.text = localizedString("txt_hide_details", comment: "")
-            self.imgArrowViewDetails.image = UIImage(named: "arrowUp16")
+//            self.lblViewDetails.text = localizedString("txt_hide_details", comment: "")
+            self.imgArrowViewDetails.image = UIImage(name: "arrow-up-black")
         }else {
             self.lblVoucherDetails.visibility = .gone
-            self.lblViewDetails.text = localizedString("txt_view_details", comment: "")
-            self.imgArrowViewDetails.image = UIImage(named: "arrowDown16")
+//            self.lblViewDetails.text = localizedString("txt_view_details", comment: "")
+            self.imgArrowViewDetails.image = UIImage(name: "arrow-down-black")
         }
     }
     
     func showInfoMessage (isHidden: Bool = false, message: String = "") {
-        self.promoMessageBGView.isHidden = isHidden
-        self.btnRedeem.isHidden = !isHidden
+        if isHidden {
+            self.promoMessageBGView.isHidden = true
+            self.btnRedeem.isHidden = true
+        }else {
+            self.promoMessageBGView.isHidden = true
+            self.btnRedeem.isHidden = false
+        }
         self.lblPromoMessage.text = localizedString("txt_add_to_use_initial", comment: "") + " \(message) " + localizedString("txt_add_to_use_end", comment: "")
     }
     fileprivate func setApplyButtonState(isApplied: Bool = false) {
@@ -168,7 +173,7 @@ class ApplyPromoCell: UITableViewCell {
                 self?.lblAppliedBGView.isHidden = false
             }else {
                 self?.btnRedeem.setTitle(localizedString("txt_btn_apply", comment: ""), for: UIControl.State())
-                self?.btnRedeem.setTitleColor(.navigationBarColor(), for: UIControl.State())
+                self?.btnRedeem.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
                 self?.lblAppliedBGView.isHidden = true
             }
         }
@@ -213,6 +218,6 @@ class ApplyPromoCell: UITableViewCell {
     
     func setBorderForPromo() {
         
-        voucherCodeBGView.addDashedBorderAroundView(color: .darkGreenColor())
+        voucherCodeBGView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor)
     }
 }

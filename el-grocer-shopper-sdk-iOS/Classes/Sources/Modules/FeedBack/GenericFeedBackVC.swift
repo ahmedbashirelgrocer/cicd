@@ -42,7 +42,11 @@ class GenericFeedBackVC: UIViewController {
     @IBOutlet var storeImage: UIImageView!
     @IBOutlet var genericStarRatingView: AWView!
     @IBOutlet var genericCollectionView: UICollectionView!
-    @IBOutlet var feedBackPageControl: UIPageControl!
+    @IBOutlet var feedBackPageControl: UIPageControl! {
+        didSet {
+            feedBackPageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
+        }
+    }
 
     var feedBackType : feedBackType = .deliveryFeedBack
     var orderTracking:OrderTracking!

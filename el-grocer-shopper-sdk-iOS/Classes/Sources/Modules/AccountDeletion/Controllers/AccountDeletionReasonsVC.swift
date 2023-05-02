@@ -32,7 +32,7 @@ class AccountDeletionReasonsVC: UIViewController, NavigationBarProtocol {
     //MARK: Appearence
     func setInitialAppearence(){
         
-        self.view.backgroundColor = .navigationBarWhiteColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         
         if self.navigationController is ElGrocerNavigationController{
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)

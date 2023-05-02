@@ -59,11 +59,11 @@ class OrderCancelationHandler : NSObject {
         // }
     }
     
-    private func cancelOrder(orderID : String , reason : NSNumber , improvement : String , reasonString : String  , completion : @escaping isOrderCancelled){
+    private func cancelOrder(orderID : String , reason : Reasons , improvement : String , reasonString : String  , completion : @escaping isOrderCancelled){
         
         if let vc = UIApplication.topViewController(){
              let spinner = SpinnerView.showSpinnerViewInView(vc.view)
-            ElGrocerApi.sharedInstance.cancelOrder(orderID,reason: reason,improvement: improvement, completionHandler: { (result) -> Void in
+            ElGrocerApi.sharedInstance.cancelOrder(orderID,reason: reason.reasonKey,improvement: improvement, completionHandler: { (result) -> Void in
                 
                 spinner?.removeFromSuperview()
                 
@@ -76,6 +76,9 @@ class OrderCancelationHandler : NSObject {
                         vc.dismiss(animated: true, completion: nil)
                     }
                         completion(true)
+                    
+                    // Logging segment event for order cancelled
+                    SegmentAnalyticsEngine.instance.logEvent(event: OrderCancelledEvent(orderId: orderID, reason: reason.reasonString, suggestion: improvement))
                 case .failure(let error):
                     completion(false)
                     error.showErrorAlert()
@@ -87,7 +90,7 @@ class OrderCancelationHandler : NSObject {
 }
 extension OrderCancelationHandler : OrderCancelationVCAction  {
     
-    func startCancellationProcess(_ orderID: String, reason: NSNumber, improvement: String, reasonString: String) {
+    func startCancellationProcess(_ orderID: String, reason: Reasons, improvement: String, reasonString: String) {
         self.cancelOrder(orderID: orderID ,reason: reason ,improvement: improvement, reasonString: reasonString , completion: self.completion)
     }
 

@@ -15,19 +15,19 @@ class GenericHomePageSearchHeader: UIView {
     @IBOutlet var eclipceImgView: UIImageView! {
         
         didSet {
-          //  eclipceImgView.image = UIImage.init(name: sdkManager.isSmileSDK ? "HomeSmileEllipse" : "HomeEllipse" )
+          //  eclipceImgView.image = UIImage.init(name: SDKManager.isSmileSDK ? "HomeSmileEllipse" : "HomeEllipse" )
         }
         
     }
     
     @IBOutlet var bGView: UIView!{
         didSet{
-            bGView.backgroundColor = sdkManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
+            bGView.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
         }
     }
     @IBOutlet var topHalfBGView: UIView!{
         didSet{
-            topHalfBGView.backgroundColor = sdkManager.isSmileSDK ? .clear : .navigationBarColor()
+            topHalfBGView.backgroundColor = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
             topHalfBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 0, withShadow: false)
         }
     }
@@ -109,8 +109,8 @@ class GenericHomePageSearchHeader: UIView {
     
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
-        self.locationView.backgroundColor = sdkManager.isSmileSDK ? .clear :  UIColor.navigationBarColor()
-        self.locationContainerView.backgroundColor = sdkManager.isSmileSDK ? .clear : UIColor.navigationBarColor()
+        self.locationView.backgroundColor = SDKManager.isSmileSDK ? .clear :  ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.locationContainerView.backgroundColor = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
         locationContainerView.addSubview(self.locationView)
     }
     func setLocationText(_ text : String = "") {

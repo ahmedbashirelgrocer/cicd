@@ -52,7 +52,7 @@ open class TimelineTableViewCell: UITableViewCell {
         self.reviewButton.clipsToBounds = true
         self.reviewButton.setTitle(localizedString("choose_substitutions_title", comment: ""), for: UIControl.State())
         self.reviewButton.setBackgroundColor(UIColor.white, forState: UIControl.State())
-        self.reviewButton.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.reviewButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
         self.reviewButton.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15.0)
     }
 

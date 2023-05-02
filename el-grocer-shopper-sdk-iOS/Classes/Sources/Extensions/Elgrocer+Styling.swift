@@ -52,7 +52,7 @@ extension UILabel {
     }
     func setBodyBoldGreenStyle() {
         self.font = UIFont.SFProDisplayBoldFont(14)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     func setBodyBoldWhiteStyle() {
         self.font = UIFont.SFProDisplayBoldFont(14)
@@ -61,7 +61,7 @@ extension UILabel {
     
     func setBodyRegulrGreenStyle() {
         self.font = UIFont.SFProDisplayNormalFont(14)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     
     func setBody2RegDarkStyle() {
@@ -81,13 +81,13 @@ extension UILabel {
         self.font = UIFont.SFProDisplaySemiBoldFont(16)
         self.textColor = UIColor.newBlackColor()
     }
-    func setBody2SemiboldDarkGreenStyle() {
+    func setBody2SemiboldGeoceryDarkGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(16)
-        self.textColor = UIColor.darkGreenColor()
+        self.textColor = ApplicationTheme.currentTheme.labelGroceryCellSecondaryDarkTextColor
     }
     func setBody2SemiboldGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(16)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     func setBody2BoldDarkStyle() {
         self.font = UIFont.SFProDisplayBoldFont(16)
@@ -102,13 +102,17 @@ extension UILabel {
         self.font = UIFont.SFProDisplayNormalFont(14)
         self.textColor = UIColor.newBlackColor()
     }
+    func setBody3RegPurpleStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(14)
+        self.textColor = UIColor.smileBaseColor()
+    }
     func setBody3RegWhiteStyle() {
         self.font = UIFont.SFProDisplayNormalFont(14)
         self.textColor = UIColor.navigationBarWhiteColor()
     }
     func setBody3RegGreenStyle() {
         self.font = UIFont.SFProDisplayNormalFont(14)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     func setBody3RegDarkGreenStyle() {
         self.font = UIFont.SFProDisplayNormalFont(14)
@@ -128,7 +132,7 @@ extension UILabel {
     }
     func setBody3SemiBoldGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(14)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     func setBody3SemiBoldDarkStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(14)
@@ -155,9 +159,17 @@ extension UILabel {
     func setBody3BoldUpperStyle(_ isDefaultColor : Bool = true) {
         self.font = UIFont.SFProDisplayBoldFont(14)
         if isDefaultColor{
-            self.textColor = UIColor.navigationBarColor()
+            self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }else{
-            self.textColor = UIColor.newBlackColor()
+            self.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+        }
+    }
+    func setBody3BoldUpperButtonLabelStyle(_ isDefaultColor : Bool = true) {
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        if isDefaultColor{
+            self.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
+        }else{
+            self.textColor = ApplicationTheme.currentTheme.buttonPrimaryBlackTextWithClearBGColor
         }
     }
     func setBody3BoldUpperWhiteStyle() {
@@ -259,16 +271,24 @@ extension UILabel {
     }
     func setCaptionOneBoldUperCaseGreenStyle() {
         self.font = UIFont.SFProDisplayBoldFont(12)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+    }
+    func setCaptionOneBoldUperCaseButtonGreenStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(12)
+        self.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
     }
     func setCaptionOneBoldUperCaseDarkGreenStyle() {
         self.font = UIFont.SFProDisplayBoldFont(12)
-        self.textColor = UIColor.replacementGreenTextColor()
+        self.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
     }
     
     func setCaptionOneBoldUpperCaseGreenStyleWithFontScale14() {
         self.font = UIFont.SFProDisplayBoldFont(14)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+    }
+    func setCaptionOneBoldUpperCaseGreenButtonStyleWithFontScale14() {
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        self.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
     }
     
     func setCaptionTwoRegDarkStyle() {
@@ -289,7 +309,7 @@ extension UILabel {
     }
     func setCaptionTwoSemiboldGreenkStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(11)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
     func setCaptionTwoSemiboldWhiteStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(11)
@@ -322,13 +342,24 @@ extension UILabel {
     }
     func setSubHead2SemiBoldDarkGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(13)
-        self.textColor = UIColor.darkGreenColor()
+        self.textColor = ApplicationTheme.currentTheme.labelGroceryCellSecondaryDarkTextColor
     }
     
     func setBody1BoldStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(17)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
     }
+    func setBody1BoldButtonStyle() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(17)
+        self.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
+    }
+    
+    func setYellowSemiBoldStyle(){
+        self.font = UIFont.SFProDisplaySemiBoldFont(12)
+        self.textColor = ApplicationTheme.currentTheme.promotionYellowColor
+    }
+    
+    
     func setBody1RegDarkStyle() {
         self.font = UIFont.SFProDisplayNormalFont(17)
         self.textColor = UIColor.newBlackColor()
@@ -337,6 +368,48 @@ extension UILabel {
     func setH3SemiBoldStyle(){
         self.font = UIFont.SFProDisplayBoldFont(16)
         self.textColor = UIColor.newBlackColor()
+    }
+    
+    func setH4SemiBoldErrorStyle(){
+        self.font = UIFont.SFProDisplayBoldFont(17)
+        self.textColor = UIColor.textfieldErrorColor()
+    }
+    
+    func setCaptionOneBoldGreenStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(12)
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+    }
+    
+    func setCaptionOneBoldDarkGreenStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(12)
+        self.textColor = UIColor.secondaryDarkGreenColor()
+    }
+    
+    func setH4SemiBoldGreenLabelStyle(){
+        self.font = UIFont.SFProDisplayBoldFont(17)
+        self.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+    }
+    func setH4SemiBoldGreenLabelButtonStyle(){
+        self.font = UIFont.SFProDisplayBoldFont(17)
+        self.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
+    }
+   
+    func setBody3BoldUpperLimitedStockStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        self.textColor = UIColor.limitedStockGreenColor()
+    }
+    func setBody3BoldUpperSecondaryDarkGreenStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        self.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+    }
+    func setBody1RegWhiteStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(17)
+        self.textColor = UIColor.navigationBarWhiteColor()
+    }
+    
+    func setBody1SemiBoldWhiteStyle() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(17)
+        self.textColor = UIColor.navigationBarWhiteColor()
     }
     
 }
@@ -354,7 +427,7 @@ extension UIButton {
     }
     func setBody1BoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(17)
-        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     func setBody2RegSecondaryBlackStyle() {
         self.titleLabel?.font = UIFont.SFProDisplayNormalFont(16)
@@ -366,16 +439,16 @@ extension UIButton {
     }
     func setBody2BoldGreenStyle() {
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(16)
-        self.setTitleColor(UIColor.navigationBarWhiteColor(), for: UIControl.State())
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     
     func setBody3RegGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayNormalFont(14)
-        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     func setBody3BoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
-        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     func setBody3BoldWhiteStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
@@ -409,17 +482,28 @@ extension UIButton {
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
         if isBackTransparent {
             self.backgroundColor = .clear
-            self.setTitleColor(UIColor.navigationBarWhiteColor() , for: UIControl.State())
+            self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithBackgroundColor , for: UIControl.State())
         }else{
-            self.setTitleColor(UIColor.navigationBarWhiteColor() , for: UIControl.State())
-            self.backgroundColor = .navigationBarColor()
+            self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithBackgroundColor , for: UIControl.State())
+            self.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         }
     }
     
-    
+    func setH4SemiBoldEnableButtonStyle() {
+        self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithBackgroundColor , for: UIControl.State())
+        self.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+        
+    }
+
     func setH4SemiBoldGreenStyle() {
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
-        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+    }
+    
+    func setH4SemiBoldErrorStyle(){
+        self.titleLabel?.font  = UIFont.SFProDisplayBoldFont(17)
+        self.setTitleColor(UIColor.textfieldErrorColor(), for: UIControl.State())
     }
     
     func setSubHead1SemiBoldWhiteStyle(){
@@ -428,7 +512,7 @@ extension UIButton {
     }
     func setSubHead1SemiBoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(15)
-        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     func setSubHead1BoldWhiteStyle() {
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(15)
@@ -437,7 +521,7 @@ extension UIButton {
     
     func setCaption2SemiBoldWhiteStyle(){
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(11)
-        self.setTitleColor(UIColor.navigationBarColor(), for: .normal)
+        self.setTitleColor(UIColor.navigationBarWhiteColor(), for: .normal)
     }
     func setCaption1BoldWhiteStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
@@ -446,11 +530,11 @@ extension UIButton {
     
     func setCaptionBoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
-        self.setTitleColor(UIColor.navigationBarColor(), for: .normal)
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: .normal)
     }
     func setCaptionBoldSecondaryGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
-        self.setTitleColor(UIColor.secondaryDarkGreenColor(), for: .normal)
+        self.setTitleColor(ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor, for: .normal)
     }
     func setCaptionBoldDarkStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
@@ -459,8 +543,15 @@ extension UIButton {
     
     func setCaption3BoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
-        self.setTitleColor(UIColor.navigationBarColor(), for: .normal)
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: .normal)
     }
+    
+    func setCaption1BoldGreenStyle() {
+        self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: .normal)
+    }
+    
+    
     
     
     func centerVertically(padding: CGFloat = 10.0) {

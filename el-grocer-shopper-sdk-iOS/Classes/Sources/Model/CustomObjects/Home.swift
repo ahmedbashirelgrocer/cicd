@@ -34,6 +34,8 @@ class Home {
     var products = [Product]()
     var categories  = [Category]()
     
+    var hasMoreProduct: Bool = false
+    
     init() {
         self.title = ""
     }
@@ -93,7 +95,7 @@ class Home {
             }
             let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
             let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-            self.products = newProduct
+            self.products = newProduct.products
 //            context.performAndWait({ () -> Void in
 //                let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
 //                self.products = newProduct

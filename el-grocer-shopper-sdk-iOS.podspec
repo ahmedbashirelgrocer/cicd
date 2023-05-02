@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.0.27'
+  s.version          = '1.4.98.5'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -57,6 +57,10 @@ Pod::Spec.new do |s|
       'el-grocer-shopper-sdk-iOS' => ['el-grocer-shopper-sdk-iOS/**/{R-SupportingFiles/*.*,*.storyboard,*.xib,*.xcassets,*.xcdatamodeld,*.m4r,*.otf,*.ttf,*.json,*.strings,*.lproj/*.strings}']
   }
   
+#    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+#    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+    
+    
   #.{png,xcassets,xcdatamodeld,plist,strings,json,m4r}
 
     # spec.public_header_files = "Classes/**/*.h"
@@ -101,9 +105,6 @@ Pod::Spec.new do |s|
   #s.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => 'el-grocer-shopper-sdk-iOS/Bridging-Header.h' }
   
   s.frameworks = 'UIKit', 'Foundation', 'CoreData', 'AdSupport', 'AppTrackingTransparency', 'SystemConfiguration'
-  
- # s.dependency 'AFNetworking' , '~> 4.0'
-  
   s.dependency 'MSPeekCollectionViewDelegateImplementation', '~> 3.2.0'
  
   #s.dependency 'FlagPhoneNumber', '~> 0.7.6'
@@ -137,12 +138,13 @@ Pod::Spec.new do |s|
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
-  s.dependency 'CleverTap-iOS-SDK', '~> 4.0.1'
+  
   s.dependency 'Storyly', '~> 1.19.3'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
   s.dependency 'FXPageControl', '~> 1.5'
   s.dependency 'RxSwift', '~>5.1.1'
   s.dependency 'RxCocoa', '~>5.1.1'
+  s.dependency 'RxDataSources'
   #s.dependency 'HMSegmentedControl', '~> 1.5.6'
   s.dependency 'KLCPopup', '~> 1.0'
   s.dependency 'JDFTooltips', '~> 1.1'
@@ -177,7 +179,7 @@ Pod::Spec.new do |s|
   s.dependency 'SendBirdUIKit', '~> 2.1.16'
   s.dependency 'SendBirdDesk', '~> 1.0.17'
       # add file
-  s.dependency 'Adyen', '~> 4.7.3'
+  s.dependency 'Adyen', '~> 4.10.0'
   
   s.dependency 'SDWebImage', '~> 5.12.3'
   
@@ -186,8 +188,12 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-  s.dependency 'Mixpanel-swift'
+  s.dependency 'lottie-ios', '~> 3.2.3'
 #s.dependency 'AppsFlyerFramework'
 
-
+  # Segment analytics dependency
+   s.dependency 'Mixpanel-swift'
+   s.dependency 'CleverTap-iOS-SDK'
+   s.dependency 'Analytics'
+   s.dependency 'Segment-CleverTap'
 end

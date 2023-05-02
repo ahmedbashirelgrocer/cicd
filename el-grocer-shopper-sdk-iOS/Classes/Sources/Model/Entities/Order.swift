@@ -14,7 +14,7 @@ class Order: NSManagedObject, DBEntity {
     @NSManaged var payementType: NSNumber?
     @NSManaged var dbID: NSNumber
     @NSManaged var orderDate: Date // created data
-    @NSManaged var deliveryDate: Date? // deleted date 
+    @NSManaged var deliveryDate: Date? // deleted date
     @NSManaged var orderNote: String?
     @NSManaged var refToken: String?
     @NSManaged var status: NSNumber
@@ -29,6 +29,7 @@ class Order: NSManagedObject, DBEntity {
     @NSManaged var deliveryTypeId: NSNumber?
     @NSManaged var retailerServiceId : NSNumber?
     @NSManaged var totalValue: Double
+    @NSManaged var produuctsTotal: Double
     @NSManaged var itemImages : [String]
     @NSManaged var itemsPossition : [NSDictionary]
     @NSManaged var collector : CollectorDetail?
@@ -43,11 +44,13 @@ class Order: NSManagedObject, DBEntity {
     @NSManaged var applePayWallet: NSNumber?
     @NSManaged var authAmount: NSNumber?
     @NSManaged var cardType: String?
-    
+    @NSManaged var orderPayments: [NSDictionary]?
     @NSManaged var isSmilesUser: NSNumber?
     @NSManaged var smilesBurnPoints: Int64
+    @NSManaged var finalBillAmount: NSNumber?
+    @NSManaged var serviceFee: NSNumber?
     @NSManaged var foodSubscriptionStatus: NSNumber?
-    
+    @NSManaged var smileEarn: NSNumber?
     
     
     

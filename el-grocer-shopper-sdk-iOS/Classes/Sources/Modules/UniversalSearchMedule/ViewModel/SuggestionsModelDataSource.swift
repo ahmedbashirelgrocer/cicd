@@ -35,9 +35,13 @@ class SuggestionsModelDataSource {
     var currentGrocery : Grocery?
     lazy var selectedIndex : NSIndexPath = NSIndexPath.init(row: 0, section: 0)
     var productsList : [Product] = []
+    /// using for pagination in algolia search if it is equal to hits per page(20) call for more products , else no more calls
+    var algoliaTotalProductCount: Int = 0
+    /// -1 means it is in default condition, any other value is algolia last api call for products count.
+    var algoliaCurrentCallProductCount: Int = -1
     var model : [SuggestionsModelObj] = []  {
         didSet {
-            if let clouser = self.displayList {
+            if let clouser = self.displayList, model.count > 0 {
                 clouser(model)
             }
         }
@@ -46,10 +50,18 @@ class SuggestionsModelDataSource {
     func resetForNewGrocery () {
         self.bannerFeeds = []
         self.productsList = []
+        self.algoliaTotalProductCount = 0
+        self.algoliaCurrentCallProductCount = -1
         selectedIndex = NSIndexPath.init(row: 0, section: 0)
     }
     
-    
+    func resetForSegmentIndexChangeIfNeeded(newIndex: Int) {
+        
+        if self.selectedIndex.row != newIndex {
+            self.algoliaTotalProductCount = 0
+            self.algoliaCurrentCallProductCount = -1
+        }
+    }
     
     func removeSearchResultHistory(_ result : String) {
         self.currentSearchString = ""
@@ -197,7 +209,7 @@ class SuggestionsModelDataSource {
                                     }
                                         //self.model.append(contentsOf: modelA)
                                     mySuggestionDataArray.append(contentsOf: modelA)
-                                    debugPrint("mySuggestionDataArray.count: \(mySuggestionDataArray.count)")
+                                    elDebugPrint("mySuggestionDataArray.count: \(mySuggestionDataArray.count)")
                                 }
                                 
                                 self.model.append(contentsOf: mySuggestionDataArray)
@@ -228,17 +240,19 @@ class SuggestionsModelDataSource {
                                     mySuggestionDataArray.append(contentsOf: modelA)
                                 }
                                 self.model.append(contentsOf: mySuggestionDataArray)
-                                debugPrint("mySuggestionDataArray.count: \(mySuggestionDataArray.count)")
+                                elDebugPrint("mySuggestionDataArray.count: \(mySuggestionDataArray.count)")
                             }
                         }
                     }
                     if !sdkManager.isSmileSDK {
                         callForRecipe(currentString)
                     }
-                   
                 }
-                
-                
+                if self.model.count == 0 {
+                    if let clouser = self.displayList {
+                        clouser(self.model)
+                    }
+                }
             }
             
             
@@ -257,11 +271,7 @@ class SuggestionsModelDataSource {
                     
                     for dict in mainIndex {
                         if let indexName = dict["index"] as? String {
-                            if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
-                                if let algoliaObj = dict["hits"] as? [NSDictionary] {
-                                    addProductSuggestion(algoliaObj, isNeedToShowBrand: isNeedToShowBrand, currentString: currentString)
-                                }
-                            } else if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
+                             if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
                                     elDebugPrint(algoliaObj)
                                     
@@ -302,6 +312,10 @@ class SuggestionsModelDataSource {
                                         }
                                     }
                                     self.model.append(contentsOf: mySuggestionDataArray)
+                                }
+                            } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
+                                if let algoliaObj = dict["hits"] as? [NSDictionary] {
+                                    addProductSuggestion(algoliaObj, isNeedToShowBrand: isNeedToShowBrand, currentString: currentString)
                                 }
                             }
                         }
@@ -344,10 +358,10 @@ class SuggestionsModelDataSource {
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     
                     
-                    if newProducts.count > 0 {
+                    if newProducts.products.count > 0 {
                         DatabaseHelper.sharedInstance.saveDatabase()
                         if let clouser = self.groceryListData {
-                            clouser( self.getGroceryListFrom(newProducts)  , searchString)
+                            clouser( self.getGroceryListFrom(newProducts.products)  , searchString)
                         }
                     }else{
                         if let clouser = self.NoResultForGrocery {
@@ -378,10 +392,10 @@ class SuggestionsModelDataSource {
             Thread.OnMainThread {
                 let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
-                if newProducts.count > 0 {
+                if newProducts.products.count > 0 {
                     DatabaseHelper.sharedInstance.saveDatabase()
                     if let clouser = self.productListDataWithRecipes {
-                        clouser(newProducts, searchString, recipeList, groceryA)
+                        clouser(newProducts.products, searchString, recipeList, groceryA)
                     }
                 }else if recipeList.count > 0 {
                     DatabaseHelper.sharedInstance.saveDatabase()
@@ -513,23 +527,32 @@ class SuggestionsModelDataSource {
             }
             if  let responseObject : NSDictionary = data as NSDictionary? {
                 Thread.OnMainThread {
-                let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                if newProducts.count > 0 {
+                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString : searchString)
+                    if newProducts.products.count > 0 {
                     DatabaseHelper.sharedInstance.saveDatabase()
                     if self.selectedIndex.row == 0 {
-                        self.productsList += newProducts
-                    }else{}
+                        self.productsList += newProducts.products
+                        self.algoliaTotalProductCount += newProducts.algoliaCount ?? 0
+                        self.algoliaCurrentCallProductCount = newProducts.algoliaCount ?? -1
+                    }else{
+                        self.algoliaTotalProductCount += newProducts.algoliaCount ?? 0
+                        self.algoliaCurrentCallProductCount = newProducts.algoliaCount ?? -1
+                    }
                     if let clouser = self.productListData {
-                        clouser(newProducts, searchString)
+                        clouser(newProducts.products, searchString)
                     }
                 }else{
+                    // TODO: Below ticket can be fix here.
+                    // weird purple bar at the bottom of the screen
+                    // https://elgrocerdxb.atlassian.net/browse/EEN-1591
                     if pageNumber == 0 {
                         if let clouser = self.productListNotFound {
                             clouser(searchString)
                         }
                     }else{
+                        self.algoliaCurrentCallProductCount = newProducts.algoliaCount ?? -1
                         if let clouser = self.productListData {
-                            clouser(newProducts, searchString)
+                            clouser(newProducts.products, searchString)
                         }
                     }
                 }
@@ -562,7 +585,7 @@ extension SuggestionsModelDataSource {
         var dataDict : Dictionary<String, Array<Product>> = [:]
         var stringA : [String] = []
         for product in self.productsList {
-            let subcategoryName  = product.subcategoryName ?? ""
+            let subcategoryName  = ElGrocerUtility.sharedInstance.isArabicSelected() ? (product.subcategoryName ?? "") : (product.subcategoryNameEn ?? "")
             if var isContain = dataDict[subcategoryName] {
                 isContain.append(product)
                 dataDict[subcategoryName] = isContain

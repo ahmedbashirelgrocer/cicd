@@ -18,14 +18,26 @@ public class ElGrocerDynamicLink {
             return
         }
     
-        let urlString = url.absoluteString
-        let components = urlString.components(separatedBy: ",")
-        var dictionary: [String : String] = [:]
+        var urlString = url.absoluteString
         
-        for component in components {
-            let pair = component.components(separatedBy: "=")
-            dictionary[pair[0]] = pair[1]
+        if let _ = URL(string: urlString), (urlString.count) > 0 {
+            if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),
+                let finalUrl = URL(string: encoded) {
+                let component =  URLComponents(string: finalUrl.valueOf("link") ?? "")
+                let path = component?.path ?? ""
+                if path.count > 2 {
+                    urlString = component?.path ?? ""
+                }
+            }
         }
+
+//        let components = urlString.components(separatedBy: ",")
+//        var dictionary: [String : String] = [:]
+//
+//        for component in components {
+//            let pair = component.components(separatedBy: "=")
+//            dictionary[pair[0]] = pair[1]
+//        }
         
         let stringA = urlString.components(separatedBy: "elgrocer://")
         var finalURL =  "https://www.elgrocer.com?"  + (stringA.last ?? "")

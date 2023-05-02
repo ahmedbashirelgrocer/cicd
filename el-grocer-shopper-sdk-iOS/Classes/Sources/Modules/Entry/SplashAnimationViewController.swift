@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lottie
 
 private enum BackendSuggestedAction: Int {
     case Continue = 0
@@ -15,21 +16,49 @@ private enum BackendSuggestedAction: Int {
 class SplashAnimationViewController: UIViewController {
 
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView!
-    lazy var delegate: SDKManagerType! = sdkManager
+    @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView! {
+        didSet {
+            logoAnimator.isHidden = false
+        }
+    }
+    @IBOutlet var splashLottieLogoAnimator: AnimationView!{
+        didSet {
+            splashLottieLogoAnimator.isHidden = true
+        }
+    }
+//    lazy var starAnimation = Animation.named("SDK_Splash_Screen_V9", bundle: .resource)
+    lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureElgrocerShopper()
+        HomePageData.shared.loadingCompletionSplash = { [weak self] in
+            if self?.isAnimationCompleted == true {
+                self?.animationCompletedSetRootVc()
+            }
+        }
+        // self.configureElgrocerShopper()
+        
+        // Logging segment screen event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
     }
  
     override func viewWillAppear(_ animated: Bool) {
-        self.StartLogoAnimation()
-        self.startConditionalHomeDataFetching()
+        super.viewWillAppear(animated)
         
+        let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        if HomePageData.shared.isLoadingComplete && SDKManager.shared.launchOptions?.accountNumber == userProfile?.phone {
+            self.animationCompletedSetRootVc()
+        } else {
+            self.StartLogoAnimation()
+        }
+        // self.startConditionalHomeDataFetching()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        self.StartLogoAnimation() // for lottie splash
+    }
     deinit {
         
         NotificationCenter.default.removeObserver(self)
@@ -45,11 +74,29 @@ class SplashAnimationViewController: UIViewController {
     private func StartLogoAnimation() {
         
         if UIApplication.shared.applicationState == .active {
-           
+            
+//            splashLottieLogoAnimator.frame = self.view.frame
+//            splashLottieLogoAnimator.animation = starAnimation
+//            splashLottieLogoAnimator.play { [weak self] (finished) in
+//              /// Animation finished
+//                if finished {
+//                    self?.animationCompletedSetRootVc()
+//                }
+//            }
+            
             logoAnimator.startAnimate { [weak self] (isCompleted) in
                 if isCompleted {
-                    self?.animationCompletedSetRootVc()
+                    self?.isAnimationCompleted = true
+                    if HomePageData.shared.fetchOrder.count == 0 {
+                        self?.animationCompletedSetRootVc()
+                    }
+                    self?.activityIndicator.isHidden = false
+                    self?.activityIndicator.startAnimating()
                 }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-121")
             }
             
             NotificationCenter.default.addObserver(
@@ -73,7 +120,6 @@ class SplashAnimationViewController: UIViewController {
     private func animationCompletedSetRootVc() {
         
         Thread.OnMainThread {
-            self.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-154")
             self.activityIndicator.isHidden = false
             self.activityIndicator.startAnimating()
             self.isAnimationCompleted = true
@@ -105,15 +151,15 @@ class SplashAnimationViewController: UIViewController {
         
 
         guard let topVc = UIApplication.topViewController() , topVc is ForceUpdateViewController else {
-            if !(sdkManager.launchOptions?.isSmileSDK == true) && (UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress()) {
-                let tabVC = self.delegate?.getTabbarController(isNeedToShowChangeStoreByDefault: false)
-                if let main = self.delegate?.window {
+            if !(SDKManager.shared.launchOptions?.isSmileSDK == true) && (UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress()) {
+                let tabVC = self.delegate.getTabbarController(isNeedToShowChangeStoreByDefault: false)
+                if let main = self.delegate.window {
                     main.rootViewController =  tabVC     // getParentNav()
                     main.makeKeyAndVisible()
                 }
             } else {
                 self.callSetUpApis()
-                self.delegate?.showEntryView()
+                self.delegate.showEntryView()
             }
             return
         }
@@ -125,42 +171,41 @@ class SplashAnimationViewController: UIViewController {
 }
 extension SplashAnimationViewController {
     
-    @objc
-    private func configureElgrocerShopper() {
-        
-        ElGrocerApi.sharedInstance.getAppConfig { (result) in
-            switch result {
-                case .success(let response):
-                    if let newData = response["data"] as? NSDictionary {
-                        ElGrocerUtility.sharedInstance.appConfigData = AppConfiguration.init(dict: newData as! Dictionary<String, Any>)
-                    }else{
-                        self.configFailureCase()
-                    }
-                case .failure(let error):
-                if error.code >= 500 && error.code <= 599 {
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
-                            if buttonIndex == 1 {
-                                self.configFailureCase()
-                            }
-                        }
-                    }
-            }
-        }
-        
-    }
+// @objc private func configureElgrocerShopper() {
+//
+//        ElGrocerApi.sharedInstance.getAppConfig { (result) in
+//            switch result {
+//                case .success(let response):
+//                    if let newData = response["data"] as? NSDictionary {
+//                        ElGrocerUtility.sharedInstance.appConfigData = AppConfiguration.init(dict: newData as! Dictionary<String, Any>)
+//                    }else{
+//                        self.configFailureCase()
+//                    }
+//                case .failure(let error):
+//                if error.code >= 500 && error.code <= 599 {
+//                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+//                            if buttonIndex == 1 {
+//                                self.configFailureCase()
+//                            }
+//                        }
+//                    }
+//            }
+//        }
+//
+//    }
     
-    private func configFailureCase() {
-        
-        var delay : Double = 3
-        if  ReachabilityManager.sharedInstance.isNetworkAvailable() {
-            delay = 1.0
-        }
-        let when = DispatchTime.now() + delay
-        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: when) {
-            self.configureElgrocerShopper()
-        }
-        
-    }
+//    private func configFailureCase() {
+//
+//        var delay : Double = 3
+//        if  ReachabilityManager.sharedInstance.isNetworkAvailable() {
+//            delay = 1.0
+//        }
+//        let when = DispatchTime.now() + delay
+//        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: when) {
+//            self.configureElgrocerShopper()
+//        }
+//
+//    }
     
     private func checkClientVersion() {
         
@@ -172,7 +217,7 @@ extension SplashAnimationViewController {
                 }
                 switch action {
                     case .ForceUpdate:
-                    self.delegate?.showForceUpdateView()
+                        self.delegate.showForceUpdateView()
                     case .Continue:
                         break
                 }
@@ -190,7 +235,7 @@ extension SplashAnimationViewController {
     }
     @objc
     private func setLanguage() {
-        sdkManager.setupLanguage()
+        SDKManager.shared.setupLanguage()
             // self.delegate.setupLanguage()
     }
     

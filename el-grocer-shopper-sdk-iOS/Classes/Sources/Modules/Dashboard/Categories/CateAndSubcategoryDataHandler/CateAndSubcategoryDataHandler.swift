@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol CateAndSubcategoryViewDelegate {
-    func productDataUpdated()
+    func productDataUpdated(_ index: IndexPath?)
     func bannerDataUpdated(_ grocerID:String?)
     func newTitleArrayUpdate(_ indexPath : NSIndexPath)
     func segmentChangeUpdateUI()
@@ -60,6 +60,8 @@ class CateAndSubcategoryView {
     var currentSubcategorySegmentIndex = 0
     var gridProductA : [Product] = []
     var ListbrandsArray = [GroceryBrand]()
+    let productPerBrandLimmit: Int = 10
+    private let brandDispatchGroup = DispatchGroup()
     
 
     // Mark:- current Address
@@ -244,7 +246,7 @@ extension CateAndSubcategoryView {
                 self.currentOffset = self.gridProductA.count
                 self.isGridView = true
                 self.moreGridProducts = true
-                self.delegate?.productDataUpdated()
+                self.delegate?.productDataUpdated(nil)
             }else{
                 self.gridProductA.removeAll()
                 self.fetchAllProdctusOfCategory()
@@ -267,13 +269,15 @@ extension CateAndSubcategoryView {
     // MARK: fetchAllProductsOfCategory
     
     private func fetchAllProdctusOfCategory(_ isLoadMore : Bool = false) {
+        guard self.parentCategory?.dbID != nil else { return }
         var pageNumber = 0
         var currentOffSet = self.currentOffset
         let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
         if let productsArray:[Product] = ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] {
             currentOffSet += productsArray.count
             if productsArray.count % 20 == 0 {
-                pageNumber = productsArray.count / 20
+                // formula use int pageCount = (records + recordsPerPage - 1) / recordsPerPage;
+                pageNumber = (productsArray.count + 20 - 1 ) / 20
             }else{
                 return
             }
@@ -340,13 +344,13 @@ extension CateAndSubcategoryView {
         Thread.OnMainThread {
             
             let newProduct = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            self.gridProductA += newProduct
+            self.gridProductA += newProduct.products
             self.moreGridProducts = (self.gridProductA.count % self.currentLimit) == 0
             let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
             ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] =  self.gridProductA
             self.isGridView = true
             self.delegate?.setGridListButtonState(isNeedToHideGridListButton: true, isGrid: self.isGridView)
-            self.delegate?.productDataUpdated()
+            self.delegate?.productDataUpdated(nil)
             self.isLoadingMoreGridProducts = false
             
         }
@@ -411,11 +415,12 @@ extension CateAndSubcategoryView {
             
             var pageNumber = 0
             if offset % 20 == 0 {
-                pageNumber = offset / 20
+                // (records + recordsPerPage - 1) / recordsPerPage;
+                pageNumber = (offset + 20 - 1) / 20
             }else {
                 return
             }
-            elDebugPrint("PageNumber of algolia: \(pageNumber)")
+            print("PageNumber of algolia: \(pageNumber)")
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
               
@@ -462,7 +467,7 @@ extension CateAndSubcategoryView {
             if let products = ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] {
                 self.gridProductA = products
             }
-            self.delegate?.productDataUpdated()
+            self.delegate?.productDataUpdated(nil)
             return
         }
         
@@ -515,13 +520,13 @@ extension CateAndSubcategoryView {
         Thread.OnMainThread {
             var newProduct = [Product]()
             let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-            newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context)
+            newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context).products
             self.gridProductA += newProduct
             self.isGridView = true
             self.isLoadingMoreGridProducts = false
             ElGrocerUtility.sharedInstance.productAvailabilityDict[keyStr] = self.gridProductA.count > 0
             ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] = self.gridProductA
-            self.delegate?.productDataUpdated()
+            self.delegate?.productDataUpdated(nil)
         }
         
        // self.delegate?.productDataUpdated()
@@ -541,25 +546,33 @@ extension CateAndSubcategoryView {
             }
             self.ListbrandsArray = dat
             self.isGridView = false
-            self.delegate?.productDataUpdated()
+            self.delegate?.productDataUpdated(nil)
             //self.fetchProductsOfNextSubCategory()
         } else {
             self.ListbrandsArray.removeAll()
-            self.fetchBrandsWithSixRandomProductsOfCategory(subCategory)
+//            self.fetchBrandsWithSixRandomProductsOfCategory(subCategory)
+            self.callfetchBrandsWithSixRandomProductsOfCategory(productOffset: 0, brandGridProductLoading : true,index: nil)
         }
         
     }
     
     // MARK: fetchAllBrandsWithSixRandomProdctusOfCategory
-    
-    func fetchBrandsWithSixRandomProductsOfCategory(_ parentSubCategory:SubCategory, isFromBackground:Bool = false) {
+    func callfetchBrandsWithSixRandomProductsOfCategory(productOffset: Int = 0,brandGridProductLoading: Bool = true, index: IndexPath? = nil) {
+        if let subCat = self.parentSubCategory {
+            self.fetchBrandsWithSixRandomProductsOfCategory(subCat, productOffset: productOffset)
+        }else {
+            return
+        }
+        
+    }
+    func fetchBrandsWithSixRandomProductsOfCategory(_ parentSubCategory:SubCategory, isFromBackground:Bool = false, productOffset: Int = 0,index: IndexPath? = nil) {
         
         
-        ElGrocerApi.sharedInstance.getBrandsForCategoryWithProducts(parentSubCategory, forGrocery: self.grocery, limit: self.currentBrandLimit, offset: self.ListbrandsArray.count){ (result) -> Void in
+        ElGrocerApi.sharedInstance.getBrandsForCategoryWithProducts(parentSubCategory, forGrocery: self.grocery, limit: self.currentBrandLimit, offset: self.ListbrandsArray.count,productOffset: productOffset){ (result) -> Void in
             switch result {
                 
                 case .success(let response):
-                    self.saveBrandsResponseWithSixRandomProductsOfSubCategory(response, withSubcategory: parentSubCategory, isFromBackground: isFromBackground)
+                    self.saveBrandsResponseWithSixRandomProductsOfSubCategory(response, withSubcategory: parentSubCategory, isFromBackground: isFromBackground,index: index)
                     
                 case .failure(let error):
                     error.showErrorAlert()
@@ -567,11 +580,10 @@ extension CateAndSubcategoryView {
         }
     }
     
-    func saveBrandsResponseWithSixRandomProductsOfSubCategory(_ response: NSDictionary, withSubcategory subCategory:SubCategory, isFromBackground:Bool = false) {
+    func saveBrandsResponseWithSixRandomProductsOfSubCategory(_ response: NSDictionary, withSubcategory subCategory:SubCategory, isFromBackground:Bool = false,index: IndexPath? = nil) {
         
-        
+        var brands = [GroceryBrand]()
         if let serverBrandsArray = response["data"] as? [[String:AnyObject]] {
-            var brands = [GroceryBrand]()
             for dictBrand in serverBrandsArray {
                 let brand = GroceryBrand.getGroceryBrandFromResponse(dictBrand, subCategory.subCategoryId.intValue)
                 brands.append(brand)
@@ -595,7 +607,124 @@ extension CateAndSubcategoryView {
             }
         }
         self.isLoadingMoreBrandProducts = false
-        self.delegate?.productDataUpdated()
+        self.delegate?.productDataUpdated(index)
+        
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            for brand in brands {
+                self?.callFetchBrandProductsFromServer(brand: brand)
+            }
+        }
+        
+    }
+    
+    
+    func callFetchBrandProductsFromServer(indexPath: IndexPath? = nil , brand: GroceryBrand, productCount: Int = 0) {
+        
+        self.brandDispatchGroup.enter()
+        var pageNumber = 0
+        
+        if productCount % self.productPerBrandLimmit == 0 {
+            pageNumber = productCount / productPerBrandLimmit
+        }else {
+            self.brandDispatchGroup.leave()
+            return
+        }
+        elDebugPrint("PageNumber of algolia: \(pageNumber)")
+        let parentSubcategory = self.getParentSubCategory()
+        //let parentCategory = self.getParentCategory()
+        
+        
+        getProductsForSelectedBrand(indexPath: indexPath, brand: brand, pageNumber: pageNumber, offset: productCount, subcategory: parentSubcategory)
+        self.brandDispatchGroup.wait()
+    }
+    
+    
+    func getProductsForSelectedBrand(indexPath: IndexPath? = nil, brand: GroceryBrand, pageNumber: Int, offset: Int, subcategory: SubCategory? ){
+        guard let subcategory = subcategory else {
+            brandDispatchGroup.leave()
+            return
+        }
+
+        guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
+            
+            ElGrocerApi.sharedInstance.getProductsForBrand(brand, forSubCategory: subcategory, andForGrocery: self.grocery!,limit: self.productPerBrandLimmit ,offset: offset, completionHandler: { [weak self] (result) -> Void in
+                
+                switch result {
+                        
+                    case .success(let response):
+                       elDebugPrint("SERVER Response:%@",response)
+                        self?.saveResponseData(response,indexPath: indexPath,brand: brand)
+                    case .failure(let error):
+                        SpinnerView.hideSpinnerView()
+                        error.showErrorAlert()
+                }
+                self?.brandDispatchGroup.leave()
+            })
+            return
+        }
+        
+        //self.subCategory.subCategoryId.stringValue
+        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", self.productPerBrandLimmit, subcategory.subCategoryId.stringValue, "\(brand.brandId)", completion: { [weak self] (content, error) in
+            
+            if  let responseObject : NSDictionary = content as NSDictionary? {
+                self?.saveAlgoliaResponse(responseObject,indexPath: indexPath,brand: brand)
+            } else { }
+            self?.brandDispatchGroup.leave()
+            SpinnerView.hideSpinnerView()
+        })
+    }
+    
+    func saveAlgoliaResponse (_ responseObject:NSDictionary, indexPath: IndexPath? = nil, brand: GroceryBrand) {
+        
+        Thread.OnMainThread {
+            let newProduct = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            if newProduct.products.count > 0 {
+                
+                let index = self.ListbrandsArray.firstIndex { GroceryBrand in
+                    return GroceryBrand.brandId == brand.brandId
+                }
+                guard let index = index, index >= 0 || index <= self.ListbrandsArray.count else {
+                    elDebugPrint("missing brand id")
+                    return
+                }
+              
+                self.ListbrandsArray[index].products += newProduct.products
+                self.ListbrandsArray[index].isNextProducts =  self.ListbrandsArray[index].products.count % self.productPerBrandLimmit == 0
+                
+               elDebugPrint("Products Array Count:%@",self.ListbrandsArray[index].products.count)
+                
+                self.delegate?.productDataUpdated(IndexPath(row: index, section: 0))
+                               
+            }
+        }
+      
+    }
+    
+    func saveResponseData(_ responseObject:NSDictionary, indexPath: IndexPath? = nil , brand: GroceryBrand) {
+        
+        if let dataDict = responseObject["data"] as? [NSDictionary] {
+            
+            Thread.OnMainThread {
+                let context = DatabaseHelper.sharedInstance.groceryManagedObjectContext
+                let newProduct = Product.insertOrReplaceAllProductsFromDictionary(responseObject, context:context)
+                
+                let index = self.ListbrandsArray.firstIndex { GroceryBrand in
+                    return GroceryBrand.brandId == brand.brandId
+                }
+                guard let index = index, index >= 0 || index <= self.ListbrandsArray.count else {
+                    elDebugPrint("missing brand id")
+                    return
+                }
+                
+                self.ListbrandsArray[index].products += newProduct.products
+                self.ListbrandsArray[index].isNextProducts =  self.ListbrandsArray[index].products.count % self.productPerBrandLimmit == 0
+                self.delegate?.productDataUpdated(indexPath)
+            }
+            
+        }else{
+            elDebugPrint("no data in algolia brand products")
+        }
+
     }
     
     

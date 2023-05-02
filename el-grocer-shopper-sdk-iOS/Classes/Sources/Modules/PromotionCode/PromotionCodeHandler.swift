@@ -142,6 +142,9 @@ class PromotionCodeHandler {
     class func checkIfBrandProductAdded(products: [Product], brandDict: [NSDictionary]) -> (isFound: Bool,brandName: String) {
         var isFound: Bool = false
         var brandNameToShow: String = ""
+        if brandDict.count == 0 {
+            return (true,"")
+        }
         for product in products {
             for dictionary in brandDict {
                 let brandId = dictionary["id"] as? NSNumber ?? NSNumber(0)

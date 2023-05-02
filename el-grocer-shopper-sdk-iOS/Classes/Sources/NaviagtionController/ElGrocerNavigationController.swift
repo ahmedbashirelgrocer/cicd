@@ -17,9 +17,14 @@ protocol NavigationBarProtocol : class {
 extension NavigationBarProtocol  {
     func backButtonClickedHandler(){}
 }
+protocol ButtonActionDelegate: class {
+    func profileButtonTap()
+    func cartButtonTap()
+}
 class ElGrocerNavigationController : UINavigationController {
     
     weak var actiondelegate:NavigationBarProtocol?
+    weak var buttonActionsDelegate: ButtonActionDelegate?
     
     lazy var tapGesture  : UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(backButtonClick))
@@ -34,27 +39,21 @@ class ElGrocerNavigationController : UINavigationController {
         return view
     }()
     func setupGradient() {
-        let height : CGFloat = 100 // Height of the nav bar
+        
+        let height : CGFloat = KElgrocerlocationViewFullHeight // Height of the nav bar
         let color = UIColor.smileBaseColor().cgColor
         let clear = UIColor.smileSecondaryColor().cgColor
         gradient = setupGradient(height: height, topColor: color,bottomColor: clear)
-        let gradient2 = setupGradient(height: height, topColor: color,bottomColor: clear)
         view.addSubview(gradientView)
         view.sendSubviewToBack(gradientView)
         NSLayoutConstraint.activate([
             gradientView.topAnchor.constraint(equalTo: view.topAnchor),
             gradientView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
-        
         gradientView.layer.insertSublayer(gradient!, at: 0)
-       // self.navigationBar.layer.addSublayer(gradient2)
-        //self.navigationBar.inputView?.layer.insertSublayer(gradient2, at: 2)
-        
+
     }
-    
-   
-   
-    
+ 
     override func viewDidLoad() {
       
         
@@ -99,21 +98,12 @@ class ElGrocerNavigationController : UINavigationController {
     }
     
     @objc func profileButtonClick() {
-       elDebugPrint("profileButtonClick")
-        MixpanelEventLogger.trackNavBarProfile()
-        let settingController = ElGrocerViewControllers.settingViewController()
-        self.pushViewController(settingController, animated: true)
-        //hide tabbar
+        self.buttonActionsDelegate?.profileButtonTap()
         hideTabBar()
     }
     
     @objc func cartButtonClick() {
-       elDebugPrint("cartButtonClick")
-        //hide tabbar
-        hideTabBar()
-        MixpanelEventLogger.trackNavBarCart()
-        let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
-        self.pushViewController(myBasketViewController, animated: true)
+        self.buttonActionsDelegate?.cartButtonTap()
     }
     
     override func backButtonClick() {
@@ -144,8 +134,8 @@ class ElGrocerNavigationController : UINavigationController {
     func setWhiteBackgroundColor() {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setWhiteBackground()
-        (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: .navigationBarColor())
-        (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(.navigationBarColor())
+        (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(ApplicationTheme.currentTheme.themeBasePrimaryColor)
         (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(false)
     }
     
@@ -177,7 +167,7 @@ class ElGrocerNavigationController : UINavigationController {
 //        guard self.navigationBar is ElGrocerNavigationBar else {return}
         //(self.navigationBar as! ElGrocerNavigationBar).setNavBarHidden(hidden)
 //        (self.navigationBar as! ElGrocerNavigationBar).barTintColor = UIColor.clear
-        (self.navigationBar as! ElGrocerNavigationBar).isHidden = hidden
+        self.setNavigationBarHidden(hidden, animated: false)
     }
     func setProfileButtonHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
@@ -201,6 +191,14 @@ class ElGrocerNavigationController : UINavigationController {
     
     // MARK: Logo
     
+    func refreshLogoView() {
+        
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+         self.setNavigationBarHidden(false, animated: false)
+        (self.navigationBar as! ElGrocerNavigationBar).refreshLogoView()
+        
+    }
+    
     func setLogoHidden(_ hidden:Bool) {
         
         guard self.navigationBar is ElGrocerNavigationBar else {return}
@@ -208,7 +206,7 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as! ElGrocerNavigationBar).setLogoHidden(hidden)
         
     }
-    func changeLogoColor(_ color:UIColor = .navigationBarColor()) {
+    func changeLogoColor(_ color:UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor) {
         
         guard self.navigationBar is ElGrocerNavigationBar else {return}
          self.setNavigationBarHidden(false, animated: false)
@@ -232,7 +230,7 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as! ElGrocerNavigationBar).setChatIcon(isNewMessage)
     }
     
-    func setChatIconColor ( _ color : UIColor = .navigationBarColor()) {
+    func setChatIconColor ( _ color : UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(color)
     }
@@ -303,7 +301,7 @@ class ElGrocerNavigationController : UINavigationController {
     func updateBasketItemsCount(_ ItemsCount:String){
         
         let barButton =  self.navigationItem.rightBarButtonItem as? BBBadgeBarButtonItem
-        barButton?.badge.layer.borderColor  = UIColor.navigationBarColor().cgColor
+        barButton?.badge.layer.borderColor  = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         barButton?.badge.layer.borderWidth = 1.0;
         barButton?.badgeValue = ItemsCount
     }

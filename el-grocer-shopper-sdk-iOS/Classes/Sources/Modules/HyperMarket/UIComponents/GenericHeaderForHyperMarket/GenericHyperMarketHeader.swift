@@ -18,7 +18,7 @@ class GenericHyperMarketHeader: UIView {
 
     @IBOutlet var cellBGView: UIView!{
         didSet{
-            cellBGView.backgroundColor = .navigationBarColor()
+            cellBGView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     @IBOutlet var bestForView: UIView!{

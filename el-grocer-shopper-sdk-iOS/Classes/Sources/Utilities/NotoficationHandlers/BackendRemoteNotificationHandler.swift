@@ -26,6 +26,7 @@ enum PushNotificationType : Int {
     case PendingPaymentState = 106
     case userLocation = 109
     case PendingPaymentStateAdyen = 113
+    case PaymentFailed = 70
 }
 
 let kOrderUpdateNotificationKey = "UpdateOrderNotification"
@@ -55,7 +56,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         
         elDebugPrint("notification : \(notification)")
         
-        guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey) else {
+        guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey || SDKManager.isSmileSDK)  else {
             return false
         }
         
@@ -63,7 +64,13 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             self.handleAlert(notification)
             return false
         }
-        guard let pushTypeInt = notification[pushTypeKey] as? Int, let pushType = PushNotificationType(rawValue: pushTypeInt) else {
+        
+        var pushTypeInt : Int? = notification[pushTypeKey] as? Int
+        if let pushTypeKeyObj = notification[pushTypeKey] as? String {
+            pushTypeInt = Int(pushTypeKeyObj)
+        }
+        
+        guard let pushTypeInt = pushTypeInt, let pushType = PushNotificationType(rawValue: pushTypeInt) else {
            elDebugPrint("Could not get push type for backend notification")
             return false
         }
@@ -107,10 +114,16 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                 self.handleOrderApprovalReminderNotification(notification)
                 break
             case .orderCanceled:
-                self.handleOrderCanceledNotification(notification: notification)
+                self.handleOrderApprovalReminderNotification(notification)
                 break
             case .orderApprovalReminder:
-                guard let slideController = self.slideMenuController, let orderId = notification[self.pushOrderIdKey] as? Int else {
+                    
+                    var orderId : Int? = notification[self.pushOrderIdKey] as? Int
+                    if let orderIDStr = notification[self.pushOrderIdKey] as? String {
+                        orderId = Int(orderIDStr)
+                    }
+                    
+                guard let slideController = self.slideMenuController, let orderId = orderId else {
                     return
                 }
                 let ordersController = ElGrocerViewControllers.ordersViewController()
@@ -142,15 +155,23 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                    elDebugPrint("Promo alert")
                     break
                 case .PendingPaymentState:
-                    self.handlePaymentPendingAlert(notification)
+                self.handleOrderApprovalReminderNotification(notification)
+                    //self.handlePaymentPendingAlert(notification)
                 case .PendingPaymentStateAdyen:
-                    self.handlePaymentAdyenPendingAlert(notification)
+                self.handleOrderApprovalReminderNotification(notification)
+            case .PaymentFailed:
+            self.handleOrderApprovalReminderNotification(notification)
+                   // self.handlePaymentAdyenPendingAlert(notification)
                 
                elDebugPrint("Promo alert")
         }
     }
     
     fileprivate func showlocationHandler(notification userInfo: [AnyHashable: Any]) {
+        
+        guard ((userInfo[pushOrderIdKey] as? NSNumber) != nil) else {
+            return
+        }
         
         let orderId = userInfo[pushOrderIdKey] as! NSNumber
         let shopperId = userInfo[shopperIdKey] as! NSNumber
@@ -217,9 +238,34 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate func handleOrderApprovalReminderNotification(_ notification: [AnyHashable: Any]) {
         
-        self.showOrdersController()
         
+        var orderId : Int? = notification[self.pushOrderIdKey] as? Int
+        if let orderIDStr = notification[self.pushOrderIdKey] as? String {
+            orderId = Int(orderIDStr)
+        }
+        
+        guard let orderId = orderId else {
+            self.showOrdersController()
+            return
+        }
+        
+        self.showOrderDetailController("\(orderId)")
+  
     }
+    
+    
+    fileprivate func showOrderDetailController(_ orderId : String) {
+        
+        let ordersController = ElGrocerViewControllers.orderDetailsViewController()
+        ordersController.orderIDFromNotification = "\(orderId)"
+        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.viewControllers = [ordersController]
+        navigationController.modalPresentationStyle = .fullScreen
+        if let vc = UIApplication.topViewController() {
+            vc.present(navigationController, animated: true, completion: nil)
+        }
+    }
+    
     
     fileprivate func showOrdersController() {
         
@@ -257,8 +303,15 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         NotificationCenter.default.post(name: Notification.Name(rawValue: kOrderUpdateNotificationKey), object: nil)
         
         let substitutionsProductsVC = ElGrocerViewControllers.substitutionsProductsViewController()
-        let orderId = userInfo[pushOrderIdKey] as! NSNumber
-        substitutionsProductsVC.orderId = "\(orderId)"
+        let orderId = userInfo[pushOrderIdKey] as? NSNumber
+        var orderStr : String? = orderId?.stringValue ?? ""
+        if (orderStr?.count ?? 0) == 0 {
+            orderStr = userInfo[pushOrderIdKey] as? String
+        }
+        if (orderStr?.count ?? 0) == 0 {
+            return
+        }
+        substitutionsProductsVC.orderId = orderStr ?? ""
         substitutionsProductsVC.isViewPresent = true
         
         let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
@@ -328,7 +381,11 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate func handlePaymentPendingAlert(_ userInfo: [AnyHashable: Any]){
         
-        guard let retailer_id = userInfo["retailer_id"] as? Int else {
+        var retailer_id = userInfo["retailer_id"] as? Int
+        if let retailerIdStr = userInfo["retailer_id"] as? String {
+            retailer_id =  Int(retailerIdStr)
+        }
+        guard let retailer_id = retailer_id else {
             return
         }
         
@@ -371,11 +428,22 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate func handlePaymentAdyenPendingAlert(_ userInfo: [AnyHashable: Any]){
         
-        guard let retailer_id = userInfo["retailer_id"] as? Int else {
+        
+        var retailer_id = userInfo["retailer_id"] as? Int
+        if let retailerIdStr = userInfo["retailer_id"] as? String {
+            retailer_id =  Int(retailerIdStr)
+        }
+        guard let retailer_id = retailer_id else {
             return
         }
         
-        guard let orderID = userInfo["order_id"] as? Int64 else {
+        
+        var order_id = userInfo["order_id"] as? Int64
+        if let orderIdStr = userInfo["order_id"] as? String {
+            order_id =  Int64(orderIdStr)
+        }
+       
+        guard let orderID = order_id else {
             return
         }
         
@@ -405,19 +473,8 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                         if dataA.count > 0 {
                             ElGrocerUtility.sharedInstance.activeGrocery = dataA[0]
                             
-                            /*let controller = ElGrocerViewControllers.orderDetailsViewController()
-                            controller.orderIDFromNotification = "\(orderID)"
-                            controller.isCommingFromOrderConfirmationScreen = true
-                            controller.mode = .dismiss
-                            
-                            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                            navigationController.hideSeparationLine()
-                            navigationController.viewControllers = [controller]
-                            navigationController.modalPresentationStyle = .fullScreen*/
-                            
-                            
-                            let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-                            orderConfirmationController.orderDict = ["id" : orderID]
+                            let viewModel = OrderConfirmationViewModel(orderId: "\(orderID)")
+                            let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
                             orderConfirmationController.isNeedToRemoveActiveBasket = false
                             let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                             navigationController.hideSeparationLine()
@@ -429,7 +486,6 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                             if let topVC = UIApplication.topViewController() {
                                 topVC.navigationController?.present(navigationController, animated: false)
                             }
-                            
                             
                         }else{
                             SpinnerView.hideSpinnerView()

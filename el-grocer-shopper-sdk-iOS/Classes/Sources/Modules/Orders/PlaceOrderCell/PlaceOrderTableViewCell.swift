@@ -48,18 +48,18 @@ class PlaceOrderTableViewCell: UITableViewCell {
         
         if (titleStr == localizedString("promotion_discount_aed", comment: ""))  {
             
-            self.titleLabel.textColor = UIColor.redTextColor()
-            self.descriptionLabel.textColor = UIColor.redTextColor()
+            self.titleLabel.textColor = UIColor.textfieldErrorColor()
+            self.descriptionLabel.textColor = UIColor.textfieldErrorColor()
             
         }else if (titleStr == localizedString("total_price", comment: ""))  {
-            self.descriptionLabel.textColor = UIColor.greenInfoColor()
-            self.titleLabel.textColor = UIColor.greenInfoColor()
+            self.descriptionLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            self.titleLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }else if (titleStr == localizedString("delivery_fee_aed", comment: "") && (descriptionStr == localizedString("free", comment: "")))  {
-            self.descriptionLabel.textColor = UIColor.greenInfoColor()
-            self.titleLabel.textColor = UIColor.greenInfoColor()
+            self.descriptionLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            self.titleLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }else if (titleStr == localizedString("grand_total", comment: "")) || (titleStr == localizedString("total_bill_amount", comment: ""))  {
-            self.descriptionLabel.textColor = UIColor.greenInfoColor()
-            self.titleLabel.textColor = UIColor.greenInfoColor()
+            self.descriptionLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            self.titleLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
 }

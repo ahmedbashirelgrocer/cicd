@@ -9,6 +9,8 @@
 
 import Foundation
 import MSPeekCollectionViewDelegateImplementation
+import RxSwift
+import RxCocoa
 
 class GenricBannerList : CustomCollectionView {
    
@@ -19,6 +21,7 @@ class GenricBannerList : CustomCollectionView {
     var collectionData : [Any] = [Any]()
     var bannerCliked: ((_ bannerLink : Banner )->Void)?
     var bannerCampaignClicked: ((_ bannerLink : BannerCampaign )->Void)?
+    var bannerClicked: ((BannerDTO)->())?
     var currentPage: ((_ currentPage : Int , _ collectionView : UICollectionView )->Void)?
    // private var indexOfCellBeforeDragging = 0
     override func awakeFromNib() {
@@ -90,6 +93,23 @@ class GenricBannerList : CustomCollectionView {
     }
     
 }
+
+// MARK: Rx Extension for binding Banner View with BannerDTOs
+extension Reactive where Base: GenricBannerList {
+    var banners: Binder<[BannerDTO]> {
+        return Binder(self.base) { bannerListView, banners in
+            bannerListView.collectionData = banners
+            bannerListView.behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(8), cellPeekWidth: CGFloat(2), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)
+            bannerListView.collectionView?.configureForPeekingBehavior(behavior: bannerListView.behavior)
+            
+            UIView.performWithoutAnimation {
+                bannerListView.layoutIfNeeded()
+                bannerListView.collectionView?.reloadData()
+            }
+        }
+    }
+}
+
 extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSource , UIScrollViewDelegate {
     
     
@@ -126,6 +146,15 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                 }else{
                     cell.setImage(banner.bannerLinks[0].bannerLinkImageUrl)
                 }
+            } else if self.collectionData[indexPath.row] is BannerDTO {
+                let banner: BannerDTO = self.collectionData[indexPath.row] as! BannerDTO
+                
+                let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+                if currentLang == "ar" {
+                    cell.bannerImage.transform = CGAffineTransform(scaleX: -1, y: 1)
+                    cell.bannerImage.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+                }
+                cell.setImage(banner.imageURL)
             }
         }
         return cell
@@ -182,6 +211,31 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                         clouser(banner)
                     }
                 }
+            } else if self.collectionData[indexPath.row] is BannerDTO {
+                let banner = self.collectionData[indexPath.row] as! BannerDTO
+                if let bannerClicked = self.bannerClicked {
+                    bannerClicked(banner)
+                    
+                    // Logging segment event for banner clicked
+                    let bannerCampign = BannerCampaign.init()
+                    
+                    bannerCampign.dbId = (banner.id ?? 0) as NSNumber
+                    bannerCampign.title = banner.name ?? ""
+                    bannerCampign.priority = (banner.priority ?? 0) as NSNumber
+                    bannerCampign.campaignType = (banner.campaignType?.rawValue ?? -1) as NSNumber
+                    bannerCampign.imageUrl = banner.imageURL ?? ""
+                    bannerCampign.bannerImageUrl = banner.bannerImageURL ?? ""
+                    bannerCampign.url = banner.url ?? ""
+                    bannerCampign.categories = banner.categories?.map { bannerCategories(dbId: $0.id as? NSNumber ?? -1, name: $0.name ?? "", slug: $0.slug ?? "") }
+                    bannerCampign.subCategories = banner.subcategories?.map { bannerSubCategories(dbId: $0.id as? NSNumber ?? -1, name: $0.name ?? "", slug: $0.slug ?? "") }
+                    bannerCampign.brands = banner.brands?.map { bannerBrands(dbId: $0.id as? NSNumber ?? -1, name: $0.name ?? "", slug: $0.slug ?? "", image_url: $0.imageURL ?? "") }
+                    bannerCampign.retailerIds = banner.retailerIDS
+                    bannerCampign.locations = banner.locations
+                    bannerCampign.storeTypes = banner.storeTypes
+                    bannerCampign.retailerGroups = banner.retailerGroups
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: BannerClickedEvent(banner: bannerCampign, position: indexPath.row + 1))
+                }
             }
             return
         }
@@ -189,6 +243,9 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
             if let clouser = self.bannerCampaignClicked {
                 FireBaseEventsLogger.trackBannerClicked(brandName: banner.brands?.map { $0.slug }.joined(separator: ",") ?? "", banner.categories?.map { $0.slug }.joined(separator: ",") ?? "", banner.subCategories?.map { $0.slug }.joined(separator: ",") ?? "", link: banner, possition: String(describing: (indexPath.row ) + 1) )
                 clouser(banner)
+                
+                // Logging segment event for banner clicked
+                SegmentAnalyticsEngine.instance.logEvent(event: BannerClickedEvent(banner: banner, position: indexPath.row + 1))
             }
         }
     }

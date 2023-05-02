@@ -10,11 +10,12 @@ import Foundation
 // better to use PromoDiscountLogicHandler - Refactor suggestion
 class ProductQuantiy {
     
+    static var availableQuantityLimit = 3
     
     public static func checkLimitedNeedToDisplayForAvailableQuantity (_ product : Product) -> Bool {
         
         let availableQuantity = product.availableQuantity.intValue
-        if (availableQuantity > 0 && availableQuantity < 11) || (product.promoProductLimit?.intValue ?? 0) > 0 {
+        if (availableQuantity > 0 && availableQuantity <  availableQuantityLimit) || (product.promoProductLimit?.intValue ?? 0) > 0 {
             return true
         }
         return false
@@ -39,6 +40,26 @@ class ProductQuantiy {
             }
         }
         return (false , false)
+    }
+    
+    /// This function is same as `checkPromoNeedToDisplay` using the function remove the dependecy on product
+    public static func checkPromoValidity(product: ProductDTO) -> (displayPromo: Bool, showPercentage: Bool) {
+        if product.promotion == true {
+            let now = ElGrocerUtility.sharedInstance.getCurrentMillis()
+            
+            let promoStartTime = product.promoStartTime?.millisecondsSince1970 ?? now
+            let promoEndTime = product.promoEndTime?.millisecondsSince1970 ?? now
+            
+            if promoStartTime <= now && promoEndTime >= now {
+                if (product.fullPrice ?? 0.0) <= (product.promoPrice ?? 0.0) {
+                    return (true, false)
+                } else {
+                    return (true, true)
+                }
+            }
+        }
+        
+        return (false, false)
     }
     
     public static func checkPromoNeedToDisplayWithoutTimeCheck (_ product : Product) -> ( isNeedToDisplayPromo : Bool , isNeedToShowPromoPercentage : Bool) {

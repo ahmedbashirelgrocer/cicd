@@ -310,15 +310,15 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             self.fetcher?.delegate = self
         }
         
-        
-       
+        // Logging Segment Screen Event
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .deliveryAddressScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationItem.hidesBackButton = true
-        (self.navigationController as? ElGrocerNavigationController)?.navigationBar.tintColor = .navigationBarColor()
+        (self.navigationController as? ElGrocerNavigationController)?.navigationBar.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
@@ -536,7 +536,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
       //  self.updateButton.titleLabel!.font = UIFont.mediumFont(18.0)
         self.updateButton.setTitleColor(UIColor.white, for: UIControl.State())
         self.updateButton.setTitle(localizedString("force_update_button_title", comment: ""), for:UIControl.State())
-        self.updateButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
+        self.updateButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
         
         self.updateButton.layer.cornerRadius = 5.0
         self.updateButton.clipsToBounds = true
@@ -553,23 +553,15 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         apartmentBtn.isSelected = isSelected
         
         if isSelected {
-            self.apartmentView.layer.borderColor = UIColor.navigationBarColor().cgColor
-            self.apartmentLabel.textColor = UIColor.navigationBarColor()
+            self.apartmentView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
+            self.apartmentLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.apartmentImgView.image = UIImage(name: "Apartment")
-            self.apartmentImgView.changePngColorTo(color: .navigationBarColor())
-//            if let image = self.houseImgView.image?.withRenderingMode(.alwaysTemplate) {
-//                self.houseImgView.image = image
-//                self.houseImgView.tintColor = .navigationBarColor()
-//            }
+            self.apartmentImgView.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         }else{
-            self.apartmentView.layer.borderColor = UIColor.borderGrayColor().cgColor
-            self.apartmentLabel.textColor = .selectionTabDark()
+            self.apartmentView.layer.borderColor = ApplicationTheme.currentTheme.secondaryNoSelectionlightColor.cgColor
+            self.apartmentLabel.textColor = ApplicationTheme.currentTheme.labeldiscriptionTextColor
             self.apartmentImgView.image = UIImage(name: "Apartment")
-            self.apartmentImgView.changePngColorTo(color: .selectionTabDark())
-//            if let image = self.houseImgView.image?.withRenderingMode(.alwaysTemplate) {
-//                self.houseImgView.image = image
-//                self.houseImgView.tintColor = .selectionTabDark()
-//            }
+            self.apartmentImgView.changePngColorTo(color: ApplicationTheme.currentTheme.primaryNoSelectionColor)
         }
         
        
@@ -589,15 +581,15 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         houseBtn.isSelected = isSelected
         
         if isSelected {
-            self.houseView.layer.borderColor = UIColor.navigationBarColor().cgColor
-            self.houseLabel.textColor = UIColor.navigationBarColor()
+            self.houseView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
+            self.houseLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.houseImgView.image = UIImage(name: "House")
-            self.houseImgView.changePngColorTo(color: .navigationBarColor())
+            self.houseImgView.changePngColorTo(color: ApplicationTheme.currentTheme.primarySelectionColor)
         }else{
-            self.houseView.layer.borderColor = UIColor.borderGrayColor().cgColor
-            self.houseLabel.textColor = .selectionTabDark()
+            self.houseView.layer.borderColor = ApplicationTheme.currentTheme.secondaryNoSelectionlightColor.cgColor
+            self.houseLabel.textColor = ApplicationTheme.currentTheme.primaryNoSelectionColor
             self.houseImgView.image = UIImage(name: "House")
-            self.houseImgView.changePngColorTo(color: .selectionTabDark())
+            self.houseImgView.changePngColorTo(color: ApplicationTheme.currentTheme.primaryNoSelectionColor)
             
         }
     }
@@ -615,23 +607,16 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         officeBtn.isSelected = isSelected
         
         if isSelected {
-            self.officeView.layer.borderColor = UIColor.navigationBarColor().cgColor
-            self.officeLabel.textColor = UIColor.navigationBarColor()
+            self.officeView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
+            self.officeLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.officeImgView.image = UIImage(name: "Office")
-            self.officeImgView.changePngColorTo(color: .navigationBarColor())
-//            if let image = self.houseImgView.image?.withRenderingMode(.alwaysTemplate) {
-//                self.houseImgView.image = image
-//                self.houseImgView.tintColor = .navigationBarColor()
+            self.officeImgView.changePngColorTo(color: ApplicationTheme.currentTheme.primarySelectionColor)
 //            }
         }else{
-            self.officeView.layer.borderColor = UIColor.borderGrayColor().cgColor
-            self.officeLabel.textColor = .selectionTabDark()
+            self.officeView.layer.borderColor = ApplicationTheme.currentTheme.secondaryNoSelectionlightColor.cgColor
+            self.officeLabel.textColor = ApplicationTheme.currentTheme.primaryNoSelectionColor
             self.officeImgView.image = UIImage(name: "Office")
-            self.officeImgView.changePngColorTo(color: .selectionTabDark())
-//            if let image = self.houseImgView.image?.withRenderingMode(.alwaysTemplate) {
-//                self.houseImgView.image = image
-//                self.houseImgView.tintColor = .selectionTabDark()
-//            }
+            self.officeImgView.changePngColorTo(color: ApplicationTheme.currentTheme.primaryNoSelectionColor)
         }
     }
     
@@ -697,24 +682,8 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         paragraphStyle.lineSpacing = 5.0
         let titleStr = NSMutableAttributedString(string: localizedString("txt_not_cover_area_1", comment: ""))
         titleStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, titleStr.length))
-        
-//        self.noCoverageTitleLabel.attributedText = titleStr
-//
-//        self.noCoverageTitleLabel.numberOfLines = 0
-//        self.noCoverageTitleLabel.sizeToFit()
-//
-//        self.emailDoneButton.titleLabel!.font = UIFont.mediumFont(18.0)
-//        self.emailDoneButton.setTitleColor(UIColor.white, for: UIControl.State())
-//        self.emailDoneButton.setTitle(localizedString("delivery_note_done_button_title", comment: ""), for:UIControl.State())
-//        self.emailDoneButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
-//
-//        self.emailDoneButton.layer.cornerRadius = 5.0
-//        self.emailDoneButton.clipsToBounds = true
+
         setEmailDoneButtonEnabled(false)
-        
-//        self.emailTextField.placeholder = localizedString("enter_email_placeholder_text", comment: "")
-//        self.emailTextField.font = UIFont.bookFont(13.0)
-//        self.emailTextField.textColor = UIColor.darkTextGrayColor()
         if UserDefaults.isUserLoggedIn(){
             let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             if(userProfile != nil){
@@ -761,7 +730,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         if self.addressType == "1" {
             enableSubmitButton = !self.locNameTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && !self.apartmentNumberTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-                && !self.streetTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
+                // && !self.streetTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && !self.addressType.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
                 && self.deliveryAddressLocation != nil
         }else{
@@ -770,7 +739,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             && !self.buildingTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && !self.floorTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && !self.apartmentNumberTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
-            && !self.streetTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
+            // && !self.streetTextField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && !self.addressType.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty
             && self.deliveryAddressLocation != nil
             
@@ -809,15 +778,15 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             self.apartmenttxtView.layer.borderWidth = 0
         }
         
-        if self.streetTextField.text!.count == 0 {
-            //self.streetView.layer.borderWidth = 1
-           // self.streetView.layer.borderColor = UIColor.redInfoColor().cgColor
-            self.streetTextField.showError(message: localizedString("error_enter_street", comment: ""))
-        }else{
-            self.streetView.layer.borderWidth = 0
-        }
-    
-        setUpdateButtonEnabled(true)
+//        if self.streetTextField.text!.count == 0 {
+//            //self.streetView.layer.borderWidth = 1
+//           // self.streetView.layer.borderColor = UIColor.redInfoColor().cgColor
+//            self.streetTextField.showError(message: localizedString("error_enter_street", comment: ""))
+//        }else{
+//            self.streetView.layer.borderWidth = 0
+//        }
+//        setUpdateButtonEnabled(true)
+        
         self.editTableView.reloadData()
         
         if let cell = self.editTableView.cellForRow(at: NSIndexPath.init(row: 0, section: 0) as IndexPath)  {
@@ -832,7 +801,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                 if current.txtShopperName.text?.count == 0 {
                     //current.viewName.layer.borderWidth = 1
                     //current.viewName.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-                    current.txtMobileNumber.showError(message: "Please enter your mobile number.")
+                    current.txtShopperName.showError(message: "Please enter your name.")
                     enableSubmitButton = false
                 }
                
@@ -1581,8 +1550,12 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
             if result {
                 
                 DatabaseHelper.sharedInstance.saveDatabase()
-                // IntercomeHelper.updateUserAddressInfoToIntercom()
-                // PushWooshTracking.updateUserAddressInfo()
+                
+                // Logging segment events for confirm address details and identify user
+                SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
+                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                
+                ElGrocerUtility.sharedInstance.activeAddress = nil
                 
                 if self.editScreenState == .isFromCart {
                     if  self.navigationController?.viewControllers.count ?? 1 > 1 {
@@ -1605,6 +1578,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
                     }
                     self.navigationController?.dismiss(animated: true) { }
                 }else{
+                    ElGrocerUtility.sharedInstance.activeGrocery = nil
                     self.navigationController?.popViewController(animated: true)
                 }
                
@@ -1624,7 +1598,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     func AddUserAddressWithProfile(_ userProfile: UserProfile) {
   
-        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { (result:Bool) -> Void in
+        ElGrocerApi.sharedInstance.updateUserProfile(userProfile.name!, email: userProfile.email, phone: userProfile.phone!) { result, error in
              SpinnerView.hideSpinnerView()
         }
     }

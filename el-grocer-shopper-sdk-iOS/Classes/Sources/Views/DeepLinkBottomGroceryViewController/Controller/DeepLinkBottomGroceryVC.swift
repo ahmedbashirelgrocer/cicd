@@ -174,7 +174,7 @@ class DeepLinkBottomGroceryVC: UIViewController , UITableViewDelegate , UITableV
             let nsRange = NSString(string: finalTitle).range(of: finalSearchString , options: String.CompareOptions.caseInsensitive)
             if nsRange.location != NSNotFound {
                 attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(14) , range: nsRange )
-                attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: UIColor.navigationBarColor() , range: nsRange )
+                attributedString.addAttribute(NSAttributedString.Key.foregroundColor , value: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor , range: nsRange )
             }
             DispatchQueue.main.async {
                 UIView.performWithoutAnimation {

@@ -153,7 +153,9 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         self.userProfile.email = self.emailTextField.text!
         self.userProfile.phone = self.finalPhoneNumber//self.phoneTextField.text!
         
-        ElGrocerApi.sharedInstance.updateUserProfile(self.userProfile.name!, email: self.userProfile.email, phone: self.userProfile.phone!) { (result:Bool) -> Void in
+      
+        
+        ElGrocerApi.sharedInstance.updateUserProfile(self.userProfile.name!, email: self.userProfile.email, phone: self.userProfile.phone!) { result, error in
             
             if result {
                 SpinnerView.hideSpinnerView()
@@ -162,19 +164,21 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                 ElGrocerUtility.sharedInstance.isUserProfileUpdated = true
                 self.navigationController?.popToRootViewController(animated: true)
                 
+                // Identify segment call
+                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: self.userProfile))
             } else {
                 
                 SpinnerView.hideSpinnerView()
                 DatabaseHelper.sharedInstance.mainManagedObjectContext.rollback()
-                self.showErrorAlert()
+                self.showErrorAlert(error?.message ?? error?.localizedMessage ?? localizedString("my_account_saving_error", comment: ""))
                 self.setUpdateButtonEnabled(true)
             }
         }
     }
     
-    func showErrorAlert() {
+    func showErrorAlert(_ errorMsg : String) {
         
-        ElGrocerAlertView.createAlert(localizedString("my_account_saving_error", comment: ""),
+        ElGrocerAlertView.createAlert(errorMsg,
             description: nil,
             positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
             negativeButton: nil, buttonClickCallback: nil).show()
@@ -210,7 +214,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         textField.textColor = UIColor.black
         textField.placeholder = placeholder
         textField.layer.cornerRadius = 8
-        textField.attributedPlaceholder = NSAttributedString.init(string: textField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
+        textField.attributedPlaceholder = NSAttributedString.init(string: textField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
 
     }
     
