@@ -56,7 +56,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         
         elDebugPrint("notification : \(notification)")
         
-        guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey || SDKManager.isSmileSDK)  else {
+        guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey || SDKManager.shared.isSmileSDK)  else {
             return false
         }
         

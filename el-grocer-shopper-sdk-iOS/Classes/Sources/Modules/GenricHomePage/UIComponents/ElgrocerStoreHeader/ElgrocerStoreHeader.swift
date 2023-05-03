@@ -27,7 +27,7 @@ class ElgrocerStoreHeader:  UIView  {
         
         didSet {
             var image = UIImage(name: "elGrocerLogo")!
-            if SDKManager.isSmileSDK {
+            if SDKManager.shared.isSmileSDK {
                 if SDKManager.shared.launchOptions?.navigationType == .singleStore {
                     if ElGrocerUtility.sharedInstance.isArabicSelected() {
                         image = UIImage(name: "smiles-Single-Store-ar")!

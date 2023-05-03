@@ -42,7 +42,7 @@ class AddLocationViewController: UIViewController {
     }
     
     override func backButtonClick() {
-        guard !SDKManager.isSmileSDK else {
+        guard !SDKManager.shared.isSmileSDK else {
             SDKManager.shared.rootContext?.dismiss(animated: true)
             return
         }

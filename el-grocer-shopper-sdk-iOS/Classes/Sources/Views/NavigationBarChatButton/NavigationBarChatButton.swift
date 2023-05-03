@@ -52,9 +52,9 @@ class NavigationBarChatButton: UIView {
     func changeChatIconColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor){
         self.navChatButton.imageView?.changePngColorTo(color: color)
         if color == ApplicationTheme.currentTheme.themeBasePrimaryColor{
-            self.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
+            self.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : .navigationBarWhiteColor()
         }else{
-            self.backgroundColor = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+            self.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     

@@ -200,7 +200,7 @@ struct LoginSignupService {
     
     static func setHomeView(from contextView: UIViewController) -> Void {
         
-        guard !SDKManager.isSmileSDK else {
+        guard !SDKManager.shared.isSmileSDK else {
             contextView.navigationController?.popViewController(animated: true)
             return
         }

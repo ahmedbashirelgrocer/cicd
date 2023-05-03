@@ -63,7 +63,7 @@ public class ElGrocerNotification {
     }
     
     class func logErrorOption(_ options: LaunchOptions?) {
-        FireBaseEventsLogger.trackCustomEvent(eventType: "InvalidPushJson", action: "SmileSDk: \(SDKManager.isSmileSDK ? "YES": "NO")", ["payload" : options?.pushNotificationPayload?.description ?? "Nil", "phone" : options?.accountNumber ?? "Nil", "ID" : options?.loyaltyID ?? "Nil"], false)
+        FireBaseEventsLogger.trackCustomEvent(eventType: "InvalidPushJson", action: "SmileSDk: \(SDKManager.shared.isSmileSDK ? "YES": "NO")", ["payload" : options?.pushNotificationPayload?.description ?? "Nil", "phone" : options?.accountNumber ?? "Nil", "ID" : options?.loyaltyID ?? "Nil"], false)
         
     }
     

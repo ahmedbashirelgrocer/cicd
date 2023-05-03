@@ -32,7 +32,7 @@ import Segment_CleverTap
 // import FirebaseMessaging
 
 extension SDKManager {
-    static var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
+    var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
     static var isGrocerySingleStore: Bool { SDKManager.shared.launchOptions?.marketType == .grocerySingleStore }
 }
 
@@ -63,7 +63,7 @@ class SDKManager: NSObject, SDKManagerType  {
     //var isFromSmile : Bool = fals
     var launchOptions: LaunchOptions? = nil
 
-//    var kGoogleMapsApiKey: String { "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0"}
+    var kGoogleMapsApiKey: String { "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0"}
     var launchOptionsLocation: CLLocation? = nil
     var isLaunchEventConfigured: Bool = false
     var isInitialized = false
@@ -352,8 +352,8 @@ class SDKManager: NSObject, SDKManagerType  {
         
         // Google Maps
         if Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" || Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK"  {
-            GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
-            GMSServices.provideAPIKey(kGoogleMapsApiKey)
+            GMSPlacesClient.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
+            GMSServices.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
         }
      
         self.configuredElgrocerEventLogger() //didFinishLaunchingWithOptions)
@@ -663,7 +663,7 @@ class SDKManager: NSObject, SDKManagerType  {
         tabController.tabBar.backgroundColor = .white
         tabController.tabBar.barTintColor = .white
         tabController.tabBar.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-        if SDKManager.isSmileSDK == false {
+        if SDKManager.shared.isSmileSDK == false {
             UITabBarItem.appearance().setTitleTextAttributes(
                 [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
                  NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")],

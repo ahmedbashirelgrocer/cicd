@@ -138,7 +138,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     private func checkChangeLocationForSmileSearch() {
         
-        guard SDKManager.isSmileSDK, SDKManager.shared.launchOptions?.navigationType == .search else {
+        guard SDKManager.shared.isSmileSDK, SDKManager.shared.launchOptions?.navigationType == .search else {
             return
         }
         guard let _ = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)else {
@@ -153,7 +153,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     @IBAction func voiceSearchAction(_ sender: Any) {
         self.txtSearch.resignFirstResponder()
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
+        self.searchBarView.layer.borderColor = SDKManager.shared.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -986,7 +986,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
+        self.searchBarView.layer.borderColor = SDKManager.shared.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)

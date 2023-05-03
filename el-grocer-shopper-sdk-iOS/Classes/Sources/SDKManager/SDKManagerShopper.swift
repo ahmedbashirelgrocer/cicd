@@ -119,7 +119,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         //Google Analytics
         GoogleAnalyticsHelper.configureGoogleAnalytics()
         self.initiliazeMarketingCampaignTrackingServices()
-        CleverTapEventsLogger.startCleverTapSDK()
+        CleverTapEventsLogger.shared.startCleverTapSharedSDK()
         self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
         //AppsFlyer

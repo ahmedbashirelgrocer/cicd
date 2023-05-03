@@ -535,7 +535,7 @@ class SendBirdDeskManager{
                 customFields["shopperid"] = id
             }
         }
-        customFields["market-type"] = SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? KSingleGroceryStore : KSmileMarketPlace) : "ShopperAppMarketPlace"
+        customFields["market-type"] = SDKManager.shared.isSmileSDK ? (SDKManager.isGrocerySingleStore ? KSingleGroceryStore : KSmileMarketPlace) : "ShopperAppMarketPlace"
         
 
         SBDSKMain.setCustomerCustomFields(customFields) { (error) in

@@ -260,7 +260,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     //MARK: Appearance
     
     func setGreenBackground() {
-        let color = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+        let color = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.backgroundColor = color
         self.barTintColor = color
         self.isTranslucent = false
@@ -279,20 +279,20 @@ class ElGrocerNavigationBar : UINavigationBar {
             // Fallback on earlier versions
         }
         
-        if SDKManager.isSmileSDK {
+        if SDKManager.shared.isSmileSDK {
             self.setClearBackground()
         }
     }
     func setWhiteBackground() {
         
-        self.backgroundColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
-        self.barTintColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+        self.backgroundColor = SDKManager.shared.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+        self.barTintColor = SDKManager.shared.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
         self.isTranslucent = false
         
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithDefaultBackground()
-            barAppearance.backgroundColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+            barAppearance.backgroundColor = SDKManager.shared.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
@@ -420,7 +420,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     fileprivate func addLogoView() {
         
         var image = UIImage(name: "menu_logo")!
-        if SDKManager.isSmileSDK {
+        if SDKManager.shared.isSmileSDK {
             if SDKManager.shared.launchOptions?.navigationType == .singleStore {
                 if ElGrocerUtility.sharedInstance.isArabicSelected() {
                     image = UIImage(name: "smiles-Single-Store-ar")!
@@ -439,7 +439,7 @@ class ElGrocerNavigationBar : UINavigationBar {
      func refreshLogoView() {
         
         var image = UIImage(name: "menu_logo")!
-        if SDKManager.isSmileSDK {
+        if SDKManager.shared.isSmileSDK {
             if SDKManager.shared.launchOptions?.navigationType == .singleStore {
                 if ElGrocerUtility.sharedInstance.isArabicSelected() {
                     image = UIImage(name: "smiles-Single-Store-ar")!
@@ -630,8 +630,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addCartButton() {
-        let imageNormal = SDKManager.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
-        let imageSelected = SDKManager.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
+        let imageNormal = SDKManager.shared.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
+        let imageSelected = SDKManager.shared.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
         
         
         self.cartButton = UIButton(type: .custom)

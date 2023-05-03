@@ -87,8 +87,15 @@ public extension ElGrocer {
     }
     
     static func start(with launchOptions: LaunchOptions?) {
+        
         guard let launchOptions = launchOptions else {
             return
+        }
+        
+        if launchOptions.isSmileSDK == true {
+            sdkManager = SDKManager.shared
+        } else {
+            sdkManager = SDKManagerShopper.shared
         }
         
         func startFlavorStore(_ launchOptions: LaunchOptions ) {

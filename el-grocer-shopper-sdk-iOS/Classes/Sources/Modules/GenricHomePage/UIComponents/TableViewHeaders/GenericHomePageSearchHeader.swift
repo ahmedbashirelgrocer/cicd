@@ -22,12 +22,12 @@ class GenericHomePageSearchHeader: UIView {
     
     @IBOutlet var bGView: UIView!{
         didSet{
-            bGView.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
+            bGView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : .navigationBarWhiteColor()
         }
     }
     @IBOutlet var topHalfBGView: UIView!{
         didSet{
-            topHalfBGView.backgroundColor = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+            topHalfBGView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
             topHalfBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 0, withShadow: false)
         }
     }
@@ -109,8 +109,8 @@ class GenericHomePageSearchHeader: UIView {
     
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
-        self.locationView.backgroundColor = SDKManager.isSmileSDK ? .clear :  ApplicationTheme.currentTheme.themeBasePrimaryColor
-        self.locationContainerView.backgroundColor = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.locationView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear :  ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.locationContainerView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
         locationContainerView.addSubview(self.locationView)
     }
     func setLocationText(_ text : String = "") {
