@@ -24,6 +24,7 @@ public final class ElGrocer {
             sdkManager = SDKManager.shared
         } else {
             sdkManager = SDKManagerShopper.shared
+            
         }
 
         SDKManager.shared.launchCompletion = completion
@@ -237,7 +238,7 @@ public struct LaunchOptions {
             self.isFromPush = true
         }
     }
-    
+
     public init(
         latitude: Double?,
         longitude: Double?,
@@ -247,7 +248,23 @@ public struct LaunchOptions {
         self.longitude = longitude
         self.marketType = marketType
         self.language = language
+        if self.marketType == .shopper {
+           self.theme = ApplicationTheme.elGrocerShopperTheme()
+        }
     }
+    // only for elgrocer Shopper Use.
+    public init(
+        _ marketType : MarketType = .shopper,
+        _ language: String? = nil) {
+        self.marketType = marketType
+        self.language = language
+        if self.marketType == .shopper {
+           self.theme = ApplicationTheme.elGrocerShopperTheme()
+        }
+    }
+    
+    
+    
     
     func toString() -> String? {
         var data : [String : Any] = ["lat": self.latitude ?? 0.0,

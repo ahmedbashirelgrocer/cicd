@@ -6,6 +6,12 @@
 //  Copyright © 2021 elGrocer. All rights reserved.
 //
 
+/**
+ 
+ LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }
+ 
+ */
+
 import UIKit
 import Lottie
 
@@ -16,31 +22,27 @@ private enum BackendSuggestedAction: Int {
 class SplashAnimationViewController: UIViewController {
 
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView! {
+    
+    
+    @IBOutlet var splashLottieLogoAnimator: UIView! {
         didSet {
-            logoAnimator.isHidden = false
+            splashLottieLogoAnimator.isHidden = false
         }
     }
-    @IBOutlet var splashLottieLogoAnimator: AnimationView!{
-        didSet {
-            splashLottieLogoAnimator.isHidden = true
-        }
-    }
-//    lazy var starAnimation = Animation.named("SDK_Splash_Screen_V9", bundle: .resource)
+
     lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         HomePageData.shared.loadingCompletionSplash = { [weak self] in
             if self?.isAnimationCompleted == true {
                 self?.animationCompletedSetRootVc()
             }
         }
-        // self.configureElgrocerShopper()
-        
-        // Logging segment screen event
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
+        
     }
  
     override func viewWillAppear(_ animated: Bool) {
@@ -75,30 +77,21 @@ class SplashAnimationViewController: UIViewController {
         
         if UIApplication.shared.applicationState == .active {
             
-//            splashLottieLogoAnimator.frame = self.view.frame
-//            splashLottieLogoAnimator.animation = starAnimation
-//            splashLottieLogoAnimator.play { [weak self] (finished) in
-//              /// Animation finished
-//                if finished {
-//                    self?.animationCompletedSetRootVc()
-//                }
-//            }
-            
-            logoAnimator.startAnimate { [weak self] (isCompleted) in
-                if isCompleted {
-                    self?.isAnimationCompleted = true
+            LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
+                                                  withJsonFileName:
+                                                  sdkManager.isSmileSDK ? "splash_animation_sdk" : "splash_animation_shopper",
+                                                  removeFromSuper: false,
+                                                  loopMode: .playOnce) {[weak self] isloaded in
+                guard let self = self else { return }
+                if isloaded {
+                    self.isAnimationCompleted = true
                     if HomePageData.shared.fetchOrder.count == 0 {
-                        self?.animationCompletedSetRootVc()
+                        self.animationCompletedSetRootVc()
                     }
-                    self?.activityIndicator.isHidden = false
-                    self?.activityIndicator.startAnimating()
+                    self.activityIndicator.isHidden = false
+                    self.activityIndicator.startAnimating()
                 }
             }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-121")
-            }
-            
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(cameBackFromSleep(sender:)),
@@ -106,14 +99,11 @@ class SplashAnimationViewController: UIViewController {
                 object: nil
             )
             
-            
-        }else {
+        } else {
             ElGrocerUtility.sharedInstance.delay(0.5) {
                 self.StartLogoAnimation()
             }
         }
-        
-        
        
     }
     

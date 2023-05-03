@@ -96,6 +96,7 @@ public extension ElGrocer {
             sdkManager = SDKManager.shared
         } else {
             sdkManager = SDKManagerShopper.shared
+            SDKManager.shared.launchOptions = launchOptions
         }
         
         func startFlavorStore(_ launchOptions: LaunchOptions ) {
