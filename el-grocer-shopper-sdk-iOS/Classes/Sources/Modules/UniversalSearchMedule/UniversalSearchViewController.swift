@@ -255,6 +255,8 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         let EmptyCollectionReusableViewheaderNib = UINib(nibName: "NoStoreSearchStoreCollectionReusableView", bundle: Bundle.resource)
         self.collectionView.register(EmptyCollectionReusableViewheaderNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "NoStoreSearchStoreCollectionReusableView")
         
+        self.tableView.register(UINib(nibName: "SeparatorTableViewCell", bundle: .resource), forCellReuseIdentifier: "SeparatorTableViewCell")
+        
         self.collectionView.delegate   = self
         self.collectionView.dataSource = self
         self.collectionView.isHidden   = !self.tableView.isHidden
@@ -716,6 +718,12 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             let tableCell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tableCell.cellConfigureForEmpty()
             return tableCell
+        }
+        
+        if obj.modelType == .separator {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SeparatorTableViewCell", for: indexPath)
+            cell.backgroundColor = .tableViewBackgroundColor()
+            return cell
         }
         
         if obj.modelType == SearchResultSuggestionType.title || obj.modelType == SearchResultSuggestionType.titleWithClearOption {

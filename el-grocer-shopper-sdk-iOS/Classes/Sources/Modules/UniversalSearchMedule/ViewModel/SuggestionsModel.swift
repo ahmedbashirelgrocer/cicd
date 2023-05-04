@@ -19,6 +19,7 @@ enum SearchResultSuggestionType {
     case recipeTitles
     case retailer
     case noDataFound
+    case separator
 }
 
 struct SuggestionsModelObj {

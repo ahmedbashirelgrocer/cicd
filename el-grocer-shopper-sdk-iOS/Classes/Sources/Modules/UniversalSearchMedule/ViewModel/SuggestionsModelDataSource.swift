@@ -128,7 +128,8 @@ class SuggestionsModelDataSource {
             switch result {
             case .success(let historyList):
                 if historyList.isNotEmpty {
-                    var modelA: [SuggestionsModelObj] = [SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased())]
+                    var modelA = [SuggestionsModelObj.init(type: .separator)]
+                    modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
                     
                     for history in historyList {
                         modelA.append(SuggestionsModelObj.init(type: .searchHistory, title: history.title, imageUrl: history.imageUrl))
@@ -149,13 +150,15 @@ class SuggestionsModelDataSource {
     private func fetchLocalHistory() {
         if let curreentdata = getUserSearchData() {
             guard curreentdata.count > 0 else {
-                var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased())]
+                var modelA = [SuggestionsModelObj.init(type: .separator)]
+                modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
                 modelA.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 Your search history will appear here..."))
 //                self.model.insert(contentsOf: modelA, at: 0)
                 self.model.append(contentsOf: modelA)
                 return
             }
-            var modelA = [SuggestionsModelObj.init(type: .titleWithClearOption, title: localizedString("lblSearchHistory", comment: "").uppercased())]
+            var modelA = [SuggestionsModelObj.init(type: .separator)]
+            modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
             for suggestionString in curreentdata {
                 modelA.append(SuggestionsModelObj.init(type: .searchHistory, title: suggestionString))
             }
