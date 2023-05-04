@@ -72,7 +72,7 @@ class UniSearchCell: UITableViewCell {
         }else if obj?.modelType == SearchResultSuggestionType.brandTitles {
             imgView.image = UIImage(name: "categorySearch")
         }else if obj?.modelType == SearchResultSuggestionType.searchHistory {
-            imgView.image = UIImage(name: "universalSearch")
+            imgView.sd_setImage(with: URL(string: obj!.retailerImageUrl), placeholderImage: UIImage(name: "universalSearch"))
         }else if obj?.modelType == SearchResultSuggestionType.recipeTitles {
             imgView.image = UIImage(name: "recipeImageSearch")
         }else if obj?.modelType == SearchResultSuggestionType.retailer {
@@ -80,7 +80,8 @@ class UniSearchCell: UITableViewCell {
             //imgView.image =   UIImage(name: "trendingSearch")
         }
        
-        self.btnSearchCross.isHidden = (obj?.modelType != SearchResultSuggestionType.searchHistory )
+        self.imgView.visibility = obj?.modelType == .noDataFound ? .goneX : .visible
+        self.btnSearchCross.isHidden = true//(obj?.modelType != SearchResultSuggestionType.searchHistory )
     }
     
     

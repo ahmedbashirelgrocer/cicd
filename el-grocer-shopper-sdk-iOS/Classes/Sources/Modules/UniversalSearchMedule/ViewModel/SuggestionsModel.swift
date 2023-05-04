@@ -18,6 +18,7 @@ enum SearchResultSuggestionType {
     case brandTitles
     case recipeTitles
     case retailer
+    case noDataFound
 }
 
 struct SuggestionsModelObj {
@@ -32,9 +33,10 @@ struct SuggestionsModelObj {
 }
 
 extension SuggestionsModelObj {
-    init( type : SearchResultSuggestionType , title : String = ""){
+    init( type : SearchResultSuggestionType , title : String = "", imageUrl: String? = nil){
         self.modelType = type
         self.title = title
+        self.retailerImageUrl = imageUrl ?? ""
     }
     init( type : SearchResultSuggestionType , title : String = "", brandID : String, brandName: String, categoryID: String, categoryName : String ){
         self.modelType = type

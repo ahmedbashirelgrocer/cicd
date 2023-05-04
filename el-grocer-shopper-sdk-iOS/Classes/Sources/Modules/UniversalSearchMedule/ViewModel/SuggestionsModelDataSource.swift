@@ -8,6 +8,18 @@
 
 import Foundation
 
+// TODO: Move to their own file
+struct SearchHistoryResponse: Codable {
+    let status: String?
+    let data: [SearchHistory]
+}
+
+struct SearchHistory: Codable {
+    let title: String
+    let imageUrl: String
+}
+
+
 
 class SuggestionsModelDataSource {
     
@@ -87,7 +99,7 @@ class SuggestionsModelDataSource {
     func clearSearchHistory() {
         self.currentSearchString = ""
        let filterA =  self.model.filter { (obj) -> Bool in
-            if obj.modelType == .titleWithClearOption || obj.modelType == .searchHistory {
+            if obj.modelType == .searchHistory {
                 return false
             }
             return true
@@ -107,24 +119,53 @@ class SuggestionsModelDataSource {
     func getDefaultSearchData() {
         self.clearAllData()
         self.papulateUsersearchedData()
-        self.papulateTrengingData()
+        self.papulateTrengingData(showTrendingProducts: false)
     }
     
     func papulateUsersearchedData() {
+        
+        ElGrocerApi.sharedInstance.fetchPurchasedOrders(shopperId: "") { result in
+            switch result {
+            case .success(let historyList):
+                if historyList.isNotEmpty {
+                    var modelA: [SuggestionsModelObj] = [SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased())]
+                    
+                    for history in historyList {
+                        modelA.append(SuggestionsModelObj.init(type: .searchHistory, title: history.title, imageUrl: history.imageUrl))
+                    }
+                    self.model.append(contentsOf: modelA)
+//                    self.model.insert(contentsOf: modelA, at: 0)
+                    return
+                }
+                
+                self.fetchLocalHistory()
+                
+            case .failure(let elGrocerError):
+                self.fetchLocalHistory()
+            }
+        }
+    }
+    
+    private func fetchLocalHistory() {
         if let curreentdata = getUserSearchData() {
             guard curreentdata.count > 0 else {
+                var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased())]
+                modelA.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 Your search history will appear here..."))
+//                self.model.insert(contentsOf: modelA, at: 0)
+                self.model.append(contentsOf: modelA)
                 return
             }
             var modelA = [SuggestionsModelObj.init(type: .titleWithClearOption, title: localizedString("lblSearchHistory", comment: "").uppercased())]
             for suggestionString in curreentdata {
                 modelA.append(SuggestionsModelObj.init(type: .searchHistory, title: suggestionString))
             }
-            self.model.insert(contentsOf: modelA, at: 0)
+            self.model.append(contentsOf: modelA)
+//            self.model.insert(contentsOf: modelA, at: 0)
         }
     }
     
     
-    func papulateTrengingData(_ isNeedToClear : Bool = false) {
+    func papulateTrengingData(_ isNeedToClear : Bool = false, showTrendingProducts: Bool = true) {
         if self.isDebugOn {
             GenericClass.print("debugdarta : \(currentSearchString)")
         }
@@ -313,7 +354,7 @@ class SuggestionsModelDataSource {
                                     }
                                     self.model.append(contentsOf: mySuggestionDataArray)
                                 }
-                            } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
+                            } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue && showTrendingProducts {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
                                     addProductSuggestion(algoliaObj, isNeedToShowBrand: isNeedToShowBrand, currentString: currentString)
                                 }
