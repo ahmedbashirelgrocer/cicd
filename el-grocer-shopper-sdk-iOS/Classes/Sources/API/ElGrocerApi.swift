@@ -217,17 +217,10 @@ enum ElGrocerApiEndpoint : String {
     init() {
         
         self.requestManager = AFHTTPSessionManagerCustom.init()
-        //self.requestManager.requestSerializer.timeoutInterval = 300
-        //self.requestManager.requestSerializer = AFJSONRequestSerializer((writingOptions: JSONSerialization.WritingOptions.prettyPrinted))
-       // self.requestManager.responseSerializer.acceptableContentTypes = Set(["text/html; charset=UTF-8"])
         self.requestManager.responseSerializer  = AFHTTPResponseSerializerCustom()
         self.requestManager.securityPolicy.allowInvalidCertificates = true
         self.requestManager.securityPolicy.validatesDomainName = false
-        
-//        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
-//        securitypolicy.allowInvalidCertificates = true
-//        securitypolicy.validatesDomainName = false
-//        self.requestManager.securityPolicy = security-policy
+
     }
     
     func sendSMS(_ baseURL:String? = "" , phoneNumber:String , finalRandomString : String , completionHandler:@escaping (_ result:Bool, _ responseObject:String?) -> Void) {

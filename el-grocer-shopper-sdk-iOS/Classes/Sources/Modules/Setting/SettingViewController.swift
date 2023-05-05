@@ -753,7 +753,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     return;
             }
             
-        }else{
+        } else {
 
             switch (indexPath as NSIndexPath).section {
                 case 1:

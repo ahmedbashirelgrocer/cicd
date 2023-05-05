@@ -167,7 +167,7 @@ class GenericStoresViewController: BasketBasicViewController {
             controller.setProfileButtonHidden(false)
             controller.setCartButtonHidden(false)
             controller.actiondelegate = self
-    
+            controller.buttonActionsDelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             if let nav = (self.navigationController as? ElGrocerNavigationController) {
                 if let bar = nav.navigationBar as? ElGrocerNavigationBar {
@@ -1187,7 +1187,27 @@ extension GenericStoresViewController {
     
     
     
+    
 }
+
+extension GenericStoresViewController : ButtonActionDelegate {
+   
+    func cartButtonTap() {
+        
+    }
+    
+    func profileButtonTap() {
+        elDebugPrint("profileButtonClick")
+        MixpanelEventLogger.trackNavBarProfile()
+        let settingController = ElGrocerViewControllers.settingViewController()
+        self.navigationController?.pushViewController(settingController, animated: true)
+        hideTabBar()
+        // Logging segment event for menu button clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
+    }
+}
+
+
     // MARK:- TableView Methods
 extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSource {
     
@@ -1944,7 +1964,6 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
     }
     
 }
-
 extension GenericStoresViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
@@ -1952,7 +1971,6 @@ extension GenericStoresViewController:NotificationPopupProtocol {
         SDKManager.registerForNotifications()
     }
 }
-
 extension GenericStoresViewController:NoStoreViewDelegate {
     
     
@@ -1965,7 +1983,6 @@ extension GenericStoresViewController:NoStoreViewDelegate {
     }
     
 }
-
 extension GenericStoresViewController : LocationMapViewControllerDelegate {
     
     private func gotToMapSelection(_ currentAddress: DeliveryAddress?  ) {
@@ -2040,7 +2057,6 @@ extension GenericStoresViewController : LocationMapViewControllerDelegate {
     }
     
 }
-
     //MARK: Improvement : make signle view to handle current order on delivery and C&C mode
 extension GenericStoresViewController : UICollectionViewDelegate , UICollectionViewDataSource{
     
@@ -2131,8 +2147,6 @@ extension GenericStoresViewController : UICollectionViewDelegateFlowLayout{
     }
     
 }
-
-
 //current location different from selected location
 extension GenericStoresViewController {
     
@@ -2199,8 +2213,6 @@ extension GenericStoresViewController: UIScrollViewDelegate{
 
     }
 }
-
-
 extension GenericStoresViewController: CleverTapConfigDelegate {
     
     
