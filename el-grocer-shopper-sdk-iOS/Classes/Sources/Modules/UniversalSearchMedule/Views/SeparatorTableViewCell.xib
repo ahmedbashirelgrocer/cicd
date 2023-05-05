@@ -17,13 +17,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="12"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yCD-hJ-D5i">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yCD-hJ-D5i">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="12"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="12" id="odB-NW-95t"/>
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="yCD-hJ-D5i" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="2rL-MC-lpr"/>
                     <constraint firstAttribute="trailing" secondItem="yCD-hJ-D5i" secondAttribute="trailing" id="UF6-Ob-bsn"/>
@@ -32,6 +33,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="viewBG" destination="yCD-hJ-D5i" id="Wva-Bn-IRh"/>
             </connections>

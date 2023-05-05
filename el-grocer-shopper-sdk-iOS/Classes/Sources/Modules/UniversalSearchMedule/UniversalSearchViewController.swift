@@ -80,13 +80,15 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     //MARK:-  Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setUpAppearance()
+//        self.setUpAppearance()
         self.registerCells ()
         self.setDataSource()
         self.dataSource?.getDefaultSearchData()
         addBasketOverlay()
     }
     override func viewWillAppear(_ animated: Bool) {
+        self.setUpAppearance()
+        
         guard self.searchFor == .isForUniversalSearch else {
             return
         }
@@ -721,8 +723,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
         }
         
         if obj.modelType == .separator {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SeparatorTableViewCell", for: indexPath)
-            cell.backgroundColor = .tableViewBackgroundColor()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SeparatorTableViewCell", for: indexPath) as! SeparatorTableViewCell
             return cell
         }
         
@@ -751,7 +752,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let obj = self.dataSource?.model[indexPath.row] {
+        if let obj = self.dataSource?.model[indexPath.row], obj.modelType != .noDataFound, obj.modelType != .separator {
             if obj.modelType == .searchHistory || obj.modelType == .trendingSearch {
                 self.txtSearch.text = obj.title
             }
@@ -1095,7 +1096,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             return true
         }
         self.dataSource?.currentSearchString = self.searchString
-        self.dataSource?.papulateTrengingData(true)
+        self.dataSource?.papulateTrengingData(true, showTrendingProducts: false)
         return true
     }
     

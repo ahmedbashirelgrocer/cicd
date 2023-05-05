@@ -106,6 +106,7 @@ enum ElGrocerApiEndpoint : String {
     case Wallet = "v2/shoppers/wallet"
     case OrderTracking = "v1/order_feedbacks/tracking.json"
     case DeliveryFeedback = "v1/order_feedbacks.json"
+    case purchasedOrders = "v4/orders/purchased_order"
     
     //case DeliverySlots = "v2/delivery_slots/all.json" // update on 21 dec for slots updates
    // case DeliverySlots = "v1/delivery_slots/all.json" // update on 24 march for slots updates / new slot logic
@@ -2916,23 +2917,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       func fetchPurchasedOrders(shopperId: String, completion: @escaping (_ result: Either<[SearchHistory]>) -> Void) {
           setAccessToken()
           
-          let searchHistory1 = SearchHistory(title: "Testing Product 1", imageUrl: "https://api.elgrocer.com/images/medium/missing.png")
-          let searchHistory2 = SearchHistory(title: "Testing Product 2", imageUrl: "https://api.elgrocer.com/images/medium/missing.png")
-          let searchHistory3 = SearchHistory(title: "Testing Product 3", imageUrl: "https://api.elgrocer.com/images/medium/missing.png")
-          
-          ElGrocerUtility.sharedInstance.delay(3) {
-              completion(.failure(.parsingError()))
-//              completion(.success([searchHistory1, searchHistory2, searchHistory3]))
-          }
-          return
-          
           let params: [String: Any] = ["current_shopper_id": shopperId]
-          NetworkCall.get("", parameters: params) { progress in
+          NetworkCall.get(ElGrocerApiEndpoint.purchasedOrders.rawValue, parameters: params) { progress in
               
           } success: { URLSessionDataTask, responseObject in
               do {
-                  if let rootJson = responseObject as? [String: Any], let dataJson = rootJson["data"] as? [String: Any] {
-                      let data = try JSONSerialization.data(withJSONObject: dataJson)
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
                       let searchHistoryResponse = try JSONDecoder().decode(SearchHistoryResponse.self, from: data)
                       completion(.success(searchHistoryResponse.data))
                       return

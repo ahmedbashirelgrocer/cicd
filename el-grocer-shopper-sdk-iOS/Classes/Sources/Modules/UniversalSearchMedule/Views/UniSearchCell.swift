@@ -62,11 +62,12 @@ class UniSearchCell: UITableViewCell {
         }
         
         if obj?.modelType == SearchResultSuggestionType.trendingSearch {
-            if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                imgView.image = UIImage(name: "trendingSearch")?.imageFlippedForRightToLeftLayoutDirection()
-            }else {
-                imgView.image = UIImage(name: "trendingSearch")
-            }
+            imgView.sd_setImage(with: URL(string: obj!.retailerImageUrl), placeholderImage: UIImage(name: "trendingSearch"))
+//            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+//                imgView.image = UIImage(name: "trendingSearch")?.imageFlippedForRightToLeftLayoutDirection()
+//            }else {
+//                imgView.image = UIImage(name: "trendingSearch")
+//            }
         }else if obj?.modelType == SearchResultSuggestionType.categoriesTitles {
             imgView.image = UIImage(name: "categorySearch")
         }else if obj?.modelType == SearchResultSuggestionType.brandTitles {
@@ -77,11 +78,12 @@ class UniSearchCell: UITableViewCell {
             imgView.image = UIImage(name: "recipeImageSearch")
         }else if obj?.modelType == SearchResultSuggestionType.retailer {
             imgView.assignImage(imageUrl: self.currentObj?.retailerImageUrl)
-            //imgView.image =   UIImage(name: "trendingSearch")
+            self.btnSearchCross.setImage(UIImage(named: "arrowForward",in: .resource, compatibleWith: nil), for: .normal)
         }
        
         self.imgView.visibility = obj?.modelType == .noDataFound ? .goneX : .visible
-        self.btnSearchCross.isHidden = true//(obj?.modelType != SearchResultSuggestionType.searchHistory )
+        self.btnSearchCross.isHidden = (obj?.modelType != SearchResultSuggestionType.retailer)
+        self.btnSearchCross.isUserInteractionEnabled = (obj?.modelType == SearchResultSuggestionType.retailer)
     }
     
     
