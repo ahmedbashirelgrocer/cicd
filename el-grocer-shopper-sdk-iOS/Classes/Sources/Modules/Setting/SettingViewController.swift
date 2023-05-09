@@ -363,6 +363,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
+        
+        
         if SDKManager.shared.isSmileSDK {
             if indexPath.section == 0 {
                 return kUserInfoCellHeight
