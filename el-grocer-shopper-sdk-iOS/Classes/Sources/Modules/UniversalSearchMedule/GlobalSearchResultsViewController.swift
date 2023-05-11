@@ -8,10 +8,13 @@
 
 import UIKit
 import SwiftMessages
+import RxSwift
+import RxCocoa
+
 var minCellHeight =  CGFloat.leastNormalMagnitude + 0.01
 class GlobalSearchResultsViewController: UIViewController {
     
-   
+    private var disposeBag = DisposeBag()
     var dataSource : GlobalSearchResultDataSource = GlobalSearchResultDataSource() {
         didSet {
             if SDKManager.isSmileSDK {
@@ -88,6 +91,8 @@ class GlobalSearchResultsViewController: UIViewController {
                 controller.setSearchBarDelegate(self)
                 controller.setSearchBarText(self.keyWord)
                 controller.hideSeparationLine()
+                controller.setCartButtonHidden(false)
+                controller.buttonActionsDelegate = self
                 controller.setGreenBackgroundColor()
             }
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
@@ -702,4 +707,68 @@ extension GlobalSearchResultsViewController : UICollectionViewDelegateFlowLayout
         
     }
         
+}
+
+extension GlobalSearchResultsViewController: ButtonActionDelegate {
+    func profileButtonTap() {
+    }
+    
+    func cartButtonTap() {
+        navigateToMultiCart()
+    }
+    
+    func navigateToMultiCart() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
+        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
+        
+        // MARK: Actions
+        viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
+            activeCartVC?.dismiss(animated: true) {
+//                guard let grocery = self?.dataSource.
+                        
+                guard let grocery = self?.dataSource.filterGroceryList.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
+                
+                self?.navigateToGrocery(grocery, homeFeed: nil)
+//                self?.goToGrocery(grocery, nil)
+            }
+        }).disposed(by: self.disposeBag)
+        
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
+//            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+//
+//            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+//
+//            switch campaignType {
+//            case .brand:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+//                })
+//                break
+//
+//            case .retailer:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+//                })
+//                break
+//
+//            case .web:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+//                })
+//                break
+//
+//            case .priority:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+//                })
+//                break
+//            }
+            
+        }).disposed(by: disposeBag)
+        
+        self.present(activeCartVC, animated: true)
+    }
+    
 }
