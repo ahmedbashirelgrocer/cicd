@@ -379,13 +379,11 @@ class SuggestionsModelDataSource {
                                                     }
                                                     
                                                 }
-                                            } else {
-                                                mySuggestionDataArray.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 No stores found, try a different one..."))
                                             }
                                         }
                                     }
-                                    
-                                    if algoliaObj.isEmpty {
+                                       
+                                    if mySuggestionDataArray.filter({ $0.modelType == .retailer}).isEmpty {
                                         mySuggestionDataArray.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 No stores found, try a different one..."))
                                     }
                                     

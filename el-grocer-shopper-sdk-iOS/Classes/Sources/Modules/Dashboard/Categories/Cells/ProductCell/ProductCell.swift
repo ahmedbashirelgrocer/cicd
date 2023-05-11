@@ -484,10 +484,10 @@ class ProductCell : RxUICollectionViewCell {
         guard self.product != nil else {return}
         // need to confirm this check from ABM bhai or suboor
         // i think this is for universal search
-        guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
-            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
-            return
-        }
+//        guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
+//            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+//            return
+//        }
         
       
         func addCartAction() {

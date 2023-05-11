@@ -225,7 +225,7 @@ class HomeCell: RxUITableViewCell {
             
             self.grocery = grocery
             self.homeFeed = homeFeedObj
-            self.titleLbl.text = homeFeedObj.title
+            self.titleLbl.text = "homeFeedObj.title"
             self.titleLbl.backgroundColor = UIColor.clear
             
             let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
@@ -482,22 +482,22 @@ extension HomeCell: UICollectionViewDataSource {
                 if currentLang == "ar" {
                     productCell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
                 }
-                if homeFeedObj.type == .universalSearchProducts {
-                    productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
-                    productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                    productCell.addToCartButton.isEnabled = true
-                    productCell.addToCartButton.setBody3BoldWhiteStyle()
-                    productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
-                    productCell.productPriceLabel.isHidden = true
-                    productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
-                    productCell.addToCartButton.isHidden = false
-                    productCell.buttonsView.isHidden = true
-                    productCell.promotionBGView.isHidden = true
-                    productCell.limitedStockBGView.isHidden = true
-                    productCell.saleView.isHidden = true
-                }else{
-                    productCell.productPriceLabel.isHidden = false
-                }
+//                if homeFeedObj.type == .universalSearchProducts {
+//                    productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
+//                    productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+//                    productCell.addToCartButton.isEnabled = true
+//                    productCell.addToCartButton.setBody3BoldWhiteStyle()
+//                    productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+//                    productCell.productPriceLabel.isHidden = true
+//                    productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
+//                    productCell.addToCartButton.isHidden = false
+//                    productCell.buttonsView.isHidden = true
+//                    productCell.promotionBGView.isHidden = true
+//                    productCell.limitedStockBGView.isHidden = true
+//                    productCell.saleView.isHidden = true
+//                }else{
+//                    productCell.productPriceLabel.isHidden = false
+//                }
                
                 return productCell
                 

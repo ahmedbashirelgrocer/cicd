@@ -444,7 +444,10 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
 extension GlobalSearchResultsViewController : HomeCellDelegate  {
     
     
-    func productCellOnProductQuickRemoveButtonClick(_ selectedProduct: Product, homeObj: Home, collectionVeiw: UICollectionView) {}
+    func productCellOnProductQuickRemoveButtonClick(_ selectedProduct: Product, homeObj: Home, collectionVeiw: UICollectionView) {
+        self.removeProductToBasketFromQuickRemove(selectedProduct, homeObj: homeObj, collectionVeiw: collectionVeiw)
+    }
+    
     func productCellChooseReplacementButtonClick(_ product: Product) { }
     func navigateToProductsView(_ homeObj: Home) { }
     
@@ -554,7 +557,82 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
     
     func productCellOnProductQuickAddButtonClick(_ selectedProduct: Product, homeObj: Home, collectionVeiw: UICollectionView) {
         GenericClass.print(selectedProduct.name ?? "")
-        self.navigateToGrocery(homeObj.attachGrocery , homeFeed: homeObj)
+        self.addProductInShoppingBasketFromQuickAdd(selectedProduct, homeObj: homeObj, collectionVeiw: collectionVeiw)
+    }
+    
+    func addProductInShoppingBasketFromQuickAdd(_ selectedProduct: Product, homeObj: Home, collectionVeiw productCollectionVeiw:UICollectionView){
+        
+        var productQuantity = 1
+        
+        // If the product already is in the basket, just increment its quantity by 1
+        if let product = ShoppingBasketItem.checkIfProductIsInBasket(selectedProduct, grocery: homeObj.attachGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            productQuantity += product.count.intValue
+            
+        }
+        
+        // Logging Segment Event
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if isNewCart {
+            let cartCreatedEvent = CartCreatedEvent(grocery: homeObj.attachGrocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: homeObj.attachGrocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
+        
+        // ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(selectedProduct)
+        self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
+        
+        MixpanelEventLogger.trackStoreAddItem(product: selectedProduct)
+    }
+    
+    func removeProductToBasketFromQuickRemove(_ selectedProduct: Product, homeObj: Home, collectionVeiw productCollectionVeiw:UICollectionView){
+        
+        guard let grocery = homeObj.attachGrocery else { return }
+        
+        var productQuantity = 0
+        // If the product already is in the basket, just decrement its quantity by 1
+        if let product = ShoppingBasketItem.checkIfProductIsInBasket(selectedProduct, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            productQuantity = product.count.intValue - 1
+        }
+        
+        if productQuantity < 0 {return}
+        
+        self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
+        
+        let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if cartDeleted {
+            // Logging segment event for cart deleted
+            SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: grocery))
+        }
+        
+        // Logging segment event for product removed
+        let cartUpdatedEvent = CartUpdatedEvent(grocery: grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity)
+        SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        
+        MixpanelEventLogger.trackStoreRemoveItem(product: selectedProduct)
+    }
+    
+    func updateProductsQuantity(_ quantity: Int, selectedProduct: Product, homeObj: Home, collectionVeiw productCollectionVeiw:UICollectionView) {
+        
+        if quantity == 0 {
+            
+            //remove product from basket
+            ShoppingBasketItem.removeProductFromBasket(selectedProduct, grocery: homeObj.attachGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            
+        } else {
+            
+            //Add or update item in basket
+            ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: homeObj.attachGrocery, brandName: selectedProduct.brandNameEn , quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        }
+        
+        DatabaseHelper.sharedInstance.saveDatabase()
+        let index = homeObj.products.firstIndex(of: selectedProduct)
+        if let notNilIndex = index {
+            if (productCollectionVeiw.indexPathsForVisibleItems.contains(IndexPath(row: notNilIndex, section: 0))) {
+                productCollectionVeiw.reloadItems(at: [IndexPath(row: notNilIndex, section: 0)])
+            }
+        }
     }
     
 }
