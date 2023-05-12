@@ -22,26 +22,40 @@ class AppSetting  {
             return SmileMarketSetting()
         }
     }
+    
+    static var theme : Theme { ApplicationTheme.currentTheme }
 }
 
 
 
 protocol Setting {
+    func isElgrocerApp() -> Bool
+    func isSmileApp() -> Bool
     func getSettingCellViewModel() -> SettingViewModel
+}
+
+extension Setting {
+    func isElgrocerApp() -> Bool {
+        return sdkManager.launchOptions?.marketType == .shopper
+    }
+    func isSmileApp() -> Bool {
+        return sdkManager.launchOptions?.marketType != .shopper
+    }
 }
 
 class ElgrocerShopperSetting : Setting {
     func getSettingCellViewModel() -> SettingViewModel {
-        return SettingViewModel.init(setting: self)
+        return SettingViewModel.init(setting: self, user: UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
     }
+    
 }
 class SmileMarketPlaceSetting: Setting {
     func getSettingCellViewModel() -> SettingViewModel {
-        return SettingViewModel.init(setting: self)
+        return SettingViewModel.init(setting: self, user: UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
     }
 }
 class SmileMarketSetting: Setting {
     func getSettingCellViewModel() -> SettingViewModel {
-        return SettingViewModel.init(setting: self)
+        return SettingViewModel.init(setting: self, user: UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
     }
 }

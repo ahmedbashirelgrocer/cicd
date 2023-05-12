@@ -11,10 +11,11 @@ import RxDataSources
 
 protocol SettingViewModelInput {
     var setting: AnyObserver<Setting> { get }
+    var user: AnyObserver<UserProfile?> { get }
 }
 
 protocol SettingViewModelOutPut {
-    var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
+    var cellViewModels: Observable<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]> { get }
     var isArbic: Observable<Bool> { get }
     func heightForCell(indexPath: IndexPath) -> CGFloat
 
@@ -36,24 +37,41 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
     var reusableIdentifier: String = ""
     // input
     var setting: AnyObserver<Setting> { self.settingSubject.asObserver() }
+    var user: AnyObserver<UserProfile?> { self.userSubject.asObserver() }
     // output
-    var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
+    var cellViewModels: Observable<[SectionHeaderModel<Int, String , ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
     // Subject
     private let settingSubject = PublishSubject<Setting>()
-    private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
+    private let userSubject = PublishSubject<UserProfile?>()
+    private var cellViewModelsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
     // properties
-    private var viewModels: [SectionModel<Int, ReusableTableViewCellViewModelType>] = []
+    private var viewModels: [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
     
-    init(setting: Setting) {
+    init(setting: Setting, user: UserProfile?) {
         self.settingSubject.onNext(setting)
-        
-        self.viewModels = [SectionModel(model: 0, items: [SettingCellViewModel(type: .UserLogin)]),
-                           SectionModel(model: 1, items: [SettingCellViewModel(type: .LanguageChange)]),
-                           SectionModel(model: 2, items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs)])]
-        
+        self.userSubject.onNext(user)
+        self.viewModels = self.setViewModels(setting: setting, user: user)
         self.cellViewModelsSubject.onNext(self.viewModels)
+    }
+    
+    private func setViewModels(setting: Setting, user: UserProfile?) -> [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] {
+        if  user == nil {
+            // not login case
+                  return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserNotLogin)]),
+                                     SectionHeaderModel(model: 1, header: localizedString("settings_heading", comment: ""), items: [SettingCellViewModel(type: .LanguageChange)]),
+                                     SectionHeaderModel(model: 2, header: localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs)])]
+            
+        } else if user != nil && setting.isElgrocerApp() {
+            return []
+        } else if user != nil && setting.isSmileApp() {
+            return []
+        } else {
+            // fatel error // this case never happens
+            elDebugPrint("fatel error: Setting screen destroy")
+            return []
+        }
     }
     
     
@@ -61,9 +79,11 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
         switch self.viewModels[indexPath.section].items.first {
         case let model as SettingCellViewModel:
             if model.cellType == .UserLogin {
-                return 200
+                return kUserInfoCellHeight
+            } else if model.cellType == .UserNotLogin {
+                return KloginCellHeight
             } else {
-                return 50
+                return kSettingCellHeight
             }
         default:
             return 0

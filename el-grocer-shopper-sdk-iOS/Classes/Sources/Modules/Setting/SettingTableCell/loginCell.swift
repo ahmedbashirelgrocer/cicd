@@ -11,7 +11,10 @@ import UIKit
 let KloginCellHeight : CGFloat = 140 //including 20 for padding
 let KloginCellIdentifier = "loginCell"
 
-class loginCell: UITableViewCell {
+class loginCell: RxUITableViewCell {
+    
+    
+    var viewModel: SettingCellViewModel!
     
     var elGrocerNavigationController: ElGrocerNavigationController {
         let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
@@ -50,6 +53,15 @@ class loginCell: UITableViewCell {
         super.awakeFromNib()
         self.contentView.backgroundColor = .tableViewBackgroundColor()
     }
+    
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? SettingCellViewModel else { return }
+        self.viewModel = viewModel
+       
+    }
+    
+    
+    
     @IBAction func signUpButtonHandler(_ sender: Any) {
         showEntryView(isForLogin: false)
     }

@@ -13,6 +13,7 @@ let kUserInfoCellHeight: CGFloat = 200//100 //200 including padding
 
 class UserInfoCell: RxUITableViewCell {
     
+    var viewModel: SettingCellViewModel!
     
     @IBOutlet var greenBGView: AWView!{
         didSet{
@@ -47,27 +48,18 @@ class UserInfoCell: RxUITableViewCell {
         // Initialization code
         
     }
-    
-//    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-//        super.setHighlighted(highlighted, animated: animated)
-//
-//        self.backgroundColor = highlighted ? UIColor.meunCellSelectedColor() : UIColor.colorWithHexString(hexString: "F8F8FA")
-//    }
+
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? SettingCellViewModel else { return }
+        self.viewModel = viewModel
+       
+    }
     
     // MARK: Data
-    
-    func configureCellWithTitle(_ name: String, withPhoneNumber phone:String, andWithEmail email:String) {
-        
+    private func configureCellWithTitle(_ name: String, withPhoneNumber phone:String, andWithEmail email:String) {
         self.nameLabel.text = name
         self.phoneLabel.text = phone
         self.emailLabel.text = email
-        
-        
-        //guard let currentAddress = getCurrentDeliveryAddress() else {return}
-        //self.addressLable.text = ElGrocerUtility.sharedInstance.getFormattedAddress(currentAddress) //currentAddress.locationName
-        
     }
-    private func getCurrentDeliveryAddress() -> DeliveryAddress? {
-        return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-    }
+    
 }

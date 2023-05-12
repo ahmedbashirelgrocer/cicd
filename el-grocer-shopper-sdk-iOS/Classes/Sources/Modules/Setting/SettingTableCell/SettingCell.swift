@@ -24,9 +24,11 @@ class SettingCell: RxUITableViewCell {
     @IBOutlet weak var itemImage: UIImageView!
     @IBOutlet weak var arrowImage: UIImageView! {
         didSet {
-            arrowImage.image = UIImage(name: "SettingArrowForward")
+            arrowImage.image = UIImage(name: "SettingArrowForward")?.withCustomTintColor(color: AppSetting.theme.themeBasePrimaryColor)
         }
     }
+    
+    var viewModel: SettingCellViewModel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,7 +37,6 @@ class SettingCell: RxUITableViewCell {
         self.backgroundColor = UIColor.separatorColor()
         self.contentView.backgroundColor = UIColor.separatorColor()
         
-        
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
@@ -43,11 +44,15 @@ class SettingCell: RxUITableViewCell {
         self.backgroundColor = highlighted ? UIColor.unselectedPageControl() : UIColor.clear
     }
     
-    
-    
-    
-    // MARK: Data
-    
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? SettingCellViewModel else { return }
+        self.viewModel = viewModel
+        self.itemTitle.text = self.viewModel.title
+        self.itemImage.image = self.viewModel.image
+    }
+
+
+    // MARK: Data    
     func configureCellWithTitle(_ title: String, withImage image:String) {
         
         self.itemImage.image = UIImage(name: image)
