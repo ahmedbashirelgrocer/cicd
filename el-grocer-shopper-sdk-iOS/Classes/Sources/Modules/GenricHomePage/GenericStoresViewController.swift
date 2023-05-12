@@ -1199,9 +1199,8 @@ extension GenericStoresViewController : ButtonActionDelegate {
     func profileButtonTap() {
         elDebugPrint("profileButtonClick")
         MixpanelEventLogger.trackNavBarProfile()
-        let settingController = ElGrocerViewControllers.settingViewController()
+        let settingController = SettingViewController.make(viewModel: AppSetting.currentSetting.getSettingCellViewModel(), analyticsEventLogger: SegmentAnalyticsEngine())
         self.navigationController?.pushViewController(settingController, animated: true)
-        hideTabBar()
         // Logging segment event for menu button clicked
         SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
     }

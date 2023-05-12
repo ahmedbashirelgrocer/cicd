@@ -11,7 +11,7 @@ import UIKit
 let kUserInfoCellIdentifier = "UserInfoTableCell"
 let kUserInfoCellHeight: CGFloat = 200//100 //200 including padding
 
-class UserInfoCell: UITableViewCell {
+class UserInfoCell: RxUITableViewCell {
     
     
     @IBOutlet var greenBGView: AWView!{

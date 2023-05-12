@@ -27,21 +27,21 @@ class AppSetting  {
 
 
 protocol Setting {
-    func settingViewModel() -> Bool
+    func getSettingCellViewModel() -> SettingViewModel
 }
 
 class ElgrocerShopperSetting : Setting {
-    func settingViewModel() -> Bool {
-        return false
+    func getSettingCellViewModel() -> SettingViewModel {
+        return SettingViewModel.init(setting: self)
     }
 }
 class SmileMarketPlaceSetting: Setting {
-    func settingViewModel() -> Bool {
-        return false
+    func getSettingCellViewModel() -> SettingViewModel {
+        return SettingViewModel.init(setting: self)
     }
 }
 class SmileMarketSetting: Setting {
-    func settingViewModel() -> Bool {
-        return false
+    func getSettingCellViewModel() -> SettingViewModel {
+        return SettingViewModel.init(setting: self)
     }
 }

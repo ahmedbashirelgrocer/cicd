@@ -297,7 +297,7 @@ class MenuViewController : UIViewController, UITableViewDelegate, UITableViewDat
                     self.showLiveChat()
                 }else {
                     let settingController = ElGrocerViewControllers.settingViewController()
-                    settingController.menuControllers = self.menuControllers
+                  //  settingController.menuControllers = self.menuControllers
                     self.delegate?.menuTableViewDidSelectViewController(settingController)
                 }
             }

@@ -8,52 +8,57 @@
 
 import UIKit
 import WebKit
+import RxSwift
+import RxDataSources
+
 let kMoveToOrdersFromTableViewNotificationKey = "NavigateUserToOrdersFromSetting"
-class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SettingViewController: UIViewController, UITableViewDelegate {
     
     
-    
-    
+    private var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, ReusableTableViewCellViewModelType>>!
+    private var viewModel: SettingViewModel!
+    private var analyticsEventLogger: AnalyticsEngineType!
+    private var disposeBag = DisposeBag()
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var lblversionNumber: UILabel!
     
-    var elGrocerNavigationController: ElGrocerNavigationController {
-        let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        return navController
+    
+    static func make(viewModel: SettingViewModel, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine()) -> SettingViewController {
+        let vc = ElGrocerViewControllers.settingViewController()
+        vc.viewModel = viewModel
+        vc.analyticsEventLogger = analyticsEventLogger
+        return vc
     }
     
-    var Images = [String]()
-    var selectedImages = [String]()
-    var titles = [String]()
     
-    var lastSelection:IndexPath!
-    let border = CALayer()
+    func bindViews() {
+        
+        self.tableView.dataSource = nil
+        self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
+            let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
+            cell.selectionStyle = .none
+            //cell.configure(viewModel: viewModel)
+            return cell
+        })
+
+        self.viewModel.outputs.cellViewModels
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+     
+        
+    }
     
-    lazy var locationHeader : ElgrocerlocationView = {
-        let locationHeader = ElgrocerlocationView.loadFromNib()
-        return locationHeader!
-    }()
-    
-    var menuControllers:[UIViewController]!
-    
-    let accountSectionCells = 7 //ElGrocerUtility.sharedInstance.isZenDesk ?  5 : 4
-    let settingsSectionCells = 1
-    let informationSectionCells = 3
-    var smilePointSection: Int = 1
-    let deleteAccountCell: Int = 1
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        if #available(iOS 13, *) {
-            return self.isDarkMode ? UIStatusBarStyle.lightContent :  UIStatusBarStyle.darkContent
-        }else{
-            return  UIStatusBarStyle.default
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.viewModel.outputs.heightForCell(indexPath: indexPath)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.registerTableViewCell()
+        self.tableView.separatorColor = .clear
+        self.bindViews()
         
-        setupClearNavBar()
+        /*setupClearNavBar()
         // Do any additional setup after loading the view.
         if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.lblversionNumber.text = "v" + " " + version
@@ -69,15 +74,33 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.tableView.separatorColor =  .separatorColor() //.borderGrayColor()
         self.tableView.backgroundColor = .tableViewBackgroundColor() //.navigationBarWhiteColor()
         self.navigationCustimzation()
-        self.tableViewDataSetting()
+        self.tableViewDataSetting()*/
 
-        hidesBottomBarWhenPushed = true
+        self.hidesBottomBarWhenPushed = true
         self.navigationItem.hidesBackButton = true
+    }
+    
+    func registerTableViewCell() {
+        
+        let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: Bundle.resource)
+        self.tableView.register(userInfoCellNib, forCellReuseIdentifier: kUserInfoCellIdentifier)
+        
+        let loginCellNib  = UINib(nibName: "loginCell", bundle: Bundle.resource)
+        self.tableView.register(loginCellNib, forCellReuseIdentifier: KloginCellIdentifier)
+        
+        let settingCellNib = UINib(nibName: "SettingCell", bundle: Bundle.resource)
+        self.tableView.register(settingCellNib, forCellReuseIdentifier: kSettingCellIdentifier)
+        
+        
+        let SignOutCellNib = UINib(nibName: "SignOutCell", bundle: Bundle.resource)
+        self.tableView.register(SignOutCellNib, forCellReuseIdentifier: kSignOutCellIdentifier)
+        
+        self.tableView.backgroundColor = UIColor.navigationBarWhiteColor()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationCustimzation()
+      /*  self.navigationCustimzation()
         self.tableViewDataSetting()
 
         ElGrocerUtility.sharedInstance.tabBarSelectedIndex = 4
@@ -90,14 +113,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.Profile.rawValue, screenClass: String(describing: self.classForCoder))
         
         //hide tabbar
-        self.hideTabBar()
+        self.hideTabBar()*/
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.navigationCustimzation()
+       // self.navigationCustimzation()
     }
     
+    /*
     
     @objc fileprivate func goToOrders() {
         if UserDefaults.isUserLoggedIn() {
@@ -247,26 +271,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.navigationController?.pushViewController(editProfileVC, animated: true)
         }
     }
+    
+   
+    
+    /*
+    
     //MARK: TableView Data Source
     
-    func registerTableViewCell() {
-        
-        let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: Bundle.resource)
-        self.tableView.register(userInfoCellNib, forCellReuseIdentifier: kUserInfoCellIdentifier)
-        
-        let loginCellNib  = UINib(nibName: "loginCell", bundle: Bundle.resource)
-        self.tableView.register(loginCellNib, forCellReuseIdentifier: KloginCellIdentifier)
-        
-        let settingCellNib = UINib(nibName: "SettingCell", bundle: Bundle.resource)
-        self.tableView.register(settingCellNib, forCellReuseIdentifier: kSettingCellIdentifier)
-        
-        
-        let SignOutCellNib = UINib(nibName: "SignOutCell", bundle: Bundle.resource)
-        self.tableView.register(SignOutCellNib, forCellReuseIdentifier: kSignOutCellIdentifier)
-        
-        
-        self.tableView.backgroundColor = UIColor.navigationBarWhiteColor()
-    }
+   
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
@@ -795,6 +807,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
+    */
+    
     fileprivate func goToSmileWithPermission() {
         
         let alertDescription = localizedString("smile_login_permission_text", comment: "")
@@ -853,13 +867,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     fileprivate func showSignInVC(){
         ElGrocerEventsLogger.sharedInstance.trackSettingClicked("LogIn")
         let signInVC = ElGrocerViewControllers.signInViewController()
-        let navController = self.elGrocerNavigationController
-        signInVC.isForLogIn = true
-        signInVC.isCommingFrom = .profile
-        signInVC.dismissMode = .dismissModal
-        navController.viewControllers = [signInVC]
-        navController.modalPresentationStyle = .fullScreen
-        present(navController, animated: true, completion: nil)
+//        let navController = self.elGrocerNavigationController
+//        signInVC.isForLogIn = true
+//        signInVC.isCommingFrom = .profile
+//        signInVC.dismissMode = .dismissModal
+//        navController.viewControllers = [signInVC]
+//        navController.modalPresentationStyle = .fullScreen
+//        present(navController, animated: true, completion: nil)
     }
     
     fileprivate func showRegistrationVC(){
@@ -876,9 +890,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     fileprivate func showDeliveryAddressVC(){
         let locationVC = ElGrocerViewControllers.dashboardLocationViewController()
-        locationVC.menuControllers = self.menuControllers
-        locationVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(locationVC, animated: true)
+//        locationVC.menuControllers = self.menuControllers
+//        locationVC.modalPresentationStyle = .fullScreen
+//        self.navigationController?.pushViewController(locationVC, animated: true)
     }
     
     fileprivate func showRequestsVC(){
@@ -1177,6 +1191,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             //self.navigationController?.present(navigationController, animated: true, completion: nil)
         self.navigationController?.pushViewController(passVC, animated: true)
     }
+    
+    */
    
 }
 

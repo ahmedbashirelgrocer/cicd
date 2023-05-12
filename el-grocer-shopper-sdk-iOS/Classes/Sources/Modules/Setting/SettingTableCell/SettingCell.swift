@@ -13,7 +13,7 @@ let kSettingCellIdentifier = "SettingTableCell"
 
 let kSettingCellHeight: CGFloat  = 65
 
-class SettingCell: UITableViewCell {
+class SettingCell: RxUITableViewCell {
 
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var itemTitle: UILabel!{

@@ -52,6 +52,8 @@ class ActiveCartListingViewController: UIViewController {
 
 private extension ActiveCartListingViewController {
     func bindViews() {
+        
+        
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
             
