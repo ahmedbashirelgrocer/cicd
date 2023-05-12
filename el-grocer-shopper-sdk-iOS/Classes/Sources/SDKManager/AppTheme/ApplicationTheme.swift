@@ -328,7 +328,7 @@ struct SmileSDKTheme: Theme {
 }
 
 public struct ApplicationTheme {
-    static var currentTheme: Theme = SDKManager.shared.launchOptions?.theme ?? ApplicationTheme.smilesSdkTheme()
+    static var currentTheme: Theme = sdkManager.launchOptions?.theme ?? ApplicationTheme.smilesSdkTheme()
 }
 
 public extension ApplicationTheme {
