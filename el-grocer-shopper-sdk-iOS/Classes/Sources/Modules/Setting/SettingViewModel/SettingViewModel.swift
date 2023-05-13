@@ -84,6 +84,8 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
     }
     
     
+    
+    
     func heightForCell(indexPath: IndexPath) -> CGFloat {
         switch self.viewModels[indexPath.section].items.first {
         case let model as SettingCellViewModel:
