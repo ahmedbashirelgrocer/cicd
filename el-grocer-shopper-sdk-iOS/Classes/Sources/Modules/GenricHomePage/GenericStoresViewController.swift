@@ -4,7 +4,7 @@
 //
 //  Created by M Abubaker Majeed on 27/07/2020.
 //  Copyright © 2020 elGrocer. All rights reserved.
-//    
+//
 
 import UIKit
 import CoreLocation
@@ -404,7 +404,7 @@ class GenericStoresViewController: BasketBasicViewController {
                     ElGrocerUtility.sharedInstance.resetTabbarIcon(self)
                     ElGrocerUtility.sharedInstance.activeGrocery = nil
                 }
-                    let controller = self.clickController 
+                    let controller = self.clickController
                     self.addChild(controller)
                     let topSpace : CGFloat = 12.0
                     controller.view.frame = CGRect.init(x: 0, y: self.switchMode.frame.height + topSpace , width: self.view.frame.size.width, height: self.view.frame.size.height - self.switchMode.frame.height - topSpace )
@@ -2203,7 +2203,7 @@ extension GenericStoresViewController: UIScrollViewDelegate{
 ////
 ////                tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: headerFrame.width, height: headerFrame.height + scrollView.contentOffset.y)
 //            }
-//            
+//
 //
 //        }
 
@@ -2265,3 +2265,4 @@ extension GenericStoresViewController: CleverTapConfigDelegate {
         self.tableView.reloadDataOnMain()
     }
 }
+

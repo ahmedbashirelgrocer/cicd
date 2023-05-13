@@ -38,7 +38,9 @@ class SplashAnimationViewController: UIViewController {
         self.view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         HomePageData.shared.loadingCompletionSplash = { [weak self] in
             if self?.isAnimationCompleted == true {
-                self?.animationCompletedSetRootVc()
+                if AppSetting.currentSetting.isSmileApp() {
+                    self?.animationCompletedSetRootVc()
+                }
             }
         }
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
