@@ -1,15 +1,14 @@
 //
-//  SignInViewController.swift
-//  ElGrocerShopper
+// SignInViewController.swift
+// ElGrocerShopper
 //
-//  Created by PiotrGorzelanyMac on 01/02/16.
-//  Copyright © 2016 RST IT. All rights reserved.
+// Created by PiotrGorzelanyMac on 01/02/16.
+// Copyright © 2016 RST IT. All rights reserved.
 //
 
 import UIKit
 import RxSwift
 import RxCocoa
-// import FlagPhoneNumber
 import CoreLocation
 import IQKeyboardManagerSwift
 import CleverTapSDK
@@ -26,36 +25,24 @@ enum MeduleInitializeFrom {
 class SignInViewController: RegistrationViewController, Form {
     
     // MARK: Outlets
-    @IBOutlet var lbl_chooselocation: UIButton!{
-        didSet{
-            lbl_chooselocation.setTitle(localizedString("lbl_chooselocation", comment: ""), for: .normal)
-        }
-    }
     var userPersonalInfo: UserPersonalInfo!
     var isCommingFrom : MeduleInitializeFrom = .entry
-    var isForLogIn : Bool = true
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var usernameTextField: ElgrocerTextField!{
-        didSet{
-            usernameTextField.layer.cornerRadius = 8
-        }
-    }
-    //var recipeId : Int64? = nil
+    var isForLogIn : Bool = false
     var isPhoneExsists : Bool = true
     var finalPhoneNumber : String = ""
     var finalFormatedPhoneNumber : String = ""
-    @IBOutlet var phoneNumberTextField: FPNTextField! {
+    @IBOutlet var phoneNumberTextField: FPNCustomTextField! {
         didSet {
             phoneNumberTextField.hasPhoneNumberExample = false // true by default
             phoneNumberTextField.parentViewController = self
-            phoneNumberTextField.layer.cornerRadius = 8.0
+            phoneNumberTextField.cornerRadius = 8.0
             inputTextFields.append(phoneNumberTextField)
             requiredInputTextFields.append(phoneNumberTextField)
-            phoneNumberTextField.placeholder = localizedString("enter_mobile_num_placeholder", comment: "")
+            phoneNumberTextField.placeholder = NSLocalizedString("enter_mobile_num_placeholder", comment: "")
             phoneNumberTextField.setFlag(for: FPNOBJCCountryKey.AE)
             phoneNumberTextField.customDelegate = self
             phoneNumberTextField.delegate = self
-            phoneNumberTextField.flagSize = CGSize.init(width: CGFloat.leastNormalMagnitude, height: CGFloat.leastNormalMagnitude)
+            // phoneNumberTextField.flagSize = CGSize.init(width: 25, height: CGFloat.leastNormalMagnitude)
         }
     }
     @IBOutlet var phoneErrorLabel: UILabel!{
@@ -63,37 +50,18 @@ class SignInViewController: RegistrationViewController, Form {
             phoneErrorLabel.setCaptionOneRegErrorStyle()
         }
     }
-    @IBOutlet weak var passwordTextField: ElgrocerTextField!{
-        didSet{
-            passwordTextField.layer.cornerRadius = 8
-        }
-    }
-   // @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var forgotPasswordButton: UIButton!
-    @IBOutlet weak var btnSignup: UIButton!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet var imgLogo: UIImageView!
-    @IBOutlet var segmentControl: ElgrocerSegmentControl!{
-        didSet{
-            segmentControl.layer.cornerRadius = segmentControl.layer.frame.height / 2
-            segmentControl.layer.masksToBounds = true
-        }
-    }
-    @IBOutlet var txtPassHeight: NSLayoutConstraint!
-    @IBOutlet var txtForgetPasswordheight: NSLayoutConstraint!
     @IBOutlet var lblTopTitle: UILabel!
     @IBOutlet var lblDescription: UILabel!
-    
-    @IBOutlet var lblExplore: UILabel! {
-        didSet{
-            lblExplore.text = localizedString("lbl_WantToExplore", comment: "")
+   
+    @IBOutlet weak var lblExplore: UILabel!{
+        didSet {
+             lblExplore.text = NSLocalizedString("lbl_WantToExplore", comment: "")
         }
     }
-    @IBOutlet var btnChoosLocation: UIButton!
-    @IBOutlet var spaceFromForgetPassword: NSLayoutConstraint!
-    
-    
-    
+    @IBOutlet weak var btnChoosLocation: UIButton!
+
     // MARK: Properties
     
     var inputTextFields             = [UITextField]()
@@ -103,7 +71,7 @@ class SignInViewController: RegistrationViewController, Form {
     private let disposeBag  = DisposeBag()
     var isPasswordShown     = false
     
-    @IBOutlet weak var btnEye: UIButton!
+    // @IBOutlet weak var btnEye: UIButton!
     
     // MARK: Lifecycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -117,27 +85,36 @@ class SignInViewController: RegistrationViewController, Form {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.inputTextFields = [usernameTextField, passwordTextField]
+        // self.inputTextFields = [usernameTextField, passwordTextField]
         self.setupAppearance()
         self.setBindings()
-        (self.navigationController as? ElGrocerNavigationController)?.hideNavigationBar(false)
+        // (self.navigationController as? ElGrocerNavigationController)?.hideNavigationBar(false)
         IQKeyboardManager.shared.enableAutoToolbar = true
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 40
         IQKeyboardManager.shared.toolbarBarTintColor = .white
-        usernameTextField.delegate = self
+        // usernameTextField.delegate = self
+        
+        // FlagPhonumberTextField
+        // phoneNumberTextField.leftView?.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        
+//        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .phoneVerificationScreen))
+//        SegmentAnalyticsEngine.instance.logEvent(event: OnboardingStartedEvent())
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.setUpTextFieldConstraints()
-   
+        // self.setUpTextFieldConstraints()
+        phoneNumberTextField.semanticContentAttribute = .forceLeftToRight
+        phoneNumberTextField.leftView?.semanticContentAttribute = .forceLeftToRight
+        phoneNumberTextField.textAlignment = .left
+        
+        phoneNumberTextField.becomeFirstResponder()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-       
-       // self.usernameTextField.becomeFirstResponder()
+        
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.LogIn.rawValue, screenClass:  String(describing: self.classForCoder))
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = nil
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
@@ -152,7 +129,7 @@ class SignInViewController: RegistrationViewController, Form {
         self.setSegmentApperance()
         self.changeLogoColor()
         self.setState()
-        self.addRightCrossButton()
+        //self.addRightCrossButton()
         self.addBackButton()
         userPersonalInfo = UserPersonalInfo(name: "", email: "", phone: ""  , password: "", isPhoneVerified: false )
         
@@ -163,58 +140,44 @@ class SignInViewController: RegistrationViewController, Form {
         self.crossButtonHandler("")
     }
     
-    func setUpTextFieldConstraints() {
-       // self.spaceFromForgetPassword.isActive = false
-        self.passwordTextField.topAnchor.constraint(equalTo: self.usernameTextField.lblError.bottomAnchor, constant: 12).isActive = true
-    }
+    // func setUpTextFieldConstraints() {
+    // self.passwordTextField.topAnchor.constraint(equalTo: self.usernameTextField.lblError.bottomAnchor, constant: 12).isActive = true
+    // }
     
     func setState() {
         
         if !isForLogIn {
-            
-            self.segmentControl.selectedSegmentIndex = 0
-            self.lblTopTitle.text = localizedString("lbl_CreateAccount", comment: "")
-            self.lblDescription.text = localizedString("enter_phone_number", comment: "")
-            
-            
-            self.txtPassHeight.constant = 0
-            self.txtForgetPasswordheight.constant = 0
-            //self.spaceFromForgetPassword.constant = 0
-            self.usernameTextField.placeholder = localizedString("login_email_placeholder", comment: "")
-            self.phoneNumberTextField.isHidden = false
-            self.usernameTextField.isHidden = true
-            self.passwordTextField.isHidden = true
-            self.submitButton.setTitle(localizedString("intro_next_button", comment: ""), for: .normal)
-            self.btnEye.isHidden = true
-            self.forgotPasswordButton.isHidden = true
-            self.phoneErrorLabel.isHidden = true
+            self.lblTopTitle.text = NSLocalizedString("lbl_CreateAccount", comment: "")
+            self.lblDescription.text = NSLocalizedString("enter_phone_number", comment: "")
+            self.submitButton.setTitle(NSLocalizedString("select_alternate_button_title_new", comment: ""), for: .normal)
+            self.phoneErrorLabel.text = ""
             
         }else{
             
-            self.segmentControl.selectedSegmentIndex = 1
-           
+            // self.segmentControl.selectedSegmentIndex = 1
+            //
             
-            self.lblTopTitle.text = localizedString("welcome_back", comment: "")
-            self.lblDescription.text = localizedString("enter_registered_email", comment: "")
-            self.txtPassHeight.constant = 56
-            self.txtForgetPasswordheight.constant = 30
-            //self.spaceFromForgetPassword.constant = 16
-            self.usernameTextField.placeholder = localizedString("login_email_placeholder", comment: "")
+            self.lblTopTitle.text = NSLocalizedString("welcome_back", comment: "")
+            self.lblDescription.text = NSLocalizedString("enter_registered_email", comment: "")
+            // self.txtPassHeight.constant = 56
+            // self.txtForgetPasswordheight.constant = 30
+            // self.usernameTextField.placeholder = NSLocalizedString("login_email_placeholder", comment: "")
             self.phoneNumberTextField.isHidden = true
-            self.usernameTextField.isHidden = false
-            self.submitButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: .normal)
-            self.btnEye.isHidden = false
-            self.forgotPasswordButton.isHidden = false
-            self.passwordTextField.isHidden = false
-            self.phoneErrorLabel.isHidden = true
+            // self.usernameTextField.isHidden = false
+            self.submitButton.setTitle(NSLocalizedString("area_selection_login_button_title", comment: ""), for: .normal)
+            // self.btnEye.isHidden = false
+            // self.forgotPasswordButton.isHidden = false
+            // self.passwordTextField.isHidden = false
+//            self.phoneErrorLabel.isHidden = true
+            self.phoneErrorLabel.text = ""
         }
         
-        if self.isCommingFrom != .entry {
-            lblExplore.isHidden = true
-            btnChoosLocation.isHidden = true
-        }
+         if self.isCommingFrom == .profile || self.isCommingFrom == .cart {
+         lblExplore.isHidden = true
+         btnChoosLocation.isHidden = true
+         }
         
-
+        
     }
     
     func setSegmentApperance() {
@@ -226,70 +189,66 @@ class SignInViewController: RegistrationViewController, Form {
         let titleTextAttributesUnselected = [NSAttributedString.Key.foregroundColor: UIColor.newBlackColor() , NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(14)]
         UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributesUnselected, for: .normal)
         
-        segmentControl.setTitle(localizedString("lbl_New_To_Elgrocer", comment: ""), forSegmentAt: 0)
-        segmentControl.setTitle(localizedString("lbl_Have_Account", comment: ""), forSegmentAt: 1)
+        // segmentControl.setTitle(NSLocalizedString("lbl_New_To_Elgrocer", comment: ""), forSegmentAt: 0)
+        // segmentControl.setTitle(NSLocalizedString("lbl_Have_Account", comment: ""), forSegmentAt: 1)
         
     }
     
     func changeLogoColor() {
         
-        self.imgLogo.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        self.imgLogo.changePngColorTo(color: UIColor.navigationBarColor())
         
     }
     
     func setupTitles() {
         
-        self.title  = localizedString("area_selection_login_button_title", comment: "")
+        self.title  = NSLocalizedString("area_selection_login_button_title", comment: "")
         
-        self.usernameTextField.placeholder = localizedString("login_email_placeholder", comment: "")
-        self.passwordTextField.placeholder = localizedString("login_password_placeholder", comment: "")
+        // self.usernameTextField.placeholder = NSLocalizedString("login_email_placeholder", comment: "")
+        // self.passwordTextField.placeholder = NSLocalizedString("login_password_placeholder", comment: "")
+        //
         
-    
-        self.submitButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for:UIControl.State())
+        self.submitButton.setTitle(NSLocalizedString("area_selection_login_button_title", comment: ""), for:UIControl.State())
         
         // Setting Forgot Password Title with Underline
-        let dictF       = [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
+        let dictF       = [NSAttributedString.Key.foregroundColor: UIColor.navigationBarColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(15.0)]
         
-        let forgotTitle = NSMutableAttributedString(string:localizedString("btn_forget_password_title", comment: ""), attributes:dictF)
-        self.forgotPasswordButton.setAttributedTitle(forgotTitle, for: UIControl.State())
-
+        let forgotTitle = NSMutableAttributedString(string:NSLocalizedString("btn_forget_password_title", comment: ""), attributes:dictF)
+        // self.forgotPasswordButton.setAttributedTitle(forgotTitle, for: UIControl.State())
+        
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
-        if currentLang == "ar" {
-            self.forgotPasswordButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
-        }else{
-            self.forgotPasswordButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.right
-        }
+        // if currentLang == "ar" {
+        // self.forgotPasswordButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
+        // }else{
+        // self.forgotPasswordButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.right
+        // }
         
         // Setting Forgot Password Title with Underline
         let dict1       = [NSAttributedString.Key.foregroundColor: UIColor.white,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(10.0)]
-        let leftPart    = NSMutableAttributedString(string:localizedString("new_here", comment: ""), attributes:dict1)
+        let leftPart    = NSMutableAttributedString(string:NSLocalizedString("new_here", comment: ""), attributes:dict1)
         
         let dict2       = [NSAttributedString.Key.foregroundColor: UIColor.white,NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(10.0)]
-        let rightPart   = NSMutableAttributedString(string:localizedString("register_title", comment: ""), attributes:dict2)
+        let rightPart   = NSMutableAttributedString(string:NSLocalizedString("register_title", comment: ""), attributes:dict2)
         
         let buttonTitle = NSMutableAttributedString()
         buttonTitle.append(leftPart)
         buttonTitle.append(NSAttributedString(string: "  "))
         buttonTitle.append(rightPart)
-        self.btnSignup.setAttributedTitle(buttonTitle, for: UIControl.State())
+        // self.btnSignup.setAttributedTitle(buttonTitle, for: UIControl.State())
     }
     
     func setupFonts() {
-
-        self.usernameTextField.setBody1RegStyle()
-        self.passwordTextField.setBody1RegStyle()
+        
+        // self.usernameTextField.setBody1RegStyle()
+        // self.passwordTextField.setBody1RegStyle()
         self.phoneNumberTextField.setBody1RegStyle()
         
         self.submitButton.setH4SemiBoldWhiteStyle()
         self.lblDescription.setBody2RegDarkStyle()
+
+        self.lblExplore.setBody3RegGreyStyle()
+        self.btnChoosLocation.setSubHead1SemiBoldGreenStyle()
         
-//        self.usernameTextField.attributedPlaceholder = NSAttributedString.init(string: self.usernameTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-//        self.passwordTextField.attributedPlaceholder = NSAttributedString.init(string: self.passwordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-        
-        
-        
-//        self.phoneNumberTextField.attributedPlaceholder = NSAttributedString.init(string: self.phoneNumberTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceholderTextColor()])
-  
     }
     
     
@@ -298,16 +257,16 @@ class SignInViewController: RegistrationViewController, Form {
     
     fileprivate func setBindings() {
         
-        usernameTextField.rx.text.orEmpty.bind(to: viewModel.username).disposed(by: disposeBag)
-        passwordTextField.rx.text.orEmpty.bind(to: viewModel.password).disposed(by: disposeBag)
+        // usernameTextField.rx.text.orEmpty.bind(to: viewModel.username).disposed(by: disposeBag)
+        // passwordTextField.rx.text.orEmpty.bind(to: viewModel.password).disposed(by: disposeBag)
         
         viewModel.state.asObservable()
             .observeOn(MainScheduler.instance)
             .bind { (loginState) -> Void in
                 switch loginState {
-                case .loginError(let errorMessage):
-                    self.usernameTextField.showError(message: localizedString(errorMessage, comment: ""))
-                    self.passwordTextField.showError(message: localizedString(errorMessage, comment: ""))
+                case .loginError(let errorMessage): break
+                    // self.usernameTextField.showError(message: NSLocalizedString(errorMessage, comment: ""))
+                    // self.passwordTextField.showError(message: NSLocalizedString(errorMessage, comment: ""))
                 default: break
                 }
             }.disposed(by: disposeBag)
@@ -324,9 +283,9 @@ class SignInViewController: RegistrationViewController, Form {
                 
                 switch loginState {
                 case .login:
-                   _ = SpinnerView.showSpinnerViewInView(self.view)
+                    _ = SpinnerView.showSpinnerViewInView(self.view)
                 case .loginSuccess:
-                    elDebugPrint("loginSuccess")
+                    debugPrint("loginSuccess")
                 default:
                     SpinnerView.hideSpinnerView()
                 }
@@ -350,115 +309,124 @@ class SignInViewController: RegistrationViewController, Form {
         
         
         
-        if self.isForLogIn {
-            MixpanelEventLogger.trackWelcomeSigninInClicked()
-            let emailID = self.usernameTextField.text ?? ""
-            guard emailID.isValidEmail() else {
-                self.usernameTextField.showError(message: "Please enter valid email id")
-                return
-            }
-            let pass = self.passwordTextField.text ?? ""
-            guard pass.isValidPassword()  else {
-                self.passwordTextField.showError(message: "Please enter valid password")
-                return
-            }
-           
-            viewModel.signIn {
-                // PushWooshTracking.addEventForLoginOrRegisterUser()
-                ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
-                FireBaseEventsLogger.trackSignIn()
-                if let recipeIDis = self.recipeId {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "SaveRefresh"), object: recipeIDis)
-                    RecipeDataHandler().saveRecipeApiCall(recipeID: recipeIDis, isSave: true) { (isSaved) in }
-                    self.recipeId = nil
-                }
+        // if self.isForLogIn {
+        // MixpanelEventLogger.trackWelcomeSigninInClicked()
+        // let emailID = self.usernameTextField.text ?? ""
+        // guard emailID.isValidEmail() else {
+        // self.usernameTextField.showError(message: "Please enter valid email id")
+        // return
+        // }
+        // let pass = self.passwordTextField.text ?? ""
+        // guard pass.isValidPassword()  else {
+        // self.passwordTextField.showError(message: "Please enter valid password")
+        // return
+        // }
+        //
+        // viewModel.signIn {
+        // ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
+        // FireBaseEventsLogger.trackSignIn()
+        // if let recipeIDis = self.recipeId {
+        // NotificationCenter.default.post(name: Notification.Name(rawValue: "SaveRefresh"), object: recipeIDis)
+        // RecipeDataHandler().saveRecipeApiCall(recipeID: recipeIDis, isSave: true) { (isSaved) in }
+        // self.recipeId = nil
+        // }
+        //
+        // SendBirdManager().createNewUserAndDeActivateOld()
+        //
+        //
+        // let addresses = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        // if addresses.count > 0 && self.isCommingFrom == .cart && !ElGrocerUtility.sharedInstance.isDeliveryMode  {
+        // self.dismiss(animated: true, completion: nil)
+        // return
+        // }
+        // guard addresses.count > 0 && self.isCommingFrom != .cart  else {
+        // let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
+        // dashboardLocationVC.isRootController = false
+        // dashboardLocationVC.isFormCart = (self.isCommingFrom == .cart)
+        // self.navigationController?.pushViewController(dashboardLocationVC, animated: true)
+        // return
+        // }
+        //
+        // guard !(self.isCommingFrom == .cart) else {
+        //
+        //
+        // let location = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        // let storeID = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
+        // let parentID = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
+        // let _ = SpinnerView.showSpinnerView()
+        // ElGrocerApi.sharedInstance.checkIfGroceryAvailable(CLLocation.init(latitude: location!.latitude, longitude: location!.longitude), storeID: storeID ?? "", parentID: parentID ?? "") { (result) in
+        // switch result {
+        // case .success(let responseObject):
+        // let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+        // if  let response = responseObject["data"] as? NSDictionary {
+        // if let groceryDict = response["retailers"] as? [NSDictionary] {
+        // if groceryDict.count > 0 {
+        // let arrayGrocery = Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
+        // if arrayGrocery.count > 0 {
+        // ElGrocerUtility.sharedInstance.groceries = arrayGrocery
+        // ElGrocerUtility.sharedInstance.activeGrocery = arrayGrocery[0]
+        // self.dismiss(animated: true, completion: nil)
+        // return
+        // }
+        // }
+        // }
+        // }
+        //
+        // let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "") , header: "", detail: NSLocalizedString("lbl_NoCoverage_msg", comment: "") ,NSLocalizedString("add_address_alert_yes", comment: "") , NSLocalizedString("add_address_alert_no", comment: ""), withView: appDelegate.window!) { (index) in
+        // if index == 0 {
+        // self.setHomeView()
+        // }else{
+        //
+        // }
+        // }
+        // case .failure(let error):
+        // SpinnerView.hideSpinnerView()
+        // error.showErrorAlert()
+        // }
+        // }
+        // return
+        // }
+        // self.setHomeView()
+        //
+        // }
+        // }else{
+        
+        _ = SpinnerView.showSpinnerViewInView(self.view)
+        let qualityOfServiceClass = DispatchQoS.QoSClass.background
+        let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
+        backgroundQueue.async(execute: { [unowned self] in
+            print("This is run on the background queue")
+            LoginSignupService.verifyPhone(phoneNumber: self.finalPhoneNumber) { isSuccess, errorMsg in
                 
-//                let sendBirdDeskManager = SendBirdDeskManager(type: .agentSupport)
-//                if let user = SendBirdManager.getCurrentSendBirdUser() {
-//                    sendBirdDeskManager.logout {
-//                        elDebugPrint("sendbird logout")
-//                        sendBirdDeskManager.logIn(isWithChat: false) {
-//                            elDebugPrint("sendbird login")
-//                        }
-//                    }
-//                }else{
-//                    SendBirdManager().logIn {
-//                        elDebugPrint("sendbird login")
-//                    }
-//                }
+                SpinnerView.hideSpinnerView()
                 
-                SendBirdManager().createNewUserAndDeActivateOld()
-                
-            
-                let addresses = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                if addresses.count > 0 && self.isCommingFrom == .cart && !ElGrocerUtility.sharedInstance.isDeliveryMode  {
-                    self.dismiss(animated: true, completion: nil)
-                    return
-                }
-                guard addresses.count > 0 && self.isCommingFrom != .cart  else {
-                    let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
-                    dashboardLocationVC.isRootController = false
-                    dashboardLocationVC.isFormCart = (self.isCommingFrom == .cart)
-                    self.navigationController?.pushViewController(dashboardLocationVC, animated: true)
-                    return
-                }
-            
-                guard !(self.isCommingFrom == .cart) else {
+                if isSuccess {
+                    openVerifyOTPVC()
                     
-                  
-                    let location = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    let storeID = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
-                    let parentID = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
-                    let _ = SpinnerView.showSpinnerView()
-                    ElGrocerApi.sharedInstance.checkIfGroceryAvailable(CLLocation.init(latitude: location!.latitude, longitude: location!.longitude), storeID: storeID ?? "", parentID: parentID ?? "") { (result) in
-                        switch result {
-                            case .success(let responseObject):
-                                let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                                if  let response = responseObject["data"] as? NSDictionary {
-                                    if let groceryDict = response["retailers"] as? [NSDictionary] {
-                                        if groceryDict.count > 0 {
-                                            let arrayGrocery = Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
-                                            if arrayGrocery.count > 0 {
-                                                ElGrocerUtility.sharedInstance.groceries = arrayGrocery
-                                                ElGrocerUtility.sharedInstance.activeGrocery = arrayGrocery[0]
-                                                self.dismiss(animated: true, completion: nil)
-                                                return
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                let SDKManager: SDKManagerType! = sdkManager
-                                _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: "") ,localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: SDKManager.window!) { (index) in
-                                    if index == 0 {
-                                         self.setHomeView()
-                                    }else{
-                                        
-                                    }
-                            }
-                            case .failure(let error):
-                                SpinnerView.hideSpinnerView()
-                                error.showErrorAlert()
-                        }
-                    }
-                    return
+//                    SegmentAnalyticsEngine.instance.logEvent(event: PhoneNumberEnteredEvent())
+                } else {
+                    self.phoneNumberTextField.borderColor = AppSetting.theme.redInfoColor.cgColor
+                    self.phoneNumberTextField.borderWidth = 1
+                    self.phoneErrorLabel.text = errorMsg
                 }
-                   self.setHomeView()
-       
             }
-        }else{
-            
+        })
+        
+        func openVerifyOTPVC() {
             let phoneNumberVC = ElGrocerViewControllers.registrationCodeVerifcationViewController()
             phoneNumberVC.phoneNumber = self.finalPhoneNumber
             phoneNumberVC.formatedPhoneNumber = self.finalFormatedPhoneNumber
             phoneNumberVC.delegate = self
+          //  phoneNumberVC.isCommingFrom = self.isCommingFrom
             let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
             navigationController.viewControllers = [phoneNumberVC]
             navigationController.setLogoHidden(true)
             navigationController.modalPresentationStyle = .fullScreen
             MixpanelEventLogger.trackCreateAccountNextClick()
-            self.present(navigationController, animated: false) {
-                elDebugPrint("VC Presented")
+            self.present(navigationController, animated: true) {
+                debugPrint("VC Presented")
+                // }
             }
         }
         
@@ -477,9 +445,9 @@ class SignInViewController: RegistrationViewController, Form {
         }
         DispatchQueue.main.async {
             if  self.isForLogIn {
-                self.title  = localizedString("area_selection_login_button_title", comment: "")
+                self.title  = NSLocalizedString("area_selection_login_button_title", comment: "")
             }else{
-                self.title  = localizedString("Sign_up", comment: "")
+                self.title  = NSLocalizedString("Sign_up", comment: "")
             }
             UIView.animate(withDuration: 0.15) {
                 self.view.layoutIfNeeded()
@@ -487,21 +455,21 @@ class SignInViewController: RegistrationViewController, Form {
             }
         }
         
-          self.validateInputFieldsAndSetsubmitButtonAppearance()
-
+        self.validateInputFieldsAndSetsubmitButtonAppearance()
+        
         
     }
     
-   
-
+    
+    
     private func setHomeView() -> Void {
         
-         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
+        ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
         
         let signInView = self
-        // let SDKManager: SDKManagerType! = sdkManager
+        let appDelegate = sdkManager
         
-        if let nav = sdkManager.window!.rootViewController as? UINavigationController {
+        if let nav = appDelegate?.window!.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -513,7 +481,6 @@ class SignInViewController: RegistrationViewController, Form {
                         }else{
                             if let top = UIApplication.topViewController() {
                                 if top is ElgrocerGenericUIParentNavViewController {}else{
-                                 //   tababarController.present(SDKManager.getParentNav(), animated: false, completion: nil)
                                 }
                             }
                         }
@@ -528,34 +495,10 @@ class SignInViewController: RegistrationViewController, Form {
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
                     return
                 }}}
-
+        
         self.navigationController?.dismiss(animated: true, completion: {  })
         sdkManager.showAppWithMenu()
         
-        /*
-        
-        if SDKManager.window!.rootViewController as? UITabBarController != nil {
-            let tababarController = sdkManager.window!.rootViewController as! UITabBarController
-            let select = tababarController.selectedIndex // if come from setting screen then go to home screen
-                if select == 4 {
-                    tababarController.selectedIndex = 0
-                }else{
-                    // normal case just dismiss screen
-                   }
-            self.navigationController?.dismiss(animated: false, completion: {
-                 NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
-                NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
-            })
-            tababarController.present(SDKManager.getParentNav(), animated: false, completion: nil)
-        }else{
-            self.navigationController?.dismiss(animated: true, completion: {  })
-            (sdkManager).showAppWithMenu()
-            
-        }
-        */
-        // NotificationCenter.default.post(name: Notification.Name(rawValue: KCheckPhoneNumber), object: nil)
-        //NotificationCenter.default.post(name: Notification.Name(rawValue: kChangeGroceryNotificationKey), object: nil)
-
     }
     
     @IBAction func crossButtonHandler(_ sender: Any) {
@@ -580,7 +523,7 @@ class SignInViewController: RegistrationViewController, Form {
     
     @IBAction func signUpButtonHandler(_ sender: Any) {
         
-          ElGrocerEventsLogger.sharedInstance.trackCreateAccountClicked()
+        ElGrocerEventsLogger.sharedInstance.trackCreateAccountClicked()
         if let navigationController = self.navigationController {
             if navigationController.viewControllers.count > 1 {
                 self.navigationController?.popViewController(animated: true)
@@ -599,37 +542,31 @@ class SignInViewController: RegistrationViewController, Form {
     @IBAction func showPasswordHandler(_ sender: Any) {
         if isPasswordShown{
             isPasswordShown = false
-            passwordTextField.isSecureTextEntry = true
-            btnEye.setImage(UIImage(name: "eyeGray"), for: UIControl.State())
+            // passwordTextField.isSecureTextEntry = true
+            // btnEye.setImage(UIImage(named: "eyeGray"), for: UIControl.State())
         }else{
             isPasswordShown = true
-            passwordTextField.isSecureTextEntry = false
-            btnEye.setImage(UIImage(name: "eyeBlack"), for: UIControl.State())
+            // passwordTextField.isSecureTextEntry = false
+            // btnEye.setImage(UIImage(named: "eyeBlack"), for: UIControl.State())
         }
     }
     
+    
+    
     @IBAction func chooseLocation(_ sender: Any) {
-        
-        
+   
         let locationMapController = ElGrocerViewControllers.locationMapViewController()
         locationMapController.delegate = self
         locationMapController.isConfirmAddress = false
-        
         let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
         navigationController.viewControllers = [locationMapController]
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
+        navigationController.setGreenBackgroundColor()
         MixpanelEventLogger.trackWelcomeChooseLocation()
         self.present(navigationController, animated: false) {
-            elDebugPrint("VC Presented")
+            debugPrint("VC Presented")
         }
-        
-        
-//        let locationMapController = ElGrocerViewControllers.locationMapViewController()
-//         locationMapController.delegate = self
-//        locationMapController.isConfirmAddress = false
-//        self.navigationController?.pushViewController(locationMapController, animated: true)
-        
         
     }
     
@@ -639,11 +576,10 @@ class SignInViewController: RegistrationViewController, Form {
     
     override func keyboardWillShow(_ notification: Notification) {
         
-        //self.view.frame.origin.y = -40
     }
     
     override func keyboardWillHide(_ notification: Notification) {
-        //self.view.frame.origin.y = 0
+        
     }
 }
 
@@ -652,164 +588,83 @@ extension SignInViewController {
     
     func checkPhoneExistense(){
         
-    
+        
         
         guard self.finalPhoneNumber.count > 0 else {
             self.validatePhoneNumberAndSetPasswordTextFieldAppearance(false)
             return
         }
         
-//        if Platform.isDebugBuild {
-//            self.isPhoneExsists = false
-//            self.validatePhoneNumberAndSetPasswordTextFieldAppearance(!self.isPhoneExsists)
-//            return
-//        }
+        self.isPhoneExsists = false
         
+        self.validatePhoneNumberAndSetPasswordTextFieldAppearance(true)
         
-        
-        
-        let qualityOfServiceClass = DispatchQoS.QoSClass.background
-        let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
-        backgroundQueue.async(execute: { [unowned self] in
-            
-           elDebugPrint("This is run on the background queue")
-            ElGrocerApi.sharedInstance.checkPhoneExistence( self.finalPhoneNumber , completionHandler: { (result, responseObject) in
-                if result == true {
-                     
-                    
-                    let status = responseObject!["status"] as! String
-                    if status ==  "success"{
-                        
-                        if let data = responseObject!["data"] as? NSDictionary {
-                            if (data["is_phone_exists"] as? Bool) != nil {
-                                let isPhoneExsists = data["is_phone_exists"] as? Bool
-                                if isPhoneExsists ?? false {
-                                    
-                                    self.isPhoneExsists = true
-                                    phoneErrorLabel.isHidden = false
-                                    phoneErrorLabel.text = localizedString("registration_account_Phone_exists_error_alert", comment: "")
-                                    //self.usernameTextField.showError(message: localizedString("registration_account_Phone_exists_error_alert", comment: ""))
-//                                    ElGrocerAlertView.createAlert(localizedString("registration_account_Phone_exists_error_title", comment: ""),description:localizedString("registration_account_Phone_exists_error_alert", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),
-//                                                                  buttonClickCallback: { (buttonIndex:Int) -> Void in
-//
-//                                                                    if buttonIndex == 0 {
-//
-//                                                                        self.isForLogIn = true
-//                                                                        self.setState()
-////                                                                        let signInController = ElGrocerViewControllers.signInViewController()
-////                                                                        signInController.dismissMode = .dismissModal
-////                                                                        self.navigationController?.pushViewController(signInController, animated: true)
-////
-////                                                                        //                                    let signInController = ElGrocerViewControllers.signInViewController()
-////                                                                        //                                    signInController.dismissMode = .dismissModal
-////                                                                        //                                    let navController = self.elGrocerNavigationController
-////                                                                        //                                    navController.viewControllers = [signInController]
-////                                                                        //                                    self.present(navController, animated: true, completion: nil)
-//
-//                                                                    }
-//
-//                                    }).show()
-                                    
-                                }else{
-                                    
-//                                    if let phoneNumber = data["phoneNumber"] as? String {
-//                                        if phoneNumber == self.finalPhoneNumber {
-                                        self.isPhoneExsists = false
-                                        phoneErrorLabel.isHidden = true
-//                                        }
-//                                    }
-                                }
-                            }
-                        }
-                    }
-                    self.validatePhoneNumberAndSetPasswordTextFieldAppearance(!self.isPhoneExsists)
-                }else {
-                    
-                    var errorMsgStr = localizedString("registration_account_Phone_exists_error_alert", comment: "")
-                    if let errorDict = responseObject, let msgDict = errorDict["messages"] as? NSDictionary {
-                        if let errorMsg = (msgDict["error_message"] as? String) {
-                            errorMsgStr = errorMsg
-                        }
-                    }
-                    self.isPhoneExsists = true
-                    self.phoneNumberTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
-                    self.phoneNumberTextField.layer.borderWidth = 1
-                    phoneErrorLabel.isHidden = false
-                    phoneErrorLabel.text = errorMsgStr
-                }
-                
-            })
-        })
     }
     
     func validatePhoneNumberAndSetPasswordTextFieldAppearance(_ isValid : Bool=false) {
-        // self.mobileNumberTextField.text?.isValidPhoneNumber() ?? false == false ||
-        if  isValid == false {
-            self.phoneNumberTextField.layer.borderColor = UIColor.textfieldErrorColor().cgColor
-            self.phoneNumberTextField.layer.borderWidth = 1
-        } else {
-            self.phoneNumberTextField.layer.borderColor = UIColor.green.cgColor
-            self.phoneNumberTextField.layer.borderWidth = 0
-            phoneErrorLabel.isHidden = true
-        }
-        
+//        if  isValid == false {
+//            self.phoneNumberTextField.borderColor = UIColor.redValidationErrorColor().cgColor
+//            self.phoneNumberTextField.borderWidth = 1
+//        } else {
+//            self.phoneNumberTextField.borderColor = UIColor.green.cgColor
+//            self.phoneNumberTextField.borderWidth = 1
+//            phoneErrorLabel.isHidden = true
+//        }
         self.validateInputFieldsAndSetsubmitButtonAppearance()
-        
     }
     
     func validateInputFieldsAndSetsubmitButtonAppearance() {
         self.submitButton.enableWithAnimation(self.validateInputFields())
         
-       
-      
+        
+        
     }
     
     func validateInputFields() -> Bool {
         
-        if self.segmentControl.selectedSegmentIndex == 0 {
-            
-             guard (self.isPhoneExsists == false && self.finalPhoneNumber.isValidPhoneNumber()) else {return false}
-             return true
-        }else {
-            if (self.usernameTextField.text?.count ?? 0) > 0 && (self.passwordTextField.text?.count ?? 0) > 6 {
-              return true
-            }
-           
-        }
-        return false
+        // if self.segmentControl.selectedSegmentIndex == 0 {
+        
+        guard (self.isPhoneExsists == false && self.finalPhoneNumber.isValidPhoneNumber()) else {return false}
+        return true
+        // }else {
+        // if (self.usernameTextField.text?.count ?? 0) > 0 && (self.passwordTextField.text?.count ?? 0) > 6 {
+        // return true
+        // }
+        //
+        // }
+        //return false
     }
     
     
 }
 
-extension SignInViewController : FPNTextFieldCustomDelegate {
+extension SignInViewController : FPNCustomTextFieldCustomDelegate {
     
     func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
-       elDebugPrint(name, dialCode, code) // Output "France", "+33", "FR"
+        print(name, dialCode, code) // Output "France", "+33", "FR"
         ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
             self.phoneNumberTextField.becomeFirstResponder()
         }
         
     }
     
-    func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool) {
+    func fpnDidValidatePhoneNumber(textField: FPNCustomTextField, isValid: Bool) {
         if isValid {
-            // Do something...
             self.finalPhoneNumber =   textField.getFormattedPhoneNumber(format: .E164) ?? ""
             self.finalFormatedPhoneNumber = textField.getFormattedPhoneNumber(format: .International) ?? ""
             self.isPhoneExsists = true
             textField.resignFirstResponder()
             self.checkPhoneExistense()
+            self.phoneErrorLabel.text = ""
             
         } else {
-            // Do something...
             self.finalPhoneNumber = ""
         }
         self.validatePhoneNumberAndSetPasswordTextFieldAppearance(isValid)
         self.validateInputFieldsAndSetsubmitButtonAppearance()
         
-        elDebugPrint(isValid)
-        elDebugPrint(finalPhoneNumber)
+        debugPrint(isValid)
+        debugPrint(finalPhoneNumber)
     }
     
 }
@@ -819,35 +674,111 @@ extension SignInViewController : PhoneVerifedProtocol {
     
     func phoneVerified(_ phoneNumber: String, _ otp: String) {
         if phoneNumber.count > 0 {
-             userPersonalInfo.phone = phoneNumber
+            userPersonalInfo.phone = phoneNumber
         }else{
-             userPersonalInfo.phone = self.finalPhoneNumber
+            userPersonalInfo.phone = self.finalPhoneNumber
         }
         userPersonalInfo.isPhoneVerified = true
         
         
-        let registrationProfileController = ElGrocerViewControllers.registrationPersonalViewController()
-        registrationProfileController.recipeId = self.recipeId
-        registrationProfileController.userPersonalInfo = userPersonalInfo
-        registrationProfileController.finalPhoneNumber  = self.finalPhoneNumber
-        registrationProfileController.finalOtp  = otp
-        registrationProfileController.isPhoneExsists = false
-        registrationProfileController.isFromCart = (isCommingFrom == .cart)
-        registrationProfileController.dismissMode = .navigateHome
-        self.navigationController?.pushViewController(registrationProfileController, animated: true)
+        guard self.isCommingFrom != .profile else {
+           returnToSettingScreen()
+            return
+        }
+        guard self.isCommingFrom != .cart else {
+            dismissCodeAndSignInScreen()
+            return
+        }
+        
+        
+//        let registrationProfileController = ElGrocerViewControllers.registrationPersonalViewController()
+//        registrationProfileController.recipeId = self.recipeId
+//        registrationProfileController.userPersonalInfo = userPersonalInfo
+//        registrationProfileController.finalPhoneNumber  = self.finalPhoneNumber
+//        registrationProfileController.finalOtp  = otp
+//        registrationProfileController.isPhoneExsists = false
+//        registrationProfileController.isFromCart = (isCommingFrom == .cart)
+//        registrationProfileController.dismissMode = .navigateHome
+//        self.navigationController?.pushViewController(registrationProfileController, animated: true)
     }
-   
+    
+    func returnToSettingScreen() {
+        
+        let topVc = UIApplication.topViewController()
+        if topVc is SettingViewController {
+            return
+        }
+        topVc?.navigationController?.dismiss(animated: false)
+        DispatchQueue.main.async {
+            self.returnToSettingScreen()
+        }
+       
+    }
+    
+    func dismissCodeAndSignInScreen() {
+        
+        let topVc = UIApplication.topViewController()
+        if topVc is SignInViewController {
+            topVc?.navigationController?.dismiss(animated: false)
+        }else if topVc is CodeVerificationViewController {
+            topVc?.navigationController?.dismiss(animated: false)
+        }else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.dismissCodeAndSignInScreen()
+        }
+       
+    }
+    
     
 }
 
 extension SignInViewController : LocationMapViewControllerDelegate {
-   
+    
+    
+    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?){
+        guard let location = location, let name = name else {return}
+        addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
+            sdkManager.showAppWithMenu()
+        }
+    }
+    
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?) {
-        
     }
     
     func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) {
         controller.dismiss(animated: true, completion: nil)
+    }
+    
+    /** Since the user is anonymous, we cannot send the delivery address on the backend.
+     We need to store the delivery address locally and continue as an anonymous user */
+    private func addDeliveryAddressForAnonymousUser(withLocation location: CLLocation, locationName: String,buildingName: String,completionHandler: (_ deliveryAddress: DeliveryAddress) -> Void) {
+        
+            // Remove any previous area
+            //DeliveryAddress.clearEntity()
+        DeliveryAddress.clearDeliveryAddressEntity()
+        
+            // Insert new area
+            //let deliveryAddress = DeliveryAddress.createObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        deliveryAddress.locationName = locationName
+        deliveryAddress.latitude = location.coordinate.latitude
+        deliveryAddress.longitude = location.coordinate.longitude
+        deliveryAddress.address = locationName
+        deliveryAddress.apartment = ""
+        deliveryAddress.building = buildingName
+        deliveryAddress.street = ""
+        deliveryAddress.floor = ""
+        deliveryAddress.houseNumber = ""
+        deliveryAddress.additionalDirection = ""
+       // deliveryAddress.addressType = "1"
+        deliveryAddress.isActive = NSNumber(value: true)
+        DatabaseHelper.sharedInstance.saveDatabase()
+        UserDefaults.setDidUserSetAddress(true)
+        completionHandler(deliveryAddress)
+        
     }
     
     
@@ -855,19 +786,31 @@ extension SignInViewController : LocationMapViewControllerDelegate {
 
 extension SignInViewController : UITextFieldDelegate {
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.phoneNumberTextField.borderColor = UIColor.navigationBarColor().cgColor
+        self.phoneNumberTextField.borderWidth = 1
+        self.phoneErrorLabel.text = ""
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
         if (string == " ") {
-               return false
-           }
+            return false
+        }
         return true
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == self.usernameTextField {
-            MixpanelEventLogger.trackWelcomeEmailEntered(email: textField.text ?? "")
-        }else if textField == self.passwordTextField {
-            MixpanelEventLogger.trackWelcomePasswordEntered()
-        }else if textField == self.phoneNumberTextField {
+        // if textField == self.usernameTextField {
+        // MixpanelEventLogger.trackWelcomeEmailEntered(email: textField.text ?? "")
+        // }else if textField == self.passwordTextField {
+        // MixpanelEventLogger.trackWelcomePasswordEntered()
+        // }else
+        
+        self.phoneNumberTextField.borderWidth = 0
+        
+        if textField == self.phoneNumberTextField {
             MixpanelEventLogger.trackCreateAccountNumberEntered(number: textField.text ?? "")
         }
     }
 }
+
+
