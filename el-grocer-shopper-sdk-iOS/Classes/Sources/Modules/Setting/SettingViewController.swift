@@ -37,6 +37,10 @@ class SettingViewController: UIViewController {
         self.setVersionNumber()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+    }
+    
     private func registerTableViewCell() {
         
         let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: Bundle.resource)
@@ -61,7 +65,6 @@ class SettingViewController: UIViewController {
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         self.title = localizedString("Profile_Title", comment: "")
