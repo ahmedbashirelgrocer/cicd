@@ -26,6 +26,7 @@ enum SettingCellType {
     case TermsAndConditions
     case PrivacyPolicy
     case Faqs
+    case SignOut
     case `default`
     
 }
@@ -128,6 +129,8 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
             self.reusableIdentifier = "SettingTableCell"
             self.title = localizedString("delete_account", comment: "")
             self.image = UIImage(name: "DeleteAccountSettings") ?? self.image
+        case .SignOut:
+            self.reusableIdentifier = kSignOutCellIdentifier
         case .default:
             self.reusableIdentifier = "SettingTableCell"
             self.title = ""

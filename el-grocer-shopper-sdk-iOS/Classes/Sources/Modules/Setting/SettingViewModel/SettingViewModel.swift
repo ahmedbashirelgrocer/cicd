@@ -57,16 +57,25 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
     }
     
     private func setViewModels(setting: Setting, user: UserProfile?) -> [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] {
-        if  user == nil {
+        
+        if setting.isSmileApp() {
+            
+        return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserLogin)]),
+                SectionHeaderModel(model: 1, header: localizedString("account_hedding", comment: ""), items: [SettingCellViewModel(type: .liveChat), SettingCellViewModel(type: .Orders),SettingCellViewModel(type: .Address),SettingCellViewModel(type: .PaymentMethods)]),
+        SectionHeaderModel(model: 2, header: localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs)])]
+            
+        }else if  user == nil {
             // not login case
                   return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserNotLogin)]),
                                      SectionHeaderModel(model: 1, header: localizedString("settings_heading", comment: ""), items: [SettingCellViewModel(type: .LanguageChange)]),
                                      SectionHeaderModel(model: 2, header: localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs)])]
             
         } else if user != nil && setting.isElgrocerApp() {
-            return []
-        } else if user != nil && setting.isSmileApp() {
-            return []
+            // elgrocer login view
+            return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserLogin)]),
+                            SectionHeaderModel(model: 1, header: localizedString("account_hedding", comment: ""), items: [SettingCellViewModel(type: .liveChat), SettingCellViewModel(type: .Orders),SettingCellViewModel(type: .Recipes),SettingCellViewModel(type: .SaveCars),SettingCellViewModel(type: .Address),SettingCellViewModel(type: .PaymentMethods),SettingCellViewModel(type: .Password)]),
+                            SectionHeaderModel(model: 2, header: localizedString("settings_heading", comment: ""), items: [SettingCellViewModel(type: .LanguageChange), SettingCellViewModel(type: .DeleteAccount)]),
+                    SectionHeaderModel(model: 3, header: localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs), SettingCellViewModel(type: .SignOut)])]
         } else {
             // fatel error // this case never happens
             elDebugPrint("fatel error: Setting screen destroy")
@@ -89,9 +98,5 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
             return 0
         }
     }
-    
-    
-  //  , SectionModel(model: 1, items: [SettingCellViewModel(type: .LanguageChange)]), SectionModel(model: 2, items: [SettingCellViewModel(type: .UserLogin)])]
-    
-    
+  
 }

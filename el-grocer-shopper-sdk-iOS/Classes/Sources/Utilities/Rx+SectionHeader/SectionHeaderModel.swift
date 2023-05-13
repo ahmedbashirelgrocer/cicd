@@ -38,7 +38,7 @@ extension SectionHeaderModel
     : CustomStringConvertible {
 
     public var description: String {
-        return "\(self.model) > \(items)"
+        return "\(self.model) > \(self.header) > \(items)"
     }
 }
 
@@ -46,8 +46,8 @@ extension SectionHeaderModel {
     
     public init(original: SectionHeaderModel<Section, Header, ItemType>, items: [ItemType]) {
         self.model = original.model
-        self.items = items
         self.header = original.header
+        self.items = items
     }
   
 }
