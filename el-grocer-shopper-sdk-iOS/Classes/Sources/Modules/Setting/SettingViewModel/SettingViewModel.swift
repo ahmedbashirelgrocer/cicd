@@ -9,6 +9,9 @@ import Foundation
 import RxSwift
 import RxDataSources
 
+
+
+
 protocol SettingViewModelInput {
     var setting: AnyObserver<Setting> { get }
     var user: AnyObserver<UserProfile?> { get }
@@ -46,6 +49,7 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
     private let userSubject = PublishSubject<UserProfile?>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
+    
     // properties
     private var viewModels: [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
     
@@ -55,6 +59,7 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
         self.viewModels = self.setViewModels(setting: setting, user: user)
         self.cellViewModelsSubject.onNext(self.viewModels)
     }
+    
     
     private func setViewModels(setting: Setting, user: UserProfile?) -> [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] {
         
@@ -82,10 +87,6 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
             return []
         }
     }
-    
-    
-    
-    
     func heightForCell(indexPath: IndexPath) -> CGFloat {
         switch self.viewModels[indexPath.section].items.first {
         case let model as SettingCellViewModel:
@@ -100,5 +101,7 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
             return 0
         }
     }
+    
+   
   
 }

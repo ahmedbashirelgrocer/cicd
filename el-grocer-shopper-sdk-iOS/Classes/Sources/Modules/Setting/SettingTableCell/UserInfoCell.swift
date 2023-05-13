@@ -43,11 +43,10 @@ class UserInfoCell: RxUITableViewCell {
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-        
+    @IBAction func editProfileAction(_ sender: Any) {
+        self.viewModel.handleButtonAction(SettingNavigationUseCase.EditProfile)
     }
+    
 
     override func configure(viewModel: Any) {
         guard let viewModel = viewModel as? SettingCellViewModel else { return }

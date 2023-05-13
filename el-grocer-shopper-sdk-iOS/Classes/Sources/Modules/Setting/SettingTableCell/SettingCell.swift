@@ -42,6 +42,7 @@ class SettingCell: RxUITableViewCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         self.backgroundColor = highlighted ? UIColor.unselectedPageControl() : UIColor.clear
+        
     }
     
     override func configure(viewModel: Any) {
@@ -50,7 +51,13 @@ class SettingCell: RxUITableViewCell {
         self.itemTitle.text = self.viewModel.title
         self.itemImage.image = self.viewModel.image
     }
-
+    
+    
+    @IBAction func clickAction(_ sender: Any) {
+        
+        self.viewModel.handleButtonAction(self.viewModel.cellType)
+    }
+    
 
     // MARK: Data    
     func configureCellWithTitle(_ title: String, withImage image:String) {

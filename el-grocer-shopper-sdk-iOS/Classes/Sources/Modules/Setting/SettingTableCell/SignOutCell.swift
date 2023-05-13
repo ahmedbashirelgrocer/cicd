@@ -11,7 +11,6 @@ let kSignOutCellIdentifier = "SignOutCell"
 let kSignOutCellHeight: CGFloat  = 90
 class SignOutCell: RxUITableViewCell {
     var viewModel: SettingCellViewModel!
-     var signOutHandler: (()->Void)?
     @IBOutlet weak var signOutButton: UIButton!{
         didSet{
             signOutButton.setH4SemiBoldGreenStyle()
@@ -24,8 +23,6 @@ class SignOutCell: RxUITableViewCell {
     }
     
     @IBAction func signOutActionCalled(_ sender: Any) {
-        if signOutHandler != nil {
-            self.signOutHandler!()
-        }
+        self.viewModel.handleButtonAction(SettingNavigationUseCase.SignOut)
     }
 }

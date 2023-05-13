@@ -39,6 +39,7 @@ protocol SettingCellViewModelOutput {
     var title: String { get }
     var image: UIImage { get }
     var cellType : SettingCellType { get }
+    var buttonAction: Observable<Any> { get}
 }
 
 protocol SettingCellViewModelType: SettingCellViewModelInput, SettingCellViewModelOutput {
@@ -59,11 +60,12 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
     var title: String = ""
     var image: UIImage = UIImage(name: "product_placeholder")!
     var cellType : SettingCellType
+    var buttonAction: Observable<Any> { buttonActionSubject.asObservable()}
     // MARK: Subjects
     private let typeSubject = PublishSubject<SettingCellType>()
+    private let buttonActionSubject = PublishSubject<Any>()
     // MARK: Properties
     var reusableIdentifier: String
-    
     
     // MARK: Initlizations
     init(type: SettingCellType) {
@@ -139,6 +141,9 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
         
     }
     
+    func handleButtonAction(_ type: Any) {
+           buttonActionSubject.onNext((type))
+       }
     
     
 }
