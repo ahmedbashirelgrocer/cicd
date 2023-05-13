@@ -1222,9 +1222,6 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
         let centerLabelTableViewCell = UINib(nibName: KCenterLabelTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(centerLabelTableViewCell, forCellReuseIdentifier: KCenterLabelTableViewCellIdentifier)
         
-        
-        
-        
         let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         
