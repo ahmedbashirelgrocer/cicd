@@ -588,7 +588,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     public func showEntryView() {
         
         
-        let entryController =  ElGrocerViewControllers.entryViewController()
+        let entryController =  ElGrocerViewControllers.signInViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
         self.replaceRootControllerWith(navEntryController)
