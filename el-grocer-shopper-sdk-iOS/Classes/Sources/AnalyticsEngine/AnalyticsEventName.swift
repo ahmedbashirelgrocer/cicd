@@ -80,4 +80,22 @@ enum AnalyticsEventName {
     // MARK: SDK
     static let sdkLaunched            = "SDK Launched"
     
+    
+   
+        
+    // MARK: Shopper App Specfic events
+    static let storeCategoryClicked = "Store Category Clicked"
+    static let recipeClicked        = "Recipe Clicked"
+    static let recipeViewed             = "Recipe Viewed"
+    static let onboardingStarted        = "Onboarding Started"
+    static let phoneNumberEntered       = "Phone Number Entered"
+    static let otpConfirmed             = "OTP Confirmed"
+    static let signOut                  = "Sign Out"
+    static let pushNotificationEnabled  = "Push Notification Enabled"
+    static let deepLinkOpened           = "Deep Link Opened"
+    static let pushReceived             = "Push Notification Received"
+    static let pushTapped               = "Push Notification Tapped"
+    static let applicationOpened        = "Application Opened"
+    static let applicationBackgrounded  = "Application Backgrounded"
+    
 }
