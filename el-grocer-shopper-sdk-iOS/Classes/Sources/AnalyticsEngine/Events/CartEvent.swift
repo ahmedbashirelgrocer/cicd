@@ -177,3 +177,5 @@ struct MultiCartsClickedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.multiCartsClicked)
     }
 }
+
+
