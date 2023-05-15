@@ -470,21 +470,12 @@ class SDKManager: NSObject, SDKManagerType  {
     
     // Replaces the root view controller with the specified controller
     fileprivate func replaceRootControllerWith<T: UIViewController>(_ controller: T) {
-        
-        
-            if self.window?.rootViewController != nil {
-                
-                self.window?.rootViewController = controller
-//                UIView.transition(with: self.window!, duration: 0.5, options: UIView.AnimationOptions.transitionFlipFromLeft, animations: {
-//
-//
-//                }, completion: nil)
-                
+            if sdkManager.window?.rootViewController != nil {
+                sdkManager.window?.rootViewController = controller
             } else {
-                    self.window?.rootViewController = controller
-                    self.window?.makeKeyAndVisible()
+                sdkManager.window?.rootViewController = controller
+                sdkManager.window?.makeKeyAndVisible()
             }
-        
     }
     
   
@@ -555,7 +546,7 @@ class SDKManager: NSObject, SDKManagerType  {
                  }
              }
          } else {
-             let entryController =  ElGrocerViewControllers.entryViewController()
+             let entryController =  ElGrocerViewControllers.signInViewController()
              let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
              navEntryController.hideNavigationBar(true)
              self.replaceRootControllerWith(navEntryController)

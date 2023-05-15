@@ -130,6 +130,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         // Do any additional setup after loading the view.
         
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         
         if isConfirmAddress == true {

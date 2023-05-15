@@ -197,50 +197,7 @@ class EntryViewController: UIViewController {
         
        
         if let location = LocationManager.sharedInstance.currentLocation.value {
-            
              self.gotToMapSelection(nil)
-            
-            
-//
-//            let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-//            deliveryAddress.latitude = location.coordinate.latitude
-//            deliveryAddress.longitude = location.coordinate.longitude
-//            deliveryAddress.address = "Current Location"
-//            self.fetchGroceries(deliveryAddress)
-            /*
-            
-             let spinner = SpinnerView.showSpinnerViewInView(self.view)
-            
-            LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
-                if(spinner != nil){
-                    spinner?.removeFromSuperview()
-                }
-                
-                if  address.lines?.count ?? 0 > 0 {
-                    let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    deliveryAddress.latitude = location.coordinate.latitude
-                    deliveryAddress.longitude = location.coordinate.longitude
-                    deliveryAddress.address = address.lines?.joined(separator: ",") ?? ""
-                     self.gotToMapSelection(deliveryAddress)
-                }else{
-                    let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    deliveryAddress.latitude = location.coordinate.latitude
-                    deliveryAddress.longitude = location.coordinate.longitude
-                    deliveryAddress.address = "Current Location"
-                    self.gotToMapSelection(deliveryAddress)
-                }
-          
-            }) { (error) in
-                
-                let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                deliveryAddress.latitude = location.coordinate.latitude
-                deliveryAddress.longitude = location.coordinate.longitude
-                deliveryAddress.address = "Current Location"
-                self.gotToMapSelection(deliveryAddress)
-            }
-            
-            */
-
         }else{
              self.gotToMapSelection(nil , false)
         }

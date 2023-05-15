@@ -37,7 +37,7 @@ class AddLocationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // self.addBackButton(isGreen: true)
+         self.addBackButton(isGreen: true)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
     }
     
@@ -50,24 +50,63 @@ class AddLocationViewController: UIViewController {
     }
     
     @IBAction func btnDetectCurrentLocation(_ sender: Any) {
-        let locationMapController = ElGrocerViewControllers.locationMapViewController()
-        locationMapController.delegate = self
-        locationMapController.isConfirmAddress = false
-        locationMapController.isForNewAddress = true
-        if let location = LocationManager.sharedInstance.currentLocation.value {
-            locationMapController.locationCurrentCoordinates = location.coordinate
-        }
-        let navigationController: ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navigationController.viewControllers = [locationMapController]
-        navigationController.setLogoHidden(true)
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.setGreenBackgroundColor()
         
-        self.present(navigationController, animated: true) {
-            debugPrint("VC Presented")
+        func showMapScreen() {
+            
+            
+            let locationMapController = ElGrocerViewControllers.locationMapViewController()
+            locationMapController.delegate = self
+            locationMapController.isConfirmAddress = false
+            locationMapController.isForNewAddress = true
+            if let location = LocationManager.sharedInstance.currentLocation.value {
+                locationMapController.locationCurrentCoordinates = location.coordinate
+            }
+            Thread.OnMainThread { [weak self] in
+                self?.navigationController?.pushViewController(locationMapController, animated: true)
+            }
+            
+//            let navigationController: ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+//            navigationController.viewControllers = [locationMapController]
+//            navigationController.setLogoHidden(true)
+//            navigationController.modalPresentationStyle = .fullScreen
+//            navigationController.setGreenBackgroundColor()
+//
+//            self.present(navigationController, animated: true) {
+//                debugPrint("VC Presented")
+//            }
+            
+            MixpanelEventLogger.trackWelcomeDetectLocationClick()
+            
         }
         
-        MixpanelEventLogger.trackWelcomeDetectLocationClick()
+        
+        let _ = SpinnerView.showSpinnerViewInView(self.view)
+            LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
+                guard state != nil, UIApplication.topViewController() is AddLocationViewController else {
+                    return
+                }
+                switch state! {
+                case .initial:
+                    LocationManager.sharedInstance.requestLocationAuthorization()
+                    case LocationManager.State.error(let error):
+                    LocationManager.sharedInstance.stopUpdatingCurrentLocation()
+                    LocationManager.sharedInstance.locationWithStatus = nil
+                    SpinnerView.hideSpinnerView()
+                    showMapScreen()
+                    case LocationManager.State.success:
+                        LocationManager.sharedInstance.stopUpdatingCurrentLocation()
+                        LocationManager.sharedInstance.locationWithStatus = nil
+                    SpinnerView.hideSpinnerView()
+                        showMapScreen()
+                    default:
+                    elDebugPrint("")
+                }
+                
+            }
+        ElGrocerUtility.sharedInstance.delay(0.1) {
+                LocationManager.sharedInstance.fetchCurrentLocation()
+        }
+       
     }
     
 }

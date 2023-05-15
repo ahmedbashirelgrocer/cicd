@@ -65,7 +65,7 @@ class LocationManager: NSObject {
     
     lazy fileprivate var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyBest //If batery life becomes an issue we can play with this parameter
+        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         manager.activityType = CLActivityType.fitness
         manager.pausesLocationUpdatesAutomatically = true
         manager.distanceFilter = 10.0
@@ -221,7 +221,9 @@ class LocationManager: NSObject {
     }
     
     func stopUpdatingCurrentLocation() {
-        self.locationManager.stopUpdatingLocation()
+        Thread.OnMainThread {
+            self.locationManager.stopUpdatingLocation()
+        }
     }
     
     func requestLocationAuthorization(){
@@ -441,48 +443,14 @@ class LocationManager: NSObject {
 extension LocationManager: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
         authorizationStatus.value = status
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-       elDebugPrint("DidUpdateLocations Called")
-        
         if var currentLocation = locations.last {
-          
-            
-//            if Platform.isDebugBuild {
-//                let fakeLocation : CLLocation = CLLocation.init(latitude: 25.0764439, longitude: 55.1404013)
-//                currentLocation = fakeLocation
-//            }
-            
             self.currentLocation.value = currentLocation
             self.state.value = .success
-            
-            
-          /*  CLGeocoder().reverseGeocodeLocation(currentLocation, completionHandler: {(placemarks, error)->Void in
-                var placemark:CLPlacemark!
-                
-                if error == nil && placemarks!.count > 0 {
-                    
-                    placemark = placemarks![0] as CLPlacemark
-                    
-                    if(placemark.isoCountryCode != nil){
-                        self.countryCode = placemark.isoCountryCode!
-                    }
-                    
-                    if let city = placemark.addressDictionary!["City"] as? NSString {
-                      // elDebugPrint("Current Location City",city)
-                        self.cityName = city as String
-                    }
-                    
-                }
-            }) */
-            
         }
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

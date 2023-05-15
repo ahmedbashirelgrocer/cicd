@@ -158,43 +158,7 @@ struct LoginSignupService {
     static func setHomeViewWithUserDidSetAddress(from contextView: UIViewController) -> Void {
         
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-        
-        let appDelegate = SDKManager.shared
-        
-        if let nav = appDelegate.window!.rootViewController as? UINavigationController {
-            if nav.viewControllers.count > 0 {
-                if  nav.viewControllers[0] as? UITabBarController != nil {
-                    let tababarController = nav.viewControllers[0] as! UITabBarController
-                    if tababarController.viewControllers?.count == 5 {
-                        tababarController.selectedIndex = 0
-                        contextView.dismiss(animated: true, completion: { })
-                
-                       
-                    }else if tababarController.viewControllers?.count == 2 {
-                        tababarController.selectedIndex = 0
-                        contextView.navigationController?.dismiss(animated: true, completion: { })
-                    }
-                    ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
-                    }
-                    
-                    return
-                }}}
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
-        }
-        
-        contextView.navigationController?.dismiss(animated: true, completion: {  })
-        SDKManager.shared.showAppWithMenu()
+        sdkManager.showAppWithMenu()
     }
     
     
@@ -208,62 +172,19 @@ struct LoginSignupService {
         
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
         
-        let appDelegate = SDKManager.shared
-        
-        if let nav = appDelegate.window!.rootViewController as? UINavigationController {
-            if nav.viewControllers.count > 0 {
-                if  nav.viewControllers[0] as? UITabBarController != nil {
-                    let tababarController = nav.viewControllers[0] as! UITabBarController
-                    if tababarController.viewControllers?.count == 5 {
-                        tababarController.selectedIndex = 0
-                        contextView.navigationController?.dismiss(animated: true, completion: { })
-                        if  contextView.presentingViewController is ElgrocerGenericUIParentNavViewController {
-                            
-                        }else{
-                            if let top = UIApplication.topViewController() {
-                                if top is ElgrocerGenericUIParentNavViewController {}else{
-                                }
-                            }
-                        }
-                    }else if tababarController.viewControllers?.count == 2 {
-                        tababarController.selectedIndex = 0
-                        contextView.navigationController?.dismiss(animated: true, completion: { })
-                    }
-                    ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
-                    }
-                    
-                    return
-                }}}
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateNotificationKey), object: nil)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: KUpdateBasketToServer), object: nil)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: KresetToZero), object: nil)
-        }
-        
-        contextView.navigationController?.dismiss(animated: true, completion: {  })
-        SDKManager.shared.showAppWithMenu()
+        let appDelegate = sdkManager
+        //contextView.navigationController?.dismiss(animated: true, completion: {  })
+        sdkManager.showAppWithMenu()
     }
     
     static func setAddLocationView(from contextView: UIViewController) -> Void {
+      
         let viewController = ElGrocerViewControllers.addLocationViewController()
-        // viewController.recipeId = self.recipeId
-        
         let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
         navigationController.viewControllers = [viewController]
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
-        contextView.present(navigationController, animated: true) {
-            debugPrint("VC Presented")
-            // }
-        }
+        contextView.present(navigationController, animated: true) { }
     }
     
     static func addDeliveryAddress(_ deliveryAddress: DeliveryAddress, completionHandler: ((_ code: Int)->Void)? ) {

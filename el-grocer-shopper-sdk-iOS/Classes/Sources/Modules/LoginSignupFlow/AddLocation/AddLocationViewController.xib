@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,10 +28,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qtu-ef-tf2">
-                    <rect key="frame" x="0.0" y="247.5" width="414" height="361"/>
+                    <rect key="frame" x="0.0" y="194" width="414" height="374"/>
                     <subviews>
                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c3T-PT-CnK" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                            <rect key="frame" x="16" y="305" width="382" height="56"/>
+                            <rect key="frame" x="16" y="318" width="382" height="56"/>
                             <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="qa7-Rv-hSG"/>
@@ -73,7 +73,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cNL-Lz-htS">
-                            <rect key="frame" x="105" y="0.0" width="204" height="204"/>
+                            <rect key="frame" x="105" y="0.0" width="200" height="200"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="elgrocer_pin" translatesAutoresizingMaskIntoConstraints="NO" id="MRX-dD-nUI">
                                     <rect key="frame" x="39" y="39" width="126" height="126"/>
@@ -84,12 +84,12 @@
                             </subviews>
                             <color key="backgroundColor" red="0.96078431610000004" green="0.96078431610000004" blue="0.96078431610000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
-                                <constraint firstItem="MRX-dD-nUI" firstAttribute="centerY" secondItem="cNL-Lz-htS" secondAttribute="centerY" id="Cqf-GA-Nuo"/>
-                                <constraint firstAttribute="width" constant="204" id="Dwh-ow-HOL"/>
+                                <constraint firstItem="MRX-dD-nUI" firstAttribute="centerY" secondItem="cNL-Lz-htS" secondAttribute="centerY" constant="2" id="Cqf-GA-Nuo"/>
+                                <constraint firstAttribute="width" constant="200" id="Dwh-ow-HOL"/>
                                 <constraint firstAttribute="width" secondItem="cNL-Lz-htS" secondAttribute="height" id="EbH-op-sWD"/>
-                                <constraint firstItem="MRX-dD-nUI" firstAttribute="width" secondItem="cNL-Lz-htS" secondAttribute="width" multiplier="124/200" priority="999" id="ccK-Qm-iRI"/>
-                                <constraint firstItem="MRX-dD-nUI" firstAttribute="centerX" secondItem="cNL-Lz-htS" secondAttribute="centerX" id="d9N-tR-09b"/>
-                                <constraint firstAttribute="height" constant="204" id="q2s-p4-VHt"/>
+                                <constraint firstItem="MRX-dD-nUI" firstAttribute="width" secondItem="cNL-Lz-htS" secondAttribute="width" multiplier="124/200" priority="999" constant="2" id="ccK-Qm-iRI"/>
+                                <constraint firstItem="MRX-dD-nUI" firstAttribute="centerX" secondItem="cNL-Lz-htS" secondAttribute="centerX" constant="2" id="d9N-tR-09b"/>
+                                <constraint firstAttribute="height" constant="200" id="q2s-p4-VHt"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set your location to start ordering" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qJa-bH-03b">
@@ -101,14 +101,14 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstItem="qJa-bH-03b" firstAttribute="top" secondItem="cNL-Lz-htS" secondAttribute="bottom" constant="25" id="57A-jO-NU8"/>
+                        <constraint firstItem="qJa-bH-03b" firstAttribute="top" secondItem="cNL-Lz-htS" secondAttribute="bottom" constant="29" id="57A-jO-NU8"/>
                         <constraint firstAttribute="trailing" secondItem="c3T-PT-CnK" secondAttribute="trailing" constant="16" id="FDu-Ed-3u6"/>
                         <constraint firstAttribute="bottom" secondItem="c3T-PT-CnK" secondAttribute="bottom" id="LBe-oE-qmZ"/>
-                        <constraint firstItem="c3T-PT-CnK" firstAttribute="top" secondItem="qJa-bH-03b" secondAttribute="bottom" constant="35" id="QjS-3V-76K"/>
+                        <constraint firstItem="c3T-PT-CnK" firstAttribute="top" secondItem="qJa-bH-03b" secondAttribute="bottom" constant="48" id="QjS-3V-76K"/>
                         <constraint firstItem="qJa-bH-03b" firstAttribute="centerX" secondItem="qtu-ef-tf2" secondAttribute="centerX" id="WVz-Tr-c2L"/>
                         <constraint firstItem="cNL-Lz-htS" firstAttribute="top" secondItem="qtu-ef-tf2" secondAttribute="top" id="cEg-DW-oqD"/>
                         <constraint firstItem="c3T-PT-CnK" firstAttribute="leading" secondItem="qtu-ef-tf2" secondAttribute="leading" constant="16" id="d8B-yd-Kp8"/>
-                        <constraint firstItem="cNL-Lz-htS" firstAttribute="centerX" secondItem="qtu-ef-tf2" secondAttribute="centerX" id="eAz-7a-42F"/>
+                        <constraint firstItem="cNL-Lz-htS" firstAttribute="centerX" secondItem="qtu-ef-tf2" secondAttribute="centerX" constant="-2" id="eAz-7a-42F"/>
                         <constraint firstItem="qJa-bH-03b" firstAttribute="width" secondItem="qtu-ef-tf2" secondAttribute="width" multiplier="0.5" id="eYg-F5-pTC"/>
                     </constraints>
                 </view>
@@ -117,12 +117,17 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="qtu-ef-tf2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2p0-q8-JmU"/>
-                <constraint firstItem="qtu-ef-tf2" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="-20" id="5Ay-Jh-jCN"/>
+                <constraint firstItem="qtu-ef-tf2" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" multiplier="0.85" id="5Ay-Jh-jCN"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="qtu-ef-tf2" secondAttribute="trailing" id="E3P-jt-J3l"/>
             </constraints>
             <point key="canvasLocation" x="139" y="75"/>
         </view>
     </objects>
+    <designables>
+        <designable name="c3T-PT-CnK">
+            <size key="intrinsicContentSize" width="185.5" height="21"/>
+        </designable>
+    </designables>
     <resources>
         <image name="elgrocer_pin" width="124" height="124"/>
         <image name="location-pin-white" width="13.5" height="20"/>
