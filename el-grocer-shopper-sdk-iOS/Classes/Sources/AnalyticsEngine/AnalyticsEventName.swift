@@ -97,5 +97,6 @@ enum AnalyticsEventName {
     static let pushTapped               = "Push Notification Tapped"
     static let applicationOpened        = "Application Opened"
     static let applicationBackgrounded  = "Application Backgrounded"
+    static let otpAttempts              = "OTP Attempts"
     
 }

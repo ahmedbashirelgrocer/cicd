@@ -45,6 +45,13 @@ class SplashAnimationViewController: UIViewController {
         }
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
         
+        // segment identification of existing users who already logged in application
+        if UserDefaults.isUserLoggedIn() && !UserDefaults.isAnalyticsIdentificationCompleted() {
+            let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+            UserDefaults.setIsAnalyticsIdentificationCompleted(new: true)
+        }
+        
     }
  
     override func viewWillAppear(_ animated: Bool) {

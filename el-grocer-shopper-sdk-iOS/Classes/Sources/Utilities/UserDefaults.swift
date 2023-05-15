@@ -49,6 +49,14 @@ public class UserDefaults {
     
     }
     
+    class func isAnalyticsIdentificationCompleted() -> Bool {
+        return Foundation.UserDefaults.standard.bool(forKey: "getAnalyticsIdentificationCompleted")
+    }
+    
+    class func setIsAnalyticsIdentificationCompleted(new value: Bool) {
+        Foundation.UserDefaults.standard.set(value, forKey: "getAnalyticsIdentificationCompleted")
+    }
+    
     class func setUserLoggedIn(_ logged:Bool) {
        // SendBirdManager().setPushNotification(enable: logged, completionHandler: nil)
        // SendBirdDeskManager(type: .agentSupport).setPushNotification(enable: logged)

@@ -412,6 +412,16 @@ extension UILabel {
         self.textColor = UIColor.navigationBarWhiteColor()
     }
     
+    func setBody2RegSecondaryBlackStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(16)
+        self.textColor = UIColor.secondaryBlackColor()
+    }
+    
+    func setBody2RegBlackStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(16)
+        self.textColor = UIColor.black
+    }
+    
 }
 
 extension UIButton {

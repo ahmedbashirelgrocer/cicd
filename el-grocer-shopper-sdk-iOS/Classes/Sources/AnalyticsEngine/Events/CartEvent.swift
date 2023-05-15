@@ -178,4 +178,13 @@ struct MultiCartsClickedEvent: AnalyticsEventDataType {
     }
 }
 
+struct OTPConfirmedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.otpConfirmed)
+    }
+}
+
 
