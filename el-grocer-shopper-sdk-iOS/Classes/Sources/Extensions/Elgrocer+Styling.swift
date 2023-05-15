@@ -422,6 +422,11 @@ extension UILabel {
         self.textColor = UIColor.black
     }
     
+    func setH4SemiBoldGreenStyle(){
+        self.font = UIFont.SFProDisplayBoldFont(17)
+        self.textColor = UIColor.navigationBarColor()
+    }
+    
 }
 
 extension UIButton {
