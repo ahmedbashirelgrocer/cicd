@@ -142,17 +142,9 @@ class SuggestionsModelDataSource {
                     var modelA = [SuggestionsModelObj.init(type: .separator)]
                     modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
                     
-                    var historyItemCount = 1
-                    
-                    for history in historyList {
-                        historyItemCount += 1
-                        modelA.append(SuggestionsModelObj.init(type: .searchHistory, title: history.productName, imageUrl: history.photoUrl))
-                        
-                        if historyItemCount > 8 {
-                            break
-                        }
-                    }
-                    self.model.append(contentsOf: modelA)
+                    // Takes first 8 element
+                    let result = historyList.prefix(8).map { SuggestionsModelObj.init(type: .searchHistory, title: $0.productName, imageUrl: $0.photoUrl) }
+                    self.model.append(contentsOf: result)
                     return
                 }
                 
