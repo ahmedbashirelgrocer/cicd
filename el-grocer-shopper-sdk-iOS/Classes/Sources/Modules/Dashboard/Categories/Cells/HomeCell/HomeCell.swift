@@ -42,6 +42,11 @@ extension HomeCellDelegate {
 // MARK: Helpers
 private extension HomeCell {
     func bindViews() {
+        
+        // shown this label only in case of Global Search
+        self.lblGrocerySlot.isHidden = true
+        self.viewBG.backgroundColor = .clear
+        
         self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
             cell.configure(viewModel: viewModel)
@@ -129,16 +134,27 @@ class HomeCell: RxUITableViewCell {
             }
         }    }
     
-    @IBOutlet weak var titleViewHeight: NSLayoutConstraint!
-    @IBOutlet var cellTopSpace: NSLayoutConstraint!
-    @IBOutlet var topDistanceOfTitle: NSLayoutConstraint!
+    @IBOutlet weak var titleViewHeight: NSLayoutConstraint! // height of shimmer view
+    @IBOutlet var cellTopSpace: NSLayoutConstraint! // top space of content view
+    @IBOutlet var topDistanceOfTitle: NSLayoutConstraint! // title label top height
     
-    
-    @IBOutlet var imgViewWidth: NSLayoutConstraint!
-    @IBOutlet var titleLeftSpacing: NSLayoutConstraint!
+
+    @IBOutlet var imgViewWidth: NSLayoutConstraint! // store image view width
+    @IBOutlet var titleLeftSpacing: NSLayoutConstraint! // shimmer view left spacing
     @IBOutlet var leftImageView: UIImageView!
-    @IBOutlet var rightButtonWidth: NSLayoutConstraint!
-    
+    @IBOutlet var rightButtonWidth: NSLayoutConstraint! // view all button width
+    @IBOutlet weak var lblGrocerySlot: UILabel! {  // grocery slot label visible in case of Global Search
+        didSet {
+            if let lng = UserDefaults.getCurrentLanguage(){
+                if lng == "ar"{
+                    lblGrocerySlot.textAlignment = .right
+                }else{
+                    lblGrocerySlot.textAlignment = .left
+                }
+            }
+        }
+    }
+    @IBOutlet weak var viewBG: UIView!
     
     
     var placeholderPhoto = UIImage(name: "product_placeholder")!
@@ -183,6 +199,7 @@ class HomeCell: RxUITableViewCell {
         //self.titleLbl.textColor =  UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         //self.titleLbl.font = UIFont.SFProDisplayBoldFont(20)
         self.titleLbl.setH4SemiBoldStyle()
+        self.lblGrocerySlot.setSubHead2RegDarkStyle()
     }
     
     func setArrowAppearance(){
@@ -225,7 +242,8 @@ class HomeCell: RxUITableViewCell {
             
             self.grocery = grocery
             self.homeFeed = homeFeedObj
-            self.titleLbl.text = "homeFeedObj.title"
+            self.titleLbl.text = homeFeedObj.title
+            self.lblGrocerySlot.text = "Slot will be here"
             self.titleLbl.backgroundColor = UIColor.clear
             
             let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
@@ -245,7 +263,18 @@ class HomeCell: RxUITableViewCell {
                  self.viewMoreButton.isHidden = false
                 rightArrowImageView.isHidden = false
                  self.isNeedToShowRecipe = isNeedToShowRecipe
-            }else{
+                self.lblGrocerySlot.isHidden = true
+                self.viewBG.backgroundColor = .clear
+            } else if self.homeFeed?.type == .universalSearchProducts {
+                self.cellTopSpace.constant = 0
+                self.titleViewHeight.constant = 50
+                self.topDistanceOfTitle.constant = 16
+                self.viewMoreButton.isHidden = true
+                self.rightArrowImageView.isHidden = false
+                self.isNeedToShowRecipe = isNeedToShowRecipe
+                self.lblGrocerySlot.isHidden = false
+                self.viewBG.backgroundColor = .white
+            } else{
                 self.topDistanceOfTitle.constant = 0
                 self.titleViewHeight.constant = 27
                 self.cellTopSpace.constant = 17
@@ -253,6 +282,8 @@ class HomeCell: RxUITableViewCell {
                 self.viewMoreButton.setTitle( (homeFeedObj.type == HomeType.universalSearchProducts ) ? localizedString("lbl_goToStore", comment: "").uppercased() : localizedString("view_more_title", comment: ""), for: UIControl.State())
                 self.viewMoreButton.isHidden = false
                 rightArrowImageView.isHidden = false
+                self.lblGrocerySlot.isHidden = true
+                self.viewBG.backgroundColor = .clear
                 homeFeedObj.products.sort { (productOne, productTwo) -> Bool in
                     return productOne.isAvailable > productTwo.isAvailable
                 }
@@ -266,6 +297,8 @@ class HomeCell: RxUITableViewCell {
             self.titleLbl.backgroundColor = UIColor.borderGrayColor()
             self.titleShimmerView.contentView = self.titleLbl
             self.titleShimmerView.isShimmering = true
+            self.lblGrocerySlot.isHidden = true
+            self.viewBG.backgroundColor = .clear
         }
         
         if UIDevice.isIOS12() {
