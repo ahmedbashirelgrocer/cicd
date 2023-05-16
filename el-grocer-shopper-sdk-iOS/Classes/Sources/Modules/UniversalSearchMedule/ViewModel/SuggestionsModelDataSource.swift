@@ -143,14 +143,14 @@ class SuggestionsModelDataSource {
                     modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
                     
                     // Takes first 8 element
-                    let result = historyList.prefix(8).map { SuggestionsModelObj.init(type: .searchHistory, title: $0.productName, imageUrl: $0.photoUrl) }
-                    self.model.append(contentsOf: result)
+                    modelA.append(contentsOf: historyList.prefix(8).map { SuggestionsModelObj.init(type: .searchHistory, title: $0.productName, imageUrl: $0.photoUrl) })
+                    self.model.append(contentsOf: modelA)
                     return
                 }
                 
                 self.fetchLocalHistory()
                 
-            case .failure(let elGrocerError):
+            case .failure(_):
                 self.fetchLocalHistory()
             }
         }
