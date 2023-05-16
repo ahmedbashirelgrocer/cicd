@@ -60,5 +60,34 @@ class OrderStatusMedule : ElGrocerApi {
         
     }
     
+    func getOrderDetail(_ orderID : String , completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+        
+        setAccessToken()
+        var parameters = [String : AnyObject]()
+        if UserDefaults.isUserLoggedIn(){
+            let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            parameters["shopper_id"] = userProfile?.dbID
+        }
+        parameters["order_id"] = orderID as AnyObject
+        NetworkCall.get(ElGrocerApiEndpoint.orderDetail.rawValue, parameters: parameters, progress: { (progress) in
+            
+        }, success: { (operation  , response) in
+            
+            guard let response = response as? NSDictionary else {
+                completionHandler(Either.failure(ElGrocerError.parsingError()))
+                return
+            }
+            completionHandler(Either.success(response))
+            
+        }) { (operation  , error) in
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+        }
+        
+        
+    }
+    
   
 }

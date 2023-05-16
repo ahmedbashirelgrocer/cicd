@@ -142,13 +142,13 @@ private extension OrderConfirmationViewModel {
     
     private func getOrderDetails(orderId: String) {
         self.loadingSubject.onNext(true)
-        self.apiClinet.getOrderDetailWithCustomTracking(orderId) { (result) in
+        self.apiClinet.getOrderDetail(orderId) { (result) in
             self.loadingSubject.onNext(false)
             switch result {
                 case .success(let response):
                     if let orderDict = response["data"] as? NSDictionary {
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                        self.groceryUrlSubject.onNext(URL(string: latestOrderObj.grocery.imageUrl ?? ElGrocerUtility.sharedInstance.activeGrocery?.smallImageUrl ?? ""))
+                        self.groceryUrlSubject.onNext(URL(string: latestOrderObj.grocery.smallImageUrl ?? ElGrocerUtility.sharedInstance.activeGrocery?.smallImageUrl ?? ""))
                         self.groceryNameSubject.onNext(latestOrderObj.grocery.name ?? "")
                         self.orderNumberSubject.onNext(latestOrderObj.dbID.stringValue)
                         self.orderDeliveryDateStringSubject.onNext(NSAttributedString.init(string: latestOrderObj.getSlotDisplayStringOnOrder()))
