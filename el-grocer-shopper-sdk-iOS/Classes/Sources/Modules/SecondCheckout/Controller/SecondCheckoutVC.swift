@@ -393,6 +393,15 @@ private extension SecondCheckoutVC {
                 realizationId: viewModel.basketDataValue?.promoCode?.promotionCodeRealizationID
             )
             SegmentAnalyticsEngine.instance.logEvent(event: orderCompletedEvent)
+            
+            let items = self.viewModel.getFinalisedProducts()?.map({ product -> TopSortEvent.Item in
+                    .init(productId: "\(product.productId)",
+                          unitPrice: product.price.doubleValue,
+                          quantity: 1)
+            }) ?? []
+            
+            TopsortManager.shared.log(.purchases(items: items))
+
         }
     }
 }

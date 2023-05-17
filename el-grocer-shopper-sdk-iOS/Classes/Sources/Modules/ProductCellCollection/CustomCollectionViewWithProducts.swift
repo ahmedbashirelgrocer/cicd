@@ -137,9 +137,43 @@ class CustomCollectionViewWithProducts: CustomCollectionView {
             }
         }else if productA.count > 0 && productA[0] is Product{
             self.collectionA = productA
+            self.fetchSponsoredProducts()
         }
         
         self.reloadData()
+    }
+    
+    func fetchSponsoredProducts() {
+        let products = collectionA.compactMap{ $0 as? Product }
+        let productsR = (products.count > 0 ? Array(products[1..<products.count]) : []).map{ "\($0.productId)" }
+        
+        TopsortManager.shared.auctionListings(productsR, slots: 3) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let winners):
+                if winners.count > 0 {
+                    for index in 0..<self.collectionA.count {
+                        let id = products[index].productId
+                        (self.collectionA[index] as? Product)?.winner = winners.first{ $0.id == "\(id)" }
+                    }
+                    var rProds = self.collectionA[1..<self.collectionA.count].compactMap{ $0 as? Product }
+                    rProds.sort(by: { ($0.rank ?? 10000) < ($1.rank ?? 10000) })
+                    self.collectionA = [self.collectionA[0]] + rProds + self.collectionA.filter{ ($0 as? Product) == nil }
+                    self.reloadData()
+                    // let resolvedBidIds = rProds.compactMap { $0.winner?.resolvedBidId }
+                    // logImpressions(resolvedBidIds: resolvedBidIds)
+                }
+                
+            case .failure(let error):
+                debugPrint(error.localizedDescription)
+            }
+        }
+        
+//        func logImpressions(resolvedBidIds: [String]) {
+//            for resolvedBidId in resolvedBidIds {
+//                TopsortManager.shared.log(.impressions(resolvedBidId: resolvedBidId))
+//            }
+//        }
     }
 }
 extension CustomCollectionViewWithProducts : UICollectionViewDelegate {
@@ -232,6 +266,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                 productCell.productContainer.layer.borderColor = UIColor.lightGray.cgColor
                 productCell.productContainer.layer.borderWidth = 0.0
                 productCell.productBGShadowView.layer.masksToBounds = false
+                productCell.addToCartButton.isHidden = true
             }
             
             
@@ -239,17 +274,17 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
               //  productCell.addToCartCOntainerHeight.constant = CGFloat.leastNormalMagnitude
                 productCell.quickAddToCartButton.isUserInteractionEnabled = true
                 
-                UIView.performWithoutAnimation {
-                   productCell.addToCartButton.setTitle(localizedString("btn_Choose_title", comment: ""), for: UIControl.State())
-                    productCell.addToCartButton.layoutIfNeeded()
-                }
+//                UIView.performWithoutAnimation {
+//                   productCell.addToCartButton.setTitle(NSLocalizedString("btn_Choose_title", comment: ""), for: UIControl.State())
+//                    productCell.addToCartButton.layoutIfNeeded()
+//                }
             }else{
-                UIView.performWithoutAnimation {
-                    productCell.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
-                    productCell.addToCartButton.layoutIfNeeded()
-                }
+//                UIView.performWithoutAnimation {
+//                    productCell.addToCartButton.setTitle(NSLocalizedString("addtocart_button_title", comment: ""), for: UIControl.State())
+//                    productCell.addToCartButton.layoutIfNeeded()
+//                }
                
-                productCell.addToCartCOntainerHeight.constant = 32
+//                productCell.addToCartCOntainerHeight.constant = 32
                 productCell.quickAddToCartButton.isUserInteractionEnabled = false
             }
             
@@ -296,6 +331,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                 if  indexPath.row == 0 {
                    
                     productCell.outOfStockContainer.isHidden = false
+                    productCell.addToCartButton.isHidden = true
                     productCell.lblRemove.isHidden = true
                     productCell.chooseReplacmentBtn.isHidden = false
                     productCell.imageCrossState.isHidden = true
@@ -316,6 +352,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
            
                 } else {
                     
+                    productCell.addToCartButton.isHidden = false
                     productCell.lblRemove.isHidden = true
                     
                     if let orderIs = self.order {
@@ -330,9 +367,9 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                             productCell.productContainer.layer.borderWidth = 1.8
                             productCell.quantityLabel.text = "\(product.count.intValue)"
-                            productCell.quantityLabel.textColor = UIColor.newBlackColor()
-                            productCell.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                            productCell.minusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+//                            productCell.quantityLabel.textColor = UIColor.newBlackColor()
+//                            productCell.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
+//                            productCell.minusButton.imageView?.tintColor = UIColor.navigationBarColor()
                             productCell.productCellCounterBGImageView.image = UIImage(name: "icProductCellGreenBG")
                             productCell.imageCrossState.image = UIImage(name: "Product Minus")
                             productCell.imageCrossState.backgroundColor = UIColor.red
@@ -348,10 +385,11 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                 productCell.productBGShadowView.layer.masksToBounds = false
                             }
                             
+                            productCell.plusButton.setImage(UIImage(name: "add_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                             if product.count.intValue == 1 {
-                                productCell.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
+                                productCell.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                             }else{
-                                productCell.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
+                                productCell.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                             }
                             
                             func setPlusButtonState(_ isEnable : Bool){
@@ -359,19 +397,19 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                 if isEnable {
                                     
                                     productCell.plusButton.isEnabled = true
-                                    productCell.plusButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+//                                    productCell.plusButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                                     productCell.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                                    productCell.plusButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+//                                    productCell.plusButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
                                     productCell.buttonsView.isHidden = false
-                                   
-                                    
+
+
                                 }else{
-                                    
-                                    productCell.plusButton.tintColor = UIColor.newBorderGreyColor()
-                                    productCell.plusButton.imageView?.tintColor = UIColor.newBorderGreyColor()
+
+                                    // productCell.plusButton.tintColor = UIColor.newBorderGreyColor()
+                                    productCell.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonDisableBGColor
                                     productCell.plusButton.isEnabled = false
-                                    productCell.plusButton.setBackgroundColorForAllState(UIColor.newBorderGreyColor())
-                                    
+                                    // productCell.plusButton.setBackgroundColorForAllState(UIColor.newBorderGreyColor())
+
                                 }
                                 
                             }
@@ -432,7 +470,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDelegateFlowLayout 
 
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             var cellSize:CGSize = CGSize(width: kProductCellWidth, height: kProductCellHeight)
-            // here we check we should have minimum height of item in case cell is displaying 
+            // here we check we should have minimum height of item in case cell is displaying
             if collectionView.frame.size.height > 70 {
                 cellSize = CGSize(width: kProductCellWidth , height: kProductCellHeight)//collectionView.frame.size.height)
             }

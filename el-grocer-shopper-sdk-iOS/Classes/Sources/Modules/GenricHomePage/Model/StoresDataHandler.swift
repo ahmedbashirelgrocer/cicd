@@ -220,36 +220,19 @@ class StoresDataHandler {
         }
     }
     
-    func getGenericBanners(for groceries : [Grocery]) {
+    func getGenericBanners(for groceries : [Grocery], and storeTyprA : [StoreType]) {
         guard groceries.count > 0 else {return}
         let ids = groceries.map { $0.dbID }
         let location = BannerLocation.home_tier_1.getType()
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: ids, store_type_ids: nil , retailer_group_ids: nil , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
+        let storeTypeids = storeTyprA.map { String($0.storeTypeid)  }
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: ids, store_type_ids: storeTypeids , retailer_group_ids: nil , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
-                case .success(let response):
-                    let bannerA = BannerCampaign.getBannersFromResponse(response)
+                case .success(let bannerA):
                     self.delegate?.genericBannersList(list: bannerA)
                 case.failure(let _):
                     self.delegate?.genericBannersList(list: [])
             }
         }
-        
-        
-        
-        /*
-        apiHandler.getGenricBanners(retailerIds: idsString  , success: { (task, responseObj) in
-            if  responseObj is NSDictionary {
-                let data: NSDictionary = responseObj as? NSDictionary ?? [:]
-                if let _ : NSDictionary = data["data"] as? NSDictionary {
-                    let bannerOne = Banner.getBannersFromResponse(data)
-                    self.delegate?.genericBannersList(list: bannerOne)
-                }
-            }
-        }) { (task, error) in
-             elDebugPrint(error.localizedDescription)
-            self.delegate?.genericBannersList(list: [])
-        }
-        */
     }
     
     func getGreatDealsBanners(for groceries : [Grocery] , and storeTyprA : [StoreType]) {
@@ -258,13 +241,11 @@ class StoresDataHandler {
         let retailerGroupIds = groceries.map { $0.groupId.stringValue  }
         let storeTypeids = storeTyprA.map { String($0.storeTypeid)  }
         let location = BannerLocation.home_tier_2.getType()
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: ids, store_type_ids: storeTypeids , retailer_group_ids: retailerGroupIds  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: ids, store_type_ids: storeTypeids , retailer_group_ids: retailerGroupIds  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
-                case .success(let response):
-                    let bannerA = BannerCampaign.getBannersFromResponse(response)
+                case .success(let bannerA):
                     self.delegate?.getGreatDealsBannersList(list: bannerA)
                 case.failure(let error):
-                    //elDebugPrint(error.localizedDescription)
                     self.delegate?.getGreatDealsBannersList(list: [])
             }
         }

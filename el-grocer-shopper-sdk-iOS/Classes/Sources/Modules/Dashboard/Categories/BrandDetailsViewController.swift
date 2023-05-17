@@ -325,13 +325,13 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
             
-            ElGrocerApi.sharedInstance.getProductsForBrand(self.brand, forSubCategory: self.subCategory, andForGrocery: self.grocery!,limit: self.currentLimit,offset: self.currentOffset, completionHandler: { (result) -> Void in
+            ProductBrowser.shared.getProductsForBrand(self.brand, forSubCategory: self.subCategory, andForGrocery: self.grocery!,limit: self.currentLimit,offset: self.currentOffset, completionHandler: { (result) -> Void in
                 
                 switch result {
                         
                     case .success(let response):
-                       elDebugPrint("SERVER Response:%@",response)
-                        self.saveResponseData(response)
+                        elDebugPrint("SERVER Response:%@",response)
+                        self.saveAlgoliaResponse(response)
                     case .failure(let error):
                         SpinnerView.hideSpinnerView()
                         error.showErrorAlert()
@@ -342,10 +342,21 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             return
         }
         
-        //self.subCategory.subCategoryId.stringValue
-        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", 25, "", "\(self.brand.brandId)", completion: { [weak self] (content, error) in
-            
-            if  let responseObject : NSDictionary = content as NSDictionary? {
+        let storeID = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
+        let hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsBrandPage ?? 25
+        let slots = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsBrandPage ?? 3
+        var subcategoryId = self.subCategory?.subCategoryId.stringValue ?? ""
+        var brandID = self.brand?.brandId != nil ? "\(String(describing: self.brand?.brandId ?? 0))"  : ""
+        
+        ProductBrowser.shared.searchProductListForStoreCategory(storeID: storeID,
+                                                                pageNumber: pageNumber,
+                                                                categoryId: "",
+                                                                hitsPerPage: hitsPerPage,
+                                                                subcategoryId,
+                                                                brandID,
+                                                                slots: slots,
+                                                                completion: { [weak self] (content, error) in
+            if  let responseObject = content {
                 self?.saveAlgoliaResponse(responseObject)
             } else {
                 
@@ -356,29 +367,37 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
          
     }
     
-    func saveAlgoliaResponse (_ responseObject:NSDictionary) {
+    func saveAlgoliaResponse (_ newProduct: (products: [Product], algoliaCount: Int?)) {
         
         Thread.OnMainThread {
-            let newProduct = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            // let newProduct = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
             if newProduct.products.count > 0 {
                 self.products += newProduct.products
                 self.isMoreProducts =  self.products.count % 25 == 0
                 
                 if self.isFromDynamicLink {
-                    if let algoliaObj = responseObject["hits"] as? [NSDictionary] {
-                        for productDict in algoliaObj {
-                            if let brandDict = productDict["brand"] as? NSDictionary {
-                                if let imageURL =  brandDict["image_url"] as? String {
-                                    self.brand.imageURL = imageURL
-                                    self.brand.name = brandDict["name"] as! String
-                                    self.brand.nameEn = brandDict["slug"] as! String
-                                    DispatchQueue.main.async {
-                                        self.setPushWooshBrandTag(self.brand.name)
-                                        self.addCustomTitleViewWithTitle(self.brand.name)
-                                    }
-                                }
-                            }
-                        }
+                    // if let algoliaObj = responseObject["hits"] as? [NSDictionary] {
+                    // for productDict in algoliaObj {
+                    // if let brandDict = productDict["brand"] as? NSDictionary {
+                    // if let imageURL =  brandDict["image_url"] as? String {
+                    // self.brand.imageURL = imageURL
+                    // self.brand.name = brandDict["name"] as! String
+                    // self.brand.nameEn = brandDict["slug"] as! String
+                    // DispatchQueue.main.async {
+                    // self.setPushWooshBrandTag(self.brand.name)
+                    // self.addCustomTitleViewWithTitle(self.brand.name)
+                    // }
+                    // }
+                    // }
+                    // }
+                    // }
+                    
+                    self.brand.imageURL = newProduct.products.first?.brandImageUrl ?? ""
+                    self.brand.name = newProduct.products.first?.brandName ?? ""
+                    self.brand.nameEn = newProduct.products.first?.brandNameEn ?? ""
+                    DispatchQueue.main.async {
+                        self.setPushWooshBrandTag(self.brand.name)
+                        self.addCustomTitleViewWithTitle(self.brand.name)
                     }
                 }
                elDebugPrint("Products Array Count:%@",self.products.count)
@@ -401,54 +420,54 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     
     // MARK: Data
     
-    func saveResponseData(_ responseObject:NSDictionary) {
-        
-        if let dataDict = responseObject["data"] as? [NSDictionary] {
-            
-            self.isMoreProducts = false
-            
-            Thread.OnMainThread {
-                let context = DatabaseHelper.sharedInstance.groceryManagedObjectContext
-                let newProduct = Product.insertOrReplaceAllProductsFromDictionary(responseObject, context:context)
-                self.products += newProduct.products
-                self.isMoreProducts =  self.products.count % 25 == 0
-            }
-         
-            if self.isFromDynamicLink {
-               // if let productDict = dataDict["products"] as? NSDictionary {
-                    if let responseObjects = dataDict as? [NSDictionary] {
-                        for responseDict in responseObjects {
-                            if let brandDict = responseDict["brand"] as? NSDictionary {
-                                if let imageURL =  brandDict["image_url"] as? String {
-                                    self.brand.imageURL = imageURL
-                                    self.brand.name = brandDict["name"] as! String
-                                    self.brand.nameEn = brandDict["slug"] as! String
-                                    DispatchQueue.main.async {
-                                        self.setPushWooshBrandTag(self.brand.name)
-                                        self.addCustomTitleViewWithTitle(self.brand.name)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                //}
-            }
-            
-           
-            DispatchQueue.main.async {
-                self.refreshData()
-                self.isGettingProducts = false
-                if self.products.count == 0 && self.isFromDynamicLink {
-                    self.navigationController?.popViewController(animated: false)
-                }
-                SpinnerView.hideSpinnerView()
-            }
-            
-        }else{
-            self.isMoreProducts =  false
-        }
-
-    }
+//    func saveResponseData(_ responseObject:NSDictionary) {
+//
+//        if let dataDict = responseObject["data"] as? [NSDictionary] {
+//
+//            self.isMoreProducts = false
+//
+//            Thread.OnMainThread {
+//                let context = DatabaseHelper.sharedInstance.groceryManagedObjectContext
+//                let newProduct = Product.insertOrReplaceAllProductsFromDictionary(responseObject, context:context)
+//                self.products += newProduct.products
+//                self.isMoreProducts =  self.products.count % 25 == 0
+//            }
+//
+//            if self.isFromDynamicLink {
+//               // if let productDict = dataDict["products"] as? NSDictionary {
+//                    if let responseObjects = dataDict as? [NSDictionary] {
+//                        for responseDict in responseObjects {
+//                            if let brandDict = responseDict["brand"] as? NSDictionary {
+//                                if let imageURL =  brandDict["image_url"] as? String {
+//                                    self.brand.imageURL = imageURL
+//                                    self.brand.name = brandDict["name"] as! String
+//                                    self.brand.nameEn = brandDict["slug"] as! String
+//                                    DispatchQueue.main.async {
+//                                        self.setPushWooshBrandTag(self.brand.name)
+//                                        self.addCustomTitleViewWithTitle(self.brand.name)
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                //}
+//            }
+//
+//
+//            DispatchQueue.main.async {
+//                self.refreshData()
+//                self.isGettingProducts = false
+//                if self.products.count == 0 && self.isFromDynamicLink {
+//                    self.navigationController?.popViewController(animated: false)
+//                }
+//                SpinnerView.hideSpinnerView()
+//            }
+//
+//        }else{
+//            self.isMoreProducts =  false
+//        }
+//
+//    }
     
   
     
@@ -990,7 +1009,7 @@ extension BrandDetailsViewController {
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_1.getType()
         let clearGroceryId = ElGrocerUtility.sharedInstance.cleanGroceryID(groceryId)
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [clearGroceryId], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil , brand_id: brandId , search_input: nil) { (result) in
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [clearGroceryId], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil , brand_id: brandId , search_input: nil) { (result) in
             switch (result) {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: clearGroceryId)
@@ -1002,9 +1021,8 @@ extension BrandDetailsViewController {
         
     }
     
-    func saveBannersResponseData(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String) {
+    func saveBannersResponseData(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String) {
         if (self.grocery?.dbID == gorceryId) {
-            let banners = BannerCampaign.getBannersFromResponse(responseObject)
             self.bannerCampaign = banners
             self.collectionView.reloadData()
         }

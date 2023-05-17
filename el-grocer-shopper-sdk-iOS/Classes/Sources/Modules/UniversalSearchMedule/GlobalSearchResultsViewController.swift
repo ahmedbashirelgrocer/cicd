@@ -384,6 +384,11 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
                 
                 cell.bannerList.bannerCampaignClicked =  { [weak self] (banner) in
                     guard let self = self  else {   return   }
+                    
+                    if let bidid = banner.resolvedBidId {
+                        TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+                    }
+                    
                     if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                         ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
                     }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {

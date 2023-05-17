@@ -24,6 +24,8 @@ class GenericBannersCell: RxUITableViewCell {
     }
     @IBOutlet var topX: NSLayoutConstraint!
     
+    var impressionsLogged: [String: Bool] = [:]
+    
     var isNeedToScroll : Bool = true
     
     private var banners: [BannerCampaign] = []
@@ -37,6 +39,21 @@ class GenericBannersCell: RxUITableViewCell {
         bannerList.currentPage = { [weak self] (page , collectionView ) in
             guard let self = self else {return}
             self.pageControl.currentPage = page
+            
+            guard page < self.banners.count else {
+                print("Fatal Error: Index out of range error, handled")
+                return
+            }
+            
+            if let bidID = self.banners[page].resolvedBidId, self.impressionsLogged[bidID] != true {
+                self.impressionsLogged[bidID] = true
+                TopsortManager.shared.log(.impressions(resolvedBidId: bidID)) { isSuccess in
+                    if !isSuccess {
+                        self.impressionsLogged[bidID] = false
+                    }
+                }
+            }
+
         }
         
         bannerList.isCurrentScrolling = { [weak self] (isCurrentScrolling) in

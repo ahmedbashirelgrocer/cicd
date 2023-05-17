@@ -198,7 +198,7 @@ class HomePageData  {
             item.cancel()
         }
         self.storeListWorkItem = DispatchWorkItem {
-            self.dataSource?.getGenericBanners(for: self.groceryA ?? [])
+            self.dataSource?.getGenericBanners(for: self.groceryA ?? [], and: self.storeTypeA ?? [])
         }
         DispatchQueue.global(qos: .userInitiated).async(execute: self.storeListWorkItem!)
         

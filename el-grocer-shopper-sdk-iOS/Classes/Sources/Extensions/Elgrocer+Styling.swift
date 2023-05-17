@@ -35,6 +35,10 @@ extension UITextField {
 
 
 extension UILabel {
+    func setCaptionTwoRegDarkGreenStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(11)
+        self.textColor = UIColor.replacementGreenTextColor()
+    }
     
     func setProductCountWhiteStyle(){
         self.font = UIFont.SFProDisplayNormalFont(10)
@@ -416,7 +420,11 @@ extension UILabel {
 
 extension UIButton {
     
-   
+    func setBody3SemiBoldGreenStyle(){
+        self.titleLabel?.setBody3SemiBoldWhiteStyle()
+        self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(14)
+        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+    }
     
     func setCornerRadiusStyle() {
         self.layer.cornerRadius = self.frame.size.height / 2

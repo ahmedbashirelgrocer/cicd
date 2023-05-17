@@ -1032,7 +1032,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_1.getType()
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
             switch result {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId)
@@ -1042,12 +1042,10 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
        
     }
    
-    func saveBannersResponseData(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String) {
+    func saveBannersResponseData(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String) {
         
         if (self.grocery?.dbID == gorceryId){
-            
-            let banners = BannerCampaign.getBannersFromResponse(responseObject)
-            let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners , withType:HomeType.Banner,  andWithResponse: nil)
+            let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners , withType:HomeType.Banner,  products: [])
             self.bannerFeeds.append(homeFeed)
             self.bannerFeeds.removeAll()
             self.increamentIndexPathRow = 0

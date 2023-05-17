@@ -575,17 +575,19 @@ extension BrandDeepLinksVC: UICollectionViewDelegate, UICollectionViewDataSource
         
         let cell = configureCellForUniversalSearchedProducts(indexPath)
         if self.grocery == nil{
-            cell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: UIControl.State())
+            // cell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: UIControl.State())
+            cell.shopInStoreButton.isHidden = false
             cell.limitedStockBGView.isHidden = true
         }else{
-            cell.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
+            cell.shopInStoreButton.isHidden = true
+            // cell.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
         }
         
-        cell.addToCartButton.isUserInteractionEnabled = true
-        cell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-        cell.addToCartButton.isEnabled = true
-        cell.addToCartButton.setBody3BoldWhiteStyle()
-        cell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+//        cell.addToCartButton.isUserInteractionEnabled = true
+//        cell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+//        cell.addToCartButton.isEnabled = true
+//        cell.addToCartButton.setBody3BoldWhiteStyle()
+//        cell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
         
         return cell
     }
