@@ -43,8 +43,8 @@ extension HomeCellDelegate {
 private extension HomeCell {
     func bindViews() {
         
-        // shown this label only in case of Global Search
-        self.lblGrocerySlot.isHidden = true
+        // shown this view only in case of Global Search
+        self.stackViewDeliverySlot.isHidden = true
         self.viewBG.backgroundColor = .clear
         
         self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
@@ -155,7 +155,8 @@ class HomeCell: RxUITableViewCell {
         }
     }
     @IBOutlet weak var viewBG: UIView!
-    
+    @IBOutlet weak var ivDeliverySlotIcon: UIImageView!
+    @IBOutlet weak var stackViewDeliverySlot: UIStackView!
     
     var placeholderPhoto = UIImage(name: "product_placeholder")!
     
@@ -243,7 +244,7 @@ class HomeCell: RxUITableViewCell {
             self.grocery = grocery
             self.homeFeed = homeFeedObj
             self.titleLbl.text = homeFeedObj.title
-            self.lblGrocerySlot.text = "Slot will be here"
+            self.setDeliverySlotText(grocery: self.grocery)
             self.titleLbl.backgroundColor = UIColor.clear
             
             let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
@@ -263,7 +264,7 @@ class HomeCell: RxUITableViewCell {
                  self.viewMoreButton.isHidden = false
                 rightArrowImageView.isHidden = false
                  self.isNeedToShowRecipe = isNeedToShowRecipe
-                self.lblGrocerySlot.isHidden = true
+                self.stackViewDeliverySlot.isHidden = true
                 self.viewBG.backgroundColor = .clear
             } else if self.homeFeed?.type == .universalSearchProducts {
                 self.cellTopSpace.constant = 0
@@ -272,7 +273,7 @@ class HomeCell: RxUITableViewCell {
                 self.viewMoreButton.isHidden = true
                 self.rightArrowImageView.isHidden = false
                 self.isNeedToShowRecipe = isNeedToShowRecipe
-                self.lblGrocerySlot.isHidden = false
+                self.stackViewDeliverySlot.isHidden = false
                 self.viewBG.backgroundColor = .white
             } else{
                 self.topDistanceOfTitle.constant = 0
@@ -282,7 +283,7 @@ class HomeCell: RxUITableViewCell {
                 self.viewMoreButton.setTitle( (homeFeedObj.type == HomeType.universalSearchProducts ) ? localizedString("lbl_goToStore", comment: "").uppercased() : localizedString("view_more_title", comment: ""), for: UIControl.State())
                 self.viewMoreButton.isHidden = false
                 rightArrowImageView.isHidden = false
-                self.lblGrocerySlot.isHidden = true
+                self.stackViewDeliverySlot.isHidden = true
                 self.viewBG.backgroundColor = .clear
                 homeFeedObj.products.sort { (productOne, productTwo) -> Bool in
                     return productOne.isAvailable > productTwo.isAvailable
@@ -297,7 +298,7 @@ class HomeCell: RxUITableViewCell {
             self.titleLbl.backgroundColor = UIColor.borderGrayColor()
             self.titleShimmerView.contentView = self.titleLbl
             self.titleShimmerView.isShimmering = true
-            self.lblGrocerySlot.isHidden = true
+            self.stackViewDeliverySlot.isHidden = true
             self.viewBG.backgroundColor = .clear
         }
         
@@ -325,6 +326,46 @@ class HomeCell: RxUITableViewCell {
         
     }
     
+    func setDeliverySlotText(grocery: Grocery?) {
+        guard let grocery = grocery else { return }
+        
+        if grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule()) {
+            self.updateDeliverySlot(grocery.genericSlot ?? "", isInstant: true)
+            return
+        }
+        
+        if let jsonSlot = grocery.initialDeliverySlotData, let dict = grocery.convertToDictionary(text: jsonSlot) {
+            let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionarySpecialityMarket(dict, isDeliveryMode: grocery.isDelivery.boolValue)
+            self.updateDeliverySlot(slotString, isInstant: false)
+            return
+        }
+        
+        self.updateDeliverySlot(grocery.genericSlot ?? "", isInstant: false)
+    }
+    
+    func updateDeliverySlot(_ data : String, isInstant: Bool) {
+        let dataA = data.components(separatedBy: CharacterSet.newlines)
+        var attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 11) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor ]
+        
+        self.ivDeliverySlotIcon.image = isInstant ? UIImage(named: "instatntDeliveryBolt", in: .resource, compatibleWith: nil) : UIImage(named: "ClockIcon", in: .resource, compatibleWith: nil)
+        
+        if dataA.count == 1 {
+            if self.lblGrocerySlot.text?.count ?? 0 > 13 {
+                attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 9) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor ]
+                self.lblGrocerySlot.attributedText = NSMutableAttributedString(string: dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
+                return
+            }
+        }
+        let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor]
+        
+        let attributedString1 = NSMutableAttributedString(string:dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
+        let timeText = dataA.count > 1 ? dataA[1] : ""
+        let attributedString2 = NSMutableAttributedString(string:" \(timeText)", attributes:attrs2 as [NSAttributedString.Key : Any])
+        
+        attributedString1.append(attributedString2)
+        
+        self.lblGrocerySlot.attributedText = attributedString1
+    }
     
     func setImageData (homeFeed: Home) {
 
