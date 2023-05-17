@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,8 +18,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YVU-od-xuV">
                     <rect key="frame" x="0.0" y="30" width="414" height="60"/>
                     <subviews>
-                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeSmileEllipse" translatesAutoresizingMaskIntoConstraints="NO" id="pmk-5p-Tjk">
-                            <rect key="frame" x="0.0" y="-57" width="414" height="103"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pmk-5p-Tjk">
+                            <rect key="frame" x="0.0" y="-70" width="414" height="103"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="103" id="UfB-Df-iuu"/>
                             </constraints>
@@ -58,7 +58,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="pmk-5p-Tjk" firstAttribute="top" secondItem="YVU-od-xuV" secondAttribute="top" constant="-57" id="Mx0-dB-CvN"/>
+                        <constraint firstItem="pmk-5p-Tjk" firstAttribute="top" secondItem="YVU-od-xuV" secondAttribute="top" constant="-70" id="Mx0-dB-CvN"/>
                         <constraint firstAttribute="trailing" secondItem="pmk-5p-Tjk" secondAttribute="trailing" id="TQ5-v8-pSh"/>
                         <constraint firstAttribute="trailing" secondItem="Ipg-je-HqL" secondAttribute="trailing" constant="16" id="Vbm-sr-0XA"/>
                         <constraint firstAttribute="trailing" secondItem="8Kv-mQ-tb6" secondAttribute="trailing" id="WHs-qg-MWL"/>
@@ -107,7 +107,6 @@
         </view>
     </objects>
     <resources>
-        <image name="HomeSmileEllipse" width="375" height="166"/>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

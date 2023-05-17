@@ -260,7 +260,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     //MARK: Appearance
     
     func setGreenBackground() {
-        let color = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+        let color = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.backgroundColor = color
         self.barTintColor = color
         self.isTranslucent = false
@@ -591,10 +591,10 @@ class ElGrocerNavigationBar : UINavigationBar {
     func changeBackButtonImage(_ isWhite: Bool = false) {
         
         if let back = self.backButton{
-            if back.isHidden == false{
+            if back.isHidden == false {
                 var image = UIImage(name: "BackGreen")!
                 if isWhite{
-                    image = UIImage(name: "BackWhite")!
+                    image = UIImage(name: "backPinPurple")!
                 }
                 back.setImage(image, for: UIControl.State())
                 self.backButton = back

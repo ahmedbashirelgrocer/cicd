@@ -1,29 +1,29 @@
 PODS:
-  - Adyen (4.7.3):
-    - Adyen/Actions (= 4.7.3)
-    - Adyen/Card (= 4.7.3)
-    - Adyen/Components (= 4.7.3)
-    - Adyen/Core (= 4.7.3)
-    - Adyen/DropIn (= 4.7.3)
-    - Adyen/Encryption (= 4.7.3)
-  - Adyen/Actions (4.7.3):
+  - Adyen (4.10.2):
+    - Adyen/Actions (= 4.10.2)
+    - Adyen/Card (= 4.10.2)
+    - Adyen/Components (= 4.10.2)
+    - Adyen/Core (= 4.10.2)
+    - Adyen/DropIn (= 4.10.2)
+    - Adyen/Encryption (= 4.10.2)
+  - Adyen/Actions (4.10.2):
     - Adyen/Core
     - Adyen3DS2 (= 2.2.6)
-  - Adyen/Card (4.7.3):
+  - Adyen/Card (4.10.2):
     - Adyen/Core
     - Adyen/Encryption
-  - Adyen/Components (4.7.3):
+  - Adyen/Components (4.10.2):
     - Adyen/Core
     - Adyen/Encryption
-  - Adyen/Core (4.7.3):
+  - Adyen/Core (4.10.2):
     - AdyenNetworking (= 1.0.0)
-  - Adyen/DropIn (4.7.3):
+  - Adyen/DropIn (4.10.2):
     - Adyen/Actions
     - Adyen/Card
     - Adyen/Components
     - Adyen/Core
     - Adyen/Encryption
-  - Adyen/Encryption (4.7.3)
+  - Adyen/Encryption (4.10.2)
   - Adyen3DS2 (2.2.6)
   - AdyenNetworking (1.0.0)
   - AlgoliaSearchClient (8.14.0):
@@ -39,8 +39,8 @@ PODS:
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.4.96):
-    - Adyen (~> 4.7.3)
+  - el-grocer-shopper-sdk-iOS (1.4.98.6):
+    - Adyen (~> 4.10.0)
     - AlgoliaSearchClient (~> 8.0)
     - Analytics
     - AnimatedGradientView (~> 3.1.0)
@@ -426,7 +426,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Adyen: 0c6a07071c872876641790f3a8bc77a2c735506a
+  Adyen: f9c5b1172b3a2ef6aee882a5a454d56a40c921a6
   Adyen3DS2: e683a519946e99a78adec8d89459e6eec53b0a4f
   AdyenNetworking: 14567bd00c00ba2e2580a904708c7ba5f010b1f9
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
@@ -440,7 +440,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 60c7ab42a40fa6dd15db83202cf8abad093f0f22
+  el-grocer-shopper-sdk-iOS: c88518c347cbbb0544ad8f298a7b197f7ea3fc33
   FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
@@ -501,6 +501,6 @@ SPEC CHECKSUMS:
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
   SwiftSpinner: f9b59477fe107427f2b5b835497d6636fa167ede
 
-PODFILE CHECKSUM: 40de5093fcafea86c8c9c4771fab885c94d4fb83
+PODFILE CHECKSUM: 4d66152ace12747bc001125a10ef01acab3815ab
 
 COCOAPODS: 1.11.3

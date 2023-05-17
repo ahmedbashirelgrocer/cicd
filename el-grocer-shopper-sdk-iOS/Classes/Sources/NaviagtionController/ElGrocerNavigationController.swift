@@ -40,7 +40,7 @@ class ElGrocerNavigationController : UINavigationController {
     }()
     func setupGradient() {
         
-        let height : CGFloat = KElgrocerlocationViewFullHeight // Height of the nav bar
+      /*  let height : CGFloat = KElgrocerlocationViewFullHeight // Height of the nav bar
         let color = UIColor.smileBaseColor().cgColor
         let clear = UIColor.smileSecondaryColor().cgColor
         gradient = setupGradient(height: height, topColor: color,bottomColor: clear)
@@ -51,7 +51,7 @@ class ElGrocerNavigationController : UINavigationController {
             gradientView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
         gradientView.layer.insertSublayer(gradient!, at: 0)
-
+    */
     }
  
     override func viewDidLoad() {

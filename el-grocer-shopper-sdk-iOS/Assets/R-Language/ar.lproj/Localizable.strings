@@ -1957,6 +1957,7 @@
 "lbl_collectionNear" = "أين تريد أن تتسلم البقالة؟";
 //MARK: home search header
 "search_placeholder_home" = "أبحث عن المنتجات والمتاجر والوصفات ...";
+"search_placeholder_home_Smiles" = "أبحث عن المنتجات والمتاجر والوصفات ...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "أبحث عن المنتجات والمتاجر ...";
 "search_placeholder_view_allstore_categories" = "أبحث عن المنتجات...";
@@ -2203,3 +2204,7 @@
 "Enter your building name" = "الرجاء إدخال اسم المبني";
 "Enter your apartment/office/villa number" = "الرجاء إدخال رقم الشقه/ المكتب/الفيلا";
 "search_manually_text" = "Search your location manually";
+
+
+// Smiles SDK Home
+"lbl_AvailableStores_Smiles_Home" = "المتاجر المتاحة (%@)";

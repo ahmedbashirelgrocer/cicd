@@ -53,10 +53,10 @@ extension UIViewController {
         if isGreen{
            image = ElGrocerUtility.sharedInstance.getImageWithName("BackGreen")
         }else{
-           image = ElGrocerUtility.sharedInstance.getImageWithName("BackWhite")
+           image = ElGrocerUtility.sharedInstance.getImageWithName("backPinPurple")
         }
         let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
-        backButton.tintColor = isGreen ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : UIColor.white
+        backButton.tintColor = isGreen ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.secondaryBlackColor
         self.navigationItem.leftBarButtonItem = backButton
     }
     

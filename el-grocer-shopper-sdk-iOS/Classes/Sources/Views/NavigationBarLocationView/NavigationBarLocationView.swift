@@ -12,18 +12,19 @@ class NavigationBarLocationView: UIView {
 
     @IBOutlet var imgLocationPin: UIImageView!{
         didSet{
-            imgLocationPin.image = UIImage(name: "yellowLocationPin")
+            imgLocationPin.image = SDKManager.isSmileSDK ? UIImage(name: "blackLocationPin") : UIImage(name: "yellowLocationPin")
         }
     }
     @IBOutlet var imgArrowDown: UIImageView!{
         didSet{
-            imgArrowDown.image = UIImage(name: "yellowArrowDown")
+            imgArrowDown.image = SDKManager.isSmileSDK ? UIImage(name: "blackArrowDown") : UIImage(name: "yellowArrowDown")
         }
     }
     @IBOutlet var lblLocation: UILabel!{
         didSet{
             lblLocation.setBody3BoldUpperYellowStyle()
-            lblLocation.text = "Dubai, JLT, Cluser... "
+            lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor
+            lblLocation.text = "... "
             lblLocation.textAlignment = .natural
         }
     }

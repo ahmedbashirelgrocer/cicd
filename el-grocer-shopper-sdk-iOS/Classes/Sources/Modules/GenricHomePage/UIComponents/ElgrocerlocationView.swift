@@ -58,6 +58,9 @@ class ElgrocerlocationView:  UIView  {
            
             self.myGroceryName.autoresizingMask = .flexibleHeight
             self.myGroceryName.setH4SemiBoldWhiteStyle()
+            if SDKManager.isSmileSDK {
+                self.myGroceryName.textColor = ApplicationTheme.currentTheme.secondaryBlackColor
+            }
             if let lng = UserDefaults.getCurrentLanguage(){
                 if lng == "ar"{
                     myGroceryName.textAlignment = .right
@@ -73,12 +76,18 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var lblSlot: UILabel!{
         didSet{
             lblSlot.setSubHead1SemiboldWhiteStyle()
+            if SDKManager.isSmileSDK {
+                self.lblSlot.textColor = ApplicationTheme.currentTheme.secondaryBlackColor
+            }
         }
     }
     
     @IBOutlet var lblAddress: UILabel! {
         didSet{
             lblAddress.setBody3BoldUpperStyle(false)
+            if SDKManager.isSmileSDK {
+                self.lblAddress.textColor = ApplicationTheme.currentTheme.secondaryBlackColor
+            }
             if let lng = UserDefaults.getCurrentLanguage(){
                 if lng == "ar"{
                     lblAddress.textAlignment = .right
@@ -93,7 +102,7 @@ class ElgrocerlocationView:  UIView  {
     
     @IBOutlet var bGView: UIView!{
         didSet {
-            bGView.backgroundColor = .clear
+            bGView.backgroundColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .clear
         }
     }
     @IBOutlet var groceryBGView: UIView!{
@@ -197,7 +206,7 @@ class ElgrocerlocationView:  UIView  {
         hideSlotImage()
     }
     
-    func setInitialUI(isExpanded: Bool = true){
+    func setInitialUI(isExpanded: Bool = true) {
         self.txtSearchBar.delegate = self
         if isExpanded{
             self.searchSuperBGView.visibility = .visible
@@ -209,7 +218,9 @@ class ElgrocerlocationView:  UIView  {
             self.groceryBGView.visibility = .gone
         }
         
-        self.layer.insertSublayer(self.setupGradient(height: self.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+//        if !SDKManager.isSmileSDK {
+//            self.layer.insertSublayer(self.setupGradient(height: self.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+//        }
         
     }
     
@@ -382,8 +393,8 @@ class ElgrocerlocationView:  UIView  {
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : UIColor.navigationBarWhiteColor()]
                 let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                 
                 var data = slotString.components(separatedBy: " ")

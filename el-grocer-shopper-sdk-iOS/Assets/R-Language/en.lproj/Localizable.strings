@@ -1926,6 +1926,7 @@ Oreo";
 "lbl_collectionNear" = "Where would you like to collect groceries?";
 //MARK: home search header
 "search_placeholder_home" = "Search items, stores, recipes...";
+"search_placeholder_home_Smiles" = "Search items, stores...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "Search items or stores...";
 "search_placeholder_view_allstore_categories" = "Search items or stores...";
@@ -2165,3 +2166,6 @@ Oreo";
 "Enter your building name" = "Enter your building name";
 "Enter your apartment/office/villa number" = "Enter your apartment/office/villa number";
 "search_manually_text" = "Search your location manually";
+
+// Smiles SDK Home
+"lbl_AvailableStores_Smiles_Home" = "Available stores (%@)";

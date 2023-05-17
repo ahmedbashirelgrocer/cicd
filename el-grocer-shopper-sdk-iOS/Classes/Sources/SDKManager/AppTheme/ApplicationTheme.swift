@@ -225,7 +225,7 @@ struct SmileSDKTheme: Theme {
     var navigationBarWhiteColor: UIColor { #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) }
     var replacementGreenBGColor: UIColor { #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1) }
     var replacementGreenTextColor: UIColor { #colorLiteral(red: 0, green: 0.2784313725, blue: 0.2117647059, alpha: 1) }
-    var navigationBarColor: UIColor { #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1)  }
+    var navigationBarColor: UIColor { #colorLiteral(red: 0.937254902, green: 0.9411764706, blue: 0.9764705882, alpha: 1)  }
     var unselectedPageControl: UIColor {  #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1) }
     var buttonSelectionColor: UIColor { #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1) }
     var secondaryDarkGreenColor: UIColor { #colorLiteral(red: 0, green: 0.2784313725, blue: 0.2117647059, alpha: 1)  }
