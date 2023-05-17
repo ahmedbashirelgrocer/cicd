@@ -18,8 +18,8 @@ enum ElgrocerStoreHeaderDismissType {
 
 class ElgrocerStoreHeader:  UIView  {
     
-    let headerMaxHeight: CGFloat = 104
-    let headerMinHeight: CGFloat = 88
+    let headerMaxHeight: CGFloat = 110
+    let headerMinHeight: CGFloat = 92
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
     
@@ -42,11 +42,15 @@ class ElgrocerStoreHeader:  UIView  {
         }
     }
     
+    
     @IBOutlet var bGView: UIView! { didSet {
-        bGView.layer.insertSublayer(setupGradient(height: bGView.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+        bGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+      //  bGView.layer.insertSublayer(setupGradient(height: bGView.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
     }}
     
     @IBOutlet var groceryBGView: UIView!
+    
+ 
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
         self.btnMenu.setTitle("", for: .normal)
@@ -65,6 +69,8 @@ class ElgrocerStoreHeader:  UIView  {
     
     @IBOutlet weak var btnHelp: UIButton! {
         didSet {
+            var chatImage = UIImage(name: "icon_help_Purple")!
+            btnHelp.setImage(chatImage, for: .normal)
             btnHelp.setTitle("", for: .normal)
             btnHelp.addTarget(self, action: #selector(btnHelpHandler), for: .touchUpInside)
         }
@@ -72,12 +78,15 @@ class ElgrocerStoreHeader:  UIView  {
     
     @IBOutlet weak var iconLocation: UIImageView! { didSet {
         iconLocation.image = iconLocation.image?.withRenderingMode(.alwaysTemplate)
+        iconLocation.tintColor = ApplicationTheme.currentTheme.secondaryBlackColor
     } }
     
     
     @IBOutlet weak var lblLocation: UILabel! {
         didSet{
             lblLocation.setYellowSemiBoldStyle()
+            lblLocation.textColor = ApplicationTheme.currentTheme.secondaryBlackColor
+            
         }
     }
     @IBOutlet weak var lblSlots: UILabel!

@@ -329,6 +329,29 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
     }
     
+    func setlightBackgroundWithPurpleTitle() {
+        
+        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.barTintColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.isTranslucent = false
+        
+        if #available(iOS 13.0, *) {
+            let barAppearance = UINavigationBarAppearance()
+            barAppearance.configureWithDefaultBackground()
+            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            barAppearance.shadowColor = .clear
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
+        
+            
+            self.standardAppearance = barAppearance
+            self.scrollEdgeAppearance = barAppearance
+
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
     
     func setNewLightBackground() {
         

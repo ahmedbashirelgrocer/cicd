@@ -13,11 +13,14 @@ let kRedDotImageViewTag = 123
 
 extension UIViewController {
     
-    func addRightCrossButton(_ isWhite: Bool = false) {
+    func addRightCrossButton(_ isWhite: Bool = false, _ isPurple: Bool = false) {
         
         var image: UIImage! = UIImage(name: "cross")
-        if isWhite && !SDKManager.isSmileSDK{
+        if isWhite{
             image =  UIImage(name: "crossWhite")
+        }
+        if isPurple {
+            image = UIImage(name: "cross_Purple")
         }
         let menuButton:UIButton = UIButton(type: UIButton.ButtonType.custom)
         

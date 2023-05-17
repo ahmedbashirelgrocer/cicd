@@ -22,7 +22,13 @@ class CategoriesCell: RxUITableViewCell {
         }
     }
     @IBOutlet weak var ivArrow: UIImageView!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView! {
+        didSet {
+            if SDKManager.isGrocerySingleStore {
+                collectionView.backgroundColor = .white
+            }
+        }
+    }
     
     private var viewModel: CategoriesCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!

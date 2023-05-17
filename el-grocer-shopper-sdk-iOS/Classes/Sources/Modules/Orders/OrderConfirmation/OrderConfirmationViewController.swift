@@ -22,7 +22,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     private var analyticsEventLogger: AnalyticsEngineType!
     private var disposeBag = DisposeBag()
     
-
+    @IBOutlet weak var bgView: UIView!
+    
     @IBOutlet var lottieAnimation: UIView!
     @IBOutlet weak var lblNewOrderSuccessMsg: UILabel! {
         didSet {
@@ -86,8 +87,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     override func viewDidLoad() {
         super.viewDidLoad()
      
-        self.title =  localizedString("order_confirmation_title", comment: "")
+        self.title =  localizedString("order_status", comment: "")
         self.navigationItem.hidesBackButton = true
+        self.tableview?.isHidden = true
+        self.bgView?.isHidden = true
         self.bindViews()
         self.setNavigationAppearance()
         self.checkForPushNotificationRegisteration()
@@ -136,10 +139,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setLightThemeWithPurpleTitleColorBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-       
+        (self.navigationController as? ElGrocerNavigationController)?.addRightCrossButton(false, true)
+        
         if let nav = (self.navigationController as? ElGrocerNavigationController) {
             if let bar = nav.navigationBar as? ElGrocerNavigationBar {
                 bar.chatButton.chatClick = {
@@ -167,6 +171,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             loading
             ? _ = SpinnerView.showSpinnerViewInView(self.view)
             : SpinnerView.hideSpinnerView()
+            self.bgView.isHidden = loading
+            
         }).disposed(by: disposeBag)
         self.viewModel.outputs.isNewOrder.subscribe(onNext: { [weak self] isNeedOrder in
             guard let self = self else { return }
@@ -232,6 +238,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             if let banners = banners {
                 self.viewBanner.banners = banners
             }
+            self.viewBanner.isHidden = banners == nil || banners?.count ?? 0 == 0
         }).disposed(by: disposeBag)
         
         self.viewModel.outputs.orderStatus.subscribe(onNext: {  [weak self] status in
@@ -647,6 +654,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         backButtonClick()
     }
     
+    override func rightBackButtonClicked() {
+        backButtonClick()
+    }
     
     override func backButtonClick() {
         
@@ -685,7 +695,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.addBackButtonWithCrossIconLeftSide(.white)
+        self.addBackButtonWithCrossIconRightSide(ApplicationTheme.currentTheme.themeBasePrimaryColor)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

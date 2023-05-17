@@ -260,7 +260,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="USM-Ap-X4o" firstAttribute="leading" secondItem="fye-hb-XJH" secondAttribute="leading" id="1SK-gE-UMi"/>
                             <constraint firstItem="KR9-jv-ulx" firstAttribute="top" secondItem="aM5-is-8rM" secondAttribute="bottom" id="ADr-29-mbT"/>
@@ -682,7 +682,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="hjl-mx-Aji" secondAttribute="bottom" id="Zfb-Db-Gho"/>
                             <constraint firstItem="hjl-mx-Aji" firstAttribute="top" secondItem="czP-gI-yKS" secondAttribute="top" priority="999" id="hah-8X-4yK"/>
@@ -722,7 +722,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="pFK-cR-j6o" firstAttribute="leading" secondItem="ZfJ-Y4-F9G" secondAttribute="leading" id="73v-R6-bwb"/>
                             <constraint firstAttribute="trailing" secondItem="pFK-cR-j6o" secondAttribute="trailing" id="7to-iE-Xsa"/>
@@ -769,7 +769,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="dI9-vu-LCC" secondAttribute="trailing" id="Jnf-uU-xMH"/>
                             <constraint firstItem="dI9-vu-LCC" firstAttribute="leading" secondItem="9Mn-YR-5Bs" secondAttribute="leading" id="a6N-Kx-imB"/>
