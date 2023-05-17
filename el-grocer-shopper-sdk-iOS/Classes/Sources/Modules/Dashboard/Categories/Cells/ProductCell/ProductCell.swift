@@ -96,7 +96,7 @@ class ProductCell : RxUICollectionViewCell {
         addToCartButton.clipsToBounds = true
         addToCartButton.setTitle("＋", for: .normal)
         addToCartButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        addToCartButton.setBackgroundColor(.navigationBarColor(), forState: .normal)
+        addToCartButton.setBackgroundColor(.smilePrimaryPurpleColor(), forState: .normal)
     } }
     
     @IBOutlet weak var shopInStoreButton: UIButton! { didSet {

@@ -26,7 +26,7 @@ class GenricRecipeCell : CustomCollectionView {
     
     func setUpInitialApearance() {
         self.backgroundColor = .white
-        self.pageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
+        self.pageControl?.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
     }
     
     func registerCellsAndSetDelegateAndDataSource () {

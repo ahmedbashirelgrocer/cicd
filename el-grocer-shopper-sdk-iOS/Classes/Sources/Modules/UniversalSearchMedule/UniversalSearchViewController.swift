@@ -1037,9 +1037,11 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
-            self.showCollectionView(false)
         }
+        
+        self.showCollectionView(false)
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor
         if self.searchFor == .isForStoreSearch {
