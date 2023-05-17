@@ -398,7 +398,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                     
                                     productCell.plusButton.isEnabled = true
 //                                    productCell.plusButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                                    productCell.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                                    productCell.plusButton.imageView?.tintColor = UIColor.smilePrimaryPurpleColor()
 //                                    productCell.plusButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
                                     productCell.buttonsView.isHidden = false
 
