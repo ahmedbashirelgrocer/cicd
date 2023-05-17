@@ -28,7 +28,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setWhiteTitleColor()
+        setTitleColor()
         self.setWhiteBackground()
         self.addLogoView()
         self.addSearchBar()
@@ -49,7 +49,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         setWhiteBackground()
         addLogoView()
-        setWhiteTitleColor()
+        setTitleColor()
         addLocationBar()
         addBackButton()
         addChatButton()
@@ -269,8 +269,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.configureWithTransparentBackground()
             barAppearance.backgroundColor = color
             barAppearance.shadowColor = .clear
-            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
-            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor :  UIColor.navigationBarWhiteColor()]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : UIColor.navigationBarWhiteColor()]
 
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance
@@ -294,8 +294,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.configureWithDefaultBackground()
             barAppearance.backgroundColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
             barAppearance.shadowColor = .clear
-            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
-            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
         
             
             self.standardAppearance = barAppearance
@@ -319,8 +319,9 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.isTranslucent = false
     }
     
-    func setWhiteTitleColor() {
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor(),
+    func setTitleColor() {
+        
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : ApplicationTheme.currentTheme.viewWhiteBGColor,
                                                             NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(17.0)]
     }
     
@@ -333,6 +334,18 @@ class ElGrocerNavigationBar : UINavigationBar {
             self.titleTextAttributes = textAttributes
         }
     }
+    
+    func setSecondaryBlackTitleColor(){
+        let textAttributes = [NSAttributedString.Key.foregroundColor:ApplicationTheme.currentTheme.secondaryBlackColor]
+        if #available(iOS 13.0, *) {
+            self.standardAppearance.titleTextAttributes = textAttributes
+        } else {
+            // Fallback on earlier versions
+            self.titleTextAttributes = textAttributes
+        }
+    }
+    
+    
     
     func setBlackTitleColor() {
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor :UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1),

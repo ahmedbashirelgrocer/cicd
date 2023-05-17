@@ -1023,22 +1023,22 @@ extension AlgoliaApi {
         // promotional_shops.retailer_id={retailer_id} AND {slot_time} BETWEEN promotional_shops.start_time AND promotional_shops.end_time
         
         var facetFiltersA : [SingleOrList<String>] = []
-        let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-        facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
+      //  let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+      //  facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
         
         let facetFiltersForCurrentShopsID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
         facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentShopsID))
         
         
-        let currentTime =  Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
-        if slotTime > currentTime {
-            let facetFiltersForCategoryId : String = "\(slotTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
-            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
-        }else {
-            let facetFiltersForCategoryId : String = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
-            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
-        }
-        
+//        let currentTime =  Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
+//        if slotTime > currentTime {
+//            let facetFiltersForCategoryId : String = "\(slotTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+//            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+//        }else {
+//            let facetFiltersForCategoryId : String = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+//            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+//        }
+//
         
         
         

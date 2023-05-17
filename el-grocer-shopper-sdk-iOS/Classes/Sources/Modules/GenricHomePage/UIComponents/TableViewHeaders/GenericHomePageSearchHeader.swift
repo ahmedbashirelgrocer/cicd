@@ -16,7 +16,7 @@ class GenericHomePageSearchHeader: UIView {
         
         didSet {
             eclipceImgView.backgroundColor =   SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .navigationBarWhiteColor()
-            eclipceImgView.layer.cornerRadius = 20
+            //eclipceImgView.layer.cornerRadius = 20
         }
         
     }

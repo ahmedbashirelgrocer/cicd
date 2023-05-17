@@ -16,8 +16,8 @@ extension UIViewController {
     func addRightCrossButton(_ isWhite: Bool = false) {
         
         var image: UIImage! = UIImage(name: "cross")
-        if isWhite{
-           image = UIImage(name: "crossWhite")
+        if isWhite && !SDKManager.isSmileSDK{
+            image =  UIImage(name: "crossWhite")
         }
         let menuButton:UIButton = UIButton(type: UIButton.ButtonType.custom)
         

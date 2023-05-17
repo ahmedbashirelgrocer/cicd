@@ -594,7 +594,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                     
                     //, searchString: self.searchString
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(content! as NSDictionary , context: DatabaseHelper.sharedInstance.mainManagedObjectContext , searchString: self.searchString  )
-                    self.moreProductsAvailable = newProducts.products.count > 0
+                    self.moreProductsAvailable = newProducts.algoliaCount ?? newProducts.products.count > 0
                     
                     self.searchedProducts += newProducts.products
                     DatabaseHelper.sharedInstance.saveDatabase()

@@ -240,6 +240,11 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as! ElGrocerNavigationBar).setWhiteTitleTextColor()
     }
     
+    func setSecondaryBlackTitleColor() {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setSecondaryBlackTitleColor()
+    }
+    
     //MARK: location view
     func setLocationHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
@@ -252,10 +257,8 @@ class ElGrocerNavigationController : UINavigationController {
         }
     }
     
-    
     // MARK: SearchBar
 
-    
     func setSearchBarHidden(_ hidden:Bool) {
         
         guard self.navigationBar is ElGrocerNavigationBar else {return}

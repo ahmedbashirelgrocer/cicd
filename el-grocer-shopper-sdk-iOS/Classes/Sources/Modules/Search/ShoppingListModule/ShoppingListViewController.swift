@@ -33,7 +33,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
     @IBOutlet weak var shoppingListTableView: UITableView!{
         didSet{
             shoppingListTableView.bounces = false
-            shoppingListTableView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner], radius: 24, withShadow: false)
+            //shoppingListTableView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner], radius: 24, withShadow: false)
             shoppingListTableView.backgroundColor = .textfieldBackgroundColor()
             shoppingListTableView.clipsToBounds = true
         }
@@ -777,26 +777,28 @@ extension ShoppingListViewController : ShoopingListDataHandlerDelegate {
 extension ShoppingListViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollView.layoutIfNeeded()
         
-        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
-        if constraintA.count > 0 {
-            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-            let headerViewHeightConstraint = constraint
-            let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
-        }
         
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
-            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
-        }
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
-            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-            self.navigationController?.navigationBar.topItem?.title = title
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
-        }
+//        scrollView.layoutIfNeeded()
+//
+//        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+//        if constraintA.count > 0 {
+//            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+//            let headerViewHeightConstraint = constraint
+//            let maxHeight = self.locationHeader.headerMaxHeight
+//            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
+//        }
+//
+//        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+//            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+//        }
+//        UIView.animate(withDuration: 0.2) {
+//            self.view.layoutIfNeeded()
+//            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+//            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+//            self.navigationController?.navigationBar.topItem?.title = title
+//            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+//        }
         
     }
 }

@@ -112,7 +112,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var imgDeliverySlot: UIImageView!{
         didSet{
-            imgDeliverySlot.image = UIImage(name: "clockWhite")
+            imgDeliverySlot.image = SDKManager.isSmileSDK ? UIImage(name: "ClockSecondaryBlack") :  UIImage(name: "clockWhite")
         }
     }
     @IBOutlet var searchSuperBGView: UIView!{
@@ -190,7 +190,7 @@ class ElgrocerlocationView:  UIView  {
     
     @IBOutlet var slotdistanceFromClockIcon: NSLayoutConstraint!
     
-    let headerMaxHeight: CGFloat = 155
+    let headerMaxHeight: CGFloat = 105
     
     typealias tapped = (_ isShoppingTapped: Bool)-> Void
     var shoppingListTapped: tapped?
@@ -210,7 +210,7 @@ class ElgrocerlocationView:  UIView  {
         self.txtSearchBar.delegate = self
         if isExpanded{
             self.searchSuperBGView.visibility = .visible
-            self.shoppingListBGView.visibility = .visible
+            self.shoppingListBGView.visibility = .gone
             self.groceryBGView.visibility = .visible
         }else{
             self.searchSuperBGView.visibility = .visible
@@ -338,15 +338,15 @@ class ElgrocerlocationView:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                     
                     var data = slotString.components(separatedBy: " ")
@@ -386,7 +386,7 @@ class ElgrocerlocationView:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj

@@ -55,7 +55,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     
     @IBOutlet var progressCompletionBGView: UIView! {
         didSet {
-            progressCompletionBGView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24)
+           // progressCompletionBGView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24)
         }
     }
     @IBOutlet var lblCreatShoppingList: UILabel! {
@@ -896,6 +896,10 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             return
         }
         
+        if isNeedToHideSearchBar && !self.searchString.isEmpty {
+            return // mean coming from shopping list
+        }
+        
         scrollView.layoutIfNeeded()
         
         let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
@@ -903,7 +907,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
             let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
