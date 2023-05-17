@@ -134,7 +134,7 @@ private extension HomeCellViewModel {
             }
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
-                self.apiClient?.getTopSellingProductsOfGrocery(parameters) { result in
+                ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters) { result in
                     switch result {
                     case .success(let response):
                         self.handleAlgoliaSuccessResponse(response: response)
@@ -154,19 +154,19 @@ private extension HomeCellViewModel {
             let pageNumber = self.offset / self.limit
             
             guard category.id > 1 else {
-                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: 0, 10, Int64(deliveryTime)) { [weak self] content, error in
+                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: 0, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20, Int64(deliveryTime), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsStorePage ?? 3) { [weak self] content, error in
                     if let error = error {
                         //  print("handle error >>> \(error)")
                         return
                     }
-                    guard let response = content as? NSDictionary else { return }
+                    guard let response = content else { return }
                     self?.handleAlgoliaSuccessResponse(response: response)
                     
                 }
                 return
             }
             
-            AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: storeId, pageNumber: pageNumber, categoryId: String(category.id)) { [weak self] content, error in
+            ProductBrowser.shared.searchProductListForStoreCategory(storeID: storeId, pageNumber: pageNumber, categoryId: String(category.id), hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20, slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsStorePage ?? 3) { [weak self] content, error in
                 guard let self = self else { return }
                 
                 if let error = error {
@@ -174,7 +174,7 @@ private extension HomeCellViewModel {
                     return
                 }
                 
-                guard let response = content as? NSDictionary else { return }
+                guard let response = content else { return }
                 self.handleAlgoliaSuccessResponse(response: response)
             }
         }
@@ -182,8 +182,8 @@ private extension HomeCellViewModel {
         DispatchQueue.global(qos: .utility).async(execute: self.dispatchWorkItem!)
     }
     
-    func handleAlgoliaSuccessResponse(response: NSDictionary) {
-        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+    func handleAlgoliaSuccessResponse(response products: (products: [Product], algoliaCount: Int?)) {
+        // let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
 
         self.moreAvailable = (products.algoliaCount ?? products.products.count) >= self.limit
         let cellVMs = products.products.map { product -> ProductCellViewModel in

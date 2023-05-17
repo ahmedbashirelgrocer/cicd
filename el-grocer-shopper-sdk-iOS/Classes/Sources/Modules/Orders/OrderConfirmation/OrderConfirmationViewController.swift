@@ -722,18 +722,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.viewBanner.bannerType = BannerLocation.post_checkout
         let retailer_ids = SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
         
-        ElGrocerApi.sharedInstance.getBannersFor(location: location, retailer_ids: retailer_ids) { result in
+        ElGrocerApi.sharedInstance.getBanners(for: location, retailer_ids: retailer_ids) { result in
             switch result {
             case .success(let data):
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: data)
-                    let compaings: CampaignsResponse = try JSONDecoder().decode(CampaignsResponse.self, from: data)
-                    self.viewBanner.banners = compaings.data
-                } catch {
-                    //  print("error >>> \(error)")
-                }
-                break
-                
+                self.viewBanner.banners = data.map{ $0.toBannerDTO() }
             case .failure(_):
                 break
             }
@@ -1955,6 +1947,11 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
                     cell.configured(bannersList)
                     cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
                         guard let self = self  else {   return   }
+                        
+                        if let bidid = banner.resolvedBidId {
+                            TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+                        }
+
                         if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                             ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
                         }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
@@ -1976,6 +1973,11 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
                 cell.configured(bannersList)
                 cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
                     guard let self = self  else {   return   }
+                    
+                    if let bidid = banner.resolvedBidId {
+                        TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+                    }
+
                     if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                         ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
                     }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
@@ -2091,6 +2093,11 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
             cell.configured(bannersList)
             cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
                 guard let self = self  else {   return   }
+                
+                if let bidid = banner.resolvedBidId {
+                    TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+                }
+
                 if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                     ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
                 }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {

@@ -53,7 +53,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             dictionary[EventParameterKeys.price]            = product.price.stringValue
             dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
             dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
-            dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
+            dictionary[EventParameterKeys.isSponsored]      = product.isSponsoredProduct
             dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
             dictionary[EventParameterKeys.isRecipe]         = false
             dictionary[EventParameterKeys.quantity]         = String(quantity)
@@ -81,7 +81,7 @@ struct OrderEditClickedEvent: AnalyticsEventDataType {
     }
     
     private func getProductDic(products: [Product], gorcery: Grocery?) -> [[String: Any]] {
-        let result = products.map { product in
+        let result = products.map { product -> [String: Any] in
             var dictionary: [String: Any] = [:]
             
             // coputing the quantity of products
@@ -100,7 +100,7 @@ struct OrderEditClickedEvent: AnalyticsEventDataType {
             dictionary[EventParameterKeys.price]            = product.price.stringValue
             dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
             dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
-            dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
+            dictionary[EventParameterKeys.isSponsored]      = product.isSponsoredProduct
             dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
             dictionary[EventParameterKeys.quantity]         = String(quantity)
             // if the isPromotion is false then need to send the actual price in promoPrice

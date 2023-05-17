@@ -99,7 +99,7 @@ class GlobalSearchResultDataSource {
         let homeTitle = "Banners"
         if let gorceryId =  gorcery?.dbID {
             let location = BannerLocation.in_search_tier_1.getType()
-            ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
+            ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
                 switch result {
                     case .success(let response):
                         self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorcery)
@@ -129,12 +129,9 @@ class GlobalSearchResultDataSource {
         }*/
     }
     
-    func saveBannersResponseData(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorcery : Grocery?) {
-        
-        // let banners = Banner.getBannersFromResponse(responseObject)
-        let banners = BannerCampaign.getBannersFromResponse(responseObject)
+    func saveBannersResponseData(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorcery : Grocery?) {
         if banners.count > 0 {
-            let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  andWithResponse: nil , gorcery)
+            let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  products: [], gorcery)
             if let groceryIndex =  groceryAndBannersList.firstIndex(where: { (home) -> Bool in
                 return home.attachGrocery?.dbID == gorcery?.dbID
             }) {

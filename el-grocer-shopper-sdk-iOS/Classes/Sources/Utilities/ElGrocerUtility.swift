@@ -152,6 +152,7 @@ class ElGrocerUtility {
     var tabBarSelectedIndex = 0
     
     var appConfigData : AppConfiguration!
+    var adSlots: AdSlotDTO!
     
     var promoTagLink = "https://s3-us-west-2.amazonaws.com/elgrocerproductimagestempdata/promotag.png" + "?" + "\(Date.timeIntervalBetween1970AndReferenceDate)"
     var SessionStarttimeStamp : String =  String(format: "%.0f", Date.timeIntervalSinceReferenceDate)

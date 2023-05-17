@@ -445,12 +445,12 @@ class HomeCell: RxUITableViewCell {
             parameters["category_id"] = homeObj.category?.dbID
         }
         
-        ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters) { (result) in
+        ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
             
             switch result {
                 
             case .success(let response):
-                self.saveResponseData(response, andWithHomeFeed: homeObj)
+                self?.saveResponseData(response, andWithHomeFeed: homeObj)
                 
             case .failure(let error):
                elDebugPrint("Error While Calling Top Selling Pagination:%@",error.localizedMessage)
@@ -460,20 +460,20 @@ class HomeCell: RxUITableViewCell {
     
     // MARK: Data
     
-    func saveResponseData(_ responseObject:NSDictionary, andWithHomeFeed homeObj: Home) {
-        
+    func saveResponseData(_ responseObject:(products: [Product], algoliaCount: Int?), andWithHomeFeed homeObj: Home) {
        // let dataDict = responseObject["data"] as! NSDictionary
         
         //Parsing All Products Response here
-        let responseObjects = responseObject["data"] as! [NSDictionary]
+        // let responseObjects = responseObject["data"] as! [NSDictionary]
         
         DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             
             let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
             context.performAndWait({ () -> Void in
-                let newProducts = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-                elDebugPrint("New Products Count:%d",newProducts.products.count)
-                homeObj.products += newProducts.products
+                // let newProducts = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
+                let newProducts = responseObject.products
+//                elDebugPrint("New Products Count:%d",newProducts.products.count)
+                homeObj.products += newProducts
             })
             
             DispatchQueue.main.async {
@@ -572,6 +572,24 @@ extension HomeCell: UICollectionViewDataSource {
 //                }else{
 //                    productCell.productPriceLabel.isHidden = false
 //                }
+                // if homeFeedObj.type == .universalSearchProducts {
+                //     // productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
+                //     // productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                //     // productCell.addToCartButton.isEnabled = true
+                //     // productCell.addToCartButton.setBody3BoldWhiteStyle()
+                //     // productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+                    
+                //     productCell.shopInStoreButton.isHidden = false
+                //     productCell.productPriceLabel.isHidden = true
+                //     // productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
+                //     // productCell.addToCartButton.isHidden = false
+                //     productCell.buttonsView.isHidden = true
+                //     productCell.promotionBGView.isHidden = true
+                //     productCell.limitedStockBGView.isHidden = true
+                //     productCell.saleView.isHidden = true
+                // }else{
+                //     productCell.productPriceLabel.isHidden = false
+                // }
                
                 return productCell
                 

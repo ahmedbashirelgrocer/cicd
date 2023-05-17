@@ -57,6 +57,11 @@ extension BasketBannerCollectionViewCell : UITableViewDelegate , UITableViewData
             cell.configured(homeFeedData.banners)
             cell.bannerList.bannerCampaignClicked =  { [weak self] (banner) in
                 guard let self = self  else {   return   }
+                
+                if let bidid = banner.resolvedBidId {
+                    TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+                }
+                
                 if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                     if let topVc = UIApplication.topViewController() {
                         ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: topVc)

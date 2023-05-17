@@ -50,7 +50,7 @@ class CateAndSubcategoryView {
     private var currentOffset = 0
     private var currentLimit = 10
     private var currentBrandOffset = 0
-    private var currentBrandLimit = 5
+    private var currentBrandLimit = 20
     private var isLoadingMoreGridProducts : Bool = false
     private var isLoadingMoreBrandProducts : Bool = false
             var moreGridProducts : Bool = true
@@ -232,6 +232,8 @@ extension CateAndSubcategoryView {
     
     func subCategorySegmentIndexChange(_ selectedSegmentIndex : Int) {
        
+        guard (self.parentCategory?.dbID) != nil else { return }
+        
         self.homeFeed = nil
         
         
@@ -286,7 +288,7 @@ extension CateAndSubcategoryView {
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
                 
-                ElGrocerApi.sharedInstance.getAllProductsOfCategory(self.parentCategory, forGrocery: self.grocery, limit: self.currentLimit, offset: currentOffSet){ (result) -> Void in
+                ProductBrowser.shared.getAllProductsOfCategory(self.parentCategory, forGrocery: self.grocery, limit: self.currentLimit, offset: currentOffSet){ (result) -> Void in
                     
                     switch result {
                         case .success(let response):
@@ -302,8 +304,8 @@ extension CateAndSubcategoryView {
             
             
             guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
-                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak self] (content, error) in
-                    if  let responseObject : NSDictionary = content as NSDictionary? {
+                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
+                    if  let responseObject = content {
                         self?.saveAllProductResponseForCategory(responseObject)
                     } else {
                             // error?.showErrorAlert()
@@ -314,9 +316,9 @@ extension CateAndSubcategoryView {
             
             
             
-            AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "" , completion: { [weak self] (content, error) in
+            ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                 
-                if  let responseObject : NSDictionary = content as NSDictionary? {
+                if  let responseObject = content {
                     self?.saveAllProductResponseForCategory(responseObject)
                 } else {
                    // error?.showErrorAlert()
@@ -335,13 +337,13 @@ extension CateAndSubcategoryView {
         }
     }
     
-    private func saveAllProductResponseForCategory(_ response: NSDictionary) {
+    private func saveAllProductResponseForCategory(_ newProduct: (products: [Product], algoliaCount: Int?)) {
       
       //  let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
       //  let newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context)
         Thread.OnMainThread {
             
-            let newProduct = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            // let newProduct = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
             self.gridProductA += newProduct.products
             self.moreGridProducts = (self.gridProductA.count % self.currentLimit) == 0
             let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
@@ -421,7 +423,7 @@ extension CateAndSubcategoryView {
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
               
-                ElGrocerApi.sharedInstance.getAllProductsOfSubCategory(subCategoryId, andWithGroceryID:(self.grocery?.dbID)!, limit: self.currentLimit, offset: offset){ (result) -> Void in
+                ProductBrowser.shared.getAllProductsOfSubCategory(subCategoryId, andWithGroceryID:(self.grocery?.dbID)!, limit: self.currentLimit, offset: offset){ (result) -> Void in
                     switch result {
                         case .success(let response):
                             self.saveAllProductResponseForFreshFruitORVegetables(response, withSubCategory: subCategory)
@@ -436,8 +438,8 @@ extension CateAndSubcategoryView {
             
             
             guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
-                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak self] (content, error) in
-                    if  let responseObject : NSDictionary = content as NSDictionary? {
+                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 20, completion: { [weak self] (content, error) in
+                    if  let responseObject = content {
                         self?.saveAllProductResponseForFreshFruitORVegetables(responseObject, withSubCategory: subCategory)
                     } else {  }
                 })
@@ -445,9 +447,9 @@ extension CateAndSubcategoryView {
             }
             
             
-            AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", 20, "\(subCategoryId)", "", completion: { [weak self] (content, error) in
+            ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 3, "\(subCategoryId)", "", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                 
-                if  let responseObject : NSDictionary = content as NSDictionary? {
+                if  let responseObject = content {
                     self?.saveAllProductResponseForFreshFruitORVegetables(responseObject, withSubCategory: subCategory)
                 } else {  }
             })
@@ -478,7 +480,7 @@ extension CateAndSubcategoryView {
         
         guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
            
-            ElGrocerApi.sharedInstance.getAllProductsOfSubCategory(subCategoryId, andWithGroceryID:(self.grocery?.dbID)!, limit: self.currentLimit, offset: self.currentOffset){ (result) -> Void in
+            ProductBrowser.shared.getAllProductsOfSubCategory(subCategoryId, andWithGroceryID:(self.grocery?.dbID)!, limit: self.currentLimit, offset: self.currentOffset){ (result) -> Void in
                 switch result {
                     case .success(let response):
                         self.saveAllProductResponseForFreshFruitORVegetables(response, withSubCategory: subCategory)
@@ -492,17 +494,17 @@ extension CateAndSubcategoryView {
         }
         
         guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
-            AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak self] (content, error) in
-                if  let responseObject : NSDictionary = content as NSDictionary? {
+            ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
+                if  let responseObject = content {
                     self?.saveAllProductResponseForFreshFruitORVegetables(responseObject, withSubCategory: subCategory)
                 } else {  }
             })
             return
         }
         
-        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", 20, "\(subCategoryId)", "", completion: { [weak self] (content, error) in
+        ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, "\(subCategoryId)", "", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
             
-            if  let responseObject : NSDictionary = content as NSDictionary? {
+            if  let responseObject = content {
                 self?.saveAllProductResponseForFreshFruitORVegetables(responseObject, withSubCategory: subCategory)
             } else {  }
         })
@@ -510,14 +512,15 @@ extension CateAndSubcategoryView {
         
     }
     
-    func saveAllProductResponseForFreshFruitORVegetables(_ response: NSDictionary, withSubCategory subCategory:SubCategory) {
+    func saveAllProductResponseForFreshFruitORVegetables(_ response: (products: [Product], algoliaCount: Int?), withSubCategory subCategory:SubCategory) {
     
         let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(subCategory.subCategoryId))
         
         Thread.OnMainThread {
             var newProduct = [Product]()
-            let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-            newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context).products
+            newProduct = response.products
+            // let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+            // newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context).products
             self.gridProductA += newProduct
             self.isGridView = true
             self.isLoadingMoreGridProducts = false
@@ -564,8 +567,13 @@ extension CateAndSubcategoryView {
     }
     func fetchBrandsWithSixRandomProductsOfCategory(_ parentSubCategory:SubCategory, isFromBackground:Bool = false, productOffset: Int = 0,index: IndexPath? = nil) {
         
-        
-        ElGrocerApi.sharedInstance.getBrandsForCategoryWithProducts(parentSubCategory, forGrocery: self.grocery, limit: self.currentBrandLimit, offset: self.ListbrandsArray.count,productOffset: productOffset){ (result) -> Void in
+        ProductBrowser.shared.getBrandsForCategoryWithProducts(parentSubCategory,
+                                                               forGrocery: self.grocery,
+                                                               limit: self.currentBrandLimit,
+                                                               offset: self.ListbrandsArray.count,
+                                                               productOffset: productOffset,
+                                                               subCategoryId: parentSubCategory.subCategoryId.intValue){ (result) -> Void in
+            
             switch result {
                 
                 case .success(let response):
@@ -577,14 +585,16 @@ extension CateAndSubcategoryView {
         }
     }
     
-    func saveBrandsResponseWithSixRandomProductsOfSubCategory(_ response: NSDictionary, withSubcategory subCategory:SubCategory, isFromBackground:Bool = false,index: IndexPath? = nil) {
+    func saveBrandsResponseWithSixRandomProductsOfSubCategory(_ brands: [GroceryBrand], withSubcategory subCategory:SubCategory, isFromBackground:Bool = false, index: IndexPath? = nil) {
         
-        var brands = [GroceryBrand]()
-        if let serverBrandsArray = response["data"] as? [[String:AnyObject]] {
-            for dictBrand in serverBrandsArray {
-                let brand = GroceryBrand.getGroceryBrandFromResponse(dictBrand, subCategory.subCategoryId.intValue)
-                brands.append(brand)
-            }
+        
+        // if let serverBrandsArray = response["data"] as? [[String:AnyObject]] {
+        // var brands = [GroceryBrand]()
+        // for dictBrand in serverBrandsArray {
+        // let brand = GroceryBrand.getGroceryBrandFromResponse(dictBrand, subCategory.subCategoryId.intValue)
+        // brands.append(brand)
+        // }
+        
             let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(subCategory.subCategoryId))
 //            ElGrocerUtility.sharedInstance.brandAvailabilityDict[keyStr] = brands.count % self.currentBrandLimit == 0
             if isFromBackground == false {
@@ -602,7 +612,7 @@ extension CateAndSubcategoryView {
             }else{
                 ElGrocerUtility.sharedInstance.brandsDict[keyStr] = brands
             }
-        }
+        // }
         self.isLoadingMoreBrandProducts = false
         self.delegate?.productDataUpdated(index)
         for brand in brands {
@@ -764,7 +774,7 @@ extension CateAndSubcategoryView : CateAndSubcategoryDataHandlerDelegate {
     func bannerData(currentBanner : [BannerCampaign]? , grocerID : String) {
         self.currentBanner = currentBanner
         if  currentBanner?.count ?? 0 > 0 {
-            let homeFeed = Home.init("Banners" , withCategory: nil, withBanners: currentBanner , withType:HomeType.Banner,  andWithResponse: nil)
+            let homeFeed = Home.init("Banners" , withCategory: nil, withBanners: currentBanner , withType:HomeType.Banner,  products: [])
             self.homeFeed = homeFeed
         }
         self.delegate?.bannerDataUpdated(grocerID)
@@ -815,7 +825,10 @@ class CateAndSubcategoryDataHandler {
     private func getBannersFromServer(_ gorceryId:String , parentCategoryID : Int? ,  subCategoryId : Int? ){
         let homeTitle = "Banners"
         let location = BannerLocation.subCategory_tier_1.getType()
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [gorceryId], store_type_ids: nil , retailer_group_ids: nil  , category_id: parentCategoryID , subcategory_id: subCategoryId , brand_id: nil, search_input: nil) { (result) in
+        
+        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.storeType.map{ "\($0)" } ?? []
+        
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [gorceryId], store_type_ids: storeTypes, retailer_group_ids: nil, category_id: parentCategoryID, subcategory_id: subCategoryId, brand_id: nil, search_input: nil) { (result) in
             switch (result) {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId)
@@ -826,8 +839,7 @@ class CateAndSubcategoryDataHandler {
         
     }
     
-    func saveBannersResponseData(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String) {
-        let banners = BannerCampaign.getBannersFromResponse(responseObject)
+    func saveBannersResponseData(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String) {
         self.delegate?.bannerData(currentBanner: banners, grocerID: gorceryId)
     }
     

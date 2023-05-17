@@ -8,9 +8,9 @@
 import Foundation
 
 struct BannerDTO: Codable {
-    let id: Int?
+    var id: Int?
     let name: String?
-    let priority: Int?
+    var priority: Int?
     let campaignType: BannerCampaignType?
     let imageURL: String?
     let bannerImageURL: String?
@@ -22,6 +22,8 @@ struct BannerDTO: Codable {
     let locations: [Int]?
     let storeTypes: [Int]?
     let retailerGroups: [Int]?
+    
+    var resolvedBidId: String?
     
     enum CodingKeys: String, CodingKey {
         case id, name, priority

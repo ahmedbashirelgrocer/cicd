@@ -51,7 +51,7 @@ struct StoresInRangeEvent: AnalyticsEventDataType {
     }
     
     private func getAvailableStores(retailers: [Grocery]) -> [[String: Any]] {
-        let retailerDictionaryArray = retailers.map { grocery in
+        let retailerDictionaryArray = retailers.map { grocery -> [String: Any] in
             var dictionary: [String: Any] = [:]
             
             dictionary[EventParameterKeys.retailerID] = grocery.dbID

@@ -1782,7 +1782,7 @@ Add delivery details";
 "msg_limited_stock_title" = "This promotion has limited items stock.";
 "msg_limited_stock_start" = "You can add only ";
 "msg_limited_stock_end" = " items max.";
-"lbl_limited_Stock" = "LIMITED STOCK";
+"lbl_limited_Stock" = "Limited stock";
 "txt_Saved" = "SAVED!";
 "lbl_ProductLimit" = "Product limit change. Please update.";
 

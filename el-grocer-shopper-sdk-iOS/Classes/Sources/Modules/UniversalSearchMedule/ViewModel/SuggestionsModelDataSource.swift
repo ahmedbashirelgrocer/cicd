@@ -413,7 +413,7 @@ class SuggestionsModelDataSource {
 //        if let topVc = UIApplication.topViewController() {
 //            spiner =  SpinnerView.showSpinnerViewInView(topVc.view)
 //        }
-        AlgoliaApi.sharedInstance.searchProductQueryWithMultiStore(searchString, storeIDs: dbIDs, 0, 100 ,  "" ,  "", searchType: "single_search")  { (data, error) in
+        ProductBrowser.shared.searchProductQueryWithMultiStore(searchString, storeIDs: dbIDs, 0, 100 ,  "" ,  "", searchType: "single_search", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.globalPlacementsSponsored ?? 3)  { (data, error) in
             self.isProductApiCalling  = false
             spiner?.removeFromSuperview()
             guard data != nil else {
@@ -422,9 +422,9 @@ class SuggestionsModelDataSource {
                 }
                 return
             }
-            if  let responseObject : NSDictionary = data as NSDictionary? {
+            if  let newProducts = data {
                 Thread.OnMainThread {
-                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    // let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     
                     
                     if newProducts.products.count > 0 {
@@ -456,6 +456,35 @@ class SuggestionsModelDataSource {
             spiner =  SpinnerView.showSpinnerViewInView(topVc.view)
         }
         
+        func addProductData(_ newProducts: (products: [Product], algoliaCount: Int?) , recipeList : [Recipe] , groceryA : [Grocery] ) {
+            
+            Thread.OnMainThread {
+                // let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                if newProducts.products.count > 0 {
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    if let clouser = self.productListDataWithRecipes {
+                        clouser(newProducts.products, searchString, recipeList, groceryA)
+                    }
+                }else if recipeList.count > 0 {
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    if let clouser = self.productListDataWithRecipes {
+                        clouser([], searchString, recipeList, groceryA)
+                    }
+                }else if groceryA.count > 0 {
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    if let clouser = self.productListDataWithRecipes {
+                        clouser([], searchString, recipeList, groceryA)
+                    }
+                }else{
+                    if let clouser = self.productListNotFound {
+                        clouser(searchString)
+                    }
+                }
+            }
+            
+        }
+        
         func addProductData(_ responseObject : NSDictionary , recipeList : [Recipe] , groceryA : [Grocery]? ) {
             
             Thread.OnMainThread {
@@ -485,54 +514,62 @@ class SuggestionsModelDataSource {
             
         }
         
+        
+        
         self.getRecipeData(isNeedToClear , searchString: searchString, nil, nil, storeIds: storeIds, typeIds: typeIds, groupIds: groupIds) { (recipeList) in
             
             
-            AlgoliaApi.sharedInstance.searchProductQueryWithMultiStoreMultiIndex(searchString, storeIDs: dbIDs, 0, 100 , brandId ?? "" , categoryID ?? "", searchType: "single_search")  { (data, error) in
-                
+            ProductBrowser.shared.searchProductQueryWithMultiStoreMultiIndex(searchString, storeIDs: dbIDs, 0, 100 , brandId ?? "" , categoryID ?? "", searchType: "single_search", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.globalPlacementsSponsored ?? 3)  { (product, groceryA) in
                 
                 self.isProductApiCalling  = false
                 DispatchQueue.main.async {
                     spiner?.removeFromSuperview()
                 }
                 
-                guard data != nil else {
+                guard product.products.count == 0 && groceryA.count == 0 else {
+                    // Fix Me Here
+                    addProductData(product, recipeList: recipeList, groceryA: groceryA)
                     if let clouser = self.productListNotFound {
                         clouser(searchString)
                     }
                     return
                 }
                 
+                // addProductData(product, recipeList: recipeList, groceryA: groceryA)
                 
-                if let dataA = data?["results"] as? NSArray {
-                    var productsDictionary : NSDictionary = [:]
-                    for data in dataA {
-                        if let response = (data as? NSDictionary), (response["index"] as? String) == "Product" {
-                            productsDictionary  = response
-                        }else if let response = (data as? NSDictionary), (response["index"] as? String) == "Retailer" {
-                            Thread.OnMainThread {
-                            var responseGroceryIDA : [String] = []
-                            if let responseObjects = response["hits"] as? [NSDictionary] {
-                                    for responseDict in responseObjects {
-                                        if  let groceryIntId = responseDict["id"] as? Int {
-                                            responseGroceryIDA.append("\(groceryIntId)")
-                                        }
-                                    }
-                                }
-                                let groceryA = HomePageData.shared.groceryA?.filter({ grocery in
-                                    return  responseGroceryIDA.filter { searchID in
-                                        return searchID == grocery.dbID
-                                    }.count > 0
-                                })
-                                addProductData(productsDictionary, recipeList: SDKManager.isSmileSDK ? [] : recipeList, groceryA: groceryA )
-                            }
-                           
-                        }
-                    }
-                    return
-                }else if  let responseObject : NSDictionary = data as NSDictionary? {
-                    addProductData(responseObject, recipeList: recipeList, groceryA: nil)
-                }
+//                let data: NSDictionary? = NSDictionary.init()
+//                if let dataA = data?["results"] as? NSArray {
+//                    var productsDictionary : NSDictionary = [:]
+//                    for data in dataA {
+//                        if let response = (data as? NSDictionary), (response["index"] as? String) == "Product" {
+//                            productsDictionary  = response
+//                        }else if let response = (data as? NSDictionary), (response["index"] as? String) == "Retailer" {
+//                            Thread.OnMainThread {
+//                            var responseGroceryIDA : [String] = []
+//                            if let responseObjects = response["hits"] as? [NSDictionary] {
+//                                    for responseDict in responseObjects {
+//                                        if  let groceryIntId = responseDict["id"] as? Int {
+//                                            responseGroceryIDA.append("\(groceryIntId)")
+//                                        }
+//                                    }
+//                                }
+//                                let groceryA = HomePageData.shared.groceryA?.filter({ grocery in
+//                                    return  responseGroceryIDA.filter { searchID in
+//                                        return searchID == grocery.dbID
+//                                    }.count > 0
+//                                })
+//
+//                                let newProducts = Product.insertOrReplaceProductsFromDictionary(productsDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+//
+//                                addProductData(newProducts, recipeList: SDKManager.isSmileSDK ? [] : recipeList, groceryA: groceryA ?? [])
+//                            }
+//
+//                        }
+//                    }
+//                    return
+//                }else if  let responseObject : NSDictionary = data as NSDictionary? {
+//                    addProductData(responseObject, recipeList: recipeList, groceryA: nil)
+//                }
             }
             
         }
@@ -544,23 +581,24 @@ class SuggestionsModelDataSource {
        
         let dbIDs = storeIds
         
-        AlgoliaApi.sharedInstance.searchRecipeQueryWithMultiStore(searchString, storeIDs: dbIDs, typeIDs: typeIds, groupIds: groupIds, 0, 100 , brandId ?? "" , categoryID ?? "", searchType: "single_search")  { (data, error) in
-            guard data != nil else {
-                completionHandler([])
-                return
-            }
-            if  let responseObject : NSDictionary = data as NSDictionary? {
-                var recipeList = [Recipe]()
-                if let categoryData = responseObject["hits"] as? [NSDictionary] {
-                    for data:NSDictionary in categoryData {
-                        let recipe : Recipe = Recipe.init(recipeData: data as! Dictionary<String, Any> )
-                        recipeList.append(recipe)
-                    }
-                }
-                completionHandler(recipeList)
-                return
-            }
-            completionHandler([])
+        ProductBrowser.shared.searchRecipeQueryWithMultiStore(searchString, storeIDs: dbIDs, typeIDs: typeIds, groupIds: groupIds, 0, 100 , brandId ?? "" , categoryID ?? "", searchType: "single_search")  { recipeList in
+            completionHandler(recipeList)
+//            guard data != nil else {
+//                completionHandler([])
+//                return
+//            }
+//            if  let responseObject : NSDictionary = data as NSDictionary? {
+//                var recipeList = [Recipe]()
+//                if let categoryData = responseObject["hits"] as? [NSDictionary] {
+//                    for data:NSDictionary in categoryData {
+//                        let recipe : Recipe = Recipe.init(recipeData: data as! Dictionary<String, Any> )
+//                        recipeList.append(recipe)
+//                    }
+//                }
+//                completionHandler(recipeList)
+//                return
+//            }
+//            completionHandler([])
         }
     }
     
@@ -585,7 +623,7 @@ class SuggestionsModelDataSource {
         
         GenericClass.print("=== getProductDataForStore === isNeedToClear : \(isNeedToClear) ,  searchString : \(searchString) , brandId : \(String(describing: brandId)) , categoryID : \(String(describing: categoryID)) , storeIds \(storeIds)  ,   pageNumber : \(pageNumber) hitsPerPage : \(hitsPerPage)   ")
     
-        AlgoliaApi.sharedInstance.searchProductQueryWithMultiStore(searchString, storeIDs: dbIDs, pageNumber , hitsPerPage , brandId ?? "" , categoryID ?? "", searchType: "single_search")  { (data, error) in
+        ProductBrowser.shared.searchProductQueryWithMultiStore(searchString, storeIDs: dbIDs, pageNumber , hitsPerPage , brandId ?? "" , categoryID ?? "", searchType: "single_search", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.globalPlacementsSponsored ?? 3)  { (data, error) in
             self.isProductApiCalling  = false
             Thread.OnMainThread { spiner?.removeFromSuperview() }
             guard data != nil else {
@@ -594,9 +632,9 @@ class SuggestionsModelDataSource {
                 }
                 return
             }
-            if  let responseObject : NSDictionary = data as NSDictionary? {
+            if  let newProducts = data {
                 Thread.OnMainThread {
-                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString : searchString)
+                    // let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString : searchString)
                     if newProducts.products.count > 0 {
                     DatabaseHelper.sharedInstance.saveDatabase()
                     if self.selectedIndex.row == 0 {
@@ -723,12 +761,14 @@ extension SuggestionsModelDataSource {
         }
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_1.getType()
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
+        let storeType = ElGrocerUtility.sharedInstance.activeGrocery?.storeType.map{ "\($0)" } ?? []
+        
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: storeType , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
             switch result {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId, searchInput: searchInput)
                 case.failure(let _):
-                    self.saveBannersResponseData([:], withHomeTitle: homeTitle, andWithGroceryId: gorceryId, searchInput: searchInput)
+                    self.saveBannersResponseData([], withHomeTitle: homeTitle, andWithGroceryId: gorceryId, searchInput: searchInput)
             }
         }
         
@@ -746,13 +786,12 @@ extension SuggestionsModelDataSource {
         }*/
     }
     
-    func saveBannersResponseData(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String , searchInput : String ) {
+    func saveBannersResponseData(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String , searchInput : String ) {
         
         if (self.currentGrocery?.dbID == gorceryId){
-            let banners = BannerCampaign.getBannersFromResponse(responseObject)
             self.bannerFeeds.removeAll()
             if  banners.count > 0 {
-                let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  andWithResponse: nil)
+                let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner, products: [])
                 self.bannerFeeds.append(homeFeed)
                 if let cloure = self.appendLocationOneBanner {
                     cloure(homeFeed)
@@ -767,7 +806,7 @@ extension SuggestionsModelDataSource {
         
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_2.getType()
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
             switch result {
                 case .success(let response):
                     self.saveBannersTierTwoResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId, searchInput: searchInput)
@@ -778,12 +817,11 @@ extension SuggestionsModelDataSource {
         
     }
     
-    func saveBannersTierTwoResponseData(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String , searchInput : String ) {
+    func saveBannersTierTwoResponseData(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String , searchInput : String ) {
         
         if (self.currentGrocery?.dbID == gorceryId){
-            let banners = BannerCampaign.getBannersFromResponse(responseObject)
             if  banners.count > 0 {
-                let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  andWithResponse: nil)
+                let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  products: [])
                 let currentFeedCount = self.bannerFeeds.count
                 self.bannerFeeds.append(homeFeed)
                 if let cloure = self.appendLocationTwoBanner {

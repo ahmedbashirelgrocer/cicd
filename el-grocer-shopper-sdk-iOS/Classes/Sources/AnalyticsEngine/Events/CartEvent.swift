@@ -68,7 +68,7 @@ struct CartUpdatedEvent: AnalyticsEventDataType {
             EventParameterKeys.productName      : product.nameEn ?? "",
             // if the isPromotion is false then need to send the actual price in promoPrice
             EventParameterKeys.promoPrice       : product.promotion?.boolValue ?? false ? "\(round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100)" : product.price.stringValue,
-            EventParameterKeys.isSponsored      : product.isSponsored?.boolValue ?? false,
+            EventParameterKeys.isSponsored      : product.isSponsoredProduct,
             EventParameterKeys.isPromotion      : product.promotion?.boolValue ?? false,
             EventParameterKeys.isRecipe         : false,
             EventParameterKeys.quantity         : String(quantity),
@@ -125,7 +125,7 @@ struct CartCheckoutEvent: AnalyticsEventDataType {
             dictionary[EventParameterKeys.price]            = product.price.stringValue
             dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
             dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
-            dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
+            dictionary[EventParameterKeys.isSponsored]      = product.isSponsoredProduct
             dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
             dictionary[EventParameterKeys.quantity]         = String(quantity)
             // if the isPromotion is false then need to send the actual price in promoPrice
