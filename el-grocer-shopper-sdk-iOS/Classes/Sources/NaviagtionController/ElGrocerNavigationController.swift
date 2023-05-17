@@ -131,6 +131,16 @@ class ElGrocerNavigationController : UINavigationController {
         
         
     }
+    
+    func setLightThemeBackgroundColor() {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setlightBackground()
+        (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(false)
+    }
+    
+    
     func setWhiteBackgroundColor() {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setWhiteBackground()

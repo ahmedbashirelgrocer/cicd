@@ -47,7 +47,7 @@ extension UIViewController {
     }
 
 
-    func addBackButton( isGreen : Bool = true) {
+    func addBackButton( isGreen : Bool = true, _ isBlack: Bool = SDKManager.isSmileSDK) {
         
         var image = UIImage()
         if isGreen{
@@ -55,6 +55,10 @@ extension UIViewController {
         }else{
            image = ElGrocerUtility.sharedInstance.getImageWithName("backPinPurple")
         }
+        if isBlack {
+            image = ElGrocerUtility.sharedInstance.getImageWithName("backPinPurple")
+        }
+        
         let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
         backButton.tintColor = isGreen ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.secondaryBlackColor
         self.navigationItem.leftBarButtonItem = backButton

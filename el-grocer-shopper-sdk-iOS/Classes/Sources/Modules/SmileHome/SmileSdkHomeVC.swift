@@ -131,6 +131,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             controller.buttonActionsDelegate = self
+            (controller.navigationBar as? ElGrocerNavigationBar)?.changeBackButtonImage(true,false) // to get purple backimage
             controller.refreshLogoView()
            // controller.setBackButtonHidden(false)
         }

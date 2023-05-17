@@ -66,7 +66,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     @IBOutlet var btnCancel: UIButton! {
         didSet {
             btnCancel.setTitle(localizedString("grocery_review_already_added_alert_cancel_button", comment: ""), for: .normal)
-            btnCancel.setTitleColor(.white, for: UIControl.State())
+            btnCancel.setTitleColor(SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor :  .white, for: UIControl.State())
         }
     }
     @IBOutlet var segmenntCollectionView: AWSegmentView! {
@@ -986,7 +986,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
+        self.searchBarView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)

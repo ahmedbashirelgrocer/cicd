@@ -305,6 +305,31 @@ class ElGrocerNavigationBar : UINavigationBar {
             // Fallback on earlier versions
         }
     }
+    
+    func setlightBackground() {
+        
+        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.barTintColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.isTranslucent = false
+        
+        if #available(iOS 13.0, *) {
+            let barAppearance = UINavigationBarAppearance()
+            barAppearance.configureWithDefaultBackground()
+            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            barAppearance.shadowColor = .clear
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+        
+            
+            self.standardAppearance = barAppearance
+            self.scrollEdgeAppearance = barAppearance
+
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    
     func setNewLightBackground() {
         
         self.backgroundColor = UIColor.textfieldBackgroundColor()
@@ -591,23 +616,31 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.locationView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         self.addSubview(self.locationView)
     }
-    fileprivate func addBackButton(_ isWhite: Bool = false) {
+    fileprivate func addBackButton(_ isWhite: Bool = false, _ isBlack: Bool = SDKManager.isSmileSDK) {
         
         var image = UIImage(name: "BackGreen")!
         if isWhite{
             image = UIImage(name: "BackWhite")!
         }
+        if isBlack {
+            image = UIImage(name: "BackButtonIconGrey")!
+        }
+        
         self.backButton  = UIButton(type: .custom)
         self.backButton.setImage(image, for: .normal)
         self.addSubview(self.backButton)
     }
-    func changeBackButtonImage(_ isWhite: Bool = false) {
+    func changeBackButtonImage(_ isWhite: Bool = false, _ isBlack: Bool = SDKManager.isSmileSDK) {
         
         if let back = self.backButton{
             if back.isHidden == false {
                 var image = UIImage(name: "BackGreen")!
                 if isWhite{
                     image = UIImage(name: "backPinPurple")!
+                }
+                
+                if isBlack {
+                    image = UIImage(name: "BackButtonIconGrey")!
                 }
                 back.setImage(image, for: UIControl.State())
                 self.backButton = back

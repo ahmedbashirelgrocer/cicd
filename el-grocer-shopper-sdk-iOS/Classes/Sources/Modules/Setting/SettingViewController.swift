@@ -269,11 +269,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
+        return 0.01
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if SDKManager.isSmileSDK {
+            if section == 0 {
+                return .leastNormalMagnitude
+            }
             return 40
         }
         
@@ -291,6 +294,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         return 0.01
     }
+    
+  
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
@@ -329,6 +334,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         return ""
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        if section == 0 {
+            return nil
+        }
         
         let myLabel = UILabel()
         myLabel.frame = CGRect(x: 20, y: 8, width: 320, height: 30)
