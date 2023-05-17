@@ -878,7 +878,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                 parameters["is_trending"] = true
             }
             
-            if (homeFeed?.type == HomeType.Purchased){
+            if (homeFeed?.type == HomeType.Purchased) || (homeFeed?.type == HomeType.TopSelling){
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if let profile = userProfile{
                     parameters["shopper_id"] = profile.dbID
