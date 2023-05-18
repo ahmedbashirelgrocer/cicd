@@ -102,6 +102,12 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarText( universalSearchString ?? "")
             self.userManualSearch(searchData: universalSearchString ?? "")
             self.dataSource?.getBanners(searchInput: universalSearchString ?? "")
+            
+            // Store Logo tap handler
+            locationHeader.storeTapped = { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            
         }else if let homeFeed = self.homeObj {
             self.productsArray = homeFeed.products
             self.isGettingProducts = true
