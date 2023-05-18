@@ -24,9 +24,7 @@ class CategoriesCell: RxUITableViewCell {
     @IBOutlet weak var ivArrow: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
-            if SDKManager.isGrocerySingleStore {
-                collectionView.backgroundColor = .white
-            }
+            collectionView.backgroundColor = ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
         }
     }
     

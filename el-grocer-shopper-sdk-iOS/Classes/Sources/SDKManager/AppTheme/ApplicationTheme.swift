@@ -111,6 +111,11 @@ public protocol Theme {
     var currentOrdersCollectionCellBGColor: UIColor { get }
     var currentOrdersPageControlActiveColor: UIColor { get }
     var currentOrdersPageControlInActiveColor: UIColor { get }
+    
+    //MARK: StorePage
+    var StorePageCategoryViewBgColor: UIColor { get }
+    
+    
 }
 
 
@@ -218,6 +223,9 @@ struct ElgrocerTheme: Theme {
     var currentOrdersCollectionCellBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     var currentOrdersPageControlActiveColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     var currentOrdersPageControlInActiveColor: UIColor = ElgrocerBaseColors.elgrocerLightGreenColour
+    
+    //MARK: StorePage
+    var StorePageCategoryViewBgColor: UIColor { ElgrocerBaseColors.elgrocerWhiteColour }
 }
 
 struct SmileSDKTheme: Theme {
@@ -264,6 +272,8 @@ struct SmileSDKTheme: Theme {
     var lightTextGrayColor: UIColor { #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 1) }
     var newUIrecipelightGrayBGColor: UIColor { #colorLiteral(red: 0.9215686275, green: 0.9254901961, blue: 0.9333333333, alpha: 1) }
     var emptyViewTextColor: UIColor { #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1) }
+    //MARK: StorePage
+    var StorePageCategoryViewBgColor: UIColor  { #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) }
 //    { #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1) }
     
     //MARK: PrimaryTheme for activity indicators and things
@@ -325,6 +335,8 @@ struct SmileSDKTheme: Theme {
     var currentOrdersCollectionCellBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryColor
     var currentOrdersPageControlActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondarySelectionColor
     var currentOrdersPageControlInActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryNoSelectionColor
+    
+   
 }
 
 public struct ApplicationTheme {
