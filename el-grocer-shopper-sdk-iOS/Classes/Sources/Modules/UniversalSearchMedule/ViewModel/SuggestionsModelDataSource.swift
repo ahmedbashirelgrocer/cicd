@@ -457,16 +457,14 @@ class SuggestionsModelDataSource {
                     spiner?.removeFromSuperview()
                 }
                 
-                guard product.products.count == 0 && groceryA.count == 0 else {
-                    // Fix Me Here
-                    addProductData(product, recipeList: recipeList, groceryA: groceryA)
+                if product.algoliaCount == nil {
                     if let clouser = self.productListNotFound {
                         clouser(searchString)
                     }
                     return
                 }
                 
-                // addProductData(product, recipeList: recipeList, groceryA: groceryA)
+                addProductData(product, recipeList: recipeList, groceryA: groceryA)
                 
 //                let data: NSDictionary? = NSDictionary.init()
 //                if let dataA = data?["results"] as? NSArray {

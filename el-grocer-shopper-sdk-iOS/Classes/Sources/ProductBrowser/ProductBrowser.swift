@@ -125,13 +125,18 @@ class ProductBrowser {
                                                         brand,
                                                         category,
                                                         searchType: searchType) { (data, error) in
-                
-                if let dataA = data?["results"] as? NSArray {
+                if data == nil {
+                    
+                    completion(([], nil), [])
+                        
+                } else if let dataA = data?["results"] as? NSArray {
+                    
                     var productsDictionary : NSDictionary = [:]
                     for data in dataA {
                         if let response = (data as? NSDictionary), (response["index"] as? String) == "Product" {
                             productsDictionary  = response
-                        }else if let response = (data as? NSDictionary), (response["index"] as? String) == "Retailer" {
+                        }
+                        else if let response = (data as? NSDictionary), (response["index"] as? String) == "Retailer" {
                             Thread.OnMainThread {
                                 var responseGroceryIDA : [String] = []
                                 if let responseObjects = response["hits"] as? [NSDictionary] {
@@ -141,33 +146,39 @@ class ProductBrowser {
                                         }
                                     }
                                 }
-                                let groceryA = HomePageData.shared.groceryA?.filter({ grocery in
-                                    return  responseGroceryIDA.filter { searchID in
-                                        return searchID == grocery.dbID
-                                    }.count > 0
-                                })
                                 
-                                DispatchQueue.main.async {
-                                    let products = Product.insertOrReplaceProductsFromDictionary(productsDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                                    self.fetchTopSortProducts(products.products, slots: slots) { productsOly in
-                                        DispatchQueue.main.async{ completion((productsOly, products.algoliaCount), groceryA ?? []) }
-                                    }
+                                let groceryA = HomePageData.shared.groceryA?
+                                    .filter({ grocery in
+                                        return  responseGroceryIDA
+                                            .filter { searchID in return searchID == grocery.dbID }
+                                            .count > 0
+                                    })
+                                
+                                if ElGrocerUtility.sharedInstance.activeGrocery == nil {
+                                    ElGrocerUtility.sharedInstance.activeGrocery = HomePageData.shared.groceryA?.first{ $0.featured == 1 } ?? HomePageData.shared.groceryA?.first
+                                }
+                                let newProducts = Product.insertOrReplaceProductsFromDictionary(productsDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                                self.fetchTopSortProducts(newProducts.products, slots: slots) { productsOly in
+                                    DispatchQueue.main.async{ completion((productsOly, newProducts.algoliaCount), groceryA ?? []) }
                                 }
                             }
-                            
                         }
                     }
-                    return
-                } else if  let responseObject : NSDictionary = data as NSDictionary? {
-                    DispatchQueue.main.async {
-                        let products = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                        self.fetchTopSortProducts(products.products, slots: slots) { productsOly in
-                            DispatchQueue.main.async{ completion((productsOly, products.algoliaCount), []) }
-                        }
+                
+                } else if let responseObject : NSDictionary = data as NSDictionary? {
+                    
+                    if ElGrocerUtility.sharedInstance.activeGrocery == nil {
+                        ElGrocerUtility.sharedInstance.activeGrocery = HomePageData.shared.groceryA?.first{ $0.featured == 1 } ?? HomePageData.shared.groceryA?.first
                     }
+                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    self.fetchTopSortProducts(newProducts.products, slots: slots) { productsOly in
+                        DispatchQueue.main.async{ completion((productsOly, newProducts.algoliaCount), []) }
+                    }
+
                 }
+                    
             }
-        
+            
     }
     
     /// When tapped on view all items from a store after product search
