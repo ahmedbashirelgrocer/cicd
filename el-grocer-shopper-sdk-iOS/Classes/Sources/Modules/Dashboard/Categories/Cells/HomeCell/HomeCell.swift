@@ -157,6 +157,7 @@ class HomeCell: RxUITableViewCell {
     @IBOutlet weak var viewBG: UIView!
     @IBOutlet weak var ivDeliverySlotIcon: UIImageView!
     @IBOutlet weak var stackViewDeliverySlot: UIStackView!
+    @IBOutlet weak var viewStore: UIView!
     
     var placeholderPhoto = UIImage(name: "product_placeholder")!
     
@@ -201,6 +202,13 @@ class HomeCell: RxUITableViewCell {
         //self.titleLbl.font = UIFont.SFProDisplayBoldFont(20)
         self.titleLbl.setH4SemiBoldStyle()
         self.lblGrocerySlot.setSubHead2RegDarkStyle()
+        self.viewStore.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(storeTapHandler(_ :))))
+    }
+    
+    @objc func storeTapHandler(_ sender: UITapGestureRecognizer) {
+        if self.homeFeed?.type == .universalSearchProducts {
+            self.delegate?.navigateToGrocery(self.grocery, homeFeed: homeFeed)
+        }
     }
     
     func setArrowAppearance(){
