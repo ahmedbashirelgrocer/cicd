@@ -193,7 +193,8 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" red="0.93725490196078431" green="0.94117647058823528" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="tintColor" red="0.93725490196078431" green="0.94117647058823528" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="Ckn-aP-YAg" firstAttribute="top" secondItem="2ou-QN-EoU" secondAttribute="bottom" constant="12" id="4G4-CC-Gck"/>
                         <constraint firstAttribute="trailing" secondItem="gzu-G6-0uQ" secondAttribute="trailing" constant="16" id="FBK-uc-T4f"/>
@@ -211,7 +212,8 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="cxg-fo-Llm" secondAttribute="bottom" id="Ahb-X9-3vu"/>
                 <constraint firstAttribute="trailing" secondItem="cxg-fo-Llm" secondAttribute="trailing" id="Bgd-xV-Cm4"/>

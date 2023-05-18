@@ -19,7 +19,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     @IBOutlet weak var collectionView: UICollectionView!{
         didSet{
             collectionView.bounces = false
-            collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+            collectionView.backgroundColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         }
     }
     private lazy var locationHeader : ElgrocerlocationView = {
@@ -122,14 +122,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         }
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-   
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)
             controller.setupGradient()
         }
-        
-        
-      
         
     }
     
