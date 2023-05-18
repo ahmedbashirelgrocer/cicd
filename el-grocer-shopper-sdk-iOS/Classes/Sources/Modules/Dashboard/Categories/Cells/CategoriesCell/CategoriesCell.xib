@@ -63,7 +63,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="20c-5R-myQ" firstAttribute="leading" secondItem="uAW-Hq-YSf" secondAttribute="leading" constant="16" id="0I6-Vv-HCE"/>
                                     <constraint firstItem="V6d-sV-IxY" firstAttribute="centerY" secondItem="20c-5R-myQ" secondAttribute="centerY" id="NQ2-vq-Ppv"/>
@@ -87,7 +87,7 @@
                                 </collectionViewFlowLayout>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="SUj-yY-hTI" firstAttribute="leading" secondItem="QeB-G4-lMb" secondAttribute="leading" id="AtX-YG-qnQ"/>
                             <constraint firstItem="uAW-Hq-YSf" firstAttribute="leading" secondItem="QeB-G4-lMb" secondAttribute="leading" id="CB3-rX-tSz"/>
@@ -110,8 +110,10 @@
             <connections>
                 <outlet property="btnViewAll" destination="V6d-sV-IxY" id="SVr-DS-1CL"/>
                 <outlet property="collectionView" destination="SUj-yY-hTI" id="uFt-Jv-1sB"/>
+                <outlet property="contentBGView" destination="H2p-sc-9uM" id="3aj-9Q-YnQ"/>
                 <outlet property="ivArrow" destination="Kdc-VT-DDZ" id="tPi-Rg-rux"/>
                 <outlet property="lblTitle" destination="20c-5R-myQ" id="a5z-a4-8LQ"/>
+                <outlet property="topLabelBgView" destination="uAW-Hq-YSf" id="dJM-VD-cWo"/>
             </connections>
             <point key="canvasLocation" x="93.84615384615384" y="112.67772511848341"/>
         </tableViewCell>

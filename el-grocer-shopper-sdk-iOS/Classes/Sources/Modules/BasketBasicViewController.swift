@@ -97,7 +97,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
         NotificationCenter.default.addObserver(self, selector: #selector(BasketBasicViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: nil)
         
         addBasketIconOverlay(self, grocery: self.grocery, shouldShowGroceryActiveBasket: self.shouldShowGroceryActiveBasket)
-        addEmptyView()
+      //  addEmptyView()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(BasketBasicViewController.dismissKeyboard))
         self.emptyView?.addGestureRecognizer(tapGesture)

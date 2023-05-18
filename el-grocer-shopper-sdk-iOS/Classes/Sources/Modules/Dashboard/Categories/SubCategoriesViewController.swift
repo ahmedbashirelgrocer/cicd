@@ -121,6 +121,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         }
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
    
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)

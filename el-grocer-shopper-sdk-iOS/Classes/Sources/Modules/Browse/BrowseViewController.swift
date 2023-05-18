@@ -286,6 +286,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
              self.navigationItem.hidesBackButton = true;
         }
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
    
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)

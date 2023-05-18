@@ -19,7 +19,7 @@ enum ElgrocerStoreHeaderDismissType {
 class ElgrocerStoreHeader:  UIView  {
     
     let headerMaxHeight: CGFloat = 110
-    let headerMinHeight: CGFloat = 92
+    let headerMinHeight: CGFloat = 94
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
     
@@ -94,7 +94,7 @@ class ElgrocerStoreHeader:  UIView  {
     @IBOutlet var searchBGView: UIView!{
         didSet{
             searchBGView.backgroundColor = .navigationBarWhiteColor()
-            searchBGView.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 20, withShadow: false)
+            searchBGView.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 18, withShadow: false)
             searchBGView.layer.borderWidth = 1
             searchBGView.layer.borderColor = UIColor.newBorderGreyColor().cgColor
         }

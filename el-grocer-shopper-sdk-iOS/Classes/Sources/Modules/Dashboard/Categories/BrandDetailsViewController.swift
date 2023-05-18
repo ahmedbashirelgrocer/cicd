@@ -158,6 +158,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
            
         }
    
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        
         self.addLocationHeader()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {

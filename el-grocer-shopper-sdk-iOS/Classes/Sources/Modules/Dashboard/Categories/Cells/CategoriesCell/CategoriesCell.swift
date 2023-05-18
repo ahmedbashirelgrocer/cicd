@@ -15,6 +15,8 @@ class CategoriesCell: RxUITableViewCell {
             self.lblTitle.setH4SemiBoldStyle()
         }
     }
+    @IBOutlet weak var contentBGView: UIView!
+    @IBOutlet weak var topLabelBgView: UIView!
     @IBOutlet weak var btnViewAll: AWButton! {
         didSet {
             btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
@@ -22,11 +24,7 @@ class CategoriesCell: RxUITableViewCell {
         }
     }
     @IBOutlet weak var ivArrow: UIImageView!
-    @IBOutlet weak var collectionView: UICollectionView! {
-        didSet {
-            collectionView.backgroundColor = ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
-        }
-    }
+    @IBOutlet weak var collectionView: UICollectionView!
     
     private var viewModel: CategoriesCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -44,6 +42,18 @@ class CategoriesCell: RxUITableViewCell {
         
         self.viewModel = viewModel
         self.bindViews()
+        self.setBgColors()
+    }
+    
+    private func setBgColors() {
+        
+        var color = ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
+        if !SDKManager.isGrocerySingleStore {
+            color = .white
+        }
+        collectionView.backgroundColor = color
+        topLabelBgView.backgroundColor = color
+        contentBGView.backgroundColor = color
     }
     
     @IBAction func viewAllTapped(_ sender: Any) {
@@ -93,6 +103,10 @@ private extension CategoriesCell {
                 self.collectionView.semanticContentAttribute = .forceLeftToRight
             }
         }).disposed(by: disposeBag)
+        
+        
+        
+        
     }
 }
 
