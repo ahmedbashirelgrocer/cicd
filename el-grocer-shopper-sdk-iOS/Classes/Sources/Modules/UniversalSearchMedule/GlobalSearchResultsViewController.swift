@@ -468,10 +468,9 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
         self.navigateToGrocery(grocery, homeFeed: homeFeed)
     }
     func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home? ) {
-        self.navigateToGrocery(grocery, homeFeed: homeFeed, true)
+        self.navigateToGrocery(grocery, homeFeed: homeFeed, true, isNeedToDismiss: false)
     }
-    func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home?, _ isCommingFromUniversalSearch : Bool
-     = true) {
+    func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home?, _ isCommingFromUniversalSearch : Bool = true, isNeedToDismiss: Bool = true) {
         
        
                 
@@ -485,22 +484,46 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
             ElGrocerUtility.sharedInstance.isCommingFromUniversalSearch = isCommingFromUniversalSearch
             ElGrocerUtility.sharedInstance.searchFromUniversalSearch = homeFeed
             ElGrocerUtility.sharedInstance.searchString = self.keyWord
-            self.navigationController?.dismiss(animated: false, completion: {
+            
+            if isNeedToDismiss {
+                self.navigationController?.dismiss(animated: false, completion: {
+                    if let vc = self.presentingVC as? HyperMarketViewController {
+                        self.presentingVC?.dismiss(animated: false, completion: {
+                            vc.goToGrocery(grocery, nil)
+                            self.presentingVC?.tabBarController?.selectedIndex = 1
+                        })
+                    }else if let vc = self.presentingVC as? SpecialtyStoresGroceryViewController {
+                        self.presentingVC?.dismiss(animated: false, completion: {
+                            vc.goToGrocery(grocery, nil)
+                            self.presentingVC?.tabBarController?.selectedIndex = 1
+                        })
+                    }else if let vc = self.presentingVC as? ShopByCategoriesViewController {
+                        self.presentingVC?.dismiss(animated: false, completion: {
+                            //                        vc.goToGrocery(grocery, nil)
+                            self.presentingVC?.tabBarController?.selectedIndex = 1
+                        })
+                    }else {
+                        if let tabbar = self.presentingVC?.tabBarController {
+                            if  let navMain  = tabbar.viewControllers?[1] as? UINavigationController  {
+                                if navMain.viewControllers.count > 0 {
+                                    if let mainVC =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                        mainVC.navigationController?.popToRootViewController(animated: false)
+                                    }
+                                }
+                            }
+                        }
+                        self.presentingVC?.tabBarController?.selectedIndex = 1
+                    }
+                })
+            } else {
                 if let vc = self.presentingVC as? HyperMarketViewController {
-                    self.presentingVC?.dismiss(animated: false, completion: {
-                        vc.goToGrocery(grocery, nil)
-                        self.presentingVC?.tabBarController?.selectedIndex = 1
-                    })
+                    vc.goToGrocery(grocery, nil)
+                    self.presentingVC?.tabBarController?.selectedIndex = 1
                 }else if let vc = self.presentingVC as? SpecialtyStoresGroceryViewController {
-                    self.presentingVC?.dismiss(animated: false, completion: {
-                        vc.goToGrocery(grocery, nil)
-                        self.presentingVC?.tabBarController?.selectedIndex = 1
-                    })
+                    vc.goToGrocery(grocery, nil)
+                    self.presentingVC?.tabBarController?.selectedIndex = 1
                 }else if let vc = self.presentingVC as? ShopByCategoriesViewController {
-                    self.presentingVC?.dismiss(animated: false, completion: {
-//                        vc.goToGrocery(grocery, nil)
-                        self.presentingVC?.tabBarController?.selectedIndex = 1
-                    })
+                    self.presentingVC?.tabBarController?.selectedIndex = 1
                 }else {
                     if let tabbar = self.presentingVC?.tabBarController {
                         if  let navMain  = tabbar.viewControllers?[1] as? UINavigationController  {
@@ -513,7 +536,7 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
                     }
                     self.presentingVC?.tabBarController?.selectedIndex = 1
                 }
-            })
+            }
         }
     
         func processDataForDeliveryMode() {
@@ -719,7 +742,7 @@ extension GlobalSearchResultsViewController: ButtonActionDelegate {
     }
     
     func cartButtonTap() {
-        navigateToMultiCart()
+        self.navigateToMultiCart()
     }
     
     func navigateToMultiCart() {
@@ -731,12 +754,9 @@ extension GlobalSearchResultsViewController: ButtonActionDelegate {
         // MARK: Actions
         viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
             activeCartVC?.dismiss(animated: true) {
-//                guard let grocery = self?.dataSource.
-                        
                 guard let grocery = self?.dataSource.filterGroceryList.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
                 
-                self?.navigateToGrocery(grocery, homeFeed: nil)
-//                self?.goToGrocery(grocery, nil)
+                self?.navigateToGrocery(grocery, homeFeed: nil, false)
             }
         }).disposed(by: self.disposeBag)
         

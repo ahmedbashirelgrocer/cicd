@@ -46,6 +46,7 @@ private extension HomeCell {
         // shown this view only in case of Global Search
         self.stackViewDeliverySlot.isHidden = true
         self.viewBG.backgroundColor = .clear
+        self.viewStore.isHidden = true
         
         self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
@@ -157,6 +158,7 @@ class HomeCell: RxUITableViewCell {
     @IBOutlet weak var viewBG: UIView!
     @IBOutlet weak var ivDeliverySlotIcon: UIImageView!
     @IBOutlet weak var stackViewDeliverySlot: UIStackView!
+    @IBOutlet weak var viewStore: UIView!
     
     var placeholderPhoto = UIImage(name: "product_placeholder")!
     
@@ -201,6 +203,13 @@ class HomeCell: RxUITableViewCell {
         //self.titleLbl.font = UIFont.SFProDisplayBoldFont(20)
         self.titleLbl.setH4SemiBoldStyle()
         self.lblGrocerySlot.setSubHead2RegDarkStyle()
+        self.viewStore.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(storeTapHandler(_ :))))
+    }
+    
+    @objc func storeTapHandler(_ sender: UITapGestureRecognizer) {
+        if self.homeFeed?.type == .universalSearchProducts {
+            self.delegate?.navigateToGrocery(self.grocery, homeFeed: homeFeed)
+        }
     }
     
     func setArrowAppearance(){
@@ -266,6 +275,7 @@ class HomeCell: RxUITableViewCell {
                  self.isNeedToShowRecipe = isNeedToShowRecipe
                 self.stackViewDeliverySlot.isHidden = true
                 self.viewBG.backgroundColor = .clear
+                self.viewStore.isHidden = true
             } else if self.homeFeed?.type == .universalSearchProducts {
                 self.cellTopSpace.constant = 0
                 self.titleViewHeight.constant = 50
@@ -275,6 +285,7 @@ class HomeCell: RxUITableViewCell {
                 self.isNeedToShowRecipe = isNeedToShowRecipe
                 self.stackViewDeliverySlot.isHidden = false
                 self.viewBG.backgroundColor = .white
+                self.viewStore.isHidden = false
             } else{
                 self.topDistanceOfTitle.constant = 0
                 self.titleViewHeight.constant = 27
@@ -288,6 +299,7 @@ class HomeCell: RxUITableViewCell {
                 homeFeedObj.products.sort { (productOne, productTwo) -> Bool in
                     return productOne.isAvailable > productTwo.isAvailable
                 }
+                self.viewStore.isHidden = true
             }
             
            
@@ -300,6 +312,7 @@ class HomeCell: RxUITableViewCell {
             self.titleShimmerView.isShimmering = true
             self.stackViewDeliverySlot.isHidden = true
             self.viewBG.backgroundColor = .clear
+            self.viewStore.isHidden = true
         }
         
         if UIDevice.isIOS12() {

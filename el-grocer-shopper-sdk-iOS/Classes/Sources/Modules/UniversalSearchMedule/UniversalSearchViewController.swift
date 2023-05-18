@@ -209,6 +209,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
          (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
          (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonHidden(true)
         
         self.txtSearch.font = UIFont.SFProDisplayNormalFont(14)
         self.txtSearch.placeholder =  localizedString("search_products", comment: "")
