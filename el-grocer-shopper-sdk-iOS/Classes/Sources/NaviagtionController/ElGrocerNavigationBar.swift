@@ -269,8 +269,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.configureWithTransparentBackground()
             barAppearance.backgroundColor = color
             barAppearance.shadowColor = .clear
-            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor :  UIColor.navigationBarWhiteColor()]
-            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : UIColor.navigationBarWhiteColor()]
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor :  UIColor.navigationBarWhiteColor()]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
 
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance
@@ -369,7 +369,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     func setTitleColor() {
         
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor : ApplicationTheme.currentTheme.viewWhiteBGColor,
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : ApplicationTheme.currentTheme.viewWhiteBGColor,
                                                             NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(17.0)]
     }
     
@@ -384,7 +384,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     func setSecondaryBlackTitleColor(){
-        let textAttributes = [NSAttributedString.Key.foregroundColor:ApplicationTheme.currentTheme.secondaryBlackColor]
+        let textAttributes = [NSAttributedString.Key.foregroundColor:ApplicationTheme.currentTheme.newBlackColor]
         if #available(iOS 13.0, *) {
             self.standardAppearance.titleTextAttributes = textAttributes
         } else {

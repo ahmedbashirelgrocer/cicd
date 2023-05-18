@@ -297,7 +297,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
            
         }
         
-        
         self.dataSource?.productListNotFound = { [weak self] (noDataString) in
             guard let self = self else {return}
             self.isGettingProducts = false
@@ -332,10 +331,9 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     
     func navBarAppearance() {
 
-        
         let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
+        
         if !isSingleStore {
-            
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
@@ -351,11 +349,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             controller.setNavBarHidden(isSingleStore)
             controller.setupGradient()
         }
-            
-        
-            
-            
-//        }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {

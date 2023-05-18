@@ -78,14 +78,14 @@ class ElgrocerStoreHeader:  UIView  {
     
     @IBOutlet weak var iconLocation: UIImageView! { didSet {
         iconLocation.image = iconLocation.image?.withRenderingMode(.alwaysTemplate)
-        iconLocation.tintColor = ApplicationTheme.currentTheme.secondaryBlackColor
+        iconLocation.tintColor = ApplicationTheme.currentTheme.newBlackColor
     } }
     
     
     @IBOutlet weak var lblLocation: UILabel! {
         didSet{
             lblLocation.setYellowSemiBoldStyle()
-            lblLocation.textColor = ApplicationTheme.currentTheme.secondaryBlackColor
+            lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor
             
         }
     }

@@ -66,7 +66,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     @IBOutlet var btnCancel: UIButton! {
         didSet {
             btnCancel.setTitle(localizedString("grocery_review_already_added_alert_cancel_button", comment: ""), for: .normal)
-            btnCancel.setTitleColor(SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.secondaryBlackColor :  .white, for: UIControl.State())
+            btnCancel.setTitleColor(SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor :  .white, for: UIControl.State())
         }
     }
     @IBOutlet var segmenntCollectionView: AWSegmentView! {

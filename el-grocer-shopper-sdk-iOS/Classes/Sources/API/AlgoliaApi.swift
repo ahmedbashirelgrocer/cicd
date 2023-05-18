@@ -1038,9 +1038,6 @@ extension AlgoliaApi {
 //            let facetFiltersForCategoryId : String = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
 //            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
 //        }
-//
-        
-        
         
         var query = Query("")
             .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA) )
