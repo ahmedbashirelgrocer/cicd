@@ -46,6 +46,7 @@ private extension HomeCell {
         // shown this view only in case of Global Search
         self.stackViewDeliverySlot.isHidden = true
         self.viewBG.backgroundColor = .clear
+        self.viewStore.isHidden = true
         
         self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
@@ -274,6 +275,7 @@ class HomeCell: RxUITableViewCell {
                  self.isNeedToShowRecipe = isNeedToShowRecipe
                 self.stackViewDeliverySlot.isHidden = true
                 self.viewBG.backgroundColor = .clear
+                self.viewStore.isHidden = true
             } else if self.homeFeed?.type == .universalSearchProducts {
                 self.cellTopSpace.constant = 0
                 self.titleViewHeight.constant = 50
@@ -283,6 +285,7 @@ class HomeCell: RxUITableViewCell {
                 self.isNeedToShowRecipe = isNeedToShowRecipe
                 self.stackViewDeliverySlot.isHidden = false
                 self.viewBG.backgroundColor = .white
+                self.viewStore.isHidden = false
             } else{
                 self.topDistanceOfTitle.constant = 0
                 self.titleViewHeight.constant = 27
@@ -296,6 +299,7 @@ class HomeCell: RxUITableViewCell {
                 homeFeedObj.products.sort { (productOne, productTwo) -> Bool in
                     return productOne.isAvailable > productTwo.isAvailable
                 }
+                self.viewStore.isHidden = true
             }
             
            
@@ -308,6 +312,7 @@ class HomeCell: RxUITableViewCell {
             self.titleShimmerView.isShimmering = true
             self.stackViewDeliverySlot.isHidden = true
             self.viewBG.backgroundColor = .clear
+            self.viewStore.isHidden = true
         }
         
         if UIDevice.isIOS12() {
