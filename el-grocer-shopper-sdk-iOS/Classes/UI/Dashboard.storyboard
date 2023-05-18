@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -2149,7 +2149,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ubS-a1-WUL">
-                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
+                                <rect key="frame" x="0.0" y="97" width="390" height="747"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="HgH-2Z-k6J">
                                     <size key="itemSize" width="50" height="50"/>
@@ -2173,7 +2173,7 @@
                                                 <rect key="frame" x="16" y="8" width="358" height="56"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Continue shopping" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jk7-zw-N2D">
-                                                        <rect key="frame" x="106.00000000000001" y="18" width="146.33333333333337" height="20"/>
+                                                        <rect key="frame" x="106.00000000000001" y="18" width="146.33333333333337" height="20.333333333333329"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2243,12 +2243,27 @@
                                     <constraint firstItem="3ry-3S-5Fx" firstAttribute="top" secondItem="Q2y-yS-0NS" secondAttribute="top" constant="5" id="xjb-dO-gec"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hIO-p0-sTb">
+                                <rect key="frame" x="0.0" y="47" width="390" height="50"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yb9-j9-bO1" customClass="AWSegmentView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="OBR-tc-g4T"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Q2y-yS-0NS" secondAttribute="trailing" id="4gm-h2-LeX"/>
-                            <constraint firstItem="ubS-a1-WUL" firstAttribute="top" secondItem="JYj-1i-IZx" secondAttribute="bottom" priority="999" id="GRy-U1-TFf"/>
+                            <constraint firstItem="hIO-p0-sTb" firstAttribute="leading" secondItem="Qhs-9L-vTb" secondAttribute="leading" id="5UT-sD-cWj"/>
+                            <constraint firstItem="hIO-p0-sTb" firstAttribute="top" secondItem="JYj-1i-IZx" secondAttribute="bottom" priority="999" id="Exm-iw-CH4"/>
                             <constraint firstItem="Q2y-yS-0NS" firstAttribute="leading" secondItem="Qhs-9L-vTb" secondAttribute="leading" id="WeC-jS-BZ8"/>
+                            <constraint firstItem="ubS-a1-WUL" firstAttribute="top" secondItem="hIO-p0-sTb" secondAttribute="bottom" id="dCm-TC-HBe"/>
+                            <constraint firstAttribute="trailing" secondItem="hIO-p0-sTb" secondAttribute="trailing" id="hLo-z5-ox7"/>
                             <constraint firstItem="ubS-a1-WUL" firstAttribute="leading" secondItem="Qhs-9L-vTb" secondAttribute="leading" id="hYs-Zy-aIF"/>
                             <constraint firstItem="Q2y-yS-0NS" firstAttribute="top" secondItem="ubS-a1-WUL" secondAttribute="bottom" constant="-34" id="hpF-TL-jZG"/>
                             <constraint firstItem="Azs-8z-M7X" firstAttribute="top" secondItem="Q2y-yS-0NS" secondAttribute="bottom" priority="999" id="k57-xR-X3H"/>
@@ -2261,11 +2276,13 @@
                         <outlet property="buttomButtonTitle" destination="Jk7-zw-N2D" id="85c-sS-h6F"/>
                         <outlet property="checkOutView" destination="Q2y-yS-0NS" id="dfW-Cg-4CP"/>
                         <outlet property="collectionView" destination="ubS-a1-WUL" id="jdc-V9-1Aj"/>
+                        <outlet property="segmentedView" destination="yb9-j9-bO1" id="i40-gx-6ML"/>
+                        <outlet property="stackViewSegmentedBG" destination="hIO-p0-sTb" id="J3P-Az-Bef"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="utB-fb-Qts" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="373.84615384615381" y="560.90047393364921"/>
+            <point key="canvasLocation" x="372.30769230769232" y="560.18957345971558"/>
         </scene>
         <!--Grocery Loader View Controller-->
         <scene sceneID="tTg-Sg-hRs">

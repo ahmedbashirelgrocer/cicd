@@ -8,6 +8,12 @@
 
 import UIKit
 
+extension ProductsViewController: AWSegmentViewProtocol {
+    func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) {
+        
+    }
+}
+
 class ProductsViewController: BasketBasicViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var collectionView: UICollectionView!{
@@ -26,6 +32,17 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         }
     }
     @IBOutlet var buttomButtonTitle: UILabel!
+    @IBOutlet weak var stackViewSegmentedBG: UIStackView!
+    @IBOutlet weak var segmentedView: AWSegmentView! {
+        didSet {
+            segmentedView.commonInit()
+            segmentedView.segmentDelegate = self
+            segmentedView.backgroundColor = .tableViewBackgroundColor()
+        }
+    }
+    
+    var productsDict : Dictionary<String, Array<Product>> = [:]
+    
     var productsArray = [Product]()
     
     var selectedProduct:Product!
@@ -170,7 +187,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         NSLayoutConstraint.activate([
             self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.locationHeader.bottomAnchor.constraint(equalTo: self.collectionView.topAnchor, constant: 0)
+            self.locationHeader.bottomAnchor.constraint(equalTo: self.stackViewSegmentedBG.topAnchor, constant: 0)
             
         ])
         
@@ -318,6 +335,32 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             Thread.OnMainThread {
                 self.collectionView.reloadData()
             }
+            
+            let selectedIndex = self.segmentedView.lastSelection.row
+            
+            if selectedIndex == 0 {
+                let result = self.dataSource?.filterOutSegmentSubcateFrom()
+                
+                self.productsDict = result?.0 ?? [:]
+                var segmentTitleList = result?.1 ?? []
+                
+                // var segmentTitleList = self.productsDict.keys.map({ $0 })
+                segmentTitleList.insert(localizedString("all_cate", comment: ""), at: 0)
+                self.showSubcateList(segmentTitleList)
+            } else {
+                let key = self.segmentedView.segmentTitles[selectedIndex]
+                var loaddata : [Product] = []
+                if let isContain = self.productsDict[key] {
+                    loaddata = isContain
+                }
+                if self.pageNumber != 0 {
+                    loaddata += productList
+                }else{
+                    loaddata += productList
+                    loaddata = loaddata.uniqued()
+                }
+                self.productsArray = loaddata
+            }
         }
         
         
@@ -334,6 +377,30 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.collectionView.reloadData()
         }
     
+    }
+    
+    fileprivate func showSubcateList (_ list :  [String]) {
+        self.configureView(list, index: self.dataSource?.selectedIndex)
+    }
+    
+    fileprivate func configureView (_ segmentData : [String] , index : NSIndexPath?) {
+        if let getIndex = index {
+//            segmentedView.lastSelection = getIndex as IndexPath
+//            if self.dataSource?.selectedIndex.row == 0 {
+////                self.loadedProductList = self.dataSource?.productsList ?? []
+//            }else{
+//                if let indexSelected = self.dataSource?.selectedIndex {
+//                    if indexSelected.row < segmenntCollectionView.segmentTitles.count {
+//                        let selectedDataTitle =  segmenntCollectionView.segmentTitles[indexSelected.row]
+//                        if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
+//                            self.loadedProductList = productsAvailableToLoad
+//                        }
+//                    }
+//                }
+//            }
+//            self.showCollectionView(true)
+        }
+        segmentedView.refreshWith(dataA: segmentData)
     }
     
     func navBarAppearance() {
