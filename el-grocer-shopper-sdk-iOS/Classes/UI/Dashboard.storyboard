@@ -771,6 +771,7 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="dI9-vu-LCC" secondAttribute="trailing" id="Jnf-uU-xMH"/>
                             <constraint firstItem="dI9-vu-LCC" firstAttribute="leading" secondItem="9Mn-YR-5Bs" secondAttribute="leading" id="a6N-Kx-imB"/>
@@ -787,7 +788,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5sA-Xv-e5e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="575.625" y="1315"/>
+            <point key="canvasLocation" x="312" y="1314"/>
         </scene>
         <!--Dashboard Location View Controller-->
         <scene sceneID="9Vm-2G-PEw">

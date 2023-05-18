@@ -159,7 +159,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         }
    
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        
+        if SDKManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.addLocationHeader()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {

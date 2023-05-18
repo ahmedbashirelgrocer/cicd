@@ -19,7 +19,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     @IBOutlet weak var collectionView: UICollectionView!{
         didSet{
             collectionView.bounces = false
-            collectionView.backgroundColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+            collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
         }
     }
     private lazy var locationHeader : ElgrocerlocationView = {
@@ -105,6 +105,11 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     
     private func customizedNavigationView() {
+        
+        
+        if SDKManager.isSmileSDK {
+            self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        }
         
         let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
         
