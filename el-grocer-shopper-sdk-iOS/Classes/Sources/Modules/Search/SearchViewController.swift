@@ -127,7 +127,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.navigationController!.navigationBar.topItem!.title = localizedString("search_placeholder", comment: "")
         }
         if !isForEditOrder && isNavigateToSearch{
-            self.addRightCrossButton(true)
+            self.addRightCrossButton(SDKManager.isShopperApp)
         }
    
       //  self.collectionView.backgroundColor = UIColor.white // removed while merging
@@ -227,7 +227,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.view.layoutIfNeeded()
        
         self.navigationItem.hidesBackButton = true
-        searchBgView.backgroundColor =  SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.viewPrimaryBGColor : ApplicationTheme.currentTheme.viewPrimaryBGColor
+        searchBgView.backgroundColor =  ApplicationTheme.currentTheme.navigationBarColor
         // self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = .tableViewBackgroundColor()
     }

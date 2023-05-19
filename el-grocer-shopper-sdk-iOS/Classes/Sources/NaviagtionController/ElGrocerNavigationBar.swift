@@ -206,9 +206,9 @@ class ElGrocerNavigationBar : UINavigationBar {
                                               width: 24,
                                               height: 24)
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                let x = self.frame.size.width - 16 - 24 - (self.backButton.frame.size.width + 2)
+                let x = self.frame.size.width - 16 - 34 - (self.backButton.frame.size.width + 2)
                 self.profileButton.frame = CGRect(x: x,
-                                                  y: (self.frame.size.height*0.5)-13,
+                                                  y: (self.frame.size.height*0.5)-17,
                                                   width: 24,
                                                   height: 24)
                 self.profileButton.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -223,6 +223,14 @@ class ElGrocerNavigationBar : UINavigationBar {
             }
         }
         
+        
+        
+        
+        
+        
+        
+        
+        
         if self.cartButton != nil {
 
 //            self.cartButton.frame = CGRect(x:self.frame.size.width-16-44, y: (self.frame.size.height*0.5)-22 , width: 44, height: 44)
@@ -232,8 +240,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
 //                self.cartButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-22, width: 44, height: 44)
                 self.cartButton.frame = CGRect(x:6, y: (self.frame.size.height*0.5)-29, width: 58, height: 58)
-                self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
-                self.cartButton.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+               // self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.cartButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
             }
         }
         
@@ -279,9 +287,9 @@ class ElGrocerNavigationBar : UINavigationBar {
             // Fallback on earlier versions
         }
         
-        if SDKManager.isSmileSDK {
-            self.setClearBackground()
-        }
+//        if SDKManager.isSmileSDK {
+//            self.setClearBackground()
+//        }
     }
     func setWhiteBackground() {
         

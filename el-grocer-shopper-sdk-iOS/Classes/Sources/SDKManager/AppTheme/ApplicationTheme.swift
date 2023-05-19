@@ -293,7 +293,7 @@ struct SmileSDKTheme: Theme {
     var labeldiscriptionTextColor: UIColor = ElgrocerBaseColors.elgrocerSecondaryBlackTextColour
     var labelLightgrayTextColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var labelPrimaryBaseTextColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
-    var labelSecondaryBaseColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var labelSecondaryBaseColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryColor
     var labelTextWithBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var labelHighlightedOOSColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var labelPromotionalTextColor: UIColor = ElgrocerBaseColors.elgrocerPromotionYellowColour

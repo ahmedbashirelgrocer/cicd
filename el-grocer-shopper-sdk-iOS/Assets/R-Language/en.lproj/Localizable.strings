@@ -2169,3 +2169,6 @@ Oreo";
 
 // Smiles SDK Home
 "lbl_AvailableStores_Smiles_Home" = "Available stores (%@)";
+
+// CategoryDTO
+"search_by_shopping_list_text" = "Search by Shopping List";

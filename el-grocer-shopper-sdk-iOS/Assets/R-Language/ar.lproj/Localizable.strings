@@ -2208,3 +2208,6 @@
 
 // Smiles SDK Home
 "lbl_AvailableStores_Smiles_Home" = "المتاجر المتاحة (%@)";
+
+"search_by_shopping_list_text" = "البحث بقائمة التسوق";
+

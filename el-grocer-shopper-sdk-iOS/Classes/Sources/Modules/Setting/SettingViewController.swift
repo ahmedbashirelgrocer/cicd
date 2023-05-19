@@ -519,7 +519,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     let points = UserDefaults.getSmilesPoints()
                     title = localizedString("txt_smile_point", comment: "") + "(\(points) " + localizedString("smile_point_unit", comment: "") + ")"
                 }
-                let imageName = "smilesCellLogo"
+                let imageName = "smileLogo"
                 cell.configureCellWithTitle(title, withImage: imageName)
                 cell.selectionStyle = UITableViewCell.SelectionStyle.none
                 

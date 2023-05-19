@@ -49,7 +49,7 @@ class PrivacyPolicyViewController: UIViewController, NavigationBarProtocol  {
         self.title = localizedString("setting_privacy_policy", comment: "")
         if (isTermsAndConditions == true){
             self.title = localizedString("terms_settings", comment: "")
-            urlStr = "https:///www.elgrocer.com/#/termsconditionsmob"
+            urlStr = "https://www.elgrocer.com/#/termsconditionsmob"
         }
         
         

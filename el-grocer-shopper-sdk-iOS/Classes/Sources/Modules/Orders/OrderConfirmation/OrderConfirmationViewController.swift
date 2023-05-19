@@ -140,9 +140,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setLightThemeWithPurpleTitleColorBackgroundColor()
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.addRightCrossButton(false, true)
+        (self.navigationController as? ElGrocerNavigationController)?.addRightCrossButton(false, false)
         
         if let nav = (self.navigationController as? ElGrocerNavigationController) {
             if let bar = nav.navigationBar as? ElGrocerNavigationBar {
@@ -231,6 +231,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             .bind(to: self.lblPickerDetail.rx.text)
             .disposed(by: disposeBag)
         
+        self.viewModel.outputs.picketName.subscribe { [weak self] pickerName in
+            self?.pickerDetailView.isHidden = pickerName.count == 0
+        }.disposed(by: disposeBag)
+        
         
         self.viewModel.outputs.banners.subscribe(onNext: { [weak self] banners in
             guard let self = self else { return }
@@ -239,6 +243,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 self.viewBanner.banners = banners
             }
             self.viewBanner.isHidden = banners == nil || banners?.count ?? 0 == 0
+            if !self.viewBanner.isHidden {
+                
+            }
         }).disposed(by: disposeBag)
         
         self.viewModel.outputs.orderStatus.subscribe(onNext: {  [weak self] status in
@@ -246,11 +253,18 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             self.orderStatusViewHeightConstraint.constant = 110
             if status == OrderStatus.inSubtitution {
                 self.orderStatusViewHeightConstraint.constant = 180
-            }
-            if status != .enRoute {
+                self.orderProgressView.progressTintColor = ApplicationTheme.currentTheme.promotionYellowColor
+                self.lblOrderStatus.textColor = ApplicationTheme.currentTheme.promotionYellowColor
+            }else if status == OrderStatus.canceled {
+                self.orderStatusViewHeightConstraint.constant = 180
+                self.orderProgressView.progressTintColor = ApplicationTheme.currentTheme.redInfoColor
+                self.lblOrderStatus.textColor = ApplicationTheme.currentTheme.redInfoColor
+            }else if status != .enRoute {
                 self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(1000.0)
             }
-            
+            if self.pickerDetailView.isHidden == false {
+                self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(600.0)
+            }
             DispatchQueue.main.async {
                 self.view.layoutIfNeeded()
                 self.view.setNeedsLayout()
@@ -362,7 +376,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
     }
     @IBAction func pickerChatAction(_ sender: Any) {
-        
+        guard (self.order.picker?.dbID.stringValue.count ?? 0) > 0 else {return}
+        Thread.OnMainThread { [weak self] in
+            self?.callSendBirdChat(pickerID: self?.order.picker?.dbID.stringValue ?? "")
+        }
+       
     }
     
     
@@ -695,7 +713,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.addBackButtonWithCrossIconRightSide(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        self.addBackButtonWithCrossIconRightSide(ApplicationTheme.currentTheme.newBlackColor)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

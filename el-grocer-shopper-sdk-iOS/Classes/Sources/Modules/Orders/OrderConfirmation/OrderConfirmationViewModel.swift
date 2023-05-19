@@ -152,10 +152,11 @@ private extension OrderConfirmationViewModel {
                         self.groceryNameSubject.onNext(latestOrderObj.grocery.name ?? "")
                         self.orderNumberSubject.onNext(latestOrderObj.dbID.stringValue)
                         self.orderDeliveryDateStringSubject.onNext(NSAttributedString.init(string: latestOrderObj.getSlotDisplayStringOnOrder()))
+                        self.picketNameSubject.onNext(((latestOrderObj.picker?.name ?? "") + "\n" + localizedString("txt_Picker", comment: "")) )
                         self.orderProgressValueSubject.onNext(self.orderProgressFloatValueWithOrderStatus(latestOrderObj))
                         self.orderStatusStringSubject.onNext(self.getOrderStatus(latestOrderObj))
                         self.orderStatusSubject.onNext(latestOrderObj.getOrderDynamicStatus().getMappingTypeWithOrderStatus())
-                        self.picketNameSubject.onNext(latestOrderObj.picker?.name ?? "")
+                      
                         let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(latestOrderObj.deliveryAddress) + latestOrderObj.deliveryAddress.address
                         self.addressSubject.onNext(addressString)
                         self.isNewOrderSubject.onNext(self.isNewOrderLocalObj) // This should be last updated; As it will update constraints to not show irralvent views

@@ -37,7 +37,11 @@ class AWPickerViewController : UIViewController {
     @IBOutlet var lblSegmentTwoDate: UILabel!
     @IBOutlet var lblSegmentTwoDesc: UILabel!
     @IBOutlet var segmentTwoIndicatorView: AWView!
-    @IBOutlet var activityIndication: UIActivityIndicatorView!
+    @IBOutlet var activityIndication: UIActivityIndicatorView! {
+        didSet {
+            activityIndication.color = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        }
+    }
     @IBOutlet var btnConfirm: AWButton! {
         didSet {
             btnConfirm.setTitle(localizedString("lbl_confirm_slot", comment: ""), for: .normal)

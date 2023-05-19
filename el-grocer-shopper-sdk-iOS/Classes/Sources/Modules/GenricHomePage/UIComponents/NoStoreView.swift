@@ -212,7 +212,8 @@ class NoStoreView: UIView {
         self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
-        self.imgNoData.image = UIImage(name: "empty-cart-white-bg")
+        self.imgNoData.image = SDKManager.isSmileSDK ? UIImage(name: "NoSelectedStoreCart") : UIImage(name: "empty-cart-white-bg")
+        
         self.backgroundColor = .colorWithHexString(hexString: "f5f5f5")
     }
     
