@@ -24,6 +24,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     @IBOutlet weak var bgView: UIView!
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var scrollContentSize: NSLayoutConstraint!
     @IBOutlet var lottieAnimation: UIView!
     @IBOutlet weak var lblNewOrderSuccessMsg: UILabel! {
         didSet {
@@ -160,6 +163,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     private func bindViews() {
         
+       //
         
         self.viewModel.outputs.error.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
@@ -264,7 +268,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             }
             if self.pickerDetailView.isHidden == false {
                 self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(600.0)
+                self.scrollContentSize.constant = 880
+            }else {
+                self.scrollContentSize.constant = 730
             }
+            
             DispatchQueue.main.async {
                 self.view.layoutIfNeeded()
                 self.view.setNeedsLayout()
