@@ -30,7 +30,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet var lottieAnimation: UIView!
     @IBOutlet weak var lblNewOrderSuccessMsg: UILabel! {
         didSet {
+            lblNewOrderSuccessMsg.setH4SemiBoldStyle()
             lblNewOrderSuccessMsg.text =  localizedString("lbl_Hurray_Success_Msg", comment: "")
+            lblNewOrderSuccessMsg.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+            
         }
     }
     @IBOutlet weak var groceryImage: UIImageView!
@@ -236,7 +239,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             .disposed(by: disposeBag)
         
         self.viewModel.outputs.picketName.subscribe { [weak self] pickerName in
-            self?.pickerDetailView.isHidden = pickerName.count == 0
+            
+            var picker : String = pickerName
+            picker = picker.replacingOccurrences(of: "\n" + localizedString("txt_Picker", comment: ""), with: "")
+            self?.pickerDetailView.isHidden = picker.count == 0
         }.disposed(by: disposeBag)
         
         

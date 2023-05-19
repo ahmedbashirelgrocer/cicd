@@ -475,7 +475,7 @@ with our partner to add for your next shopping experience.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rYk-Lo-CrJ">
-                                <rect key="frame" x="0.0" y="47" width="390" height="56"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="103"/>
                                 <color key="backgroundColor" red="0.019607843137254902" green="0.73725490196078436" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="liu-Hq-9vN" userLabel="SearchBar" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
@@ -756,7 +756,7 @@ with our partner to add for your next shopping experience.</string>
                             <constraint firstItem="rYk-Lo-CrJ" firstAttribute="leading" secondItem="nOu-P4-d6D" secondAttribute="leading" id="pgM-Vd-Z77"/>
                             <constraint firstItem="ToC-nT-UcN" firstAttribute="leading" secondItem="nOu-P4-d6D" secondAttribute="leading" id="siJ-jf-eB3"/>
                             <constraint firstAttribute="trailing" secondItem="ToC-nT-UcN" secondAttribute="trailing" id="sko-A7-QxC"/>
-                            <constraint firstItem="rYk-Lo-CrJ" firstAttribute="top" secondItem="dB1-pS-JeR" secondAttribute="bottom" id="t0E-gF-T9x"/>
+                            <constraint firstItem="rYk-Lo-CrJ" firstAttribute="top" secondItem="nOu-P4-d6D" secondAttribute="top" id="t0E-gF-T9x"/>
                             <constraint firstAttribute="trailing" secondItem="AWb-Pk-Dt3" secondAttribute="trailing" id="twu-Gl-Yf0"/>
                         </constraints>
                     </view>

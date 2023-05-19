@@ -34,6 +34,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     @IBOutlet var btnCancel: UIButton! {
         didSet{
             btnCancel.setTitle(localizedString("account_setup_cancel", comment: ""), for: .normal)
+            btnCancel.setTitleColor(ApplicationTheme.currentTheme.newBlackColor, for: UIControl.State())
         }
     }
     
