@@ -80,7 +80,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         NotificationCenter.default.addObserver(self,selector: #selector(ProductsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         
         
-        
+        if SDKManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.navigationItem.hidesBackButton = true
         self.registerCellsForCollection()
         self.basketIconOverlay?.grocery = self.grocery

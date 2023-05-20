@@ -43,7 +43,7 @@ class GenricBannerList : CustomCollectionView {
        // self.collectionView?. = true
        
          //  behavior = MSCollectionViewPeekingBehavior()
-        behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(12), cellPeekWidth: CGFloat(12), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)
+        self.behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(5), cellPeekWidth: CGFloat(10))
         self.collectionView?.configureForPeekingBehavior(behavior: behavior)
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
@@ -61,18 +61,6 @@ class GenricBannerList : CustomCollectionView {
     
     func configureData (_ dataA : [Banner]) {
         collectionData = dataA
-       // self.collectionView?.invalidateIntrinsicContentSize()
-        
-        var isGeneric = false
-        for data in dataA {
-            if data.bannerStyletype != .CustomBanner {
-                isGeneric = true
-            }
-        }
-        
-        behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(16), cellPeekWidth: CGFloat(16), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)
-        self.collectionView?.configureForPeekingBehavior(behavior: behavior)
-        
         UIView.performWithoutAnimation {
             self.layoutIfNeeded()
             self.collectionView?.reloadData()
@@ -82,8 +70,6 @@ class GenricBannerList : CustomCollectionView {
     
     func configureData (_ dataA : [BannerCampaign]) {
         collectionData = dataA
-        behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(8), cellPeekWidth: CGFloat(2), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)
-        self.collectionView?.configureForPeekingBehavior(behavior: behavior)
         UIView.performWithoutAnimation {
             self.layoutIfNeeded()
             self.collectionView?.reloadData()

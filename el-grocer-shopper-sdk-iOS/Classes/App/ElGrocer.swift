@@ -21,7 +21,7 @@ public final class ElGrocer {
         
         SDKManager.shared.launchCompletion = completion
         
-        if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType {
+        if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType || SDKManager.shared.launchOptions?.language != launchOptions?.language {
             HomePageData.shared.groceryA = []
             SDKManager.shared.launchOptions = launchOptions
         }
