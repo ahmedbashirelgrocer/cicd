@@ -1488,13 +1488,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
           parameters["delivery_time"] = deliveryTime != nil ? deliveryTime as AnyObject : time as AnyObject
-  
-  
-  // //elDebugPrint("Patameters:%@",parameters)
   //sab
   let urlStr = ElGrocerApiEndpoint.Categories.rawValue
-        //sab new
-        //let urlStr = ElGrocerApiEndpoint.TopProducts.rawValue
   // //elDebugPrint("URL Str:%@",urlStr)
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
         // elDebugPrint("Progress for API :  \(progress)")

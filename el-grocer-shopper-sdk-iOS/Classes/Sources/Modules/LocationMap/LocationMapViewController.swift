@@ -58,6 +58,9 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     @IBOutlet weak var footerTitleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     
+    @IBOutlet weak var mapToolTipBgView: UIView!
+    @IBOutlet weak var mapPinToolTipText: UILabel!
+    
     var shouldUpdatePinUpdate = false
     var isPinUpdate : Bool = false
     var isNeedToUpdateManual : Bool = false
@@ -146,6 +149,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         
         if isConfirmAddress == true {
             self.navigationItem.title = localizedString("confirm_address_title", comment: "")
@@ -943,11 +947,19 @@ extension LocationMapViewController: GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
         self.shouldUpdatePinUpdate = true
+        
+        UIView.transition(with: self.mapToolTipBgView, duration: 0.2,
+                          options: .curveEaseIn,
+                          animations: {
+                        self.mapToolTipBgView.isHidden = true
+                      })
+        
+        
     }
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         
-        print(position.target)
+        print("map Zoom level : \(position.zoom)")
         let location = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
         if CLLocationCoordinate2DIsValid(location.coordinate) && (location.coordinate.latitude != 0 && location.coordinate.longitude != 0){
             if self.shouldUpdatePinUpdate {
@@ -957,6 +969,14 @@ extension LocationMapViewController: GMSMapViewDelegate {
             }
             
         }
+   
+        self.mapPinToolTipText.text = position.zoom >= 18 ? "Drag the pin on the most accurate location" : "Please zoom in to find your exact delivery location"
+    
+        UIView.transition(with: self.mapToolTipBgView, duration: 0.2,
+                          options: .curveEaseOut,
+                          animations: {
+                        self.mapToolTipBgView.isHidden = false
+                      })
         
     }
 }

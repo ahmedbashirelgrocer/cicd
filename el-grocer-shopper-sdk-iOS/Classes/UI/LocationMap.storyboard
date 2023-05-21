@@ -24,7 +24,7 @@
         <!--Location Map View Controller-->
         <scene sceneID="yJC-Mo-Q0y">
             <objects>
-                <viewController storyboardIdentifier="LocationMapViewController" id="UN9-ue-4AF" customClass="LocationMapViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LocationMapViewController" id="UN9-ue-4AF" customClass="LocationMapViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="V9u-6w-k8q"/>
                         <viewControllerLayoutGuide type="bottom" id="WiG-A1-LW8"/>
@@ -82,7 +82,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcA-ef-QYf">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="134"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJG-iD-gad" userLabel="Search" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJG-iD-gad" userLabel="Search" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="18" width="358" height="48"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDW-WL-BxS">
@@ -92,7 +92,7 @@
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aJJ-wE-Seo" customClass="CustomTextField" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aJJ-wE-Seo" customClass="CustomTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                         <rect key="frame" x="34" y="0.0" width="308" height="48"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -135,7 +135,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFi-DD-Rfm" userLabel="currentLocation" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFi-DD-Rfm" userLabel="currentLocation" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="68" width="358" height="56"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location_icon_green" translatesAutoresizingMaskIntoConstraints="NO" id="VKp-vl-rjM">
@@ -152,7 +152,7 @@
                                                         <color key="textColor" red="0.33333334329999997" green="0.7254902124" blue="0.4352940917" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AWR-BU-Wcb" customClass="CustomTextField" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AWR-BU-Wcb" customClass="CustomTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                         <rect key="frame" x="34" y="0.0" width="308" height="56"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -199,6 +199,34 @@
                                         <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tyv-kr-dCS">
+                                        <rect key="frame" x="85" y="307" width="220" height="70"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MapPinToolTip" translatesAutoresizingMaskIntoConstraints="NO" id="edd-Or-T3I">
+                                                <rect key="frame" x="0.0" y="0.0" width="220" height="70"/>
+                                            </imageView>
+                                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please zoom in to find your exact delivery location" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="frB-uV-hsX">
+                                                <rect key="frame" x="8" y="5" width="204" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="GYd-4p-O7U"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="edd-Or-T3I" firstAttribute="leading" secondItem="tyv-kr-dCS" secondAttribute="leading" id="31m-Xh-qdz"/>
+                                            <constraint firstAttribute="height" constant="70" id="ARl-N1-o0W"/>
+                                            <constraint firstItem="frB-uV-hsX" firstAttribute="top" secondItem="tyv-kr-dCS" secondAttribute="top" constant="5" id="Oba-y9-M9Y"/>
+                                            <constraint firstAttribute="trailing" secondItem="edd-Or-T3I" secondAttribute="trailing" id="Rhs-GP-t2J"/>
+                                            <constraint firstAttribute="trailing" secondItem="frB-uV-hsX" secondAttribute="trailing" constant="8" id="YFD-LY-8Ug"/>
+                                            <constraint firstAttribute="width" constant="220" id="gBG-yh-FV4"/>
+                                            <constraint firstItem="frB-uV-hsX" firstAttribute="leading" secondItem="tyv-kr-dCS" secondAttribute="leading" constant="8" id="gR7-g6-iVW"/>
+                                            <constraint firstItem="edd-Or-T3I" firstAttribute="top" secondItem="tyv-kr-dCS" secondAttribute="top" id="vUb-V0-BK2"/>
+                                        </constraints>
+                                    </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="elgrocer_pin" translatesAutoresizingMaskIntoConstraints="NO" id="7Ld-sP-VpS">
                                         <rect key="frame" x="145" y="380" width="100" height="50"/>
                                         <constraints>
@@ -206,7 +234,7 @@
                                             <constraint firstAttribute="height" constant="50" id="nWv-Hs-y3w"/>
                                         </constraints>
                                     </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgf-nB-3J5" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgf-nB-3J5" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="653" width="390" height="157"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xey-rO-0Tp">
@@ -253,7 +281,7 @@
                                                     <action selector="cancelButtonHandler:" destination="UN9-ue-4AF" eventType="touchUpInside" id="cJ1-92-em3"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EiR-FQ-1hL" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EiR-FQ-1hL" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="76" width="358" height="56"/>
                                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
@@ -355,6 +383,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="tyv-kr-dCS" firstAttribute="centerX" secondItem="e07-zo-Jl2" secondAttribute="centerX" id="7O9-0l-Ptf"/>
+                                    <constraint firstItem="tyv-kr-dCS" firstAttribute="bottom" secondItem="7Ld-sP-VpS" secondAttribute="top" constant="-3" id="EKy-Up-VNR"/>
                                     <constraint firstItem="7Ld-sP-VpS" firstAttribute="centerY" secondItem="ls9-Rl-icI" secondAttribute="centerY" id="G1Y-Xo-6xX"/>
                                     <constraint firstItem="7Ld-sP-VpS" firstAttribute="centerX" secondItem="ls9-Rl-icI" secondAttribute="centerX" id="IKW-Y9-roX"/>
                                     <constraint firstItem="fgf-nB-3J5" firstAttribute="leading" secondItem="e07-zo-Jl2" secondAttribute="leading" id="KdC-VN-vZv"/>
@@ -413,6 +443,8 @@
                         <outlet property="lbl_chooselocation" destination="Xey-rO-0Tp" id="PWE-Iu-8aY"/>
                         <outlet property="locationMarker" destination="7Ld-sP-VpS" id="3rR-N9-0Nr"/>
                         <outlet property="manualTextField" destination="aJJ-wE-Seo" id="nLm-D8-pNt"/>
+                        <outlet property="mapPinToolTipText" destination="frB-uV-hsX" id="a6d-lb-r8g"/>
+                        <outlet property="mapToolTipBgView" destination="tyv-kr-dCS" id="juH-lP-SQx"/>
                         <outlet property="mapView" destination="ls9-Rl-icI" id="gf1-Ik-pRs"/>
                         <outlet property="maunalSearchView" destination="fJG-iD-gad" id="YSG-aR-sw1"/>
                         <outlet property="topView" destination="vcA-ef-QYf" id="lbN-Pi-UvO"/>
@@ -436,6 +468,7 @@
         </designable>
     </designables>
     <resources>
+        <image name="MapPinToolTip" width="220" height="70"/>
         <image name="elgrocer_pin" width="124" height="124"/>
         <image name="locate_icon" width="14" height="14"/>
         <image name="location_icon_green" width="24" height="24"/>
