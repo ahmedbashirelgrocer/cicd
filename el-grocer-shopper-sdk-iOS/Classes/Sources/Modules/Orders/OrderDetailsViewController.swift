@@ -100,7 +100,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         self.title = localizedString("lbl_Order_Details", comment: "")
         self.navigationItem.hidesBackButton = true
-         addBackButton()
+         addBackButton(isGreen: false, true)
         self.setOrderLableAppearnace()
         self.setOrderData()
         self.setUpInitailizers()
@@ -148,7 +148,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }
         }
         
+        SDKManager.isSmileSDK ?
+        (self.navigationController as? ElGrocerNavigationController)?.setLightThemeBackgroundColor() :
         (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+        
         if isCommingFromOrderConfirmationScreen {
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         }

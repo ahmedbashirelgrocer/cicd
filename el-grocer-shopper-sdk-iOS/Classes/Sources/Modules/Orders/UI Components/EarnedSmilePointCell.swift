@@ -29,7 +29,7 @@ class EarnedSmilePointCell: UITableViewCell {
     }
     @IBOutlet var smilesLogoImg: UIImageView! {
         didSet {
-            smilesLogoImg.image = UIImage(name: "smilesCellLogo")
+            smilesLogoImg.image = UIImage(name: "smileLogo")
         }
     }
     

@@ -183,7 +183,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        self.addRightCrossButton(true)
+        self.addRightCrossButton(SDKManager.isShopperApp)
     }
     
     override func viewDidAppear(_ animated: Bool) {

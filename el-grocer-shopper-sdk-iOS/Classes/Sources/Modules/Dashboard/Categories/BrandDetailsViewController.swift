@@ -158,6 +158,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
            
         }
    
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        if SDKManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.addLocationHeader()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
@@ -748,7 +750,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
             let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {

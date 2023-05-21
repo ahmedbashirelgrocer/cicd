@@ -33,4 +33,16 @@ class CenterLabelTableViewCell: UITableViewCell {
         
     }
     
+    func configureLabelWithOutCenteralAllignment (_ title : String) {
+        
+        self.lblLabel.text = title
+        self.lblLabel.textColor = ApplicationTheme.currentTheme.newBlackColor
+        self.lblLabel.textAlignment = .natural
+        self.contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
+        
+        
+        
+    }
+    
 }

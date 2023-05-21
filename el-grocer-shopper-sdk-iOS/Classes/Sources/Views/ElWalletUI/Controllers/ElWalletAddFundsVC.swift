@@ -35,6 +35,7 @@ class ElWalletAddFundsVC: UIViewController {
         didSet {
             addFundsButton.layer.cornerRadius = addFundsButton.frame.height / 2.0
             addFundsButton.setTitle(localizedString("btn_add_funds", comment: ""), for: UIControl.State())
+            addFundsButton.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     @IBOutlet var btnAddFundsBottomConstraint: NSLayoutConstraint!

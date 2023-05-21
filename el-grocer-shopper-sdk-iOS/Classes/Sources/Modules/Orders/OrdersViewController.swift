@@ -91,7 +91,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                 return !order.isCandCOrder()
             })
             DispatchQueue.main.async {
-                self.addEmptyView()
+            //    self.addEmptyView()
                 self.tableView.reloadData()
             }
           

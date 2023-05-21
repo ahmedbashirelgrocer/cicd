@@ -106,6 +106,11 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     private func customizedNavigationView() {
         
+        
+        if SDKManager.isSmileSDK {
+            self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        }
+        
         let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
         
         if !isSingleStore {
@@ -121,14 +126,11 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         }
-   
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)
             controller.setupGradient()
         }
-        
-        
-      
         
     }
     
@@ -540,7 +542,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
             let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
@@ -551,7 +553,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            //(self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
         
         if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {

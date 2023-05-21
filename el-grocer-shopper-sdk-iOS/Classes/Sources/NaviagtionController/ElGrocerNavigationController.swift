@@ -43,7 +43,7 @@ class ElGrocerNavigationController : UINavigationController {
     }()
     func setupGradient() {
         
-        let height : CGFloat = KElgrocerlocationViewFullHeight // Height of the nav bar
+      /*  let height : CGFloat = KElgrocerlocationViewFullHeight // Height of the nav bar
         let color = UIColor.smileBaseColor().cgColor
         let clear = UIColor.smileSecondaryColor().cgColor
         gradient = setupGradient(height: height, topColor: color,bottomColor: clear)
@@ -54,12 +54,11 @@ class ElGrocerNavigationController : UINavigationController {
             gradientView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
         gradientView.layer.insertSublayer(gradient!, at: 0)
-
+    */
     }
  
     override func viewDidLoad() {
-      
-        
+       
     }
     override func viewWillAppear(_ animated: Bool) {
        
@@ -69,7 +68,7 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.addTarget(self, action: #selector(cartButtonClick), for: UIControl.Event.touchUpInside)
     
         (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.addTarget(self, action: #selector(profileButtonClick), for: UIControl.Event.touchUpInside)
-    
+       
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,6 +122,10 @@ class ElGrocerNavigationController : UINavigationController {
     }
     
     // MARK: Hide Border
+    
+    
+    
+    
     func setGreenBackgroundColor() {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         
@@ -135,6 +138,24 @@ class ElGrocerNavigationController : UINavigationController {
         
         
     }
+    
+    func setLightThemeBackgroundColor() {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setlightBackground()
+        (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(false)
+    }
+    
+    func setLightThemeWithPurpleTitleColorBackgroundColor() {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setlightBackgroundWithPurpleTitle()
+        (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(false)
+    }
+    
+    
     func setWhiteBackgroundColor() {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setWhiteBackground()
@@ -244,6 +265,11 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as! ElGrocerNavigationBar).setWhiteTitleTextColor()
     }
     
+    func setSecondaryBlackTitleColor() {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setSecondaryBlackTitleColor()
+    }
+    
     //MARK: location view
     func setLocationHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
@@ -256,10 +282,8 @@ class ElGrocerNavigationController : UINavigationController {
         }
     }
     
-    
     // MARK: SearchBar
 
-    
     func setSearchBarHidden(_ hidden:Bool) {
         
         guard self.navigationBar is ElGrocerNavigationBar else {return}

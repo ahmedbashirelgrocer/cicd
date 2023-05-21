@@ -28,7 +28,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setWhiteTitleColor()
+        setTitleColor()
         self.setWhiteBackground()
         self.addLogoView()
         self.addSearchBar()
@@ -49,7 +49,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         setWhiteBackground()
         addLogoView()
-        setWhiteTitleColor()
+        setTitleColor()
         addLocationBar()
         addBackButton()
         addChatButton()
@@ -206,9 +206,9 @@ class ElGrocerNavigationBar : UINavigationBar {
                                               width: 24,
                                               height: 24)
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                let x = self.frame.size.width - 16 - 24 - (self.backButton.frame.size.width + 2)
+                let x = self.frame.size.width - 16 - 34 - (self.backButton.frame.size.width + 2)
                 self.profileButton.frame = CGRect(x: x,
-                                                  y: (self.frame.size.height*0.5)-13,
+                                                  y: (self.frame.size.height*0.5)-17,
                                                   width: 24,
                                                   height: 24)
                 self.profileButton.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -223,6 +223,14 @@ class ElGrocerNavigationBar : UINavigationBar {
             }
         }
         
+        
+        
+        
+        
+        
+        
+        
+        
         if self.cartButton != nil {
 
 //            self.cartButton.frame = CGRect(x:self.frame.size.width-16-44, y: (self.frame.size.height*0.5)-22 , width: 44, height: 44)
@@ -232,8 +240,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
 //                self.cartButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-22, width: 44, height: 44)
                 self.cartButton.frame = CGRect(x:6, y: (self.frame.size.height*0.5)-29, width: 58, height: 58)
-                self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
-                self.cartButton.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+               // self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+                self.cartButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
             }
         }
         
@@ -260,7 +268,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     //MARK: Appearance
     
     func setGreenBackground() {
-        let color = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+        let color = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.backgroundColor = color
         self.barTintColor = color
         self.isTranslucent = false
@@ -269,8 +277,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.configureWithTransparentBackground()
             barAppearance.backgroundColor = color
             barAppearance.shadowColor = .clear
-            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
-            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor :  UIColor.navigationBarWhiteColor()]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
 
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance
@@ -279,23 +287,23 @@ class ElGrocerNavigationBar : UINavigationBar {
             // Fallback on earlier versions
         }
         
-        if SDKManager.shared.isSmileSDK {
-            self.setClearBackground()
-        }
+//        if SDKManager.isSmileSDK {
+//            self.setClearBackground()
+//        }
     }
     func setWhiteBackground() {
         
-        self.backgroundColor = SDKManager.shared.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
-        self.barTintColor = SDKManager.shared.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+        self.backgroundColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+        self.barTintColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
         self.isTranslucent = false
         
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithDefaultBackground()
-            barAppearance.backgroundColor = SDKManager.shared.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
+            barAppearance.backgroundColor = SDKManager.isSmileSDK ? .navigationBarWhiteColor() : .navigationBarWhiteColor()
             barAppearance.shadowColor = .clear
-            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
-            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
         
             
             self.standardAppearance = barAppearance
@@ -305,6 +313,54 @@ class ElGrocerNavigationBar : UINavigationBar {
             // Fallback on earlier versions
         }
     }
+    
+    func setlightBackground() {
+        
+        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.barTintColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.isTranslucent = false
+        
+        if #available(iOS 13.0, *) {
+            let barAppearance = UINavigationBarAppearance()
+            barAppearance.configureWithDefaultBackground()
+            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            barAppearance.shadowColor = .clear
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+        
+            
+            self.standardAppearance = barAppearance
+            self.scrollEdgeAppearance = barAppearance
+
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    func setlightBackgroundWithPurpleTitle() {
+        
+        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.barTintColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.isTranslucent = false
+        
+        if #available(iOS 13.0, *) {
+            let barAppearance = UINavigationBarAppearance()
+            barAppearance.configureWithDefaultBackground()
+            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            barAppearance.shadowColor = .clear
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
+        
+            
+            self.standardAppearance = barAppearance
+            self.scrollEdgeAppearance = barAppearance
+
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    
     func setNewLightBackground() {
         
         self.backgroundColor = UIColor.textfieldBackgroundColor()
@@ -319,8 +375,9 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.isTranslucent = false
     }
     
-    func setWhiteTitleColor() {
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor(),
+    func setTitleColor() {
+        
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : ApplicationTheme.currentTheme.viewWhiteBGColor,
                                                             NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(17.0)]
     }
     
@@ -333,6 +390,18 @@ class ElGrocerNavigationBar : UINavigationBar {
             self.titleTextAttributes = textAttributes
         }
     }
+    
+    func setSecondaryBlackTitleColor(){
+        let textAttributes = [NSAttributedString.Key.foregroundColor:ApplicationTheme.currentTheme.newBlackColor]
+        if #available(iOS 13.0, *) {
+            self.standardAppearance.titleTextAttributes = textAttributes
+        } else {
+            // Fallback on earlier versions
+            self.titleTextAttributes = textAttributes
+        }
+    }
+    
+    
     
     func setBlackTitleColor() {
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor :UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1),
@@ -420,7 +489,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     fileprivate func addLogoView() {
         
         var image = UIImage(name: "menu_logo")!
-        if SDKManager.shared.isSmileSDK {
+        if SDKManager.isSmileSDK {
             if SDKManager.shared.launchOptions?.navigationType == .singleStore {
                 if ElGrocerUtility.sharedInstance.isArabicSelected() {
                     image = UIImage(name: "smiles-Single-Store-ar")!
@@ -439,7 +508,7 @@ class ElGrocerNavigationBar : UINavigationBar {
      func refreshLogoView() {
         
         var image = UIImage(name: "menu_logo")!
-        if SDKManager.shared.isSmileSDK {
+        if SDKManager.isSmileSDK {
             if SDKManager.shared.launchOptions?.navigationType == .singleStore {
                 if ElGrocerUtility.sharedInstance.isArabicSelected() {
                     image = UIImage(name: "smiles-Single-Store-ar")!
@@ -578,23 +647,31 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.locationView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         self.addSubview(self.locationView)
     }
-    fileprivate func addBackButton(_ isWhite: Bool = false) {
+    fileprivate func addBackButton(_ isWhite: Bool = false, _ isBlack: Bool = SDKManager.isSmileSDK) {
         
         var image = UIImage(name: "BackGreen")!
         if isWhite{
             image = UIImage(name: "BackWhite")!
         }
+        if isBlack {
+            image = UIImage(name: "BackButtonIconGrey")!
+        }
+        
         self.backButton  = UIButton(type: .custom)
         self.backButton.setImage(image, for: .normal)
         self.addSubview(self.backButton)
     }
-    func changeBackButtonImage(_ isWhite: Bool = false) {
+    func changeBackButtonImage(_ isWhite: Bool = false, _ isBlack: Bool = SDKManager.isSmileSDK) {
         
         if let back = self.backButton{
-            if back.isHidden == false{
+            if back.isHidden == false {
                 var image = UIImage(name: "BackGreen")!
                 if isWhite{
-                    image = UIImage(name: "BackWhite")!
+                    image = UIImage(name: "backPinPurple")!
+                }
+                
+                if isBlack {
+                    image = UIImage(name: "BackButtonIconGrey")!
                 }
                 back.setImage(image, for: UIControl.State())
                 self.backButton = back
@@ -630,8 +707,8 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addCartButton() {
-        let imageNormal = SDKManager.shared.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
-        let imageSelected = SDKManager.shared.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
+        let imageNormal = SDKManager.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
+        let imageSelected = SDKManager.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
         
         
         self.cartButton = UIButton(type: .custom)

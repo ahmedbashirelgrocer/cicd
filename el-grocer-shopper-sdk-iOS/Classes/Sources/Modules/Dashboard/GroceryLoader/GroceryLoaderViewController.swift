@@ -32,9 +32,9 @@ class GroceryLoaderViewController: UIViewController {
     var duration: CGFloat = 2.0
     
     // Pass your color here which will be used as layer color
-    var firstColor: UIColor? = UIColor.borderGrayColor()
-    var secondColor: UIColor? = UIColor.borderGrayColor()
-    var thirdColor: UIColor? = UIColor.borderGrayColor()
+    var firstColor: UIColor? = ApplicationTheme.currentTheme.themeBasePrimaryColor
+    var secondColor: UIColor? = ApplicationTheme.currentTheme.themeBasePrimaryColor
+    var thirdColor: UIColor? = ApplicationTheme.currentTheme.themeBasePrimaryColor
     
     
     

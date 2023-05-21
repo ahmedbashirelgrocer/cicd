@@ -382,7 +382,7 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
     override func productDetailsViewProtocolDidTouchFavourite(_ productDetailsView: ProductDetailsView, product: Product) {
         super.productDetailsViewProtocolDidTouchFavourite(productDetailsView, product: product)
         
-        self.addEmptyView()
+        //self.addEmptyView()
     }
     
     // MARK: GroceriesAndProductsCollectionViewLayoutDelegate

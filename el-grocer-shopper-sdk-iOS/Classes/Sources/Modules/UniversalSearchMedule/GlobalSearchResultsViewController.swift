@@ -158,9 +158,10 @@ class GlobalSearchResultsViewController: UIViewController {
             self.searchBarHeader.setNeedsLayout()
             self.searchBarHeader.layoutIfNeeded()
             //self.view.addSubview(self.searchBarHeader)
+            
             self.searchBarContainerView.addSubview(self.searchBarHeader)
             self.searchBarHeader.translatesAutoresizingMaskIntoConstraints = false
-            let heightConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 90)
+            let heightConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 75)
             let weidthConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
             self.view.addConstraints([heightConstraint,weidthConstraint])
             self.searchBarHeader.setNeedsLayout()
@@ -341,13 +342,18 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
         if section == 1 {
             return 40
         }
-        return .leastNonzeroMagnitude
+        return .leastNormalMagnitude
     }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return .leastNormalMagnitude
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 1 && self.dataSource.productList?.count ?? 0 > 0  {
             
             let myLabel = UILabel()
-            myLabel.frame = CGRect(x: 20, y: 8, width: 320, height: 30)
+            myLabel.frame = CGRect(x: 20, y: 0, width: ScreenSize.SCREEN_WIDTH, height: 30)
             myLabel.setBody3BoldUpperStyle(false)
             myLabel.text = "Stores that sell ‘ \(self.keyWord)’".uppercased()
             myLabel.highlight(searchedText: "‘ \(self.keyWord)’".uppercased(), color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor, size: UIFont.SFProDisplayBoldFont(14))

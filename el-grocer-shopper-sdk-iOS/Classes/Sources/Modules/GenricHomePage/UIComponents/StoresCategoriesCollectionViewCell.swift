@@ -57,6 +57,7 @@ class StoresCategoriesCollectionViewCellViewModel: StoresCategoriesCollectionVie
             self.coloredImageUrlSubject.onNext(category.photoUrl)
         }
     }
+    
 }
 
 class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {

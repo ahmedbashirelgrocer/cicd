@@ -26,6 +26,7 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
     @IBOutlet var btnRedeem: UIButton! {
         didSet {
             btnRedeem.setTitle(localizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
+            btnRedeem.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
         }
     }
     @IBOutlet weak var vouchersTableView: UITableView!

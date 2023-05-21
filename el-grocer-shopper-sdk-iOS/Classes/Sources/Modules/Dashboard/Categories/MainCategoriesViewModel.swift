@@ -262,7 +262,8 @@ private extension MainCategoriesViewModel {
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : "Search by Shopping List" , "name_ar" : "البحث بقائمة التسوق"]))
+                
+                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : localizedString("search_by_shopping_list_text", comment: "") , "name_ar" : "البحث بقائمة التسوق"]))
                 categoriesDB.forEach { categoryDB in
                     self.categories.append(CategoryDTO(category: categoryDB))
                 }

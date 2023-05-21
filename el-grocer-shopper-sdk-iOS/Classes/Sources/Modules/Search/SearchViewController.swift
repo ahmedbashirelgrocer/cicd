@@ -34,6 +34,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     @IBOutlet var btnCancel: UIButton! {
         didSet{
             btnCancel.setTitle(localizedString("account_setup_cancel", comment: ""), for: .normal)
+            btnCancel.setTitleColor(ApplicationTheme.currentTheme.newBlackColor, for: UIControl.State())
         }
     }
     
@@ -55,7 +56,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     
     @IBOutlet var progressCompletionBGView: UIView! {
         didSet {
-            progressCompletionBGView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24)
+           // progressCompletionBGView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24)
         }
     }
     @IBOutlet var lblCreatShoppingList: UILabel! {
@@ -127,7 +128,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.navigationController!.navigationBar.topItem!.title = localizedString("search_placeholder", comment: "")
         }
         if !isForEditOrder && isNavigateToSearch{
-            self.addRightCrossButton(true)
+            self.addRightCrossButton(SDKManager.isShopperApp)
         }
    
       //  self.collectionView.backgroundColor = UIColor.white // removed while merging
@@ -227,7 +228,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.view.layoutIfNeeded()
        
         self.navigationItem.hidesBackButton = true
-        searchBgView.backgroundColor =  SDKManager.shared.isSmileSDK ? ApplicationTheme.currentTheme.viewPrimaryBGColor : ApplicationTheme.currentTheme.viewPrimaryBGColor
+        searchBgView.backgroundColor =  ApplicationTheme.currentTheme.navigationBarColor
         // self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = .tableViewBackgroundColor()
     }
@@ -896,6 +897,10 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             return
         }
         
+        if isNeedToHideSearchBar && !self.searchString.isEmpty {
+            return // mean coming from shopping list
+        }
+        
         scrollView.layoutIfNeeded()
         
         let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
@@ -903,7 +908,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
             let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
@@ -1136,7 +1141,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.shared.isSmileSDK ? ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor :  ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
+        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor :  ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor

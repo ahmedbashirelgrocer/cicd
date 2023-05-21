@@ -980,15 +980,16 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.tblBasket.separatorColor = UIColor.borderGrayColor()
         self.tblBasket.separatorInset = UIEdgeInsets.zero
         self.tblBasket.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)//UIColor.white
-        self.view.backgroundColor = .navigationBarWhiteColor()//#colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)// UIColor.white
+        self.view.backgroundColor =  #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        //self.view.backgroundColor = .navigationBarWhiteColor()//#colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)// UIColor.white
         self.setupBottomView()
         self.setUpCheckoutButtonAppearance()
         self.setSummaryData()
         if  self.orderToReplace  {
             self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
             self.searchBar.clipsToBounds = true
-            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
-            self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
             self.viewForSearch.addSubview(self.searchBar)
 //            self.viewForSearch.isHidden = false
         }
