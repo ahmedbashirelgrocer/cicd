@@ -139,13 +139,11 @@ private extension HomeCellViewModel {
                     case .success(let response):
                         self.handleAlgoliaSuccessResponse(response: response)
                         break
-                        
-                    case .failure(let error):
+                    case .failure(let _):
                         //    print("hanlde error >> \(error)")
                         break
                     }
                 }
-                
                 return
             }
             
@@ -155,7 +153,7 @@ private extension HomeCellViewModel {
             
             guard category.id > 1 else {
                 AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: 0, 10, Int64(deliveryTime)) { [weak self] content, error in
-                    if let error = error {
+                    if let _ = error {
                         //  print("handle error >>> \(error)")
                         return
                     }
@@ -169,7 +167,7 @@ private extension HomeCellViewModel {
             AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: storeId, pageNumber: pageNumber, categoryId: String(category.id)) { [weak self] content, error in
                 guard let self = self else { return }
                 
-                if let error = error {
+                if let _ = error {
                     //  print("handle error >>> \(error)")
                     return
                 }

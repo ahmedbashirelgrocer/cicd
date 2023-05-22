@@ -1560,8 +1560,8 @@ private extension MainCategoriesViewController {
             .bind(to: self.tableViewCategories.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        viewModel.outputs.reloadTable.subscribe(onNext: { [weak self] in
-            self?.tableViewCategories.reloadDataOnMain()
+        viewModel.outputs.reloadTable.subscribe(onNext: { [weak self] (isNeedToReload) in
+            if isNeedToReload { self?.tableViewCategories.reloadDataOnMain() }
         }).disposed(by: disposeBag)
         
         // MARK: Actions
