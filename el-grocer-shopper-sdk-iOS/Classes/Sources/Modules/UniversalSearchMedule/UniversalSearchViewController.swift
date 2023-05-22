@@ -297,6 +297,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     fileprivate func setDataSource() {
         
         self.dataSource = SuggestionsModelDataSource()
+        self.dataSource?.searchFor = self.searchFor
         storeIDs = []
         storeTypeIDs = []
         if self.searchFor == .isForStoreSearch  {
