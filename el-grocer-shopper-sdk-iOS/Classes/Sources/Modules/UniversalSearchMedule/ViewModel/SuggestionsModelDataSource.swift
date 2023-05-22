@@ -64,6 +64,8 @@ class SuggestionsModelDataSource {
         }
     }
     
+    var searchFor: searchType = .isForStoreSearch
+    
     func resetForNewGrocery () {
         self.bannerFeeds = []
         self.productsList = []
@@ -129,7 +131,10 @@ class SuggestionsModelDataSource {
     func getDefaultSearchData() {
         self.clearAllData()
         self.papulateUsersearchedData()
-        self.papulateTrengingData(showTrendingProducts: false)
+        
+        if self.searchFor != .isForStoreSearch {
+            self.papulateTrengingData(showTrendingProducts: false)
+        }
     }
     
     func papulateUsersearchedData() {

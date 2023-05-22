@@ -2149,7 +2149,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ubS-a1-WUL">
-                                <rect key="frame" x="0.0" y="97" width="390" height="747"/>
+                                <rect key="frame" x="0.0" y="107" width="390" height="737"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="HgH-2Z-k6J">
                                     <size key="itemSize" width="50" height="50"/>
@@ -2244,15 +2244,15 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hIO-p0-sTb">
-                                <rect key="frame" x="0.0" y="47" width="390" height="50"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="60"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yb9-j9-bO1" customClass="AWSegmentView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="OBR-tc-g4T"/>
+                                    <constraint firstAttribute="height" constant="60" id="OBR-tc-g4T"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -2277,6 +2277,7 @@
                         <outlet property="checkOutView" destination="Q2y-yS-0NS" id="dfW-Cg-4CP"/>
                         <outlet property="collectionView" destination="ubS-a1-WUL" id="jdc-V9-1Aj"/>
                         <outlet property="segmentedView" destination="yb9-j9-bO1" id="i40-gx-6ML"/>
+                        <outlet property="segmentedViewHeightConstraint" destination="OBR-tc-g4T" id="hJ2-hD-bOv"/>
                         <outlet property="stackViewSegmentedBG" destination="hIO-p0-sTb" id="J3P-Az-Bef"/>
                     </connections>
                 </viewController>
