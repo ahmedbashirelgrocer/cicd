@@ -162,28 +162,19 @@ class SuggestionsModelDataSource {
     }
     
     private func fetchLocalHistory() {
-        if let curreentdata = getUserSearchData() {
-            guard curreentdata.count > 0 else {
-                var modelA = [SuggestionsModelObj.init(type: .separator)]
-                modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
-                modelA.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 Your search history will appear here..."))
-                self.model.append(contentsOf: modelA)
-                return
-            }
-            var modelA = [SuggestionsModelObj.init(type: .separator)]
-            modelA.append(SuggestionsModelObj.init(type: .titleWithClearOption, title: localizedString("lblSearchHistory", comment: "").uppercased()))
-            for suggestionString in curreentdata {
-                modelA.append(SuggestionsModelObj.init(type: .searchHistory, title: suggestionString))
-            }
-            self.model.append(contentsOf: modelA)
+        var modelA = [
+            SuggestionsModelObj(type: .separator),
+            SuggestionsModelObj(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased())
+        ]
+
+        if let currentData = getUserSearchData(), !currentData.isEmpty {
+            modelA.append(contentsOf: currentData.map { SuggestionsModelObj(type: .searchHistory, title: $0) })
         } else {
-            var modelA = [SuggestionsModelObj.init(type: .separator)]
-            modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
-            modelA.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 Your search history will appear here..."))
-            self.model.append(contentsOf: modelA)
+            modelA.append(SuggestionsModelObj(type: .noDataFound, title: "👀 Your search history will appear here..."))
         }
+
+        self.model.append(contentsOf: modelA)
     }
-    
     
     func papulateTrengingData(_ isNeedToClear : Bool = false, showTrendingProducts: Bool = true) {
         if self.isDebugOn {
@@ -347,7 +338,8 @@ class SuggestionsModelDataSource {
                                     
                                     var mySuggestionDataArray: [SuggestionsModelObj] = []
                                     
-                                    mySuggestionDataArray.append(contentsOf: [SuggestionsModelObj.init(type: .title , title: "popular stores".uppercased() )])
+                                    let storesSectionTitle = showTrendingProducts ? "stores".uppercased() : "popular stores".uppercased()
+                                    mySuggestionDataArray.append(contentsOf: [SuggestionsModelObj.init(type: .title , title: storesSectionTitle)])
                                    
                                     for (_, retailer) in algoliaObj.enumerated() {
                                         if let query = retailer["query"] as? String {

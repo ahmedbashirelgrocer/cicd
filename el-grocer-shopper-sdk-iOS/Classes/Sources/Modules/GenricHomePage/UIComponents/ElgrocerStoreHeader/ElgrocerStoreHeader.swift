@@ -216,6 +216,7 @@ class ElgrocerStoreHeader:  UIView  {
         ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
         MixpanelEventLogger.trackStoreSearch()
         searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
+        searchController.navigationController?.navigationBar.isHidden = true
         searchController.searchFor = .isForStoreSearch
         vc.navigationController?.modalTransitionStyle = .crossDissolve
         vc.navigationController?.modalPresentationStyle = .formSheet

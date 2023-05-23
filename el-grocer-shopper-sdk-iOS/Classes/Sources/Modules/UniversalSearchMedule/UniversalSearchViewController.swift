@@ -103,6 +103,13 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.setDataSource()
         self.dataSource?.getDefaultSearchData()
         addBasketOverlay()
+        
+        // Show default data papular stores and search history
+        if self.searchFor == .isForStoreSearch {
+            self.tableView.backgroundView = nil
+        }
+        
+        self.showCollectionView(false)
     }
     override func viewWillAppear(_ animated: Bool) {
         self.setUpAppearance()
@@ -206,10 +213,13 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         }
-            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
-         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        
+        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setCartButtonHidden(true)
+        
+        self.removeBackButton()
         
         self.txtSearch.font = UIFont.SFProDisplayNormalFont(14)
         self.txtSearch.placeholder =  localizedString("search_products", comment: "")
@@ -1037,11 +1047,6 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
-        if self.searchFor == .isForStoreSearch {
-            self.tableView.backgroundView = nil
-        }
-        
-        self.showCollectionView(false)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

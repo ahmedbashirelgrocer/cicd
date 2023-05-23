@@ -1331,6 +1331,7 @@
 "search_products" = "Search products...";
 "search_products_add" = "Search products to add…";
 "search_products_replace" = "Search for the item to replace";
+"global_search_result_screen_title_text" = "Search results";
 
 
 "pg_18_msg" = "In order to purchase this product, you must be over 18 years old.";

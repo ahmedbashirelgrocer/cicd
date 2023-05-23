@@ -1361,6 +1361,7 @@
 "lbl_Apartment" = "رقم الشقة*";
 "lbl_AreaStreet" = "المنطقة / الشارع (غير إلزامي)";
 "lbl_Floor" = "الطابق*";
+"global_search_result_screen_title_text" = "Search results";
 
 
 "lbl_choose_nick" = "ضع علامة على هذا الموقع";

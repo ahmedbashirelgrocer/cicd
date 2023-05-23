@@ -96,7 +96,7 @@ class GlobalSearchResultsViewController: UIViewController {
                 controller.setGreenBackgroundColor()
             }
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
-            self.title = localizedString("search_products", comment: "")
+            self.title = localizedString("global_search_result_screen_title_text", comment: "")
         }
 
     }
