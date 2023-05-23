@@ -21,7 +21,7 @@ public final class ElGrocer {
         
         SDKManager.shared.launchCompletion = completion
         
-        if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType {
+        if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType || SDKManager.shared.launchOptions?.language != launchOptions?.language {
             HomePageData.shared.groceryA = []
             SDKManager.shared.launchOptions = launchOptions
         }
@@ -44,6 +44,10 @@ public final class ElGrocer {
                 
                 if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 || SDKManager.shared.launchOptions?.language !=  UserDefaults.getCurrentLanguage() {
                     PreLoadData.shared.loadConfigData {}
+                    HomePageData.shared.fetchHomeData(true) {
+                        SDKManager.shared.launchCompletion?()
+                    }
+                }else if HomePageData.shared.groceryA?.count == 1 {
                     HomePageData.shared.fetchHomeData(true) {
                         SDKManager.shared.launchCompletion?()
                     }

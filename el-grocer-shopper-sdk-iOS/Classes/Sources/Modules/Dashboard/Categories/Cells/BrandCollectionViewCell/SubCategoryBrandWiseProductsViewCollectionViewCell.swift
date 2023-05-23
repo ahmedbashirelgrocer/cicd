@@ -9,15 +9,18 @@
 import UIKit
 let KSubCategoryBrandWiseProductsViewCollectionViewCellIdentifier = "SubCategoryBrandWiseProductsViewCollectionViewCell"
 class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
-    @IBOutlet var collectionView: UICollectionView!{
+    @IBOutlet weak var collectionView: UICollectionView!{
         didSet{
             collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+            collectionView.showsHorizontalScrollIndicator = false
+            collectionView.showsVerticalScrollIndicator = false
         }
     }
     var productA : [Product] = []
     var grocery : Grocery? = nil
     var groceryBrand : GroceryBrand? = nil
     var productDelegate : ProductDelegate?
+    var currentScrollingCollectionView: UICollectionView?
     @IBOutlet weak var brandNameLbl: UILabel!{
         didSet{
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -48,6 +51,11 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+       self.collectionView.contentOffset = .zero
+    }
+    
     func setArrowAppearance(){
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.rightArrowImageView.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -55,23 +63,26 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
     }
     
     func registerCellsForCollection() {
+        
         let productCellNib = UINib(nibName: "ProductCell", bundle: .resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
+        
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10, right: 10)
-        flowLayout.minimumInteritemSpacing = 0
-        flowLayout.minimumLineSpacing = 0
-        self.collectionView.collectionViewLayout = flowLayout
+        collectionView.collectionViewLayout = flowLayout
+        collectionView.bounces = false
+        
     }
     
-    func configureCell(_ groceryBand : GroceryBrand , grocery : Grocery , productDelegate :  ProductDelegate){
+    func configureCell(_ groceryBand : GroceryBrand , grocery : Grocery , productDelegate :  ProductDelegate) {
+        
         self.productDelegate = productDelegate
         self.productA = groceryBand.products
         self.grocery = grocery
         self.groceryBrand = groceryBand
         self.brandNameLbl.text = groceryBand.name
         self.reloadWithOffsetMaintain(collectionView: self.collectionView)
+        
     }
     
     func reloadWithOffsetMaintain(collectionView: UICollectionView) {
@@ -80,15 +91,12 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
         collectionView.setContentOffset(contentOffset, animated: false)
     }
     
-    
     @IBAction func viewAllHandler(_ sender: Any) {
         if let clouser = self.brandViewAllClicked {
             if let brand = self.groceryBrand {
                 clouser(brand)
             }
         }
-        //self.delegate?.navigateToBrandsDetailViewBrand(self.brand)
-        
     }
 
 }
@@ -102,7 +110,6 @@ extension SubCategoryBrandWiseProductsViewCollectionViewCell : UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductCellIdentifier, for: indexPath) as! ProductCell
-        
         if self.productA.count > (indexPath as NSIndexPath).row{
             let product = self.productA[(indexPath as NSIndexPath).row]
             cell.configureWithProduct(product, grocery: self.grocery, cellIndex: indexPath)
@@ -122,7 +129,15 @@ extension SubCategoryBrandWiseProductsViewCollectionViewCell : UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = CGSize(width: kProductCellWidth , height: kProductCellHeight)
+        
+        var cellSize = CGSize(width: kProductCellWidth , height: kProductCellHeight)
+        if cellSize.width > collectionView.frame.width {
+            cellSize.width = collectionView.frame.width
+        }
+        if cellSize.height > collectionView.frame.height {
+            cellSize.height = collectionView.frame.height
+        }
+        
         return cellSize
         
     }
@@ -132,11 +147,22 @@ extension SubCategoryBrandWiseProductsViewCollectionViewCell : UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 6 , bottom: 0 , right: 6)
+        return UIEdgeInsets(top: 0, left: 0 , bottom: 0 , right: 0)
     }
-
     
+   /* func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if let collectionView = scrollView as? UICollectionView {
+            currentScrollingCollectionView = collectionView
+        }
+    }
     
-    
-    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let currentScrollingCollectionView = currentScrollingCollectionView else { return }
+        
+        if scrollView == currentScrollingCollectionView {
+            // Update the content offset for the current scrolling collection view
+        } else {
+            // Do not update the content offset for the other collection views
+        }
+    }*/
 }

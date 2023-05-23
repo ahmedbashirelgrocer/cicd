@@ -15,7 +15,8 @@ class GenericHomePageSearchHeader: UIView {
     @IBOutlet var eclipceImgView: UIImageView! {
         
         didSet {
-          //  eclipceImgView.image = UIImage.init(name: SDKManager.isSmileSDK ? "HomeSmileEllipse" : "HomeEllipse" )
+            eclipceImgView.backgroundColor =   SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .navigationBarWhiteColor()
+            //eclipceImgView.layer.cornerRadius = 20
         }
         
     }
@@ -46,11 +47,10 @@ class GenericHomePageSearchHeader: UIView {
     }
     @IBOutlet var txtSearch: UITextField!{
         didSet{
-            txtSearch.placeholder = localizedString("search_placeholder_home", comment: "")
-            txtSearch.setPlaceHolder(text: localizedString("search_placeholder_home", comment: ""))
             
-          //  txtSearch.textAlignment = .natural
-            
+           let placeHolderText = SDKManager.isSmileSDK ? localizedString("search_placeholder_home_Smiles", comment: "") : localizedString("search_placeholder_home", comment: "")
+            txtSearch.placeholder = placeHolderText
+            txtSearch.setPlaceHolder(text: placeHolderText)
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
                 txtSearch.textAlignment = .right
             }else{
@@ -78,9 +78,9 @@ class GenericHomePageSearchHeader: UIView {
     
     func setIninitialAppearance(){
         self.txtSearch.delegate = self
-        let greLay = self.setupGradient(height: self.frame.size.height - 28 , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
-        greLay.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
-        self.layer.insertSublayer(greLay, at: 0)
+//        let greLay = self.setupGradient(height: self.frame.size.height - 28 , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
+//        greLay.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
+//        self.layer.insertSublayer(greLay, at: 0)
     }
     /*
     // Only override draw() if you perform custom drawing.

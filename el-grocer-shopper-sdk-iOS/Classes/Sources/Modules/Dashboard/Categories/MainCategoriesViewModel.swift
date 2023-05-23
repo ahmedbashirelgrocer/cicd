@@ -24,7 +24,7 @@ protocol MainCategoriesViewModelOutput {
     var viewAllProductOfRecentPurchase: Observable<Grocery?> { get }
     var categoryTap: Observable<CategoryDTO> { get }
     var bannerTap: Observable<BannerDTO> { get }
-    var reloadTable: Observable<Void> { get }
+    var reloadTable: Observable<Bool> { get }
     var refreshBasket: Observable<Void> { get }
     var showEmptyView: Observable<Void> { get }
     
@@ -58,7 +58,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var viewAllProductOfRecentPurchase: Observable<Grocery?> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     var categoryTap: Observable<CategoryDTO> { categoryTapSubject.asObservable() }
-    var reloadTable: Observable<Void> { reloadTableSubject.asObservable() }
+    var reloadTable: Observable<Bool> { reloadTableSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     
     // MARK: subjects
@@ -71,7 +71,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Grocery?>()
     private var bannerTapSubject = PublishSubject<BannerDTO>()
     private var categoryTapSubject = PublishSubject<CategoryDTO>()
-    private var reloadTableSubject = PublishSubject<Void>()
+    private var reloadTableSubject = PublishSubject<Bool>()
     private var refreshProductCellSubject = PublishSubject<Void>()
     private var showEmptyViewSubject = PublishSubject<Void>()
     
@@ -262,7 +262,8 @@ private extension MainCategoriesViewModel {
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : "Search by Shopping List" , "name_ar" : "البحث بقائمة التسوق"]))
+                
+                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : localizedString("search_by_shopping_list_text", comment: "") , "name_ar" : "البحث بقائمة التسوق"]))
                 categoriesDB.forEach { categoryDB in
                     self.categories.append(CategoryDTO(category: categoryDB))
                 }
@@ -283,7 +284,6 @@ private extension MainCategoriesViewModel {
                     
                     viewModel.outputs.isProductAvailable
                         .filter { !$0 }
-                        .map { _ in () }
                         .bind(to: self.reloadTableSubject)
                         .disposed(by: self.disposeBag)
                     

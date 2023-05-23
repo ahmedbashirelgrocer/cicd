@@ -34,6 +34,7 @@ import Segment_CleverTap
 extension SDKManager {
     static var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
     static var isGrocerySingleStore: Bool { SDKManager.shared.launchOptions?.marketType == .grocerySingleStore }
+    static var isShopperApp: Bool { SDKManager.shared.launchOptions?.marketType == .shopper }
 }
 
 class SDKManager: NSObject  {
@@ -349,7 +350,7 @@ class SDKManager: NSObject  {
         // ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
         
         // Google Maps
-        if Platform.isDebugBuild {
+        if Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" || Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK"  {
             GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
             GMSServices.provideAPIKey(kGoogleMapsApiKey)
         }
@@ -527,6 +528,7 @@ class SDKManager: NSObject  {
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)
          LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions?.language ?? "Base", SDKManagers: self)
+         
         if SDKManager.shared.launchOptions?.isSmileSDK ?? false, let topVC = UIApplication.shared.keyWindow?.rootViewController {
             navEntryController.modalPresentationStyle = .fullScreen
             topVC.present(navEntryController, animated: true) {  }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,11 +18,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="hQr-dZ-skQ">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="848"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v5q-Tf-jCh">
-                                <rect key="frame" x="0.0" y="862" width="414" height="0.0"/>
+                                <rect key="frame" x="0.0" y="896" width="414" height="0.0"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="PcB-JH-u8w"/>
@@ -47,7 +47,7 @@
                             <constraint firstItem="hQr-dZ-skQ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="YBq-Vc-Nn4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="hQr-dZ-skQ" secondAttribute="trailing" id="jWU-Mx-9TV"/>
                             <constraint firstItem="v5q-Tf-jCh" firstAttribute="top" secondItem="hQr-dZ-skQ" secondAttribute="bottom" id="ldq-rp-3Uq"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="v5q-Tf-jCh" secondAttribute="bottom" id="qx9-8N-b3l"/>
+                            <constraint firstAttribute="bottom" secondItem="v5q-Tf-jCh" secondAttribute="bottom" id="qx9-8N-b3l"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="v5q-Tf-jCh" secondAttribute="trailing" id="tZd-q8-6vp"/>
                             <constraint firstItem="v5q-Tf-jCh" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="zTX-aW-0dx"/>
                         </constraints>

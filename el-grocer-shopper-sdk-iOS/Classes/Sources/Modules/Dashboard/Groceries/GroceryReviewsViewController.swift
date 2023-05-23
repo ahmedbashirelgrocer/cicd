@@ -184,7 +184,7 @@ class GroceryReviewsViewController : UIViewController, UITableViewDataSource, UI
         
         self.reviews = self.grocery.reviews.allObjects as? [GroceryReview]
         self.reviews.sort { $0.dbID.intValue > $1.dbID.intValue }
-        addEmptyView()
+        //addEmptyView()
         self.tableView.reloadData()
     }
     

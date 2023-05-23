@@ -189,7 +189,7 @@ class NotificationPopup: UIView {
                 view.notificationImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             }
         }
-        
+        view.notificationImgView.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         view.buttonClickCallback = buttonClickCallback
         view.topImageViewHeight.constant = 0
         view.titleLabel.text = header

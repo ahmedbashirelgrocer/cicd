@@ -131,6 +131,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        if SDKManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.registerCellsForTableView()
         self.setupClearNavBar()
         DispatchQueue.main.async {
@@ -286,6 +287,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
              self.navigationItem.hidesBackButton = true;
         }
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
    
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)

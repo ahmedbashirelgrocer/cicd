@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -36,7 +36,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6d-sV-IxY" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="248" y="10.666666666666664" width="48" height="24"/>
+                                        <rect key="frame" x="247" y="10.666666666666664" width="49" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Uoc-rb-cKS"/>
@@ -63,7 +63,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="20c-5R-myQ" firstAttribute="leading" secondItem="uAW-Hq-YSf" secondAttribute="leading" constant="16" id="0I6-Vv-HCE"/>
                                     <constraint firstItem="V6d-sV-IxY" firstAttribute="centerY" secondItem="20c-5R-myQ" secondAttribute="centerY" id="NQ2-vq-Ppv"/>
@@ -87,7 +87,7 @@
                                 </collectionViewFlowLayout>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="SUj-yY-hTI" firstAttribute="leading" secondItem="QeB-G4-lMb" secondAttribute="leading" id="AtX-YG-qnQ"/>
                             <constraint firstItem="uAW-Hq-YSf" firstAttribute="leading" secondItem="QeB-G4-lMb" secondAttribute="leading" id="CB3-rX-tSz"/>
@@ -110,15 +110,17 @@
             <connections>
                 <outlet property="btnViewAll" destination="V6d-sV-IxY" id="SVr-DS-1CL"/>
                 <outlet property="collectionView" destination="SUj-yY-hTI" id="uFt-Jv-1sB"/>
+                <outlet property="contentBGView" destination="H2p-sc-9uM" id="3aj-9Q-YnQ"/>
                 <outlet property="ivArrow" destination="Kdc-VT-DDZ" id="tPi-Rg-rux"/>
                 <outlet property="lblTitle" destination="20c-5R-myQ" id="a5z-a4-8LQ"/>
+                <outlet property="topLabelBgView" destination="uAW-Hq-YSf" id="dJM-VD-cWo"/>
             </connections>
             <point key="canvasLocation" x="93.84615384615384" y="112.67772511848341"/>
         </tableViewCell>
     </objects>
     <designables>
         <designable name="V6d-sV-IxY">
-            <size key="intrinsicContentSize" width="48" height="29"/>
+            <size key="intrinsicContentSize" width="49" height="29"/>
         </designable>
     </designables>
     <resources>

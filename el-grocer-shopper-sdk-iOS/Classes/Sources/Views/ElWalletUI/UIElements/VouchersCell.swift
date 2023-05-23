@@ -26,6 +26,7 @@ class VouchersCell: UITableViewCell {
     @IBOutlet weak var redeemButton: UIButton! {
         didSet {
             redeemButton.setTitle(localizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
+            redeemButton.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
         }
     }
     @IBOutlet weak var voucherCodeLabel: UILabel!

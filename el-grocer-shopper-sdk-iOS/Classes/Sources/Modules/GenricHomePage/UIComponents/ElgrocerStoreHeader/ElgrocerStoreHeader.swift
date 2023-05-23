@@ -18,8 +18,8 @@ enum ElgrocerStoreHeaderDismissType {
 
 class ElgrocerStoreHeader:  UIView  {
     
-    let headerMaxHeight: CGFloat = 104
-    let headerMinHeight: CGFloat = 88
+    let headerMaxHeight: CGFloat = 110
+    let headerMinHeight: CGFloat = 94
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
     
@@ -42,11 +42,15 @@ class ElgrocerStoreHeader:  UIView  {
         }
     }
     
+    
     @IBOutlet var bGView: UIView! { didSet {
-        bGView.layer.insertSublayer(setupGradient(height: bGView.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+        bGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+      //  bGView.layer.insertSublayer(setupGradient(height: bGView.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
     }}
     
     @IBOutlet var groceryBGView: UIView!
+    
+ 
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
         self.btnMenu.setTitle("", for: .normal)
@@ -65,6 +69,8 @@ class ElgrocerStoreHeader:  UIView  {
     
     @IBOutlet weak var btnHelp: UIButton! {
         didSet {
+            var chatImage = UIImage(name: "icon_help_Purple")!
+            btnHelp.setImage(chatImage, for: .normal)
             btnHelp.setTitle("", for: .normal)
             btnHelp.addTarget(self, action: #selector(btnHelpHandler), for: .touchUpInside)
         }
@@ -72,12 +78,15 @@ class ElgrocerStoreHeader:  UIView  {
     
     @IBOutlet weak var iconLocation: UIImageView! { didSet {
         iconLocation.image = iconLocation.image?.withRenderingMode(.alwaysTemplate)
+        iconLocation.tintColor = ApplicationTheme.currentTheme.newBlackColor
     } }
     
     
     @IBOutlet weak var lblLocation: UILabel! {
         didSet{
             lblLocation.setYellowSemiBoldStyle()
+            lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor
+            
         }
     }
     @IBOutlet weak var lblSlots: UILabel!
@@ -85,7 +94,7 @@ class ElgrocerStoreHeader:  UIView  {
     @IBOutlet var searchBGView: UIView!{
         didSet{
             searchBGView.backgroundColor = .navigationBarWhiteColor()
-            searchBGView.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 20, withShadow: false)
+            searchBGView.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 18, withShadow: false)
             searchBGView.layer.borderWidth = 1
             searchBGView.layer.borderColor = UIColor.newBorderGreyColor().cgColor
         }

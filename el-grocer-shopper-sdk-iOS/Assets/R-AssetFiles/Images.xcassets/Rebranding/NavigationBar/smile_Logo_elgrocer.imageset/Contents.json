@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "Logo Centered.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Logo Centered@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Logo Centered@3x.png",
+      "filename" : "groceries & more (2).png",
       "idiom" : "universal",
       "scale" : "3x"
     }

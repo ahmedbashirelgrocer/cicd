@@ -22,11 +22,18 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     private var analyticsEventLogger: AnalyticsEngineType!
     private var disposeBag = DisposeBag()
     
-
+    @IBOutlet weak var bgView: UIView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var scrollContentSize: NSLayoutConstraint!
     @IBOutlet var lottieAnimation: UIView!
     @IBOutlet weak var lblNewOrderSuccessMsg: UILabel! {
         didSet {
+            lblNewOrderSuccessMsg.setH4SemiBoldStyle()
             lblNewOrderSuccessMsg.text =  localizedString("lbl_Hurray_Success_Msg", comment: "")
+            lblNewOrderSuccessMsg.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
+            
         }
     }
     @IBOutlet weak var groceryImage: UIImageView!
@@ -86,8 +93,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     override func viewDidLoad() {
         super.viewDidLoad()
      
-        self.title =  localizedString("order_confirmation_title", comment: "")
+        self.title =  localizedString("order_status", comment: "")
         self.navigationItem.hidesBackButton = true
+        self.tableview?.isHidden = true
+        self.bgView?.isHidden = true
         self.bindViews()
         self.setNavigationAppearance()
         self.checkForPushNotificationRegisteration()
@@ -136,10 +145,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
+        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-        self.addBackButtonWithCrossIconLeftSide(.white)
+        (self.navigationController as? ElGrocerNavigationController)?.addRightCrossButton(false, false)
+        
         if let nav = (self.navigationController as? ElGrocerNavigationController) {
             if let bar = nav.navigationBar as? ElGrocerNavigationBar {
                 bar.chatButton.chatClick = {
@@ -156,6 +166,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     private func bindViews() {
         
+       //
         
         self.viewModel.outputs.error.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
@@ -167,13 +178,12 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             loading
             ? _ = SpinnerView.showSpinnerViewInView(self.view)
             : SpinnerView.hideSpinnerView()
+            self.bgView.isHidden = loading
+            
         }).disposed(by: disposeBag)
         self.viewModel.outputs.isNewOrder.subscribe(onNext: { [weak self] isNeedOrder in
-            
             guard let self = self else { return }
-            
             if isNeedOrder {
-                
                 LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }
                 self.orderDetailTopContraint.priority = UILayoutPriority.init(990)
                 self.addressDetailTopWithOrderDetailBottomConstraint.priority = UILayoutPriority.init(1000)
@@ -228,12 +238,23 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             .bind(to: self.lblPickerDetail.rx.text)
             .disposed(by: disposeBag)
         
+        self.viewModel.outputs.picketName.subscribe { [weak self] pickerName in
+            
+            var picker : String = pickerName
+            picker = picker.replacingOccurrences(of: "\n" + localizedString("txt_Picker", comment: ""), with: "")
+            self?.pickerDetailView.isHidden = picker.count == 0
+        }.disposed(by: disposeBag)
+        
         
         self.viewModel.outputs.banners.subscribe(onNext: { [weak self] banners in
             guard let self = self else { return }
             self.viewBanner.bannerType = .post_checkout
             if let banners = banners {
                 self.viewBanner.banners = banners
+            }
+            self.viewBanner.isHidden = banners == nil || banners?.count ?? 0 == 0
+            if !self.viewBanner.isHidden {
+                
             }
         }).disposed(by: disposeBag)
         
@@ -242,9 +263,20 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             self.orderStatusViewHeightConstraint.constant = 110
             if status == OrderStatus.inSubtitution {
                 self.orderStatusViewHeightConstraint.constant = 180
-            }
-            if status != .enRoute {
+                self.orderProgressView.progressTintColor = ApplicationTheme.currentTheme.promotionYellowColor
+                self.lblOrderStatus.textColor = ApplicationTheme.currentTheme.promotionYellowColor
+            }else if status == OrderStatus.canceled {
+                self.orderStatusViewHeightConstraint.constant = 180
+                self.orderProgressView.progressTintColor = ApplicationTheme.currentTheme.redInfoColor
+                self.lblOrderStatus.textColor = ApplicationTheme.currentTheme.redInfoColor
+            }else if status != .enRoute {
                 self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(1000.0)
+            }
+            if self.pickerDetailView.isHidden == false {
+                self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(600.0)
+                self.scrollContentSize.constant = 880
+            }else {
+                self.scrollContentSize.constant = 730
             }
             
             DispatchQueue.main.async {
@@ -261,11 +293,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             
             switch campaignType {
             case .brand:
-                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
                 
             case .retailer:
-                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
                 
             case .web:
@@ -273,7 +305,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 break
                 
             case .priority:
-                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: [ElGrocerUtility.sharedInstance.activeGrocery!])
+                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
             }
            
@@ -358,7 +390,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
     }
     @IBAction func pickerChatAction(_ sender: Any) {
-        
+        guard (self.order.picker?.dbID.stringValue.count ?? 0) > 0 else {return}
+        Thread.OnMainThread { [weak self] in
+            self?.callSendBirdChat(pickerID: self?.order.picker?.dbID.stringValue ?? "")
+        }
+       
     }
     
     
@@ -650,6 +686,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         backButtonClick()
     }
     
+    override func rightBackButtonClicked() {
+        backButtonClick()
+    }
     
     override func backButtonClick() {
         
@@ -688,15 +727,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-       
-        DispatchQueue.main.async {
-          //  self.tabBarController?.tabBarController?.selectedIndex = 1
-        }
-       
-      //  self.tableview.backgroundColor = .white
-     //   if isNeedToRemoveActiveBasket { self.logFirstOrderEvents () }
-       // self.tableview.tableHeaderView = self.topHeaderView
-      
+        self.addBackButtonWithCrossIconRightSide(ApplicationTheme.currentTheme.newBlackColor)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -767,43 +798,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         self.order = latestOrderObj
                         self.grocery = self.order.grocery
-                        /*
-                        self.setRetailerImage()
-                        self.setup()
-                        self.addStatusHeader()
-                  //      self.bindViews(self.order, address: self.order.deliveryAddress)
-                        ElGrocerUtility.sharedInstance.delay(0.5) { [weak self] in
-                            self?.setStatusProgress()
-                        }
-                        if self.order.isCandCOrder() {
-                            self.updateNavButtonsForCandC()
-                        }
-                        if self.order.isCandCOrder() {
-                            if (self.order.status.intValue == OrderStatus.pending.rawValue ||  self.order.status.intValue == OrderStatus.accepted.rawValue ) {
-                                self.statusViewHeight.constant = 141
-                                self.updateTableViewBottom(-155)
-                                self.deliveryCheckOutView.isHidden = true
-                                self.cncCheckOutView.isHidden = false
-                            }else{
-                                self.statusViewHeight.constant = .leastNormalMagnitude
-                                self.updateTableViewBottom(-5)
-                                self.deliveryCheckOutView.isHidden = true
-                                self.cncCheckOutView.isHidden = true
-                            }
-                            
-                        }else{
-                            self.statusViewHeight.constant = .leastNormalMagnitude
-                            self.deliveryCheckOutView.isHidden = false
-                            self.cncCheckOutView.isHidden = true
-                            self.updateTableViewBottom(-5)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.view.layoutIfNeeded()
-                            self.view.setNeedsLayout()
-                            self.tableview.reloadData()
-                        }
-                        */
                     }
                     
                     SpinnerView.hideSpinnerView()

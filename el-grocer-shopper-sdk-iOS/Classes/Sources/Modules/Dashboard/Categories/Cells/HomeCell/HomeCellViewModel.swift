@@ -139,13 +139,11 @@ private extension HomeCellViewModel {
                     case .success(let response):
                         self.handleAlgoliaSuccessResponse(response: response)
                         break
-                        
-                    case .failure(let error):
+                    case .failure(let _):
                         //    print("hanlde error >> \(error)")
                         break
                     }
                 }
-                
                 return
             }
             
@@ -169,7 +167,7 @@ private extension HomeCellViewModel {
             ProductBrowser.shared.searchProductListForStoreCategory(storeID: storeId, pageNumber: pageNumber, categoryId: String(category.id), hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20, slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsStorePage ?? 3) { [weak self] content, error in
                 guard let self = self else { return }
                 
-                if let error = error {
+                if let _ = error {
                     //  print("handle error >>> \(error)")
                     return
                 }

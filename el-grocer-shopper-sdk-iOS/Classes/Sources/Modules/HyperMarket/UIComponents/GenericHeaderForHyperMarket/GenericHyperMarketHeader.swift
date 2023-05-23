@@ -18,7 +18,7 @@ class GenericHyperMarketHeader: UIView {
 
     @IBOutlet var cellBGView: UIView!{
         didSet{
-            cellBGView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            cellBGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
         }
     }
     @IBOutlet var bestForView: UIView!{
@@ -28,6 +28,7 @@ class GenericHyperMarketHeader: UIView {
             
         }
     }
+    @IBOutlet weak var bestForViewTopConstraints: NSLayoutConstraint!
     @IBOutlet var bestForViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet var bestForViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var lblBestFor: UILabel!{
@@ -81,7 +82,7 @@ class GenericHyperMarketHeader: UIView {
     }
     
     var headerType: GenericHyperMarketHeaderType = .hyperMarket
-    let headerMinimumHeight: CGFloat = 95
+    let headerMinimumHeight: CGFloat = 76
     let headerMaximumHeight: CGFloat = 189
     var retailerType: RetailerType? = nil
     var searchBarTapped: (()->Void)?
@@ -99,10 +100,13 @@ class GenericHyperMarketHeader: UIView {
 
     func setInitialUI(type: GenericHyperMarketHeaderType){
         if type == .hyperMarket{
+            self.bestForViewTopConstraints.constant = 16
             self.bestForViewBottomConstraint.constant = 24
             self.bestForView.visibility = .visible
         }else{
+            self.bestForViewTopConstraints.constant = 0
             self.bestForViewBottomConstraint.constant = 0
+            self.bestForViewHeightConstraint.constant = 0
             self.bestForView.visibility = .gone
         }
         

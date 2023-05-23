@@ -106,6 +106,11 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     private func customizedNavigationView() {
         
+        
+        if SDKManager.isSmileSDK {
+            self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        }
+        
         let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
         
         if !isSingleStore {
@@ -121,14 +126,11 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         }
-   
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)
             controller.setupGradient()
         }
-        
-        
-      
         
     }
     
@@ -206,8 +208,8 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         }
         
         self.viewHandler.removeLocalCache()
-        self.productDataUpdated(nil)
-        self.viewHandler.loadMore()
+       // self.productDataUpdated(nil)
+        //self.viewHandler.loadMore()
     }
     
     
@@ -441,8 +443,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
                 }
                 
                 if self.viewHandler.ListbrandsArray[brandIndex].isNextProducts {
-                    
-                    self.viewHandler.callFetchBrandProductsFromServer(indexPath: IndexPath(item: brandIndex, section: 1), brand: self.viewHandler.ListbrandsArray[brandIndex], productCount: self.viewHandler.ListbrandsArray[brandIndex].products.count)
+                    DispatchQueue.global(qos: .background).async { [weak self] in
+                        guard let self = self else { return }
+                        self.viewHandler.callFetchBrandProductsFromServer(indexPath: IndexPath(item: brandIndex, section: 1), brand: self.viewHandler.ListbrandsArray[brandIndex], productCount: self.viewHandler.ListbrandsArray[brandIndex].products.count)
+                    }
                 }
             }
         }
@@ -453,6 +457,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        print("collectionviewheight : \(collectionView.frame.size)")
         
         guard indexPath.section != 0 else {
             
@@ -518,7 +523,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             }
             
             if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-                let kLoadingDistance = 2 * kProductCellHeight + 8
+                var kLoadingDistance = 2 * kProductCellHeight + 8
+                if self.viewHandler.isGridView {
+                    kLoadingDistance = CGFloat(10)
+                }
                 let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
                 if y + kLoadingDistance > scrollView.contentSize.height - 250 {
                     self.viewHandler.loadMore()
@@ -534,7 +542,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
             let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
@@ -545,7 +553,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            //(self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
         
         if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
@@ -560,6 +568,12 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             }
         }
         
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if self.viewHandler.isGridView {
+            self.collectionView.reloadDataOnMainThread()
+        }
     }
  
     // MARK: Navigation
@@ -613,17 +627,25 @@ extension SubCategoriesViewController : ProductUpdationDelegate {
 extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
     
     func productDataUpdated(_ index: IndexPath? = nil) {
+        
         if !self.viewHandler.isGridView && index != nil {
-            UIView.animate(withDuration: 0, animations: {
+            let visibleIndexPaths = self.collectionView.indexPathsForVisibleItems
+            if visibleIndexPaths.first(where: { indexs in
+                indexs == index
+            }) != nil, ((index?.row ?? -1)) % 5 != 0   {
                 self.collectionView.performBatchUpdates {
                     self.collectionView.reloadItems(at: [index!])
                 }
-            })
-            return
+                return
+            } else { }
         }
-        UIView.animate(withDuration: 0.2, animations: {
+        if index == nil  || (index?.row ?? Int.max) < 2 ||  (index?.row ?? Int.max) % 5 == 0 || (index?.row ?? Int.max) % 5 == 2  {
             self.collectionView.reloadDataOnMainThread()
-        })
+        }
+        
+//        UIView.animate(withDuration: 0.2, animations: {
+//
+//        })
     }
     func bannerDataUpdated(_ grocerID:String?) {
         DispatchQueue.main.async {

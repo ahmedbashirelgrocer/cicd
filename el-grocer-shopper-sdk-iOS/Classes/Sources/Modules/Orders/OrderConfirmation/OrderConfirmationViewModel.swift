@@ -142,20 +142,21 @@ private extension OrderConfirmationViewModel {
     
     private func getOrderDetails(orderId: String) {
         self.loadingSubject.onNext(true)
-        self.apiClinet.getOrderDetailWithCustomTracking(orderId) { (result) in
+        self.apiClinet.getOrderDetail(orderId) { (result) in
             self.loadingSubject.onNext(false)
             switch result {
                 case .success(let response):
                     if let orderDict = response["data"] as? NSDictionary {
                         let latestOrderObj = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                        self.groceryUrlSubject.onNext(URL(string: latestOrderObj.grocery.imageUrl ?? ElGrocerUtility.sharedInstance.activeGrocery?.smallImageUrl ?? ""))
+                        self.groceryUrlSubject.onNext(URL(string: latestOrderObj.grocery.smallImageUrl ?? ElGrocerUtility.sharedInstance.activeGrocery?.smallImageUrl ?? ""))
                         self.groceryNameSubject.onNext(latestOrderObj.grocery.name ?? "")
                         self.orderNumberSubject.onNext(latestOrderObj.dbID.stringValue)
                         self.orderDeliveryDateStringSubject.onNext(NSAttributedString.init(string: latestOrderObj.getSlotDisplayStringOnOrder()))
+                        self.picketNameSubject.onNext(((latestOrderObj.picker?.name ?? "") + "\n" + localizedString("txt_Picker", comment: "")) )
                         self.orderProgressValueSubject.onNext(self.orderProgressFloatValueWithOrderStatus(latestOrderObj))
                         self.orderStatusStringSubject.onNext(self.getOrderStatus(latestOrderObj))
                         self.orderStatusSubject.onNext(latestOrderObj.getOrderDynamicStatus().getMappingTypeWithOrderStatus())
-                        self.picketNameSubject.onNext(latestOrderObj.picker?.name ?? "")
+                      
                         let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(latestOrderObj.deliveryAddress) + latestOrderObj.deliveryAddress.address
                         self.addressSubject.onNext(addressString)
                         self.isNewOrderSubject.onNext(self.isNewOrderLocalObj) // This should be last updated; As it will update constraints to not show irralvent views
@@ -179,6 +180,7 @@ private extension OrderConfirmationViewModel {
             case .success(let data):
                 self.bannersSubject.onNext(data.map{ $0.toBannerDTO() })
             case .failure(_):
+                self.bannersSubject.onNext([])
                 break
             }
         }

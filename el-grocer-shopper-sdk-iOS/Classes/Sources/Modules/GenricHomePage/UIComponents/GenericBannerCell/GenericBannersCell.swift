@@ -15,7 +15,11 @@ let KBannerRation = CGFloat(2)
 
 class GenericBannersCell: RxUITableViewCell {
     private var scrollTimer : Timer?
-    @IBOutlet var bgView: UIView!
+    @IBOutlet var bgView: UIView! {
+        didSet {
+            bgView.backgroundColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.viewWhiteBGColor : .clear
+        }
+    }
     @IBOutlet var bannerList: GenricBannerList!
     @IBOutlet var pageControl: UIPageControl! {
         didSet {

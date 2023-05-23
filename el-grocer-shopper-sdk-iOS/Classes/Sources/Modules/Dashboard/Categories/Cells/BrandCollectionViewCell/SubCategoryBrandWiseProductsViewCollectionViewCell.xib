@@ -20,10 +20,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SubCategoryBrandWiseProductsViewCollectionViewCell" id="gTV-IL-0wX" customClass="SubCategoryBrandWiseProductsViewCollectionViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="380" height="133"/>
+            <rect key="frame" x="0.0" y="0.0" width="380" height="264"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="380" height="133"/>
+                <rect key="frame" x="0.0" y="0.0" width="380" height="264"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hpz-nh-piX">
@@ -76,8 +76,8 @@
                             <constraint firstItem="9Wb-Dy-kCV" firstAttribute="centerY" secondItem="Hpz-nh-piX" secondAttribute="centerY" id="zMq-KD-hDd"/>
                         </constraints>
                     </view>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="FIP-s6-9XJ">
-                        <rect key="frame" x="0.0" y="50" width="380" height="83"/>
+                    <collectionView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="scrollableAxes" delaysContentTouches="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="FIP-s6-9XJ">
+                        <rect key="frame" x="0.0" y="50" width="380" height="214"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="O63-en-IRO">
                             <size key="itemSize" width="128" height="128"/>
@@ -86,8 +86,8 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <connections>
-                            <outlet property="dataSource" destination="gTV-IL-0wX" id="H4N-Uv-g8d"/>
-                            <outlet property="delegate" destination="gTV-IL-0wX" id="J0M-eb-g1o"/>
+                            <outlet property="dataSource" destination="gTV-IL-0wX" id="wAQ-Gm-d5s"/>
+                            <outlet property="delegate" destination="gTV-IL-0wX" id="9bH-ct-7ja"/>
                         </connections>
                     </collectionView>
                 </subviews>
@@ -102,14 +102,14 @@
                 <constraint firstAttribute="bottom" secondItem="FIP-s6-9XJ" secondAttribute="bottom" id="RIa-aC-45I"/>
                 <constraint firstItem="Hpz-nh-piX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="xMc-Qq-Co4"/>
             </constraints>
-            <size key="customSize" width="380" height="133"/>
+            <size key="customSize" width="380" height="264"/>
             <connections>
                 <outlet property="brandNameLbl" destination="vyS-Is-lhn" id="jSW-Va-PJZ"/>
                 <outlet property="btnViewAll" destination="jdg-h7-TOo" id="qlY-5e-7jB"/>
-                <outlet property="collectionView" destination="FIP-s6-9XJ" id="FfR-TR-zby"/>
+                <outlet property="collectionView" destination="FIP-s6-9XJ" id="Q8b-V8-5Xg"/>
                 <outlet property="rightArrowImageView" destination="9Wb-Dy-kCV" id="Dd0-Dn-asA"/>
             </connections>
-            <point key="canvasLocation" x="308.69565217391306" y="98.772321428571431"/>
+            <point key="canvasLocation" x="308.69565217391306" y="142.63392857142856"/>
         </collectionViewCell>
     </objects>
     <designables>

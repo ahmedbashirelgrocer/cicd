@@ -111,6 +111,11 @@ public protocol Theme {
     var currentOrdersCollectionCellBGColor: UIColor { get }
     var currentOrdersPageControlActiveColor: UIColor { get }
     var currentOrdersPageControlInActiveColor: UIColor { get }
+    
+    //MARK: StorePage
+    var StorePageCategoryViewBgColor: UIColor { get }
+    
+    
 }
 
 
@@ -218,6 +223,9 @@ struct ElgrocerTheme: Theme {
     var currentOrdersCollectionCellBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     var currentOrdersPageControlActiveColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     var currentOrdersPageControlInActiveColor: UIColor = ElgrocerBaseColors.elgrocerLightGreenColour
+    
+    //MARK: StorePage
+    var StorePageCategoryViewBgColor: UIColor { ElgrocerBaseColors.elgrocerWhiteColour }
 }
 
 struct SmileSDKTheme: Theme {
@@ -225,7 +233,7 @@ struct SmileSDKTheme: Theme {
     var navigationBarWhiteColor: UIColor { #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) }
     var replacementGreenBGColor: UIColor { #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1) }
     var replacementGreenTextColor: UIColor { #colorLiteral(red: 0, green: 0.2784313725, blue: 0.2117647059, alpha: 1) }
-    var navigationBarColor: UIColor { #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1)  }
+    var navigationBarColor: UIColor { #colorLiteral(red: 0.937254902, green: 0.9411764706, blue: 0.9764705882, alpha: 1)  }
     var unselectedPageControl: UIColor {  #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1) }
     var buttonSelectionColor: UIColor { #colorLiteral(red: 0.01960784314, green: 0.737254902, blue: 0.4, alpha: 1) }
     var secondaryDarkGreenColor: UIColor { #colorLiteral(red: 0, green: 0.2784313725, blue: 0.2117647059, alpha: 1)  }
@@ -264,6 +272,8 @@ struct SmileSDKTheme: Theme {
     var lightTextGrayColor: UIColor { #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 1) }
     var newUIrecipelightGrayBGColor: UIColor { #colorLiteral(red: 0.9215686275, green: 0.9254901961, blue: 0.9333333333, alpha: 1) }
     var emptyViewTextColor: UIColor { #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1) }
+    //MARK: StorePage
+    var StorePageCategoryViewBgColor: UIColor  { #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) }
 //    { #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1) }
     
     //MARK: PrimaryTheme for activity indicators and things
@@ -283,7 +293,7 @@ struct SmileSDKTheme: Theme {
     var labeldiscriptionTextColor: UIColor = ElgrocerBaseColors.elgrocerSecondaryBlackTextColour
     var labelLightgrayTextColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var labelPrimaryBaseTextColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
-    var labelSecondaryBaseColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var labelSecondaryBaseColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryColor
     var labelTextWithBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var labelHighlightedOOSColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var labelPromotionalTextColor: UIColor = ElgrocerBaseColors.elgrocerPromotionYellowColour
@@ -325,6 +335,8 @@ struct SmileSDKTheme: Theme {
     var currentOrdersCollectionCellBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryColor
     var currentOrdersPageControlActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondarySelectionColor
     var currentOrdersPageControlInActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryNoSelectionColor
+    
+   
 }
 
 public struct ApplicationTheme {

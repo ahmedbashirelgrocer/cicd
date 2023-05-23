@@ -52,10 +52,17 @@ class OrderCancelationHandler : NSObject {
     }
   
     private func showCancelationAlert(){
+        
+        DispatchQueue.main.async {
+            if let image = UIImage(name: "CancelOrderPopUp")?.withRenderingMode(.alwaysTemplate) {
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: image, header: localizedString("order_cancelation_popup_title", comment: ""), detail: localizedString("order_cancelation_popup_desc", comment: ""), localizedString("order_cancelation_popup_close_button", comment: ""), localizedString("order_cancelation_popup_close_button", comment: ""), withView: SDKManager.shared.window!, false , true) { buttonIndex in
+                }
+
+            }
+        }
       
         // if let SDKManager = SDKManager.shared {
-            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "CancelOrderPopUp"), header: localizedString("order_cancelation_popup_title", comment: ""), detail: localizedString("order_cancelation_popup_desc", comment: ""), localizedString("order_cancelation_popup_close_button", comment: ""), localizedString("order_cancelation_popup_close_button", comment: ""), withView: SDKManager.shared.window!, false , true) { buttonIndex in
-            }
+            
         // }
     }
     

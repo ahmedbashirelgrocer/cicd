@@ -427,9 +427,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
             
         }
-    
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)
+            
             controller.setupGradient()
         }
         
@@ -1559,8 +1560,8 @@ private extension MainCategoriesViewController {
             .bind(to: self.tableViewCategories.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        viewModel.outputs.reloadTable.subscribe(onNext: { [weak self] in
-            self?.tableViewCategories.reloadDataOnMain()
+        viewModel.outputs.reloadTable.subscribe(onNext: { [weak self] (isNeedToReload) in
+            if isNeedToReload { self?.tableViewCategories.reloadDataOnMain() }
         }).disposed(by: disposeBag)
         
         // MARK: Actions
@@ -2173,7 +2174,8 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            SDKManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+           
             self.title = title
         }
    

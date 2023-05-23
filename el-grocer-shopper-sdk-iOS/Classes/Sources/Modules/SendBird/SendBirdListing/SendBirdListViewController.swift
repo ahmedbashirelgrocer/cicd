@@ -66,6 +66,7 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
         refreshControl.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.setSegmentApperance()
         self.handleArabicMode()
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         
         // Do any additional setup after loading the view.
     }
@@ -409,7 +410,10 @@ extension SendBirdListViewController : UITableViewDelegate , UITableViewDataSour
 extension SendBirdListViewController {
     func addCreateTicketButton() {
         
-        let image: UIImage! = UIImage(name: "addIconWhite")
+        var image: UIImage! = UIImage(name: "addIconWhite")
+        if #available(iOS 13.0, *) {
+            image = image.withTintColor(ApplicationTheme.currentTheme.newBlackColor)
+        } else { }
         let menuButton:UIButton = UIButton(type: UIButton.ButtonType.custom)
         
         let size = self.navigationController?.navigationBar.frame.size.height

@@ -92,7 +92,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         NotificationCenter.default.addObserver(self,selector: #selector(ProductsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         
         
-        
+        if SDKManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.navigationItem.hidesBackButton = true
         self.registerCellsForCollection()
         self.basketIconOverlay?.grocery = self.grocery
@@ -320,7 +320,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
            
         }
         
-        
         self.dataSource?.productListNotFound = { [weak self] (noDataString) in
             guard let self = self else {return}
             self.isGettingProducts = false
@@ -424,10 +423,9 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     
     func navBarAppearance() {
 
-        
         let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore
+        
         if !isSingleStore {
-            
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
@@ -438,15 +436,12 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
             
         }
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore)
             controller.setupGradient()
         }
-            
-        
-            
-            
-//        }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1159,7 +1154,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
             let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,70),maxHeight)
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {

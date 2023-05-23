@@ -317,7 +317,7 @@ extension Order {
         if let picker = orderDict["picker"] as? NSDictionary {
             order.picker = Picker.insertOrReplaceOrderFromDictionary(picker, context: context)
         }
-        
+
         if let vehicle_detail = orderDict["vehicle_detail"] as? NSDictionary {
             order.vehicleDetail = VehicleDetail.insertOrReplaceOrderFromDictionary(vehicle_detail, context: context)
         }

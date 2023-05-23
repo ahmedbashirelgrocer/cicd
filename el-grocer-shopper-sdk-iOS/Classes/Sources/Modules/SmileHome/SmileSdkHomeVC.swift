@@ -131,6 +131,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             controller.buttonActionsDelegate = self
+            (controller.navigationBar as? ElGrocerNavigationBar)?.changeBackButtonImage(true,false) // to get purple backimage
             controller.refreshLogoView()
            // controller.setBackButtonHidden(false)
         }
@@ -155,8 +156,13 @@ class SmileSdkHomeVC: BasketBasicViewController {
         let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
         
+        let centerLabelTableViewCell = UINib(nibName: KCenterLabelTableViewCellIdentifier, bundle: Bundle.resource)
+        self.tableView.register(centerLabelTableViewCell, forCellReuseIdentifier: KCenterLabelTableViewCellIdentifier)
+        
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
+        
+        
         
         NotificationCenter.default.addObserver(self,selector: #selector(SmileSdkHomeVC.getOpenOrders), name: SDKLoginManager.KOpenOrderRefresh , object: nil)
         
@@ -194,7 +200,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             self.searchBarHeader.setNeedsLayout()
             self.searchBarHeader.layoutIfNeeded()
             self.tableView.tableHeaderView = self.searchBarHeader
-            self.tableView.backgroundColor = .textfieldBackgroundColor()
+            self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBackgroundColor
             self.searchBarHeader.setLocationText(self.locationHeader.lblAddress.text ?? "")
             self.tableView.layoutTableHeaderView()
             self.tableView.reloadData()
@@ -725,6 +731,12 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         }
         return 0.01
     }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return minCellHeight
+    }
+    
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             return self.availableStoreTypeA.count > 0 ? header : nil
@@ -733,7 +745,6 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         return 4
     }
     
@@ -743,7 +754,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         switch section {
                 
             case 0:
-                return 1
+            return self.sortedGroceryArray.count > 0 ? 2 : 0
             case 1:
                 return self.sortedGroceryArray.count > separatorCount ? separatorCount + 1 : self.sortedGroceryArray.count
             case 2:
@@ -760,7 +771,13 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            
+            if indexPath.row == 0 {
+                let cell : CenterLabelTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KCenterLabelTableViewCellIdentifier, for: indexPath) as! CenterLabelTableViewCell
+                let localizeString = localizedString("lbl_AvailableStores_Smiles_Home", comment: "")
+                let availableStores = String(format: localizeString, "\(self.sortedGroceryArray.count)")
+                cell.configureLabelWithOutCenteralAllignment(availableStores)
+                return cell
+            }
             let cell : GenericBannersCell = self.tableView.dequeueReusableCell(withIdentifier: "GenericBannersCell", for: indexPath) as! GenericBannersCell
             cell.contentView.backgroundColor = .clear
             cell.bgView.backgroundColor = .clear
@@ -836,6 +853,9 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                return 45
+            }
             return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
         } else if indexPath.section == 2 {
             return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.sortedGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
@@ -977,7 +997,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             }else {
                 FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
             }
-            
+         
             ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
             self.setUserProfileData()
             self.setDefaultGrocery()

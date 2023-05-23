@@ -97,7 +97,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
         NotificationCenter.default.addObserver(self, selector: #selector(BasketBasicViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: nil)
         
         addBasketIconOverlay(self, grocery: self.grocery, shouldShowGroceryActiveBasket: self.shouldShowGroceryActiveBasket)
-        addEmptyView()
+      //  addEmptyView()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(BasketBasicViewController.dismissKeyboard))
         self.emptyView?.addGestureRecognizer(tapGesture)
@@ -594,7 +594,7 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
                     
                     //, searchString: self.searchString
                     let newProducts = Product.insertOrReplaceProductsFromDictionary(content! as NSDictionary , context: DatabaseHelper.sharedInstance.mainManagedObjectContext , searchString: self.searchString  )
-                    self.moreProductsAvailable = newProducts.products.count > 0
+                    self.moreProductsAvailable = newProducts.algoliaCount ?? newProducts.products.count > 0
                     
                     self.searchedProducts += newProducts.products
                     DatabaseHelper.sharedInstance.saveDatabase()
