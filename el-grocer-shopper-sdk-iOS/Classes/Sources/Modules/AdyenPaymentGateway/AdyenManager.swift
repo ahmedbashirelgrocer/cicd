@@ -174,12 +174,14 @@ class AdyenManager {
     }
     
     func setApplePayComponent(applePaymentMethod: ApplePayPaymentMethod, payment: Payment,configuration: ApplePayComponent.Configuration, controller: UIViewController){
-        
+   
         do{
             self.applePayComponent = try ApplePayComponent(paymentMethod: applePaymentMethod, apiContext: apiContext, payment: payment, configuration: configuration)
             if let component = applePayComponent {
                 component.delegate = self
-                component.didFinalize(with: true)
+                component.didFinalize(with: true) {
+                    debugPrint("")
+                }
                 component.viewController.modalPresentationStyle = .fullScreen
                 controller.present(component.viewController, animated: true)
             }
@@ -392,6 +394,13 @@ extension AdyenManager: PaymentComponentDelegate{
         
         if let error = error as? Adyen.ComponentError {
             if error == Adyen.ComponentError.cancelled {
+                applePayComponent?.stopLoadingIfNeeded()
+                self.applePayComponent?.viewController.dismiss(animated: true, completion: nil)
+                Thread.OnMainThread {
+                    if let topVc = UIApplication.topViewController(), topVc is PKPaymentAuthorizationViewController {
+                        topVc.dismiss(animated: true)
+                    }
+                }
                 return
             }
         }
