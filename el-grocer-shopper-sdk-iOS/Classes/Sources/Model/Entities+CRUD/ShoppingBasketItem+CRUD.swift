@@ -193,6 +193,24 @@ extension ShoppingBasketItem {
                 
         return shoppingBasketItems.count > 0
     }
+    
+    /// Checks if there are active baskets available for the given groceries.
+    ///
+    /// - Parameters:
+    ///   - groceries: An array of `Grocery` objects to check against.
+    ///   - context: The `NSManagedObjectContext` used for the database operations.
+    ///
+    /// - Returns: A boolean value indicating if there are active baskets available for the given groceries.
+    ///
+    /// - Note: This function uses a predicate to query the database for `ShoppingBasketItem` objects with specific conditions. It checks if there are any items where the `orderId` is equal to `kTemporaryBasketId` and the `groceryId` is in the array of grocery IDs extracted from the `groceries` array. If such items exist, it returns `true`; otherwise, it returns `false`.
+    class func checkActiveBasketsAvailable(_ groceries: [Grocery], context: NSManagedObjectContext) -> Bool {
+        let predicate = NSPredicate(format: "orderId == %@ AND groceryId IN %@", kTemporaryBasketId, groceries.map { $0.dbID }, "0")
+
+        let shoppingBasketItems = DatabaseHelper.sharedInstance.getEntitiesWithName(ShoppingBasketItemEntity, sortKey: nil, predicate: predicate, ascending: true, context: context) as! [ShoppingBasketItem]
+                
+        
+        return shoppingBasketItems.count > 0
+    }
    
     class func addOrUpdateProductInBasketWithIncrement(_ product:Product, grocery:Grocery?, brandName:String?, quantity:Int, context: NSManagedObjectContext) {
         

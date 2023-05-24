@@ -228,7 +228,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
 
-            self.title = localizedString("store_search_nav_title", comment: "")
+            self.title = "\(localizedString("store_search_nav_title", comment: "")) \(ElGrocerUtility.sharedInstance.activeGrocery?.name ?? "")"
         }else{
 
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,

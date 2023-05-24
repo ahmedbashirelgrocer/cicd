@@ -65,6 +65,7 @@ class SuggestionsModelDataSource {
     }
     
     var searchFor: searchType = .isForStoreSearch
+    private var trendingSearches: [String] = []
     
     func resetForNewGrocery () {
         self.bannerFeeds = []
@@ -117,10 +118,6 @@ class SuggestionsModelDataSource {
             SuggestionsModelObj.init(type: .noDataFound, title: "👀 Your search history will appear here...")
         ])
         self.model = filterA
-//        if let clouser = self.displayList {
-//            clouser(model)
-//        }
-    
     }
      
     func clearAllData() {
@@ -169,6 +166,8 @@ class SuggestionsModelDataSource {
 
         if let currentData = getUserSearchData(), !currentData.isEmpty {
             modelA.append(contentsOf: currentData.map { SuggestionsModelObj(type: .searchHistory, title: $0) })
+        } else if self.trendingSearches.isNotEmpty {
+            modelA.append(contentsOf: self.trendingSearches.map { SuggestionsModelObj(type: .searchHistory, title: $0) })
         } else {
             modelA.append(SuggestionsModelObj(type: .noDataFound, title: "👀 Your search history will appear here..."))
         }
@@ -224,8 +223,8 @@ class SuggestionsModelDataSource {
                     if let value = productDict["query"] as? String {
                         let imageUrl = ((((productDict["Product"] as? NSDictionary)?["facets"] as? NSDictionary)?["exact_matches"] as? NSDictionary)?["photo_url"] as? [NSDictionary])?.first?["value"] as? String
                         
-                        
                         modelA.append(SuggestionsModelObj.init(type: .trendingSearch, title: value, imageUrl: imageUrl))
+                        self.trendingSearches.append(value)
                     }
                 }
                 
@@ -233,7 +232,9 @@ class SuggestionsModelDataSource {
                     modelA.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 No products found, try a different one..."))
                 }
                 
-                self.model.append(contentsOf: modelA)
+                if showTrendingProducts {
+                    self.model.append(contentsOf: modelA)
+                }
                 
 //                guard isNeedToShowBrand else {
 //                    callForRecipe(currentString)
@@ -379,7 +380,7 @@ class SuggestionsModelDataSource {
                                     self.model.insert(contentsOf: mySuggestionDataArray, at: 0)
 //                                    self.model.append(contentsOf: mySuggestionDataArray)
                                 }
-                            } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue && showTrendingProducts {
+                            } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
                                     addProductSuggestion(algoliaObj, isNeedToShowBrand: isNeedToShowBrand, currentString: currentString)
                                 }

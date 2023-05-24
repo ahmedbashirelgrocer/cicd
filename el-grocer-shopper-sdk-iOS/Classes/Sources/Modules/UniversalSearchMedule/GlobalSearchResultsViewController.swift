@@ -56,6 +56,7 @@ class GlobalSearchResultsViewController: UIViewController {
         self.setTableViewHeader()
         self.LogEvents()
         
+        self.updateMultiCartButtonIcon()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -666,6 +667,8 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
         }
         
         DatabaseHelper.sharedInstance.saveDatabase()
+        
+        self.updateMultiCartButtonIcon()
         let index = homeObj.products.firstIndex(of: selectedProduct)
         if let notNilIndex = index {
             if (productCollectionVeiw.indexPathsForVisibleItems.contains(IndexPath(row: notNilIndex, section: 0))) {
@@ -802,4 +805,8 @@ extension GlobalSearchResultsViewController: ButtonActionDelegate {
         self.present(activeCartVC, animated: true)
     }
     
+    private func updateMultiCartButtonIcon() {
+        let isActiveCartAvailable = ShoppingBasketItem.checkActiveBasketsAvailable(ElGrocerUtility.sharedInstance.groceries, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(isActiveCartAvailable)
+    }
 }

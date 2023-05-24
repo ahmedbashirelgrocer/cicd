@@ -1451,7 +1451,7 @@
 "lbl_Ingredients" = " المكونات";
 "lbl_Error_No_Store_On_This_Location_Selling_Products" = "لا يوجد متجر في هذا الموقع يبيع هذه المنتجات ";
 "global_search_nav_title" = "Search products, store";
-"store_search_nav_title" = "Search";
+"store_search_nav_title" = "البحث";
 
     //zendesk string
 
