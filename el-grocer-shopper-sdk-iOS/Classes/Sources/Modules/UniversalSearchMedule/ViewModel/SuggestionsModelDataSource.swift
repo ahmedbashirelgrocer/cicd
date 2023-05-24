@@ -129,9 +129,7 @@ class SuggestionsModelDataSource {
         self.clearAllData()
         self.papulateUsersearchedData()
         
-        if self.searchFor != .isForStoreSearch {
-            self.papulateTrengingData(showTrendingProducts: false)
-        }
+        self.papulateTrengingData(showTrendingProducts: false)
     }
     
     func papulateUsersearchedData() {
@@ -159,23 +157,28 @@ class SuggestionsModelDataSource {
     }
     
     private func fetchLocalHistory() {
+        let title: SearchResultSuggestionType = getUserSearchData() != nil && getUserSearchData()?.isEmpty == false ? .titleWithClearOption : .title
         var modelA = [
             SuggestionsModelObj(type: .separator),
-            SuggestionsModelObj(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased())
+            SuggestionsModelObj(type: title, title: localizedString("lblSearchHistory", comment: "").uppercased())
         ]
 
-        if let currentData = getUserSearchData(), !currentData.isEmpty {
-            modelA.append(contentsOf: currentData.map { SuggestionsModelObj(type: .searchHistory, title: $0) })
-        } else if self.trendingSearches.isNotEmpty {
-            modelA.append(contentsOf: self.trendingSearches.map { SuggestionsModelObj(type: .searchHistory, title: $0) })
-        } else {
-            modelA.append(SuggestionsModelObj(type: .noDataFound, title: "👀 Your search history will appear here..."))
-        }
+        ElGrocerUtility.sharedInstance.delay(1) { [weak self] in
+            guard let self = self else { return }
+            
+            if let currentData = self.getUserSearchData(), !currentData.isEmpty {
+                modelA.append(contentsOf: currentData.map { SuggestionsModelObj(type: .searchHistory, title: $0) })
+            } else if self.trendingSearches.isNotEmpty {
+                modelA.append(contentsOf: self.trendingSearches.prefix(8).map { SuggestionsModelObj(type: .searchHistory, title: $0) })
+            } else {
+                modelA.append(SuggestionsModelObj(type: .noDataFound, title: "👀 Your search history will appear here..."))
+            }
 
-        self.model.append(contentsOf: modelA)
+            self.model.append(contentsOf: modelA)
+        }
     }
     
-    func papulateTrengingData(_ isNeedToClear : Bool = false, showTrendingProducts: Bool = true) {
+    func papulateTrengingData(_ isNeedToClear : Bool = false, showTrendingProducts: Bool = true, completion: @escaping (([SuggestionsModelObj])->()) = { _ in }) {
         if self.isDebugOn {
             GenericClass.print("debugdarta : \(currentSearchString)")
         }
@@ -214,10 +217,11 @@ class SuggestionsModelDataSource {
             func addProductSuggestion (_ algoliaObj  : [ NSDictionary], isNeedToShowBrand : Bool, currentString : String ) {
                 
                 var modelA = [SuggestionsModelObj]()
-                modelA = [
-                    SuggestionsModelObj.init(type: .separator),
-                    SuggestionsModelObj.init(type: .title, title: localizedString("trending_searches", comment: "").uppercased())
-                ]
+                
+                modelA.append(SuggestionsModelObj.init(type: .separator))
+                if self.searchFor != .isForStoreSearch {
+                    modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("trending_searches", comment: "").uppercased()))
+                }
                 
                 for (_ , productDict) in algoliaObj.enumerated() {
                     if let value = productDict["query"] as? String {
@@ -335,6 +339,8 @@ class SuggestionsModelDataSource {
                         if let indexName = dict["index"] as? String {
                              if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
+                                    // returning from function because we are not showing stores in case of store search
+                                    if self.searchFor == .isForStoreSearch { return }
                                     elDebugPrint(algoliaObj)
                                     
                                     var mySuggestionDataArray: [SuggestionsModelObj] = []

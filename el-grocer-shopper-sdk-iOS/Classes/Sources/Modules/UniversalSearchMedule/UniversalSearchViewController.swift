@@ -1140,6 +1140,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         
         self.searchString = ""
         guard self.searchFor == .isForUniversalSearch else {
+            self.dataSource?.getDefaultSearchData()
             return true
         }
         self.dataSource?.currentSearchString = self.searchString
