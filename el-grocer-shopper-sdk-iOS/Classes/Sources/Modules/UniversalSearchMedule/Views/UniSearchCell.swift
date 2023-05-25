@@ -62,12 +62,11 @@ class UniSearchCell: UITableViewCell {
         }
         
         if obj?.modelType == SearchResultSuggestionType.trendingSearch {
-            imgView.sd_setImage(with: URL(string: obj!.retailerImageUrl), placeholderImage: UIImage(name: "trendingSearch"))
-//            if ElGrocerUtility.sharedInstance.isArabicSelected() {
-//                imgView.image = UIImage(name: "trendingSearch")?.imageFlippedForRightToLeftLayoutDirection()
-//            }else {
-//                imgView.image = UIImage(name: "trendingSearch")
-//            }
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                imgView.image = UIImage(name: "trendingSearch")?.imageFlippedForRightToLeftLayoutDirection()
+            }else {
+                imgView.image = UIImage(name: "trendingSearch")
+            }
         }else if obj?.modelType == SearchResultSuggestionType.categoriesTitles {
             imgView.image = UIImage(name: "categorySearch")
         }else if obj?.modelType == SearchResultSuggestionType.brandTitles {

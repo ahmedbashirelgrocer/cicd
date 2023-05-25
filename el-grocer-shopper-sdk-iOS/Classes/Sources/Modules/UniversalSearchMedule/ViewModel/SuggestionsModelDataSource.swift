@@ -225,9 +225,7 @@ class SuggestionsModelDataSource {
                 
                 for (_ , productDict) in algoliaObj.enumerated() {
                     if let value = productDict["query"] as? String {
-                        let imageUrl = ((((productDict["Product"] as? NSDictionary)?["facets"] as? NSDictionary)?["exact_matches"] as? NSDictionary)?["photo_url"] as? [NSDictionary])?.first?["value"] as? String
-                        
-                        modelA.append(SuggestionsModelObj.init(type: .trendingSearch, title: value, imageUrl: imageUrl))
+                        modelA.append(SuggestionsModelObj.init(type: .trendingSearch, title: value))
                         self.trendingSearches.append(value)
                     }
                 }
