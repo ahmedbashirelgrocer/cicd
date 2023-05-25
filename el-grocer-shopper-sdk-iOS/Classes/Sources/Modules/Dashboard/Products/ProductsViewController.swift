@@ -115,6 +115,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.userManualSearch(searchData: universalSearchString ?? "")
             self.dataSource?.getBanners(searchInput: universalSearchString ?? "")
             self.segmentedViewHeightConstraint.constant = 60
+            self.locationHeader.txtSearchBar.text = self.universalSearchString
             
             // Store Logo tap handler
             locationHeader.storeTapped = { [weak self] in
