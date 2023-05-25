@@ -537,7 +537,7 @@ class SuggestionsModelDataSource {
                     return
                 }
                 
-                addProductData(product, recipeList: recipeList, groceryA: groceryA)
+                addProductData(product, recipeList: SDKManager.isSmileSDK ? [] : recipeList, groceryA: groceryA)
                 
 //                let data: NSDictionary? = NSDictionary.init()
 //                if let dataA = data?["results"] as? NSArray {
