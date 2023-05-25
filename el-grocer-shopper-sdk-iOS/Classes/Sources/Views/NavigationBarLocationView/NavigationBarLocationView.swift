@@ -23,7 +23,7 @@ class NavigationBarLocationView: UIView {
     @IBOutlet var lblLocation: UILabel!{
         didSet{
             lblLocation.setBody3BoldUpperYellowStyle()
-            lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor
+            if !sdkManager.isShopperApp { lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor }
             lblLocation.text = "... "
             lblLocation.textAlignment = .natural
         }

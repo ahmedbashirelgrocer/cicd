@@ -112,11 +112,6 @@ class LocationManager: NSObject {
         
         authorizationStatus.asObservable()
             .bind { [unowned self](authorizationStatus) -> Void in
-                
-                guard CLLocationManager.locationServicesEnabled() else {
-                    self.state.value = .error(ElGrocerError.locationServicesDisabledError())
-                    return
-                }
                 switch authorizationStatus {
                 case .authorizedWhenInUse, .authorizedAlways:
                     self.fetchCurrentLocation()

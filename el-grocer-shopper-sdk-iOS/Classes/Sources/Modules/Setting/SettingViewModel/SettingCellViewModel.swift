@@ -59,6 +59,7 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
     // MARK: Outputs
     var title: String = ""
     var image: UIImage = UIImage(name: "product_placeholder")!
+    var userProfile: UserProfile? = nil
     var cellType : SettingCellType
     var buttonAction: Observable<Any> { buttonActionSubject.asObservable()}
     // MARK: Subjects
@@ -68,7 +69,7 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
     var reusableIdentifier: String
     
     // MARK: Initlizations
-    init(type: SettingCellType) {
+    init(type: SettingCellType, _ userProfile : UserProfile? = nil) {
       
         self.cellType = type
         
@@ -79,6 +80,7 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
         case .UserLogin:
             self.reusableIdentifier = "UserInfoTableCell"
             self.title = ""
+            self.userProfile = userProfile
         case .LanguageChange:
             self.reusableIdentifier = "SettingTableCell"
             self.title = localizedString("language_settings", comment: "")

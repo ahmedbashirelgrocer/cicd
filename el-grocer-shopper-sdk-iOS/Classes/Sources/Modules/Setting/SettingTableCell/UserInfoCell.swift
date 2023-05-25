@@ -51,11 +51,12 @@ class UserInfoCell: RxUITableViewCell {
     override func configure(viewModel: Any) {
         guard let viewModel = viewModel as? SettingCellViewModel else { return }
         self.viewModel = viewModel
+        self.configureCellWithTitle(self.viewModel.userProfile?.name, withPhoneNumber: self.viewModel.userProfile?.phone, andWithEmail: self.viewModel.userProfile?.email)
        
     }
     
     // MARK: Data
-    private func configureCellWithTitle(_ name: String, withPhoneNumber phone:String, andWithEmail email:String) {
+    private func configureCellWithTitle(_ name: String? = "", withPhoneNumber phone:String? = "", andWithEmail email:String? = "") {
         self.nameLabel.text = name
         self.phoneLabel.text = phone
         self.emailLabel.text = email

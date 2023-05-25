@@ -647,10 +647,10 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.locationView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         self.addSubview(self.locationView)
     }
-    fileprivate func addBackButton(_ isWhite: Bool = false, _ isBlack: Bool = SDKManager.shared.isSmileSDK) {
+    fileprivate func addBackButton(_ isWhite: Bool = false, _ isBlack: Bool = !SDKManager.shared.isShopperApp) {
         
         var image = UIImage(name: "BackGreen")!
-        if isWhite{
+        if isWhite || sdkManager.isShopperApp {
             image = UIImage(name: "BackWhite")!
         }
         if isBlack {
@@ -699,7 +699,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addSideMenuButton() {
-        let image = UIImage(name: "menu")
+        let image = sdkManager.isShopperApp ? UIImage(name: "profile-icon") :  UIImage(name: "menu")
         self.profileButton  = UIButton(type: .custom)
         self.profileButton.setImage(image, for: .normal)
         self.addSubview(self.profileButton)

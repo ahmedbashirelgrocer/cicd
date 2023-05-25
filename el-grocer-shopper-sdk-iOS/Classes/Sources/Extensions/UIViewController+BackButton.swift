@@ -45,6 +45,16 @@ extension UIViewController {
         backButton.tintColor = UIColor.newBlackColor()
         self.navigationItem.rightBarButtonItem = backButton
     }
+    
+    
+    func addWhiteBackButton() {
+        
+        var image = ElGrocerUtility.sharedInstance.getImageWithName("BackWhite")
+        let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
+        backButton.tintColor = .white
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    
 
 
     func addBackButton( isGreen : Bool = true, _ isBlack: Bool = SDKManager.shared.isSmileSDK) {

@@ -60,6 +60,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     @IBOutlet weak var mapToolTipBgView: UIView!
     @IBOutlet weak var mapPinToolTipText: UILabel!
+    @IBOutlet weak var detectingLocationView: UIView!
     
     var shouldUpdatePinUpdate = false
     var isPinUpdate : Bool = false
@@ -201,7 +202,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         super.viewWillAppear(animated)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         self.navigationItem.hidesBackButton = true
-        addBackButton(isGreen: false)
+        sdkManager.isShopperApp ? addWhiteBackButton() : addBackButton(isGreen: false)
         // self.setUpBottomView()
     }
     
@@ -217,9 +218,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        
-    }
+    override func viewWillDisappear(_ animated: Bool) { }
     
     // MARK: Actions
     
@@ -244,8 +243,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         
         guard let location = self.viewModel.selectedLocation.value else {return}
         
-        FireBaseEventsLogger.trackSelectLocationEvents("Confirm")
-        self.logMixpanelConfirmClick(location)
+      
         
         guard !isFromCart else {
             
@@ -539,6 +537,11 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     fileprivate func setBindings() {
         
+        viewModel.isLocationFetching.asObservable().observeOn(MainScheduler.instance)
+            .bind { [unowned self] (isLocationFetching) in
+                self.detectingLocationView.isHidden = !(isLocationFetching ?? false)
+            }
+        
         viewModel.selectedLocation.asObservable().observeOn(MainScheduler.instance)
             .bind { [unowned self] (location) in
                 
@@ -587,58 +590,30 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 
             }.disposed(by: disposeBag)
         
-        viewModel.userAddress.asObservable().observeOn(MainScheduler.instance)
+        
+        viewModel.selectedAddress.asObservable().observeOn(MainScheduler.instance)
             .bind { [unowned self](address) in
-                
                 guard let address = address else {
-                    
-                    self.viewModel.selectedAddress.asObservable().observeOn(MainScheduler.instance)
-                        .bind { [unowned self](address) in
-                            guard let address = address else {return}
-                            print("Address:%@",address)
-                            
-                            let streetName = address.lines![0]
-                            if(self.addressTextField.text == nil || (self.addressTextField.text?.isEmpty)!){
-                                self.addressTextField.text = streetName
-                            }
-                            
-                            if(self.addressLabel.text == nil || (self.addressLabel.text?.isEmpty)!){
-                                self.addressLabel.text = streetName
-                                self.addressTitleLabel.text = streetName
-                            }
-                            
-                        }.disposed(by: self.disposeBag)
-                    
+                    self.detectingLocationView.isHidden = false
                     return
                 }
-                
+                self.lblAddress.text  =  address.formattedAddress ?? "Unable to find location"
+                self.btnChangeAddress.isHidden = self.lblAddress.text?.count == 0
+            }.disposed(by: self.disposeBag)
+        
+        viewModel.userAddress.asObservable().observeOn(MainScheduler.instance)
+            .bind { [unowned self](address) in
+                guard let address = address else {
+                    self.detectingLocationView.isHidden = false
+                    return
+                }
                 var finalAddress = address
-                
-                // if finalAddress.count == 0 {
-                // finalAddress =  localizedString("lbl_use_current_location", comment: "")
-                // }
-                // self.addressTextField.text = finalAddress
-                
                 let fetchedFormattedAddress = finalAddress
                 self.viewModel.locationAddress.value = fetchedFormattedAddress
-                
-                print("self.viewModel.locationAddress.value:%@",self.viewModel.locationAddress.value ?? "NULL Address")
-                
                 let locationName = fetchedFormattedAddress.components(separatedBy: "-").dropLast().joined(separator: "-")
                 self.viewModel.locationName.value = locationName
-                
-                /* let addressComponents = fetchedFormattedAddress!.components(separatedBy: "-") as [String]
-                 if(addressComponents.count > 1){
-                 let locationName = String(format:"%@-%@",addressComponents[0],addressComponents[1])
-                 self.viewModel.locationName.value = locationName
-                 }else{
-                 self.viewModel.locationName.value = fetchedFormattedAddress
-                 }*/
-                
-                print("self.viewModel.locationName.value:%@",self.viewModel.locationName.value ?? "NULL Location Name")
-                
-                self.addressLabel.text = fetchedFormattedAddress
-                self.addressTitleLabel.text = fetchedFormattedAddress
+                self.lblAddress.text  =  fetchedFormattedAddress
+                self.btnChangeAddress.isHidden = self.lblAddress.text?.count == 0
                 
             }.disposed(by: disposeBag)
         
@@ -971,6 +946,8 @@ extension LocationMapViewController: GMSMapViewDelegate {
         }
    
         self.mapPinToolTipText.text = position.zoom >= 18 ? "Drag the pin on the most accurate location" : "Please zoom in to find your exact delivery location"
+        
+        self.viewModel.isNeedToFindAddress.value = position.zoom >= 18
     
         UIView.transition(with: self.mapToolTipBgView, duration: 0.2,
                           options: .curveEaseOut,

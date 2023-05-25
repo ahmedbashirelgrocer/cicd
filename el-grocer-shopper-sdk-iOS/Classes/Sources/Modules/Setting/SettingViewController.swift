@@ -68,7 +68,7 @@ class SettingViewController: UIViewController {
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         self.title = localizedString("Profile_Title", comment: "")
-        self.view.backgroundColor = AppSetting.theme.navigationBarWhiteColor
+        self.view.backgroundColor = sdkManager.isShopperApp ? AppSetting.theme.navigationBarWhiteColor : AppSetting.theme.newBlackColor
         self.hidesBottomBarWhenPushed = true
         self.navigationItem.hidesBackButton = true
         

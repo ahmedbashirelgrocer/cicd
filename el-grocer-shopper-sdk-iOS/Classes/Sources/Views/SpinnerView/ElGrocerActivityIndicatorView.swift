@@ -15,13 +15,13 @@ class ElGrocerActivityIndicatorView: UIImageView {
         
         if #available(iOS 13.0, *) {
             self.animationImages = [
-                UIImage(name: "elgrocer-activity-indicator-1")!.withTintColor(AppSetting.theme.themeBasePrimaryColor),
-                UIImage(name: "elgrocer-activity-indicator-2")!.withTintColor(AppSetting.theme.themeBasePrimaryColor),
-                UIImage(name: "elgrocer-activity-indicator-3")!.withTintColor(AppSetting.theme.themeBasePrimaryColor),
-                UIImage(name: "elgrocer-activity-indicator-4")!.withTintColor(AppSetting.theme.themeBasePrimaryColor),
-                UIImage(name: "elgrocer-activity-indicator-5")!.withTintColor(AppSetting.theme.themeBasePrimaryColor),
-                UIImage(name: "elgrocer-activity-indicator-6")!.withTintColor(AppSetting.theme.themeBasePrimaryColor),
-                UIImage(name: "elgrocer-activity-indicator-7")!.withTintColor(AppSetting.theme.themeBasePrimaryColor),
+                UIImage(name: "elgrocer-activity-indicator-1")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-2")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-3")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-4")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-5")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-6")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-7")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
             ]
         } else {
             self.animationImages = [
