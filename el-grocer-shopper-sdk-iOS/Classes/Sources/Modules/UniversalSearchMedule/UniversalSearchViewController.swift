@@ -154,8 +154,9 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        
         self.commingFromVc = UIApplication.topViewController()
+        
+        SDKManager.shared.launchOptions?.navigationType = .Default
     }
     
     private func addBasketOverlay() {
@@ -172,9 +173,6 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         }
         
         ElgrocerFarLocationCheck.shared.showLocationCustomPopUp(false)
-        SDKManager.shared.launchOptions?.navigationType = .Default
-        
-
     }
     
     @IBAction func voiceSearchAction(_ sender: Any) {
@@ -510,10 +508,6 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             guard let self = self else {return}
             self.reloadCollectionView()
         }
-        
-        if SDKManager.shared.launchOptions?.navigationType == .search {
-            SDKManager.shared.launchOptions?.navigationType == .Default
-        }
     }
     
     fileprivate func showCollectionView (_ isNeedToShow : Bool) {
@@ -835,7 +829,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         // self.loadedProductList.count > 30 ||
-        if  !self.moreProductsAvailable && !SDKManager.isGrocerySingleStore {
+        if  !self.moreProductsAvailable && !SDKManager.isGrocerySingleStore && SDKManager.shared.launchOptions?.navigationType != .search {
             return  CGSize.init(width: self.view.frame.size.width , height: 146)
         }
         return CGSize.zero
@@ -843,7 +837,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        if self.combineProductsBanners.count > 30 || !self.moreProductsAvailable {
+        if (self.combineProductsBanners.count > 30 || !self.moreProductsAvailable) && SDKManager.shared.launchOptions?.navigationType != .search {
             if kind == UICollectionView.elementKindSectionFooter {
                 let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "NoStoreSearchStoreCollectionReusableView", for: indexPath) as! NoStoreSearchStoreCollectionReusableView
                 headerView.buttonClicked = { [weak self] in
