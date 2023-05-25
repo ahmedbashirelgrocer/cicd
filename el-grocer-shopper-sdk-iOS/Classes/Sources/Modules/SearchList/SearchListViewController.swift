@@ -131,17 +131,10 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
             if isFromHeader{
                 self.addRightCrossButton(sdkManager.isShopperApp)
             }
-        }else{
-//            (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
+        } else {
+//          (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
         }
-        
-//        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-        
-       // self.searchProductListingTextView.inputView = self.searchButton
-        
         FireBaseEventsLogger.setScreenName( FireBaseScreenName.ShoppingList.rawValue , screenClass: String(describing: self.classForCoder))
-        
-       
     }
     
     override func rightBackButtonClicked() {
