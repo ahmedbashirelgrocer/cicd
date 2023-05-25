@@ -488,7 +488,15 @@ class DynamicLinksHelper {
             }
             return
         }
-        SDKManager.shared.showEntryView()
+        Thread.OnMainThread {
+            if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
+                if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
+                    tabbar.selectedIndex = 1
+                    return
+                }}
+            SDKManager.shared.showEntryView()
+        }
+        
     }
     
     
@@ -818,7 +826,7 @@ class DynamicLinksHelper {
         func checkGrocery (_ checkBoth : Bool = false , lat : Double , lng : Double , dbID : String = "" ) {
             
             var deliveryGroceryList : [Grocery] = []
-            var cncGroceryList : [Grocery] = []
+            //var cncGroceryList : [Grocery] = []
             func checkForCandC(lat : Double , lng : Double) {
                 
                 ElGrocerApi.sharedInstance.checkCandCavailability( lat , lng: lng ) { (result) in
