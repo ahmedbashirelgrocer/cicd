@@ -96,7 +96,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         self.navigationItem.hidesBackButton = true
         self.registerCellsForCollection()
         self.basketIconOverlay?.grocery = self.grocery
-        self.basketIconOverlay?.shouldShow = !self.isCommingFromUniversalSearch
+        self.basketIconOverlay?.shouldShow = true//!self.isCommingFromUniversalSearch
         self.refreshBasketIconStatus()
         self.setCollectionViewBottomConstraint()
         self.navBarAppearance()
