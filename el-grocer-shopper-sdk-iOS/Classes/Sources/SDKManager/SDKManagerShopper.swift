@@ -45,6 +45,8 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     public var rootViewController: UIViewController?
     public var homeLastFetch: Date?
     public var isSmileSDK: Bool { false }
+    public var isGrocerySingleStore: Bool { false }
+    public var isShopperApp: Bool { true }
     public var kGoogleMapsApiKey: String { "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" }
     
     lazy public var backgroundURLSession : URLSession = {

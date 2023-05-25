@@ -168,7 +168,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
             (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
             self.addBackButton(isGreen: false)
             if isFromHeader{
-                self.addRightCrossButton(SDKManager.isShopperApp)
+                self.addRightCrossButton(sdkManager.isShopperApp)
             }
             
         }

@@ -183,7 +183,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        self.addRightCrossButton(SDKManager.isShopperApp)
+        self.addRightCrossButton(sdkManager.isShopperApp)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -289,7 +289,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }
         if (indexOfDefaultLocation != nil){
             let location = self.locations[indexOfDefaultLocation!]
-            guard !SDKManager.isGrocerySingleStore else {
+            guard !sdkManager.isGrocerySingleStore else {
                 self.updateStore(location: location) { [weak self ] (isStoreChange) in
                     if isStoreChange {
                         self?.startUpdatingLocationToServerProcess(location)
@@ -384,7 +384,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
             self.makeLocationToDefault(location)
         
-        if !SDKManager.isGrocerySingleStore {
+        if !sdkManager.isGrocerySingleStore {
             ElGrocerUtility.sharedInstance.activeGrocery = nil
                 ElGrocerUtility.sharedInstance.resetRecipeView()
         }
@@ -1024,7 +1024,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 }
                  let location = self.locations[(indexPath as NSIndexPath).row]
                 
-                guard !SDKManager.isGrocerySingleStore else {
+                guard !sdkManager.isGrocerySingleStore else {
                     self.updateStore(location: location) { [weak self ] (isStoreChange) in
                         if isStoreChange {
                             self?.startUpdatingLocationToServerProcess(location)
@@ -1521,7 +1521,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             self.dismiss(animated: true) {
                                 if ElGrocerUtility.sharedInstance.activeGrocery == nil {
                                     if let topVc = UIApplication.topViewController() {
-                                        topVc.tabBarController?.selectedIndex = SDKManager.isGrocerySingleStore ? 1 : 0
+                                        topVc.tabBarController?.selectedIndex = sdkManager.isGrocerySingleStore ? 1 : 0
                                     }
                                     //self.tabBarController?.selectedIndex = 0
                                 }
@@ -1536,7 +1536,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             self.redirectIfLogged(editLocationController,  false)
                         }
                     }else {
-                        if !SDKManager.isGrocerySingleStore { self.fetchGroceries() } else {
+                        if !sdkManager.isGrocerySingleStore { self.fetchGroceries() } else {
                             
                             ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
                             self.dismiss(animated: true)

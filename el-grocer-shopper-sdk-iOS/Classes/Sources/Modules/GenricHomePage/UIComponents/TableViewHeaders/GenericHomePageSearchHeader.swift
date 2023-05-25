@@ -15,7 +15,7 @@ class GenericHomePageSearchHeader: UIView {
     @IBOutlet var eclipceImgView: UIImageView! {
         
         didSet {
-            eclipceImgView.backgroundColor =   SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .navigationBarWhiteColor()
+            eclipceImgView.backgroundColor =   sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .navigationBarWhiteColor()
             //eclipceImgView.layer.cornerRadius = 20
         }
         
@@ -48,7 +48,7 @@ class GenericHomePageSearchHeader: UIView {
     @IBOutlet var txtSearch: UITextField!{
         didSet{
             
-           let placeHolderText = SDKManager.isSmileSDK ? localizedString("search_placeholder_home_Smiles", comment: "") : localizedString("search_placeholder_home", comment: "")
+           let placeHolderText = sdkManager.isSmileSDK ? localizedString("search_placeholder_home_Smiles", comment: "") : localizedString("search_placeholder_home", comment: "")
             txtSearch.placeholder = placeHolderText
             txtSearch.setPlaceHolder(text: placeHolderText)
             if ElGrocerUtility.sharedInstance.isArabicSelected(){

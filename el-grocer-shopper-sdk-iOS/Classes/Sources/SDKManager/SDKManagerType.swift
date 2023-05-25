@@ -38,6 +38,10 @@ public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     var rootViewController: UIViewController? { get set }
     var homeLastFetch : Date? { get set }
     var isSmileSDK: Bool { get }
+    var isGrocerySingleStore: Bool { get }
+    var isShopperApp: Bool { get }
+    
+    
     var kGoogleMapsApiKey: String { get }
     
     // Methods

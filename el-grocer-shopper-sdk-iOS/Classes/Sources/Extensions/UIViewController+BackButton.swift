@@ -47,7 +47,7 @@ extension UIViewController {
     }
 
 
-    func addBackButton( isGreen : Bool = true, _ isBlack: Bool = SDKManager.isSmileSDK) {
+    func addBackButton( isGreen : Bool = true, _ isBlack: Bool = SDKManager.shared.isSmileSDK) {
         
         var image = UIImage()
         if isGreen{

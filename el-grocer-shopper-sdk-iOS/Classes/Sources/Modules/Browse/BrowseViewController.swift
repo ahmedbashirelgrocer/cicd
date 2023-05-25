@@ -68,7 +68,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     
     private func addLocationHeader() {
         
-        if SDKManager.isGrocerySingleStore {
+        if sdkManager.isGrocerySingleStore {
             self.view.addSubview(self.locationHeaderFlavor)
             self.setLocationViewFlavorHeaderConstraints()
         } else {
@@ -131,7 +131,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        if SDKManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
+        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.registerCellsForTableView()
         self.setupClearNavBar()
         DispatchQueue.main.async {
@@ -332,7 +332,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            SDKManager.isGrocerySingleStore ?
+            sdkManager.isGrocerySingleStore ?
             self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
             
             self.tableViewCategories.tableHeaderView = nil
@@ -508,7 +508,7 @@ extension BrowseViewController: UIScrollViewDelegate {
         // locationHeader.myGroceryName.sizeToFit()
          scrollView.layoutIfNeeded()
          
-         guard !SDKManager.isGrocerySingleStore else {
+         guard !sdkManager.isGrocerySingleStore else {
              let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
              if constraintA.count > 0 {
                  let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
@@ -541,7 +541,7 @@ extension BrowseViewController: UIScrollViewDelegate {
              self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
              let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
              self.navigationController?.navigationBar.topItem?.title = title
-             SDKManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+             sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
          }
     
         

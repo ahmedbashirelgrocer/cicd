@@ -4377,7 +4377,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           setAccessToken()
           FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
           elDebugPrint(parameters)
-          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue + "?market_type_id=\(SDKManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, progress: { (progress) in
+          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue + "?market_type_id=\(sdkManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, progress: { (progress) in
                   // debugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
@@ -4870,7 +4870,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
           
-          let sdkType = SDKManager.isGrocerySingleStore ? "1":"0"
+          let sdkType = sdkManager.isGrocerySingleStore ? "1":"0"
           self.requestManager.requestSerializer.setValue(sdkType, forHTTPHeaderField: "market_type_id")
         
       }

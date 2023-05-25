@@ -82,7 +82,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         DispatchQueue.main.async {
             [weak self] in
             guard let self = self else {return}
-            if SDKManager.isGrocerySingleStore {
+            if sdkManager.isGrocerySingleStore {
                 self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.deliveryAddress)
             } else {
                 self.locationHeader.configuredLocationAndGrocey(grocery)
@@ -110,7 +110,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = SDKManager.isGrocerySingleStore ? .clear : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // UIColor.productBGColor()
+        self.view.backgroundColor = sdkManager.isGrocerySingleStore ? .clear : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // UIColor.productBGColor()
         self.collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) //UIColor.productBGColor()
         
         NotificationCenter.default.addObserver(self,selector: #selector(BrandDetailsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
@@ -159,7 +159,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         }
    
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        if SDKManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
+        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.addLocationHeader()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
@@ -196,7 +196,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     func addLocationHeader() {
         
         
-        if SDKManager.isGrocerySingleStore {
+        if sdkManager.isGrocerySingleStore {
             self.view.addSubview(self.locationHeaderFlavor)
             self.setLocationViewFlavorHeaderConstraints()
         } else {
@@ -729,7 +729,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         scrollView.layoutIfNeeded()
         
-        guard !SDKManager.isGrocerySingleStore else {
+        guard !sdkManager.isGrocerySingleStore else {
             let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
             if constraintA.count > 0 {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
@@ -762,7 +762,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
-            SDKManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
         
     }

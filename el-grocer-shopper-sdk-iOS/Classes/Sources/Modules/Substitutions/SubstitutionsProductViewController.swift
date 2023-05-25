@@ -347,7 +347,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         self.title = localizedString("shopping_OOS_title_label", comment: "")
         
         
-        addBackButtonWithCrossIconRightSide(SDKManager.isShopperApp ? .white : ApplicationTheme.currentTheme.newBlackColor)
+        addBackButtonWithCrossIconRightSide(sdkManager.isShopperApp ? .white : ApplicationTheme.currentTheme.newBlackColor)
 //        addBackButton(isGreen: false)
         setUpButtonAppearance()
         setupLabelAppearance()

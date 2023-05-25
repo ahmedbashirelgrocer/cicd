@@ -148,7 +148,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }
         }
         
-        SDKManager.isSmileSDK ?
+        sdkManager.isSmileSDK ?
         (self.navigationController as? ElGrocerNavigationController)?.setLightThemeBackgroundColor() :
         (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
         

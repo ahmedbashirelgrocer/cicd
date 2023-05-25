@@ -66,7 +66,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     @IBOutlet var btnCancel: UIButton! {
         didSet {
             btnCancel.setTitle(localizedString("grocery_review_already_added_alert_cancel_button", comment: ""), for: .normal)
-            btnCancel.setTitleColor(SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor :  .white, for: UIControl.State())
+            btnCancel.setTitleColor(sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor :  .white, for: UIControl.State())
         }
     }
     @IBOutlet var segmenntCollectionView: AWSegmentView! {
@@ -138,7 +138,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     private func checkChangeLocationForSmileSearch() {
         
-        guard SDKManager.isSmileSDK, SDKManager.shared.launchOptions?.navigationType == .search else {
+        guard sdkManager.isSmileSDK, SDKManager.shared.launchOptions?.navigationType == .search else {
             return
         }
         guard let _ = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)else {
@@ -153,7 +153,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     @IBAction func voiceSearchAction(_ sender: Any) {
         self.txtSearch.resignFirstResponder()
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
+        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor : ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         if self.searchFor == .isForStoreSearch {
             self.tableView.backgroundView = nil
             self.showCollectionView(false)
@@ -786,7 +786,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         // self.loadedProductList.count > 30 ||
-        if  !self.moreProductsAvailable && !SDKManager.isGrocerySingleStore {
+        if  !self.moreProductsAvailable && !sdkManager.isGrocerySingleStore {
             return  CGSize.init(width: self.view.frame.size.width , height: 146)
         }
         return CGSize.zero

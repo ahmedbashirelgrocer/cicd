@@ -59,7 +59,7 @@ class NoStoreView: UIView {
     func configureNoStore() {
         
         self.setUpApearence()
-        self.imgNoData.image = SDKManager.isSmileSDK ? UIImage(name: "crossPinPurple") : UIImage(name: "pinIcon")
+        self.imgNoData.image = sdkManager.isSmileSDK ? UIImage(name: "crossPinPurple") : UIImage(name: "pinIcon")
         self.lblTopMsg.text = localizedString("lbl_No_Grocey_in_Area", comment: "")
         self.lblExtraDetail.text = localizedString("lbl_Chose_different_location", comment: "")
         self.btnNoData.setTitle(localizedString("lbl_Chose_different_location", comment: ""), for: .normal)
@@ -84,8 +84,8 @@ class NoStoreView: UIView {
         self.setUpApearence()
         self.imgNoData.image = UIImage(name: "noSelectedStore")
         self.lblTopMsg.text = localizedString("No_Selected_Store", comment: "")
-        self.lblExtraDetail.text = SDKManager.isGrocerySingleStore ? "" : localizedString("No_Selected_Store_Detail", comment: "")
-        self.btnNoData.setTitle(SDKManager.isGrocerySingleStore ? localizedString("btn_Go_Back", comment: "") :  localizedString("No_Choose_The_Store", comment: ""), for: .normal)
+        self.lblExtraDetail.text = sdkManager.isGrocerySingleStore ? "" : localizedString("No_Selected_Store_Detail", comment: "")
+        self.btnNoData.setTitle(sdkManager.isGrocerySingleStore ? localizedString("btn_Go_Back", comment: "") :  localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
     }
@@ -212,7 +212,7 @@ class NoStoreView: UIView {
         self.btnNoData.setTitle(localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
-        self.imgNoData.image = SDKManager.isSmileSDK ? UIImage(name: "NoSelectedStoreCart") : UIImage(name: "empty-cart-white-bg")
+        self.imgNoData.image = sdkManager.isSmileSDK ? UIImage(name: "NoSelectedStoreCart") : UIImage(name: "empty-cart-white-bg")
         
         self.backgroundColor = .colorWithHexString(hexString: "f5f5f5")
     }
@@ -286,8 +286,8 @@ class NoStoreView: UIView {
             imgNoData.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
         self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  localizedString("lbl_atOurStores", comment: "")
-        self.lblExtraDetail.text = SDKManager.isGrocerySingleStore ? "" : localizedString("lbl_NoDataStoreSearch", comment: "")
-        self.btnNoData.isHidden = SDKManager.isGrocerySingleStore
+        self.lblExtraDetail.text = sdkManager.isGrocerySingleStore ? "" : localizedString("lbl_NoDataStoreSearch", comment: "")
+        self.btnNoData.isHidden = sdkManager.isGrocerySingleStore
         self.btnNoData.setTitle(" " + localizedString("btn_NoSearch_noDataView", comment: ""), for: .normal)
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             let flippedImage = UIImage(name: "searchButtonWhite")?.imageFlippedForRightToLeftLayoutDirection() ?? UIImage(name: "searchButtonWhite")

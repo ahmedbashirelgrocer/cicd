@@ -129,7 +129,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if self.grocery != nil{
             if isFromHeader{
-                self.addRightCrossButton(SDKManager.isShopperApp)
+                self.addRightCrossButton(sdkManager.isShopperApp)
             }
         }else{
 //            (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()

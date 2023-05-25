@@ -33,8 +33,8 @@ import Segment_CleverTap
 
 extension SDKManager {
     var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
-    static var isGrocerySingleStore: Bool { SDKManager.shared.launchOptions?.marketType == .grocerySingleStore }
-    static var isShopperApp: Bool { SDKManager.shared.launchOptions?.marketType == .shopper }
+    var isGrocerySingleStore: Bool { SDKManager.shared.launchOptions?.marketType == .grocerySingleStore }
+    var isShopperApp: Bool { SDKManager.shared.launchOptions?.marketType == .shopper }
 }
 
 class SDKManager: NSObject, SDKManagerType  {

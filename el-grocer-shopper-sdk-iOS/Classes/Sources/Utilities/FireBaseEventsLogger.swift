@@ -267,6 +267,7 @@ class FireBaseEventsLogger  {
     
     class func logEventToFirebaseWithEventName( _ screenName : String = "" ,  eventName : String ,  parameter : [String : Any]? = nil ){
         
+        /*
         var eventNameToSend = ""
         
         if screenName.count > 0 {
@@ -335,7 +336,7 @@ class FireBaseEventsLogger  {
                 newParms?[FireBaseParmName.UserId.rawValue] = id
             }
         
-        newParms?[FireBaseParmName.markeyType.rawValue] = SDKManager.isGrocerySingleStore ? "1" : "0"
+        newParms?[FireBaseParmName.markeyType.rawValue] = sdkManager.isGrocerySingleStore ? "1" : "0"
         
         if let removeNull = newParms {
              newParms = removeNull.compactMapValues { $0 }
@@ -395,7 +396,7 @@ class FireBaseEventsLogger  {
                 elDebugPrint("*Firebase Logs*  *EventName*: \(eventNameToSend)  *Parms*: \(newParms as Any)  *****")
                 elDebugPrint("=====================*Firebase Logs event Name*=========================")
             }
-        }
+        } */
     }
     
     class func setScreenName (_ screenName : String?  , screenClass : String? ) {
