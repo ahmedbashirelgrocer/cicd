@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -14,31 +14,31 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="412" id="WR1-2u-1j2" customClass="RecipeTableViewCell" customModule="ElGrocerShopper" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="412" id="WR1-2u-1j2" customClass="RecipeTableViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="412"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WR1-2u-1j2" id="rnA-5P-Iwg">
                 <rect key="frame" x="0.0" y="0.0" width="414" height="412"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j4L-2V-2We" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j4L-2V-2We" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                         <rect key="frame" x="16" y="8" width="382" height="396"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6hg-fO-bed" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6hg-fO-bed" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="382" height="396"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recipe_banner" translatesAutoresizingMaskIntoConstraints="NO" id="8nj-cX-Q2X">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="8nj-cX-Q2X">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="382"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8nj-cX-Q2X" secondAttribute="height" multiplier="1:1" id="bPV-YX-jY7"/>
                                         </constraints>
                                     </imageView>
-                                    <view hidden="YES" alpha="0.56000000000000005" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CBz-7p-fIN" customClass="GradientView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view hidden="YES" alpha="0.56000000000000005" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CBz-7p-fIN" customClass="GradientView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="382"/>
                                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LZX-cj-tsx" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LZX-cj-tsx" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="322" y="16" width="44" height="44"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="saveUnfilled" translatesAutoresizingMaskIntoConstraints="NO" id="Nin-au-6SP">
@@ -73,7 +73,7 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lsm-jo-9gB">
                                         <rect key="frame" x="16" y="289" width="350" height="77"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="PZb-df-yhG" customClass="AWImageView" customModule="ElGrocerShopper" customModuleProvider="target">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="PZb-df-yhG" customClass="AWImageView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="12" y="13" width="54" height="54"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="54" id="7wy-lF-POd"/>
@@ -202,7 +202,7 @@
     </designables>
     <resources>
         <image name="avatar_placeholder" width="50" height="50"/>
-        <image name="recipe_banner" width="320" height="100"/>
+        <image name="product_placeholder" width="140" height="140"/>
         <image name="saveUnfilled" width="24" height="24"/>
     </resources>
 </document>

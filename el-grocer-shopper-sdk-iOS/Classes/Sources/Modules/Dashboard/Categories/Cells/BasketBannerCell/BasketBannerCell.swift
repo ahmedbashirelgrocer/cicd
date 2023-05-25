@@ -101,7 +101,7 @@ class BasketBannerCell: UITableViewCell {
         self.reOrderButton.setTitleColor(UIColor.white, for: UIControl.State())
         
         self.reOrderButton.tag = 200 + 0
-        self.bgImgView.image = UIImage(name: "recipe_banner")
+        self.bgImgView.image = UIImage(name: "product_placeholder")
         self.imageContainer.isHidden = true
         self.containerWidth.constant = 0
         self.imageContainer.layoutIfNeeded()
