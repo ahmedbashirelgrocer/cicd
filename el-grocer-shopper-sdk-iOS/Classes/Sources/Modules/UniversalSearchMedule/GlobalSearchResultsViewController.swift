@@ -304,6 +304,7 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
      
         if indexPath.section == 0 {
+            return .leastNormalMagnitude
             return (self.dataSource.matchedGroceryList?.count ?? 0) > 0 ? ((self.dataSource.matchedGroceryList?.count ?? 0) == 1 ? 175 : 210) : .leastNonzeroMagnitude
         }
         
