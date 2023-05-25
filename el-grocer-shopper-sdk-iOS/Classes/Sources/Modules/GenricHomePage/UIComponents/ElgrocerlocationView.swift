@@ -85,7 +85,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var lblAddress: UILabel! {
         didSet{
             lblAddress.setBody3BoldUpperStyle(false)
-            if sdkManager.isSmileSDK {
+            if sdkManager.isShopperApp {
                 self.lblAddress.textColor = ApplicationTheme.currentTheme.newBlackColor
             }
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -337,15 +337,15 @@ class ElgrocerlocationView:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                     
                     var data = slotString.components(separatedBy: " ")
