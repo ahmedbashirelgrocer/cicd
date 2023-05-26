@@ -1547,8 +1547,11 @@ Add delivery details";
 "btn_NoSearch_noDataView" = "Search other stores";
 "lbl_DidNotFind" = "Didn't find what you need?";
 "lbl_Contnue_shopping_s" = "Continue shopping";
-
-
+"text_popular_stores" = "POPULAR STORES";
+"text_stores" = "STORES";
+"search_no_products_found_message" = "👀 No products found, try a different one...";
+"search_no_stores_found_message" = "👀 No stores found, try a different one...";
+"search_no_search_history_found_message" = "👀 Your search history will appear here...";
 
 "lbl_weFound" = "We found";
 "lbl_StorethatSell" = "stores that sell";
@@ -1556,7 +1559,6 @@ Add delivery details";
 "lbl_SearchInAllStore" = "Search products, stores";
 "all_cate" = "All Categories";
 "lbl_Ingredients" = "ingredients";
-"global_search_nav_title" = "Search products, store";
 "store_search_nav_title" = "Search";
 //zendesk string
 

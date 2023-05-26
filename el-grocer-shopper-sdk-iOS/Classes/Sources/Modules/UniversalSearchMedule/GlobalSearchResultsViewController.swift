@@ -346,9 +346,9 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 1 {
-            return 40
-        }
+//        if section == 1 {
+//            return 40
+//        }
         return .leastNormalMagnitude
     }
     
@@ -357,6 +357,8 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return nil
+        
         if section == 1 && self.dataSource.productList?.count ?? 0 > 0  {
             
             let myLabel = UILabel()

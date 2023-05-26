@@ -13,7 +13,15 @@ class UniSearchCell: UITableViewCell {
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var title: UILabel!
     @IBOutlet var subTitle: UILabel!
-    @IBOutlet var btnSearchCross: UIButton!
+    @IBOutlet var btnSearchCross: UIButton! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                self.btnSearchCross.transform = CGAffineTransform(scaleX: -1, y: 1)
+            } else {
+                self.btnSearchCross.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }
+        }
+    }
     var currentObj : SuggestionsModelObj?
     var clearButtonClicked : ((_ data : String)->Void)?
     
@@ -77,7 +85,8 @@ class UniSearchCell: UITableViewCell {
             imgView.image = UIImage(name: "recipeImageSearch")
         }else if obj?.modelType == SearchResultSuggestionType.retailer {
             imgView.assignImage(imageUrl: self.currentObj?.retailerImageUrl)
-            self.btnSearchCross.setImage(UIImage(named: "arrowForward",in: .resource, compatibleWith: nil), for: .normal)
+            
+            self.btnSearchCross.setImage(UIImage(named: "arrowForward", in: .resource, compatibleWith: nil), for: .normal)
         }
        
         self.imgView.visibility = obj?.modelType == .noDataFound ? .goneX : .visible

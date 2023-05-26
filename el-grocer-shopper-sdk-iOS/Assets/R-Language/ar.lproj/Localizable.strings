@@ -740,7 +740,7 @@
 "not_finding_your_favorite_products_description" = "يرجى كتابة كل منتج تحتاجه وسنعمل مع شركائنا على توفيره في المرة القادمة.";
 "available_balance" = "الرصيد المتوفر";
 "save_button_title" = "حفظ";
-"trending_searches" = "كلمات البحث الشائعة";
+"trending_searches" = "المنتجات";
 "all_products" = "جميع المنتجات";
 "all_products_from_store" = "جميع المنتجات في هذا المتجر";
 "add_title" = "إضافة";
@@ -1435,7 +1435,7 @@
 "lbl_atThisStore" = "في هذا المتجر";
 "lbl_NoDataStoreSearch" = "جرب تهجئة مختلفة أو مصطلحات أكثر عمومية.";
 
-"lblSearchHistory" = "سجل البحث";
+"lblSearchHistory" = "تاريخ البحث";
 "lbl_TrendingSearch" = "كلمات البحث الشائعة";
 "lbl_InCategories" = "في صنف";
 "lbl_InBrand" = "في العلامة التجارية";
@@ -1446,12 +1446,16 @@
 "lbl_Contnue_shopping_s" = "مواصلة التسوق";
 "lbl_weFound" = "وجدنا";
 "lbl_StorethatSell" = "متاجر تبيع";
-"lbl_SearchInAllStore" = "البحث عن المنتجات...";
+"lbl_SearchInAllStore" = "البحث عن المنتجات و المتاجر...";
 "all_cate" = "جميع الفئات";
 "lbl_Ingredients" = " المكونات";
 "lbl_Error_No_Store_On_This_Location_Selling_Products" = "لا يوجد متجر في هذا الموقع يبيع هذه المنتجات ";
-"global_search_nav_title" = "Search products, store";
 "store_search_nav_title" = "البحث";
+"text_popular_stores" = "المتاجر الأكثر بحثاً";
+"text_stores" = "المتاجر";
+"search_no_products_found_message" = "👀 لم يتم العثور على منتجات ، جرب منتجًا مختلفًا ...";
+"search_no_stores_found_message" = "👀 لم يتم العثور على متاجر ، جرب متجرًا مختلفًا ...";
+"search_no_search_history_found_message" = "👀 سيظهر سجل البحث هنا ...";
 
     //zendesk string
 

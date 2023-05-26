@@ -106,7 +106,7 @@ enum ElGrocerApiEndpoint : String {
     case Wallet = "v2/shoppers/wallet"
     case OrderTracking = "v1/order_feedbacks/tracking.json"
     case DeliveryFeedback = "v1/order_feedbacks.json"
-    case purchasedOrders = "v4/orders/purchased_order"
+    case purchasedOrders = "v1/orders/purchased_order"
     
     //case DeliverySlots = "v2/delivery_slots/all.json" // update on 21 dec for slots updates
    // case DeliverySlots = "v1/delivery_slots/all.json" // update on 24 march for slots updates / new slot logic

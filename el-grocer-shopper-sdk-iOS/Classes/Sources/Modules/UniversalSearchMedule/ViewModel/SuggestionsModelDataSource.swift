@@ -115,7 +115,7 @@ class SuggestionsModelDataSource {
         
         filterA.append(contentsOf: [
             SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()),
-            SuggestionsModelObj.init(type: .noDataFound, title: "👀 Your search history will appear here...")
+            SuggestionsModelObj.init(type: .noDataFound, title: localizedString("search_no_search_history_found_message", bundle: .resource, comment: ""))
         ])
         self.model = filterA
     }
@@ -171,7 +171,7 @@ class SuggestionsModelDataSource {
             } else if self.trendingSearches.isNotEmpty {
                 modelA.append(contentsOf: self.trendingSearches.prefix(8).map { SuggestionsModelObj(type: .searchHistory, title: $0) })
             } else {
-                modelA.append(SuggestionsModelObj(type: .noDataFound, title: "👀 Your search history will appear here..."))
+                modelA.append(SuggestionsModelObj(type: .noDataFound, title: localizedString("search_no_search_history_found_message", bundle: .resource, comment: "")))
             }
 
             self.model.append(contentsOf: modelA)
@@ -231,7 +231,7 @@ class SuggestionsModelDataSource {
                 }
                 
                 if algoliaObj.isEmpty {
-                    modelA.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 No products found, try a different one..."))
+                    modelA.append(SuggestionsModelObj.init(type: .noDataFound, title: localizedString("search_no_products_found_message", bundle: .resource, comment: "")))
                 }
                 
                 if showTrendingProducts {
@@ -343,7 +343,10 @@ class SuggestionsModelDataSource {
                                     
                                     var mySuggestionDataArray: [SuggestionsModelObj] = []
                                     
-                                    let storesSectionTitle = showTrendingProducts ? "stores".uppercased() : "popular stores".uppercased()
+                                    let storesSectionTitle = showTrendingProducts
+                                        ? localizedString("text_stores", bundle: .resource, comment: "")
+                                        : localizedString("text_popular_stores", bundle: .resource, comment: "")
+                                    
                                     mySuggestionDataArray.append(contentsOf: [SuggestionsModelObj.init(type: .title , title: storesSectionTitle)])
                                    
                                     for (_, retailer) in algoliaObj.enumerated() {
@@ -378,7 +381,7 @@ class SuggestionsModelDataSource {
                                     }
                                        
                                     if mySuggestionDataArray.filter({ $0.modelType == .retailer}).isEmpty {
-                                        mySuggestionDataArray.append(SuggestionsModelObj.init(type: .noDataFound, title: "👀 No stores found, try a different one..."))
+                                        mySuggestionDataArray.append(SuggestionsModelObj.init(type: .noDataFound, title: localizedString("search_no_stores_found_message", bundle: .resource, comment: "")))
                                     }
                                     
                                     self.model.insert(contentsOf: mySuggestionDataArray, at: 0)

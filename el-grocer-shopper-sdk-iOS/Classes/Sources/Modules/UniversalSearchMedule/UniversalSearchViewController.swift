@@ -231,8 +231,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
 
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
-            
-            self.title = localizedString("global_search_nav_title", comment: "")
+            self.title = localizedString("lbl_SearchInAllStore", comment: "")
         }
         
        
