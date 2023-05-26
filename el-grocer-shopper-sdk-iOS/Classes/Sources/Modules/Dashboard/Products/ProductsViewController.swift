@@ -240,7 +240,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                                         self.basketIconOverlay!,
                                         attribute: .top,
                                         relatedBy: .equal,
-                                        toItem: self.checkOutView,
+                                        toItem: self.collectionView,
                                         attribute: .bottom,
                                         multiplier: 1.0,
                                         constant: 0.0)
@@ -291,6 +291,11 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         if self.isCommingFromUniversalSearch {
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarText( universalSearchString ?? "")
         }
+        
+        self.basketIconOverlay?.grocery = self.grocery
+        self.refreshBasketIconStatus()
+        self.setCollectionViewBottomConstraint()
+        
         self.navBarAppearance()
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -1166,7 +1171,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
         
         
