@@ -86,7 +86,7 @@
                                                 <rect key="frame" x="16" y="18" width="358" height="48"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDW-WL-BxS">
-                                                        <rect key="frame" x="41.999999999999993" y="0.0" width="93.333333333333314" height="48"/>
+                                                        <rect key="frame" x="41.999999999999993" y="0.0" width="97.333333333333314" height="48"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -240,7 +240,7 @@
                                         <rect key="frame" x="0.0" y="653" width="390" height="157"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xey-rO-0Tp">
-                                                <rect key="frame" x="16" y="16" width="92" height="25"/>
+                                                <rect key="frame" x="16" y="16" width="99" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="25" id="6ed-61-YBR"/>
                                                 </constraints>
@@ -496,7 +496,7 @@
             <size key="intrinsicContentSize" width="4" height="18.666666666666668"/>
         </designable>
         <designable name="EiR-FQ-1hL">
-            <size key="intrinsicContentSize" width="124" height="33"/>
+            <size key="intrinsicContentSize" width="126" height="32"/>
         </designable>
         <designable name="aJJ-wE-Seo">
             <size key="intrinsicContentSize" width="4" height="18.666666666666668"/>
