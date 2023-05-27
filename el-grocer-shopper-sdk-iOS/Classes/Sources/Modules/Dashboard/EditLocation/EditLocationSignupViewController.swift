@@ -74,8 +74,7 @@ class EditLocationSignupViewController: UIViewController {
             return
         }
         
-        
-        if isPresented {
+        if self.isPresented {
             self.navigationController?.dismiss(animated: true)
         } else {
             self.navigationController?.popViewController(animated: true)
@@ -423,7 +422,8 @@ fileprivate extension EditLocationSignupViewController {
         
         for index in 0..<tableConfigData.count {
             switch index {
-            case 0: addSimpleTextFieldsCells(index: index)
+            case 0: addLocationMap(index: index)
+            case 1: addSimpleTextFieldsCells(index: index)
             case tableConfigData.count - 2: addAditionalDetailsCell(index: index)
             case tableConfigData.count - 1: addButtonCell(index: index)
             default: addTextFieldsCells(index: index)
@@ -464,6 +464,11 @@ fileprivate extension EditLocationSignupViewController {
             if let imageName = tableConfigData[index].imageName {
                 cell.updateView(leftImage: UIImage(named: imageName))
             }
+            tableCells.append(cell)
+        }
+        
+        func addLocationMap(index: Int) {
+            let cell = UITableViewCell.getInstance(nibName: "MapPinViewCell") as! MapPinViewCell
             tableCells.append(cell)
         }
     }

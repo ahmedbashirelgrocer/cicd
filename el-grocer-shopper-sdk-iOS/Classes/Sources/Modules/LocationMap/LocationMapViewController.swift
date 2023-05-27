@@ -684,23 +684,13 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             
             
         } else {
-            
-            print("Location services are not enabled")
-            
             if let location = self.viewModel.selectedLocation.value {
-                
                 locationCurrentCoordinates = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            }else{
-                
-                
+            } else {
                 self.locationCurrentCoordinates  = CLLocationCoordinate2D(latitude: 25.2048 , longitude: 55.2708) // dubai
                 self.setCameraPosition(self.locationCurrentCoordinates)
-                
-              
             }
         }
-        
-        
         
         self.locationMarker.isHidden = false
         let camera = GMSCameraPosition.camera(withTarget: locationCurrentCoordinates, zoom: cameraZoom)
@@ -720,20 +710,11 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     fileprivate func configureAddressTextField() {
         
-        addressTextField.rightViewMode = UITextField.ViewMode.always
-        
-        // self.manualLbl.text = localizedString("lbl_Manuall_Location", comment: "")
-        // self.lblAddress.text  =  ""
-        //
+        self.addressTextField.rightViewMode = UITextField.ViewMode.always
         self.addressTitleLabel.text = localizedString("lbl_use_current_location", comment: "")
         self.addressTextField.text = ""
-        
-        
-        // addressTextField.layer.cornerRadius = 5
-        // addressTextField.layer.borderWidth = 1.0
-        // addressTextField.layer.borderColor = UIColor.borderGrayColor().cgColor
+
     }
-    
     
     func locateButtonTouched() {
         
