@@ -1144,8 +1144,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             return
         }
         
-        let SDKManager = SDKManager.shared
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: SDKManager.window!) { (index) in
+        let SDKManager = sdkManager
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: (SDKManager?.window!)!) { (index) in
             
             if index == 0 {
                  self.removeUserLocation(cell)
@@ -1600,7 +1600,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         
         let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: location.address, building: location.building, cityName: "")
-        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
+        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext),FlowOrientation.AddNewAddress)
         redirectIfLogged(editLocationController,  true)
         
         
@@ -1689,7 +1689,7 @@ extension DashboardLocationViewController: LocationMapViewControllerDelegate {
     
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?) {
         
-        self.navigationController?.popViewController(animated: true)
+//        self.navigationController?.popViewController(animated: true)
         self.addDeliveryAddressWithLocation(selectedLocation: location!, withLocationName: name!, andWithUserAddress: address!, building: building ?? "", cityName: cityName)
         
         // Logging segment for confirm delivery location

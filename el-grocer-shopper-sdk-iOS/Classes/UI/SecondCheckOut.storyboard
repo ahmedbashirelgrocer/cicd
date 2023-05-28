@@ -922,6 +922,7 @@
                         <outlet property="checkoutScrollView" destination="FvG-rh-q8u" id="S8N-8z-jHI"/>
                         <outlet property="checkoutStackView" destination="aC7-pI-asc" id="VRb-Y6-HxW"/>
                         <outlet property="paymentMethodView" destination="1Kt-gH-Efq" id="xU8-0p-ayY"/>
+                        <outlet property="pinView" destination="PZ9-bz-Hgh" id="c8C-Rd-pUp"/>
                         <outlet property="promocodeView" destination="btc-gG-ARn" id="xOm-tD-B6D"/>
                         <outlet property="viewCollector" destination="eaA-ir-jkl" id="YKd-Kw-v7z"/>
                         <outlet property="viewCollectorCar" destination="4e6-ev-loe" id="8o5-FR-zLK"/>
@@ -1592,6 +1593,62 @@
                         <outlet property="lblWarningMsg" destination="7PQ-u3-kC3" id="Mrt-5f-Dno"/>
                     </connections>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZ9-bz-Hgh" customClass="MapPinView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="311" height="140"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gOH-3f-E9G">
+                            <rect key="frame" x="0.0" y="0.0" width="311" height="100"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="100" id="oBH-Tf-JDz"/>
+                            </constraints>
+                        </imageView>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LocationPinIconBlack" translatesAutoresizingMaskIntoConstraints="NO" id="1rS-97-YLn">
+                            <rect key="frame" x="16" y="108" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="24" id="5Mz-C3-fKX"/>
+                                <constraint firstAttribute="height" constant="24" id="qe3-Hn-nYa"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEZ-d8-SPr">
+                            <rect key="frame" x="246" y="108" width="49" height="29"/>
+                            <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Change">
+                                <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="changeButtonAction:" destination="PZ9-bz-Hgh" eventType="touchUpInside" id="zl5-Hh-7sM"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="---" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5L-DU-A9y">
+                            <rect key="frame" x="48" y="109.5" width="190" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="JJw-zZ-ufE"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="gOH-3f-E9G" firstAttribute="leading" secondItem="PZ9-bz-Hgh" secondAttribute="leading" id="7NF-Ci-fA4"/>
+                        <constraint firstItem="p5L-DU-A9y" firstAttribute="centerY" secondItem="1rS-97-YLn" secondAttribute="centerY" id="AWL-oU-TCV"/>
+                        <constraint firstItem="vEZ-d8-SPr" firstAttribute="leading" secondItem="p5L-DU-A9y" secondAttribute="trailing" constant="8" id="GCQ-SA-J3N"/>
+                        <constraint firstAttribute="height" constant="140" id="She-7i-WAp"/>
+                        <constraint firstAttribute="trailing" secondItem="gOH-3f-E9G" secondAttribute="trailing" id="WNx-fo-fXJ"/>
+                        <constraint firstItem="1rS-97-YLn" firstAttribute="top" secondItem="gOH-3f-E9G" secondAttribute="bottom" constant="8" id="Xgs-8r-hpG"/>
+                        <constraint firstItem="p5L-DU-A9y" firstAttribute="leading" secondItem="1rS-97-YLn" secondAttribute="trailing" constant="8" id="aCA-WC-gY1"/>
+                        <constraint firstAttribute="trailing" secondItem="vEZ-d8-SPr" secondAttribute="trailing" constant="16" id="bzI-oC-1Bh"/>
+                        <constraint firstItem="gOH-3f-E9G" firstAttribute="top" secondItem="PZ9-bz-Hgh" secondAttribute="top" id="nTY-Jy-Wnz"/>
+                        <constraint firstItem="1rS-97-YLn" firstAttribute="leading" secondItem="PZ9-bz-Hgh" secondAttribute="leading" constant="16" id="zat-x6-UAO"/>
+                        <constraint firstItem="vEZ-d8-SPr" firstAttribute="top" secondItem="gOH-3f-E9G" secondAttribute="bottom" constant="8" id="zbd-Qv-HcD"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="addressChangeButton" destination="vEZ-d8-SPr" id="DZ2-QE-20J"/>
+                        <outlet property="addressPimImage" destination="1rS-97-YLn" id="3mU-Yb-80d"/>
+                        <outlet property="lblAddress" destination="p5L-DU-A9y" id="p80-Yf-bdm"/>
+                        <outlet property="mapImageView" destination="gOH-3f-E9G" id="dQw-d9-T3V"/>
+                    </connections>
+                </view>
             </objects>
             <point key="canvasLocation" x="-2484.057971014493" y="2050.4464285714284"/>
         </scene>
@@ -1604,6 +1661,7 @@
     <resources>
         <image name="DeliveryAddressPin" width="26.666666030883789" height="26.666666030883789"/>
         <image name="ICPromoCode" width="36" height="36"/>
+        <image name="LocationPinIconBlack" width="36" height="36"/>
         <image name="LocationSelectDownArrow" width="13" height="8"/>
         <image name="MYBasketArrowWhite" width="24" height="24"/>
         <image name="MYBasketPaymentCC" width="16" height="16"/>

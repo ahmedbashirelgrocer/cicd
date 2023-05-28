@@ -12,6 +12,7 @@ import RxSwift
 import NBBottomSheet
 import SwiftMessages
 import Adyen
+import CoreLocation
 
 // Problem Statements:
 // - Fetch Delivery Slots from API
@@ -30,7 +31,14 @@ class SecondCheckoutVC: UIViewController {
     @IBOutlet var viewCollector: CollectorsView!
     @IBOutlet var viewCollectorCar: CollectorsCarView!
     @IBOutlet var viewWarning: WarningView!
+    @IBOutlet var pinView: MapPinView! {
+        didSet{
+            pinView.delegate = self
+        }
+    }
     private var billView = BillView()
+    
+    
     
     private lazy var secondaryPaymentView: SecondaryPaymentView = SecondaryPaymentView()
     
@@ -215,6 +223,8 @@ class SecondCheckoutVC: UIViewController {
 
     func setDeliveryAddress() {
         self.checkoutDeliveryAddressView.configure(address: viewModel.getDeliveryAddress())
+        let address = viewModel.getDeliveryAddressObj()
+        self.pinView.configureWith(detail: UserMapPinAdress.init(address: address?.address ?? "", addressImageUrl: nil, addressLat: address?.latitude ?? 0.0, addressLng: address?.longitude ?? 0.0))
     }
     
     func updateViewAccordingToData(data: BasketDataClass) {
@@ -348,6 +358,7 @@ private extension SecondCheckoutVC {
     func addSubViews() {
         
         checkoutStackView.addArrangedSubview(checkoutDeliverySlotView)
+        checkoutStackView.addArrangedSubview(pinView)
         checkoutStackView.addArrangedSubview(viewWarning)
         checkoutStackView.addArrangedSubview(checkoutDeliveryAddressView)
         checkoutStackView.addArrangedSubview(additionalInstructionsView)
@@ -571,4 +582,25 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
         }
         
     }
+}
+extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelegate {
+    
+    func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void {
+        let vc = EGAddressSelectionBottomSheetViewController()
+        vc.modalPresentationStyle = .overCurrentContext
+        // modal animation will be handled in VC itself 
+        self.present(vc, animated: false)
+    }
+    
+    func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) -> Void {
+        controller.navigationController?.popViewController(animated: true)
+    }
+    //optional
+    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?) {
+        debugPrint("")
+        controller.navigationController?.popViewController(animated: true)
+        self.pinView.configureWith(detail: UserMapPinAdress.init(address: address ?? "", addressImageUrl: nil, addressLat: location?.coordinate.latitude ?? 0.0, addressLng: location?.coordinate.longitude ?? 0.0))
+        
+    }
+    
 }

@@ -16,13 +16,13 @@ import IQKeyboardManagerSwift
 protocol LocationMapViewControllerDelegate: class {
     
     func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) -> Void
-    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?)
-    
     //optional
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?)
+    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?)
 }
 extension LocationMapViewControllerDelegate {
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?){}
+    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?){}
 }
 
 class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , NavigationBarProtocol {

@@ -35,7 +35,7 @@ class DeliveryAddress: NSManagedObject, DBEntity {
     @NSManaged var addressTagId: String?
     @NSManaged var city: String?
     
-    
+    var addressImageUrl: URL?
     
     
  

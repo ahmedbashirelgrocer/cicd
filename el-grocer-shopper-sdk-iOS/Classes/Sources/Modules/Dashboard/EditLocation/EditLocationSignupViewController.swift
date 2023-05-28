@@ -27,6 +27,7 @@ struct LocationDetails {
 enum FlowOrientation {
     
     case defaultNav
+    case AddNewAddress
     case basketNav
 }
 
@@ -84,7 +85,7 @@ class EditLocationSignupViewController: UIViewController {
     @objc func btnNextPressed() {
         guard validateCells() else { return }
         
-        guard locationDetails.editLocation == nil || locationDetails.editLocation?.dbID == "" else {
+        guard locationDetails.editLocation == nil || locationDetails.editLocation?.dbID == "" || self.flowOrientation == .AddNewAddress else {
             return updateDeliveryAddress()
         }
         addDeliveryAddress()
@@ -99,7 +100,7 @@ class EditLocationSignupViewController: UIViewController {
     private func uiUpdates() {
         
         title = localizedString("add_delivery_address", comment: "")
-        self.addBackButton(isGreen: false)
+        AppSetting.currentSetting.isElgrocerApp() ? addWhiteBackButton() : addBackButton(isGreen: false)
         view.backgroundColor = ApplicationTheme.currentTheme.lightGrayBGColor // .locationScreenLightColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
@@ -122,18 +123,21 @@ fileprivate extension EditLocationSignupViewController {
     
     func addDeliveryAddress() {
         
-        let email = (tableCells[2] as? TextFieldCell)?.textField.text ?? ""
+        
+        let newLat = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.addressLat
+        let newLng = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.addressLng
+        let address = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.address
+        
+        let email = (tableCells[3] as? TextFieldCell)?.textField.text ?? ""
         
         let deliveryAddress = locationDetails.editLocation != nil ? locationDetails.editLocation! :   DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         deliveryAddress.locationName = locationDetails.name ?? ""
-        deliveryAddress.latitude = locationDetails.location?.coordinate.latitude ?? 0
-        deliveryAddress.longitude = locationDetails.location?.coordinate.longitude ?? 0
-        deliveryAddress.address = (tableCells[0] as? SimpleTextFieldCell)?.textField.text ?? ""
-        deliveryAddress.building = (tableCells[3] as? TextFieldCell)?.textField.text ?? ""
+        deliveryAddress.latitude = newLat ?? 0.0
+        deliveryAddress.longitude = newLng ?? 0.0
+        deliveryAddress.address = address ?? ""
+        deliveryAddress.building = (tableCells[4] as? TextFieldCell)?.textField.text ?? ""
         deliveryAddress.city = locationDetails.cityName ?? ""
-        deliveryAddress.floor = (tableCells[4] as? TextFieldCell)?.textField.text ?? ""
-        deliveryAddress.houseNumber = (tableCells[5] as? TextFieldCell)?.textField.text ?? ""
         
         var streetStr = ""
         if(locationDetails.address!.isEmpty == false){
@@ -143,18 +147,10 @@ fileprivate extension EditLocationSignupViewController {
                 streetStr = String(format:"%@,%@",trimmedString,strComponents[1])
             }
         }
-        let streetInTextField = (tableCells[5] as? TextFieldCell)?.textField.text ?? ""
-        
-        
-        deliveryAddress.street = streetInTextField == "" ? streetStr: streetInTextField
+       
         deliveryAddress.apartment = (tableCells[5] as? TextFieldCell)?.textField.text
-        deliveryAddress.additionalDirection = (tableCells[6] as? AditionalDetailsTextViewCell)?.textView.text
         deliveryAddress.addressType = "0"
-        
-   
-        
         UserDefaults.setDidUserSetAddress(true)
-        
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let lastEmail = userProfile?.email ?? ""
         let lastName = userProfile?.name ?? ""
@@ -165,7 +161,7 @@ fileprivate extension EditLocationSignupViewController {
         if email.isNotEmtpy() {
             userProfile?.email = email
         }
-        userProfile?.name = (tableCells[1] as? TextFieldCell)?.textField.text ?? ""
+        userProfile?.name = (tableCells[2] as? TextFieldCell)?.textField.text ?? ""
         
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
@@ -180,13 +176,11 @@ fileprivate extension EditLocationSignupViewController {
                 SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
                 SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
                 
-            
-                
-                
-                
                 if self.flowOrientation == .basketNav {
                     LoginSignupService.goToBasketView(from: self)
-                } else {
+                } else if self.flowOrientation == .AddNewAddress {
+                    LoginSignupService.goToDashBoard(from: self)
+                }  else {
                     LoginSignupService.setHomeView(from: self)
                 }
                 
@@ -221,7 +215,7 @@ fileprivate extension EditLocationSignupViewController {
     func updateDeliveryAddress() {
         
         
-        guard let deliveryAddress = locationDetails.editLocation, let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  else {
+        guard let deliveryAddress = locationDetails.editLocation, let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext), let newLat = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.addressLat, let newLng = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.addressLng  else {
             return addDeliveryAddress()
         }
         
@@ -229,15 +223,15 @@ fileprivate extension EditLocationSignupViewController {
         let lastName = userProfile.name ?? ""
         deliveryAddress.userProfile = userProfile
         deliveryAddress.shopperName = (tableCells[1] as? TextFieldCell)?.textField.text ?? ""
-        userProfile.name = (tableCells[1] as? TextFieldCell)?.textField.text ?? ""
-        deliveryAddress.address = (tableCells[0] as? SimpleTextFieldCell)?.textField.text ?? ""
+        userProfile.name = (tableCells[2] as? TextFieldCell)?.textField.text ?? ""
+        deliveryAddress.address =  (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.address ?? ""
         //deliveryAddress.locationName = (tableCells[1] as? SimpleTextFieldCell)?.textField.text ?? ""
-        deliveryAddress.building = (tableCells[3] as? TextFieldCell)?.textField.text ?? ""
-        deliveryAddress.floor = (tableCells[4] as? TextFieldCell)?.textField.text ?? ""
+        deliveryAddress.building = (tableCells[4] as? TextFieldCell)?.textField.text ?? ""
         deliveryAddress.apartment = (tableCells[5] as? TextFieldCell)?.textField.text
-        deliveryAddress.houseNumber = (tableCells[5] as? TextFieldCell)?.textField.text
+        deliveryAddress.latitude = newLat
+        deliveryAddress.longitude = newLng
         
-        let email = (tableCells[2] as? TextFieldCell)?.textField.text ?? ""
+        let email = (tableCells[3] as? TextFieldCell)?.textField.text ?? ""
         if email.isNotEmtpy() {
             userProfile.email = email
         }
@@ -252,9 +246,6 @@ fileprivate extension EditLocationSignupViewController {
                 streetStr = String(format:"%@,%@",trimmedString,strComponents[1])
             }
         }
-        let streetInTextField = (tableCells[6] as? TextFieldCell)?.textField.text ?? ""
-        deliveryAddress.street = streetInTextField == "" ? streetStr: streetInTextField
-        deliveryAddress.additionalDirection = (tableCells[7] as? AditionalDetailsTextViewCell)?.textView.text
         deliveryAddress.addressType = "0"
         deliveryAddress.city = deliveryAddress.city ?? ""
         
@@ -326,18 +317,23 @@ fileprivate extension EditLocationSignupViewController {
         tableView.beginUpdates()
         
         if let cell = (tableCells[1] as? TextFieldCell), cell.textField.text?.count == 0 {
+            cell.setError(localizedString("Enter nick name", comment: ""))
+            isValid = false
+        }
+        
+        if let cell = (tableCells[2] as? TextFieldCell), cell.textField.text?.count == 0 {
             cell.setError(localizedString("Enter your name", comment: ""))
             isValid = false
         }
         
-        if let cell = (tableCells[2] as? TextFieldCell),
+        if let cell = (tableCells[3] as? TextFieldCell),
            let text = cell.textField.text,
            text.count > 0 && !text.isValidEmail() {
             cell.setError(localizedString("Please enter valid email id", comment: ""))
             isValid = false
         }
         
-        if let cell = (tableCells[3] as? TextFieldCell), cell.textField.text?.count == 0 {
+        if let cell = (tableCells[4] as? TextFieldCell), cell.textField.text?.count == 0 {
             cell.setError(localizedString("Enter your building name", comment: ""))
             isValid = false
         }
@@ -354,38 +350,28 @@ fileprivate extension EditLocationSignupViewController {
     
     func reloadData() {
         
-        if let editLocation =  locationDetails.editLocation{
+        if let editLocation =  locationDetails.editLocation {
            reloadForUpdate(editLocation)
             return
         }
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         let address =  "\(locationDetails.address ?? ""), \(locationDetails.name ?? ""), \(locationDetails.cityName ?? "")"
-        (tableCells[0] as? SimpleTextFieldCell)?.textField.text = address
-        (tableCells[1] as? TextFieldCell)?.textField.text = userProfile?.email ?? ""
+        (tableCells[1] as? SimpleTextFieldCell)?.textField.text = address
+        (tableCells[2] as? TextFieldCell)?.textField.text = userProfile?.email ?? ""
         (tableCells[3] as? TextFieldCell)?.textField.text = locationDetails.building
         
-        if let deliveryAddress = locationDetails.editLocation {
-            (tableCells[1] as? TextFieldCell)?.textField.text = deliveryAddress.shopperName == "" ? self.userProfile?.name : deliveryAddress.shopperName
-            (tableCells[4] as? TextFieldCell)?.textField.text = deliveryAddress.floor
-            (tableCells[5] as? TextFieldCell)?.textField.text = deliveryAddress.apartment
-            (tableCells[6] as? TextFieldCell)?.textField.text = deliveryAddress.street
-            (tableCells[7] as? AditionalDetailsTextViewCell)?.textView.text = deliveryAddress.additionalDirection
-            
-        }
     }
     
     private func reloadForUpdate(_ editLocation : DeliveryAddress) {
         
         let address =  editLocation.address
-        (tableCells[0] as? SimpleTextFieldCell)?.textField.text = address
-        (tableCells[1] as? TextFieldCell)?.textField.text = editLocation.shopperName == "" ? self.userProfile?.name : editLocation.shopperName
-        (tableCells[2] as? TextFieldCell)?.textField.text = editLocation.userProfile.email.isEmpty ? self.userProfile?.email : editLocation.userProfile.email
-        (tableCells[3] as? TextFieldCell)?.textField.text = editLocation.building
-        (tableCells[4] as? TextFieldCell)?.textField.text = editLocation.floor
+        (tableCells[0] as? MapPinTableViewCell)?.configureWith(detail: UserMapPinAdress.init(address: address, addressImageUrl: editLocation.addressImageUrl, addressLat: editLocation.latitude, addressLng: editLocation.longitude))
+        
+        (tableCells[2] as? TextFieldCell)?.textField.text = editLocation.shopperName == "" ? self.userProfile?.name : editLocation.shopperName
+        (tableCells[3] as? TextFieldCell)?.textField.text = editLocation.userProfile.email.isEmpty ? self.userProfile?.email : editLocation.userProfile.email
+        (tableCells[4] as? TextFieldCell)?.textField.text = editLocation.building
         (tableCells[5] as? TextFieldCell)?.textField.text = editLocation.apartment
-        (tableCells[6] as? TextFieldCell)?.textField.text = editLocation.street
-        (tableCells[7] as? AditionalDetailsTextViewCell)?.textView.text = editLocation.additionalDirection
         
     }
     
@@ -406,25 +392,17 @@ fileprivate extension EditLocationSignupViewController {
              keyboardType: UIKeyboardType?)
         ] = [
             ("locationPop", "", UIKeyboardType.default),
+            (nil, "Enter your nick Name", UIKeyboardType.default),
             (nil, localizedString("your_name*", comment: ""), UIKeyboardType.default),
             (nil, localizedString("email_optional", comment: ""), UIKeyboardType.emailAddress),
             (nil, localizedString("building_name*", comment: ""), UIKeyboardType.default),
-            (nil, localizedString("floor_(optional)", comment: ""), UIKeyboardType.numberPad),
             (nil, localizedString("apartment/office/villa_number*", comment: ""), UIKeyboardType.numberPad),
-            (nil, localizedString("lbl_AreaStreet", comment: ""), UIKeyboardType.default),
-            (nil, localizedString("additional_direction", comment: ""), UIKeyboardType.default),
             (nil, localizedString("confirm_address", comment: ""), nil)
         ]
-        
-//        if locationDetails.editLocation != nil || (self.userProfile?.email.count ?? 0) > 0 {
-//            tableConfigData.remove(at: 2)
-//        }
         
         for index in 0..<tableConfigData.count {
             switch index {
             case 0: addLocationMap(index: index)
-            case 1: addSimpleTextFieldsCells(index: index)
-            case tableConfigData.count - 2: addAditionalDetailsCell(index: index)
             case tableConfigData.count - 1: addButtonCell(index: index)
             default: addTextFieldsCells(index: index)
             }
@@ -464,11 +442,13 @@ fileprivate extension EditLocationSignupViewController {
             if let imageName = tableConfigData[index].imageName {
                 cell.updateView(leftImage: UIImage(named: imageName))
             }
+            cell.textField.placeholder = tableConfigData[index].placeHolder
             tableCells.append(cell)
         }
         
         func addLocationMap(index: Int) {
-            let cell = UITableViewCell.getInstance(nibName: "MapPinViewCell") as! MapPinViewCell
+            let cell : MapPinTableViewCell = UITableViewCell.getInstance(nibName: "MapPinTableViewCell") as! MapPinTableViewCell
+            cell.pinView.delegate = self
             tableCells.append(cell)
         }
     }
@@ -493,3 +473,27 @@ extension EditLocationSignupViewController: NavigationBarProtocol {
     }
 }
 
+extension EditLocationSignupViewController : MapPinViewDelegate, LocationMapViewControllerDelegate {
+    
+    func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void {
+        
+        let location = CLLocation(latitude: currentDetails?.addressLat ?? 0.0  , longitude: currentDetails?.addressLng ?? 0.0)
+        let locationMapController = ElGrocerViewControllers.locationMapViewController()
+        locationMapController.delegate = self
+        locationMapController.locationCurrentCoordinates = location.coordinate
+        locationMapController.isConfirmAddress = false
+        self.navigationController?.pushViewController(locationMapController, animated: true)
+    }
+    
+    func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) -> Void {
+        controller.navigationController?.popViewController(animated: true)
+    }
+    //optional
+    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?) {
+        debugPrint("")
+        controller.navigationController?.popViewController(animated: true)
+        (tableCells[0] as? MapPinTableViewCell)?.configureWith(detail: UserMapPinAdress.init(address: address ?? "", addressImageUrl: nil, addressLat: location?.coordinate.latitude ?? 0.0, addressLng: location?.coordinate.longitude ?? 0.0))
+        
+    }
+    
+}

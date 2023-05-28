@@ -168,14 +168,20 @@ struct LoginSignupService {
             contextView.navigationController?.popViewController(animated: true)
             return
         }
-        
-        
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-        
-        let appDelegate = sdkManager
-        //contextView.navigationController?.dismiss(animated: true, completion: {  })
-        sdkManager.showAppWithMenu()
+        contextView.navigationController?.popViewController(animated: true)
     }
+    
+    static func goToDashBoard(from contextView: UIViewController) -> Void {
+        
+        guard !SDKManager.shared.isSmileSDK else {
+            contextView.navigationController?.popViewController(animated: true)
+            return
+        }
+        ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
+        contextView.navigationController?.popToRootViewController(animated: true)
+    }
+    
     
     static func setAddLocationView(from contextView: UIViewController) -> Void {
       
