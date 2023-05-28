@@ -11,12 +11,10 @@ import CoreLocation
 import AdSupport
 import CleverTapSDK
 import AdSupport
-//import AppsFlyerLib
 import FBSDKCoreKit
 import FirebaseCore
 import CoreLocation
-//import BBBadgeBarButtonItem
-    // import MaterialShowcase
+import RxSwift
 
 let kfeaturedCategoryId : Int64 = 0 // Platform.isSimulator ? 12 : 0 // 12 for staging server
 
@@ -93,7 +91,7 @@ class GenericStoresViewController: BasketBasicViewController {
     }()
     
     var storlyAds : StorylyAds?
-
+    private var disposeBag = DisposeBag()
     private var openOrders : [NSDictionary] = []
     private lazy var orderStatus : OrderStatusMedule = {
         return OrderStatusMedule()
@@ -1193,7 +1191,9 @@ extension GenericStoresViewController {
 extension GenericStoresViewController : ButtonActionDelegate {
    
     func cartButtonTap() {
-        
+        self.navigateToMultiCart()
+        // Logging segment event for multicart clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MultiCartsClickedEvent())
     }
     
     func profileButtonTap() {
@@ -2266,3 +2266,60 @@ extension GenericStoresViewController: CleverTapConfigDelegate {
     }
 }
 
+
+
+// MARK: Helper Methods
+extension GenericStoresViewController {
+    
+    
+    
+    func navigateToMultiCart() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
+        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
+        
+        // MARK: Actions
+        viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
+            activeCartVC?.dismiss(animated: true) {
+                guard let grocery = HomePageData.shared.groceryA?.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
+                self?.goToGrocery(grocery, nil)
+            }
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            
+            switch campaignType {
+            case .brand:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: HomePageData.shared.groceryA ?? [])
+                })
+                break
+                
+            case .retailer:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: HomePageData.shared.groceryA ?? [])
+                })
+                break
+                
+            case .web:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                })
+                break
+                
+            case .priority:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: HomePageData.shared.groceryA ?? [])
+                })
+                break
+            }
+            
+        }).disposed(by: disposeBag)
+        
+        self.present(activeCartVC, animated: true)
+    }
+}

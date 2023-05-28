@@ -664,18 +664,15 @@ class ElGrocerNavigationBar : UINavigationBar {
     func changeBackButtonImage(_ isWhite: Bool = false, _ isBlack: Bool = SDKManager.shared.isSmileSDK) {
         
         if let back = self.backButton{
-            if back.isHidden == false {
                 var image = UIImage(name: "BackGreen")!
                 if isWhite{
-                    image = UIImage(name: "backPinPurple")!
+                    image = UIImage(name: "BackWhite")!
                 }
-                
                 if isBlack {
                     image = UIImage(name: "BackButtonIconGrey")!
                 }
                 back.setImage(image, for: UIControl.State())
                 self.backButton = back
-            }
         }
     }
     
