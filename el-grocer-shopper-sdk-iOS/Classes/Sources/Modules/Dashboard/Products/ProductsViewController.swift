@@ -116,7 +116,8 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.dataSource?.getBanners(searchInput: universalSearchString ?? "")
             self.segmentedViewHeightConstraint.constant = 60
             self.locationHeader.txtSearchBar.text = self.universalSearchString
-            
+            self.locationHeader.txtSearchBar.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
+            self.locationHeader.txtSearchBar.clearButtonMode = .always
             // Store Logo tap handler
             locationHeader.storeTapped = { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
