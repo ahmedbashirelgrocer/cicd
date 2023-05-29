@@ -619,7 +619,7 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
             let cartCreatedEvent = CartCreatedEvent(grocery: homeObj.attachGrocery)
             SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
         } else {
-            let cartUpdatedEvent = CartUpdatedEvent(grocery: homeObj.attachGrocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: homeObj.attachGrocery, product: selectedProduct, actionType: .added, quantity: productQuantity, source: .searchResult)
             SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
         }
         
@@ -650,7 +650,7 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
         }
         
         // Logging segment event for product removed
-        let cartUpdatedEvent = CartUpdatedEvent(grocery: grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity)
+        let cartUpdatedEvent = CartUpdatedEvent(grocery: grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity, source: .searchResult)
         SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
         
         MixpanelEventLogger.trackStoreRemoveItem(product: selectedProduct)
