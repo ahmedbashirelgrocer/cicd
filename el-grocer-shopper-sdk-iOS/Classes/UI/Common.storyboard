@@ -1104,7 +1104,7 @@ with our partner to add for your next shopping experience.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IXq-zD-vTl">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="810"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="iQF-0R-nGt">
@@ -1361,9 +1361,8 @@ with our partner to add for your next shopping experience.</string>
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.94117647058823528" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="OqL-83-PM6" firstAttribute="top" secondItem="IXq-zD-vTl" secondAttribute="bottom" id="0HT-cN-AIX"/>
                             <constraint firstItem="VEf-yz-JZF" firstAttribute="top" secondItem="nYW-4N-aVS" secondAttribute="bottom" id="4R5-fA-zZP"/>
                             <constraint firstItem="IXq-zD-vTl" firstAttribute="leading" secondItem="a90-HE-wal" secondAttribute="leading" id="62P-xX-25O"/>
                             <constraint firstItem="OqL-83-PM6" firstAttribute="top" secondItem="vWP-gS-hbO" secondAttribute="bottom" priority="999" id="8yE-xA-cAo"/>
@@ -1381,6 +1380,7 @@ with our partner to add for your next shopping experience.</string>
                             <constraint firstItem="IXq-zD-vTl" firstAttribute="top" secondItem="a90-HE-wal" secondAttribute="top" id="dAm-fi-zCA"/>
                             <constraint firstAttribute="trailing" secondItem="VEf-yz-JZF" secondAttribute="trailing" id="n1C-jD-HzA"/>
                             <constraint firstItem="vWP-gS-hbO" firstAttribute="top" secondItem="nYW-4N-aVS" secondAttribute="bottom" id="s6O-d2-k8j"/>
+                            <constraint firstAttribute="bottom" secondItem="IXq-zD-vTl" secondAttribute="bottom" id="x1T-C3-WSN"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1391,12 +1391,13 @@ with our partner to add for your next shopping experience.</string>
                         <outlet property="storeNameViewHeight" destination="H0H-6l-NYT" id="YVR-n1-7DJ"/>
                         <outlet property="tableView" destination="VEf-yz-JZF" id="Ydn-Nf-HB2"/>
                         <outlet property="txtSearch" destination="Peb-Dc-8rG" id="jBH-E8-xG5"/>
+                        <outlet property="viewMainBG" destination="IXq-zD-vTl" id="ksF-gq-PIp"/>
                         <segue destination="GSi-5m-KUG" kind="custom" identifier="GlobalSearchResultsViewController" customClass="SwiftMessagesSegue" customModule="SwiftMessages" id="loR-rw-LTX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aJD-sO-wE0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-480" y="1850"/>
+            <point key="canvasLocation" x="-480" y="1849.7630331753553"/>
         </scene>
         <!--Grocery From Bottom Sheet View Controller-->
         <scene sceneID="5Bl-Wp-l3B">

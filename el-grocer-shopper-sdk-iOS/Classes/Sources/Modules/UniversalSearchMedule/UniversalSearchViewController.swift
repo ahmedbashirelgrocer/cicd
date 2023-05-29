@@ -24,6 +24,7 @@ enum searchType {
 
 class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , GroceryLoaderDelegate , BasketIconOverlayViewProtocol {
     
+    @IBOutlet weak var viewMainBG: UIView!
     
     lazy var NoDataView : NoStoreView = {
         let noStoreView = NoStoreView.loadFromNib()
@@ -104,6 +105,8 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.setDataSource()
         self.dataSource?.getDefaultSearchData()
         addBasketOverlay()
+        
+        self.viewMainBG.layer.cornerRadius = 24.0
         
         // Show default data papular stores and search history
         if self.searchFor == .isForStoreSearch {
