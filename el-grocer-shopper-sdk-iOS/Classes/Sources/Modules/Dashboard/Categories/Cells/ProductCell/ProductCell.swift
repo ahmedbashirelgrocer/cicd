@@ -611,11 +611,13 @@ class ProductCell : RxUICollectionViewCell {
                 
                 let count = item.count.intValue + 1
                 if count != 1 {
-                    UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
-                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
-                    }, completion: { (completed) in
-                        addCartAction()
-                    })
+                    if Int(self.quantityLabel.text ?? "-1") != count {
+                        UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
+                            self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
+                        }, completion: { (completed) in
+                            addCartAction()
+                        })
+                    }
                     return
                 }
             }
@@ -627,11 +629,13 @@ class ProductCell : RxUICollectionViewCell {
                     if let item = subVc.substitutionItemForProduct(self.product) {
                         let count = item.count.intValue + 1
                         if count != 1 {
-                            UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
-                                self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
-                            }, completion: { (completed) in
-                                addCartAction()
-                            })
+                            if Int(self.quantityLabel.text ?? "-1") != count {
+                                UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
+                                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
+                                }, completion: { (completed) in
+                                    addCartAction()
+                                })
+                            }
                             return
                         }
                     }
@@ -723,8 +727,9 @@ class ProductCell : RxUICollectionViewCell {
                     showAddToCartButtonAnimated()
                     return
                 }else if count == 1 {
-                    
-                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
+                    if Int(self.quantityLabel.text ?? "-1") != count {
+                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
+                    }
                     self.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                     
                     if self.product.promotion?.boolValue == true {
@@ -746,9 +751,9 @@ class ProductCell : RxUICollectionViewCell {
                    
                     
                 }else if count > 0  {
-                    
-                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    
+                    if Int(self.quantityLabel.text ?? "-1") != count {
+                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
+                    }
                     if self.product.promotion?.boolValue == true {
                         //self.limitedStockBGView.isHidden = false
                         self.promotionBGView.isHidden = false
@@ -888,8 +893,9 @@ class ProductCell : RxUICollectionViewCell {
                 
                 
                 if count != 1 {
-                    
-                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
+                    if Int(self.quantityLabel.text ?? "-1") != count {
+                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
+                    }
                     if count == 2 {
                         self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                     }
@@ -1066,7 +1072,12 @@ class ProductCell : RxUICollectionViewCell {
             // addToCartButton.isHidden = true
             // buttonsView.isHidden = false
 
-            self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)"
+            // Condition added for removing blinking effect
+            if quantityLabel.text != item.count.stringValue {
+                self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected()
+                    ? "\(item.count.intValue)".changeToArabic()
+                    : "\(item.count.intValue)"
+            }
              //self.quantityLabel.textColor = UIColor.newBlackColor()
 
             // self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
