@@ -354,12 +354,13 @@ fileprivate extension EditLocationSignupViewController {
            reloadForUpdate(editLocation)
             return
         }
-        let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
+        let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let address =  "\(locationDetails.address ?? ""), \(locationDetails.name ?? ""), \(locationDetails.cityName ?? "")"
+        (tableCells[0] as? MapPinTableViewCell)?.configureWith(detail: UserMapPinAdress.init(address: address, addressImageUrl: nil, addressLat: locationDetails.location?.coordinate.latitude ?? 0.0, addressLng: locationDetails.location?.coordinate.longitude ?? 0.0))
         (tableCells[1] as? SimpleTextFieldCell)?.textField.text = address
-        (tableCells[2] as? TextFieldCell)?.textField.text = userProfile?.email ?? ""
-        (tableCells[3] as? TextFieldCell)?.textField.text = locationDetails.building
+        (tableCells[3] as? TextFieldCell)?.textField.text = userProfile?.email ?? ""
+        (tableCells[4] as? TextFieldCell)?.textField.text = locationDetails.building
         
     }
     

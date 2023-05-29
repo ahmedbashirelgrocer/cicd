@@ -255,11 +255,12 @@ public struct LaunchOptions {
     // only for elgrocer Shopper Use.
     public init(
         _ marketType : MarketType = .shopper,
-        _ language: String? = nil) {
+        _ language: String? = nil, _ evviromentType: EnvironmentType) {
         self.marketType = marketType
         self.language = language
         if self.marketType == .shopper {
            self.theme = ApplicationTheme.elGrocerShopperTheme()
+           self.environmentType = evviromentType
         }
     }
     

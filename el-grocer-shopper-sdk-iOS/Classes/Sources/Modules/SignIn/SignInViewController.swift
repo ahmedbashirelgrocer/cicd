@@ -399,7 +399,7 @@ class SignInViewController: RegistrationViewController, Form {
                 
                 SpinnerView.hideSpinnerView()
                 
-                if isSuccess || Platform.isSimulator {
+                if isSuccess {
                     openVerifyOTPVC()
                     
 //                    SegmentAnalyticsEngine.instance.logEvent(event: PhoneNumberEnteredEvent())

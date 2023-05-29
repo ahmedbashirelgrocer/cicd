@@ -7,12 +7,106 @@
 
 import Foundation
 
-class EGAddressSelectionBottomSheetViewController  : UIViewController {
 
-       private let scrollView = UIScrollView()
-       private let stackView = UIStackView()
+
+class EGAddressSelectionBottomSheetViewController  : UIViewController {
+    
+    
+    
+    
+    class func getAddressViews() -> [UIView] {
+        
+        
+        func createAddressView(with address: String, detail: String) -> UIView {
+               let addressView = UIView()
+              // addressView.backgroundColor = .lightGray
+               
+               let pinImageView = UIImageView(image: UIImage(name: "DeliveryAddressPin"))
+               pinImageView.translatesAutoresizingMaskIntoConstraints = false
+               
+               let addressLabel = UILabel()
+               addressLabel.text = address
+               addressLabel.font = .SFUISemiBoldFont(17)
+               addressLabel.translatesAutoresizingMaskIntoConstraints = false
+               
+               let detailLabel = UILabel()
+               detailLabel.text = detail
+              detailLabel.font = .SFUIRegularFont(14)
+               detailLabel.translatesAutoresizingMaskIntoConstraints = false
+               
+               addressView.addSubview(pinImageView)
+               addressView.addSubview(addressLabel)
+               addressView.addSubview(detailLabel)
+               
+               // Setup constraints for the subviews
+               NSLayoutConstraint.activate([
+                   pinImageView.topAnchor.constraint(equalTo: addressView.topAnchor, constant: 16),
+                   pinImageView.leadingAnchor.constraint(equalTo: addressView.leadingAnchor, constant: 0),
+                   pinImageView.widthAnchor.constraint(equalToConstant: 24),
+                   pinImageView.heightAnchor.constraint(equalToConstant: 24),
+                   
+                   addressLabel.leadingAnchor.constraint(equalTo: pinImageView.trailingAnchor, constant: 10),
+                   addressLabel.centerYAnchor.constraint(equalTo: addressView.centerYAnchor),
+                   
+                   detailLabel.leadingAnchor.constraint(equalTo: pinImageView.leadingAnchor, constant: 10),
+                   detailLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 5),
+                   detailLabel.bottomAnchor.constraint(equalTo: addressView.bottomAnchor, constant: 5)
+                   
+                   
+               ])
+            
+          //  addressView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+               
+               return addressView
+           }
+        
+        
+        var views : [UIView] = []
+        // Add address cells to the stack view (you can replace this with your own logic)
+        for i in 1...100 {
+            let cell = createAddressView(with: "test\(i)", detail: "test string max length")
+            views.append(cell)
+        }
+        return views
+    }
+    
+
+    private var scrollView = UIScrollView()
+    private var stackView = UIStackView()
        private let dimView = UIView()
+    private lazy var spacer : UIView = {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        return view
+    }()
        private var initialTouchPoint: CGPoint = CGPoint(x: 0, y: 0)
+    
+    
+    var views: [UIView] = []
+    var singleCellHeight = 0.0
+    
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Choose delivery Location"
+        label.font = .boldSystemFont(ofSize: 20)
+        label.heightAnchor.constraint(equalToConstant: 50).isActive = true
+       // label.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 16)
+        return label
+    }()
+
+    init(views: [UIView]) {
+        
+        self.views = views
+        if views.count > 0 {
+            let view = views[0]
+            self.singleCellHeight = view.frame.size.height
+        }
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+    }
 
        override func viewDidLoad() {
            super.viewDidLoad()
@@ -22,13 +116,21 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
        }
        
        private func setupViews() {
+           
+           
+           stackView.addBackground(color: .white)
+           scrollView.bounces = false
+           scrollView.showsVerticalScrollIndicator = false
+           scrollView.showsHorizontalScrollIndicator = false
+           scrollView.layer.cornerRadius = 10
+           
            scrollView.translatesAutoresizingMaskIntoConstraints = false
            stackView.translatesAutoresizingMaskIntoConstraints = false
            dimView.translatesAutoresizingMaskIntoConstraints = false
            
            // Configure the stack view properties
            stackView.axis = .vertical
-           stackView.spacing = 10
+           stackView.spacing = 0
            
            // Configure the dim view properties
            dimView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -37,9 +139,19 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
            view.addSubview(dimView)
            view.addSubview(scrollView)
            scrollView.addSubview(stackView)
+        
+           stackView.addArrangedSubview(spacer)
+           stackView.addArrangedSubview(titleLabel)
+           stackView.addArrangedSubview(spacer)
+           for data in self.views {
+               stackView.addArrangedSubview(data)
+               stackView.addArrangedSubview(spacer)
+           }
            
            // Configure constraints
            NSLayoutConstraint.activate([
+            
+            
                dimView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                dimView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                dimView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -47,35 +159,19 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
                
                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-               scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+               scrollView.topAnchor.constraint(equalTo: view.topAnchor,constant: 64),
                scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                
                stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
                stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
                stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
                stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-               stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+               stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+               
+               titleLabel.leftAnchor.constraint(equalTo: stackView.leftAnchor,constant: 16)
+            
            ])
            
-           // Add address cells to the stack view (you can replace this with your own logic)
-           for i in 1...10 {
-               let cell = UIView()
-               cell.backgroundColor = .white
-               cell.heightAnchor.constraint(equalToConstant: 50).isActive = true
-               stackView.addArrangedSubview(cell)
-               
-               let label = UILabel()
-               label.text = "Address \(i)"
-               label.translatesAutoresizingMaskIntoConstraints = false
-               cell.addSubview(label)
-               
-               NSLayoutConstraint.activate([
-                   label.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 16),
-                   label.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -16),
-                   label.topAnchor.constraint(equalTo: cell.topAnchor, constant: 8),
-                   label.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -8)
-               ])
-           }
        }
        
        private func setupGestureRecognizer() {
@@ -105,12 +201,12 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
            }
        }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+       override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let touchPoint = touch.location(in: self.view)
             let deltaY = touchPoint.y - initialTouchPoint.y
-            
             // Dismiss the
+        
             
         }
     }

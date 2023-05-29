@@ -169,7 +169,7 @@ struct LoginSignupService {
             return
         }
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-        contextView.navigationController?.popViewController(animated: true)
+        sdkManager.showAppWithMenu(false)
     }
     
     static func goToDashBoard(from contextView: UIViewController) -> Void {
