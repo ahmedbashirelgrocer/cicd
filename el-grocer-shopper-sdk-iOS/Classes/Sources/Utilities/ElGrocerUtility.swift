@@ -179,6 +179,7 @@ class ElGrocerUtility {
     var cAndcAvailabitlyRetailerList : NSDictionary = [:]
     var currentOrderID : String = ""
     let dateFormatter = DateFormatter() // formater for slots
+    var isActiveCartAvailable = false
     
     
     var slotViewControllerList : Set = Set<UIViewController>()

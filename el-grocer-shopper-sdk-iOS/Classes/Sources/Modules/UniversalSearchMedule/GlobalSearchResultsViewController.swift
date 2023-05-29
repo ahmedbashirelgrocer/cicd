@@ -809,7 +809,12 @@ extension GlobalSearchResultsViewController: ButtonActionDelegate {
     }
     
     private func updateMultiCartButtonIcon() {
-        let isActiveCartAvailable = ShoppingBasketItem.checkActiveBasketsAvailable(ElGrocerUtility.sharedInstance.groceries, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(isActiveCartAvailable)
+        let isActiveCartAvailable = ShoppingBasketItem.checkActiveBasketsAvailable(
+            ElGrocerUtility.sharedInstance.groceries,
+            context: DatabaseHelper.sharedInstance.mainManagedObjectContext
+        )
+        
+        (self.navigationController as? ElGrocerNavigationController)?
+            .setCartButtonState(ElGrocerUtility.sharedInstance.isActiveCartAvailable || isActiveCartAvailable)
     }
 }

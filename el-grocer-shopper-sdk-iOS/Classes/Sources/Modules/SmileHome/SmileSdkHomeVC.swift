@@ -1023,6 +1023,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
     
     func basketStatusChange(status: Bool) {
         (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(status)
+        ElGrocerUtility.sharedInstance.isActiveCartAvailable = status
     }
 }
 
