@@ -163,20 +163,9 @@ class GenericHomePageSearchHeader: UIView {
         navigationController.viewControllers = [searchController]
         
         navigationController.modalPresentationStyle = .overCurrentContext
-            // self.providesPresentationContextTransitionStyle = true
         vc.definesPresentationContext = false
         
         vc.present(navigationController, animated: true, completion: nil)
-        
-        ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "1" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
-        MixpanelEventLogger.trackHomeSearchClick()
-//        ElGrocerUtility.sharedInstance.delay(1.0) {
-//            if searchController.txtSearch != nil {
-//                searchController.txtSearch.becomeFirstResponder()
-//            }
-//        }
-        
-        
     }
    
     
