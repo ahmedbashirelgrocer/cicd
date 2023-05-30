@@ -31,9 +31,11 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
                
                let detailLabel = UILabel()
                detailLabel.text = detail
-              detailLabel.font = .SFUIRegularFont(14)
+               detailLabel.font = .SFUIRegularFont(14)
                detailLabel.translatesAutoresizingMaskIntoConstraints = false
-               
+               detailLabel.numberOfLines = 0
+            
+            
                addressView.addSubview(pinImageView)
                addressView.addSubview(addressLabel)
                addressView.addSubview(detailLabel)
@@ -46,6 +48,7 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
                    pinImageView.heightAnchor.constraint(equalToConstant: 24),
                    
                    addressLabel.leadingAnchor.constraint(equalTo: pinImageView.trailingAnchor, constant: 10),
+                   addressLabel.topAnchor.constraint(equalTo: pinImageView.topAnchor, constant: 0),
                    addressLabel.centerYAnchor.constraint(equalTo: addressView.centerYAnchor),
                    
                    detailLabel.leadingAnchor.constraint(equalTo: pinImageView.leadingAnchor, constant: 10),
@@ -62,10 +65,15 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
         
         
         var views : [UIView] = []
-        // Add address cells to the stack view (you can replace this with your own logic)
-        for i in 1...100 {
-            let cell = createAddressView(with: "test\(i)", detail: "test string max length")
-            views.append(cell)
+        for i in 1...3 {
+            if i%2 == 0 {
+                let customView = EGAddressCellView.instantiate(name: "test asdasdasdsadsad")
+                views.append(customView)
+            }else {
+                let cell = createAddressView(with: "test\(i)", detail: "test string max length sdfdsfdsf \n asdfdsfsadfaf \n sdfasdfasfdsfsad\n asdfasdfsdfsdaf\nasdfasfsdfdsfsdafd")
+                views.append(cell)
+            }
+          
         }
         return views
     }
@@ -171,6 +179,12 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
                titleLabel.leftAnchor.constraint(equalTo: stackView.leftAnchor,constant: 16)
             
            ])
+           
+           let heightConstraint = stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+                  heightConstraint.priority = .defaultLow
+                  heightConstraint.isActive = true
+        
+           scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
            
        }
        

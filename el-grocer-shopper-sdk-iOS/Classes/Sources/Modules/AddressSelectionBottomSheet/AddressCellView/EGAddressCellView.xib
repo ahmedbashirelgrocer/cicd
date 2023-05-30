@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EGAddressCellView" customModule="el_grocer_shopper_sdk_iOS"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="EGAddressCellView" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="89"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaj-zs-ose">
+                    <rect key="frame" x="56" y="15.999999999999998" width="321" height="20.333333333333329"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DeliveryAddressPin" translatesAutoresizingMaskIntoConstraints="NO" id="V1P-qx-eCE">
+                    <rect key="frame" x="16" y="16" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="D5Z-Q9-PCj"/>
+                        <constraint firstAttribute="width" constant="24" id="rNN-Pd-VTQ"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1OZ-u2-5V7">
+                    <rect key="frame" x="56" y="44.333333333333336" width="321" height="28.666666666666664"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemPurpleColor"/>
+            <constraints>
+                <constraint firstItem="1OZ-u2-5V7" firstAttribute="leading" secondItem="eaj-zs-ose" secondAttribute="leading" id="5Ma-0b-IBM"/>
+                <constraint firstItem="V1P-qx-eCE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="DOo-pX-GrZ"/>
+                <constraint firstItem="eaj-zs-ose" firstAttribute="top" secondItem="V1P-qx-eCE" secondAttribute="top" id="HUR-V5-6wW"/>
+                <constraint firstItem="1OZ-u2-5V7" firstAttribute="top" secondItem="eaj-zs-ose" secondAttribute="bottom" constant="8" id="JU4-nV-bkm"/>
+                <constraint firstItem="V1P-qx-eCE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="P4V-Ar-IB6"/>
+                <constraint firstAttribute="trailing" secondItem="1OZ-u2-5V7" secondAttribute="trailing" constant="16" id="Trs-ki-MlM"/>
+                <constraint firstAttribute="trailing" secondItem="eaj-zs-ose" secondAttribute="trailing" constant="16" id="cSr-nC-jH9"/>
+                <constraint firstAttribute="bottom" secondItem="1OZ-u2-5V7" secondAttribute="bottom" constant="16" id="hAE-gX-6PG"/>
+                <constraint firstItem="eaj-zs-ose" firstAttribute="leading" secondItem="V1P-qx-eCE" secondAttribute="trailing" constant="16" id="nyJ-MC-q3h"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="imgAddressPin" destination="V1P-qx-eCE" id="hih-Ss-9nq"/>
+                <outlet property="lblAddressDetail" destination="1OZ-u2-5V7" id="NOd-gc-sgI"/>
+                <outlet property="lblAddressNickName" destination="eaj-zs-ose" id="8Xp-jn-7pS"/>
+            </connections>
+            <point key="canvasLocation" x="116.79389312977099" y="-12.323943661971832"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="DeliveryAddressPin" width="26.666666030883789" height="26.666666030883789"/>
+        <systemColor name="systemPurpleColor">
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

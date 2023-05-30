@@ -234,11 +234,7 @@ class GenericStoresViewController: BasketBasicViewController {
         
         let child = EGAddressSelectionBottomSheetViewController(views: EGAddressSelectionBottomSheetViewController.getAddressViews())
         child.modalPresentationStyle = .overCurrentContext
-        // modal animation will be handled in VC itself
-        child.view.frame = frame
-        view.addSubview(child.view)
-        child.didMove(toParent: self)
-        //self.present(child, animated: false)
+        self.present(child, animated: false)
         
         
     }
