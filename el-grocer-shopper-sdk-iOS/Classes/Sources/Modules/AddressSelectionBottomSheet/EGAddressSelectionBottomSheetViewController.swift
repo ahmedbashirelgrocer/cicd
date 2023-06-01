@@ -36,6 +36,9 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.tableView.isScrollEnabled = self.addressList.count > 2
+    }
     
     private func registerTableViewCell() {
         
@@ -54,7 +57,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     
     func configure(_ address: [DeliveryAddress]) {
         self.addressList = address
-       // self.tableView.reloadDataOnMain()
+       
     }
     
 
@@ -77,6 +80,9 @@ extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EGNewAddressTableViewCell.identifier, for: indexPath) as! EGNewAddressTableViewCell
+        let address = addressList[indexPath.row]
+        cell.configure(address: address)
+        
         return cell
     }
     

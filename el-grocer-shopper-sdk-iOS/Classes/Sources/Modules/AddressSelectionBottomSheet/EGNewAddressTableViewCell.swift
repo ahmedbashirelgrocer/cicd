@@ -20,9 +20,6 @@ class EGNewAddressTableViewCell: UITableViewCell {
             lblAddressStyle.clipsToBounds = true
         }
     }
-    
-    
-
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -30,8 +27,13 @@ class EGNewAddressTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    }
+    
+    func configure(address: DeliveryAddress) {
+        
+        self.lblNickName.text = address.locationName
+        self.lblAddressDetail.text = ElGrocerUtility.sharedInstance.getFormattedAddress(address)
+        
     }
     
 }

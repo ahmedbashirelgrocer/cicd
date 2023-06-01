@@ -247,7 +247,7 @@ class GenericStoresViewController: BasketBasicViewController {
         }
         
         let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
-       
+        addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
         addressView.configure(addressList)
         
         let popupController = STPopupController(rootViewController: addressView)
