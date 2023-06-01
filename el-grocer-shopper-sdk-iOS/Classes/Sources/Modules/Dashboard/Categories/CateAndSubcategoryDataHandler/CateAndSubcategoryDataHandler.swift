@@ -275,16 +275,10 @@ extension CateAndSubcategoryView {
         let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
         if let productsArray:[Product] = ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] {
             currentOffSet += productsArray.count
-            if productsArray.count % 20 == 0 {
-                // formula use int pageCount = (records + recordsPerPage - 1) / recordsPerPage;
-                pageNumber = (productsArray.count + 20 - 1 ) / 20
-            }else{
-                return
-            }
+            pageNumber = (productsArray.count + 20 - 1 ) / 20
         }
        
         func callApi() {
-            
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
                 
@@ -303,16 +297,16 @@ extension CateAndSubcategoryView {
             }
             
             
-            guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
-                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak self] (content, error) in
-                    if  let responseObject : NSDictionary = content as NSDictionary? {
-                        self?.saveAllProductResponseForCategory(responseObject)
-                    } else {
-                            // error?.showErrorAlert()
-                    }
-                })
-                return
-            }
+//            guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
+//                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak self] (content, error) in
+//                    if  let responseObject : NSDictionary = content as NSDictionary? {
+//                        self?.saveAllProductResponseForCategory(responseObject)
+//                    } else {
+//                            // error?.showErrorAlert()
+//                    }
+//                })
+//                return
+//            }
             
             
             
@@ -345,7 +339,7 @@ extension CateAndSubcategoryView {
             
             let newProduct = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
             self.gridProductA += newProduct.products
-            self.moreGridProducts = (self.gridProductA.count % self.currentLimit) == 0
+            self.moreGridProducts = ((newProduct.algoliaCount ?? self.gridProductA.count) % self.currentLimit) == 0
             let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
             ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] =  self.gridProductA
             self.isGridView = true
@@ -414,12 +408,7 @@ extension CateAndSubcategoryView {
             }
             
             var pageNumber = 0
-            if offset % 20 == 0 {
-                // (records + recordsPerPage - 1) / recordsPerPage;
-                pageNumber = (offset + 20 - 1) / 20
-            }else {
-                return
-            }
+            pageNumber = (offset + 20 - 1) / 20
             print("PageNumber of algolia: \(pageNumber)")
             
             guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
@@ -435,8 +424,6 @@ extension CateAndSubcategoryView {
                 return
                 
             }
-            
-            
             
             guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
                 AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak self] (content, error) in

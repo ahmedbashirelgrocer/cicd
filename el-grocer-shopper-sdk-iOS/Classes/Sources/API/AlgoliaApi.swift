@@ -1031,14 +1031,19 @@ extension AlgoliaApi {
         facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentShopsID))
         
         
-//        let currentTime =  Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
-//        if slotTime > currentTime {
-//            let facetFiltersForCategoryId : String = "\(slotTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
-//            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
-//        }else {
-//            let facetFiltersForCategoryId : String = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
-//            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
-//        }
+        let categoriesFilter = "categories.id:\(1)"
+        facetFiltersA.append(SingleOrList.single(categoriesFilter))
+          
+        
+        
+        let currentTime =  Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
+        if slotTime > currentTime {
+            let facetFiltersForCategoryId : String = "\(slotTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }else {
+            let facetFiltersForCategoryId : String = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }
         
         var query = Query("")
             .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA) )
