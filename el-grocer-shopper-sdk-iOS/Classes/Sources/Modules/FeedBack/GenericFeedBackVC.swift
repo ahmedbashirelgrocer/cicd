@@ -136,7 +136,7 @@ class GenericFeedBackVC: UIViewController {
     
     //MARK: Appearence
     func setNavigationBarAppeaence(){
-        self.navigationItem.setHidesBackButton(true, animated: false)
+         self.navigationItem.setHidesBackButton(true, animated: false)
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
