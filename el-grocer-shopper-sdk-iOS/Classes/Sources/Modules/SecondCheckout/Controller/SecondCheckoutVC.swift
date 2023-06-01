@@ -586,10 +586,10 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
 extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelegate {
     
     func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void {
-        let vc = EGAddressSelectionBottomSheetViewController(views: EGAddressSelectionBottomSheetViewController.getAddressViews())
-        vc.modalPresentationStyle = .overCurrentContext
-        // modal animation will be handled in VC itself 
-        self.present(vc, animated: false)
+//        let vc = EGAddressSelectionBottomSheetViewController(views: EGAddressSelectionBottomSheetViewController.getAddressViews())
+//        vc.modalPresentationStyle = .overCurrentContext
+//        // modal animation will be handled in VC itself 
+//        self.present(vc, animated: false)
     }
     
     func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) -> Void {

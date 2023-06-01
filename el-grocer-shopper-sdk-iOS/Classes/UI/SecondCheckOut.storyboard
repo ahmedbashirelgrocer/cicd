@@ -931,11 +931,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ail-Rb-3qe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="tTV-2Y-0rT" userLabel="Exit" sceneMemberID="exit"/>
-                <view contentMode="scaleToFill" id="Ewq-eR-ohd" customClass="CheckoutDeliverySlotView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                <view contentMode="scaleToFill" ambiguous="YES" id="Ewq-eR-ohd" customClass="CheckoutDeliverySlotView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="420" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SiF-3Y-iLQ" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SiF-3Y-iLQ" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                             <rect key="frame" x="16" y="-26" width="388" height="44"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MyBasket_time_white" translatesAutoresizingMaskIntoConstraints="NO" id="kU3-qh-ijX">
@@ -1653,6 +1653,11 @@
             <point key="canvasLocation" x="-2484.057971014493" y="2050.4464285714284"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="L98-Zl-gWj">
+            <size key="intrinsicContentSize" width="43" height="29"/>
+        </designable>
+    </designables>
     <resources>
         <image name="DeliveryAddressPin" width="26.666666030883789" height="26.666666030883789"/>
         <image name="ICPromoCode" width="36" height="36"/>

@@ -239,16 +239,30 @@ class GenericStoresViewController: BasketBasicViewController {
 //
 //
      
-//        let popupController = STPopupController(rootViewController: popupViewController)
-//        popupController.navigationBarHidden = true
-//        popupController.style = .bottomSheet
-//        popupViewController.viewType = .basket
-//        popupController.backgroundView?.alpha = 1
-//        popupController.containerView.layer.cornerRadius = 16
-//        popupController.navigationBarHidden = true
-//        popupController.transitioning = self
-//        popupController.topViewController?.contentSizeInPopup
-//        popupController.present(in: self)
+        
+        let addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        var height = (addressList.count * 100) + 144
+        if addressList.count > 3 {
+            height = (3 * 100) + 144
+        }
+        
+        let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
+       
+        addressView.configure(addressList)
+        
+        let popupController = STPopupController(rootViewController: addressView)
+    //    popupController?.topViewController.contentSizeInPopup = CGSize(width: ScreenSize.SCREEN_WIDTH, height: height)
+        popupController.navigationBarHidden = true
+        popupController.style = .bottomSheet
+      //  popupViewController.viewType = .basket
+        popupController.backgroundView?.alpha = 1
+        popupController.containerView.layer.cornerRadius = 16
+        popupController.navigationBarHidden = true
+      //  popupController.transitioning = self
+        popupController.present(in: self)
+        
+        
+       
         
     }
     
