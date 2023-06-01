@@ -159,7 +159,7 @@ class SendBirdManager {
     
     func setSendBirdAppearence(){
         
-        
+        guard ApplicationTheme.currentTheme != nil else {return}
         
         var channelTheme = SBUChannelTheme()
         channelTheme = .light

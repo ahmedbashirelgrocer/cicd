@@ -15,6 +15,7 @@ import FBSDKCoreKit
 import FirebaseCore
 import CoreLocation
 import RxSwift
+import STPopup
 
 let kfeaturedCategoryId : Int64 = 0 // Platform.isSimulator ? 12 : 0 // 12 for staging server
 
@@ -231,11 +232,23 @@ class GenericStoresViewController: BasketBasicViewController {
         //self.tableView.reloadSections([0], with: .automatic)
         
         
-        
-        let child = EGAddressSelectionBottomSheetViewController(views: EGAddressSelectionBottomSheetViewController.getAddressViews())
-        child.modalPresentationStyle = .overCurrentContext
-        self.present(child, animated: false)
-        
+
+//        let child = EGAddressSelectionBottomSheetViewController(views: EGAddressSelectionBottomSheetViewController.getAddressViews())
+//        child.modalPresentationStyle = .overCurrentContext
+//        self.present(child, animated: false)
+//
+//
+     
+//        let popupController = STPopupController(rootViewController: popupViewController)
+//        popupController.navigationBarHidden = true
+//        popupController.style = .bottomSheet
+//        popupViewController.viewType = .basket
+//        popupController.backgroundView?.alpha = 1
+//        popupController.containerView.layer.cornerRadius = 16
+//        popupController.navigationBarHidden = true
+//        popupController.transitioning = self
+//        popupController.topViewController?.contentSizeInPopup
+//        popupController.present(in: self)
         
     }
     

@@ -65,15 +65,12 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
         
         
         var views : [UIView] = []
-        for i in 1...3 {
-            if i%2 == 0 {
-                let customView = EGAddressCellView.instantiate(name: "test asdasdasdsadsad")
-                views.append(customView)
-            }else {
-                let cell = createAddressView(with: "test\(i)", detail: "test string max length sdfdsfdsf \n asdfdsfsadfaf \n sdfasdfasfdsfsad\n asdfasdfsdfsdaf\nasdfasfsdfdsfsdafd")
-                views.append(cell)
-            }
-          
+        // Add address cells to the stack view (you can replace this with your own logic)
+        for i in 1...20 {
+                 let cell = EGAddressCellView.instantiate()
+            cell.configureView(with: "Name goes here", and: "length string goes here aaaaa \n lonnng")
+            views.append(cell)
+
         }
         return views
     }
@@ -158,17 +155,17 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
            
            // Configure constraints
            NSLayoutConstraint.activate([
-            
+               
+               titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 0 ),
             
                dimView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                dimView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                dimView.topAnchor.constraint(equalTo: view.topAnchor),
-               dimView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+               dimView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
                
                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-               scrollView.topAnchor.constraint(equalTo: view.topAnchor,constant: 64),
-               scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+               scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
                
                stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
                stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
@@ -176,54 +173,65 @@ class EGAddressSelectionBottomSheetViewController  : UIViewController {
                stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
                stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
                
-               titleLabel.leftAnchor.constraint(equalTo: stackView.leftAnchor,constant: 16)
+              
             
            ])
            
-           let heightConstraint = stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-                  heightConstraint.priority = .defaultLow
-                  heightConstraint.isActive = true
-        
-           scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+//<<<<<<< Updated upstream
+//           let heightConstraint = stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+//                  heightConstraint.priority = .defaultLow
+//                  heightConstraint.isActive = true
+//
+//           scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+//
+//=======
            
+           let heightConstraint = stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+               heightConstraint.priority = .defaultLow
+               heightConstraint.isActive = true
+
        }
        
        private func setupGestureRecognizer() {
            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dimViewTapped))
            dimView.addGestureRecognizer(tapGestureRecognizer)
+           
+           let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+                  dimView.addGestureRecognizer(panGestureRecognizer)
        }
        
        @objc private func dimViewTapped() {
            dismiss(animated: true, completion: nil)
        }
 
-       override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-           if let touch = touches.first {
-               initialTouchPoint = touch.location(in: self.view)
-           }
-       }
-
-       override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-           if let touch = touches.first {
-               let touchPoint = touch.location(in: self.view)
-               let deltaY = touchPoint.y - initialTouchPoint.y
-
-               // Update the position of the view based on the gesture translation
-               if deltaY > 0 {
-                   view.frame.origin.y = deltaY
-               }
-           }
-       }
-    
-       override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let touchPoint = touch.location(in: self.view)
-            let deltaY = touchPoint.y - initialTouchPoint.y
-            // Dismiss the
-        
+      
+    @objc private func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
+            let touchPoint = recognizer.location(in: view.window)
             
+            switch recognizer.state {
+            case .began:
+                initialTouchPoint = touchPoint
+            case .changed:
+                let deltaY = touchPoint.y - initialTouchPoint.y
+                
+                // Update the position of the view based on the gesture translation
+                if deltaY > 0 {
+                    view.frame.origin.y = deltaY
+                }
+            case .ended, .cancelled:
+                let dismissThreshold: CGFloat = 100
+                if view.frame.origin.y > dismissThreshold {
+                    dismiss(animated: true, completion: nil)
+                } else {
+                    // Reset the view position
+                    UIView.animate(withDuration: 0.3) {
+                        self.view.frame.origin.y = 0
+                    }
+                }
+            default:
+                break
+            }
         }
-    }
 
     
     

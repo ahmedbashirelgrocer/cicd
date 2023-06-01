@@ -26,25 +26,16 @@ class ElGrocerShopperAppViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    @IBAction func clearDB(_ sender: Any) {
+        DBPubicAccessForDummyAppOnly.resetDB()
+    }
+    
     @IBAction func startElgrocerShopperAction(_ sender: Any) {
         
         
-        let launchOptions = LaunchOptions(
-            accountNumber: "",
-            latitude: 0.0,
-            longitude: 0.0,
-            address: "",
-            loyaltyID: "",
-            email: "",
-            pushNotificationPayload: [:],
-            deepLinkPayload:  "",
-            language: "Base",
-            isSmileSDK: false,
-            isLoggingEnabled: true
-        )
-        ElGrocer.start(with: launchOptions)
-        
+        // by default setting 0 for shopper lat
+        let userLoginOption = LaunchOptions(.shopper, nil,EnvironmentType.staging)
+        ElGrocer.start(with: userLoginOption) // launch shopper app
         
     }
 }

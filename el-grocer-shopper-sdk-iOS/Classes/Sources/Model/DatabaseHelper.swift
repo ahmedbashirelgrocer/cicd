@@ -86,3 +86,33 @@ class DatabaseHelper : DatabaseManager {
     }
     
 }
+
+
+public class DBPubicAccessForDummyAppOnly {
+    public static func resetDB() {
+        
+        DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        ElGrocerUtility.sharedInstance.isDeliveryMode = true
+        FireBaseEventsLogger.trackSignOut(true)
+        AlgoliaApi.sharedInstance.resetAlgoliaLocalData()
+        FireBaseEventsLogger.setUserID(nil)
+        UserDefaults.setUserLoggedIn(false)
+        UserDefaults.setLogInUserID("0")
+        UserDefaults.setNavigateToHomeAfterInstall(false)
+        UserDefaults.setLastSearchList("")
+        UserDefaults.setUserLoggedIn(false)
+        UserDefaults.setLogInUserID("0")
+        UserDefaults.setDidUserSetAddress(false)
+        UserDefaults.resetEditOrder()
+        UserDefaults.setAccessToken(nil)
+        UserDefaults.setHelpShiftChatResponseUnread(false)
+        UserDefaults.setPaymentAcceptedState(false)
+        ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
+        ElGrocerUtility.sharedInstance.genericBannersA  = [BannerCampaign]()
+        ElGrocerUtility.sharedInstance.storeTypeA = []
+        ElGrocerUtility.sharedInstance.greatDealsBannersA  = [BannerCampaign]()
+        ElGrocerUtility.sharedInstance.chefList   = [CHEF]()
+        HomePageData.shared.resetHomeDataHandler()
+        ElGrocerUtility.sharedInstance.recipeList = [:]
+    }
+}
