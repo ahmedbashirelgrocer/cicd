@@ -1320,6 +1320,32 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     }
 
   }
+      
+      /** Checks if there are some groceries in the selected area */
+      func checkCoveredAreaForGroceries( lat:Double, lng: Double, completionHandler: @escaping (_ result: Either<NSDictionary>) -> Void) {
+      
+      let parameters = [
+      
+      "latitude": lat,
+      "longitude": lng
+      ]
+      
+        NetworkCall.get(ElGrocerApiEndpoint.GroceryAvailabillityCheck.rawValue , parameters: parameters, progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            guard let response = response as? NSDictionary else {
+                completionHandler(Either.failure(ElGrocerError.parsingError()))
+                return
+            }
+            completionHandler(Either.success(response))
+        }) { (operation  , error) in
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+        }
+
+      }
   
   /** Request for the grocery using email in not covered area */
     func requestForGroceryWithEmail(_ email:String , store_name : String? , locShopId:NSNumber, completionHandler: @escaping (_ result: Either<Bool>) -> Void) {

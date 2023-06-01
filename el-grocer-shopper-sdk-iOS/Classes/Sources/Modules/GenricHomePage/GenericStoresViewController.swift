@@ -231,19 +231,16 @@ class GenericStoresViewController: BasketBasicViewController {
         self.getSmileUserInfo()
         //self.tableView.reloadSections([0], with: .automatic)
         
-        
 
-//        let child = EGAddressSelectionBottomSheetViewController(views: EGAddressSelectionBottomSheetViewController.getAddressViews())
-//        child.modalPresentationStyle = .overCurrentContext
-//        self.present(child, animated: false)
-//
-//
-     
         
-        let addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        var height = (addressList.count * 100) + 144
-        if addressList.count > 3 {
-            height = (3 * 100) + 144
+        var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
+        var height : CGFloat = CGFloat((addressList.count * 100) + 144)
+        if addressList.count > 5 {
+            height = (5 * 100) + 124
+        }
+        if height >= ScreenSize.SCREEN_HEIGHT {
+            height = ScreenSize.SCREEN_HEIGHT - 100
         }
         
         let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
@@ -251,18 +248,12 @@ class GenericStoresViewController: BasketBasicViewController {
         addressView.configure(addressList)
         
         let popupController = STPopupController(rootViewController: addressView)
-    //    popupController?.topViewController.contentSizeInPopup = CGSize(width: ScreenSize.SCREEN_WIDTH, height: height)
         popupController.navigationBarHidden = true
         popupController.style = .bottomSheet
-      //  popupViewController.viewType = .basket
         popupController.backgroundView?.alpha = 1
         popupController.containerView.layer.cornerRadius = 16
         popupController.navigationBarHidden = true
-      //  popupController.transitioning = self
         popupController.present(in: self)
-        
-        
-       
         
     }
     

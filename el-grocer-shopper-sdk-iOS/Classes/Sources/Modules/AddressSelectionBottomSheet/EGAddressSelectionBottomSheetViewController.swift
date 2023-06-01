@@ -18,7 +18,9 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     @IBOutlet weak var btnChooseLocation: UIButton!
     
     
-    var addressList: [DeliveryAddress] = []
+    private var addressList: [DeliveryAddress] = []
+    private var isCoverd: [String: Bool] = [:]
+    private var activeGrocery: Grocery? = nil
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -45,19 +47,14 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         let cellNib = UINib(nibName: "EGNewAddressTableViewCell", bundle: .resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: EGNewAddressTableViewCell.identifier)
     }
-    
-    private func setContentHeight(_ address: [DeliveryAddress]) {
         
-        let height = address.count * 100
-       // contentSizeInPopup = CGSize(width: ScreenSize.SCREEN_WIDTH , height:  height)
-        
-        
-        
-    }
-    
-    func configure(_ address: [DeliveryAddress]) {
+    func configure(_ address: [DeliveryAddress], _ activeGrocery: Grocery? = nil) {
         self.addressList = address
-       
+        self.activeGrocery = activeGrocery
+        
+        for address in self.addressList {
+            isCoverd[address.dbID] = true
+        }
     }
     
 
@@ -66,6 +63,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     }
     
     @IBAction func chooseLocationAction(_ sender: Any) {
+        
     }
     
 }
@@ -81,12 +79,43 @@ extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UIT
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EGNewAddressTableViewCell.identifier, for: indexPath) as! EGNewAddressTableViewCell
         let address = addressList[indexPath.row]
-        cell.configure(address: address)
+        let isCoverdValue = isCoverd[address.dbID] ?? true
+        cell.configure(address: address, isCovered: isCoverdValue)
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard addressList.count > indexPath.row else { return  }
+        let address = addressList[indexPath.row]
+        if self.activeGrocery != nil {
+           
+        }
+        self.checkCoverage(address)
+    }
     
     
+    
+    
+}
+
+
+extension EGAddressSelectionBottomSheetViewController {
+    
+    func checkCoverage(_ address : DeliveryAddress) {
+        
+        
+        let _ = SpinnerView.showSpinnerView()
+        ElGrocerApi.sharedInstance.getcAndcRetailerDetail(address.latitude, lng: address.longitude, dbID: "16" , parentID: "") { (result) in
+            switch result {
+                case.success(let data):
+                    let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , false)
+                self.isCoverd[address.dbID] = (responseData.count > 0);            self.tableView.reloadDataOnMain()
+                case.failure(let _):
+                self.tableView.reloadDataOnMain()
+            }
+        }
+        
+    }
     
 }

@@ -17,7 +17,6 @@ class EGNewAddressTableViewCell: UITableViewCell {
     @IBOutlet weak var lblAddressStyle: UILabel! {
         didSet{
             lblAddressStyle.layer.cornerRadius = 100
-            lblAddressStyle.clipsToBounds = true
         }
     }
     override func awakeFromNib() {
@@ -29,10 +28,21 @@ class EGNewAddressTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configure(address: DeliveryAddress) {
+    func configure(address: DeliveryAddress, isCovered: Bool) {
         
         self.lblNickName.text = address.locationName
         self.lblAddressDetail.text = ElGrocerUtility.sharedInstance.getFormattedAddress(address)
+        self.lblAddressStyle.text = address.isActive.boolValue ? "Current location" : ""
+        
+        if !isCovered {
+            self.lblNickName.textColor = ApplicationTheme.currentTheme.lightGreyColor
+            self.lblAddressDetail.textColor = ApplicationTheme.currentTheme.lightGreyColor
+            self.lblAddressStyle.backgroundColor = ApplicationTheme.currentTheme.redInfoColor
+            self.lblAddressStyle.textColor = ApplicationTheme.currentTheme.textFieldWhiteBGColor
+            self.lblAddressStyle.text = "Out of delivery area"
+        }
+        
+        self.imgAddressPin.image = isCovered ? UIImage(name: "DeliveryToDifferentLocation") : UIImage(name: "DeliveryToDifferentLocationDisable")
         
     }
     
