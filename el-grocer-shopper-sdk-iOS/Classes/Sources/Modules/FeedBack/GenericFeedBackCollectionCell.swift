@@ -225,7 +225,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
         }else{
             //default appearence
             reviewView.btnOption1.layer.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
-            reviewView.btnOption1.setBody3SemiBoldDarkStyle()
+            reviewView.btnOption1.setSubHead1SemiBoldWhiteStyle()
             reviewView.btnOption2.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor
             reviewView.btnOption2.setBody3SemiBoldDarkStyle()
             reviewView.btnOption3.layer.backgroundColor = UIColor.textfieldBackgroundColor().cgColor

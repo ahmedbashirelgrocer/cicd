@@ -83,15 +83,11 @@ class AdyenApiManager {
         
     }
     
-    func makePayment(amount: Amount, orderNum: String, paymentMethodDict: [String: Any],isForZeroAuth: Bool,isForWallet: Bool, browserInfo : BrowserInfo?, completion: @escaping adyenApiCompletionHandler) {
+    func makePaymentRequestParams(amount: Amount, orderNum: String, paymentMethodDict: [String: Any],isForZeroAuth: Bool,isForWallet: Bool, browserInfo : BrowserInfo?) -> NSMutableDictionary? {
         
         let userID = UserDefaults.getLogInUserID()
         
-        guard userID != "0" else {
-            let error = ElGrocerError.genericError()
-            completion(error,nil)
-            return
-        }
+        guard userID != "0" else { return nil }
         
         let amountDict = NSMutableDictionary()
         amountDict["currency"] = amount.currencyCode
@@ -135,18 +131,20 @@ class AdyenApiManager {
         
         params["paymentMethod"] = paymentMethodDict
         
-        
-        
-            //        params["shopperEmail"] = user.email
-            //        if let ip = DeviceIp.getWiFiAddress() {
-            //            params["remote_ip"] = ip
-            //        }else {
-            //            if let publicAddress = DeviceIp.getPublicAddress() {
-            //                params["remote_ip"] = publicAddress
-            //            }
-            //
-            //        }
-        
+        return params
+    }
+    
+    func makePayment(amount: Amount, orderNum: String, paymentMethodDict: [String: Any],isForZeroAuth: Bool,isForWallet: Bool, browserInfo : BrowserInfo?, completion: @escaping adyenApiCompletionHandler) {
+     
+        guard let params = makePaymentRequestParams(amount: amount,
+                                            orderNum: orderNum,
+                                            paymentMethodDict: paymentMethodDict,
+                                            isForZeroAuth: isForZeroAuth,
+                                            isForWallet: isForWallet,
+                                                    browserInfo: browserInfo) else {
+            completion(ElGrocerError.genericError(), nil)
+            return
+        }
         
         ElGrocerApi.sharedInstance.makePayment(params) { results in
           //  print(results)
