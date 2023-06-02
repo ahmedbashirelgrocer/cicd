@@ -101,7 +101,16 @@ extension EGAddressSelectionBottomSheetViewController : LocationMapViewControlle
     }
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?) {
         
-//        self.addDeliveryAddressWithLocation(selectedLocation: location!, withLocationName: name!, andWithUserAddress: address!, building: building ?? "", cityName: cityName)
+
+        // address exsist
+        // new address go to edit mode.
+        // not login case // go to Homescreen
+        
+        
+//        let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: location.address, building: location.building, cityName: "")
+//        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
+//        controller.navigationController?.pushViewController(controller, animated: animated)
+//
         
         // Logging segment for confirm delivery location
         SegmentAnalyticsEngine.instance.logEvent(event: ConfirmDeliveryLocationEvent(address: address))
