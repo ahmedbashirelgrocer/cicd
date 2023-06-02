@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class EGAddressSelectionBottomSheetViewController: UIViewController {
     
@@ -78,7 +79,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     @IBAction func chooseLocationAction(_ sender: Any) {
         
         let locationMapController = ElGrocerViewControllers.locationMapViewController()
-        //locationMapController.delegate = self
+        locationMapController.delegate = self
         locationMapController.isConfirmAddress = false
         locationMapController.isForNewAddress = true
         if let location = LocationManager.sharedInstance.currentLocation.value {
@@ -93,6 +94,18 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         
     }
     
+}
+extension EGAddressSelectionBottomSheetViewController : LocationMapViewControllerDelegate {
+    func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) -> Void {
+        controller.dismiss(animated: true)
+    }
+    func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?) {
+        
+//        self.addDeliveryAddressWithLocation(selectedLocation: location!, withLocationName: name!, andWithUserAddress: address!, building: building ?? "", cityName: cityName)
+        
+        // Logging segment for confirm delivery location
+        SegmentAnalyticsEngine.instance.logEvent(event: ConfirmDeliveryLocationEvent(address: address))
+    }
 }
 
 
