@@ -10,8 +10,16 @@ import UIKit
 class EGAddressCellView : UIView {
     
     @IBOutlet weak var imgAddressPin: UIImageView!
-    @IBOutlet weak var lblAddressNickName: UILabel!
-    @IBOutlet weak var lblAddressDetail: UILabel!
+    @IBOutlet weak var lblAddressNickName: UILabel! {
+        didSet{
+            lblAddressNickName.setBody2RegDarkStyle()
+        }
+    }
+    @IBOutlet weak var lblAddressDetail: UILabel!{
+        didSet{
+            lblAddressDetail.setBody3RegDarkStyle()
+        }
+    }
 
     /*
     // Only override draw() if you perform custom drawing.

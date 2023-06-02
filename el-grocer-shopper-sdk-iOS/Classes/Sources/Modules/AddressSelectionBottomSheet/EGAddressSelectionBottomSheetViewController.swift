@@ -64,6 +64,20 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     
     @IBAction func chooseLocationAction(_ sender: Any) {
         
+        let locationMapController = ElGrocerViewControllers.locationMapViewController()
+        //locationMapController.delegate = self
+        locationMapController.isConfirmAddress = false
+        locationMapController.isForNewAddress = true
+        if let location = LocationManager.sharedInstance.currentLocation.value {
+            locationMapController.locationCurrentCoordinates = location.coordinate
+        }
+        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.viewControllers = [locationMapController]
+        navigationController.setLogoHidden(true)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true) {  }
+        
+        
     }
     
 }
@@ -89,9 +103,9 @@ extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UIT
         guard addressList.count > indexPath.row else { return  }
         let address = addressList[indexPath.row]
         if self.activeGrocery != nil {
-           
+            self.checkCoverage(address)
         }
-        self.checkCoverage(address)
+       
     }
     
     
@@ -114,6 +128,8 @@ extension EGAddressSelectionBottomSheetViewController {
                 case.failure(let _):
                 self.tableView.reloadDataOnMain()
             }
+            
+            SpinnerView.hideSpinnerView()
         }
         
     }
