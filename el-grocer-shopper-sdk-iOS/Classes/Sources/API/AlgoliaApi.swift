@@ -37,8 +37,10 @@ class AlgoliaApi {
      private var algoliaAddToCartProducts : Dictionary <String, [String]> = [:]
    
     var algoliaApplicationID  =  ApplicationID(rawValue: "AS47I7FT15")
+    
     var algoliaApplicationIDStaging = ApplicationID(rawValue: "5TUE57VS4N")
     var ALGOLIA_API_KEY_STAGING = "a20dd04827480538a4be4567d84174f4"
+
     
     
     var ALGOLIA_API_KEY_BROWSE_LIVE = APIKey(rawValue: "7c36787b0c09ef094db8a3ba93871ce7")
@@ -72,13 +74,11 @@ class AlgoliaApi {
     
     init() {
         
-         
+         client = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_SEARCH_LIVE)
+        browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_BROWSE_LIVE)
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
             client = SearchClient(appID: algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING))
             browserClient = SearchClient(appID:  algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING))
-        }else {
-            client = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_SEARCH_LIVE)
-           browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_BROWSE_LIVE)
         }
         self.algoliaProductIndex =  client.index(withName:  algoliadefaultIndexName)
         self.algoliaRecipeIndex =  client.index(withName: algoliaRecipeIndexName )
@@ -114,7 +114,7 @@ class AlgoliaApi {
         }
         Insights.register(appId:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_INSIGHT_LIVE , userToken: UserToken(rawValue: token))
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
-            Insights.register(appId:  algoliaApplicationID , apiKey: APIKey(rawValue: "7df145d4ee0d2219199fe615cb2100cd") , userToken:  UserToken(rawValue: token))
+            Insights.register(appId:  algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING) , userToken:  UserToken(rawValue: token))
         }
         Insights.shared?.isLoggingEnabled =  Platform.isDebugBuild ? true : false
         
@@ -805,8 +805,8 @@ extension AlgoliaApi {
         let type =  "styp_" + searchType;
         tags.append(type)
         
-
-        let apptype =  "atyp_" + (SDKManager.shared.isSmileSDK ? "SmilesSDK" : "Shopper")
+        
+        let apptype =  "atyp_" + (SDKManager.isSmileSDK ? "SmilesSDK" : "Shopper")
         tags.append(apptype)
         
         
@@ -1024,27 +1024,26 @@ extension AlgoliaApi {
         // promotional_shops.retailer_id={retailer_id} AND {slot_time} BETWEEN promotional_shops.start_time AND promotional_shops.end_time
         
         var facetFiltersA : [SingleOrList<String>] = []
-        //let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-       // facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
+        let promotional_shops : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+        facetFiltersA.append(SingleOrList.single(promotional_shops))
         
-        let facetFiltersForCurrentShopsID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-        facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentShopsID))
+        let shops : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+        facetFiltersA.append(SingleOrList.single(shops))
         
-        
+        var time = ""
         let currentTime =  Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
         if slotTime > currentTime {
-            let facetFiltersForCategoryId : String = "\(slotTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
-            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+            time  = "\(slotTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+            facetFiltersA.append(SingleOrList.single(time))
         }else {
-            let facetFiltersForCategoryId : String = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
-            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+            time = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+            facetFiltersA.append(SingleOrList.single(time))
+            
+            
         }
         
-        
-        
-        
         var query = Query("")
-            .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA) )
+            .set(\.facetFilters, to: [FiltersStorage.Unit.and(promotional_shops, shops)])
             .set(\.clickAnalytics, to: true)
             .set(\.getRankingInfo, to: true)
             .set(\.analytics, to: true)

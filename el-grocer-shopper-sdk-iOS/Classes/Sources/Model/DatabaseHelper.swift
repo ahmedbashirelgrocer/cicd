@@ -12,6 +12,14 @@ import CoreData
 
 private let kSharedInstance = DatabaseHelper()
 
+public class DBPubicAccessForDummyAppOnly {
+    
+    public static func resetDB() {
+        DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+    }
+    
+}
+
 class DatabaseHelper : DatabaseManager {
     
     // MARK: Shared Instance

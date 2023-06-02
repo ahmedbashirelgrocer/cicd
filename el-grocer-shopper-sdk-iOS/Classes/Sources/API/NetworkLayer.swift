@@ -241,9 +241,7 @@ class NetworkLayer {
         let mainURL = baseurl.replacingOccurrences(of: "/api/", with: "")
         let urlString = mainURL + "/oauth/token"
         
-       /* if let _ = UIApplication.topViewController() {
-            let _ = SpinnerView.showSpinnerView()
-        }*/
+      
         requestManager.post(urlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { (task, responseObject) in
             if responseObject is Dictionary<String, Any> {
                 ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: responseObject as! Dictionary<String, Any>)

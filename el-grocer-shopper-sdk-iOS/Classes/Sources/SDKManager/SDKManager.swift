@@ -80,6 +80,8 @@ class SDKManager: NSObject, SDKManagerType  {
         if !isInitialized {
             self.configure()
             isInitialized = true
+        }else if SDKManager.shared.launchOptions?.environmentType.value() != nil {
+            AlgoliaApi.sharedInstance.reStartInsights()
         }
     }
     
@@ -321,49 +323,18 @@ class SDKManager: NSObject, SDKManagerType  {
     
     // MARK: Methods
     func initializeExternalServices() {
-        
-        
         //MARK: swizzling view will appear call for screen name event logging
         UIViewController.swizzleViewDidAppear()
-        
-        //Firebase Analytics
-       // FirebaseApp.configure()
         self.configureFireBase()
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
-        
-        //Google Analytics
-        GoogleAnalyticsHelper.configureGoogleAnalytics()
-        
-        // Intercom
-        // Intercom.setApiKey(IntercomeHelper.apiKey, forAppId: IntercomeHelper.appId)
-        
-        // Marketing
-       // self.initiliazeMarketingCampaignTrackingServices()
-        //MARK: Mispanel Initialization
-       // MixpanelManager.configMixpanel() // with segment implementation we dont need mixpanel
-    
-        //MARK: sendBird
-
-        
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
 
-        // Initialize Facebook SDK
-        // FixMe:
-        // ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
-        
-        // Google Maps
         if Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" || Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK"  {
             GMSPlacesClient.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
             GMSServices.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
         }
-     
-        self.configuredElgrocerEventLogger() //didFinishLaunchingWithOptions)
-        
         // initialize Segment SDK used for event logging.
         initializeSegmentSDK()
-        
-//        let action1 = UNNotificationAction(identifier: "action_1", title: "Back", options: [])
-//        let action2 = UNNotificationAction(identifier: "action_2", title: "Next", options: [])
         let action3 = UNNotificationAction(identifier: "action_3", title: "View In App", options: [])
         let category = UNNotificationCategory(identifier: "CTNotification", actions: [action3], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
@@ -975,11 +946,7 @@ fileprivate extension SDKManager {
         }
     }
    
-    @objc
-    func configuredElgrocerEventLogger() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
-        // Elgolia Events
-        AlgoliaApi.sharedInstance.reStartInsights()
-    }
+ 
     
     internal func startChatFeature() {
         

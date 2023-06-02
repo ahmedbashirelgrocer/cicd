@@ -1077,7 +1077,8 @@ class PopImageViwerViewController: UIViewController {
                 }
                 if  let responseObject : NSDictionary = data as NSDictionary? {
                     Thread.OnMainThread {
-                        let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                      
+                        let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: nil, nil, false)
                         
                         if newProducts.products.count > 0 {
                             DatabaseHelper.sharedInstance.saveDatabase()
