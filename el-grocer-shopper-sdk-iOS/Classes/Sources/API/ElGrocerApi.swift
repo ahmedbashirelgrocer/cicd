@@ -1095,6 +1095,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         parameters["address_tag_id"] = address.addressTagId! as AnyObject
     }
     
+      parameters["nick_name"] = (address.nickName ?? "") as AnyObject
     
   
   if address.street != nil {

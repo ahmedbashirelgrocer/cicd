@@ -211,8 +211,12 @@ extension UILabel {
         self.font = UIFont.SFProDisplayNormalFont(17)
         self.textColor = UIColor.newBlackColor()
     }
-    func setH4SemiBoldStyle(){
+    func setH4BoldStyle(){
         self.font = UIFont.SFProDisplayBoldFont(17)
+        self.textColor = UIColor.newBlackColor()
+    }
+    func setH4SemiBoldStyle(){
+        self.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.textColor = UIColor.newBlackColor()
     }
     func setH4SemiBoldWhiteStyle(){

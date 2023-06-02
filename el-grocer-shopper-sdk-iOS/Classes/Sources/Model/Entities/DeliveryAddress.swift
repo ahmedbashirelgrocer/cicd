@@ -36,6 +36,7 @@ class DeliveryAddress: NSManagedObject, DBEntity {
     @NSManaged var city: String?
     
     var addressImageUrl: URL?
+    var nickName: String?
     
     
  

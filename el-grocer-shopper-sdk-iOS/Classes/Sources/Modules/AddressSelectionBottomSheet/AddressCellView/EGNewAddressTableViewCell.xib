@@ -15,11 +15,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EGNewAddressTableViewCell" rowHeight="151" id="KGk-i7-Jjw" customClass="EGNewAddressTableViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="151"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EGNewAddressTableViewCell" rowHeight="89" id="KGk-i7-Jjw" customClass="EGNewAddressTableViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="151"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="259" verticalCompressionResistancePriority="758" image="AddressPin" translatesAutoresizingMaskIntoConstraints="NO" id="j9E-Bm-hUU">
@@ -30,22 +30,26 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="755" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KrZ-FC-tof">
-                        <rect key="frame" x="48" y="6" width="42" height="20"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <rect key="frame" x="48" y="0.33333333333333393" width="43.333333333333343" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="aN5-dX-XXz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="755" text="Label 1 2" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYe-8m-Vqj">
-                        <rect key="frame" x="48" y="34" width="264" height="61"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="755" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BYe-8m-Vqj">
+                        <rect key="frame" x="48" y="25.333333333333329" width="264" height="26.666666666666671"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="756" text="Current location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAj-mo-cMQ">
-                        <rect key="frame" x="48" y="100" width="99" height="27"/>
+                        <rect key="frame" x="48" y="60" width="99" height="17"/>
                         <color key="backgroundColor" red="0.76470588235294112" green="0.93725490196078431" blue="0.85490196078431369" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="99" id="ZUN-n2-lK6"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="17" id="nc4-DN-Xh4"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="11"/>
                         <color key="textColor" red="0.0" green="0.2784313725" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -55,11 +59,11 @@
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="j9E-Bm-hUU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="9YL-8P-LWg"/>
-                    <constraint firstItem="KrZ-FC-tof" firstAttribute="centerY" secondItem="j9E-Bm-hUU" secondAttribute="centerY" id="Bqr-1k-8Ic"/>
-                    <constraint firstItem="dAj-mo-cMQ" firstAttribute="top" secondItem="BYe-8m-Vqj" secondAttribute="bottom" constant="5" id="CCF-kW-SyV"/>
-                    <constraint firstItem="BYe-8m-Vqj" firstAttribute="top" secondItem="KrZ-FC-tof" secondAttribute="bottom" constant="8" id="HY2-Uu-Nuc"/>
+                    <constraint firstItem="KrZ-FC-tof" firstAttribute="centerY" secondItem="j9E-Bm-hUU" secondAttribute="centerY" multiplier="0.8" id="Bqr-1k-8Ic"/>
+                    <constraint firstItem="dAj-mo-cMQ" firstAttribute="top" secondItem="BYe-8m-Vqj" secondAttribute="bottom" constant="8" id="CCF-kW-SyV"/>
+                    <constraint firstItem="BYe-8m-Vqj" firstAttribute="top" secondItem="KrZ-FC-tof" secondAttribute="bottom" id="HY2-Uu-Nuc"/>
                     <constraint firstItem="dAj-mo-cMQ" firstAttribute="leading" secondItem="BYe-8m-Vqj" secondAttribute="leading" id="af4-mc-VOD"/>
-                    <constraint firstAttribute="bottom" secondItem="dAj-mo-cMQ" secondAttribute="bottom" constant="24" id="b7B-dD-Hrz"/>
+                    <constraint firstAttribute="bottom" secondItem="dAj-mo-cMQ" secondAttribute="bottom" constant="12" id="b7B-dD-Hrz"/>
                     <constraint firstAttribute="trailing" secondItem="BYe-8m-Vqj" secondAttribute="trailing" constant="8" id="hgR-PD-EB2"/>
                     <constraint firstItem="j9E-Bm-hUU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="ruH-FT-GNn"/>
                     <constraint firstItem="KrZ-FC-tof" firstAttribute="leading" secondItem="j9E-Bm-hUU" secondAttribute="trailing" constant="8" id="skR-qV-GVK"/>
@@ -74,7 +78,7 @@
                 <outlet property="lblAddressStyle" destination="dAj-mo-cMQ" id="Xhl-sa-gX3"/>
                 <outlet property="lblNickName" destination="KrZ-FC-tof" id="V25-lp-CrY"/>
             </connections>
-            <point key="canvasLocation" x="-6.1068702290076331" y="48.943661971830991"/>
+            <point key="canvasLocation" x="-6.1068702290076331" y="26.408450704225352"/>
         </tableViewCell>
     </objects>
     <resources>

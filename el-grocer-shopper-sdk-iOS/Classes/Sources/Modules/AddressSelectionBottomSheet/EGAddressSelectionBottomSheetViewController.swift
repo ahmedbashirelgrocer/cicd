@@ -11,16 +11,29 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     
     
     @IBOutlet weak var btnCross: UIButton!
-    @IBOutlet weak var lblChooseDeliveryLocation: UILabel!
+    @IBOutlet weak var lblChooseDeliveryLocation: UILabel!{
+        didSet{
+            lblChooseDeliveryLocation.setBody3SemiBoldDarkStyle()
+        }
+    }
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imgDifferentLocation: UIImageView!
-    @IBOutlet weak var lblDifferentLocation: UILabel!
-    @IBOutlet weak var btnChooseLocation: UIButton!
+    @IBOutlet weak var lblDifferentLocation: UILabel!{
+        didSet{
+            lblDifferentLocation.setBody3SemiBoldDarkStyle()
+        }
+    }
+    @IBOutlet weak var btnChooseLocation: UIButton! {
+        didSet{
+            btnChooseLocation.setBody3RegGreenStyle()
+        }
+    }
     
     
     private var addressList: [DeliveryAddress] = []
     private var isCoverd: [String: Bool] = [:]
     private var activeGrocery: Grocery? = nil
+    
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -102,8 +115,12 @@ extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UIT
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard addressList.count > indexPath.row else { return  }
         let address = addressList[indexPath.row]
-        if self.activeGrocery != nil {
+        if address.isActive.boolValue {
+            self.crossAction("")
+        } else if self.activeGrocery != nil {
             self.checkCoverage(address)
+        } else {
+            makeLocationToDefault(address)
         }
        
     }
@@ -132,6 +149,49 @@ extension EGAddressSelectionBottomSheetViewController {
             SpinnerView.hideSpinnerView()
         }
         
+    }
+    
+    
+    func makeLocationToDefault(_ currentAddress: DeliveryAddress){
+        
+       
+        if  ElGrocerUtility.sharedInstance.activeGrocery != nil {
+            UserDefaults.setGroceryId((ElGrocerUtility.sharedInstance.activeGrocery?.dbID)!, WithLocationId: currentAddress.dbID)
+        }
+        
+        if UserDefaults.isUserLoggedIn() {
+            _ = SpinnerView.showSpinnerViewInView(self.view)
+            ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(currentAddress) { (result) in
+                if result {
+                    if self.activeGrocery != nil  {
+                     // need to imp
+                    } else {
+                        if !sdkManager.isGrocerySingleStore {
+                            //self.fetchGroceries() updated required
+                        } else {
+                            ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
+                            self.crossAction("")
+                        }
+                    }
+                } else {
+                    SpinnerView.hideSpinnerView()
+                    ElGrocerError.unableToSetDefaultLocationError().showErrorAlert()
+                }
+            }
+            
+        } else {
+            let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            for tempLoc in locations {
+                if tempLoc.locationName == currentAddress.dbID{
+                    tempLoc.isActive = NSNumber(value: true as Bool)
+                }else{
+                    tempLoc.isActive = NSNumber(value: false as Bool)
+                }
+            }
+            
+            DatabaseHelper.sharedInstance.saveDatabase()
+            self.crossAction("")
+        }
     }
     
 }
