@@ -51,6 +51,7 @@ class SecondCheckoutVC: UIViewController {
     var shopingItems: [ShoppingBasketItem]?
     var products: [Product]?
     var price: Double?
+    var orderPlacement: PlaceOrderHandler!
     
     private var disposeBag = DisposeBag()
     
@@ -105,14 +106,28 @@ class SecondCheckoutVC: UIViewController {
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
 
-            let orderPlacement = PlaceOrderHandler.init(finalOrderItems: self.viewModel.getShoppingItems() ?? [], activeGrocery: grocery , finalProducts: self.viewModel.getFinalisedProducts() ?? [], orderID: self.viewModel.getOrderId(), finalOrderAmount: self.viewModel.basketDataValue?.finalAmount ?? 0.00, orderPlaceOrEditApiParams: self.viewModel.getOrderPlaceApiParams())
+            orderPlacement = PlaceOrderHandler.init(finalOrderItems: self.viewModel.getShoppingItems() ?? [], activeGrocery: grocery , finalProducts: self.viewModel.getFinalisedProducts() ?? [], orderID: self.viewModel.getOrderId(), finalOrderAmount: self.viewModel.basketDataValue?.finalAmount ?? 0.00, orderPlaceOrEditApiParams: self.viewModel.getOrderPlaceApiParams())
             if let _ = self.viewModel.getOrderId() {
-                orderPlacement.editedOrder()
+                self.orderPlacement.isForNewOrder = false
+                // orderPlacement.editedOrder()
             } else {
                 MixpanelEventLogger.trackCheckoutConfirmOrderClicked(value: String(self.viewModel.basketDataValue?.finalAmount ?? 0.00))
-                orderPlacement.placeOrder()
+                self.orderPlacement.isForNewOrder = true
+                // orderPlacement.placeOrder()
             }
-            orderPlacement.orderPlaced = { [weak self] order, error in
+            if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
+                self.paymentWithCard(card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+            } else if self.viewModel.getSelectedPaymentOption() == .applePay, let card = self.viewModel.getApplePay(){
+                self.payWithApplePay(selctedApplePayMethod: card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+            } else {
+                if self.orderPlacement.isForNewOrder == true {
+                    self.orderPlacement.generateOrderAndProcessPayment()
+                } else {
+                    self.orderPlacement.generateEditOrderAndProcessPayment()
+                }
+            }
+            
+            orderPlacement.orderPlaced = { [weak self] order, error, apiResponse in
                  
                 SpinnerView.hideSpinnerView()
                 if error != nil {
@@ -150,17 +165,23 @@ class SecondCheckoutVC: UIViewController {
                 }
                 
                 if self?.viewModel.getSelectedPaymentOption() == .creditCard, let card = self?.viewModel.getCreditCard()?.adyenPaymentMethod {
-                    if let oldOrderCard = self?.viewModel.getEditOrderInitialDetail()?.cardID,oldOrderCard.elementsEqual(card.identifier){
+                    // Credit card flow
+                    if self?.orderPlacement.isForNewOrder == false, let oldOrderCard = self?.viewModel.getEditOrderInitialDetail()?.cardID,oldOrderCard.elementsEqual(card.identifier){
+                        // Edit order flow when payment method is not changed
                         self?.showConfirmationView(order!)
                         logPurchaseEvents()
                         // Logging segment event for for edit order completed or order purchased
                         self?.logOrderEditedOrCompletedEvent(order: order)
                         return
                     }else {
-                        self?.paymentWithCard(card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                        // Due to: new order flow
+                        //  self?.paymentWithCard(card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                        self?.processPaymentResponse(apiResponse, order: order!)
                     }
-                }else if self?.viewModel.getSelectedPaymentOption() == .applePay, let card = self?.viewModel.getApplePay(){
-                    self?.payWithApplePay(selctedApplePayMethod: card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                }else if self?.viewModel.getSelectedPaymentOption() == .applePay {
+                    // Apple pay flow
+                    // self?.payWithApplePay(selctedApplePayMethod: card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                    self?.processPaymentResponse(apiResponse, order: order!)
                 } else {
                     self?.showConfirmationView(order!)
                     
@@ -247,7 +268,7 @@ class SecondCheckoutVC: UIViewController {
         }
     }
     
-    func paymentWithCard(_ selectedMethod: StoredCardPaymentMethod, order : Order, amount: Double) {
+    func paymentWithCard(_ selectedMethod: StoredCardPaymentMethod, amount: Double) {
         let configAuthAmount = ElGrocerUtility.sharedInstance.appConfigData.initialAuthAmount
         var authValue: NSDecimalNumber = NSDecimalNumber.init(floatLiteral: 0.00)
         
@@ -257,8 +278,57 @@ class SecondCheckoutVC: UIViewController {
             authValue = NSDecimalNumber.init(floatLiteral: configAuthAmount)
         }
         
-        AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: authValue, orderNum: order.dbID.stringValue, method: selectedMethod )
-            AdyenManager.sharedInstance.isPaymentMade = { [weak self] (error, response,adyenObj) in
+        AdyenManager.sharedInstance.isPaymentApprovedByUser = { [weak self] initiatePaymentParams in
+            // generate order and payment now
+            self?.orderPlacement.initiatePaymentParams = initiatePaymentParams as? [String: Any] ?? [:]
+            if self?.orderPlacement.isForNewOrder == true {
+                self?.orderPlacement.generateOrderAndProcessPayment()
+            } else {
+                self?.orderPlacement.generateEditOrderAndProcessPayment()
+            }
+        }
+        
+        AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: authValue, method: selectedMethod)
+        
+    }
+    
+    func processPaymentResponse(_ results: Either<NSDictionary>, order: Order) {
+        
+        var error: ElGrocerError?
+        var result: NSDictionary?
+        
+        defer {
+            AdyenManager.sharedInstance.processAdyenAPIResponse(error, result)
+        }
+        
+        switch results {
+            case .success(let data):
+            
+            if let dataDict = data["data"] as? NSDictionary,
+               let paymentData = dataDict["online_payment_response"] as? NSDictionary,
+                let response = paymentData["response"] as? NSDictionary {
+                    if let code = response["errorCode"] as? String {
+                        (error, result) = (ElGrocerError(forAdyen: response), nil)
+                    } else if let action = response["action"] as? NSDictionary {
+                        (error, result) = (nil, response)
+                    } else {
+                        let resultCode = response["resultCode"] as? String ?? ""
+                        if resultCode.elementsEqual("Authorised") || resultCode.elementsEqual("Received") || resultCode.elementsEqual("Pending") {
+                            (error, result) = (nil, response)
+                        } else {
+                            (error, result) = (ElGrocerError.genericError(), response)
+                        }
+                    }
+            } else {
+                (error, result) = (ElGrocerError.parsingError(), nil)
+            }
+            
+            case .failure(let err):
+                (error, result) = (err, nil)
+            
+        }
+        
+            AdyenManager.sharedInstance.isPaymentMade = { [order, weak self] (error, response,adyenObj) in
                 SpinnerView.hideSpinnerView()
                 if error {
                     if let resultCode = response["resultCode"] as? String,  resultCode.count > 0 {
@@ -276,9 +346,7 @@ class SecondCheckoutVC: UIViewController {
             }
     }
     
-    func payWithApplePay(selctedApplePayMethod: ApplePayPaymentMethod,order: Order, amount: Double) {
-        
-        
+    func payWithApplePay(selctedApplePayMethod: ApplePayPaymentMethod, amount: Double) {
         
         let configAuthAmount = ElGrocerUtility.sharedInstance.appConfigData != nil ? ElGrocerUtility.sharedInstance.appConfigData.initialAuthAmount : 0.00
         var authValue: NSDecimalNumber = NSDecimalNumber.init(floatLiteral: 1.00)
@@ -288,29 +356,19 @@ class SecondCheckoutVC: UIViewController {
         }else {
             authValue = NSDecimalNumber.init(floatLiteral: configAuthAmount)
         }
-            
-            AdyenManager.sharedInstance.makePaymentWithApple(controller: self, amount: authValue, orderNum: order.dbID.stringValue, method: selctedApplePayMethod)
-            AdyenManager.sharedInstance.isPaymentMade = { [weak self] (error, response,adyenObj) in
-               
-                SpinnerView.hideSpinnerView()
-                
-                if error {
-                    if let resultCode = response["resultCode"] as? String {
-                        //  print(resultCode)
-                        if let reason = response["refusalReason"] as? String {
-                            AdyenManager.showErrorAlert(descr: reason)
-                            MixpanelEventLogger.trackCheckoutApplePayError(error: reason)
-                        }
-                       
-                    }
-                }else {
-                    self?.showConfirmationView(order)
-                    
-                    // Logging segment event for for edit order completed or order purchased
-                    self?.logOrderEditedOrCompletedEvent(order: order)
-                }
-                
+        
+        AdyenManager.sharedInstance.isPaymentApprovedByUser = { [weak self] initiatePaymentParams in
+            // generate order and payment now
+            self?.orderPlacement.initiatePaymentParams = initiatePaymentParams as? [String: Any] ?? [:]
+            if self?.orderPlacement.isForNewOrder == true {
+                self?.orderPlacement.generateOrderAndProcessPayment()
+            } else {
+                self?.orderPlacement.generateEditOrderAndProcessPayment()
             }
+        }
+            
+        AdyenManager.sharedInstance.makePaymentWithApple(controller: self, amount: authValue, method: selctedApplePayMethod)
+        
     }
     
     

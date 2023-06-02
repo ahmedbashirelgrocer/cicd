@@ -55,12 +55,14 @@ class AdyenManager {
     var applePayComponent: ApplePayComponent?
     var adyendataObj: AdyenManagerObj?
     var adyenPrice : Amount?
+    var component: PaymentComponent?
     
     typealias paymentSuccess = (_ isError: Bool, _ response: NSDictionary, _ adyenObj: AdyenManagerObj) -> Void
     
     var isNewCardAdded: paymentSuccess?
     var isPaymentMade: paymentSuccess?
     var walletPaymentMade: paymentSuccess?
+    var isPaymentApprovedByUser: ((NSMutableDictionary?) -> Void)?
 
     func makePaymentWithCard(controller: UIViewController , amount: NSDecimalNumber, orderNum: String = "", method: AnyCardPaymentMethod, isForWallet: Bool = false) {
         
@@ -151,8 +153,18 @@ class AdyenManager {
                 navigationController.modalPresentationStyle = .fullScreen
                 controller.present(navigationController, animated: true, completion: {  })
             }else {
-                //if not zero auth component will be presented in pop up
-                controller.present(component.viewController, animated: true)
+                // if not zero auth component will be presented in pop up
+                // controller.present(component.viewController, animated: true)
+                if let componentMethod = component.paymentMethod as? StoredPaymentMethod {
+                    
+                    let details = StoredPaymentDetails(paymentMethod: componentMethod)
+                    
+                    let data = PaymentComponentData(paymentMethodDetails: details, amount: Amount(value: amount.decimalValue,currencyCode: "AED") , order: component.order)
+                    
+                    component.submit(data: data)
+                } else {
+                    controller.present(component.viewController, animated: true)
+                }
             }
         }
     }
@@ -254,9 +266,24 @@ class AdyenManager {
         if let data = self.adyenPrice {
             value = data
         }
+        
+        if isPaymentApprovedByUser != nil {
+            let params = AdyenApiManager().makePaymentRequestParams(amount: value, orderNum: adyenObjData.orderNumber, paymentMethodDict: paymentMethodDict, isForZeroAuth: adyenObjData.isZeroAuth, isForWallet: adyenObjData.isForWallet, browserInfo: browserInfo)
+            isPaymentApprovedByUser?(params)
+            isPaymentApprovedByUser = nil // completion is called once
+            return
+        }
+        
         let _ = SpinnerView.showSpinnerView()
-        AdyenApiManager().makePayment(amount: value, orderNum: adyenObjData.orderNumber, paymentMethodDict: paymentMethodDict, isForZeroAuth: adyenObjData.isZeroAuth, isForWallet: adyenObjData.isForWallet, browserInfo: browserInfo) { error, response in
-       //     print(error)
+        AdyenApiManager().makePayment(amount: value, orderNum: adyenObjData.orderNumber, paymentMethodDict: paymentMethodDict, isForZeroAuth: adyenObjData.isZeroAuth, isForWallet: adyenObjData.isForWallet, browserInfo: browserInfo) { [weak self] error, response in
+            self?.processAdyenAPIResponse(error, response)
+        }
+    }
+    
+    func processAdyenAPIResponse(_ error: ElGrocerError?, _ response: NSDictionary?) {
+        if let component = self.component {
+            if let adyenObjData = self.adyendataObj {
+                print(error)
             SpinnerView.hideSpinnerView()
 
             if let error = error {
@@ -346,7 +373,7 @@ class AdyenManager {
                             closure(false,response!, adyenObjData)
                         }
                     }
-                }
+                } }
             }
         }
     }
@@ -383,6 +410,7 @@ extension AdyenManager {
 extension AdyenManager: PaymentComponentDelegate{
     func didSubmit(_ data: PaymentComponentData, from component: PaymentComponent) {
        elDebugPrint(data)
+        self.component = component
         handleCardResponseAndPay(data: data, component: component)
         
     }
@@ -391,6 +419,12 @@ extension AdyenManager: PaymentComponentDelegate{
        elDebugPrint(error)
         
         SpinnerView.hideSpinnerView()
+        isPaymentApprovedByUser = nil // completion is called only once
+        
+        // In case of Apple pay failed it need to be dismissed otherwise app won't respond.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            (UIApplication.topViewController() as? PKPaymentAuthorizationViewController)?.dismiss(animated: true)
+        }
         
         if let error = error as? Adyen.ComponentError {
             if error == Adyen.ComponentError.cancelled {
@@ -404,7 +438,6 @@ extension AdyenManager: PaymentComponentDelegate{
                 return
             }
         }
-       
         
         let error = ElGrocerError(error: error as NSError)
         error.showErrorAlert()
