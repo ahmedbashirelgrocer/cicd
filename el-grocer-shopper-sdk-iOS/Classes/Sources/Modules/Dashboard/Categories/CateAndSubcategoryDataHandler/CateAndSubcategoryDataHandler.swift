@@ -297,16 +297,16 @@ extension CateAndSubcategoryView {
             }
             
             
-//            guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
-//                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak self] (content, error) in
-//                    if  let responseObject : NSDictionary = content as NSDictionary? {
-//                        self?.saveAllProductResponseForCategory(responseObject)
-//                    } else {
-//                            // error?.showErrorAlert()
-//                    }
-//                })
-//                return
-//            }
+            guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
+                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak self] (content, error) in
+                    if  let responseObject : NSDictionary = content as NSDictionary? {
+                        self?.saveAllProductResponseForCategory(responseObject)
+                    } else {
+                            // error?.showErrorAlert()
+                    }
+                })
+                return
+            }
             
             
             

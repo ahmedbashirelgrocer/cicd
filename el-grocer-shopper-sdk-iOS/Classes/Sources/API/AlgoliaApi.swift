@@ -1024,29 +1024,26 @@ extension AlgoliaApi {
         // promotional_shops.retailer_id={retailer_id} AND {slot_time} BETWEEN promotional_shops.start_time AND promotional_shops.end_time
         
         var facetFiltersA : [SingleOrList<String>] = []
-      //  let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-      //  facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
+        let promotional_shops : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+        facetFiltersA.append(SingleOrList.single(promotional_shops))
         
-        let facetFiltersForCurrentShopsID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-        facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentShopsID))
+        let shops : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+        facetFiltersA.append(SingleOrList.single(shops))
         
-        
-        let categoriesFilter = "categories.id:\(1)"
-        facetFiltersA.append(SingleOrList.single(categoriesFilter))
-          
-        
-        
+        var time = ""
         let currentTime =  Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
         if slotTime > currentTime {
-            let facetFiltersForCategoryId : String = "\(slotTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
-            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+            time  = "\(slotTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+            facetFiltersA.append(SingleOrList.single(time))
         }else {
-            let facetFiltersForCategoryId : String = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
-            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+            time = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+            facetFiltersA.append(SingleOrList.single(time))
+            
+            
         }
         
         var query = Query("")
-            .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA) )
+            .set(\.facetFilters, to: [FiltersStorage.Unit.and(promotional_shops, shops)])
             .set(\.clickAnalytics, to: true)
             .set(\.getRankingInfo, to: true)
             .set(\.analytics, to: true)
