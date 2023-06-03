@@ -14,6 +14,7 @@ import SwiftMessages
 import Adyen
 import CoreLocation
 
+
 // Problem Statements:
 // - Fetch Delivery Slots from API
 // - if selected slot id is not nil [in checkout model] then filter delivery slots to get the selected slot
@@ -644,10 +645,7 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
 extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelegate {
     
     func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void {
-//        let vc = EGAddressSelectionBottomSheetViewController(views: EGAddressSelectionBottomSheetViewController.getAddressViews())
-//        vc.modalPresentationStyle = .overCurrentContext
-//        // modal animation will be handled in VC itself 
-//        self.present(vc, animated: false)
+        EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), presentIn: self)
     }
     
     func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) -> Void {

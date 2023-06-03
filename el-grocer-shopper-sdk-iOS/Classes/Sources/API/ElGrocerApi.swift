@@ -774,6 +774,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           addressParameters["longitude"] = address.longitude as AnyObject
           addressParameters["default_address"] = address.isActive.boolValue as AnyObject
           addressParameters["address_type_id"] = address.addressType as AnyObject
+          addressParameters["nick_name"] = (address.nickName ?? "") as AnyObject
+          
+          
         
           if address.street != nil {
               addressParameters["street"] = address.street! as AnyObject
@@ -838,16 +841,19 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
       func updateUserProfile(_ name:String, email:String, phone:String, completionHandler:@escaping (_ result:Bool, _ elError : ElGrocerError? ) -> Void) {
   
-  setAccessToken()
+          setAccessToken()
   
-  let parameters = [
-  "name" : name,
-  "email" : email,
-  "phone_number" : phone
-  ]
-  
-  //elDebugPrint(parameters)
-  
+          var parameters: [String: String] = [:]
+          if phone.isNotEmtpy() {
+              parameters["phone_number"] = phone
+          }
+          if email.isNotEmtpy() {
+              parameters["email"] = email
+          }
+          if name.isNotEmtpy() {
+              parameters["name"] = name
+          }
+ 
   NetworkCall.put(ElGrocerApiEndpoint.ProfileUpdate.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, nil)
@@ -857,6 +863,26 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   completionHandler(false, elgrocerError)
   }
   }
+  
+func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary> ) -> Void) {
+  
+  setAccessToken()
+  NetworkCall.put(ElGrocerApiEndpoint.ProfileUpdate.rawValue, parameters: nil, success: { (operation  , response: Any) -> Void in
+      guard let response = response as? NSDictionary else {
+          completionHandler(Either.failure(ElGrocerError.parsingError()))
+          return
+      }
+      completionHandler(Either.success(response))
+      
+  }) { (operation  , error) in
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
+  }
+  }
+      
+      
   
   //MARK: Email Exist
   

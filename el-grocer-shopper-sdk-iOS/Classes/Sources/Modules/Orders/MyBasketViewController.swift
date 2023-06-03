@@ -701,6 +701,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             currentAddress = deliveryAddress
+            debugPrint(userProfile?.name)
+            debugPrint(userProfile?.phone)
+            debugPrint(deliveryAddress.apartment)
+            debugPrint(deliveryAddress.building)
+            debugPrint(deliveryAddress.nickName)
             let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
             if isDataFilled {
                 self.isAddressCompleted = true

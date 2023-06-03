@@ -32,7 +32,7 @@ class SplashAnimationViewController: UIViewController {
 
     lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
-    
+    var locationFetching: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
@@ -54,6 +54,9 @@ class SplashAnimationViewController: UIViewController {
         
         if  sdkManager.isShopperApp {
             self.configureElgrocerShopper()
+            if UserDefaults.isUserLoggedIn() {
+                self.fetchLocations()
+            }
             self.checkClientVersion()
         }
         
@@ -99,7 +102,7 @@ class SplashAnimationViewController: UIViewController {
                 guard let self = self else { return }
                 if isloaded {
                     self.isAnimationCompleted = true
-                    if HomePageData.shared.fetchOrder.count == 0 {
+                    if HomePageData.shared.fetchOrder.count == 0 && self.locationFetching == false {
                         self.animationCompletedSetRootVc()
                     }
                     self.activityIndicator.isHidden = false
@@ -243,5 +246,35 @@ extension SplashAnimationViewController {
         SDKManager.shared.setupLanguage()
             // self.delegate.setupLanguage()
     }
+    
+    fileprivate func fetchLocations() {
+        
+        self.locationFetching = true
+        
+        func callAddressApi(_ userProfile: UserProfile) {
+            ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result:Bool, responseObject:NSDictionary?) -> Void in
+                if result {
+                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                    context.performAndWait({ () -> Void in
+                       _ = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: context)
+                        DatabaseHelper.sharedInstance.saveDatabase()
+                    })
+                }
+                self.locationFetching = false
+            })
+        }
+        
+        ElGrocerApi.sharedInstance.getUserProfile { response in
+            switch response {
+            case.success(let responseObject):
+                let userProfile = UserProfile.createOrUpdateUserProfile(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                callAddressApi(userProfile)
+            case.failure(_):
+                self.locationFetching = false
+            }
+        }
+      
+    }
+
     
 }

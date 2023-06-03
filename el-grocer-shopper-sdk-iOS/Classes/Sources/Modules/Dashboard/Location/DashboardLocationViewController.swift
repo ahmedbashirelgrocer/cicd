@@ -433,48 +433,21 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.newSelectedAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         self.locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         self.locations.sort {$0.isActive.boolValue && !$1.isActive.boolValue}
-        
-       elDebugPrint("Locations Array Count:%d",self.locations.count)
-        
+      
         if (self.searchString.isEmpty) {
-            
             //Show view according to location service
             self.showViewAccordingToLocationService()
-            
             // Hide done button if no location is added or found
-             self.hideDoneButton(self.locations.count == 0)
+            self.hideDoneButton(self.locations.count == 0)
             
-        }else{
+        } else {
             self.hideCurrentLocationView(true)
             self.hideDisableLocationView(true)
             self.hideDoneButton(true)
         }
-        
-        /*if self.searchString.isEmpty && self.locations.count == 0 {
-            self.hideDoneButton(true)
-        }else{
-            
-            if self.searchString.isEmpty{
-                self.hideDoneButton(false)
-                self.showViewAccordingToLocationService()
-            }else{
-                self.hideCurrentLocationView(true)
-                self.hideDisableLocationView(true)
-                self.hideDoneButton(true)
-            }
-        }*/
-        
         self.tableView.isHidden = false
         self.tableView.reloadData()
         
-        //tutorial
-         if !UserDefaults.wasLocationTutorialShown() {
-//            self.tableView.isScrollEnabled = false
-//            if isNeedShowAniamtion {
-//                Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(DashboardLocationViewController.addAnimationEffect), userInfo: nil, repeats: false)
-//            }
-            
-         }
     }
     
     // MARK: Animation

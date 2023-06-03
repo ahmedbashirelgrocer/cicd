@@ -179,7 +179,7 @@ class GenericStoresViewController: BasketBasicViewController {
             }
         }
             // UserDefaults.setDidUserSetAddress(false)
-        guard UserDefaults.didUserSetAddress() else {
+        guard UserDefaults.didUserSetAddress(), let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             self.gotToMapSelection(nil)
             return
         }
@@ -230,31 +230,7 @@ class GenericStoresViewController: BasketBasicViewController {
         //to refresh smiles point
         self.getSmileUserInfo()
         //self.tableView.reloadSections([0], with: .automatic)
-        
-
-        
-        var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
-        var height : CGFloat = CGFloat((addressList.count * 100) + 144)
-        if addressList.count > 5 {
-            height = (5 * 100) + 124
-        }
-        if height >= ScreenSize.SCREEN_HEIGHT {
-            height = ScreenSize.SCREEN_HEIGHT - 100
-        }
-        
-        let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
-        addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
-        addressView.configure(addressList)
-        
-        let popupController = STPopupController(rootViewController: addressView)
-        popupController.navigationBarHidden = true
-        popupController.style = .bottomSheet
-        popupController.backgroundView?.alpha = 1
-        popupController.containerView.layer.cornerRadius = 16
-        popupController.navigationBarHidden = true
-        popupController.present(in: self)
-        
+ 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -2193,18 +2169,20 @@ extension GenericStoresViewController {
                 //setting hardcoded value for first run
                 intervalInMins = 66.0
             }
+            // if(distance > 999 && intervalInMins > 60)
             
-            if(distance > 999 && intervalInMins > 60)
+            if(distance > 1 && intervalInMins > 1)
              {
-                let vc = LocationChangedViewController.getViewController()
+                /*let vc = LocationChangedViewController.getViewController()
                 
                 vc.currentLocation = currentLocation
                 vc.currentSavedLocation = deliveryAddressLocation
                 
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
-                self.present(vc, animated: true, completion: nil)
+                self.present(vc, animated: true, completion: nil) */
                 
+                EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, presentIn: self)
                 UserDefaults.setLocationChanged(date: Date()) //saving current date
              }
             

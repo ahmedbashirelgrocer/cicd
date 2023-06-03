@@ -162,6 +162,7 @@ fileprivate extension EditLocationSignupViewController {
             userProfile?.email = email
         }
         userProfile?.name = (tableCells[2] as? TextFieldCell)?.textField.text ?? ""
+        deliveryAddress.nickName = (tableCells[1] as? TextFieldCell)?.textField.text ?? ""
         
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
@@ -169,7 +170,7 @@ fileprivate extension EditLocationSignupViewController {
             guard let self = self else { return }
             SpinnerView.hideSpinnerView()
             if code == 200 {
-               
+                
                 _ = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 // Logging segment Confrim Address Details event
@@ -187,7 +188,7 @@ fileprivate extension EditLocationSignupViewController {
             } else {
                 if code == 4200 { // Add code for email error
                     self.tableView.beginUpdates()
-                    (self.tableCells[2] as? TextFieldCell)?.setError(localizedString("This email is already registered in elGrocer.", comment: ""))
+                    (self.tableCells[3] as? TextFieldCell)?.setError(localizedString("This email is already registered in elGrocer.", comment: ""))
                     DatabaseHelper.sharedInstance.saveDatabase()
                     self.tableView.endUpdates()
                 }
@@ -210,6 +211,8 @@ fileprivate extension EditLocationSignupViewController {
         userProfile?.name = name
         
         DatabaseHelper.sharedInstance.saveDatabase()
+        
+        ElGrocerApi.sharedInstance.updateUserProfile(name, email: email, phone: "") { result, elError in }
     }
     
     func updateDeliveryAddress() {
@@ -222,7 +225,8 @@ fileprivate extension EditLocationSignupViewController {
         let lastEmail = userProfile.email
         let lastName = userProfile.name ?? ""
         deliveryAddress.userProfile = userProfile
-        deliveryAddress.shopperName = (tableCells[1] as? TextFieldCell)?.textField.text ?? ""
+        deliveryAddress.nickName = (tableCells[1] as? TextFieldCell)?.textField.text ?? ""
+        deliveryAddress.shopperName = (tableCells[2] as? TextFieldCell)?.textField.text ?? ""
         userProfile.name = (tableCells[2] as? TextFieldCell)?.textField.text ?? ""
         deliveryAddress.address =  (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.address ?? ""
         //deliveryAddress.locationName = (tableCells[1] as? SimpleTextFieldCell)?.textField.text ?? ""
@@ -368,7 +372,8 @@ fileprivate extension EditLocationSignupViewController {
         
         let address =  editLocation.address
         (tableCells[0] as? MapPinTableViewCell)?.configureWith(detail: UserMapPinAdress.init(address: address, addressImageUrl: editLocation.addressImageUrl, addressLat: editLocation.latitude, addressLng: editLocation.longitude))
-        
+        (tableCells[1] as? TextFieldCell)?.textField.text = editLocation.nickName
+
         (tableCells[2] as? TextFieldCell)?.textField.text = editLocation.shopperName == "" ? self.userProfile?.name : editLocation.shopperName
         (tableCells[3] as? TextFieldCell)?.textField.text = editLocation.userProfile.email.isEmpty ? self.userProfile?.email : editLocation.userProfile.email
         (tableCells[4] as? TextFieldCell)?.textField.text = editLocation.building

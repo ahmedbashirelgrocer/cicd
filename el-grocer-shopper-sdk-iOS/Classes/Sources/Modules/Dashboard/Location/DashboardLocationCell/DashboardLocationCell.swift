@@ -106,7 +106,7 @@ class DashboardLocationCell : UITableViewCell {
     
     func configureWithLocation(_ location:DeliveryAddress , _ isFromCart : Bool = false) {
         
-        self.userName.text = location.shopperName ?? ""
+        self.userName.text = location.nickName ?? location.shopperName ?? ""
         
         let adr = ElGrocerUtility.sharedInstance.getFormattedAddress(location)
         var address = location.address

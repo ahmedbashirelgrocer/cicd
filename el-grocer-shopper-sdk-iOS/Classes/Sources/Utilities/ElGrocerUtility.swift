@@ -1104,7 +1104,8 @@ class ElGrocerUtility {
         guard let profile = userProfile, let address = deliveryAddress  else {
             return isValidationSuccessed
         }
-        
+         
+     
         if address.addressType == "1" {
             
             isValidationSuccessed = profile.name != nil && !profile.name!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty && profile.phone != nil
