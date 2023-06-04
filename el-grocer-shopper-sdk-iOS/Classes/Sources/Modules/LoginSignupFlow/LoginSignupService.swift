@@ -150,9 +150,12 @@ struct LoginSignupService {
     }
     
     static func goToBasketView(from contextView: UIViewController) -> Void {
-        let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
-         myBasketViewController.isComingFromLocation = true
-        contextView.navigationController?.pushViewController(myBasketViewController, animated: true)
+        
+        contextView.navigationController?.dismiss(animated: true)
+        
+//        let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
+//         myBasketViewController.isComingFromLocation = true
+//        contextView.navigationController?.pushViewController(myBasketViewController, animated: true)
     }
     
     static func setHomeViewWithUserDidSetAddress(from contextView: UIViewController) -> Void {

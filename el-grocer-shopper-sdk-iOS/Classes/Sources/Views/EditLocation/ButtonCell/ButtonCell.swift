@@ -10,7 +10,11 @@ import UIKit
 
 class ButtonCell: UITableViewCell {
 
-    @IBOutlet weak var button: AWButton!
+    @IBOutlet weak var button: AWButton! {
+        didSet{
+            button.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

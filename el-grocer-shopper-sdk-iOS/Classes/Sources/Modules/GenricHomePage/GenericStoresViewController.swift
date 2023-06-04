@@ -31,6 +31,9 @@ extension GenericStoresViewController : HomePageDataLoadingComplete {
             self.setFilterCount(self.filterdGrocerA)
             if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
                 FireBaseEventsLogger.trackStoreListingNoStores()
+                if self.tableView != nil  {
+                    self.tableView.backgroundView = self.NoDataView
+                }
             }else {
                 FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
             }

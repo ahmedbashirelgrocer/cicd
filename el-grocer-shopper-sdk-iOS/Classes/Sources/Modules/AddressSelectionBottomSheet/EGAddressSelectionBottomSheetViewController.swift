@@ -41,8 +41,8 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
         var height : CGFloat = CGFloat((addressList.count * 100) + 144)
-        if addressList.count > 5 {
-            height = (5 * 100) + 124
+        if addressList.count >= 5 {
+            height = (5 * 80) + 124
         }
         if height >= ScreenSize.SCREEN_HEIGHT {
             height = ScreenSize.SCREEN_HEIGHT - 100
