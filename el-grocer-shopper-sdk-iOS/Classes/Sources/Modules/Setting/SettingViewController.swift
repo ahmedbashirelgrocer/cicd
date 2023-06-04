@@ -39,6 +39,7 @@ class SettingViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+        self.navigationCustimzation()
     }
     
     private func registerTableViewCell() {

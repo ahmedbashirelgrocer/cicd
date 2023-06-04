@@ -273,6 +273,7 @@ extension SplashAnimationViewController {
         
         if let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             callAddressApi(userProfile)
+            return
         }
         
         ElGrocerApi.sharedInstance.getUserProfile { response in

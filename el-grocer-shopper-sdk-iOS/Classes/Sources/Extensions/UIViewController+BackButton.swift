@@ -55,6 +55,14 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItem = backButton
     }
     
+    func addGreenBackButton() {
+        
+        var image = ElGrocerUtility.sharedInstance.getImageWithName("BackGreen")
+        let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
+        backButton.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    
 
 
     func addBackButton( isGreen : Bool = true, _ isBlack: Bool = SDKManager.shared.isSmileSDK) {

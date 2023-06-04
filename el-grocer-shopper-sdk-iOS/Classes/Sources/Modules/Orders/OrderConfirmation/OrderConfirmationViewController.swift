@@ -701,12 +701,16 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 self.navigationController?.dismiss(animated: true, completion: nil)
             }else if vcA.count == 3 {
                 //edit order
+                guard sdkManager.isSmileSDK else {
+                    self.navigationController?.dismiss(animated: false)
+                    return
+                }
                 let appDelegate = SDKManager.shared
                 appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
                 (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             }else {
                 // simple place order
-               // self.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popToRootViewController(animated: false)
             }
         }
         
