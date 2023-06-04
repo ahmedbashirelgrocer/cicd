@@ -820,11 +820,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           }
         
           let endpoint = ElGrocerApiEndpoint.DeliveryAddressV2.rawValue
-          
-//          if email.isEmpty {
-//              endpoint = ElGrocerApiEndpoint.DeliveryAddress.rawValue
-//          }
-          
+
           NetworkCall.post(endpoint, parameters: addressParameters, progress: { (progress) in
               
           }, success: { (operation, response) in

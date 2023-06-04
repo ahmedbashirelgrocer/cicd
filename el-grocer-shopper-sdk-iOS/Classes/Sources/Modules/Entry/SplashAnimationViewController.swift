@@ -252,6 +252,12 @@ extension SplashAnimationViewController {
         self.locationFetching = true
         
         func callAddressApi(_ userProfile: UserProfile) {
+            
+            if let activeAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext){
+                self.locationFetching = false
+                return
+            }
+            
             ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result:Bool, responseObject:NSDictionary?) -> Void in
                 if result {
                     let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
@@ -262,6 +268,11 @@ extension SplashAnimationViewController {
                 }
                 self.locationFetching = false
             })
+        }
+        
+        
+        if let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            callAddressApi(userProfile)
         }
         
         ElGrocerApi.sharedInstance.getUserProfile { response in

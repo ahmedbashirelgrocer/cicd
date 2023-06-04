@@ -267,8 +267,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                             }
                         }
                     }
+                    SpinnerView.hideSpinnerView()
+                    StoreOutConverageAreaBottomSheetViewController.showInBottomSheet(presentIn: self)
                     
-                    let appDelegate = sdkManager
+                    /*let appDelegate = sdkManager
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: appDelegate?.window! ?? self.view) { (index) in
                         
                         if index == 0 {
@@ -279,6 +281,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                             SpinnerView.hideSpinnerView()
                         }
                     }
+                    */
                     
                 case .failure(let error):
                     SpinnerView.hideSpinnerView()
