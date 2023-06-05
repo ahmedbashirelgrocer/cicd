@@ -2945,10 +2945,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
       func fetchPurchasedOrders(retailerId: String?, completion: @escaping (_ result: Either<[SearchHistory]>) -> Void) {
           setAccessToken()
           
-          let params: [String: Any] = [
-            "market_type_id": SDKManager.isGrocerySingleStore ? "1" : "0",
-            "current_retailer_id": retailerId ?? ""
-          ]
+          let params = NSMutableDictionary()
+          params["market_type_id"] = SDKManager.isGrocerySingleStore ? "1" : "0"
+          
+          if let retailerId = retailerId {
+              params["current_retailer_id"] = retailerId
+          }
           
           NetworkCall.get(ElGrocerApiEndpoint.purchasedOrders.rawValue, parameters: params) { progress in
               
