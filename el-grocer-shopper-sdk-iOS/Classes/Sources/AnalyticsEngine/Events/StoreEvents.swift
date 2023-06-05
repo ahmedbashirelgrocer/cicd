@@ -22,11 +22,19 @@ struct StoreCategorySwitchedEvent: AnalyticsEventDataType {
     }
 }
 
+enum StoreClickedEventSource: String {
+    case smilesHomeScreen = "Smiles Home Screen"
+    case searchResultScreen = "Search Result Screen"
+    case popularStore = "Popular Store"
+    case relatedStore = "Related Store"
+    case allStoreScreen = "All Store Screen"
+}
+
 struct StoreClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(grocery: Grocery) {
+    init(grocery: Grocery, source: StoreClickedEventSource) {
         self.eventType = .track(eventName: AnalyticsEventName.storeClicked)
         self.metaData = [
             EventParameterKeys.retailerID       : grocery.dbID,
@@ -35,6 +43,7 @@ struct StoreClickedEvent: AnalyticsEventDataType {
             EventParameterKeys.parentId         : grocery.parentID.stringValue,
             EventParameterKeys.typesStoreID     : grocery.retailerType.stringValue,
             EventParameterKeys.address          : grocery.address ?? "",
+            EventParameterKeys.source           : source.rawValue
         ]
     }
 }
