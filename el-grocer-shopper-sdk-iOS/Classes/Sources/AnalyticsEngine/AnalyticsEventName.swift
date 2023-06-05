@@ -60,6 +60,7 @@ enum AnalyticsEventName {
     // MARK: Search
     static let universalSearch          = "Universal Search"
     static let storeSearch              = "Store Search"
+    static let searchHistoryClicked     = "Search History Clicked"
     
     // MARK: User
     static let userRegistered           = "User Registered"

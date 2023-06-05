@@ -1173,6 +1173,8 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             }
         }
         
+        self.logSegmentEvents(searchQuery: searchData, type: model?.modelType)
+        
         // Logging segment event for Universal & Store Search
         switch self.searchFor {
         case .isForUniversalSearch:
@@ -1298,7 +1300,31 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         // End Segment Logging
     }
     
-    
+    private func logSegmentEvents(searchQuery: String, type: SearchResultSuggestionType?) {
+        if let type = type {
+            switch type {
+                
+            case .searchHistory:
+                SegmentAnalyticsEngine.instance.logEvent(event: SearchHistoryClickedEvent(productName: searchQuery, source: .searchHistory))
+                    
+            case .trendingSearch:
+                SegmentAnalyticsEngine.instance.logEvent(event: SearchHistoryClickedEvent(productName: searchQuery, source: .relatedProduct))
+                
+            case .retailer:
+                if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+                    let storeClickedEvent = StoreClickedEvent(
+                        grocery: grocery,
+                        source: self.searchString.isEmpty ? .popularStore : .relatedStore
+                    )
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: storeClickedEvent)
+                }
+                
+            case .title, .titleWithClearOption, .categoriesTitles, .brandTitles, .recipeTitles, .noDataFound, .separator:
+                break
+            }
+        }
+    }
 }
 
 
