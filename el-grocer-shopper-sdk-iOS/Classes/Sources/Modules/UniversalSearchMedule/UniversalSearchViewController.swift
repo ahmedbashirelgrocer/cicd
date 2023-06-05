@@ -1173,7 +1173,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             }
         }
         
-        self.logSegmentEvents(searchQuery: searchData, type: model?.modelType)
+        self.logSegmentEventsForSearchHistory(searchQuery: searchData, type: model?.modelType)
         
         // Logging segment event for Universal & Store Search
         switch self.searchFor {
@@ -1300,7 +1300,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         // End Segment Logging
     }
     
-    private func logSegmentEvents(searchQuery: String, type: SearchResultSuggestionType?) {
+    private func logSegmentEventsForSearchHistory(searchQuery: String, type: SearchResultSuggestionType?) {
         if let type = type {
             switch type {
                 
