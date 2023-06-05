@@ -134,8 +134,7 @@ class SuggestionsModelDataSource {
     
     func papulateUsersearchedData() {
         
-        let userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
-        ElGrocerApi.sharedInstance.fetchPurchasedOrders(shopperId: userId) { result in
+        ElGrocerApi.sharedInstance.fetchPurchasedOrders(retailerId: self.currentGrocery?.dbID) { result in
             switch result {
             case .success(let historyList):
                 if historyList.isNotEmpty {
