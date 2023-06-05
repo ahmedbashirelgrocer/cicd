@@ -259,27 +259,6 @@ public class SmilesLoginViewModel {
                     elDebugPrint(response)
                     let dataDict = response["data"]
                     completionHandler(true, "")
-                    /*
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
-
-                        let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                       elDebugPrint(smileAuthObj)
-                        
-                        if let smileOtp = smileAuthObj.sentOTP {
-                            self.userOtp.value = smileOtp
-                        }
-                        if let token = smileAuthObj.userToken {
-                            self.userToken.value = token
-                        }
-                        
-                    } catch {
-                       elDebugPrint(error)
-                        if let showAlertClosure = self.showAlertClosure {
-                            showAlertClosure()
-                        }
-                    }*/
-
                 case .failure(let error):
                     elDebugPrint(error.localizedMessage)
                     completionHandler(false, error.localizedMessage)

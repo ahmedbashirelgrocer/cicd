@@ -417,7 +417,7 @@ private extension SecondCheckoutVC {
     func addSubViews() {
         
         checkoutStackView.addArrangedSubview(checkoutDeliverySlotView)
-        checkoutStackView.addArrangedSubview(pinView)
+       // checkoutStackView.addArrangedSubview(pinView)
         checkoutStackView.addArrangedSubview(viewWarning)
         checkoutStackView.addArrangedSubview(checkoutDeliveryAddressView)
         checkoutStackView.addArrangedSubview(additionalInstructionsView)
