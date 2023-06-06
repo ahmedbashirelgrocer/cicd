@@ -60,11 +60,14 @@ class UniSearchCell: UITableViewCell {
                 subTitle.isHidden = true
             }
             
-            let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14)])
-             let nsRange = NSString(string: title).range(of: searchString, options: String.CompareOptions.caseInsensitive)
+            
+            
+            var attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14)])
+            let nsRange = NSString(string: title).range(of: searchString, options: String.CompareOptions.caseInsensitive)
             
             if nsRange.location != NSNotFound {
-                attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(14) , range: nsRange )
+                attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(14)])
+                attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplayNormalFont(14), range: nsRange)
             }
            self.title.attributedText = attributedString
         }
