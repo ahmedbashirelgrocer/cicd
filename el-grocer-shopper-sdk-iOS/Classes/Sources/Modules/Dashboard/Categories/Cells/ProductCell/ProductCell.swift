@@ -92,12 +92,22 @@ class ProductCell : RxUICollectionViewCell {
     }}
     
     @IBOutlet weak var quickAddToCartButton: UIButton!
-    @IBOutlet weak var addToCartButton: UIButton! { didSet {
-        addToCartButton.clipsToBounds = true
-        addToCartButton.setTitle("＋", for: .normal)
-        addToCartButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        addToCartButton.setBackgroundColor(.smilePrimaryPurpleColor(), forState: .normal)
-    } }
+//    @IBOutlet weak var addToCartButton: UIButton! { didSet {
+//        addToCartButton.clipsToBounds = true
+//        addToCartButton.setTitle("＋", for: .normal)
+//        addToCartButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+//        addToCartButton.setBackgroundColor(.smilePrimaryPurpleColor(), forState: .normal)
+//    } }
+    
+    @IBOutlet weak var addToCartButton: UILabel! {
+        didSet {
+            addToCartButton.clipsToBounds = true
+            addToCartButton.textAlignment = .center
+            addToCartButton.setTitle("＋", for: .normal)
+            addToCartButton.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+            addToCartButton.backgroundColor = .smilePrimaryPurpleColor()
+        }
+    }
     
     @IBOutlet weak var shopInStoreButton: UIButton! { didSet {
         shopInStoreButton.clipsToBounds = true
@@ -233,6 +243,8 @@ class ProductCell : RxUICollectionViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(notificationReceived(notification:)), name: KProductNotification, object: nil)
         productContainer.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(cellOtherAreaDidTap)))
     
+        self.addToCartButton.isUserInteractionEnabled = true
+        self.addToCartButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addToCartTapped(_ :))))
     }
     
     var isProductSelected: Bool {
@@ -566,6 +578,10 @@ class ProductCell : RxUICollectionViewCell {
     @IBAction func shopInStoreHandeler(_ sender: Any) {
         self.addToCartHandler(sender)
     }
+    
+    @objc func addToCartTapped(_ sender: UITapGestureRecognizer) {
+        self.addToCartHandler(sender)
+    }
 
     @IBAction func addToCartHandler(_ sender: Any) {
         if viewModel != nil {
@@ -611,13 +627,13 @@ class ProductCell : RxUICollectionViewCell {
                 
                 let count = item.count.intValue + 1
                 if count != 1 {
-                    if Int(self.quantityLabel.text ?? "-1") != count {
-                        UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
-                            self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
-                        }, completion: { (completed) in
-                            addCartAction()
-                        })
-                    }
+                    
+                    UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
+                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
+                    }, completion: { (completed) in
+                        addCartAction()
+                    })
+                    
                     return
                 }
             }
@@ -629,13 +645,13 @@ class ProductCell : RxUICollectionViewCell {
                     if let item = subVc.substitutionItemForProduct(self.product) {
                         let count = item.count.intValue + 1
                         if count != 1 {
-                            if Int(self.quantityLabel.text ?? "-1") != count {
-                                UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
-                                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
-                                }, completion: { (completed) in
-                                    addCartAction()
-                                })
-                            }
+                            
+                            UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
+                                self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
+                            }, completion: { (completed) in
+                                addCartAction()
+                            })
+                            
                             return
                         }
                     }
@@ -727,9 +743,8 @@ class ProductCell : RxUICollectionViewCell {
                     showAddToCartButtonAnimated()
                     return
                 }else if count == 1 {
-                    if Int(self.quantityLabel.text ?? "-1") != count {
-                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    }
+                    
+                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
                     self.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                     
                     if self.product.promotion?.boolValue == true {
@@ -751,9 +766,8 @@ class ProductCell : RxUICollectionViewCell {
                    
                     
                 }else if count > 0  {
-                    if Int(self.quantityLabel.text ?? "-1") != count {
-                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    }
+                    
+                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
                     if self.product.promotion?.boolValue == true {
                         //self.limitedStockBGView.isHidden = false
                         self.promotionBGView.isHidden = false
@@ -893,9 +907,8 @@ class ProductCell : RxUICollectionViewCell {
                 
                 
                 if count != 1 {
-                    if Int(self.quantityLabel.text ?? "-1") != count {
-                        self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    }
+                    
+                    self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
                     if count == 2 {
                         self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                     }
@@ -1073,11 +1086,10 @@ class ProductCell : RxUICollectionViewCell {
             // buttonsView.isHidden = false
 
             // Condition added for removing blinking effect
-            if quantityLabel.text != item.count.stringValue {
-                self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected()
-                    ? "\(item.count.intValue)".changeToArabic()
-                    : "\(item.count.intValue)"
-            }
+            
+            self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected()
+                ? "\(item.count.intValue)".changeToArabic()
+                : "\(item.count.intValue)"
              //self.quantityLabel.textColor = UIColor.newBlackColor()
 
             // self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
@@ -1561,5 +1573,27 @@ fileprivate struct ProductSelectedStore {
         accessQueue.sync(flags: .barrier) {
             productSelected = newValue
         }
+    }
+}
+
+fileprivate extension UILabel {
+    func setTitle(_ title: String?, for state: UIControl.State) {
+        self.text = title
+    }
+    
+    func setBody3BoldWhiteStyle(){
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        self.textColor = UIColor.navigationBarWhiteColor()
+    }
+    
+    func setBackgroundColorForAllState(_ color: UIColor) {
+
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        UIGraphicsGetCurrentContext()!.setFillColor(color.cgColor)
+        UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        self.backgroundColor = color
     }
 }
