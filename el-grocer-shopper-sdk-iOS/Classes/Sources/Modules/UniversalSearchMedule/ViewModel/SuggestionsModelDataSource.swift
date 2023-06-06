@@ -138,7 +138,11 @@ class SuggestionsModelDataSource {
             switch result {
             case .success(let historyList):
                 if historyList.isNotEmpty {
-                    var modelA = [SuggestionsModelObj.init(type: .separator)]
+                    var modelA: [SuggestionsModelObj] = []
+                    
+                    if self.searchFor != .isForStoreSearch {
+                        modelA = [SuggestionsModelObj.init(type: .separator)]
+                    }
                     modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
                     
                     // Takes first 8 element
@@ -157,10 +161,12 @@ class SuggestionsModelDataSource {
     
     private func fetchLocalHistory() {
         let title: SearchResultSuggestionType = getUserSearchData() != nil && getUserSearchData()?.isEmpty == false ? .titleWithClearOption : .title
-        var modelA = [
-            SuggestionsModelObj(type: .separator),
-            SuggestionsModelObj(type: title, title: localizedString("lblSearchHistory", comment: "").uppercased())
-        ]
+        var modelA: [SuggestionsModelObj] = []
+        
+        if self.searchFor != .isForStoreSearch {
+            modelA.append(SuggestionsModelObj(type: .separator))
+        }
+        modelA.append(SuggestionsModelObj(type: title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
 
         ElGrocerUtility.sharedInstance.delay(1) { [weak self] in
             guard let self = self else { return }
@@ -217,7 +223,9 @@ class SuggestionsModelDataSource {
                 
                 var modelA = [SuggestionsModelObj]()
                 
-                modelA.append(SuggestionsModelObj.init(type: .separator))
+                if self.searchFor != .isForStoreSearch {
+                    modelA.append(SuggestionsModelObj.init(type: .separator))
+                }
                 if self.searchFor != .isForStoreSearch {
                     modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("trending_searches", comment: "").uppercased()))
                 }

@@ -321,6 +321,7 @@ class ElgrocerlocationView:  UIView  {
         MixpanelEventLogger.trackStoreSearch()
         searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
         searchController.searchFor = .isForStoreSearch
+        searchController.searchString = self.txtSearchBar.text ?? ""
         vc.navigationController?.modalTransitionStyle = .crossDissolve
         vc.navigationController?.modalPresentationStyle = .formSheet
         vc.navigationController?.pushViewController(searchController, animated: true)

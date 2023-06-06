@@ -103,8 +103,13 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
 //        self.setUpAppearance()
         self.registerCells ()
         self.setDataSource()
-        self.dataSource?.getDefaultSearchData()
         addBasketOverlay()
+        
+        if self.searchString.isNotEmpty {
+            self.txtSearch.text = searchString
+        } else {
+            self.dataSource?.getDefaultSearchData()
+        }
         
         self.viewMainBG.layer.cornerRadius = 24.0
         
@@ -1171,9 +1176,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             if self.searchFor == .isForStoreSearch {
                 self.dataSource?.getBanners(searchInput: searchData)
             }
+            
+            self.logSegmentEventsForSearchHistory(searchQuery: searchData, type: model?.modelType)
         }
-        
-        self.logSegmentEventsForSearchHistory(searchQuery: searchData, type: model?.modelType)
         
         // Logging segment event for Universal & Store Search
         switch self.searchFor {
