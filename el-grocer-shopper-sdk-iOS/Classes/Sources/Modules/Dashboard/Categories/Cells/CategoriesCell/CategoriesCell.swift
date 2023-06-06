@@ -23,7 +23,11 @@ class CategoriesCell: RxUITableViewCell {
             btnViewAll.setBackgroundColorForAllState(.clear)
         }
     }
-    @IBOutlet weak var ivArrow: UIImageView!
+    @IBOutlet weak var ivArrow: UIImageView! {
+        didSet {
+            ivArrow.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        }
+    }
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var viewModel: CategoriesCellViewModelType!

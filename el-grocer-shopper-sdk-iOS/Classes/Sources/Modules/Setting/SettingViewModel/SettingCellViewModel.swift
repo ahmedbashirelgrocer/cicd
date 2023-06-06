@@ -132,7 +132,7 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
         case .DeleteAccount:
             self.reusableIdentifier = "SettingTableCell"
             self.title = localizedString("delete_account", comment: "")
-            self.image = UIImage(name: "DeleteAccountSettings") ?? self.image
+            self.image = UIImage(name: "setting_deleteAccount") ?? self.image
         case .SignOut:
             self.reusableIdentifier = kSignOutCellIdentifier
         case .default:

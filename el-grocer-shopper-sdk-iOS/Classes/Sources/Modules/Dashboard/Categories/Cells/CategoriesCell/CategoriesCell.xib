@@ -124,7 +124,7 @@
         </designable>
     </designables>
     <resources>
-        <image name="arrowRight" width="11.666666984558105" height="19"/>
+        <image name="arrowRight" width="25" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
