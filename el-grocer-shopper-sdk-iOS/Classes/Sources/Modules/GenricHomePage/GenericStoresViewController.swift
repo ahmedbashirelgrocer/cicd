@@ -4,19 +4,18 @@
 //
 //  Created by M Abubaker Majeed on 27/07/2020.
 //  Copyright © 2020 elGrocer. All rights reserved.
-//    
+//
 
 import UIKit
 import CoreLocation
 import AdSupport
 import CleverTapSDK
 import AdSupport
-//import AppsFlyerLib
 import FBSDKCoreKit
 import FirebaseCore
 import CoreLocation
-//import BBBadgeBarButtonItem
-    // import MaterialShowcase
+import RxSwift
+import STPopup
 
 let kfeaturedCategoryId : Int64 = 0 // Platform.isSimulator ? 12 : 0 // 12 for staging server
 
@@ -32,6 +31,9 @@ extension GenericStoresViewController : HomePageDataLoadingComplete {
             self.setFilterCount(self.filterdGrocerA)
             if self.homeDataHandler.storeTypeA?.count ?? 0 == 0 {
                 FireBaseEventsLogger.trackStoreListingNoStores()
+                if self.tableView != nil  {
+                    self.tableView.backgroundView = self.NoDataView
+                }
             }else {
                 FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
             }
@@ -93,7 +95,7 @@ class GenericStoresViewController: BasketBasicViewController {
     }()
     
     var storlyAds : StorylyAds?
-
+    private var disposeBag = DisposeBag()
     private var openOrders : [NSDictionary] = []
     private lazy var orderStatus : OrderStatusMedule = {
         return OrderStatusMedule()
@@ -157,7 +159,7 @@ class GenericStoresViewController: BasketBasicViewController {
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setLogoHidden(false)
             controller.setGreenBackgroundColor()
-            //controller.setBackButtonHidden(true)
+            controller.setBackButtonHidden(true)
             controller.setLocationHidden(true)
             controller.setSearchBarDelegate(self)
             controller.setSearchBarText("")
@@ -167,7 +169,7 @@ class GenericStoresViewController: BasketBasicViewController {
             controller.setProfileButtonHidden(false)
             controller.setCartButtonHidden(false)
             controller.actiondelegate = self
-                //
+            controller.buttonActionsDelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             if let nav = (self.navigationController as? ElGrocerNavigationController) {
                 if let bar = nav.navigationBar as? ElGrocerNavigationBar {
@@ -180,7 +182,7 @@ class GenericStoresViewController: BasketBasicViewController {
             }
         }
             // UserDefaults.setDidUserSetAddress(false)
-        guard UserDefaults.didUserSetAddress() else {
+        guard UserDefaults.didUserSetAddress(), let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             self.gotToMapSelection(nil)
             return
         }
@@ -209,8 +211,8 @@ class GenericStoresViewController: BasketBasicViewController {
         if ElGrocerUtility.sharedInstance.isDeliveryMode == false {
             ElGrocerUtility.sharedInstance.isDeliveryMode = true
             ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
-            let SDKManager = SDKManager.shared
-            if let tab = SDKManager.currentTabBar  {
+            let SDKManager: SDKManagerType! = sdkManager
+            if let tab = sdkManager.currentTabBar  {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
             }
         }
@@ -231,6 +233,7 @@ class GenericStoresViewController: BasketBasicViewController {
         //to refresh smiles point
         self.getSmileUserInfo()
         //self.tableView.reloadSections([0], with: .automatic)
+ 
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -321,9 +324,6 @@ class GenericStoresViewController: BasketBasicViewController {
     }
     
     func setUpUIApearance() {
-        
-        //(self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-        
         self.setNeedsStatusBarAppearanceUpdate()
         self.switchMode.clipsToBounds = true
         self.switchViewHeight.constant = 0
@@ -385,8 +385,8 @@ class GenericStoresViewController: BasketBasicViewController {
                 self.clickController.removeFromParent()
                 ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
                 ElGrocerUtility.sharedInstance.isNeedToRefreshBannerA = false
-                let SDKManager = SDKManager.shared
-                if let tab = SDKManager.currentTabBar  {
+                let SDKManager: SDKManagerType! = sdkManager
+                if let tab = sdkManager.currentTabBar  {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 }
                 if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -398,8 +398,8 @@ class GenericStoresViewController: BasketBasicViewController {
             self.switchMode.clickAndCollectSelect  = { [weak self] (isDelivery) in
                 guard let self = self else {return}
                 ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
-                let SDKManager = SDKManager.shared
-                if let tab = SDKManager.currentTabBar  {
+                let SDKManager: SDKManagerType! = sdkManager
+                if let tab = sdkManager.currentTabBar  {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 }
                 if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -407,7 +407,7 @@ class GenericStoresViewController: BasketBasicViewController {
                     ElGrocerUtility.sharedInstance.resetTabbarIcon(self)
                     ElGrocerUtility.sharedInstance.activeGrocery = nil
                 }
-                    let controller = self.clickController 
+                    let controller = self.clickController
                     self.addChild(controller)
                     let topSpace : CGFloat = 12.0
                     controller.view.frame = CGRect.init(x: 0, y: self.switchMode.frame.height + topSpace , width: self.view.frame.size.width, height: self.view.frame.size.height - self.switchMode.frame.height - topSpace )
@@ -459,7 +459,7 @@ class GenericStoresViewController: BasketBasicViewController {
             }
         }
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             DispatchQueue.global(qos: .utility).async(execute: cAndcItem!)
         }
         
@@ -614,7 +614,7 @@ class GenericStoresViewController: BasketBasicViewController {
         let currentDate = Date()
         
         if isRegisteredForRemoteNotifications == false, askDate < currentDate {
-            let SDKManager = SDKManager.shared
+            let SDKManager: SDKManagerType! = sdkManager
             
             UserDefaults.notificationAskDate = currentDate
             _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
@@ -733,9 +733,9 @@ extension GenericStoresViewController {
         self.goToBasketScreen()
     }
     func goToBasketScreen() {
-        //if let SDKManager = SDKManager.shared {
-            if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
-                if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
+        //if let SDKManager: SDKManagerType! = sdkManager {
+            if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
+                if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
                         self.dismiss(animated: false, completion: nil)
@@ -750,8 +750,8 @@ extension GenericStoresViewController {
                         
                     }
                 }
-                let navtabbar = SDKManager.shared.getTabbarController(isNeedToShowChangeStoreByDefault: false )
-                SDKManager.shared.makeRootViewController(controller: navtabbar)
+                let navtabbar = sdkManager.getTabbarController(isNeedToShowChangeStoreByDefault: false )
+                sdkManager.makeRootViewController(controller: navtabbar)
                 if navtabbar.viewControllers.count > 0 {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
@@ -812,10 +812,10 @@ extension GenericStoresViewController {
         self.makeActiveTopGroceryOfArray()
             //let currentSelf = self;
         DispatchQueue.main.async {
-            // if let SDKManager = SDKManager.shared {
-                if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
+            // if let SDKManager: SDKManagerType! = sdkManager {
+                if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
                     
-                    if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {
@@ -1190,7 +1190,28 @@ extension GenericStoresViewController {
     
     
     
+    
 }
+
+extension GenericStoresViewController : ButtonActionDelegate {
+   
+    func cartButtonTap() {
+        self.navigateToMultiCart()
+        // Logging segment event for multicart clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MultiCartsClickedEvent())
+    }
+    
+    func profileButtonTap() {
+        elDebugPrint("profileButtonClick")
+        MixpanelEventLogger.trackNavBarProfile()
+        let settingController = SettingViewController.make(viewModel: AppSetting.currentSetting.getSettingCellViewModel(), analyticsEventLogger: SegmentAnalyticsEngine())
+        self.navigationController?.pushViewController(settingController, animated: true)
+        // Logging segment event for menu button clicked
+        SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
+    }
+}
+
+
     // MARK:- TableView Methods
 extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSource {
     
@@ -1205,9 +1226,6 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
         
         let centerLabelTableViewCell = UINib(nibName: KCenterLabelTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(centerLabelTableViewCell, forCellReuseIdentifier: KCenterLabelTableViewCellIdentifier)
-        
-        
-        
         
         let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
@@ -1296,7 +1314,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
         }
         
         if section == 0 {
-            if SDKManager.isSmileSDK { // remove smiles optoin
+            if sdkManager.isSmileSDK { // remove smiles optoin
                 return 0
             } else {
                 return 1
@@ -1592,8 +1610,8 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "click&collect", tileType: "Store Type", nextScreen: nil)
                     MixpanelEventLogger.trackHomeShoppingCategory(categoryName: "click&collect", categoryId: "-1")
                     ElGrocerUtility.sharedInstance.groceries = ElGrocerUtility.sharedInstance.cAndcRetailerList
-                    let SDKManager = SDKManager.shared
-                    if let tab = SDKManager.currentTabBar  {
+                    let SDKManager: SDKManagerType! = sdkManager
+                    if let tab = sdkManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                     }
                     if let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()  {
@@ -1947,15 +1965,13 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
     }
     
 }
-
 extension GenericStoresViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         SDKManager.registerForNotifications()
     }
 }
-
 extension GenericStoresViewController:NoStoreViewDelegate {
     
     
@@ -1968,7 +1984,6 @@ extension GenericStoresViewController:NoStoreViewDelegate {
     }
     
 }
-
 extension GenericStoresViewController : LocationMapViewControllerDelegate {
     
     private func gotToMapSelection(_ currentAddress: DeliveryAddress?  ) {
@@ -2009,7 +2024,7 @@ extension GenericStoresViewController : LocationMapViewControllerDelegate {
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?) {
         guard let location = location, let name = name else {return}
         addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
-            (SDKManager.shared).showAppWithMenu()
+            (sdkManager).showAppWithMenu()
         }
     }
     
@@ -2043,7 +2058,6 @@ extension GenericStoresViewController : LocationMapViewControllerDelegate {
     }
     
 }
-
     //MARK: Improvement : make signle view to handle current order on delivery and C&C mode
 extension GenericStoresViewController : UICollectionViewDelegate , UICollectionViewDataSource{
     
@@ -2134,8 +2148,6 @@ extension GenericStoresViewController : UICollectionViewDelegateFlowLayout{
     }
     
 }
-
-
 //current location different from selected location
 extension GenericStoresViewController {
     
@@ -2160,18 +2172,20 @@ extension GenericStoresViewController {
                 //setting hardcoded value for first run
                 intervalInMins = 66.0
             }
+            // if(distance > 999 && intervalInMins > 60)
             
-            if(distance > 999 && intervalInMins > 60)
+            if(distance > 1 && intervalInMins > 1)
              {
-                let vc = LocationChangedViewController.getViewController()
+                /*let vc = LocationChangedViewController.getViewController()
                 
                 vc.currentLocation = currentLocation
                 vc.currentSavedLocation = deliveryAddressLocation
                 
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
-                self.present(vc, animated: true, completion: nil)
+                self.present(vc, animated: true, completion: nil) */
                 
+                EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, presentIn: self)
                 UserDefaults.setLocationChanged(date: Date()) //saving current date
              }
             
@@ -2196,14 +2210,12 @@ extension GenericStoresViewController: UIScrollViewDelegate{
 ////
 ////                tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: headerFrame.width, height: headerFrame.height + scrollView.contentOffset.y)
 //            }
-//            
+//
 //
 //        }
 
     }
 }
-
-
 extension GenericStoresViewController: CleverTapConfigDelegate {
     
     
@@ -2258,5 +2270,63 @@ extension GenericStoresViewController: CleverTapConfigDelegate {
         }
         self.homeDataHandler.sortServiceArray()
         self.tableView.reloadDataOnMain()
+    }
+}
+
+
+
+// MARK: Helper Methods
+extension GenericStoresViewController {
+    
+    
+    
+    func navigateToMultiCart() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
+        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
+        
+        // MARK: Actions
+        viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
+            activeCartVC?.dismiss(animated: true) {
+                guard let grocery = HomePageData.shared.groceryA?.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
+                self?.goToGrocery(grocery, nil)
+            }
+        }).disposed(by: disposeBag)
+        
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
+            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+            
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            
+            switch campaignType {
+            case .brand:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: HomePageData.shared.groceryA ?? [])
+                })
+                break
+                
+            case .retailer:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: HomePageData.shared.groceryA ?? [])
+                })
+                break
+                
+            case .web:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+                })
+                break
+                
+            case .priority:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: HomePageData.shared.groceryA ?? [])
+                })
+                break
+            }
+            
+        }).disposed(by: disposeBag)
+        
+        self.present(activeCartVC, animated: true)
     }
 }

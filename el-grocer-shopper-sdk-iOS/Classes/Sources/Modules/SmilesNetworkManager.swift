@@ -124,7 +124,7 @@ class SmilesNetworkManager {
         
         let params = [String : AnyObject]()
         
-        if SDKManager.isSmileSDK, let loyaltyId = SDKManager.shared.launchOptions?.loyaltyID, loyaltyId.count > 0 {
+        if sdkManager.isSmileSDK, let loyaltyId = sdkManager.launchOptions?.loyaltyID, loyaltyId.count > 0 {
             NetworkCall.requestManager.requestSerializer.setValue(loyaltyId, forHTTPHeaderField: "Loyalty-Id")
         }
     

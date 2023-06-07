@@ -45,7 +45,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     
     fileprivate let slideMenuController: SlideMenuViewController? = {
         
-        guard let slideController = SDKManager.shared.rootViewController as? SlideMenuViewController else {
+        guard let slideController = sdkManager.rootViewController as? SlideMenuViewController else {
             return nil
         }
         
@@ -56,7 +56,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         
         elDebugPrint("notification : \(notification)")
         
-        guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey || SDKManager.isSmileSDK)  else {
+        guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey || SDKManager.shared.isSmileSDK)  else {
             return false
         }
         
@@ -176,7 +176,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         let orderId = userInfo[pushOrderIdKey] as! NSNumber
         let shopperId = userInfo[shopperIdKey] as! NSNumber
         
-                let SDKManager = SDKManager.shared
+                let SDKManager: SDKManagerType! = sdkManager
                 let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "dialog_car_green") , header: localizedString("dialog_CandC_Title", comment: "") , detail: localizedString("dialog_CandC_Msg", comment: "")  ,localizedString("btn_at_the_store_txt", comment: "") ,localizedString("btn_on_my_way_txt", comment: "") , withView: SDKManager.window! , true) { (buttonIndex) in
                     if buttonIndex == 0 {
                         self.setCollectorStatus(orderId, shopperId: shopperId  , isOnTheWay: false )

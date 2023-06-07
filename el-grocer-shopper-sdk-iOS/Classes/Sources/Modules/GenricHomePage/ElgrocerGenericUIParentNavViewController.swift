@@ -8,10 +8,10 @@
 
 import UIKit
 
-class ElgrocerGenericUIParentNavViewController: UINavigationController {
+public class ElgrocerGenericUIParentNavViewController: UINavigationController {
 
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13, *) {
             return self.isDarkMode ? UIStatusBarStyle.lightContent :  UIStatusBarStyle.darkContent
         }else{
@@ -20,14 +20,14 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
     }
     
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         self.hideSeparationLine()
         self.setWhiteBackgroundColor()
         self.hideBorder(true)
         self.setBackButtonHidden(false)
     }
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         (self.navigationBar as? ElgrocerWhilteLogoBar)?.backButton.addTarget(self, action: #selector(backButtonClick), for: UIControl.Event.touchUpInside)
       //  (self.navigationBar as? ElgrocerWhilteLogoBar)?.basketButton.addTarget(self, action: #selector(goToBasket), for: UIControl.Event.touchUpInside)
        
@@ -135,9 +135,9 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
     
     @objc
     func goToBasketScreen() {
-        // if let SDKManager = SDKManager.shared {
-            if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
-                if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
+        // if let SDKManager: SDKManagerType! = sdkManager {
+            if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
+                if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1
                         self.dismiss(animated: false, completion: nil)
@@ -151,8 +151,8 @@ class ElgrocerGenericUIParentNavViewController: UINavigationController {
                         }
                     }
                 }
-                let navtabbar = SDKManager.shared.getTabbarController(isNeedToShowChangeStoreByDefault: false )
-                SDKManager.shared.makeRootViewController(controller: navtabbar)
+                let navtabbar = sdkManager.getTabbarController(isNeedToShowChangeStoreByDefault: false )
+                sdkManager.makeRootViewController(controller: navtabbar)
                 if navtabbar.viewControllers.count > 0 {
                     if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                         tabbar.selectedIndex = 1

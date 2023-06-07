@@ -211,13 +211,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
     }
     
     @IBAction func nextBtnTapped(_ sender: AWButton) {
-       elDebugPrint("next tapped")
-//            viewModel.otpAuthenticate {
-//                //check this
-//                self.showSmilePoints()
-//                //if let userData = self.smileUserDetails {
-//                //}
-//            }
+
         self.showSmilePoints()
     }
     

@@ -578,7 +578,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                 // If it was shown after checkout, we should just dismiss it and show the basket
                 switch self.dismissMode {
                     case .dismissModal: self.presentingViewController?.dismiss(animated: true, completion: {})
-                case .navigateHome: self.setHomeView()//(SDKManager.shared).showAppWithMenu()
+                case .navigateHome: self.setHomeView()//(sdkManager).showAppWithMenu()
                 }
                 
                 NotificationCenter.default.post(name: Notification.Name(rawValue: KCheckPhoneNumber), object: nil)
@@ -611,8 +611,8 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
     private func setHomeView() -> Void {
         
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-        // let SDKManager = SDKManager.shared
-        if let nav = SDKManager.shared.rootViewController as? UINavigationController {
+        // let SDKManager: SDKManagerType! = sdkManager
+        if let nav = sdkManager.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -623,7 +623,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
             }
         }
         
-        SDKManager.shared.showAppWithMenu()
+        sdkManager.showAppWithMenu()
         
         
         
@@ -631,11 +631,11 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
         
         /*
         if SDKManager.window!.rootViewController as? UITabBarController != nil {
-            let tababarController = SDKManager.window!.rootViewController as! UITabBarController
+            let tababarController = sdkManager.window!.rootViewController as! UITabBarController
             tababarController.selectedIndex = 0
             self.navigationController?.dismiss(animated: true, completion: { })
         }else{
-            (SDKManager.shared).showAppWithMenu()
+            (sdkManager).showAppWithMenu()
         }*/
     }
     
@@ -941,7 +941,7 @@ extension RegistrationPersonalViewController: LocationMapViewControllerDelegate 
                 // If it was shown after checkout, we should just dismiss it and show the basket
                 switch self.dismissMode {
                     case .dismissModal: self.presentingViewController?.dismiss(animated: true, completion: nil)
-                    case .navigateHome: self.setHomeView()//(SDKManager.shared).showAppWithMenu()
+                    case .navigateHome: self.setHomeView()//(sdkManager).showAppWithMenu()
                 }
                 self.delegate?.registrationControllerDidRegisterUser(self)
                 
@@ -968,7 +968,7 @@ extension RegistrationPersonalViewController: LocationMapViewControllerDelegate 
                 // If it was shown after checkout, we should just dismiss it and show the basket
                 switch self.dismissMode {
                 case .dismissModal: self.presentingViewController?.dismiss(animated: true, completion: nil)
-                case .navigateHome: self.setHomeView()//(SDKManager.shared).showAppWithMenu()
+                case .navigateHome: self.setHomeView()//(sdkManager).showAppWithMenu()
                 }
                 self.delegate?.registrationControllerDidRegisterUser(self)
                 

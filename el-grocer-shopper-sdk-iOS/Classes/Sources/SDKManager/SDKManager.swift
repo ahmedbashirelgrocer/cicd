@@ -32,19 +32,19 @@ import Segment_CleverTap
 // import FirebaseMessaging
 
 extension SDKManager {
-    static var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
-    static var isGrocerySingleStore: Bool { SDKManager.shared.launchOptions?.marketType == .grocerySingleStore }
-    static var isShopperApp: Bool { SDKManager.shared.launchOptions?.marketType == .shopper }
+    var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
+    var isGrocerySingleStore: Bool { SDKManager.shared.launchOptions?.marketType == .grocerySingleStore }
+    var isShopperApp: Bool { SDKManager.shared.launchOptions?.marketType == .shopper }
 }
 
-class SDKManager: NSObject  {
+class SDKManager: NSObject, SDKManagerType  {
+    var appStartTime: Date?
     
     var sdkStartTime : Date?
     var homeLastFetch : Date?
     
     var launchCompletion: (() -> Void)?
-    
-    
+
     var window: UIWindow?
     var rootViewController: UIViewController?
     var rootContext: UIViewController?
@@ -63,6 +63,8 @@ class SDKManager: NSObject  {
     static var shared: SDKManager = SDKManager()
     //var isFromSmile : Bool = fals
     var launchOptions: LaunchOptions? = nil
+
+    var kGoogleMapsApiKey: String { "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0"}
     var launchOptionsLocation: CLLocation? = nil
     var isLaunchEventConfigured: Bool = false
     var isInitialized = false
@@ -78,6 +80,8 @@ class SDKManager: NSObject  {
         if !isInitialized {
             self.configure()
             isInitialized = true
+        }else if SDKManager.shared.launchOptions?.environmentType.value() != nil {
+            AlgoliaApi.sharedInstance.reStartInsights()
         }
     }
     
@@ -89,7 +93,7 @@ class SDKManager: NSObject  {
         self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         _ = ReachabilityManager.sharedInstance
         NotificationCenter.default.addObserver(self, selector: #selector(SDKManager.networkStatusDidChanged(_:)), name:NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { SDKManager.shared.networkStatusDidChanged(nil) }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { sdkManager.networkStatusDidChanged(nil) }
         self.showAnimatedSplashView()
         
     }
@@ -319,49 +323,18 @@ class SDKManager: NSObject  {
     
     // MARK: Methods
     func initializeExternalServices() {
-        
-        
         //MARK: swizzling view will appear call for screen name event logging
         UIViewController.swizzleViewDidAppear()
-        
-        //Firebase Analytics
-       // FirebaseApp.configure()
         self.configureFireBase()
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
-        
-        //Google Analytics
-        GoogleAnalyticsHelper.configureGoogleAnalytics()
-        
-        // Intercom
-        // Intercom.setApiKey(IntercomeHelper.apiKey, forAppId: IntercomeHelper.appId)
-        
-        // Marketing
-       // self.initiliazeMarketingCampaignTrackingServices()
-        //MARK: Mispanel Initialization
-       // MixpanelManager.configMixpanel() // with segment implementation we dont need mixpanel
-    
-        //MARK: sendBird
-
-        
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
 
-        // Initialize Facebook SDK
-        // FixMe:
-        // ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
-        
-        // Google Maps
         if Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" || Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK"  {
-            GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
-            GMSServices.provideAPIKey(kGoogleMapsApiKey)
+            GMSPlacesClient.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
+            GMSServices.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
         }
-     
-        self.configuredElgrocerEventLogger() //didFinishLaunchingWithOptions)
-        
         // initialize Segment SDK used for event logging.
         initializeSegmentSDK()
-        
-//        let action1 = UNNotificationAction(identifier: "action_1", title: "Back", options: [])
-//        let action2 = UNNotificationAction(identifier: "action_2", title: "Next", options: [])
         let action3 = UNNotificationAction(identifier: "action_3", title: "View In App", options: [])
         let category = UNNotificationCategory(identifier: "CTNotification", actions: [action3], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
@@ -369,19 +342,7 @@ class SDKManager: NSObject  {
     }
     
     func configureFireBase(){
-    // ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/"
         
-        
-        guard !(SDKManager.shared.launchOptions?.isSmileSDK ?? true) else {
-          // Fixme: Firebase disabled
-        #if DEBUG
-          // debugFirebaseSetting()
-        #else
-            smileSDKFireBaseSetting()
-        #endif
-            return
-        }
-
         guard Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" else {
             return
         }
@@ -481,21 +442,12 @@ class SDKManager: NSObject  {
     
     // Replaces the root view controller with the specified controller
     fileprivate func replaceRootControllerWith<T: UIViewController>(_ controller: T) {
-        
-        
-            if self.window?.rootViewController != nil {
-                
-                self.window?.rootViewController = controller
-//                UIView.transition(with: self.window!, duration: 0.5, options: UIView.AnimationOptions.transitionFlipFromLeft, animations: {
-//
-//
-//                }, completion: nil)
-                
+            if sdkManager.window?.rootViewController != nil {
+                sdkManager.window?.rootViewController = controller
             } else {
-                    self.window?.rootViewController = controller
-                    self.window?.makeKeyAndVisible()
+                sdkManager.window?.rootViewController = controller
+                sdkManager.window?.makeKeyAndVisible()
             }
-        
     }
     
   
@@ -567,7 +519,7 @@ class SDKManager: NSObject  {
                  }
              }
          } else {
-             let entryController =  ElGrocerViewControllers.entryViewController()
+             let entryController =  ElGrocerViewControllers.signInViewController()
              let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
              navEntryController.hideNavigationBar(true)
              self.replaceRootControllerWith(navEntryController)
@@ -583,7 +535,7 @@ class SDKManager: NSObject  {
     
     func showAppWithMenu(_ isNeedToShowChangeStoreByDefault : Bool = false) {
         
-        let smileSDK = SDKManager.shared.launchOptions?.isSmileSDK ?? false
+        let smileSDK = sdkManager.launchOptions?.isSmileSDK ?? false
         guard !smileSDK else {
             let tabVC = self.getTabbarController(isNeedToShowChangeStoreByDefault: false, selectedGrocery: nil, nil, true)
             if let topVC = UIApplication.topViewController() {
@@ -675,7 +627,7 @@ class SDKManager: NSObject  {
         tabController.tabBar.backgroundColor = .white
         tabController.tabBar.barTintColor = .white
         tabController.tabBar.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-        if SDKManager.isSmileSDK == false {
+        if SDKManager.shared.isSmileSDK == false {
             UITabBarItem.appearance().setTitleTextAttributes(
                 [NSAttributedString.Key.font: UIFont.SFProDisplayMediumFont(11),
                  NSAttributedString.Key.foregroundColor: UIColor.colorWithHexString(hexString: "595959")],
@@ -945,7 +897,7 @@ extension SDKManager {
 // MARK: Supporting methods
 fileprivate extension SDKManager {
     @objc
-    func refreshSessionStatesForEditOrder() {
+    internal func refreshSessionStatesForEditOrder() {
         if UserDefaults.isNeedToClearEditOrder() {
             UserDefaults.setClearEditOrder(false)
             ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
@@ -994,26 +946,22 @@ fileprivate extension SDKManager {
         }
     }
    
-    @objc
-    func configuredElgrocerEventLogger() { //_ launchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
-        // Elgolia Events
-        AlgoliaApi.sharedInstance.reStartInsights()
-    }
+ 
     
-    func startChatFeature() {
+    internal func startChatFeature() {
         
      //   self.configureZenDesk()
         
     }
     
-    func scheduleAppRefresh() {
+    internal func scheduleAppRefresh() {
 
     }
    
     @available(iOS 13.0, *)
-    func handleAppRefresh(task: BGAppRefreshTask) { }
+    internal func handleAppRefresh(task: BGAppRefreshTask) { }
     
-     func checkAdvertPermission () {
+    internal func checkAdvertPermission () {
     // FixMe Arch Error Fix
     //    MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
     //        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])

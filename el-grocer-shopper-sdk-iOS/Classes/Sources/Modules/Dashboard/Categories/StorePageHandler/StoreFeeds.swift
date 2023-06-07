@@ -200,7 +200,7 @@ extension StoreFeeds {
                 home.products.append(contentsOf: self.data?.products ?? [])
                 home.products.append(contentsOf: newProducts.products)
                 home.attachGrocery = self.grocery
-                home.hasMoreProduct = newProducts.products.count == self.limit ? true : false
+                home.hasMoreProduct = newProducts.algoliaCount == self.limit ? true : false
                 self.data = home
             }
         }

@@ -12,18 +12,18 @@ class NavigationBarLocationView: UIView {
 
     @IBOutlet var imgLocationPin: UIImageView!{
         didSet{
-            imgLocationPin.image = SDKManager.isSmileSDK ? UIImage(name: "blackLocationPin") : UIImage(name: "yellowLocationPin")
+            imgLocationPin.image = sdkManager.isSmileSDK ? UIImage(name: "blackLocationPin") : UIImage(name: "yellowLocationPin")
         }
     }
     @IBOutlet var imgArrowDown: UIImageView!{
         didSet{
-            imgArrowDown.image = SDKManager.isSmileSDK ? UIImage(name: "blackArrowDown") : UIImage(name: "yellowArrowDown")
+            imgArrowDown.image = sdkManager.isSmileSDK ? UIImage(name: "blackArrowDown") : UIImage(name: "yellowArrowDown")
         }
     }
     @IBOutlet var lblLocation: UILabel!{
         didSet{
             lblLocation.setBody3BoldUpperYellowStyle()
-            lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor
+            if !sdkManager.isShopperApp { lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor }
             lblLocation.text = "... "
             lblLocation.textAlignment = .natural
         }

@@ -11,7 +11,10 @@ import UIKit
 let KloginCellHeight : CGFloat = 140 //including 20 for padding
 let KloginCellIdentifier = "loginCell"
 
-class loginCell: UITableViewCell {
+class loginCell: RxUITableViewCell {
+    
+    
+    var viewModel: SettingCellViewModel!
     
     var elGrocerNavigationController: ElGrocerNavigationController {
         let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
@@ -45,69 +48,26 @@ class loginCell: UITableViewCell {
         }
     }
     
-
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.backgroundColor = .tableViewBackgroundColor()
     }
+    
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? SettingCellViewModel else { return }
+        self.viewModel = viewModel
+       
+    }
+
     @IBAction func signUpButtonHandler(_ sender: Any) {
-        showEntryView(isForLogin: false)
+        self.viewModel.handleButtonAction(SettingNavigationUseCase.SignUp)
     }
     @IBAction func signInButtonHandler(_ sender: Any) {
-        showEntryView(isForLogin: true)
+        self.viewModel.handleButtonAction(SettingNavigationUseCase.Login)
     }
-    func showEntryView(isForLogin : Bool = false) {
-        
-        if isForLogin {
-            showSignInVC()
-        }else{
-            showRegistrationVC()
-        }
-        
-//        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
-//        //let entryController = ElGrocerViewControllers.entryViewController()
-//        let entryController = ElGrocerViewControllers.signInViewController()
-//        let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
-//        navEntryController.hideNavigationBar(true)
-//        entryController.isCommingFrom = .profile
-//        entryController.isForLogIn = isForLogin
-//        if let topVC = UIApplication.topViewController(){
-//            topVC.navigationController?.pushViewController(entryController, animated: true)
-//        }
-    }
+  
     
-    
-    fileprivate func showSignInVC(){
-        ElGrocerEventsLogger.sharedInstance.trackSettingClicked("LogIn")
-        let signInVC = ElGrocerViewControllers.signInViewController()
-        let navController = self.elGrocerNavigationController
-        signInVC.isForLogIn = true
-        signInVC.isCommingFrom = .profile
-        signInVC.dismissMode = .dismissModal
-        navController.viewControllers = [signInVC]
-        navController.modalPresentationStyle = .fullScreen
-        if let topVC = UIApplication.topViewController(){
-            topVC.present(navController, animated: true, completion: nil)
-        }
-        
-    }
-    
-    fileprivate func showRegistrationVC(){
-        
-        
-        ElGrocerEventsLogger.sharedInstance.trackSettingClicked("CreateAccount")
-        let signInVC = ElGrocerViewControllers.signInViewController()
-        signInVC.isForLogIn = false
-        signInVC.isCommingFrom = .cart
-        signInVC.dismissMode = .dismissModal
-        let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navController.viewControllers = [signInVC]
-        navController.modalPresentationStyle = .fullScreen
-        if let topVC = UIApplication.topViewController(){
-            topVC.present(navController, animated: true, completion: nil)
-        }
 
-    }
     
 
 }

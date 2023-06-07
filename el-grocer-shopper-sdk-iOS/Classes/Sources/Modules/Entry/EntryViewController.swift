@@ -169,7 +169,7 @@ class EntryViewController: UIViewController {
             case .restricted , .denied:
                 LocationManager.sharedInstance.requestLocationAuthorization()
                  self.goToStoreVC()
-//                  let SDKManager = SDKManager.shared
+//                  let SDKManager: SDKManagerType! = sdkManager
 //                  _ = LocationPopUp.showLocationPopUp(self, withView: SDKManager.window!)
             case .authorizedAlways, .authorizedWhenInUse:
                  elDebugPrint("Have Location services Access")
@@ -197,50 +197,7 @@ class EntryViewController: UIViewController {
         
        
         if let location = LocationManager.sharedInstance.currentLocation.value {
-            
              self.gotToMapSelection(nil)
-            
-            
-//
-//            let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-//            deliveryAddress.latitude = location.coordinate.latitude
-//            deliveryAddress.longitude = location.coordinate.longitude
-//            deliveryAddress.address = "Current Location"
-//            self.fetchGroceries(deliveryAddress)
-            /*
-            
-             let spinner = SpinnerView.showSpinnerViewInView(self.view)
-            
-            LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
-                if(spinner != nil){
-                    spinner?.removeFromSuperview()
-                }
-                
-                if  address.lines?.count ?? 0 > 0 {
-                    let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    deliveryAddress.latitude = location.coordinate.latitude
-                    deliveryAddress.longitude = location.coordinate.longitude
-                    deliveryAddress.address = address.lines?.joined(separator: ",") ?? ""
-                     self.gotToMapSelection(deliveryAddress)
-                }else{
-                    let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    deliveryAddress.latitude = location.coordinate.latitude
-                    deliveryAddress.longitude = location.coordinate.longitude
-                    deliveryAddress.address = "Current Location"
-                    self.gotToMapSelection(deliveryAddress)
-                }
-          
-            }) { (error) in
-                
-                let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                deliveryAddress.latitude = location.coordinate.latitude
-                deliveryAddress.longitude = location.coordinate.longitude
-                deliveryAddress.address = "Current Location"
-                self.gotToMapSelection(deliveryAddress)
-            }
-            
-            */
-
         }else{
              self.gotToMapSelection(nil , false)
         }
@@ -353,7 +310,7 @@ class EntryViewController: UIViewController {
             return
         }
         
-        (SDKManager.shared).showAppWithMenu()
+        (sdkManager).showAppWithMenu()
     }
     
     override func backButtonClick() {
@@ -526,7 +483,7 @@ extension EntryViewController: LocationMapViewControllerDelegate {
         //Hunain 26Dec16
         guard let location = location, let name = name else {return}
         addDeliveryAddressForAnonymousUser(withLocation: location, locationName: name,buildingName: building!) { (deliveryAddress) in
-            (SDKManager.shared).showAppWithMenu()
+            (sdkManager).showAppWithMenu()
         }
     }
     

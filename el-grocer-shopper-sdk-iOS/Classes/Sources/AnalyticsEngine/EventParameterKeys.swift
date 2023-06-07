@@ -84,4 +84,7 @@ enum EventParameterKeys {
     static let deepLink             = "deepLink"
     static let pushNotifcation      = "pushNotification"
     
+    static let attemptCount     = "attemptCount"
+    
+    
 }

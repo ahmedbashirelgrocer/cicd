@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8ls-mZ-fDg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8ls-mZ-fDg">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -556,7 +556,7 @@
                             <constraint firstItem="h0o-F6-r7P" firstAttribute="leading" secondItem="8Yt-aN-NOK" secondAttribute="leading" id="PuQ-0Q-8Dc"/>
                             <constraint firstItem="1D2-L2-4tZ" firstAttribute="leading" secondItem="8Yt-aN-NOK" secondAttribute="leading" id="VNR-eo-p97"/>
                             <constraint firstItem="qFf-GY-R6y" firstAttribute="leading" secondItem="8Yt-aN-NOK" secondAttribute="leading" id="nMW-2k-Vlm"/>
-                            <constraint firstItem="8Yt-aN-NOK" firstAttribute="bottom" secondItem="qFf-GY-R6y" secondAttribute="bottom" id="rSf-p4-GPH"/>
+                            <constraint firstAttribute="bottom" secondItem="qFf-GY-R6y" secondAttribute="bottom" id="rSf-p4-GPH"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>

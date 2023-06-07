@@ -131,7 +131,7 @@ class SuggestionsModelDataSource {
         
         func callForRecipe(_ searchString : String) {
             
-            guard SDKManager.isSmileSDK == false else { return }
+            guard sdkManager.isSmileSDK == false else { return }
             
             AlgoliaApi.sharedInstance.gettrendingSearchForRecipe(self.currentGrocery != nil ? nil : nil , searchText: searchString, isUniversal: currentGrocery == nil  ) { (data, error) in
                 if data != nil {
@@ -244,7 +244,7 @@ class SuggestionsModelDataSource {
                             }
                         }
                     }
-                    if !SDKManager.isSmileSDK {
+                    if !sdkManager.isSmileSDK {
                         callForRecipe(currentString)
                     }
                 }
@@ -455,7 +455,7 @@ class SuggestionsModelDataSource {
                                         return searchID == grocery.dbID
                                     }.count > 0
                                 })
-                                addProductData(productsDictionary, recipeList: SDKManager.isSmileSDK ? [] : recipeList, groceryA: groceryA )
+                                addProductData(productsDictionary, recipeList: sdkManager.isSmileSDK ? [] : recipeList, groceryA: groceryA )
                             }
                            
                         }

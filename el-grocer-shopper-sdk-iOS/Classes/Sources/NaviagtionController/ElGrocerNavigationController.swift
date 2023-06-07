@@ -21,6 +21,9 @@ protocol ButtonActionDelegate: class {
     func profileButtonTap()
     func cartButtonTap()
 }
+extension ButtonActionDelegate  {
+    func cartButtonTap(){}
+}
 class ElGrocerNavigationController : UINavigationController {
     
     weak var actiondelegate:NavigationBarProtocol?
@@ -63,6 +66,7 @@ class ElGrocerNavigationController : UINavigationController {
         
         (self.navigationBar as? ElGrocerNavigationBar)?.backButton.addTarget(self, action: #selector(backButtonClick), for: UIControl.Event.touchUpInside)
         (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.addTarget(self, action: #selector(cartButtonClick), for: UIControl.Event.touchUpInside)
+    
         (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.addTarget(self, action: #selector(profileButtonClick), for: UIControl.Event.touchUpInside)
        
     }

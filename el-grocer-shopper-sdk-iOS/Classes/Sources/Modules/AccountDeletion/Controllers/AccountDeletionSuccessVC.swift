@@ -32,7 +32,7 @@ class AccountDeletionSuccessVC: UIViewController, NoStoreViewDelegate {
         showDeletionSuccessView()
     }
     override func viewDidAppear(_ animated: Bool) {
-        SDKManager.shared.logout()
+        sdkManager.logout()
     }
     func setInitialAppearence(){
         

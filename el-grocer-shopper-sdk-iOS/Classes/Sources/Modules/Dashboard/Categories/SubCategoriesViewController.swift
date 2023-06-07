@@ -107,7 +107,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     private func customizedNavigationView() {
         
         
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
         }
         
@@ -136,7 +136,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     private func addLocationHeader() {
         
-        if SDKManager.isGrocerySingleStore {
+        if sdkManager.isGrocerySingleStore {
             self.view.addSubview(self.locationHeaderFlavor)
             self.setLocationViewFlavorHeaderConstraints()
         } else {
@@ -195,7 +195,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             return
         }
         
-        SDKManager.isGrocerySingleStore ?
+        sdkManager.isGrocerySingleStore ?
         self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
         self.locationHeader.currentVC = self
   
@@ -509,7 +509,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         
         scrollView.layoutIfNeeded()
         
-        guard !SDKManager.isGrocerySingleStore else {
+        guard !sdkManager.isGrocerySingleStore else {
             let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
             if constraintA.count > 0 {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
@@ -553,7 +553,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
-            SDKManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
         
         if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {

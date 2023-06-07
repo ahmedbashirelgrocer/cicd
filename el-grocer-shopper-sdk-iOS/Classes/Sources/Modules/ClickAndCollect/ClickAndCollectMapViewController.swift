@@ -166,8 +166,8 @@ class ClickAndCollectMapViewController: UIViewController {
                         ElGrocerUtility.sharedInstance.groceries  = []
                     }
                    
-                    let SDKManager = SDKManager.shared
-                    if let tab = SDKManager.currentTabBar  {
+                    let SDKManager: SDKManagerType! = sdkManager
+                    if let tab = sdkManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                     }
                 }
@@ -329,9 +329,9 @@ class ClickAndCollectMapViewController: UIViewController {
                 
                 self.dismiss(animated: false)
                 
-                // if let SDKManager = SDKManager.shared {
-                    if let navtabbar = SDKManager.shared.rootViewController as? UINavigationController  {
-                        if !(SDKManager.shared.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                // if let SDKManager: SDKManagerType! = sdkManager {
+                    if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
+                        if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
                             if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                                 if ((tabbar.viewControllers?[1] as? UINavigationController) != nil) {
                                     let nav = tabbar.viewControllers?[1] as! UINavigationController

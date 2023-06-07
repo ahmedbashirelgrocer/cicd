@@ -80,7 +80,7 @@ class SchedulePopUp: UIView {
         let view = Bundle.resource.loadNibNamed("SchedulePopUp", owner: nil, options: nil)![0] as! SchedulePopUp
         view.grocery = grocery
         view.setDataInView()
-       // let SDKManager = SDKManager.shared
+       // let SDKManager: SDKManagerType! = sdkManager
        // SDKManager.window?.addSubviewFullscreen(view)
         return view
     }

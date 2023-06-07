@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BannerLink: NSObject {
+public class BannerLink: NSObject {
 
     var bannerLinkId: NSNumber = 0.0
     

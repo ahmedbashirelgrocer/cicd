@@ -45,11 +45,11 @@ class ProductDetailsView : UIView {
     
     class func showWithProduct(_ product:Product, shoppingItem:ShoppingBasketItem?, grocery:Grocery?, delegate:ProductDetailsViewProtocol?) {
         
-        let SDKManager = SDKManager.shared
-        let topView = SDKManager.rootViewController!.view
+        let SDKManager: SDKManagerType! = sdkManager
+        let topView = sdkManager.rootViewController!.view
         
         let view = Bundle.resource.loadNibNamed("ProductDetailsView", owner: nil, options: nil)![0] as! ProductDetailsView
-        view.frame = SDKManager.window!.frame
+        view.frame = sdkManager.window!.frame
         view.blurredBackground.image = topView?.createBlurredSnapShot()
         view.delegate = delegate
         view.setProductData(product, shoppingItem:shoppingItem, grocery:grocery)
@@ -217,7 +217,7 @@ class ProductDetailsView : UIView {
                                           buttonClickCallback: { (buttonIndex:Int) -> Void in
                                             
                                             if buttonIndex == 0 {
-                                                (SDKManager.shared).showEntryView()
+                                                (sdkManager).showEntryView()
                                             }
             }).show()
         }

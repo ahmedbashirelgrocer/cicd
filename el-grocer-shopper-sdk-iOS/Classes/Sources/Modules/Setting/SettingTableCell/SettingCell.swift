@@ -13,7 +13,7 @@ let kSettingCellIdentifier = "SettingTableCell"
 
 let kSettingCellHeight: CGFloat  = 65
 
-class SettingCell: UITableViewCell {
+class SettingCell: RxUITableViewCell {
 
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var itemTitle: UILabel!{
@@ -24,9 +24,11 @@ class SettingCell: UITableViewCell {
     @IBOutlet weak var itemImage: UIImageView!
     @IBOutlet weak var arrowImage: UIImageView! {
         didSet {
-            arrowImage.image = UIImage(name: "SettingArrowForward")
+            arrowImage.image = UIImage(name: "SettingArrowForward")?.withCustomTintColor(color: AppSetting.theme.themeBasePrimaryColor)
         }
     }
+    
+    var viewModel: SettingCellViewModel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,19 +37,29 @@ class SettingCell: UITableViewCell {
         self.backgroundColor = UIColor.separatorColor()
         self.contentView.backgroundColor = UIColor.separatorColor()
         
-        
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         self.backgroundColor = highlighted ? UIColor.unselectedPageControl() : UIColor.clear
+        
+    }
+    
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? SettingCellViewModel else { return }
+        self.viewModel = viewModel
+        self.itemTitle.text = self.viewModel.title
+        self.itemImage.image = self.viewModel.image
     }
     
     
+    @IBAction func clickAction(_ sender: Any) {
+        
+        self.viewModel.handleButtonAction(self.viewModel.cellType)
+    }
     
-    
-    // MARK: Data
-    
+
+    // MARK: Data    
     func configureCellWithTitle(_ title: String, withImage image:String) {
         
         self.itemImage.image = UIImage(name: image)

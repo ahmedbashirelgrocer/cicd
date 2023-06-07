@@ -17,7 +17,7 @@ import PassKit
 
 typealias PaymentCompletionHandler = (Bool) -> Void
 typealias PaymentDetailsAuthorisation = ([String: Any]) -> Void
-let applicationNameForApple = SDKManager.isSmileSDK ? "el grocer DMCC via Smiles" : "el Grocer DMCC"
+let applicationNameForApple = SDKManager.shared.isSmileSDK ? "el grocer DMCC via Smiles" : "el Grocer DMCC"
 class ApplePaymentHandler: NSObject {
     
     var paymentController: PKPaymentAuthorizationController?
@@ -47,7 +47,7 @@ class ApplePaymentHandler: NSObject {
         // Create a payment request.
         let paymentRequest = PKPaymentRequest()
         paymentRequest.paymentSummaryItems = paymentSummaryItems
-        paymentRequest.merchantIdentifier =  (SDKManager.shared.launchOptions?.isSmileSDK ?? false) ? ApplePaymentConfigrations.Merchant.smileProductionIdentifier : ApplePaymentConfigrations.Merchant.identifier
+        paymentRequest.merchantIdentifier =  (sdkManager.launchOptions?.isSmileSDK ?? false) ? ApplePaymentConfigrations.Merchant.smileProductionIdentifier : ApplePaymentConfigrations.Merchant.identifier
         paymentRequest.merchantCapabilities = .capability3DS
         
 //        if let regionCode = Locale.getCurrentLocale().regionCode, let countryCode = FPNCountryCode(rawValue: regionCode) {

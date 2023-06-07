@@ -13,15 +13,27 @@ class ElGrocerActivityIndicatorView: UIImageView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.animationImages = [
-            UIImage(name: "elgrocer-activity-indicator-1")!,
-            UIImage(name: "elgrocer-activity-indicator-2")!,
-            UIImage(name: "elgrocer-activity-indicator-3")!,
-            UIImage(name: "elgrocer-activity-indicator-4")!,
-            UIImage(name: "elgrocer-activity-indicator-5")!,
-            UIImage(name: "elgrocer-activity-indicator-6")!,
-            UIImage(name: "elgrocer-activity-indicator-7")!,
-        ]
+        if #available(iOS 13.0, *) {
+            self.animationImages = [
+                UIImage(name: "elgrocer-activity-indicator-1")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-2")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-3")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-4")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-5")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-6")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+                UIImage(name: "elgrocer-activity-indicator-7")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
+            ]
+        } else {
+            self.animationImages = [
+                UIImage(name: "elgrocer-activity-indicator-1")!,
+                UIImage(name: "elgrocer-activity-indicator-2")!,
+                UIImage(name: "elgrocer-activity-indicator-3")!,
+                UIImage(name: "elgrocer-activity-indicator-4")!,
+                UIImage(name: "elgrocer-activity-indicator-5")!,
+                UIImage(name: "elgrocer-activity-indicator-6")!,
+                UIImage(name: "elgrocer-activity-indicator-7")!,
+            ]
+        }
         
         self.animationDuration = 1.5
         self.animationRepeatCount = 0
@@ -30,13 +42,13 @@ class ElGrocerActivityIndicatorView: UIImageView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         self.layer.cornerRadius = self.bounds.size.width / 2.0
     }
 
 }
 
-class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
+// Please use lottie animation where ever required
+/*class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -85,4 +97,4 @@ class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
         completion?(flag)
     }
     
-}
+}*/

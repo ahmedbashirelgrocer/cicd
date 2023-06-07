@@ -9,6 +9,7 @@ import UIKit
 
 public protocol Theme {
 
+    var currentLocationBgColor: UIColor { get }
     var navigationBarWhiteColor: UIColor { get }
     var replacementGreenBGColor: UIColor { get }
     var replacementGreenTextColor: UIColor { get }
@@ -164,6 +165,8 @@ struct ElgrocerTheme: Theme {
     var newUIrecipelightGrayBGColor: UIColor { #colorLiteral(red: 0.9215686275, green: 0.9254901961, blue: 0.9333333333, alpha: 1) }
     var emptyViewTextColor: UIColor { #colorLiteral(red: 0.6431372549, green: 0.6431372549, blue: 0.6431372549, alpha: 1) }
     
+    var currentLocationBgColor: UIColor = ElgrocerBaseColors.elgrocerLightGreenBgColor
+    
     //MARK: PrimaryTheme for activity indicators and things
     var themeBasePrimaryColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     var themeBaseSecondaryDarkColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
@@ -230,6 +233,7 @@ struct ElgrocerTheme: Theme {
 
 struct SmileSDKTheme: Theme {
     
+    var currentLocationBgColor: UIColor = ElgrocerBaseColors.elgrocerLightGreenBgColor
     var navigationBarWhiteColor: UIColor { #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) }
     var replacementGreenBGColor: UIColor { #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1) }
     var replacementGreenTextColor: UIColor { #colorLiteral(red: 0, green: 0.2784313725, blue: 0.2117647059, alpha: 1) }

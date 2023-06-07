@@ -293,11 +293,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             
             switch campaignType {
             case .brand:
-                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
                 
             case .retailer:
-                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
+                bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
                 
             case .web:
@@ -305,7 +305,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 break
                 
             case .priority:
-                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
+                bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
             }
            
@@ -701,19 +701,23 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 self.navigationController?.dismiss(animated: true, completion: nil)
             }else if vcA.count == 3 {
                 //edit order
+                guard sdkManager.isSmileSDK else {
+                    self.navigationController?.dismiss(animated: false)
+                    return
+                }
                 let appDelegate = SDKManager.shared
                 appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
                 (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
             }else {
                 // simple place order
-               // self.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popToRootViewController(animated: false)
             }
         }
         
         let sdkManage = SDKManager.shared
         if let tab = sdkManage.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
-            tab.selectedIndex = SDKManager.isGrocerySingleStore ? 1 : 0
+            tab.selectedIndex = sdkManager.isGrocerySingleStore ? 1 : 0
         }
     }
     
@@ -751,7 +755,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     func getBanners() {
         let location =  BannerLocation.post_checkout.getType()
         self.viewBanner.bannerType = BannerLocation.post_checkout
-        let retailer_ids = SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        let retailer_ids = sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
         
         ElGrocerApi.sharedInstance.getBannersFor(location: location, retailer_ids: retailer_ids) { result in
             switch result {

@@ -211,8 +211,12 @@ extension UILabel {
         self.font = UIFont.SFProDisplayNormalFont(17)
         self.textColor = UIColor.newBlackColor()
     }
-    func setH4SemiBoldStyle(){
+    func setH4BoldStyle(){
         self.font = UIFont.SFProDisplayBoldFont(17)
+        self.textColor = UIColor.newBlackColor()
+    }
+    func setH4SemiBoldStyle(){
+        self.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.textColor = UIColor.newBlackColor()
     }
     func setH4SemiBoldWhiteStyle(){
@@ -412,6 +416,21 @@ extension UILabel {
         self.textColor = UIColor.navigationBarWhiteColor()
     }
     
+    func setBody2RegSecondaryBlackStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(16)
+        self.textColor = UIColor.secondaryBlackColor()
+    }
+    
+    func setBody2RegBlackStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(16)
+        self.textColor = UIColor.black
+    }
+    
+    func setH4SemiBoldGreenStyle(){
+        self.font = UIFont.SFProDisplayBoldFont(17)
+        self.textColor = UIColor.navigationBarColor()
+    }
+    
 }
 
 extension UIButton {
@@ -447,7 +466,7 @@ extension UIButton {
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     func setBody3BoldGreenStyle(){
-        self.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
+        self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     func setBody3BoldWhiteStyle(){

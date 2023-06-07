@@ -45,22 +45,40 @@ extension UIViewController {
         backButton.tintColor = UIColor.newBlackColor()
         self.navigationItem.rightBarButtonItem = backButton
     }
+    
+    
+    func addWhiteBackButton() {
+        
+        var image = ElGrocerUtility.sharedInstance.getImageWithName("BackWhite")
+        let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
+        backButton.tintColor = .white
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    
+    func addGreenBackButton() {
+        
+        var image = ElGrocerUtility.sharedInstance.getImageWithName("BackGreen")
+        let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
+        backButton.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    
 
 
-    func addBackButton( isGreen : Bool = true, _ isBlack: Bool = SDKManager.isSmileSDK) {
+    func addBackButton( isGreen : Bool = true, _ isBlack: Bool = SDKManager.shared.isSmileSDK) {
         
         var image = UIImage()
         if isGreen{
            image = ElGrocerUtility.sharedInstance.getImageWithName("BackGreen")
         }else{
-           image = ElGrocerUtility.sharedInstance.getImageWithName("backPinPurple")
+           image = ElGrocerUtility.sharedInstance.getImageWithName("BackWhite")
         }
         if isBlack {
             image = ElGrocerUtility.sharedInstance.getImageWithName("backPinPurple")
         }
         
         let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
-        backButton.tintColor = isGreen ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.newBlackColor
+        backButton.tintColor = sdkManager.isShopperApp ? .white : (isGreen ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.newBlackColor)
         self.navigationItem.leftBarButtonItem = backButton
     }
     

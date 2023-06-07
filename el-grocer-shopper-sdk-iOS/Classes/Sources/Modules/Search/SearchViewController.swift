@@ -128,7 +128,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.navigationController!.navigationBar.topItem!.title = localizedString("search_placeholder", comment: "")
         }
         if !isForEditOrder && isNavigateToSearch{
-            self.addRightCrossButton(SDKManager.isShopperApp)
+            self.addRightCrossButton(sdkManager.isShopperApp)
         }
    
       //  self.collectionView.backgroundColor = UIColor.white // removed while merging
@@ -919,7 +919,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
-            SDKManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
         }
     }
     
@@ -1141,7 +1141,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor :  ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
+        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor :  ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor

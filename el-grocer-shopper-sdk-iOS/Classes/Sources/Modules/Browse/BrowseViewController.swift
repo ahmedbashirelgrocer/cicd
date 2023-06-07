@@ -68,7 +68,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     
     private func addLocationHeader() {
         
-        if SDKManager.isGrocerySingleStore {
+        if sdkManager.isGrocerySingleStore {
             self.view.addSubview(self.locationHeaderFlavor)
             self.setLocationViewFlavorHeaderConstraints()
         } else {
@@ -131,7 +131,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        if SDKManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
+        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.registerCellsForTableView()
         self.setupClearNavBar()
         DispatchQueue.main.async {
@@ -193,7 +193,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
       
         if ((error?.code ?? 0) >= 500 && (error?.code ?? 0) <= 599) ||  (error?.code ?? 0) == -1011 {
             
-            if let views = SDKManager.shared.window?.subviews {
+            if let views = sdkManager.window?.subviews {
                 var popUp : NotificationPopup? = nil
                 for dataView in views {
                     if let popUpView = dataView as? NotificationPopup {
@@ -206,7 +206,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
                 }
             }
             
-            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                 if buttonIndex == 1 {
                     self.refreshSlotChange()
                 } else {
@@ -312,7 +312,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     
     func addImages(){
         
-        if let window = SDKManager.shared.window {
+        if let window = sdkManager.window {
             let image =  UIImage.init(named: "Store page-Main")
             let windowFrame = CGRect.init(x: 0, y: 20, width: image?.size.width ?? 360, height: image?.size.height ?? 824)
             let imageView = UIImageView(frame: windowFrame)
@@ -332,7 +332,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            SDKManager.isGrocerySingleStore ?
+            sdkManager.isGrocerySingleStore ?
             self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
             
             self.tableViewCategories.tableHeaderView = nil
@@ -508,7 +508,7 @@ extension BrowseViewController: UIScrollViewDelegate {
         // locationHeader.myGroceryName.sizeToFit()
          scrollView.layoutIfNeeded()
          
-         guard !SDKManager.isGrocerySingleStore else {
+         guard !sdkManager.isGrocerySingleStore else {
              let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
              if constraintA.count > 0 {
                  let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
@@ -541,7 +541,7 @@ extension BrowseViewController: UIScrollViewDelegate {
              self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
              let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
              self.navigationController?.navigationBar.topItem?.title = title
-             SDKManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+             sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
          }
     
         

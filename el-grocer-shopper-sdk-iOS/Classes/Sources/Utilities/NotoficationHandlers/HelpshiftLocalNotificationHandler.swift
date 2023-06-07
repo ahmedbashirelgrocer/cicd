@@ -21,7 +21,7 @@ class HelpshiftLocalNotificationHandler: LocalNotificationHandlerType {
         
         // The notification is a helpshift notification so we can handle it
         
-        /*guard let SDKManager = SDKManager.shared else {
+        /*guard let SDKManager: SDKManagerType! = sdkManager else {
             return false
         }
         

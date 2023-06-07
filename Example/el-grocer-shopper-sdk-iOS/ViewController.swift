@@ -143,16 +143,19 @@ class ViewController: UIViewController {
                 refreshAlert.addAction(UIAlertAction(title: "STAGING", style: .default, handler: {[weak self] (action: UIAlertAction!) in
                     guard let self = self else {return}
                     self.environment = .staging
+                    DBPubicAccessForDummyAppOnly.resetDB()
                 }))
 
                 refreshAlert.addAction(UIAlertAction(title: "PRE-ADMIN", style: .default, handler: { [weak self] (action: UIAlertAction!) in
                     guard let self = self else {return}
                     self.environment = .preAdmin
+                    DBPubicAccessForDummyAppOnly.resetDB()
                 }))
                 
                 refreshAlert.addAction(UIAlertAction(title: "LIVE", style: .default, handler: { [weak self]  (action: UIAlertAction!) in
                     guard let self = self else {return}
                     self.environment = .live
+                    DBPubicAccessForDummyAppOnly.resetDB()
                 }))
 
                 present(refreshAlert, animated: true, completion: nil)
@@ -177,8 +180,10 @@ class ViewController: UIViewController {
     }
     
     @objc func startSDK() {
-        let launchOptions = getLaunchOptions()
         
+       
+        
+        let launchOptions = getLaunchOptions()
         ElGrocer.start(with: launchOptions)
         
        // ElGrocer.configure(with: launchOptions) { (_ isLoaded: Bool) in  }

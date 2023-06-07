@@ -9,28 +9,20 @@
 import UIKit
 let kSignOutCellIdentifier = "SignOutCell"
 let kSignOutCellHeight: CGFloat  = 90
-class SignOutCell: UITableViewCell {
-    
-     var signOutHandler: (()->Void)?
+class SignOutCell: RxUITableViewCell {
+    var viewModel: SettingCellViewModel!
     @IBOutlet weak var signOutButton: UIButton!{
         didSet{
             signOutButton.setH4SemiBoldGreenStyle()
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? SettingCellViewModel else { return }
+        self.viewModel = viewModel
     }
     
     @IBAction func signOutActionCalled(_ sender: Any) {
-        if signOutHandler != nil {
-            self.signOutHandler!()
-        }
+        self.viewModel.handleButtonAction(SettingNavigationUseCase.SignOut)
     }
 }

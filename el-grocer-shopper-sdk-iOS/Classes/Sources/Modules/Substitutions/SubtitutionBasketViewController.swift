@@ -580,7 +580,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
         //show confirmation alert
         
         
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: ""),localizedString("sign_out_alert_no", comment: "")  , localizedString("sign_out_alert_yes", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -46,17 +46,33 @@
                                     <constraint firstAttribute="height" constant="0.5" id="NYs-Jt-dPO"/>
                                 </constraints>
                             </view>
+                            <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YiU-uY-tue">
+                                <rect key="frame" x="8" y="0.0" width="436" height="49.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="clickAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ETJ-BK-JtO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="jAj-Ym-Dph" secondAttribute="trailing" constant="16" id="5sy-37-7Ep"/>
+                            <constraint firstAttribute="trailing" secondItem="YiU-uY-tue" secondAttribute="trailing" id="H3Y-wX-xSG"/>
+                            <constraint firstItem="jAj-Ym-Dph" firstAttribute="top" secondItem="YiU-uY-tue" secondAttribute="bottom" id="L8f-W0-C5q"/>
                             <constraint firstItem="HTE-UW-MiM" firstAttribute="leading" secondItem="2og-5J-Gr8" secondAttribute="trailing" constant="10" id="LCu-cA-9tv"/>
                             <constraint firstItem="2og-5J-Gr8" firstAttribute="leading" secondItem="KYd-Is-Lmx" secondAttribute="leading" constant="16" id="TDY-tD-sB5"/>
                             <constraint firstAttribute="bottom" secondItem="jAj-Ym-Dph" secondAttribute="bottom" id="b90-hy-nVH"/>
                             <constraint firstItem="HTE-UW-MiM" firstAttribute="centerY" secondItem="2og-5J-Gr8" secondAttribute="centerY" id="fNZ-OP-iD8"/>
                             <constraint firstItem="L2J-Nk-TVt" firstAttribute="centerY" secondItem="KYd-Is-Lmx" secondAttribute="centerY" id="gH6-nL-RyO"/>
                             <constraint firstItem="jAj-Ym-Dph" firstAttribute="leading" secondItem="KYd-Is-Lmx" secondAttribute="leading" constant="16" id="l2f-fm-3DX"/>
+                            <constraint firstItem="YiU-uY-tue" firstAttribute="top" secondItem="KYd-Is-Lmx" secondAttribute="top" id="oxJ-1p-Zpc"/>
                             <constraint firstAttribute="trailing" secondItem="L2J-Nk-TVt" secondAttribute="trailing" constant="16" id="sK6-zp-r25"/>
+                            <constraint firstItem="YiU-uY-tue" firstAttribute="leading" secondItem="KYd-Is-Lmx" secondAttribute="leading" constant="8" id="w9r-9R-25H"/>
                             <constraint firstItem="2og-5J-Gr8" firstAttribute="centerY" secondItem="KYd-Is-Lmx" secondAttribute="centerY" id="yfr-Px-Ecc"/>
                         </constraints>
                     </view>

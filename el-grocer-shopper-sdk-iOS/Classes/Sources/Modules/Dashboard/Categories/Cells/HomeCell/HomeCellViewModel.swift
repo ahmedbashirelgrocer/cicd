@@ -152,7 +152,7 @@ private extension HomeCellViewModel {
             let pageNumber = self.offset / self.limit
             
             guard category.id > 1 else {
-                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: 0, 10, Int64(deliveryTime)) { [weak self] content, error in
+                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: pageNumber, self.limit, Int64(deliveryTime)) { [weak self] content, error in
                     if let _ = error {
                         //  print("handle error >>> \(error)")
                         return

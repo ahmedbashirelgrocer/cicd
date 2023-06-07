@@ -183,7 +183,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = .navigationBarWhiteColor()
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        self.addRightCrossButton(SDKManager.isShopperApp)
+        self.addRightCrossButton(sdkManager.isShopperApp)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -289,7 +289,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }
         if (indexOfDefaultLocation != nil){
             let location = self.locations[indexOfDefaultLocation!]
-            guard !SDKManager.isGrocerySingleStore else {
+            guard !sdkManager.isGrocerySingleStore else {
                 self.updateStore(location: location) { [weak self ] (isStoreChange) in
                     if isStoreChange {
                         self?.startUpdatingLocationToServerProcess(location)
@@ -384,7 +384,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
             self.makeLocationToDefault(location)
         
-        if !SDKManager.isGrocerySingleStore {
+        if !sdkManager.isGrocerySingleStore {
             ElGrocerUtility.sharedInstance.activeGrocery = nil
                 ElGrocerUtility.sharedInstance.resetRecipeView()
         }
@@ -433,48 +433,21 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.newSelectedAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         self.locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         self.locations.sort {$0.isActive.boolValue && !$1.isActive.boolValue}
-        
-       elDebugPrint("Locations Array Count:%d",self.locations.count)
-        
+      
         if (self.searchString.isEmpty) {
-            
             //Show view according to location service
             self.showViewAccordingToLocationService()
-            
             // Hide done button if no location is added or found
-             self.hideDoneButton(self.locations.count == 0)
+            self.hideDoneButton(self.locations.count == 0)
             
-        }else{
+        } else {
             self.hideCurrentLocationView(true)
             self.hideDisableLocationView(true)
             self.hideDoneButton(true)
         }
-        
-        /*if self.searchString.isEmpty && self.locations.count == 0 {
-            self.hideDoneButton(true)
-        }else{
-            
-            if self.searchString.isEmpty{
-                self.hideDoneButton(false)
-                self.showViewAccordingToLocationService()
-            }else{
-                self.hideCurrentLocationView(true)
-                self.hideDisableLocationView(true)
-                self.hideDoneButton(true)
-            }
-        }*/
-        
         self.tableView.isHidden = false
         self.tableView.reloadData()
         
-        //tutorial
-         if !UserDefaults.wasLocationTutorialShown() {
-//            self.tableView.isScrollEnabled = false
-//            if isNeedShowAniamtion {
-//                Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(DashboardLocationViewController.addAnimationEffect), userInfo: nil, repeats: false)
-//            }
-            
-         }
     }
     
     // MARK: Animation
@@ -1024,7 +997,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 }
                  let location = self.locations[(indexPath as NSIndexPath).row]
                 
-                guard !SDKManager.isGrocerySingleStore else {
+                guard !sdkManager.isGrocerySingleStore else {
                     self.updateStore(location: location) { [weak self ] (isStoreChange) in
                         if isStoreChange {
                             self?.startUpdatingLocationToServerProcess(location)
@@ -1144,8 +1117,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             return
         }
         
-        let SDKManager = SDKManager.shared
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: SDKManager.window!) { (index) in
+        let SDKManager = sdkManager
+        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "LocationDelete") , header: "", detail: localizedString("dashboard_location_delete_alert_message", comment: ""),localizedString("sign_out_alert_yes", comment: ""),localizedString("sign_out_alert_no", comment: "") , withView: (SDKManager?.window!)!) { (index) in
             
             if index == 0 {
                  self.removeUserLocation(cell)
@@ -1279,7 +1252,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         self.dismiss(animated: true) {
             
-            if SDKManager.isSmileSDK {
+            if SDKManager.shared.isSmileSDK {
                 if UIApplication.topViewController() is UniversalSearchViewController, ElGrocerUtility.sharedInstance.activeGrocery == nil {
                     
                     if let topVc = UIApplication.topViewController() {
@@ -1521,7 +1494,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             self.dismiss(animated: true) {
                                 if ElGrocerUtility.sharedInstance.activeGrocery == nil {
                                     if let topVc = UIApplication.topViewController() {
-                                        topVc.tabBarController?.selectedIndex = SDKManager.isGrocerySingleStore ? 1 : 0
+                                        topVc.tabBarController?.selectedIndex = sdkManager.isGrocerySingleStore ? 1 : 0
                                     }
                                     //self.tabBarController?.selectedIndex = 0
                                 }
@@ -1536,7 +1509,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                             self.redirectIfLogged(editLocationController,  false)
                         }
                     }else {
-                        if !SDKManager.isGrocerySingleStore { self.fetchGroceries() } else {
+                        if !sdkManager.isGrocerySingleStore { self.fetchGroceries() } else {
                             
                             ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
                             self.dismiss(animated: true)
@@ -1600,7 +1573,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         
         let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: location.address, building: location.building, cityName: "")
-        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
+        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext),FlowOrientation.AddNewAddress)
         redirectIfLogged(editLocationController,  true)
         
         
@@ -1689,7 +1662,7 @@ extension DashboardLocationViewController: LocationMapViewControllerDelegate {
     
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?) {
         
-        self.navigationController?.popViewController(animated: true)
+//        self.navigationController?.popViewController(animated: true)
         self.addDeliveryAddressWithLocation(selectedLocation: location!, withLocationName: name!, andWithUserAddress: address!, building: building ?? "", cityName: cityName)
         
         // Logging segment for confirm delivery location

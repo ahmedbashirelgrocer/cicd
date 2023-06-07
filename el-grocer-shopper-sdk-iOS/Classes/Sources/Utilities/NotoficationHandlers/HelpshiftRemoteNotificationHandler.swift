@@ -21,7 +21,7 @@ class HelpshiftRemoteNotificationHandler: RemoteNotificationHandlerType {
         
         // The notification is a helpshift notification so we can handle it
         
-//        guard let _ = SDKManager.shared else {
+//        guard let _: SDKManagerType! = sdkManager else {
 //            return false
 //        }
         

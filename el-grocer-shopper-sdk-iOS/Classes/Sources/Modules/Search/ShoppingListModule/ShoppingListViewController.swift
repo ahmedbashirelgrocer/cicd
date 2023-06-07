@@ -168,7 +168,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
             (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
             self.addBackButton(isGreen: false)
             if isFromHeader{
-                self.addRightCrossButton(SDKManager.isShopperApp)
+                self.addRightCrossButton(sdkManager.isShopperApp)
             }
             
         }
@@ -181,7 +181,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
     
     func addImages(){
         
-        if let window = SDKManager.shared.window {
+        if let window = sdkManager.window {
             let image =  UIImage.init(named: "Store page-Main")
             let windowFrame = CGRect.init(x: 0, y: 0, width: image?.size.width ?? 375, height: image?.size.height ?? 2275)
             let imageView = UIImageView(frame: windowFrame)

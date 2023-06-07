@@ -4,9 +4,7 @@
 //
 //  Created by M Abubaker Majeed on 02/09/2020.
 //  Copyright © 2020 elGrocer. All rights reserved.
-//
 
-import UIKit
 
 import SwiftDate
 import UIKit

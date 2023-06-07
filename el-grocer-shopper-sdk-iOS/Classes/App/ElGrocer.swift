@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 import FirebaseCore
 
+var sdkManager: SDKManagerType!
 
 public final class ElGrocer {
     // elgrocer
@@ -19,15 +20,24 @@ public final class ElGrocer {
  
     static func startEngine(with launchOptions: LaunchOptions? = nil, completion: (() -> Void)?  = nil) {
         
+        if launchOptions?.isSmileSDK == true {
+            sdkManager = SDKManager.shared
+        } else {
+            sdkManager = SDKManagerShopper.shared
+            
+        }
+
         SDKManager.shared.launchCompletion = completion
         
         if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType || SDKManager.shared.launchOptions?.language != launchOptions?.language {
+            SDKManager.shared.launchOptions = launchOptions
             HomePageData.shared.groceryA = []
+        } else {
             SDKManager.shared.launchOptions = launchOptions
         }
         
         DispatchQueue.main.async {
-
+            
             func defers() {
                 ElGrocer.isSDKLoaded = true
                 ElGrocerUtility.sharedInstance.delay(0.2) {
@@ -96,7 +106,6 @@ public final class ElGrocer {
             
         }
         
-        
     }
     
     static func showDefaultErrorForDB() {
@@ -127,7 +136,7 @@ public enum EnvironmentType {
         
         switch self {
             case .staging:
-                return "Debug"
+                return "StagingProduction"
             case .preAdmin:
                 return "PreAdmin"
             case .live:
@@ -231,7 +240,7 @@ public struct LaunchOptions {
             self.isFromPush = true
         }
     }
-    
+
     public init(
         latitude: Double?,
         longitude: Double?,
@@ -241,7 +250,24 @@ public struct LaunchOptions {
         self.longitude = longitude
         self.marketType = marketType
         self.language = language
+        if self.marketType == .shopper {
+           self.theme = ApplicationTheme.elGrocerShopperTheme()
+        }
     }
+    // only for elgrocer Shopper Use.
+    public init(
+        _ marketType : MarketType = .shopper,
+        _ language: String? = nil, _ evviromentType: EnvironmentType) {
+        self.marketType = marketType
+        self.language = language
+        if self.marketType == .shopper {
+           self.theme = ApplicationTheme.elGrocerShopperTheme()
+           self.environmentType = evviromentType
+        }
+    }
+    
+    
+    
     
     func toString() -> String? {
         var data : [String : Any] = ["lat": self.latitude ?? 0.0,
@@ -264,7 +290,7 @@ func elDebugPrint(_ items: Any...,
                   function: String = #function,
                   file: String = #file) {
     #if DEBUG
-    if SDKManager.shared.launchOptions?.isLoggingEnabled == true {
+    if sdkManager.launchOptions?.isLoggingEnabled == true {
         var index = items.startIndex
         let end = items.endIndex
         // Swift.debugPrint("==> File: \(file), Function: \(function) <==")

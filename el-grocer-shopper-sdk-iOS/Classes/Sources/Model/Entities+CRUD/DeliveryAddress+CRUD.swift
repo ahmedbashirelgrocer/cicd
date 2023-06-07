@@ -103,6 +103,7 @@ extension DeliveryAddress {
         location.locationName = adressDict["address_name"] as! String
         location.shopperName = adressDict["shopper_name"] as? String
         location.phoneNumber = adressDict["phone_number"] as? String
+        location.nickName = adressDict["nick_name"] as? String
         
         if let dataIDc = adressDict["address_tag"] as? NSDictionary {
             location.addressTagId = dataIDc["id"] as? String

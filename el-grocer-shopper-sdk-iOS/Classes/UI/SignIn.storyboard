@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -27,399 +27,6 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Sign In View Controller-->
-        <scene sceneID="OD5-LE-FSu">
-            <objects>
-                <viewController storyboardIdentifier="SignInViewController" id="MEr-fz-fia" customClass="SignInViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="bEs-Np-UAU"/>
-                        <viewControllerLayoutGuide type="bottom" id="An7-D7-m3y"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="rsA-Fp-xob">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nqK-na-4W8">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U3R-Qt-ve2">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="meO-iP-0w1">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="569"/>
-                                            </imageView>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Xtq-no-XvZ" customClass="ElgrocerSegmentControl" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="18" y="124" width="284" height="41"/>
-                                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="2hn-g8-j8J"/>
-                                                </constraints>
-                                                <segments>
-                                                    <segment title="New to elGrocer?"/>
-                                                    <segment title="Have an Account?"/>
-                                                </segments>
-                                                <color key="tintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="selectedSegmentTintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <connections>
-                                                    <action selector="segmentAction:" destination="MEr-fz-fia" eventType="valueChanged" id="OWU-kX-NwZ"/>
-                                                </connections>
-                                            </segmentedControl>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log in to elGrocer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDz-M2-gDJ">
-                                                <rect key="frame" x="84" y="0.0" width="152.5" height="0.0"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" id="DSo-D7-DFq"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                                <color key="textColor" red="0.25882352939999997" green="0.59999999999999998" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JXn-cY-eCh" userLabel="PhoneNumber" customClass="FPNTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="265" width="288" height="56"/>
-                                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="56" id="XGe-e9-9KM"/>
-                                                </constraints>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="ASCIICapableNumberPad" returnKeyType="done"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
-                                                        <real key="value" value="8"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </textField>
-                                            <textField clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nBJ-ca-f4l" customClass="ElgrocerTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="265" width="288" height="56"/>
-                                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="56" id="hef-yu-3hp"/>
-                                                </constraints>
-                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done" textContentType="email"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
-                                                        <real key="value" value="8"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <outlet property="delegate" destination="MEr-fz-fia" id="1dD-Vp-cH0"/>
-                                                </connections>
-                                            </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZIA-Ci-rQQ" customClass="ElgrocerTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="337" width="288" height="56"/>
-                                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="56" id="LnQ-SN-ejm"/>
-                                                </constraints>
-                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.73999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
-                                                        <real key="value" value="8"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <outlet property="delegate" destination="MEr-fz-fia" id="jfU-D6-uPP"/>
-                                                </connections>
-                                            </textField>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lT7-FY-mLe">
-                                                <rect key="frame" x="16" y="409" width="130" height="20"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="68K-S0-LtP"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="15"/>
-                                                <state key="normal" title="Forgot a password?">
-                                                    <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="forgotPasswordHandler:" destination="MEr-fz-fia" eventType="touchUpInside" id="SAM-Nb-7dF"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-UU-yfm" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="453" width="288" height="56"/>
-                                                <color key="backgroundColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="56" id="GrL-0n-Dk9"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
-                                                <color key="tintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="LOG IN">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
-                                                        <real key="value" value="28"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <real key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleShadowColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="size" keyPath="titleLabelShadowOffset">
-                                                        <size key="value" width="0.0" height="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="titleShadowOpacity">
-                                                        <real key="value" value="0.5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="titleShadowRadius">
-                                                        <real key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                        <size key="value" width="0.0" height="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="loginButtonHandler:" destination="MEr-fz-fia" eventType="touchUpInside" id="OD8-AK-XTz"/>
-                                                </connections>
-                                            </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dt-Sk-fz6" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="2.5" y="569" width="315" height="50"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="315" id="Lzy-Jd-fP8"/>
-                                                    <constraint firstAttribute="height" constant="50" id="vns-Gp-MIP"/>
-                                                </constraints>
-                                                <state key="normal" image="fbGreen">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
-                                                        <real key="value" value="22"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <real key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleShadowColor">
-                                                        <color key="value" red="0.31372549020000001" green="0.65098039220000004" blue="0.2784313725" alpha="0.521484375" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="size" keyPath="titleLabelShadowOffset">
-                                                        <size key="value" width="0.0" height="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="titleShadowOpacity">
-                                                        <real key="value" value="0.5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="titleShadowRadius">
-                                                        <real key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                        <size key="value" width="0.0" height="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="loginButtonHandler:" destination="MEr-fz-fia" eventType="touchUpInside" id="so0-yH-V7J"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpl-V8-Qw7">
-                                                <rect key="frame" x="264" y="353" width="24" height="24"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="eyeGray"/>
-                                                <connections>
-                                                    <action selector="showPasswordHandler:" destination="MEr-fz-fia" eventType="touchUpInside" id="irR-Mv-WiQ"/>
-                                                </connections>
-                                            </button>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppGreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Q3j-YC-dvI">
-                                                <rect key="frame" x="42.5" y="15" width="235" height="83"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7vX-AG-nUG">
-                                                <rect key="frame" x="213" y="687" width="135" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
-                                                <state key="normal" title="New here?  Sign Up">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="signUpButtonHandler:" destination="MEr-fz-fia" eventType="touchUpInside" id="8t7-DC-HsS"/>
-                                                </connections>
-                                            </button>
-                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="or-SignIn" translatesAutoresizingMaskIntoConstraints="NO" id="gst-IE-GpL">
-                                                <rect key="frame" x="68" y="644.5" width="125" height="1"/>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome back!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROd-M5-vVD">
-                                                <rect key="frame" x="92" y="188" width="136" height="28"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="28" id="wS2-MM-Eu7"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
-                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Want to explore the app first?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fm1-ge-Va3">
-                                                <rect key="frame" x="51" y="533" width="218.5" height="20"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="6kC-ly-5q8"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
-                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your registered email and password" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="bIw-J4-PbP">
-                                                <rect key="frame" x="16" y="232" width="288" height="17"/>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
-                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vnl-N2-MwG">
-                                                <rect key="frame" x="80.5" y="554" width="159" height="20"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="t89-ue-3OA"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
-                                                <state key="normal" title="Choose your location">
-                                                    <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="chooseLocation:" destination="MEr-fz-fia" eventType="touchUpInside" id="FeS-vc-AX5"/>
-                                                </connections>
-                                            </button>
-                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YXk-kE-zgu">
-                                                <rect key="frame" x="32" y="321" width="31" height="15"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstItem="ZIA-Ci-rQQ" firstAttribute="top" secondItem="JXn-cY-eCh" secondAttribute="bottom" priority="700" constant="16" id="0CT-dt-gKE"/>
-                                            <constraint firstItem="JXn-cY-eCh" firstAttribute="top" secondItem="bIw-J4-PbP" secondAttribute="bottom" constant="16" id="12d-ho-30k"/>
-                                            <constraint firstItem="dpl-V8-Qw7" firstAttribute="centerY" secondItem="ZIA-Ci-rQQ" secondAttribute="centerY" id="2Nz-XM-e2R"/>
-                                            <constraint firstItem="Fm1-ge-Va3" firstAttribute="centerX" secondItem="U3R-Qt-ve2" secondAttribute="centerX" id="2T0-WK-xcP"/>
-                                            <constraint firstItem="uwq-UU-yfm" firstAttribute="top" secondItem="lT7-FY-mLe" secondAttribute="bottom" constant="24" id="2ru-xm-Aor"/>
-                                            <constraint firstItem="bIw-J4-PbP" firstAttribute="top" secondItem="ROd-M5-vVD" secondAttribute="bottom" constant="16" id="3n8-tA-i3e"/>
-                                            <constraint firstAttribute="trailing" secondItem="bIw-J4-PbP" secondAttribute="trailing" constant="16" id="5sz-On-TeG"/>
-                                            <constraint firstAttribute="trailing" secondItem="meO-iP-0w1" secondAttribute="trailing" id="91g-RN-7jh"/>
-                                            <constraint firstItem="uwq-UU-yfm" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" constant="16" id="9A3-rj-29W"/>
-                                            <constraint firstItem="vnl-N2-MwG" firstAttribute="centerX" secondItem="bIw-J4-PbP" secondAttribute="centerX" id="9ab-0V-8fb"/>
-                                            <constraint firstItem="ROd-M5-vVD" firstAttribute="centerX" secondItem="U3R-Qt-ve2" secondAttribute="centerX" id="EpW-f7-Nht"/>
-                                            <constraint firstItem="fDz-M2-gDJ" firstAttribute="centerX" secondItem="U3R-Qt-ve2" secondAttribute="centerX" id="HMI-tJ-VZi"/>
-                                            <constraint firstItem="Q3j-YC-dvI" firstAttribute="centerX" secondItem="U3R-Qt-ve2" secondAttribute="centerX" id="KQ9-jR-yoz"/>
-                                            <constraint firstItem="lT7-FY-mLe" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" constant="16" id="KRU-mq-kC1"/>
-                                            <constraint firstItem="meO-iP-0w1" firstAttribute="top" secondItem="U3R-Qt-ve2" secondAttribute="top" id="Kcb-3D-DSL"/>
-                                            <constraint firstItem="gst-IE-GpL" firstAttribute="top" secondItem="7Dt-Sk-fz6" secondAttribute="bottom" constant="25.5" id="LXb-qh-s5h"/>
-                                            <constraint firstItem="lT7-FY-mLe" firstAttribute="top" secondItem="ZIA-Ci-rQQ" secondAttribute="bottom" constant="16" id="NHT-gM-7ix"/>
-                                            <constraint firstAttribute="trailing" secondItem="dpl-V8-Qw7" secondAttribute="trailing" constant="32" id="PkU-Nv-RcO"/>
-                                            <constraint firstAttribute="trailing" secondItem="uwq-UU-yfm" secondAttribute="trailing" constant="16" id="R1U-0C-Meh"/>
-                                            <constraint firstItem="Fm1-ge-Va3" firstAttribute="top" secondItem="uwq-UU-yfm" secondAttribute="bottom" constant="24" id="Sll-hz-JCL"/>
-                                            <constraint firstItem="YXk-kE-zgu" firstAttribute="leading" secondItem="JXn-cY-eCh" secondAttribute="leading" constant="16" id="THo-wY-NdX"/>
-                                            <constraint firstItem="Xtq-no-XvZ" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" constant="18" id="VoE-tg-mWL"/>
-                                            <constraint firstItem="Q3j-YC-dvI" firstAttribute="top" secondItem="fDz-M2-gDJ" secondAttribute="bottom" constant="15" id="VpK-L5-5xk"/>
-                                            <constraint firstItem="7Dt-Sk-fz6" firstAttribute="centerX" secondItem="vnl-N2-MwG" secondAttribute="centerX" id="Wuc-hF-LpX"/>
-                                            <constraint firstItem="ZIA-Ci-rQQ" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" constant="16" id="XTn-cz-8Fh"/>
-                                            <constraint firstItem="7Dt-Sk-fz6" firstAttribute="top" secondItem="meO-iP-0w1" secondAttribute="bottom" id="Zfc-bX-qqe"/>
-                                            <constraint firstItem="ROd-M5-vVD" firstAttribute="top" secondItem="Xtq-no-XvZ" secondAttribute="bottom" constant="24" id="bLz-3U-7Cn"/>
-                                            <constraint firstItem="Xtq-no-XvZ" firstAttribute="top" secondItem="Q3j-YC-dvI" secondAttribute="bottom" constant="26" id="cqj-VY-glC"/>
-                                            <constraint firstItem="bIw-J4-PbP" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" constant="16" id="fLL-Yp-egS"/>
-                                            <constraint firstItem="gst-IE-GpL" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" constant="68" id="h4e-iJ-Skx"/>
-                                            <constraint firstItem="YXk-kE-zgu" firstAttribute="top" secondItem="JXn-cY-eCh" secondAttribute="bottom" id="iDK-pS-LWL"/>
-                                            <constraint firstItem="JXn-cY-eCh" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" constant="16" id="j9Y-xD-P2p"/>
-                                            <constraint firstItem="vnl-N2-MwG" firstAttribute="top" secondItem="Fm1-ge-Va3" secondAttribute="bottom" constant="1" id="oHi-Dj-gwK"/>
-                                            <constraint firstItem="meO-iP-0w1" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" id="oMt-F3-WUY"/>
-                                            <constraint firstItem="nBJ-ca-f4l" firstAttribute="top" secondItem="bIw-J4-PbP" secondAttribute="bottom" constant="16" id="qGP-Cs-Dbl"/>
-                                            <constraint firstAttribute="trailing" secondItem="nBJ-ca-f4l" secondAttribute="trailing" constant="16" id="qzM-5l-5vT"/>
-                                            <constraint firstAttribute="trailing" secondItem="Xtq-no-XvZ" secondAttribute="trailing" constant="18" id="rYf-Y0-vWr"/>
-                                            <constraint firstItem="fDz-M2-gDJ" firstAttribute="top" secondItem="U3R-Qt-ve2" secondAttribute="top" id="rpU-th-c8B"/>
-                                            <constraint firstAttribute="trailing" secondItem="ZIA-Ci-rQQ" secondAttribute="trailing" constant="16" id="rqf-k7-gHq"/>
-                                            <constraint firstItem="7Dt-Sk-fz6" firstAttribute="top" secondItem="U3R-Qt-ve2" secondAttribute="top" constant="569" id="t02-dF-rMh"/>
-                                            <constraint firstItem="bIw-J4-PbP" firstAttribute="centerX" secondItem="U3R-Qt-ve2" secondAttribute="centerX" id="uTM-Vh-Xsg"/>
-                                            <constraint firstItem="nBJ-ca-f4l" firstAttribute="leading" secondItem="U3R-Qt-ve2" secondAttribute="leading" constant="16" id="vkW-az-gZs"/>
-                                            <constraint firstAttribute="trailing" secondItem="JXn-cY-eCh" secondAttribute="trailing" constant="16" id="yfG-rd-sPu"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="U3R-Qt-ve2" firstAttribute="top" secondItem="nqK-na-4W8" secondAttribute="top" id="0G3-Lg-DaQ"/>
-                                    <constraint firstItem="U3R-Qt-ve2" firstAttribute="trailing" secondItem="nqK-na-4W8" secondAttribute="trailing" id="EW5-Ht-v6N"/>
-                                    <constraint firstItem="U3R-Qt-ve2" firstAttribute="height" secondItem="nqK-na-4W8" secondAttribute="height" priority="250" id="GWz-Rs-KHh"/>
-                                    <constraint firstItem="U3R-Qt-ve2" firstAttribute="leading" secondItem="nqK-na-4W8" secondAttribute="leading" id="YD5-DC-nUK"/>
-                                    <constraint firstItem="U3R-Qt-ve2" firstAttribute="bottom" secondItem="nqK-na-4W8" secondAttribute="bottom" id="wvc-rn-ZOX"/>
-                                    <constraint firstItem="U3R-Qt-ve2" firstAttribute="width" secondItem="nqK-na-4W8" secondAttribute="width" id="z0h-UK-WZN"/>
-                                </constraints>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="An7-D7-m3y" firstAttribute="top" secondItem="nqK-na-4W8" secondAttribute="bottom" id="7U8-Mw-lZF"/>
-                            <constraint firstItem="nqK-na-4W8" firstAttribute="top" secondItem="bEs-Np-UAU" secondAttribute="bottom" id="Of1-VT-wBs"/>
-                            <constraint firstItem="nqK-na-4W8" firstAttribute="leading" secondItem="rsA-Fp-xob" secondAttribute="leading" id="fcc-xE-bN5"/>
-                            <constraint firstAttribute="trailing" secondItem="nqK-na-4W8" secondAttribute="trailing" id="zfJ-z1-LZW"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="btnChoosLocation" destination="vnl-N2-MwG" id="ZAk-z2-7C7"/>
-                        <outlet property="btnEye" destination="dpl-V8-Qw7" id="EVx-a9-iXP"/>
-                        <outlet property="btnSignup" destination="7vX-AG-nUG" id="cbo-JE-gOK"/>
-                        <outlet property="forgotPasswordButton" destination="lT7-FY-mLe" id="5QP-dz-V5t"/>
-                        <outlet property="imgLogo" destination="Q3j-YC-dvI" id="VpQ-7j-bpf"/>
-                        <outlet property="lblDescription" destination="bIw-J4-PbP" id="MWr-Cq-TgL"/>
-                        <outlet property="lblExplore" destination="Fm1-ge-Va3" id="5d2-Gu-zsC"/>
-                        <outlet property="lblTopTitle" destination="ROd-M5-vVD" id="O4I-pV-s25"/>
-                        <outlet property="lbl_chooselocation" destination="vnl-N2-MwG" id="Pd8-wf-H8F"/>
-                        <outlet property="passwordTextField" destination="ZIA-Ci-rQQ" id="10D-EX-9hz"/>
-                        <outlet property="phoneErrorLabel" destination="YXk-kE-zgu" id="U6v-OL-2CI"/>
-                        <outlet property="phoneNumberTextField" destination="JXn-cY-eCh" id="tBH-9B-JNL"/>
-                        <outlet property="segmentControl" destination="Xtq-no-XvZ" id="UJ5-zW-Cer"/>
-                        <outlet property="spaceFromForgetPassword" destination="NHT-gM-7ix" id="jD6-Vi-iq9"/>
-                        <outlet property="submitButton" destination="uwq-UU-yfm" id="uah-3G-3v0"/>
-                        <outlet property="titleLabel" destination="fDz-M2-gDJ" id="59g-6S-rbT"/>
-                        <outlet property="txtForgetPasswordheight" destination="68K-S0-LtP" id="iTw-gm-m7S"/>
-                        <outlet property="txtPassHeight" destination="LnQ-SN-ejm" id="fnL-TO-lLw"/>
-                        <outlet property="usernameTextField" destination="nBJ-ca-f4l" id="dSc-ba-rV0"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YMZ-SR-pNb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="300" y="420.42253521126759"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="YNi-qr-uoQ">
             <objects>
@@ -1065,13 +672,216 @@ to set new password</string>
             </objects>
             <point key="canvasLocation" x="1690.4000000000001" y="419.64017991004499"/>
         </scene>
+        <!--Sign In View Controller-->
+        <scene sceneID="x1h-B3-pWk">
+            <objects>
+                <viewController storyboardIdentifier="SignInViewController" id="Htn-7J-QYl" customClass="SignInViewController" customModule="ElGrocerShopper" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Lxx-XR-EMh"/>
+                        <viewControllerLayoutGuide type="bottom" id="foa-D9-DXD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lqA-EG-uLC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4lb-C7-9JT">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fgj-SE-2Aa">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dgt-sS-2NW">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                            </imageView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6vY-jt-d7e" userLabel="PhoneNumber" customClass="FPNCustomTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                                <rect key="frame" x="16" y="247.5" width="288" height="56"/>
+                                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="56" id="fqe-Z0-5IX"/>
+                                                </constraints>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="ASCIICapableNumberPad" returnKeyType="done"/>
+                                            </textField>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="elLogo" translatesAutoresizingMaskIntoConstraints="NO" id="kRX-2f-erm">
+                                                <rect key="frame" x="72" y="24" width="176" height="35"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="kRX-2f-erm" secondAttribute="height" multiplier="201:40" id="nt9-ud-vLv"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to elGrocer!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uy-iZ-rM8">
+                                                <rect key="frame" x="65" y="170.5" width="190" height="28"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="28" id="BWj-5t-Pk5"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
+                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter your your mobile number to login" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000001192092896" translatesAutoresizingMaskIntoConstraints="NO" id="jBp-Ov-Vnj">
+                                                <rect key="frame" x="16" y="214.5" width="288" height="17"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLp-Cl-u7K">
+                                                <rect key="frame" x="16" y="311.5" width="288" height="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bySmiles" translatesAutoresizingMaskIntoConstraints="NO" id="QKX-KN-e5y">
+                                                <rect key="frame" x="121.5" y="85" width="77" height="49.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="QKX-KN-e5y" secondAttribute="height" multiplier="17:11" id="37K-50-bzA"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7G-Pl-A8t" customClass="AWButton" customModule="ElGrocerShopper" customModuleProvider="target">
+                                                <rect key="frame" x="16" y="319.5" width="288" height="56"/>
+                                                <color key="backgroundColor" red="0.56470588239999997" green="0.56470588239999997" blue="0.56470588239999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="56" id="xLc-Pt-ieU"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
+                                                <color key="tintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <state key="normal" title="LOG IN">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                                        <real key="value" value="28"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                        <real key="value" value="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="titleShadowColor">
+                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="size" keyPath="titleLabelShadowOffset">
+                                                        <size key="value" width="0.0" height="2"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="titleShadowOpacity">
+                                                        <real key="value" value="0.5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="titleShadowRadius">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                        <size key="value" width="0.0" height="0.0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                        <real key="value" value="0.0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                        <real key="value" value="0.0"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="loginButtonHandler:" destination="Htn-7J-QYl" eventType="touchUpInside" id="hpc-Um-2l3"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Want to explore the app first?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000001192092896" translatesAutoresizingMaskIntoConstraints="NO" id="Klx-g1-MR8">
+                                                <rect key="frame" x="16" y="399.5" width="288" height="18"/>
+                                                <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="15"/>
+                                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jNW-Kt-kx1">
+                                                <rect key="frame" x="16" y="417.5" width="288" height="32"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="16"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Choose your location">
+                                                    <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="chooseLocation:" destination="Htn-7J-QYl" eventType="touchUpInside" id="1S7-AU-OZc"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="oLp-Cl-u7K" firstAttribute="leading" secondItem="6vY-jt-d7e" secondAttribute="leading" id="0LA-ZH-ZPU"/>
+                                            <constraint firstAttribute="trailing" secondItem="6vY-jt-d7e" secondAttribute="trailing" constant="16" id="0tz-vu-DCd"/>
+                                            <constraint firstAttribute="trailing" secondItem="jNW-Kt-kx1" secondAttribute="trailing" constant="16" id="3YT-xM-A6V"/>
+                                            <constraint firstItem="6vY-jt-d7e" firstAttribute="top" secondItem="jBp-Ov-Vnj" secondAttribute="bottom" constant="16" id="5mg-rh-HDN"/>
+                                            <constraint firstAttribute="trailing" secondItem="S7G-Pl-A8t" secondAttribute="trailing" constant="16" id="6n3-6J-oAM"/>
+                                            <constraint firstItem="oLp-Cl-u7K" firstAttribute="trailing" secondItem="6vY-jt-d7e" secondAttribute="trailing" id="9Cb-Mo-VoR"/>
+                                            <constraint firstItem="dgt-sS-2NW" firstAttribute="top" secondItem="fgj-SE-2Aa" secondAttribute="top" id="Bn6-Yu-Vr8"/>
+                                            <constraint firstItem="kRX-2f-erm" firstAttribute="centerX" secondItem="fgj-SE-2Aa" secondAttribute="centerX" id="Dp8-OJ-l8O"/>
+                                            <constraint firstAttribute="trailing" secondItem="dgt-sS-2NW" secondAttribute="trailing" id="Enb-B9-pnh"/>
+                                            <constraint firstItem="QKX-KN-e5y" firstAttribute="width" secondItem="dgt-sS-2NW" secondAttribute="width" multiplier="0.24" id="FvT-qs-aOo"/>
+                                            <constraint firstItem="kRX-2f-erm" firstAttribute="width" secondItem="dgt-sS-2NW" secondAttribute="width" multiplier="0.55" id="IwT-1R-MpZ"/>
+                                            <constraint firstItem="dgt-sS-2NW" firstAttribute="leading" secondItem="fgj-SE-2Aa" secondAttribute="leading" id="KuV-LC-y29"/>
+                                            <constraint firstItem="S7G-Pl-A8t" firstAttribute="leading" secondItem="fgj-SE-2Aa" secondAttribute="leading" constant="16" id="LP0-zl-bOt"/>
+                                            <constraint firstAttribute="trailing" secondItem="Klx-g1-MR8" secondAttribute="trailing" constant="16" id="Li2-Wm-0f4"/>
+                                            <constraint firstItem="jBp-Ov-Vnj" firstAttribute="centerX" secondItem="fgj-SE-2Aa" secondAttribute="centerX" id="OUy-w0-5Wz"/>
+                                            <constraint firstItem="1uy-iZ-rM8" firstAttribute="centerX" secondItem="fgj-SE-2Aa" secondAttribute="centerX" id="PkU-fg-h35"/>
+                                            <constraint firstItem="1uy-iZ-rM8" firstAttribute="top" secondItem="QKX-KN-e5y" secondAttribute="bottom" constant="36" id="QRT-tk-pwQ"/>
+                                            <constraint firstItem="jNW-Kt-kx1" firstAttribute="leading" secondItem="fgj-SE-2Aa" secondAttribute="leading" constant="16" id="QhG-14-qzA"/>
+                                            <constraint firstItem="Klx-g1-MR8" firstAttribute="top" secondItem="S7G-Pl-A8t" secondAttribute="bottom" constant="24" id="RF3-xB-jxU"/>
+                                            <constraint firstItem="6vY-jt-d7e" firstAttribute="leading" secondItem="fgj-SE-2Aa" secondAttribute="leading" constant="16" id="RMw-9a-nzE"/>
+                                            <constraint firstItem="S7G-Pl-A8t" firstAttribute="top" secondItem="oLp-Cl-u7K" secondAttribute="bottom" constant="8" id="TbZ-eN-ruN"/>
+                                            <constraint firstItem="kRX-2f-erm" firstAttribute="centerX" secondItem="fgj-SE-2Aa" secondAttribute="centerX" id="Yo6-SV-Fac"/>
+                                            <constraint firstItem="jBp-Ov-Vnj" firstAttribute="leading" secondItem="fgj-SE-2Aa" secondAttribute="leading" constant="16" id="d8r-7J-mrc"/>
+                                            <constraint firstItem="Klx-g1-MR8" firstAttribute="leading" secondItem="fgj-SE-2Aa" secondAttribute="leading" constant="16" id="dLi-1S-BWk"/>
+                                            <constraint firstItem="oLp-Cl-u7K" firstAttribute="top" secondItem="6vY-jt-d7e" secondAttribute="bottom" constant="8" id="eqW-HB-kuO"/>
+                                            <constraint firstItem="jBp-Ov-Vnj" firstAttribute="top" secondItem="1uy-iZ-rM8" secondAttribute="bottom" constant="16" id="flD-nH-Yxm"/>
+                                            <constraint firstItem="kRX-2f-erm" firstAttribute="top" secondItem="fgj-SE-2Aa" secondAttribute="top" constant="24" id="kVZ-oJ-JBd"/>
+                                            <constraint firstItem="jNW-Kt-kx1" firstAttribute="top" secondItem="Klx-g1-MR8" secondAttribute="bottom" id="lmd-Nc-tni"/>
+                                            <constraint firstAttribute="trailing" secondItem="jBp-Ov-Vnj" secondAttribute="trailing" constant="16" id="nfF-6U-B5t"/>
+                                            <constraint firstAttribute="bottom" secondItem="dgt-sS-2NW" secondAttribute="bottom" id="pTV-uL-s9o"/>
+                                            <constraint firstItem="QKX-KN-e5y" firstAttribute="top" secondItem="kRX-2f-erm" secondAttribute="bottom" constant="26" id="wWX-dK-6u0"/>
+                                            <constraint firstItem="QKX-KN-e5y" firstAttribute="centerX" secondItem="fgj-SE-2Aa" secondAttribute="centerX" id="zpX-4X-MlR"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="fgj-SE-2Aa" firstAttribute="bottom" secondItem="4lb-C7-9JT" secondAttribute="bottom" id="7cv-QA-XCP"/>
+                                    <constraint firstItem="fgj-SE-2Aa" firstAttribute="leading" secondItem="4lb-C7-9JT" secondAttribute="leading" id="I28-uQ-Hhp"/>
+                                    <constraint firstItem="fgj-SE-2Aa" firstAttribute="top" secondItem="4lb-C7-9JT" secondAttribute="top" id="QZ3-vn-fSZ"/>
+                                    <constraint firstItem="fgj-SE-2Aa" firstAttribute="trailing" secondItem="4lb-C7-9JT" secondAttribute="trailing" id="Tr5-SK-HjR"/>
+                                    <constraint firstItem="fgj-SE-2Aa" firstAttribute="width" secondItem="4lb-C7-9JT" secondAttribute="width" id="ZUV-iU-rHr"/>
+                                    <constraint firstItem="fgj-SE-2Aa" firstAttribute="height" secondItem="4lb-C7-9JT" secondAttribute="height" priority="250" id="nPZ-Ea-H0e"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="foa-D9-DXD" firstAttribute="top" secondItem="4lb-C7-9JT" secondAttribute="bottom" id="4Hs-yW-hUm"/>
+                            <constraint firstItem="4lb-C7-9JT" firstAttribute="leading" secondItem="lqA-EG-uLC" secondAttribute="leading" id="DQi-wi-WUu"/>
+                            <constraint firstItem="4lb-C7-9JT" firstAttribute="top" secondItem="Lxx-XR-EMh" secondAttribute="bottom" id="TcD-Yd-sat"/>
+                            <constraint firstAttribute="trailing" secondItem="4lb-C7-9JT" secondAttribute="trailing" id="tTD-nY-4VR"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnChoosLocation" destination="jNW-Kt-kx1" id="Ojt-Vy-wlH"/>
+                        <outlet property="imgLogo" destination="kRX-2f-erm" id="jvJ-Fa-3k7"/>
+                        <outlet property="lblDescription" destination="jBp-Ov-Vnj" id="Iyj-6A-GEq"/>
+                        <outlet property="lblExplore" destination="Klx-g1-MR8" id="MdL-ph-aVL"/>
+                        <outlet property="lblTopTitle" destination="1uy-iZ-rM8" id="Gwz-8f-sIP"/>
+                        <outlet property="phoneErrorLabel" destination="oLp-Cl-u7K" id="1Z3-T0-zwj"/>
+                        <outlet property="phoneNumberTextField" destination="6vY-jt-d7e" id="szx-ZS-sVN"/>
+                        <outlet property="submitButton" destination="S7G-Pl-A8t" id="0XI-wT-SlB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IHC-z9-HZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="300" y="420.42253521126759"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="24c-J4-tRs">
             <size key="intrinsicContentSize" width="73" height="32"/>
-        </designable>
-        <designable name="7Dt-Sk-fz6">
-            <size key="intrinsicContentSize" width="315" height="50"/>
         </designable>
         <designable name="EcM-1f-cah">
             <size key="intrinsicContentSize" width="4" height="18.5"/>
@@ -1079,27 +889,27 @@ to set new password</string>
         <designable name="KrP-H4-tgT">
             <size key="intrinsicContentSize" width="4" height="17"/>
         </designable>
+        <designable name="S7G-Pl-A8t">
+            <size key="intrinsicContentSize" width="54" height="33"/>
+        </designable>
         <designable name="jxB-JB-1se">
             <size key="intrinsicContentSize" width="30" height="29"/>
         </designable>
         <designable name="sqM-RQ-9ZY">
             <size key="intrinsicContentSize" width="62" height="33"/>
         </designable>
-        <designable name="uwq-UU-yfm">
-            <size key="intrinsicContentSize" width="54" height="33"/>
-        </designable>
     </designables>
     <resources>
         <image name="AppGreenLogo" width="235" height="83"/>
         <image name="LiveChatIcon" width="24" height="24"/>
         <image name="button_overlay" width="1" height="1"/>
+        <image name="bySmiles" width="85" height="55"/>
+        <image name="elLogo" width="201" height="40"/>
         <image name="eyeGray" width="24" height="24"/>
         <image name="facebook_icon" width="6.6909089088439941" height="6.6909089088439941"/>
-        <image name="fbGreen" width="315" height="50"/>
         <image name="forgetSuccess" width="48" height="48"/>
         <image name="google_icon" width="7" height="7"/>
         <image name="icCheckYourEmail" width="52" height="52"/>
-        <image name="or-SignIn" width="125" height="1"/>
         <image name="preLoginLogo" width="153" height="32"/>
         <image name="splash-bg" width="375" height="812"/>
         <image name="splash-icon" width="220" height="80"/>

@@ -218,17 +218,10 @@ enum ElGrocerApiEndpoint : String {
     init() {
         
         self.requestManager = AFHTTPSessionManagerCustom.init()
-        //self.requestManager.requestSerializer.timeoutInterval = 300
-        //self.requestManager.requestSerializer = AFJSONRequestSerializer((writingOptions: JSONSerialization.WritingOptions.prettyPrinted))
-       // self.requestManager.responseSerializer.acceptableContentTypes = Set(["text/html; charset=UTF-8"])
         self.requestManager.responseSerializer  = AFHTTPResponseSerializerCustom()
         self.requestManager.securityPolicy.allowInvalidCertificates = true
         self.requestManager.securityPolicy.validatesDomainName = false
-        
-//        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
-//        securitypolicy.allowInvalidCertificates = true
-//        securitypolicy.validatesDomainName = false
-//        self.requestManager.securityPolicy = security-policy
+
     }
     
     func sendSMS(_ baseURL:String? = "" , phoneNumber:String , finalRandomString : String , completionHandler:@escaping (_ result:Bool, _ responseObject:String?) -> Void) {
@@ -781,6 +774,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           addressParameters["longitude"] = address.longitude as AnyObject
           addressParameters["default_address"] = address.isActive.boolValue as AnyObject
           addressParameters["address_type_id"] = address.addressType as AnyObject
+          addressParameters["nick_name"] = (address.nickName ?? "") as AnyObject
+          
+          
         
           if address.street != nil {
               addressParameters["street"] = address.street! as AnyObject
@@ -824,11 +820,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           }
         
           let endpoint = ElGrocerApiEndpoint.DeliveryAddressV2.rawValue
-          
-//          if email.isEmpty {
-//              endpoint = ElGrocerApiEndpoint.DeliveryAddress.rawValue
-//          }
-          
+
           NetworkCall.post(endpoint, parameters: addressParameters, progress: { (progress) in
               
           }, success: { (operation, response) in
@@ -845,16 +837,19 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   
       func updateUserProfile(_ name:String, email:String, phone:String, completionHandler:@escaping (_ result:Bool, _ elError : ElGrocerError? ) -> Void) {
   
-  setAccessToken()
+          setAccessToken()
   
-  let parameters = [
-  "name" : name,
-  "email" : email,
-  "phone_number" : phone
-  ]
-  
-  //elDebugPrint(parameters)
-  
+          var parameters: [String: String] = [:]
+          if phone.isNotEmtpy() {
+              parameters["phone_number"] = phone
+          }
+          if email.isNotEmtpy() {
+              parameters["email"] = email
+          }
+          if name.isNotEmtpy() {
+              parameters["name"] = name
+          }
+ 
   NetworkCall.put(ElGrocerApiEndpoint.ProfileUpdate.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true, nil)
@@ -864,6 +859,26 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   completionHandler(false, elgrocerError)
   }
   }
+  
+func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary> ) -> Void) {
+  
+  setAccessToken()
+  NetworkCall.put(ElGrocerApiEndpoint.ProfileUpdate.rawValue, parameters: nil, success: { (operation  , response: Any) -> Void in
+      guard let response = response as? NSDictionary else {
+          completionHandler(Either.failure(ElGrocerError.parsingError()))
+          return
+      }
+      completionHandler(Either.success(response))
+      
+  }) { (operation  , error) in
+      let errorToParse = ElGrocerError(error: error as NSError)
+      if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+          completionHandler(Either.failure(errorToParse))
+      }
+  }
+  }
+      
+      
   
   //MARK: Email Exist
   
@@ -1102,6 +1117,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         parameters["address_tag_id"] = address.addressTagId! as AnyObject
     }
     
+      parameters["nick_name"] = (address.nickName ?? "") as AnyObject
     
   
   if address.street != nil {
@@ -1328,6 +1344,32 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
     }
 
   }
+      
+      /** Checks if there are some groceries in the selected area */
+      func checkCoveredAreaForGroceries( lat:Double, lng: Double, completionHandler: @escaping (_ result: Either<NSDictionary>) -> Void) {
+      
+      let parameters = [
+      
+      "latitude": lat,
+      "longitude": lng
+      ]
+      
+        NetworkCall.get(ElGrocerApiEndpoint.GroceryAvailabillityCheck.rawValue , parameters: parameters, progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            guard let response = response as? NSDictionary else {
+                completionHandler(Either.failure(ElGrocerError.parsingError()))
+                return
+            }
+            completionHandler(Either.success(response))
+        }) { (operation  , error) in
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+        }
+
+      }
   
   /** Request for the grocery using email in not covered area */
     func requestForGroceryWithEmail(_ email:String , store_name : String? , locShopId:NSNumber, completionHandler: @escaping (_ result: Either<Bool>) -> Void) {
@@ -1496,13 +1538,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
           parameters["delivery_time"] = deliveryTime != nil ? deliveryTime as AnyObject : time as AnyObject
-  
-  
-  // //elDebugPrint("Patameters:%@",parameters)
   //sab
   let urlStr = ElGrocerApiEndpoint.Categories.rawValue
-        //sab new
-        //let urlStr = ElGrocerApiEndpoint.TopProducts.rawValue
   // //elDebugPrint("URL Str:%@",urlStr)
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in
         // elDebugPrint("Progress for API :  \(progress)")
@@ -4390,7 +4427,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           setAccessToken()
           FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
           elDebugPrint(parameters)
-          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue + "?market_type_id=\(SDKManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, progress: { (progress) in
+          NetworkCall.post(ElGrocerApiEndpoint.createOrder.rawValue + "?market_type_id=\(sdkManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, progress: { (progress) in
                   // debugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
@@ -4935,7 +4972,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
           
-          let sdkType = SDKManager.isGrocerySingleStore ? "1":"0"
+          let sdkType = sdkManager.isGrocerySingleStore ? "1":"0"
           self.requestManager.requestSerializer.setValue(sdkType, forHTTPHeaderField: "market_type_id")
         
       }

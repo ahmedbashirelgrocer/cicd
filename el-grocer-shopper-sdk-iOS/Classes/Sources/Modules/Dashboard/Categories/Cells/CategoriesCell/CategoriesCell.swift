@@ -23,7 +23,11 @@ class CategoriesCell: RxUITableViewCell {
             btnViewAll.setBackgroundColorForAllState(.clear)
         }
     }
-    @IBOutlet weak var ivArrow: UIImageView!
+    @IBOutlet weak var ivArrow: UIImageView! {
+        didSet {
+            ivArrow.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        }
+    }
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var viewModel: CategoriesCellViewModelType!
@@ -48,7 +52,7 @@ class CategoriesCell: RxUITableViewCell {
     private func setBgColors() {
         
         var color = ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
-        if !SDKManager.isGrocerySingleStore {
+        if !sdkManager.isGrocerySingleStore {
             color = .white
         }
         collectionView.backgroundColor = color

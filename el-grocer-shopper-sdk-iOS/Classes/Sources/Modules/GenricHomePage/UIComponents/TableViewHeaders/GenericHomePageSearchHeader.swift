@@ -15,7 +15,7 @@ class GenericHomePageSearchHeader: UIView {
     @IBOutlet var eclipceImgView: UIImageView! {
         
         didSet {
-            eclipceImgView.backgroundColor =   SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .navigationBarWhiteColor()
+            eclipceImgView.backgroundColor =   sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .navigationBarWhiteColor()
             //eclipceImgView.layer.cornerRadius = 20
         }
         
@@ -23,12 +23,12 @@ class GenericHomePageSearchHeader: UIView {
     
     @IBOutlet var bGView: UIView!{
         didSet{
-            bGView.backgroundColor = SDKManager.isSmileSDK ? .clear : .navigationBarWhiteColor()
+            bGView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : .navigationBarWhiteColor()
         }
     }
     @IBOutlet var topHalfBGView: UIView!{
         didSet{
-            topHalfBGView.backgroundColor = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+            topHalfBGView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
             topHalfBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 0, withShadow: false)
         }
     }
@@ -48,7 +48,7 @@ class GenericHomePageSearchHeader: UIView {
     @IBOutlet var txtSearch: UITextField!{
         didSet{
             
-           let placeHolderText = SDKManager.isSmileSDK ? localizedString("search_placeholder_home_Smiles", comment: "") : localizedString("search_placeholder_home", comment: "")
+           let placeHolderText = sdkManager.isSmileSDK ? localizedString("search_placeholder_home_Smiles", comment: "") : localizedString("search_placeholder_home", comment: "")
             txtSearch.placeholder = placeHolderText
             txtSearch.setPlaceHolder(text: placeHolderText)
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
@@ -109,8 +109,8 @@ class GenericHomePageSearchHeader: UIView {
     
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
-        self.locationView.backgroundColor = SDKManager.isSmileSDK ? .clear :  ApplicationTheme.currentTheme.themeBasePrimaryColor
-        self.locationContainerView.backgroundColor = SDKManager.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.locationView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear :  ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.locationContainerView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
         locationContainerView.addSubview(self.locationView)
     }
     func setLocationText(_ text : String = "") {

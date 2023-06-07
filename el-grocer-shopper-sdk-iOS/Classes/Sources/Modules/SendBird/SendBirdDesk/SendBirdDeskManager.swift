@@ -527,7 +527,7 @@ class SendBirdDeskManager{
         var customFields = [String: String]()
         customFields["app"] = "Shopper"
         customFields["platform"] = "iOS"
-        customFields["smilesdk"] = SDKManager.isSmileSDK ? "true" : "false"
+        customFields["smilesdk"] = sdkManager.isSmileSDK ? "true" : "false"
         if let shopperUser = self.getCurrentUser(){
         customFields["shopperid"] =  shopperUser.dbID.stringValue
         } else {
@@ -535,7 +535,7 @@ class SendBirdDeskManager{
                 customFields["shopperid"] = id
             }
         }
-        customFields["market-type"] = SDKManager.isSmileSDK ? (SDKManager.isGrocerySingleStore ? KSingleGroceryStore : KSmileMarketPlace) : "ShopperAppMarketPlace"
+        customFields["market-type"] = SDKManager.shared.isSmileSDK ? (sdkManager.isGrocerySingleStore ? KSingleGroceryStore : KSmileMarketPlace) : "ShopperAppMarketPlace"
         
 
         SBDSKMain.setCustomerCustomFields(customFields) { (error) in

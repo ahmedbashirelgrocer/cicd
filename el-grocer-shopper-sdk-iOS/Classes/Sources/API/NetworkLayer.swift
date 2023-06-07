@@ -154,7 +154,7 @@ class NetworkLayer {
               failure: @escaping FailureCase ) -> URLSessionDataTask? {
         
         requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
-        requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        requestManager.requestSerializer.setValue(sdkManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
         
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard mins > 0  else {
@@ -170,7 +170,7 @@ class NetworkLayer {
     func post( _ URLString: String, parameters: Any?, progress :   callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
         
         requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
-        requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        requestManager.requestSerializer.setValue(sdkManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
         
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard  mins > 0  else {
@@ -188,7 +188,7 @@ class NetworkLayer {
         
         
         requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
-        requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        requestManager.requestSerializer.setValue(sdkManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
         
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard  mins > 0  else {
@@ -205,7 +205,7 @@ class NetworkLayer {
     func put(_ URLString: String, parameters: Any? , success : @escaping SuccessCase , failure : @escaping FailureCase) {
         
         requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
-        requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        requestManager.requestSerializer.setValue(sdkManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
         
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard  mins > 0  else {
@@ -241,9 +241,7 @@ class NetworkLayer {
         let mainURL = baseurl.replacingOccurrences(of: "/api/", with: "")
         let urlString = mainURL + "/oauth/token"
         
-       /* if let _ = UIApplication.topViewController() {
-            let _ = SpinnerView.showSpinnerView()
-        }*/
+      
         requestManager.post(urlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { (task, responseObject) in
             if responseObject is Dictionary<String, Any> {
                 ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: responseObject as! Dictionary<String, Any>)
@@ -285,7 +283,7 @@ class NetworkLayer {
                         }
                     }else if response.statusCode >= 500 && response.statusCode <= 599  {
                         
-                        if let views = SDKManager.shared.window?.subviews {
+                        if let views = sdkManager.window?.subviews {
                             var popUp : NotificationPopup? = nil
                             for dataView in views {
                                 if let popUpView = dataView as? NotificationPopup {
@@ -298,7 +296,7 @@ class NetworkLayer {
                             }
                         }
                         
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                             if buttonIndex == 1 {
                                 self.getToken()
                             } else {
@@ -338,12 +336,12 @@ class NetworkLayer {
         }
         let isDelivery = ElGrocerUtility.sharedInstance.isDeliveryMode ? "1" : "2"
         self.requestManager.requestSerializer.setValue(isDelivery , forHTTPHeaderField: "service_id")
-        self.requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "Market-Type")
+        self.requestManager.requestSerializer.setValue(sdkManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "Market-Type")
         self.setLocale()
         self.setDateTimeOffset()
         self.setAuthenticationToken()
         self.setUserAgent()
-        //self.requestManager.requestSerializer.setValue(SDKManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        //self.requestManager.requestSerializer.setValue(sdkManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
     }
     
     func setAuthenticationToken() {
@@ -368,9 +366,9 @@ class NetworkLayer {
     
     func setUserAgent() {
         
-        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ?  "smileSDK" : "elgrocerShopperApp", forHTTPHeaderField: "user-agent")
-        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
-        self.requestManager.requestSerializer.setValue(SDKManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "Sdk-Version")
+        self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  "smileSDK" : "elgrocerShopperApp", forHTTPHeaderField: "user-agent")
+        self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
+        self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "Sdk-Version")
         
         
     

@@ -159,7 +159,7 @@ class SendBirdManager {
     
     func setSendBirdAppearence(){
         
-        
+        guard ApplicationTheme.currentTheme != nil else {return}
         
         var channelTheme = SBUChannelTheme()
         channelTheme = .light
@@ -486,8 +486,8 @@ class SendBirdManager {
         if let channel = sendBirdData["channel"] as? NSDictionary{
             
             var isAppStart = false
-            // if let SDKManager = SDKManager.shared {
-                if let dataAvailable = SDKManager.shared.sdkStartTime {
+            // if let SDKManager: SDKManagerType! = sdkManager {
+                if let dataAvailable = sdkManager.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         isAppStart = true
                     }
@@ -1041,7 +1041,7 @@ extension SendBirdManager{
         
         var parameters = "{\n    \"sendbirdId\": \"\(userId)\"\n}"
         
-        let dic = ["sendbirdId": userId , "customFields" : ["smilesdk" : SDKManager.isSmileSDK ? "true" : "false" , "app" : "Shopper" , "platform" : "iOS"]] as [String : Any]
+        let dic = ["sendbirdId": userId , "customFields" : ["smilesdk" : sdkManager.isSmileSDK ? "true" : "false" , "app" : "Shopper" , "platform" : "iOS"]] as [String : Any]
         
        
         if let jsonData = try? JSONSerialization.data(withJSONObject:dic) {
@@ -1087,7 +1087,7 @@ extension SendBirdManager{
         let semaphore = DispatchSemaphore (value: 0)
         
         var parameters = "{\n    \"sendbirdId\": \"\(userId)\"\n}"
-        let dic = ["sendbirdId": shoperPrefix + userId , "customFields" : [ "smilesdk" : SDKManager.isSmileSDK ? "true" : "false" ,"app" : "Shopper" , "platform" : "iOS", "shopperid" : userId]] as [String : Any]
+        let dic = ["sendbirdId": shoperPrefix + userId , "customFields" : [ "smilesdk" : sdkManager.isSmileSDK ? "true" : "false" ,"app" : "Shopper" , "platform" : "iOS", "shopperid" : userId]] as [String : Any]
         
         
         if let jsonData = try? JSONSerialization.data(withJSONObject:dic) {

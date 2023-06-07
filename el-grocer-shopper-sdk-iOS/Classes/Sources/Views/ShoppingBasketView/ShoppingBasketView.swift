@@ -94,8 +94,8 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     
     class func showShoppingBasket(_ delegate:ShoppingBasketViewProtocol?, shouldShowGroceryActiveBasket:Bool, selectedGroceryForItems:Grocery?, notAvailableProducts:[Int]?, availableProductsPrices:NSDictionary?) -> ShoppingBasketView {
         
-        let SDKManager = SDKManager.shared
-        let topView = SDKManager.rootViewController!.view
+        let SDKManager: SDKManagerType! = sdkManager
+        let topView = sdkManager.rootViewController!.view
         
         let view = Bundle.resource.loadNibNamed("ShoppingBasketView", owner: nil, options: nil)![0] as! ShoppingBasketView
         view.blurredBackground.image = topView?.createBlurredSnapShot()
@@ -386,8 +386,8 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
         if let userInfo = (notification as NSNotification).userInfo {
             if let keyboardSize =  (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 keyboardHeight = keyboardSize.height
-                let SDKManager = SDKManager.shared
-                let topView = SDKManager.rootViewController!.view
+                let SDKManager: SDKManagerType! = sdkManager
+                let topView = sdkManager.rootViewController!.view
                 
                 UIView.animate(withDuration: 0.33, animations: {
                     topView?.frame = (topView?.frame.offsetBy(dx: 0, dy: -self.keyboardHeight ))!
@@ -401,8 +401,8 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        let SDKManager = SDKManager.shared
-        let topView = SDKManager.rootViewController!.view
+        let SDKManager: SDKManagerType! = sdkManager
+        let topView = sdkManager.rootViewController!.view
         
         // when a physical keyboard is connected to the device the keyboard is never shown but the hide keyboard notification is activated on touch.
         // when this happens the keyboardHeight variable is nil and topView.gestureRecognizers are nil and the app crashes.
@@ -420,8 +420,8 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     
     
     @objc func dismissKeyboardAndCheckCode() {
-        let SDKManager = SDKManager.shared
-        let topView = SDKManager.rootViewController!.view
+        let SDKManager: SDKManagerType! = sdkManager
+        let topView = sdkManager.rootViewController!.view
         
        // self.checkPromoCode()
         topView?.endEditing(true)

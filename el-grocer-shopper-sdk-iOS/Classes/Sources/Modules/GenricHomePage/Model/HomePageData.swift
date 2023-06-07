@@ -102,11 +102,11 @@ class HomePageData  {
         self.isFetchingTimeLogEnable = logEnable
         self.resetHomeDataHandler()
         self.fetchOrder = []
-        self.fetchOrder = SDKManager.isSmileSDK ?  [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners] : [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners , .AllChefForDeliveryStores , .FeatureRecipesOfAllDeliveryStore]
+        self.fetchOrder = sdkManager.isSmileSDK ?  [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners] : [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners , .AllChefForDeliveryStores , .FeatureRecipesOfAllDeliveryStore]
         self.isDataLoading = true
         if self.isFetchingTimeLogEnable { self.startFetchingTime = Date() }
         self.startFetching()
-        SDKManager.shared.homeLastFetch = Date()
+        sdkManager.homeLastFetch = Date()
         
     }
     
@@ -284,8 +284,8 @@ extension HomePageData {
     }
     
     private func getHomeVc () -> GenericStoresViewController? {
-        //if let SDKManager = SDKManager.shared {
-            let tabVc = SDKManager.shared.getTabbarController(isNeedToShowChangeStoreByDefault: false)
+        //if let SDKManager: SDKManagerType! = sdkManager {
+            let tabVc = sdkManager.getTabbarController(isNeedToShowChangeStoreByDefault: false)
             if tabVc.viewControllers.count > 0 ,  let tabbar = (tabVc.viewControllers[0] as? UITabBarController) , let tabController = (tabbar.viewControllers?[0] as? ElGrocerNavigationController) , tabController.viewControllers.count > 0 ,  let HomeVc = (tabController.viewControllers[0] as? GenericStoresViewController) {
                 return HomeVc
             }
@@ -403,7 +403,7 @@ extension HomePageData : RecipeDataHandlerDelegate {
     }
     
     private func addRecipeInServices(chefTotalA : [CHEF]) {
-        if SDKManager.isSmileSDK { return }
+        if sdkManager.isSmileSDK { return }
         
         if chefTotalA.count > 0 {
         let recipe = RecipeService.init(isRecipeEnable: true, priority: 6)

@@ -36,7 +36,6 @@ class LocationMapViewModel {
     let selectedLocation = Variable<CLLocation?>(nil)
     
     let selectedAddress = Variable<GMSAddress?>(nil)
-    
     var userAddress =  Variable<String?>("")
     
     var locationCity =  Variable<String?>(nil)
@@ -45,6 +44,10 @@ class LocationMapViewModel {
     var buildingName =  Variable<String?>(nil)
     var predictionlocationName =  Variable<String?>(nil)
     var predictionlocationAddress =  Variable<String?>(nil)
+    
+    var isNeedToFindAddress =  Variable<Bool?>(false)
+    var isLocationFetching =  Variable<Bool?>(false)
+    
     
     // MARK: Initializers
     
@@ -59,41 +62,37 @@ class LocationMapViewModel {
     func setBindings() {
         
         selectedLocation.asObservable().bind { [unowned self](location) in
+            guard let location = location else {return}
+            guard (isNeedToFindAddress.value ?? false ) else {
+                self.selectedAddress.value = nil
+                self.userAddress.value = ""
+                return
+            }
+            self.updateAddressForLocation(location)
             
-          //  guard let location = location else {return}
-            
-          //®  self.updateAddressForLocation(location)
-            
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
         
     }
     
     // MARK: Methods
     
     func updateAddressForLocation(_ location: CLLocation) {
+        
+        self.isLocationFetching.value = true
     
         LocationManager.sharedInstance.geocodeAddress(location, withCompletionHandler: { (status, success,address) -> Void in
-            
             if !success {
-               elDebugPrint(status)
-                if status == "ZERO_RESULTS" {
-                   elDebugPrint("The location could not be found.")
-                }
-                
                 LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
-                    
                     self.selectedAddress.value = address
-                   elDebugPrint(address.thoroughfare ?? "Unknown")
-                    
+                   self.isLocationFetching.value = false
                 }) { (error) in
-                    
-                    ElGrocerError.locationAddressError().showErrorAlert()
-                    
+                    self.isLocationFetching.value = false
                 }
             }
             else {
                elDebugPrint("Location found.")
                 self.userAddress.value = address
+                self.isLocationFetching.value = false
             }
         })
         

@@ -173,7 +173,7 @@ private extension OrderConfirmationViewModel {
     private func getBanners() {
         
         let location =  BannerLocation.post_checkout.getType()
-        let retailer_ids = SDKManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        let retailer_ids = sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
         
         ElGrocerApi.sharedInstance.getBannersFor(location: location, retailer_ids: retailer_ids) { result in
             switch result {

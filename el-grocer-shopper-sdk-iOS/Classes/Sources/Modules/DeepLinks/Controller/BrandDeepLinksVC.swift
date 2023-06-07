@@ -357,8 +357,8 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     }
     
     func callToChangeStoreAfterAllDataSet() {
-        //if let SDKManager = SDKManager.shared {
-            if let currentTabBar = SDKManager.shared.currentTabBar {
+        //if let SDKManager: SDKManagerType! = sdkManager {
+            if let currentTabBar = sdkManager.currentTabBar {
                 ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
                 if self.grocery != nil{
                     currentTabBar.selectedIndex = 1
@@ -792,7 +792,7 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
                 self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
                 let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
                 self.navigationController?.navigationBar.topItem?.title = title
-                SDKManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+                sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
             }
             
             

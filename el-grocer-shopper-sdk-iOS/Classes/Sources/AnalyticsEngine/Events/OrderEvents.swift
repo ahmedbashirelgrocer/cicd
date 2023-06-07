@@ -223,3 +223,15 @@ struct ItemReplacedEvent: AnalyticsEventDataType {
     }
 }
 
+struct OTPAttemptsEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(message: String) {
+        self.eventType = .track(eventName: AnalyticsEventName.otpAttempts)
+        self.metaData = [
+            EventParameterKeys.attemptCount: message,
+        ]
+    }
+}
+

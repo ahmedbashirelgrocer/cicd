@@ -1944,7 +1944,7 @@ Oreo";
 "contact_name_placeHolder" = "Contact Name";
 "mobile_num_placeHolder" = "Mobile number";
 //MARK: Sign Up
-"enter_mobile_num_placeholder" = "Enter your mobile number";
+//"enter_mobile_num_placeholder" = "Enter your mobile number";
 //MARK: Add address
 "error_enter_building" = "Please, enter your buiding name";
 "error_enter_Floor" = "Please, enter your floor number";

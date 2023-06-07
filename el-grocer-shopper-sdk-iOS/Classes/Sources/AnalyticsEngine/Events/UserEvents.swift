@@ -50,3 +50,21 @@ struct MenuButtonClickedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.menuButtonClicked)
     }
 }
+
+struct OnboardingStartedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.onboardingStarted)
+    }
+}
+
+struct PhoneNumberEnteredEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.phoneNumberEntered)
+    }
+}

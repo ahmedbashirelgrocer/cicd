@@ -70,14 +70,14 @@ class DynamicLinksHelper {
         
         
         var delayTime = 1.0
-        // if let SDKManager = SDKManager.shared {
-        if let dataAvailable = SDKManager.shared.sdkStartTime {
+        // if let SDKManager: SDKManagerType! = sdkManager {
+        if let dataAvailable = sdkManager.sdkStartTime {
             if dataAvailable.timeIntervalSinceNow > -5 {
                 delayTime = 2.0
             }
         }
         // }
-        if ElGrocerUtility.sharedInstance.groceries.count == 0 && !SDKManager.isGrocerySingleStore {
+        if ElGrocerUtility.sharedInstance.groceries.count == 0 && !sdkManager.isGrocerySingleStore {
             ElGrocerUtility.sharedInstance.delay(2) {
                 handleIncomingDynamicLinksWithUrl(dynamicLinkURL)
             }
@@ -477,7 +477,7 @@ class DynamicLinksHelper {
     
     func loadGroceryAlreadySelected() {
         
-        guard ((SDKManager.shared.launchOptions?.isSmileSDK) ?? false) else {
+        guard ((sdkManager.launchOptions?.isSmileSDK) ?? false) else {
             if let topvc = UIApplication.topViewController() {
                 if topvc is MainCategoriesViewController {
                     topvc.viewDidAppear(true)
@@ -488,7 +488,7 @@ class DynamicLinksHelper {
             }
             return
         }
-        SDKManager.shared.showEntryView()
+        sdkManager.showEntryView()
     }
     
     
@@ -618,8 +618,8 @@ class DynamicLinksHelper {
                 navigationController.viewControllers = [recipeStory]
                 navigationController.modalPresentationStyle = .fullScreen
                 topController.navigationController?.present(navigationController, animated: true, completion: {
-                    let SDKManager = SDKManager.shared
-                    if let tab = SDKManager.currentTabBar  {
+                    let SDKManager: SDKManagerType! = sdkManager
+                    if let tab = sdkManager.currentTabBar  {
                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                         tab.selectedIndex = 1
                     }
@@ -658,8 +658,8 @@ class DynamicLinksHelper {
                             navRecipeDetailController.modalPresentationStyle = .fullScreen
                             if let topVC = UIApplication.topViewController() {
                                 topVC.present(navRecipeDetailController, animated: true, completion: {
-                                    let SDKManager = SDKManager.shared
-                                    if let tab = SDKManager.currentTabBar  {
+                                    let SDKManager: SDKManagerType! = sdkManager
+                                    if let tab = sdkManager.currentTabBar  {
                                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                                         tab.selectedIndex = 1
                                     }
@@ -752,8 +752,8 @@ class DynamicLinksHelper {
         }
         
         func callToChangeStoreAfterAllDataSet() {
-            // if let SDKManager = SDKManager.shared {
-                if let currentTabBar = SDKManager.shared.currentTabBar {
+            // if let SDKManager: SDKManagerType! = sdkManager {
+                if let currentTabBar = sdkManager.currentTabBar {
                     ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
                     currentTabBar.selectedIndex = 1
                 }

@@ -115,7 +115,7 @@ class LanguageManager: NSObject {
         updateUserLanguage(selectedLanguage)
         Bundle.setLanguage(selectedLanguage)
         
-        if SDKManager.isSmileSDK {
+        if SDKManager.shared.isSmileSDK {
             if selectedLanguage == "ar" {
                 LanguageManager.sharedInstance.setLocale("ar")
             }else{

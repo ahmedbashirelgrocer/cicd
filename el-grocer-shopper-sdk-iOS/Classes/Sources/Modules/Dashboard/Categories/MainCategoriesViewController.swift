@@ -37,7 +37,7 @@ extension MainCategoriesViewController : StoreFeedsDelegate {
         Thread.OnMainThread {
             if ((error?.code ?? 0) >= 500 && (error?.code ?? 0) <= 599) ||  (error?.code ?? 0) == -1011 {
                 
-                if let views = SDKManager.shared.window?.subviews {
+                if let views = sdkManager.window?.subviews {
                     var popUp : NotificationPopup? = nil
                     for dataView in views {
                         if let popUpView = dataView as? NotificationPopup {
@@ -50,7 +50,7 @@ extension MainCategoriesViewController : StoreFeedsDelegate {
                     }
                 }
                 
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                     if buttonIndex == 1 {
                         self.grocery = nil
                         self.viewDidAppear(true)
@@ -109,7 +109,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var recipelist : [Recipe] = []
     var chefList : [CHEF] = []
     func noDataButtonDelegateClick(_ state: actionState) {
-        if SDKManager.isGrocerySingleStore {
+        if sdkManager.isGrocerySingleStore {
             self.dismiss(animated: true)
         } else {
             self.tabBarController?.selectedIndex = 0
@@ -210,19 +210,19 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func adjustHeaderDisplay() {
         
-        // print("SDKManager.isGrocerySingleStore: \(SDKManager.isGrocerySingleStore)")
+        // print("sdkManager.isGrocerySingleStore: \(sdkManager.isGrocerySingleStore)")
 
-        self.locationHeaderFlavor.isHidden = !SDKManager.isGrocerySingleStore
-        self.locationHeader.isHidden = SDKManager.isGrocerySingleStore
+        self.locationHeaderFlavor.isHidden = !sdkManager.isGrocerySingleStore
+        self.locationHeader.isHidden = sdkManager.isGrocerySingleStore
         
         let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
         if constraintA.count > 0 {
             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
             let headerViewHeightConstraint = constraint
-            headerViewHeightConstraint.isActive  = SDKManager.isGrocerySingleStore
+            headerViewHeightConstraint.isActive  = sdkManager.isGrocerySingleStore
         }else {
             
-            if SDKManager.isGrocerySingleStore {
+            if sdkManager.isGrocerySingleStore {
                 let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
                 NSLayoutConstraint.activate([heightConstraint])
             }
@@ -233,9 +233,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         if locationHeaderConstraintA.count > 0 {
             let constraint = locationHeaderConstraintA.count > 1 ? locationHeaderConstraintA[1] : locationHeaderConstraintA[0]
             let headerViewHeightConstraint = constraint
-            headerViewHeightConstraint.isActive  = !SDKManager.isGrocerySingleStore
+            headerViewHeightConstraint.isActive  = !sdkManager.isGrocerySingleStore
         } else {
-            if !SDKManager.isGrocerySingleStore {
+            if !sdkManager.isGrocerySingleStore {
                 let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
                 NSLayoutConstraint.activate([heightConstraint])
             }
@@ -662,7 +662,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            SDKManager.isGrocerySingleStore ?
+            sdkManager.isGrocerySingleStore ?
             self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
             
             self.tableViewCategories.tableHeaderView = nil
@@ -1072,7 +1072,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             self.tableViewCategories.backgroundView = UIView()
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             self.tableViewCategories.reloadDataOnMain()
-           // self.locationHeader.visibility = SDKManager.isGrocerySingleStore ? .invisible : .visible
+           // self.locationHeader.visibility = sdkManager.isGrocerySingleStore ? .invisible : .visible
         }
         
 //        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
@@ -1171,9 +1171,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     @objc func naviagteToRecipe(){
         
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         if SDKManager.rootViewController as? UITabBarController != nil {
-            let tababarController = SDKManager.rootViewController as! UITabBarController
+            let tababarController = sdkManager.rootViewController as! UITabBarController
             tababarController.selectedIndex = 0
         }
         
@@ -1238,8 +1238,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                             if let topVC = UIApplication.topViewController() {
                                 topVC.present(navRecipeDetailController, animated: true, completion: {
                                     
-                                    let SDKManager = SDKManager.shared
-                                    if let nav = SDKManager.rootViewController as? UINavigationController {
+                                    let SDKManager: SDKManagerType! = sdkManager
+                                    if let nav = sdkManager.rootViewController as? UINavigationController {
                                         if nav.viewControllers.count > 0 {
                                             if  nav.viewControllers[0] as? UITabBarController != nil {
                                                 let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1503,7 +1503,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         let currentDate = Date()
         
         if isRegisteredForRemoteNotifications == false, askDate < currentDate {
-            let SDKManager = SDKManager.shared
+            let SDKManager: SDKManagerType! = sdkManager
             
             UserDefaults.notificationAskDate = currentDate
             _ = NotificationPopup.showNotificationPopup(self, withView: SDKManager.window!)
@@ -1700,7 +1700,7 @@ extension MainCategoriesViewController: HomeCellDelegate {
                 }else{
                     
                     
-                    let SDKManager = SDKManager.shared
+                    let SDKManager: SDKManagerType! = sdkManager
                     let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: localizedString("products_adding_different_grocery_alert_title", comment: ""), detail: localizedString("products_adding_different_grocery_alert_message", comment: ""),localizedString("grocery_review_already_added_alert_cancel_button", comment: ""),localizedString("select_alternate_button_title_new", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                         
                         if buttonIndex == 1 {
@@ -1872,7 +1872,7 @@ extension MainCategoriesViewController {
                 if topVC is FailureViewController  {
                     elDebugPrint("already present")
                 }else{
-                    let SDKManager = SDKManager.shared
+                    let SDKManager: SDKManagerType! = sdkManager
                     SDKManager.rootViewController?.present(failureCase, animated: true) {
                         //failureCase.lblErrorMsg.text = localizedString("error_wrong", comment: "")
                     }
@@ -1900,7 +1900,7 @@ extension MainCategoriesViewController {
                     Thread.OnMainThread {
                         if ((error.code) >= 500 && (error.code) <= 599) ||  (error.code) == -1011 {
                             
-                            if let views = SDKManager.shared.window?.subviews {
+                            if let views = sdkManager.window?.subviews {
                                 var popUp : NotificationPopup? = nil
                                 for dataView in views {
                                     if let popUpView = dataView as? NotificationPopup {
@@ -1913,7 +1913,7 @@ extension MainCategoriesViewController {
                                 }
                             }
                             
-                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                                 if buttonIndex == 1 {
                                     self.grocery = nil
                                     self.viewDidAppear(true)
@@ -1980,7 +1980,7 @@ extension MainCategoriesViewController {
     func checkForRecipeCategory() {
         
         self.isRecipeAvailable = false
-        if SDKManager.isSmileSDK {
+        if sdkManager.isSmileSDK {
             return
         }
         if let item = self.recipeListCall {
@@ -2101,7 +2101,7 @@ extension MainCategoriesViewController: BannerCellDelegate {
 extension MainCategoriesViewController:NotificationPopupProtocol {
     
     func enableUserPushNotification(){
-        let SDKManager = SDKManager.shared
+        let SDKManager: SDKManagerType! = sdkManager
         SDKManager.registerForNotifications()
     }
 }
@@ -2140,7 +2140,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
        // locationHeader.myGroceryName.sizeToFit()
         scrollView.layoutIfNeeded()
         
-        guard !SDKManager.isGrocerySingleStore else {
+        guard !sdkManager.isGrocerySingleStore else {
             let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
             if constraintA.count > 0 {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
@@ -2173,7 +2173,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
-            SDKManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
            
             self.title = title
         }

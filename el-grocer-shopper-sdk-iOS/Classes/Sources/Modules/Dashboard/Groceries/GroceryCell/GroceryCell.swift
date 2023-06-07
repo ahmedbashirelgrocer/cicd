@@ -338,7 +338,7 @@ class GroceryCell : UITableViewCell {
                                             
                                             if buttonIndex == 0 {
                                                 
-                                                let SDKManager = SDKManager.shared
+                                                let SDKManager: SDKManagerType! = sdkManager
                                                 SDKManager.showEntryView()
                                             }
             }).show()

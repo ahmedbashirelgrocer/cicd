@@ -49,7 +49,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var btnLocation: UIButton!
     @IBOutlet var myGroceryImage: UIImageView!{
         didSet{
-            myGroceryImage.backgroundColor = SDKManager.isSmileSDK ?  .navigationBarWhiteColor() : .navigationBarWhiteColor()
+            myGroceryImage.backgroundColor = sdkManager.isSmileSDK ?  .navigationBarWhiteColor() : .navigationBarWhiteColor()
             myGroceryImage.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 8, withShadow: false)
         }
     }
@@ -58,7 +58,7 @@ class ElgrocerlocationView:  UIView  {
            
             self.myGroceryName.autoresizingMask = .flexibleHeight
             self.myGroceryName.setH4SemiBoldWhiteStyle()
-            if SDKManager.isSmileSDK {
+            if SDKManager.shared.isSmileSDK {
                 self.myGroceryName.textColor = ApplicationTheme.currentTheme.newBlackColor
             }
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -76,7 +76,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var lblSlot: UILabel!{
         didSet{
             lblSlot.setSubHead1SemiboldWhiteStyle()
-            if SDKManager.isSmileSDK {
+            if SDKManager.shared.isSmileSDK {
                 self.lblSlot.textColor = ApplicationTheme.currentTheme.newBlackColor
             }
         }
@@ -85,7 +85,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var lblAddress: UILabel! {
         didSet{
             lblAddress.setBody3BoldUpperStyle(false)
-            if SDKManager.isSmileSDK {
+            if sdkManager.isShopperApp {
                 self.lblAddress.textColor = ApplicationTheme.currentTheme.newBlackColor
             }
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -102,7 +102,7 @@ class ElgrocerlocationView:  UIView  {
     
     @IBOutlet var bGView: UIView!{
         didSet {
-            bGView.backgroundColor = SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .clear
+            bGView.backgroundColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .clear
         }
     }
     @IBOutlet var groceryBGView: UIView!{
@@ -112,7 +112,7 @@ class ElgrocerlocationView:  UIView  {
     }
     @IBOutlet var imgDeliverySlot: UIImageView!{
         didSet{
-            imgDeliverySlot.image = SDKManager.isSmileSDK ? UIImage(name: "ClockSecondaryBlack") :  UIImage(name: "clockWhite")
+            imgDeliverySlot.image = sdkManager.isSmileSDK ? UIImage(name: "ClockSecondaryBlack") :  UIImage(name: "clockWhite")
         }
     }
     @IBOutlet var searchSuperBGView: UIView!{
@@ -152,7 +152,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var imgShoppingList: UIImageView!{
         didSet{
             imgShoppingList.image = UIImage(name: "addShoppingListYellow")
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 imgShoppingList.isHidden = true
             }
         }
@@ -161,7 +161,7 @@ class ElgrocerlocationView:  UIView  {
         didSet{
             btnlblShopping.text = localizedString("btn_shopping_list_title", comment: "")
             btnlblShopping.setBody3SemiBoldYellowStyle()
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 btnlblShopping.isHidden = true
             }
         }
@@ -169,7 +169,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var btnShoppingList: UIButton!{
         didSet{
             btnShoppingList.setTitle("", for: UIControl.State())
-            if SDKManager.isSmileSDK {
+            if sdkManager.isSmileSDK {
                 btnShoppingList.isEnabled = false
             }
             
@@ -218,10 +218,9 @@ class ElgrocerlocationView:  UIView  {
             self.groceryBGView.visibility = .gone
         }
         
-//        if !SDKManager.isSmileSDK {
-//            self.layer.insertSublayer(self.setupGradient(height: self.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
-//        }
-        
+        if sdkManager.isShopperApp {
+            self.bGView.backgroundColor = .navigationBarColor()
+        } 
     }
     
 //    fileprivate func setUpGradientView (){
@@ -338,15 +337,15 @@ class ElgrocerlocationView:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                     
                     var data = slotString.components(separatedBy: " ")
@@ -386,15 +385,15 @@ class ElgrocerlocationView:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : SDKManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                 let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                 
                 var data = slotString.components(separatedBy: " ")
@@ -504,7 +503,13 @@ class ElgrocerlocationView:  UIView  {
             self.lblAddress.text = localizedString("error_-6", comment: "")
             return
         }
-        self.lblAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address
+        
+        var addressString = ""
+        if let nickName = address.nickName, nickName.count > 0 {
+            addressString = "\(nickName):"
+        }
+        addressString = addressString + (ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address)
+        self.lblAddress.text   = addressString
          self.loadedAddress = address
         self.localLoadedAddress = LocalDeliverAddress(lat: address.latitude, lng: address.longitude, address: address.locationName)
         

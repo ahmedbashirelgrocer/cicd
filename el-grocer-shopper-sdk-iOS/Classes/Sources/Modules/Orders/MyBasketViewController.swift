@@ -701,6 +701,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             currentAddress = deliveryAddress
+            debugPrint(userProfile?.name)
+            debugPrint(userProfile?.phone)
+            debugPrint(deliveryAddress.apartment)
+            debugPrint(deliveryAddress.building)
+            debugPrint(deliveryAddress.nickName)
             let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
             if isDataFilled {
                 self.isAddressCompleted = true
@@ -1121,8 +1126,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     func goToHomeScreen() {
         
         ElGrocerUtility.sharedInstance.tabBarSelectedIndex = 1
-        let SDKManager = SDKManager.shared
-        if let nav = SDKManager.rootViewController as? UINavigationController {
+        let SDKManager: SDKManagerType! = sdkManager
+        if let nav = sdkManager.rootViewController as? UINavigationController {
             if nav.viewControllers.count > 0 {
                 if  nav.viewControllers[0] as? UITabBarController != nil {
                     let tababarController = nav.viewControllers[0] as! UITabBarController
@@ -1402,7 +1407,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         
         
-        let appDelegate = SDKManager.shared
+        let appDelegate: SDKManagerType! = sdkManager
         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "checkOutPopUp") , header: localizedString("shopping_OOS_title_label", comment: "") , detail: localizedString("out_of_stock_message", comment: "")  ,localizedString("sign_out_alert_no", comment: "") ,localizedString("title_checkout_screen", comment: "") , withView: appDelegate.window!) { (buttonIndex) in
             
             if buttonIndex == 1 {
@@ -3008,9 +3013,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             UserDefaults.resetEditOrder()
             self.finalRemoveCall();
             if self.isNeedToHideBackButton {
-                // if let SDKManager = SDKManager.shared {
-                SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
-                (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+                // if let SDKManager: SDKManagerType! = sdkManager {
+                sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
+                (sdkManager.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
                 // }
                 if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                     ElGrocerUtility.sharedInstance.resetTabbar(tab)
@@ -3060,7 +3065,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.cancelOrderHandler(orderId)
         
         /*
-         let SDKManager = SDKManager.shared
+         let SDKManager: SDKManagerType! = sdkManager
          let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "NoCartPopUp") , header: "" , detail: localizedString("order_history_cancel_alert_message", comment: "") ,localizedString("sign_out_alert_no", comment: "") , localizedString("sign_out_alert_yes", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
          
          if buttonIndex == 1 {
