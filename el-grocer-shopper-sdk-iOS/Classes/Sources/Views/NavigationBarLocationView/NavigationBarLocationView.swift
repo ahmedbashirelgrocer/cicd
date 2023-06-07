@@ -58,18 +58,27 @@ class NavigationBarLocationView: UIView {
     }
     func changeLocation() {
         
-        let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
-        dashboardLocationVC.isFromNewHome = true
-        dashboardLocationVC.isRootController = true
-        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navigationController.viewControllers = [dashboardLocationVC]
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.setLogoHidden(true)
         DispatchQueue.main.async {
             if let top = UIApplication.topViewController() {
-                top.present(navigationController, animated: true, completion: nil)
+                EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, presentIn: top)
             }
         }
+        
+        
+        
+        
+//        let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
+//        dashboardLocationVC.isFromNewHome = true
+//        dashboardLocationVC.isRootController = true
+//        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+//        navigationController.viewControllers = [dashboardLocationVC]
+//        navigationController.modalPresentationStyle = .fullScreen
+//        navigationController.setLogoHidden(true)
+//        DispatchQueue.main.async {
+//            if let top = UIApplication.topViewController() {
+//                top.present(navigationController, animated: true, completion: nil)
+//            }
+//        }
     }
     func setLocationHidden(_ hidden:Bool) {
 //        if let chat = self.navChatButton {

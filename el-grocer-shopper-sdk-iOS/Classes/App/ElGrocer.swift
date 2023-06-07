@@ -290,7 +290,7 @@ func elDebugPrint(_ items: Any...,
                   function: String = #function,
                   file: String = #file) {
     #if DEBUG
-    if sdkManager.launchOptions?.isLoggingEnabled == true {
+    if SDKManager.shared.launchOptions?.isLoggingEnabled == true {
         var index = items.startIndex
         let end = items.endIndex
         // Swift.debugPrint("==> File: \(file), Function: \(function) <==")

@@ -2,12 +2,15 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 
-import UIKit
-import IQKeyboardManagerSwift
-import Firebase
-import el_grocer_shopper_sdk_iOS
 
 /*
+ 
+ import UIKit
+ import IQKeyboardManagerSwift
+ import Firebase
+ import el_grocer_shopper_sdk_iOS
+
+ 
 // to install elgrocer shopper directly use this ... Please change bundle id to verify things
 private enum BackendSuggestedAction: Int {
     case Continue = 0
@@ -283,14 +286,19 @@ extension AppDelegate {
 */
 
 
+import UIKit
+import IQKeyboardManagerSwift
+import Firebase
+
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
  
     var window: UIWindow?
-    
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
         IQKeyboardManager.shared.enable = true
         FirebaseApp.configure()
         
@@ -321,5 +329,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-
 

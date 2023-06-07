@@ -44,8 +44,8 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     }
     @IBOutlet weak var topView: UIView! {
         didSet {
-            topView.layer.cornerRadius = 24
-            topView.layer.masksToBounds = true
+           // topView.layer.cornerRadius = 24
+           // topView.layer.masksToBounds = true
         }
     }
     

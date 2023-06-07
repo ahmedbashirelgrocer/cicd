@@ -329,10 +329,15 @@ class SDKManager: NSObject, SDKManagerType  {
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
 
-        if Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper" || Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK"  {
+        if Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper"   {
             GMSPlacesClient.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
             GMSServices.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
+        }else if Bundle.main.bundleIdentifier == "Etisalat.House" {
+            GMSPlacesClient.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
+            GMSServices.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
         }
+        
+       
         // initialize Segment SDK used for event logging.
         initializeSegmentSDK()
         let action3 = UNNotificationAction(identifier: "action_3", title: "View In App", options: [])

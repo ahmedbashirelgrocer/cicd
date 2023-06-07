@@ -2172,20 +2172,18 @@ extension GenericStoresViewController {
                 //setting hardcoded value for first run
                 intervalInMins = 66.0
             }
-            // if(distance > 999 && intervalInMins > 60)
-            
-            if(distance > 1 && intervalInMins > 1)
+             if(distance > 300 && intervalInMins > 60)
              {
-                /*let vc = LocationChangedViewController.getViewController()
+                let vc = LocationChangedViewController.getViewController()
                 
                 vc.currentLocation = currentLocation
                 vc.currentSavedLocation = deliveryAddressLocation
                 
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
-                self.present(vc, animated: true, completion: nil) */
+                self.present(vc, animated: true, completion: nil)
                 
-                EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, presentIn: self)
+                
                 UserDefaults.setLocationChanged(date: Date()) //saving current date
              }
             

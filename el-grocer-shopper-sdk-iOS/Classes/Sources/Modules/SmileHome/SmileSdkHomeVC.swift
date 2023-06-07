@@ -131,7 +131,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             controller.buttonActionsDelegate = self
-            (controller.navigationBar as? ElGrocerNavigationBar)?.changeBackButtonImage(true,false) // to get purple backimage
+            (controller.navigationBar as? ElGrocerNavigationBar)?.changeBackButtonImagetoPurple() // to get purple backimage
             controller.refreshLogoView()
            // controller.setBackButtonHidden(false)
         }
@@ -706,12 +706,8 @@ extension SmileSdkHomeVC {
 // MARK: Navigation Bar Button Actions Delegates
 extension SmileSdkHomeVC: ButtonActionDelegate {
     func profileButtonTap() {
-        elDebugPrint("profileButtonClick")
-        MixpanelEventLogger.trackNavBarProfile()
-        let settingController = ElGrocerViewControllers.settingViewController()
+        let settingController = SettingViewController.make(viewModel: AppSetting.currentSetting.getSettingCellViewModel(), analyticsEventLogger: SegmentAnalyticsEngine())
         self.navigationController?.pushViewController(settingController, animated: true)
-        hideTabBar()
-        
         // Logging segment event for menu button clicked
         SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
     }
@@ -1050,7 +1046,7 @@ extension SmileSdkHomeVC {
                 intervalInMins = 66.0
             }
             
-            if(distance > 999 && intervalInMins > 60)
+            if(distance > 300 && intervalInMins > 60)
             {
                 DispatchQueue.main.async {
                     let vc = LocationChangedViewController.getViewController()

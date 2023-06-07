@@ -82,11 +82,14 @@ class LocationMapViewModel {
     
         LocationManager.sharedInstance.geocodeAddress(location, withCompletionHandler: { (status, success,address) -> Void in
             if !success {
-                LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
-                    self.selectedAddress.value = address
-                   self.isLocationFetching.value = false
-                }) { (error) in
-                    self.isLocationFetching.value = false
+                
+                Thread.OnMainThread { [ weak self] in
+                    LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { [weak self] (address) in
+                        self?.selectedAddress.value = address
+                       self?.isLocationFetching.value = false
+                    }) { (error) in
+                        self?.isLocationFetching.value = false
+                    }
                 }
             }
             else {

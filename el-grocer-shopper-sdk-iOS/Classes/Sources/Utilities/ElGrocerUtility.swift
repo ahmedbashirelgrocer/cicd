@@ -33,12 +33,7 @@ class ElGrocerUtility {
     // use in network class
     var projectScope : ScopeDetail?
     var isTokenCalling: Bool = false
-    var isDeliveryMode: Bool = true {
-        didSet{
-            elDebugPrint("isDeliveryMode: \(isDeliveryMode)")
-        }
-    }
-    
+    var isDeliveryMode: Bool = true 
     var currrentSelectedSlotMilis: String? = nil {
 
         didSet{

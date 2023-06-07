@@ -658,9 +658,20 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
         
         self.backButton  = UIButton(type: .custom)
-        self.backButton.setImage(image, for: .normal)
+        self.backButton.setImage(image, for: UIControl.State())
         self.addSubview(self.backButton)
     }
+    
+    func changeBackButtonImagetoPurple() {
+        
+        if let back = self.backButton{
+                var image = UIImage(name: "backPinPurple")!
+                back.setImage(image, for: UIControl.State())
+                self.backButton = back
+        }
+    }
+    
+    
     func changeBackButtonImage(_ isWhite: Bool = false, _ isBlack: Bool = SDKManager.shared.isSmileSDK) {
         
         if let back = self.backButton{

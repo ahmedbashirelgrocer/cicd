@@ -274,9 +274,77 @@ class LocationManager: NSObject {
             
             geocodeURLString = geocodeURLString.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             
-            let geocodeURL = URL(string: geocodeURLString)
+            if let geocodeURL = URL(string: geocodeURLString) {
+                
+                URLSession.shared.dataTask(with: geocodeURL) { (data, response, error) in
+                    // Error handling...
+                    guard let geocodingResultsData = data else {
+                        completionHandler("", false,nil)
+                        return
+                    }
+                    
+                    guard let dictionary = try! JSONSerialization.jsonObject(with: geocodingResultsData, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any] else {
+                        elDebugPrint("Not JSON format expected")
+                        elDebugPrint(String(data: geocodingResultsData, encoding: .utf8) ?? "Not string?!?")
+                        completionHandler("", false,nil)
+                        return
+                    }
+                    
+                    guard let allResults = dictionary["results"] as? [[String: Any]],
+                          let status = dictionary["status"] as? String, status == "OK" else {
+                        elDebugPrint("no results")
+                        elDebugPrint(String(describing: dictionary))
+                        completionHandler("", false,nil)
+                        return
+                    }
+                    
+                    // Get the response status.
+                    let lookupAddressResults = allResults[0]
+                    
+                    let addressComponents = lookupAddressResults["address_components"] as! Array<Dictionary<NSObject, AnyObject>>
+                    
+                    var fetchedFormattedAddress = ""
+                    elDebugPrint("Address Components Count:%d",addressComponents.count)
+                    var loopLimit = addressComponents.count
+                    if (addressComponents.count > 2){
+                        loopLimit = addressComponents.count - 2
+                    }
+                    
+                    //for i in 0..<addressComponents.count - 2 {
+                    
+                    for i in 0..<loopLimit {
+                        
+                        let dict = addressComponents[i] as? [String: Any]
+                        
+                        let locShortName = dict!["short_name"] as? String
+                        
+                        if (locShortName != nil){
+                            fetchedFormattedAddress += locShortName!
+                        }
+                        
+                        if(i != addressComponents.count - 3){
+                            fetchedFormattedAddress += " - "
+                        }
+                    }
+                    
+                    elDebugPrint("Fetched Formatted Address:",fetchedFormattedAddress)
+                    
+                    if(fetchedFormattedAddress.isEmpty){
+                        // Keep the most important values.
+                        fetchedFormattedAddress = lookupAddressResults["formatted_address"] as! String
+                    }
+                    
+                    elDebugPrint("Fetched Formatted Address:",fetchedFormattedAddress)
+                    
+                    completionHandler(status, true,fetchedFormattedAddress)
+                    
+                }.resume()
+            } else {
+                completionHandler("", false,nil)
+            }
             
-            DispatchQueue.main.async(execute: { () -> Void in
+            
+           /* DispatchQueue.main.async(execute: { () -> Void in
                 let geocodingResultsData = try? Data(contentsOf: geocodeURL!)
                 if(geocodingResultsData != nil){
                     
@@ -337,7 +405,7 @@ class LocationManager: NSObject {
                 }else{
                     completionHandler("", false,nil)
                 }
-            })
+            }) */
         }else {
             completionHandler("No valid address.",false,nil)
         }
