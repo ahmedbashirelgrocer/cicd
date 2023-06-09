@@ -10,6 +10,7 @@ import SDWebImage
 
 struct UserMapPinAdress {
     
+    var nickName: String = ""
     var address : String = ""
     var addressImageUrl: URL?
     var addressLat: Double = 0.0
@@ -54,8 +55,13 @@ class MapPinView: UIView {
         if detail.addressLat == 0.0 &&  detail.addressLng == 0.0 {
             self.mapImageView.image = UIImage(name: "product_placeholder")
         }
-        self.lblAddress.text = detail.address
-        
+        if detail.nickName.count > 0 {
+            self.lblAddress.text = ""
+            self.setlblAddressAttributedText(detail.nickName, address: detail.address)
+        }else{
+            self.lblAddress.text =  detail.address
+        }
+    
         if let imageUrl = detail.addressImageUrl {
             self.mapImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(name: "product_placeholder"))
         } else {
@@ -83,6 +89,22 @@ class MapPinView: UIView {
             //  self.mapImageView.sd_setImage(with:  self.getPinImageFromLatLng(lat: detail.addressLat, lng: detail.addressLng), placeholderImage: UIImage(name: "product_placeholder"))
         }
         
+    }
+    
+    private func setlblAddressAttributedText(_ nickName: String, address: String) {
+        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+        let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
+        let nickName = nickName
+        let attributedString1 = NSMutableAttributedString(string: nickName   , attributes:attrs2 as [NSAttributedString.Key : Any])
+        attributedString.append(attributedString1)
+        let attributedString2 = NSMutableAttributedString(string: "\n" + address  , attributes:attrs1 as [NSAttributedString.Key : Any])
+        attributedString.append(attributedString2)
+        DispatchQueue.main.async {
+            UIView.performWithoutAnimation {
+                self.lblAddress.attributedText = attributedString
+            }
+        }
     }
     
     @IBAction func changeButtonAction(_ sender: Any) {

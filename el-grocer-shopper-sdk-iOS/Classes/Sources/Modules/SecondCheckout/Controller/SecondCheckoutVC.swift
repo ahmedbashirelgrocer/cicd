@@ -246,7 +246,8 @@ class SecondCheckoutVC: UIViewController {
     func setDeliveryAddress() {
         self.checkoutDeliveryAddressView.configure(address: viewModel.getDeliveryAddress())
         let address = viewModel.getDeliveryAddressObj()
-        self.pinView.configureWith(detail: UserMapPinAdress.init(address: address?.address ?? "", addressImageUrl: nil, addressLat: address?.latitude ?? 0.0, addressLng: address?.longitude ?? 0.0))
+        let addressString = viewModel.getDeliveryAddress()
+        self.pinView.configureWith(detail: UserMapPinAdress.init(nickName: address?.nickName ?? "",address: addressString, addressImageUrl: address?.addressImageUrl, addressLat: address?.latitude ?? 0.0, addressLng: address?.longitude ?? 0.0))
     }
     
     func updateViewAccordingToData(data: BasketDataClass) {
@@ -419,7 +420,7 @@ private extension SecondCheckoutVC {
         checkoutStackView.addArrangedSubview(checkoutDeliverySlotView)
         checkoutStackView.addArrangedSubview(pinView)
         checkoutStackView.addArrangedSubview(viewWarning)
-        checkoutStackView.addArrangedSubview(checkoutDeliveryAddressView)
+       // checkoutStackView.addArrangedSubview(checkoutDeliveryAddressView)
         checkoutStackView.addArrangedSubview(additionalInstructionsView)
         checkoutStackView.addArrangedSubview(viewCollectorCar)
         checkoutStackView.addArrangedSubview(viewCollector)

@@ -2153,6 +2153,7 @@ Oreo";
 "set_your_location" = "Set your location to\nstart ordering";
 "detect_current_location" = "Detect current location";
 "add_delivery_address" = "Add delivery address";
+"enter_YourNick_Name" = "Enter address nickname, ‘Home/Work’*";
 "your_name*" = "Your name*";
 "email*" = "Email*";
 "email_optional" = "Email (Optional)";

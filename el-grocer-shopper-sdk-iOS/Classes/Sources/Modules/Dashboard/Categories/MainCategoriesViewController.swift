@@ -1549,7 +1549,6 @@ private extension MainCategoriesViewController {
         
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
-            
             self.viewModel.inputs.scrollObserver.onNext(indexPath)
             cell.configure(viewModel: viewModel)
             

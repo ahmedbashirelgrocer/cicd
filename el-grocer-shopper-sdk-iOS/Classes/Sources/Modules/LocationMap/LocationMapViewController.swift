@@ -60,8 +60,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             }
         }
     }
-    
-    
+  
     @IBOutlet weak var topBg: UIView! {
         didSet {
             topBg.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
@@ -255,7 +254,6 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         
         guard !isNeedToShowNoCoverage else {
             var locShopId =  self.lastCoverageDict!["location_without_shop_id"]
-            
             //Bellow code is to show GroceriesPopUp
             let appDelegate = sdkManager
             self.groceriesPopUpView = GroceriesPopUp.showGroceriesPopUp(self,topView: appDelegate?.window! ?? self.view, shopId:locShopId as? NSNumber ?? 0)
@@ -264,42 +262,46 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         
         guard let location = self.viewModel.selectedLocation.value else {return}
         
-      
-        
         guard !isFromCart else {
             
-            let storeID = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
-            let parentID = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
-            let _ = SpinnerView.showSpinnerView()
-            ElGrocerApi.sharedInstance.checkIfGroceryAvailable(location, storeID: storeID ?? "", parentID: parentID ?? "") { (result) in
-                switch result {
-                case .success(let responseObject):
-                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                    if  let response = responseObject["data"] as? NSDictionary {
-                        if let groceryDict = response["retailers"] as? [NSDictionary] {
-                            if groceryDict.count > 0 {
-                                let arrayGrocery = Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
-                                if arrayGrocery.count > 0 {
-                                    ElGrocerUtility.sharedInstance.groceries = arrayGrocery
-                                    ElGrocerUtility.sharedInstance.activeGrocery = arrayGrocery[0]
-                                    self.updateAddress(location)
-                                    return
+            self.checkConveredAreaForBasket(location) { [weak self] isCoverd in
+                guard let self = self else {return}
+                if isCoverd {
+                    let storeID = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
+                    let parentID = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
+                    ElGrocerApi.sharedInstance.checkIfGroceryAvailable(location, storeID: storeID ?? "", parentID: parentID ?? "") { [weak self]  (result) in
+                        guard let self = self else {return}
+                        switch result {
+                        case .success(let responseObject):
+                            let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                            if  let response = responseObject["data"] as? NSDictionary {
+                                if let groceryDict = response["retailers"] as? [NSDictionary] {
+                                    if groceryDict.count > 0 {
+                                        let arrayGrocery = Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
+                                        if arrayGrocery.count > 0 {
+                                            ElGrocerUtility.sharedInstance.groceries = arrayGrocery
+                                            ElGrocerUtility.sharedInstance.activeGrocery = arrayGrocery[0]
+                                            self.updateAddress(location)
+                                            return
+                                        }
+                                    }
                                 }
                             }
+                            SpinnerView.hideSpinnerView()
+                            StoreOutConverageAreaBottomSheetViewController.showInBottomSheet(location: location, address: self.viewModel.locationAddress.value ?? "Unknown", presentIn: self){ [weak self] (isChangeLocation) in
+                                if isChangeLocation {
+                                    guard let self = self else {return}
+                                    self.delegate?.locationMapViewControllerWithBuilding(self, didSelectLocation: self.viewModel.selectedLocation.value, withName: "", withAddress: "", withBuilding: "", withCity: "")
+                                }else {
+                                    self?.backButtonClick()
+                                }
+                            }
+                        case .failure(let error):
+                            SpinnerView.hideSpinnerView()
+                            error.showErrorAlert()
                         }
                     }
-                    SpinnerView.hideSpinnerView()
-                    StoreOutConverageAreaBottomSheetViewController.showInBottomSheet(location: location, address: self.viewModel.locationAddress.value ?? "Unknown", presentIn: self){ [weak self] (isChangeLocation) in
-                        if isChangeLocation {
-                            guard let self = self else {return}
-                            self.delegate?.locationMapViewControllerWithBuilding(self, didSelectLocation: self.viewModel.selectedLocation.value, withName: "", withAddress: "", withBuilding: "", withCity: "")
-                        }else {
-                            self?.backButtonClick()
-                        }
-                    }
-                case .failure(let error):
-                    SpinnerView.hideSpinnerView()
-                    error.showErrorAlert()
+                    
                 }
             }
             return
@@ -328,28 +330,101 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             if result {
                 // if let add =  self.viewModel.selectedAddress.value?.formattedAddress {
                 
-                self.lblAddress.text  =  self.viewModel.selectedAddress.value?.formattedAddress ?? "Current Location"
+               // self.lblAddress.text  =  self.viewModel.selectedAddress.value?.formattedAddress ?? "Current Location"
                 self.btnChangeAddress.isHidden = self.lblAddress.text?.count == 0
-                
-                // if self.lblAddress.text?.count ?? 0 > 0 {
-                // self.manualLbl.text = ""
-                // self.addressTitleLabel.text = localizedString("lbl_use_current_location", comment: "")
-                // self.addressTextField.text = ""
-                // }else{
-                // self.addressTitleLabel.text = ""
-                // self.addressTextField.text = self.viewModel.selectedAddress.value?.formattedAddress ?? "Current Location"
-                // }
-                
-                // }else{
-                // self.lblAddress.text = ""
-                // self.addressTextField.text = ""
-                // self.addressTitleLabel.text = localizedString("lbl_use_current_location", comment: "")
-                // self.manualLbl.text  = localizedString("lbl_Manuall_Location", comment: "")
-                // }
-                
                 self.checkCOnveredArea(returnLocation)
             }
         }
+        
+    }
+    
+    func checkConveredAreaForBasket(_ location : CLLocation, completion: ((_ isCoverd: Bool) -> Void)?  = nil){
+        
+        _ = SpinnerView.showSpinnerViewInView(self.view)
+        ElGrocerApi.sharedInstance.checkCoveredAreaForGroceries(location) { (result) -> Void in
+            
+            switch result {
+            case .success(let response):
+                let dataDict = response["data"] as? NSDictionary
+                let isCovered = dataDict!["is_covered"] as? Bool
+                self.lastCoverageDict = dataDict
+                if(isCovered == true){
+                    if (self.viewModel.locationName.value != nil && self.viewModel.locationName.value?.isEmpty == false){
+                        self.locName = self.viewModel.locationName.value!
+                    }else if (self.viewModel.predictionlocationName.value != nil && self.viewModel.predictionlocationName.value?.isEmpty == false){
+                        self.locName = self.viewModel.predictionlocationName.value!
+                    }else{
+                        self.locName = self.viewModel.userAddress.value!
+                        if self.locName.count == 0 {
+                            self.locName = self.viewModel.selectedAddress.value?.formattedAddress ?? "Current Location"
+                        }
+                        self.viewModel.locationName.value = self.locName
+                    }
+                    if (self.viewModel.locationAddress.value != nil && self.viewModel.locationAddress.value?.isEmpty == false){
+                        self.locAddress = self.viewModel.locationAddress.value!
+                    }else if (self.viewModel.predictionlocationAddress.value != nil && self.viewModel.predictionlocationAddress.value?.isEmpty == false){
+                        self.locAddress = self.viewModel.predictionlocationAddress.value!
+                    }else{
+                        self.locAddress = self.viewModel.userAddress.value!
+                        if self.locAddress.count == 0 {
+                            self.locAddress = self.viewModel.selectedAddress.value?.formattedAddress ?? "Current Location"
+                        }
+                        self.viewModel.locationAddress.value = self.locAddress
+                    }
+                    if self.viewModel.buildingName.value?.isEmpty == false {
+                        if let value = self.viewModel.buildingName.value {
+                            self.buildingName = value
+                        }
+                    }
+                    var cityName = "null"
+                    if let administrativeArea =  self.viewModel.selectedAddress.value?.administrativeArea {
+                        cityName = administrativeArea
+                    }
+                    if let localicty =  self.viewModel.selectedAddress.value?.locality {
+                        cityName = localicty
+                    }
+                    completion?(true)
+                } else {
+                    SpinnerView.hideSpinnerView()
+                    self.isNeedToShowNoCoverage = true
+                    DispatchQueue.main.async {
+                        
+                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+                            self.view.setNeedsLayout()
+                            self.view.layoutIfNeeded()
+                            self.buttonsView.setNeedsLayout()
+                            
+                        }, completion: nil)
+                        
+                        self.setUpBottomView()
+                        self.confirmButton.setTitle(localizedString("request_to_deliver_here", comment: ""), for: .normal)
+                        self.confirmButton.setBackgroundColor(.white, forState: .normal)
+                        self.confirmButton.setH4SemiBoldAppBaseColorStyle()
+                        self.confirmButton.layer.cornerRadius = 28
+                        self.confirmButton.layer.masksToBounds = true
+                        self.confirmButton.layer.borderWidth = 2
+                        self.confirmButton.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
+                        
+                        
+                        if self.lblAddress.text?.count ?? 0 > 0 {
+                            self.lblErrorTwo.text = localizedString("lbl_error_No_Grocery", comment: "")
+                            self.maunalSearchView.layer.borderColor = UIColor.redInfoColor().cgColor
+                        }else{
+                            self.lblError.text = localizedString("lbl_error_No_Grocery", comment: "")
+                            self.lblCurrentSearchView.layer.borderColor = UIColor.redInfoColor().cgColor
+                            
+                        }
+                    }
+                    completion?(false)
+                }
+                
+            case .failure(let error):
+                SpinnerView.hideSpinnerView()
+                completion?(false)
+                error.showErrorAlert()
+            }
+        }
+        
         
     }
     
@@ -540,6 +615,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         let loc = CLLocation(latitude: locationCurrentCoordinates.latitude, longitude: locationCurrentCoordinates.longitude)
         viewModel.selectedLocation.value = loc
         
+       
         self.locationMarker.isHidden = false
         let camera = GMSCameraPosition.camera(withTarget: locationCurrentCoordinates, zoom: cameraZoom)
         self.mapView?.camera = camera
@@ -554,10 +630,24 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     fileprivate func setBindings() {
         
+        
+        viewModel.isNeedToFindAddress.asObservable().observeOn(MainScheduler.instance)
+            .bind { [unowned self] (isNeedToFindAddress) in
+                if isNeedToFindAddress == false {
+                    self.detectingLocationView.isHidden = true
+                    self.lblAddress.text = ""
+                    self.btnChangeAddress.setTitle("", for: UIControl.State())
+                    self.lbl_chooselocation.text = ""
+                } else {
+                    self.btnChangeAddress.setTitle(localizedString("grocery_review_already_added_alert_confirm_button", comment: ""), for: UIControl.State())
+                    self.lbl_chooselocation.text = localizedString("lbl_yourlocation", comment: "")
+                }
+            }.disposed(by: disposeBag)
+        
         viewModel.isLocationFetching.asObservable().observeOn(MainScheduler.instance)
             .bind { [unowned self] (isLocationFetching) in
                 self.detectingLocationView.isHidden = !(isLocationFetching ?? false)
-            }
+            }.disposed(by: disposeBag)
         
         viewModel.selectedLocation.asObservable().observeOn(MainScheduler.instance)
             .bind { [unowned self] (location) in
@@ -570,15 +660,6 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 self.confirmButton.enableWithAnimation(true)
                 let cameraUpdate = GMSCameraUpdate.setTarget(location.coordinate)
                 self.mapView?.moveCamera(cameraUpdate)
-                
-                
-                if self.isNeedToUpdateManual {
-                    // self.manualLbl.text = self.viewModel.locationAddress.value
-                    // self.addressTextField.text = localizedString("lbl_use_current_location", comment: "")
-                } else {
-                    // self.addressTextField.text = self.viewModel.locationAddress.value
-                    // self.manualLbl.text  = localizedString("lbl_Manuall_Location", comment: "")
-                }
                 
                 if self.isPinUpdate {
                     self.lblAddress.text = ""
@@ -611,7 +692,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         viewModel.selectedAddress.asObservable().observeOn(MainScheduler.instance)
             .bind { [unowned self](address) in
                 guard let address = address else {
-                    self.detectingLocationView.isHidden = false
+                    self.detectingLocationView.isHidden = !(viewModel.isLocationFetching.value ?? false)
                     return
                 }
                 self.lblAddress.text  =  address.formattedAddress ?? "Unable to find location"
@@ -621,7 +702,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         viewModel.userAddress.asObservable().observeOn(MainScheduler.instance)
             .bind { [unowned self](address) in
                 guard let address = address else {
-                    self.detectingLocationView.isHidden = false
+                    self.detectingLocationView.isHidden = !(viewModel.isLocationFetching.value ?? false)
                     return
                 }
                 var finalAddress = address
@@ -723,6 +804,11 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         let camera = GMSCameraPosition.camera(withTarget: coardinates, zoom: cameraZoom)
         self.mapView?.camera = camera
         
+//        let positionLondon = CLLocationCoordinate2D(latitude: coardinates.latitude, longitude: coardinates.longitude)
+//        let london = GMSMarker(position: positionLondon)
+//        london.icon = UIImage(name: "smile_pin")
+//        london.map = self.mapView
+     
     }
     
     fileprivate func configureAddressTextField() {
@@ -916,11 +1002,14 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
 // MARK: GMSMapViewDelegate
 
 extension LocationMapViewController: GMSMapViewDelegate {
-    
+
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        self.mapPinToolTipText.isHidden = false
+        self.viewModel.isNeedToFindAddress.value = position.zoom >= 18
+    }
     
     func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
         self.shouldUpdatePinUpdate = true
-        
         UIView.transition(with: self.mapToolTipBgView, duration: 0.2,
                           options: .curveEaseIn,
                           animations: {
@@ -931,8 +1020,15 @@ extension LocationMapViewController: GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        
         print("map Zoom level : \(position.zoom)")
+        self.viewModel.isNeedToFindAddress.value = position.zoom >= 18
+        self.mapPinToolTipText.text = position.zoom >= 18 ? "Drag the pin on the most accurate location" : "Please zoom in to find your exact delivery location"
+        UIView.transition(with: self.mapToolTipBgView, duration: 0.2,
+                          options: .curveEaseOut,
+                          animations: {
+                        self.mapToolTipBgView.isHidden = false
+                      })
+    
         let location = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
         if CLLocationCoordinate2DIsValid(location.coordinate) && (location.coordinate.latitude != 0 && location.coordinate.longitude != 0){
             if self.shouldUpdatePinUpdate {
@@ -940,19 +1036,7 @@ extension LocationMapViewController: GMSMapViewDelegate {
                 self.shouldUpdatePinUpdate = false
                 viewModel.selectedLocation.value = location
             }
-            
         }
-   
-        self.mapPinToolTipText.text = position.zoom >= 18 ? "Drag the pin on the most accurate location" : "Please zoom in to find your exact delivery location"
-        
-        self.viewModel.isNeedToFindAddress.value = position.zoom >= 18
-    
-        UIView.transition(with: self.mapToolTipBgView, duration: 0.2,
-                          options: .curveEaseOut,
-                          animations: {
-                        self.mapToolTipBgView.isHidden = false
-                      })
-        
     }
 }
 
@@ -1060,12 +1144,10 @@ extension LocationMapViewController: GMSAutocompleteViewControllerDelegate {
             self.mapView?.camera = camera
             ElGrocerUtility.sharedInstance.delay(0.1) {
                 // self.manualLbl.text = ""
-                self.lblAddress.text = place.formattedAddress
+                //self.lblAddress.text = place.formattedAddress
                 self.btnChangeAddress.isHidden = self.lblAddress.text?.count == 0
             }
         })
-        
-        // self.addressTextField.text = localizedString("lbl_use_current_location", comment: "")
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {

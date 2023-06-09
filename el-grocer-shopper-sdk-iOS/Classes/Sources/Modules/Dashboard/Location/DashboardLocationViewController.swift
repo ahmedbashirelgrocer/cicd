@@ -1249,39 +1249,33 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             self.dismiss(animated: true) {}
             return
         }
-        
-        self.dismiss(animated: true) {
-            
-            if SDKManager.shared.isSmileSDK {
-                if UIApplication.topViewController() is UniversalSearchViewController, ElGrocerUtility.sharedInstance.activeGrocery == nil {
-                    
-                    if let topVc = UIApplication.topViewController() {
-                        topVc.dismiss(animated: false)
-                        topVc.tabBarController?.selectedIndex = 0
-                    }
+        self.navigationController?.popToRootViewController(animated: true)
+        if SDKManager.shared.isSmileSDK {
+            if UIApplication.topViewController() is UniversalSearchViewController, ElGrocerUtility.sharedInstance.activeGrocery == nil {
+                if let topVc = UIApplication.topViewController() {
+                    topVc.dismiss(animated: false)
+                    topVc.tabBarController?.selectedIndex = 0
                 }
-                
-            } else if UIApplication.topViewController() is GenericStoresViewController {
-
-            } else if UIApplication.topViewController() is MainCategoriesViewController {
-                
-                UIApplication.topViewController()?.tabBarController?.selectedIndex = 0;
-                ElGrocerUtility.sharedInstance.delay(0.2){
-                    if UIApplication.topViewController() is MainCategoriesViewController{
-                        let mainca = UIApplication.topViewController()
-                            mainca?.viewWillAppear(true)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
-                    } else {
-                        (SDKManager.shared).showAppWithMenu()
-                    }
-                    
-                }
-                
-            } else {
-                
-                (SDKManager.shared).showAppWithMenu()
             }
+        } else if UIApplication.topViewController() is GenericStoresViewController {} else if UIApplication.topViewController() is MainCategoriesViewController {
+            
+            UIApplication.topViewController()?.tabBarController?.selectedIndex = 0;
+            ElGrocerUtility.sharedInstance.delay(0.2){
+                if UIApplication.topViewController() is MainCategoriesViewController{
+                    let mainca = UIApplication.topViewController()
+                        mainca?.viewWillAppear(true)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: KReloadGenericView), object: nil)
+                } else {
+                    (SDKManager.shared).showAppWithMenu()
+                }
+                
+            }
+            
+        } else {
+            
+            (SDKManager.shared).showAppWithMenu()
         }
+        
     }
     
     func checkForCoveredArea(){
@@ -1510,18 +1504,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                         }
                     }else {
                         if !sdkManager.isGrocerySingleStore { self.fetchGroceries() } else {
-                            
                             ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
                             self.dismiss(animated: true)
-
-//                            ElGrocer.start(with: SDKManager.shared.launchOptions) {
-//                              let _ = SpinnerView.showSpinnerViewInView(self.view)
-//                            } completion: { isCompleted in
-//                                if isCompleted ?? false {
-//                                    SpinnerView.hideSpinnerView()
-//                                    self.dismiss(animated: true)
-//                                }
-//                            }
                         }
                     }
                     

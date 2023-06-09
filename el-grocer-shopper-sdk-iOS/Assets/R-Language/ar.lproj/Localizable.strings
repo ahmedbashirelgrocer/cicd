@@ -2190,7 +2190,7 @@
 "detect_current_location" = " تحديد موقعي الحالي ";
 "add_delivery_address" = "ناﻮﻨﻋ ﻒﺿا";
 "your_name*" = "ﻢﺳﺈﻟا*";
-
+"enter_YourNick_Name" = "Enter address nickname, ‘Home/Work’*";
 "email*" = "البريد الإلكتروني*";
 "email_optional" = "البريد الإلكتروني (غير إلزامي)";
 "building_name*" = "ﻰﻨﺒﻤﻟا*";

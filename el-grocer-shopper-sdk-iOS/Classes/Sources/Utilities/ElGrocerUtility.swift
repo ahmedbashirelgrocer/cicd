@@ -1036,13 +1036,10 @@ class ElGrocerUtility {
                     formatted = formatted.count > 0 ? (formatted + ", ") :  formatted
                 }
                 
-//                formatted =  (location.apartment ?? "")
-//                formatted = formatted.count > 0 ? (formatted + ", ") :  formatted
-//                formatted = formatted + (location.floor ?? "")
-//                formatted = formatted.count > 0 ? (formatted + ", ") :  formatted
-//                formatted =  formatted + (location.building ?? "")
-//                formatted = formatted.count > 0 ? (formatted + ", ") :  formatted
-//                formatted =  formatted  + (location.street ?? "")
+                if location.city?.count ?? 0 > 0 {
+                    formatted = formatted +  (location.city ?? "")
+                }
+
             }else if (location.addressType ==  "1") {
                 
                 if location.houseNumber?.count ?? 0 > 0 {
@@ -1074,7 +1071,7 @@ class ElGrocerUtility {
 //                formatted =  formatted  + (location.building ?? "")
 //                formatted =  formatted   + ", " + (location.street ?? "")
                 // formatted =  formatted  + (location.houseNumber ?? "")
-            }else{
+            } else {
                 formatted = location.address
             }
         }
@@ -1091,7 +1088,7 @@ class ElGrocerUtility {
         finalCHeck = finalCHeck.replacingOccurrences(of: ",", with: "")
         
         if finalCHeck.isEmpty {
-            formatted = "";
+            formatted = locations?.city ?? ""
         }
         return formatted;
     }

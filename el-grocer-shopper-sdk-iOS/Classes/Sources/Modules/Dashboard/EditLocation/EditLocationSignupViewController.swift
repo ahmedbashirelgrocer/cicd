@@ -296,7 +296,7 @@ fileprivate extension EditLocationSignupViewController {
                                 self.navigationController?.popViewController(animated: false)
                             }
                         }else {
-                            if (self.navigationController?.viewControllers.count ?? 0) > 1 {
+                            if (self.navigationController?.viewControllers.count ?? 0) > 2 {
                                 self.navigationController?.popToRootViewController(animated: true)
                                 return
                             }
@@ -403,13 +403,14 @@ fileprivate extension EditLocationSignupViewController {
              keyboardType: UIKeyboardType?)
         ] = [
             ("locationPop", "", UIKeyboardType.default),
-            (nil, "Enter your nick Name", UIKeyboardType.default),
+            (nil, localizedString("enter_YourNick_Name", comment: ""), UIKeyboardType.default),
             (nil, localizedString("your_name*", comment: ""), UIKeyboardType.default),
             (nil, localizedString("email_optional", comment: ""), UIKeyboardType.emailAddress),
             (nil, localizedString("building_name*", comment: ""), UIKeyboardType.default),
             (nil, localizedString("apartment/office/villa_number*", comment: ""), UIKeyboardType.numberPad),
             (nil, localizedString("confirm_address", comment: ""), nil)
         ]
+        
         
         for index in 0..<tableConfigData.count {
             switch index {

@@ -16,6 +16,7 @@ extension GMSAddress {
     var formattedAddress: String {
         let addressComponents = [
             thoroughfare,        // One Infinite Loop
+            subLocality,         // sublocatility
             locality,            // Cupertino
             administrativeArea,  // California
             postalCode           // 95014
@@ -104,19 +105,21 @@ class LocationMapViewModel {
     
     func updateAddressForLocation(_ location: CLLocation , completion : @escaping(_ success: Bool , _ location: CLLocation) -> Void) -> Void {
         
+        completion(true, location)
         
-        LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
-            
-            self.selectedAddress.value = address
-           elDebugPrint(address.thoroughfare ?? "Unknown")
-            completion(true, location)
-            
-        }) { (error) in
-            
-            ElGrocerError.locationAddressError().showErrorAlert()
-            completion(false, location)
-        }
         
+//        LocationManager.sharedInstance.getAddressForLocation(location, successHandler: { (address) in
+//
+//            self.selectedAddress.value = address
+//           elDebugPrint(address.thoroughfare ?? "Unknown")
+//            completion(true, location)
+//
+//        }) { (error) in
+//
+//            ElGrocerError.locationAddressError().showErrorAlert()
+//            completion(false, location)
+//        }
+//
         
         /*
         LocationManager.sharedInstance.geocodeAddress(location, withCompletionHandler: { (status, success,address) -> Void in

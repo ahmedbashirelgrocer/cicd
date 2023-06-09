@@ -40,26 +40,55 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     
     class func showInBottomSheet(_ activeGrocery: Grocery?, mapDelegate: LocationMapDelegation?, presentIn: UIViewController) {
         
-        var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
-        var height : CGFloat = CGFloat((addressList.count * 100) + 144)
-        if addressList.count >= 5 {
-            height = (5 * 80) + 124
-        }
-        if height >= ScreenSize.SCREEN_HEIGHT {
-            height = ScreenSize.SCREEN_HEIGHT - 100
-        }
-        let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
-        addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
-        addressView.configure(addressList, activeGrocery, mapDelegate: mapDelegate, presentIn: presentIn)
         
-        let popupController = STPopupController(rootViewController: addressView)
-        popupController.navigationBarHidden = true
-        popupController.style = .bottomSheet
-        popupController.backgroundView?.alpha = 1
-        popupController.containerView.layer.cornerRadius = 16
-        popupController.navigationBarHidden = true
-        popupController.present(in: presentIn)
+        func showView() {
+            
+            var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
+            var height : CGFloat = CGFloat((addressList.count * 100) + 144)
+//            if addressList.count >= 5 {
+//                height = CGFloat((addressList.count * 80) + 124)
+//            }
+            if height >= ScreenSize.SCREEN_HEIGHT {
+                height = ScreenSize.SCREEN_HEIGHT - 100
+            }
+            let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
+            addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
+            addressView.configure(addressList, activeGrocery, mapDelegate: mapDelegate, presentIn: presentIn)
+            
+            let popupController = STPopupController(rootViewController: addressView)
+            popupController.navigationBarHidden = true
+            popupController.style = .bottomSheet
+            popupController.backgroundView?.alpha = 1
+            popupController.containerView.layer.cornerRadius = 16
+            popupController.navigationBarHidden = true
+            popupController.present(in: presentIn)
+            
+        }
+    
+        let profile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        if addressList.count < 2 && profile != nil {
+            _ = SpinnerView.showSpinnerViewInView(presentIn.view)
+            ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result:Bool, responseObject:NSDictionary?) -> Void in
+                if result {
+                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                   _ = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(profile!, fromDictionary: responseObject!, context: context)
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    DispatchQueue.main.async(execute: {
+                        showView()
+                        SpinnerView.hideSpinnerView()
+                    })
+                } else {
+                    showView()
+                    SpinnerView.hideSpinnerView()
+                }
+            })
+        } else {
+            showView()
+        }
+        
+       
         
         
     }
@@ -277,8 +306,12 @@ extension EGAddressSelectionBottomSheetViewController {
     
     func checkCoverage(_ address : DeliveryAddress) {
         
-        
-        let _ = SpinnerView.showSpinnerView()
+        if let view = self.presentIn?.view {
+           _ = SpinnerView.showSpinnerViewInView(view)
+        }else {
+           _ = SpinnerView.showSpinnerView()
+        }
+       
         ElGrocerApi.sharedInstance.getcAndcRetailerDetail(address.latitude, lng: address.longitude, dbID: self.activeGrocery?.dbID ?? "-1" , parentID: "") { (result) in
             switch result {
                 case.success(let data):

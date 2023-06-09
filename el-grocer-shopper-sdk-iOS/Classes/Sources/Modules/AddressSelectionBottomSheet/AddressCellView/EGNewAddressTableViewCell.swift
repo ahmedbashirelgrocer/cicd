@@ -28,7 +28,7 @@ class EGNewAddressTableViewCell: UITableViewCell {
     }
     @IBOutlet weak var lblAddressStyle: UILabel! {
         didSet{
-            lblAddressStyle.layer.cornerRadius = 8.5
+            lblAddressStyle.layer.cornerRadius = 8
             lblAddressStyle.clipsToBounds = true
         }
     }
@@ -47,14 +47,13 @@ class EGNewAddressTableViewCell: UITableViewCell {
         self.lblNickName.text = address.nickName
         self.lblAddressDetail.text = ElGrocerUtility.sharedInstance.getFormattedAddress(address)
         self.lblAddressStyle.text = address.isActive.boolValue ? "Current location" : ""
-        
         // theme updatation for Not coverd case
         if !isCovered {
             self.lblNickName.textColor = ApplicationTheme.currentTheme.lightGreyColor
             self.lblAddressDetail.textColor = ApplicationTheme.currentTheme.lightGreyColor
             self.lblAddressStyle.backgroundColor = ApplicationTheme.currentTheme.redInfoColor
             self.lblAddressStyle.textColor = ApplicationTheme.currentTheme.textFieldWhiteBGColor
-            self.lblAddressStyle.text = " Out of delivery area "
+            self.lblAddressStyle.text = "  Out of delivery area  "
         } else {
             
             lblNickName.setBody3SemiBoldDarkStyle()
@@ -62,7 +61,7 @@ class EGNewAddressTableViewCell: UITableViewCell {
             
         }
         if address.isActive.boolValue {
-            self.lblAddressStyle.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            self.lblAddressStyle.backgroundColor = ApplicationTheme.currentTheme.currentLocationBgColor
             self.lblAddressStyle.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
         self.imgAddressPin.image = isCovered ? UIImage(name: "AddressPin") : UIImage(name: "AddressPinDisable")

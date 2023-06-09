@@ -97,7 +97,13 @@ class HomeCell: RxUITableViewCell {
         self.bindViews()
     }
     
-    @IBOutlet weak var rightArrowImageView: UIImageView!
+    @IBOutlet weak var rightArrowImageView: UIImageView! {
+        didSet{
+            if SDKManager.shared.isSmileSDK  {
+                rightArrowImageView.image = UIImage(name: "SettingArrowForward")
+            }
+        }
+    }
     // @IBOutlet weak var arrowImgView: UIImageView!
     @IBOutlet weak var viewMoreButton: UIButton! {
         didSet {

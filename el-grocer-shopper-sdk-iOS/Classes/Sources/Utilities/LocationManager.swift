@@ -304,38 +304,37 @@ class LocationManager: NSObject {
                     let addressComponents = lookupAddressResults["address_components"] as! Array<Dictionary<NSObject, AnyObject>>
                     
                     var fetchedFormattedAddress = ""
-                    elDebugPrint("Address Components Count:%d",addressComponents.count)
-                    var loopLimit = addressComponents.count
-                    if (addressComponents.count > 2){
-                        loopLimit = addressComponents.count - 2
-                    }
-                    
-                    //for i in 0..<addressComponents.count - 2 {
-                    
-                    for i in 0..<loopLimit {
-                        
-                        let dict = addressComponents[i] as? [String: Any]
-                        
-                        let locShortName = dict!["short_name"] as? String
-                        
-                        if (locShortName != nil){
-                            fetchedFormattedAddress += locShortName!
-                        }
-                        
-                        if(i != addressComponents.count - 3){
-                            fetchedFormattedAddress += " - "
-                        }
-                    }
-                    
-                    elDebugPrint("Fetched Formatted Address:",fetchedFormattedAddress)
                     
                     if(fetchedFormattedAddress.isEmpty){
                         // Keep the most important values.
                         fetchedFormattedAddress = lookupAddressResults["formatted_address"] as! String
+                    }else {
+                      
+                        var loopLimit = addressComponents.count
+                        if (addressComponents.count > 2){
+                            loopLimit = addressComponents.count - 2
+                        }
+                        
+                        //for i in 0..<addressComponents.count - 2 {
+                        
+                        for i in 0..<loopLimit {
+                            
+                            let dict = addressComponents[i] as? [String: Any]
+                            
+                            let locShortName = dict!["short_name"] as? String
+                            
+                            if (locShortName != nil){
+                                fetchedFormattedAddress += locShortName!
+                            }
+                            
+                            if(i != addressComponents.count - 3){
+                                fetchedFormattedAddress += " - "
+                            }
+                        }
+                        
+                        
                     }
-                    
-                    elDebugPrint("Fetched Formatted Address:",fetchedFormattedAddress)
-                    
+                  
                     completionHandler(status, true,fetchedFormattedAddress)
                     
                 }.resume()
