@@ -29,7 +29,11 @@ class SettingsNavigation {
         case .Login:
             showRegistrationVC()
         case .EditProfile:
-            showRegistrationVC()
+            if !UserDefaults.isUserLoggedIn() {
+                showRegistrationVC()
+            }else {
+                self.editPressed()
+            }
         case .SignOut:
             signOutUser()
         case .none:
@@ -249,6 +253,18 @@ class SettingsNavigation {
         //self.navigationController?.present(navigationController, animated: true, completion: nil)
         self.controller.navigationController?.pushViewController(passVC, animated: true)
     }
+    
+    private func editPressed(){
+        if UserDefaults.isUserLoggedIn(){
+            let editProfileVC = ElGrocerViewControllers.editProfileViewController()
+            let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            editProfileVC.userProfile = userProfile
+            self.controller.navigationController?.pushViewController(editProfileVC, animated: true)
+            return
+        
+        }
+    }
+
     
     
     private func goToElWalletVC() {

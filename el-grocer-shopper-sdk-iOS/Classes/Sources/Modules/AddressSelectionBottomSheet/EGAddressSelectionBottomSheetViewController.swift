@@ -35,8 +35,10 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     private var addressList: [DeliveryAddress] = []
     private var isCoverd: [String: Bool] = [:]
     private var activeGrocery: Grocery? = nil
+    private weak var mapDelegate : LocationMapDelegation? = nil
+    private weak var presentIn : UIViewController? = nil
     
-    class func showInBottomSheet(_ activeGrocery: Grocery?, presentIn: UIViewController) {
+    class func showInBottomSheet(_ activeGrocery: Grocery?, mapDelegate: LocationMapDelegation?, presentIn: UIViewController) {
         
         var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
@@ -49,7 +51,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         }
         let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
         addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
-        addressView.configure(addressList, activeGrocery)
+        addressView.configure(addressList, activeGrocery, mapDelegate: mapDelegate, presentIn: presentIn)
         
         let popupController = STPopupController(rootViewController: addressView)
         popupController.navigationBarHidden = true
@@ -89,9 +91,11 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         self.tableView.register(cellNib, forCellReuseIdentifier: EGNewAddressTableViewCell.identifier)
     }
         
-    func configure(_ address: [DeliveryAddress], _ activeGrocery: Grocery? = nil) {
+    func configure(_ address: [DeliveryAddress], _ activeGrocery: Grocery? = nil, mapDelegate: LocationMapDelegation?, presentIn: UIViewController?) {
         self.addressList = address
         self.activeGrocery = activeGrocery
+        self.mapDelegate = mapDelegate
+        self.presentIn = presentIn
         
         for address in self.addressList {
             isCoverd[address.dbID] = true
@@ -106,7 +110,9 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     @IBAction func chooseLocationAction(_ sender: Any) {
         
         let locationMapController = ElGrocerViewControllers.locationMapViewController()
-        locationMapController.delegate = self
+        if let delegate = self.mapDelegate
+        {locationMapController.delegate = delegate}
+        else{locationMapController.delegate = self}
         locationMapController.isConfirmAddress = false
         locationMapController.isForNewAddress = self.activeGrocery == nil
         locationMapController.isFromCart = self.activeGrocery != nil
@@ -117,12 +123,43 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         navigationController.viewControllers = [locationMapController]
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
-        self.present(navigationController, animated: true) {  }
-        
-        
+        self.presentIn?.present(navigationController, animated: true) {  }
+        self.dismiss(animated: true) { [weak self] in }
     }
     
 }
+
+extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UITableViewDataSource {
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return addressList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: EGNewAddressTableViewCell.identifier, for: indexPath) as! EGNewAddressTableViewCell
+        let address = addressList[indexPath.row]
+        let isCoverdValue = isCoverd[address.dbID] ?? true
+        cell.configure(address: address, isCovered: isCoverdValue)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard addressList.count > indexPath.row else { return  }
+        let address = addressList[indexPath.row]
+        if address.isActive.boolValue {
+            self.crossAction("")
+        } else if self.activeGrocery != nil {
+            self.checkCoverage(address)
+        } else {
+            makeLocationToDefault(address)
+        }
+       
+    }
+    
+}
+
 extension EGAddressSelectionBottomSheetViewController : LocationMapViewControllerDelegate {
     func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) -> Void {
         controller.dismiss(animated: true)
@@ -235,40 +272,6 @@ extension EGAddressSelectionBottomSheetViewController : LocationMapViewControlle
 }
 
 
-extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UITableViewDataSource {
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return addressList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: EGNewAddressTableViewCell.identifier, for: indexPath) as! EGNewAddressTableViewCell
-        let address = addressList[indexPath.row]
-        let isCoverdValue = isCoverd[address.dbID] ?? true
-        cell.configure(address: address, isCovered: isCoverdValue)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard addressList.count > indexPath.row else { return  }
-        let address = addressList[indexPath.row]
-        if address.isActive.boolValue {
-            self.crossAction("")
-        } else if self.activeGrocery != nil {
-            self.checkCoverage(address)
-        } else {
-            makeLocationToDefault(address)
-        }
-       
-    }
-    
-    
-    
-    
-}
-
 
 extension EGAddressSelectionBottomSheetViewController {
     
@@ -301,19 +304,15 @@ extension EGAddressSelectionBottomSheetViewController {
         if UserDefaults.isUserLoggedIn() {
             _ = SpinnerView.showSpinnerViewInView(self.view)
             ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(currentAddress) { (result) in
+                SpinnerView.hideSpinnerView()
                 if result {
                     if self.activeGrocery != nil  {
                      // need to imp
                     } else {
-                        if !sdkManager.isGrocerySingleStore {
-                            //self.fetchGroceries() updated required
-                        } else {
-                            ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
-                            self.crossAction("")
-                        }
+                        ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
+                        self.crossAction("")
                     }
                 } else {
-                    SpinnerView.hideSpinnerView()
                     ElGrocerError.unableToSetDefaultLocationError().showErrorAlert()
                 }
             }

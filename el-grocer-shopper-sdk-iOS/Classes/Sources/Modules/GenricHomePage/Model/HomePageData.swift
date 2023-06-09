@@ -371,7 +371,8 @@ extension HomePageData {
             } else {
             
                 let groceryFiltered = (self.groceryA ?? []).filter { (grocery) -> Bool in
-                    return grocery.storeType.contains(NSNumber(value: type.storeTypeid))
+                    let storeTypes = grocery.convertToArrayOfNumber(text: grocery.storeType ) 
+                    return storeTypes.contains(NSNumber(value: type.storeTypeid))
                 }
                 self.storyTypeBaseDataDict[type.storeTypeid] = groceryFiltered
             }

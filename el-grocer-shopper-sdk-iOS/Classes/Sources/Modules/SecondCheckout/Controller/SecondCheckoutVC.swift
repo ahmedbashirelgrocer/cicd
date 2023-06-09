@@ -38,10 +38,12 @@ class SecondCheckoutVC: UIViewController {
         }
     }
     private var billView = BillView()
-    
-    
-    
     private lazy var secondaryPaymentView: SecondaryPaymentView = SecondaryPaymentView()
+    private lazy var mapDelegate: LocationMapDelegation = {
+        let delegate = LocationMapDelegation.init(self, type: .basket)
+        return delegate
+    }()
+   
     
     var viewModel: SecondaryViewModel!
     
@@ -55,13 +57,11 @@ class SecondCheckoutVC: UIViewController {
     var selectedReason: Int?
     var additionalText: String?
     var orderID: String?
-    
     var grocery: Grocery? = ElGrocerUtility.sharedInstance.activeGrocery
     var shopingItems: [ShoppingBasketItem]?
     var products: [Product]?
     var price: Double?
     var orderPlacement: PlaceOrderHandler!
-    
     private var disposeBag = DisposeBag()
     
     var secondCheckOutDataHandler : MyBasket?
@@ -645,7 +645,7 @@ extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
 extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelegate {
     
     func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void {
-        EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), presentIn: self)
+        EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), mapDelegate: self.mapDelegate, presentIn: self)
     }
     
     func locationMapViewControllerDidTouchBackButton(_ controller: LocationMapViewController) -> Void {

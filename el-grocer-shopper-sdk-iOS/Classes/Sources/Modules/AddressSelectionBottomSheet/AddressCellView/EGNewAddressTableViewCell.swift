@@ -44,7 +44,7 @@ class EGNewAddressTableViewCell: UITableViewCell {
     func configure(address: DeliveryAddress, isCovered: Bool) {
         
         //set address detail
-        self.lblNickName.text = address.locationName
+        self.lblNickName.text = address.nickName
         self.lblAddressDetail.text = ElGrocerUtility.sharedInstance.getFormattedAddress(address)
         self.lblAddressStyle.text = address.isActive.boolValue ? "Current location" : ""
         
@@ -62,7 +62,8 @@ class EGNewAddressTableViewCell: UITableViewCell {
             
         }
         if address.isActive.boolValue {
-            self.lblAddressStyle.backgroundColor = ApplicationTheme.currentTheme.currentLocationBgColor
+            self.lblAddressStyle.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            self.lblAddressStyle.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
         self.imgAddressPin.image = isCovered ? UIImage(name: "AddressPin") : UIImage(name: "AddressPinDisable")
         

@@ -109,9 +109,9 @@ extension UIViewController {
     
     func addLocationButton() {
         
-        let locationButton = UIBarButtonItem(image: UIImage(name: "location"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(locationButtonClick))
-        locationButton.tintColor = UIColor.white
-        self.navigationItem.leftBarButtonItem = locationButton
+//        let locationButton = UIBarButtonItem(image: UIImage(name: "location"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(locationButtonClick))
+//        locationButton.tintColor = UIColor.white
+//        self.navigationItem.leftBarButtonItem = locationButton
         
     }
     

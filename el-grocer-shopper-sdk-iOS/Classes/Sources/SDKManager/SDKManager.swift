@@ -62,9 +62,19 @@ class SDKManager: NSObject, SDKManagerType  {
     var parentTabNav  : ElgrocerGenericUIParentNavViewController?
     static var shared: SDKManager = SDKManager()
     //var isFromSmile : Bool = fals
-    var launchOptions: LaunchOptions? = nil
+    var launchOptions: LaunchOptions? = nil {
+        didSet {
+            if let option = launchOptions {
+                if option.isSmileSDK == true {
+                    sdkManager = SDKManager.shared
+                } else {
+                    sdkManager = SDKManagerShopper.shared
+                }
+            }
+        }
+    }
 
-    var kGoogleMapsApiKey: String { "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0"}
+    var kGoogleMapsApiKey: String { "AIzaSyCDzcPjgv5GWXO_xzdtiEIzDUTkimvhbig" }
     var launchOptionsLocation: CLLocation? = nil
     var isLaunchEventConfigured: Bool = false
     var isInitialized = false
@@ -329,7 +339,7 @@ class SDKManager: NSObject, SDKManagerType  {
         Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
 
-        if Bundle.main.bundleIdentifier == "com.shopper.elgrocerShopper"   {
+        if Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK"   {
             GMSPlacesClient.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
             GMSServices.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
         }else if Bundle.main.bundleIdentifier == "Etisalat.House" {

@@ -271,13 +271,15 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                 self.dataSource?.currentGrocery = grocery
                 let clearGroceryId = grocery.getCleanGroceryID()
                 storeIDs = [ clearGroceryId ]
-                storeTypeIDs = grocery.storeType.map({ $0.stringValue })
+                let storeType = grocery.getStoreTypes() ?? []
+                storeTypeIDs = storeType.map({ $0.stringValue })
                 groupIDs = ElGrocerUtility.sharedInstance.GenerateStoreGroupIdsString(groceryAForIds: [grocery])
             }
         }else{
             storeIDs = ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
             for grocer in ElGrocerUtility.sharedInstance.groceries {
-                for storetypid in grocer.storeType {
+                let storeTypes = grocer.getStoreTypes() ?? []
+                for storetypid in storeTypes {
                     storeTypeIDs.append(storetypid.stringValue)
                 }
             }

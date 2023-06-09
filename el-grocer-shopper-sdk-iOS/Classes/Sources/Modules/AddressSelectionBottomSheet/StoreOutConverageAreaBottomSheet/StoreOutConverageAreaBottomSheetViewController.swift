@@ -16,16 +16,13 @@ class StoreOutConverageAreaBottomSheetViewController: UIViewController {
     
     private var location : CLLocation?
     private var address : String?
-    var crossCall : (() -> Void)?
+    var crossCall : ((_ isChangeLocation: Bool) -> Void)?
     
-    class func showInBottomSheet(location: CLLocation, address: String, presentIn: UIViewController) {
+    class func showInBottomSheet(location: CLLocation, address: String, presentIn: UIViewController, _ crossCall : ((_ isChangeLocation: Bool) -> Void)?) {
         
         let storeOutConveragView = StoreOutConverageAreaBottomSheetViewController.init(nibName: "StoreOutConverageAreaBottomSheetViewController", bundle: .resource)
         storeOutConveragView.configureWith(location, address: address)
-        storeOutConveragView.crossCall = {
-            presentIn.presentedViewController?.navigationController?.dismiss(animated: true)
-            presentIn.dismiss(animated: true)
-        }
+        storeOutConveragView.crossCall = crossCall
         let popupController = STPopupController(rootViewController: storeOutConveragView)
         popupController.navigationBarHidden = true
         popupController.style = .bottomSheet
@@ -64,24 +61,19 @@ class StoreOutConverageAreaBottomSheetViewController: UIViewController {
     @IBAction func changeLocationAction(_ sender: Any) {
         self.dismiss(animated: false) {
             if let clouser = self.crossCall {
-                clouser()
+                clouser(true)
             }
-            Thread.OnMainThread {
-                ElGrocerUtility.sharedInstance.activeGrocery = nil
-                ElGrocerUtility.sharedInstance.resetRecipeView()
-                let profile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                let locationDetails = LocationDetails.init(location: self.location,editLocation: nil, name: profile?.name ?? "" , address: self.address, building: "", cityName: "")
-                let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext), FlowOrientation.basketNav)
-                UIApplication.topViewController()?.navigationController?.pushViewController(editLocationController, animated: true)
-            }
+            Thread.OnMainThread {}
         }
     }
     @IBAction func cancelAction(_ sender: Any) {
-        
-        if let clouser = self.crossCall {
-            clouser()
+        self.dismiss(animated: false) {
+            if let clouser = self.crossCall {
+                clouser(false)
+            }
+            Thread.OnMainThread {}
         }
-        crossAction("")
+       
     }
     
     /*

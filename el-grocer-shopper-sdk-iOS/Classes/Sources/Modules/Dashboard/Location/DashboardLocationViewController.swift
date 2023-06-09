@@ -258,7 +258,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     override func backButtonClick() {
         
-        if self.presentingViewController != nil {
+        if self.presentingViewController != nil && !(self.presentingViewController is UITabBarController) {
             if isNoCoverage {
                 self.hideNoCoverageView()
             }else{
@@ -273,7 +273,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             }
         }
         
-        if isRootController{
+        if isRootController {
             self.removeBackButton()
         }
     }

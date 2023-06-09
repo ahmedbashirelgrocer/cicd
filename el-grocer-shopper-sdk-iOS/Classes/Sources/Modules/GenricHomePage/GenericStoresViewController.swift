@@ -1178,7 +1178,8 @@ extension GenericStoresViewController {
         if retailer == nil {
             retailer = retailers.first { (grocery) -> Bool in
                 return banner.storeTypes.contains { (data) -> Bool in
-                    return grocery.storeType.contains { (type) -> Bool in
+                    let storeType =  grocery.convertToArrayOfNumber(text: grocery.storeType ?? "" ) 
+                    return storeType.contains { (type) -> Bool in
                         return type == data
                     }
                 }
@@ -1860,7 +1861,8 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     if self.selectStoreType?.storeTypeid == 0 {
                         return true
                     }
-                    return grocery.storeType.contains(NSNumber(value: self.selectStoreType?.storeTypeid ?? 0))
+                    let storeTypes = grocery.getStoreTypes() ?? []
+                    return storeTypes.contains(NSNumber(value: self.selectStoreType?.storeTypeid ?? 0))
                 }
                 
                 if self.filterdGrocerA != groceryFilterd {

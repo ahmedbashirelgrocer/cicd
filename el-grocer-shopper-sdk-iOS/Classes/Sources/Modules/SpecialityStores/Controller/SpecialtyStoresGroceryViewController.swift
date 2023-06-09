@@ -123,7 +123,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         var segmentArray = [localizedString("all_store", comment: "")]
         var filterStoreTypeData : [StoreType] = []
         for data in self.groceryArray {
-            let typeA = data.storeType
+            let typeA = data.getStoreTypes() ?? []
             for type in typeA {
                 if let obj = self.availableStoreTypeA.first(where: { typeData in
                     return type.int64Value == typeData.storeTypeid
@@ -478,7 +478,8 @@ extension SpecialtyStoresGroceryViewController: AWSegmentViewProtocol {
 
         
         let filterA = self.groceryArray.filter { grocery in
-            return grocery.storeType.contains { typeId in
+            let storeTypes = grocery.getStoreTypes() ?? []
+            return storeTypes.contains { typeId in
                 return typeId.int64Value == selectedType.storeTypeid
             }
         }

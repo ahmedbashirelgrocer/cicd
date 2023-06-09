@@ -23,7 +23,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     var chatButton:NavigationBarChatButton!
     var profileButton:UIButton!
     var cartButton:UIButton!
-
+    var locationClick: (()->Void)?
     // MARK: Init
     
     override init(frame: CGRect) {
@@ -644,6 +644,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
+        self.locationView.locationClick = self.locationClick
         self.locationView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         self.addSubview(self.locationView)
     }

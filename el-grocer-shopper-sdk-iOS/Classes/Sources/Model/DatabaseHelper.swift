@@ -93,7 +93,6 @@ public class DBPubicAccessForDummyAppOnly {
         DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         ElGrocerUtility.sharedInstance.isDeliveryMode = true
         FireBaseEventsLogger.trackSignOut(true)
-        AlgoliaApi.sharedInstance.resetAlgoliaLocalData()
         FireBaseEventsLogger.setUserID(nil)
         UserDefaults.setUserLoggedIn(false)
         UserDefaults.setLogInUserID("0")
@@ -111,7 +110,7 @@ public class DBPubicAccessForDummyAppOnly {
         ElGrocerUtility.sharedInstance.storeTypeA = []
         ElGrocerUtility.sharedInstance.greatDealsBannersA  = [BannerCampaign]()
         ElGrocerUtility.sharedInstance.chefList   = [CHEF]()
-        HomePageData.shared.resetHomeDataHandler()
-        ElGrocerUtility.sharedInstance.recipeList = [:]
+//        HomePageData.shared.resetHomeDataHandler()
+//        ElGrocerUtility.sharedInstance.recipeList = [:]
     }
 }

@@ -72,21 +72,21 @@
                                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jtR-t5-udG">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="86"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="65"/>
                                         <color key="backgroundColor" red="0.33333334329999997" green="0.7254902124" blue="0.4352940917" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9QM-09-gvJ">
-                                        <rect key="frame" x="0.0" y="86" width="390" height="48"/>
+                                        <rect key="frame" x="0.0" y="65" width="390" height="48"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vcA-ef-QYf">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="134"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="113"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJG-iD-gad" userLabel="Search" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                 <rect key="frame" x="16" y="18" width="358" height="48"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDW-WL-BxS">
-                                                        <rect key="frame" x="41.999999999999993" y="0.0" width="97.333333333333314" height="48"/>
+                                                        <rect key="frame" x="41.999999999999993" y="0.0" width="93.333333333333314" height="48"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -136,24 +136,24 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFi-DD-Rfm" userLabel="currentLocation" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                <rect key="frame" x="16" y="68" width="358" height="56"/>
+                                                <rect key="frame" x="16" y="68" width="358" height="45"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location_icon_green" translatesAutoresizingMaskIntoConstraints="NO" id="VKp-vl-rjM">
-                                                        <rect key="frame" x="10" y="16" width="24" height="24"/>
+                                                        <rect key="frame" x="10" y="10.666666666666671" width="24" height="24"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="24" id="Agm-l0-xQS"/>
                                                             <constraint firstAttribute="width" constant="24" id="aNl-WX-EAV"/>
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use the current location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zgg-TQ-eJb">
-                                                        <rect key="frame" x="42" y="0.0" width="300" height="56"/>
+                                                        <rect key="frame" x="42" y="0.0" width="300" height="45"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="20"/>
                                                         <color key="textColor" red="0.33333334329999997" green="0.7254902124" blue="0.4352940917" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AWR-BU-Wcb" customClass="CustomTextField" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                                        <rect key="frame" x="34" y="0.0" width="308" height="56"/>
+                                                        <rect key="frame" x="34" y="0.0" width="308" height="45"/>
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -168,7 +168,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="AWR-BU-Wcb" secondAttribute="trailing" constant="16" id="Fy2-ie-daM"/>
                                                     <constraint firstItem="VKp-vl-rjM" firstAttribute="centerY" secondItem="HFi-DD-Rfm" secondAttribute="centerY" id="Og2-f8-yRK"/>
                                                     <constraint firstAttribute="bottom" secondItem="zgg-TQ-eJb" secondAttribute="bottom" id="Vag-OL-FEX"/>
-                                                    <constraint firstAttribute="height" constant="56" id="anP-Ig-v67"/>
+                                                    <constraint firstAttribute="height" constant="45" id="anP-Ig-v67"/>
                                                     <constraint firstItem="zgg-TQ-eJb" firstAttribute="leading" secondItem="VKp-vl-rjM" secondAttribute="trailing" constant="8" id="csL-NG-xIu"/>
                                                     <constraint firstItem="zgg-TQ-eJb" firstAttribute="top" secondItem="HFi-DD-Rfm" secondAttribute="top" id="hQp-pb-wFa"/>
                                                     <constraint firstAttribute="trailing" secondItem="zgg-TQ-eJb" secondAttribute="trailing" constant="16" id="iby-Xe-FZp"/>
@@ -183,7 +183,7 @@
                                             <constraint firstAttribute="trailing" secondItem="fJG-iD-gad" secondAttribute="trailing" constant="16" id="1Yg-nu-hvv"/>
                                             <constraint firstAttribute="trailing" secondItem="HFi-DD-Rfm" secondAttribute="trailing" constant="16" id="Hps-AI-cO7"/>
                                             <constraint firstItem="fJG-iD-gad" firstAttribute="leading" secondItem="vcA-ef-QYf" secondAttribute="leading" constant="16" id="Qv6-jL-FZd"/>
-                                            <constraint firstAttribute="bottom" secondItem="HFi-DD-Rfm" secondAttribute="bottom" constant="10" id="fB1-mz-egF"/>
+                                            <constraint firstAttribute="bottom" secondItem="HFi-DD-Rfm" secondAttribute="bottom" id="fB1-mz-egF"/>
                                             <constraint firstItem="fJG-iD-gad" firstAttribute="top" secondItem="vcA-ef-QYf" secondAttribute="top" constant="18" id="feG-Ql-crj"/>
                                             <constraint firstItem="HFi-DD-Rfm" firstAttribute="top" secondItem="fJG-iD-gad" secondAttribute="bottom" constant="2" id="knR-qB-JUv"/>
                                             <constraint firstItem="HFi-DD-Rfm" firstAttribute="leading" secondItem="vcA-ef-QYf" secondAttribute="leading" constant="16" id="l6C-6p-LC4"/>
@@ -240,7 +240,7 @@
                                         <rect key="frame" x="0.0" y="653" width="390" height="157"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xey-rO-0Tp">
-                                                <rect key="frame" x="16" y="16" width="99" height="25"/>
+                                                <rect key="frame" x="16" y="16" width="92" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="25" id="6ed-61-YBR"/>
                                                 </constraints>
@@ -468,10 +468,13 @@
                         <outlet property="buttonsView" destination="fgf-nB-3J5" id="dze-TM-62D"/>
                         <outlet property="cancelButton" destination="HbN-yb-EjC" id="q50-Td-BlN"/>
                         <outlet property="confirmButton" destination="EiR-FQ-1hL" id="WzX-zB-Kjt"/>
+                        <outlet property="detectLocationImage" destination="z67-Yx-aKA" id="QyX-k5-cpA"/>
                         <outlet property="detectingLocationView" destination="Uhn-qt-yhL" id="jcF-Mx-Hjn"/>
                         <outlet property="footerTitleLabel" destination="Tta-yI-4RU" id="KOb-4u-riQ"/>
+                        <outlet property="imgCurrentLocation" destination="VKp-vl-rjM" id="jUz-w4-8Aa"/>
                         <outlet property="lblAddress" destination="dKE-9N-v0i" id="Lst-aY-Pf8"/>
                         <outlet property="lblCurrentSearchView" destination="HFi-DD-Rfm" id="muB-mh-UPP"/>
+                        <outlet property="lblDetectLocation" destination="g2z-Gr-1UP" id="i26-hO-8gs"/>
                         <outlet property="lblError" destination="INt-X4-RtC" id="v5F-Qf-8O1"/>
                         <outlet property="lblErrorTwo" destination="9Wn-Hw-tun" id="g0X-4u-yde"/>
                         <outlet property="lblManuallMsg" destination="GDW-WL-BxS" id="QhT-K2-Hb0"/>
@@ -482,6 +485,7 @@
                         <outlet property="mapToolTipBgView" destination="tyv-kr-dCS" id="juH-lP-SQx"/>
                         <outlet property="mapView" destination="ls9-Rl-icI" id="gf1-Ik-pRs"/>
                         <outlet property="maunalSearchView" destination="fJG-iD-gad" id="YSG-aR-sw1"/>
+                        <outlet property="topBg" destination="jtR-t5-udG" id="Ebe-UF-btx"/>
                         <outlet property="topView" destination="vcA-ef-QYf" id="lbN-Pi-UvO"/>
                         <outlet property="viewLocationIcon" destination="QfX-i8-BS5" id="YYX-3S-4Rh"/>
                     </connections>
@@ -496,7 +500,7 @@
             <size key="intrinsicContentSize" width="4" height="18.666666666666668"/>
         </designable>
         <designable name="EiR-FQ-1hL">
-            <size key="intrinsicContentSize" width="126" height="32"/>
+            <size key="intrinsicContentSize" width="124" height="33"/>
         </designable>
         <designable name="aJJ-wE-Seo">
             <size key="intrinsicContentSize" width="4" height="18.666666666666668"/>

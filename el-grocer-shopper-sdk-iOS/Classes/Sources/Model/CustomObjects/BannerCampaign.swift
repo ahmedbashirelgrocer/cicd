@@ -264,7 +264,8 @@ class BannerCampaign: NSObject {
             }else{
                 
                 let isCurrent = (banner.storeTypes?.contains { (data) -> Bool in
-                    return currentActive!.storeType.contains { (type) -> Bool in
+                    let storeTypes = currentActive?.getStoreTypes() ?? []
+                    return storeTypes.contains { (type) -> Bool in
                         return type.intValue == data
                     }
                 } ?? false)
@@ -294,8 +295,9 @@ class BannerCampaign: NSObject {
         }
         if retailer == nil {
             retailer = retailers.first { (grocery) -> Bool in
+                let storeTypes = grocery.getStoreTypes() ?? []
                 return (banner.storeTypes?.contains { (data) -> Bool in
-                    return grocery.storeType.contains { (type) -> Bool in
+                    return storeTypes.contains { (type) -> Bool in
                         return type.intValue == data
                     }
                 } ?? false)

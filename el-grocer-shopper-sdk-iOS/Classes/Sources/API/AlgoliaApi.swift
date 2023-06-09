@@ -755,7 +755,8 @@ extension AlgoliaApi {
         tags.append(lan)
         var rt = "rt_"
         let selectedType =  ElGrocerUtility.sharedInstance.storeTypeA.filter { (type) -> Bool in
-            if let storeType = ElGrocerUtility.sharedInstance.activeGrocery?.storeType {
+            let activeGrocery = ElGrocerUtility.sharedInstance.activeGrocery
+            if let storeType = activeGrocery?.convertToArrayOfNumber(text: activeGrocery?.storeType ?? "" ) {
                 return storeType.contains(NSNumber(value: type.storeTypeid))
             }
             return false
@@ -790,7 +791,8 @@ extension AlgoliaApi {
         tags.append(groupName)
         
         var city = "ct_" + "null"
-        if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+        
+        if let currentAddress = ElGrocerUtility.sharedInstance.activeAddress {
             city = "ct_" + (currentAddress.city ?? "null")
         }
         tags.append(city)

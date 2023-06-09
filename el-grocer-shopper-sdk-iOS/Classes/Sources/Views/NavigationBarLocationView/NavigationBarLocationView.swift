@@ -47,10 +47,9 @@ class NavigationBarLocationView: UIView {
     }
     
     @IBAction func LocationButtonHandler(_ sender: Any) {
+        
+       
         changeLocation()
-        if let clouser = locationClick {
-            clouser()
-        }
         MixpanelEventLogger.trackHomeAddressClick()
         
         // Logging segment event for address clicked
@@ -60,9 +59,10 @@ class NavigationBarLocationView: UIView {
         
         DispatchQueue.main.async {
             if let top = UIApplication.topViewController() {
-                EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, presentIn: top)
+                top.locationButtonClick()
+                //EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: nil, presentIn: top)
             }
-        }
+    }
         
         
         

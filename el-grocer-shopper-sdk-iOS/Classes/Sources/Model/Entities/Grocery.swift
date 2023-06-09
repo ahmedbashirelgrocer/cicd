@@ -39,14 +39,14 @@ public class Grocery: NSManagedObject, DBEntity  {
     @NSManaged var deliveryTypeId: String?
     @NSManaged var deliveryZoneId: String?
     @NSManaged var vat: NSNumber
-    @NSManaged var topSearch: [String]
+  //  @NSManaged var topSearch: [String]
     @NSManaged var isShowRecipe: NSNumber
     @NSManaged var addDay: NSNumber
-    @NSManaged var paymentAvailableID: [NSNumber]
+    @NSManaged var paymentAvailableID: String
     @NSManaged var retailerType: NSNumber  /* retailer_type:  supermarket: 0, hypermarket: 1, speciality: 2 */
     @NSManaged var parentID: NSNumber
     @NSManaged var groupId: NSNumber
-    @NSManaged var storeType: [NSNumber]
+    @NSManaged var storeType: String
     @NSManaged var distance: NSNumber
     @NSManaged var ranking: NSNumber
     @NSManaged var isDelivery : NSNumber

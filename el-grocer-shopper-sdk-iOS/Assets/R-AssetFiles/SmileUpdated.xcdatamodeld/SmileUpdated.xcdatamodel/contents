@@ -99,7 +99,7 @@
         <attribute name="nameEn" optional="YES" attributeType="String"/>
         <attribute name="openingTime" optional="YES" attributeType="String"/>
         <attribute name="parentID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="paymentAvailableID" optional="YES" attributeType="Transformable"/>
+        <attribute name="paymentAvailableID" optional="YES" attributeType="String"/>
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="ranking" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="retailerGroupName" optional="YES" attributeType="String"/>
@@ -109,8 +109,7 @@
         <attribute name="serviceFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="smallImageUrl" optional="YES" attributeType="String"/>
         <attribute name="smileSupport" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="storeType" optional="YES" attributeType="Transformable"/>
-        <attribute name="topSearch" optional="YES" attributeType="Transformable"/>
+        <attribute name="storeType" optional="YES" attributeType="String"/>
         <attribute name="vat" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="brands" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Brand"/>
         <relationship name="categories" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Category"/>

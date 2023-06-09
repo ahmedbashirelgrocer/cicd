@@ -38,6 +38,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }()
     
     private (set) var header : SegmentHeader? = nil
+    
+    private lazy var mapDelegate: LocationMapDelegation = {
+        let delegate = LocationMapDelegation.init(self)
+        return delegate
+    }()
    
     
         // MARK: - Properties
@@ -108,6 +113,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.refreshLogoView()
+            controller.navigationBar.topItem?.title = ""
         }
     }
     
@@ -133,7 +139,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.buttonActionsDelegate = self
             (controller.navigationBar as? ElGrocerNavigationBar)?.changeBackButtonImagetoPurple() // to get purple backimage
             controller.refreshLogoView()
-           // controller.setBackButtonHidden(false)
+            controller.navigationBar.topItem?.title = ""
         }
         
     }
@@ -219,7 +225,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         var segmentArray = [localizedString("all_store", comment: "")]
         var filterStoreTypeData : [StoreType] = []
         for data in self.groceryArray {
-            let typeA = data.storeType
+            let typeA = data.getStoreTypes() ?? []
             for type in typeA {
                 if let obj = self.availableStoreTypeA.first(where: { typeData in
                     return type.int64Value == typeData.storeTypeid
@@ -557,6 +563,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
             }
         }
       
+    }
+    
+    @objc override func locationButtonClick() {
+        
+        EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: self.mapDelegate, presentIn: self)
     }
     
     func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?) {
@@ -1086,7 +1097,8 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         
         
         let filterA = self.groceryArray.filter { grocery in
-            return grocery.storeType.contains { typeId in
+            let storeTypes = grocery.getStoreTypes() ?? []
+            return storeTypes.contains { typeId in
                 return typeId.int64Value == selectedType.storeTypeid
             }
         }

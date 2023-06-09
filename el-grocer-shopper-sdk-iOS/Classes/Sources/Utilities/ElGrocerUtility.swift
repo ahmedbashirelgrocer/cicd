@@ -238,16 +238,20 @@ class ElGrocerUtility {
             var i = 0
             while i < groceryA!.count {
                 if i == 0 {
-                    let stringOfStoreIds = groceryA?[i].storeType.map({$0.stringValue}).joined(separator: ",")
-                    if stringOfStoreIds?.count ?? 0 > 0 {
-                        retailerIDString.append(stringOfStoreIds ?? "")
+                    let grocery = groceryA?[i]
+                    let storeTypes = grocery?.convertToArrayOfNumber(text: grocery?.storeType ?? "") ?? []
+                    let stringOfStoreIds = storeTypes.map({$0.stringValue}).joined(separator: ",")
+                    if stringOfStoreIds.count > 0 {
+                        retailerIDString.append(stringOfStoreIds)
                     }
         
                 }else{
-                    let stringOfStoreIds = groceryA?[i].storeType.map({$0.stringValue}).joined(separator: ",")
-                    if stringOfStoreIds?.count ?? 0 > 0 {
+                    let grocery = groceryA?[i]
+                    let storeTypes = grocery?.convertToArrayOfNumber(text: grocery?.storeType ?? "") ?? []
+                    let stringOfStoreIds = storeTypes.map({$0.stringValue}).joined(separator: ",")
+                    if stringOfStoreIds.count > 0 {
                         retailerIDString.append(",")
-                        retailerIDString.append(stringOfStoreIds ?? "")
+                        retailerIDString.append(stringOfStoreIds )
                     }
                 }
                 i = i + 1
@@ -783,7 +787,8 @@ class ElGrocerUtility {
         var paymentDescription = "---"
         
         var descPayment = ""
-        for ids in myGrocery.paymentAvailableID {
+        let paymentAvailableID = myGrocery.convertToArrayOfNumber(text: myGrocery.paymentAvailableID) ?? []
+        for ids in paymentAvailableID {
             if descPayment.count > 0 {
                 descPayment.append(" - ")
             }

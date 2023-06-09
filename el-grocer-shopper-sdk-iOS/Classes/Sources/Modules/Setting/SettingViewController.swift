@@ -41,7 +41,6 @@ class SettingViewController: UIViewController {
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         self.navigationCustimzation()
     }
-    
     private func registerTableViewCell() {
         
         let userInfoCellNib  = UINib(nibName: "UserInfoCell", bundle: Bundle.resource)

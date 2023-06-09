@@ -452,8 +452,9 @@ class RecipeDetailVC: BasketBasicViewController {
                 }
             }
             if !isGoWithCurrentGrocery {
+                let storeTypes = currentGrocery.convertToArrayOfNumber(text: currentGrocery.storeType ) ?? []
                 let storeTypeA =  self.recipe?.recipeStoreTypes?.filter({ (data) -> Bool in
-                    return (currentGrocery.storeType.contains(data) )
+                    return (storeTypes.contains(data) )
                 })
                 if storeTypeA?.count ?? 0 > 0 {
                     isGoWithCurrentGrocery = true
@@ -488,8 +489,9 @@ class RecipeDetailVC: BasketBasicViewController {
             }
             
             if !isGoWithCurrentGrocery {
+                let storeTypes = currentGrocery.convertToArrayOfNumber(text: currentGrocery.storeType ) ?? []
                 let storeTypeA =  self.recipe?.recipeStoreTypes?.filter({ (data) -> Bool in
-                    return (currentGrocery.storeType.contains(data) )
+                    return (storeTypes.contains(data) )
                 })
                 if storeTypeA?.count ?? 0 > 0 {
                     isGoWithCurrentGrocery = true

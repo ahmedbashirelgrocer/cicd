@@ -289,7 +289,7 @@ extension Grocery {
             grocery.retailerType = retailer_type
         }
         if let store_type = responseDict["store_type"] as? [NSNumber] {
-            grocery.storeType = store_type
+            grocery.storeType = grocery.jsonToString(json: store_type)
         }
     
         if let groceryImgUrl = responseDict["photo1_url"] as? String {
@@ -306,10 +306,10 @@ extension Grocery {
         
         
         
-        if let top_search = responseDict["top_searches"] as? [String] {
-            
-            grocery.topSearch = top_search
-        }
+//        if let top_search = responseDict["top_searches"] as? [String] {
+//            
+//            grocery.topSearch = top_search
+//        }
         
         
         if let retailerGroupName = responseDict["retailer_group_name "] as? String {
@@ -392,7 +392,7 @@ extension Grocery {
                 let paymentId = (payment["id"] as! NSNumber)
                 typesNumberId.append(paymentId)
             }
-            grocery.paymentAvailableID = typesNumberId
+            grocery.paymentAvailableID = grocery.jsonToString(json: typesNumberId)
             
         }
         //save categories of grocery ---
@@ -524,7 +524,7 @@ extension Grocery {
                 let paymentId = (payment["id"] as! NSNumber)
                 typesNumberId.append(paymentId)
             }
-            grocery.paymentAvailableID = typesNumberId
+            grocery.paymentAvailableID = grocery.jsonToString(json: typesNumberId)
             
         }
         DatabaseHelper.sharedInstance.saveDatabase()
@@ -717,10 +717,19 @@ extension Grocery {
 
 extension Grocery {
     
+    func getStoreTypes() -> [NSNumber]? {
+        return self.convertToArrayOfNumber(text: self.storeType )
+    }
     
-    func jsonToString(json: AnyObject)->String{
+    
+}
+
+extension Grocery {
+    
+ 
+    func jsonToString(json: Any)->String{
         do {
-            let data1 =  try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted) // first of all convert json to the data
+            let data1 =  try JSONSerialization.data(withJSONObject: json, options: []) // first of all convert json to the data
             let convertedString = String(data: data1, encoding: String.Encoding.utf8) // the data will be converted to the string
             return convertedString! // <-- here is ur string
             
@@ -742,6 +751,17 @@ extension Grocery {
             }
         }
         return nil
+    }
+    
+    func convertToArrayOfNumber(text: String) -> [NSNumber] {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as! [NSNumber]
+            } catch {
+               elDebugPrint(error.localizedDescription)
+            }
+        }
+        return []
     }
     
     

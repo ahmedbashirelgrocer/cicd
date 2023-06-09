@@ -287,8 +287,9 @@ class ClickAndCollectMapViewController: UIViewController {
             
             if topVc is ElgrocerClickAndCollectGroceryDetailViewController {
                 let detailVc : ElgrocerClickAndCollectGroceryDetailViewController = topVc as! ElgrocerClickAndCollectGroceryDetailViewController
+                let storeTypes = grocery?.getStoreTypes() ?? []
                 let selectType = self.storeTypeA.filter({ (type) -> Bool in
-                                                            return (grocery?.storeType.contains(NSNumber(value: type.storeTypeid)) ?? false)   })
+                                                            return (storeTypes.contains(NSNumber(value: type.storeTypeid)) ?? false)   })
                 detailVc.storeType = selectType.count > 0 ? selectType[0] : nil
                 detailVc.grocery = grocery
                 return
@@ -373,8 +374,9 @@ class ClickAndCollectMapViewController: UIViewController {
         bottomSheetController.present(groceryController!, on: self)
         
         if grocery != nil {
+            let storeTypes = grocery?.getStoreTypes() ?? []
             let selectType = self.storeTypeA.filter({ (type) -> Bool in
-                                                        return (grocery?.storeType.contains(NSNumber(value: type.storeTypeid)) ?? false)   })
+                                                        return (storeTypes.contains(NSNumber(value: type.storeTypeid)) ?? false)   })
             self.groceryController?.storeType = selectType.count > 0 ? selectType[0] : nil
             self.groceryController?.grocery = grocery
         }
@@ -509,7 +511,8 @@ extension ClickAndCollectMapViewController : GMSMapViewDelegate {
             if self.selectStoreType?.storeTypeid == 0 {
                 return true
             }
-            return grocery.storeType.contains(NSNumber(value: self.selectStoreType?.storeTypeid ?? 0))
+            let storeTypes = grocery.getStoreTypes() ?? []
+            return storeTypes.contains(NSNumber(value: self.selectStoreType?.storeTypeid ?? 0))
         }
         
         if self.filterdGrocerA != groceryFilterd {
@@ -636,7 +639,8 @@ extension ClickAndCollectMapViewController :  UITableViewDelegate , UITableViewD
                 if self.selectStoreType?.storeTypeid == 0 {
                     return true
                 }
-                return grocery.storeType.contains(NSNumber(value: self.selectStoreType?.storeTypeid ?? 0))
+                let storeTypes = grocery.getStoreTypes() ?? []
+                return storeTypes.contains(NSNumber(value: self.selectStoreType?.storeTypeid ?? 0))
             }
             if self.filterdGrocerA != groceryFilterd {
                 self.filterdGrocerA = groceryFilterd

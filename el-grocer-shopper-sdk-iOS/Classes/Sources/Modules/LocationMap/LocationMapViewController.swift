@@ -44,8 +44,8 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     }
     @IBOutlet weak var topView: UIView! {
         didSet {
-           // topView.layer.cornerRadius = 24
-           // topView.layer.masksToBounds = true
+            topView.layer.cornerRadius = 24
+            topView.layer.masksToBounds = true
         }
     }
     
@@ -53,11 +53,22 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     // MARK: Outlets
     @IBOutlet weak var mapView: GMSMapView?
     
-    @IBOutlet weak var locationMarker: UIImageView!
+    @IBOutlet weak var locationMarker: UIImageView! {
+        didSet {
+            if sdkManager.isSmileSDK {
+                locationMarker.image = UIImage(name: "smile_pin")
+            }
+        }
+    }
     
+    
+    @IBOutlet weak var topBg: UIView! {
+        didSet {
+            topBg.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        }
+    }
     @IBOutlet weak var footerTitleLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
-    
     @IBOutlet weak var mapToolTipBgView: UIView!
     @IBOutlet weak var mapPinToolTipText: UILabel!
     @IBOutlet weak var detectingLocationView: UIView!
@@ -67,11 +78,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     var isNeedToUpdateManual : Bool = false
     @IBOutlet weak var addressTextField: UITextField!
     @IBOutlet var       manualTextField: CustomTextField!
-    //@IBOutlet var manualLbl: UILabel!
-    
-    
     @IBOutlet weak var viewLocationIcon: UIView!
-    
     @IBOutlet weak var borderView: UIView!
     @IBOutlet weak var addressTitleLabel: UILabel! {
         didSet{
@@ -82,10 +89,24 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var buttonsView: UIView!
-    
-    //@IBOutlet weak var addressLabelLeading: NSLayoutConstraint!
-    //@IBOutlet weak var addressLabelTraling: NSLayoutConstraint!
     @IBOutlet weak var addressLableHeight: NSLayoutConstraint!
+    @IBOutlet weak var lblDetectLocation: UILabel! {
+        didSet {
+            lblDetectLocation.setH4SemiBoldGreenStyle()
+        }
+    }
+    @IBOutlet weak var detectLocationImage: UIImageView! {
+        didSet{
+            detectLocationImage.image = sdkManager.isSmileSDK ? UIImage(name: "LocationDetectingPurple") : UIImage(name: "LocationDetecting")
+        }
+    }
+    
+    @IBOutlet weak var imgCurrentLocation: UIImageView! {
+        didSet{
+            imgCurrentLocation.image = sdkManager.isShopperApp ? UIImage(name: "location_icon_green") : UIImage(name: "location_icon_purple")
+        }
+    }
+    
     
     var isNeedToDismiss : Bool = false
     var selectAddress : String = ""
@@ -268,21 +289,14 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                         }
                     }
                     SpinnerView.hideSpinnerView()
-                    StoreOutConverageAreaBottomSheetViewController.showInBottomSheet(location: location, address: self.viewModel.locationAddress.value ?? "Unknown", presentIn: self)
-                    
-                    /*let appDelegate = sdkManager
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(named: "locationPop") , header: "", detail: localizedString("lbl_NoCoverage_msg", comment: ""),localizedString("add_address_alert_yes", comment: "") , localizedString("add_address_alert_no", comment: ""), withView: appDelegate?.window! ?? self.view) { (index) in
-                        
-                        if index == 0 {
-                            ElGrocerUtility.sharedInstance.activeGrocery = nil
-                            ElGrocerUtility.sharedInstance.resetRecipeView()
-                            self.updateAddress(location)
-                        }else{
-                            SpinnerView.hideSpinnerView()
+                    StoreOutConverageAreaBottomSheetViewController.showInBottomSheet(location: location, address: self.viewModel.locationAddress.value ?? "Unknown", presentIn: self){ [weak self] (isChangeLocation) in
+                        if isChangeLocation {
+                            guard let self = self else {return}
+                            self.delegate?.locationMapViewControllerWithBuilding(self, didSelectLocation: self.viewModel.selectedLocation.value, withName: "", withAddress: "", withBuilding: "", withCity: "")
+                        }else {
+                            self?.backButtonClick()
                         }
                     }
-                    */
-                    
                 case .failure(let error):
                     SpinnerView.hideSpinnerView()
                     error.showErrorAlert()
@@ -459,11 +473,11 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                         self.setUpBottomView()
                         self.confirmButton.setTitle(localizedString("request_to_deliver_here", comment: ""), for: .normal)
                         self.confirmButton.setBackgroundColor(.white, forState: .normal)
-                        self.confirmButton.setH4SemiBoldGreenStyle()
+                        self.confirmButton.setH4SemiBoldAppBaseColorStyle()
                         self.confirmButton.layer.cornerRadius = 28
                         self.confirmButton.layer.masksToBounds = true
                         self.confirmButton.layer.borderWidth = 2
-                        self.confirmButton.layer.borderColor = UIColor.navigationBarColor().cgColor
+                        self.confirmButton.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                         
                         
                         if self.lblAddress.text?.count ?? 0 > 0 {
@@ -827,7 +841,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     func setupButtonsAppearance() {
         self.confirmButton.setTitle(localizedString("confirm_location_button_title", comment: ""), for: UIControl.State())
         self.confirmButton.setH4SemiBoldWhiteStyle()
-        self.confirmButton.setBackgroundColor(UIColor.navigationBarColor(), forState: UIControl.State())
+        self.confirmButton.setBackgroundColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, forState: UIControl.State())
         self.confirmButton.layer.cornerRadius = 28
         self.confirmButton.layer.masksToBounds = true
         
@@ -976,11 +990,11 @@ extension LocationMapViewController: UITextFieldDelegate {
         
         
         let searchController = GMSAutocompleteViewController()
-        UINavigationBar.appearance().tintColor = UIColor.navigationBarColor()
+        UINavigationBar.appearance().tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         searchController.delegate = self
-        searchController.tintColor = UIColor.navigationBarColor()
+        searchController.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         searchController.tableCellBackgroundColor = .white
-        searchController.primaryTextHighlightColor = UIColor.navigationBarColor()
+        searchController.primaryTextHighlightColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         searchController.primaryTextColor = .black
         searchController.secondaryTextColor = .black
         searchController.modalPresentationStyle = .fullScreen

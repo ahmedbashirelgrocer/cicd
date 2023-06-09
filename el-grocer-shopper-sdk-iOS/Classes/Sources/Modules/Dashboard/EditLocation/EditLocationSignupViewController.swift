@@ -127,6 +127,7 @@ fileprivate extension EditLocationSignupViewController {
         let newLat = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.addressLat
         let newLng = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.addressLng
         let address = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.address
+        let imageUrl = (tableCells[0] as? MapPinTableViewCell)?.pinView.currentDetails?.addressImageUrl
         
         let email = (tableCells[3] as? TextFieldCell)?.textField.text ?? ""
         
@@ -139,14 +140,14 @@ fileprivate extension EditLocationSignupViewController {
         deliveryAddress.building = (tableCells[4] as? TextFieldCell)?.textField.text ?? ""
         deliveryAddress.city = locationDetails.cityName ?? ""
         
-        var streetStr = ""
-        if(locationDetails.address!.isEmpty == false){
-            let strComponents = locationDetails.address!.components(separatedBy: "-")
-            if (strComponents.count >= 3){
-                let trimmedString = strComponents[0].trimmingCharacters(in: .whitespacesAndNewlines)
-                streetStr = String(format:"%@,%@",trimmedString,strComponents[1])
-            }
-        }
+//        var streetStr = ""
+//        if(locationDetails.address!.isEmpty == false){
+//            let strComponents = locationDetails.address!.components(separatedBy: "-")
+//            if (strComponents.count >= 3){
+//                let trimmedString = strComponents[0].trimmingCharacters(in: .whitespacesAndNewlines)
+//                streetStr = String(format:"%@,%@",trimmedString,strComponents[1])
+//            }
+//        }
        
         deliveryAddress.apartment = (tableCells[5] as? TextFieldCell)?.textField.text
         deliveryAddress.addressType = "0"
@@ -163,7 +164,7 @@ fileprivate extension EditLocationSignupViewController {
         }
         userProfile?.name = (tableCells[2] as? TextFieldCell)?.textField.text ?? ""
         deliveryAddress.nickName = (tableCells[1] as? TextFieldCell)?.textField.text ?? ""
-        
+        deliveryAddress.addressImageUrl = imageUrl
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
          LoginSignupService.addDeliveryAddress(deliveryAddress) { [weak self] code in
@@ -295,7 +296,11 @@ fileprivate extension EditLocationSignupViewController {
                                 self.navigationController?.popViewController(animated: false)
                             }
                         }else {
-                            self.navigationController?.popViewController(animated: false)
+                            if (self.navigationController?.viewControllers.count ?? 0) > 1 {
+                                self.navigationController?.popToRootViewController(animated: true)
+                                return
+                            }
+                            self.presentingViewController?.dismiss(animated: true, completion: nil)
                         }
                         
                         

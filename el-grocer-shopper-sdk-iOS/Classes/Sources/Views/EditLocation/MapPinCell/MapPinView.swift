@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 struct UserMapPinAdress {
     
@@ -28,7 +29,11 @@ class MapPinView: UIView {
     @IBOutlet weak var mapImageView: UIImageView!
     @IBOutlet weak var addressPimImage: UIImageView!
     @IBOutlet weak var lblAddress: UILabel!
-    @IBOutlet weak var addressChangeButton: UIButton!
+    @IBOutlet weak var addressChangeButton: UIButton! {
+        didSet{
+            addressChangeButton.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
+        }
+    }
     
     weak var delegate: MapPinViewDelegate?
     
@@ -54,7 +59,28 @@ class MapPinView: UIView {
         if let imageUrl = detail.addressImageUrl {
             self.mapImageView.sd_setImage(with: imageUrl, placeholderImage: UIImage(name: "product_placeholder"))
         } else {
-            self.mapImageView.sd_setImage(with:  self.getPinImageFromLatLng(lat: detail.addressLat, lng: detail.addressLng), placeholderImage: UIImage(name: "product_placeholder"))
+            
+            self.getPinImageFromLatLng(lat: detail.addressLat, lng: detail.addressLng) { [weak self] url in
+                self?.mapImageView.sd_setImage(with: url, placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 0), completed: {[weak self] (image, error, cacheType, imageURL) in
+                    guard let self = self else {
+                        return
+                    }
+                    self.currentDetails?.addressImageUrl = imageURL
+                    if cacheType == SDImageCacheType.none {
+                        UIView.transition(with: self.mapImageView, duration: 0.33, options: UIView.AnimationOptions.transitionCrossDissolve, animations: {[weak self] () -> Void in
+                            guard let self = self else {
+                                return
+                            }
+                            self.mapImageView.image = image
+                        }, completion: nil)
+                    }
+                })
+                
+                
+                //self?.mapImageView.sd_setImage(with: url, placeholderImage: UIImage(name: "product_placeholder"))
+            }
+            
+            //  self.mapImageView.sd_setImage(with:  self.getPinImageFromLatLng(lat: detail.addressLat, lng: detail.addressLng), placeholderImage: UIImage(name: "product_placeholder"))
         }
         
     }
@@ -70,10 +96,25 @@ class MapPinView: UIView {
 extension MapPinView {
     
     
-    private func getPinImageFromLatLng( lat : Double , lng : Double) -> URL {
+    private func getPinImageFromLatLng( lat : Double , lng : Double, _ completionHandler:@escaping (_ result: URL?) -> Void)  {
         
-        let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:blue%7C\(lat),\(lng)&center=\(lat),\(lng)&\("zoom=15&size=\(343)x\(100)")&maptype=roadmap&key=\(sdkManager.kGoogleMapsApiKey)&sensor=true"
-        return NSURL(string: staticMapUrl)! as URL
+        
+        ElGrocerApi.sharedInstance.getAddressImage(with: lat, lng: lng) { result in
+            switch result {
+            case .success(let dictionary):
+                guard let data = dictionary["data"] as? String, data.count > 0 else{
+                    completionHandler(nil)
+                    return
+                }
+                completionHandler(URL.init(string: data))
+                
+            case .failure(_):
+                completionHandler(nil)
+            }
+        }
+        
+//        let staticMapUrl: String = "http://maps.google.com/maps/api/staticmap?markers=color:blue%7C\(lat),\(lng)&center=\(lat),\(lng)&\("zoom=15&size=\(343)x\(100)")&maptype=roadmap&key=\(sdkManager.kGoogleMapsApiKey)&sensor=true"
+//        return NSURL(string: staticMapUrl)! as URL
     }
     
     

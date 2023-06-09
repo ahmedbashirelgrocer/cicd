@@ -150,8 +150,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
 
         if isNeedToHideSearchBar && !self.searchString.isEmpty {
 
-            if (ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.activeGrocery!.topSearch.count > 0){
-                self.topSearchesArray = (ElGrocerUtility.sharedInstance.activeGrocery!.topSearch)
+            if (ElGrocerUtility.sharedInstance.activeGrocery != nil){
+                self.topSearchesArray = []
             }
             self.collectionView.isHidden = true
             self.tableView.isHidden = false
@@ -244,8 +244,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.basketIconOverlay?.grocery = self.grocery
             self.refreshBasketIconStatus()
-            if (ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.activeGrocery!.topSearch.count > 0) {
-                self.topSearchesArray = (ElGrocerUtility.sharedInstance.activeGrocery!.topSearch)
+            if (ElGrocerUtility.sharedInstance.activeGrocery != nil ) {
+                self.topSearchesArray = []
                 self.tableView.reloadData()
             }
 
@@ -253,8 +253,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             
             self.basketIconOverlay?.grocery = self.grocery
             self.refreshBasketIconStatus()
-            if (ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.activeGrocery!.topSearch.count > 0){
-                self.topSearchesArray = (ElGrocerUtility.sharedInstance.activeGrocery!.topSearch)
+            if (ElGrocerUtility.sharedInstance.activeGrocery != nil){
+                self.topSearchesArray = []
                 self.tableView.reloadData()
             }
             self.collectionView.reloadData()
@@ -820,8 +820,8 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
             self.searchString = ""
         }
 
-        if (ElGrocerUtility.sharedInstance.activeGrocery != nil && ElGrocerUtility.sharedInstance.activeGrocery!.topSearch.count > 0){
-            self.topSearchesArray = (ElGrocerUtility.sharedInstance.activeGrocery!.topSearch)
+        if (ElGrocerUtility.sharedInstance.activeGrocery != nil ){
+            self.topSearchesArray = []
         }
         
         self.collectionView.isHidden = true

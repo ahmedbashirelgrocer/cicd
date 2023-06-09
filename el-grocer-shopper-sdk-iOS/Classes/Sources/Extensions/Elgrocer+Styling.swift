@@ -428,7 +428,7 @@ extension UILabel {
     
     func setH4SemiBoldGreenStyle(){
         self.font = UIFont.SFProDisplayBoldFont(17)
-        self.textColor = UIColor.navigationBarColor()
+        self.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
     
 }
@@ -518,6 +518,11 @@ extension UIButton {
     func setH4SemiBoldGreenStyle() {
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+    }
+    
+    func setH4SemiBoldAppBaseColorStyle() {
+        self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
+        self.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
     }
     
     func setH4SemiBoldErrorStyle(){

@@ -13,6 +13,7 @@ import StoreKit
 import FirebaseAnalytics
 import RxSwift
 import RxDataSources
+import CoreLocation
 
 
 enum StorePageType {
@@ -1640,7 +1641,42 @@ private extension MainCategoriesViewController {
             : self.porgressHud?.removeFromSuperview()
         }).disposed(by: disposeBag)
         
-       
+        if SDKManager.shared.isGrocerySingleStore {
+            showLocationCustomPopUp()
+        }
+    }
+    
+    @objc func showLocationCustomPopUp() {
+        
+        guard SDKManager.shared.launchOptions?.navigationType != .search else {
+            return
+        }
+        
+        LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
+            guard state != nil else {
+                return
+            }
+            Thread.OnMainThread {
+                guard UIApplication.topViewController() is MainCategoriesViewController else {
+                    LocationManager.sharedInstance.stopUpdatingCurrentLocation()
+                    LocationManager.sharedInstance.locationWithStatus = nil
+                    return
+                }
+                switch state! {
+                    case LocationManager.State.fetchingLocation:
+                        elDebugPrint("")
+                    case LocationManager.State.initial:
+                        elDebugPrint("")
+                    default:
+                        self?.checkforDifferentDeliveryLocation()
+                        LocationManager.sharedInstance.stopUpdatingCurrentLocation()
+                        LocationManager.sharedInstance.locationWithStatus = nil
+                }
+            }
+        }
+        ElGrocerUtility.sharedInstance.delay(1) {
+            LocationManager.sharedInstance.fetchCurrentLocation()
+        }
     }
     
     func bannerNavigation(banner: BannerDTO) {
@@ -2181,6 +2217,48 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
     }
     
   
+}
+
+// MARK: - Far LocationHandler
+extension MainCategoriesViewController {
+
+private func checkforDifferentDeliveryLocation() {
+    
+    guard let deliveryAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+    
+    if let currentLat = LocationManager.sharedInstance.currentLocation.value?.coordinate.latitude,
+       let currentLng = LocationManager.sharedInstance.currentLocation.value?.coordinate.longitude {
+        
+        let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+        let currentLocation = CLLocation(latitude: currentLat, longitude: currentLng)
+        
+        let distance = deliveryAddressLocation.distance(from: currentLocation) //result is in meters
+                                                                               //print("distance:",distance)
+        
+        var intervalInMins = 0.0
+        if let checkedAt = UserDefaults.getLastLocationChangedDate() {
+            intervalInMins = Date().timeIntervalSince(checkedAt) / 60
+        } else {
+            intervalInMins = 66.0
+        }
+        
+        if(distance > 300 && intervalInMins > 5)
+        {
+            DispatchQueue.main.async {
+                let vc = LocationChangedViewController.getViewController()
+                
+                vc.currentLocation = currentLocation
+                vc.currentSavedLocation = deliveryAddressLocation
+                
+                vc.modalPresentationStyle = .overFullScreen
+                vc.modalTransitionStyle = .crossDissolve
+                self.present(vc, animated: true, completion: nil)
+            }
+            UserDefaults.setLocationChanged(date: Date()) //saving current date
+        }
+    } else { }
+}
+
 }
 
 extension Notification.Name {

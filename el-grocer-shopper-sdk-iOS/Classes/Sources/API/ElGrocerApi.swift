@@ -58,6 +58,7 @@ enum ElGrocerApiEndpoint : String {
     case PhoneExist = "v2/shoppers/verifyPhoneNumber"
     case verifyOtp = "v2/shoppers/verifyOTP"
     case DeliveryAddress = "v1/shopper_addresses.json"
+    case DeliveryAddressImage = "v1/shopper_addresses/image.json"
     case AddressTags =  "v1/address_tags"
     case DeliveryAddressV2 = "v2/shopper_addresses.json"
     case DeliveryAddressAreas = "v1/locations.json"
@@ -775,9 +776,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           addressParameters["default_address"] = address.isActive.boolValue as AnyObject
           addressParameters["address_type_id"] = address.addressType as AnyObject
           addressParameters["nick_name"] = (address.nickName ?? "") as AnyObject
-          
-          
-        
+          addressParameters["address_image"] = (address.addressImageUrl?.absoluteString ?? "") as AnyObject
           if address.street != nil {
               addressParameters["street"] = address.street! as AnyObject
           }
@@ -793,7 +792,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           if address.floor != nil {
               addressParameters["floor"] = address.floor! as AnyObject
           }
-      
+
           if address.houseNumber != nil {
               addressParameters["house_number"] = address.houseNumber! as AnyObject
           }
@@ -945,6 +944,28 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   }
   
   // MARK: Delivery address
+      
+    func getAddressImage(with lat: Double, lng: Double, _ completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          //v1/shopper_addresses/image.json
+        setAccessToken()
+        NetworkCall.get(ElGrocerApiEndpoint.DeliveryAddressImage.rawValue, parameters: ["latitude": lat, "longitude" : lng] , progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            guard let response = response as? NSDictionary else {
+                completionHandler(Either.failure(ElGrocerError.parsingError()))
+                return
+            }
+            completionHandler(Either.success(response))
+            
+        }) { (operation  , error) in
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+        }
+          
+    }
+      
   
   func getDeliveryAddresses(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
   
@@ -1036,6 +1057,11 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   if address.userProfile.name != nil {
   addressParameters["name"] = address.userProfile.name as AnyObject
   }
+      
+  addressParameters["nick_name"] = (address.nickName ?? "") as AnyObject
+      addressParameters["address_image"] = (address.addressImageUrl?.absoluteString ?? "") as AnyObject
+      
+      
   
   // //elDebugPrint("Parameters Address Name:%@",addressParameters["address_name"] ?? "Null")
   // //elDebugPrint("Address Parameters:%@",addressParameters)
@@ -4972,7 +4998,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
           self.requestManager.requestSerializer.setValue(UserDefaults.getAccessToken(), forHTTPHeaderField: "Authentication-Token")
           
-          let sdkType = sdkManager.isGrocerySingleStore ? "1":"0"
+          let sdkType = SDKManager.shared.isGrocerySingleStore ? "1":"0"
           self.requestManager.requestSerializer.setValue(sdkType, forHTTPHeaderField: "market_type_id")
         
       }

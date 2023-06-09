@@ -81,7 +81,6 @@ class ElGrocerNavigationController : UINavigationController {
         let isHidden = self.viewControllers.count > 0
         (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.isHidden = isHidden
         (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.isHidden = isHidden
-        
         super.pushViewController(viewController, animated: animated)
     }
 

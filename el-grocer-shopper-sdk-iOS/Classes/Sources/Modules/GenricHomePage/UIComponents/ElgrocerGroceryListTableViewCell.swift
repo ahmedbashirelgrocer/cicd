@@ -39,7 +39,8 @@ class ElgrocerGroceryListTableViewCell: UITableViewCell {
             if type?.storeTypeid == nil || type?.storeTypeid == 0 {
                 return true
             }
-            return grocery.storeType.contains(NSNumber(value: type?.storeTypeid ?? 0)) // grocery.retailerType.stringValue ==  "\(type?.storeTypeid ?? -1)"
+            let storeTypes = grocery.getStoreTypes() ?? []
+            return storeTypes.contains(NSNumber(value: type?.storeTypeid ?? 0)) // grocery.retailerType.stringValue ==  "\(type?.storeTypeid ?? -1)"
         }
         storeListCustomCollectionView.configureData(groceryFilterd)
         if let clouser = filterGroceryArray {
