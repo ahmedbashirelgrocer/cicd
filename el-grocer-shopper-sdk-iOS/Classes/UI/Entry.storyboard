@@ -442,17 +442,6 @@
             <point key="canvasLocation" x="1155" y="424"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="6FW-b9-O96">
-            <size key="intrinsicContentSize" width="55" height="30"/>
-        </designable>
-        <designable name="Sqk-3H-NoA">
-            <size key="intrinsicContentSize" width="173" height="24"/>
-        </designable>
-        <designable name="tWj-sy-8J9">
-            <size key="intrinsicContentSize" width="47" height="30"/>
-        </designable>
-    </designables>
     <color key="tintColor" red="0.1215686275" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
     <resources>
         <image name="AppGreenLogo" width="235" height="83"/>

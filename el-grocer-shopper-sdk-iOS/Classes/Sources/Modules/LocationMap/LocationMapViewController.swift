@@ -1003,8 +1003,6 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         self.setCurrentAddress(LocationManager.sharedInstance.currentLocation.value!.coordinate)
     }
     
-    
-    
 }
 
 // MARK: GMSMapViewDelegate
