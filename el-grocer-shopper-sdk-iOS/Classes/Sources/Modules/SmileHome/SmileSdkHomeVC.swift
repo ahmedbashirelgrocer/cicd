@@ -1057,8 +1057,7 @@ extension SmileSdkHomeVC {
                 intervalInMins = 66.0
             }
             
-            if(distance > 300 && intervalInMins > 60)
-            {
+            if(distance > 300 && intervalInMins > 5) {
                 DispatchQueue.main.async {
                     let vc = LocationChangedViewController.getViewController()
                     
@@ -1071,6 +1070,7 @@ extension SmileSdkHomeVC {
                 }
                 UserDefaults.setLocationChanged(date: Date()) //saving current date
             }
+            
         } else {
                 //
         }

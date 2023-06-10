@@ -274,24 +274,38 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                         switch result {
                         case .success(let responseObject):
                             let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                            if  let response = responseObject["data"] as? NSDictionary {
-                                if let groceryDict = response["retailers"] as? [NSDictionary] {
+                            if  let groceryDict = responseObject["data"] as? NSDictionary {
                                     if groceryDict.count > 0 {
                                         let arrayGrocery = Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
                                         if arrayGrocery.count > 0 {
-                                            ElGrocerUtility.sharedInstance.groceries = arrayGrocery
                                             ElGrocerUtility.sharedInstance.activeGrocery = arrayGrocery[0]
-                                            self.updateAddress(location)
+                                            var cityName = "null"
+                                            if let administrativeArea =  self.viewModel.selectedAddress.value?.administrativeArea {
+                                                cityName = administrativeArea
+                                            }
+                                            if let localicty =  self.viewModel.selectedAddress.value?.locality {
+                                                cityName = localicty
+                                            }
+                                            (self.delegate as? LocationMapDelegation)?.type = .basketSuccess
+                                            self.delegate?.locationMapViewControllerWithBuilding(self, didSelectLocation: self.viewModel.selectedLocation.value, withName:  self.locName, withAddress: self.locAddress, withBuilding: self.buildingName, withCity: cityName)
                                             return
                                         }
                                     }
-                                }
+                                
                             }
                             SpinnerView.hideSpinnerView()
                             StoreOutConverageAreaBottomSheetViewController.showInBottomSheet(location: location, address: self.viewModel.locationAddress.value ?? "Unknown", presentIn: self){ [weak self] (isChangeLocation) in
                                 if isChangeLocation {
                                     guard let self = self else {return}
-                                    self.delegate?.locationMapViewControllerWithBuilding(self, didSelectLocation: self.viewModel.selectedLocation.value, withName: "", withAddress: "", withBuilding: "", withCity: "")
+                                    
+                                    var cityName = "null"
+                                    if let administrativeArea =  self.viewModel.selectedAddress.value?.administrativeArea {
+                                        cityName = administrativeArea
+                                    }
+                                    if let localicty =  self.viewModel.selectedAddress.value?.locality {
+                                        cityName = localicty
+                                    }
+                                    self.delegate?.locationMapViewControllerWithBuilding(self, didSelectLocation: self.viewModel.selectedLocation.value, withName:  self.locName, withAddress: self.locAddress, withBuilding: self.buildingName, withCity: cityName)
                                 }else {
                                     self?.backButtonClick()
                                 }
@@ -741,13 +755,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         guard mapConfigured == false else {return}
         
         if isConfirmAddress  {
-            
             if let place = self.place {
                 locationCurrentCoordinates = place.coordinate
             }
-            
-            
-        }else if CLLocationManager.locationServicesEnabled() {
+        } else if (CLLocationCoordinate2DIsValid(self.locationCurrentCoordinates) && (self.locationCurrentCoordinates.latitude != 0.0 && self.locationCurrentCoordinates.longitude != 0.0)) { } else if CLLocationManager.locationServicesEnabled() {
             
             switch(CLLocationManager.authorizationStatus()) {
                 
@@ -791,24 +802,21 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         }
         
         self.locationMarker.isHidden = false
-        let camera = GMSCameraPosition.camera(withTarget: locationCurrentCoordinates, zoom: cameraZoom)
-        self.mapView?.camera = camera
         self.mapView?.delegate = self
-        self.mapView?.settings.rotateGestures = false
-        self.mapView?.settings.tiltGestures = false
+//     self.mapView?.settings.rotateGestures = false
+      //  self.mapView?.settings.tiltGestures = false
         self.mapConfigured = true
+        if locationCurrentCoordinates.longitude != 0.0 &&  locationCurrentCoordinates.latitude != 0.0 {
+            let camera = GMSCameraPosition.camera(withTarget: locationCurrentCoordinates, zoom: cameraZoom)
+            self.mapView?.camera = camera
+        }
+       
     }
     
     fileprivate func setCameraPosition(_ coardinates : CLLocationCoordinate2D) {
         
         let camera = GMSCameraPosition.camera(withTarget: coardinates, zoom: cameraZoom)
         self.mapView?.camera = camera
-        
-//        let positionLondon = CLLocationCoordinate2D(latitude: coardinates.latitude, longitude: coardinates.longitude)
-//        let london = GMSMarker(position: positionLondon)
-//        london.icon = UIImage(name: "smile_pin")
-//        london.map = self.mapView
-     
     }
     
     fileprivate func configureAddressTextField() {

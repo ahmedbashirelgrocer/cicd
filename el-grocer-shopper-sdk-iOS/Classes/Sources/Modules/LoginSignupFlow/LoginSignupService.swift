@@ -151,11 +151,11 @@ struct LoginSignupService {
     
     static func goToBasketView(from contextView: UIViewController) -> Void {
         
-        contextView.navigationController?.dismiss(animated: true)
+        //contextView.navigationController?.dismiss(animated: true)
         
-//        let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
-//         myBasketViewController.isComingFromLocation = true
-//        contextView.navigationController?.pushViewController(myBasketViewController, animated: true)
+        let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
+         myBasketViewController.isComingFromLocation = true
+        contextView.navigationController?.pushViewController(myBasketViewController, animated: true)
     }
     
     static func setHomeViewWithUserDidSetAddress(from contextView: UIViewController) -> Void {
@@ -177,10 +177,10 @@ struct LoginSignupService {
     
     static func goToDashBoard(from contextView: UIViewController) -> Void {
         
-        guard !SDKManager.shared.isSmileSDK else {
-            contextView.navigationController?.popViewController(animated: true)
-            return
-        }
+//        guard !SDKManager.shared.isSmileSDK else {
+//            contextView.navigationController?.popViewController(animated: true)
+//            return
+//        }
         ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
         contextView.navigationController?.popToRootViewController(animated: true)
     }

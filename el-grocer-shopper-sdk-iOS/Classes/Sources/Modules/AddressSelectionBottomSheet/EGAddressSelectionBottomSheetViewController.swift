@@ -305,27 +305,24 @@ extension EGAddressSelectionBottomSheetViewController : LocationMapViewControlle
 extension EGAddressSelectionBottomSheetViewController {
     
     func checkCoverage(_ address : DeliveryAddress) {
-        
         if let view = self.presentIn?.view {
            _ = SpinnerView.showSpinnerViewInView(view)
         }else {
            _ = SpinnerView.showSpinnerView()
         }
-       
         ElGrocerApi.sharedInstance.getcAndcRetailerDetail(address.latitude, lng: address.longitude, dbID: self.activeGrocery?.dbID ?? "-1" , parentID: "") { (result) in
             switch result {
                 case.success(let data):
                     let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , false)
-                self.isCoverd[address.dbID] = (responseData.count > 0);            self.tableView.reloadDataOnMain()
+                self.isCoverd[address.dbID] = (responseData.count > 0);
+                self.tableView.reloadDataOnMain()
                 case.failure(let _):
                 self.tableView.reloadDataOnMain()
             }
-            
             SpinnerView.hideSpinnerView()
         }
         
     }
-    
     
     func makeLocationToDefault(_ currentAddress: DeliveryAddress){
         

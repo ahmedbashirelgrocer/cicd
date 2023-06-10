@@ -134,6 +134,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         return orderView!
     }()
     
+    lazy var mapDelegate: LocationMapDelegation = {
+        let delegate = LocationMapDelegation.init(self)
+        return delegate
+    }()
+    
     @IBOutlet weak var tableViewCategories: UITableView! {
         didSet {
             tableViewCategories.showsVerticalScrollIndicator = false
@@ -2255,6 +2260,7 @@ private func checkforDifferentDeliveryLocation() {
             }
             UserDefaults.setLocationChanged(date: Date()) //saving current date
         }
+        
     } else { }
 }
 

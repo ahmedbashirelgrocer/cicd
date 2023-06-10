@@ -310,7 +310,7 @@ fileprivate extension EditLocationSignupViewController {
             }else {
                 if code == 4200 { // Add code for email error
                     self.tableView.beginUpdates()
-                    (self.tableCells[2] as? TextFieldCell)?.setError("This email is already registered in elGrocer.")
+                    (self.tableCells[3] as? TextFieldCell)?.setError("This email is already registered in elGrocer.")
                     self.tableView.endUpdates()
                 } else {
                     self.backButtonClick()

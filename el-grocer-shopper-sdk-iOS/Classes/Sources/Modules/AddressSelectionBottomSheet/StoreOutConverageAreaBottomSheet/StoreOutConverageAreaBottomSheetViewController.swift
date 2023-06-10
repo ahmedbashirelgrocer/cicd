@@ -10,9 +10,29 @@ import STPopup
 import CoreLocation
 
 class StoreOutConverageAreaBottomSheetViewController: UIViewController {
-    @IBOutlet weak var imgPin: UIImageView!
-    @IBOutlet weak var btnChangelocation: AWButton!
-    @IBOutlet weak var lblLocationText: UILabel!
+    @IBOutlet weak var imgPin: UIImageView! {
+        didSet{
+            if SDKManager.shared.isSmileSDK {
+                imgPin.image = UIImage(name: "DeliveryAddressPin")
+            }
+        }
+    }
+    @IBOutlet weak var btnChangelocation: AWButton! {
+        didSet{
+            btnChangelocation.setBackgroundColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, forState: UIControl.State())
+        }
+    }
+    @IBOutlet weak var btnCancel: UIButton!{
+        didSet{
+            btnCancel.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
+        }
+    }
+    
+    @IBOutlet weak var lblLocationText: UILabel! {
+        didSet{
+            lblLocationText.setBody1RegDarkStyle()
+        }
+    }
     
     private var location : CLLocation?
     private var address : String?

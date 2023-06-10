@@ -67,8 +67,9 @@ class SettingViewController: UIViewController {
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("Profile_Title", comment: "")
-        self.view.backgroundColor = sdkManager.isShopperApp ? AppSetting.theme.navigationBarWhiteColor : AppSetting.theme.newBlackColor
+        self.title = localizedString("Profile_Title", comment: "")
+        //(self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("Profile_Title", comment: "")
+        self.view.backgroundColor = sdkManager.isShopperApp ? AppSetting.theme.navigationBarWhiteColor :  AppSetting.theme.navigationBarWhiteColor
         self.hidesBottomBarWhenPushed = true
         self.navigationItem.hidesBackButton = true
         
@@ -139,6 +140,7 @@ extension SettingViewController: NavigationBarProtocol {
     }
     
     override func backButtonClick() {
+        (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = ""
         self.navigationController?.popViewController(animated: true)
     }
 }

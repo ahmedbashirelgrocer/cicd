@@ -11,6 +11,7 @@ import CoreLocation
 enum LocationMapDelegationType {
     case def
     case basket
+    case basketSuccess
 }
 
 class LocationMapDelegation {
@@ -37,7 +38,7 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?) {
         
         
-        guard self.type != .basket else {
+        guard self.type == .def else {
             
             let deliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             deliveryAddress.locationName = name ?? ""
@@ -96,6 +97,17 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
                             ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
                                 UserDefaults.setDidUserSetAddress(true)
                             })
+                            if self.type == .basketSuccess {
+                                let locationDetails = LocationDetails.init(location: nil, editLocation: newAddress, name: newAddress.shopperName, address: newAddress.address, building: newAddress.building, cityName: newAddress.city)
+                                let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
+                                controller.navigationController?.pushViewController(editLocationController, animated: true)
+                                let SDKManager = SDKManager.shared
+                                if let tab = SDKManager.currentTabBar, let vc = tab.viewControllers?[tab.selectedIndex] as? ElGrocerNavigationController  {
+                                    vc.popViewController(animated: false)
+                                }
+                                
+                                return
+                            }
                             controller.dismiss(animated: true) {
                                 let SDKManager = SDKManager.shared
                                 if let tab = SDKManager.currentTabBar  {
@@ -103,10 +115,6 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
                                     tab.selectedIndex = 0
                                 }
                             }
-//                            let locationDetails = LocationDetails.init(location: nil,editLocation: newAddress, name: newAddress.shopperName, address: newAddress.address, building: newAddress.building, cityName: newAddress.city)
-//                            let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
-//                            controller.navigationController?.pushViewController(editLocationController, animated: true)
-                            
                         }
                     } else {
                         DatabaseHelper.sharedInstance.mainManagedObjectContext.delete(deliveryAddress)
