@@ -114,7 +114,21 @@ class SplashAnimationViewController: UIViewController {
                 
                 
             } else {
+              
+                logoAnimator.startAnimate { [weak self] (isCompleted) in
+                    if isCompleted {
+                        self?.isAnimationCompleted = true
+                        if HomePageData.shared.fetchOrder.count == 0 {
+                            self?.animationCompletedSetRootVc()
+                        }
+                        self?.activityIndicator.isHidden = false
+                        self?.activityIndicator.startAnimating()
+                    }
+                }
                 
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                    self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-121")
+                }
                 
                 
             }
