@@ -506,6 +506,45 @@ class SDKManager: NSObject, SDKManagerType  {
     }
     
     
+    func showEntryViewWithSuccessClouser(_ completion:@escaping ((_ manager: SDKLoginManager?) -> Void)) {
+        
+        defer {
+            self.refreshSessionStatesForEditOrder()
+        }
+        
+        if let launchOptions = launchOptions, launchOptions.isSmileSDK { // Entry point for SDK
+            let manager = SDKLoginManager(launchOptions: launchOptions)
+            manager.loginFlowForSDK() { isSuccess, errorMessage in
+                let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
+                if isSuccess {
+                    completion(manager)
+                    //manager.setHomeView()
+                } else {
+                 let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
+                        Thread.OnMainThread {
+                            if let topVC = UIApplication.topViewController() {
+                                if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
+                                    navVc.popViewController(animated: true)
+                                } else {
+                                    topVC.dismiss(animated: true, completion: nil)
+                                }
+                            }
+                        }
+                    }
+                    alert.show()
+                }
+            }
+        } else {
+            let entryController =  ElGrocerViewControllers.signInViewController()
+            let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
+            navEntryController.hideNavigationBar(true)
+            self.replaceRootControllerWith(navEntryController)
+        }
+   }
+    
+    
+    
+    
      func showEntryView() {
          
          defer {

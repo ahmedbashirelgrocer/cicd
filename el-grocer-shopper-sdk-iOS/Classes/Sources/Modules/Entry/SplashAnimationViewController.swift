@@ -29,6 +29,12 @@ class SplashAnimationViewController: UIViewController {
             splashLottieLogoAnimator.isHidden = false
         }
     }
+    
+    @IBOutlet var logoAnimator: ElGrocerLogoIndicatorView! {
+            didSet {
+                logoAnimator.isHidden = false
+            }
+        }
 
     lazy var delegate = getSDKManager()
     var isAnimationCompleted : Bool = false
@@ -94,7 +100,7 @@ class SplashAnimationViewController: UIViewController {
         
         if UIApplication.shared.applicationState == .active {
             
-            if !SDKManager.shared.isShopperApp {
+            if SDKManager.shared.isShopperApp {
                 
                 LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
                                                       withJsonFileName:
@@ -114,23 +120,22 @@ class SplashAnimationViewController: UIViewController {
                 
                 
             } else {
-              
+                
+                self.forLogoAnimatorStartFetchProcess() // this method is only for smile sdk. if you thing you need to remove png and add lottie here please make sure to remove this method and update the fetching process accordinly
                 logoAnimator.startAnimate { [weak self] (isCompleted) in
                     if isCompleted {
-                        self?.isAnimationCompleted = true
-                        if HomePageData.shared.fetchOrder.count == 0 {
+                        if HomePageData.shared.fetchOrder.count == 0 && self?.locationFetching == false {
                             self?.animationCompletedSetRootVc()
                         }
+                        self?.isAnimationCompleted = true
                         self?.activityIndicator.isHidden = false
                         self?.activityIndicator.startAnimating()
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
+                            self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-121")
+                        }
                     }
                 }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-                    self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-121")
-                }
-                
-                
             }
             
             
@@ -149,6 +154,26 @@ class SplashAnimationViewController: UIViewController {
             }
         }
        
+    }
+    
+    private func forLogoAnimatorStartFetchProcess() {
+        self.delegate.showEntryViewWithSuccessClouser { manager in
+            self.setHome(manager: manager)
+        }
+    }
+    
+    private func setHome(manager : SDKLoginManager?) {
+        
+        guard self.isAnimationCompleted  else {
+            let when = DispatchTime.now() + 1
+            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: when) {
+                self.setHome(manager: manager)
+            }
+            return
+        }
+        Thread.OnMainThread {
+            manager?.setHomeView()
+        }
     }
     
     private func animationCompletedSetRootVc() {
@@ -194,7 +219,6 @@ class SplashAnimationViewController: UIViewController {
                 }
             } else {
                 self.callSetUpApis()
-                self.delegate.showEntryView()
             }
             return
         }

@@ -50,11 +50,13 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
 //                height = CGFloat((addressList.count * 80) + 124)
 //            }
             if height >= ScreenSize.SCREEN_HEIGHT {
-                height = ScreenSize.SCREEN_HEIGHT - 100
+                height = ScreenSize.SCREEN_HEIGHT - 200
             }
             let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
             addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
             addressView.configure(addressList, activeGrocery, mapDelegate: mapDelegate, presentIn: presentIn)
+            
+           
             
             let popupController = STPopupController(rootViewController: addressView)
             popupController.navigationBarHidden = true
@@ -62,6 +64,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
             popupController.backgroundView?.alpha = 1
             popupController.containerView.layer.cornerRadius = 16
             popupController.navigationBarHidden = true
+            popupController.backgroundView?.addGestureRecognizer(UITapGestureRecognizer(target: addressView, action: #selector(self.dismissPopUpVc)))
             popupController.present(in: presentIn)
             
         }
@@ -131,6 +134,11 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         }
     }
     
+    
+    @objc
+    func dismissPopUpVc() {
+        self.dismiss(animated: true)
+    }
 
     @IBAction func crossAction(_ sender: Any) {
         self.dismiss(animated: true)

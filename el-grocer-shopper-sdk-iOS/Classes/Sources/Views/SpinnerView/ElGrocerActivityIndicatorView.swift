@@ -47,13 +47,13 @@ class ElGrocerActivityIndicatorView: UIImageView {
 
 }
 
-// Please use lottie animation where ever required
-/*class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
+
+class ElGrocerLogoIndicatorView: UIImageView , CAAnimationDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         var imageA = [UIImage]()
-        for index in 1...121 {
+        for index in 1...121 { // length is important
             let imageName = "ElgrocerLogoAnimation-" + "\(index)"
             if let imageNew = UIImage(name: imageName) {
                 imageA.append(imageNew)
@@ -61,7 +61,7 @@ class ElGrocerActivityIndicatorView: UIImageView {
             
         }
         self.animationImages = imageA
-        self.animationDuration = 4.0
+        self.animationDuration = 3.5
         self.animationRepeatCount = 1
         
     }
@@ -97,4 +97,4 @@ class ElGrocerActivityIndicatorView: UIImageView {
         completion?(flag)
     }
     
-}*/
+}

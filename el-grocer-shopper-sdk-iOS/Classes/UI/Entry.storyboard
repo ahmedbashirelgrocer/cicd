@@ -31,6 +31,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vba-nT-tBb" customClass="ElGrocerLogoIndicatorView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
                             <activityIndicatorView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="hh4-Cv-QZJ">
                                 <rect key="frame" x="150" y="331" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -41,9 +44,13 @@
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="1yN-qP-Js1"/>
+                            <constraint firstItem="vba-nT-tBb" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="F79-Kq-jDS"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerX" secondItem="fLG-Nd-Rge" secondAttribute="centerX" id="LCY-Gt-hA1"/>
+                            <constraint firstItem="vba-nT-tBb" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="QLj-Vq-onn"/>
+                            <constraint firstAttribute="trailing" secondItem="vba-nT-tBb" secondAttribute="trailing" id="Rdc-6T-azl"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="V9Q-gD-o70"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="bottom" secondItem="fLG-Nd-Rge" secondAttribute="bottom" id="fdi-h2-HN2"/>
+                            <constraint firstAttribute="bottom" secondItem="vba-nT-tBb" secondAttribute="bottom" id="oVb-b0-WfZ"/>
                             <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerY" secondItem="fLG-Nd-Rge" secondAttribute="centerY" multiplier="1.2" id="tYp-GA-DCi"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="xGs-Bm-eBi"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="y93-l4-U8u"/>
@@ -51,6 +58,7 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="hh4-Cv-QZJ" id="J9B-hz-le5"/>
+                        <outlet property="logoAnimator" destination="vba-nT-tBb" id="JKd-vn-IT9"/>
                         <outlet property="splashLottieLogoAnimator" destination="Di8-E5-L3U" id="cP8-0S-Frc"/>
                     </connections>
                 </viewController>
@@ -357,7 +365,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="English" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8J7-qb-uCn">
-                                                    <rect key="frame" x="60" y="12" width="202" height="20.5"/>
+                                                    <rect key="frame" x="60" y="11.5" width="202" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -442,6 +450,17 @@
             <point key="canvasLocation" x="1155" y="424"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="6FW-b9-O96">
+            <size key="intrinsicContentSize" width="55" height="30"/>
+        </designable>
+        <designable name="Sqk-3H-NoA">
+            <size key="intrinsicContentSize" width="173" height="24"/>
+        </designable>
+        <designable name="tWj-sy-8J9">
+            <size key="intrinsicContentSize" width="47" height="30"/>
+        </designable>
+    </designables>
     <color key="tintColor" red="0.1215686275" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
     <resources>
         <image name="AppGreenLogo" width="235" height="83"/>
