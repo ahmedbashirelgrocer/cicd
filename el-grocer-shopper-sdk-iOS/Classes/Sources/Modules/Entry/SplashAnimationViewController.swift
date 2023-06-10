@@ -94,21 +94,34 @@ class SplashAnimationViewController: UIViewController {
         
         if UIApplication.shared.applicationState == .active {
             
-            LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
-                                                  withJsonFileName:
-                                                  sdkManager.isSmileSDK ? "splash_animation_sdk" : "splash_animation_shopper",
-                                                  removeFromSuper: false,
-                                                  loopMode: .playOnce) {[weak self] isloaded in
-                guard let self = self else { return }
-                if isloaded {
-                    self.isAnimationCompleted = true
-                    if HomePageData.shared.fetchOrder.count == 0 && self.locationFetching == false {
-                        self.animationCompletedSetRootVc()
+            if !SDKManager.shared.isShopperApp {
+                
+                LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
+                                                      withJsonFileName:
+                                                      sdkManager.isSmileSDK ? "splash_animation_sdk" : "splash_animation_shopper",
+                                                      removeFromSuper: false,
+                                                      loopMode: .playOnce) {[weak self] isloaded in
+                    guard let self = self else { return }
+                    if isloaded {
+                        self.isAnimationCompleted = true
+                        if HomePageData.shared.fetchOrder.count == 0 && self.locationFetching == false {
+                            self.animationCompletedSetRootVc()
+                        }
+                        self.activityIndicator.isHidden = false
+                        self.activityIndicator.startAnimating()
                     }
-                    self.activityIndicator.isHidden = false
-                    self.activityIndicator.startAnimating()
                 }
+                
+                
+            } else {
+                
+                
+                
             }
+            
+            
+            
+            
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(cameBackFromSleep(sender:)),
