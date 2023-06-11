@@ -37,6 +37,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     private var activeGrocery: Grocery? = nil
     private weak var mapDelegate : LocationMapDelegation? = nil
     private weak var presentIn : UIViewController? = nil
+    private var isSingleStore: Bool = false
     
     class func showInBottomSheet(_ activeGrocery: Grocery?, mapDelegate: LocationMapDelegation?, presentIn: UIViewController) {
         
@@ -118,7 +119,9 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         self.tableView.register(cellNib, forCellReuseIdentifier: EGNewAddressTableViewCell.identifier)
     }
         
-    func configure(_ address: [DeliveryAddress], _ activeGrocery: Grocery? = nil, mapDelegate: LocationMapDelegation?, presentIn: UIViewController?) {
+    func configure(_ address: [DeliveryAddress], _ activeGrocery: Grocery? = nil, mapDelegate: LocationMapDelegation?, presentIn: UIViewController?, _ isSingleStore : Bool = SDKManager.shared.isGrocerySingleStore) {
+        
+        self.isSingleStore = isSingleStore
         self.addressList = address
         self.activeGrocery = activeGrocery
         self.mapDelegate = mapDelegate
@@ -180,16 +183,31 @@ extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UIT
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard addressList.count > indexPath.row else { return  }
         let address = addressList[indexPath.row]
+        guard self.isSingleStore else {
+            if address.isActive.boolValue {
+                self.crossAction("")
+            } else if self.activeGrocery != nil {
+                self.checkCoverage(address)
+            } else {
+                makeLocationToDefault(address)
+            }
+            return
+        }
+        
         if address.isActive.boolValue {
             self.crossAction("")
         } else if self.activeGrocery != nil {
             self.checkCoverage(address)
         } else {
-            makeLocationToDefault(address)
+            self.updateStore(location: address) { [weak self ] (isStoreChange) in
+                if isStoreChange {
+                    self?.makeLocationToDefault(address)
+                }else {
+                    self?.crossAction("")
+                }
+            }
         }
-       
     }
-    
 }
 
 extension EGAddressSelectionBottomSheetViewController : LocationMapViewControllerDelegate {
@@ -375,6 +393,30 @@ extension EGAddressSelectionBottomSheetViewController {
             DatabaseHelper.sharedInstance.saveDatabase()
             self.crossAction("")
         }
+    }
+    
+    
+    fileprivate func updateStore(location: DeliveryAddress?, completion:@escaping ((Bool) -> Void)) {
+        
+        if var launch = SDKManager.shared.launchOptions {
+            launch.marketType = .grocerySingleStore
+            launch.latitude = location?.latitude ?? 0.0
+            launch.longitude = location?.longitude ?? 0.0
+            FlavorAgent.restartEngineWithLaunchOptions(launch) {
+                let _ = SpinnerView.showSpinnerViewInView(self.view)
+            } completion: { isLoaded, grocery in
+                if isLoaded ?? false {
+                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                    completion(true)
+                } else {
+                    FlavorNavigation.shared.navigateToNoLocation()
+                    completion(false)
+                }
+            }
+        } else {
+            completion(false)
+        }
+        
     }
     
 }

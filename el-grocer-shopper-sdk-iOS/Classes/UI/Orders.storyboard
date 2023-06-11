@@ -2037,7 +2037,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hu6-cM-H60" userLabel="storeView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="0.0" width="358" height="56"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="FvU-rl-H3R">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowForward" translatesAutoresizingMaskIntoConstraints="NO" id="FvU-rl-H3R">
                                                                         <rect key="frame" x="326" y="16" width="16" height="16"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="16" id="gTJ-0M-2aF"/>
@@ -3081,7 +3081,6 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
         <image name="OrderConfirmationNewCheck" width="24.333333969116211" height="24"/>
         <image name="ThankYouOrder" width="207" height="185"/>
         <image name="arrowForward" width="7.6666665077209473" height="12.666666984558105"/>
-        <image name="arrowRight" width="11.666666984558105" height="19"/>
         <image name="button_overlay" width="1" height="1"/>
         <image name="button_right_arrow" width="12.5" height="12"/>
         <image name="chat_Purple" width="24.333333969116211" height="24"/>

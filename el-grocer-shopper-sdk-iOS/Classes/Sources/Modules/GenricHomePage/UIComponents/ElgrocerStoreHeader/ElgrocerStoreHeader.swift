@@ -382,16 +382,23 @@ class ElgrocerStoreHeader:  UIView  {
     
     func changeLocation() {
         
-        let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
-        dashboardLocationVC.isFromNewHome = true
-        dashboardLocationVC.isRootController = true
-        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navigationController.viewControllers = [dashboardLocationVC]
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.setLogoHidden(true)
+        
         DispatchQueue.main.async {
             if let top = UIApplication.topViewController() {
-                top.present(navigationController, animated: true, completion: nil)
+                if let sdkHomeVc = top as? SmileSdkHomeVC {
+                    sdkHomeVc.locationButtonClick()
+                } else if let storePage = top as? MainCategoriesViewController {
+                EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: storePage.mapDelegate, presentIn: storePage)
+                } else {
+                    let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
+                    dashboardLocationVC.isFromNewHome = true
+                    dashboardLocationVC.isRootController = true
+                    let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                    navigationController.viewControllers = [dashboardLocationVC]
+                    navigationController.modalPresentationStyle = .fullScreen
+                    navigationController.setLogoHidden(true)
+                    top.present(navigationController, animated: true)
+                }
             }
         }
     }

@@ -325,8 +325,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.configureWithDefaultBackground()
             barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
             barAppearance.shadowColor = .clear
-            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
-            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
         
             
             self.standardAppearance = barAppearance
