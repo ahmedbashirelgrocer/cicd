@@ -258,6 +258,11 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     override func backButtonClick() {
         
+        if  SDKManager.shared.launchOptions?.navigationType == .singleStore && ElGrocerUtility.sharedInstance.activeGrocery == nil {
+            SDKManager.shared.rootContext?.dismiss(animated: true)
+            return
+        }
+        
         if self.presentingViewController != nil && !(self.presentingViewController is UITabBarController) {
             if isNoCoverage {
                 self.hideNoCoverageView()
@@ -1251,10 +1256,18 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }
         self.navigationController?.popToRootViewController(animated: true)
         if SDKManager.shared.isSmileSDK {
-            if UIApplication.topViewController() is UniversalSearchViewController, ElGrocerUtility.sharedInstance.activeGrocery == nil {
+            let isFromSmileSearch = sdkManager.launchOptions?.deepLinkPayload?.contains("searchQuery") ?? false
+            
+            if (UIApplication.topViewController() is UniversalSearchViewController && ElGrocerUtility.sharedInstance.activeGrocery == nil)   {
                 if let topVc = UIApplication.topViewController() {
                     topVc.dismiss(animated: false)
                     topVc.tabBarController?.selectedIndex = 0
+                }
+            } else if isFromSmileSearch {
+                self.dismiss(animated: true) {}
+                if let tabbar = sdkManager.currentTabBar {
+                    ElGrocerUtility.sharedInstance.resetTabbar(tabbar)
+                    tabbar.selectedIndex = 0
                 }
             }
         } else if UIApplication.topViewController() is GenericStoresViewController {} else if UIApplication.topViewController() is MainCategoriesViewController {

@@ -260,7 +260,7 @@ fileprivate extension EditLocationSignupViewController {
             SpinnerView.hideSpinnerView()
             if code == 200 {
                 
-                _ = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                let activeAddress = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 // Logging segment Confrim Address Details event
                 SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
@@ -270,14 +270,20 @@ fileprivate extension EditLocationSignupViewController {
                 if self.flowOrientation == .basketNav {
                     LoginSignupService.goToBasketView(from: self)
                 } else {
-                    if self.isPresented {
+                    if self.isPresented || (self.navigationController?.viewControllers.count ?? 0) < 3 {
                         if SDKManager.shared.launchOptions?.navigationType == .singleStore {
-                            FlavorAgent.restartEngineWithLaunchOptions(SDKManager.shared.launchOptions!) {
+                            guard let newLaunchOption = sdkManager.launchOptions?.getLaunchOption(from: activeAddress) else {
+                                SDKManager.shared.rootContext?.dismiss(animated: true)
+                                return
+                            }
+                            FlavorAgent.restartEngineWithLaunchOptions(newLaunchOption) {
                                 let _ = SpinnerView.showSpinnerViewInView(self.view)
                             } completion: { isCompleted, grocery in
                                 SpinnerView.hideSpinnerView()
                                 if grocery == nil {
-                                    SDKManager.shared.rootContext?.dismiss(animated: true)
+                                    self.navigationController?.dismiss(animated: false, completion: {
+                                        FlavorNavigation.shared.navigateToNoLocation()
+                                    })
                                 } else {
                                     self.navigationController?.dismiss(animated: true)
                                 }
@@ -289,11 +295,19 @@ fileprivate extension EditLocationSignupViewController {
                     } else {
                         
                         if SDKManager.shared.launchOptions?.navigationType == .singleStore {
-                            FlavorAgent.restartEngineWithLaunchOptions(SDKManager.shared.launchOptions!) {
+                            guard let newLaunchOption = sdkManager.launchOptions?.getLaunchOption(from: activeAddress) else {
+                                SDKManager.shared.rootContext?.dismiss(animated: true)
+                                return
+                            }
+                            FlavorAgent.restartEngineWithLaunchOptions(newLaunchOption) {
                                 let _ = SpinnerView.showSpinnerViewInView(self.view)
                             } completion: { isCompleted, grocery in
                                 SpinnerView.hideSpinnerView()
-                                self.navigationController?.popViewController(animated: false)
+                                if grocery == nil {
+                                    SDKManager.shared.rootContext?.dismiss(animated: true)
+                                }else{
+                                    self.navigationController?.dismiss(animated: true)
+                                }
                             }
                         }else {
                             if (self.navigationController?.viewControllers.count ?? 0) > 2 {
