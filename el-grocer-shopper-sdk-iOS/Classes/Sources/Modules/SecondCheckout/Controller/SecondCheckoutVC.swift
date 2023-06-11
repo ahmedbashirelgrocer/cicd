@@ -97,7 +97,6 @@ class SecondCheckoutVC: UIViewController {
         // subscribe the delivery slots subject
         viewModel.deliverySlotsSubject.subscribe(onNext: { [weak self] deliverySlots in
             guard let self = self else { return }
-            
             self.checkoutDeliverySlotView.configure(slots: deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
         }).disposed(by: disposeBag)
         
@@ -544,13 +543,11 @@ extension SecondCheckoutVC: CollectorsCarViewDelegate {
         controller.dataHandlerView = self
         
         controller.carSelected = { [weak self] (car) in
-            guard let self = self,  let car = car else { return }
-            
+            guard let car = car else { return }
             view.configure(car: car)
         }
-        controller.carDeleted = { [weak self] (carId) in
-            guard let self = self,  let carId = carId else { return }
-            
+        controller.carDeleted = { (carId) in
+           // guard let self = self,  let carId = carId else { return }
         }
         
         bottomSheetController.present(controller, on: self)
@@ -658,6 +655,11 @@ extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelega
         controller.navigationController?.popViewController(animated: true)
         self.pinView.configureWith(detail: UserMapPinAdress.init(address: address ?? "", addressImageUrl: nil, addressLat: location?.coordinate.latitude ?? 0.0, addressLng: location?.coordinate.longitude ?? 0.0))
         
+    }
+    
+    func locationSelectedAddress(_ address: DeliveryAddress, grocery:Grocery?){
+        self.pinView.configureWith(detail: UserMapPinAdress.init(address: address.address, addressImageUrl: address.addressImageUrl, addressLat: address.latitude , addressLng: address.longitude))
+        self.viewModel.setGroceryAndAddressAndRefreshData(grocery, deliveryAddress: address)
     }
     
 }

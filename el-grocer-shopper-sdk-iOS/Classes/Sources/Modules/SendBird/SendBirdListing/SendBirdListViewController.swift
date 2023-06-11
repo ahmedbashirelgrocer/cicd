@@ -359,7 +359,8 @@ extension SendBirdListViewController : UITableViewDelegate , UITableViewDataSour
         if showCloseTickets {
             if let channel = closedTicketList?[indexPath.row].channel {
                 cell.configure(channel: channel)
-                cell.coverImage.setImage(withImage: UIImage(name: "logo-bg")!)
+                let profileUrl = closedTicketList?[indexPath.row].agent?.profileUrl ?? ""
+                cell.coverImage.setImage(withCoverUrl: profileUrl)
             }
         }else {
             if let channel = ticketList?[indexPath.row].channel {

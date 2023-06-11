@@ -39,7 +39,10 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WwN-2N-Xb4">
-                                <rect key="frame" x="246" y="108" width="49" height="29"/>
+                                <rect key="frame" x="246" y="109.66666666666667" width="49" height="24.000000000000014"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="iMj-bp-k0A"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Change">
@@ -60,7 +63,6 @@
                         <constraints>
                             <constraint firstItem="b7p-uq-zdN" firstAttribute="top" secondItem="lT0-k0-aSv" secondAttribute="top" id="5gT-gU-NIA"/>
                             <constraint firstItem="WwN-2N-Xb4" firstAttribute="leading" secondItem="won-al-nMI" secondAttribute="trailing" constant="8" id="E6B-5d-mYq"/>
-                            <constraint firstItem="WwN-2N-Xb4" firstAttribute="top" secondItem="b7p-uq-zdN" secondAttribute="bottom" constant="8" id="IW9-8P-bRW"/>
                             <constraint firstItem="b7p-uq-zdN" firstAttribute="leading" secondItem="lT0-k0-aSv" secondAttribute="leading" id="IZ8-9b-p0e"/>
                             <constraint firstAttribute="height" constant="140" id="Rg5-Y2-gBF"/>
                             <constraint firstAttribute="trailing" secondItem="WwN-2N-Xb4" secondAttribute="trailing" constant="16" id="ULM-Of-kxo"/>
@@ -68,6 +70,7 @@
                             <constraint firstItem="sF6-4p-FTN" firstAttribute="leading" secondItem="lT0-k0-aSv" secondAttribute="leading" constant="16" id="nlO-Sg-dii"/>
                             <constraint firstItem="won-al-nMI" firstAttribute="centerY" secondItem="sF6-4p-FTN" secondAttribute="centerY" id="rQ0-XX-PDU"/>
                             <constraint firstAttribute="trailing" secondItem="b7p-uq-zdN" secondAttribute="trailing" id="tw9-iz-IeS"/>
+                            <constraint firstItem="WwN-2N-Xb4" firstAttribute="top" secondItem="won-al-nMI" secondAttribute="top" id="wYV-5T-yxT"/>
                             <constraint firstItem="sF6-4p-FTN" firstAttribute="top" secondItem="b7p-uq-zdN" secondAttribute="bottom" constant="8" id="yfh-dN-2WS"/>
                         </constraints>
                         <connections>

@@ -931,11 +931,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ail-Rb-3qe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="tTV-2Y-0rT" userLabel="Exit" sceneMemberID="exit"/>
-                <view contentMode="scaleToFill" id="Ewq-eR-ohd" customClass="CheckoutDeliverySlotView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                <view contentMode="scaleToFill" ambiguous="YES" id="Ewq-eR-ohd" customClass="CheckoutDeliverySlotView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="420" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SiF-3Y-iLQ" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SiF-3Y-iLQ" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                             <rect key="frame" x="16" y="8" width="388" height="44"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MyBasket_time_white" translatesAutoresizingMaskIntoConstraints="NO" id="kU3-qh-ijX">
@@ -945,7 +945,7 @@
                                         <constraint firstAttribute="height" constant="24" id="PFj-wX-eX3"/>
                                     </constraints>
                                 </imageView>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MyBasket_Arrow_white" translatesAutoresizingMaskIntoConstraints="NO" id="OWF-Yi-v0l">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MYBasketArrowWhite" translatesAutoresizingMaskIntoConstraints="NO" id="OWF-Yi-v0l">
                                     <rect key="frame" x="357" y="14" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="16" id="ye9-7W-2yr"/>
@@ -953,16 +953,16 @@
                                     </constraints>
                                 </imageView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qGl-Tp-Q0o">
-                                    <rect key="frame" x="45.999999999999986" y="12" width="188.66666666666663" height="20"/>
+                                    <rect key="frame" x="46" y="11.5" width="182.5" height="21"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery Time: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ll-kM-4YI">
-                                            <rect key="frame" x="0.0" y="0.66666666666666785" width="105.33333333333333" height="18.666666666666668"/>
+                                            <rect key="frame" x="0.0" y="0.5" width="97.5" height="20"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today 8:40" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f1b-kJ-zFM">
-                                            <rect key="frame" x="105.33333333333334" y="0.0" width="83.333333333333343" height="20"/>
+                                            <rect key="frame" x="97.5" y="0.0" width="85" height="21"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -1613,7 +1613,10 @@
                                     </constraints>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEZ-d8-SPr">
-                                    <rect key="frame" x="212" y="108" width="49" height="29"/>
+                                    <rect key="frame" x="212" y="108" width="49" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="20" id="Zf8-C7-w0r"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="Change">
@@ -1635,11 +1638,11 @@
                             <constraints>
                                 <constraint firstItem="1rS-97-YLn" firstAttribute="leading" secondItem="EnW-Cf-6FM" secondAttribute="leading" constant="18" id="4uw-zc-3kT"/>
                                 <constraint firstItem="gOH-3f-E9G" firstAttribute="top" secondItem="EnW-Cf-6FM" secondAttribute="top" id="6RO-fH-6vH"/>
-                                <constraint firstItem="vEZ-d8-SPr" firstAttribute="top" secondItem="gOH-3f-E9G" secondAttribute="bottom" constant="8" id="AEC-PZ-jet"/>
                                 <constraint firstItem="1rS-97-YLn" firstAttribute="top" secondItem="gOH-3f-E9G" secondAttribute="bottom" constant="8" id="BeP-su-3aS"/>
                                 <constraint firstItem="p5L-DU-A9y" firstAttribute="top" secondItem="1rS-97-YLn" secondAttribute="top" id="DHs-xO-Afb"/>
                                 <constraint firstItem="gOH-3f-E9G" firstAttribute="leading" secondItem="EnW-Cf-6FM" secondAttribute="leading" id="JdO-7K-D8r"/>
                                 <constraint firstAttribute="trailing" secondItem="gOH-3f-E9G" secondAttribute="trailing" id="Rjw-fL-Wz5"/>
+                                <constraint firstItem="vEZ-d8-SPr" firstAttribute="top" secondItem="p5L-DU-A9y" secondAttribute="top" id="ZjB-ua-quH"/>
                                 <constraint firstAttribute="bottom" secondItem="p5L-DU-A9y" secondAttribute="bottom" constant="8" id="cgR-IW-ylf"/>
                                 <constraint firstItem="vEZ-d8-SPr" firstAttribute="leading" secondItem="p5L-DU-A9y" secondAttribute="trailing" constant="8" id="eAm-7W-PtC"/>
                                 <constraint firstItem="p5L-DU-A9y" firstAttribute="leading" secondItem="1rS-97-YLn" secondAttribute="trailing" constant="8" id="kzt-2S-dTM"/>
@@ -1684,7 +1687,6 @@
         <image name="LocationSelectDownArrow" width="13" height="8"/>
         <image name="MYBasketArrowWhite" width="24" height="24"/>
         <image name="MYBasketPaymentCC" width="16" height="16"/>
-        <image name="MyBasket_Arrow_white" width="16" height="16.5"/>
         <image name="MyBasket_SelectPayment_DownArrow" width="16" height="16"/>
         <image name="MyBasket_time_white" width="24" height="24.5"/>
         <image name="MybasketEnterPromo" width="20" height="20"/>

@@ -135,8 +135,13 @@ class ElgrocerStoreHeader:  UIView  {
         
         MixpanelEventLogger.trackNavBarProfile()
         if let topVc = UIApplication.topViewController() {
-            let settingController = ElGrocerViewControllers.settingViewController()
+            
+            elDebugPrint("profileButtonClick")
+            MixpanelEventLogger.trackNavBarProfile()
+            let settingController = SettingViewController.make(viewModel: AppSetting.currentSetting.getSettingCellViewModel(), analyticsEventLogger: SegmentAnalyticsEngine())
             topVc.navigationController?.pushViewController(settingController, animated: true)
+            // Logging segment event for menu button clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
         }
     }
     

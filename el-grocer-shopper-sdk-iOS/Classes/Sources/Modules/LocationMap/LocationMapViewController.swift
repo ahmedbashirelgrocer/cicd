@@ -19,10 +19,12 @@ protocol LocationMapViewControllerDelegate: class {
     //optional
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?)
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?)
+    func locationSelectedAddress(_ address: DeliveryAddress, grocery:Grocery?)
 }
 extension LocationMapViewControllerDelegate {
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withAddress address: String? ,  withBuilding building: String? , withCity cityName: String?){}
     func locationMapViewControllerWithBuilding(_ controller: LocationMapViewController, didSelectLocation location: CLLocation?, withName name: String?, withBuilding building: String? , withCity cityName: String?){}
+    func locationSelectedAddress(_ address: DeliveryAddress, grocery:Grocery?){}
 }
 
 class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , NavigationBarProtocol {

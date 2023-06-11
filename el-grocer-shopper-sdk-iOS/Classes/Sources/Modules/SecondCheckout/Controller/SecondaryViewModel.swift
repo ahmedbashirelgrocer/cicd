@@ -63,9 +63,10 @@ class SecondaryViewModel {
         self.setDeliverySlot(deliverySlot)
         self.setDefaultApiData()
         self.fetchDeliverySlots()
+        
     }
 
-    func fetchDeliverySlots() {
+    func fetchDeliverySlots(_ completion : (()->())? = nil ) {
         guard let sRetailerID = grocery?.dbID, let retailerID = Int(sRetailerID), let sRetailerTimeZone = grocery?.deliveryZoneId, let retailerTimeZone = Int(sRetailerTimeZone)  else {
             self.basketError.onNext(ElGrocerError.parsingError())
             return
@@ -84,20 +85,25 @@ class SecondaryViewModel {
             case .success(let response):
                 do {
                     elDebugPrint(response)
+                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                    Grocery.updateActiveGroceryDeliverySlots(with: response, context: context)
+                    _ = DeliverySlot.insertOrReplaceDeliverySlotsFromDictionary(response, groceryObj: self.grocery, context: context)
                     let data = try JSONSerialization.data(withJSONObject: response, options: [])
                     let deliverySlots = try JSONDecoder().decode(DeliverySlotsData.self, from: data)
                     if let slot =  deliverySlots.deliverySlots {
                         self.deliverySlots = slot
                         self.deliverySlotsSubject.onNext(slot)
                     }
-                  
+                    completion?()
                 } catch {
                     self.basketError.onNext(ElGrocerError.parsingError())
+                    completion?()
                 }
                 break
                 
             case .failure(let error):
                 self.basketError.onNext(error)
+                completion?()
                 break
             }
         }
@@ -428,6 +434,23 @@ extension SecondaryViewModel {
     func setIsWalletTrue(isWalletTrue: Bool) {
         self.isWalletTrue = isWalletTrue
         
+    }
+    func setGroceryAndAddressAndRefreshData(_ grocery: Grocery?, deliveryAddress: DeliveryAddress)  {
+         self.grocery = grocery
+        self.address = deliveryAddress
+        self.selectedSlotId = nil
+        self.setDeliveryAddress(deliveryAddress)
+        self.setDeliverySlot(nil)
+        self.setDefaultApiData()
+        self.fetchDeliverySlots { [weak self]  in
+            let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery?.dbID ?? "-1")
+                if slots.count > 0 {
+                    let slot = slots[0]
+                    self?.selectedSlotId = slot.dbID.intValue
+                    self?.setDeliverySlot(slot)
+                }
+                self?.updateSlotToBackEnd()
+        }
     }
     
     func isElWalletEnabled() -> Bool {

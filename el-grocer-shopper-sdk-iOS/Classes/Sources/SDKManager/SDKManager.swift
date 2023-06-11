@@ -654,7 +654,7 @@ class SDKManager: NSObject, SDKManagerType  {
         let storeMain = ElGrocerViewControllers.mainCategoriesViewController()
         storeMain.selectedBannerLink = selectedBannerLink
         let searchController = ElGrocerViewControllers.getSearchListViewController()
-        let settingController = ElGrocerViewControllers.settingViewController()
+        let settingController = SettingViewController.make(viewModel: AppSetting.currentSetting.getSettingCellViewModel(), analyticsEventLogger: SegmentAnalyticsEngine())
         let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
 
         let vcData: [(UIViewController, UIImage , String)] = [

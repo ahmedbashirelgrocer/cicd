@@ -120,12 +120,14 @@ class SplashAnimationViewController: UIViewController {
                 
                 
             } else {
+                // this method is only for smile sdk. if you thing you need to remove png and add lottie here please make sure to remove this method and update the fetching process accordinly
+                self.forLogoAnimatorStartFetchProcess()
                 
-                self.forLogoAnimatorStartFetchProcess() // this method is only for smile sdk. if you thing you need to remove png and add lottie here please make sure to remove this method and update the fetching process accordinly
-                logoAnimator.startAnimate { [weak self] (isCompleted) in
+                self.logoAnimator.startAnimate { [weak self] (isCompleted) in
                     if isCompleted {
                         if HomePageData.shared.fetchOrder.count == 0 && self?.locationFetching == false {
                             self?.animationCompletedSetRootVc()
+                            
                         }
                         self?.isAnimationCompleted = true
                         self?.activityIndicator.isHidden = false

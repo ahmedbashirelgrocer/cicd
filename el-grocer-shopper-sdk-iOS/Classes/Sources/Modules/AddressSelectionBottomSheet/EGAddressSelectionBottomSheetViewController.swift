@@ -46,17 +46,12 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
             var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
             var height : CGFloat = CGFloat((addressList.count * 100) + 144)
-//            if addressList.count >= 5 {
-//                height = CGFloat((addressList.count * 80) + 124)
-//            }
             if height >= ScreenSize.SCREEN_HEIGHT {
                 height = ScreenSize.SCREEN_HEIGHT - 200
             }
             let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
             addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
             addressView.configure(addressList, activeGrocery, mapDelegate: mapDelegate, presentIn: presentIn)
-            
-           
             
             let popupController = STPopupController(rootViewController: addressView)
             popupController.navigationBarHidden = true
@@ -313,7 +308,7 @@ extension EGAddressSelectionBottomSheetViewController : LocationMapViewControlle
 extension EGAddressSelectionBottomSheetViewController {
     
     func checkCoverage(_ address : DeliveryAddress) {
-        if let view = self.presentIn?.view {
+        if let view = self.view {
            _ = SpinnerView.showSpinnerViewInView(view)
         }else {
            _ = SpinnerView.showSpinnerView()
@@ -321,13 +316,25 @@ extension EGAddressSelectionBottomSheetViewController {
         ElGrocerApi.sharedInstance.getcAndcRetailerDetail(address.latitude, lng: address.longitude, dbID: self.activeGrocery?.dbID ?? "-1" , parentID: "") { (result) in
             switch result {
                 case.success(let data):
-                    let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , false)
+                    let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 self.isCoverd[address.dbID] = (responseData.count > 0);
-                self.tableView.reloadDataOnMain()
-                case.failure(let _):
+                if self.activeGrocery != nil, responseData.count > 0 {
+                    let updatedGrocery = responseData[0]
+                    ElGrocerUtility.sharedInstance.activeGrocery = updatedGrocery
+                    ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(address) {[weak self] isAdded in
+                        self?.dismissPopUpVc()
+                        self?.mapDelegate?.locationSelectedAddress(address, grocery: updatedGrocery)
+                    }
+                }else {
+                    SpinnerView.hideSpinnerView()
+                    self.tableView.reloadDataOnMain()
+                }
+                
+                case.failure(_):
+                SpinnerView.hideSpinnerView()
                 self.tableView.reloadDataOnMain()
             }
-            SpinnerView.hideSpinnerView()
+            
         }
         
     }

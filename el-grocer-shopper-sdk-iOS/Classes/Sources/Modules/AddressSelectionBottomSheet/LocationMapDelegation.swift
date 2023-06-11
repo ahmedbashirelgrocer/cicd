@@ -232,5 +232,12 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
             }
         }
     }
+
+    func locationSelectedAddress(_ address: DeliveryAddress, grocery:Grocery?){
+        if let secondCheckOutVc = self.presentedController as? SecondCheckoutVC {
+            secondCheckOutVc.locationSelectedAddress(address, grocery: grocery)
+        }
+    }
+    
 }
 
