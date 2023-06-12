@@ -17,7 +17,7 @@ class GenericBannersCell: RxUITableViewCell {
     private var scrollTimer : Timer?
     @IBOutlet var bgView: UIView! {
         didSet {
-            bgView.backgroundColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.viewWhiteBGColor : .clear
+          //  bgView.backgroundColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.viewWhiteBGColor : .clear
         }
     }
     @IBOutlet var bannerList: GenricBannerList!

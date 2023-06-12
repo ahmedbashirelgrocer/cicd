@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina3_5" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BasketBannerCollectionViewCell" id="gTV-IL-0wX" customClass="BasketBannerCollectionViewCell" customModule="ElGrocerShopper" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="322" height="126"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="BasketBannerCollectionViewCell" id="gTV-IL-0wX" customClass="BasketBannerCollectionViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="322" height="245"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="322" height="126"/>
+                <rect key="frame" x="0.0" y="0.0" width="322" height="245"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qVd-1h-HMF">
-                        <rect key="frame" x="0.0" y="0.0" width="322" height="126"/>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" bouncesZoom="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="1" sectionFooterHeight="1" estimatedSectionFooterHeight="1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ql-QK-8Aj">
+                        <rect key="frame" x="0.0" y="0.0" width="322" height="245"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="contentLayoutGuide" id="jEV-he-cja"/>
+                        <viewLayoutGuide key="frameLayoutGuide" id="5WI-zi-5WZ"/>
                         <connections>
-                            <outlet property="dataSource" destination="gTV-IL-0wX" id="Z8T-mB-n3k"/>
-                            <outlet property="delegate" destination="gTV-IL-0wX" id="4mx-l8-R1x"/>
+                            <outlet property="dataSource" destination="gTV-IL-0wX" id="nD4-ug-Jia"/>
+                            <outlet property="delegate" destination="gTV-IL-0wX" id="cau-fo-Mg2"/>
                         </connections>
                     </tableView>
                 </subviews>
             </view>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="qVd-1h-HMF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Vfh-yk-HWR"/>
-                <constraint firstAttribute="trailing" secondItem="qVd-1h-HMF" secondAttribute="trailing" id="bbh-PQ-aMK"/>
-                <constraint firstItem="qVd-1h-HMF" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="kmQ-j6-Zlk"/>
-                <constraint firstAttribute="bottom" secondItem="qVd-1h-HMF" secondAttribute="bottom" id="yQB-dW-F58"/>
+                <constraint firstAttribute="trailing" secondItem="8ql-QK-8Aj" secondAttribute="trailing" id="Q08-9T-x1b"/>
+                <constraint firstAttribute="bottom" secondItem="8ql-QK-8Aj" secondAttribute="bottom" id="ZJg-cC-qPi"/>
+                <constraint firstItem="8ql-QK-8Aj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="l65-4c-nCO"/>
+                <constraint firstItem="8ql-QK-8Aj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="sJV-BO-SM0"/>
             </constraints>
-            <size key="customSize" width="322" height="126"/>
+            <size key="customSize" width="322" height="245"/>
             <connections>
-                <outlet property="bannerTableView" destination="qVd-1h-HMF" id="xut-h1-7Gu"/>
+                <outlet property="bannerTableView" destination="8ql-QK-8Aj" id="5L4-rL-m6g"/>
             </connections>
-            <point key="canvasLocation" x="-16" y="153.82308845577214"/>
+            <point key="canvasLocation" x="-16.793893129770993" y="195.42253521126761"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -341,8 +341,8 @@ extension EGAddressSelectionBottomSheetViewController {
                         let active = responseData.first { grocery in
                             return grocery.dbID == self.activeGrocery?.dbID
                         }
-                        self.isCoverd[address.dbID] = (responseData.count > 0);
-                        if self.activeGrocery != nil, responseData.count > 0 {
+                        self.isCoverd[address.dbID] = active != nil;
+                        if self.activeGrocery != nil && active != nil {
                             let updatedGrocery = active
                             ElGrocerUtility.sharedInstance.activeGrocery = updatedGrocery
                             ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(address) {[weak self] isAdded in
@@ -364,32 +364,6 @@ extension EGAddressSelectionBottomSheetViewController {
             SpinnerView.hideSpinnerView()
             self.tableView.reloadDataOnMain()
         }
-        
-        /*
-        ElGrocerApi.sharedInstance.getcAndcRetailerDetail(address.latitude, lng: address.longitude, dbID: self.activeGrocery?.dbID ?? "-1" , parentID: "") { (result) in
-            switch result {
-                case.success(let data):
-                    let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                self.isCoverd[address.dbID] = (responseData.count > 0);
-                if self.activeGrocery != nil, responseData.count > 0 {
-                    let updatedGrocery = responseData[0]
-                    ElGrocerUtility.sharedInstance.activeGrocery = updatedGrocery
-                    ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(address) {[weak self] isAdded in
-                        self?.dismissPopUpVc()
-                        self?.mapDelegate?.locationSelectedAddress(address, grocery: updatedGrocery)
-                    }
-                }else {
-                    SpinnerView.hideSpinnerView()
-                    self.tableView.reloadDataOnMain()
-                }
-                
-                case.failure(_):
-                SpinnerView.hideSpinnerView()
-                self.tableView.reloadDataOnMain()
-            }
-            
-        }
-        */
         
     }
     

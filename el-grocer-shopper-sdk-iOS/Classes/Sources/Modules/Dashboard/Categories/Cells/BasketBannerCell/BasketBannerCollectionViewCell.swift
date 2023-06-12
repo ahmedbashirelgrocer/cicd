@@ -36,13 +36,23 @@ class BasketBannerCollectionViewCell: UICollectionViewCell {
 //        self.bannerTableView.register(bannerCellNib, forCellReuseIdentifier: kBannerCellIdentifier)
 //        self.bannerTableView.isScrollEnabled = false
         
-        self.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
-        bannerTableView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+       // self.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+      //  bannerTableView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        //bannerTableView.setContentOffset(CGPoint.init(x: 0, y: -30), animated: false)
+        bannerTableView.contentInset =  UIEdgeInsets.init(top: -40, left: 0, bottom: 0, right: 0)
     }
     
 }
 extension BasketBannerCollectionViewCell : UITableViewDelegate , UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.01
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01
+    }
+//
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.bannerTableView.frame.size.height
     }

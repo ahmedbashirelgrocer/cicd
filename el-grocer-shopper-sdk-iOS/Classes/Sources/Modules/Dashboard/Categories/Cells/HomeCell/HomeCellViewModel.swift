@@ -133,7 +133,10 @@ private extension HomeCellViewModel {
                 ])
             }
             
-            guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
+            let config = ElGrocerUtility.sharedInstance.appConfigData
+            let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
+            
+            guard algoliaCall else {
                 self.apiClient?.getTopSellingProductsOfGrocery(parameters) { result in
                     switch result {
                     case .success(let response):

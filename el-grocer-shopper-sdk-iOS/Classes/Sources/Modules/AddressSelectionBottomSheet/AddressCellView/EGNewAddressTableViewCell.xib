@@ -41,12 +41,9 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="756" text="Current location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAj-mo-cMQ">
-                        <rect key="frame" x="48" y="50.333333333333336" width="99" height="13.333333333333336"/>
+                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="756" text="  current location  " textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAj-mo-cMQ">
+                        <rect key="frame" x="48" y="50.333333333333336" width="85" height="13.333333333333336"/>
                         <color key="backgroundColor" red="0.76470588235294112" green="0.93725490196078431" blue="0.85490196078431369" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="99" id="ZUN-n2-lK6"/>
-                        </constraints>
                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="11"/>
                         <color key="textColor" red="0.0" green="0.2784313725" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -54,6 +51,7 @@
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dAj-mo-cMQ" secondAttribute="trailing" constant="16" id="7hV-ZT-gj2"/>
                     <constraint firstItem="j9E-Bm-hUU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="9YL-8P-LWg"/>
                     <constraint firstItem="dAj-mo-cMQ" firstAttribute="top" secondItem="BYe-8m-Vqj" secondAttribute="bottom" constant="8" id="CCF-kW-SyV"/>
                     <constraint firstItem="BYe-8m-Vqj" firstAttribute="top" secondItem="KrZ-FC-tof" secondAttribute="bottom" id="HY2-Uu-Nuc"/>

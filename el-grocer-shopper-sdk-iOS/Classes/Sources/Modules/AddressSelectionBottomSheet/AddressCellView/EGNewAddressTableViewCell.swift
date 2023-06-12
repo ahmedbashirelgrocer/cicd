@@ -46,7 +46,7 @@ class EGNewAddressTableViewCell: UITableViewCell {
         //set address detail
         self.lblNickName.text = address.nickName
         self.lblAddressDetail.text = ElGrocerUtility.sharedInstance.getFormattedAddress(address)
-        self.lblAddressStyle.text = address.isActive.boolValue ? "Current location" : ""
+        self.lblAddressStyle.text = address.isActive.boolValue ? "  Current location  " : ""
         // theme updatation for Not coverd case
         if !isCovered {
             self.lblNickName.textColor = ApplicationTheme.currentTheme.lightGreyColor

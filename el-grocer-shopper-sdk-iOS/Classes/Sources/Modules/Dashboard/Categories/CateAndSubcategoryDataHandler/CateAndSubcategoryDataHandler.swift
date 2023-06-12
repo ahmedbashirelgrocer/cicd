@@ -280,7 +280,10 @@ extension CateAndSubcategoryView {
        
         func callApi() {
             
-            guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
+            let config = ElGrocerUtility.sharedInstance.appConfigData
+            let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
+            
+            guard algoliaCall else {
                 
                 ElGrocerApi.sharedInstance.getAllProductsOfCategory(self.parentCategory, forGrocery: self.grocery, limit: self.currentLimit, offset: currentOffSet){ (result) -> Void in
                     
@@ -411,7 +414,10 @@ extension CateAndSubcategoryView {
             pageNumber = (offset + 20 - 1) / 20
             print("PageNumber of algolia: \(pageNumber)")
             
-            guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
+            let config = ElGrocerUtility.sharedInstance.appConfigData
+            let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
+            
+            guard algoliaCall else {
               
                 ElGrocerApi.sharedInstance.getAllProductsOfSubCategory(subCategoryId, andWithGroceryID:(self.grocery?.dbID)!, limit: self.currentLimit, offset: offset){ (result) -> Void in
                     switch result {
@@ -466,7 +472,10 @@ extension CateAndSubcategoryView {
         }
         elDebugPrint("PageNumber of algolia: \(pageNumber)")
         
-        guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
+        let config = ElGrocerUtility.sharedInstance.appConfigData
+        let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
+        
+        guard algoliaCall else {
            
             ElGrocerApi.sharedInstance.getAllProductsOfSubCategory(subCategoryId, andWithGroceryID:(self.grocery?.dbID)!, limit: self.currentLimit, offset: self.currentOffset){ (result) -> Void in
                 switch result {
@@ -631,8 +640,11 @@ extension CateAndSubcategoryView {
             brandDispatchGroup.leave()
             return
         }
+        
+        let config = ElGrocerUtility.sharedInstance.appConfigData
+        let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
 
-        guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
+        guard algoliaCall else {
             
             ElGrocerApi.sharedInstance.getProductsForBrand(brand, forSubCategory: subcategory, andForGrocery: self.grocery!,limit: self.productPerBrandLimmit ,offset: offset, completionHandler: { [weak self] (result) -> Void in
                 

@@ -477,33 +477,23 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
         guard self.productsArray.count > 0 else {
             return CGSize.zero
         }
-        
         guard self.bannerCampaign != nil else {
-        
             if section == 0 {
-                
                 return  CGSize.zero
-              //  return self.grocery != nil ?  CGSize.init(width: self.view.frame.size.width , height: KElgrocerlocationViewFullHeight) : CGSize.zero
             }
             return CGSize.zero
-            
-            
         }
-//        
-        
-     
         if section == 0 {
             return  CGSize.zero
-           // return self.grocery != nil ?  CGSize.init(width: self.view.frame.size.width , height: KElgrocerlocationViewFullHeight) : CGSize.zero
         }
         if self.searchString.isEmpty {
-            let headerSize = CGSize(width: (collectionView.frame.size.width ) , height: ( (collectionView.frame.size.width ) / KBannerRation) + 38 + 12) // 12 space 32 for top height
+            let width = ScreenSize.SCREEN_WIDTH
+            let headerSize = CGSize(width: width , height: ( width / KBannerRation) + 48 ) // 12 space 32 for top height
             return headerSize
-        }else{
+        } else {
             return CGSize.zero
         }
     }
@@ -607,6 +597,8 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             if getBannerIndex(oldIndexPath: indexPath).row - 1 == 1 {
                 elDebugPrint("check here")
             }
+            
+
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasketBannerCollectionViewCellIdentifier, for: indexPath) as! BasketBannerCollectionViewCell
             cell.grocery  = self.dataSource?.currentGrocery
             cell.homeFeed = self.dataSource?.bannerFeeds[getBannerIndex(oldIndexPath: indexPath).row]
@@ -724,25 +716,29 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                 
             }
             
-            let wid = (ScreenSize.SCREEN_WIDTH - 30)
-            let ratioRequire = wid  / KBannerRation
-            let actualRatio = ratioRequire + 32
-            let cellSize = CGSize(width:ScreenSize.SCREEN_WIDTH - 28   , height: actualRatio)
+            let cellSize = CGSize(width:ScreenSize.SCREEN_WIDTH , height: ScreenSize.SCREEN_WIDTH  / KBannerRation)
             return cellSize
             
             
         }
         
-        
-
-        var cellSpacing: CGFloat = 0.0
-        var numberOfCell: CGFloat = 2.09
-        if self.view.frame.size.width == 320 {
-            cellSpacing = 8.0
-            numberOfCell = 1.9
+        guard self.checkIsBannerCell(indexPath) == true else {
+            
+            var cellSpacing: CGFloat = 0.0
+            var numberOfCell: CGFloat = 2.09
+            if self.view.frame.size.width == 320 {
+                cellSpacing = 8.0
+                numberOfCell = 1.9
+            }
+            let cellSize = CGSize(width: (collectionView.frame.size.width - cellSpacing * 4) / numberOfCell , height: kProductCellHeight)
+            return cellSize
+            
         }
-        let cellSize = CGSize(width: (collectionView.frame.size.width - cellSpacing * 4) / numberOfCell , height: kProductCellHeight)
+
+        let cellSize = CGSize(width:ScreenSize.SCREEN_WIDTH , height: (ScreenSize.SCREEN_WIDTH  / KBannerRation) + 50)
         return cellSize
+       
+        
     }
     
     // MARK: Product quick add

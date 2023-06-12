@@ -325,7 +325,10 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         }
         elDebugPrint("PageNumber of algolia: \(pageNumber)")
         
-        guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
+        let config = ElGrocerUtility.sharedInstance.appConfigData
+        let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
+        
+        guard algoliaCall else {
             
             ElGrocerApi.sharedInstance.getProductsForBrand(self.brand, forSubCategory: self.subCategory, andForGrocery: self.grocery!,limit: self.currentLimit,offset: self.currentOffset, completionHandler: { (result) -> Void in
                 
@@ -343,9 +346,9 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             
             return
         }
-        
-        //self.subCategory.subCategoryId.stringValue
-        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", 25, "", "\(self.brand.brandId)", completion: { [weak self] (content, error) in
+       
+        let subcategoryID = self.subCategory.subCategoryId.stringValue
+        AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", 25, subcategoryID, "\(self.brand.brandId)", completion: { [weak self] (content, error) in
             
             if  let responseObject : NSDictionary = content as NSDictionary? {
                 self?.saveAlgoliaResponse(responseObject)
@@ -362,10 +365,9 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         Thread.OnMainThread {
             let newProduct = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            if newProduct.products.count > 0 {
+            if (newProduct.algoliaCount ?? 25)  > 0 {
                 self.products += newProduct.products
-                self.isMoreProducts =  self.products.count % 25 == 0
-                
+                self.isMoreProducts =  (newProduct.algoliaCount ?? 25) % 25 == 0
                 if self.isFromDynamicLink {
                     if let algoliaObj = responseObject["hits"] as? [NSDictionary] {
                         for productDict in algoliaObj {
@@ -634,7 +636,6 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             
             if indexPath.section == 0 {
                 let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "EmptyCollectionReusableView", for: indexPath) as! EmptyCollectionReusableView
-               //  headerView.addSubview(self.locationHeader)
                 return headerView
                 
             }else{

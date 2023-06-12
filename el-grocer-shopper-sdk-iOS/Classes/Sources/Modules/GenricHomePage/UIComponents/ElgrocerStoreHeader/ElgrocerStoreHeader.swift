@@ -206,7 +206,14 @@ class ElgrocerStoreHeader:  UIView  {
             self.lblLocation.text = ""
             return
         }
-        self.lblLocation.text = ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+        
+        var addressString = ""
+        if let nickName = location.nickName, nickName.count > 0 {
+            addressString = "\(nickName):"
+        }
+        addressString = addressString + (ElGrocerUtility.sharedInstance.getFormattedAddress(location).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(location) : location.locationName + location.address)
+        
+        self.lblLocation.text = addressString
     }
     
     func callSendBird(){

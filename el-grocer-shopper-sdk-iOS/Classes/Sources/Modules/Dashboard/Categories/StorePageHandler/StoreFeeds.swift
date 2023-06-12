@@ -124,7 +124,10 @@ extension StoreFeeds {
             // if so we need to refresh specific cell instead of refresing whole table
             self.isFirstPage = self.offset < self.limit
             
-            guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
+            let config = ElGrocerUtility.sharedInstance.appConfigData
+            let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
+            
+            guard algoliaCall else {
                 
                 
                  ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters , true) { [weak self] (result) in
