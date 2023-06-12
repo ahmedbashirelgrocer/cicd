@@ -4030,7 +4030,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
         }
         parameters["id"] = dbID as AnyObject
         parameters["id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["id"]) as AnyObject
-        if let finalParentId = parentID {
+        if let finalParentId = parentID, finalParentId.count > 0 {
             parameters["parent_id"] = finalParentId as AnyObject
         }
         if UserDefaults.isUserLoggedIn(){

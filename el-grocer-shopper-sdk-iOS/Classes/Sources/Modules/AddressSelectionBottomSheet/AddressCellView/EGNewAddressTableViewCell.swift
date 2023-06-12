@@ -13,7 +13,7 @@ class EGNewAddressTableViewCell: UITableViewCell {
     
     @IBOutlet weak var imgAddressPin: UIImageView! {
         didSet{
-            imgAddressPin.image = sdkManager.isShopperApp ? UIImage(name: "AddressPin") :  UIImage(name: "AddressPin")
+            imgAddressPin.image = sdkManager.isShopperApp ? UIImage(name: "AddressPin") :  UIImage(name: "AddressPinPurple")
         }
     }
     @IBOutlet weak var lblNickName: UILabel! {
@@ -64,7 +64,7 @@ class EGNewAddressTableViewCell: UITableViewCell {
             self.lblAddressStyle.backgroundColor = ApplicationTheme.currentTheme.currentLocationBgColor
             self.lblAddressStyle.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
-        self.imgAddressPin.image = isCovered ? UIImage(name: "AddressPin") : UIImage(name: "AddressPinDisable")
+        self.imgAddressPin.image = isCovered ? (sdkManager.isShopperApp ? UIImage(name: "AddressPin") :  UIImage(name: "AddressPinPurple")) : UIImage(name: "AddressPinDisable")
         
     }
     

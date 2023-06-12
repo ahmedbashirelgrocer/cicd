@@ -331,6 +331,41 @@ extension EGAddressSelectionBottomSheetViewController {
         }else {
            _ = SpinnerView.showSpinnerView()
         }
+        
+        GenericStoreMeduleAPI().getAllretailers(latitude: address.latitude, longitude: address.longitude, success: { (task, responseObj) in
+            if  responseObj is NSDictionary {
+                let data: NSDictionary = responseObj as? NSDictionary ?? [:]
+                if let dataDict : NSDictionary = data["data"] as? NSDictionary {
+                    if let _ = dataDict["retailers"] as? [NSDictionary] {
+                        let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , false)
+                        let active = responseData.first { grocery in
+                            return grocery.dbID == self.activeGrocery?.dbID
+                        }
+                        self.isCoverd[address.dbID] = (responseData.count > 0);
+                        if self.activeGrocery != nil, responseData.count > 0 {
+                            let updatedGrocery = active
+                            ElGrocerUtility.sharedInstance.activeGrocery = updatedGrocery
+                            ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(address) {[weak self] isAdded in
+                                self?.dismissPopUpVc()
+                                self?.mapDelegate?.locationSelectedAddress(address, grocery: updatedGrocery)
+                            }
+                        }else {
+                            SpinnerView.hideSpinnerView()
+                            self.tableView.reloadDataOnMain()
+                        }
+                        return
+                    }
+                }
+            }
+            SpinnerView.hideSpinnerView()
+            self.tableView.reloadDataOnMain()
+            
+        }) { (task, error) in
+            SpinnerView.hideSpinnerView()
+            self.tableView.reloadDataOnMain()
+        }
+        
+        /*
         ElGrocerApi.sharedInstance.getcAndcRetailerDetail(address.latitude, lng: address.longitude, dbID: self.activeGrocery?.dbID ?? "-1" , parentID: "") { (result) in
             switch result {
                 case.success(let data):
@@ -354,6 +389,7 @@ extension EGAddressSelectionBottomSheetViewController {
             }
             
         }
+        */
         
     }
     

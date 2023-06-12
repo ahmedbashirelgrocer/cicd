@@ -280,6 +280,7 @@ fileprivate extension EditLocationSignupViewController {
                                 let _ = SpinnerView.showSpinnerViewInView(self.view)
                             } completion: { isCompleted, grocery in
                                 SpinnerView.hideSpinnerView()
+                                ElGrocerUtility.sharedInstance.activeGrocery = grocery
                                 if grocery == nil {
                                     self.navigationController?.dismiss(animated: false, completion: {
                                         FlavorNavigation.shared.navigateToNoLocation()
@@ -303,6 +304,7 @@ fileprivate extension EditLocationSignupViewController {
                                 let _ = SpinnerView.showSpinnerViewInView(self.view)
                             } completion: { isCompleted, grocery in
                                 SpinnerView.hideSpinnerView()
+                                ElGrocerUtility.sharedInstance.activeGrocery = grocery
                                 if grocery == nil {
                                     SDKManager.shared.rootContext?.dismiss(animated: true)
                                 }else{
