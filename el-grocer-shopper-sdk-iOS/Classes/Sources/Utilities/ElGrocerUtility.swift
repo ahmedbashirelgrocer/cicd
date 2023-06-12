@@ -180,6 +180,7 @@ class ElGrocerUtility {
     var currentOrderID : String = ""
     let dateFormatter = DateFormatter() // formater for slots
     var isActiveCartAvailable = false
+    var isNeedToDismissGlobalSearchController: Bool = false
     
     
     var slotViewControllerList : Set = Set<UIViewController>()

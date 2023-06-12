@@ -64,6 +64,11 @@ class GlobalSearchResultsViewController: UIViewController {
         //hide tabbar
         self.presentingVC?.tabBarController?.tabBar.isHidden = true
         self.setSegmentView()
+        
+        if ElGrocerUtility.sharedInstance.isNeedToDismissGlobalSearchController {
+            ElGrocerUtility.sharedInstance.isNeedToDismissGlobalSearchController = false
+            self.backButtonClickedHandler()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -494,6 +499,9 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
             ElGrocerUtility.sharedInstance.isCommingFromUniversalSearch = isCommingFromUniversalSearch
             ElGrocerUtility.sharedInstance.searchFromUniversalSearch = homeFeed
             ElGrocerUtility.sharedInstance.searchString = self.keyWord
+            
+            // Logging segment event for store clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: .searchResultScreen))
             
             if isNeedToDismiss {
                 self.navigationController?.dismiss(animated: false, completion: {
