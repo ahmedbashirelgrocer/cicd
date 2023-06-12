@@ -30,6 +30,8 @@ class EGNewAddressTableViewCell: UITableViewCell {
         didSet{
             lblAddressStyle.layer.cornerRadius = 8
             lblAddressStyle.clipsToBounds = true
+          //  lblAddressStyle.translatesAutoresizingMaskIntoConstraints = false
+            lblAddressStyle.adjustsFontSizeToFitWidth = true
         }
     }
     override func awakeFromNib() {
@@ -65,6 +67,9 @@ class EGNewAddressTableViewCell: UITableViewCell {
             self.lblAddressStyle.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
         self.imgAddressPin.image = isCovered ? (sdkManager.isShopperApp ? UIImage(name: "AddressPin") :  UIImage(name: "AddressPinPurple")) : UIImage(name: "AddressPinDisable")
+        
+        
+       // self.layoutIfNeeded()
         
     }
     
