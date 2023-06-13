@@ -161,8 +161,10 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         navigationController.viewControllers = [locationMapController]
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
-        self.presentIn?.present(navigationController, animated: true) {  }
-        self.dismiss(animated: true) { }
+        self.dismiss(animated: true) {}
+        self.presentIn?.present(navigationController, animated: true) {}
+        
+        
     }
     
 }

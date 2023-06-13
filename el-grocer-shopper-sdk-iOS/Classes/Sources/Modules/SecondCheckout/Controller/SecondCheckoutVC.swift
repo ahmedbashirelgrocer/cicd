@@ -409,6 +409,13 @@ class SecondCheckoutVC: UIViewController {
         }
     }
     
+    func updateAddressInOrder( address: DeliveryAddress) {
+        if let order =  self.viewModel.getEditOrderInitialDetail() {
+            order.deliveryAddress = address
+            DatabaseHelper.sharedInstance.saveDatabase()
+        }
+    }
+    
     
 }
 
@@ -667,5 +674,7 @@ extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelega
        // self.viewModel.setGroceryAndAddressAndRefreshData(grocery, deliveryAddress: address)
         self.navigationController?.popViewController(animated: true)
     }
+    
+    
     
 }

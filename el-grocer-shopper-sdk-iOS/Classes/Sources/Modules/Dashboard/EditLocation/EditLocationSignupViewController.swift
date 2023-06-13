@@ -291,6 +291,14 @@ fileprivate extension EditLocationSignupViewController {
                             }
                         } else {
                             self.navigationController?.dismiss(animated: true)
+                            if let secondCheckOutNav = (self.presentingViewController as? UINavigationController) {
+                                if secondCheckOutNav.viewControllers.count == 2 {
+                                    if let secondCheckOut = secondCheckOutNav.viewControllers[1] as? SecondCheckoutVC {
+                                        secondCheckOut.updateAddressInOrder(address: activeAddress)
+                                    }
+                                }
+                                secondCheckOutNav.popToRootViewController(animated: true)
+                            }
                         }
                       
                     } else {

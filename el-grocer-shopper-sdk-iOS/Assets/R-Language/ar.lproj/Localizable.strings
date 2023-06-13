@@ -2170,7 +2170,7 @@
 
 
 // MARK: addlocation
-"add_delivery_address" = "ناﻮﻨﻋ ﻒﺿا";
+"add_delivery_address" = "أضف عنوان التوصيل";
 
 // Login using OTP Updates
 "Allow Location Access" = "السماح بالدخول إلى الموقع";
@@ -2188,9 +2188,9 @@
 "enter_phone_number" = "دعنا نؤكد رقم هاتفك";
 "set_your_location" = "حدد موقعك وابدأ التسوق";
 "detect_current_location" = " تحديد موقعي الحالي ";
-"add_delivery_address" = "ناﻮﻨﻋ ﻒﺿا";
+"add_delivery_address" = "أضف عنوان التوصيل";
 "your_name*" = "ﻢﺳﺈﻟا*";
-"enter_YourNick_Name" = "Enter address nickname, ‘Home/Work’*";
+"enter_YourNick_Name" = "أدخل اسم مميز للعنوان، المنزل/العمل*";
 "email*" = "البريد الإلكتروني*";
 "email_optional" = "البريد الإلكتروني (غير إلزامي)";
 "building_name*" = "ﻰﻨﺒﻤﻟا*";
