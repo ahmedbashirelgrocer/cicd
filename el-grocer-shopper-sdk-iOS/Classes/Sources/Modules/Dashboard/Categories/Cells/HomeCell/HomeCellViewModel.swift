@@ -194,11 +194,14 @@ private extension HomeCellViewModel {
             return vm
         }
         
+        if products.algoliaCount == 0{
+            debugPrint("")
+        }
+        
         self.productCellVMs.append(contentsOf: cellVMs)
         self.isLoading = false
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: self.productCellVMs)])
-
-        self.isProductAvailableSubject.onNext(products.algoliaCount != 0 && offset == 0)
+        self.isProductAvailableSubject.onNext((offset == 0))
         self.offset += limit
     }
 }

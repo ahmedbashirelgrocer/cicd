@@ -355,8 +355,8 @@ class SuggestionsModelDataSource {
             }
             if  let responseObject : NSDictionary = data as NSDictionary? {
                 Thread.OnMainThread {
-                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     
+                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: searchString, nil, dbIDs.count >= 2)
                     
                     if newProducts.products.count > 0 {
                         DatabaseHelper.sharedInstance.saveDatabase()

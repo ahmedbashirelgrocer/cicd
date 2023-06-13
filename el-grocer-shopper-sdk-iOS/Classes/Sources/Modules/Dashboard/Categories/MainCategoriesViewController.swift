@@ -2246,7 +2246,7 @@ private func checkforDifferentDeliveryLocation() {
             intervalInMins = 66.0
         }
         
-        if(distance > 300 && intervalInMins > 5)
+        if(distance > 300 && intervalInMins > 60)
         {
             DispatchQueue.main.async {
                 let vc = LocationChangedViewController.getViewController()

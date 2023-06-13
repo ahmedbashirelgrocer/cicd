@@ -452,12 +452,12 @@ extension Product {
                             }
                         }
                         
-                        if let promotionA = productDict["promotional_shops"] as? [NSDictionary]{
+                        if let promotionA = productDict["promotional_shops"] as? [NSDictionary] {
                             let finalData =  promotionA.filter { (dict) -> Bool in
                                  let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
                                     return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
                             }
-                            if finalData.count > 0 {
+                            if finalData.count > 0  && is_P {
                                 
                                 
                                 for promotion in finalData {
@@ -677,6 +677,13 @@ extension Product {
                 groceryID = "\(String(describing: data["retailer_id"] ?? 0))"
                 shopsDict = data
                 
+                var is_P = false
+                if let isP = shopsDict?["is_p"] as? Bool {
+                    if isP {
+                        is_P = true
+                    }
+                }
+                
                 if let shopsA = productDict["promotional_shops"] as? [NSDictionary] {
                     for shop in shopsA {
                         if let reID = shop["retailer_id"] as? NSNumber {
@@ -687,7 +694,7 @@ extension Product {
                          let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
                             return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
                     }
-                    if finalData.count > 0 {
+                    if finalData.count > 0  && is_P == true{
                         let data = finalData[0]
                         groceryID = "\(String(describing: data["retailer_id"] ?? 0))"
                         shopsDict = data

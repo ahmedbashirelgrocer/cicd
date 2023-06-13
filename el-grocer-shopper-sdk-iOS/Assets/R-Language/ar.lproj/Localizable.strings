@@ -1108,7 +1108,7 @@
 "delivery_One_Hour"  = "التسليم في 1 ساعة";
 "delivery_One_Hour_WithOutNext"  = "التسليم في 1 ساعة";
 "Delivery_Slot"= "التسليم :";
-"Change" = " تعديل ";
+"Change" = " تغيير ";
 "shop_btn_title" = "تسوق";
 
 
@@ -1160,7 +1160,7 @@
 "carousel_View_Title" = "منتجات موصى بها لك";
 "error_PinCode" = "الرمز غير صالح";
 "order_status" =  "الطلب";
-"order_CheckOut_label" = "الدفع";
+"order_CheckOut_label" = "إتمام الشراء";
 "cvv_alert_msg" = "الرجاء إدخال رقم أمان بطاقتك للمتابعة";
 
 
@@ -2189,14 +2189,14 @@
 "set_your_location" = "حدد موقعك وابدأ التسوق";
 "detect_current_location" = " تحديد موقعي الحالي ";
 "add_delivery_address" = "أضف عنوان التوصيل";
-"your_name*" = "ﻢﺳﺈﻟا*";
+"your_name*" = "الاسم*";
 "enter_YourNick_Name" = "أدخل اسم مميز للعنوان، المنزل/العمل*";
 "email*" = "البريد الإلكتروني*";
 "email_optional" = "البريد الإلكتروني (غير إلزامي)";
-"building_name*" = "ﻰﻨﺒﻤﻟا*";
+"building_name*" = "المبنى*";
 "floor_(optional)" = "الطابق (غير إلزامي)";
 "apartment/office/villa_number*" = "رقم الشقه/ المكتب/الفيلا*";
-"confirm_address" = "ناﻮﻨﻌﻟا ﻒﺿا";
+"confirm_address" = "أضف العنوان";
 "invalid_code_unfortunately_you_reached_the_daily_limit" = "الرمز غير صحيح. للأسف ، لقد وصلت إلى الحد اليومي لطلبات الرمز لهذا الرقم. من فضلك ، حاول مرة أخرى في غضون 24 ساعة.";
 "Enter your name" = "الرجاء إدخال الاسم";
 "eg_error_msg_enter_nick_name" = "أدخل الاسم المستعار للعنوان";
