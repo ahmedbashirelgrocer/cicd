@@ -721,7 +721,8 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             return tablecell
         }else{
             let tablecell : UniSearchCell = tableView.dequeueReusableCell(withIdentifier: "UniSearchCell", for: indexPath) as! UniSearchCell
-            tablecell.cellConfigureWith(obj,searchString: self.searchString)
+            let searchData = (self.searchString.count > 0 ? self.searchString : ((self.dataSource?.currentSearchString.count ?? 0) > 0 ? self.dataSource?.currentSearchString : self.txtSearch.text)) ?? ""
+            tablecell.cellConfigureWith(obj,searchString: searchData)
             tablecell.clearButtonClicked = { [weak self] (dataString) in
                 guard dataString.count > 0 else {
                     return
@@ -1008,7 +1009,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.perform(
             #selector(UniversalSearchViewController.performAlgoliaSearch),
             with: textField,
-            afterDelay: 2.0)
+            afterDelay: 1)
         
         NSObject.cancelPreviousPerformRequests(
             withTarget: self,
@@ -1018,7 +1019,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.perform(
             #selector(UniversalSearchViewController.userSearchedKeyWords),
             with: textField,
-            afterDelay: 3.0)
+            afterDelay: 1.0)
         
         if let text = textField.text,
            let textRange = Range(range, in: text) {

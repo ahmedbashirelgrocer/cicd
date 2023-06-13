@@ -356,7 +356,7 @@ class SuggestionsModelDataSource {
             if  let responseObject : NSDictionary = data as NSDictionary? {
                 Thread.OnMainThread {
                     
-                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: searchString, nil, dbIDs.count >= 2)
+                    let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: searchString, nil, dbIDs.count < 2)
                     
                     if newProducts.products.count > 0 {
                         DatabaseHelper.sharedInstance.saveDatabase()
@@ -387,10 +387,13 @@ class SuggestionsModelDataSource {
             spiner =  SpinnerView.showSpinnerViewInView(topVc.view)
         }
         
-        func addProductData(_ responseObject : NSDictionary , recipeList : [Recipe] , groceryA : [Grocery]? ) {
+        func addProductData(_ responseObject : NSDictionary , recipeList : [Recipe] , groceryA : [Grocery]?, searchString: String, searchStoreIds: [String] ) {
             
             Thread.OnMainThread {
-                let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+               
+                
+                let newProducts =  Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: searchString, nil, searchStoreIds.count < 2)
                 
                 if newProducts.products.count > 0 {
                     DatabaseHelper.sharedInstance.saveDatabase()
@@ -455,14 +458,17 @@ class SuggestionsModelDataSource {
                                         return searchID == grocery.dbID
                                     }.count > 0
                                 })
-                                addProductData(productsDictionary, recipeList: sdkManager.isSmileSDK ? [] : recipeList, groceryA: groceryA )
+                                addProductData(productsDictionary, recipeList: sdkManager.isSmileSDK ? [] : recipeList, groceryA: groceryA, searchString: searchString, searchStoreIds: dbIDs )
                             }
                            
                         }
                     }
                     return
                 }else if  let responseObject : NSDictionary = data as NSDictionary? {
-                    addProductData(responseObject, recipeList: recipeList, groceryA: nil)
+                    
+                    addProductData(responseObject, recipeList: recipeList, groceryA: nil, searchString: searchString, searchStoreIds: dbIDs )
+                    
+                    //addProductData(responseObject, recipeList: recipeList, groceryA: nil)
                 }
             }
             
