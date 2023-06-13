@@ -25,6 +25,9 @@ class SettingCell: RxUITableViewCell {
     @IBOutlet weak var arrowImage: UIImageView! {
         didSet {
             arrowImage.image = UIImage(name: "SettingArrowForward")?.withCustomTintColor(color: AppSetting.theme.themeBasePrimaryColor)
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                arrowImage.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
         }
     }
     

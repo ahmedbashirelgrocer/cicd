@@ -356,6 +356,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.setUpNavigationAppearance()
         self.orderToReplace = ( UserDefaults.isOrderInEdit() && self.order != nil )
         if self.orderToReplace && self.order != nil {
+            if let order =  self.order {
+                self.order = Order.getOrderFrom(order.dbID, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            }
             self.isDeliveryMode = !self.order.isCandCOrder()
             if self.order.isCandCOrder() {
                 if let vehicleID = self.order.vehicleDetail?.dbID?.intValue {

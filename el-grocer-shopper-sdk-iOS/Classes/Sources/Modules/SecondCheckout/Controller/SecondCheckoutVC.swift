@@ -658,6 +658,11 @@ extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelega
     }
     
     func locationSelectedAddress(_ address: DeliveryAddress, grocery:Grocery?){
+        
+        if let order =  self.viewModel.getEditOrderInitialDetail() {
+            order.deliveryAddress = address
+            DatabaseHelper.sharedInstance.saveDatabase()
+        }
        // self.pinView.configureWith(detail: UserMapPinAdress.init(address: address.address, addressImageUrl: address.addressImageUrl, addressLat: address.latitude , addressLng: address.longitude))
        // self.viewModel.setGroceryAndAddressAndRefreshData(grocery, deliveryAddress: address)
         self.navigationController?.popViewController(animated: true)

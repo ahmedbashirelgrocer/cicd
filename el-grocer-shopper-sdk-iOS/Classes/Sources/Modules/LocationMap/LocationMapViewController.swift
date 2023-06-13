@@ -1030,7 +1030,10 @@ extension LocationMapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         print("map Zoom level : \(position.zoom)")
         self.viewModel.isNeedToFindAddress.value = position.zoom >= 18
-        self.mapPinToolTipText.text = position.zoom >= 18 ? "Drag the pin on the most accurate location" : "Please zoom in to find your exact delivery location"
+        
+        
+        
+        self.mapPinToolTipText.text = position.zoom >= 18 ? localizedString("eg_label_drag_map", comment: "Drag the pin on the most accurate location") : localizedString("eg_label_zoom_map", comment: "Please zoom in to find your exact delivery location")
         UIView.transition(with: self.mapToolTipBgView, duration: 0.2,
                           options: .curveEaseOut,
                           animations: {

@@ -15,7 +15,11 @@ class CheckoutButtonView: AWView {
     @IBOutlet weak var lblAmount: UILabel!
     @IBOutlet weak var buttonCheckout: AWView!
     @IBOutlet weak var applePayStackView: UIStackView!
-    @IBOutlet weak var lblOrderText: UILabel!
+    @IBOutlet weak var lblOrderText: UILabel! {
+        didSet{
+            lblOrderText.text = localizedString("place_order_title_label", comment: "")
+        }
+    }
     @IBOutlet weak var ivForwardIcon: UIImageView!
     @IBOutlet weak var viewDiscountWrapper: UIView!
     @IBOutlet var lblAEDSavedBottomBGView: UIView!

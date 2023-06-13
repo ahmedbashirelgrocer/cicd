@@ -342,7 +342,7 @@ fileprivate extension EditLocationSignupViewController {
         tableView.beginUpdates()
         
         if let cell = (tableCells[1] as? TextFieldCell), cell.textField.text?.count == 0 {
-            cell.setError(localizedString("Enter nick name", comment: ""))
+            cell.setError(localizedString("eg_error_msg_enter_nick_name", comment: ""))
             isValid = false
         }
         
@@ -419,7 +419,7 @@ fileprivate extension EditLocationSignupViewController {
              keyboardType: UIKeyboardType?)
         ] = [
             ("locationPop", "", UIKeyboardType.default),
-            (nil, localizedString("enter_YourNick_Name", comment: ""), UIKeyboardType.default),
+            (nil, localizedString("eg_address_nick_name_address", comment: ""), UIKeyboardType.default),
             (nil, localizedString("your_name*", comment: ""), UIKeyboardType.default),
             (nil, localizedString("email_optional", comment: ""), UIKeyboardType.emailAddress),
             (nil, localizedString("building_name*", comment: ""), UIKeyboardType.default),

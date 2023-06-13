@@ -20,17 +20,22 @@ class StoreOutConverageAreaBottomSheetViewController: UIViewController {
     @IBOutlet weak var btnChangelocation: AWButton! {
         didSet{
             btnChangelocation.setBackgroundColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, forState: UIControl.State())
+            btnChangelocation.setTitle(localizedString("changelocation_button", comment: ""), for: UIControl.State())
+            
+            
         }
     }
     @IBOutlet weak var btnCancel: UIButton!{
         didSet{
             btnCancel.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
+            btnCancel.setTitle(localizedString("promo_code_alert_no", comment: ""), for: UIControl.State())
         }
     }
     
     @IBOutlet weak var lblLocationText: UILabel! {
         didSet{
             lblLocationText.setBody1RegDarkStyle()
+            lblLocationText.text = localizedString("eg_msg_selected_location_not_covering", comment: "")
         }
     }
     

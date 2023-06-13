@@ -120,7 +120,7 @@ extension SettingViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
         headerView.backgroundColor = .tableViewBackgroundColor()
-        let label = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 16, height: 30))
+        let label = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 30, height: 30))
         label.text = dataSource.sectionModels[section].header
         label.setH4SemiBoldStyle()
         headerView.addSubview(label)

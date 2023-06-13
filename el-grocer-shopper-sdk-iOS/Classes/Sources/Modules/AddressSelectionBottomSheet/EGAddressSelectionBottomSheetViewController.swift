@@ -14,20 +14,23 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     
     @IBOutlet weak var btnCross: UIButton!
     @IBOutlet weak var lblChooseDeliveryLocation: UILabel!{
-        didSet{
+        didSet {
             lblChooseDeliveryLocation.setBody3SemiBoldDarkStyle()
+            lblChooseDeliveryLocation.text = localizedString("eg_choose_delivery_location", comment: "Choose delivery location")
         }
     }
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imgDifferentLocation: UIImageView!
     @IBOutlet weak var lblDifferentLocation: UILabel!{
-        didSet{
+        didSet {
             lblDifferentLocation.setBody3SemiBoldDarkStyle()
+            lblDifferentLocation.text = localizedString("eg_deliver_to_different_location", comment: "eg_deliver_to_different_location")
         }
     }
     @IBOutlet weak var btnChooseLocation: UIButton! {
-        didSet{
+        didSet {
             btnChooseLocation.setBody3RegGreenStyle()
+            btnChooseLocation.setTitle(localizedString("eg_choose_location_on_map", comment: ""), for: UIControl.State())
         }
     }
     
@@ -159,7 +162,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         navigationController.setLogoHidden(true)
         navigationController.modalPresentationStyle = .fullScreen
         self.presentIn?.present(navigationController, animated: true) {  }
-        self.dismiss(animated: true) { [weak self] in }
+        self.dismiss(animated: true) { }
     }
     
 }
@@ -228,7 +231,7 @@ extension EGAddressSelectionBottomSheetViewController : LocationMapViewControlle
                     if buttonIndex == 0, let locationObj = self?.addressList[existingLocationIndex!] {
                         let locationDetails = LocationDetails.init(location: nil,editLocation: locationObj, name: locationObj.shopperName, address: locationObj.address, building: locationObj.building, cityName: locationObj.city)
                         let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
-                        controller.navigationController?.pushViewController(controller, animated: true)
+                        controller.navigationController?.pushViewController(editLocationController, animated: true)
                     } else {
                         controller.dismiss(animated: true, completion: {})
                     }
@@ -301,7 +304,7 @@ extension EGAddressSelectionBottomSheetViewController : LocationMapViewControlle
                                 })
                                 let locationDetails = LocationDetails.init(location: nil,editLocation: newAddress, name: newAddress.shopperName, address: newAddress.address, building: newAddress.building, cityName: newAddress.city)
                                 let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
-                                controller.navigationController?.pushViewController(controller, animated: true)
+                                controller.navigationController?.pushViewController(editLocationController, animated: true)
                                 
                             }
                         } else {

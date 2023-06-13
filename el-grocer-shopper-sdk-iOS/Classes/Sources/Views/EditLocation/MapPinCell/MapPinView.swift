@@ -33,6 +33,7 @@ class MapPinView: UIView {
     @IBOutlet weak var addressChangeButton: UIButton! {
         didSet{
             addressChangeButton.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
+            addressChangeButton.setTitle(localizedString("Change", comment: ""), for: UIControl.State())
         }
     }
     
@@ -40,14 +41,7 @@ class MapPinView: UIView {
     
     weak var mapImage : UIImage? = nil
          var currentDetails: UserMapPinAdress? = nil
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    
+
     func configureWith(detail : UserMapPinAdress) {
         
         self.currentDetails = detail

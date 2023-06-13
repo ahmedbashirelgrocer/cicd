@@ -254,6 +254,12 @@ extension Order {
         deliveryAddress.latitude = orderDict["shopper_address_latitude"] as? Double ?? 0.0
         deliveryAddress.longitude = orderDict["shopper_address_longitude"] as? Double ?? 0.0
         
+        
+        
+        
+        let nickName = orderDict["shopper_address_nick_name"] as? String
+        deliveryAddress.nickName = nickName ?? ""
+        
         let locationName = orderDict["shopper_address_name"] as? String
         deliveryAddress.locationName = locationName != nil ? locationName! : ""
         

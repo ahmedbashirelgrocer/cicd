@@ -26,7 +26,15 @@ class CheckoutDeliverySlotView: UIView  {
             lblSlotValue.setBody1SemiBoldWhiteStyle()
         }
     }
-    @IBOutlet weak var imgArrow: UIImageView!
+    @IBOutlet weak var imgArrow: UIImageView! {
+        didSet{
+            let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
+            if currentLang == "ar" {
+                imgArrow.transform = CGAffineTransform(scaleX: -1, y: 1)
+                imgArrow.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+            }
+        }
+    }
     @IBOutlet weak var imgTime: UIImageView!
     
     private var deliverySlots: [DeliverySlotDTO] = []
@@ -35,10 +43,9 @@ class CheckoutDeliverySlotView: UIView  {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         self.lblSlotPrefixText.text = localizedString("delivery_time_slot", comment: "")
     }
-    
+
     func configure(slots: [DeliverySlotDTO], selectedSlotId: Int?, modelType: OrderType = .delivery) {
         
         guard slots.count > 0 else {
@@ -48,7 +55,7 @@ class CheckoutDeliverySlotView: UIView  {
         elDebugPrint(slots)
         let selectedSlot: DeliverySlotDTO? = slots.filter { $0.usid ==  selectedSlotId }.first
         self.deliverySlots = slots
-        
+
         if let selectedSlot = selectedSlot {
             self.selectedDeliverySlot = selectedSlot
             self.lblSlotPrefixText.text = modelType == .delivery
@@ -58,10 +65,7 @@ class CheckoutDeliverySlotView: UIView  {
                 self.lblSlotValue.text =  selectedSlot.getInstantText()
                 return
             }
-            
-            
             if let startDate = selectedSlot.startTime?.convertStringToCurrentTimeZoneDate() {
-                
                 let time = startDate.dataInGST()?.formatDateForCandCFormateString() ?? ""
                 var orderTypeDescription = time
                 if  startDate.isToday {
@@ -89,7 +93,6 @@ class CheckoutDeliverySlotView: UIView  {
                 self.lblSlotValue.text =  selectedSlot.getInstantText()
                 return
             }
-            
                 // TODO: need to check date time zone issue
             if let startDate = selectedSlot.startTime?.convertStringToCurrentTimeZoneDate() {
                 let text = startDate.isToday ? localizedString("today_title", comment: "") : localizedString("tomorrow_title", comment: "")
@@ -111,10 +114,6 @@ class CheckoutDeliverySlotView: UIView  {
         }
         
         let popupController = STPopupController(rootViewController: popupViewController)
-        if NSClassFromString("UIBlurEffect") != nil {
-            // let blurEffect = UIBlurEffect(style: .dark)
-            // popupController.backgroundView = UIVisualEffectView(effect: blurEffect)
-        }
         MixpanelEventLogger.trackCheckoutDeliverySlotClicked()
         popupController.navigationBarHidden = true
         popupController.transitioning = self

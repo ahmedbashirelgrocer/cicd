@@ -2162,6 +2162,7 @@ Oreo";
 "apartment/office/villa_number*" = "Apartment/Office/Villa number*";
 "confirm_address" = "Confirm address";
 "invalid_code_unfortunately_you_reached_the_daily_limit" = "Invalid code. Unfortunately, you reached the daily limit of code requests for that number. Please, try again within 24 h.";
+"eg_error_msg_enter_nick_name" = "Enter address nick name";
 "Enter your name" = "Enter your name";
 "Please enter valid email id" = "Please enter valid email id";
 "Enter your building name" = "Enter your building name";
@@ -2173,3 +2174,17 @@ Oreo";
 
 // CategoryDTO
 "search_by_shopping_list_text" = "Search by Shopping List";
+
+
+// Navigation Updated screen's updated Strings
+"eg_label_zoom_map" = "Please zoom in to find your exact delivery location";
+"eg_label_drag_map" = "Drag the pin on the most accurate location";
+"eg_choose_delivery_location" = "Choose delivery location";
+"eg_current_location" = "Current location";
+"eg_out_of_delivery_area" = "Out of delivery area";
+"eg_choose_location_on_map" = "Choose location on a map";
+"eg_deliver_to_different_location" = "Deliver to a different location";
+"eg_detecting_location" = "Detecting location...";
+"eg_address_nick_name_address" = "Enter address nickname, 'Home/Work'*";
+"eg_msg_selected_location_not_covering" = "Selected location for that store is outside delivery area range. What would you like to do?";
+

@@ -2199,14 +2199,24 @@
 "confirm_address" = "ناﻮﻨﻌﻟا ﻒﺿا";
 "invalid_code_unfortunately_you_reached_the_daily_limit" = "الرمز غير صحيح. للأسف ، لقد وصلت إلى الحد اليومي لطلبات الرمز لهذا الرقم. من فضلك ، حاول مرة أخرى في غضون 24 ساعة.";
 "Enter your name" = "الرجاء إدخال الاسم";
+"eg_error_msg_enter_nick_name" = "أدخل الاسم المستعار للعنوان";
 "Please enter valid email id" = "الرجاء إدخال البريد الإلكتروني الصحيح";
 "Enter your building name" = "الرجاء إدخال اسم المبني";
 "Enter your apartment/office/villa number" = "الرجاء إدخال رقم الشقه/ المكتب/الفيلا";
-"search_manually_text" = "Search your location manually";
-
-
+"search_manually_text" = "البحث عن العنوان";
 // Smiles SDK Home
 "lbl_AvailableStores_Smiles_Home" = "المتاجر المتاحة (%@)";
-
 "search_by_shopping_list_text" = "البحث بقائمة التسوق";
 
+
+// Navigation Updated screen's updated Strings
+"eg_label_zoom_map" = "يرجى تكبير الصورة للعثور على موقع التسليم الدقيق";
+"eg_label_drag_map" = "اسحب الدبوس على الموقع الأكثر دقة";
+"eg_choose_delivery_location" = "اختر موقع التوصيل";
+"eg_current_location" = "الموقع الحالي";
+"eg_out_of_delivery_area" = "خارج منطقة التوصيل";
+"eg_choose_location_on_map" = "إختيار الموقع علي الخريطة";
+"eg_deliver_to_different_location" = "التوصيل الى عنوان مختلف";
+"eg_detecting_location" = "البحث عن العنوان";
+"eg_address_nick_name_address" = "أدخل اسم مميز للعنوان، المنزل/العمل*";
+"eg_msg_selected_location_not_covering" = "الموقع المحدد لا يغطي التوصيل من هذا المتجر وسيتم مسح سلة تسوقك. هل تريد تغيير الموقع؟";

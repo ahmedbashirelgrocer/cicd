@@ -138,9 +138,33 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
             self.lblDeliveryAddress.text = ""
             return
         }
-        let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(order?.deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(order?.deliveryAddress) : (order?.deliveryAddress.locationName ?? "") + (order?.deliveryAddress.address ?? "")
-        self.lblDeliveryAddress.text = formatAddressStr
+        let nickName = order?.deliveryAddress.nickName ?? ""
+        var formatAddressStr = nickName.count > 0 ?  (nickName + ":\n") : ""
+        formatAddressStr = (ElGrocerUtility.sharedInstance.getFormattedAddress(order?.deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(order?.deliveryAddress) : (order?.deliveryAddress.locationName ?? "") + (order?.deliveryAddress.address ?? ""))
        
+        if nickName.count == 0 {
+            self.lblDeliveryAddress.text = formatAddressStr
+            return
+        }
+        self.setlblAddressAttributedText(nickName, address: formatAddressStr)
+        
+       
+    }
+    
+    private func setlblAddressAttributedText(_ nickName: String, address: String) {
+        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+        let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
+        let nickName = nickName
+        let attributedString1 = NSMutableAttributedString(string: nickName   , attributes:attrs2 as [NSAttributedString.Key : Any])
+        attributedString.append(attributedString1)
+        let attributedString2 = NSMutableAttributedString(string: "\n" + address  , attributes:attrs1 as [NSAttributedString.Key : Any])
+        attributedString.append(attributedString2)
+        DispatchQueue.main.async {
+            UIView.performWithoutAnimation {
+                self.lblDeliveryAddress.attributedText = attributedString
+            }
+        }
     }
     
     
