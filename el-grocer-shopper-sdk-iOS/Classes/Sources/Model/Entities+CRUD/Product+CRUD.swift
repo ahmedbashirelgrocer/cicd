@@ -521,8 +521,10 @@ extension Product {
                     }else{
                         product.promotionOnly = false
                         // deleting because product is not available in shops dictionary for current store https://elgrocerdxb.atlassian.net/browse/EEN-4110
-                        context.delete(product)
-                        continue
+                        if onlyCurrentStoreProducts {
+                            context.delete(product)
+                            continue
+                        }
                     }
                     
                 }else{

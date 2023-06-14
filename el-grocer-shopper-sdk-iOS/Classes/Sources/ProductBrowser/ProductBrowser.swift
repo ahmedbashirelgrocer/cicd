@@ -157,7 +157,9 @@ class ProductBrowser {
                                 if ElGrocerUtility.sharedInstance.activeGrocery == nil {
                                     ElGrocerUtility.sharedInstance.activeGrocery = HomePageData.shared.groceryA?.first{ $0.featured == 1 } ?? HomePageData.shared.groceryA?.first
                                 }
-                                let newProducts = Product.insertOrReplaceProductsFromDictionary(productsDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                                
+                                let newProducts = Product.insertOrReplaceProductsFromDictionary(productsDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: searchText, nil, storeIDs.count < 2)
+                                
                                 self.fetchTopSortProducts(newProducts.products, slots: slots) { productsOly in
                                     DispatchQueue.main.async{ completion((productsOly, newProducts.algoliaCount), groceryA ?? []) }
                                 }
