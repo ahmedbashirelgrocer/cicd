@@ -1937,7 +1937,7 @@
     //MARK: store header
 "btn_shopping_list_title" = "أضف قائمة التسوق";
 "btn_help" = "المساعدة";
-"search_placeholder_store_header" = "أبحث عن المنتجات...";
+"search_placeholder_store_header" = "البحث في المنتجات...";
 
 
 "title_view_all_cat" = "عرض جميع فئات المتاجر";
@@ -1963,8 +1963,7 @@
 //MARK: C&C
 "lbl_collectionNear" = "أين تريد أن تتسلم البقالة؟";
 //MARK: home search header
-"search_placeholder_home" = "أبحث عن المنتجات والمتاجر والوصفات ...";
-"search_placeholder_home_Smiles" = "أبحث عن المنتجات والمتاجر والوصفات ...";
+"search_placeholder_home" = "البحث عن المنتجات و المتاجر...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "أبحث عن المنتجات والمتاجر ...";
 "search_placeholder_view_allstore_categories" = "أبحث عن المنتجات...";

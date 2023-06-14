@@ -1913,7 +1913,7 @@ Add delivery details";
 //MARK: store header
 "btn_shopping_list_title" = "Add Shopping List";
 "btn_help" = "Help";
-"search_placeholder_store_header" = "Search items...";
+"search_placeholder_store_header" = "Search Products...";
 
 "title_view_all_cat" = "View All Categories";
 "title_proactive" = "Proactive Chat";
@@ -1930,8 +1930,7 @@ Oreo";
 //MARK: C&C
 "lbl_collectionNear" = "Where would you like to collect groceries?";
 //MARK: home search header
-"search_placeholder_home" = "Search items, stores, recipes...";
-"search_placeholder_home_Smiles" = "Search items, stores...";
+"search_placeholder_home" = "Search Products, stores...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "Search items or stores...";
 "search_placeholder_view_allstore_categories" = "Search items or stores...";
