@@ -55,8 +55,6 @@ class GlobalSearchResultsViewController: UIViewController {
         self.setDataSource()
         self.setTableViewHeader()
         self.LogEvents()
-        
-        self.updateMultiCartButtonIcon()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +101,7 @@ class GlobalSearchResultsViewController: UIViewController {
             }
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
             self.title = localizedString("global_search_result_screen_title_text", comment: "")
+            self.updateMultiCartButtonIcon()
         }
 
     }
@@ -822,7 +821,7 @@ extension GlobalSearchResultsViewController: ButtonActionDelegate {
             context: DatabaseHelper.sharedInstance.mainManagedObjectContext
         )
         
-        (self.navigationController as? ElGrocerNavigationController)?
-            .setCartButtonState(ElGrocerUtility.sharedInstance.isActiveCartAvailable || isActiveCartAvailable)
+        let cartButtonState = ElGrocerUtility.sharedInstance.isActiveCartAvailable || isActiveCartAvailable
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(cartButtonState)
     }
 }
