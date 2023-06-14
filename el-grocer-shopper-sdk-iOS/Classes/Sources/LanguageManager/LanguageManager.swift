@@ -110,7 +110,7 @@ class LanguageManager: NSObject {
     }
     
     
-    func languageButtonAction(selectedLanguage : String , SDKManagers : SDKManager? = nil , updateRootViewController : Bool = false) {
+    func languageButtonAction(selectedLanguage : String , SDKManagers : SDKManagerType? = nil , updateRootViewController : Bool = false) {
         
         updateUserLanguage(selectedLanguage)
         Bundle.setLanguage(selectedLanguage)

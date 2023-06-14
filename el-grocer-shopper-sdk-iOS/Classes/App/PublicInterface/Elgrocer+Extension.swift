@@ -86,6 +86,21 @@ public extension ElGrocer {
         
     }
     
+    static func startElgrocerShopper(with launchOptions: LaunchOptions?) {
+        guard let launchOptions = launchOptions else {
+            return
+        }
+        
+        sdkManager = SDKManagerShopper.shared
+        sdkManager.launchOptions = launchOptions
+        SDKManager.shared.launchOptions = launchOptions
+        SDKManager.shared.startBasicThirdPartyInit()
+        ElGrocer.trackSDKLaunch(launchOptions)
+        sdkManager.start(with: launchOptions)
+    }
+    
+    
+    
     static func start(with launchOptions: LaunchOptions?) {
         guard let launchOptions = launchOptions else {
             return

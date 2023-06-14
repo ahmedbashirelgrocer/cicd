@@ -94,6 +94,11 @@ class GenericStoresViewController: BasketBasicViewController {
         return config
     }()
     
+    private lazy var mapDelegate: LocationMapDelegation = {
+        let delegate = LocationMapDelegation.init(self)
+        return delegate
+    }()
+    
     var storlyAds : StorylyAds?
     private var disposeBag = DisposeBag()
     private var openOrders : [NSDictionary] = []
@@ -721,6 +726,11 @@ class GenericStoresViewController: BasketBasicViewController {
         }
         
         
+    }
+    
+    @objc override func locationButtonClick() {
+        
+        EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: self.mapDelegate, presentIn: self)
     }
     
     

@@ -516,11 +516,12 @@ extension CateAndSubcategoryView {
         Thread.OnMainThread {
             var newProduct = [Product]()
             let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-            newProduct = Product.insertOrReplaceAllProductsFromDictionary(response, context:context).products
+            let saveProducts = Product.insertOrReplaceAllProductsFromDictionary(response, context:context)
+            newProduct = saveProducts.products
             self.gridProductA += newProduct
             self.isGridView = true
             self.isLoadingMoreGridProducts = false
-            ElGrocerUtility.sharedInstance.productAvailabilityDict[keyStr] = self.gridProductA.count > 0
+            ElGrocerUtility.sharedInstance.productAvailabilityDict[keyStr] = saveProducts.algoliaCount > 0
             ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] = self.gridProductA
             self.delegate?.productDataUpdated(nil)
         }
@@ -756,7 +757,7 @@ extension CateAndSubcategoryView : CateAndSubcategoryDataHandlerDelegate {
                 }
                 
                 let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentSubCategory?.subCategoryId)!)
-                if (ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] == nil){
+                if (ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] == nil) {
                     ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] = self.parentSubCategory?.isShowBrand
                 }
                 let isGridView = ElGrocerUtility.sharedInstance.isGroupedDict[keyStr] ?? false

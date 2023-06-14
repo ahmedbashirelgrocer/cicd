@@ -221,6 +221,7 @@ class SplashAnimationViewController: UIViewController {
                 }
             } else {
                 self.callSetUpApis()
+                if SDKManager.shared.isShopperApp {  sdkManager.showEntryView() }
             }
             return
         }

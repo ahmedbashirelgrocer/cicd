@@ -72,6 +72,7 @@ public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     func showForceUpdateView()
     func showAnimatedSplashView()
     func showEntryView()
+    func showEntryViewWithSuccessClouser(_ completion:@escaping ((_ manager: SDKLoginManager?) -> Void))
     func showAppWithMenu()
     func showAppWithMenu(_ isNeedToShowChangeStoreByDefault: Bool)
     func makeRootViewController(controller: UIViewController)
@@ -140,6 +141,7 @@ public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     func channelDidChangeMemberCount(_ channels: [SBDGroupChannel])
     func channelDidChangeParticipantCount(_ channels: [SBDOpenChannel])
     func start(with launchOptions: LaunchOptions?)
+    
 }
 
 public extension SDKManagerType {
@@ -160,7 +162,7 @@ public extension SDKManagerType {
     func logout() { }
     func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool { return false }
     func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool { return false }
-    
+    func showEntryViewWithSuccessClouser(_ completion:@escaping ((_ manager: SDKLoginManager?) -> Void)) { }
     func getTabbarController(isNeedToShowChangeStoreByDefault : Bool , selectedGrocery : Grocery? = nil ,_  selectedBannerLink : BannerLink? = nil ) -> UINavigationController {
         return getTabbarController(isNeedToShowChangeStoreByDefault: isNeedToShowChangeStoreByDefault, selectedGrocery: selectedGrocery, selectedBannerLink)
     }

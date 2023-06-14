@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-struct SDKLoginManager {
+public struct SDKLoginManager {
     
     static var KOpenOrderRefresh = NSNotification.Name(rawValue: "KOpenOrderRefreshFromPush")
     

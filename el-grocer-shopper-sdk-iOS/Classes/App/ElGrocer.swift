@@ -29,11 +29,11 @@ public final class ElGrocer {
 
         SDKManager.shared.launchCompletion = completion
         
-        if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType || SDKManager.shared.launchOptions?.language != launchOptions?.language {
-            SDKManager.shared.launchOptions = launchOptions
+        if sdkManager.launchOptions?.marketType != launchOptions?.marketType || sdkManager.launchOptions?.language != launchOptions?.language {
+            sdkManager.launchOptions = launchOptions
             HomePageData.shared.groceryA = []
         } else {
-            SDKManager.shared.launchOptions = launchOptions
+            sdkManager.launchOptions = launchOptions
         }
         
         DispatchQueue.main.async {
@@ -257,12 +257,12 @@ public struct LaunchOptions {
     // only for elgrocer Shopper Use.
     public init(
         _ marketType : MarketType = .shopper,
-        _ language: String? = nil, _ evviromentType: EnvironmentType) {
+        _ language: String? = nil, _ enviromentType: EnvironmentType) {
         self.marketType = marketType
         self.language = language
         if self.marketType == .shopper {
            self.theme = ApplicationTheme.elGrocerShopperTheme()
-           self.environmentType = evviromentType
+           self.environmentType = enviromentType
         }
     }
     

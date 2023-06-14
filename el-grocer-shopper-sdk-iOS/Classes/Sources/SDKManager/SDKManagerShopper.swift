@@ -586,6 +586,15 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         self.replaceRootControllerWith(navEntryController)
     }
     
+//    public func showEntryViewWithSuccessClouser(_ completion:@escaping ((_ manager: SDKLoginManager?) -> Void)) {
+//
+//        let entryController =  ElGrocerViewControllers.signInViewController()
+//        let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
+//        navEntryController.hideNavigationBar(true)
+//        self.replaceRootControllerWith(navEntryController)
+//        completion(nil)
+//    }
+    
     
     public func showEntryView() {
         
