@@ -326,6 +326,25 @@ class SuggestionsModelDataSource {
 //                }
             }
             
+            func addRetailersSuggestions(retailers: [Grocery], query: String) {
+                let storesSectionTitle = showTrendingProducts
+                    ? localizedString("text_stores", bundle: .resource, comment: "")
+                    : localizedString("text_popular_stores", bundle: .resource, comment: "")
+                
+                var mySuggestionDataArray: [SuggestionsModelObj] = [SuggestionsModelObj(type: .title, title: storesSectionTitle)]
+                
+                if retailers.isEmpty {
+                    mySuggestionDataArray.append(SuggestionsModelObj(type: .noDataFound, title: localizedString("search_no_stores_found_message", comment: "")))
+                } else {
+                    let sortedRetailers = retailers.sorted(by: { ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
+                    
+                    sortedRetailers.forEach { grocery in
+                        mySuggestionDataArray.append(SuggestionsModelObj(type: .retailer, title: grocery.name ?? query, retailerId: grocery.dbID, retailerImageUrl: grocery.smallImageUrl))
+                    }
+                }
+                
+                self.model.insert(contentsOf: mySuggestionDataArray, at: 0)
+            }
             
             if data != nil {
                 let isNeedToShowBrand = self.currentSearchString.count > 0
@@ -348,51 +367,35 @@ class SuggestionsModelDataSource {
                                     if self.searchFor == .isForStoreSearch { return }
                                     elDebugPrint(algoliaObj)
                                     
-                                    var mySuggestionDataArray: [SuggestionsModelObj] = []
-                                    
-                                    let storesSectionTitle = showTrendingProducts
-                                        ? localizedString("text_stores", bundle: .resource, comment: "")
-                                        : localizedString("text_popular_stores", bundle: .resource, comment: "")
-                                    
-                                    mySuggestionDataArray.append(contentsOf: [SuggestionsModelObj.init(type: .title , title: storesSectionTitle)])
+                                    var foundRetailers: [Grocery] = []
+                                    var queryString: String = ""
                                    
                                     for (_, retailer) in algoliaObj.enumerated() {
                                         if let query = retailer["query"] as? String {
+                                            queryString = query
                                             if let idDict  =  ((((retailer["Retailer"] as? NSDictionary)?["facets"] as? NSDictionary)?["exact_matches"] as? NSDictionary)?["id"] as? [NSDictionary]) {
-                                                for data in idDict {
-                                                    if let valueString =  data["value"] as? String {
-                                                        let value : NSNumber = NSNumber(integerLiteral: Int(valueString) ?? -999)
-                                                        let retailers = HomePageData.shared.groceryA?.filter({ grocery in
-                                                            return grocery.getCleanGroceryID() == value.stringValue
-                                                        })
-                                                        if retailers != nil {
-                                                            for data in retailers! {
-                                                                
-                                                                if mySuggestionDataArray.filter({ mode in
-                                                                    return mode.retailerId == data.dbID
-                                                                }).count > 0 {
-                                                                    continue;
-                                                                }
-                                                                if mySuggestionDataArray.count > 3 {
-                                                                    break
-                                                                }
-                                                                mySuggestionDataArray.append(SuggestionsModelObj.init(type: .retailer, title: data.name ?? query , retailerId: value.stringValue, retailerImageUrl: data.smallImageUrl))
-                                                            }
-                                                            
+
+                                                let retailerIds = idDict.map { $0["value"] as? String }
+                                                
+                                                let retailers = HomePageData.shared.groceryA?.filter({ grocery in
+                                                    return retailerIds.contains(grocery.getCleanGroceryID())
+                                                })
+                                                
+                                                if let retailers = retailers {
+                                                    for retailer in retailers {
+                                                        if foundRetailers.filter({ retailer.dbID == $0.dbID }).isEmpty && foundRetailers.count < 3 {
+                                                            foundRetailers.append(retailer)
+                                                        } else {
+                                                            break
                                                         }
                                                     }
-                                                    
                                                 }
+                                                
                                             }
                                         }
                                     }
                                        
-                                    if mySuggestionDataArray.filter({ $0.modelType == .retailer}).isEmpty {
-                                        mySuggestionDataArray.append(SuggestionsModelObj.init(type: .noDataFound, title: localizedString("search_no_stores_found_message", bundle: .resource, comment: "")))
-                                    }
-                                    
-                                    self.model.insert(contentsOf: mySuggestionDataArray, at: 0)
-//                                    self.model.append(contentsOf: mySuggestionDataArray)
+                                    addRetailersSuggestions(retailers: foundRetailers, query: queryString)
                                 }
                             } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
