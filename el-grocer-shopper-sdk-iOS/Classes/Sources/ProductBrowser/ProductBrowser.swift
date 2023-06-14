@@ -425,8 +425,9 @@ fileprivate extension ProductBrowser {
                         let id = products[index].productId
                         products[index].winner = winners.first{ $0.id == "\(id)" }
                     }
-                    products.sort(by: { ($0.rank ?? 10000) < ($1.rank ?? 10000) })
                 }
+                
+                products = self.sortProducts(products: products)
                 completion(products)
             case .failure(let error):
                 debugPrint(error.localizedDescription)
@@ -451,5 +452,21 @@ fileprivate extension ProductBrowser {
                 completion([])
             }
         }
+    }
+    
+    private func sortProducts(products: [Product]) -> [Product] {
+        var sorted: [Product] = []
+        
+        let sponsored = products.filter { $0.isSponsoredProduct }
+        let promotional = products.filter { $0.promotion?.boolValue == true && $0.isSponsoredProduct == false }.prefix(2)
+        let otherProducts = products.filter { !($0.isSponsoredProduct || promotional.contains($0)) }
+
+        if promotional.isNotEmpty {
+            sorted = sponsored + promotional + otherProducts
+        } else {
+            sorted = sponsored + otherProducts
+        }
+        
+        return sorted
     }
 }
