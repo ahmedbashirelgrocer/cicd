@@ -60,16 +60,7 @@ class UniSearchCell: UITableViewCell {
                 subTitle.isHidden = true
             }
             
-            
-            
-            var attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14)])
-            let nsRange = NSString(string: title).range(of: searchString, options: String.CompareOptions.caseInsensitive)
-            
-            if nsRange.location != NSNotFound {
-                attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(14)])
-                attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplayNormalFont(14), range: nsRange)
-            }
-           self.title.attributedText = attributedString
+            self.updateTitleWithSearchHighlight(title: title, searchString: searchString)
         }
         
         if obj?.modelType == SearchResultSuggestionType.trendingSearch {
@@ -97,7 +88,30 @@ class UniSearchCell: UITableViewCell {
         self.btnSearchCross.isUserInteractionEnabled = (obj?.modelType == SearchResultSuggestionType.retailer)
     }
     
-    
+    func updateTitleWithSearchHighlight(title: String, searchString: String) {
+        var attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.SFProDisplayNormalFont(14)])
+        
+        let queryArray = searchString.split(separator: " ")
+        
+        var found = [(String, NSRange)]()
+        for query in queryArray {
+            let nsRange = NSString(string: title).range(of: String(query), options: .caseInsensitive)
+            
+            if nsRange.location != NSNotFound {
+                found.append((String(query), nsRange))
+            }
+        }
+        
+        if found.isNotEmpty {
+            attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(14)])
+            
+            found.forEach { (string, range) in
+                attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplayNormalFont(14), range: range)
+            }
+        }
+        
+        self.title.attributedText = attributedString
+    }
     
     @IBAction func btnSearchCrossAction(_ sender: Any) {
         
