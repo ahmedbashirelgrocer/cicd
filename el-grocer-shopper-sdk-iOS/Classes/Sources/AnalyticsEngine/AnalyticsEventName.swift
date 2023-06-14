@@ -80,4 +80,6 @@ enum AnalyticsEventName {
     // MARK: SDK
     static let sdkLaunched            = "SDK Launched"
     
+    // MARK: A/B Testing
+    static let abTesting              = "ABTesting Experiment"
 }

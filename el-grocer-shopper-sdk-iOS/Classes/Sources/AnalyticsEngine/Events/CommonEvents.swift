@@ -65,3 +65,16 @@ struct MenuItemClickedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct ABTestExperimentEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(authToken: String, variant: String) {
+        self.eventType = .track(eventName: AnalyticsEventName.abTesting)
+        self.metaData = [
+            EventParameterKeys.authToken: authToken,
+            EventParameterKeys.variant: variant
+        ]
+    }
+}

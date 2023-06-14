@@ -3,36 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>793956033248-ge0k1s62eja1q5f6tkfeavo99puo7pvn.apps.googleusercontent.com</string>
+	<string>860986142128-6be70adujgjisv9q0l8nlua9j4pk4k6f.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.793956033248-ge0k1s62eja1q5f6tkfeavo99puo7pvn</string>
+	<string>com.googleusercontent.apps.860986142128-6be70adujgjisv9q0l8nlua9j4pk4k6f</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA-Jy2eoBVeRqc1pjjytrayOyVZGn1occE</string>
+	<string>AIzaSyDB8aeE9PDwLjLb5E9jrPFuBeQwkuOvYJo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>793956033248</string>
+	<string>860986142128</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>elgrocer.com.ElGrocerShopper</string>
+	<string>elgrocer.com.ElGrocerShopper.SDK</string>
 	<key>PROJECT_ID</key>
-	<string>elgrocer-v2</string>
+	<string>test-project-c73a6</string>
 	<key>STORAGE_BUCKET</key>
-	<string>elgrocer-v2.appspot.com</string>
+	<string>test-project-c73a6.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<true/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<false/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<false/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:793956033248:ios:c0c93475c169984b01a685</string>
-	<key>DATABASE_URL</key>
-	<string>https://elgrocer-v2.firebaseio.com</string>
-	<key>TRACKING_ID</key>
-	<string>UA-64355049-2</string>
+	<string>1:860986142128:ios:a6b408ce58d1c46b513a75</string>
 </dict>
 </plist>

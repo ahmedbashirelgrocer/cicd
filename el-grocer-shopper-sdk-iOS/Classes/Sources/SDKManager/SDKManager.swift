@@ -429,12 +429,14 @@ class SDKManager: NSObject  {
         
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
         
-        let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
+        let configuration = AnalyticsConfiguration(writeKey: "twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b")
         
         configuration.use(SEGCleverTapIntegrationFactory())
         configuration.flushAt = 3
         configuration.flushInterval = 10
         configuration.trackApplicationLifecycleEvents = false
+        configuration.enableAdvertisingTracking = true
+        configuration.adSupportBlock = { ABTestManager.shared.authToken }
         Segment.Analytics.setup(with: configuration)
         
     }

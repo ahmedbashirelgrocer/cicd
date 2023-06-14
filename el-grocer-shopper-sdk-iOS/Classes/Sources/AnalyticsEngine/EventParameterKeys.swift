@@ -83,5 +83,6 @@ enum EventParameterKeys {
     static let loyaltyId            = "loyaltyId"
     static let deepLink             = "deepLink"
     static let pushNotifcation      = "pushNotification"
-    
+    static let authToken            = "authToken"
+    static let variant              = "variant"
 }
