@@ -24,8 +24,6 @@ struct SearchHistory: Codable {
     }
 }
 
-
-
 class SuggestionsModelDataSource {
     
     private var bannerWorkItem:DispatchWorkItem?
@@ -65,7 +63,6 @@ class SuggestionsModelDataSource {
     }
     
     var searchFor: searchType = .isForStoreSearch
-    private var trendingSearches: [String] = []
     
     func resetForNewGrocery () {
         self.bannerFeeds = []
@@ -129,7 +126,19 @@ class SuggestionsModelDataSource {
         self.clearAllData()
         self.papulateUsersearchedData()
         
-        self.papulateTrengingData(showTrendingProducts: false)
+        // For universal search the top 3 stores in home page will be shown
+        if self.searchFor == .isForUniversalSearch {
+            let featuredStores = HomePageData.shared.groceryA?
+                .filter{ $0.featured == 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+            
+            let notFeaturedStores = HomePageData.shared.groceryA?
+                    .filter{ $0.featured != 1 }
+                    .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+            
+            let sortedStores = (featuredStores ?? []) + (notFeaturedStores ?? [])
+            self.insertRetailerSuggestions(retailers: sortedStores, query: "", isPopular: true)
+        }
     }
     
     func papulateUsersearchedData() {
@@ -166,54 +175,19 @@ class SuggestionsModelDataSource {
         if self.searchFor != .isForStoreSearch {
             modelA.append(SuggestionsModelObj(type: .separator))
         }
+        
         modelA.append(SuggestionsModelObj(type: title, title: localizedString("lblSearchHistory", comment: "").uppercased()))
-
-        ElGrocerUtility.sharedInstance.delay(1) { [weak self] in
-            guard let self = self else { return }
-            
             if let currentData = self.getUserSearchData(), !currentData.isEmpty {
                 modelA.append(contentsOf: currentData.map { SuggestionsModelObj(type: .searchHistory, title: $0) })
-            } else if self.trendingSearches.isNotEmpty {
-                modelA.append(contentsOf: self.trendingSearches.prefix(8).map { SuggestionsModelObj(type: .searchHistory, title: $0) })
+                self.model.append(contentsOf: modelA)
             } else {
-                modelA.append(SuggestionsModelObj(type: .noDataFound, title: localizedString("search_no_search_history_found_message", bundle: .resource, comment: "")))
+                self.papulateTrengingData(fetchRetailers: false, isTrendingProducts: false)
             }
-
-            self.model.append(contentsOf: modelA)
-        }
     }
     
-    func papulateTrengingData(_ isNeedToClear : Bool = false, showTrendingProducts: Bool = true, completion: @escaping (([SuggestionsModelObj])->()) = { _ in }) {
+    func papulateTrengingData(_ isNeedToClear : Bool = false, fetchRetailers: Bool = true, isTrendingProducts: Bool = true, completion: @escaping (([SuggestionsModelObj])->()) = { _ in }) {
         if self.isDebugOn {
             GenericClass.print("debugdarta : \(currentSearchString)")
-        }
-        
-        func callForRecipe(_ searchString : String) {
-            
-//            guard SDKManager.isSmileSDK == false else { return }
-//
-//            AlgoliaApi.sharedInstance.gettrendingSearchForRecipe(self.currentGrocery != nil ? nil : nil , searchText: searchString, isUniversal: currentGrocery == nil  ) { (data, error) in
-//                if data != nil {
-//                    if let algoliaObj = data!["hits"] as? [NSDictionary] {
-//                        var modelA = [SuggestionsModelObj]()
-//                        for (index , productDict) in algoliaObj.enumerated() {
-//                            if let highlightResult = productDict["_highlightResult"] as? NSDictionary {
-//                                if let query = highlightResult["query"] as? NSDictionary {
-//                                    if index == 0 {
-//                                        modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("title_in_recipies", comment: ""))]
-//                                    }
-//                                    if let value = query["value"] as? String {
-//                                        let str = value.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-//                                        modelA.append(SuggestionsModelObj.init(type: .recipeTitles, title: str))
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        self.model.append(contentsOf: modelA)
-//                    }
-//                }
-//            }
-            
         }
        
         AlgoliaApi.sharedInstance.gettrendingSearch(self.currentGrocery != nil ? nil : nil , searchText: currentSearchString, isUniversal: currentGrocery == nil  ) { (data, error) in
@@ -226,14 +200,19 @@ class SuggestionsModelDataSource {
                 if self.searchFor != .isForStoreSearch {
                     modelA.append(SuggestionsModelObj.init(type: .separator))
                 }
-                if self.searchFor != .isForStoreSearch {
-                    modelA.append(SuggestionsModelObj.init(type: .title, title: localizedString("trending_searches", comment: "").uppercased()))
+                
+                // Hide the title if it is store search not search history (isTrendingProducts is false)
+                if (self.searchFor == .isForStoreSearch && isTrendingProducts == false) || (self.searchFor == .isForUniversalSearch) {
+                    modelA.append(SuggestionsModelObj(
+                        type: .title,
+                        title: isTrendingProducts ? localizedString("trending_searches", comment: "").uppercased() : localizedString("lblSearchHistory", comment: "").uppercased())
+                    )
                 }
+                
                 
                 for (_ , productDict) in algoliaObj.enumerated() {
                     if let value = productDict["query"] as? String {
-                        modelA.append(SuggestionsModelObj.init(type: .trendingSearch, title: value))
-                        self.trendingSearches.append(value)
+                        modelA.append(SuggestionsModelObj.init(type: isTrendingProducts ? .trendingSearch : .searchHistory, title: value))
                     }
                 }
                 
@@ -241,110 +220,7 @@ class SuggestionsModelDataSource {
                     modelA.append(SuggestionsModelObj.init(type: .noDataFound, title: localizedString("search_no_products_found_message", bundle: .resource, comment: "")))
                 }
                 
-                if showTrendingProducts {
-                    self.model.append(contentsOf: modelA)
-                }
-                
-//                guard isNeedToShowBrand else {
-//                    callForRecipe(currentString)
-//                    return
-//                }
-//                if algoliaObj.count > 0 {
-//                    let objForBrandAndCare = algoliaObj[0]
-//                    if let Product : NSDictionary = objForBrandAndCare["Product"] as? NSDictionary {
-//                        if let facets = Product["facets"] as? NSDictionary {
-//                            var mySuggestionDataArray: [SuggestionsModelObj] = []
-//                            if let exact_matches = facets["exact_matches"] as? NSDictionary {
-////                                if let categoryNameA = exact_matches["subcategories.name"] as? [NSDictionary] {
-////                                    var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
-////                                    for suggestionString  in categoryNameA {
-////                                        if let name = suggestionString["value"] as? String {
-////                                            modelA.append(SuggestionsModelObj.init(type: .categoriesTitles, title: name))
-////                                        }
-////                                        if modelA.count == self.maxBrandAndCateListCount + 1 {
-////                                            break
-////                                        }
-////                                    }
-////                                        //self.model.append(contentsOf: modelA)
-////                                    mySuggestionDataArray.append(contentsOf: modelA)
-////                                }
-////                                if let brandDataA = exact_matches["brand.name"] as? [NSDictionary] {
-////                                    var modelA = [SuggestionsModelObj.init(type: .title , title: localizedString("lbl_InBrand", comment: "").uppercased() )]
-////                                    for suggestionString  in brandDataA {
-////                                        if let name = suggestionString["value"] as? String {
-////                                            modelA.append(SuggestionsModelObj.init(type: .brandTitles, title: name))
-////                                        }
-////                                        if modelA.count == self.maxBrandAndCateListCount + 1 {
-////                                            break
-////                                        }
-////                                    }
-////                                        //self.model.append(contentsOf: modelA)
-////                                    mySuggestionDataArray.append(contentsOf: modelA)
-////                                    elDebugPrint("mySuggestionDataArray.count: \(mySuggestionDataArray.count)")
-////                                }
-//
-//                                self.model.append(contentsOf: mySuggestionDataArray)
-//
-//                            }else{
-//                                if let categoryA = objForBrandAndCare["subcategories.name"] {
-//                                    var modelA = [SuggestionsModelObj.init(type: .title, title: localizedString("lbl_InCategories", comment: "").uppercased() )]
-//                                    let categoryNameA = categoryA as? [String] ?? []
-//                                    for suggestionString in categoryNameA {
-//                                        modelA.append(SuggestionsModelObj.init(type: .categoriesTitles, title: suggestionString))
-//                                        if modelA.count == self.maxBrandAndCateListCount + 1 {
-//                                            break
-//                                        }
-//                                    }
-//                                        //self.model.append(contentsOf: modelA)
-//                                    mySuggestionDataArray.append(contentsOf: modelA)
-//                                }
-//                                if let brandDataA = objForBrandAndCare["brand.name"] {
-//                                    var modelA = [SuggestionsModelObj.init(type: .title , title: localizedString("lbl_InBrand", comment: "").uppercased() )]
-//                                    let brandNameA = brandDataA as? [String] ?? []
-//                                    for suggestionString in brandNameA {
-//                                        modelA.append(SuggestionsModelObj.init(type: .brandTitles, title: suggestionString))
-//                                        if modelA.count == self.maxBrandAndCateListCount + 1 {
-//                                            break
-//                                        }
-//                                    }
-//                                        //self.model.append(contentsOf: modelA)
-//                                    mySuggestionDataArray.append(contentsOf: modelA)
-//                                }
-//                                self.model.append(contentsOf: mySuggestionDataArray)
-//                                elDebugPrint("mySuggestionDataArray.count: \(mySuggestionDataArray.count)")
-//                            }
-//                        }
-//                    }
-//                    if !SDKManager.isSmileSDK {
-//                        callForRecipe(currentString)
-//                    }
-//                }
-//                if self.model.count == 0 {
-//                    if let clouser = self.displayList {
-//                        clouser(self.model)
-//                    }
-//                }
-            }
-            
-            func addRetailersSuggestions(retailers: [Grocery], query: String) {
-                let storesSectionTitle = showTrendingProducts
-                    ? localizedString("text_stores", bundle: .resource, comment: "")
-                    : localizedString("text_popular_stores", bundle: .resource, comment: "")
-                
-                var mySuggestionDataArray: [SuggestionsModelObj] = [SuggestionsModelObj(type: .title, title: storesSectionTitle)]
-                
-                if retailers.isEmpty {
-                    mySuggestionDataArray.append(SuggestionsModelObj(type: .noDataFound, title: localizedString("search_no_stores_found_message", comment: "")))
-                } else {
-                    let sortedRetailersSuggestions = retailers
-                        .sorted(by: { ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
-                        .prefix(3)
-                        .map { SuggestionsModelObj(type: .retailer, title: $0.name ?? query, retailerId: $0.dbID, retailerImageUrl: $0.smallImageUrl) }
-                    
-                    mySuggestionDataArray.append(contentsOf: sortedRetailersSuggestions)
-                }
-                
-                self.model.insert(contentsOf: mySuggestionDataArray, at: 0)
+                self.model.append(contentsOf: modelA)
             }
             
             if data != nil {
@@ -365,7 +241,7 @@ class SuggestionsModelDataSource {
                              if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
                                     // returning from function because we are not showing stores in case of store search
-                                    if self.searchFor == .isForStoreSearch { return }
+                                    if self.searchFor == .isForStoreSearch || fetchRetailers == false { return }
                                     elDebugPrint(algoliaObj)
                                     
                                     var currentLocationsStores: [Grocery] = []
@@ -394,7 +270,10 @@ class SuggestionsModelDataSource {
                                         }
                                     }
                                        
-                                    addRetailersSuggestions(retailers: currentLocationsStores, query: queryString)
+                                    // sorting retailers on the base of their priority
+                                    let sortedRetailersSuggestions = currentLocationsStores.sorted(by: { ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
+                                    
+                                    self.insertRetailerSuggestions(retailers: sortedRetailersSuggestions, query: queryString, isPopular: false)
                                 }
                             } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
@@ -678,6 +557,29 @@ class SuggestionsModelDataSource {
             }
             }
         }
+    }
+}
+
+fileprivate extension SuggestionsModelDataSource {
+    // Insert Retailers Suggestions
+    func insertRetailerSuggestions(retailers: [Grocery], query: String, isPopular: Bool) {
+        let storesSectionTitle = isPopular
+            ? localizedString("text_popular_stores", bundle: .resource, comment: "")
+            : localizedString("text_stores", bundle: .resource, comment: "")
+        
+        var retailerSuggestions: [SuggestionsModelObj] = [SuggestionsModelObj(type: .title, title: storesSectionTitle)]
+        
+        if retailers.isNotEmpty {
+            let sortedRetailersSuggestions = retailers
+                .map { SuggestionsModelObj(type: .retailer, title: $0.name ?? query, retailerId: $0.dbID, retailerImageUrl: $0.smallImageUrl) }
+                .prefix(3)
+            
+            retailerSuggestions.append(contentsOf: sortedRetailersSuggestions)
+        } else {
+            retailerSuggestions.append(SuggestionsModelObj(type: .noDataFound, title: localizedString("search_no_stores_found_message", comment: "")))
+        }
+        
+        self.model.insert(contentsOf: retailerSuggestions, at: 0)
     }
 }
 
