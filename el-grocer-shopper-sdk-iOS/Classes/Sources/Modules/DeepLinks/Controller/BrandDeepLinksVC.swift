@@ -249,7 +249,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     }
     
     func getAvailableRetailerIds()-> [String]{
-        let retailers = ElGrocerUtility.sharedInstance.groceries
+        let retailers = HomePageData.shared.groceryA ?? []
         var retailerIds:[String] = []
         for retailer in retailers {
             retailerIds.append(retailer.dbID)
@@ -360,7 +360,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         //if let SDKManager: SDKManagerType! = sdkManager {
             if let currentTabBar = sdkManager.currentTabBar {
                 ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
-                if self.grocery != nil{
+                if self.grocery != nil {
                     currentTabBar.selectedIndex = 1
                 }else{
                     currentTabBar.selectedIndex = 0
@@ -690,11 +690,11 @@ extension BrandDeepLinksVC: ProductCellProtocol{
         if self.grocery == nil{
             Thread.OnMainThread {
                 let shopIdsA = product.shopIds
-                let groceryA = ElGrocerUtility.sharedInstance.groceries.filter({ (grocery) in
+                let groceryA = HomePageData.shared.groceryA?.filter({ (grocery) in
                     return shopIdsA?.first(where: { id in
                         return id.stringValue == grocery.dbID
                     }) != nil
-                })
+                }) ?? []
                 
                 let index = self.filteredProductsArray.firstIndex(of: product) ?? -1
                 FireBaseEventsLogger.trackProductClicked(product: product, deepLink: self.deepLink, position: index + 1, source: self.screeName, type: "Brand")

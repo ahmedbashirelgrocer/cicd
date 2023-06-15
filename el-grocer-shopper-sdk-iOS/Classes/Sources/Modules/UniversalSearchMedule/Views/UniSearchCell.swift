@@ -11,7 +11,13 @@ import UIKit
 class UniSearchCell: UITableViewCell {
 
     @IBOutlet var imgView: UIImageView!
-    @IBOutlet var title: UILabel!
+    @IBOutlet var title: UILabel! {
+        didSet{
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                title.textAlignment = .right
+            }
+        }
+    }
     @IBOutlet var subTitle: UILabel!
     @IBOutlet var btnSearchCross: UIButton! {
         didSet {

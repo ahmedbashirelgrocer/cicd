@@ -61,14 +61,14 @@ class SingleBannerTableViewCell: UITableViewCell {
 extension SingleBannerTableViewCell : StorylyDelegate {
     
     func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
-        elDebugPrint("load")
-       elDebugPrint(self.storyGroupList.count)
+        //elDebugPrint("load")
+       //elDebugPrint(self.storyGroupList.count)
         self.storylyView = storylyView
         self.storyGroupList = storyGroupList
         
     }
     func storylyLoadFailed(_ storylyView: StorylyView, errorMessage: String) {
-        elDebugPrint("failde")
+        //elDebugPrint("failde")
     }
     
     

@@ -72,7 +72,7 @@ extension TopsortManager {
                 let winners = value.results.first?.winners ?? []
 #if DEBUG
                 if winners.count > 0 {
-                    print("TopSortWinners: \(winners.map{ ($0.id, $0.rank) })")
+                    //print("TopSortWinners: \(winners.map{ ($0.id, $0.rank) })")
                 }
 #endif
                 completion(.success(winners))

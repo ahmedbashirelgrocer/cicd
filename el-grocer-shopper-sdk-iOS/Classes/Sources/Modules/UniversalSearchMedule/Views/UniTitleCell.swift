@@ -10,7 +10,14 @@ import UIKit
 
 class UniTitleCell: UITableViewCell {
 
-    @IBOutlet var title: UILabel!
+    @IBOutlet var title: UILabel! {
+        didSet{
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                title.textAlignment = .right
+            }
+        }
+        
+    }
     @IBOutlet var rightButton: UIButton!
     var clearButtonClicked : (()->Void)?
     override func awakeFromNib() {

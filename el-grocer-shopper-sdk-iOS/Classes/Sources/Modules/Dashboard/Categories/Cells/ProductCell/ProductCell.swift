@@ -1183,8 +1183,8 @@ class ProductCell : RxUICollectionViewCell {
          
         } else {
             
-            debugPrint("====grocery: \(self.productGrocery?.dbID) =====")
-            debugPrint("===== storePrice: \(product.storePriceDictionary) =====")
+//            debugPrint("====grocery: \(self.productGrocery?.dbID) =====")
+//            debugPrint("===== storePrice: \(product.storePriceDictionary) =====")
             if let standardPrice = product.storePriceDictionary[grocery?.dbID ?? ""]?["price"] {
                 self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: standardPrice.doubleValue)
                 product.price = standardPrice

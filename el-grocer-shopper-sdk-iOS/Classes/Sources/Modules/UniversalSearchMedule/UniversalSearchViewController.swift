@@ -79,7 +79,13 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     var collectionViewBottomConstraint: NSLayoutConstraint?
 
     @IBOutlet var searchBarView: AWView!
-    @IBOutlet var txtSearch: UITextField!
+    @IBOutlet var txtSearch: UITextField! {
+        didSet{
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                txtSearch.textAlignment = .right
+            }
+        }
+    }
     @IBOutlet var storeNameViewHeight: NSLayoutConstraint!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var collectionView: UICollectionView!
@@ -154,8 +160,6 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                 return
             }
             self.dataSource?.papulateTrengingData(true)
-            
-            self.txtSearch.becomeFirstResponder()
         }
         
         self.checkChangeLocationForSmileSearch()
@@ -1149,14 +1153,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        
         self.searchString = ""
-        guard self.searchFor == .isForUniversalSearch else {
-            self.dataSource?.getDefaultSearchData()
-            return true
-        }
         self.dataSource?.currentSearchString = self.searchString
-        self.dataSource?.papulateTrengingData(true, showTrendingProducts: false)
+        self.dataSource?.getDefaultSearchData()
         return true
     }
     
