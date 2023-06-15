@@ -69,7 +69,16 @@ class GlobalSearchResultDataSource {
         }
         self.groceryAndBannersList = []
         
-        self.filterGroceryList = filterGroceryList.sorted(by: { ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
+        let featuredStores = filterGroceryList
+            .filter{ $0.featured == 1 }
+            .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+        
+        let notFeaturedStores = filterGroceryList
+                .filter{ $0.featured != 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+        
+        self.filterGroceryList = (featuredStores) + (notFeaturedStores)
+        
         for data in self.filterGroceryList {
             
             let homeObj = Home.init(data.name ?? "" , withImageString: data.smallImageUrl ?? "" , withType: .universalSearchProducts, andWithProduct: self.filterData[data.dbID] ?? [] , grocery: data)
