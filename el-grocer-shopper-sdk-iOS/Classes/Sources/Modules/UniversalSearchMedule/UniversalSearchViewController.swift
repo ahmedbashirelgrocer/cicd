@@ -1146,14 +1146,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        
         self.searchString = ""
-        guard self.searchFor == .isForUniversalSearch else {
-            self.dataSource?.getDefaultSearchData()
-            return true
-        }
         self.dataSource?.currentSearchString = self.searchString
-        self.dataSource?.papulateTrengingData(true, showTrendingProducts: false)
+        self.dataSource?.getDefaultSearchData()
         return true
     }
     
