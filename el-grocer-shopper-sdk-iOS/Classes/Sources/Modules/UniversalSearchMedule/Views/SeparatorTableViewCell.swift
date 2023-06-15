@@ -16,4 +16,8 @@ class SeparatorTableViewCell: UITableViewCell {
         self.selectionStyle = .none
         viewBG.backgroundColor = .tableViewBackgroundColor()
     }
+    
+    func configure(backgroundColor: UIColor) {
+        self.viewBG.backgroundColor = backgroundColor
+    }
 }

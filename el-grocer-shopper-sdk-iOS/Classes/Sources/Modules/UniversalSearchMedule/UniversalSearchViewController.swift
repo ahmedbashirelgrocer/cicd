@@ -248,7 +248,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.txtSearch.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
         self.txtSearch.textColor = UIColor.newBlackColor()
         self.txtSearch.clipsToBounds = false
-        self.tableView.backgroundColor = .tableViewBackgroundColor()//.white
+        self.tableView.backgroundColor = .white
         self.collectionView.backgroundColor = .tableViewBackgroundColor()
         self.storeNameViewHeight.constant = 0
         self.setCollectionViewBottomConstraint()
@@ -763,6 +763,8 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
         
         if obj.modelType == .separator {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SeparatorTableViewCell", for: indexPath) as! SeparatorTableViewCell
+            cell.configure(backgroundColor: .tableViewBackgroundColor())
+            
             return cell
         }
         
