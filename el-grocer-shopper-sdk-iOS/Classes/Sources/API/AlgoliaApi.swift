@@ -625,7 +625,7 @@ class AlgoliaApi {
             .set(\.getRankingInfo, to: true)
             .set(\.analytics, to: true)
             .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: isUniversal  , searchType: "suggestion"))
-        query.hitsPerPage =  searchText.count > 0 ? 3 : 4
+        query.hitsPerPage = 8 //searchText.count > 0 ? 3 : 4
         
         
         
@@ -640,7 +640,6 @@ class AlgoliaApi {
                 .set(\.getRankingInfo, to: true)
                 .set(\.analytics, to: true)
                 .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: isUniversal  , searchType: "suggestion"))
-            query.hitsPerPage =  searchText.count > 0 ? 3 : 4
             
             
             let queries: [IndexedQuery] = [
