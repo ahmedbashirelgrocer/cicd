@@ -109,7 +109,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         
         titleLabel.frame = CGRect(x: 0,y: 0,width: 300, height: 40) as CGRect
         titleLabel.font  = UIFont.SFProDisplaySemiBoldFont(17.0)
-        titleLabel.textColor = .white
+        titleLabel.textColor = sdkManager.isShopperApp ? .white : ApplicationTheme.currentTheme.newBlackColor
         titleLabel.textAlignment = .natural
         titleLabel.numberOfLines = 1
         titleLabel.text = ""
