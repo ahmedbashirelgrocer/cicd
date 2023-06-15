@@ -113,10 +113,10 @@ class LocationManager: NSObject {
         authorizationStatus.asObservable()
             .bind { [unowned self](authorizationStatus) -> Void in
                 
-                guard CLLocationManager.locationServicesEnabled() else {
-                    self.state.value = .error(ElGrocerError.locationServicesDisabledError())
-                    return
-                }
+//                guard CLLocationManager.locationServicesEnabled() else {
+//                    self.state.value = .error(ElGrocerError.locationServicesDisabledError())
+//                    return
+//                }
                 switch authorizationStatus {
                 case .authorizedWhenInUse, .authorizedAlways:
                     self.fetchCurrentLocation()
@@ -447,40 +447,10 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-       elDebugPrint("DidUpdateLocations Called")
-        
+    
         if var currentLocation = locations.last {
-          
-            
-//            if Platform.isDebugBuild {
-//                let fakeLocation : CLLocation = CLLocation.init(latitude: 25.0764439, longitude: 55.1404013)
-//                currentLocation = fakeLocation
-//            }
-            
             self.currentLocation.value = currentLocation
             self.state.value = .success
-            
-            
-          /*  CLGeocoder().reverseGeocodeLocation(currentLocation, completionHandler: {(placemarks, error)->Void in
-                var placemark:CLPlacemark!
-                
-                if error == nil && placemarks!.count > 0 {
-                    
-                    placemark = placemarks![0] as CLPlacemark
-                    
-                    if(placemark.isoCountryCode != nil){
-                        self.countryCode = placemark.isoCountryCode!
-                    }
-                    
-                    if let city = placemark.addressDictionary!["City"] as? NSString {
-                      // elDebugPrint("Current Location City",city)
-                        self.cityName = city as String
-                    }
-                    
-                }
-            }) */
-            
         }
         
     }

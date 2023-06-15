@@ -16,7 +16,10 @@ class PlaceOrderHandler {
     var orderID: String?
     var finalOrderAmount : Double?
     var orderPlaceOrEditApiParams: [String:Any]
-    var orderPlaced : ((_ order : Order?, _ error: ElGrocerError?) -> Void)?
+    var initiatePaymentParams: [String: Any] = [:]
+    var isForNewOrder = false
+    
+    var orderPlaced : ((_ order : Order?, _ error: ElGrocerError?, _ apiResponse: Either<NSDictionary>) -> Void)?
 
     
     init(finalOrderItems:[ShoppingBasketItem] , activeGrocery:Grocery , finalProducts:[Product]! , orderID: String? , finalOrderAmount : Double?, orderPlaceOrEditApiParams: [String:Any]) {
@@ -41,8 +44,31 @@ class PlaceOrderHandler {
         }
     }
     
+    func generateOrderAndProcessPayment() {
+        if initiatePaymentParams.count == 0 {
+            print("Zero")
+        }
+        
+        var params = orderPlaceOrEditApiParams
+        params["online_payment_auth"] = initiatePaymentParams
+        
+        ElGrocerApi.sharedInstance.generateOrder(parameters: params) { [weak self] data in
+            self?.finalHandlerResult(result: data)
+        }
+    }
     
-    
+    func generateEditOrderAndProcessPayment() {
+        if initiatePaymentParams.count == 0 {
+            print("Zero")
+        }
+        
+        var params = orderPlaceOrEditApiParams
+        params["online_payment_auth"] = initiatePaymentParams
+        
+        ElGrocerApi.sharedInstance.generateEditOrderWithBackendData(parameters: params) { [weak self] result in
+            self?.finalHandlerResult(result: result)
+        }
+    }
     
     private func finalHandlerResult ( result: Either<NSDictionary>) {
         
@@ -64,7 +90,7 @@ class PlaceOrderHandler {
                 //    self.proceedWithPaymentProcess(finalOrderAmount)
                     
                     if let orderClosure = orderPlaced {
-                        orderClosure(order, nil)
+                        orderClosure(order, nil, result)
                     }
                     
        
@@ -72,7 +98,7 @@ class PlaceOrderHandler {
             case .failure(let error):
                     //ElGrocerError(code: 500, message: Optional("undefined method `instant?\' for nil:NilClass"), jsonValue: Optional(["messages": undefined method `instant?' for nil:NilClass, "status": error]))
                 if let orderClosure = orderPlaced {
-                    orderClosure(nil, error)
+                    orderClosure(nil, error, result)
                 }
                 if error.code == 10000 || error.code == 4052  { // for edit order only
                     if let message = error.message {

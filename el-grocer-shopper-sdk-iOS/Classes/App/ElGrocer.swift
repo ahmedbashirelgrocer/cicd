@@ -22,7 +22,9 @@ public final class ElGrocer {
         SDKManager.shared.launchCompletion = completion
         
         if SDKManager.shared.launchOptions?.marketType != launchOptions?.marketType || SDKManager.shared.launchOptions?.language != launchOptions?.language {
+            SDKManager.shared.launchOptions = launchOptions
             HomePageData.shared.groceryA = []
+        } else {
             SDKManager.shared.launchOptions = launchOptions
         }
         
@@ -127,7 +129,7 @@ public enum EnvironmentType {
         
         switch self {
             case .staging:
-                return "Debug"
+                return "StagingProduction"
             case .preAdmin:
                 return "PreAdmin"
             case .live:

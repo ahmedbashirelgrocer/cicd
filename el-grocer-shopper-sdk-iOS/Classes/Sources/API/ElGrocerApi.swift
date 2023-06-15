@@ -132,6 +132,7 @@ enum ElGrocerApiEndpoint : String {
     case ChangePassword = "v1/shoppers/update_password"
     case PlaceOrder = "v3/orders/generate"
     case createOrder = "v4/orders/generate"
+    case generateOrder = "v5/orders/generate"
     //case UpdateOrder = "v3/orders/generate"
     case OrderList = "v3/orders"
     case newOrderList = "v3/orders/history" // https://elgrocerdxb.atlassian.net/browse/EG-584
@@ -4499,6 +4500,58 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           
       }
       
+      func generateOrder(parameters: [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          debugPrint(parameters)
+          NetworkCall.post(ElGrocerApiEndpoint.generateOrder.rawValue, parameters: parameters, progress: { (progress) in
+                  // debugPrint("Progress for API :  \(progress)")
+          }, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  
+                  completionHandler(Either.failure(errorToParse))
+              }
+          }
+          
+          
+      }
+      
+      func generateEditOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          NetworkCall.put(ElGrocerApiEndpoint.generateOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  
+                  completionHandler(Either.failure(errorToParse))
+              }
+          }
+          
+          
+      }
       
     
     //MARK: promoCode

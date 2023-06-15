@@ -531,7 +531,7 @@ extension Product {
                     product.promotionOnly = false
                 }
 
-                if product.promotionOnly.boolValue && product.promotion == 0 {
+                if product.promotionOnly.boolValue && product.promotion == 0 && onlyCurrentStoreProducts {
                     context.delete(product)
                     continue
                 }
