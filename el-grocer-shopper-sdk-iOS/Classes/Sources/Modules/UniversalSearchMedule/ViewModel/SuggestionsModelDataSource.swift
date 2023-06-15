@@ -336,11 +336,12 @@ class SuggestionsModelDataSource {
                 if retailers.isEmpty {
                     mySuggestionDataArray.append(SuggestionsModelObj(type: .noDataFound, title: localizedString("search_no_stores_found_message", comment: "")))
                 } else {
-                    let sortedRetailers = retailers.sorted(by: { ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
+                    let sortedRetailersSuggestions = retailers
+                        .sorted(by: { ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
+                        .prefix(3)
+                        .map { SuggestionsModelObj(type: .retailer, title: $0.name ?? query, retailerId: $0.dbID, retailerImageUrl: $0.smallImageUrl) }
                     
-                    sortedRetailers.forEach { grocery in
-                        mySuggestionDataArray.append(SuggestionsModelObj(type: .retailer, title: grocery.name ?? query, retailerId: grocery.dbID, retailerImageUrl: grocery.smallImageUrl))
-                    }
+                    mySuggestionDataArray.append(contentsOf: sortedRetailersSuggestions)
                 }
                 
                 self.model.insert(contentsOf: mySuggestionDataArray, at: 0)
@@ -367,7 +368,7 @@ class SuggestionsModelDataSource {
                                     if self.searchFor == .isForStoreSearch { return }
                                     elDebugPrint(algoliaObj)
                                     
-                                    var foundRetailers: [Grocery] = []
+                                    var currentLocationsStores: [Grocery] = []
                                     var queryString: String = ""
                                    
                                     for (_, retailer) in algoliaObj.enumerated() {
@@ -375,7 +376,7 @@ class SuggestionsModelDataSource {
                                             queryString = query
                                             if let idDict  =  ((((retailer["Retailer"] as? NSDictionary)?["facets"] as? NSDictionary)?["exact_matches"] as? NSDictionary)?["id"] as? [NSDictionary]) {
 
-                                                let retailerIds = idDict.map { $0["value"] as? String }
+                                                let retailerIds = idDict.compactMap { $0["value"] as? String }
                                                 
                                                 let retailers = HomePageData.shared.groceryA?.filter({ grocery in
                                                     return retailerIds.contains(grocery.getCleanGroceryID())
@@ -383,10 +384,8 @@ class SuggestionsModelDataSource {
                                                 
                                                 if let retailers = retailers {
                                                     for retailer in retailers {
-                                                        if foundRetailers.filter({ retailer.dbID == $0.dbID }).isEmpty && foundRetailers.count < 3 {
-                                                            foundRetailers.append(retailer)
-                                                        } else {
-                                                            break
+                                                        if currentLocationsStores.filter({ retailer.dbID == $0.dbID }).isEmpty {
+                                                            currentLocationsStores.append(retailer)
                                                         }
                                                     }
                                                 }
@@ -395,7 +394,7 @@ class SuggestionsModelDataSource {
                                         }
                                     }
                                        
-                                    addRetailersSuggestions(retailers: foundRetailers, query: queryString)
+                                    addRetailersSuggestions(retailers: currentLocationsStores, query: queryString)
                                 }
                             } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
