@@ -227,6 +227,11 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
         }
         if  let banner : BannerCampaign = self.collectionData[indexPath.row] as? BannerCampaign {
             if let clouser = self.bannerCampaignClicked {
+                
+                if let bidid = banner.resolvedBidId {
+                    TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+                }
+                
                 FireBaseEventsLogger.trackBannerClicked(brandName: banner.brands?.map { $0.slug }.joined(separator: ",") ?? "", banner.categories?.map { $0.slug }.joined(separator: ",") ?? "", banner.subCategories?.map { $0.slug }.joined(separator: ",") ?? "", link: banner, possition: String(describing: (indexPath.row ) + 1) )
                 clouser(banner)
                 

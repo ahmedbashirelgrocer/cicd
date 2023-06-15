@@ -15,7 +15,7 @@ enum BannerCampaignType : Int, Codable {
     case priority = 4
 }
 
-enum BannerLocation : Int {
+enum BannerLocation : Int, Decodable {
     case home_tier_1 = 1
     case home_tier_2 = 2
     case store_tier_1 = 3
@@ -25,6 +25,7 @@ enum BannerLocation : Int {
     case in_search_tier_2 = 9
     case subCategory_tier_1 = 7
     case all_carts_tier_1 = 26
+    case in_search_product = 50 // Same for all
     
     // sdk
     case sdk_Home_tier_1 = 17
@@ -121,6 +122,40 @@ enum BannerLocation : Int {
     }
 }
 
+extension BannerLocation {
+    func getSlots() -> Int {
+        let adSlots = ElGrocerUtility.sharedInstance.adSlots
+        switch self {
+        case .in_search_product:
+            return adSlots?.productBannerSlots.first?.noOfSlots ?? 10
+        default:
+            return adSlots?.normalBannerSlots.first(where: { $0.adLocationId == self })?.noOfSlots ?? 10
+        }
+    }
+    
+    func getPlacementID() -> String {
+        let adSlots = ElGrocerUtility.sharedInstance.adSlots
+        switch self {
+        case .in_search_product:
+            return adSlots?.productBannerSlots.first?.placementId ?? ""
+        default:
+            return adSlots?.normalBannerSlots.first(where: { $0.adLocationId == self })?.placementId ?? ""
+        }
+    }
+}
+
+extension BannerLocation {
+    var isNeedToFetchRetailerBanner: Bool {
+        self == .home_tier_1 ||
+        self == .home_tier_2 ||
+        self == .sdk_Home_tier_1 ||
+        self == .sdk_Home_tier_2 ||
+        self == .post_checkout ||
+        self == .sdk_post_checkout ||
+        self == .sdk_Flavor_Grocery_post_checkout
+    }
+}
+
 struct bannerCategories {
     var dbId: NSNumber = 0.0
     var name: String = ""
@@ -156,6 +191,7 @@ class BannerCampaign: NSObject {
     var locations  : [Int]? = nil
     var storeTypes  : [Int]? = nil
     var retailerGroups  : [Int]? = nil
+    var resolvedBidId: String?
     
     var isViewed = false
     
@@ -479,4 +515,54 @@ class BannerCampaign: NSObject {
  
     
     
+}
+
+extension BannerCampaign {
+    func toBannerDTO() -> BannerDTO {
+        let banner = BannerDTO(id: self.dbId.intValue,
+                               name: self.title,
+                               priority: self.priority.intValue,
+                               campaignType: BannerCampaignType.init(rawValue: self.campaignType.intValue),
+                               imageURL: self.imageUrl,
+                               bannerImageURL: self.bannerImageUrl,
+                               url: self.url,
+                               categories: self.categories?.map { $0.toBrandDTO() },
+                               subcategories: self.subCategories?.map { $0.toBrandDTO() },
+                               brands: self.brands?.map { $0.toBrandDTO() },
+                               retailerIDS: self.retailerIds,
+                               locations: self.locations,
+                               storeTypes: self.storeTypes,
+                               retailerGroups: self.retailerGroups)
+        return banner
+    }
+}
+
+extension bannerCategories {
+    func toBrandDTO() -> BrandDTO {
+        let bCategories = BrandDTO.init(id: self.dbId.intValue,
+                                        name: self.name,
+                                        imageURL: nil,
+                                        slug: self.slug)
+        return bCategories
+    }
+}
+
+extension bannerSubCategories {
+    func toBrandDTO() -> BrandDTO {
+        let bCategories = BrandDTO.init(id: self.dbId.intValue,
+                                        name: self.name,
+                                        imageURL: nil,
+                                        slug: self.slug)
+        return bCategories
+    }
+}
+
+extension bannerBrands {
+    func toBrandDTO() -> BrandDTO {
+        let bCategories = BrandDTO.init(id: self.dbId.intValue,
+                                        name: self.name,
+                                        imageURL: self.image_url,
+                                        slug: self.slug)
+        return bCategories
+    }
 }

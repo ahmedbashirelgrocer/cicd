@@ -198,7 +198,7 @@ class HomePageData  {
             item.cancel()
         }
         self.storeListWorkItem = DispatchWorkItem {
-            self.dataSource?.getGenericBanners(for: self.groceryA ?? [])
+            self.dataSource?.getGenericBanners(for: self.groceryA ?? [], and: self.storeTypeA ?? [])
         }
         DispatchQueue.global(qos: .userInitiated).async(execute: self.storeListWorkItem!)
         
@@ -539,9 +539,14 @@ extension HomePageData : StoresDataHandlerDelegate {
         }
         var dict: [String: Any] = [:]
         for grocery in groceryA {
+            let jsonSlot = grocery.initialDeliverySlotData ?? ""
+            let slotDict = grocery.convertToDictionary(text: jsonSlot)
             let groceryDict = ["id": grocery.getCleanGroceryID(),
                                "name": grocery.name ?? "",
-                               "image": grocery.imageUrl ?? ""]
+                               "image": grocery.imageUrl ?? "",
+                               "isInstant" : grocery.isInstant() || grocery.isInstantSchedule(),
+                               "slotMilis" : slotDict?["time_milli"] ?? 0
+            ]
             dict[grocery.getCleanGroceryID()] = groceryDict
         }
         self.genericAllStoreDictionary = dict

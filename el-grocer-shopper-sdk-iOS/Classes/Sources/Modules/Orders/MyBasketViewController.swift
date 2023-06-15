@@ -1598,7 +1598,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
            
         }else {
-            self.reloadTableData()
+            if (self.notAvailableProductsList == nil || self.notAvailableProductsList.count == 0) {
+                self.reloadTableData()
+            }
         }
         self.checkIfOutOfStockProductAvailable()
         self.checkIfOutOfStockProductAvailableForPreCart()

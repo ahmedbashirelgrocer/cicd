@@ -99,9 +99,10 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     func configureCellForProduct(_ indexPath:IndexPath) -> AWSegmentViewCell {
         
         let cell = self.dequeueReusableCell(withReuseIdentifier: kSegmentViewCellIdentifier, for: indexPath) as! AWSegmentViewCell
-        let segmentTitle = self.segmentTitles[(indexPath as NSIndexPath).row]
-        cell.configareCellWithTitle(segmentTitle, withSelectedState: indexPath == self.lastSelection ? true : false)
-   
+        if segmentTitles.count > indexPath.row {
+            let segmentTitle = self.segmentTitles[(indexPath as NSIndexPath).row]
+            cell.configareCellWithTitle(segmentTitle, withSelectedState: indexPath == self.lastSelection ? true : false)
+        }
 //        let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
 //        if currentLang == "ar" {
 //            cell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)

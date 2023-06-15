@@ -1600,7 +1600,7 @@ private extension MainCategoriesViewController {
             
             // TODO: We need to remove the home object dependency
             let productsVC = ElGrocerViewControllers.productsViewController()
-            let homeObjToPass = Home.init("", withCategory: nil, withBanners: nil, withType: .Purchased, andWithResponse: nil, grocery)
+            let homeObjToPass = Home.init("", withCategory: nil, products: [], grocery)
             productsVC.homeObj = homeObjToPass
             productsVC.grocery = grocery
             self.navigationController?.pushViewController(productsVC, animated: true)
@@ -1995,9 +1995,10 @@ extension MainCategoriesViewController {
         self.setTableViewHeader(self.grocery)
         self.cancelAllPreviousWorkOperations()
         self.model.data.setData()
-        if self.model.data.feeds.count > 1 {
-            self.model.data.feeds[1].getData()
-        }
+//  Not in use now as new files for store screen was added
+//        if self.model.data.feeds.count > 1 {
+//            self.model.data.feeds[1].getData()
+//        }
         self.tableViewCategories.reloadDataOnMain()
         self.checkUniversalSearchData()
         if self.selectedBannerLink != nil {

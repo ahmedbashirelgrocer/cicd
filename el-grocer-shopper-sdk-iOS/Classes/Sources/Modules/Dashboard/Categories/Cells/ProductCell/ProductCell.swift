@@ -49,7 +49,7 @@ class ProductCell : RxUICollectionViewCell {
     @IBOutlet var quantityYPossition: NSLayoutConstraint!
     @IBOutlet var bottomPossition: NSLayoutConstraint!
     @IBOutlet weak var lblAddToCartHeight: NSLayoutConstraint!
-    @IBOutlet weak var addToCartCOntainerHeight: NSLayoutConstraint!
+    // @IBOutlet weak var addToCartCOntainerHeight: NSLayoutConstraint!
     
     @IBOutlet weak var addToCartBGView: UIView!
    // @IBOutlet weak var bottomLine: UIView!
@@ -62,28 +62,78 @@ class ProductCell : RxUICollectionViewCell {
     @IBOutlet weak var productDescriptionLabel: UILabel!
     @IBOutlet weak var sponserdView: UILabel!{
         didSet{
-            sponserdView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            sponserdView.superview?.roundCorners(corners: [ .bottomLeft ], radius: 8)
+            sponserdView.text = localizedString("lbl_Sponsored", comment: "")
         }
     }
     @IBOutlet weak var lblAddToCart: UILabel!
     @IBOutlet var productBGShadowView: AWView!
     
-   
-    @IBOutlet var addToContainerView: UIView!
+    var _tempView: UIView?
+    var selfCollectionView: UICollectionView? {
+        _tempView = self
+        while (_tempView != nil && _tempView as? UICollectionView == nil) {
+            _tempView = _tempView?.superview
+        }
+        return _tempView as? UICollectionView
+    }
+    
+    @IBOutlet var addToContainerView: UIView! { didSet {
+        addToContainerView.layer.masksToBounds = false
+        addToContainerView.layer.shadowColor = UIColor.black.cgColor
+        addToContainerView.layer.shadowOpacity = 0.2
+        addToContainerView.layer.shadowOffset = .zero
+        addToContainerView.backgroundColor = .clear
+    }}
     
    
-    @IBOutlet weak var buttonsView: UIView!
+    @IBOutlet weak var buttonsView: UIView!{ didSet {
+        buttonsView.clipsToBounds = true
+    }}
     
     @IBOutlet weak var quickAddToCartButton: UIButton!
-    @IBOutlet weak var addToCartButton: UIButton! {
+//    @IBOutlet weak var addToCartButton: UIButton! { didSet {
+//        addToCartButton.clipsToBounds = true
+//        addToCartButton.setTitle("＋", for: .normal)
+//        addToCartButton.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+//        addToCartButton.setBackgroundColor(.smilePrimaryPurpleColor(), forState: .normal)
+//    } }
+    
+    @IBOutlet weak var addToCartButton: UILabel! {
         didSet {
-            addToCartButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
-            addToCartButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            addToCartButton.clipsToBounds = true
+            addToCartButton.textAlignment = .center
+            addToCartButton.setTitle("＋", for: .normal)
+            addToCartButton.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+            addToCartButton.backgroundColor = .smilePrimaryPurpleColor()
         }
     }
-    @IBOutlet weak var plusButton: UIButton!
-    @IBOutlet weak var minusButton: UIButton!
-    @IBOutlet weak var quantityLabel: UILabel!
+    
+    @IBOutlet weak var shopInStoreButton: UIButton! { didSet {
+        shopInStoreButton.clipsToBounds = true
+        shopInStoreButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
+        shopInStoreButton.tintColor = UIColor.navigationBarWhiteColor()
+        shopInStoreButton.isEnabled = true
+        shopInStoreButton.isHidden = true
+        shopInStoreButton.setBody3SemiBoldGreenStyle()
+        shopInStoreButton.setBackgroundColorForAllState(UIColor.navigationBarWhiteColor())
+    } }
+    
+    @IBOutlet weak var plusButton: UIButton! { didSet{
+        plusButton.clipsToBounds = true
+        plusButton.imageView?.tintColor = UIColor.smilePrimaryPurpleColor()
+        plusButton.setBackgroundColor(.white, forState: .normal)
+    } }
+    @IBOutlet weak var minusButton: UIButton! { didSet {
+        minusButton.setImage(nil, for: .normal)
+        minusButton.clipsToBounds = true
+        minusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
+        minusButton.setBackgroundColor(.white, forState: .normal)
+    } }
+    @IBOutlet weak var quantityLabel: UILabel! { didSet {
+        quantityLabel.setSubHead2RegDarkStyle()
+    }}
+    
     @IBOutlet weak var productCellCounterBGImageView: UIImageView!
     
     @IBOutlet weak var outOfStockContainer: UIView!
@@ -125,14 +175,15 @@ class ProductCell : RxUICollectionViewCell {
             lblOFF.text = localizedString("txt_off_Single", comment: "")
         }
     }
-    @IBOutlet var limitedStockBGView: UIView!{
-        didSet{
-            limitedStockBGView.backgroundColor = ApplicationTheme.currentTheme.viewLimmitedStockSecondaryDarkBGColor
-        }
-    }
+    @IBOutlet var limitedStockBGView: UIView!
+//    {
+//        didSet{
+//            limitedStockBGView.backgroundColor = ApplicationTheme.currentTheme.viewLimmitedStockSecondaryDarkBGColor
+//        }
+//    }
     @IBOutlet var lblLimitedStock: UILabel!{
         didSet{
-            lblLimitedStock.setCaptionOneBoldWhiteStyle()
+            lblLimitedStock.font = UIFont.SFProDisplayBoldFont(14)
             lblLimitedStock.text = localizedString("lbl_limited_Stock", comment: "")
         }
     }
@@ -148,10 +199,34 @@ class ProductCell : RxUICollectionViewCell {
     }
     var placeholderPhoto = UIImage(name: "product_placeholder")!
     
-    weak var product:Product!
+    private var _product: Product!
+    
+    var product:Product! {
+        set {
+            if self.viewModel == nil {
+                self._product = newValue
+                if let bidid = product?.winner?.resolvedBidId {
+                    TopsortManager.shared.log(.impressions(resolvedBidId: bidid))
+                }
+            }
+        }
+        get {
+            return self.viewModel == nil ? self._product : self.viewModel.productDB
+        }
+    }
     weak var productGrocery:Grocery?
     weak var delegate:ProductCellProtocol?
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        addToContainerView.layer.cornerRadius = addToContainerView.frame.size.height / 2
+        // addToContainerView.layer.shadowPath = UIBezierPath(roundedRect: addToContainerView.bounds, cornerRadius: addToContainerView.layer.cornerRadius).cgPath
+        buttonsView.layer.cornerRadius = buttonsView.frame.size.height / 2
+        addToCartButton.layer.cornerRadius = addToCartButton.frame.size.height / 2
+        shopInStoreButton.layer.cornerRadius = shopInStoreButton.frame.size.height / 2
+        minusButton.layer.cornerRadius = minusButton.frame.size.height / 2
+        plusButton.layer.cornerRadius = plusButton.frame.size.height / 2
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -166,13 +241,41 @@ class ProductCell : RxUICollectionViewCell {
         setUpAddToCartView()
         setButtonApearence()
         NotificationCenter.default.addObserver(self, selector: #selector(notificationReceived(notification:)), name: KProductNotification, object: nil)
+        productContainer.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(cellOtherAreaDidTap)))
     
+        self.addToCartButton.isUserInteractionEnabled = true
+        self.addToCartButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addToCartTapped(_ :))))
     }
+    
+    var isProductSelected: Bool {
+        set {
+            self.product.isSelected = newValue
+            let count = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: self.productGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)?.count.intValue ?? 0
+            let showQty = (newValue == false) && (count > 0)
+            if showQty { self.addToCartButton.setTitle("\(count)", for: .normal) }
+            else { self.addToCartButton.setTitle("＋", for: .normal) }
+            self.addToCartButton.isHidden = (newValue && count > 0)
+            self.buttonsView.isHidden = !(newValue && count > 0)
+        }
+        get { return self.product.isSelected }
+    }
+    
+    @objc func cellOtherAreaDidTap() {
+        // viewModel.inputs.OtherAreaDidTap
+        if outOfStockContainer.isHidden {
+            if viewModel != nil {
+                CellSelectionState.shared.inputs.selectProductWithID.onNext("")
+                return
+            }
+            self.isProductSelected = false
+        }
+    }
+    
     @objc
     func notificationReceived ( notification : NSNotification) {
        
         if let product = notification.object as? Product {
-            guard self.product != nil else {
+            if self.viewModel != nil {
                 return
             }
             guard product.dbID == self.product.dbID else {
@@ -196,8 +299,8 @@ class ProductCell : RxUICollectionViewCell {
         
     }
     func setPromotionAppearence(){
-        promotionBGView.layer.cornerRadius = 8
-        promotionBGView.layer.maskedCorners = [.layerMaxXMinYCorner , .layerMinXMinYCorner]
+//        promotionBGView.layer.cornerRadius = 8
+//        promotionBGView.layer.maskedCorners = [.layerMaxXMinYCorner , .layerMinXMinYCorner]
     }
     
     func setLimitedView( isLimitedStock : Bool = false ){
@@ -335,16 +438,16 @@ class ProductCell : RxUICollectionViewCell {
     
     fileprivate func setButtonApearence() {
         
-        switch ElGrocerUtility.sharedInstance.isArabicSelected() {
-        case true:
-            self.minusButton.roundCorners(corners: [.topLeft], radius: 8)
-            self.plusButton.roundCorners(corners: [.topRight], radius: 8)
-            self.deleteView.roundCorners(corners: [ .bottomLeft], radius: 8.0)
-        default:
-            self.minusButton.roundCorners(corners: [.topRight], radius: 8)
-            self.plusButton.roundCorners(corners: [.topLeft], radius: 8)
-            self.deleteView.roundCorners(corners: [ .bottomRight], radius: 8.0)
-        }
+//        switch ElGrocerUtility.sharedInstance.isArabicSelected() {
+//        case true:
+//            self.minusButton.roundCorners(corners: [.topLeft], radius: 8)
+//            self.plusButton.roundCorners(corners: [.topRight], radius: 8)
+//            self.deleteView.roundCorners(corners: [ .bottomLeft], radius: 8.0)
+//        default:
+//            self.minusButton.roundCorners(corners: [.topRight], radius: 8)
+//            self.plusButton.roundCorners(corners: [.topLeft], radius: 8)
+//            self.deleteView.roundCorners(corners: [ .bottomRight], radius: 8.0)
+//        }
         
     }
     
@@ -357,9 +460,6 @@ class ProductCell : RxUICollectionViewCell {
         self.productDescriptionLabel.textAlignment = .left
         self.productDescriptionLabel.clipsToBounds = true
         self.productDescriptionLabel.setNeedsLayout()
-        self.sponserdView.roundCorners(corners: [ .bottomLeft ], radius: 5)
-        self.sponserdView.text = localizedString("lbl_Sponsored", comment: "")
-        self.sponserdView.setCaptionOneBoldWhiteStyle()
     }
     
     fileprivate func setUpProductNameAppearance() {
@@ -408,8 +508,8 @@ class ProductCell : RxUICollectionViewCell {
     
     fileprivate func setUpAddToCartButtonAppearance() {
         
-        self.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
-        self.addToCartButton.setBody3BoldWhiteStyle()
+//        self.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
+//        self.addToCartButton.setBody3BoldWhiteStyle()
         //self.addToCartButton.titleLabel?.textColor = UIColor.mediumGreenColor()
         self.setUpAddToCartLableAppearance()
     }
@@ -474,38 +574,66 @@ class ProductCell : RxUICollectionViewCell {
     @IBAction func deleteProductButtonCalled(_ sender: Any) {
         self.delegate?.productDelete(self.product)
     }
+    
+    @IBAction func shopInStoreHandeler(_ sender: Any) {
+        self.addToCartHandler(sender)
+    }
+    
+    @objc func addToCartTapped(_ sender: UITapGestureRecognizer) {
+        self.addToCartHandler(sender)
+    }
 
-    @IBAction func addToCartHandler(_ sender: AnyObject) {
+    @IBAction func addToCartHandler(_ sender: Any) {
         if viewModel != nil {
             self.viewModel.inputs.addToCartButtonTapObserver.onNext(())
             return
         }
         
+        let oldValue = ProductSelectedStore.getValue()
+        let newValue = product.dbID
+        ProductSelectedStore.setValue(newValue)
+        
+        if let bidID = product?.winner?.resolvedBidId {
+            TopsortManager.shared.log(.clicks(resolvedBidId: bidID))
+        }
+        
         guard self.product != nil else {return}
         // need to confirm this check from ABM bhai or suboor
         // i think this is for universal search
-        guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
-            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
-            return
-        }
+//        guard self.addToCartButton.titleLabel?.text != localizedString("lbl_ShopInStore", comment: "") else {
+//            self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+//            return
+//        }
+        // if self.shopInStoreButton.isHidden == false {
+        //     self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
+        //     return
+        // }
         
-      
+        isProductSelected = true
+        
         func addCartAction() {
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             self.cellAddToCartEvents()
-       
+            
         }
-     
+        
         func animationWorkToAdd () {
             
             if let item = ShoppingBasketItem.checkIfProductIsInBasket(self.product, grocery: self.productGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                
+                guard item.count.intValue == 0 else {
+                    return
+                }
+                
                 let count = item.count.intValue + 1
                 if count != 1 {
+                    
                     UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
                         self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
                     }, completion: { (completed) in
                         addCartAction()
                     })
+                    
                     return
                 }
             }
@@ -517,11 +645,13 @@ class ProductCell : RxUICollectionViewCell {
                     if let item = subVc.substitutionItemForProduct(self.product) {
                         let count = item.count.intValue + 1
                         if count != 1 {
+                            
                             UIView.transition(with: self.quantityLabel , duration: 0.25, options: [.curveEaseInOut, .transitionCrossDissolve], animations: {
                                 self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic();
                             }, completion: { (completed) in
                                 addCartAction()
                             })
+                            
                             return
                         }
                     }
@@ -555,9 +685,16 @@ class ProductCell : RxUICollectionViewCell {
             }
        
         }else{
-           animationWorkToAdd ()
+            animationWorkToAdd ()
         }
-    
+        
+        // defer {
+        if oldValue != newValue {
+            DispatchQueue.main.asyncAfter(deadline: .now()  + 0.5) {
+                self.selfCollectionView?.reloadDataOnMainThread()
+            }
+        }
+        // }
     }
     
     @IBAction func minusButtonHandler(_ sender: AnyObject) {
@@ -565,6 +702,11 @@ class ProductCell : RxUICollectionViewCell {
             self.viewModel.inputs.minusButtonTapObserver.onNext(())
             return
         }
+        
+        let oldValue = ProductSelectedStore.getValue()
+        let newValue = product.dbID
+        ProductSelectedStore.setValue(newValue)
+        
         DispatchQueue.main.async {
         func callDelegateAndAnalytics() {
             FireBaseEventsLogger.trackDecrementAddToProduct(product: self.product)
@@ -577,12 +719,15 @@ class ProductCell : RxUICollectionViewCell {
                     if self.product.promotion?.boolValue == true {
                         if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0{
                             self.plusButton.isEnabled = true
-                            self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                            // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                         }
                         //self.limitedStockBGView.isHidden = false
                     }
                     
+                    self.quantityLabel.text = "0"
                     self.addToCartButton.isHidden = false
+                    self.isProductSelected = false
+                    
                     self.buttonsView.isHidden = true
                     self.bringSubviewToFront(self.addToCartButton)
                     
@@ -600,19 +745,19 @@ class ProductCell : RxUICollectionViewCell {
                 }else if count == 1 {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
+                    self.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                     
                     if self.product.promotion?.boolValue == true {
                         //self.limitedStockBGView.isHidden = false
                         self.promotionBGView.isHidden = false
                         if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0 {
                             self.plusButton.isEnabled = true
-                            self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                            // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                             callDelegateAndAnalytics()
                         }
                     }else{
                         self.plusButton.isEnabled = true
-                        self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                        // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                         //self.limitedStockBGView.isHidden = true
                         self.promotionBGView.isHidden = true
                         callDelegateAndAnalytics()
@@ -623,20 +768,19 @@ class ProductCell : RxUICollectionViewCell {
                 }else if count > 0  {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    
                     if self.product.promotion?.boolValue == true {
                         //self.limitedStockBGView.isHidden = false
                         self.promotionBGView.isHidden = false
                         if count < self.product.promoProductLimit as! Int || self.product.promoProductLimit?.intValue ?? 0 == 0  {
                             self.plusButton.isEnabled = true
-                            self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                            // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                             callDelegateAndAnalytics()
                            // elDebugPrint("minus button plus buttonenable")
                         }
                     }else{
                         
                         self.plusButton.isEnabled = true
-                        self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                        // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                        // self.limitedStockBGView.isHidden = true
                         self.promotionBGView.isHidden = true
                         callDelegateAndAnalytics()
@@ -679,6 +823,12 @@ class ProductCell : RxUICollectionViewCell {
             callDelegateAndAnalytics()
             }
         }
+        
+        // defer {
+        if oldValue != newValue {
+            self.selfCollectionView?.reloadDataOnMainThread()
+        }
+        // }
     }
     
     func cellAddToCartEvents () {
@@ -688,6 +838,15 @@ class ProductCell : RxUICollectionViewCell {
     @IBAction func plusButtonHandler(_ sender: AnyObject) {
         if viewModel != nil {
             self.viewModel.inputs.plusButtonTapObserver.onNext(())
+            return
+        }
+        
+        let oldValue = ProductSelectedStore.getValue()
+        let newValue = product.dbID
+        ProductSelectedStore.setValue(newValue)
+        
+        if let bidID = product?.winner?.resolvedBidId {
+            TopsortManager.shared.log(.clicks(resolvedBidId: bidID))
         }
         
         DispatchQueue.main.async {
@@ -751,7 +910,7 @@ class ProductCell : RxUICollectionViewCell {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
                     if count == 2 {
-                        self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
+                        self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                     }
                     
                     
@@ -769,13 +928,13 @@ class ProductCell : RxUICollectionViewCell {
                         }
                         
                         if (itemCurrentCount >= self.product.promoProductLimit as! Int) && self.product.promoProductLimit?.intValue ?? 0 > 0 {
-                            self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
+                            // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
                             self.plusButton.isEnabled = false
                             showOverLimitMsg()
                             
                         }else{
                             self.plusButton.isEnabled = true
-                            self.plusButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
+                            // self.plusButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
                             addCartAction()
                             
                             ProductQuantiy.checkLimitForDisplayMsgs(selectedProduct: self.product, counter: count)
@@ -798,7 +957,7 @@ class ProductCell : RxUICollectionViewCell {
                         }
                        
                         self.plusButton.isEnabled = true
-                        self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                        // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                         //self.limitedStockBGView.isHidden = true
                         self.promotionBGView.isHidden = true
                         addCartAction()
@@ -854,7 +1013,13 @@ class ProductCell : RxUICollectionViewCell {
             }
             
         }
-    
+        
+        // defer {
+        if oldValue != newValue {
+            self.selfCollectionView?.reloadDataOnMainThread()
+        }
+        // }
+        
     }
     
     @IBAction func chooseReplacementHandler(_ sender: Any) {
@@ -869,6 +1034,7 @@ class ProductCell : RxUICollectionViewCell {
         self.cellIndex = cellIndex
         self.productGrocery = grocery
         self.productNameLabel.text = product.name
+        
         if self.productNameLabel.text?.isEmpty ?? false {
             self.productNameLabel.text = product.nameEn
         }
@@ -882,22 +1048,14 @@ class ProductCell : RxUICollectionViewCell {
             self.productDescriptionLabel.isHidden = true
         }
 
-//        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
-//        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(16), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
-//        let attributedString1 = NSMutableAttributedString(string: CurrencyManager.getCurrentCurrency() , attributes:attrs1 as [NSAttributedString.Key : Any])
-//        let price =  NSString(format: " %.2f" , self.product.price.doubleValue)
-//
-//
-//        let attributedString2 = NSMutableAttributedString(string:price as String , attributes:attrs2 as [NSAttributedString.Key : Any])
-//        attributedString1.append(attributedString2)
-//        self.productPriceLabel.attributedText = attributedString1
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.productPriceLabel.semanticContentAttribute = .forceRightToLeft
         }
+        
         self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: self.product.price.doubleValue)
-
-        self.plusButton.setImage(UIImage(name: "icPlusGray")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.minusButton.setImage(UIImage(name: "icDashGrey")!.withRenderingMode(.alwaysTemplate), for: .normal)
+        
+        // self.plusButton.setImage(UIImage(name: "icPlusGray")!.withRenderingMode(.alwaysTemplate), for: .normal)
+        // self.minusButton.setImage(UIImage(name: "icDashGrey")!.withRenderingMode(.alwaysTemplate), for: .normal)
         //check if item is added to basket
         if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             if item.isSubtituted.boolValue {
@@ -915,32 +1073,25 @@ class ProductCell : RxUICollectionViewCell {
                      self.imgRepalce.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
                 }
             }
-            
-           // self.bottomPossition.constant = CGFloat(self.topAddButtonmaxY)
-            addToCartButton.isHidden = true
-            buttonsView.isHidden = false
-
-            self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)"
-             //self.quantityLabel.textColor = UIColor.newBlackColor()
-
-            self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-            self.minusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-
-              self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
+         
+            self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected()
+                ? "\(item.count.intValue)".changeToArabic()
+                : "\(item.count.intValue)"
+          
+            self.plusButton.setImage(UIImage(name: "add_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
             if item.count == 1 {
-                self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
+                self.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
             }else{
-                self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
+                self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
             }
  
+        }
+        
+        let dbid = ProductSelectedStore.getValue()
+        if dbid == product.dbID {
+            self.isProductSelected = product.isSelected
         } else {
-            addToCartButton.isHidden = false
-            buttonsView.isHidden = true
-            self.quantityLabel.text = "0"
-            self.plusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
-            self.minusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
-            self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
-            self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
+            self.isProductSelected = false
         }
         
         if product.imageUrl != nil && product.imageUrl?.range(of: "http") != nil {
@@ -958,9 +1109,21 @@ class ProductCell : RxUICollectionViewCell {
             })
         }
         
-        //hide product price and currency if grocery is nil
-      //  self.productPriceLabel.isHidden = grocery == nil
         
+        if !(product.isPublished.boolValue && product.isAvailable.boolValue) {
+            self.outOfStockContainer.isHidden = false
+            self.buttonsView.isHidden = true
+        }else{
+            self.outOfStockContainer.isHidden = true
+        }
+        
+        self.sponserdView.superview?.isHidden = !product.isSponsoredProduct
+        
+        ElGrocerUtility.sharedInstance.setPromoImage(imageView:  self.saleView)
+        
+     
+        
+        // when no grocery show min price. this is from brand page. not sure
         if grocery == nil {
             
             var priceValue : NSNumber? = nil
@@ -969,10 +1132,10 @@ class ProductCell : RxUICollectionViewCell {
                 
                 let shopsList = product.convertToDictionaryArray(text: shopsA)
                 let shops = shopsList?.filter({ data in
-                    let isDataAvailable =  ElGrocerUtility.sharedInstance.groceries.filter { grocery in
+                    let isDataAvailable =  HomePageData.shared.groceryA?.filter { grocery in
                         return (data["retailer_id"] as! NSNumber).stringValue == grocery.getCleanGroceryID()
                     }
-                    return isDataAvailable.count > 0
+                    return (isDataAvailable?.count ?? 0) > 0
                 })
                 for shop in shops ?? [] {
                     if let price = shop["price"] as? NSNumber {
@@ -985,10 +1148,10 @@ class ProductCell : RxUICollectionViewCell {
                     if let shopsA = product.promotionalShops {
                         let shopsList = product.convertToDictionaryArray(text: shopsA)
                         let shops = shopsList?.filter({ data in
-                            let isDataAvailable =  ElGrocerUtility.sharedInstance.groceries.filter { grocery in
+                            let isDataAvailable =  HomePageData.shared.groceryA?.filter { grocery in
                                 return (data["retailer_id"] as! NSNumber).stringValue == grocery.getCleanGroceryID()
                             }
-                            return isDataAvailable.count > 0
+                            return (isDataAvailable?.count ?? 0) > 0
                         })
                         for shop in shops ?? [] {
                             let strtTime = shop["start_time"] as? Int ?? 0
@@ -1009,41 +1172,38 @@ class ProductCell : RxUICollectionViewCell {
             }
             
             if priceValue != nil {
-                
                 self.productPriceLabel.isHidden = !(priceValue! > 0)
-                
                 if priceValue!.doubleValue > 0 {
-//                    let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(12), NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
-//                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(16), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
-//                    let attributedString1 = NSMutableAttributedString(string: CurrencyManager.getCurrentCurrency() , attributes:attrs1 as [NSAttributedString.Key : Any])
-//                    let price =  NSString(format: " %.2f" , priceValue!.doubleValue)
-//                    let attributedString2 = NSMutableAttributedString(string:price as String , attributes:attrs2 as [NSAttributedString.Key : Any])
-//                    attributedString1.append(attributedString2)
-//                    self.productPriceLabel.attributedText = attributedString1
                     if ElGrocerUtility.sharedInstance.isArabicSelected() {
                         self.productPriceLabel.semanticContentAttribute = .forceRightToLeft
                     }
-
                     self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: priceValue!.doubleValue)
                 }
             }
          
+        } else {
+            
+            debugPrint("====grocery: \(self.productGrocery?.dbID) =====")
+            debugPrint("===== storePrice: \(product.storePriceDictionary) =====")
+            if let standardPrice = product.storePriceDictionary[grocery?.dbID ?? ""]?["price"] {
+                self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: standardPrice.doubleValue)
+                product.price = standardPrice
+            }
+            if let promoPrice = product.storePriceDictionary[grocery?.dbID ?? ""]?["PromoPrice"] {
+                product.promoPrice = promoPrice
+                product.isPromotion = true
+            }
+            
+            if let startTime = product.storePriceDictionary[grocery?.dbID ?? ""]?["start_time"], let endTime = product.storePriceDictionary[grocery?.dbID ?? ""]?["end_Time"]  {
+                product.promoStartTime = startTime.stringValue.convertStringToCurrentTimeZoneDate() ?? Date()
+                product.promoEndTime = endTime.stringValue.convertStringToCurrentTimeZoneDate() ?? Date()
+            }
+            
         }
         
-        if !(product.isPublished.boolValue && product.isAvailable.boolValue) {
-            self.outOfStockContainer.isHidden = false
-            //self.chooseReplaceBg.isHidden = true
-            //self.deleteView.isHidden = true
-        }else{
-            self.outOfStockContainer.isHidden = true
-        }
-        
-        let isSponsored = product.isSponsored?.boolValue ?? false
-        self.sponserdView.isHidden = !isSponsored
-        ElGrocerUtility.sharedInstance.setPromoImage(imageView:  self.saleView)
-        let promotionValues = ProductQuantiy.checkPromoNeedToDisplay(product)
+       
+        let promotionValues = ProductQuantiy.checkPromoNeedToDisplay(product,self.productGrocery)
         let isQuanityLimited = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product)
-        
         if promotionValues.isNeedToDisplayPromo {
             setPromotionView(promotionValues.isNeedToDisplayPromo, promotionValues.isNeedToShowPromoPercentage, isNeedToShowPercentage: promotionValues.isNeedToShowPromoPercentage)
         }  else {
@@ -1053,41 +1213,20 @@ class ProductCell : RxUICollectionViewCell {
         
         self.limitedStockBGView.isHidden = isQuanityLimited
         
-       
-        
-      
-        
         if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            
-            //if promotionValues.isNeedToDisplayPromo {
                 if ProductQuantiy.checkPromoLimitReached(product, count: item.count.intValue){
-                    self.plusButton.tintColor = UIColor.newBorderGreyColor()
-                    self.plusButton.imageView?.tintColor = UIColor.newBorderGreyColor()
                     self.plusButton.isEnabled = false
-                    self.plusButton.setBackgroundColorForAllState(UIColor.newBorderGreyColor())
                     FireBaseEventsLogger.trackInventoryReach(product: product, isCarousel: false)
                     return
                 }
-            //}
+            
             self.plusButton.isEnabled = true
-            self.plusButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-            self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-            self.plusButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
         }
         
         if product.availableQuantity == 0 && grocery?.inventoryControlled?.boolValue ?? false {
-            
-            self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonDisableBGColor
             self.addToCartButton.isEnabled = false
-            self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonDisableBGColor)
-            
         }else {
-          
-            self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             self.addToCartButton.isEnabled = true
-            self.addToCartButton.setBody3BoldWhiteStyle()
-            self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
-            
         }
       
     }
@@ -1096,6 +1235,11 @@ class ProductCell : RxUICollectionViewCell {
     @objc
     func showImagePopUp(){
     
+        if self.isProductSelected { self.isProductSelected = false }
+        if viewModel != nil {
+            CellSelectionState.shared.inputs.selectProductWithID.onNext("")
+        }
+        
         if let topVc = UIApplication.topViewController() {
             if topVc is SubstitutionsProductViewController || topVc is GlobalSearchResultsViewController || (topVc is BrandDeepLinksVC && self.productGrocery == nil){
                 return
@@ -1200,7 +1344,7 @@ private extension ProductCell {
         
         viewModel.outputs.isSponsored
             .map { !$0 }
-            .bind(to: self.sponserdView.rx.isHidden)
+            .bind(to: self.sponserdView.superview!.rx.isHidden)
             .disposed(by: disposeBag)
         
         viewModel.outputs.plusButtonIconName
@@ -1213,19 +1357,25 @@ private extension ProductCell {
             .bind(to: self.minusButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
-        viewModel.outputs.cartButtonTintColor.subscribe(onNext: { [weak self] color in
-            guard let self = self else { return }
-            
-            self.plusButton.imageView?.tintColor = color
-            self.minusButton.imageView?.tintColor = color
-            
-        }).disposed(by: disposeBag)
+//        viewModel.outputs.cartButtonTintColor.subscribe(onNext: { [weak self] color in
+//            guard let self = self else { return }
+//
+//            self.plusButton.imageView?.tintColor = color
+//            self.minusButton.imageView?.tintColor = color
+//
+//        }).disposed(by: disposeBag)
         
         viewModel.outputs.addToCartButtonType.subscribe(onNext: { [weak self] in
             guard  let self = self else { return }
-            
             self.addToCartButton.isHidden = $0
             self.buttonsView.isHidden = !$0
+            let q = self.viewModel.quantityValue
+            
+            if !$0 && q == 0 {
+                self.addToCartButton.setTitle("＋", for: .normal)
+            } else {
+                self.addToCartButton.setTitle("\(q)", for: .normal)
+            }
         }).disposed(by: disposeBag)
         
         viewModel.outputs.isSubtituted.subscribe(onNext: { [weak self] substituted in
@@ -1244,10 +1394,10 @@ private extension ProductCell {
             .bind(to: outOfStockContainer.rx.isHidden)
             .disposed(by: disposeBag)
         
-        viewModel.outputs.isSponsored
-            .map { !$0 }
-            .bind(to: sponserdView.rx.isHidden)
-            .disposed(by: disposeBag)
+//        viewModel.outputs.isSponsored
+//            .map { !$0 }
+//            .bind(to: sponserdView.rx.isHidden)
+//            .disposed(by: disposeBag)
         
         viewModel.outputs.isShowLimittedStock
             .map { !$0 }
@@ -1305,8 +1455,8 @@ private extension ProductCell {
             guard let self = self else { return }
             
             self.plusButton.isEnabled = enabled
-            self.plusButton.tintColor = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : UIColor.newBorderGreyColor()
-            self.plusButton.setBackgroundColorForAllState(enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : UIColor.newBorderGreyColor())
+            // self.plusButton.tintColor = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : UIColor.newBorderGreyColor()
+            self.plusButton.setBackgroundColorForAllState(enabled ? UIColor.navigationBarWhiteColor() : UIColor.newBorderGreyColor())
         }).disposed(by: disposeBag)
         
         viewModel.outputs.addToCartButtonEnabled.subscribe(onNext: { [weak self] enabled in
@@ -1369,3 +1519,43 @@ extension ProductCell : STPopupControllerTransitioning {
 
 }
 
+fileprivate struct ProductSelectedStore {
+    
+    private static let accessQueue = DispatchQueue(label: "SynchronizedAccess", attributes: .concurrent)
+    
+    static var productSelected: String = ""
+    
+    static func getValue() -> String {
+        return accessQueue.sync(flags: .barrier) {
+            return productSelected
+        }
+    }
+    
+    static func setValue(_ newValue: String) -> Void {
+        accessQueue.sync(flags: .barrier) {
+            productSelected = newValue
+        }
+    }
+}
+
+fileprivate extension UILabel {
+    func setTitle(_ title: String?, for state: UIControl.State) {
+        self.text = title
+    }
+    
+    func setBody3BoldWhiteStyle(){
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        self.textColor = UIColor.navigationBarWhiteColor()
+    }
+    
+    func setBackgroundColorForAllState(_ color: UIColor) {
+
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        UIGraphicsGetCurrentContext()!.setFillColor(color.cgColor)
+        UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        self.backgroundColor = color
+    }
+}

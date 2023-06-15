@@ -48,6 +48,7 @@ protocol ProductCellViewModelOutput {
     var productDB: Product? { get }
     var plusButtonEnabled: Observable<Bool> { get }
     var addToCartButtonEnabled: Observable<Bool> { get }
+    var quantityValue: Int { get }
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -98,6 +99,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var productDB: Product? { self.product.productDB }
     var plusButtonEnabled: Observable<Bool> { plusButtonEnabledSubject.asObservable() }
     var addToCartButtonEnabled: Observable<Bool> { addToCartButtonEnabledSubject.asObservable() }
+    var quantityValue: Int { getShoppingBasketItemForActiveRetailer()?.count.intValue ?? 0 }
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
@@ -108,8 +110,8 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var priceSubject = BehaviorSubject<NSAttributedString?>(value: nil)
     private var imageUrlSubject = BehaviorSubject<URL?>(value: nil)
     private var isSponsoredSubject = BehaviorSubject<Bool>(value: false)
-    private var plusButtonIconNameSubject = BehaviorSubject<String>(value: "icPlusGray")
-    private var minusButtonIconNameSubject = BehaviorSubject<String>(value: "icDashGrey")
+    private var plusButtonIconNameSubject = BehaviorSubject<String>(value: "add_product_cell")
+    private var minusButtonIconNameSubject = BehaviorSubject<String>(value: "remove_product_cell")
     private var cartButtonTintColorSubject = BehaviorSubject<UIColor?>(value: nil)
     private var addToCartButtonTypeSubject = BehaviorSubject<Bool>(value: false)
     private var quantitySubject = BehaviorSubject<String>(value: "0")
@@ -150,8 +152,13 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
         }).disposed(by: disposeBag)
         
         // MARK: Add To Cart Button Tap Listner
-        quickAddButtonTapSubject.subscribe(onNext: { [weak self] in
+        quickAddButtonTapSubject
+            .withLatestFrom(self.quantitySubject)
+            .subscribe(onNext: { [weak self] quantity in
             guard let self = self else { return }
+            
+            CellSelectionState.shared.inputs.selectProductWithID.onNext(self.productDB?.dbID ?? "")
+            if (quantity as NSString).integerValue > 0 { return }
             
             product.isPg18
                 ? self.showPg18PopupAndAddToCart()
@@ -159,6 +166,12 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
             
         }).disposed(by: disposeBag)
         
+        CellSelectionState.shared.outputs.selectionChanged
+            .compactMap { [weak self] in CellSelectionState.shared.outputs.isProductSelected(id: self?.productDB?.dbID ?? "") }
+            .share()
+            .bind(to: addToCartButtonTypeSubject)
+            .disposed(by: disposeBag)
+
         // MARK: Plus Button Tap Listner
         plusButtonTapSubject.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
@@ -193,7 +206,7 @@ private extension ProductCellViewModel {
         descriptionSubject.onNext(product.sizeUnit)
         priceSubject.onNext(ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: product.fullPrice ?? 0.0))
         imageUrlSubject.onNext(URL(string: product.imageURL ?? ""))
-        isSponsoredSubject.onNext(product.isSponsored ?? false)
+        isSponsoredSubject.onNext(product.productDB?.isSponsoredProduct ?? false)
         isAvailableSubject.onNext(product.isAvailable ?? true)
         isPublishedSubject.onNext(product.isPublished ?? true)
         
@@ -206,7 +219,7 @@ private extension ProductCellViewModel {
             plusButtonIconNameSubject.onNext("add_product_cell")
             minusButtonIconNameSubject.onNext(item.count == 1 ? "delete_product_cell" : "remove_product_cell")
             cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.navigationBarWhiteColor)
-            addToCartButtonTypeSubject.onNext(true)
+            // addToCartButtonTypeSubject.onNext(true)
             quantitySubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)")
             isSubtitutedSubject.onNext(item.isSubtituted.boolValue)
             
@@ -218,7 +231,7 @@ private extension ProductCellViewModel {
         }
         
         plusButtonIconNameSubject.onNext("add_product_cell")
-        minusButtonIconNameSubject.onNext("delete_product_cell")
+        minusButtonIconNameSubject.onNext("remove_product_cell")
         cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
         addToCartButtonTypeSubject.onNext(false)
         quantitySubject.onNext("0")
@@ -415,5 +428,49 @@ private extension ProductCellViewModel {
                 }
             }
         }
+    }
+}
+
+protocol CellSelectionStateInputs {
+    var selectProductWithID: AnyObserver<String> { get }
+}
+protocol CellSelectionStateOutputs {
+    var selectionChanged: Observable<Void> { get }
+    func isProductSelected(id: String) -> Bool
+}
+protocol CellSelectionStateType: CellSelectionStateInputs, CellSelectionStateOutputs {
+    var inputs: CellSelectionStateInputs { get }
+    var outputs: CellSelectionStateOutputs { get }
+}
+extension CellSelectionStateType  {
+    var inputs: CellSelectionStateInputs { self }
+    var outputs: CellSelectionStateOutputs { self }
+}
+
+class CellSelectionState: CellSelectionStateType {
+    
+    static var shared = CellSelectionState()
+    
+    // Inputs
+    var selectProductWithID: RxSwift.AnyObserver<String> { productIDSubject.asObserver() }
+    
+    // Outputs
+    var selectionChanged: RxSwift.Observable<Void> { selectionChangedSubject.asObservable() }
+    func isProductSelected(id: String) -> Bool { return _selectedProductID == id }
+    
+    private var productIDSubject = RxSwift.PublishSubject<String>()
+    private var selectionChangedSubject = RxSwift.PublishSubject<Void>()
+    
+    private var disposeBag = DisposeBag()
+    private var _selectedProductID = ""
+    
+    
+    init() {
+        productIDSubject
+            .subscribe(onNext: { [weak self] id in
+                self?._selectedProductID = id
+                self?.selectionChangedSubject.onNext(())
+            })
+            .disposed(by: disposeBag)
     }
 }

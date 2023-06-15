@@ -76,7 +76,7 @@ class ShoopingListDataHandler {
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_1.getType()
         let clearnGroceryID = ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [clearnGroceryID], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [clearnGroceryID], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
             switch result {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: clearnGroceryID, searchString: searchInput)
@@ -100,13 +100,12 @@ class ShoopingListDataHandler {
         }*/
     }
 
-    private func saveBannersResponseData(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String , searchString : String) {
+    private func saveBannersResponseData(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String , searchString : String) {
 
         if (self.grocery?.dbID == gorceryId) {
-            let banners = BannerCampaign.getBannersFromResponse(responseObject)
             var homeFeed : Home? = nil
             if banners.count > 0 {
-                homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  andWithResponse: nil)
+                homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  products: [])
             }
             let dict = ["value" : searchString , searchString : homeFeed as Any]
             self.bannerArray.append(dict as NSDictionary)

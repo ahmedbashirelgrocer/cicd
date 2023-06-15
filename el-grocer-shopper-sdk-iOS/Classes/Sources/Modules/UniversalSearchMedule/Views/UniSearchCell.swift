@@ -13,7 +13,15 @@ class UniSearchCell: UITableViewCell {
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var title: UILabel!
     @IBOutlet var subTitle: UILabel!
-    @IBOutlet var btnSearchCross: UIButton!
+    @IBOutlet var btnSearchCross: UIButton! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                self.btnSearchCross.transform = CGAffineTransform(scaleX: -1, y: 1)
+            } else {
+                self.btnSearchCross.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }
+        }
+    }
     var currentObj : SuggestionsModelObj?
     var clearButtonClicked : ((_ data : String)->Void)?
     
@@ -52,13 +60,7 @@ class UniSearchCell: UITableViewCell {
                 subTitle.isHidden = true
             }
             
-            let attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14)])
-             let nsRange = NSString(string: title).range(of: searchString, options: String.CompareOptions.caseInsensitive)
-            
-            if nsRange.location != NSNotFound {
-                attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplaySemiBoldFont(14) , range: nsRange )
-            }
-           self.title.attributedText = attributedString
+            self.updateTitleWithSearchHighlight(title: title, searchString: searchString)
         }
         
         if obj?.modelType == SearchResultSuggestionType.trendingSearch {
@@ -72,18 +74,44 @@ class UniSearchCell: UITableViewCell {
         }else if obj?.modelType == SearchResultSuggestionType.brandTitles {
             imgView.image = UIImage(name: "categorySearch")
         }else if obj?.modelType == SearchResultSuggestionType.searchHistory {
-            imgView.image = UIImage(name: "universalSearch")
+            imgView.sd_setImage(with: URL(string: obj!.retailerImageUrl), placeholderImage: UIImage(name: "universalSearch"))
         }else if obj?.modelType == SearchResultSuggestionType.recipeTitles {
             imgView.image = UIImage(name: "recipeImageSearch")
         }else if obj?.modelType == SearchResultSuggestionType.retailer {
             imgView.assignImage(imageUrl: self.currentObj?.retailerImageUrl)
-            //imgView.image =   UIImage(name: "trendingSearch")
+            
+            self.btnSearchCross.setImage(UIImage(named: "arrowForward", in: .resource, compatibleWith: nil), for: .normal)
         }
        
-        self.btnSearchCross.isHidden = (obj?.modelType != SearchResultSuggestionType.searchHistory )
+        self.imgView.visibility = obj?.modelType == .noDataFound ? .goneX : .visible
+        self.btnSearchCross.isHidden = (obj?.modelType != SearchResultSuggestionType.retailer)
+        self.btnSearchCross.isUserInteractionEnabled = (obj?.modelType == SearchResultSuggestionType.retailer)
     }
     
-    
+    func updateTitleWithSearchHighlight(title: String, searchString: String) {
+        var attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font: UIFont.SFProDisplayNormalFont(14)])
+        
+        let queryArray = searchString.split(separator: " ")
+        
+        var found = [(String, NSRange)]()
+        for query in queryArray {
+            let nsRange = NSString(string: title).range(of: String(query), options: .caseInsensitive)
+            
+            if nsRange.location != NSNotFound {
+                found.append((String(query), nsRange))
+            }
+        }
+        
+        if found.isNotEmpty {
+            attributedString = NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(14)])
+            
+            found.forEach { (string, range) in
+                attributedString.addAttribute(NSAttributedString.Key.font , value: UIFont.SFProDisplayNormalFont(14), range: range)
+            }
+        }
+        
+        self.title.attributedText = attributedString
+    }
     
     @IBAction func btnSearchCrossAction(_ sender: Any) {
         

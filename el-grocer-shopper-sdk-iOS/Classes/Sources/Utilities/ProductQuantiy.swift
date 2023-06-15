@@ -26,9 +26,9 @@ class ProductQuantiy {
      if true = percentage view will display
      if false = disountPrice Lable will display.
      **/
-    public static func checkPromoNeedToDisplay (_ product : Product) -> ( isNeedToDisplayPromo : Bool , isNeedToShowPromoPercentage : Bool) {
+    public static func checkPromoNeedToDisplay (_ product : Product, _ grocery: Grocery? = nil) -> ( isNeedToDisplayPromo : Bool , isNeedToShowPromoPercentage : Bool) {
         if product.promotion?.boolValue == true {
-            let time =  ElGrocerUtility.sharedInstance.getCurrentMillis()
+            let time = grocery == nil ? ElGrocerUtility.sharedInstance.getCurrentMillis() : ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: grocery?.dbID ?? "")
             let strtTime = product.promoStartTime?.millisecondsSince1970 ?? time
             let endTime = product.promoEndTime?.millisecondsSince1970 ?? time
             if strtTime <= time && endTime >= time{
@@ -41,6 +41,25 @@ class ProductQuantiy {
         }
         return (false , false)
     }
+    
+    
+    public static func checkPromoNeedToDisplayWithGrocery (_ product : Product, grocery: Grocery) -> ( isNeedToDisplayPromo : Bool , isNeedToShowPromoPercentage : Bool) {
+        if product.promotion?.boolValue == true {
+            let time = ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: grocery.dbID)
+            let strtTime = product.promoStartTime?.millisecondsSince1970 ?? time
+            let endTime = product.promoEndTime?.millisecondsSince1970 ?? time
+            if strtTime <= time && endTime >= time{
+                if product.price.doubleValue <= product.promoPrice?.doubleValue ?? 0 {
+                    return (true , false)
+                }else{
+                    return (true , true)
+                }
+            }
+        }
+        return (false , false)
+    }
+    
+    
     
     /// This function is same as `checkPromoNeedToDisplay` using the function remove the dependecy on product
     public static func checkPromoValidity(product: ProductDTO) -> (displayPromo: Bool, showPercentage: Bool) {

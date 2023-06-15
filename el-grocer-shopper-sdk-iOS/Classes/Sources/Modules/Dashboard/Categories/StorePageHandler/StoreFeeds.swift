@@ -32,7 +32,7 @@ class StoreFeeds {
     var isLoaded : Variable<Bool> = Variable(false)
     
     var offset: Int = 0
-    var limit: Int = 20
+    var limit: Int { ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20 }
     var isFirstPage: Bool = true
     
     init(type : HomeType  , index : Int , grocery : Grocery? , delegate : StoreFeedsDelegate? ) {
@@ -52,7 +52,7 @@ class StoreFeeds {
         self.grocery = grocery
         self.index = index
         self.type = type
-        let homeFeed = Home.init(category?.name ?? "" , withCategory: category, andWithResponse: nil)
+        let homeFeed = Home.init(category?.name ?? "" , withCategory: category, products: [])
         self.data = homeFeed
         self.data?.category = category
         self.isLoaded.asObservable().bind { (state) -> Void in
@@ -130,7 +130,7 @@ extension StoreFeeds {
             guard algoliaCall else {
                 
                 
-                 ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters , true) { [weak self] (result) in
+                ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters , true) { [weak self] (result) in
                  switch result {
                  case .success(let response):
                  self?.saveResponseDataOfCategoryWithTitle( response, category: self?.data?.category ?? nil)
@@ -149,9 +149,20 @@ extension StoreFeeds {
             // for first request 60 / 20 = 2
             let pageNumber = self.offset / self.limit
             
+            let storeID = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
+            let currentMillis = ElGrocerUtility.sharedInstance.getCurrentMillis()
+            let hitsPerPage = self.limit
+            let slots = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsStorePage ?? 3
+
+            
             guard (self.data?.category?.dbID.intValue ?? 0) > 1 else {
-                AlgoliaApi.sharedInstance.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, self.limit, ElGrocerUtility.sharedInstance.getCurrentMillis(), completion: { [weak tempCategory] (content, error) in
-                    if  let responseObject : NSDictionary = content as NSDictionary? {
+                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: storeID,
+                                                                              pageNumber: pageNumber,
+                                                                              hitsPerPage: hitsPerPage,
+                                                                              currentMillis,
+                                                                              slots: slots,
+                                                                              completion: { [weak tempCategory] (content, error) in
+                    if  let responseObject = content {
                         self.saveAlgoliaResponseDataOfCategoryWithTitle(responseObject, category: tempCategory)
                     } else {
                         self.isRunning = false
@@ -162,9 +173,15 @@ extension StoreFeeds {
                 return
             }
             
-            AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: tempCategory.dbID.stringValue , completion: { [weak tempCategory] (content, error) in
+            let categoryId = tempCategory.dbID.stringValue
+            ProductBrowser.shared.searchProductListForStoreCategory(storeID: storeID,
+                                                                    pageNumber: pageNumber,
+                                                                    categoryId: categoryId,
+                                                                    hitsPerPage: hitsPerPage,
+                                                                    slots: slots,
+                                                                    completion: { [weak tempCategory] (content, error) in
                 
-                if  let responseObject : NSDictionary = content as NSDictionary? {
+                if  let responseObject = content {
                     self.saveAlgoliaResponseDataOfCategoryWithTitle(responseObject, category: tempCategory)
                 } else {
                     self.isRunning = false
@@ -181,10 +198,10 @@ extension StoreFeeds {
         DispatchQueue.global(qos: .utility).async(execute: self.fetchProductsWorkItem!)
     }
     
-    func saveResponseDataOfCategoryWithTitle( _  responseObject:NSDictionary , category : Category?) {
+    func saveResponseDataOfCategoryWithTitle(_ responseObject:(products: [Product], algoliaCount: Int?), category : Category?) {
         if let forceCategory = category {
             let existingProducts = self.data?.products ?? []
-            self.data = Home.init(forceCategory.name ?? "", withCategory: forceCategory , withBanners: nil, withType: HomeType.Category, andWithResponse: responseObject, self.grocery)
+            self.data = Home.init(forceCategory.name ?? "", withCategory: forceCategory , withBanners: nil, withType: HomeType.Category, products: [], self.grocery)
             self.data?.products.append(contentsOf: existingProducts)
             
             self.data?.hasMoreProduct = ((self.data?.products.count ?? 0) - existingProducts.count) == self.limit ? true : false
@@ -194,11 +211,11 @@ extension StoreFeeds {
        
     }
     
-    func saveAlgoliaResponseDataOfCategoryWithTitle( _  responseObject:NSDictionary , category : Category?) {
+    func saveAlgoliaResponseDataOfCategoryWithTitle(_ newProducts: (products: [Product], algoliaCount: Int?) , category : Category?) {
         
-        Thread.OnMainThread { [category , responseObject]
+        Thread.OnMainThread { [category , newProducts] in
             if let forceCategory = category {
-                let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                // let newProducts = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 let home = Home.init(forceCategory.name ?? "", withCategory: forceCategory, withType: HomeType.Category)
                 home.products.append(contentsOf: self.data?.products ?? [])
                 home.products.append(contentsOf: newProducts.products)
@@ -249,7 +266,7 @@ extension StoreFeeds {
         // if so we need to refresh specific cell instead of refresing whole table
         self.isFirstPage = self.offset < self.limit
         
-        ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
+        ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
             switch result {
                 case .success(let response):
                     self?.saveResponseDataWithTitle(localizedString("previously_purchased_products_title", comment: "") , withServerResponse: response)
@@ -262,9 +279,23 @@ extension StoreFeeds {
         }
     }
     
-    func saveResponseDataWithTitle(_ homeTitle:String, withServerResponse  responseObject:NSDictionary) {
+    func saveResponseDataWithTitle(_ homeTitle:String, withServerResponse responseObject:(products: [Product], algoliaCount: Int?)) {
         let existingProducts = self.data?.products ?? []
-        self.data = Home.init(homeTitle, withCategory: nil, withBanners: nil, withType: .Purchased, andWithResponse: responseObject, self.grocery)
+        
+//        var dataDict : NSDictionary = NSDictionary()
+//        var responseObjects : [NSDictionary] = [NSDictionary]()
+//        if let data = responseObject["data"] as? NSDictionary {
+//            dataDict = data
+//            responseObjects = dataDict["products"] as! [NSDictionary]
+//        } else {
+//            responseObjects = responseObject["data"] as? [NSDictionary] ?? []
+//        }
+//        let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+//        let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
+        
+        let newProduct = responseObject.products
+        
+        self.data = Home.init(homeTitle, withCategory: nil, withBanners: nil, withType: .Purchased, products: newProduct, self.grocery)
         self.data?.products.append(contentsOf: existingProducts)
     
         // check the new
@@ -368,13 +399,20 @@ extension StoreFeeds {
         parameters["banner_type"] = SearchBannerType.Home.getString()
         parameters["date_filter"] = true
         let location = BannerLocation.store_tier_2.getType()
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
+        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.storeType.map{ "\($0)" } ?? []
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])], store_type_ids: storeTypes , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
-                case .success(let response):
-                    self.saveCustomBanner(response, withHomeTitle: homeTitle, andWithGroceryId: groceryId)
-                case.failure( _):
-                    self.isRunning = false
-                    self.isLoaded.value = true
+            case .success(let response):
+                var response = response
+                
+                for i in 0..<response.count {
+                    response[i].storeTypes = storeTypes.map{ ($0 as NSString).integerValue }
+                }
+                
+                self.saveCustomBanner(response, withHomeTitle: homeTitle, andWithGroceryId: groceryId)
+            case.failure( _):
+                self.isRunning = false
+                self.isLoaded.value = true
             }
         }
         
@@ -396,7 +434,7 @@ extension StoreFeeds {
         parameters["banner_type"] = SearchBannerType.Home.getString()
         parameters["date_filter"] = true
         let location = BannerLocation.store_tier_1.getType()
-        ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"])], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
                 case .success(let response):
                     self.saveCustomBanner(response, withHomeTitle: homeTitle, andWithGroceryId: groceryId)
@@ -408,10 +446,9 @@ extension StoreFeeds {
         
     }
     
-    func saveCustomBanner(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String) {
+    func saveCustomBanner(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorceryId:String) {
         
         if (self.grocery?.dbID == gorceryId){
-            let banners = BannerCampaign.getBannersFromResponse(responseObject)
             self.data = Home.init(withBanners: banners, withType: .Banner, grocery: self.grocery)
         }
         self.isRunning = false

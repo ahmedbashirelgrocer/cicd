@@ -263,10 +263,10 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         
         let product = self.alternativeProducts[(indexPath as NSIndexPath).row]
         cell.configureWithProduct(product, grocery: self.cartGrocery, cellIndex: indexPath)
-        UIView.performWithoutAnimation {
-            cell.addToCartButton.setTitle(localizedString("btn_Choose_title", comment: ""), for: UIControl.State())
-            cell.addToCartButton.layoutIfNeeded()
-        }
+//        UIView.performWithoutAnimation {
+//            cell.addToCartButton.setTitle(localizedString("btn_Choose_title", comment: ""), for: UIControl.State())
+//            cell.addToCartButton.layoutIfNeeded()
+//        }
         cell.delegate = self
         
         if let item =   ShoppingBasketItem.checkIfProductIsInBasket(self.currentAlternativeProduct, grocery: self.cartGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {

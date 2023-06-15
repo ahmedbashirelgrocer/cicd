@@ -397,7 +397,6 @@ class SDKManager: NSObject, SDKManagerType  {
     }
     
     private func initializeSegmentSDK() {
-        // launch options are nil here
         let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
         let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
@@ -412,7 +411,6 @@ class SDKManager: NSObject, SDKManagerType  {
         configuration.flushInterval = 10
         configuration.trackApplicationLifecycleEvents = false
         Segment.Analytics.setup(with: configuration)
-        
     }
     
     fileprivate func smileSDKFireBaseSetting() {

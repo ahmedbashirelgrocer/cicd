@@ -845,7 +845,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
             self.goToGrocery(self.sortedGroceryArray[indexPath.row], nil)
 
             // Logging segment event for store clicked
-            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row]))
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row], source: .smilesHomeScreen))
         }
         if self.sortedGroceryArray.count > 0 && indexPath.section == 3 {
             var indexPathRow = indexPath.row
@@ -854,7 +854,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
                 self.goToGrocery(self.sortedGroceryArray[indexPathRow], nil)
 
                 // Logging segment event for store clicked
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow]))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow], source: .smilesHomeScreen))
             }
         }
     }
@@ -1031,6 +1031,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
     
     func basketStatusChange(status: Bool) {
         (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(status)
+        ElGrocerUtility.sharedInstance.isActiveCartAvailable = status
     }
 }
 

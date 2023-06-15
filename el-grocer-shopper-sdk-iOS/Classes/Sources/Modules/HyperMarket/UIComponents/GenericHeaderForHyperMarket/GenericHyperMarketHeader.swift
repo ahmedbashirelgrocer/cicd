@@ -51,7 +51,7 @@ class GenericHyperMarketHeader: UIView {
     }
     @IBOutlet var searchBarSuperBGView: UIView!{
         didSet{
-            searchBarSuperBGView.backgroundColor = .textfieldBackgroundColor()
+            searchBarSuperBGView.backgroundColor = .navigationBarWhiteColor()
             searchBarSuperBGView.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner], radius: 24, withShadow: false)
         }
     }

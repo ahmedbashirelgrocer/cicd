@@ -8,10 +8,13 @@
 
 import UIKit
 import SwiftMessages
+import RxSwift
+import RxCocoa
+
 var minCellHeight =  CGFloat.leastNormalMagnitude + 0.01
 class GlobalSearchResultsViewController: UIViewController {
     
-   
+    private var disposeBag = DisposeBag()
     var dataSource : GlobalSearchResultDataSource = GlobalSearchResultDataSource() {
         didSet {
             if sdkManager.isSmileSDK {
@@ -52,7 +55,6 @@ class GlobalSearchResultsViewController: UIViewController {
         self.setDataSource()
         self.setTableViewHeader()
         self.LogEvents()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +62,11 @@ class GlobalSearchResultsViewController: UIViewController {
         //hide tabbar
         self.presentingVC?.tabBarController?.tabBar.isHidden = true
         self.setSegmentView()
+        
+        if ElGrocerUtility.sharedInstance.isNeedToDismissGlobalSearchController {
+            ElGrocerUtility.sharedInstance.isNeedToDismissGlobalSearchController = false
+            self.backButtonClickedHandler()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,10 +95,13 @@ class GlobalSearchResultsViewController: UIViewController {
                 controller.setSearchBarDelegate(self)
                 controller.setSearchBarText(self.keyWord)
                 controller.hideSeparationLine()
+                controller.setCartButtonHidden(false)
+                controller.buttonActionsDelegate = self
                 controller.setGreenBackgroundColor()
             }
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
-            self.title = localizedString("search_products", comment: "")
+            self.title = localizedString("global_search_result_screen_title_text", comment: "")
+            self.updateMultiCartButtonIcon()
         }
 
     }
@@ -298,6 +308,7 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
      
         if indexPath.section == 0 {
+            return .leastNormalMagnitude
             return (self.dataSource.matchedGroceryList?.count ?? 0) > 0 ? ((self.dataSource.matchedGroceryList?.count ?? 0) == 1 ? 175 : 210) : .leastNonzeroMagnitude
         }
         
@@ -339,9 +350,9 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 1 {
-            return 40
-        }
+//        if section == 1 {
+//            return 40
+//        }
         return .leastNormalMagnitude
     }
     
@@ -350,6 +361,8 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return nil
+        
         if section == 1 && self.dataSource.productList?.count ?? 0 > 0  {
             
             let myLabel = UILabel()
@@ -390,6 +403,11 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
                 
                 cell.bannerList.bannerCampaignClicked =  { [weak self] (banner) in
                     guard let self = self  else {   return   }
+                    
+                    if let bidid = banner.resolvedBidId {
+                        TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+                    }
+                    
                     if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                         ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
                     }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
@@ -450,7 +468,10 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
 extension GlobalSearchResultsViewController : HomeCellDelegate  {
     
     
-    func productCellOnProductQuickRemoveButtonClick(_ selectedProduct: Product, homeObj: Home, collectionVeiw: UICollectionView) {}
+    func productCellOnProductQuickRemoveButtonClick(_ selectedProduct: Product, homeObj: Home, collectionVeiw: UICollectionView) {
+        self.removeProductToBasketFromQuickRemove(selectedProduct, homeObj: homeObj, collectionVeiw: collectionVeiw)
+    }
+    
     func productCellChooseReplacementButtonClick(_ product: Product) { }
     func navigateToProductsView(_ homeObj: Home) { }
     
@@ -461,10 +482,9 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
         self.navigateToGrocery(grocery, homeFeed: homeFeed)
     }
     func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home? ) {
-        self.navigateToGrocery(grocery, homeFeed: homeFeed, true)
+        self.navigateToGrocery(grocery, homeFeed: homeFeed, true, isNeedToDismiss: false)
     }
-    func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home?, _ isCommingFromUniversalSearch : Bool
-     = true) {
+    func navigateToGrocery(_ grocery: Grocery? , homeFeed: Home?, _ isCommingFromUniversalSearch : Bool = true, isNeedToDismiss: Bool = true) {
         
        
                 
@@ -478,22 +498,49 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
             ElGrocerUtility.sharedInstance.isCommingFromUniversalSearch = isCommingFromUniversalSearch
             ElGrocerUtility.sharedInstance.searchFromUniversalSearch = homeFeed
             ElGrocerUtility.sharedInstance.searchString = self.keyWord
-            self.navigationController?.dismiss(animated: false, completion: {
+            
+            // Logging segment event for store clicked
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: .searchResultScreen))
+            
+            if isNeedToDismiss {
+                self.navigationController?.dismiss(animated: false, completion: {
+                    if let vc = self.presentingVC as? HyperMarketViewController {
+                        self.presentingVC?.dismiss(animated: false, completion: {
+                            vc.goToGrocery(grocery, nil)
+                            self.presentingVC?.tabBarController?.selectedIndex = 1
+                        })
+                    }else if let vc = self.presentingVC as? SpecialtyStoresGroceryViewController {
+                        self.presentingVC?.dismiss(animated: false, completion: {
+                            vc.goToGrocery(grocery, nil)
+                            self.presentingVC?.tabBarController?.selectedIndex = 1
+                        })
+                    }else if let vc = self.presentingVC as? ShopByCategoriesViewController {
+                        self.presentingVC?.dismiss(animated: false, completion: {
+                            //                        vc.goToGrocery(grocery, nil)
+                            self.presentingVC?.tabBarController?.selectedIndex = 1
+                        })
+                    }else {
+                        if let tabbar = self.presentingVC?.tabBarController {
+                            if  let navMain  = tabbar.viewControllers?[1] as? UINavigationController  {
+                                if navMain.viewControllers.count > 0 {
+                                    if let mainVC =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                        mainVC.navigationController?.popToRootViewController(animated: false)
+                                    }
+                                }
+                            }
+                        }
+                        self.presentingVC?.tabBarController?.selectedIndex = 1
+                    }
+                })
+            } else {
                 if let vc = self.presentingVC as? HyperMarketViewController {
-                    self.presentingVC?.dismiss(animated: false, completion: {
-                        vc.goToGrocery(grocery, nil)
-                        self.presentingVC?.tabBarController?.selectedIndex = 1
-                    })
+                    vc.goToGrocery(grocery, nil)
+                    self.presentingVC?.tabBarController?.selectedIndex = 1
                 }else if let vc = self.presentingVC as? SpecialtyStoresGroceryViewController {
-                    self.presentingVC?.dismiss(animated: false, completion: {
-                        vc.goToGrocery(grocery, nil)
-                        self.presentingVC?.tabBarController?.selectedIndex = 1
-                    })
+                    vc.goToGrocery(grocery, nil)
+                    self.presentingVC?.tabBarController?.selectedIndex = 1
                 }else if let vc = self.presentingVC as? ShopByCategoriesViewController {
-                    self.presentingVC?.dismiss(animated: false, completion: {
-//                        vc.goToGrocery(grocery, nil)
-                        self.presentingVC?.tabBarController?.selectedIndex = 1
-                    })
+                    self.presentingVC?.tabBarController?.selectedIndex = 1
                 }else {
                     if let tabbar = self.presentingVC?.tabBarController {
                         if  let navMain  = tabbar.viewControllers?[1] as? UINavigationController  {
@@ -506,7 +553,7 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
                     }
                     self.presentingVC?.tabBarController?.selectedIndex = 1
                 }
-            })
+            }
         }
     
         func processDataForDeliveryMode() {
@@ -560,7 +607,84 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
     
     func productCellOnProductQuickAddButtonClick(_ selectedProduct: Product, homeObj: Home, collectionVeiw: UICollectionView) {
         GenericClass.print(selectedProduct.name ?? "")
-        self.navigateToGrocery(homeObj.attachGrocery , homeFeed: homeObj)
+        self.addProductInShoppingBasketFromQuickAdd(selectedProduct, homeObj: homeObj, collectionVeiw: collectionVeiw)
+    }
+    
+    func addProductInShoppingBasketFromQuickAdd(_ selectedProduct: Product, homeObj: Home, collectionVeiw productCollectionVeiw:UICollectionView){
+        
+        var productQuantity = 1
+        
+        // If the product already is in the basket, just increment its quantity by 1
+        if let product = ShoppingBasketItem.checkIfProductIsInBasket(selectedProduct, grocery: homeObj.attachGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            productQuantity += product.count.intValue
+            
+        }
+        
+        // Logging Segment Event
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if isNewCart {
+            let cartCreatedEvent = CartCreatedEvent(grocery: homeObj.attachGrocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: homeObj.attachGrocery, product: selectedProduct, actionType: .added, quantity: productQuantity, source: .searchResult)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
+        
+        // ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(selectedProduct)
+        self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
+        
+        MixpanelEventLogger.trackStoreAddItem(product: selectedProduct)
+    }
+    
+    func removeProductToBasketFromQuickRemove(_ selectedProduct: Product, homeObj: Home, collectionVeiw productCollectionVeiw:UICollectionView){
+        
+        guard let grocery = homeObj.attachGrocery else { return }
+        
+        var productQuantity = 0
+        // If the product already is in the basket, just decrement its quantity by 1
+        if let product = ShoppingBasketItem.checkIfProductIsInBasket(selectedProduct, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            productQuantity = product.count.intValue - 1
+        }
+        
+        if productQuantity < 0 {return}
+        
+        self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct, homeObj: homeObj, collectionVeiw: productCollectionVeiw)
+        
+        let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if cartDeleted {
+            // Logging segment event for cart deleted
+            SegmentAnalyticsEngine.instance.logEvent(event: CartDeletedEvent(grocery: grocery))
+        }
+        
+        // Logging segment event for product removed
+        let cartUpdatedEvent = CartUpdatedEvent(grocery: grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity, source: .searchResult)
+        SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        
+        MixpanelEventLogger.trackStoreRemoveItem(product: selectedProduct)
+    }
+    
+    func updateProductsQuantity(_ quantity: Int, selectedProduct: Product, homeObj: Home, collectionVeiw productCollectionVeiw:UICollectionView) {
+        
+        if quantity == 0 {
+            
+            //remove product from basket
+            ShoppingBasketItem.removeProductFromBasket(selectedProduct, grocery: homeObj.attachGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            
+        } else {
+            
+            //Add or update item in basket
+            ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: homeObj.attachGrocery, brandName: selectedProduct.brandNameEn , quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        }
+        
+        DatabaseHelper.sharedInstance.saveDatabase()
+        
+        self.updateMultiCartButtonIcon()
+        let index = homeObj.products.firstIndex(of: selectedProduct)
+        if let notNilIndex = index {
+            if (productCollectionVeiw.indexPathsForVisibleItems.contains(IndexPath(row: notNilIndex, section: 0))) {
+                productCollectionVeiw.reloadItems(at: [IndexPath(row: notNilIndex, section: 0)])
+            }
+        }
     }
     
 }
@@ -630,4 +754,74 @@ extension GlobalSearchResultsViewController : UICollectionViewDelegateFlowLayout
         
     }
         
+}
+
+extension GlobalSearchResultsViewController: ButtonActionDelegate {
+    func profileButtonTap() {
+    }
+    
+    func cartButtonTap() {
+        self.navigateToMultiCart()
+    }
+    
+    func navigateToMultiCart() {
+        guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+
+        let viewModel = ActiveCartListingViewModel(apiClinet: ElGrocerApi.sharedInstance, latitude: address.latitude, longitude: address.longitude)
+        let activeCartVC = ActiveCartListingViewController.make(viewModel: viewModel)
+        
+        // MARK: Actions
+        viewModel.outputs.cellSelected.subscribe (onNext: { [weak self, weak activeCartVC] selectedActiveCart in
+            activeCartVC?.dismiss(animated: true) {
+                guard let grocery = self?.dataSource.filterGroceryList.filter({ Int($0.dbID) == selectedActiveCart.id }).first else { return }
+                
+                self?.navigateToGrocery(grocery, homeFeed: nil, false)
+            }
+        }).disposed(by: self.disposeBag)
+        
+        viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
+//            guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+//
+//            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+//
+//            switch campaignType {
+//            case .brand:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+//                })
+//                break
+//
+//            case .retailer:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+//                })
+//                break
+//
+//            case .web:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+//                })
+//                break
+//
+//            case .priority:
+//                activeCartVC?.dismiss(animated: true, completion: {
+//                    bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
+//                })
+//                break
+//            }
+            
+        }).disposed(by: disposeBag)
+        
+        self.present(activeCartVC, animated: true)
+    }
+    
+    private func updateMultiCartButtonIcon() {
+        let isActiveCartAvailable = ShoppingBasketItem.checkActiveBasketsAvailable(
+            ElGrocerUtility.sharedInstance.groceries,
+            context: DatabaseHelper.sharedInstance.mainManagedObjectContext
+        )
+        
+        let cartButtonState = ElGrocerUtility.sharedInstance.isActiveCartAvailable || isActiveCartAvailable
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(cartButtonState)
+    }
 }

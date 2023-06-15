@@ -45,11 +45,17 @@ struct CartDeletedEvent: AnalyticsEventDataType {
 // MARK: - Cart Updated Event
 // If action is .added "Product Added" event will logged
 // If action is .removed "Product Removed" event will logged
+
+enum CartUpdatedEventSource: String {
+    case searchResult = "Search Result Screen"
+    case other = ""
+}
+
 struct CartUpdatedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(grocery: Grocery?, product: Product, actionType: CartActionType, quantity: Int) {
+    init(grocery: Grocery?, product: Product, actionType: CartActionType, quantity: Int, source: CartUpdatedEventSource = .other) {
         let eventName = actionType == .added ? AnalyticsEventName.productAdded : AnalyticsEventName.productRemoved
         
         self.eventType = .track(eventName: eventName)
@@ -66,14 +72,25 @@ struct CartUpdatedEvent: AnalyticsEventDataType {
             EventParameterKeys.brandName        : product.brandNameEn ?? "",
             EventParameterKeys.productId        : product.productId.stringValue,
             EventParameterKeys.productName      : product.nameEn ?? "",
-            // if the isPromotion is false then need to send the actual price in promoPrice
-            EventParameterKeys.promoPrice       : product.promotion?.boolValue ?? false ? "\(round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100)" : product.price.stringValue,
-            EventParameterKeys.isSponsored      : product.isSponsored?.boolValue ?? false,
+            EventParameterKeys.promoPrice       : self.promoPrice(product: product),
+            EventParameterKeys.isSponsored      : product.isSponsoredProduct,
             EventParameterKeys.isPromotion      : product.promotion?.boolValue ?? false,
             EventParameterKeys.isRecipe         : false,
             EventParameterKeys.quantity         : String(quantity),
             EventParameterKeys.deeplink         : product.queryID ?? "",
+            EventParameterKeys.source           : source.rawValue
         ]
+    }
+    
+    // if the isPromotion is false then need to send the actual price in promoPrice
+    private func promoPrice(product: Product) -> String {
+        let isPromoProduct = product.promotion?.boolValue ?? false
+        
+        if isPromoProduct {
+            return "\(round((product.promoPrice?.doubleValue ?? 0.0) * 100) / 100)"
+        }
+        
+        return product.price.stringValue
     }
 }
 
@@ -125,7 +142,7 @@ struct CartCheckoutEvent: AnalyticsEventDataType {
             dictionary[EventParameterKeys.price]            = product.price.stringValue
             dictionary[EventParameterKeys.brandId]          = product.brandId?.stringValue ?? ""
             dictionary[EventParameterKeys.brandName]        = product.brandNameEn ?? ""
-            dictionary[EventParameterKeys.isSponsored]      = product.isSponsored?.boolValue ?? false
+            dictionary[EventParameterKeys.isSponsored]      = product.isSponsoredProduct
             dictionary[EventParameterKeys.isPromotion]      = product.promotion?.boolValue ?? false
             dictionary[EventParameterKeys.quantity]         = String(quantity)
             // if the isPromotion is false then need to send the actual price in promoPrice

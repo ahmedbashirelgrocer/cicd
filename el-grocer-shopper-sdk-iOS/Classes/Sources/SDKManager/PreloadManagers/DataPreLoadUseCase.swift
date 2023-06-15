@@ -24,14 +24,14 @@ class PreLoadData {
             }
             return
         }
-
+        
         SDKManager.shared.launchOptions = launchOptions
-
+        
         configureElgrocerShopper()
         
         // Remove me
         // HomePageData.shared.delegate = self
-
+        
         if self.isNotLoggedin() {
             loginSignup { isSucceed in
                 if isSucceed {
@@ -49,6 +49,8 @@ class PreLoadData {
                 HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
         }
+        
+        getSponsoredProductsAndBannersSlots { _ in }
     }
     
     func loadDataWithOutFetchingHomeCalls(launchOptions: LaunchOptions, completion: (() -> Void)? ) {
@@ -86,6 +88,8 @@ class PreLoadData {
                 self.completion?()
             }
         }
+        
+        getSponsoredProductsAndBannersSlots { _ in }
     }
 
     func loadConfigData(completion: (() -> Void)? ) {
@@ -223,6 +227,21 @@ class PreLoadData {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    private func getSponsoredProductsAndBannersSlots(completion: @escaping (Bool) -> Void) {
+        ElGrocerApi.sharedInstance.getSponsoredProductsAndBannersSlots(formerketType: 2) { result in
+            switch result {
+                
+            case .success(let adSlots):
+                ElGrocerUtility.sharedInstance.adSlots = adSlots
+                completion(true)
+                
+            case .failure(let error):
+                elDebugPrint("Error in fetching sponsored product and banners slots >> \(error.localizedMessage)")
+                completion(false)
             }
         }
     }

@@ -33,3 +33,21 @@ struct StoreSearchEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+enum SearchHistoryClickedEventSource: String {
+    case relatedProduct = "Related Product"
+    case searchHistory  = "Search History"
+}
+
+struct SearchHistoryClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(productName: String, source: SearchHistoryClickedEventSource) {
+        self.eventType = .track(eventName: AnalyticsEventName.searchHistoryClicked)
+        self.metaData = [
+            EventParameterKeys.productName: productName,
+            EventParameterKeys.source: source.rawValue
+        ]
+    }
+}
