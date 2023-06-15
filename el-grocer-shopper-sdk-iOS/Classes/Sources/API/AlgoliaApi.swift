@@ -634,9 +634,7 @@ class AlgoliaApi {
         var requestOptions = RequestOptions()
         requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
         
-        guard !isUniversal else {
-            
-            
+        guard (isUniversal && searchText != "") == false else {
             let queryRetailerSuggestion = Query(searchText)
                 .set(\.clickAnalytics, to: true)
                 .set(\.getRankingInfo, to: true)
