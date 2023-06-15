@@ -20,6 +20,9 @@ class GroceryCellForHome: UICollectionViewCell {
         clipsToBounds = true
         backgroundColor = .navigationBarWhiteColor()
         
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
+        
         lblFreeDelivery.setCaptionOneBoldYellowStyle()
         lblFreeDelivery.backgroundColor = UIColor.promotionRedColor()
         

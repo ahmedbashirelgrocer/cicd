@@ -1164,7 +1164,7 @@ extension SmileSdkHomeVC {
         let configs = ABTestManager.shared.configs
         
         switch section {
-        case 0: //0-2: Banner Label, Banner
+        case 0: //0-2: Banner, Banner Label
             return 1 + (configs.isHomeTier1 ? 1 : 0)
         case 1: //1-3: Grocery cell 1, 2, 3
             if configs.availableStoresStyle == .list {
@@ -1190,9 +1190,12 @@ extension SmileSdkHomeVC {
         // New
         switch indexPath {
         case .init(row: 0, section: 0):
+            if ABTestManager.shared.configs.isHomeTier1 {
+                return self.makeLocationOneBannerCell(indexPath)
+            }
             return self.makeLabelCell(indexPath)
         case .init(row: 1, section: 0):
-            return self.makeLocationOneBannerCell(indexPath)
+            return self.makeLabelCell(indexPath)
         case .init(row: 0, section: 2):
             return makeLocationTwoBannerCell(indexPath)
             
@@ -1240,9 +1243,12 @@ extension SmileSdkHomeVC {
         
         switch indexPath {
         case .init(row: 0, section: 0):
+            if configs.isHomeTier1 {
+                return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+            }
             return 45
         case .init(row: 1, section: 0):
-            return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+            return 45
         case .init(row: 0, section: 2):
             return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.sortedGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
         default:

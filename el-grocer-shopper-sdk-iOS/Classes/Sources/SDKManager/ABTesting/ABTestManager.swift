@@ -86,15 +86,24 @@ class ABTestManager {
 }
 
 struct Configs {
-    var isHomeTier1: Bool = true
-    var isHomeTier2: Bool = true
-    var storeTypeStyle: StoreTypeStyle = .text
-    var availableStoresStyle: AvailableStoresStyle = .list
-    var variant: ExperimentVarient = .baseline
+    var isHomeTier1: Bool
+    var isHomeTier2: Bool
+    var storeTypeStyle: StoreTypeStyle
+    var availableStoresStyle: AvailableStoresStyle
+    var variant: ExperimentVarient
     
-    init() { }
+    private let defaults = Foundation.UserDefaults.standard
+    
+    init() {
+        isHomeTier1 = (defaults.value(forKey: Keys.isHomeTier1.rawValue) as? Bool) ?? true
+        isHomeTier2 = (defaults.value(forKey: Keys.isHomeTier2.rawValue) as? Bool) ?? false
+        storeTypeStyle = StoreTypeStyle(rawValue: defaults.string(forKey: Keys.storeTypeStyle.rawValue) ?? "") ?? .text
+        availableStoresStyle = AvailableStoresStyle(rawValue: defaults.string(forKey: Keys.availableStoresStyle.rawValue) ?? "") ?? .list
+        variant = ExperimentVarient(rawValue: defaults.string(forKey: Keys.variant.rawValue) ?? "") ?? .baseline
+    }
     
     init(remoteConfig: RemoteConfig) {
+        self.init()
         isHomeTier1 = remoteConfig[Keys.isHomeTier1.rawValue].boolValue
         isHomeTier2 = remoteConfig[Keys.isHomeTier2.rawValue].boolValue
         if let styleString = remoteConfig[Keys.storeTypeStyle.rawValue].stringValue,
@@ -109,6 +118,12 @@ struct Configs {
             let style = ExperimentVarient(rawValue: styleString) {
             self.variant = style
         }
+        
+        defaults.set(isHomeTier1, forKey: Keys.isHomeTier1.rawValue)
+        defaults.set(isHomeTier2, forKey: Keys.isHomeTier2.rawValue)
+        defaults.set(storeTypeStyle.rawValue, forKey: Keys.storeTypeStyle.rawValue)
+        defaults.set(availableStoresStyle.rawValue, forKey: Keys.availableStoresStyle.rawValue)
+        defaults.set(variant.rawValue, forKey: Keys.variant.rawValue)
     }
     
     enum Keys: String {
