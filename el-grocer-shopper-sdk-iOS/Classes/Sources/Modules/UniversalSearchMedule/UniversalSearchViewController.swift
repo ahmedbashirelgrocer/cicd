@@ -1701,6 +1701,11 @@ fileprivate extension UniversalSearchViewController {
 //
     
     func combineBannersAndProducts() {
+        if self._loadedProductList.count == 0 {
+            self.combineProductsBanners = []
+            return
+        }
+        
         self.combineProductsBanners = self._loadedProductList as [Any]
         
         let locations = ElGrocerUtility.sharedInstance.adSlots?.productBannerSlots.first?.position ?? []
