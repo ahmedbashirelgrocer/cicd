@@ -75,11 +75,9 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     
     func refreshWith(dataA : [String]) {
         self.segmentTitles = dataA
-        self.reloadData()
-//        ElGrocerUtility.sharedInstance.delay(1) {
-//           self.scrollToItem(at: self.lastSelection, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
-//        }
-     
+        ElGrocerUtility.sharedInstance.delay(0.01) {
+            self.reloadData()
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

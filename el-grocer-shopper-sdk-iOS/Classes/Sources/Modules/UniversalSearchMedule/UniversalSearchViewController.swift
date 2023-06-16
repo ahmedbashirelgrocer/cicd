@@ -568,7 +568,10 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     fileprivate func searchInOtherStore() {
        
-        var filterData = ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        var filterData = HomePageData.shared.groceryA?.map { $0.dbID } ?? []
+        
+        guard filterData.count > 0 else { return }
+        
         if let firstIndex = filterData.firstIndex(of: ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "") {
             filterData.remove(at: firstIndex)
         }

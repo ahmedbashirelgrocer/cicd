@@ -204,7 +204,7 @@ class ProductBrowser {
                                                searchType: searchType) { responseObject, error in
                 if error == nil, let response = responseObject as? NSDictionary {
                     DispatchQueue.main.async {
-                        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, searchString: searchText, nil, storeIDs.count < 2)
                         self.fetchTopSortProducts(products.products, slots: slots) { productsOly in
                             DispatchQueue.main.async{ completion((productsOly, products.algoliaCount), nil) }
                         }
@@ -214,6 +214,7 @@ class ProductBrowser {
                 }
             }
     }
+    
 }
 
 // MARK: - Fetch Products from elGrocer Server

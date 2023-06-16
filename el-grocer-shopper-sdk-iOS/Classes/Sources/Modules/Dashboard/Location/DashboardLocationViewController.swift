@@ -1518,7 +1518,12 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                     }else {
                         if !sdkManager.isGrocerySingleStore { self.fetchGroceries() } else {
                             ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
+                            if (self.navigationController?.viewControllers.count ?? 0) > 1 {
+                                self.navigationController?.popToRootViewController(animated: true)
+                                return
+                            }
                             self.dismiss(animated: true)
+                           
                         }
                     }
                     
