@@ -472,3 +472,27 @@ fileprivate extension ProductBrowser {
         return sorted
     }
 }
+
+extension ProductBrowser {
+    func sortProductsOnTheBasisOfGrocery(products: [Product], grocery: Grocery) -> [Product] {
+        var sorted: [Product] = []
+        
+        let sponsored = products.filter { $0.isSponsoredProduct }
+        let promotional = products.filter { product in
+            let storePricesDic = product.storePriceDictionary[grocery.dbID]
+            return storePricesDic?["PromoPrice"] != nil && product.isSponsoredProduct == false
+        }.prefix(2)
+        
+        
+//        let promotional = products.filter { $0.promotion?.boolValue == true && $0.isSponsoredProduct == false }.prefix(2)
+        let otherProducts = products.filter { !($0.isSponsoredProduct || promotional.contains($0)) }
+
+        if promotional.isNotEmpty {
+            sorted = sponsored + promotional + otherProducts
+        } else {
+            sorted = sponsored + otherProducts
+        }
+        
+        return sorted
+    }
+}

@@ -29,9 +29,9 @@ class GlobalSearchResultDataSource {
     }
     func filterAndSavedata() {
         
-        let groeryIdA = ElGrocerUtility.sharedInstance.groceries.map { (groery) -> String in
+        let groeryIdA = HomePageData.shared.groceryA?.map { (groery) -> String in
             return groery.dbID
-        }
+        } ?? []
         for prodcut in productList! {
             if groeryIdA.count < prodcut.shopIds?.count ?? 0 {
                 for groceryID in groeryIdA {
@@ -61,12 +61,12 @@ class GlobalSearchResultDataSource {
             }
         }
         
-        self.filterGroceryList  =   ElGrocerUtility.sharedInstance.groceries.filter { (grocery) -> Bool in
+        self.filterGroceryList = HomePageData.shared.groceryA?.filter { (grocery) -> Bool in
             if filterData.keys.contains(grocery.dbID) {
                 return true
             }
             return false
-        }
+        } ?? []
         self.groceryAndBannersList = []
         
         let featuredStores = filterGroceryList
@@ -78,6 +78,11 @@ class GlobalSearchResultDataSource {
                 .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
         
         self.filterGroceryList = (featuredStores) + (notFeaturedStores)
+        
+        filterGroceryList.forEach { grocery in
+            let sortedProducts = ProductBrowser.shared.sortProductsOnTheBasisOfGrocery(products: filterData[grocery.dbID] ?? [], grocery: grocery)
+            filterData[grocery.dbID] = sortedProducts
+        }
         
         for data in self.filterGroceryList {
             

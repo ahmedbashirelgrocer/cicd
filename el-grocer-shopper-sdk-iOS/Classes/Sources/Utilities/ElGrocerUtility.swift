@@ -1555,6 +1555,7 @@ class ElGrocerUtility {
         list.append(contentsOf: scheduledList)
         list.append(contentsOf: closedList)
         
+        list = list.sorted(by:{  ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
         list = list.sorted(by: { groceryOne, groceryTwo in
             return (groceryOne.featured?.intValue ?? 0) > (groceryTwo.featured?.intValue ?? 0)
         })

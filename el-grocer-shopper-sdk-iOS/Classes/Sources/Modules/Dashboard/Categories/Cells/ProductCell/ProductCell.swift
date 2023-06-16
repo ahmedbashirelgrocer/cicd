@@ -1191,7 +1191,9 @@ class ProductCell : RxUICollectionViewCell {
             }
             if let promoPrice = product.storePriceDictionary[grocery?.dbID ?? ""]?["PromoPrice"] {
                 product.promoPrice = promoPrice
-                product.isPromotion = true
+                product.promotion = true
+            } else {
+                product.promotion = false
             }
             
             if let startTime = product.storePriceDictionary[grocery?.dbID ?? ""]?["start_time"], let endTime = product.storePriceDictionary[grocery?.dbID ?? ""]?["end_Time"]  {
