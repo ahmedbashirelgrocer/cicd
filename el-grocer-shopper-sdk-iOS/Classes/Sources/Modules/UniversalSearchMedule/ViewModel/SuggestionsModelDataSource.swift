@@ -240,7 +240,9 @@ class SuggestionsModelDataSource {
                         if let indexName = dict["index"] as? String {
                              if indexName  == AlgoliaIndexName.RetailerSuggestions.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
-                                    // returning from function because we are not showing stores in case of store search
+                                    // returning from function because we are not showing stores for
+                                    //  - Store search
+                                    //  - When search query is empty (Here we have to show top 3 stores shown in home screen)
                                     if self.searchFor == .isForStoreSearch || fetchRetailers == false { return }
                                     elDebugPrint(algoliaObj)
                                     
@@ -269,11 +271,8 @@ class SuggestionsModelDataSource {
                                             }
                                         }
                                     }
-                                       
-                                    // sorting retailers on the base of their priority
-                                    let sortedRetailersSuggestions = currentLocationsStores.sorted(by: { ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
                                     
-                                    self.insertRetailerSuggestions(retailers: sortedRetailersSuggestions, query: queryString, isPopular: false)
+                                    self.insertRetailerSuggestions(retailers: currentLocationsStores, query: queryString, isPopular: false)
                                 }
                             } else if indexName  == AlgoliaIndexName.productSuggestion.rawValue {
                                 if let algoliaObj = dict["hits"] as? [NSDictionary] {
