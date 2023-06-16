@@ -340,6 +340,12 @@ extension ProductBrowser {
         
         let slots = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3
 
+        if let tview = UIApplication.topViewController()?.view {
+            SpinnerView.showSpinnerViewInView(tview)
+        } else {
+            
+        }
+            
         ElGrocerApi.sharedInstance
             .getBrandsForCategoryWithProducts(parentCategory,
                                               forGrocery : grocery,
@@ -395,6 +401,7 @@ extension ProductBrowser {
                                         }
                                     }
                                     completionHandler(.success(brands))
+                                    SpinnerView.hideSpinnerView()
                                 }
                             }
                         }
@@ -403,6 +410,7 @@ extension ProductBrowser {
                     }
                 case .failure(let error):
                     completionHandler(.failure(error))
+                    SpinnerView.hideSpinnerView()
                 }
             }
     }
