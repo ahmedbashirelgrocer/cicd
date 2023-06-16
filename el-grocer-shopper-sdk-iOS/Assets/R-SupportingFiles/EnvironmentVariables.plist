@@ -7,35 +7,35 @@
 		<key>segmentSDKWriteKey</key>
 		<string>6yu9WwWVSHEQAWtzrLZMhGfvTEDppWCC</string>
 		<key>backendUrl</key>
-		<string>https://api.elgrocer.com/api/</string>
+		<string>https://staging-br-price-guarantee.herokuapp.com/api/</string>
 	</dict>
 	<key>Debug</key>
 	<dict>
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
-		<string>https://api.elgrocer.com/api/</string>
+		<string>https://staging-br-price-guarantee.herokuapp.com/api/</string>
 	</dict>
 	<key>StagingProduction</key>
 	<dict>
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
-		<string>https://el-grocer-staging-dev.herokuapp.com/api/</string>
+		<string>https://staging-br-price-guarantee.herokuapp.com/api/</string>
 	</dict>
 	<key>LocalHost192.168.5.21</key>
 	<dict>
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
-		<string>http://192.168.5.10:3000/api/</string>
+		<string>https://staging-br-price-guarantee.herokuapp.com/api/</string>
 	</dict>
 	<key>PreAdmin</key>
 	<dict>
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
-		<string>https://elgrocer-admin-br-single-store.herokuapp.com/api</string>
+		<string>https://elgrocer-admin-br-price-guaran.herokuapp.com/api/</string>
 	</dict>
 </dict>
 </plist>

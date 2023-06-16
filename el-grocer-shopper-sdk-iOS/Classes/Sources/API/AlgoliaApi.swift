@@ -37,8 +37,8 @@ class AlgoliaApi {
      private var algoliaAddToCartProducts : Dictionary <String, [String]> = [:]
    
     var algoliaApplicationID  =  ApplicationID(rawValue: "AS47I7FT15")
-    var algoliaApplicationIDStaging = ApplicationID(rawValue: "3LIB7IY3OL")
-    var ALGOLIA_API_KEY_STAGING = "688bccc1dcc7f10e040c36ec148557b6"
+    var algoliaApplicationIDStaging = ApplicationID(rawValue: "5TUE57VS4N")
+    var ALGOLIA_API_KEY_STAGING = "a20dd04827480538a4be4567d84174f4"
     
     
     var ALGOLIA_API_KEY_BROWSE_LIVE = APIKey(rawValue: "7c36787b0c09ef094db8a3ba93871ce7")
@@ -74,7 +74,9 @@ class AlgoliaApi {
         
          client = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_SEARCH_LIVE)
         browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_BROWSE_LIVE)
-        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
+        // TODO: Need to revert this change (change the url to staging) 
+        // This change is made for price guarantee feature implementation
+        if ElGrocerApi.sharedInstance.baseApiPath == "https://staging-br-price-guarantee.herokuapp.com/api/" {
            algoliaApplicationID = "3LIB7IY3OL"
            client = SearchClient(appID: algoliaApplicationID , apiKey: "688bccc1dcc7f10e040c36ec148557b6")
             browserClient = SearchClient(appID:  algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING))

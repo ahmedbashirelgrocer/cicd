@@ -1593,6 +1593,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle:  Bundle.resource)
         self.tableView.register(orderCollectionDetailsCell, forCellReuseIdentifier: "OrderCollectionDetailsCell")
         
+        self.tableView.register(UINib(nibName: "DownloadPDFCell", bundle: .resource), forCellReuseIdentifier: "DownloadPDFCell")
         
         let orderBasketProductTableViewCellNib = UINib(nibName: "OrderBasketProductTableViewCell", bundle: Bundle.resource)
         self.tableView.register(orderBasketProductTableViewCellNib, forCellReuseIdentifier: "OrderBasketProductTableViewCell")
@@ -1643,11 +1644,13 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         guard self.orderProducts != nil else { return 0 }
         
+        let downloadCellCount = order.taxInvoiceLink?.isNotEmpty == true ? 1 : 0
+        
         if section == 0 {
             if (order.smileEarn ?? 0) > 0 {
-                return 8
+                return 8 + downloadCellCount
             }else {
-                return 7
+                return 7 + downloadCellCount
             }
         }else  if section == 2 {
             return 1
@@ -1697,7 +1700,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 }
                 return 0.1
             }else if indexPath.row == 2 {
-                
+                if self.order.isCandCOrder() == false {
+                    return tableView.rowHeight
+                }
+                    
                 if self.order.retailerServiceId == 2 {
                     let Mapwidth = ScreenSize.SCREEN_WIDTH - 56 // -64 for left right paddings
                     let Mapheight = (Mapwidth / 4) * 3
@@ -1878,7 +1884,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderBasketProductTableViewCell", for: indexPath) as! OrderBasketProductTableViewCell
             let product =  self.orderProducts[indexPath.row]
             let item = shoppingItemForProduct(product)
-            cell.configureProduct(product, grocery: self.order.grocery, item: item)
+            let itemPossition = self.order.itemsPossition[indexPath.row]
+            cell.configureProduct(product, grocery: self.order.grocery, item: item, orderPosition: itemPossition)
             return cell
              
         }

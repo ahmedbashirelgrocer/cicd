@@ -182,7 +182,7 @@ enum ElGrocerApiEndpoint : String {
     case vehicleAttributes = "v1/vehicle_details/vehicle_attributes"
     case pickupLocations = "v1/pickup_locations/all"
     
-    case orderDetail = "v4/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
+    case orderDetail = "v5/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case updateOrderCollectorStatus = "v1/order_collection_details/update"
     case openOrderDetail = "v1/orders/show/cnc_open_orders"
     

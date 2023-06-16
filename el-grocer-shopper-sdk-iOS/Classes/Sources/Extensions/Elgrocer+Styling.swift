@@ -177,6 +177,10 @@ extension UILabel {
         self.textColor = UIColor.navigationBarWhiteColor()
         
     }
+    func setBody3BoldSecondaryDarkGreenColorStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        self.textColor = UIColor.secondaryDarkGreenColor()
+    }
     func setBody3BoldReplacementGreenStyle() {
         self.font = UIFont.SFProDisplayBoldFont(14)
         self.textColor = UIColor.replacementGreenTextColor()
@@ -343,6 +347,11 @@ extension UILabel {
     func setSubHead2SemiBoldDarkGreenStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(13)
         self.textColor = ApplicationTheme.currentTheme.labelGroceryCellSecondaryDarkTextColor
+    }
+    
+    func setTextStyleWhite() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(10)
+        self.textColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
     }
     
     func setBody1BoldStyle() {
