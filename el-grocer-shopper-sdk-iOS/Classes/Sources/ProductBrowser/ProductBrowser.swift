@@ -474,6 +474,24 @@ fileprivate extension ProductBrowser {
 }
 
 extension ProductBrowser {
+    /// Sorts an array of products based on a specified grocery and returns a new array of products sorted according to the given criteria.
+    ///
+    /// - Parameters:
+    /// - products: An array of Product objects representing the list of products to be sorted.
+    /// - grocery: A Grocery object representing the grocery based on which the sorting will be performed.
+    /// - Returns: An array of Product objects that have been sorted based on the provided criteria.
+    ///
+    /// - Discussion: This function performs the following steps to sort the products:
+    /// 1. Filters the products array to find products that are marked as sponsored.
+    /// 2. Filters the products array to find products that have a promotional price for the specified grocery and are not marked as sponsored. The filtering is done by checking if the product's storePriceDictionary contains a value for the specified grocery's ID under the key "PromoPrice". Additionally, the product must not be a sponsored product. The filtered results are limited to a maximum of 2 products.
+    /// 3. Filters the products array to find products that are neither sponsored nor part of the promotional products.
+    /// 4. If there are promotional products, the sorted array is constructed by concatenating the sponsored products, promotional products, and other products. If there are no promotional products, the sorted array is constructed by concatenating the sponsored products and other products.
+    /// 5. Returns the sorted array containing the sorted products.
+    ///
+    /// - Example:
+    /// swift /// let products: [Product] = [...] // Array of products /// let grocery: Grocery = ... // Grocery object /// /// let sortedProducts = sortProductsOnTheBasisOfGrocery(products: products, grocery: grocery) /// // Use sortedProducts array for further processing or display /// ///
+    /// - Note: The provided code snippet assumes the existence of the Product and Grocery types. The implementation of these types is not included, so make sure to provide appropriate implementations for a complete and functional usage of the sortProductsOnTheBasisOfGrocery function.
+    /// 
     func sortProductsOnTheBasisOfGrocery(products: [Product], grocery: Grocery) -> [Product] {
         var sorted: [Product] = []
         
@@ -483,8 +501,6 @@ extension ProductBrowser {
             return storePricesDic?["PromoPrice"] != nil && product.isSponsoredProduct == false
         }.prefix(2)
         
-        
-//        let promotional = products.filter { $0.promotion?.boolValue == true && $0.isSponsoredProduct == false }.prefix(2)
         let otherProducts = products.filter { !($0.isSponsoredProduct || promotional.contains($0)) }
 
         if promotional.isNotEmpty {
