@@ -68,6 +68,9 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
     }
     @IBOutlet var imgViewAllArrow: UIImageView! {
         didSet {
+            
+            imgViewAllArrow.image = sdkManager.isShopperApp ? UIImage(name: "arrowRight") : UIImage(name: "SettingArrowForward")
+            
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.imgViewAllArrow.transform = CGAffineTransform(scaleX: -1, y: 1)
             }
