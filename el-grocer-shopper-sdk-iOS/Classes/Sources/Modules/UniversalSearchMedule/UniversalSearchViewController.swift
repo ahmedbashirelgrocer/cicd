@@ -159,7 +159,11 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                 self.dataSource?.getDefaultSearchData()
                 return
             }
+            
             self.dataSource?.papulateTrengingData(true)
+            if searchFor != .isForStoreSearch {
+                self.txtSearch.becomeFirstResponder()
+            }
         }
         
         self.checkChangeLocationForSmileSearch()
