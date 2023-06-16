@@ -72,6 +72,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         
         // Logging segment screen event 
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productListingScreen))
+        _ = SpinnerView.showSpinnerViewInView(self.view)
     }
     
     override func viewWillAppear(_ animated: Bool) {

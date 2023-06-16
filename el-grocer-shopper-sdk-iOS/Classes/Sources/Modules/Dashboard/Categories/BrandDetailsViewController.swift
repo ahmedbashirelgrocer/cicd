@@ -318,8 +318,9 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         
         var pageNumber = 0
-        if self.products.count % 25 == 0 {
-            pageNumber = self.products.count / 25
+        let hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsBrandPage ?? 25
+        if self.products.count % hitsPerPage == 0 {
+            pageNumber = self.products.count / hitsPerPage
         }else {
             return
         }
@@ -347,16 +348,15 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             return
         }
 
-        let subcategoryID = self.subCategory.subCategoryId.stringValue
         let storeID = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
-        let hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsBrandPage ?? 25
         let slots = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsBrandPage ?? 3
         var subcategoryId = self.subCategory?.subCategoryId.stringValue ?? ""
+        var categoryId = self.category?.dbID.stringValue ?? ""
         var brandID = self.brand?.brandId != nil ? "\(String(describing: self.brand?.brandId ?? 0))"  : ""
         
         ProductBrowser.shared.searchProductListForStoreCategory(storeID: storeID,
                                                                 pageNumber: pageNumber,
-                                                                categoryId: subcategoryID,
+                                                                categoryId: categoryId,
                                                                 hitsPerPage: hitsPerPage,
                                                                 subcategoryId,
                                                                 brandID,
@@ -998,7 +998,9 @@ extension BrandDetailsViewController {
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_1.getType()
         let clearGroceryId = ElGrocerUtility.sharedInstance.cleanGroceryID(groceryId)
-        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [clearGroceryId], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil , brand_id: brandId , search_input: nil) { (result) in
+        let store_type_ids = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" }
+        
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [clearGroceryId], store_type_ids: store_type_ids , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil , brand_id: brandId , search_input: nil) { (result) in
             switch (result) {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: clearGroceryId)

@@ -186,6 +186,7 @@ extension TopsortManager {
         var queryJson: [String: Any] {
             var json: [String: Any] = [
                 "type": "banners",
+                "device": "mobile",
                 "slotId": slotId,
                 "slots": slots
             ]

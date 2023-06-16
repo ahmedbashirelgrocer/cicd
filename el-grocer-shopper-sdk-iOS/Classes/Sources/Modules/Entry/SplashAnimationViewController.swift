@@ -239,11 +239,18 @@ extension SplashAnimationViewController {
     
     
     private func getSponsoredProductsAndBannersSlots(completion: @escaping (Bool) -> Void) {
-        ElGrocerApi.sharedInstance.getSponsoredProductsAndBannersSlots(formerketType: 2) { result in
+        var marketType = 0 // Shopper
+        if SDKManager.shared.launchOptions?.marketType == .marketPlace {
+            marketType = 2
+        } else if SDKManager.shared.launchOptions?.marketType == .grocerySingleStore {
+            marketType = 1
+        }
+            
+        ElGrocerApi.sharedInstance.getSponsoredProductsAndBannersSlots(formerketType: marketType) { result in
             switch result {
                 
             case .success(let adSlots):
-                ElGrocerUtility.sharedInstance.adSlots = adSlots
+                ElGrocerUtility.sharedInstance._adSlots[marketType] = adSlots
                 completion(true)
                 
             case .failure(let error):

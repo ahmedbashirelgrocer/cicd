@@ -639,7 +639,7 @@ extension SuggestionsModelDataSource {
         }
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_1.getType()
-        let storeType = ElGrocerUtility.sharedInstance.activeGrocery?.storeType.map{ "\($0)" } ?? []
+        let storeType = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
         
         ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: storeType , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
             switch result {
@@ -684,6 +684,7 @@ extension SuggestionsModelDataSource {
         
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_2.getType()
+        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
         ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
             switch result {
                 case .success(let response):
