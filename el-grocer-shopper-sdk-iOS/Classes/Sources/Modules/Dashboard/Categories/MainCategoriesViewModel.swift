@@ -303,7 +303,7 @@ private extension MainCategoriesViewModel {
         self.bannersDispatchGroup.enter()
         // self.dispatchGroup.enter()
         
-        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.storeType.map{ "\($0)" } ?? []
+        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
         
         self.apiClient.getBanners(for: location,
                                   retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)],

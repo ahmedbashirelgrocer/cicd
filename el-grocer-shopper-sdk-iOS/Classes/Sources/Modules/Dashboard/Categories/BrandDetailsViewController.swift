@@ -998,7 +998,9 @@ extension BrandDetailsViewController {
         let homeTitle = "Banners"
         let location = BannerLocation.in_search_tier_1.getType()
         let clearGroceryId = ElGrocerUtility.sharedInstance.cleanGroceryID(groceryId)
-        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [clearGroceryId], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil , brand_id: brandId , search_input: nil) { (result) in
+        let store_type_ids = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" }
+        
+        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [clearGroceryId], store_type_ids: store_type_ids , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil , brand_id: brandId , search_input: nil) { (result) in
             switch (result) {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: clearGroceryId)

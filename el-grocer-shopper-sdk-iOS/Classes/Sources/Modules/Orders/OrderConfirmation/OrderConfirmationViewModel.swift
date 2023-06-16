@@ -175,7 +175,8 @@ private extension OrderConfirmationViewModel {
         let location =  BannerLocation.post_checkout.getType()
         let retailer_ids = sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""] :  ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
         
-        ElGrocerApi.sharedInstance.getBanners(for: location, retailer_ids: retailer_ids) { result in
+        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
+        ElGrocerApi.sharedInstance.getBanners(for: location, retailer_ids: retailer_ids, store_type_ids: storeTypes) { result in
             switch result {
             case .success(let data):
                 self.bannersSubject.onNext(data.map{ $0.toBannerDTO() })

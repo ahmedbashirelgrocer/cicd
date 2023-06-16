@@ -989,6 +989,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                 cellSize.height = collectionView.frame.height
             }
             
+            cellSize.height = cellSize.width * 853 / 506
             return cellSize
             
         }
@@ -1182,6 +1183,10 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             }
             
             self.logSegmentEventsForSearchHistory(searchQuery: searchData, type: model?.modelType)
+        }
+        
+        if self.searchFor == .isForStoreSearch {
+            fetchTopSortSearchBanners()
         }
         
         // Logging segment event for Universal & Store Search
@@ -1712,7 +1717,7 @@ fileprivate extension UniversalSearchViewController {
     func fetchTopSortSearchBanners() {
         
         guard let text = txtSearch.text, text != "" else { return }
-        guard let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.storeType.map({ "\($0)" }) else { return }
+        guard let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map({ "\($0)" }) else { return }
         
         let placementID = BannerLocation.in_search_product.getPlacementID()
         let slots = ElGrocerUtility.sharedInstance.adSlots?.productBannerSlots.first?.noOfSlots ?? 10
@@ -1757,7 +1762,7 @@ fileprivate extension UniversalSearchViewController {
                 }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
                     banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: grocery)
                 }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
-                    banner.changeStoreForBanners(currentActive: nil, retailers: grocery)
+                    banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: grocery)
                 }
             }
         }
