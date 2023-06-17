@@ -303,14 +303,21 @@ class ElGrocerUtility {
     
         let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
         if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
-            if grocery.dbID.elementsEqual(id) {
+            if grocery.getCleanGroceryID().elementsEqual(id) {
                 if let slot = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID , slotId: slotId.stringValue) {
                     return Int64(truncating: slot.time_milli)
                 }
             }
         }
         
-        if let slots = DeliverySlot.getFirstDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: id) {
+        if let grocery = Grocery.getGroceryById(id, context: DatabaseHelper.sharedInstance.mainManagedObjectContext),  let jsonSlot = grocery.initialDeliverySlotData, let dict = grocery.convertToDictionary(text: jsonSlot) {
+              debugPrint(dict)
+            if !grocery.isInstant() && !grocery.isInstantSchedule() {
+                if let timeStamp = dict["time_milli"] as? Int64 {
+                    return timeStamp
+                }
+            }
+        } else if let slots = DeliverySlot.getFirstDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: id) {
             if !slots.isInstant.boolValue {
                 return Int64(truncating: slots.time_milli)
             }

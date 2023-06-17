@@ -1182,27 +1182,31 @@ class ProductCell : RxUICollectionViewCell {
             }
          
         } else {
-            
-//            debugPrint("====grocery: \(self.productGrocery?.dbID) =====")
-//            debugPrint("===== storePrice: \(product.storePriceDictionary) =====")
-            if let standardPrice = product.storePriceDictionary[grocery?.dbID ?? ""]?["price"] {
-                self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: standardPrice.doubleValue)
-                product.price = standardPrice
+            if let productShopsDict = product.storePriceDictionary[grocery?.dbID ?? ""] {
+                if let standardPrice = productShopsDict["price"] {
+                    self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: standardPrice.doubleValue)
+                    product.price = standardPrice
+                }
+                if let promoPrice = productShopsDict["PromoPrice"] {
+                    product.promoPrice = promoPrice
+                    product.promotion = true
+                }else{
+                    product.promotion = false
+                }
+                if let startTime = productShopsDict["start_time"], let endTime = productShopsDict["end_time"]  {
+                    let startepochTime = TimeInterval(startTime.doubleValue) / 1000
+                    product.promoStartTime = Date(timeIntervalSince1970: startepochTime)
+                    let endepochTime = TimeInterval(endTime.doubleValue) / 1000
+                    product.promoEndTime = Date(timeIntervalSince1970: endepochTime)
+                    if let standardPrice = productShopsDict["standard_price"] {
+                        let currentSlot = ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: grocery?.dbID ?? "")
+                        if  currentSlot >= startTime.int64Value  &&  currentSlot <= endTime.int64Value {
+                            product.price = standardPrice
+                        }
+                    }
+                }
             }
-            if let promoPrice = product.storePriceDictionary[grocery?.dbID ?? ""]?["PromoPrice"] {
-                product.promoPrice = promoPrice
-                product.promotion = true
-            } else {
-                product.promotion = false
-            }
-            
-            if let startTime = product.storePriceDictionary[grocery?.dbID ?? ""]?["start_time"], let endTime = product.storePriceDictionary[grocery?.dbID ?? ""]?["end_Time"]  {
-                product.promoStartTime = startTime.stringValue.convertStringToCurrentTimeZoneDate() ?? Date()
-                product.promoEndTime = endTime.stringValue.convertStringToCurrentTimeZoneDate() ?? Date()
-            }
-            
         }
-        
        
         let promotionValues = ProductQuantiy.checkPromoNeedToDisplay(product,self.productGrocery)
         let isQuanityLimited = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product)
