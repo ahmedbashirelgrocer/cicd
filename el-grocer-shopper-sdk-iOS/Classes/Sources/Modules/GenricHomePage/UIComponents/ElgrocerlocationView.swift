@@ -194,6 +194,7 @@ class ElgrocerlocationView:  UIView  {
     
     typealias tapped = (_ isShoppingTapped: Bool)-> Void
     var shoppingListTapped: tapped?
+    var storeTapped: (()->())?
     
     
     class func loadFromNib() -> ElgrocerlocationView? {
@@ -204,6 +205,14 @@ class ElgrocerlocationView:  UIView  {
         setInitialUI(isExpanded: true)
         super.awakeFromNib()
         hideSlotImage()
+        
+        self.myGroceryImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(storeIconTap(_ :))))
+    }
+    
+    @objc func storeIconTap(_ sender: UITapGestureRecognizer) {
+        if let storeTapped = self.storeTapped {
+            storeTapped()
+        }
     }
     
     func setInitialUI(isExpanded: Bool = true) {
@@ -311,15 +320,10 @@ class ElgrocerlocationView:  UIView  {
         MixpanelEventLogger.trackStoreSearch()
         searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
         searchController.searchFor = .isForStoreSearch
+        searchController.searchString = self.txtSearchBar.text ?? ""
         vc.navigationController?.modalTransitionStyle = .crossDissolve
         vc.navigationController?.modalPresentationStyle = .formSheet
         vc.navigationController?.pushViewController(searchController, animated: true)
-        ElGrocerUtility.sharedInstance.delay(1.0) {
-            if searchController.txtSearch != nil {
-                searchController.txtSearch.becomeFirstResponder()
-            }
-        }
-        
     }
     
     

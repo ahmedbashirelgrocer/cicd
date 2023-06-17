@@ -147,6 +147,15 @@ class ElGrocerUtility {
     var tabBarSelectedIndex = 0
     
     var appConfigData : AppConfiguration!
+    var adSlots: AdSlotDTO! {         var marketType = 0 // Shopper
+        if SDKManager.shared.launchOptions?.marketType == .marketPlace {
+            return _adSlots[2]
+        } else if SDKManager.shared.launchOptions?.marketType == .grocerySingleStore {
+            return _adSlots[1]
+        }
+        return _adSlots[0]
+    }
+    var _adSlots: [Int: AdSlotDTO] = [:]
     
     var promoTagLink = "https://s3-us-west-2.amazonaws.com/elgrocerproductimagestempdata/promotag.png" + "?" + "\(Date.timeIntervalBetween1970AndReferenceDate)"
     var SessionStarttimeStamp : String =  String(format: "%.0f", Date.timeIntervalSinceReferenceDate)
@@ -173,6 +182,8 @@ class ElGrocerUtility {
     var cAndcAvailabitlyRetailerList : NSDictionary = [:]
     var currentOrderID : String = ""
     let dateFormatter = DateFormatter() // formater for slots
+    var isActiveCartAvailable = false
+    var isNeedToDismissGlobalSearchController: Bool = false
     
     
     var slotViewControllerList : Set = Set<UIViewController>()
@@ -289,13 +300,11 @@ class ElGrocerUtility {
     }
     
     func getCurrentMillisOfGrocery(id: String) -> Int64 {
-       
-        //MARK: https://elgrocerdxb.atlassian.net/browse/EG-1643 commenting because issue is moved to next phase as it is causing some other issues
-        
+    
         let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
         if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
             if grocery.dbID.elementsEqual(id) {
-                if let slot = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID ?? "-1" , slotId: slotId.stringValue) {
+                if let slot = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID , slotId: slotId.stringValue) {
                     return Int64(truncating: slot.time_milli)
                 }
             }
@@ -1554,6 +1563,7 @@ class ElGrocerUtility {
         list.append(contentsOf: scheduledList)
         list.append(contentsOf: closedList)
         
+        list = list.sorted(by:{  ($0.priority?.intValue ?? 0) < ($1.priority?.intValue ?? 0) })
         list = list.sorted(by: { groceryOne, groceryTwo in
             return (groceryOne.featured?.intValue ?? 0) > (groceryTwo.featured?.intValue ?? 0)
         })

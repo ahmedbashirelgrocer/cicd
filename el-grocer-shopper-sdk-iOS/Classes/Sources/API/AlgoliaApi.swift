@@ -35,14 +35,13 @@ class AlgoliaApi {
     typealias responseBlock = (_ content: [String: Any]?, _ error: Error?) -> ()
 
      private var algoliaAddToCartProducts : Dictionary <String, [String]> = [:]
-   
+    
+    var ALGOLIA_API_KEY_BROWSE_STAGING = APIKey(rawValue: "a20dd04827480538a4be4567d84174f4")
+    var ALGOLIA_API_KEY_SEARCH_STAGING = APIKey(rawValue: "a20dd04827480538a4be4567d84174f4")
+    
     var algoliaApplicationID  =  ApplicationID(rawValue: "AS47I7FT15")
-    
     var algoliaApplicationIDStaging = ApplicationID(rawValue: "5TUE57VS4N")
-    var ALGOLIA_API_KEY_STAGING = "a20dd04827480538a4be4567d84174f4"
-
-    
-    
+//    var ALGOLIA_API_KEY_STAGING = "a20dd04827480538a4be4567d84174f4"
     var ALGOLIA_API_KEY_BROWSE_LIVE = APIKey(rawValue: "7c36787b0c09ef094db8a3ba93871ce7")
     var ALGOLIA_API_KEY_SEARCH_LIVE = APIKey(rawValue: "52414084ccefd742bcf424dfc170614c")
     var ALGOLIA_API_KEY_INSIGHT_LIVE = APIKey(rawValue:"7c36787b0c09ef094db8a3ba93871ce7")
@@ -74,12 +73,15 @@ class AlgoliaApi {
     
     init() {
         
-         client = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_SEARCH_LIVE)
-        browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_BROWSE_LIVE)
-        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
-            client = SearchClient(appID: algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING))
-            browserClient = SearchClient(appID:  algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING))
-        }
+        var isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
+        
+        if isStaging { algoliaApplicationID = algoliaApplicationIDStaging }
+        let apiKeySearch = isStaging ? ALGOLIA_API_KEY_SEARCH_STAGING : ALGOLIA_API_KEY_SEARCH_LIVE
+        let apiKeyBrowse = isStaging ? ALGOLIA_API_KEY_BROWSE_STAGING : ALGOLIA_API_KEY_BROWSE_LIVE
+                
+        client = SearchClient(appID:  algoliaApplicationID , apiKey: apiKeySearch)
+        browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: apiKeyBrowse)
+        
         self.algoliaProductIndex =  client.index(withName:  algoliadefaultIndexName)
         self.algoliaRecipeIndex =  client.index(withName: algoliaRecipeIndexName )
         self.algoliaSearchSuggestionIndex = client.index(withName: algoliaProductSuggestionIndexName )
@@ -114,7 +116,7 @@ class AlgoliaApi {
         }
         Insights.register(appId:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_INSIGHT_LIVE , userToken: UserToken(rawValue: token))
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
-            Insights.register(appId:  algoliaApplicationIDStaging , apiKey: APIKey(rawValue: ALGOLIA_API_KEY_STAGING) , userToken:  UserToken(rawValue: token))
+            Insights.register(appId:  algoliaApplicationIDStaging , apiKey: ALGOLIA_API_KEY_SEARCH_STAGING, userToken:  UserToken(rawValue: token))
         }
         Insights.shared?.isLoggingEnabled =  Platform.isDebugBuild ? true : false
         
@@ -611,6 +613,7 @@ class AlgoliaApi {
         }
     }
  
+    // To fetch trending search keywords
     func gettrendingSearch (_ retailerID : String? = nil , searchText : String = "" , isUniversal : Bool , completion : @escaping responseBlock  )  {
    
         var filterString = ""
@@ -624,22 +627,19 @@ class AlgoliaApi {
             .set(\.getRankingInfo, to: true)
             .set(\.analytics, to: true)
             .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: isUniversal  , searchType: "suggestion"))
-        query.hitsPerPage =  searchText.count > 0 ? 3 : 4
+        query.hitsPerPage = 8 //searchText.count > 0 ? 3 : 4
         
         
         
         var requestOptions = RequestOptions()
         requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
         
-        guard !isUniversal else {
-            
-            
-            var queryRetailerSuggestion = Query(searchText)
+        guard (isUniversal && searchText != "") == false else {
+            let queryRetailerSuggestion = Query(searchText)
                 .set(\.clickAnalytics, to: true)
                 .set(\.getRankingInfo, to: true)
                 .set(\.analytics, to: true)
                 .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: isUniversal  , searchType: "suggestion"))
-            query.hitsPerPage =  searchText.count > 0 ? 3 : 4
             
             
             let queries: [IndexedQuery] = [

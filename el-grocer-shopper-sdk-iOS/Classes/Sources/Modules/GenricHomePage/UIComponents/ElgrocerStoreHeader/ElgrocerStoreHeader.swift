@@ -237,6 +237,7 @@ class ElgrocerStoreHeader:  UIView  {
         ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
         MixpanelEventLogger.trackStoreSearch()
         searchController.navigationFromControllerName = FireBaseEventsLogger.gettopViewControllerName() ?? ""
+        searchController.navigationController?.navigationBar.isHidden = true
         searchController.searchFor = .isForStoreSearch
         vc.navigationController?.modalTransitionStyle = .crossDissolve
         vc.navigationController?.modalPresentationStyle = .formSheet
@@ -274,12 +275,12 @@ class ElgrocerStoreHeader:  UIView  {
                     
                     var data = slotString.components(separatedBy: " ")
                     if data.count > 0 {
-                        var dayName = localizedString("lbl_next_delivery", comment: "")
-                        if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayName = localizedString("lbl_next_delivery", comment: "")
-                        }else {
-                            dayName = localizedString("lbl_next_self_collection", comment: "")
-                        }
+                        var dayName = "" //localizedString("lbl_next_delivery", comment: "")
+//                        if ElGrocerUtility.sharedInstance.isDeliveryMode {
+//                            dayName = localizedString("lbl_next_delivery", comment: "")
+//                        }else {
+//                            dayName = localizedString("lbl_next_self_collection", comment: "")
+//                        }
                         let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
                         attributedString.append(attributedString2)
                         data.removeFirst()
@@ -319,12 +320,12 @@ class ElgrocerStoreHeader:  UIView  {
                 
                 var data = slotString.components(separatedBy: " ")
                 if data.count == 0 {
-                    var dayName = localizedString("lbl_next_delivery", comment: "")
-                    if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                        dayName = localizedString("lbl_next_delivery", comment: "")
-                    }else {
-                        dayName = localizedString("lbl_next_self_collection", comment: "")
-                    }
+                    var dayName = "" //localizedString("lbl_next_delivery", comment: "")
+//                    if ElGrocerUtility.sharedInstance.isDeliveryMode {
+//                        dayName = localizedString("lbl_next_delivery", comment: "")
+//                    }else {
+//                        dayName = localizedString("lbl_next_self_collection", comment: "")
+//                    }
                     let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
                     attributedString.append(attributedString2)
                     data.removeFirst()

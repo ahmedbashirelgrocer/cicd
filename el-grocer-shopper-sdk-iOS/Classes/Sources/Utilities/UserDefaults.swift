@@ -649,8 +649,8 @@ public class UserDefaults {
             }else{
                 currentDataA.insert(searchString.lowercased(), at: 0)
             }
-            if currentDataA.count > 5 {
-                currentDataA = Array(currentDataA.prefix(5)) as [String]
+            if currentDataA.count > 8 {
+                currentDataA = Array(currentDataA.prefix(8)) as [String]
             }
             Foundation.UserDefaults.standard.set(currentDataA , forKey: keyValue)
             Foundation.UserDefaults.standard.synchronize()

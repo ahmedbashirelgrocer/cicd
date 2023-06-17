@@ -56,4 +56,13 @@ class Product: NSManagedObject, DBEntity {
     @NSManaged var promotionalShops : String?
     @NSManaged var objectId : String?
     
+    var isSelected: Bool = false
+    
+    /// TopSort Data
+    ///
+    var winner: Winner?
+    var rank: Int? { winner?.rank }
+    var isSponsoredProduct: Bool { winner != nil }
+    var storePriceDictionary: [String:[String:NSNumber]] = [:]
+    
 }

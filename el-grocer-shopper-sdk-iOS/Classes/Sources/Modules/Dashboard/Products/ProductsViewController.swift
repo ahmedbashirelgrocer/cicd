@@ -26,6 +26,18 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         }
     }
     @IBOutlet var buttomButtonTitle: UILabel!
+    @IBOutlet weak var stackViewSegmentedBG: UIStackView!
+    @IBOutlet weak var segmentedView: AWSegmentView! {
+        didSet {
+            segmentedView.commonInit()
+            segmentedView.segmentDelegate = self
+            segmentedView.backgroundColor = .tableViewBackgroundColor()
+        }
+    }
+    @IBOutlet weak var segmentedViewHeightConstraint: NSLayoutConstraint!
+    
+    var productsDict : Dictionary<String, Array<Product>> = [:]
+    
     var productsArray = [Product]()
     
     var selectedProduct:Product!
@@ -84,7 +96,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         self.navigationItem.hidesBackButton = true
         self.registerCellsForCollection()
         self.basketIconOverlay?.grocery = self.grocery
-        self.basketIconOverlay?.shouldShow = !self.isCommingFromUniversalSearch
+        self.basketIconOverlay?.shouldShow = true//!self.isCommingFromUniversalSearch
         self.refreshBasketIconStatus()
         self.setCollectionViewBottomConstraint()
         self.navBarAppearance()
@@ -98,10 +110,20 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         if self.isCommingFromUniversalSearch {
             self.setDataSource()
             self.buttomButtonTitle.text = localizedString("lbl_goToMain", comment: "")
-            self.bottonViewHeight.constant = 77
+            self.bottonViewHeight.constant = 0
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarText( universalSearchString ?? "")
             self.userManualSearch(searchData: universalSearchString ?? "")
             self.dataSource?.getBanners(searchInput: universalSearchString ?? "")
+            self.segmentedViewHeightConstraint.constant = 60
+            self.locationHeader.txtSearchBar.text = self.universalSearchString
+            self.locationHeader.txtSearchBar.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
+            self.locationHeader.txtSearchBar.clearButtonMode = .always
+            // Store Logo tap handler
+            locationHeader.storeTapped = { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+                ElGrocerUtility.sharedInstance.isNeedToDismissGlobalSearchController = true
+            }
+            
         }else if let homeFeed = self.homeObj {
             self.productsArray = homeFeed.products
             self.isGettingProducts = true
@@ -110,6 +132,8 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             }else{
                 self.getTopSellingProductsFromServer((self.grocery?.dbID)!, withHomeFeed: homeFeed, campaign: nil)
             }
+            
+            self.segmentedViewHeightConstraint.constant = 0
         }else if let banner = self.bannerCampaign {
             self.productsArray = []
             if let groceryID   = self.grocery?.dbID {
@@ -117,12 +141,14 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                 let home = Home.init(withBanners: [banner], withType: .Banner, grocery: self.grocery)
                 self.dataSource?.bannerFeeds.append(home)
             }
+            self.segmentedViewHeightConstraint.constant = 0
         }else if let banLink = self.bannerlinks {
             self.productsArray = []
             if let groceryID   = self.grocery?.dbID {
                 self.getTopSellingProductsFromServer(groceryID , withHomeFeed: nil, campaign: nil , true)
             }
 
+            self.segmentedViewHeightConstraint.constant = 0
         }
   
       
@@ -164,7 +190,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         NSLayoutConstraint.activate([
             self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.locationHeader.bottomAnchor.constraint(equalTo: self.collectionView.topAnchor, constant: 0)
+            self.locationHeader.bottomAnchor.constraint(equalTo: self.stackViewSegmentedBG.topAnchor, constant: 0)
             
         ])
         
@@ -216,7 +242,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                                         self.basketIconOverlay!,
                                         attribute: .top,
                                         relatedBy: .equal,
-                                        toItem: self.checkOutView,
+                                        toItem: self.collectionView,
                                         attribute: .bottom,
                                         multiplier: 1.0,
                                         constant: 0.0)
@@ -267,6 +293,11 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         if self.isCommingFromUniversalSearch {
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarText( universalSearchString ?? "")
         }
+        
+        self.basketIconOverlay?.grocery = self.grocery
+        self.refreshBasketIconStatus()
+        self.setCollectionViewBottomConstraint()
+        
         self.navBarAppearance()
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -311,6 +342,38 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             Thread.OnMainThread {
                 self.collectionView.reloadData()
             }
+            
+            if (self.dataSource?.algoliaCurrentCallProductCount ?? -1) == 0 || ((self.dataSource?.algoliaCurrentCallProductCount ?? -1) % Int(self.currentLimit)) != 0 {
+                self.moreProductsAvailable = false
+            }
+            
+            let selectedIndex = self.segmentedView.lastSelection.row
+            
+            if selectedIndex == 0 {
+                
+                let result = self.dataSource?.filterOutSegmentSubcateFrom()
+                
+                self.productsDict = result?.0 ?? [:]
+                var segmentTitleList = result?.1 ?? []
+                
+                // var segmentTitleList = self.productsDict.keys.map({ $0 })
+                segmentTitleList.insert(localizedString("all_cate", comment: ""), at: 0)
+                self.showSubcateList(segmentTitleList)
+            }else{
+                let key = self.segmentedView.segmentTitles[selectedIndex]
+                var loaddata : [Product] = []
+                if let isContain = self.productsDict[key] {
+                    loaddata = isContain
+                }
+                if self.pageNumber != 0 {
+                    loaddata += productList
+                }else{
+                    loaddata += productList
+                    loaddata = loaddata.uniqued()
+                }
+                self.productsArray = loaddata
+                self.collectionView.reloadData()
+            }
         }
         
         
@@ -327,6 +390,50 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.collectionView.reloadData()
         }
     
+    }
+    
+    fileprivate func showSubcateList (_ list :  [String]) {
+        self.configureView(list, index: self.dataSource?.selectedIndex)
+    }
+    
+    fileprivate func configureView (_ segmentData : [String] , index : NSIndexPath?) {
+        if let getIndex = index {
+            segmentedView.lastSelection = getIndex as IndexPath
+            if self.dataSource?.selectedIndex.row == 0 {
+                self.productsArray = self.dataSource?.productsList ?? []
+            } else {
+                if let indexSelected = self.dataSource?.selectedIndex {
+                    if indexSelected.row < segmentedView.segmentTitles.count {
+                        let selectedDataTitle =  segmentedView.segmentTitles[indexSelected.row]
+                        if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
+                            self.productsArray = productsAvailableToLoad
+                        }
+                    }
+                }
+            }
+            self.collectionView.reloadData()
+        }
+        segmentedView.refreshWith(dataA: segmentData)
+//
+//
+//
+//        if let getIndex = index {
+//            segmentedView.lastSelection = getIndex as IndexPath
+//            if self.dataSource?.selectedIndex.row == 0 {
+////                self.loadedProductList = self.dataSource?.productsList ?? []
+//            }else{
+//                if let indexSelected = self.dataSource?.selectedIndex {
+//                    if indexSelected.row < segmenntCollectionView.segmentTitles.count {
+//                        let selectedDataTitle =  segmenntCollectionView.segmentTitles[indexSelected.row]
+//                        if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
+//                            self.loadedProductList = productsAvailableToLoad
+//                        }
+//                    }
+//                }
+//            }
+//            self.showCollectionView(true)
+//        }
+//        segmentedView.refreshWith(dataA: segmentData)
     }
     
     func navBarAppearance() {
@@ -869,7 +976,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                 parameters["is_trending"] = true
             }
             
-            if (homeFeed?.type == HomeType.Purchased){
+            if (homeFeed?.type == HomeType.Purchased) || (homeFeed?.type == HomeType.TopSelling){
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if let profile = userProfile{
                     parameters["shopper_id"] = profile.dbID
@@ -996,13 +1103,25 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         let kLoadingDistance = 2 * kProductCellHeight + 8
         let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
         if y + kLoadingDistance > scrollView.contentSize.height && self.isGettingProducts == false{
-            
             if self.isCommingFromUniversalSearch {
-                if self.moreProductsAvailable {
-                    self.isGettingProducts = true
-                    self.pageNumber =  self.productsArray.count / Int(currentLimit)
-                    self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "" ,  "" , "" , storeIds: [ self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber , hitsPerPage: UInt(self.currentLimit))
+                
+                if moreProductsAvailable {
+                    if segmentedView.lastSelection.row > 0 {
+                        let selectedSegmentIndex =  segmentedView.lastSelection.row
+                        let selectedDataTitle =  segmentedView.segmentTitles[selectedSegmentIndex]
+                        if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
+                            self.productsArray = productsAvailableToLoad
+                            self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(currentLimit)
+                        }else{
+                            self.pageNumber  = 0
+                        }
+                        self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "",  "", segmentedView.segmentTitles[segmentedView.lastSelection.row] , storeIds: [ self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber  + 1 , hitsPerPage: UInt(currentLimit))
+                    }else{
+                        self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(currentLimit)
+                        self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "",  "", "" , storeIds: [ self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber , hitsPerPage: UInt(currentLimit))
+                    }
                 }
+            
             }else if let campaing = self.bannerCampaign {
                 self.isGettingProducts = true
                 self.getTopSellingProductsFromServer((self.grocery?.dbID)!, withHomeFeed: nil, campaign: campaing)
@@ -1097,4 +1216,28 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     }
     
     
+}
+
+extension ProductsViewController: AWSegmentViewProtocol {
+    func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) {
+        self.moreProductsAvailable = true // more load allow
+        
+        self.dataSource?.resetForSegmentIndexChangeIfNeeded(newIndex: selectedSegmentIndex)
+        self.dataSource?.selectedIndex = NSIndexPath.init(row: selectedSegmentIndex , section: 0)
+        if selectedSegmentIndex == 0 {
+            self.productsArray = self.dataSource?.productsList ?? []
+            self.pageNumber =  (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(currentLimit)
+            self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "" ,  "", segmentedView.segmentTitles[segmentedView.lastSelection.row] , storeIds: [self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber   , hitsPerPage: UInt(currentLimit))
+        }else{
+            let selectedDataTitle =  segmentedView.segmentTitles[selectedSegmentIndex]
+            if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
+                self.productsArray = productsAvailableToLoad
+                self.pageNumber =  (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(currentLimit)
+            }else{
+                self.pageNumber  = 0
+            }
+            self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "" ,  "", segmentedView.segmentTitles[segmentedView.lastSelection.row] , storeIds: [self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber   , hitsPerPage: UInt(currentLimit))
+        }
+        self.collectionView.reloadData()
+    }
 }

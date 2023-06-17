@@ -66,6 +66,11 @@ class SplashAnimationViewController: UIViewController {
             self.checkClientVersion()
         }
         
+        if ElGrocerUtility.sharedInstance.adSlots == nil {
+            self.configureElgrocerShopper()
+            getSponsoredProductsAndBannersSlots { isLoaded in }
+        }
+        
     }
  
     override func viewWillAppear(_ animated: Bool) {
@@ -232,6 +237,31 @@ class SplashAnimationViewController: UIViewController {
    
 }
 extension SplashAnimationViewController {
+    
+    
+    private func getSponsoredProductsAndBannersSlots(completion: @escaping (Bool) -> Void) {
+        var marketType = 0 // Shopper
+        if SDKManager.shared.launchOptions?.marketType == .marketPlace {
+            marketType = 2
+        } else if SDKManager.shared.launchOptions?.marketType == .grocerySingleStore {
+            marketType = 1
+        }
+            
+        ElGrocerApi.sharedInstance.getSponsoredProductsAndBannersSlots(formerketType: marketType) { result in
+            switch result {
+                
+            case .success(let adSlots):
+                ElGrocerUtility.sharedInstance._adSlots[marketType] = adSlots
+                completion(true)
+                
+            case .failure(let error):
+                elDebugPrint("Error in fetching sponsored product and banners slots >> \(error.localizedMessage)")
+                completion(false)
+            }
+        }
+    }
+    
+    
     
  @objc private func configureElgrocerShopper() {
 

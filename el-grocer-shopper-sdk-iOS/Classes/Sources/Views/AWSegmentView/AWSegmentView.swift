@@ -75,11 +75,9 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     
     func refreshWith(dataA : [String]) {
         self.segmentTitles = dataA
-        self.reloadData()
-//        ElGrocerUtility.sharedInstance.delay(1) {
-//           self.scrollToItem(at: self.lastSelection, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
-//        }
-     
+        ElGrocerUtility.sharedInstance.delay(0.01) {
+            self.reloadData()
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -99,9 +97,10 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     func configureCellForProduct(_ indexPath:IndexPath) -> AWSegmentViewCell {
         
         let cell = self.dequeueReusableCell(withReuseIdentifier: kSegmentViewCellIdentifier, for: indexPath) as! AWSegmentViewCell
-        let segmentTitle = self.segmentTitles[(indexPath as NSIndexPath).row]
-        cell.configareCellWithTitle(segmentTitle, withSelectedState: indexPath == self.lastSelection ? true : false)
-   
+        if segmentTitles.count > indexPath.row {
+            let segmentTitle = self.segmentTitles[(indexPath as NSIndexPath).row]
+            cell.configareCellWithTitle(segmentTitle, withSelectedState: indexPath == self.lastSelection ? true : false)
+        }
 //        let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
 //        if currentLang == "ar" {
 //            cell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)

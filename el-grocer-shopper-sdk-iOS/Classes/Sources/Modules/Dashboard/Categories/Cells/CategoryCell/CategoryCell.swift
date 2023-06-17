@@ -29,7 +29,13 @@ class CategoryCell: UITableViewCell {
     @IBOutlet weak var loadingIndicator: ElGrocerActivityIndicatorView!
     @IBOutlet weak var imgCategory: UIImageView!
     @IBOutlet var subCategoryListinng: SubCategoryListing!
-    @IBOutlet weak var rightArrowImageView: UIImageView!
+    @IBOutlet weak var rightArrowImageView: UIImageView! {
+        didSet {
+            rightArrowImageView.image = sdkManager.isShopperApp ? UIImage(name: "arrowRight") : UIImage(name: "SettingArrowForward")
+        }
+        
+        
+    }
     @IBOutlet var btnViewAll: AWButton! {
         didSet{
             btnViewAll.setTitle(localizedString("view_more_title", comment: "view_more_title"), for: .normal)

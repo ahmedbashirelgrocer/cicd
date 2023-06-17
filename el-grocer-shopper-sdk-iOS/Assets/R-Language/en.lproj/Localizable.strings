@@ -732,7 +732,7 @@
 "not_finding_your_favorite_products_description" = "Type in each product you need and we’ll work with our partner to add for your next shopping experience.";
 "available_balance" = "Available Balance";
 "save_button_title" = "SAVE";
-"trending_searches" = "TRENDING SEARCHES";
+"trending_searches" = "IN PRODUCTS";
 "all_products" = "All Products";
 "all_products_from_store" = "All products from this store";
 "add_title" = "Add";
@@ -1002,7 +1002,7 @@
 "reorder_banner_title" = "Buy now!";
 "reorder_banner_description" = "Re-Order your last basket from this store.";
 "reorder_banner_button_title" = "Re-Order";
-"previously_purchased_products_title" = "Previously Purchased Products";
+"previously_purchased_products_title" = "Buy it again";
 "trending_near_you_title" = "Trending Near You";
 "featured_products_title" = "Featured Products";
 "top_selling_title" = "Top Selling";
@@ -1331,6 +1331,7 @@
 "search_products" = "Search products...";
 "search_products_add" = "Search products to add…";
 "search_products_replace" = "Search for the item to replace";
+"global_search_result_screen_title_text" = "Search results";
 
 
 "pg_18_msg" = "In order to purchase this product, you must be over 18 years old.";
@@ -1546,15 +1547,19 @@ Add delivery details";
 "btn_NoSearch_noDataView" = "Search other stores";
 "lbl_DidNotFind" = "Didn't find what you need?";
 "lbl_Contnue_shopping_s" = "Continue shopping";
-
-
+"text_popular_stores" = "POPULAR STORES";
+"text_stores" = "STORES";
+"search_no_products_found_message" = "👀 No products found, try a different one...";
+"search_no_stores_found_message" = "👀 No stores found, try a different one...";
+"search_no_search_history_found_message" = "👀 Your search history will appear here...";
 
 "lbl_weFound" = "We found";
 "lbl_StorethatSell" = "stores that sell";
 
-"lbl_SearchInAllStore" = "Search for inspiration...";
+"lbl_SearchInAllStore" = "Search products, stores";
 "all_cate" = "All Categories";
 "lbl_Ingredients" = "ingredients";
+"store_search_nav_title" = "Search";
 //zendesk string
 
 "ios.ZDKHelpCenter.articleAttachmentsError" = "Failed to fetch attachments";
@@ -1780,7 +1785,7 @@ Add delivery details";
 "msg_limited_stock_title" = "This promotion has limited items stock.";
 "msg_limited_stock_start" = "You can add only ";
 "msg_limited_stock_end" = " items max.";
-"lbl_limited_Stock" = "LIMITED STOCK";
+"lbl_limited_Stock" = "Limited stock";
 "txt_Saved" = "SAVED!";
 "lbl_ProductLimit" = "Product limit change. Please update.";
 
@@ -1908,7 +1913,7 @@ Add delivery details";
 //MARK: store header
 "btn_shopping_list_title" = "Add Shopping List";
 "btn_help" = "Help";
-"search_placeholder_store_header" = "Search items...";
+"search_placeholder_store_header" = "Search Products...";
 
 "title_view_all_cat" = "View All Categories";
 "title_proactive" = "Proactive Chat";
@@ -1925,8 +1930,7 @@ Oreo";
 //MARK: C&C
 "lbl_collectionNear" = "Where would you like to collect groceries?";
 //MARK: home search header
-"search_placeholder_home" = "Search items, stores, recipes...";
-"search_placeholder_home_Smiles" = "Search items, stores...";
+"search_placeholder_home" = "Search products, stores...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "Search items or stores...";
 "search_placeholder_view_allstore_categories" = "Search items or stores...";

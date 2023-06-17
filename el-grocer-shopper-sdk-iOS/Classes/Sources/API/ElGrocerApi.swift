@@ -107,6 +107,7 @@ enum ElGrocerApiEndpoint : String {
     case Wallet = "v2/shoppers/wallet"
     case OrderTracking = "v1/order_feedbacks/tracking.json"
     case DeliveryFeedback = "v1/order_feedbacks.json"
+    case purchasedOrders = "v1/orders/purchased_order"
     
     //case DeliverySlots = "v2/delivery_slots/all.json" // update on 21 dec for slots updates
    // case DeliverySlots = "v1/delivery_slots/all.json" // update on 24 march for slots updates / new slot logic
@@ -204,6 +205,7 @@ enum ElGrocerApiEndpoint : String {
     case orderSubstitutionBasketUpdate = "v4/orders/substitution"
     case getActiveCarts = "v2/baskets/all_carts"
     case isActiveCartAvailable = "v2/baskets/is_cart_available"
+    case adSlotsForBannersAndSponsoredProducts = "v1/ad_slots"
     // Flavor Store
     case getFlavoredStore = "v1/retailers/single_store"
  }
@@ -544,6 +546,33 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         
     }
+      
+      func getSponsoredProductsAndBannersSlots(formerketType id: Int, completion: @escaping (_ result: Either<AdSlotDTO>) -> Void) {
+          let params = ["market_type_id": id]
+          
+          NetworkCall.get(ElGrocerApiEndpoint.adSlotsForBannersAndSponsoredProducts.rawValue, parameters: params) { progress in
+              
+          } success: { operation, response in
+              do {
+                  if let rootJson = response as? NSDictionary, let dataJson = rootJson["data"] as? NSDictionary {
+                      let decoder = JSONDecoder()
+                      let data = try JSONSerialization.data(withJSONObject: dataJson)
+                      let adSlotDTO = try decoder.decode(AdSlotDTO.self, from: data)
+                      completion(.success(adSlotDTO))
+                      return
+                  }
+                  
+                  completion(.failure(.parsingError()))
+              } catch {
+                  completion(.failure(.parsingError()))
+              }
+          } failure: { operation, error in
+              if InValidSessionNavigation.CheckErrorCase(ElGrocerError(error: error as NSError)) {
+                  completion(Either.failure(ElGrocerError(error: error as NSError)))
+              }
+          }
+
+      }
     
   
   // MARK: Login & Registration
@@ -2976,6 +3005,40 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
       }
   }
   }
+      
+      func fetchPurchasedOrders(retailerId: String?, completion: @escaping (_ result: Either<[SearchHistory]>) -> Void) {
+          setAccessToken()
+          
+          let params = NSMutableDictionary()
+          params["market_type_id"] = sdkManager.isGrocerySingleStore ? "1" : "0"
+          
+          if let retailerId = retailerId {
+              params["current_retailer_id"] = retailerId
+          }
+          
+          NetworkCall.get(ElGrocerApiEndpoint.purchasedOrders.rawValue, parameters: params) { progress in
+              
+          } success: { URLSessionDataTask, responseObject in
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let searchHistoryResponse = try JSONDecoder().decode(SearchHistoryResponse.self, from: data)
+                      completion(.success(searchHistoryResponse.data))
+                      return
+                  }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+          } failure: { URLSessionDataTask, error in
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completion(Either.failure(errorToParse))
+              }
+          }
+
+      }
   
   
   // MARK: Order Subtitution
@@ -4647,8 +4710,77 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
     
     // MARK: NewBannerApi
     
+      func getBanners(for location : BannerLocation,
+                      retailer_ids : [String]? = nil,
+                      store_type_ids : [String]? = nil,
+                      retailer_group_ids :  [String]? = nil,
+                      category_id : Int? = nil,
+                      subcategory_id : Int? = nil,
+                      brand_id : Int? = nil,
+                      search_input : String? = nil,
+                      completionHandler:@escaping (_ result: Either<[BannerCampaign]>) -> Void) {
+          
+          
+          
+          var elGrocerBanners: [BannerCampaign] = []
+          var topSortBanners: [BannerCampaign] = []
+          var fetchError: ElGrocerError?
+          let fetchGroup = DispatchGroup()
+          
+          if location.isNeedToFetchRetailerBanner {
+              fetchGroup.enter()
+              self.getBannersFor(location: location,
+                                 retailer_ids: retailer_ids,
+                                 store_type_ids: store_type_ids,
+                                 retailer_group_ids: retailer_group_ids,
+                                 category_id: category_id,
+                                 subcategory_id: subcategory_id,
+                                 brand_id: brand_id,
+                                 search_input: search_input) { result in
+                  AccessQueue.execute {
+                      switch result {
+                      case .success(let response):
+                          elGrocerBanners = BannerCampaign.getBannersFromResponse(response)
+                      case .failure(let error):
+                          fetchError = error
+                      }
+                      fetchGroup.leave()
+                  }
+              }
+          }
+          
+          fetchGroup.enter()
+          TopsortManager.shared.auctionBanners(slotId: location.getPlacementID(), slots: location.getSlots(), searchQuery: search_input, storeTypes: store_type_ids ?? [], subCategoryId: subcategory_id) { result in
+              AccessQueue.execute {
+                  switch result {
+                  case .success(let winners):
+                      topSortBanners = winners.sorted(by: { $0.rank < $1.rank }).map{ $0.toBannerCampaign() }
+                  case .failure(let error):
+                      print(error.localizedDescription)
+                      fetchError = ElGrocerError.genericError()
+                  }
+                  fetchGroup.leave()
+              }
+          }
+          
+          // 2
+          fetchGroup.notify(queue: DispatchQueue.main) {
+//            AccessQueue.execute {
+              if let error = fetchError {
+                  completionHandler(.failure(error))
+              } else {
+                  let maxp = (topSortBanners.map{ $0.priority.intValue }).max() ?? 0
+                  
+                  for i in 0..<elGrocerBanners.count {
+                      elGrocerBanners[i].priority = (maxp + elGrocerBanners[i].priority.intValue) as NSNumber
+                  }
+                  completionHandler(.success(topSortBanners + elGrocerBanners))
+              }
+//            }
+          }
+      }
     
-    func getBannersFor( location : BannerLocation ,  retailer_ids : [String]? = nil , store_type_ids : [String]? = nil , retailer_group_ids :  [String]? = nil , category_id : Int? = nil , subcategory_id : Int? = nil , brand_id : Int? = nil , search_input : String? = nil ,  completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+    fileprivate func getBannersFor( location : BannerLocation ,  retailer_ids : [String]? = nil , store_type_ids : [String]? = nil , retailer_group_ids :  [String]? = nil , category_id : Int? = nil , subcategory_id : Int? = nil , brand_id : Int? = nil , search_input : String? = nil ,  completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         
         setAccessToken()
         var parameters = [String : AnyObject]()

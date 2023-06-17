@@ -24,6 +24,7 @@ enum searchType {
 
 class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , GroceryLoaderDelegate , BasketIconOverlayViewProtocol {
     
+    @IBOutlet weak var viewMainBG: UIView!
     
     lazy var NoDataView : NoStoreView = {
         let noStoreView = NoStoreView.loadFromNib()
@@ -42,14 +43,33 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     var storeIDs : [String] = []
     var storeTypeIDs : [String] = []
     var groupIDs : [String] = []
-    let hitsPerPage = UInt(20)
+    var hitsPerPage: UInt {
+        if searchFor == .isForStoreSearch {
+            return UInt(ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStoreSearch ?? 100)
+        }
+        
+        return 100
+    }
     var pageNumber : Int = 0
-    var loadedProductList : [Product] = []
+    var _loadedProductList : [Product] = [] { didSet {
+        self.combineBannersAndProducts()
+    }}
+    var _productBanners: [BannerCampaign] = [] { didSet {
+        self.combineBannersAndProducts()
+        for index in 0..<_productBanners.count {
+            if let bidID = _productBanners[index].resolvedBidId {
+                TopsortManager.shared.log(.impressions(resolvedBidId: bidID))
+            }
+        }
+    }}
+    var combineProductsBanners: [Any] = []
+    
     var productsDict : Dictionary<String, Array<Product>> = [:]
     var moreProductsAvailable = true
     var isLoadingProducts = false
     var selectedProduct:Product!
     var commingFromVc : UIViewController?
+    var commingFromIntegratedSearch: Bool = false
     
     
     //Banner Handling
@@ -59,7 +79,13 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     var collectionViewBottomConstraint: NSLayoutConstraint?
 
     @IBOutlet var searchBarView: AWView!
-    @IBOutlet var txtSearch: UITextField!
+    @IBOutlet var txtSearch: UITextField! {
+        didSet{
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                txtSearch.textAlignment = .right
+            }
+        }
+    }
     @IBOutlet var storeNameViewHeight: NSLayoutConstraint!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var collectionView: UICollectionView!
@@ -80,14 +106,29 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     //MARK:-  Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setUpAppearance()
+//        self.setUpAppearance()
         self.registerCells ()
         self.setDataSource()
-        self.dataSource?.getDefaultSearchData()
         addBasketOverlay()
+        
+        if self.searchString.isNotEmpty {
+            self.txtSearch.text = searchString
+        } else {
+            self.dataSource?.getDefaultSearchData()
+        }
+        
+        self.viewMainBG.layer.cornerRadius = 24.0
+        
+        // Show default data papular stores and search history
+        if self.searchFor == .isForStoreSearch {
+            self.tableView.backgroundView = nil
+        }
+        
+        self.showCollectionView(false)
     }
     override func viewWillAppear(_ animated: Bool) {
-        (self.navigationController as? ElGrocerNavigationController)?.setNavigationBarHidden(true, animated: true)
+        self.setUpAppearance()
+        
         guard self.searchFor == .isForUniversalSearch else {
             return
         }
@@ -118,9 +159,11 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                 self.dataSource?.getDefaultSearchData()
                 return
             }
-            self.dataSource?.papulateTrengingData(true)
             
-            self.txtSearch.becomeFirstResponder()
+            self.dataSource?.papulateTrengingData(true)
+            if searchFor != .isForStoreSearch {
+                self.txtSearch.becomeFirstResponder()
+            }
         }
         
         self.checkChangeLocationForSmileSearch()
@@ -128,8 +171,9 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        
         self.commingFromVc = UIApplication.topViewController()
+        
+        self.commingFromIntegratedSearch = false
     }
     
     private func addBasketOverlay() {
@@ -147,8 +191,6 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         
         ElgrocerFarLocationCheck.shared.showLocationCustomPopUp(false)
         SDKManager.shared.launchOptions?.navigationType = .Default
-        
-
     }
     
     @IBAction func voiceSearchAction(_ sender: Any) {
@@ -182,27 +224,39 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     }
 
     fileprivate func setUpAppearance() {
-        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setNavigationBarHidden(true, animated: true)
+        if self.navigationController is ElGrocerNavigationController {
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+        }
+        
+        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setCartButtonHidden(true)
+        
+        self.removeBackButton()
+        
         self.txtSearch.font = UIFont.SFProDisplayNormalFont(14)
         self.txtSearch.placeholder =  localizedString("search_products", comment: "")
         
         if self.searchFor == .isForStoreSearch {
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
+
+            self.title = "\(localizedString("store_search_nav_title", comment: "")) \(ElGrocerUtility.sharedInstance.activeGrocery?.name ?? "")"
         }else{
-            
+
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
-  
+            self.title = localizedString("lbl_SearchInAllStore", comment: "")
         }
         
        
         self.txtSearch.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
         self.txtSearch.textColor = UIColor.newBlackColor()
         self.txtSearch.clipsToBounds = false
-        self.tableView.backgroundColor = .tableViewBackgroundColor()//.white
+        self.tableView.backgroundColor = .white
         self.collectionView.backgroundColor = .tableViewBackgroundColor()
         self.storeNameViewHeight.constant = 0
         self.setCollectionViewBottomConstraint()
@@ -220,18 +274,17 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         if let getIndex = index {
             segmenntCollectionView.lastSelection = getIndex as IndexPath
             if self.dataSource?.selectedIndex.row == 0 {
-                self.loadedProductList = self.dataSource?.productsList ?? []
+                self._loadedProductList = self.dataSource?.productsList ?? []
             }else{
                 if let indexSelected = self.dataSource?.selectedIndex {
                     if indexSelected.row < segmenntCollectionView.segmentTitles.count {
                         let selectedDataTitle =  segmenntCollectionView.segmentTitles[indexSelected.row]
                         if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
-                            self.loadedProductList = productsAvailableToLoad
+                            self._loadedProductList = productsAvailableToLoad
                         }
                     }
                 }
             }
-            self.showCollectionView(true)
         }
         segmenntCollectionView.refreshWith(dataA: segmentData)
     }
@@ -241,11 +294,16 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
+        let porductBannerCell = UINib(nibName: "PorductBannerCell", bundle: Bundle.resource)
+        self.collectionView.register(porductBannerCell, forCellWithReuseIdentifier: "PorductBannerCell")
+        
         let BasketBannerCollectionViewCellNIB = UINib(nibName: "BasketBannerCollectionViewCell", bundle: Bundle.resource)
         self.collectionView.register(BasketBannerCollectionViewCellNIB , forCellWithReuseIdentifier: BasketBannerCollectionViewCellIdentifier)
-        
+        self.showCollectionView(true)
         let EmptyCollectionReusableViewheaderNib = UINib(nibName: "NoStoreSearchStoreCollectionReusableView", bundle: Bundle.resource)
         self.collectionView.register(EmptyCollectionReusableViewheaderNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "NoStoreSearchStoreCollectionReusableView")
+        
+        self.tableView.register(UINib(nibName: "SeparatorTableViewCell", bundle: .resource), forCellReuseIdentifier: "SeparatorTableViewCell")
         
         self.collectionView.delegate   = self
         self.collectionView.dataSource = self
@@ -264,6 +322,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     fileprivate func setDataSource() {
         
         self.dataSource = SuggestionsModelDataSource()
+        self.dataSource?.searchFor = self.searchFor
         storeIDs = []
         storeTypeIDs = []
         if self.searchFor == .isForStoreSearch  {
@@ -373,7 +432,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                         loaddata += productList
                         loaddata = loaddata.uniqued()
                     }
-                    self.loadedProductList = loaddata
+                    self._loadedProductList = loaddata
                     self.showCollectionView(true)
                 }
             }
@@ -430,7 +489,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                             loaddata += productList
                             loaddata = loaddata.uniqued()
                         }
-                        self.loadedProductList = loaddata
+                        self._loadedProductList = loaddata
                         self.showCollectionView(true)
                     }
                 self.refreshBasketIconStatus()
@@ -470,7 +529,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         }
         
         if SDKManager.shared.launchOptions?.navigationType == .search {
-            SDKManager.shared.launchOptions?.navigationType == .Default
+            SDKManager.shared.launchOptions?.navigationType = .Default
         }
     }
     
@@ -479,10 +538,10 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.collectionView.isHidden  = !isNeedToShow
         if isNeedToShow  {
             self.storeNameViewHeight.constant = 50
-            self.collectionView.reloadData()
+            self.collectionView.reloadDataOnMainThread()
         }else{
             self.storeNameViewHeight.constant = 0
-            self.tableView.reloadData()
+            self.tableView.reloadDataOnMain()
         }
     }
     
@@ -495,7 +554,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                 self.tableView.backgroundView = self.NoDataView
                 self.tableView.reloadData()
                 if self.basketIconOverlay != nil {
-                    self.basketIconOverlay?.isHidden = true
+                    self.basketIconOverlay?.isHidden = (self._loadedProductList.count == 0)
                 }
                 return
             }
@@ -509,7 +568,10 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     
     fileprivate func searchInOtherStore() {
        
-        var filterData = ElGrocerUtility.sharedInstance.groceries.map { $0.dbID }
+        var filterData = HomePageData.shared.groceryA?.map { $0.dbID } ?? []
+        
+        guard filterData.count > 0 else { return }
+        
         if let firstIndex = filterData.firstIndex(of: ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "") {
             filterData.remove(at: firstIndex)
         }
@@ -674,13 +736,13 @@ extension UniversalSearchViewController : AWSegmentViewProtocol {
         }
         self.dataSource?.selectedIndex = NSIndexPath.init(row: selectedSegmentIndex , section: 0)
         if selectedSegmentIndex == 0 {
-            self.loadedProductList = self.dataSource?.productsList ?? []
+            self._loadedProductList = self.dataSource?.productsList ?? []
             self.pageNumber =  (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
             self.dataSource?.getProductDataForStore(true, searchString: finalSearchString ,  "", segmenntCollectionView.segmentTitles[segmenntCollectionView.lastSelection.row] , storeIds: storeIDs, pageNumber: self.pageNumber   , hitsPerPage: hitsPerPage)
         }else{
             let selectedDataTitle =  segmenntCollectionView.segmentTitles[selectedSegmentIndex]
             if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
-                self.loadedProductList = productsAvailableToLoad
+                self._loadedProductList = productsAvailableToLoad
                 self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
             }else{
                 self.pageNumber  = 0
@@ -712,6 +774,13 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
             return tableCell
         }
         
+        if obj.modelType == .separator {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SeparatorTableViewCell", for: indexPath) as! SeparatorTableViewCell
+            cell.configure(backgroundColor: .tableViewBackgroundColor())
+            
+            return cell
+        }
+        
         if obj.modelType == SearchResultSuggestionType.title || obj.modelType == SearchResultSuggestionType.titleWithClearOption {
             let tablecell : UniTitleCell = tableView.dequeueReusableCell(withIdentifier: "UniTitleCell", for: indexPath) as! UniTitleCell
             tablecell.cellConfigureWith(obj)
@@ -738,7 +807,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let obj = self.dataSource?.model[indexPath.row] {
+        if let obj = self.dataSource?.model[indexPath.row], obj.modelType != .noDataFound, obj.modelType != .separator {
             if obj.modelType == .searchHistory || obj.modelType == .trendingSearch {
                 self.txtSearch.text = obj.title
             }
@@ -789,7 +858,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         // self.loadedProductList.count > 30 ||
-        if  !self.moreProductsAvailable && !sdkManager.isGrocerySingleStore {
+        if  !self.moreProductsAvailable && !sdkManager.isGrocerySingleStore && self.commingFromIntegratedSearch == false {
             return  CGSize.init(width: self.view.frame.size.width , height: 146)
         }
         return CGSize.zero
@@ -797,7 +866,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        if self.loadedProductList.count > 30 || !self.moreProductsAvailable {
+        if (self.combineProductsBanners.count > 30 || !self.moreProductsAvailable) && self.commingFromIntegratedSearch == false {
             if kind == UICollectionView.elementKindSectionFooter {
                 let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "NoStoreSearchStoreCollectionReusableView", for: indexPath) as! NoStoreSearchStoreCollectionReusableView
                 headerView.buttonClicked = { [weak self] in
@@ -818,7 +887,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let bannerFeedCount = self.dataSource?.bannerFeeds.count ?? 0
-        return  self.loadedProductList.count > 0 ? (self.loadedProductList.count + bannerFeedCount ) : 0
+        return  self.combineProductsBanners.count > 0 ? (self.combineProductsBanners.count + bannerFeedCount) : 0
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -836,19 +905,30 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
     
     
     
-    func configureCellForSearchedProducts(_ indexPath:IndexPath) -> ProductCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductCellIdentifier, for: indexPath) as! ProductCell
-        
-        if indexPath.row < self.loadedProductList.count {
-            let product = self.loadedProductList[(indexPath as NSIndexPath).row ]
+    func configureCellForSearchedProducts(_ indexPath:IndexPath) -> UICollectionViewCell {
+        if indexPath.row >= self.combineProductsBanners.count {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductCellIdentifier, for: indexPath) as! ProductCell
+            cell.productContainer.isHidden = !(indexPath.row < self.combineProductsBanners.count)
+            return cell
+            
+        } else if let product = combineProductsBanners[indexPath.row] as? Product {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kProductCellIdentifier, for: indexPath) as! ProductCell
             cell.configureWithProduct(product, grocery: self.dataSource?.currentGrocery , cellIndex: indexPath)
             cell.delegate = self
-        }else{
-            elDebugPrint(indexPath)
+            cell.productContainer.isHidden = !(indexPath.row < self.combineProductsBanners.count)
+            return cell
+            
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PorductBannerCell", for: indexPath) as! PorductBannerCell
+            
+            if let banner = combineProductsBanners[indexPath.row] as? BannerCampaign,
+               let url = URL(string: banner.url) {
+                cell.imageView.sd_setImage(with: url)
+                handleNavigationsFor(cell, and: banner)
+            }
+            
+            return cell
         }
-        cell.productContainer.isHidden = !(indexPath.row < self.loadedProductList.count)
-        return cell
     }
     
     fileprivate func checkIsBannerCell(_ indexPath : IndexPath) -> Bool {
@@ -916,6 +996,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                 cellSize.height = collectionView.frame.height
             }
             
+            cellSize.height = cellSize.width * 853 / 506
             return cellSize
             
         }
@@ -958,7 +1039,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                         let selectedSegmentIndex =  segmenntCollectionView.lastSelection.row
                         let selectedDataTitle =  segmenntCollectionView.segmentTitles[selectedSegmentIndex]
                         if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
-                            self.loadedProductList = productsAvailableToLoad
+                            self._loadedProductList = productsAvailableToLoad
                             self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(hitsPerPage)
                         }else{
                             self.pageNumber  = 0
@@ -995,8 +1076,12 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             self.showCollectionView(false)
         }
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor
+        if self.searchFor == .isForStoreSearch {
+            fetchTopSortSearchBanners()
+        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -1076,13 +1161,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        
         self.searchString = ""
-        guard self.searchFor == .isForUniversalSearch else {
-            return true
-        }
         self.dataSource?.currentSearchString = self.searchString
-        self.dataSource?.papulateTrengingData(true)
+        self.dataSource?.getDefaultSearchData()
         return true
     }
     
@@ -1107,6 +1188,12 @@ extension UniversalSearchViewController: UITextFieldDelegate {
             if self.searchFor == .isForStoreSearch {
                 self.dataSource?.getBanners(searchInput: searchData)
             }
+            
+            self.logSegmentEventsForSearchHistory(searchQuery: searchData, type: model?.modelType)
+        }
+        
+        if self.searchFor == .isForStoreSearch {
+            fetchTopSortSearchBanners()
         }
         
         // Logging segment event for Universal & Store Search
@@ -1130,7 +1217,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.segmenntCollectionView.lastSelection = NSIndexPath.init(row: 0, section: 0) as IndexPath
         self.productsDict = [:]
         self.pageNumber = 0
-        self.loadedProductList = []
+        self._loadedProductList = []
         self.moreProductsAvailable = true
         self.isLoadingProducts = false
         self.reloadCollectionView(true)
@@ -1210,7 +1297,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.segmenntCollectionView.lastSelection = NSIndexPath.init(row: 0, section: 0) as IndexPath
         self.productsDict = [:]
         self.pageNumber = 0
-        self.loadedProductList = []
+        self._loadedProductList = []
         self.moreProductsAvailable = true
         self.isLoadingProducts = false
         self.reloadCollectionView(true)
@@ -1234,7 +1321,31 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         // End Segment Logging
     }
     
-    
+    private func logSegmentEventsForSearchHistory(searchQuery: String, type: SearchResultSuggestionType?) {
+        if let type = type {
+            switch type {
+                
+            case .searchHistory:
+                SegmentAnalyticsEngine.instance.logEvent(event: SearchHistoryClickedEvent(productName: searchQuery, source: .searchHistory))
+                    
+            case .trendingSearch:
+                SegmentAnalyticsEngine.instance.logEvent(event: SearchHistoryClickedEvent(productName: searchQuery, source: .relatedProduct))
+                
+            case .retailer:
+                if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+                    let storeClickedEvent = StoreClickedEvent(
+                        grocery: grocery,
+                        source: self.searchString.isEmpty ? .popularStore : .relatedStore
+                    )
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: storeClickedEvent)
+                }
+                
+            case .title, .titleWithClearOption, .categoriesTitles, .brandTitles, .recipeTitles, .noDataFound, .separator:
+                break
+            }
+        }
+    }
 }
 
 
@@ -1545,7 +1656,127 @@ extension UniversalSearchViewController {
     
 }
 
+extension UniversalSearchViewController: NavigationBarProtocol {
+    func backButtonClickedHandler() {
+        self.cancelAction("")
+    }
+}
 // Mark:- get Banners
 
+fileprivate extension UniversalSearchViewController {
+//    func addProductBanners(for indexPath: IndexPath) -> (IndexPath, PorductBannerCell?) {
+//        var cell: PorductBannerCell?
+//
+//        if bannerCellsDisplayed < productBannersCount {
+//            let cellsCount = self._loadedProductList.count + (self.dataSource?.bannerFeeds.count ?? 0)
+//
+//            if self.bannerCellLocations.contains(indexPath.row) || (cellsCount + bannerCellsDisplayed) <= (indexPath.row) {
+//                cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PorductBannerCell", for: indexPath) as! PorductBannerCell
+//                if let url = URL(string: productBanners[bannerCellsDisplayed].imageUrl) {
+//                    cell!.imageView.sd_setImage(with: url)
+//                }
+//
+//                let banner = productBanners[bannerCellsDisplayed]
+//                handleNavigationsFor(cell!, and: banner)
+//
+//                bannerCellsCurrentCount = bannerCellsDisplayed
+//
+//                bannerCellNewLocation[indexPath.row] = bannerCellsDisplayed
+//
+//                bannerCellsDisplayed += 1
+//            }
+//        } else {
+//            if let index = bannerCellNewLocation[indexPath.row], index < productBanners.count, let url = URL(string: productBanners[index].imageUrl) {
+//
+//                cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PorductBannerCell", for: indexPath) as! PorductBannerCell
+//                cell!.imageView.sd_setImage(with: url)
+//                bannerCellsCurrentCount = index
+//
+//                let banner = productBanners[index]
+//                handleNavigationsFor(cell!, and: banner)
+//            }
+//        }
+//
+//        let newIndexPath = IndexPath(row: indexPath.row - bannerCellsCurrentCount, section: indexPath.section)
+//
+//        return (newIndexPath, cell)
+//    }
+//
+    
+    func combineBannersAndProducts() {
+        if self._loadedProductList.count == 0 {
+            self.combineProductsBanners = []
+            return
+        }
+        
+        self.combineProductsBanners = self._loadedProductList as [Any]
+        
+        let locations = ElGrocerUtility.sharedInstance.adSlots?.productBannerSlots.first?.position ?? []
+        
+        for i in 0..<_productBanners.count {
+            if i < locations.count {
+                if locations[i] < self.combineProductsBanners.count {
+                    self.combineProductsBanners.insert(_productBanners[i] as Any, at: locations[i])
+                } else {
+                    self.combineProductsBanners.append(_productBanners[i] as Any)
+                }
+            }
+        }
+        
+        self.showCollectionView(combineProductsBanners.count > 0)
+    }
+    
+    func fetchTopSortSearchBanners() {
+        
+        guard let text = txtSearch.text, text != "" else { return }
+        guard let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map({ "\($0)" }) else { return }
+        
+        let placementID = BannerLocation.in_search_product.getPlacementID()
+        let slots = ElGrocerUtility.sharedInstance.adSlots?.productBannerSlots.first?.noOfSlots ?? 10
+        
+        TopsortManager.shared.auctionBanners(slotId: placementID, slots: slots, searchQuery: text, storeTypes: storeTypes){ [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let winners):
+                var productBanners = winners.map{ $0.toBannerCampaign() }
+                
+                for i in 0..<productBanners.count {
+                    productBanners[i].storeTypes = storeTypes.map{ ($0 as NSString).integerValue }
+                }
+                
+                self._productBanners = productBanners
+                // self._productBanners = winners.map{ $0.toBannerCampaign() }
+                
+//                let c1 = WinnerBanner.init()
+//                let c2 = WinnerBanner.init()
+//                self._productBanners = [ c1.toBannerCampaign(), c2.toBannerCampaign() ]
+//
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func handleNavigationsFor(_ cell: PorductBannerCell, and banner: BannerCampaign) {
+        let grocery = HomePageData.shared.groceryA ?? []
 
-
+        cell.navigationHandeler = {
+            Thread.OnMainThread {
+                
+                if let bidID = banner.resolvedBidId {
+                    TopsortManager.shared.log(.clicks(resolvedBidId: bidID))
+                }
+                
+                if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
+                    ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
+                }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
+                    banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: grocery)
+                }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
+                    banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: grocery)
+                }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
+                    banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: grocery)
+                }
+            }
+        }
+    }
+}

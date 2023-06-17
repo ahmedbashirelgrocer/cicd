@@ -39,7 +39,7 @@ struct ProductDTO: Codable {
     var subcategoryRank: Int?
     var categoryRank: Int?
     var productRank: Int?
-    var isSponsored: Bool?
+    // var isSponsored: Bool?
     var promotionOnly: Bool?
     var promoStartTime: Date?
     var promoEndTime: Date?
@@ -84,7 +84,7 @@ struct ProductDTO: Codable {
         case subcategoryRank = "subcategory_rank"
         case categoryRank = "category_rank"
         case productRank = "product_rank"
-        case isSponsored = "is_sponsored"
+        // case isSponsored = "is_sponsored"
         case promotionOnly = "promotion_only"
         case promoStartTime, promoEndTime, promoPrice, promoProductLimit
     }
@@ -118,7 +118,7 @@ struct ProductDTO: Codable {
         subcategoryRank = (try? values.decode(Int.self, forKey: .subcategoryRank))
         categoryRank =  (try? values.decode(Int.self, forKey: .categoryRank))
         productRank = (try? values.decode(Int.self, forKey: .productRank))
-        isSponsored = (try? values.decode(Bool.self, forKey: .isSponsored))
+        // isSponsored = (try? values.decode(Bool.self, forKey: .isSponsored))
         promotionOnly = (try? values.decode(Bool.self, forKey: .promotionOnly))
         promoStartTime = (try? values.decode(Date.self, forKey: .promoStartTime))
         promoEndTime = (try? values.decode(Date.self, forKey: .promoEndTime))
@@ -181,11 +181,11 @@ extension ProductDTO {
             self.productRank = nil
         }
 
-        if let isSponsored = dic["is_sponsored"] as? Int {
-            self.isSponsored = isSponsored == 1
-        } else {
-            self.isSponsored = nil
-        }
+//        if let isSponsored = dic["is_sponsored"] as? Int {
+//            self.isSponsored = isSponsored == 1
+//        } else {
+//            self.isSponsored = nil
+//        }
 
         if let categoryRank = dic["category_rank"] as? Int {
             self.categoryRank = categoryRank
@@ -406,7 +406,7 @@ extension ProductDTO {
         subcategoryRank = nil
         categoryRank = nil
         productRank = nil
-        isSponsored = product.isSponsored?.boolValue
+        /// isSponsored = product.isSponsored?.boolValue
         promotionOnly = product.promotionOnly.boolValue
         promoStartTime = product.promoStartTime
         promoEndTime = product.promoEndTime

@@ -268,6 +268,11 @@ extension HyperMarketViewController: UITableViewDelegate, UITableViewDataSource 
             cell.configured(self.featureGroceryBanner)
             cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
                 guard let self = self  else {   return   }
+                
+                if let bidid = banner.resolvedBidId {
+                    TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+                }
+                
                 Thread.OnMainThread {
                     self.dismiss(animated: true) {
                         if banner.campaignType.intValue == BannerCampaignType.web.rawValue {

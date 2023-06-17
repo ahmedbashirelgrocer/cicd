@@ -525,7 +525,6 @@ extension Product {
                             context.delete(product)
                             continue
                         }
-                       
                     }
                     
                 }else{
@@ -685,11 +684,6 @@ extension Product {
                 }
                 
                 if let shopsA = productDict["promotional_shops"] as? [NSDictionary] {
-                    for shop in shopsA {
-                        if let reID = shop["retailer_id"] as? NSNumber {
-                            shopIdsA.append(reID)
-                        }
-                    }
                     let finalData =  shopsA.filter { (dict) -> Bool in
                          let dbid : String = ElGrocerUtility.sharedInstance.cleanGroceryID(ElGrocerUtility.sharedInstance.activeGrocery?.dbID)
                             return "\(String(describing: dict["retailer_id"] ?? 0))" == dbid
@@ -706,14 +700,51 @@ extension Product {
         }else {
             groceryID = "0"
         }
-        
-        
-        
-         
-
+       
         let uniqueProductId = "\(groceryID)_\(productID)"
         let product = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(ProductEntity, entityDbId: uniqueProductId as AnyObject, keyId: "dbID", context: context) as! Product
         
+        
+        
+        var allAvailableShops: [NSNumber] = []
+        if let shopsA = productDict["shops"] as? [NSDictionary] {
+            for shop in shopsA {
+                if let reID = shop["retailer_id"] as? NSNumber {
+                    if let data = HomePageData.shared.genericAllStoreDictionary?[reID.stringValue] as? [String:Any] {
+                        allAvailableShops.append(reID)
+                        product.storePriceDictionary[reID.stringValue] = ["retailerId" : reID ,"price" : shop["price"] as? NSNumber ?? NSNumber(value: 0 as Int)]
+                        if let promotionalShopsA = productDict["promotional_shops"] as? [NSDictionary] {
+                            for promtionalShop in promotionalShopsA {
+                                if let promoRetailerID = promtionalShop["retailer_id"] as? NSNumber  {
+                                    if promoRetailerID == reID {
+                                        if let is_P = shop["is_p"] as? Bool, is_P == true {
+                                            var timeSlot = Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
+                                            if let isInstant = data["isInstant"] as? Bool {
+                                                if isInstant == false {
+                                                    timeSlot = (data["slotMilis"] as? Int64) ?? timeSlot
+                                                }
+                                            }
+                                            if timeSlot >= (promtionalShop["start_time"] as? Int64 ?? 0)  &&  timeSlot <= (promtionalShop["end_time"] as? Int64 ?? 0) {
+                                                var dic = product.storePriceDictionary[promoRetailerID.stringValue]
+                                                dic?["standard_price"]  = promtionalShop["standard_price"] as? NSNumber ?? NSNumber(value: 0 as Int)
+                                                dic?["PromoPrice"] = promtionalShop["price"] as? NSNumber ?? NSNumber(value: 0 as Int)
+                                                dic?["start_time"] = (promtionalShop["start_time"] as? NSNumber ?? NSNumber(value: 0 as Int))
+                                                dic?["end_time"] = (promtionalShop["end_time"] as? NSNumber ?? NSNumber(value: 0 as Int))
+                                                product.storePriceDictionary[promoRetailerID.stringValue] = dic
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+         }
+        
+    // debugPrint("========= product.storePriceDictionary ============\(product.storePriceDictionary)")
+    
+    
         product.shopIds = shopIdsA
         if let shopsList = productDict["shops"] as? [NSDictionary] {
             product.shops = product.jsonToString(json: shopsList as AnyObject)

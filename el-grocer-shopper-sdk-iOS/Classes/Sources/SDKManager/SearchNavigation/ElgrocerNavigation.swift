@@ -72,6 +72,7 @@ class ElgrocerSearchNavigaion {
                 searchController.searchFor = .isForStoreSearch
                 searchController.extendedLayoutIncludesOpaqueBars = true
                 searchController.edgesForExtendedLayout = UIRectEdge.bottom
+                searchController.commingFromIntegratedSearch = true
                 vc?.navigationController?.pushViewController(searchController, animated: false)
             }
             .delay(.milliseconds(100), scheduler: MainScheduler.instance)

@@ -14,6 +14,7 @@ extension String {
    
     
     func convertStringToCurrentTimeZoneDate() -> Date? {
+        
         return self.toISODate(region: Region.getCurrentRegion())?.date
     }
  

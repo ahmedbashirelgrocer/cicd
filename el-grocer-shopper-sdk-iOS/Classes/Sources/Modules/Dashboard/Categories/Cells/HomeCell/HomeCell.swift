@@ -42,6 +42,12 @@ extension HomeCellDelegate {
 // MARK: Helpers
 private extension HomeCell {
     func bindViews() {
+        
+        // shown this view only in case of Global Search
+        self.stackViewDeliverySlot.isHidden = true
+        self.viewBG.backgroundColor = .clear
+        self.viewStore.isHidden = true
+        
         self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { dataSource, collectionView, indexPath, viewModel in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
             cell.configure(viewModel: viewModel)
@@ -135,17 +141,30 @@ class HomeCell: RxUITableViewCell {
             }
         }    }
     
-    @IBOutlet weak var titleViewHeight: NSLayoutConstraint!
-    @IBOutlet var cellTopSpace: NSLayoutConstraint!
-    @IBOutlet var topDistanceOfTitle: NSLayoutConstraint!
+    @IBOutlet weak var titleViewHeight: NSLayoutConstraint! // height of shimmer view
+    @IBOutlet var cellTopSpace: NSLayoutConstraint! // top space of content view
+    @IBOutlet var topDistanceOfTitle: NSLayoutConstraint! // title label top height
     
-    
-    @IBOutlet var imgViewWidth: NSLayoutConstraint!
-    @IBOutlet var titleLeftSpacing: NSLayoutConstraint!
+
+    @IBOutlet var imgViewWidth: NSLayoutConstraint! // store image view width
+    @IBOutlet var titleLeftSpacing: NSLayoutConstraint! // shimmer view left spacing
     @IBOutlet var leftImageView: UIImageView!
-    @IBOutlet var rightButtonWidth: NSLayoutConstraint!
-    
-    
+    @IBOutlet var rightButtonWidth: NSLayoutConstraint! // view all button width
+    @IBOutlet weak var lblGrocerySlot: UILabel! {  // grocery slot label visible in case of Global Search
+        didSet {
+            if let lng = UserDefaults.getCurrentLanguage(){
+                if lng == "ar"{
+                    lblGrocerySlot.textAlignment = .right
+                }else{
+                    lblGrocerySlot.textAlignment = .left
+                }
+            }
+        }
+    }
+    @IBOutlet weak var viewBG: UIView!
+    @IBOutlet weak var ivDeliverySlotIcon: UIImageView!
+    @IBOutlet weak var stackViewDeliverySlot: UIStackView!
+    @IBOutlet weak var viewStore: UIView!
     
     var placeholderPhoto = UIImage(name: "product_placeholder")!
     
@@ -189,6 +208,14 @@ class HomeCell: RxUITableViewCell {
         //self.titleLbl.textColor =  UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
         //self.titleLbl.font = UIFont.SFProDisplayBoldFont(20)
         self.titleLbl.setH4SemiBoldStyle()
+        self.lblGrocerySlot.setSubHead2RegDarkStyle()
+        self.viewStore.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(storeTapHandler(_ :))))
+    }
+    
+    @objc func storeTapHandler(_ sender: UITapGestureRecognizer) {
+        if self.homeFeed?.type == .universalSearchProducts {
+            self.delegate?.navigateToGrocery(self.grocery, homeFeed: homeFeed)
+        }
     }
     
     func setArrowAppearance(){
@@ -232,6 +259,7 @@ class HomeCell: RxUITableViewCell {
             self.grocery = grocery
             self.homeFeed = homeFeedObj
             self.titleLbl.text = homeFeedObj.title
+            self.setDeliverySlotText(grocery: self.grocery)
             self.titleLbl.backgroundColor = UIColor.clear
             
             let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
@@ -251,7 +279,20 @@ class HomeCell: RxUITableViewCell {
                  self.viewMoreButton.isHidden = false
                 rightArrowImageView.isHidden = false
                  self.isNeedToShowRecipe = isNeedToShowRecipe
-            }else{
+                self.stackViewDeliverySlot.isHidden = true
+                self.viewBG.backgroundColor = .clear
+                self.viewStore.isHidden = true
+            } else if self.homeFeed?.type == .universalSearchProducts {
+                self.cellTopSpace.constant = 0
+                self.titleViewHeight.constant = 50
+                self.topDistanceOfTitle.constant = 16
+                self.viewMoreButton.isHidden = true
+                self.rightArrowImageView.isHidden = false
+                self.isNeedToShowRecipe = isNeedToShowRecipe
+                self.stackViewDeliverySlot.isHidden = false
+                self.viewBG.backgroundColor = .white
+                self.viewStore.isHidden = false
+            } else{
                 self.topDistanceOfTitle.constant = 0
                 self.titleViewHeight.constant = 27
                 self.cellTopSpace.constant = 17
@@ -259,9 +300,12 @@ class HomeCell: RxUITableViewCell {
                 self.viewMoreButton.setTitle( (homeFeedObj.type == HomeType.universalSearchProducts ) ? localizedString("lbl_goToStore", comment: "").uppercased() : localizedString("view_more_title", comment: ""), for: UIControl.State())
                 self.viewMoreButton.isHidden = false
                 rightArrowImageView.isHidden = false
+                self.stackViewDeliverySlot.isHidden = true
+                self.viewBG.backgroundColor = .clear
                 homeFeedObj.products.sort { (productOne, productTwo) -> Bool in
                     return productOne.isAvailable > productTwo.isAvailable
                 }
+                self.viewStore.isHidden = true
             }
             
            
@@ -272,6 +316,9 @@ class HomeCell: RxUITableViewCell {
             self.titleLbl.backgroundColor = UIColor.borderGrayColor()
             self.titleShimmerView.contentView = self.titleLbl
             self.titleShimmerView.isShimmering = true
+            self.stackViewDeliverySlot.isHidden = true
+            self.viewBG.backgroundColor = .clear
+            self.viewStore.isHidden = true
         }
         
         if UIDevice.isIOS12() {
@@ -298,6 +345,46 @@ class HomeCell: RxUITableViewCell {
         
     }
     
+    func setDeliverySlotText(grocery: Grocery?) {
+        guard let grocery = grocery else { return }
+        
+        if grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule()) {
+            self.updateDeliverySlot(grocery.genericSlot ?? "", isInstant: true)
+            return
+        }
+        
+        if let jsonSlot = grocery.initialDeliverySlotData, let dict = grocery.convertToDictionary(text: jsonSlot) {
+            let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionarySpecialityMarket(dict, isDeliveryMode: grocery.isDelivery.boolValue)
+            self.updateDeliverySlot(slotString, isInstant: false)
+            return
+        }
+        
+        self.updateDeliverySlot(grocery.genericSlot ?? "", isInstant: false)
+    }
+    
+    func updateDeliverySlot(_ data : String, isInstant: Bool) {
+        let dataA = data.components(separatedBy: CharacterSet.newlines)
+        var attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 11) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor ]
+        
+        self.ivDeliverySlotIcon.image = isInstant ? UIImage(named: "instatntDeliveryBolt", in: .resource, compatibleWith: nil) : UIImage(named: "ClockIcon", in: .resource, compatibleWith: nil)
+        
+        if dataA.count == 1 {
+            if self.lblGrocerySlot.text?.count ?? 0 > 13 {
+                attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 9) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor ]
+                self.lblGrocerySlot.attributedText = NSMutableAttributedString(string: dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
+                return
+            }
+        }
+        let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor]
+        
+        let attributedString1 = NSMutableAttributedString(string:dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
+        let timeText = dataA.count > 1 ? dataA[1] : ""
+        let attributedString2 = NSMutableAttributedString(string:" \(timeText)", attributes:attrs2 as [NSAttributedString.Key : Any])
+        
+        attributedString1.append(attributedString2)
+        
+        self.lblGrocerySlot.attributedText = attributedString1
+    }
     
     func setImageData (homeFeed: Home) {
 
@@ -377,12 +464,12 @@ class HomeCell: RxUITableViewCell {
             parameters["category_id"] = homeObj.category?.dbID
         }
         
-        ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters) { (result) in
+        ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
             
             switch result {
                 
             case .success(let response):
-                self.saveResponseData(response, andWithHomeFeed: homeObj)
+                self?.saveResponseData(response, andWithHomeFeed: homeObj)
                 
             case .failure(let error):
                elDebugPrint("Error While Calling Top Selling Pagination:%@",error.localizedMessage)
@@ -392,20 +479,20 @@ class HomeCell: RxUITableViewCell {
     
     // MARK: Data
     
-    func saveResponseData(_ responseObject:NSDictionary, andWithHomeFeed homeObj: Home) {
-        
+    func saveResponseData(_ responseObject:(products: [Product], algoliaCount: Int?), andWithHomeFeed homeObj: Home) {
        // let dataDict = responseObject["data"] as! NSDictionary
         
         //Parsing All Products Response here
-        let responseObjects = responseObject["data"] as! [NSDictionary]
+        // let responseObjects = responseObject["data"] as! [NSDictionary]
         
         DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             
             let context = DatabaseHelper.sharedInstance.backgroundManagedObjectContext
             context.performAndWait({ () -> Void in
-                let newProducts = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-                elDebugPrint("New Products Count:%d",newProducts.products.count)
-                homeObj.products += newProducts.products
+                // let newProducts = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
+                let newProducts = responseObject.products
+//                elDebugPrint("New Products Count:%d",newProducts.products.count)
+                homeObj.products += newProducts
             })
             
             DispatchQueue.main.async {
@@ -488,22 +575,40 @@ extension HomeCell: UICollectionViewDataSource {
                 if currentLang == "ar" {
                     productCell.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
                 }
-                if homeFeedObj.type == .universalSearchProducts {
-                    productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
-                    productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                    productCell.addToCartButton.isEnabled = true
-                    productCell.addToCartButton.setBody3BoldWhiteStyle()
-                    productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
-                    productCell.productPriceLabel.isHidden = true
-                    productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
-                    productCell.addToCartButton.isHidden = false
-                    productCell.buttonsView.isHidden = true
-                    productCell.promotionBGView.isHidden = true
-                    productCell.limitedStockBGView.isHidden = true
-                    productCell.saleView.isHidden = true
-                }else{
-                    productCell.productPriceLabel.isHidden = false
-                }
+//                if homeFeedObj.type == .universalSearchProducts {
+//                    productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
+//                    productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+//                    productCell.addToCartButton.isEnabled = true
+//                    productCell.addToCartButton.setBody3BoldWhiteStyle()
+//                    productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+//                    productCell.productPriceLabel.isHidden = true
+//                    productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
+//                    productCell.addToCartButton.isHidden = false
+//                    productCell.buttonsView.isHidden = true
+//                    productCell.promotionBGView.isHidden = true
+//                    productCell.limitedStockBGView.isHidden = true
+//                    productCell.saleView.isHidden = true
+//                }else{
+//                    productCell.productPriceLabel.isHidden = false
+//                }
+                // if homeFeedObj.type == .universalSearchProducts {
+                //     // productCell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: .normal)
+                //     // productCell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                //     // productCell.addToCartButton.isEnabled = true
+                //     // productCell.addToCartButton.setBody3BoldWhiteStyle()
+                //     // productCell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+                    
+                //     productCell.shopInStoreButton.isHidden = false
+                //     productCell.productPriceLabel.isHidden = true
+                //     // productCell.addToCartBottomPossitionConstraint.constant = CGFloat(productCell.topAddButtonmaxY)
+                //     // productCell.addToCartButton.isHidden = false
+                //     productCell.buttonsView.isHidden = true
+                //     productCell.promotionBGView.isHidden = true
+                //     productCell.limitedStockBGView.isHidden = true
+                //     productCell.saleView.isHidden = true
+                // }else{
+                //     productCell.productPriceLabel.isHidden = false
+                // }
                
                 return productCell
                 

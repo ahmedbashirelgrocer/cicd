@@ -109,7 +109,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         
         titleLabel.frame = CGRect(x: 0,y: 0,width: 300, height: 40) as CGRect
         titleLabel.font  = UIFont.SFProDisplaySemiBoldFont(17.0)
-        titleLabel.textColor = .white
+        titleLabel.textColor = sdkManager.isShopperApp ? .white : ApplicationTheme.currentTheme.newBlackColor
         titleLabel.textAlignment = .natural
         titleLabel.numberOfLines = 1
         titleLabel.text = ""
@@ -249,7 +249,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     }
     
     func getAvailableRetailerIds()-> [String]{
-        let retailers = ElGrocerUtility.sharedInstance.groceries
+        let retailers = HomePageData.shared.groceryA ?? []
         var retailerIds:[String] = []
         for retailer in retailers {
             retailerIds.append(retailer.dbID)
@@ -360,7 +360,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         //if let SDKManager: SDKManagerType! = sdkManager {
             if let currentTabBar = sdkManager.currentTabBar {
                 ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
-                if self.grocery != nil{
+                if self.grocery != nil {
                     currentTabBar.selectedIndex = 1
                 }else{
                     currentTabBar.selectedIndex = 0
@@ -575,17 +575,19 @@ extension BrandDeepLinksVC: UICollectionViewDelegate, UICollectionViewDataSource
         
         let cell = configureCellForUniversalSearchedProducts(indexPath)
         if self.grocery == nil{
-            cell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: UIControl.State())
+            // cell.addToCartButton.setTitle(localizedString("lbl_ShopInStore", comment: ""), for: UIControl.State())
+            cell.shopInStoreButton.isHidden = false
             cell.limitedStockBGView.isHidden = true
         }else{
-            cell.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
+            cell.shopInStoreButton.isHidden = true
+            // cell.addToCartButton.setTitle(localizedString("addtocart_button_title", comment: ""), for: UIControl.State())
         }
         
-        cell.addToCartButton.isUserInteractionEnabled = true
-        cell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-        cell.addToCartButton.isEnabled = true
-        cell.addToCartButton.setBody3BoldWhiteStyle()
-        cell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+//        cell.addToCartButton.isUserInteractionEnabled = true
+//        cell.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+//        cell.addToCartButton.isEnabled = true
+//        cell.addToCartButton.setBody3BoldWhiteStyle()
+//        cell.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
         
         return cell
     }
@@ -688,11 +690,11 @@ extension BrandDeepLinksVC: ProductCellProtocol{
         if self.grocery == nil{
             Thread.OnMainThread {
                 let shopIdsA = product.shopIds
-                let groceryA = ElGrocerUtility.sharedInstance.groceries.filter({ (grocery) in
+                let groceryA = HomePageData.shared.groceryA?.filter({ (grocery) in
                     return shopIdsA?.first(where: { id in
                         return id.stringValue == grocery.dbID
                     }) != nil
-                })
+                }) ?? []
                 
                 let index = self.filteredProductsArray.firstIndex(of: product) ?? -1
                 FireBaseEventsLogger.trackProductClicked(product: product, deepLink: self.deepLink, position: index + 1, source: self.screeName, type: "Brand")

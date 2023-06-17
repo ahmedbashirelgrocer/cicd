@@ -68,6 +68,9 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
     }
     @IBOutlet var imgViewAllArrow: UIImageView! {
         didSet {
+            
+            imgViewAllArrow.image = sdkManager.isShopperApp ? UIImage(name: "arrowRight") : UIImage(name: "SettingArrowForward")
+            
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.imgViewAllArrow.transform = CGAffineTransform(scaleX: -1, y: 1)
             }
@@ -330,8 +333,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
             for key in groupKeys {
 
                let bannerArray = ElGrocerUtility.sharedInstance.bannerGroups[key]
-               self.homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: bannerArray, withType:HomeType.Banner,  andWithResponse: nil)
-
+                self.homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: bannerArray, withType:HomeType.Banner,  products: [])
             }
             
             if self.delegate != nil  {

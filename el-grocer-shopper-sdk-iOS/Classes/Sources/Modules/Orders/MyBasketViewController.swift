@@ -1394,11 +1394,10 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if !isAddreeCompleted {
-            
             if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                let editLocationController = ElGrocerViewControllers.editLocationViewController()
-                editLocationController.deliveryAddress = deliveryAddress
-                editLocationController.editScreenState = .isFromCart
+                let location = deliveryAddress
+                let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: location.address, building: location.building, cityName: "")
+                let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext), .basketNav)
                 self.navigationController?.pushViewController(editLocationController, animated: true)
                 
             }
@@ -1598,7 +1597,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
            
         }else {
-            self.reloadTableData()
+            if (self.notAvailableProductsList == nil || self.notAvailableProductsList.count == 0) {
+                self.reloadTableData()
+            }
         }
         self.checkIfOutOfStockProductAvailable()
         self.checkIfOutOfStockProductAvailableForPreCart()

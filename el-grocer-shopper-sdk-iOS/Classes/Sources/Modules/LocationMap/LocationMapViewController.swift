@@ -94,6 +94,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     @IBOutlet weak var lblDetectLocation: UILabel! {
         didSet {
             lblDetectLocation.setH4SemiBoldGreenStyle()
+            lblDetectLocation.text = localizedString("eg_detecting_location", comment: "")
         }
     }
     @IBOutlet weak var detectLocationImage: UIImageView! {

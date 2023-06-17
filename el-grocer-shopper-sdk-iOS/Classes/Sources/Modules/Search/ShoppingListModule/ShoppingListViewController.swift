@@ -690,6 +690,7 @@ extension ShoppingListViewController : UITableViewDelegate , UITableViewDataSour
             self.categoryA = self.categoryA.filter({ $0 as! String != ""})
             self.categoryA = self.categoryA.map { $0.trimmingCharacters(in: .whitespaces) } as [AnyObject]
             self.productsA[clouserIndex!] = [""] as [AnyObject];
+           
             Thread.OnMainThread {
                 self.shoppingListTableView.reloadRows(at:  [IndexPath(row: clouserIndex! + 1, section: 0)], with: .fade)
             }

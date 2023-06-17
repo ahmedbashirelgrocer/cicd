@@ -60,7 +60,7 @@ class Home {
         
     }
     
-    init(_ titleStr:String, withCategory categoryObj:Category?, withBanners bannersArray:[BannerCampaign]? = nil, withType type:HomeType? = nil, andWithResponse dictionary:NSDictionary? , _ groceryT : Grocery? = nil) {
+    init(_ titleStr:String, withCategory categoryObj:Category?, withBanners bannersArray:[BannerCampaign]? = nil, withType type:HomeType? = nil, products: [Product], _ groceryT : Grocery? = nil) {
         
         self.title = titleStr
         self.category = categoryObj
@@ -77,30 +77,7 @@ class Home {
             self.attachGrocery = gro
         }
         
-        if let dict = dictionary {
-            
-            var dataDict : NSDictionary = NSDictionary()
-            var responseObjects : [NSDictionary] = [NSDictionary]()
-            //sab
-            if let data = dict["data"] as? NSDictionary{
-                dataDict = data
-                //sab
-                //dataDict = dict["data"] as? NSDictionary
-
-                //Parsing All Products Response here
-                responseObjects = dataDict["products"] as! [NSDictionary]
-            }else{
-                //sab new
-                responseObjects = dict["data"] as! [NSDictionary]
-            }
-            let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-            let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-            self.products = newProduct.products
-//            context.performAndWait({ () -> Void in
-//                let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-//                self.products = newProduct
-//            })
-        }
+        self.products = products
     }
     
     init(_ titleStr:String , withImageString imgUrl : String?   , withType type:HomeType? = nil, andWithProduct dataList: [Product]  , grocery : Grocery?) {

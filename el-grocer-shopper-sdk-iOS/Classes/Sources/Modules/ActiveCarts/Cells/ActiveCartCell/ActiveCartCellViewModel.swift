@@ -82,18 +82,14 @@ class ActiveCartCellViewModel: ActiveCartCellViewModelType, ReusableTableViewCel
 private extension ActiveCartCellViewModel {
     
     func fetchBanner() {
-        ElGrocerApi.sharedInstance.getBannersFor(location: .all_carts_tier_1.getType(), retailer_ids: [String(self.activeCart.id)]) { result in
+       
+        let grocery = HomePageData.shared.groceryA?.first(where: { $0.dbID == "\(self.activeCart.id)" })
+        let storeTypes = (grocery?.getStoreTypes() ?? []).map{ "\($0)" }
+        
+        ElGrocerApi.sharedInstance.getBanners(for: .all_carts_tier_1.getType(), retailer_ids: [String(self.activeCart.id)], store_type_ids: storeTypes) { result in
             switch result {
             case .success(let data):
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: data)
-                    let compaings: CampaignsResponse = try JSONDecoder().decode(CampaignsResponse.self, from: data)
-                    self.bannersSubject.onNext(compaings.data)
-                } catch {
-                 //   print("error >>> \(error)")
-                }
-                break
-                
+                self.bannersSubject.onNext(data.map{ $0.toBannerDTO() })
             case .failure(_):
                 break
             }

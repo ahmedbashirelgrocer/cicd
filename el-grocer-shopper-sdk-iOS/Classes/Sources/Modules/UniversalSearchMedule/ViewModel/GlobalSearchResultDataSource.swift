@@ -29,9 +29,9 @@ class GlobalSearchResultDataSource {
     }
     func filterAndSavedata() {
         
-        let groeryIdA = ElGrocerUtility.sharedInstance.groceries.map { (groery) -> String in
+        let groeryIdA = HomePageData.shared.groceryA?.map { (groery) -> String in
             return groery.dbID
-        }
+        } ?? []
         for prodcut in productList! {
             if groeryIdA.count < prodcut.shopIds?.count ?? 0 {
                 for groceryID in groeryIdA {
@@ -61,13 +61,29 @@ class GlobalSearchResultDataSource {
             }
         }
         
-        self.filterGroceryList  =   ElGrocerUtility.sharedInstance.groceries.filter { (grocery) -> Bool in
+        self.filterGroceryList = HomePageData.shared.groceryA?.filter { (grocery) -> Bool in
             if filterData.keys.contains(grocery.dbID) {
                 return true
             }
             return false
-        }
+        } ?? []
         self.groceryAndBannersList = []
+        
+        let featuredStores = filterGroceryList
+            .filter{ $0.featured == 1 }
+            .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+        
+        let notFeaturedStores = filterGroceryList
+                .filter{ $0.featured != 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+        
+        self.filterGroceryList = (featuredStores) + (notFeaturedStores)
+        
+        filterGroceryList.forEach { grocery in
+            let sortedProducts = ProductBrowser.shared.sortProductsOnTheBasisOfGrocery(products: filterData[grocery.dbID] ?? [], grocery: grocery)
+            filterData[grocery.dbID] = sortedProducts
+        }
+        
         for data in self.filterGroceryList {
             
             let homeObj = Home.init(data.name ?? "" , withImageString: data.smallImageUrl ?? "" , withType: .universalSearchProducts, andWithProduct: self.filterData[data.dbID] ?? [] , grocery: data)
@@ -99,7 +115,8 @@ class GlobalSearchResultDataSource {
         let homeTitle = "Banners"
         if let gorceryId =  gorcery?.dbID {
             let location = BannerLocation.in_search_tier_1.getType()
-            ElGrocerApi.sharedInstance.getBannersFor(location: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
+            // let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
+            ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(gorceryId)], store_type_ids: nil , retailer_group_ids: nil  , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: searchInput ) { (result) in
                 switch result {
                     case .success(let response):
                         self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorcery)
@@ -129,12 +146,9 @@ class GlobalSearchResultDataSource {
         }*/
     }
     
-    func saveBannersResponseData(_ responseObject:NSDictionary, withHomeTitle homeTitle:String, andWithGroceryId gorcery : Grocery?) {
-        
-        // let banners = Banner.getBannersFromResponse(responseObject)
-        let banners = BannerCampaign.getBannersFromResponse(responseObject)
+    func saveBannersResponseData(_ banners: [BannerCampaign], withHomeTitle homeTitle:String, andWithGroceryId gorcery : Grocery?) {
         if banners.count > 0 {
-            let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  andWithResponse: nil , gorcery)
+            let homeFeed = Home.init(homeTitle, withCategory: nil, withBanners: banners, withType:HomeType.Banner,  products: [], gorcery)
             if let groceryIndex =  groceryAndBannersList.firstIndex(where: { (home) -> Bool in
                 return home.attachGrocery?.dbID == gorcery?.dbID
             }) {

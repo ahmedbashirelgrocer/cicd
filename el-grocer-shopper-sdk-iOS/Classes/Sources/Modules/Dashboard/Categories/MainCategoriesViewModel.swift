@@ -241,7 +241,7 @@ private extension MainCategoriesViewModel {
             }
         }
     }
-    
+    // Fetch Brand Catogories
     func fetchCategories(deliveryTime: Int) {
         self.apiClient.getAllCategories(self.deliveryAddress, parentCategory: nil, forGrocery: self.grocery, deliveryTime: deliveryTime) { [weak self] result in
             guard let self = self else { return }
@@ -301,38 +301,32 @@ private extension MainCategoriesViewModel {
     
     func fetchBanners(for location: BannerLocation) {
         self.bannersDispatchGroup.enter()
-        self.apiClient.getBannersFor(location: location, retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)]) { [weak self] result in
+        // self.dispatchGroup.enter()
+        
+        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
+        
+        self.apiClient.getBanners(for: location,
+                                  retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)],
+                                  store_type_ids: storeTypes) { [weak self] result in
+            
             guard let self = self else { return }
             
             self.bannersDispatchGroup.leave()
             
             switch result {
             case .success(let response):
-                do {
-                    if let rootJson = response as? [String: Any] {
-                        let data = try JSONSerialization.data(withJSONObject: rootJson)
-                        let banners = try JSONDecoder().decode(CampaignsResponse.self, from: data).data
-                        
-                        if banners.isNotEmpty {
-                            if location == .store_tier_1.getType() {
-                                let bannerCellVM = GenericBannersCellViewModel(banners: banners)
-                                bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
-                                self.location1BannerVMs.append(bannerCellVM)
-                            } else if location == .store_tier_2.getType() {
-                                let bannerCellVM = GenericBannersCellViewModel(banners: banners)
-                                bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
-                                self.location2BannerVMs.append(bannerCellVM)
-                            }
-                        }
-                        return
+                let banners = response.map { $0.toBannerDTO() }
+                if banners.isNotEmpty {
+                    if location == .store_tier_1.getType() {
+                        let bannerCellVM = GenericBannersCellViewModel(banners: banners)
+                        bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                        self.location1BannerVMs.append(bannerCellVM)
+                    } else if location == .store_tier_2.getType() {
+                        let bannerCellVM = GenericBannersCellViewModel(banners: banners)
+                        bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                        self.location2BannerVMs.append(bannerCellVM)
                     }
-                    
-                    // handle parsing error
-                } catch {
-                    // handle parsing error
-                    //  print("parsing error >> \(error)")
                 }
-                break
                 
             case .failure(let error):
                 break

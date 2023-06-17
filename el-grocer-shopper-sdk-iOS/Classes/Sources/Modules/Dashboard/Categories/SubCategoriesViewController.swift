@@ -72,6 +72,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         
         // Logging segment screen event 
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productListingScreen))
+        _ = SpinnerView.showSpinnerViewInView(self.view)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -657,8 +658,9 @@ extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
     }
     
     func animationSegmentTo(index: Int) {
-        DispatchQueue.main.async {
-            self.superSectionHeader.segmenntCollectionView.selectItem(at: IndexPath.init(row: index , section: 0), animated: true, scrollPosition: .centeredHorizontally)
+            guard self.superSectionHeader.segmenntCollectionView.segmentTitles.count > index else { return}
+        ElGrocerUtility.sharedInstance.delay(0.01) { [weak self] in
+            self?.superSectionHeader.segmenntCollectionView.selectItem(at: IndexPath.init(row: index , section: 0), animated: true, scrollPosition: .centeredHorizontally)
         }
     }
     

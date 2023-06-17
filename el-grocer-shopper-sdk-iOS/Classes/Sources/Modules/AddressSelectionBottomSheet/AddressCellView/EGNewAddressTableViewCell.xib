@@ -30,7 +30,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="755" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KrZ-FC-tof">
-                        <rect key="frame" x="48" y="4" width="43.333333333333343" height="20.333333333333332"/>
+                        <rect key="frame" x="48" y="4" width="256" height="20.333333333333332"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                         <nil key="textColor"/>
@@ -59,6 +59,7 @@
                     <constraint firstItem="BYe-8m-Vqj" firstAttribute="top" secondItem="KrZ-FC-tof" secondAttribute="bottom" id="HY2-Uu-Nuc"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dAj-mo-cMQ" secondAttribute="bottom" constant="16" id="S54-9g-Lm5"/>
                     <constraint firstItem="dAj-mo-cMQ" firstAttribute="leading" secondItem="BYe-8m-Vqj" secondAttribute="leading" id="af4-mc-VOD"/>
+                    <constraint firstAttribute="trailing" secondItem="KrZ-FC-tof" secondAttribute="trailing" constant="16" id="gZt-BA-P02"/>
                     <constraint firstAttribute="trailing" secondItem="BYe-8m-Vqj" secondAttribute="trailing" constant="8" id="hgR-PD-EB2"/>
                     <constraint firstItem="KrZ-FC-tof" firstAttribute="top" secondItem="j9E-Bm-hUU" secondAttribute="top" id="rFS-Kc-xZH"/>
                     <constraint firstItem="j9E-Bm-hUU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="ruH-FT-GNn"/>
