@@ -730,6 +730,8 @@ extension Product {
                                                 dic?["PromoPrice"] = promtionalShop["price"] as? NSNumber ?? NSNumber(value: 0 as Int)
                                                 dic?["start_time"] = (promtionalShop["start_time"] as? NSNumber ?? NSNumber(value: 0 as Int))
                                                 dic?["end_time"] = (promtionalShop["end_time"] as? NSNumber ?? NSNumber(value: 0 as Int))
+                                                dic?["standard_price"]  = promtionalShop["standard_price"] as? NSNumber ?? NSNumber(value: 0 as Int)
+
                                                 product.storePriceDictionary[promoRetailerID.stringValue] = dic
                                             }
                                         }

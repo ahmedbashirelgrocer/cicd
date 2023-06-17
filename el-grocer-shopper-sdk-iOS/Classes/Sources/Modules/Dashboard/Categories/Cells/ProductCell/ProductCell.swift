@@ -1182,9 +1182,7 @@ class ProductCell : RxUICollectionViewCell {
             }
          
         } else {
-
             if let productShopsDict = product.storePriceDictionary[grocery?.dbID ?? ""] {
-             
                 if let standardPrice = productShopsDict["price"] {
                     self.productPriceLabel.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: standardPrice.doubleValue)
                     product.price = standardPrice
@@ -1192,28 +1190,23 @@ class ProductCell : RxUICollectionViewCell {
                 if let promoPrice = productShopsDict["PromoPrice"] {
                     product.promoPrice = promoPrice
                     product.promotion = true
-                } else {
+                }else{
                     product.promotion = false
                 }
-                
                 if let startTime = productShopsDict["start_time"], let endTime = productShopsDict["end_time"]  {
-    
                     let startepochTime = TimeInterval(startTime.doubleValue) / 1000
-                    let startTimeDate = Date(timeIntervalSince1970: startepochTime)
+                    product.promoStartTime = Date(timeIntervalSince1970: startepochTime)
                     let endepochTime = TimeInterval(endTime.doubleValue) / 1000
-                    let endTimeDate = Date(timeIntervalSince1970: endepochTime)
-                    product.promoStartTime = startTimeDate ?? Date()
-                    product.promoEndTime = endTimeDate ?? Date()
+                    product.promoEndTime = Date(timeIntervalSince1970: endepochTime)
                     if let standardPrice = productShopsDict["standard_price"] {
                         let currentSlot = ElGrocerUtility.sharedInstance.getCurrentMillisOfGrocery(id: grocery?.dbID ?? "")
-                        if  currentSlot > startTime.int64Value  &&  currentSlot < endTime.int64Value {
+                        if  currentSlot >= startTime.int64Value  &&  currentSlot <= endTime.int64Value {
                             product.price = standardPrice
                         }
                     }
                 }
             }
         }
-        
        
         let promotionValues = ProductQuantiy.checkPromoNeedToDisplay(product,self.productGrocery)
         let isQuanityLimited = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product)
