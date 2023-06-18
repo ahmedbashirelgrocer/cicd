@@ -73,7 +73,7 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
             if sUrl?.starts(with: "http") == true {
                 self.setChefImage(sUrl, isSelected : false, imageView: self.centerImage)
             } else {
-                self.centerImage.image = UIImage(named: sUrl ?? "", in: .resource, compatibleWith: nil)
+                self.centerImage.image = UIImage(name: sUrl ?? "")
             }
             
         }).disposed(by: disposeBag)

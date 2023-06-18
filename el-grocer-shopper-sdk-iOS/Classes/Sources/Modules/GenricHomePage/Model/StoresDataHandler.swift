@@ -109,6 +109,15 @@ struct StoreType {
     var storeTypeid : Int64 = 0
     var backGroundColor : String = "F5F5F5"
     var priority : Int64 = -1
+    var lottifileEnUrl: URL? {
+        lottifile_en_url.count > 0 ? URL(string: lottifile_en_url) : nil
+    }
+    var lottifileArUrl: URL? {
+        lottifile_ar_url.count > 0 ? URL(string: lottifile_ar_url) : nil
+    }
+    
+    private var lottifile_en_url: String
+    private var lottifile_ar_url: String
 }
 extension StoreType {
     
@@ -120,6 +129,8 @@ extension StoreType {
         backGroundColor = storeType["bg_color"] as? String ?? "F5F5F5"
         backGroundColor = backGroundColor.replacingOccurrences(of: "#", with: "")
         priority = storeType["priority"] as? Int64 ?? -1
+        lottifile_en_url = (storeType["lottifile_en_url"] as? String) ?? ""
+        lottifile_ar_url = (storeType["lottifile_ar_url"] as? String) ?? ""
     }
 }
 
@@ -134,7 +145,10 @@ class GenericStoreMeduleAPI : ElGrocerApi {
     // "next_slot" : true  ,
     func getAllretailers( latitude : Double , longitude : Double , success : @escaping SuccessCase , failure : @escaping FailureCase  ) {
         //
-        NetworkCall.get( ElGrocerApiEndpoint.genericRetailersList.rawValue , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true ], progress: { (progress) in
+        
+        let url =  sdkManager.isShopperApp ? ElGrocerApiEndpoint.egGenericRetailersList.rawValue : ElGrocerApiEndpoint.genericRetailersList.rawValue
+        
+        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true ], progress: { (progress) in
             elDebugPrint("Calling \(progress)")
         }, success: success, failure: failure)
     }

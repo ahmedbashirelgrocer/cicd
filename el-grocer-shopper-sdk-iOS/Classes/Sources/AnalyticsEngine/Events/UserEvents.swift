@@ -68,3 +68,16 @@ struct PhoneNumberEnteredEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.phoneNumberEntered)
     }
 }
+
+
+struct PushNotificationEnabledEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(isEnabled: Bool) {
+        self.eventType = .track(eventName: AnalyticsEventName.pushNotificationEnabled)
+        self.metaData = [
+            EventParameterKeys.isEnabled: isEnabled,
+        ]
+    }
+}

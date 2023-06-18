@@ -235,3 +235,14 @@ struct OTPAttemptsEvent: AnalyticsEventDataType {
     }
 }
 
+struct SmilesHeaderClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(isLoggedIn: Bool, smilePoints: Int) {
+        self.eventType = .track(eventName: AnalyticsEventName.smilesHeaderClicked)
+        self.metaData = [
+            EventParameterKeys.isLoggedIn: isLoggedIn,
+        ]
+    }
+}

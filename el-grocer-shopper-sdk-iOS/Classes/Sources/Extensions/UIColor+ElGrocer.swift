@@ -163,6 +163,11 @@ extension UIColor {
         
         return ApplicationTheme.currentTheme.emptyViewTextColor
     }
+    
+    class func locationScreenLightColor() -> UIColor {
+        return  UIColor.colorWithHexString(hexString: "F5F5F5")
+    }
+    
 
 
 

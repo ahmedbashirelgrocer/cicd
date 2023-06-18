@@ -28,13 +28,14 @@ enum StoreClickedEventSource: String {
     case popularStore = "Popular Store"
     case relatedStore = "Related Store"
     case allStoreScreen = "All Store Screen"
+    case elgrocerApp = "Elgrocer Store Selection"
 }
 
 struct StoreClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(grocery: Grocery, source: StoreClickedEventSource) {
+    init(grocery: Grocery, source: StoreClickedEventSource?) {
         self.eventType = .track(eventName: AnalyticsEventName.storeClicked)
         self.metaData = [
             EventParameterKeys.retailerID       : grocery.dbID,
@@ -43,8 +44,8 @@ struct StoreClickedEvent: AnalyticsEventDataType {
             EventParameterKeys.parentId         : grocery.parentID.stringValue,
             EventParameterKeys.typesStoreID     : grocery.retailerType.stringValue,
             EventParameterKeys.address          : grocery.address ?? "",
-            EventParameterKeys.source           : source.rawValue
         ]
+        if source != nil {self.metaData?[EventParameterKeys.source] = source?.rawValue}
     }
 }
 

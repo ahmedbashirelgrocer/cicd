@@ -246,6 +246,17 @@ class NoStoreView: UIView {
         }
     
     
+    func configureNoStoreAtLocation() {
+        
+        self.setUpApearence()
+        self.imgNoData.image = UIImage(name: "pinIcon")
+        self.lblTopMsg.text = localizedString("lbl_error_No_Grocery", comment: "")
+        self.lblExtraDetail.text = localizedString("lbl_Chose_different_location", comment: "")
+        self.btnNoData.setTitle(localizedString("lbl_Chose_different_location", comment: ""), for: .normal)
+        self.btnNoData.isHidden = false
+        self.state = .defaultAction
+    }
+    
     
     func configureNoSearchResult(_ string : String) {
         //You elGrocer cart is empty

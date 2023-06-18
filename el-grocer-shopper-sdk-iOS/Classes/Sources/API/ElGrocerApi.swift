@@ -150,6 +150,7 @@ enum ElGrocerApiEndpoint : String {
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     // Dark store new UI Changes 10nov https://elgrocerdxb.atlassian.net/wiki/spaces/CNC/pages/1270218754/Launching+Dark+Store+w+New+UI
     case genericRetailersList = "v4/retailers/delivery"
+    case egGenericRetailersList = "v3/retailers/delivery"
     case genericMocRetailersList = "v3/retailers"
     
     

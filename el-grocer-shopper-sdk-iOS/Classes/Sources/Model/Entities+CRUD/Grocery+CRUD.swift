@@ -304,6 +304,26 @@ extension Grocery {
             grocery.smallImageUrl = photoUrl
         }
         
+        if let lottifile_en_url = responseDict["lottifile_en_url"] as? String, lottifile_en_url.count > 0 {
+            grocery.lottifileEnUrl = URL(string: lottifile_en_url)
+        }
+        
+        if let lottifile_ar_url = responseDict["lottifile_ar_url"] as? String, lottifile_ar_url.count > 0 {
+            grocery.lottifileArUrl = URL(string: lottifile_ar_url)
+        }
+        
+        if let short_name = responseDict["short_name"] as? String {
+            grocery.shortName = short_name
+        } else {
+            grocery.shortName = nil
+        }
+        if let bg_color = responseDict["bg_color"] as? String {
+            grocery.bgColor = bg_color
+        } else {
+            grocery.bgColor = nil
+        }
+        
+        
         
         
 //        if let top_search = responseDict["top_searches"] as? [String] {

@@ -104,9 +104,9 @@ class SplashAnimationViewController: UIViewController {
     private func StartLogoAnimation() {
         
         if UIApplication.shared.applicationState == .active {
-            
+            // 
             if SDKManager.shared.isShopperApp {
-                
+                // splash_animation_shopper
                 LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
                                                       withJsonFileName:
                                                       sdkManager.isSmileSDK ? "splash_animation_sdk" : "splash_animation_shopper",

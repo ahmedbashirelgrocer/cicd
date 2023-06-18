@@ -24,10 +24,17 @@ protocol ButtonActionDelegate: class {
 extension ButtonActionDelegate  {
     func cartButtonTap(){}
 }
+
+protocol NavigationBarButtonDelegate: AnyObject {
+    func profileButtonTap()
+    func cartButtonTap()
+}
+
 class ElGrocerNavigationController : UINavigationController {
     
     weak var actiondelegate:NavigationBarProtocol?
     weak var buttonActionsDelegate: ButtonActionDelegate?
+    weak var navBarButtonDelegate: NavigationBarButtonDelegate?
     
     lazy var tapGesture  : UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(backButtonClick))
@@ -100,6 +107,7 @@ class ElGrocerNavigationController : UINavigationController {
     }
     
     @objc func profileButtonClick() {
+        self.navBarButtonDelegate?.profileButtonTap()
         self.buttonActionsDelegate?.profileButtonTap()
         hideTabBar()
     }

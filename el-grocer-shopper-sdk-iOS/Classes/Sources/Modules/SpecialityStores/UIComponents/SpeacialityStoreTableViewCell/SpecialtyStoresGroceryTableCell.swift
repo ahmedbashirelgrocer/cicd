@@ -55,6 +55,7 @@ class SpecialtyStoresGroceryTableCell: UITableViewCell {
     }
     @IBOutlet var imgSlotTime: UIImageView!
     @IBOutlet var lblSlotTime: UILabel!
+    @IBOutlet weak var imgGroceryLeadingContstraint: NSLayoutConstraint!
     var placeholderPhoto = UIImage(name: "product_placeholder")!
 
     override func awakeFromNib() {
@@ -170,4 +171,18 @@ class SpecialtyStoresGroceryTableCell: UITableViewCell {
         
     }
 
+}
+// helper
+extension SpecialtyStoresGroceryTableCell {
+    
+    func cellSetGroceryImagePlacement() {
+        
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.imgGroceryLeadingContstraint.constant = self.frame.size.width - self.imgGrocery.frame.size.width - 36
+        } else {
+            self.imgGroceryLeadingContstraint.constant = 16
+        }
+        self.layoutIfNeeded()
+    }
+    
 }

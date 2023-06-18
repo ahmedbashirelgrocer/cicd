@@ -99,5 +99,7 @@ enum AnalyticsEventName {
     static let applicationOpened        = "Application Opened"
     static let applicationBackgrounded  = "Application Backgrounded"
     static let otpAttempts              = "OTP Attempts"
+    static let smilesHeaderClicked = "Smiles Header Clicked"
+    static let homeTileClicked          = "Home Tile Clicked"
     
 }

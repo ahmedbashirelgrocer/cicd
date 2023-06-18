@@ -1,16 +1,21 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
+      "idiom" : "iphone"
+    },
+    {
+      "filename" : "elGrocer Logo-Green.png",
+      "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
+      "filename" : "elGrocer Logo-Green@2x.png",
+      "idiom" : "iphone",
       "scale" : "2x"
     },
     {
       "filename" : "elGrocer Logo-Green@3x.png",
-      "idiom" : "universal",
+      "idiom" : "iphone",
       "scale" : "3x"
     }
   ],

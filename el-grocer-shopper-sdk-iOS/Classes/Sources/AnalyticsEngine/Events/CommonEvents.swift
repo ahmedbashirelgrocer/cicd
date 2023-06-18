@@ -27,6 +27,26 @@ struct SDKLaunchedEvent: AnalyticsEventDataType {
     }
 }
 
+// MARK: ShopperOnly
+
+struct HomeTileClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(title: String, isFeatured: Bool, retailerId: String? = nil) {
+        self.eventType = .track(eventName: AnalyticsEventName.homeTileClicked)
+        var metaData: [String: Any] = [:]
+        
+        metaData[EventParameterKeys.title] = title
+        metaData[EventParameterKeys.isFeatured] = isFeatured
+        if let retailerId = retailerId {
+            metaData[EventParameterKeys.retailerID] = retailerId
+        }
+        
+        self.metaData = metaData
+    }
+}
+
 
 
 // MARK: Help Event

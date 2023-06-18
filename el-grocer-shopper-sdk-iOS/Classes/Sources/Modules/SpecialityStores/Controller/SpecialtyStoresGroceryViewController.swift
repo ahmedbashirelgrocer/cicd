@@ -16,48 +16,87 @@ enum SpecialtyStoresGroceryViewControllerType : Int {
     case viewAllStoreCategories = 4
 }
 
-class SpecialtyStoresGroceryViewController: UIViewController {
+class SpecialtyStoresGroceryViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet var tableView: UITableView!{
         didSet{
             tableView.backgroundColor = .textfieldBackgroundColor()
+            tableView.superview?.layer.cornerRadius = 24
+            tableView.superview?.clipsToBounds = true
         }
     }
     
-    @IBOutlet var tableViewTopConstraint: NSLayoutConstraint!
-    lazy var searchBarHeader : GenericHyperMarketHeader = {
-        let searchHeader = GenericHyperMarketHeader.loadFromNib()
-        return searchHeader!
-    }()
-    private (set) var header : SegmentHeader? = nil
-    
+    // @IBOutlet var tableViewTopConstraint: NSLayoutConstraint!
+    // lazy var searchBarHeader : GenericHyperMarketHeader = {
+    // let searchHeader = GenericHyperMarketHeader.loadFromNib()
+    // return searchHeader!
+    // }()
+    // private (set) var header : SegmentHeader? = nil
     
     var controllerType : SpecialtyStoresGroceryViewControllerType = .specialty
     var groceryArray: [Grocery] = []
-    var filteredGroceryArray: [Grocery] = []
-    var availableStoreTypeA: [StoreType] = []
-    var featureGroceryBanner : [BannerCampaign] = []
+    var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
+    var selectedStoreTypeData: StoreType! = nil {
+        didSet {
+            self.groceryArray = storyTypeBaseDataDict[selectedStoreTypeData.storeTypeid] ?? []
+            self.title = (LanguageManager.sharedInstance.getSelectedLocale() == "ar" && (selectedStoreTypeData.nameAr?.count ?? 0) > 0) ?  selectedStoreTypeData.nameAr  : selectedStoreTypeData.name
+        }
+    }
+    var filteredGroceryArray: [Grocery] = [] {
+        didSet {
+            filteredGroceryArray = filteredGroceryArray
+                .filter{ $0.featured == 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+            + filteredGroceryArray
+                .filter{ $0.featured != 1 }
+                .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
+        
+            tableView.reloadDataOnMain()
+        }
+    }
+    var availableStoreTypeA: [StoreType] = [] {
+        didSet {
+            self.availableStoreTypeA = self.availableStoreTypeA.sorted{ $0.priority < $1.priority }
+        }
+    }
+    // var featureGroceryBanner : [BannerCampaign] = []
     var lastSelectType : StoreType? = nil
-    var controllerTitle: String = ""
+    var controllerTitle: String = NSLocalizedString("title_all_stores", comment: "")
     var selectStoreType : StoreType? = nil
     var retailerType: RetailerType? = nil
+    
+    // Schroll view delegate for header
+    @IBOutlet weak var headerTopAnchar: NSLayoutConstraint!
+    @IBOutlet weak var header: SpecilityStoreHeader!
+    private var effectiveOffset: CGFloat = 0
+    private var offset: CGFloat = 0 {
+        didSet {
+            let diff = offset - oldValue
+            if diff > 0 { effectiveOffset = min(90 + 45, effectiveOffset + diff) }
+            else { effectiveOffset = max(0, effectiveOffset + diff) }
+        }
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        offset = scrollView.contentOffset.y
+        headerTopAnchar.constant = -min(effectiveOffset, scrollView.contentOffset.y)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         registerCellsAndSetDelegates()
         setTableViewHeader()
-       
         setNavigationBarAppearence()
+        setSegmentView()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationBarAppearence()
         
-        self.groceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.groceryArray)
+        self.groceryArray = ElGrocerUtility.sharedInstance.makeFilterOneSlotBasis(storeTypeA: self.groceryArray)
         self.makeActiveTopGroceryOfArray()
-        self.setFeatureGroceryBanners()
-        self.setSegmentView()
+        // self.setFeatureGroceryBanners()
     }
     
     func setNavigationBarAppearence() {
@@ -66,16 +105,16 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         //self.tabBarController?.tabBar.isHidden = false
         //hide tabbar
-        hideTabBar()
+        self.hideTabBar()
         
         if self.controllerType == .viewAllStores {
-            self.title = localizedString("title_all_stores", comment: "")
+            // self.title = NSLocalizedString("title_all_stores", comment: "")
             //self.addBackButton(isGreen: false)
         }else if self.controllerType == .viewAllStoresWithBack {
-            self.title = localizedString("txt_Shop_by_store_category", comment: "")
+            // self.title = NSLocalizedString("txt_Shop_by_store_category", comment: "")
             self.addBackButton(isGreen: false)
         }else {
-            self.title = self.controllerTitle
+            // self.title = self.controllerTitle
         }
         
         self.addRightCrossButton(true)
@@ -106,65 +145,72 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         
         
-        let SpecialtyStoresGroceryTableCell = UINib(nibName: "SpecialtyStoresGroceryTableCell" , bundle: Bundle.resource)
+        let SpecialtyStoresGroceryTableCell = UINib(nibName: "SpecialtyStoresGroceryTableCell" , bundle: .resource)
         self.tableView.register(SpecialtyStoresGroceryTableCell, forCellReuseIdentifier: "SpecialtyStoresGroceryTableCell" )
         
-        let HyperMarketGroceryTableCell = UINib(nibName: "HyperMarketGroceryTableCell" , bundle: Bundle.resource)
+        let HyperMarketGroceryTableCell = UINib(nibName: "HyperMarketGroceryTableCell" , bundle: .resource)
         self.tableView.register(HyperMarketGroceryTableCell, forCellReuseIdentifier: "HyperMarketGroceryTableCell" )
         
         
-        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: Bundle.resource)
+        let genericBannersCell = UINib(nibName: KGenericBannersCell, bundle: .resource)
         self.tableView.register(genericBannersCell, forCellReuseIdentifier: KGenericBannersCell)
     }
     
     func setSegmentView() {
         
        
-        var segmentArray = [localizedString("all_store", comment: "")]
-        var filterStoreTypeData : [StoreType] = []
-        for data in self.groceryArray {
-            let typeA = data.getStoreTypes() ?? []
-            for type in typeA {
-                if let obj = self.availableStoreTypeA.first(where: { typeData in
-                    return type.int64Value == typeData.storeTypeid
-                }) {
-                    
-                    if let _ = filterStoreTypeData.first(where: { type in
-                        return type.storeTypeid == obj.storeTypeid
-                    }) {
-                        elDebugPrint("available")
-                    }else {
-                        filterStoreTypeData.append(obj)
-                    }
-                }
-            }
-        }
-        filterStoreTypeData = filterStoreTypeData.sorted(by: { typeOne, typeTwo in
-            return typeOne.priority < typeTwo.priority
-        })
+//        var segmentArray = [NSLocalizedString("all_store", comment: "")]
+//        var filterStoreTypeData : [StoreType] = []
+//        for data in self.groceryArray {
+//            let typeA = data.storeType
+//            for type in typeA {
+//                if let obj = self.availableStoreTypeA.first(where: { typeData in return type.int64Value == typeData.storeTypeid }) {
+//
+//                    if let _ = filterStoreTypeData.first(where: { type in
+//                        return type.storeTypeid == obj.storeTypeid
+//                    }) {
+//                        debugPrint("available")
+//                    }else {
+//                        filterStoreTypeData.append(obj)
+//                    }
+//                }
+//            }
+//        }
+//        filterStoreTypeData = filterStoreTypeData.sorted(by: { typeOne, typeTwo in
+//            return typeOne.priority < typeTwo.priority
+//        })
+//
+//        for type in filterStoreTypeData {
+//            segmentArray.append(type.name ?? "")
+//        }
+//
+//
+//         self.availableStoreTypeA = filterStoreTypeData
         
-        for type in filterStoreTypeData {
-            segmentArray.append(type.name ?? "")
+        if let typeid = selectedStoreTypeData?.storeTypeid {
+            filteredGroceryArray = storyTypeBaseDataDict[typeid] ?? []
         }
-      
-        self.availableStoreTypeA = filterStoreTypeData
+        
+        let segmentArray = availableStoreTypeA.map { $0.name ?? "" }
         
         if self.availableStoreTypeA.count > 0 {
-          
-            header = (Bundle.resource.loadNibNamed("SegmentHeader", owner: self, options: nil)![0] as? SegmentHeader)!
-            header?.segmentView.commonInit()
             header?.segmentView.backgroundColor = .textfieldBackgroundColor()
             header?.backgroundColor = .textfieldBackgroundColor()
+            let index: Int = availableStoreTypeA
+                .firstIndex { [weak self] in $0.storeTypeid == self?.selectedStoreTypeData?.storeTypeid } ?? 0
+            let indexPath = IndexPath(row: index, section: 0)
+            header?.segmentView.lastSelection = indexPath
             header?.segmentView.refreshWith(dataA: segmentArray)
             header?.segmentView.segmentDelegate = self
             
+            DispatchQueue.main.async { [weak self, indexPath] in
+                self?.header.segmentView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
         }
         
         
-     
-        
-        self.filteredGroceryArray = self.groceryArray
-        self.tableView.reloadDataOnMain()
+        // self.filteredGroceryArray = self.groceryArray
+        // self.tableView.reloadDataOnMain()
         
         
         if self.controllerType == .viewAllStores && self.selectStoreType != nil {
@@ -192,18 +238,18 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            self.searchBarHeader.setInitialUI(type: .specialityStore)
-            self.searchBarHeader.setNeedsLayout()
-            self.searchBarHeader.layoutIfNeeded()
-            self.view.addSubview(self.searchBarHeader)
-            self.searchBarHeader.translatesAutoresizingMaskIntoConstraints = false
-            let heightConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 90)
-            let weidthConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
-            self.view.addConstraints([heightConstraint,weidthConstraint])
-            self.searchBarHeader.retailerType = self.retailerType
-            self.searchBarHeader.setNeedsLayout()
-            self.searchBarHeader.layoutIfNeeded()
-            self.tableViewTopConstraint.constant = self.searchBarHeader.frame.size.height
+            self.header.searchBarHeader.setInitialUI(type: .specialityStore)
+            // self.header.searchBarHeader.setNeedsLayout()
+            // self.header.searchBarHeader.layoutIfNeeded()
+            // self.view.addSubview(self.searchBarHeader)
+            // self.searchBarHeader.translatesAutoresizingMaskIntoConstraints = false
+            // let heightConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 90)
+            // let weidthConstraint = NSLayoutConstraint(item: self.searchBarHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+            // self.view.addConstraints([heightConstraint,weidthConstraint])
+            self.header.searchBarHeader.retailerType = self.retailerType
+            // self.searchBarHeader.setNeedsLayout()
+            // self.searchBarHeader.layoutIfNeeded()
+            // self.tableViewTopConstraint.constant = self.searchBarHeader.frame.size.height
         })
     }
     
@@ -232,7 +278,7 @@ class SpecialtyStoresGroceryViewController: UIViewController {
             groceryArray =  self.rearrange(array: groceryArray, fromIndex: finalIndex, toIndex: 0)
         }
         (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.updateBadgeValue()
-        self.tableView.reloadData()
+        // self.tableView.reloadData()
     }
     
     
@@ -257,10 +303,10 @@ class SpecialtyStoresGroceryViewController: UIViewController {
         }
             //let currentSelf = self;
         DispatchQueue.main.async {
-            // if let SDKManager: SDKManagerType! = sdkManager {
-                if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
+            if let appDelegate = sdkManager {
+                if let navtabbar = appDelegate.window?.rootViewController as? UINavigationController  {
                     
-                    if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
+                    if !(appDelegate.window?.rootViewController is ElgrocerGenericUIParentNavViewController) {
                         if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
                             ElGrocerUtility.sharedInstance.activeGrocery = grocery
                             if ElGrocerUtility.sharedInstance.groceries.count == 0 {
@@ -299,43 +345,27 @@ class SpecialtyStoresGroceryViewController: UIViewController {
                         }
                     }
                 }else{
-                        // elDebugPrint(self.grocerA[12312321])
+                        // debugPrint(self.grocerA[12312321])
                     FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                 }
-            // }
+            }
         }
     }
     
-    private func setFeatureGroceryBanners() {
-        
-     
-      let featureGroceries =  self.groceryArray.filter { grocery in
-            return grocery.featured?.boolValue ?? false
-        }
-        var bannerA : [BannerCampaign] = []
-        for grocery in featureGroceries {
-            let campaign = BannerCampaign.init()
-            campaign.imageUrl = grocery.featureImageUrl  ?? ""
-            if let groceryID = Int(grocery.getCleanGroceryID()) {
-                if groceryID > 0 {
-                    campaign.retailerIds = [groceryID]
-                    campaign.campaignType = NSNumber.init(integerLiteral: BannerCampaignType.priority.rawValue)
-                }
-            }
-            bannerA.append(campaign)
-            self.groceryArray.removeAll { groceryObj in
-                return groceryObj.dbID == grocery.dbID
-            }
-        }
-        
-        self.featureGroceryBanner = bannerA
-        
-        if bannerA.count == 0 {
-            FireBaseEventsLogger.trackNoPriorityStore()
-        }
-        self.tableView.reloadDataOnMain()
-    
-    }
+//    private func setFeatureGroceryBanners() {
+//        // featureGroceryBanner = self.groceryArray
+//        featureGroceryBanner = filteredGroceryArray
+//            .filter{ $0.featured == 1 }
+//            .map{ (Int($0.getCleanGroceryID()) ?? -1, $0) }
+//            .filter { $0.0 > 0 }
+//            .map{ gid, grocery -> BannerCampaign in
+//                let banner = BannerCampaign.init()
+//                banner.imageUrl = grocery.featureImageUrl ?? ""
+//                banner.retailerIds = [gid]
+//                banner.campaignType = NSNumber.init(integerLiteral: BannerCampaignType.priority.rawValue)
+//                return banner
+//            }
+//    }
 
     /*
     // MARK: - Navigation
@@ -352,61 +382,60 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return self.availableStoreTypeA.count > 0 ?  45 : 0.01
-        }
-        return 0.01
+//        if section == 0 {
+//            return self.availableStoreTypeA.count > 0 ?  45 : 0.01
+//        }
+        return 8
     }
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            return self.availableStoreTypeA.count > 0 ? header : nil
-        }
-        return nil
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        if section == 0 {
+//            return self.availableStoreTypeA.count > 0 ? header : nil
+//        }
+//        return nil
+//    }
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == 0 {
-            return 1
-        }
+//        if section == 0 {
+//            return 1
+//        }
         return filteredGroceryArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
-            
-            let cell : GenericBannersCell = self.tableView.dequeueReusableCell(withIdentifier: "GenericBannersCell", for: indexPath) as! GenericBannersCell
-            cell.contentView.backgroundColor = .clear
-            cell.bgView.backgroundColor = .clear
-            cell.bannerList.backgroundColor = .clear
-            cell.bannerList.collectionView?.backgroundColor = .clear
-            cell.configured(self.featureGroceryBanner)
-            cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
-                guard let self = self  else {   return   }
-                Thread.OnMainThread {
-                    self.dismiss(animated: true) {
-                        let totalStoreA = HomePageData.shared.groceryA ?? self.groceryArray
-                        if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
-                            ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
-                        }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
-                            banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: totalStoreA)
-                        }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
-                            banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: totalStoreA)
-                        }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
-                            banner.changeStoreForBanners(currentActive: nil, retailers: totalStoreA)
-                        }
-                    }
-                }
-                
-            }
-            return cell
-        }
+//        if indexPath.section == 0 {
+//
+//            let cell : GenericBannersCell = self.tableView.dequeueReusableCell(withIdentifier: "GenericBannersCell", for: indexPath) as! GenericBannersCell
+//            cell.contentView.backgroundColor = .clear
+//            cell.bgView.backgroundColor = .clear
+//            cell.bannerList.backgroundColor = .clear
+//            cell.bannerList.collectionView?.backgroundColor = .clear
+//            cell.configured(self.featureGroceryBanner)
+//            cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
+//                guard let self = self  else {   return   }
+//                Thread.OnMainThread {
+//                    self.dismiss(animated: true) {
+//                        let totalStoreA = HomePageData.shared.groceryA ?? self.groceryArray
+//                        if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
+//                            ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
+//                        }else if banner.campaignType.intValue == BannerCampaignType.brand.rawValue {
+//                            banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: totalStoreA)
+//                        }else if banner.campaignType.intValue == BannerCampaignType.retailer.rawValue  {
+//                            banner.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: totalStoreA)
+//                        }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
+//                            banner.changeStoreForBanners(currentActive: nil, retailers: totalStoreA)
+//                        }
+//                    }
+//                }
+//
+//            }
+//            return cell
+//        }
         
         if self.controllerType == .specialty {
             
@@ -430,10 +459,24 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
           
         
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        if self.controllerType == .specialty, let cell = cell as? SpecialtyStoresGroceryTableCell {
+            cell.cellSetGroceryImagePlacement()
+        }
+    }
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       elDebugPrint(indexPath.row)
+        print(indexPath.row)
 //        let vc = ElGrocerViewControllers.getShopByCategoriesViewController()
 //        self.navigationController?.pushViewController(vc, animated: true)
+        
+        // Logging Segment Analytics Event of type Store Clicked
+        let storeClickedEvent = StoreClickedEvent(grocery: self.groceryArray[indexPath.row], source: nil)
+        SegmentAnalyticsEngine.instance.logEvent(event: storeClickedEvent)
+        
         self.dismiss(animated: true) {
             if self.filteredGroceryArray.count > 0{
                 self.goToGrocery(self.filteredGroceryArray[indexPath.row], nil)
@@ -441,12 +484,12 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
         }
 
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return self.featureGroceryBanner.count > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
-        }
-        return UITableView.automaticDimension
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if indexPath.section == 0 {
+//            return self.featureGroceryBanner.count > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+//        }
+//        return UITableView.automaticDimension
+//    }
 }
 
 
@@ -455,44 +498,53 @@ extension SpecialtyStoresGroceryViewController: AWSegmentViewProtocol {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         
-        elDebugPrint(selectedSegmentIndex)
+        debugPrint(selectedSegmentIndex)
         
+        // previously selected category (Before switching)
+        let currentCategory = self.selectedStoreTypeData
+        
+        // previously selected category (After switching)
+        self.selectedStoreTypeData = availableStoreTypeA[selectedSegmentIndex]
+        
+        self.filteredGroceryArray = storyTypeBaseDataDict[selectedStoreTypeData.storeTypeid] ?? []
+        
+        // Logging Segment event for Store Category Switched
+        let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: currentCategory, nextStoreCategoryType: selectedStoreTypeData)
+        SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
        
         
-       
-        
-        guard selectedSegmentIndex > 0 else {
-            if let retailerType = self.retailerType {
-                MixpanelEventLogger.trackStoreListingCategoryFilter(storeListCategoryId: "\(retailerType.dbId)", storeListCategoryName: retailerType.getRetailerName(), selectedCatId: "-1", selectedCatName: "All Stores")
-            }
-            self.filteredGroceryArray = self.groceryArray
-            self.tableView.reloadDataOnMain()
-            return
-        }
+//        guard selectedSegmentIndex > 0 else {
+//            if let retailerType = self.retailerType {
+//                MixpanelEventLogger.trackStoreListingCategoryFilter(storeListCategoryId: "\(retailerType.dbId)", storeListCategoryName: retailerType.getRetailerName(), selectedCatId: "-1", selectedCatName: "All Stores")
+//            }
+//            self.filteredGroceryArray = self.groceryArray
+//            // self.tableView.reloadDataOnMain()
+//            return
+//        }
         
         
-        let finalIndex = selectedSegmentIndex - 1
-        guard finalIndex < self.availableStoreTypeA.count else {return}
-        
-        let selectedType = self.availableStoreTypeA[finalIndex]
-
-        
-        let filterA = self.groceryArray.filter { grocery in
-            let storeTypes = grocery.getStoreTypes() ?? []
-            return storeTypes.contains { typeId in
-                return typeId.int64Value == selectedType.storeTypeid
-            }
-        }
-        self.filteredGroceryArray = filterA
-        self.tableView.reloadDataOnMain()
-        
-        FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
-        if let retailerType = self.retailerType {
-            MixpanelEventLogger.trackStoreListingCategoryFilter(storeListCategoryId: "\(retailerType.dbId)", storeListCategoryName: retailerType.getRetailerName(), selectedCatId: "\(selectedType.storeTypeid)", selectedCatName: selectedType.name ?? "")
-        }
-        self.lastSelectType = selectedType
+//        let finalIndex = selectedSegmentIndex - 1
+//        guard finalIndex < self.availableStoreTypeA.count else {return}
+//
+//        let selectedType = self.availableStoreTypeA[finalIndex]
+//
+//
+//        let filterA = self.groceryArray.filter { grocery in
+//            return grocery.storeType.contains { typeId in
+//                return typeId.int64Value == selectedType.storeTypeid
+//            }
+//        }
+//        self.filteredGroceryArray = filterA
+//        // self.tableView.reloadDataOnMain()
+//
+//        FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
+//        if let retailerType = self.retailerType {
+//            MixpanelEventLogger.trackStoreListingCategoryFilter(storeListCategoryId: "\(retailerType.dbId)", storeListCategoryName: retailerType.getRetailerName(), selectedCatId: "\(selectedType.storeTypeid)", selectedCatName: selectedType.name ?? "")
+//        }
+//        self.lastSelectType = selectedType
         
     }
 
     
 }
+

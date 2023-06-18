@@ -85,6 +85,7 @@ enum EventParameterKeys {
     static let pushNotifcation      = "pushNotification"
     
     static let attemptCount     = "attemptCount"
+    static let isLoggedIn       = "isLoggedIn"
     
     
 }

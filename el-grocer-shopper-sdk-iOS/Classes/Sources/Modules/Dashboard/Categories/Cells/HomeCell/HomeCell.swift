@@ -366,7 +366,7 @@ class HomeCell: RxUITableViewCell {
         let dataA = data.components(separatedBy: CharacterSet.newlines)
         var attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 11) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor ]
         
-        self.ivDeliverySlotIcon.image = isInstant ? UIImage(named: "instatntDeliveryBolt", in: .resource, compatibleWith: nil) : UIImage(named: "ClockIcon", in: .resource, compatibleWith: nil)
+        self.ivDeliverySlotIcon.image = isInstant ? UIImage(name: "instatntDeliveryBolt") : UIImage(name: "ClockIcon")
         
         if dataA.count == 1 {
             if self.lblGrocerySlot.text?.count ?? 0 > 13 {

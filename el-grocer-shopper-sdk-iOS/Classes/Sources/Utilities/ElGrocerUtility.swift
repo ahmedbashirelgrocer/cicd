@@ -1603,6 +1603,48 @@ class ElGrocerUtility {
         }
     }
     
+    
+    func makeFilterOneSlotBasis(storeTypeA: [Grocery] ) -> [Grocery] {
+        var filteredArray = storeTypeA
+        filteredArray = filteredArray.sorted(by: { (one, two) -> Bool in
+          (one.distance > two.distance)
+        })
+        filteredArray = filteredArray.sorted(by: { (one, two) -> Bool in
+          (one.distance < two.distance)
+        })
+        var instantList = [Grocery]()
+        var scheduledList = [Grocery]()
+        var closedList = [Grocery]()
+        filteredArray.forEach { (it) in
+          if(it.isOpen.boolValue && (it.isInstantSchedule() || it.isInstant())) {
+            instantList.append(it)
+          } else if(it.isOpen.boolValue && it.isScheduleType()) {
+            scheduledList.append(it)
+          } else {
+            closedList.append(it)
+          }
+        }
+        scheduledList = scheduledList.sorted { (one, two) -> Bool in
+          if ( one.deliverySlots.count > 0 ) && ( two.deliverySlots.count > 0 ) {
+            if let slotOneDate = (one.deliverySlots.allObjects[0] as? DeliverySlot)?.start_time , let slotTwoDate = (two.deliverySlots.allObjects[0] as? DeliverySlot)?.start_time , (one.isOpen.boolValue && two.isOpen.boolValue) {
+              return slotOneDate < slotTwoDate
+            }
+          }
+          return false
+        }
+        var list = [Grocery]()
+        list.append(contentsOf: instantList)
+        list.append(contentsOf: scheduledList)
+        list.append(contentsOf: closedList)
+        list = list.sorted(by: { groceryOne, groceryTwo in
+          return (groceryOne.featured?.intValue ?? 0) > (groceryTwo.featured?.intValue ?? 0)
+        })
+        if list.count == 0 {
+          list = storeTypeA
+        }
+        return list
+      }
+    
    
     
     

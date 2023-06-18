@@ -17,10 +17,12 @@ enum MainCategoryCellType {
     case Categories
     case ViewAllCategories
     case Store
+    case Featured
 }
 
 class HomeMainCategoriesTableCell: UITableViewCell {
 
+    @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     @IBOutlet var categoryCollectionView: UICollectionView!{
         didSet{
@@ -28,16 +30,44 @@ class HomeMainCategoriesTableCell: UITableViewCell {
 //            categoryCollectionView.isSpringLoaded = false
         }
     }
-    @IBOutlet var lblTitle: UILabel! {
-        didSet {
-            lblTitle.setBodyH4SemiBoldDarkGreenStyle()
+//    @IBOutlet var lblTitle: UILabel! {
+//        didSet {
+//            lblTitle.setBodyH4SemiBoldDarkGreenStyle()
+//        }
+//    }
+//
+//    @IBOutlet var titleTopSpace: NSLayoutConstraint!
+//    @IBOutlet var collectionTopSpace: NSLayoutConstraint!
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layoutCollectionView()
+        self.layoutIfNeeded()
+        if self.cellHeight.constant != categoryCollectionView.contentSize.height {
+            self.cellHeight.constant = categoryCollectionView.contentSize.height
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                self.layoutIfNeeded()
+                (self.superview as? UITableView)?.reloadData()
+            }
+            //
         }
     }
     
-    @IBOutlet var titleTopSpace: NSLayoutConstraint!
-    @IBOutlet var collectionTopSpace: NSLayoutConstraint!
+    func layoutCollectionView() {
+        guard let categoryCollectionView = categoryCollectionView else { return }
+        
+        let edgeInset:CGFloat =  16
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 64)/3,
+                                 height: (ScreenSize.SCREEN_WIDTH - 64)/3)
+        layout.minimumInteritemSpacing = 15
+        layout.minimumLineSpacing = 15
+        layout.sectionInset = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
+        categoryCollectionView.reloadData()
+        categoryCollectionView.collectionViewLayout = layout
+    }
     
-   
     
     typealias tapped = (_ service: MainCategoryCellType,_ index: Int , _ type : Any?)-> Void
     var serviceTapped: tapped?
@@ -62,40 +92,40 @@ class HomeMainCategoriesTableCell: UITableViewCell {
     
     
     
-    func configureCell(cellType: MainCategoryCellType , dataA : [[MainCategoryCellType : Any]] , _ title : String = ""){
+    func configureCell(cellType: MainCategoryCellType , dataA : [[MainCategoryCellType : Any]]){
         
         self.cellType = cellType
         self.dataA = dataA
-        self.setCellTitle(title)
+//        self.setCellTitle(title)
         self.categoryCollectionView.reloadDataOnMainThread()
         
     }
     
-    private func setCellTitle(_ title : String = "") {
-        
-   
-        if title.count > 0 {
-            self.lblTitle.text = title
-            self.titleTopSpace.constant = 16
-            self.collectionTopSpace.constant = 8
-        }else {
-            self.lblTitle.text = ""
-            self.titleTopSpace.constant = 0
-            self.collectionTopSpace.constant = 0
-        }
-        
-        Thread.OnMainThread {
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-        }
-    }
+//    private func setCellTitle(_ title : String = "") {
+//
+//
+//        if title.count > 0 {
+//            self.lblTitle.text = title
+//            self.titleTopSpace.constant = 16
+//            self.collectionTopSpace.constant = 8
+//        }else {
+//            self.lblTitle.text = ""
+//            self.titleTopSpace.constant = 0
+//            self.collectionTopSpace.constant = 0
+//        }
+//
+//        Thread.OnMainThread {
+//            self.setNeedsLayout()
+//            self.layoutIfNeeded()
+//        }
+//    }
     
     func setDelegates(){
         
         self.categoryCollectionView.delegate = self
         self.categoryCollectionView.dataSource = self
         
-        let HomeMainCategoryCollectionCell = UINib(nibName: "HomeMainCategoryCollectionCell", bundle: Bundle.resource)
+        let HomeMainCategoryCollectionCell = UINib(nibName: "HomeMainCategoryCollectionCell", bundle: .resource)
         self.categoryCollectionView.register(HomeMainCategoryCollectionCell, forCellWithReuseIdentifier: "HomeMainCategoryCollectionCell")
         
     }
@@ -116,20 +146,24 @@ extension HomeMainCategoriesTableCell : UICollectionViewDelegate , UICollectionV
             type = typekey
         }
         
+        if type == MainCategoryCellType.Featured, let obj = typeData[type] as? Grocery {
+            cell.configureCell(cellType: .Featured, title: obj.name ?? "", image: obj.smallImageUrl ?? "", false, data: obj)
+            return cell
+        }
         if type == MainCategoryCellType.Services , let obj = typeData[type] as? RetailerType{
             cell.configureCell(cellType: .Services, title: obj.name ?? "", image: obj.imageUrl ?? "", false, data: obj)
             return cell
         }
         if type == MainCategoryCellType.ClickAndCollect , let obj = typeData[type] as? ClickAndCollectService{
-            cell.configureCell(cellType: .ClickAndCollect, title: localizedString("lbl_CAndC", comment: "") , image: "ClickAndCollectBgImage", false, data: obj)
+            cell.configureCell(cellType: .ClickAndCollect, title: NSLocalizedString("lbl_CAndC", comment: "") , image: "ClickAndCollectBgImage", false, data: obj)
             return cell
         }
         if type == MainCategoryCellType.Recipe , let obj = typeData[type] as? RecipeService{
-            cell.configureCell(cellType: .Recipe, title: localizedString("txt_Recipes", comment: "") , image: "recipeCellBgImage", false, data: obj)
+            cell.configureCell(cellType: .Recipe, title: NSLocalizedString("txt_Recipes", comment: "") , image: "recipeCellBgImage", false, data: obj)
             return cell
         }
         if type == .ViewAllCategories , let obj = typeData[type] as? [StoreType] {
-            cell.configureCell(cellType: .ViewAllCategories, title: localizedString("title_view_all_cat", comment: ""), image: "UIImage()", true, data: obj)
+            cell.configureCell(cellType: .ViewAllCategories, title: NSLocalizedString("title_view_all_cat", comment: ""), image: "UIImage()", true, data: obj)
             return cell
         }
         if type == .Categories , let obj = typeData[type] as? StoreType {
@@ -163,7 +197,7 @@ extension HomeMainCategoriesTableCell : UICollectionViewDelegate , UICollectionV
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       elDebugPrint(indexPath.item)
+        print(indexPath.item)
         guard indexPath.row < self.dataA.count else { return }
         let typeData = self.dataA[indexPath.row]
         var type  = MainCategoryCellType.Services
@@ -178,7 +212,7 @@ extension HomeMainCategoriesTableCell : UICollectionViewDelegate , UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        elDebugPrint("")
+        debugPrint("")
         guard indexPath.row < self.dataA.count else { return }
         let typeData = self.dataA[indexPath.row]
         var type  = MainCategoryCellType.Services
@@ -242,13 +276,13 @@ extension HomeMainCategoriesTableCell : UICollectionViewDelegate , UICollectionV
     }
     
 }
-extension HomeMainCategoriesTableCell: UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let screenSize = ScreenSize.SCREEN_WIDTH
-        let spaceBetweenCells: CGFloat = 16
-        let cellSize = (screenSize / 3) - 24 //- (spaceBetweenCells * 4)
-        let finalCellSize = cellSize
-        return CGSize(width: finalCellSize, height: finalCellSize)
-    }
-}
+//extension HomeMainCategoriesTableCell: UICollectionViewDelegateFlowLayout{
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        let screenSize = ScreenSize.SCREEN_WIDTH
+//        let spaceBetweenCells: CGFloat = 16
+//        let cellSize = (screenSize / 3) - 24 //- (spaceBetweenCells * 4)
+//        let finalCellSize = cellSize
+//        return CGSize(width: finalCellSize, height: finalCellSize)
+//    }
+//}

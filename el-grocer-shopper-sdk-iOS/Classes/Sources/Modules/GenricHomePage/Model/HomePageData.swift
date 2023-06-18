@@ -54,6 +54,35 @@ class HomePageData  {
     weak var delegate : HomePageDataLoadingComplete?
     lazy var serviceA : [[MainCategoryCellType : Any]] = []
     lazy var categoryServiceA : [[MainCategoryCellType : Any]] = []
+    var categoryServiceNewDesign : [[MainCategoryCellType : Any]] {
+        var data: [[MainCategoryCellType : Any]] = []
+        
+        let stores = self.storeTypeA ?? []
+        
+        if let viewAll = stores.first {
+            data.append([MainCategoryCellType.Categories: viewAll])
+        } else {
+            return []
+        }
+        
+        if let featured = self.groceryA?.first(where: { $0.featured == 1 }) {
+            data.append([MainCategoryCellType.Featured: featured])
+            // stores.removeAll(where: { $0.name == featured.name })
+        }
+        
+        if let dealsItem = serviceA.first(where: { element in element[MainCategoryCellType.Deals] != nil }) {
+            data.append(dealsItem)
+        }
+        
+        for index in 1..<stores.count where data.count < 5 {
+            data.append([MainCategoryCellType.Categories : stores[index]])
+        }
+        data.append([MainCategoryCellType.ViewAllCategories : self.storeTypeA ?? []])
+        
+        return data
+    }
+    var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
+    
     lazy var storeTypeA : [StoreType]? = nil
     lazy var retailerTypeA : [RetailerType]? = nil
     lazy var groceryA : [Grocery]? = nil {
@@ -61,7 +90,7 @@ class HomePageData  {
             self.createGenericStoresDictionary()
         }
     }
-    var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
+   
     var genericAllStoreDictionary: [String: Any]? // key against each grocery is its id.
     
     lazy var hyperMarketA : [Grocery]? = nil

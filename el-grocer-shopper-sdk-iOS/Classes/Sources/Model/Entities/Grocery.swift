@@ -63,4 +63,10 @@ public class Grocery: NSManagedObject, DBEntity  {
     
     @NSManaged var smileSupport: NSNumber?
     @NSManaged var priority: NSNumber?
+    
+    var lottifileEnUrl: URL?
+    var lottifileArUrl: URL?
+    var shortName: String?
+    var bgColor: String?
+   
 }

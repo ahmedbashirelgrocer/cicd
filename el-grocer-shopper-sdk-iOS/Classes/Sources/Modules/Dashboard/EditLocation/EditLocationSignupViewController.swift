@@ -476,7 +476,7 @@ fileprivate extension EditLocationSignupViewController {
             cell.textField.keyboardType = tableConfigData[index].keyboardType!
             cell.textField.tag = index
             if let imageName = tableConfigData[index].imageName {
-                cell.updateView(leftImage: UIImage(named: imageName))
+                cell.updateView(leftImage: UIImage(name: imageName))
             }
             cell.textField.placeholder = tableConfigData[index].placeHolder
             tableCells.append(cell)

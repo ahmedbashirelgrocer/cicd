@@ -8,27 +8,37 @@
 
 import UIKit
 
+extension GenericHomePageSearchHeader {
+    var profileButton: UIButton! { self.smileView.profileButton }
+    var cartButton: UIButton! { self.smileView.cartButton }
+    var smilesPointsView: UIView { self.smileView.smilesPointsView }
+    /// Set smiles points inside smiles navigation view
+    /// - Parameter points: set value -1 For not login case
+    /// - Parameter points: set value >= 0  in case of connected user
+    func setSmilesPoints(_ points: Int) {
+        self.smileView.setSmilesPoints(points)
+    }
+    
+    /// Resets smiles points view
+    func clearSmilesPoints() {
+        self.smileView.clearSmilesPoints()
+    }
+}
+
 class GenericHomePageSearchHeader: UIView {
     
-    
-    
-    @IBOutlet var eclipceImgView: UIImageView! {
-        
-        didSet {
-            eclipceImgView.backgroundColor =   sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .navigationBarWhiteColor()
-            //eclipceImgView.layer.cornerRadius = 20
-        }
-        
-    }
+    @IBOutlet weak var navigationContainer: UIView!
+    @IBOutlet weak var navigationContainerTopAnchar: NSLayoutConstraint!
+    @IBOutlet weak var navigationContainerBottom: NSLayoutConstraint!
     
     @IBOutlet var bGView: UIView!{
         didSet{
-            bGView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : .navigationBarWhiteColor()
+            bGView.backgroundColor = .navigationBarWhiteColor()
         }
     }
     @IBOutlet var topHalfBGView: UIView!{
         didSet{
-            topHalfBGView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+            topHalfBGView.backgroundColor = .navigationBarColor()
             topHalfBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 0, withShadow: false)
         }
     }
@@ -47,10 +57,11 @@ class GenericHomePageSearchHeader: UIView {
     }
     @IBOutlet var txtSearch: UITextField!{
         didSet{
+            txtSearch.placeholder = localizedString("search_placeholder_home", comment: "")
+            txtSearch.setPlaceHolder(text: localizedString("search_placeholder_home", comment: ""))
             
-           let placeHolderText = localizedString("search_placeholder_home", comment: "")
-            txtSearch.placeholder = placeHolderText
-            txtSearch.setPlaceHolder(text: placeHolderText)
+          //  txtSearch.textAlignment = .natural
+            
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
                 txtSearch.textAlignment = .right
             }else{
@@ -60,8 +71,6 @@ class GenericHomePageSearchHeader: UIView {
     }
     
     @IBOutlet weak var locationContainerView: UIView!
-    
-    @IBOutlet weak var locationContainerHeightConstraint: NSLayoutConstraint!
     var locationView: NavigationBarLocationView!
     let KGenericHomePageSearchHeaderHeight: CGFloat = 60
     
@@ -71,16 +80,31 @@ class GenericHomePageSearchHeader: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setUpNavigationContainer()
         setIninitialAppearance()
         addLocationBar()
         setLocationHidden(false)
     }
     
+    private lazy var smileView: SmilesNavigationView = {
+        if LanguageManager.sharedInstance.getSelectedLocale() == "ar" {
+            return SmilesNavigationViewAr()
+        } else {
+            return SmilesNavigationViewEn()
+        }
+    }()
+    
+    func setUpNavigationContainer() {
+        navigationContainer.addSubview(smileView)
+//        NSLayoutConstraint.activate([
+//            smileView.centerXAnchor.constraint(equalTo: navigationContainer.centerXAnchor),
+//            smileView.centerYAnchor.constraint(equalTo: navigationContainer.centerYAnchor)
+//        ])
+        
+    }
+    
     func setIninitialAppearance(){
         self.txtSearch.delegate = self
-//        let greLay = self.setupGradient(height: self.frame.size.height - 28 , topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor)
-//        greLay.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
-//        self.layer.insertSublayer(greLay, at: 0)
     }
     /*
     // Only override draw() if you perform custom drawing.
@@ -95,11 +119,20 @@ class GenericHomePageSearchHeader: UIView {
 
         self.locationView.translatesAutoresizingMaskIntoConstraints = false
         
-        locationView.topAnchor.constraint(equalTo: locationContainerView.topAnchor, constant: 8).isActive = true
+        locationView.topAnchor.constraint(equalTo: locationContainerView.topAnchor, constant: 0).isActive = true
         locationView.leftAnchor.constraint(equalTo: locationContainerView.leftAnchor, constant: 10).isActive = true
         locationView.rightAnchor.constraint(equalTo: locationContainerView.rightAnchor, constant: -16).isActive = true
         locationView.bottomAnchor.constraint(equalTo: locationContainerView.bottomAnchor, constant: 0).isActive = true
 
+//        let centerHorizontally = NSLayoutConstraint(item: self.locationView!,
+//                                                    attribute: .centerY,
+//                                                    relatedBy: .equal,
+//                                                    toItem: self.locationContainerView,
+//                                                    attribute: .centerY,
+//                                                    multiplier: 1.0,
+//                                                    constant: 0.0)
+//        let heightConstraint =  NSLayoutConstraint(item: self.locationView!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
+//        NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
     }
     
     override func draw(_ rect: CGRect) {
@@ -109,8 +142,8 @@ class GenericHomePageSearchHeader: UIView {
     
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
-        self.locationView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear :  ApplicationTheme.currentTheme.themeBasePrimaryColor
-        self.locationContainerView.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.locationView.backgroundColor = UIColor.navigationBarColor()
+        self.locationContainerView.backgroundColor = UIColor.navigationBarColor()
         locationContainerView.addSubview(self.locationView)
     }
     func setLocationText(_ text : String = "") {
@@ -129,31 +162,36 @@ class GenericHomePageSearchHeader: UIView {
             
         }
     }
+    
+    private var oldOffsety: CGFloat = 0
+    private var newOffsety: CGFloat = 0 { didSet { oldOffsety = oldValue } }
+    private var travaled: CGFloat = 0
     func viewDidScroll(_ scrollView: UIScrollView) {
+        let height: CGFloat = 30
         
-        let calculatedOffset = KGenericHomePageSearchHeaderHeight - 30
-        if scrollView.contentOffset.y > calculatedOffset
-        {
-            scrollView.layoutIfNeeded()
-            var headerFrame = self.frame
-            headerFrame.origin.y = scrollView.contentOffset.y - calculatedOffset
-            self.frame = headerFrame
+        newOffsety = scrollView.contentOffset.y
+        
+        let diff = newOffsety - oldOffsety
+        let diffTravaled = travaled - diff
+        
+        if diff < 0 {
+            travaled = min(height, diffTravaled)
+        } else {
+            travaled = max(0, diffTravaled)
         }
-        /*
-        // // was working but was hiding tableviewcell
+        
         scrollView.layoutIfNeeded()
+        
         var headerFrame = self.frame
-        headerFrame.origin.y = max(0,scrollView.contentOffset.y)
-        locationContainerHeightConstraint.constant =  min(max(0, 30-(scrollView.contentOffset.y*0.5)), 30)
-        let maxHeight = KGenericHomePageSearchHeaderHeight + 30
-        headerFrame.size.height = min(max(maxHeight-scrollView.contentOffset.y*0.5, KGenericHomePageSearchHeaderHeight), maxHeight)
-        //print("height",min(max(maxHeight-scrollView.contentOffset.y*0.5, KGenericHomePageSearchHeaderHeight), maxHeight))
+        headerFrame.origin.y += newOffsety - min(height - travaled, newOffsety)
+        navigationContainerTopAnchar.constant = min(height - travaled, newOffsety)
+        navigationContainerBottom.constant = height - min(height - travaled, newOffsety)
+        
         self.frame = headerFrame
-         */
     }
     
     func navigationBarSearchTapped() {
-       elDebugPrint("Implement in controller")
+        print("Implement in controller")
         guard let vc = UIApplication.topViewController() else {return}
         let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
         searchController.navigationFromControllerName = FireBaseScreenName.GenericHome.rawValue
@@ -163,9 +201,20 @@ class GenericHomePageSearchHeader: UIView {
         navigationController.viewControllers = [searchController]
         
         navigationController.modalPresentationStyle = .overCurrentContext
+            // self.providesPresentationContextTransitionStyle = true
         vc.definesPresentationContext = false
         
         vc.present(navigationController, animated: true, completion: nil)
+        
+        ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "1" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
+        MixpanelEventLogger.trackHomeSearchClick()
+        ElGrocerUtility.sharedInstance.delay(1.0) {
+            if searchController.txtSearch != nil {
+                searchController.txtSearch.becomeFirstResponder()
+            }
+        }
+        
+        
     }
    
     
@@ -186,3 +235,4 @@ extension GenericHomePageSearchHeader: UITextFieldDelegate{
         }
     }
 }
+

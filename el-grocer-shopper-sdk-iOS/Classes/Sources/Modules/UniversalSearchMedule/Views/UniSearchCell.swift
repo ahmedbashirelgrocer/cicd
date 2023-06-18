@@ -86,7 +86,7 @@ class UniSearchCell: UITableViewCell {
         }else if obj?.modelType == SearchResultSuggestionType.retailer {
             imgView.assignImage(imageUrl: self.currentObj?.retailerImageUrl)
             
-            self.btnSearchCross.setImage(UIImage(named: "arrowForward", in: .resource, compatibleWith: nil), for: .normal)
+            self.btnSearchCross.setImage(UIImage(name: "arrowForward"), for: .normal)
         }
        
         self.imgView.visibility = obj?.modelType == .noDataFound ? .goneX : .visible

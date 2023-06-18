@@ -789,7 +789,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9ri-I1-WJE" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rSV-as-nnS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -863,44 +863,78 @@
             <point key="canvasLocation" x="-928.125" y="825"/>
         </scene>
         <!--Specialty Stores Grocery View Controller-->
-        <scene sceneID="4P1-oL-etB">
+        <scene sceneID="uee-Wk-SXg">
             <objects>
-                <viewController storyboardIdentifier="SpecialtyStoresGroceryViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3Ee-r7-3t0" customClass="SpecialtyStoresGroceryViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Mzb-wI-XNf">
+                <viewController storyboardIdentifier="SpecialtyStoresGroceryViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gJs-Ee-R6L" customClass="SpecialtyStoresGroceryViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jjO-yg-dsw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9P5-r9-c4c">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nLo-bJ-WDf">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
+                                <color key="backgroundColor" red="0.33333334329999997" green="0.7254902124" blue="0.4352940917" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="vG2-C6-Bph"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nGZ-7y-MrS" userLabel="Container">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="f7V-dP-EG2">
+                                        <rect key="frame" x="0.0" y="135" width="320" height="433"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="gJs-Ee-R6L" id="wkN-mM-rrq"/>
+                                            <outlet property="delegate" destination="gJs-Ee-R6L" id="DLU-Uq-mqh"/>
+                                        </connections>
+                                    </tableView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1eI-kB-tGw" customClass="SpecilityStoreHeader" customModule="ElGrocerShopper" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="135"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="135" id="dxJ-9T-3fP"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="3Ee-r7-3t0" id="JGw-YY-ZxH"/>
-                                    <outlet property="delegate" destination="3Ee-r7-3t0" id="4iZ-hi-1tO"/>
-                                </connections>
-                            </tableView>
+                                <constraints>
+                                    <constraint firstItem="1eI-kB-tGw" firstAttribute="top" secondItem="nGZ-7y-MrS" secondAttribute="top" id="3M9-5I-y7X"/>
+                                    <constraint firstAttribute="bottom" secondItem="f7V-dP-EG2" secondAttribute="bottom" id="9b1-kB-QcT"/>
+                                    <constraint firstItem="f7V-dP-EG2" firstAttribute="leading" secondItem="nGZ-7y-MrS" secondAttribute="leading" id="KhA-Ym-Yfo"/>
+                                    <constraint firstItem="1eI-kB-tGw" firstAttribute="leading" secondItem="nGZ-7y-MrS" secondAttribute="leading" id="Lfh-iy-eSx"/>
+                                    <constraint firstItem="f7V-dP-EG2" firstAttribute="top" secondItem="1eI-kB-tGw" secondAttribute="bottom" id="YyC-ee-tIA"/>
+                                    <constraint firstAttribute="trailing" secondItem="1eI-kB-tGw" secondAttribute="trailing" id="dPk-7r-a9O"/>
+                                    <constraint firstAttribute="trailing" secondItem="f7V-dP-EG2" secondAttribute="trailing" id="nuB-Qg-6AL"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="zeM-aq-N8e"/>
+                        <viewLayoutGuide key="safeArea" id="GYk-gh-IT0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="9P5-r9-c4c" firstAttribute="leading" secondItem="zeM-aq-N8e" secondAttribute="leading" id="9mF-9h-w1j"/>
-                            <constraint firstItem="9P5-r9-c4c" firstAttribute="top" secondItem="Mzb-wI-XNf" secondAttribute="top" id="DNw-yw-LqI"/>
-                            <constraint firstItem="zeM-aq-N8e" firstAttribute="trailing" secondItem="9P5-r9-c4c" secondAttribute="trailing" id="T7b-EP-FI6"/>
-                            <constraint firstItem="zeM-aq-N8e" firstAttribute="bottom" secondItem="9P5-r9-c4c" secondAttribute="bottom" id="vJg-ih-S2b"/>
+                            <constraint firstItem="nLo-bJ-WDf" firstAttribute="leading" secondItem="GYk-gh-IT0" secondAttribute="leading" id="0tF-lJ-3ia"/>
+                            <constraint firstItem="nGZ-7y-MrS" firstAttribute="leading" secondItem="GYk-gh-IT0" secondAttribute="leading" id="9tD-3W-d2t"/>
+                            <constraint firstAttribute="bottom" secondItem="nGZ-7y-MrS" secondAttribute="bottom" id="cZi-i1-2Or"/>
+                            <constraint firstItem="GYk-gh-IT0" firstAttribute="trailing" secondItem="nGZ-7y-MrS" secondAttribute="trailing" id="eUj-cg-KLo"/>
+                            <constraint firstItem="GYk-gh-IT0" firstAttribute="trailing" secondItem="nLo-bJ-WDf" secondAttribute="trailing" id="lW4-lO-iRg"/>
+                            <constraint firstItem="nLo-bJ-WDf" firstAttribute="top" secondItem="GYk-gh-IT0" secondAttribute="top" id="vPE-bA-8e3"/>
+                            <constraint firstItem="nGZ-7y-MrS" firstAttribute="top" secondItem="GYk-gh-IT0" secondAttribute="top" id="wXN-1h-iKK"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="9P5-r9-c4c" id="YsT-2P-Gps"/>
-                        <outlet property="tableViewTopConstraint" destination="DNw-yw-LqI" id="4TN-PI-Adv"/>
+                        <outlet property="header" destination="1eI-kB-tGw" id="Whj-G6-xzg"/>
+                        <outlet property="headerTopAnchar" destination="3M9-5I-y7X" id="bDp-F6-g9n"/>
+                        <outlet property="tableView" destination="f7V-dP-EG2" id="oxv-Ep-BcI"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="o24-2j-dZa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WhO-gc-pXP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-219" y="825"/>
+            <point key="canvasLocation" x="-251" y="825"/>
         </scene>
     </scenes>
     <designables>
         <designable name="UvO-Wj-Q0G">
-            <size key="intrinsicContentSize" width="107" height="31"/>
+            <size key="intrinsicContentSize" width="107" height="32"/>
         </designable>
     </designables>
     <resources>
