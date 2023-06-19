@@ -12,6 +12,12 @@ import Adyen
 class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     
     @IBOutlet weak var walletAmountLabel: UILabel!
+    
+    @IBOutlet weak var addFundImage: UIImageView! {
+        didSet{
+            addFundImage.image = sdkManager.isShopperApp ? UIImage(name: "add-circle-filled-Elgrocer") :UIImage(name: "addFundImage")
+        }
+    }
     @IBOutlet weak var addFundsButton: UIButton! {
         didSet {
             addFundsButton.setTitle(localizedString("txt_add_funds", comment: "Add Fuunds"), for: UIControl.State())
