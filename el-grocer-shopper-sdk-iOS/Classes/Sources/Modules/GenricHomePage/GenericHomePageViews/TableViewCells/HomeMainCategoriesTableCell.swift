@@ -27,47 +27,16 @@ class HomeMainCategoriesTableCell: UITableViewCell {
     @IBOutlet var categoryCollectionView: UICollectionView!{
         didSet{
             categoryCollectionView.isScrollEnabled = false
-//            categoryCollectionView.isSpringLoaded = false
         }
     }
-//    @IBOutlet var lblTitle: UILabel! {
-//        didSet {
-//            lblTitle.setBodyH4SemiBoldDarkGreenStyle()
-//        }
-//    }
-//
-//    @IBOutlet var titleTopSpace: NSLayoutConstraint!
-//    @IBOutlet var collectionTopSpace: NSLayoutConstraint!
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.layoutCollectionView()
         self.layoutIfNeeded()
         if self.cellHeight.constant != categoryCollectionView.contentSize.height {
             self.cellHeight.constant = categoryCollectionView.contentSize.height
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                self.layoutIfNeeded()
-                (self.superview as? UITableView)?.reloadData()
-            }
-            //
         }
     }
-    
-    func layoutCollectionView() {
-        guard let categoryCollectionView = categoryCollectionView else { return }
-        
-        let edgeInset:CGFloat =  16
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 64)/3,
-                                 height: (ScreenSize.SCREEN_WIDTH - 64)/3)
-        layout.minimumInteritemSpacing = 15
-        layout.minimumLineSpacing = 15
-        layout.sectionInset = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
-        categoryCollectionView.reloadData()
-        categoryCollectionView.collectionViewLayout = layout
-    }
-    
     
     typealias tapped = (_ service: MainCategoryCellType,_ index: Int , _ type : Any?)-> Void
     var serviceTapped: tapped?
@@ -78,26 +47,28 @@ class HomeMainCategoriesTableCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        categoryCollectionView.collectionViewLayout = {
+            let edgeInset:CGFloat =  16
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            layout.itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 64)/3,
+                                     height: (ScreenSize.SCREEN_WIDTH - 64)/3)
+            layout.minimumInteritemSpacing = 15
+            layout.minimumLineSpacing = 15
+            layout.sectionInset = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
+            categoryCollectionView.reloadData()
+            return layout
+        }()
         self.setDelegates()
     }
-    
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    
-    
     
     func configureCell(cellType: MainCategoryCellType , dataA : [[MainCategoryCellType : Any]]){
         
         self.cellType = cellType
         self.dataA = dataA
-//        self.setCellTitle(title)
+        self.cellHeight.constant = ((ScreenSize.SCREEN_WIDTH - 64)/3 + 16) * floor(CGFloat(dataA.count) / 3)
         self.categoryCollectionView.reloadDataOnMainThread()
+        self.invalidateIntrinsicContentSize()
         
     }
     

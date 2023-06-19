@@ -20,8 +20,8 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         }
     }
     
-    lazy var sdanimationView: AnimationView = {
-        let imageView = AnimationView()
+    lazy var sdanimationView: LottieAnimationView = {
+        let imageView = LottieAnimationView()
         imageView.loopMode = .playOnce
         imageView.backgroundColor = .clear
         return imageView
@@ -100,10 +100,11 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         let lottiUrl = LanguageManager.sharedInstance.getSelectedLocale() == "ar" ? urlAr : urlEn
                 
         if let url = lottiUrl {
-            Animation.loadedFrom(url: url, closure: { [weak self] animation in
-                self?.sdanimationView.animation = animation
-            }, animationCache:  nil)
-            self.sdanimationView.play()
+            LottieAnimation.loadedFrom(url: url) { [weak self] animatin in
+                self?.sdanimationView.animation = animatin
+                self?.sdanimationView.play()
+            }
+            
             if let shortName = shortName, shortName.count > 0 {
                 title = shortName
             }
