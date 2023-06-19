@@ -123,7 +123,9 @@ class SDKManager: NSObject, SDKManagerType  {
         manager.loginFlowForSDK() { isSuccess, errorMessage in
             
             if isSuccess {
+    
                 SDKManager.shared.setupLanguage()
+                AlgoliaApi.sharedInstance.reStartInsights()
                 if let grocery = grocery {
                     HomePageData.shared.groceryA = [grocery]
                     ElGrocerUtility.sharedInstance.activeGrocery = grocery
