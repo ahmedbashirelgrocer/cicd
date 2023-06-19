@@ -7,6 +7,14 @@
  */
 
 // new message
+
+"smiles_pts" =  "    نقطة %@    ";
+"earn_rewards_now" = "اكسب المكافآت الآن!";
+"Oops! Something went wrong on our side 🤔" = "للأسف حدث خطأ ما من جانبنا 🤔";
+"We are fixing the problem.\nPlease, try again soon." = "نحن نصلح المشكلة.
+من فضلك ، حاول مرة أخرى قريبا.";
+
+
 "Shopping_list_Titile" = "قائمة التسوق";
 
 "lbl_Card_ending_in" = " بطاقة -xx ";
