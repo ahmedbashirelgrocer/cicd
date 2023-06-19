@@ -57,6 +57,7 @@ class Product: NSManagedObject, DBEntity {
     @NSManaged var objectId : String?
     
     var isSelected: Bool = false
+    var subCategoryArray: [NSDictionary] = []
     
     /// TopSort Data
     ///

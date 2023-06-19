@@ -570,13 +570,18 @@ extension SuggestionsModelDataSource {
         var dataDict : Dictionary<String, Array<Product>> = [:]
         var stringA : [String] = []
         for product in self.productsList {
-            let subcategoryName  = ElGrocerUtility.sharedInstance.isArabicSelected() ? (product.subcategoryName ?? "") : (product.subcategoryNameEn ?? "")
-            if var isContain = dataDict[subcategoryName] {
-                isContain.append(product)
-                dataDict[subcategoryName] = isContain
-            }else{
-                dataDict[subcategoryName] = [product]
-                stringA.append(subcategoryName)
+           // let subcategoryName  = ElGrocerUtility.sharedInstance.isArabicSelected() ? (product.subcategoryName ?? "") : (product.subcategoryNameEn ?? "")
+            let subcateogyA = product.subCategoryArray
+            for data in subcateogyA {
+                if let subcategoryName = ElGrocerUtility.sharedInstance.isArabicSelected() ? (data["name_ar"] as? String):(data["name"] as? String) {
+                    if var isContain = dataDict[subcategoryName] {
+                        isContain.append(product)
+                        dataDict[subcategoryName] = isContain
+                    }else{
+                        dataDict[subcategoryName] = [product]
+                        stringA.append(subcategoryName)
+                    }
+                }
             }
         }
         return (dataDict , stringA)

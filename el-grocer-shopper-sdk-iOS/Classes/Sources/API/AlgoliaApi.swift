@@ -434,7 +434,7 @@ class AlgoliaApi {
         var requestOptions = RequestOptions()
         requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
         
-        client.multipleQueries(queries: queries) { result in
+        client.multipleQueries(queries: queries, strategy: .none, requestOptions: requestOptions) { result in
             
             if case .success(let response) = result {
                 completion(response.convertHits() , nil)
@@ -442,6 +442,15 @@ class AlgoliaApi {
                 completion(nil , error)
             }
         }
+        
+//        client.multipleQueries(queries: queries) { result in
+//
+//            if case .success(let response) = result {
+//                completion(response.convertHits() , nil)
+//            }else if case .failure (let error) = result{
+//                completion(nil , error)
+//            }
+//        }
         
 //        client.multipleQueries(queries: queries, strategy: MultipleQueriesStrategy.init(rawValue: ""), requestOptions: requestOptions) { result in
 //
@@ -650,7 +659,7 @@ class AlgoliaApi {
             var requestOptions = RequestOptions()
             requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
             
-            client.multipleQueries(queries: queries) { result in
+            client.multipleQueries(queries: queries, strategy: .none, requestOptions: requestOptions) { result in
                 
                 if case .success(let response) = result {
                     completion(response.convertHits() , nil)
