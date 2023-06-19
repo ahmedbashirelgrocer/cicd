@@ -81,7 +81,6 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
                                                 [SettingCellViewModel(type: .liveChat),
                                                  SettingCellViewModel(type: .Orders),
                                                  SettingCellViewModel(type: .Recipes),
-                                                 SettingCellViewModel(type: .SaveCars),
                                                  SettingCellViewModel(type: .Address),
                                                  SettingCellViewModel(type: .PaymentMethods),
                                                  SettingCellViewModel(type: .ElWallet),

@@ -67,7 +67,7 @@ class ShopByCategoriesViewController: UIViewController {
         
         self.view.backgroundColor = .textfieldBackgroundColor()
         self.navigationItem.hidesBackButton = true
-        self.title = localizedString("txt_Shop_by_store_category", comment: "")
+        self.title = localizedString("all_cate", comment: "")
         self.addRightCrossButton(true)
 //        self.addBackButton(isGreen: false)
         

@@ -44,6 +44,8 @@ class RecipesListViewController: BasketBasicViewController {
         self.setUpApearance()
         self.initailCellRegistration()
         self.addClouser()
+        self.setNavigationAppearance()
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,11 +53,6 @@ class RecipesListViewController: BasketBasicViewController {
         self.setProductNumber()
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsRecipeBoutiqueScreen)
         FireBaseEventsLogger.setScreenName(FireBaseScreenName.Recipes.rawValue, screenClass: String(describing: self.classForCoder)) //
-        
-       
-        
-        
-        
         if !isLoadedFirstTime {
             isLoadedFirstTime = true
             self.getRecipeData()
@@ -66,13 +63,25 @@ class RecipesListViewController: BasketBasicViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        self.setNavigationAppearance()
         if let isHeaderAvailable = self.recipeSearchHeader {
             let retailerIds = GenerateRetailerIdString()
             isHeaderAvailable.chefListView.getChefData(retailerString : retailerIds)
         }
         
     }
+    
+    
+    func setNavigationAppearance() {
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        self.addBackButtonWithCrossIconRightSide(.white)
+    }
+    
+    
     func GenerateRetailerIdString() -> String{
         
         var retailerIDString = ""
@@ -134,7 +143,9 @@ class RecipesListViewController: BasketBasicViewController {
         self.refreshBasketIconStatus()
     }
     
-    
+    override func crossButtonClick() {
+        self.dismiss(animated: true , completion: nil)
+    }
     override func backButtonClick() {
         self.dismiss(animated: true , completion: nil)
     }
@@ -283,7 +294,8 @@ class RecipesListViewController: BasketBasicViewController {
         privateWorkQueue.async { [weak self] in
             guard let self = self else {return}
             //sab
-            //self.dataHandler.getNextRecipeList(retailersId: <#T##String#>)
+            let retailerIds = self.GenerateRetailerIdString()
+            self.dataHandler.getNextRecipeListWithFilter(recipeID: nil, chefID: nil, categoryID: nil, withReset: true, retailersId: retailerIds)
         }
         
     }

@@ -556,7 +556,17 @@ class RecipeDetailVC: BasketBasicViewController {
                                     newTopVC.tabBarController?.selectedIndex = 4
                                 }
                             }
-                        }else{
+                        } else if topVc is savedRecipesVC {
+                            topVc.dismiss(animated: false) {
+                                if let newTopVC = UIApplication.topViewController() {
+                                    newTopVC.navigationController?.popToRootViewController(animated: false)
+                                    if let homeVc = UIApplication.topViewController() {
+                                        homeVc.tabBarController?.selectedIndex = 4
+                                    }
+                                    
+                                }
+                            }
+                        } else{
                             
                             //topVc.tabBarController?.tabBar.isHidden = false
                             topVc.tabBarController?.selectedIndex = 4

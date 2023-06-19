@@ -13,17 +13,7 @@ class ElGrocerActivityIndicatorView: UIImageView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        if #available(iOS 13.0, *) {
-            self.animationImages = [
-                UIImage(name: "elgrocer-activity-indicator-1")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
-                UIImage(name: "elgrocer-activity-indicator-2")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
-                UIImage(name: "elgrocer-activity-indicator-3")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
-                UIImage(name: "elgrocer-activity-indicator-4")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
-                UIImage(name: "elgrocer-activity-indicator-5")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
-                UIImage(name: "elgrocer-activity-indicator-6")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
-                UIImage(name: "elgrocer-activity-indicator-7")!.withTintColor(AppSetting.theme.themeBasePrimaryColor, renderingMode: .alwaysTemplate),
-            ]
-        } else {
+        if sdkManager.isShopperApp {
             self.animationImages = [
                 UIImage(name: "elgrocer-activity-indicator-1")!,
                 UIImage(name: "elgrocer-activity-indicator-2")!,
@@ -33,7 +23,18 @@ class ElGrocerActivityIndicatorView: UIImageView {
                 UIImage(name: "elgrocer-activity-indicator-6")!,
                 UIImage(name: "elgrocer-activity-indicator-7")!,
             ]
+        } else {
+            self.animationImages = [
+                UIImage(name: "smile-activity-indicator-1")!,
+                UIImage(name: "smile-activity-indicator-2")!,
+                UIImage(name: "smile-activity-indicator-3")!,
+                UIImage(name: "smile-activity-indicator-4")!,
+                UIImage(name: "smile-activity-indicator-5")!,
+                UIImage(name: "smile-activity-indicator-6")!,
+                UIImage(name: "smile-activity-indicator-7")!,
+            ]
         }
+        
         
         self.animationDuration = 1.5
         self.animationRepeatCount = 0

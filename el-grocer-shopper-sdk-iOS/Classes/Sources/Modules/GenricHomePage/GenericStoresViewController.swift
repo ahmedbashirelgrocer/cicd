@@ -1255,7 +1255,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
 
         //MARK: CollectionView Cell registration
 
-        let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: nil)
+        let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: .resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
         
         let homeMainCategoriesCell = UINib(nibName: "HomeMainCategoriesTableCell" , bundle: .resource)

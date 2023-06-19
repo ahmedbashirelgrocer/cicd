@@ -24,7 +24,7 @@ class CarBrandCollectionCell: UICollectionViewCell {
     }
     func setSelected() {
         self.lblBrandName.textColor = ApplicationTheme.currentTheme.pillSelectedTextColor
-        self.backGroundView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
+        self.backGroundView.backgroundColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
         self.backGroundView.layer.borderWidth = 0
         self.backGroundView?.clipsToBounds = true
     }

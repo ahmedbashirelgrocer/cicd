@@ -442,7 +442,9 @@ extension UIButton {
     func setBody3SemiBoldGreenStyle(){
         self.titleLabel?.setBody3SemiBoldWhiteStyle()
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(14)
-        self.setTitleColor(UIColor.navigationBarColor(), for: UIControl.State())
+        self.setTitleColor(ApplicationTheme.currentTheme.labelPrimaryBaseTextColor, for: UIControl.State())
+        
+        
     }
     
     func setCornerRadiusStyle() {

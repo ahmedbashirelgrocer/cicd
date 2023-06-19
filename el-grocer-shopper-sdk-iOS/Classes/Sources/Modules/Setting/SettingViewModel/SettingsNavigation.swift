@@ -44,7 +44,7 @@ class SettingsNavigation {
         case .liveChat:
             showLiveChat()
         case .Recipes:
-            showRecipeDetial()
+            goToSavedRecipesVC()
         case .SaveCars:
             goToSavedCarsVC()
         case .Address:
@@ -84,7 +84,8 @@ class SettingsNavigation {
     private func showRecipeDetial() {
         
         let recipeStory = ElGrocerViewControllers.recipesListViewController()
-        let navigationController = ElGrocerNavigationController.init(rootViewController: recipeStory)
+        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        navigationController.viewControllers = [recipeStory]
         navigationController.modalPresentationStyle = .fullScreen
         self.controller.navigationController?.present(navigationController, animated: true, completion: { });
         

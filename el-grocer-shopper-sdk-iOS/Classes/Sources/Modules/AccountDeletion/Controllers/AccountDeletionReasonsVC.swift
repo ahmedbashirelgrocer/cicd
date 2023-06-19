@@ -40,7 +40,6 @@ class AccountDeletionReasonsVC: UIViewController, NavigationBarProtocol {
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-            (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("delete_account", comment: "")
             self.title = localizedString("delete_account", comment: "")
             self.addBackButton(isGreen: false)
         }

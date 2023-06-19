@@ -105,7 +105,7 @@ class ProductCell : RxUICollectionViewCell {
             addToCartButton.textAlignment = .center
             addToCartButton.setTitle("＋", for: .normal)
             addToCartButton.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-            addToCartButton.backgroundColor = .smilePrimaryPurpleColor()
+            addToCartButton.backgroundColor =  ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
     
@@ -1120,8 +1120,6 @@ class ProductCell : RxUICollectionViewCell {
         self.sponserdView.superview?.isHidden = !product.isSponsoredProduct
         
         ElGrocerUtility.sharedInstance.setPromoImage(imageView:  self.saleView)
-        
-     
         
         // when no grocery show min price. this is from brand page. not sure
         if grocery == nil {

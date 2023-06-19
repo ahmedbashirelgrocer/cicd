@@ -239,7 +239,7 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
         // ElGrocerUtility.sharedInstance.groceries  = self.grocerA
         let recipeStory = ElGrocerViewControllers.recipesBoutiqueListVC()
         recipeStory.isNeedToShowCrossIcon = true
-        recipeStory.groceryA = ElGrocerUtility.sharedInstance.groceries
+        recipeStory.groceryA = HomePageData.shared.groceryA
         let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
         navigationController.hideSeparationLine()
         navigationController.viewControllers = [recipeStory]

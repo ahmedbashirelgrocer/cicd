@@ -153,9 +153,9 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
         cell.configureCellWithTitle(langTtile, withImage: langImage)
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         
-        cell.selectionImage.image = UIImage(name:"RadioButtonUnfilled")
+        cell.selectionImage.image =  sdkManager.isShopperApp ? UIImage(name:"egRadioButtonUnfilled") : UIImage(name:"RadioButtonUnfilled")
         if self.lastSelection.row == indexPath.row {
-            cell.selectionImage.image = UIImage(name:"RadioButtonFilled")
+            cell.selectionImage.image = sdkManager.isShopperApp ? UIImage(name:"egRRadioButtonFilled"): UIImage(name:"RadioButtonFilled")
         }
         
         return cell
