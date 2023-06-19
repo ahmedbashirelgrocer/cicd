@@ -28,6 +28,8 @@ import FirebaseAuth
 import SendBirdUIKit
 import SwiftDate
 import Adyen
+import Segment
+import Segment_CleverTap
 
 private enum BackendSuggestedAction: Int {
     case Continue = 0
@@ -48,6 +50,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     public var isGrocerySingleStore: Bool { false }
     public var isShopperApp: Bool { true }
     public var kGoogleMapsApiKey: String { "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" }
+    public var isInitialized: Bool = false
     
     lazy public var backgroundURLSession : URLSession = {
         let configuration = URLSessionConfiguration.background(withIdentifier: "com.elgorcer.background")
@@ -471,15 +474,18 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
         
-        
+        // MARK: Segment Initialization
+        self.initializeSegment()
         
         // Initialize Facebook SDK
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
+//        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
         
         // Google Maps
         GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
         GMSServices.provideAPIKey(kGoogleMapsApiKey)
-        self.configuredElgrocerEventLogger(didFinishLaunchingWithOptions)
+        
+        self.isInitialized = true
+//        self.configuredElgrocerEventLogger(didFinishLaunchingWithOptions)
         
         //        let action1 = UNNotificationAction(identifier: "action_1", title: "Back", options: [])
         //        let action2 = UNNotificationAction(identifier: "action_2", title: "Next", options: [])
@@ -487,6 +493,22 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         let category = UNNotificationCategory(identifier: "CTNotification", actions: [action3], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
+    }
+    
+    public func startBasicThirdPartyInit() { }
+    
+    private func initializeSegment() {
+        let key = self.launchOptions?.environmentType == .live ? "cSnpTPUfDsW8zvEiA1AslFPegtWjNIlo"
+        : "twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b"
+        
+        let configuration = AnalyticsConfiguration(writeKey: "segmentSDKWriteKey")
+
+        configuration.use(SEGCleverTapIntegrationFactory())
+        configuration.flushAt = 3
+        configuration.flushInterval = 10
+        configuration.trackApplicationLifecycleEvents = false
+        
+        Segment.Analytics.setup(with: configuration)
     }
     
     public func configureFireBase(){

@@ -94,7 +94,7 @@ public extension ElGrocer {
         sdkManager = SDKManagerShopper.shared
         sdkManager.launchOptions = launchOptions
         SDKManager.shared.launchOptions = launchOptions
-        SDKManager.shared.startBasicThirdPartyInit()
+        sdkManager.startBasicThirdPartyInit()
         ElGrocer.trackSDKLaunch(launchOptions)
         sdkManager.start(with: launchOptions)
     }
@@ -147,7 +147,9 @@ public extension ElGrocer {
     }
     
     static func trackSDKLaunch(_ launchOption: LaunchOptions) {
-        SegmentAnalyticsEngine.instance.logEvent(event: SDKLaunchedEvent(launchOption: launchOption))
+        if sdkManager.isInitialized && sdkManager.launchOptions?.isSmileSDK == true {
+            SegmentAnalyticsEngine.instance.logEvent(event: SDKLaunchedEvent(launchOption: launchOption))
+        }
     }
 }
 
