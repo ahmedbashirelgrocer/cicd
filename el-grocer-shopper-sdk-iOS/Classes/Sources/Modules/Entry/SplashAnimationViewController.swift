@@ -77,7 +77,7 @@ class SplashAnimationViewController: UIViewController {
         super.viewWillAppear(animated)
         
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        if HomePageData.shared.isLoadingComplete && SDKManager.shared.launchOptions?.accountNumber == userProfile?.phone {
+        if HomePageData.shared.isLoadingComplete && sdkManager.launchOptions?.accountNumber == userProfile?.phone {
             self.animationCompletedSetRootVc()
         } else {
             self.StartLogoAnimation()
@@ -105,7 +105,7 @@ class SplashAnimationViewController: UIViewController {
         
         if UIApplication.shared.applicationState == .active {
             // 
-            if SDKManager.shared.isShopperApp {
+            if sdkManager.isShopperApp {
                 // splash_animation_shopper
                 LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
                                                       withJsonFileName:
@@ -217,7 +217,7 @@ class SplashAnimationViewController: UIViewController {
         
 
         guard let topVc = UIApplication.topViewController() , topVc is ForceUpdateViewController else {
-            if !(SDKManager.shared.launchOptions?.isSmileSDK == true) && (UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress()) {
+            if !(sdkManager.launchOptions?.isSmileSDK == true) && (UserDefaults.isUserLoggedIn() || UserDefaults.didUserSetAddress()) {
                 let tabVC = self.delegate.getTabbarController(isNeedToShowChangeStoreByDefault: false)
                 if let main = self.delegate.window {
                     self.setLanguage()

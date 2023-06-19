@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -62,7 +62,8 @@
                                 </connections>
                             </tableView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-circle-filled" translatesAutoresizingMaskIntoConstraints="NO" id="jct-LD-cJu">
-                                <rect key="frame" x="234" y="30" width="26" height="24"/>
+                                <rect key="frame" x="243.5" y="34" width="16.5" height="16"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -80,6 +81,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addFundImage" destination="jct-LD-cJu" id="iCA-2P-7ER"/>
                         <outlet property="addFundsButton" destination="BOe-aH-xLK" id="IOh-D6-qjj"/>
                         <outlet property="walletAmountLabel" destination="v8B-Qk-lW8" id="kTC-Y8-RMf"/>
                         <outlet property="walletTableView" destination="gTH-nX-ZqH" id="1Zc-MO-8dg"/>
@@ -951,7 +953,7 @@
         <image name="CrossGreen" width="24" height="24"/>
         <image name="MybasketEnterPromo" width="20" height="20"/>
         <image name="Wallet" width="20" height="20"/>
-        <image name="add-circle-filled" width="25.5" height="24"/>
+        <image name="add-circle-filled" width="16.5" height="16"/>
         <image name="empty_wallet_friends" width="164" height="110.5"/>
         <image name="empty_wallet_price" width="100" height="29.5"/>
         <image name="giftbox" width="160" height="174"/>

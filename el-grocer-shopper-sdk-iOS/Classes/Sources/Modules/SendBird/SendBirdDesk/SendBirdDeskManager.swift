@@ -536,8 +536,7 @@ class SendBirdDeskManager{
             }
         }
         customFields["market-type"] = SDKManager.shared.isSmileSDK ? (sdkManager.isGrocerySingleStore ? KSingleGroceryStore : KSmileMarketPlace) : "ShopperAppMarketPlace"
-        
-
+    
         SBDSKMain.setCustomerCustomFields(customFields) { (error) in
             guard error == nil else {
                 // Handle error.

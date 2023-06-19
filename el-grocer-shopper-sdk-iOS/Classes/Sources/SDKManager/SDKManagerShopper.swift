@@ -28,6 +28,8 @@ import FirebaseAuth
 import SendBirdUIKit
 import SwiftDate
 import Adyen
+import Segment
+import Segment_CleverTap
 
 private enum BackendSuggestedAction: Int {
     case Continue = 0
@@ -48,6 +50,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     public var isGrocerySingleStore: Bool { false }
     public var isShopperApp: Bool { true }
     public var kGoogleMapsApiKey: String { "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" }
+    public var isInitialized: Bool = false
     
     lazy public var backgroundURLSession : URLSession = {
         let configuration = URLSessionConfiguration.background(withIdentifier: "com.elgorcer.background")
@@ -124,28 +127,12 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         CleverTapEventsLogger.shared.startCleverTapSharedSDK()
         self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
-        //AppsFlyer
-//        AppsFlyerLib.shared().appsFlyerDevKey = "fFWrKTcB3XBybYmSgAcLnP"
-//        AppsFlyerLib.shared().appleAppID = "1040399641"
-//        // AppsFlyerLib.shared().delegate = self
-//        if Platform.isDebugBuild {
-//            AppsFlyerLib.shared().isDebug = true
-//        }
-//        AppsFlyerLib.shared().customerUserID = CleverTap.sharedInstance()?.profileGetID()
-//        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 30)
         AlgoliaApi.sharedInstance.reStartInsights()
-        ElGrocerUtility.sharedInstance.delay(2) {
-            self.startChatFeature()
-        }
-        
         
     }
     
     public func checkAdvertPermission () {
         
-//        MarketingCampaignTrackingHelper.sharedInstance.isAdvertRequestPermission { (reuslt) in
-//            FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: FireBaseElgrocerPrefix + "AdvertRequestPermission", parameter: ["isPermissionGranted" : reuslt])
-//        }
         
         Settings.isAdvertiserIDCollectionEnabled = true
         Settings.setAdvertiserTrackingEnabled(true)
@@ -433,60 +420,44 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     // MARK: Methods
     public func initializeExternalServices(_ application: UIApplication, didFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         
-        
-        //crashlitics
-#if DEBUG
-        /*Fabric.sharedSDK().debug = true
-         <<<<<<< HEAD
-         Crashlytics.sharedInstance().delegate = self
-         Fabric.with([Crashlytics.self(), MoPub.self()])
-         Fabric.with([Crashlytics.self(), Answers.self()])*/
-#else
-        //        Fabric.with([Crashlytics.self(), MoPub.self()])
-        //        Fabric.with([Crashlytics.self(), Answers.self()])
-#endif
-        
-        //MARK: swizzling view will appear call for screen name event logging
-        //        UIViewController.swizzleViewDidAppear()
-        
-        //Firebase Analytics
-        // FirebaseApp.configure()
+
         self.configureFireBase()
-        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
-        
-        //Google Analytics
-        GoogleAnalyticsHelper.configureGoogleAnalytics()
-        
-        // Intercom
-        // Intercom.setApiKey(IntercomeHelper.apiKey, forAppId: IntercomeHelper.appId)
-        
-        // Marketing
         self.initiliazeMarketingCampaignTrackingServices()
+       
+        GoogleAnalyticsHelper.configureGoogleAnalytics()
         
         //MARK: Mispanel Initialization
         MixpanelManager.configMixpanel()
-        
         //MARK: sendBird
-        
-        
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
-        
-        
-        
+        self.initializeSegment()
         // Initialize Facebook SDK
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
-        
         // Google Maps
         GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
         GMSServices.provideAPIKey(kGoogleMapsApiKey)
+        self.isInitialized = true
         self.configuredElgrocerEventLogger(didFinishLaunchingWithOptions)
-        
-        //        let action1 = UNNotificationAction(identifier: "action_1", title: "Back", options: [])
-        //        let action2 = UNNotificationAction(identifier: "action_2", title: "Next", options: [])
         let action3 = UNNotificationAction(identifier: "action_3", title: "View In App", options: [])
         let category = UNNotificationCategory(identifier: "CTNotification", actions: [action3], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
+    }
+    
+    public func startBasicThirdPartyInit() { }
+    
+    private func initializeSegment() {
+        let key = self.launchOptions?.environmentType == .live ? "cSnpTPUfDsW8zvEiA1AslFPegtWjNIlo"
+        : "twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b"
+        
+        let configuration = AnalyticsConfiguration(writeKey: "segmentSDKWriteKey")
+
+        configuration.use(SEGCleverTapIntegrationFactory())
+        configuration.flushAt = 3
+        configuration.flushInterval = 10
+        configuration.trackApplicationLifecycleEvents = false
+        
+        Segment.Analytics.setup(with: configuration)
     }
     
     public func configureFireBase(){
@@ -500,12 +471,14 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
             productionFirebaseSetting()
         }
 #endif
+        
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
     }
     
     fileprivate func debugFirebaseSetting() {
         
         var filePath:String!
-        filePath = Bundle.resource.path(forResource: "GoogleService-Info-SandBox", ofType: "plist")
+        filePath = Bundle.main.path(forResource: "GoogleService-Info-SandBox", ofType: "plist")
         let projectName = "elgrocer"
         let options = FirebaseOptions.init(contentsOfFile: filePath)!
         options.deepLinkURLScheme = "elgrocer.com.ElGrocerShopper"
@@ -526,14 +499,14 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     fileprivate func productionFirebaseSetting() {
         // FirebaseApp.configure() // defualt info plist
         var filePath:String!
-        filePath = Bundle.resource.path(forResource: "GoogleService-Info", ofType: "plist")
+        filePath = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")
         let options = FirebaseOptions.init(contentsOfFile: filePath)!
         FirebaseApp.configure(options: options)
     }
     
     
     public func initiliazeMarketingCampaignTrackingServices() {
-//        MarketingCampaignTrackingHelper.sharedInstance.initializeMarketingCampaignTrackingServices()
+        MarketingCampaignTrackingHelper.sharedInstance.initializeMarketingCampaignTrackingServices()
     }
     
     // MARK: App Structure

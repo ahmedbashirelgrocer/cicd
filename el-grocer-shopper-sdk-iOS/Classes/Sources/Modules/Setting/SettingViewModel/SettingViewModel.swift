@@ -64,10 +64,8 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
     private func setViewModels(setting: Setting, user: UserProfile?) -> [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] {
         
         if setting.isSmileApp() {
-            
-            
         return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserLogin, user)]),
-                SectionHeaderModel(model: 1, header: " " + localizedString("account_hedding", comment: ""), items: [SettingCellViewModel(type: .liveChat), SettingCellViewModel(type: .Orders),SettingCellViewModel(type: .Address),SettingCellViewModel(type: .PaymentMethods)]),
+                SectionHeaderModel(model: 1, header: " " + localizedString("account_hedding", comment: ""), items: [SettingCellViewModel(type: .liveChat), SettingCellViewModel(type: .Orders),SettingCellViewModel(type: .Address),SettingCellViewModel(type: .PaymentMethods), SettingCellViewModel(type: .ElWallet)]),
         SectionHeaderModel(model: 2, header: " " + localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs)])]
             
         }else if  user == nil {
@@ -79,7 +77,15 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
         } else if user != nil && setting.isElgrocerApp() {
             // elgrocer login view
             return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserLogin, user)]),
-                            SectionHeaderModel(model: 1, header:" " +  localizedString("account_hedding", comment: ""), items: [SettingCellViewModel(type: .liveChat), SettingCellViewModel(type: .Orders),SettingCellViewModel(type: .Recipes),SettingCellViewModel(type: .SaveCars),SettingCellViewModel(type: .Address),SettingCellViewModel(type: .PaymentMethods),SettingCellViewModel(type: .Password)]),
+                            SectionHeaderModel(model: 1, header:" " +  localizedString("account_hedding", comment: ""), items:
+                                                [SettingCellViewModel(type: .liveChat),
+                                                 SettingCellViewModel(type: .Orders),
+                                                 SettingCellViewModel(type: .Recipes),
+                                                 SettingCellViewModel(type: .SaveCars),
+                                                 SettingCellViewModel(type: .Address),
+                                                 SettingCellViewModel(type: .PaymentMethods),
+                                                 SettingCellViewModel(type: .ElWallet),
+                                                 SettingCellViewModel(type: .Password)]),
                             SectionHeaderModel(model: 2, header: " " + localizedString("settings_heading", comment: ""), items: [SettingCellViewModel(type: .LanguageChange), SettingCellViewModel(type: .DeleteAccount)]),
                     SectionHeaderModel(model: 3, header:" " + localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs), SettingCellViewModel(type: .SignOut)])]
         } else {

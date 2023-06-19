@@ -756,6 +756,13 @@ extension Product {
             product.promotionalShops = product.jsonToString(json: shopsList as AnyObject)
         }
         
+        if let subCategoryArray = productDict["subcategories"] as? [NSDictionary] {
+            product.subCategoryArray = subCategoryArray
+        }
+        
+        
+        
+        
         if let objectID = productDict["objectID"] as? String {
             product.objectId = objectID
         }

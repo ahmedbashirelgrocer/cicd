@@ -7,20 +7,13 @@
 //
 
 import Foundation
-//import mopub_ios_sdk
-//import <GoogleConversionTracking/ACTReporter.h>
 
-
-
-
-//import AppTrackingTransparency
-//import AdSupport
 
 
 
 class MarketingCampaignTrackingHelper {
     
-  /*  // MARK: SharedInstance
+    // MARK: SharedInstance
     
     static let sharedInstance = MarketingCampaignTrackingHelper()
     
@@ -43,42 +36,10 @@ class MarketingCampaignTrackingHelper {
       //  MPAdConversionTracker.shared().reportApplicationOpen(forApplicationID: mopudAppId)
         
         // GoogleConversionTracking
-        ACTConversionReporter.report(withConversionID: googleConversionTrackingId, label: googleConversionTrackingLabel, value: googleConversionTrackingValue, isRepeatable: false)
+       // ACTConversionReporter.report(withConversionID: googleConversionTrackingId, label: googleConversionTrackingLabel, value: googleConversionTrackingValue, isRepeatable: false)
     }
     
     
-    //NEWLY ADDED PERMISSIONS FOR iOS 14
-     func isAdvertRequestPermission(completionHandler:@escaping (_ result: Bool) -> Void) {
-        if #available(iOS 14, *) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                switch status {
-                    case .authorized:
-                        // Tracking authorization dialog was shown
-                        // and we are authorized
-                       elDebugPrint("Authorized")
-                       elDebugPrint(ASIdentifierManager.shared().advertisingIdentifier)
-                        completionHandler(true)
-                        // Now that we are authorized we can get the IDFA
-                       
-                    case .denied:
-                        // Tracking authorization dialog was
-                        // shown and permission is denied
-                       elDebugPrint("Denied")
-                        completionHandler(false)
-                    case .notDetermined:
-                        // Tracking authorization dialog has not been shown
-                        completionHandler(false)
-                    case .restricted:
-                        completionHandler(false)
-                    @unknown default:
-                        completionHandler(false)
-                }
-            }
-        }else{
-            completionHandler(true)
-        }
-    }
     
-    */
     
 }
