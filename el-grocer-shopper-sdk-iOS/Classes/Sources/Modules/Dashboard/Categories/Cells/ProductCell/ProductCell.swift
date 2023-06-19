@@ -105,7 +105,7 @@ class ProductCell : RxUICollectionViewCell {
             addToCartButton.textAlignment = .center
             addToCartButton.setTitle("＋", for: .normal)
             addToCartButton.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-            addToCartButton.backgroundColor = .smilePrimaryPurpleColor()
+            addToCartButton.backgroundColor = sdkManager.isSmileSDK ? .smilePrimaryPurpleColor() : .navigationBarColor()
         }
     }
     
@@ -121,7 +121,7 @@ class ProductCell : RxUICollectionViewCell {
     
     @IBOutlet weak var plusButton: UIButton! { didSet{
         plusButton.clipsToBounds = true
-        plusButton.imageView?.tintColor = UIColor.smilePrimaryPurpleColor()
+        plusButton.imageView?.tintColor = sdkManager.isSmileSDK ? UIColor.smilePrimaryPurpleColor() : UIColor.navigationBarColor()
         plusButton.setBackgroundColor(.white, forState: .normal)
     } }
     @IBOutlet weak var minusButton: UIButton! { didSet {
