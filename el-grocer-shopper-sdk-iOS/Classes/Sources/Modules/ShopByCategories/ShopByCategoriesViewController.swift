@@ -141,9 +141,11 @@ extension ShopByCategoriesViewController : UICollectionViewDelegate , UICollecti
         let vc = ElGrocerViewControllers.getSpecialtyStoresGroceryViewController()
         vc.controllerTitle = data.name ?? ""
         vc.controllerType = .viewAllStoresWithBack
-        vc.groceryArray = HomePageData.shared.storyTypeBaseDataDict[data.storeTypeid] ?? []
+        
+        vc.storyTypeBaseDataDict = HomePageData.shared.storyTypeBaseDataDict
         vc.availableStoreTypeA = storeCategoryA
-        // vc.selectStoreType = data // https://elgrocerdxb.atlassian.net/browse/EG-1408
+        vc.selectedStoreTypeData = data
+        
         FireBaseEventsLogger.trackHomeTileClicked(tileId: "\(data.storeTypeid)", tileName: data.name!, tileType: "Store Category", nextScreen: vc)
         self.navigationController?.pushViewController(vc, animated: true)
         
