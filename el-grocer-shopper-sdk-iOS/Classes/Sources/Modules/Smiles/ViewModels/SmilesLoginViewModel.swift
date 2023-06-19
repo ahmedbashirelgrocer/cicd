@@ -57,9 +57,9 @@ public class SmilesLoginViewModel {
         
         retryCounts += 1
         countDownTimer?.invalidate()
-        //countDownTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(countDown), userInfo: nil, repeats: true)
+        
         countDownTimer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDown), userInfo: nil, repeats: true)
-        //Adding Timer to the current loop
+        
         RunLoop.current.add(countDownTimer!, forMode: .common)
     }
     
@@ -78,165 +78,14 @@ public class SmilesLoginViewModel {
         }
      }
     
-    /*
-    // no longer being used
-    //
-    func smilesLoginWithPhone( _ phoneNum: String ) {
-        /*
-        let data = "{\"Sent_OTP\": \"123123\",\"UserToken\": \"xxx-xxx-xxx\"}".data(using: .utf8)!
-        do {
-            
-            let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: data)
-           elDebugPrint(smileAuthObj)
-            
-            if let smileOtp = smileAuthObj.sentOTP {
-                self.userOtp.value = smileOtp
-            }
-            if let token = smileAuthObj.userToken {
-                self.userToken.value = token
-            }
-            
-        } catch {
-           elDebugPrint(error)
-            if let showAlertClosure = showAlertClosure {
-                showAlertClosure()
-            }
-        }
-        */
-        
-        SmilesNetworkManager.sharedInstance().loginUserWithSmile(params: [:]) { result in
-            switch (result) {
-                case .success(let response):
-                    elDebugPrint(response)
-                    let dataDict = response["data"]
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
-
-                        let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                       elDebugPrint(smileAuthObj)
-                        
-                        if let smileOtp = smileAuthObj.sentOTP {
-                            self.userOtp.value = smileOtp
-                        }
-                        if let token = smileAuthObj.userToken {
-                            self.userToken.value = token
-                        }
-                        
-                    } catch {
-                       elDebugPrint(error)
-                        if let showAlertClosure = self.showAlertClosure {
-                            showAlertClosure()
-                        }
-                    }
-
-                case .failure(let error):
-                    elDebugPrint(error.localizedMessage)
-            }
-        }
-    }*/
-    
-    /*
-    func retryOtp () {
-        // api call
-        
-        SmilesNetworkManager.sharedInstance().retrySmileOtp(params: [:]) { result in
-            switch (result) {
-                case .success(let response):
-                    elDebugPrint(response)
-                    let dataDict = response["data"]
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
-
-                        let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                       elDebugPrint(smileAuthObj)
-                        if let smileOtp = smileAuthObj.sentOTP {
-                            self.userOtp.value = smileOtp
-                        }
-                        
-                    } catch {
-                       elDebugPrint(error)
-                        if let showAlertClosure = self.showAlertClosure {
-                            showAlertClosure()
-                        }
-                    }
-
-                case .failure(let error):
-                    elDebugPrint(error.localizedMessage)
-            }
-        }
-        /*
-        let data = "{\"Sent_OTP\": \"123123\"}".data(using: .utf8)!
-        do {
-            let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: data)
-           elDebugPrint(smileAuthObj)
-            if let smileOtp = smileAuthObj.sentOTP {
-                self.userOtp.value = smileOtp
-            }
-        } catch {
-           elDebugPrint(error)
-        }*/
-    }*/
-    
-    /*
-    func otpAuthenticate (completionHandler: @escaping (()->Void) ) {
-        // api call
-        
-        SmilesNetworkManager.sharedInstance().ConfirmSmileOtp(params: [:]) { result in
-            switch (result) {
-                case .success(let response):
-                    elDebugPrint(response)
-                    let dataDict = response["data"]
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
-
-                        let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                       elDebugPrint(smileAuthObj)
-                        completionHandler()
-                        
-                    } catch {
-                       elDebugPrint(error)
-                        if let showAlertClosure = self.showAlertClosure {
-                            showAlertClosure()
-                        }
-                    }
-
-                case .failure(let error):
-                    elDebugPrint(error.localizedMessage)
-            }
-        }
-
-    }*/
-    
-    
-    
-    func generateSmilesOtp () {
+    func generateSmilesOtp (completion: @escaping (_ errorCode: Int?, _ message: String) -> Void ) {
         
         SmilesNetworkManager.sharedInstance().createSmilesOtp { [weak self] result in
             switch (result) {
                 case .success(let response):
                     elDebugPrint(response)
-                    /*
-                    let dataDict = response["data"]
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: dataDict as Any, options: .prettyPrinted)
-
-                        let smileAuthObj = try JSONDecoder().decode(SmileAuth.self, from: jsonData)
-                       elDebugPrint(smileAuthObj)
-                        completionHandler()
-                        
-                    } catch {
-                       elDebugPrint(error)
-                        if let showAlertClosure = self.showAlertClosure {
-                            showAlertClosure()
-                        }
-                    }*/
-
+                completion(nil, "")
                 case .failure(let error):
-                    elDebugPrint(error.localizedMessage)
-                    if let showAlertClosure = self?.showAlertClosure {
-                        showAlertClosure(error.localizedMessage)
-                    }
-                    
                     if let blockClosuer = self?.isBlockOtp {
                         if error.code == SmilesNetworkManager.sharedInstance().blockedErrorCode {
                             self?.countDownTimer?.invalidate()
@@ -244,28 +93,28 @@ public class SmilesLoginViewModel {
                             blockClosuer(true)
                         }
                     }
-                
+                completion(error.code, error.localizedMessage)
             }
         }
 
     }
     
     
-    func smilesLoginWithOtp (code: String, completionHandler: @escaping ((_ isSuccess:Bool, _ message:String )-> Void)) {
+    func smilesLoginWithOtp (code: String, completionHandler: @escaping ((_ isSuccess:Bool, _ message:String, _ errorCode: Int? )-> Void)) {
         
         SmilesNetworkManager.sharedInstance().loginUserWithSmile(params: ["pin":code]) { result in
             switch (result) {
-                case .success(let response):
-                    elDebugPrint(response)
-                    let dataDict = response["data"]
-                    completionHandler(true, "")
-                case .failure(let error):
-                    elDebugPrint(error.localizedMessage)
-                    completionHandler(false, error.localizedMessage)
+            case .success(let response):
+                debugPrint(response)
+                let dataDict = response["data"]
+                UserDefaults.setIsSmileUser(true)
+                completionHandler(true, "", nil)
+
+            case .failure(let error):
+                debugPrint(error.localizedMessage)
+                completionHandler(false, error.localizedMessage, error.code)
             }
         }
-        
-        
         
     }
 }

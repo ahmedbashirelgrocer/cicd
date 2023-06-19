@@ -233,7 +233,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         
         setUpAppearence(cellType: .ClickAndCollect, showArrow: false)
         self.lblName.text = title
-        self.bgImageView.image = UIImage(named: imageName)
+        self.bgImageView.image = UIImage(name: imageName)
         self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
         
     }
@@ -251,7 +251,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         
         setUpAppearence(cellType: .Recipe, showArrow: false)
         self.lblName.text = title
-        self.bgImageView.image = UIImage(named: imageName)
+        self.bgImageView.image = UIImage(name: imageName)
         self.backgroundView?.backgroundColor = UIColor.locationScreenLightColor()
         
     }
@@ -277,7 +277,7 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
     func configureCellForStores(title: String,image: String,_ showArrow: Bool = false){
         setUpAppearence(cellType: .Store, showArrow: showArrow)
         self.showViewAllArrow(showArrow)
-        self.bgImageView.image = UIImage(named: "testCategoryImage")
+        self.bgImageView.image = UIImage(name: "testCategoryImage")
         if showArrow{
             self.lblName.text = title
             self.bgImageView.image = UIImage()

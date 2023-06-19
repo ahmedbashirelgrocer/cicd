@@ -594,7 +594,8 @@ class ElGrocerViewControllers {
     }
     
     class func getSmileLoginVC() -> SmilesLoginVC {
-        return ElGrocerViewControllers.initializeControllerFromStoryboard("SmilePoints", storyboardControllerId: "SmilesLoginVC")
+        return SmilesLoginVC()
+        // ElGrocerViewControllers.initializeControllerFromStoryboard("SmilePoints", storyboardControllerId: "SmilesLoginVC")
     }
     
         // MARK: elWallet
