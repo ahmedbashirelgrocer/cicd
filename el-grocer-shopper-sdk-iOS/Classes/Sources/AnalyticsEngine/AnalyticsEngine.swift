@@ -26,6 +26,7 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
     func identify(userData: IdentifyUserDataType) {
         let traits = self.addMarketTypeProperty(metaData: userData.traits ?? [:])
         self.analytics.identify(userData.userId, traits: traits)
+        self.debugLogEvent(eventType: "Identify", eventName: "", params: traits)
     }
     
     func logEvent(event: AnalyticsEventDataType) {
@@ -33,12 +34,12 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
         case .track(let eventName):
             let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
             self.analytics.track(eventName, properties: metaData)
-            break
+            self.debugLogEvent(eventType: "Track", eventName: eventName, params: metaData)
             
         case .screen(let screenName):
             let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
             self.analytics.screen(screenName, properties: metaData)
-            break
+            self.debugLogEvent(eventType: "Screen", eventName: screenName, params: metaData)
         }
     }
     
@@ -49,7 +50,7 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
 
 private extension SegmentAnalyticsEngine {
     func addMarketTypeProperty(metaData: [String: Any]) -> [String: Any] {
-        if let launchOptions = SDKManager.shared.launchOptions {
+        if let launchOptions = sdkManager.launchOptions {
             switch launchOptions.marketType {
             case .marketPlace:
                 var metaData = metaData
@@ -72,5 +73,14 @@ private extension SegmentAnalyticsEngine {
         }
         
         return metaData
+    }
+    
+    func debugLogEvent(eventType: String, eventName: String, params: [String: Any]) {
+        #if DEBUG
+        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SEGMENT ANALYTICS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print("Event Type: \(eventType)")
+        print("Event Name: \(eventName)")
+        print("Event Params: \(params)")
+        #endif
     }
 }
