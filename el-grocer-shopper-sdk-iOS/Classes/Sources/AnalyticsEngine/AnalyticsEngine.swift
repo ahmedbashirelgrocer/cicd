@@ -77,10 +77,12 @@ private extension SegmentAnalyticsEngine {
     
     func debugLogEvent(eventType: String, eventName: String, params: [String: Any]) {
         #if DEBUG
+        print("\n\n\n")
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SEGMENT ANALYTICS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print("Event Type: \(eventType)")
         print("Event Name: \(eventName)")
         print("Event Params: \(params)")
+        print("\n\n\n")
         #endif
     }
 }
