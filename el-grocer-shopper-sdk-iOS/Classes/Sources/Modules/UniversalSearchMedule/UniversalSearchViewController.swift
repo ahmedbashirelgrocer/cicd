@@ -1247,8 +1247,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 }
                 Thread.OnMainThread { [weak self] in
                     self?.presentingVC?.navigationController?.dismiss(animated: false, completion: {
-                        let SDKManager = SDKManager.shared
-                        if let tab = SDKManager.currentTabBar  {
+                        if let tab = sdkManager?.currentTabBar  {
                             ElGrocerUtility.sharedInstance.resetTabbar(tab)
                             tab.selectedIndex = 1
                         }
