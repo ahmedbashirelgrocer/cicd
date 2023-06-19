@@ -43,6 +43,7 @@ public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     
     
     var kGoogleMapsApiKey: String { get }
+    var isInitialized: Bool { get set }
     
     // Methods
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool
@@ -141,7 +142,7 @@ public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     func channelDidChangeMemberCount(_ channels: [SBDGroupChannel])
     func channelDidChangeParticipantCount(_ channels: [SBDOpenChannel])
     func start(with launchOptions: LaunchOptions?)
-    
+    func startBasicThirdPartyInit()
 }
 
 public extension SDKManagerType {
