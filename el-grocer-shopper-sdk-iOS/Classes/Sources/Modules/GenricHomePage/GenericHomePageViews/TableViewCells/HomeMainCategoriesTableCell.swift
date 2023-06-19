@@ -155,15 +155,15 @@ extension HomeMainCategoriesTableCell : UICollectionViewDelegate , UICollectionV
             return cell
         }
         if type == MainCategoryCellType.ClickAndCollect , let obj = typeData[type] as? ClickAndCollectService{
-            cell.configureCell(cellType: .ClickAndCollect, title: NSLocalizedString("lbl_CAndC", comment: "") , image: "ClickAndCollectBgImage", false, data: obj)
+            cell.configureCell(cellType: .ClickAndCollect, title: localizedString("lbl_CAndC", comment: "") , image: "ClickAndCollectBgImage", false, data: obj)
             return cell
         }
         if type == MainCategoryCellType.Recipe , let obj = typeData[type] as? RecipeService{
-            cell.configureCell(cellType: .Recipe, title: NSLocalizedString("txt_Recipes", comment: "") , image: "recipeCellBgImage", false, data: obj)
+            cell.configureCell(cellType: .Recipe, title: localizedString("txt_Recipes", comment: "") , image: "recipeCellBgImage", false, data: obj)
             return cell
         }
         if type == .ViewAllCategories , let obj = typeData[type] as? [StoreType] {
-            cell.configureCell(cellType: .ViewAllCategories, title: NSLocalizedString("title_view_all_cat", comment: ""), image: "UIImage()", true, data: obj)
+            cell.configureCell(cellType: .ViewAllCategories, title: localizedString("title_view_all_cat", comment: ""), image: "UIImage()", true, data: obj)
             return cell
         }
         if type == .Categories , let obj = typeData[type] as? StoreType {

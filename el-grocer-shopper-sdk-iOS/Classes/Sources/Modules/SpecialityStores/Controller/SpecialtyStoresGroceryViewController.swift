@@ -61,7 +61,7 @@ class SpecialtyStoresGroceryViewController: UIViewController, UIScrollViewDelega
     }
     // var featureGroceryBanner : [BannerCampaign] = []
     var lastSelectType : StoreType? = nil
-    var controllerTitle: String = NSLocalizedString("title_all_stores", comment: "")
+    var controllerTitle: String = localizedString("title_all_stores", comment: "")
     var selectStoreType : StoreType? = nil
     var retailerType: RetailerType? = nil
     
