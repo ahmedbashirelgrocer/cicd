@@ -112,7 +112,7 @@ class SpecialtyStoresGroceryViewController: UIViewController, UIScrollViewDelega
             //self.addBackButton(isGreen: false)
         }else if self.controllerType == .viewAllStoresWithBack {
             // self.title = NSLocalizedString("txt_Shop_by_store_category", comment: "")
-            self.addBackButton(isGreen: false)
+            sdkManager.isShopperApp ? addWhiteBackButton() : self.addBackButton(isGreen: false)
         }else {
             // self.title = self.controllerTitle
         }

@@ -48,16 +48,17 @@ class PaymentSelectionTableViewCell: UITableViewCell {
             .bind(to: self.lblTitle.rx.text)
             .disposed(by: disposeBag)
         
+   
         Observable.combineLatest(viewModel.outputs.isForAddNewCard, viewModel.outputs.selected)
             .filter { $0.0 == false }
             .map { (isCard, isSelected) -> Bool in return isSelected }
-            .map { $0 ? UIImage(name: "RadioButtonFilled") : UIImage(name: "RadioButtonUnfilled") }
+            .map { $0 ? UIImage(name: sdkManager.isShopperApp ? "egRadioButtonFilled" : "RadioButtonFilled") : UIImage(name: sdkManager.isShopperApp ? "egRadioButtonUnfilled" :"RadioButtonUnfilled") }
             .bind(to: self.radioButton.rx.image)
             .disposed(by: disposeBag)
         
         viewModel.outputs.isForAddNewCard
             .filter { $0 }
-            .map { _ in UIImage(name: "arrowForward") }
+            .map { _ in UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "arrowForward") }
             .bind(to: self.radioButton.rx.image)
             .disposed(by: disposeBag)
         

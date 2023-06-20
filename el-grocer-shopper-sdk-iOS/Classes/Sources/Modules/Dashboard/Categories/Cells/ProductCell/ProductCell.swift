@@ -121,7 +121,7 @@ class ProductCell : RxUICollectionViewCell {
     
     @IBOutlet weak var plusButton: UIButton! { didSet{
         plusButton.clipsToBounds = true
-        plusButton.imageView?.tintColor = UIColor.smilePrimaryPurpleColor()
+        plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         plusButton.setBackgroundColor(.white, forState: .normal)
     } }
     @IBOutlet weak var minusButton: UIButton! { didSet {

@@ -85,7 +85,9 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         
-        addBackButton(isGreen: false)
+        if sdkManager.isShopperApp { addWhiteBackButton() } else {
+            addBackButton(isGreen: false)
+        }
         setSaveButtonPosition(isKeyBoardVisible: false)
         //register for keyboard notifications
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: nil)

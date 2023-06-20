@@ -289,6 +289,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     }
  
     @IBAction func viewLayoutHandler(_ sender: Any) {
+        let _ = SpinnerView.showSpinnerViewInView(self.view)
         self.viewHandler.girdListViewChange()
     }
   
@@ -682,9 +683,9 @@ extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
         }
         self.superSectionHeader.viewLayoutButton.isHidden = false
         if !isGrid {
-            self.superSectionHeader.viewLayoutButton.setImage(UIImage(name: "grid-icon-unselected"), for: .normal)
-        }else{
-            self.superSectionHeader.viewLayoutButton.setImage(UIImage(name: "grid-icon"), for: .normal)
+            self.superSectionHeader.viewLayoutButton.setImage( UIImage(name: sdkManager.isShopperApp ? "eg-grid-icon-unselected" : "grid-icon-unselected"), for: .normal)
+        }else {
+            self.superSectionHeader.viewLayoutButton.setImage(UIImage(name: sdkManager.isShopperApp ?"eg-grid-icon" : "grid-icon"), for: .normal)
         }
         self.viewHandler.trackCateNavClick()
     }

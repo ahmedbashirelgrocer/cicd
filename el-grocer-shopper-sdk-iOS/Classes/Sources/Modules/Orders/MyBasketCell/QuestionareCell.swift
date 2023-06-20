@@ -47,9 +47,9 @@ class QuestionareCell: UITableViewCell {
         self.indexPath = cellIndex
         
         if isSelected{
-            radiioImage.image = UIImage(name: "RadioButtonFilled")
+            radiioImage.image = UIImage(name: sdkManager.isShopperApp ? "egRadioButtonFilled" : "RadioButtonFilled")
         }else{
-            radiioImage.image = UIImage(name: "RadioButtonUnfilled")
+            radiioImage.image = UIImage(name: sdkManager.isShopperApp ? "egRadioButtonUnfilled" :"RadioButtonUnfilled")
         }
         
         

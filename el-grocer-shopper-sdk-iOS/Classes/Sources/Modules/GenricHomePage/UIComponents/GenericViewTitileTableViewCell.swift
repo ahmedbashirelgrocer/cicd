@@ -52,7 +52,11 @@ class GenericViewTitileTableViewCell: UITableViewCell {
             rightButtonText.text = localizedString("view_more_title", comment: "")
         }
     }
-    @IBOutlet var arrowImage: UIImageView!
+    @IBOutlet var arrowImage: UIImageView! {
+        didSet{
+            arrowImage.image =  UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "SettingArrowForward")
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

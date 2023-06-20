@@ -296,8 +296,15 @@ fileprivate extension EditLocationSignupViewController {
                                     if let secondCheckOut = secondCheckOutNav.viewControllers[1] as? SecondCheckoutVC {
                                         secondCheckOut.updateAddressInOrder(address: activeAddress)
                                     }
+                                }else if secondCheckOutNav.viewControllers.count == 1 {
+                                    if let nav = (sdkManager.currentTabBar?.viewControllers?[sdkManager.currentTabBar?.selectedIndex ?? 0] as? UINavigationController) {
+                                        nav.popViewController(animated: true)
+                                        return
+                                    }
                                 }
                                 secondCheckOutNav.popToRootViewController(animated: true)
+                            }else if sdkManager.isShopperApp {
+                                UIApplication.topViewController()?.navigationController?.popToRootViewController(animated: true)
                             }
                         }
                       

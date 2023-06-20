@@ -12,7 +12,11 @@ let kNextCellIdentifier = "NextCell"
 class NextCell: UICollectionViewCell {
     
     @IBOutlet weak var imgContainer: UIView!
-    @IBOutlet weak var nextImgView: UIImageView!
+    @IBOutlet weak var nextImgView: UIImageView! {
+        didSet {
+            if sdkManager.isShopperApp {nextImgView.image  = UIImage(name: "eg-MyBasketSubsituteArrowViewMore") }
+        }
+    }
     @IBOutlet var lblViewAll: UILabel!{
         didSet{
             lblViewAll.text = localizedString("txt_see_more", comment: "")

@@ -43,12 +43,23 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet weak var lblOrderDetail: UILabel! {
         didSet {
             lblOrderDetail.text =  localizedString("lbl_Order_Details", comment: "")
+            lblOrderDetail.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         }
     }
-    @IBOutlet weak var lblOrderDetailArrow: UIImageView!
+    @IBOutlet weak var lblOrderDetailArrow: UIImageView! {
+        didSet {
+            if sdkManager.isShopperApp {lblOrderDetailArrow.image = UIImage(name: "arrowRight") }
+        }
+    }
     @IBOutlet weak var lblOrderDetailNote: UILabel!
     @IBOutlet weak var lblFreshItemNote: UILabel!
     @IBOutlet weak var lblAddressNote: UILabel!
+    
+    @IBOutlet weak var addressPin: UIImageView! {
+        didSet {
+            if sdkManager.isShopperApp {addressPin.image = UIImage(name: "elDeliveryAddressPin")}
+        }
+    }
     @IBOutlet weak var viewBanner: BannerView! {
         didSet{
             viewBanner.layer.cornerRadius = 5
@@ -69,7 +80,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     // PickerDetailView
     @IBOutlet weak var pickerDetailView: UIView!
-    @IBOutlet weak var pickerImage: UIImageView!
+    @IBOutlet weak var pickerImage: UIImageView! {
+        didSet {
+            if sdkManager.isShopperApp { pickerImage.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor  }
+        }
+    }
     @IBOutlet weak var lblPickerDetail: UILabel!
     
     @IBOutlet weak var pickerChatImageView: UIImageView!
@@ -261,6 +276,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.viewModel.outputs.orderStatus.subscribe(onNext: {  [weak self] status in
             guard let self = self else { return }
             self.orderStatusViewHeightConstraint.constant = 110
+            if sdkManager.isShopperApp { self.orderProgressView.progressTintColor = ApplicationTheme.currentTheme.secondaryDarkGreenColor }
             if status == OrderStatus.inSubtitution {
                 self.orderStatusViewHeightConstraint.constant = 180
                 self.orderProgressView.progressTintColor = ApplicationTheme.currentTheme.promotionYellowColor
@@ -731,7 +747,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.addBackButtonWithCrossIconRightSide(ApplicationTheme.currentTheme.newBlackColor)
+        self.addBackButtonWithCrossIconRightSide(sdkManager.isShopperApp ? ApplicationTheme.currentTheme.viewWhiteBGColor : ApplicationTheme.currentTheme.newBlackColor)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

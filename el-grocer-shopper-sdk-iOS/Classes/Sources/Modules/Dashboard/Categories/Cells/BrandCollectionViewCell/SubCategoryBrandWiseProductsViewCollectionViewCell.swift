@@ -32,7 +32,11 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-    @IBOutlet weak var rightArrowImageView: UIImageView!
+    @IBOutlet weak var rightArrowImageView: UIImageView! {
+        didSet {
+            rightArrowImageView.image = UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "SettingArrowForward")
+        }
+    }
     @IBOutlet var btnViewAll: AWButton! {
         didSet{
             btnViewAll.setTitle(localizedString("view_more_title", comment: ""), for: .normal)

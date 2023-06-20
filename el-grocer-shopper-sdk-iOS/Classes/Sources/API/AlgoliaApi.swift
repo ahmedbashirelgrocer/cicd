@@ -201,15 +201,7 @@ class AlgoliaApi {
             }
         }
         
-//        for storeID in storeIDs{
-//            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
-//            if filterString.count == 0 {
-//                filterString.append(facetFiltersForCurrentStoreID)
-//            }else{
-//                filterString.append(OROperator)
-//                filterString.append(facetFiltersForCurrentStoreID)
-//            }
-//        }
+
         if brand.count > 0 {
             let facetFiltersForCurrentStoreID : String = "brand.name:'\(brand)'"
             if filterString.count == 0 {
@@ -240,6 +232,8 @@ class AlgoliaApi {
         query.hitsPerPage = Int(hitsPerPage)
         var requestOptions = RequestOptions()
         requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId: algoliaApplicationID)?.userToken).map { $0.rawValue }
+        
+        
         self.algoliaProductIndex.search(query: query, requestOptions: requestOptions) { (content) in
             if case .success(let response) = content {
                 completion(response.convertHits() , nil)

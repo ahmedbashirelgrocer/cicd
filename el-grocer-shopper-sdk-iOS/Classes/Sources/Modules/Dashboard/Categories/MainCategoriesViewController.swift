@@ -419,7 +419,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
             if self.grocery != nil{
                 (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-                self.addBackButton(isGreen: false)
+                sdkManager.isShopperApp ?  addWhiteBackButton() : self.addBackButton(isGreen: false)
             }else{
                 (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             }

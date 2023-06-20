@@ -24,12 +24,8 @@ class GenericBannerCollectionViewCell: UICollectionViewCell {
     }
     
     func setImage(_ url : String? ) {
-        
-       // elDebugPrint("bannerurls :  \(url)")
-        
         if url != nil && url?.range(of: "http") != nil {
-            
-            self.bannerImage.sd_setImage(with: URL(string: url!), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 2), completed: {[weak self] (image, error, cacheType, imageURL) in
+            self.bannerImage.sd_setImage(with: URL(string: url!), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 7), completed: {[weak self] (image, error, cacheType, imageURL) in
                 guard let self = self else {
                     return
                 }

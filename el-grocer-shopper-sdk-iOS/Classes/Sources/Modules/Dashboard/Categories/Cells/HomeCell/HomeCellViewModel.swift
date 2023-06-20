@@ -198,7 +198,7 @@ private extension HomeCellViewModel {
         self.productCellVMs.append(contentsOf: cellVMs)
         self.isLoading = false
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: self.productCellVMs)])
-        self.isProductAvailableSubject.onNext((offset == 0))
+        self.isProductAvailableSubject.onNext((offset == 0) || self.moreAvailable == false)
         self.offset += limit
     }
 }

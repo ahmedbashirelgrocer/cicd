@@ -137,7 +137,7 @@ class NoStoreView: UIView {
     func configureNoSavedCard() {
         
         self.setUpApearence()
-        self.imgNoData.image = UIImage(name: "noSavedCard")
+        self.imgNoData.image = UIImage(name: sdkManager.isShopperApp ? "eg-noSavedCard" : "noSavedCard")
         self.lblTopMsg.text = localizedString("lbl_no_saved_card", comment: "")
         self.lblExtraDetail.text = localizedString("lbl_no_saved_card_description", comment: "")
         self.btnNoData.isHidden = true

@@ -377,6 +377,8 @@ extension CateAndSubcategoryView {
                 self.delegate?.setGridListButtonState(isNeedToHideGridListButton: true, isGrid: true)
             }
 
+        }else {
+            SpinnerView.hideSpinnerView()
         }
     }
     
@@ -474,6 +476,7 @@ extension CateAndSubcategoryView {
                 self.gridProductA = products
             }
             self.delegate?.productDataUpdated(nil)
+            SpinnerView.hideSpinnerView()
             return
         }
         
@@ -562,6 +565,7 @@ extension CateAndSubcategoryView {
             self.ListbrandsArray = dat
             self.isGridView = false
             self.delegate?.productDataUpdated(nil)
+            SpinnerView.hideSpinnerView()
             //self.fetchProductsOfNextSubCategory()
         } else {
             self.ListbrandsArray.removeAll()
@@ -576,6 +580,7 @@ extension CateAndSubcategoryView {
         if let subCat = self.parentSubCategory {
             self.fetchBrandsWithSixRandomProductsOfCategory(subCat, productOffset: productOffset)
         }else {
+            SpinnerView.hideSpinnerView()
             return
         }
         
@@ -597,6 +602,7 @@ extension CateAndSubcategoryView {
                 
                 case .success(let response):
                     self.saveBrandsResponseWithSixRandomProductsOfSubCategory(response, withSubcategory: parentSubCategory, isFromBackground: isFromBackground,index: index)
+                
                     
                 case .failure(let error):
                     error.showErrorAlert()
@@ -615,7 +621,7 @@ extension CateAndSubcategoryView {
         // let brand = GroceryBrand.getGroceryBrandFromResponse(dictBrand, subCategory.subCategoryId.intValue)
         // brands.append(brand)
         // }
-        
+        SpinnerView.hideSpinnerView()
             let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(subCategory.subCategoryId))
 //            ElGrocerUtility.sharedInstance.brandAvailabilityDict[keyStr] = brands.count % self.currentBrandLimit == 0
             if isFromBackground == false {

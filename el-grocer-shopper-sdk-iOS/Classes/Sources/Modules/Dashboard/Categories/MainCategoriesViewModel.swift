@@ -283,7 +283,7 @@ private extension MainCategoriesViewModel {
                     self.refreshProductCellSubject.bind(to: viewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
                     
                     viewModel.outputs.isProductAvailable
-                        .filter { !$0 }
+                        .filter { $0 }
                         .bind(to: self.reloadTableSubject)
                         .disposed(by: self.disposeBag)
                     

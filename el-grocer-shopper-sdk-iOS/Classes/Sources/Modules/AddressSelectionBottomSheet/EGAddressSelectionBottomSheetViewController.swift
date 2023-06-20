@@ -20,7 +20,13 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         }
     }
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var imgDifferentLocation: UIImageView!
+    @IBOutlet weak var imgDifferentLocation: UIImageView! {
+        didSet {
+            if sdkManager.isShopperApp {
+                imgDifferentLocation.image = UIImage(name: "DeliveryToDifferentLocation")
+            }
+        }
+    }
     @IBOutlet weak var lblDifferentLocation: UILabel!{
         didSet {
             lblDifferentLocation.setBody3SemiBoldDarkStyle()

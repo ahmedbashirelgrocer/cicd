@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" bouncesZoom="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" estimatedSectionHeaderHeight="1" sectionFooterHeight="1" estimatedSectionFooterHeight="1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ql-QK-8Aj">
-                        <rect key="frame" x="0.0" y="0.0" width="322" height="245"/>
+                        <rect key="frame" x="0.0" y="16" width="322" height="229"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="contentLayoutGuide" id="jEV-he-cja"/>
                         <viewLayoutGuide key="frameLayoutGuide" id="5WI-zi-5WZ"/>
@@ -30,9 +30,9 @@
             </view>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="8ql-QK-8Aj" secondAttribute="trailing" id="Q08-9T-x1b"/>
+                <constraint firstItem="8ql-QK-8Aj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="TpO-0J-ZiW"/>
                 <constraint firstAttribute="bottom" secondItem="8ql-QK-8Aj" secondAttribute="bottom" id="ZJg-cC-qPi"/>
                 <constraint firstItem="8ql-QK-8Aj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="l65-4c-nCO"/>
-                <constraint firstItem="8ql-QK-8Aj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="sJV-BO-SM0"/>
             </constraints>
             <size key="customSize" width="322" height="245"/>
             <connections>

@@ -276,7 +276,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         
         if !isSingleStore {
             
-            self.addBackButton(isGreen: false)
+            sdkManager.isShopperApp ? addWhiteBackButton() : self.addBackButton(isGreen: false)
             (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
             (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)

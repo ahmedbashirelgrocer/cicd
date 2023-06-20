@@ -28,7 +28,11 @@ class PaymentMethodView: UIView {
             }
         }
     }
-    @IBOutlet weak var arrowForward: UIImageView!
+    @IBOutlet weak var arrowForward: UIImageView! {
+        didSet{
+            arrowForward.image  = sdkManager.isShopperApp ? UIImage(name: "arrowRight") : UIImage(name: "SettingArrowForward")
+        }
+    }
     
     private var paymentTypes: [PaymentType] = []
     weak var delegate: PaymentMethodViewDelegate?
@@ -74,7 +78,7 @@ class PaymentMethodView: UIView {
         default:
             self.lblPaymentTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.lblPaymentTitle.text = localizedString("payment_method_title", comment: "")
-            self.imagePaymentType.image = UIImage(name: "cardGeneric")
+            self.imagePaymentType.image = UIImage(name: sdkManager.isShopperApp ? "eg-cardGeneric" : "cardGeneric")
             break
         }
     }

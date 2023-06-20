@@ -1581,16 +1581,21 @@ extension GenericStoresViewController : UICollectionViewDelegate , UICollectionV
             }
             return
         }
+     
+        if let orderIdString = order["id"] as? NSNumber {
+            let viewModel = OrderConfirmationViewModel(orderId: orderIdString.stringValue)
+            let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
+            orderConfirmationController.isNeedToRemoveActiveBasket = false
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [orderConfirmationController]
+            orderConfirmationController.modalPresentationStyle = .fullScreen
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: {  })
+        }
         
-        let orderConfirmationController = ElGrocerViewControllers.orderConfirmationViewController()
-        orderConfirmationController.orderDict = order
-        orderConfirmationController.isNeedToRemoveActiveBasket = false
-        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navigationController.hideSeparationLine()
-        navigationController.viewControllers = [orderConfirmationController]
-        orderConfirmationController.modalPresentationStyle = .fullScreen
-        navigationController.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(navigationController, animated: true, completion: {  })
+        
+     
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

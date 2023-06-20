@@ -276,6 +276,10 @@ extension ApplyPromoVC {
                 SpinnerView.hideSpinnerView()
                 self.tblView.reloadDataOnMain()
             }
+            
+            ElGrocerUtility.sharedInstance.delay(0.2) {
+                self.btnCloseHandler("")
+            }
         }
     }
 }

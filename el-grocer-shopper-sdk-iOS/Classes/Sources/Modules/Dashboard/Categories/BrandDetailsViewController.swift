@@ -115,7 +115,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         NotificationCenter.default.addObserver(self,selector: #selector(BrandDetailsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         self.navigationItem.hidesBackButton = true
-        self.addBackButton(isGreen: false)
+        sdkManager.isShopperApp ? addWhiteBackButton() : self.addBackButton(isGreen: false)
         addCustomTitleViewWithTitle(self.brand.name)
         
         setUpCategoriesBackButtonAppearance()

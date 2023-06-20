@@ -2462,6 +2462,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                     <connections>
                         <outlet property="addressDetailTopWithOrderDetailBottomConstraint" destination="fX3-uK-p9A" id="71x-g7-pJU"/>
                         <outlet property="addressDetailTopWithOrderStatusBottomConstraint" destination="ur4-6y-jxx" id="r0W-c1-ogp"/>
+                        <outlet property="addressPin" destination="o8V-Sd-jI9" id="fBL-EL-0zb"/>
                         <outlet property="backImage" destination="y0Q-Tg-FF3" id="aXF-xM-m40"/>
                         <outlet property="bgView" destination="edG-A9-vke" id="lbr-zJ-OmR"/>
                         <outlet property="btnAtTheStore" destination="4O9-sf-lU1" id="yBf-m6-u7N"/>

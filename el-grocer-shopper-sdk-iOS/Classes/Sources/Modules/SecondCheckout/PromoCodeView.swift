@@ -20,7 +20,11 @@ class PromocodeView: UIView {
         }
     }
     
-    @IBOutlet weak var ivForwardIcon: UIImageView!
+    @IBOutlet weak var ivForwardIcon: UIImageView! {
+        didSet {
+            ivForwardIcon.image = UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "SettingArrowForward")
+        }
+    }
     private var promocode: String?
     weak var delegate: PromocodeDelegate?
     
