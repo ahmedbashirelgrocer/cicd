@@ -167,11 +167,11 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
             
             if self.lastSelection != nil {
                 let cell = tableView.cellForRow(at: self.lastSelection) as! LanguageCell
-                cell.selectionImage.image = UIImage(name:"RadioButtonUnfilled")
+                cell.selectionImage.image = UIImage(name: sdkManager.isShopperApp ? "egRadioButtonUnfilled" : "RadioButtonUnfilled")
             }
             
             let cell = tableView.cellForRow(at: indexPath) as! LanguageCell
-            cell.selectionImage.image = UIImage(name:"RadioButtonFilled")
+            cell.selectionImage.image = UIImage(name: sdkManager.isShopperApp ? "egRadioButtonFilled" : "RadioButtonFilled")
             self.lastSelection = indexPath
         }
     }
