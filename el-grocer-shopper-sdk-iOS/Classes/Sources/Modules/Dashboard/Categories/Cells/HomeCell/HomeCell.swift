@@ -165,6 +165,8 @@ class HomeCell: RxUITableViewCell {
     @IBOutlet weak var ivDeliverySlotIcon: UIImageView!
     @IBOutlet weak var stackViewDeliverySlot: UIStackView!
     @IBOutlet weak var viewStore: UIView!
+    @IBOutlet weak var viewSeparator: UIView!
+    @IBOutlet weak var viewSeparatorHeightConstraint: NSLayoutConstraint!
     
     var placeholderPhoto = UIImage(name: "product_placeholder")!
     
@@ -292,6 +294,9 @@ class HomeCell: RxUITableViewCell {
                 self.stackViewDeliverySlot.isHidden = false
                 self.viewBG.backgroundColor = .white
                 self.viewStore.isHidden = false
+                
+                self.viewSeparator.backgroundColor = .tableViewBackgroundColor()
+                self.viewSeparatorHeightConstraint.constant = 8
             } else{
                 self.topDistanceOfTitle.constant = 0
                 self.titleViewHeight.constant = 27
@@ -306,6 +311,8 @@ class HomeCell: RxUITableViewCell {
                     return productOne.isAvailable > productTwo.isAvailable
                 }
                 self.viewStore.isHidden = true
+                self.viewSeparator.backgroundColor = .navigationBarWhiteColor()
+                self.viewSeparatorHeightConstraint.constant = 16
             }
             
            

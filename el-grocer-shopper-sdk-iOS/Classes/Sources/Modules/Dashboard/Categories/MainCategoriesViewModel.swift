@@ -184,11 +184,11 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         
         case is HomeCellViewModel:
             if indexPath.row == 0 && self.recentPurchasedVM.isNotEmpty {
-                return 309
+                return 321
             }
             
             if self.viewModels[indexPath.section].items[indexPath.row] is HomeCellViewModel {
-                return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 309 : .leastNonzeroMagnitude
+                return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 321 : .leastNonzeroMagnitude
             } else if self.viewModels[indexPath.section].items[indexPath.row] is GenericBannersCellViewModel {
                 return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
             } else {
