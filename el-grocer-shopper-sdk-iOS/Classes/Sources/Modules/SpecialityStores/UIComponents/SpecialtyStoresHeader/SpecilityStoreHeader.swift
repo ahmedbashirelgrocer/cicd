@@ -88,7 +88,7 @@ class SpecilityStoreHeader: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            segmentView.topAnchor.constraint(equalTo: searchBarHeader.bottomAnchor),
+            segmentView.topAnchor.constraint(equalTo: searchBarHeader.bottomAnchor, constant: 8.0),
             segmentView.leftAnchor.constraint(equalTo: leftAnchor),
             segmentView.rightAnchor.constraint(equalTo: rightAnchor),
             segmentView.heightAnchor.constraint(equalToConstant: 45)

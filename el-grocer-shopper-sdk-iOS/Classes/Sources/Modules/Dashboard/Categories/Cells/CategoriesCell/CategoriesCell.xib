@@ -77,7 +77,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="SUj-yY-hTI">
-                                <rect key="frame" x="0.0" y="49" width="320" height="252"/>
+                                <rect key="frame" x="0.0" y="49" width="320" height="236"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ax6-za-Ymh">
                                     <size key="itemSize" width="128" height="128"/>
@@ -86,15 +86,25 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZW5-Wc-SZh">
+                                <rect key="frame" x="0.0" y="289" width="320" height="16"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="x5p-vm-dn3"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="ZW5-Wc-SZh" firstAttribute="leading" secondItem="QeB-G4-lMb" secondAttribute="leading" id="8Ht-UI-ny5"/>
                             <constraint firstItem="SUj-yY-hTI" firstAttribute="leading" secondItem="QeB-G4-lMb" secondAttribute="leading" id="AtX-YG-qnQ"/>
                             <constraint firstItem="uAW-Hq-YSf" firstAttribute="leading" secondItem="QeB-G4-lMb" secondAttribute="leading" id="CB3-rX-tSz"/>
+                            <constraint firstAttribute="bottom" secondItem="ZW5-Wc-SZh" secondAttribute="bottom" id="F31-t6-Vnu"/>
                             <constraint firstAttribute="trailing" secondItem="uAW-Hq-YSf" secondAttribute="trailing" id="Y6k-SX-oGn"/>
-                            <constraint firstAttribute="bottom" secondItem="SUj-yY-hTI" secondAttribute="bottom" constant="4" id="bg3-pJ-S88"/>
                             <constraint firstItem="SUj-yY-hTI" firstAttribute="top" secondItem="uAW-Hq-YSf" secondAttribute="bottom" constant="4" id="dPj-KU-6db"/>
                             <constraint firstItem="uAW-Hq-YSf" firstAttribute="top" secondItem="QeB-G4-lMb" secondAttribute="top" id="gWO-1E-eU5"/>
+                            <constraint firstItem="ZW5-Wc-SZh" firstAttribute="top" secondItem="SUj-yY-hTI" secondAttribute="bottom" constant="4" id="gsq-hE-vsJ"/>
+                            <constraint firstAttribute="trailing" secondItem="ZW5-Wc-SZh" secondAttribute="trailing" id="rN7-hk-pl1"/>
                             <constraint firstAttribute="trailing" secondItem="SUj-yY-hTI" secondAttribute="trailing" id="zwa-i0-zg0"/>
                         </constraints>
                     </view>
@@ -107,6 +117,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="btnViewAll" destination="V6d-sV-IxY" id="SVr-DS-1CL"/>
                 <outlet property="collectionView" destination="SUj-yY-hTI" id="uFt-Jv-1sB"/>

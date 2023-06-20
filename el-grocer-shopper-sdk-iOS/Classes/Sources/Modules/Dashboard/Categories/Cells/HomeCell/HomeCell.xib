@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -25,7 +26,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WIu-Gk-TEB">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="183"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="171"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y27-gC-WzO" customClass="FBShimmeringView">
                                 <rect key="frame" x="66" y="0.0" width="273" height="45"/>
@@ -77,7 +78,7 @@
                                 </constraints>
                             </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zvl-98-KOg">
-                                <rect key="frame" x="0.0" y="45" width="390" height="138"/>
+                                <rect key="frame" x="0.0" y="45" width="390" height="126"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="ziR-2U-Mcl">
                                     <size key="itemSize" width="148" height="194"/>
@@ -153,13 +154,23 @@
                             <constraint firstItem="y27-gC-WzO" firstAttribute="width" secondItem="WIu-Gk-TEB" secondAttribute="width" multiplier="0.7" id="xHP-5H-KBL"/>
                         </constraints>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UQj-xR-YIj">
+                        <rect key="frame" x="0.0" y="175" width="390" height="16"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="VsI-vJ-cSX"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
+                    <constraint firstItem="UQj-xR-YIj" firstAttribute="leading" secondItem="w7E-dV-zfJ" secondAttribute="leading" id="88G-Me-2l3"/>
                     <constraint firstAttribute="trailing" secondItem="WIu-Gk-TEB" secondAttribute="trailing" id="CDx-ue-Y51"/>
+                    <constraint firstItem="UQj-xR-YIj" firstAttribute="top" secondItem="WIu-Gk-TEB" secondAttribute="bottom" constant="4" id="JoY-sD-Lyh"/>
                     <constraint firstItem="WIu-Gk-TEB" firstAttribute="top" secondItem="w7E-dV-zfJ" secondAttribute="top" id="LUV-fH-Gg7"/>
+                    <constraint firstAttribute="trailing" secondItem="UQj-xR-YIj" secondAttribute="trailing" id="ZTD-GV-MTV"/>
                     <constraint firstItem="WIu-Gk-TEB" firstAttribute="leading" secondItem="w7E-dV-zfJ" secondAttribute="leading" id="cbo-MQ-qfT"/>
-                    <constraint firstAttribute="bottom" secondItem="WIu-Gk-TEB" secondAttribute="bottom" constant="8" id="oRa-l0-S8r"/>
+                    <constraint firstAttribute="bottom" secondItem="UQj-xR-YIj" secondAttribute="bottom" id="oBZ-Xg-wF0"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -180,6 +191,8 @@
                 <outlet property="topDistanceOfTitle" destination="LPs-xy-Ryo" id="QHm-x3-lKd"/>
                 <outlet property="viewBG" destination="WIu-Gk-TEB" id="SGH-7G-Rkf"/>
                 <outlet property="viewMoreButton" destination="tJF-7D-6rz" id="ZgS-yh-Lk5"/>
+                <outlet property="viewSeparator" destination="UQj-xR-YIj" id="OdB-Q1-XgK"/>
+                <outlet property="viewSeparatorHeightConstraint" destination="VsI-vJ-cSX" id="5tw-gh-7tO"/>
                 <outlet property="viewStore" destination="y8v-2f-Lr4" id="ldD-GS-hSy"/>
             </connections>
             <point key="canvasLocation" x="841.875" y="-102.99295774647888"/>
@@ -191,7 +204,10 @@
         </designable>
     </designables>
     <resources>
-        <image name="arrowRight" width="11.5" height="19"/>
+        <image name="arrowRight" width="25" height="24"/>
         <image name="instatntDeliveryBolt" width="20" height="20"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

@@ -53,10 +53,7 @@ class CategoriesCell: RxUITableViewCell {
     
     private func setBgColors() {
         
-        var color = ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
-        if !sdkManager.isGrocerySingleStore {
-            color = .white
-        }
+        var color = UIColor.clear //ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
         collectionView.backgroundColor = color
         topLabelBgView.backgroundColor = color
         contentBGView.backgroundColor = color
