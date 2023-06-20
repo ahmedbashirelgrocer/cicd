@@ -170,7 +170,7 @@ class NoStoreView: UIView {
     func configureNoProducts() {
         //You elGrocer cart is empty
         self.setUpApearence()
-        self.imgNoData.image = UIImage(name: "SearchNoData")
+        self.imgNoData.image = UIImage(name: sdkManager.isShopperApp ? "eg-SearchNoData" : "SearchNoData")
         self.lblTopMsg.text = localizedString("lbl_NoProductFound", comment: "")
         self.lblExtraDetail.text = localizedString("No_Item_Cart", comment: "")
         self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
@@ -182,7 +182,7 @@ class NoStoreView: UIView {
     func configureNoTicket() {
         //You elGrocer cart is empty
         self.setUpApearence()
-        self.imgNoData.image = UIImage(name: "SearchNoData")
+        self.imgNoData.image = UIImage(name: sdkManager.isShopperApp ? "eg-SearchNoData" : "SearchNoData")
         self.lblTopMsg.text = localizedString("no_ticket_title", comment: "")
         self.lblExtraDetail.text = localizedString("no_ticket_descr", comment: "")
         self.btnNoData.setTitle(localizedString("btn_no_data_create_ticket", comment: ""), for: .normal)
@@ -264,9 +264,9 @@ class NoStoreView: UIView {
         self.setUpApearence()
         let finalSearchString = " \"" + string + "\" "
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
-            self.imgNoData.image = UIImage(name: "SearchNoData")?.imageFlippedForRightToLeftLayoutDirection()
+            self.imgNoData.image = UIImage(name: sdkManager.isShopperApp ? "eg-SearchNoData" : "SearchNoData")?.imageFlippedForRightToLeftLayoutDirection()
         }else {
-            self.imgNoData.image = UIImage(name: "SearchNoData")
+            self.imgNoData.image = UIImage(name: sdkManager.isShopperApp ? "eg-SearchNoData" : "SearchNoData")
         }
         
         self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString  +  localizedString("lbl_atOurStores", comment: "")
@@ -292,7 +292,7 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         let finalSearchString = " \"" + string + "\" "
-        self.imgNoData.image = UIImage(name: "SearchNoData")
+        self.imgNoData.image = UIImage(name:  sdkManager.isShopperApp ? "eg-SearchNoData" : "SearchNoData")
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             imgNoData.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
@@ -327,7 +327,7 @@ class NoStoreView: UIView {
         
         self.setUpApearence()
         let finalSearchString = "\n \"" + searchString + "\"\n"
-        self.imgNoData.image = UIImage(name: "SearchNoData")
+        self.imgNoData.image = UIImage(name: sdkManager.isShopperApp ? "eg-SearchNoData" : "SearchNoData")
         self.lblTopMsg.text = localizedString("lbl_Initail_SearchFind", comment: "") + finalSearchString +  localizedString("lbl_atOurStores", comment: "")
         self.lblExtraDetail.text = localizedString("lbl_NoDataSearch", comment: "")
         self.btnNoData.isHidden = false
