@@ -552,6 +552,9 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     public func showAnimatedSplashView() {
         
         
+        HomePageData.shared.groceryA = []
+        HomePageData.shared.recipeList = []
+        
         let entryController =  ElGrocerViewControllers.splashAnimationViewController()
         let navEntryController : ElGrocerNavigationController = ElGrocerNavigationController.init(rootViewController: entryController)
         navEntryController.hideNavigationBar(true)

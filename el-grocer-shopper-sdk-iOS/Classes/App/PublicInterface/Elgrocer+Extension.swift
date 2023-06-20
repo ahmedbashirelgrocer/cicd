@@ -97,6 +97,7 @@ public extension ElGrocer {
         sdkManager.startBasicThirdPartyInit()
         ElGrocer.trackSDKLaunch(launchOptions)
         sdkManager.start(with: launchOptions)
+        LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: launchOptions.language ?? "Base", updateRootViewController: false)
     }
     
     
