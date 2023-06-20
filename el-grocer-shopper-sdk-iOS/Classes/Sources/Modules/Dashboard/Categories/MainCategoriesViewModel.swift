@@ -180,7 +180,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
         
         case is CategoriesCellViewModel:
-            return categories.count > 5 ? 290 : 180
+            return categories.count > 5 ? 306 : 196
         
         case is HomeCellViewModel:
             if indexPath.row == 0 && self.recentPurchasedVM.isNotEmpty {
