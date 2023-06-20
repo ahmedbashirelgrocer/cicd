@@ -80,15 +80,19 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     // PickerDetailView
     @IBOutlet weak var pickerDetailView: UIView!
-    @IBOutlet weak var pickerImage: UIImageView! {
-        didSet {
-            if sdkManager.isShopperApp { pickerImage.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor  }
-        }
-    }
+    @IBOutlet weak var pickerImage: UIImageView!
     @IBOutlet weak var lblPickerDetail: UILabel!
     
-    @IBOutlet weak var pickerChatImageView: UIImageView!
-    @IBOutlet weak var lblPickerChat: UILabel!
+    @IBOutlet weak var pickerChatImageView: UIImageView!{
+        didSet {
+            if sdkManager.isShopperApp { pickerChatImageView.image = UIImage(name: "nav_chat_icon-green") }
+        }
+    }
+    @IBOutlet weak var lblPickerChat: UILabel! {
+        didSet{
+            lblPickerChat.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        }
+    }
     
     // constraints
     @IBOutlet weak var orderDetailTopContraint: NSLayoutConstraint!
@@ -156,6 +160,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.getOrderDetail()
     }
     
+
     private func setNavigationAppearance() {
         
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
@@ -194,12 +199,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             ? _ = SpinnerView.showSpinnerViewInView(self.view)
             : SpinnerView.hideSpinnerView()
             self.bgView.isHidden = loading
-            
         }).disposed(by: disposeBag)
         self.viewModel.outputs.isNewOrder.subscribe(onNext: { [weak self] isNeedOrder in
             guard let self = self else { return }
             if isNeedOrder {
-                LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }
+                LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: sdkManager.isShopperApp ? "eg_order_confirmation":"OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }
                 self.orderDetailTopContraint.priority = UILayoutPriority.init(990)
                 self.addressDetailTopWithOrderDetailBottomConstraint.priority = UILayoutPriority.init(1000)
                 self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(100)
@@ -553,6 +557,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func callSendBirdChat(pickerID : String){
+        
         SendBirdManager().callSendBirdChat(pickerID: pickerID, orderId: self.order.dbID.stringValue, controller: self )
         
         

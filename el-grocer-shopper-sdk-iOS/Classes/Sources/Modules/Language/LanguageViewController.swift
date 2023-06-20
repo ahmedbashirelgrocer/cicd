@@ -117,14 +117,6 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
                (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
         languageTitleLabel.isHidden = hidden
         logoImgView.isHidden = hidden
         

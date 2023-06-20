@@ -63,7 +63,7 @@
                                                 <rect key="frame" x="8" y="72.333333333333343" width="186" height="40.333333333333343"/>
                                                 <subviews>
                                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" text="Add To Cart" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cqe-Na-qkk" userLabel="add to cart">
-                                                        <rect key="frame" x="5" y="5.9999999999999991" width="176" height="11.666666666666664"/>
+                                                        <rect key="frame" x="5" y="6" width="176" height="10"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Gotham-Light" family="Gotham" pointSize="10"/>
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -603,7 +603,7 @@
     </objects>
     <designables>
         <designable name="dvg-Wg-s4O">
-            <size key="intrinsicContentSize" width="57" height="13"/>
+            <size key="intrinsicContentSize" width="57" height="13.333333333333334"/>
         </designable>
     </designables>
     <resources>
