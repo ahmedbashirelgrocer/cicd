@@ -24,8 +24,8 @@ class genericStarView: UIView {
     }
     func setUpRatingView(){
         
-        starRatingView.fullImage = UIImage(name: "starFilled")
-        starRatingView.emptyImage = UIImage(name: "starUnfilled")
+        starRatingView.fullImage = UIImage(name: sdkManager.isShopperApp ? "eg-StarFilled" : "starFilled")
+        starRatingView.emptyImage = UIImage(name: sdkManager.isShopperApp ? "eg-StarUnfilled" : "starUnfilled")
         starRatingView.backgroundColor = UIColor.clear
         starRatingView.contentMode = UIView.ContentMode.scaleAspectFit
         self.starRatingView.rating = 0;

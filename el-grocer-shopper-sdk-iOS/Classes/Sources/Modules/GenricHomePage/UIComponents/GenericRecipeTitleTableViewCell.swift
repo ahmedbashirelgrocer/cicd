@@ -15,7 +15,7 @@ class GenericRecipeTitleTableViewCell: UITableViewCell {
     @IBOutlet var lblButtonTitle: UILabel!
     @IBOutlet var imgArrow: UIImageView! {
         didSet {
-            imgArrow.transform = CGAffineTransform(scaleX: -1, y: 1)
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {imgArrow.transform = CGAffineTransform(scaleX: -1, y: 1)}
         }
     }
     
@@ -36,7 +36,7 @@ class GenericRecipeTitleTableViewCell: UITableViewCell {
         self.lblTitle.text = localizedString("Order_Title", comment: "")
      
         self.lblButtonTitle.setBody3BoldUpperButtonLabelStyle()
-        self.lblButtonTitle.text = localizedString("lbl_View_All_Cap", comment: "")
+        self.lblButtonTitle.text = "" //localizedString("lbl_View_All_Cap", comment: "")
  
     }
     

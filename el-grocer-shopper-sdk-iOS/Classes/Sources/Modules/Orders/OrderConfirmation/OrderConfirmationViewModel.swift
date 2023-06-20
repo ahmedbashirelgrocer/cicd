@@ -31,6 +31,7 @@ protocol OrderConfirmationViewModelOutput {
     var banners: Observable<[BannerDTO]?> { get } // post checkout banners list
     var error: Observable<ElGrocerError> { get } // error in api if any
     var orderIdForPublicUse: String { get }
+    func reloadData()
 }
 
 protocol OrderConfirmationViewModelType: OrderConfirmationViewModelInput, OrderConfirmationViewModelOutput {
@@ -86,6 +87,7 @@ class OrderConfirmationViewModel: OrderConfirmationViewModelType {
     var orderIdForPublicUse : String = ""
     private var apiClinet: OrderStatusMedule
     private var isNewOrderLocalObj: Bool = false
+    private var isApiCalling: Bool = false
     private var disposeBag = DisposeBag()
     
     // MARK: Initlizations
@@ -100,6 +102,10 @@ class OrderConfirmationViewModel: OrderConfirmationViewModelType {
         self.getBanners()
         self.isArbicSubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected())
         
+    }
+    
+    func reloadData() {
+        if  !self.isApiCalling { self.orderId.onNext(self.orderIdForPublicUse) }
     }
     
     
@@ -142,8 +148,10 @@ private extension OrderConfirmationViewModel {
     
     private func getOrderDetails(orderId: String) {
         self.loadingSubject.onNext(true)
+        self.isApiCalling = true
         self.apiClinet.getOrderDetail(orderId) { (result) in
             self.loadingSubject.onNext(false)
+            self.isApiCalling = false
             switch result {
                 case .success(let response):
                     if let orderDict = response["data"] as? NSDictionary {

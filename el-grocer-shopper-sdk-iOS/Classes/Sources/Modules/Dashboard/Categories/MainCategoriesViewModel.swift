@@ -188,7 +188,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             }
             
             if self.viewModels[indexPath.section].items[indexPath.row] is HomeCellViewModel {
-                return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 321 : .leastNonzeroMagnitude
+                return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 321 : CGFloat(0.01)
             } else if self.viewModels[indexPath.section].items[indexPath.row] is GenericBannersCellViewModel {
                 return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
             } else {

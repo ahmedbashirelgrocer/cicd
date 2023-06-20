@@ -16,7 +16,7 @@ class LottieAniamtionViewUtil{
           let animationView = LottieAnimationView()
           animationView.animation = LottieAnimation.named(animationPath, bundle: .resource)
           if animationView.animation != nil {
-              animationView.contentMode = .scaleAspectFill
+              //animationView.contentMode = .scaleAspectFill
               animationView.backgroundBehavior = .pauseAndRestore
               animationView.loopMode = loopMode
               //  animationView.frame.size = animationBackgroundView.frame.size

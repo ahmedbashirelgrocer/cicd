@@ -23,9 +23,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     private var disposeBag = DisposeBag()
     
     @IBOutlet weak var bgView: UIView!
-    
     @IBOutlet weak var scrollView: UIScrollView!
-    
+
     @IBOutlet weak var scrollContentSize: NSLayoutConstraint!
     @IBOutlet var lottieAnimation: UIView!
     @IBOutlet weak var lblNewOrderSuccessMsg: UILabel! {
@@ -33,13 +32,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             lblNewOrderSuccessMsg.setH4SemiBoldStyle()
             lblNewOrderSuccessMsg.text =  localizedString("lbl_Hurray_Success_Msg", comment: "")
             lblNewOrderSuccessMsg.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
-            
         }
     }
     @IBOutlet weak var groceryImage: UIImageView!
     @IBOutlet weak var lblGroceryName: UILabel!
     @IBOutlet weak var lblOrderNumber: UILabel!
-    
     @IBOutlet weak var lblOrderDetail: UILabel! {
         didSet {
             lblOrderDetail.text =  localizedString("lbl_Order_Details", comment: "")
@@ -54,7 +51,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet weak var lblOrderDetailNote: UILabel!
     @IBOutlet weak var lblFreshItemNote: UILabel!
     @IBOutlet weak var lblAddressNote: UILabel!
-    
     @IBOutlet weak var addressPin: UIImageView! {
         didSet {
             if sdkManager.isShopperApp {addressPin.image = UIImage(name: "elDeliveryAddressPin")}
@@ -65,7 +61,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             viewBanner.layer.cornerRadius = 5
         }
     }
-    
     // status view
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var lblEstimatedDelivery: UILabel! {
@@ -80,16 +75,18 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     // PickerDetailView
     @IBOutlet weak var pickerDetailView: UIView!
-    @IBOutlet weak var pickerImage: UIImageView! {
+    @IBOutlet weak var pickerImage: UIImageView!
+    @IBOutlet weak var lblPickerDetail: UILabel!
+    @IBOutlet weak var pickerChatImageView: UIImageView!{
         didSet {
-            if sdkManager.isShopperApp { pickerImage.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor  }
+            if sdkManager.isShopperApp { pickerChatImageView.image = UIImage(name: "nav_chat_icon-green") }
         }
     }
-    @IBOutlet weak var lblPickerDetail: UILabel!
-    
-    @IBOutlet weak var pickerChatImageView: UIImageView!
-    @IBOutlet weak var lblPickerChat: UILabel!
-    
+    @IBOutlet weak var lblPickerChat: UILabel! {
+        didSet{
+            lblPickerChat.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        }
+    }
     // constraints
     @IBOutlet weak var orderDetailTopContraint: NSLayoutConstraint!
     @IBOutlet weak var orderDetailHeightContstraint: NSLayoutConstraint!
@@ -121,41 +118,16 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.setNavigationAppearance()
-        /*
-        if isNeedToDoViewAllocation {
-            
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteBackgroundColor()
-            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(false)
-                // cross is used against backbutton
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            if let nav = (self.navigationController as? ElGrocerNavigationController) {
-                if let bar = nav.navigationBar as? ElGrocerNavigationBar {
-                    bar.chatButton.chatClick = {
-                        Thread.OnMainThread {
-                            guard self.order.grocery != nil else {return }
-                            let groceryID = self.order.grocery.getCleanGroceryID()
-                            let sendBirdDeskManager = SendBirdDeskManager(controller: self, orderId: self.order.dbID.stringValue, type: .orderSupport, groceryID)
-                            sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
-                        }
-                    }
-                }
-            }
-            addBackButtonWithCrossIconLeftSide()
-            self.addStatusHeader()
-//            self.isNeedToDoViewAllocation = false
-            
-        }
-   
-        self.getOrderDetail()
-        */
-        
         //Todo: this should be removed; all data handling should be from view model.
         self.getOrderDetail()
     }
-    
+     override func viewDidAppear(_ animated: Bool) {
+         super.viewDidAppear(animated)
+         self.addBackButtonWithCrossIconRightSide(sdkManager.isShopperApp ? ApplicationTheme.currentTheme.viewWhiteBGColor : ApplicationTheme.currentTheme.newBlackColor)
+         self.setNavigationAppearance()
+        // self.viewModel.reloadData()
+     }
+
     private func setNavigationAppearance() {
         
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
@@ -177,11 +149,10 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 }
             }
         }
+        self.btnOrderStatusUserAction.backgroundColor = ApplicationTheme.currentTheme.secondaryDarkGreenColor
         
     }
     private func bindViews() {
-        
-       //
         
         self.viewModel.outputs.error.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
@@ -194,12 +165,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             ? _ = SpinnerView.showSpinnerViewInView(self.view)
             : SpinnerView.hideSpinnerView()
             self.bgView.isHidden = loading
-            
         }).disposed(by: disposeBag)
         self.viewModel.outputs.isNewOrder.subscribe(onNext: { [weak self] isNeedOrder in
             guard let self = self else { return }
             if isNeedOrder {
-                LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }
+                LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: sdkManager.isShopperApp ? "eg_order_confirmation":"OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }
                 self.orderDetailTopContraint.priority = UILayoutPriority.init(990)
                 self.addressDetailTopWithOrderDetailBottomConstraint.priority = UILayoutPriority.init(1000)
                 self.addressDetailTopWithOrderStatusBottomConstraint.priority = UILayoutPriority.init(100)
@@ -553,6 +523,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     func callSendBirdChat(pickerID : String){
+        
         SendBirdManager().callSendBirdChat(pickerID: pickerID, orderId: self.order.dbID.stringValue, controller: self )
         
         
@@ -745,10 +716,6 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
 
    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.addBackButtonWithCrossIconRightSide(sdkManager.isShopperApp ? ApplicationTheme.currentTheme.viewWhiteBGColor : ApplicationTheme.currentTheme.newBlackColor)
-    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)

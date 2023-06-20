@@ -249,9 +249,13 @@ class SendBirdManager {
         guard UserDefaults.isUserLoggedIn() else {
             return
         }
-        
-        
         func startPickerChat() {
+            
+            Thread.OnMainThread { [weak controller] in
+                guard let controller = controller else { return }
+                let _ = SpinnerView.showSpinnerViewInView(controller.view)
+            }
+          
             
             self.setUserUpdatedLanguage()
             let pickerIdWithPrefix = pickerPrefix + pickerID
@@ -265,6 +269,7 @@ class SendBirdManager {
                 if doesExist{
                     if channel.isPublic {
                         channel.join(completionHandler: { (error) in
+                            SpinnerView.hideSpinnerView()
                             guard error == nil else {
                                     // Handle error.
                                elDebugPrint(error?.localizedDescription ?? "")
@@ -272,6 +277,8 @@ class SendBirdManager {
                             }
                             self.navigateTochannelViewController(channel: channel, controller: controller, orderId: orderId)
                         })
+                    }else {
+                        SpinnerView.hideSpinnerView()
                     }
                     
                 }else{
@@ -279,12 +286,14 @@ class SendBirdManager {
                         guard error == nil else {
                                 // Handle error.
                            elDebugPrint(error?.localizedDescription ?? "")
+                            SpinnerView.hideSpinnerView()
                             return
                         }
                         DispatchQueue.main.async {
                             if let channelUrl = groupChannel{
                                 self.navigateTochannelViewController(channel: channelUrl, controller: controller, orderId: orderId)
                             }
+                            SpinnerView.hideSpinnerView()
                         }
                     }
                 }
