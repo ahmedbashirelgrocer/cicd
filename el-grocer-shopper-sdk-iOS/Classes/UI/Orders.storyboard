@@ -2210,9 +2210,9 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EkA-fC-02b" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EkA-fC-02b" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                                 <rect key="frame" x="16" y="118.33333333333331" width="326" height="44"/>
-                                                                <color key="backgroundColor" red="0.52941176469999995" green="0.3294117647" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="44" id="JqS-qu-VO2"/>
                                                                 </constraints>

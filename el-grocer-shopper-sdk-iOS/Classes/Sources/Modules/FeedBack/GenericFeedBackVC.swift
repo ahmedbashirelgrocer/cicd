@@ -143,7 +143,7 @@ class GenericFeedBackVC: UIViewController {
         (self.navigationController as? ElGrocerNavigationController)?.hideBorder(true)
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        addBackButtonWithCrossIconLeftSide()
+        addBackButtonWithCrossIconLeftSide(sdkManager.isShopperApp ? .white : .newBlackColor())
     }
     
     override func crossButtonClick() {
