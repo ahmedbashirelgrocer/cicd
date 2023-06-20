@@ -8,13 +8,16 @@
 
 import UIKit
 
-class ShopByCategoriesViewController: UIViewController {
+class ShopByCategoriesViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet var categoryCollectionView: UICollectionView!{
         didSet{
             categoryCollectionView.backgroundColor = .textfieldBackgroundColor()
+            // categoryCollectionView.superview?.layer.cornerRadius = 24
+            // categoryCollectionView.superview?.clipsToBounds = true
         }
     }
+    @IBOutlet weak var headerViewTopAncher: NSLayoutConstraint!
     @IBOutlet var headerView: UIView!//GenericHyperMrketHeader!
 
     lazy var searchBarHeader : GenericHyperMarketHeader = {
@@ -25,10 +28,25 @@ class ShopByCategoriesViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         setTableViewHeader()
     }
+    
+    private var offset: CGFloat = 0 {
+        didSet {
+            let diff = offset - oldValue
+            if diff > 0 { effectiveOffset = min(90, effectiveOffset + diff) }
+            else { effectiveOffset = max(0, effectiveOffset + diff) }
+        }
+    }
+    private var effectiveOffset: CGFloat = 0
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        offset = scrollView.contentOffset.y
+        headerViewTopAncher.constant = -min(effectiveOffset, scrollView.contentOffset.y)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        view.backgroundColor = .textfieldBackgroundColor()
         setDelegates()
         setNavigationBarAppearance()
         setDelegatesCollection()
