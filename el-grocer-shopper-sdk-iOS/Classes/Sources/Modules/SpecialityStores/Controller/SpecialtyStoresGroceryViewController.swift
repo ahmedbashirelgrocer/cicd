@@ -474,7 +474,7 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
 //        self.navigationController?.pushViewController(vc, animated: true)
         
         // Logging Segment Analytics Event of type Store Clicked
-        let storeClickedEvent = StoreClickedEvent(grocery: self.groceryArray[indexPath.row], source: nil)
+        let storeClickedEvent = StoreClickedEvent(grocery: self.groceryArray[indexPath.row], source: .allStoreScreen)
         SegmentAnalyticsEngine.instance.logEvent(event: storeClickedEvent)
         
         self.dismiss(animated: true) {
