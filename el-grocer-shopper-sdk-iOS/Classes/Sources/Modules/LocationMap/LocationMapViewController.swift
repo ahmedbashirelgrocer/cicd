@@ -664,6 +664,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         viewModel.isLocationFetching.asObservable().observeOn(MainScheduler.instance)
             .bind { [unowned self] (isLocationFetching) in
                 self.detectingLocationView.isHidden = !(isLocationFetching ?? false)
+                self.lblAddress.isHidden = (isLocationFetching ?? false)
             }.disposed(by: disposeBag)
         
         viewModel.selectedLocation.asObservable().observeOn(MainScheduler.instance)
@@ -710,6 +711,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             .bind { [unowned self](address) in
                 guard let address = address else {
                     self.detectingLocationView.isHidden = !(viewModel.isLocationFetching.value ?? false)
+                    self.lblAddress.isHidden = (viewModel.isLocationFetching.value ?? false)
                     return
                 }
                 self.lblAddress.text  =  address.formattedAddress ?? "Unable to find location"
@@ -720,6 +722,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             .bind { [unowned self](address) in
                 guard let address = address else {
                     self.detectingLocationView.isHidden = !(viewModel.isLocationFetching.value ?? false)
+                    self.lblAddress.isHidden = (viewModel.isLocationFetching.value ?? false)
                     return
                 }
                 var finalAddress = address
