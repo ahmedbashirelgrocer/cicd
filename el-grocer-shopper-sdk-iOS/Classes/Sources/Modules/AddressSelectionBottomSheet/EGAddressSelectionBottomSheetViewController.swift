@@ -57,7 +57,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
             addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
             var height : CGFloat = CGFloat((addressList.count * 100) + 144)
             if height >= ScreenSize.SCREEN_HEIGHT {
-                height = ScreenSize.SCREEN_HEIGHT - 200
+                height = ScreenSize.SCREEN_HEIGHT * 0.7
             }
             let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
             addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))

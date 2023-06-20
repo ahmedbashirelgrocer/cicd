@@ -13,6 +13,7 @@ import FBSDKCoreKit
 import STPopup
 import IQKeyboardManagerSwift
 import Adyen
+import SDWebImage
 
 enum searchType {
     
@@ -923,7 +924,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
             
             if let banner = combineProductsBanners[indexPath.row] as? BannerCampaign,
                let url = URL(string: banner.url) {
-                cell.imageView.sd_setImage(with: url)
+                cell.imageView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions(rawValue: 7), completed: nil)
                 handleNavigationsFor(cell, and: banner)
             }
             

@@ -128,6 +128,34 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         return locationHeader!
     }()
     
+    /// Begin Collapsing Table Header Shopper
+    lazy var locationHeaderShopper : ElGrocerStoreHeaderShopper = {
+        let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        return locationHeader!
+    }()
+    private var effectiveOffset: CGFloat = 0
+    private var offset: CGFloat = 0 {
+        didSet {
+            let diff = offset - oldValue
+            if diff > 0 { effectiveOffset = min(60, effectiveOffset + diff) }
+            else { effectiveOffset = max(0, effectiveOffset + diff) }
+        }
+    }
+    func scrollViewDidScroll(forShopper scrollView: UIScrollView) {
+        offset = scrollView.contentOffset.y
+        let value = min(effectiveOffset, scrollView.contentOffset.y)
+        
+        self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
+        self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+        self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
+    }
+    @objc func backButtonPressed() {
+        self.backButtonClick()
+    }
+    /// End Collapsing Table Header Shopper
+    
     lazy var openOrdersView : ElgrocerOpenOrdersView = {
         let orderView = ElgrocerOpenOrdersView.loadFromNib()
         orderView?.translatesAutoresizingMaskIntoConstraints = false
@@ -206,12 +234,32 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func addLocationHeader() {
         
+        // For shoppor
+        if sdkManager.launchOptions?.marketType == .shopper {
+            addLocationHeaderShopper()
+            return
+        }
+        
+        // For all other
+        
         self.view.addSubview(self.locationHeaderFlavor)
         self.setLocationViewFlavorHeaderConstraints()
 
         self.view.addSubview(self.locationHeader)
         self.setLocationViewConstraints()
         
+    }
+    
+    private func addLocationHeaderShopper() {
+        
+        self.view.addSubview(self.locationHeaderShopper)
+        
+        NSLayoutConstraint.activate([
+            locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor),
+            locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor),
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor)
+        ])
     }
     
     private func adjustHeaderDisplay() {
@@ -340,7 +388,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             
             if !self.isComingFromGroceryLoaderVc {
                 self.setTableViewHeader(self.grocery )
-                locationHeader.setSlotData()
+                if sdkManager.launchOptions?.marketType == .shopper {
+                    locationHeaderShopper.setSlotData()
+                } else {
+                    locationHeader.setSlotData()
+                }
                 self.checkUniversalSearchData()
                 if self.selectedBannerLink != nil {
                     self.bannerTapHandlerWithBannerLink(self.selectedBannerLink!)
@@ -435,7 +487,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if let controller = self.navigationController as? ElGrocerNavigationController {
-            controller.setNavBarHidden(isSingleStore)
+            controller.setNavBarHidden(isSingleStore || isShopper)
             
             controller.setupGradient()
         }
@@ -534,7 +586,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     func setObjectAllocationAndDelegate() {
         self.dataHandler = RecipeDataHandler()
         self.dataHandler.delegate = self
-        locationHeader.currentVC = self
+        if sdkManager.launchOptions?.marketType == .shopper {
+            locationHeaderShopper.currentVC = self
+        } else {
+            locationHeader.currentVC = self
+        }
     }
     
     func changeGroceryForSelection(_ isNeedToGoToBasket : Bool = false , _ bannerLink : BannerLink? = nil) {
@@ -665,6 +721,15 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         guard let grocery = optGrocery  else{
             return
         }
+        
+        if sdkManager.launchOptions?.marketType == .shopper {
+            DispatchQueue.main.async {
+                self.locationHeaderShopper.configuredLocationAndGrocey(grocery)
+                self.tableViewCategories.tableHeaderView = nil
+            }
+            return
+        }
+        
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
@@ -1991,7 +2056,7 @@ extension MainCategoriesViewController {
         if let updateGrocery = Grocery.getGroceryById(grocery?.dbID ?? "", context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             self.grocery = updateGrocery
         }
-        self.locationHeader.setSlotData()
+        isShopper ? locationHeaderShopper.setSlotData():locationHeader.setSlotData()
         self.setTableViewHeader(self.grocery)
         self.cancelAllPreviousWorkOperations()
         self.model.data.setData()
@@ -2178,6 +2243,14 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
+        // For shopper
+        if sdkManager.launchOptions?.marketType == .shopper {
+            self.scrollViewDidScroll(forShopper: scrollView)
+            return
+        }
+        
+        // For others
+        
        // locationHeader.myGroceryName.sizeToFit()
         scrollView.layoutIfNeeded()
         
@@ -2271,3 +2344,4 @@ extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
 }
 
+var isShopper: Bool { sdkManager.launchOptions?.marketType == .shopper }

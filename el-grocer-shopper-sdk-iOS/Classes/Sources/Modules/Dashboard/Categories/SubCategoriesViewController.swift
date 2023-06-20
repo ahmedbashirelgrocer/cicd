@@ -465,7 +465,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             
             if indexPath.row == 0 {
                // let cellSize = CGSize(width: collectionView.frame.size.width , height: self.searchHeaderHeight)
-                let cellSize = CGSize(width: collectionView.frame.size.width , height: 1)
+                let cellSize = CGSize(width: collectionView.frame.size.width , height: 6)
                 return cellSize
             }else if indexPath.row == 1 {
                 guard self.viewHandler.homeFeed != nil else {

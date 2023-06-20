@@ -35,6 +35,7 @@ class HomeMainCategoriesTableCell: UITableViewCell {
         self.layoutIfNeeded()
         if self.cellHeight.constant != categoryCollectionView.contentSize.height {
             self.cellHeight.constant = categoryCollectionView.contentSize.height
+            self.invalidateIntrinsicContentSize()
         }
     }
     
@@ -66,8 +67,8 @@ class HomeMainCategoriesTableCell: UITableViewCell {
         
         self.cellType = cellType
         self.dataA = dataA
-        self.cellHeight.constant = ((ScreenSize.SCREEN_WIDTH - 64)/3 + 16) * floor(CGFloat(dataA.count) / 3)
-        self.categoryCollectionView.reloadDataOnMainThread()
+        self.cellHeight.constant = ((ScreenSize.SCREEN_WIDTH - 64)/3 + 30) * floor(CGFloat(dataA.count) / 3)
+        self.categoryCollectionView.reloadData()
         self.invalidateIntrinsicContentSize()
         
     }
