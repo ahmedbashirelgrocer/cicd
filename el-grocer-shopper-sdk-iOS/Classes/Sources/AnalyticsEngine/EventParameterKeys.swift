@@ -86,5 +86,7 @@ enum EventParameterKeys {
     
     static let attemptCount     = "attemptCount"
     
-    
+    static let authToken            = "authToken"
+    static let variant              = "variant"
+    static let experimentType       = "experimentType"
 }

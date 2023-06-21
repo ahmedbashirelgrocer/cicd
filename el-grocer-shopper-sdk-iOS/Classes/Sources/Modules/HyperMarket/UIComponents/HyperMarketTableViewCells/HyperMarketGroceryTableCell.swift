@@ -14,7 +14,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     @IBOutlet var cellBGView: UIView!{
         didSet{
             cellBGView.backgroundColor = .navigationBarWhiteColor()
-            cellBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
+            cellBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner], radius: 4, withShadow: false)
         }
     }
     @IBOutlet var imgGrocery: UIImageView!

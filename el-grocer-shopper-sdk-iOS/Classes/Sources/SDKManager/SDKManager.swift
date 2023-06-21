@@ -411,6 +411,8 @@ class SDKManager: NSObject, SDKManagerType  {
         configuration.flushAt = 3
         configuration.flushInterval = 10
         configuration.trackApplicationLifecycleEvents = false
+        configuration.enableAdvertisingTracking = true
+        configuration.adSupportBlock = { ABTestManager.shared.authToken }
         Segment.Analytics.setup(with: configuration)
         
     }

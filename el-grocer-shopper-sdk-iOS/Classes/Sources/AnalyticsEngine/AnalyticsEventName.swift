@@ -79,9 +79,6 @@ enum AnalyticsEventName {
     
     // MARK: SDK
     static let sdkLaunched            = "SDK Launched"
-    
-    
-   
         
     // MARK: Shopper App Specfic events
     static let storeCategoryClicked = "Store Category Clicked"
@@ -98,5 +95,8 @@ enum AnalyticsEventName {
     static let applicationOpened        = "Application Opened"
     static let applicationBackgrounded  = "Application Backgrounded"
     static let otpAttempts              = "OTP Attempts"
+    
+    // MARK: A/B Testing
+    static let abTestExperiment              = "AB Test Experiment"
     
 }

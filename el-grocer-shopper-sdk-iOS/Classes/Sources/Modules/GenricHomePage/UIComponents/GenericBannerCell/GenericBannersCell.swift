@@ -36,7 +36,11 @@ class GenericBannersCell: RxUITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       
+    
+        let sview = UIView.init()
+        sview.backgroundColor = .clear
+        selectedBackgroundView = sview
+        
         pageControl.hidesForSinglePage = true
         bannerList.currentPage = { [weak self] (page , collectionView ) in
             guard let self = self else {return}
