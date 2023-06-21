@@ -170,7 +170,7 @@ class NetworkLayer {
     func post( _ URLString: String, parameters: Any?, progress :   callProgress , success : @escaping SuccessCase , failure : @escaping FailureCase ) -> URLSessionDataTask? {
         
         requestManager.requestSerializer.setValue(SDKManager.shared.launchOptions?.loyaltyID ?? "", forHTTPHeaderField: "Loyalty-Id")
-        requestManager.requestSerializer.setValue(sdkManager.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
+        requestManager.requestSerializer.setValue(SDKManager.shared.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "market_type_id")
         
         let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  self.expireDate ?? Date().dataInGST() ?? Date() )
         guard  mins > 0  else {
