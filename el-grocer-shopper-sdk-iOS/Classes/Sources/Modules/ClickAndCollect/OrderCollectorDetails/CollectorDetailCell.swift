@@ -34,13 +34,16 @@ class CollectorDetailCell: UITableViewCell {
         //MARK: Only For setup remove
         initialAssignValues(detailsType: detailsType)
         lblName.text = "James, 0551234567"
-        btnRadio.setImage(UIImage(name: "RadioButtonUnfilled"), for: .normal)
+        
+        
+        
+        btnRadio.setImage(UIImage(name: sdkManager.isShopperApp ? "egRadioButtonUnFilled" : "RadioButtonUnFilled"), for: .normal)
     }
     func setRadioButtonFilled(setFilled : Bool){
         if setFilled{
-            btnRadio.setImage(UIImage(name: "RadioButtonFilled"), for: .normal)
+            btnRadio.setImage(UIImage(name: sdkManager.isShopperApp ? "egRadioButtonFilled" : "RadioButtonFilled"), for: .normal)
         }else{
-            btnRadio.setImage(UIImage(name: "RadioButtonUnfilled"), for: .normal)
+            btnRadio.setImage(UIImage(name: sdkManager.isShopperApp ? "egRadioButtonUnFilled" : "RadioButtonUnFilled"), for: .normal)
         }
     }
     func initialAssignValues(detailsType : CollectorDetailsType){
