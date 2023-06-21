@@ -77,7 +77,7 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
     }
     
     func setupAppearance() {
-        
+      
        self.oldPasswordTextField.placeholder = localizedString("old_Password_PlaceHolder", comment: "")
        self.newPasswordTextField.placeholder = localizedString("new_Password_PlaceHolder", comment: "")
        self.confirmPasswordTextField.placeholder = localizedString("confirm_Password_PlaceHolder", comment: "")
@@ -92,9 +92,11 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
         
         
         
-          self.oldPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.oldPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
-          self.newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.newPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
-          self.confirmPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.confirmPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: UIColor.textfieldBackgroundColor()])
+        
+        
+          self.oldPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.oldPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.secondaryBlackColor])
+          self.newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.newPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.secondaryBlackColor])
+          self.confirmPasswordTextField.attributedPlaceholder = NSAttributedString.init(string: self.confirmPasswordTextField.placeholder ?? "" , attributes: [NSAttributedString.Key.foregroundColor: ApplicationTheme.currentTheme.secondaryBlackColor])
         
         
         
