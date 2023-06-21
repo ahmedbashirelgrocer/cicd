@@ -90,7 +90,7 @@ struct Configs {
     var isHomeTier2: Bool
     var storeTypeStyle: StoreTypeStyle
     var availableStoresStyle: AvailableStoresStyle
-    var variant: ExperimentVarient
+    var variant: String
     
     private let defaults = Foundation.UserDefaults.standard
     
@@ -99,7 +99,7 @@ struct Configs {
         isHomeTier2 = (defaults.value(forKey: Keys.isHomeTier2.rawValue) as? Bool) ?? false
         storeTypeStyle = StoreTypeStyle(rawValue: defaults.string(forKey: Keys.storeTypeStyle.rawValue) ?? "") ?? .text
         availableStoresStyle = AvailableStoresStyle(rawValue: defaults.string(forKey: Keys.availableStoresStyle.rawValue) ?? "") ?? .list
-        variant = ExperimentVarient(rawValue: defaults.string(forKey: Keys.variant.rawValue) ?? "") ?? .baseline
+        variant = defaults.string(forKey: Keys.variant.rawValue) ?? "Baseline"
     }
     
     init(remoteConfig: RemoteConfig) {
@@ -114,16 +114,16 @@ struct Configs {
             let style = AvailableStoresStyle(rawValue: styleString) {
             self.availableStoresStyle = style
         }
-        if let styleString = remoteConfig[Keys.variant.rawValue].stringValue,
-            let style = ExperimentVarient(rawValue: styleString) {
-            self.variant = style
+        
+        if let variant = remoteConfig[Keys.variant.rawValue].stringValue {
+            self.variant = variant
         }
         
         defaults.set(isHomeTier1, forKey: Keys.isHomeTier1.rawValue)
         defaults.set(isHomeTier2, forKey: Keys.isHomeTier2.rawValue)
         defaults.set(storeTypeStyle.rawValue, forKey: Keys.storeTypeStyle.rawValue)
         defaults.set(availableStoresStyle.rawValue, forKey: Keys.availableStoresStyle.rawValue)
-        defaults.set(variant.rawValue, forKey: Keys.variant.rawValue)
+        defaults.set(variant, forKey: Keys.variant.rawValue)
     }
     
     enum Keys: String {
@@ -142,12 +142,5 @@ struct Configs {
     enum AvailableStoresStyle: String {
         case list,
              grid
-    }
-    
-    enum ExperimentVarient: String {
-        case baseline,
-             noBanner = "no_banner",
-             categoryImageText = "category_image_text",
-             storeGrid = "store_grid"
     }
 }

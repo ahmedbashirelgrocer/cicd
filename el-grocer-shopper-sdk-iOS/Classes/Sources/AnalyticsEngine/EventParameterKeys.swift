@@ -85,4 +85,5 @@ enum EventParameterKeys {
     static let pushNotifcation      = "pushNotification"
     static let authToken            = "authToken"
     static let variant              = "variant"
+    static let experimentType       = "experimentType"
 }

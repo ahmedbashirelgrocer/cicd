@@ -96,7 +96,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         // Log AB Test Event
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let authToken = ABTestManager.shared.authToken
-            let variant = ABTestManager.shared.configs.variant.rawValue
+            let variant = ABTestManager.shared.configs.variant
             SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant))
         }
     }

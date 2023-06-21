@@ -70,11 +70,12 @@ struct ABTestExperimentEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(authToken: String, variant: String) {
-        self.eventType = .track(eventName: AnalyticsEventName.abTesting)
+    init(authToken: String, variant: String, experimentType: String = "home") {
+        self.eventType = .track(eventName: AnalyticsEventName.abTestExperiment)
         self.metaData = [
             EventParameterKeys.authToken: authToken,
-            EventParameterKeys.variant: variant
+            EventParameterKeys.variant: variant,
+            EventParameterKeys.experimentType: experimentType
         ]
     }
 }
