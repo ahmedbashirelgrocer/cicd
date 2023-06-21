@@ -429,7 +429,7 @@ class SDKManager: NSObject  {
         
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
         
-        let configuration = AnalyticsConfiguration(writeKey: "twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b")
+        let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
         
         configuration.use(SEGCleverTapIntegrationFactory())
         configuration.flushAt = 3
