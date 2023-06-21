@@ -57,8 +57,8 @@
 "aed" = "AED";
 
 // Force Update
-"force_update_title" = "Update Required";
-"force_update_subtitle" = "Hi There! Your App version is outdated. We've made some important improvements so please download the latest elGrocer version from the App Store. Thanks!";
+"force_update_title" = "It’s time to update elGrocer app!";
+"force_update_subtitle" = "We added new features and fixed bugs to provide you with the best grocery shopping experience.";
 "force_update_button_title" = "Update";
 
 // Login & Registration
