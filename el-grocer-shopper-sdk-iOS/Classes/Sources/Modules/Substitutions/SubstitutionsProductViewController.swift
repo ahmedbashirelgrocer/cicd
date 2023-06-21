@@ -179,7 +179,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var btnShowBillDetails: UIButton!{
         didSet{
             btnShowBillDetails.setTitle(localizedString("btn_show_bill_details", comment: ""), for: UIControl.State())
-            btnShowBillDetails.setImage(UIImage(name: "billDetailsIcon"), for: UIControl.State())
+            btnShowBillDetails.setImage(UIImage(name: sdkManager.isShopperApp ? "eg-billDetailsIcon" : "billDetailsIcon"), for: UIControl.State())
             btnShowBillDetails.semanticContentAttribute = .forceLeftToRight
             btnShowBillDetails.setCaptionBoldSecondaryGreenStyle()
         }

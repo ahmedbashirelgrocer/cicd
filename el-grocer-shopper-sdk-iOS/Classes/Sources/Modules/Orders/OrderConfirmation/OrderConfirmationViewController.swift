@@ -120,6 +120,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         super.viewWillAppear(animated)
         //Todo: this should be removed; all data handling should be from view model.
         self.getOrderDetail()
+        if !self.statusView.isHidden  {
+            self.viewModel.reloadData()
+        }
     }
      override func viewDidAppear(_ animated: Bool) {
          super.viewDidAppear(animated)
@@ -252,7 +255,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 self.orderProgressView.progressTintColor = ApplicationTheme.currentTheme.promotionYellowColor
                 self.lblOrderStatus.textColor = ApplicationTheme.currentTheme.promotionYellowColor
             }else if status == OrderStatus.canceled {
-                self.orderStatusViewHeightConstraint.constant = 180
+               // self.orderStatusViewHeightConstraint.constant = 180
                 self.orderProgressView.progressTintColor = ApplicationTheme.currentTheme.redInfoColor
                 self.lblOrderStatus.textColor = ApplicationTheme.currentTheme.redInfoColor
             }else if status != .enRoute {

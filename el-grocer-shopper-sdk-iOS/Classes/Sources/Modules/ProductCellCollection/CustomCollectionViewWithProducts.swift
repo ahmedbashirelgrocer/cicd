@@ -367,9 +367,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                             productCell.productContainer.layer.borderWidth = 1.8
                             productCell.quantityLabel.text = "\(product.count.intValue)"
-//                            productCell.quantityLabel.textColor = UIColor.newBlackColor()
-//                            productCell.plusButton.imageView?.tintColor = UIColor.navigationBarColor()
-//                            productCell.minusButton.imageView?.tintColor = UIColor.navigationBarColor()
+
                             productCell.productCellCounterBGImageView.image = UIImage(name: "icProductCellGreenBG")
                             productCell.imageCrossState.image = UIImage(name: "Product Minus")
                             productCell.imageCrossState.backgroundColor = UIColor.red
@@ -378,11 +376,14 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                 productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.buttonEnableBGColor.cgColor
                                 productCell.productContainer.layer.borderWidth = 2
                                 productCell.productBGShadowView.layer.masksToBounds = true
+                                productCell.addToCartButton.text = productCell.quantityLabel.text
+                                
                          
-                            }else{
+                            }else {
                                 productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
                                 productCell.productContainer.layer.borderWidth = 0
                                 productCell.productBGShadowView.layer.masksToBounds = false
+                                productCell.addToCartButton.text = "＋"
                             }
                             
                             productCell.plusButton.setImage(UIImage(name: "add_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -398,7 +399,7 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                     
                                     productCell.plusButton.isEnabled = true
 //                                    productCell.plusButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                                    productCell.plusButton.imageView?.tintColor = UIColor.smilePrimaryPurpleColor()
+                                    productCell.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
 //                                    productCell.plusButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
                                     productCell.buttonsView.isHidden = false
 

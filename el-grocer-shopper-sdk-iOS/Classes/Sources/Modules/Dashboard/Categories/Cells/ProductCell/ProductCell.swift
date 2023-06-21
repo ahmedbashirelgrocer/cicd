@@ -267,6 +267,9 @@ class ProductCell : RxUICollectionViewCell {
                 CellSelectionState.shared.inputs.selectProductWithID.onNext("")
                 return
             }
+            if UIApplication.topViewController() is SubstitutionsProductViewController {
+                return
+            }
             self.isProductSelected = false
         }
     }
@@ -891,7 +894,7 @@ class ProductCell : RxUICollectionViewCell {
                                 isSubsituteItem = true
                                 count = item.count.intValue
                                 itemCurrentCount = item.count.intValue
-                                if self.product.promotion?.boolValue == true{
+                                if self.product.promotion?.boolValue == true {
                                     if item.count.intValue >= self.product.promoProductLimit as! Int && self.product.promoProductLimit?.intValue ?? 0 > 0 {
                                         elDebugPrint("exceedlimits");
                                     }else{
@@ -956,6 +959,7 @@ class ProductCell : RxUICollectionViewCell {
                             
                         }
                        
+                        self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
                         self.plusButton.isEnabled = true
                         // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
                         //self.limitedStockBGView.isHidden = true
@@ -1239,16 +1243,22 @@ class ProductCell : RxUICollectionViewCell {
     @objc
     func showImagePopUp(){
     
+        if let topVc = UIApplication.topViewController() {
+            if topVc is SubstitutionsProductViewController {
+                return
+            }
+        }
+        
         if self.isProductSelected { self.isProductSelected = false }
         if viewModel != nil {
             CellSelectionState.shared.inputs.selectProductWithID.onNext("")
         }
-        
         if let topVc = UIApplication.topViewController() {
             if topVc is SubstitutionsProductViewController || topVc is GlobalSearchResultsViewController || (topVc is BrandDeepLinksVC && self.productGrocery == nil){
                 return
             }
         }
+        
         
         guard let product = self.viewModel == nil ? self.product : self.viewModel.outputs.productDB else { return }
         

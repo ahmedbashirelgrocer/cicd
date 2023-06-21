@@ -677,7 +677,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gTV-iz-HSm">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Ult-81-kkH"/>
                                 </constraints>
@@ -704,6 +704,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="C5I-Yy-RUl"/>
                     <connections>
+                        <outlet property="safeAreaBgView" destination="gTV-iz-HSm" id="k0L-ok-1xY"/>
                         <outlet property="tableViewCategories" destination="hjl-mx-Aji" id="5tx-CJ-oSg"/>
                         <segue destination="Kwk-rF-vNq" kind="show" identifier="CategoriesToSubCategories" id="5Za-RP-S4C"/>
                     </connections>

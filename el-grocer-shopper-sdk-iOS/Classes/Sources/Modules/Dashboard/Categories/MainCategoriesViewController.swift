@@ -94,6 +94,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     private var porgressHud : SpinnerView? = nil
     private var viewModel: MainCategoriesViewModelType!
     
+    @IBOutlet weak var safeAreaBgView: UIView! {
+        didSet {
+            safeAreaBgView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        }
+    }
     override func backButtonClickedHandler(){
         self.tabBarController?.selectedIndex = 0
     }
