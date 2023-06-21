@@ -618,7 +618,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
 extension SubCategoriesViewController : ProductUpdationDelegate {
     func productUpdated(_ product : Product?) {
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            // self.collectionView.reloadData()
             self.refreshBasketIconStatus()
             self.setCollectionViewBottomConstraint()
         }
