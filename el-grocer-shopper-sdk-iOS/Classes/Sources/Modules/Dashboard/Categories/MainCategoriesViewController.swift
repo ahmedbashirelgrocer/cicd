@@ -488,7 +488,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setNavBarHidden(isSingleStore || isShopper)
-            
             controller.setupGradient()
         }
         

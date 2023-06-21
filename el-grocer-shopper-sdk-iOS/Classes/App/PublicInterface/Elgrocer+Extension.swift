@@ -73,6 +73,10 @@ public extension ElGrocer {
             completion?(false)
             return
         }
+        if launchOptions.isSmileSDK == true { sdkManager = SDKManager.shared  } else {
+            sdkManager = SDKManagerShopper.shared
+        }
+        
         SDKManager.shared.startBasicThirdPartyInit()
         ElGrocer.trackSDKLaunch(launchOptions)
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
@@ -103,8 +107,12 @@ public extension ElGrocer {
     
     
     static func start(with launchOptions: LaunchOptions?) {
+        
         guard let launchOptions = launchOptions else {
             return
+        }
+        if launchOptions.isSmileSDK == true { sdkManager = SDKManager.shared  } else {
+            sdkManager = SDKManagerShopper.shared
         }
         
         func startFlavorStore(_ launchOptions: LaunchOptions ) {

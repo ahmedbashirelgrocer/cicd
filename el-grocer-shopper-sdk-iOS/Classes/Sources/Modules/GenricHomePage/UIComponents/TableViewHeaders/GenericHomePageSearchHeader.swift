@@ -31,14 +31,19 @@ class GenericHomePageSearchHeader: UIView {
     @IBOutlet weak var navigationContainerTopAnchar: NSLayoutConstraint!
     @IBOutlet weak var navigationContainerBottom: NSLayoutConstraint!
     
+    @IBOutlet weak var eclipseView: UIImageView! {
+        didSet{
+            eclipseView.image = eclipseView.image?.withCustomTintColor(color: ApplicationTheme.currentTheme.navigationBarColor)
+        }
+    }
     @IBOutlet var bGView: UIView!{
         didSet{
-            bGView.backgroundColor = .navigationBarWhiteColor()
+    bGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBackgroundColor
         }
     }
     @IBOutlet var topHalfBGView: UIView!{
         didSet{
-            topHalfBGView.backgroundColor = .navigationBarColor()
+            topHalfBGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
             topHalfBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 0, withShadow: false)
         }
     }
@@ -142,8 +147,8 @@ class GenericHomePageSearchHeader: UIView {
     
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()
-        self.locationView.backgroundColor = UIColor.navigationBarColor()
-        self.locationContainerView.backgroundColor = UIColor.navigationBarColor()
+        self.locationView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.locationContainerView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
         locationContainerView.addSubview(self.locationView)
     }
     func setLocationText(_ text : String = "") {

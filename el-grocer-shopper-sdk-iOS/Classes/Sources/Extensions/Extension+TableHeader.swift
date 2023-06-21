@@ -18,9 +18,12 @@ extension UITableView {
 
         let headerWidth = headerView.bounds.size.width
         let temporaryWidthConstraint = headerView.widthAnchor.constraint(equalToConstant: headerWidth)
-
         headerView.addConstraint(temporaryWidthConstraint)
-
+        
+        let headerHeight = headerView.bounds.size.height
+        let temporaryHeightConstraint = headerView.heightAnchor.constraint(equalToConstant: headerHeight)
+        headerView.addConstraint(temporaryHeightConstraint)
+        
         headerView.setNeedsLayout()
         headerView.layoutIfNeeded()
 

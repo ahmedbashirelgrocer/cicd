@@ -27,6 +27,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     lazy var searchBarHeader : GenericHomePageSearchHeader = {
         let searchHeader = GenericHomePageSearchHeader.loadFromNib()
+        var frameHeight = searchHeader?.frame
+        frameHeight?.size.height = sdkManager.isShopperApp ? 147 : 82
+        searchHeader?.frame = frameHeight ?? searchHeader?.frame ?? CGRect.zero
         return searchHeader!
     }()
     
@@ -735,7 +738,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return self.availableStoreTypeA.count > 0 ?  45 : 0.01
+            return self.availableStoreTypeA.count > 0 ?  55 : 0.01
         }
         return 0.01
     }
