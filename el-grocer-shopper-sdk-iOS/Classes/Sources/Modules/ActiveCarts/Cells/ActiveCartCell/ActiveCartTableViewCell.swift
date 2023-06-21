@@ -39,7 +39,11 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     
     @IBOutlet weak var viewBannerWrapper: UIView!
     @IBOutlet weak var viewBanner: BannerView!
-    @IBOutlet weak var buttonNext: UIButton!
+    @IBOutlet weak var buttonNext: UIButton! {
+        didSet {
+            buttonNext.setImage(UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "arrowForward"), for: .normal)
+        }
+    }
     
     private lazy var bottomConstraint = collectionView.bottomAnchor.constraint(equalTo: collectionView.superview!.bottomAnchor, constant: -16)
     

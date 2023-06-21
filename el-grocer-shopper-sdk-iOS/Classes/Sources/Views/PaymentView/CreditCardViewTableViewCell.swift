@@ -38,8 +38,8 @@ class CreditCardViewTableViewCell: UITableViewCell {
             // Initialization code
             // self.addPanGesture()
         let cardTitle = " " + localizedString("Add_New_Card_Title", comment: "")
-        btnAddNewCard.setImage(UIImage(named: sdkManager.isShopperApp ? "plusLinearGreen" : "plusLinear"), for: .normal)
         btnAddNewCard.setTitle(cardTitle, for: .normal)
+        btnAddNewCard.setImage(UIImage(name: sdkManager.isShopperApp ? "plusLinearGreen" : "plusLinear"), for: .normal)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
