@@ -65,8 +65,8 @@ class GenericHyperMarketHeader: UIView {
     }
     @IBOutlet var txtSearchBar: UITextField!{
         didSet{
-            txtSearchBar.placeholder = localizedString("search_placeholder_hypermarket", comment: "")
-            txtSearchBar.setPlaceHolder(text: localizedString("search_placeholder_hypermarket", comment: ""))
+            txtSearchBar.placeholder = localizedString("lbl_SearchInAllStore", comment: "")
+            txtSearchBar.setPlaceHolder(text: localizedString("lbl_SearchInAllStore", comment: ""))
             txtSearchBar.setBody1RegStyle()
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
                 txtSearchBar.textAlignment = .right
