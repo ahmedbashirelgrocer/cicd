@@ -228,11 +228,11 @@ class ElGrocerStoreHeaderShopper:  UIView  {
         vc.navigationController?.modalTransitionStyle = .crossDissolve
         vc.navigationController?.modalPresentationStyle = .formSheet
         vc.navigationController?.pushViewController(searchController, animated: true)
-        ElGrocerUtility.sharedInstance.delay(1.0) {
-            if searchController.txtSearch != nil {
-                searchController.txtSearch.becomeFirstResponder()
-            }
-        }
+//        ElGrocerUtility.sharedInstance.delay(1.0) {
+//            if searchController.txtSearch != nil {
+//                searchController.txtSearch.becomeFirstResponder()
+//            }
+//        }
         
     }
     

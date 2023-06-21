@@ -22,6 +22,7 @@ class ShopByCategoriesViewController: UIViewController, UIScrollViewDelegate {
 
     lazy var searchBarHeader : GenericHyperMarketHeader = {
         let searchHeader = GenericHyperMarketHeader.loadFromNib()
+        searchHeader?.backgroundColor = .clear
         return searchHeader!
     }()
     var storeCategoryA : [StoreType] = []

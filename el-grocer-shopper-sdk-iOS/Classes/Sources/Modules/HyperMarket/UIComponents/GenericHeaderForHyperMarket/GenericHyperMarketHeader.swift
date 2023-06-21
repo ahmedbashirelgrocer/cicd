@@ -142,11 +142,11 @@ class GenericHyperMarketHeader: UIView {
         if let id = self.retailerType?.dbId, let name = self.retailerType?.getRetailerName() {
             MixpanelEventLogger.trackStoreListingSearch(storeListCategoryId: "\(id)", storeListCategoryName: name)
         }
-        ElGrocerUtility.sharedInstance.delay(1.0) {
-            if searchController.txtSearch != nil {
-                searchController.txtSearch.becomeFirstResponder()
-            }
-        }
+//        ElGrocerUtility.sharedInstance.delay(1.0) {
+//            if searchController.txtSearch != nil {
+//                searchController.txtSearch.becomeFirstResponder()
+//            }
+//        }
         
         
     }

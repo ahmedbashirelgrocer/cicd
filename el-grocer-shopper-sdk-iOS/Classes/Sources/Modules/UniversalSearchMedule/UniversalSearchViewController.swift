@@ -117,7 +117,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         } else {
             self.dataSource?.getDefaultSearchData()
         }
-        
+        self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
         self.viewMainBG.layer.cornerRadius = 24.0
         
         // Show default data papular stores and search history
@@ -1232,8 +1232,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         guard model?.modelType != .title , model?.modelType != .titleWithClearOption   else {
             return
         }
-        self.dataSource?.setUsersearchData(searchData)
-        
+        if model?.modelType != .retailer {
+            self.dataSource?.setUsersearchData(searchData)
+        }
         
         if  model?.modelType == .retailer  {
             FireBaseEventsLogger.trackRetailerSearch(self.txtSearch.text ?? self.searchString , topControllerName: self.navigationFromControllerName , isFromUniversalSearch: self.searchFor == .isForUniversalSearch, retailId: model?.retailerId)
