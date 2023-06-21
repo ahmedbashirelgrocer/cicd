@@ -77,6 +77,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
         self.segmentTitles = dataA
         ElGrocerUtility.sharedInstance.delay(0.01) {
             self.reloadData()
+            self.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         }
     }
     

@@ -149,7 +149,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 }
             }
         }
-        self.btnOrderStatusUserAction.backgroundColor = ApplicationTheme.currentTheme.secondaryDarkGreenColor
+        self.btnOrderStatusUserAction.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         
     }
     private func bindViews() {

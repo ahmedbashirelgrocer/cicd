@@ -259,7 +259,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.txtSearch.clipsToBounds = false
         self.tableView.backgroundColor = .white
         self.collectionView.backgroundColor = .tableViewBackgroundColor()
-        self.storeNameViewHeight.constant = 0
+//        self.storeNameViewHeight.constant = 0
         self.setCollectionViewBottomConstraint()
     }
     
