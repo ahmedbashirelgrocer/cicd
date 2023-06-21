@@ -4505,7 +4505,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
           setAccessToken()
           FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
           debugPrint(parameters)
-          NetworkCall.post(ElGrocerApiEndpoint.generateOrder.rawValue, parameters: parameters, progress: { (progress) in
+          NetworkCall.post(ElGrocerApiEndpoint.generateOrder.rawValue +  "?market_type_id=\(sdkManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, progress: { (progress) in
                   // debugPrint("Progress for API :  \(progress)")
           }, success: { (operation  , response: Any) -> Void in
               
@@ -4530,9 +4530,10 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
       
       func generateEditOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
           
+          
           setAccessToken()
           FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
-          NetworkCall.put(ElGrocerApiEndpoint.generateOrder.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+          NetworkCall.put(ElGrocerApiEndpoint.generateOrder.rawValue +  "?market_type_id=\(sdkManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {
                   completionHandler(Either.failure(ElGrocerError.genericError()))
