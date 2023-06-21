@@ -67,7 +67,7 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
             
             
         return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserLogin, user)]),
-                SectionHeaderModel(model: 1, header: " " + localizedString("account_hedding", comment: ""), items: [SettingCellViewModel(type: .liveChat), SettingCellViewModel(type: .Orders),SettingCellViewModel(type: .Address),SettingCellViewModel(type: .PaymentMethods)]),
+                SectionHeaderModel(model: 1, header: " " + localizedString("account_hedding", comment: ""), items: [SettingCellViewModel(type: .liveChat), SettingCellViewModel(type: .Orders),SettingCellViewModel(type: .Address),SettingCellViewModel(type: .PaymentMethods), SettingCellViewModel(type: .ElWallet)]),
         SectionHeaderModel(model: 2, header: " " + localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs)])]
             
         }else if  user == nil {
