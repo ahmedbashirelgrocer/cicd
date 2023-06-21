@@ -24,6 +24,8 @@ class ElgrocerFarLocationCheck {
                         elDebugPrint("")
                     case LocationManager.State.initial:
                         elDebugPrint("")
+                case LocationManager.State.error(let erroor):
+                    elDebugPrint("\(erroor.localizedMessage)")
                     default:
                         self?.checkforDifferentDeliveryLocation(needToVerifyDate)
                         LocationManager.sharedInstance.stopUpdatingCurrentLocation()

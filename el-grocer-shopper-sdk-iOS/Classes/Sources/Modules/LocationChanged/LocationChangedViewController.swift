@@ -11,6 +11,11 @@ import CoreLocation
 
 class LocationChangedViewController: UIViewController {
     
+    @IBOutlet weak var mapImage: UIImageView! {
+        didSet{
+            mapImage.image = sdkManager.isShopperApp ? UIImage(name: "eg-LocationChangeMap") : UIImage(name: "LocationChangeMap")
+        }
+    }
     @IBOutlet weak var mainDescriptionLabel: UILabel!
     @IBOutlet weak var subDescriptionLabel: UILabel!
     @IBOutlet weak var changeLocationButton: AWButton! {
@@ -108,6 +113,8 @@ class LocationChangedViewController: UIViewController {
             if let top = UIApplication.topViewController() {
                 if let sdkHomeVc = top as? SmileSdkHomeVC {
                     sdkHomeVc.locationButtonClick()
+                } else if let genericHomeVc = top as? GenericStoresViewController {
+                    genericHomeVc.locationButtonClick()
                 } else if let storePage = top as? MainCategoriesViewController {
                 EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: storePage.mapDelegate, presentIn: storePage)
                 } else {

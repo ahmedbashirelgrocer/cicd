@@ -192,6 +192,7 @@ class LocationManager: NSObject {
                      case .authorizedWhenInUse, .authorizedAlways:
                      if !needToFetchNew { return }
                      case .notDetermined:
+                         self?.requestLocationAuthorization()
                          self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
                      case .restricted:
                          self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())

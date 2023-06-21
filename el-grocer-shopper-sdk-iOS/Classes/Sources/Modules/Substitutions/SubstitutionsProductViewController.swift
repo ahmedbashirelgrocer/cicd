@@ -345,9 +345,9 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         super.viewDidLoad()
         
         self.title = localizedString("shopping_OOS_title_label", comment: "")
-        
-        
         addBackButtonWithCrossIconRightSide(sdkManager.isShopperApp ? .white : ApplicationTheme.currentTheme.newBlackColor)
+        
+        
 //        addBackButton(isGreen: false)
         setUpButtonAppearance()
         setupLabelAppearance()
@@ -413,6 +413,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     override func viewDidAppear(_ animated: Bool) {
         FireBaseEventsLogger.setScreenName( FireBaseScreenName.Substitutions.rawValue , screenClass: String(describing: self.classForCoder))
         self.getOrderDetailFromServer()
+        addBackButtonWithCrossIconRightSide(sdkManager.isShopperApp ? .white : ApplicationTheme.currentTheme.newBlackColor)
     }
     
     

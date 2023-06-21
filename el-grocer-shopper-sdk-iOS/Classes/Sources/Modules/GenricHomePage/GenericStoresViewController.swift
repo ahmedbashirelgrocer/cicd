@@ -325,7 +325,9 @@ class GenericStoresViewController: BasketBasicViewController {
             navController.modalPresentationStyle = .fullScreen
             self.present(navController, animated: true, completion: nil)
             return
-        } else if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+        }
+        // removed as per QA request
+        /*else if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
             
             
@@ -342,7 +344,7 @@ class GenericStoresViewController: BasketBasicViewController {
                 self.present(nav, animated: true)
                 return
             }
-        }
+        }*/
         
         self.navigateToMultiCart()
         SegmentAnalyticsEngine.instance.logEvent(event: MultiCartsClickedEvent())
@@ -462,6 +464,8 @@ class GenericStoresViewController: BasketBasicViewController {
                     debugPrint("")
                 case LocationManager.State.initial:
                     debugPrint("")
+            case LocationManager.State.error(let erroor):
+                elDebugPrint("\(erroor.localizedMessage)")
                 default:
                     self?.checkforDifferentDeliveryLocation()
                     LocationManager.sharedInstance.stopUpdatingCurrentLocation()
@@ -1643,7 +1647,7 @@ extension GenericStoresViewController : UICollectionViewDelegateFlowLayout{
 extension GenericStoresViewController {
     
     private func checkforDifferentDeliveryLocation() {
-        
+      
         guard let deliveryAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
         
         if let currentLat = LocationManager.sharedInstance.currentLocation.value?.coordinate.latitude,
@@ -1664,7 +1668,7 @@ extension GenericStoresViewController {
                 intervalInMins = 66.0
             }
             
-            if(distance > 999 && intervalInMins > 60)
+            if(distance > 300 && intervalInMins > 60)
              {
                 let vc = LocationChangedViewController.getViewController()
                 
