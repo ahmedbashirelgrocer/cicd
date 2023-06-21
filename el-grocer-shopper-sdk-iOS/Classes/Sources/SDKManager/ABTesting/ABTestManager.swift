@@ -56,14 +56,39 @@ class ABTestManager {
             return secondary
         }
         
-        let secondaryOptions = FirebaseOptions(googleAppID: "1:793956033248:ios:9db3ef77651a673301a685",
-                                               gcmSenderID: "793956033248")
-        secondaryOptions.apiKey = "AIzaSyBWHul-ZoG5mcMp5PQbf-JGitsgaIN0ov8"
-        secondaryOptions.projectID = "elgrocer-v2"
-        secondaryOptions.bundleID = "elgrocer.com.ElGrocerShopper.SDK"
-        secondaryOptions.clientID = "793956033248-0pm315psj836ndbb7afrf4r5rfsb92na.apps.googleusercontent.com"
-        secondaryOptions.storageBucket = "elgrocer-v2.appspot.com"
-        secondaryOptions.databaseURL = "https://elgrocer-v2.firebaseio.com"
+        let secondaryOptions: FirebaseOptions = {
+            if Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK" {
+                let firebaseOptions = FirebaseOptions(googleAppID: "1:793956033248:ios:9db3ef77651a673301a685",
+                                                      gcmSenderID: "793956033248")
+                firebaseOptions.apiKey = "AIzaSyBWHul-ZoG5mcMp5PQbf-JGitsgaIN0ov8"
+                firebaseOptions.projectID = "elgrocer-v2"
+                firebaseOptions.bundleID = "elgrocer.com.ElGrocerShopper.SDK"
+                firebaseOptions.clientID = "793956033248-0pm315psj836ndbb7afrf4r5rfsb92na.apps.googleusercontent.com"
+                firebaseOptions.storageBucket = "elgrocer-v2.appspot.com"
+                firebaseOptions.databaseURL = "https://elgrocer-v2.firebaseio.com"
+                return firebaseOptions
+            } else if Bundle.main.bundleIdentifier == "com.Etisalat.HouseApps" {
+                let firebaseOptions = FirebaseOptions(googleAppID: "1:793956033248:ios:07b1ffb22fe4696301a685",
+                                                      gcmSenderID: "793956033248")
+                firebaseOptions.apiKey = "AIzaSyBWHul-ZoG5mcMp5PQbf-JGitsgaIN0ov8"
+                firebaseOptions.projectID = "elgrocer-v2"
+                firebaseOptions.bundleID = "com.Etisalat.HouseApps"
+                firebaseOptions.clientID = "793956033248-ppiistkgi90im37138ded8m85f6mm4l2.apps.googleusercontent.com"
+                firebaseOptions.storageBucket = "elgrocer-v2.appspot.com"
+                firebaseOptions.databaseURL = "https://elgrocer-v2.firebaseio.com"
+                return firebaseOptions
+            } else {
+                let firebaseOptions = FirebaseOptions(googleAppID: "1:793956033248:ios:0bea4a41f785ab7201a685",
+                                                      gcmSenderID: "793956033248")
+                firebaseOptions.apiKey = "AIzaSyBWHul-ZoG5mcMp5PQbf-JGitsgaIN0ov8"
+                firebaseOptions.projectID = "elgrocer-v2"
+                firebaseOptions.bundleID = "Etisalat.House"
+                firebaseOptions.clientID = "793956033248-94r5vl24meiq6c8fod92759q2nvoabvl.apps.googleusercontent.com"
+                firebaseOptions.storageBucket = "elgrocer-v2.appspot.com"
+                firebaseOptions.databaseURL = "https://elgrocer-v2.firebaseio.com"
+                return firebaseOptions
+            }
+        }()
         
         FirebaseApp.configure(name: "secondary", options: secondaryOptions)
         
