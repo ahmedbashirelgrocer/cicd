@@ -1232,8 +1232,8 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         guard model?.modelType != .title , model?.modelType != .titleWithClearOption   else {
             return
         }
-        self.dataSource?.setUsersearchData(searchData)
         
+        if model?.modelType != .retailer { self.dataSource?.setUsersearchData(searchData) }
         
         if  model?.modelType == .retailer  {
             FireBaseEventsLogger.trackRetailerSearch(self.txtSearch.text ?? self.searchString , topControllerName: self.navigationFromControllerName , isFromUniversalSearch: self.searchFor == .isForUniversalSearch, retailId: model?.retailerId)
