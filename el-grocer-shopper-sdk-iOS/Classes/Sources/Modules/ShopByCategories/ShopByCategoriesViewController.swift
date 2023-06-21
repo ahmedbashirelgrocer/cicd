@@ -122,7 +122,8 @@ class ShopByCategoriesViewController: UIViewController, UIScrollViewDelegate {
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            self.searchBarHeader.txtSearchBar.placeholder = localizedString("search_placeholder_view_allstore_categories", comment: "")
+            
+            self.searchBarHeader.txtSearchBar.placeholder = localizedString("search_placeholder_home", comment: "")
             self.searchBarHeader.setNeedsLayout()
             self.searchBarHeader.layoutIfNeeded()
             self.searchBarHeader.setInitialUI(type: .specialityStore)

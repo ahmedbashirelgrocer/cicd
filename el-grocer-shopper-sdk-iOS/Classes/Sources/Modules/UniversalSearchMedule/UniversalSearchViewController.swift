@@ -259,7 +259,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.txtSearch.clipsToBounds = false
         self.tableView.backgroundColor = .white
         self.collectionView.backgroundColor = .tableViewBackgroundColor()
-        self.storeNameViewHeight.constant = 0
+//        self.storeNameViewHeight.constant = 0
         self.setCollectionViewBottomConstraint()
     }
     
@@ -1232,9 +1232,9 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         guard model?.modelType != .title , model?.modelType != .titleWithClearOption   else {
             return
         }
-        if model?.modelType != .retailer {
-            self.dataSource?.setUsersearchData(searchData)
-        }
+
+        if model?.modelType != .retailer { self.dataSource?.setUsersearchData(searchData) }
+
         
         if  model?.modelType == .retailer  {
             FireBaseEventsLogger.trackRetailerSearch(self.txtSearch.text ?? self.searchString , topControllerName: self.navigationFromControllerName , isFromUniversalSearch: self.searchFor == .isForUniversalSearch, retailId: model?.retailerId)

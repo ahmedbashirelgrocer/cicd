@@ -678,8 +678,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             UserDefaults.resetEditOrder()
            // self.backButtonClick()
             
-//<<<<<<< HEAD
-            sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
+            if self.navigationController?.viewControllers.count != 5 {
+                sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
+            }
             (sdkManager.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
 //=======
 //            // if let SDKManager = SDKManager.shared {
