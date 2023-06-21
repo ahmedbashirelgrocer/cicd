@@ -106,7 +106,7 @@ class SecondCheckoutVC: UIViewController {
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
 
-            orderPlacement = PlaceOrderHandler.init(finalOrderItems: self.viewModel.getShoppingItems() ?? [], activeGrocery: grocery , finalProducts: self.viewModel.getFinalisedProducts() ?? [], orderID: self.viewModel.getOrderId(), finalOrderAmount: self.viewModel.basketDataValue?.finalAmount ?? 0.00, orderPlaceOrEditApiParams: self.viewModel.getOrderPlaceApiParams())
+            self.orderPlacement = PlaceOrderHandler.init(finalOrderItems: self.viewModel.getShoppingItems() ?? [], activeGrocery: grocery , finalProducts: self.viewModel.getFinalisedProducts() ?? [], orderID: self.viewModel.getOrderId(), finalOrderAmount: self.viewModel.basketDataValue?.finalAmount ?? 0.00, orderPlaceOrEditApiParams: self.viewModel.getOrderPlaceApiParams())
             if let _ = self.viewModel.getOrderId() {
                 self.orderPlacement.isForNewOrder = false
                 // orderPlacement.editedOrder()
@@ -127,7 +127,7 @@ class SecondCheckoutVC: UIViewController {
                 }
             }
             
-            orderPlacement.orderPlaced = { [weak self] order, error, apiResponse in
+            self.orderPlacement.orderPlaced = { [weak self] order, error, apiResponse in
                  
                 SpinnerView.hideSpinnerView()
                 if error != nil {
