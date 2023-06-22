@@ -18,6 +18,7 @@ protocol PaymentSelectionViewModelOutputs {
     var title: Observable<String> { get }
     var error: Observable<ElGrocerError> { get }
     var selectedItem: Observable<PaymentSelectionCellViewModel> { get }
+    var loading: Observable<Bool> { get }
 }
 
 protocol PaymentSelectionViewModelType {
@@ -44,6 +45,7 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
     private var errorSubject = PublishSubject<ElGrocerError>()
     private var selectedItemSubject = PublishSubject<PaymentSelectionCellViewModel>()
     private var titleSubject = BehaviorSubject<String>(value: "")
+    private var loadingSubject = BehaviorSubject<Bool>(value: false)
     
     // MARK: Inputs
     var selectedItemObserver: AnyObserver<PaymentSelectionCellViewModel> { selectedItemSubject.asObserver() }
@@ -53,6 +55,7 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
     var title: Observable<String> { return titleSubject.asObservable() }
     var error: Observable<ElGrocerError> { errorSubject.asObservable() }
     var selectedItem: Observable<PaymentSelectionCellViewModel> { selectedItemSubject.asObservable() }
+    var loading: Observable<Bool> { loadingSubject.asObservable() }
     
     init(elGrocerAPI: ElGrocerApi, adyenApiManager: AdyenApiManager, grocery: Grocery?,selectedPaymentOption: PaymentOption?, cardId: String?) {
         self.elGrocerAPI = elGrocerAPI
@@ -61,22 +64,27 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
         self.paymentOption = selectedPaymentOption
         self.selectedCardId = cardId
         self.titleSubject.onNext(localizedString("payment_method_title", comment: ""))
+        
+        self.fetchPaymentMethods()
     }
 }
 
-extension PaymentSelectionViewModel {
-    func fetchPaymentMethods(completion: @escaping ((Bool) -> Void)) {
+private extension PaymentSelectionViewModel {
+    func fetchPaymentMethods() {
         guard let groceryID = grocery?.dbID else { return }
         
-
+        self.loadingSubject.onNext(true)
         PaymentMethodFetcher.getPaymentOptions(groceryID: groceryID) { paymentOptions, error in
             if let error = error {
                 self.errorSubject.onNext(error)
-                completion(true)
+                self.loadingSubject.onNext(false)
                 return
             }
             
-            guard var paymentOptions = paymentOptions else { return }
+            guard var paymentOptions = paymentOptions else {
+                self.loadingSubject.onNext(false)
+                return
+            }
             
             
             if paymentOptions.contains(where: { $0 == .cash}) {
@@ -95,6 +103,7 @@ extension PaymentSelectionViewModel {
                 PaymentMethodFetcher.getPaymentMethods(amount: amount, addApplePay: true) { creditCards, applePay, error in
                     if let error = error {
                         self.errorSubject.onNext(error)
+                        self.loadingSubject.onNext(false)
                         return
                     }
                     
@@ -118,11 +127,12 @@ extension PaymentSelectionViewModel {
                     
                     self.viewModels.append(PaymentSelectionCellViewModel(string: localizedString("btn_add_new_card", comment: "")))
                     self.cellViewModelsSubject.onNext(self.viewModels)
+                    self.loadingSubject.onNext(false)
                 }
             } else {
                 self.cellViewModelsSubject.onNext(self.viewModels)
+                self.loadingSubject.onNext(false)
             }
-            completion(true)
         }
     }
 }
