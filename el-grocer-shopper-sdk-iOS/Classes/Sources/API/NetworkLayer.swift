@@ -329,11 +329,25 @@ class NetworkLayer {
         if let token = ElGrocerUtility.sharedInstance.projectScope?.access_token {
             self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "access_token")
         }
-        if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
-            self.requestManager.requestSerializer.setValue(version, forHTTPHeaderField: "app_version")
-        }else{
-            self.requestManager.requestSerializer.setValue("1000000", forHTTPHeaderField: "app_version")
-        }
+        
+        self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "app_version")
+        
+        
+        
+//        if sdkManager.isShopperApp {
+//            if let version = Bundle.infoDictionary?["CFBundleShortVersionString"] as? String {
+//                self.requestManager.requestSerializer.setValue(version, forHTTPHeaderField: "app_version")
+//            }else{
+//                self.requestManager.requestSerializer.setValue("1000000", forHTTPHeaderField: "app_version")
+//            }
+//        }else {
+//            if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
+//                self.requestManager.requestSerializer.setValue(version, forHTTPHeaderField: "app_version")
+//            }else{
+//                self.requestManager.requestSerializer.setValue("1000000", forHTTPHeaderField: "app_version")
+//            }
+//        }
+        
         let isDelivery = ElGrocerUtility.sharedInstance.isDeliveryMode ? "1" : "2"
         self.requestManager.requestSerializer.setValue(isDelivery , forHTTPHeaderField: "service_id")
         self.requestManager.requestSerializer.setValue(SDKManager.shared.isGrocerySingleStore ? "1":"0" , forHTTPHeaderField: "Market-Type")
@@ -369,7 +383,11 @@ class NetworkLayer {
         
         self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  "smileSDK" : "elgrocerShopperApp", forHTTPHeaderField: "user-agent")
         self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
-        self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "Sdk-Version")
+        
+        
+        
+        
+        self.requestManager.requestSerializer.setValue(elGrocerSDKConfiguration.version, forHTTPHeaderField: "Sdk-Version")
         
         
     

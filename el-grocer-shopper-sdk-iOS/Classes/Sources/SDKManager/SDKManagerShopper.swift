@@ -1065,11 +1065,19 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         print("Device Token String: \(deviceTokenString)")
         
         self.updateDeviceTokenToServer(deviceTokenString)
+        ElGrocerUtility.sharedInstance.delay(5.0) {
+            if sdkManager.isInitialized {
+                SegmentAnalyticsEngine.instance.register(deviceToke: deviceToken)
+            }
+        }
+      
         //ZohoSalesIQ.enablePush( deviceTokenString , isTestDevice: false , mode: .production)
         CleverTapEventsLogger.registerFor(deviceToken)
         UserDefaults.setDevicePushToken(deviceTokenString)
         UserDefaults.setDevicePushTokenData(deviceToken)
         Messaging.messaging().apnsToken = deviceToken
+        
+        
         
         
         DispatchQueue.global(qos: DispatchQoS.QoSClass.utility).async {

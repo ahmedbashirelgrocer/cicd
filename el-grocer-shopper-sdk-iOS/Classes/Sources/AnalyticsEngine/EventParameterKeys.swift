@@ -87,5 +87,12 @@ enum EventParameterKeys {
     static let attemptCount     = "attemptCount"
     static let isLoggedIn       = "isLoggedIn"
     
+    static let language          = "language"
+    // CleverTap
+    static let msgEmail          = "MSG-email"
+    static let msgPush           = "MSG-push"
+    static let msgSMS            = "MSG-sms"
+    static let msgWhatsApp       = "MSG-whatsapp"
+    
     
 }
