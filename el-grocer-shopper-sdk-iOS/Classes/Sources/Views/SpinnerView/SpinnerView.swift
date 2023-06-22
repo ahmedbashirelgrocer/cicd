@@ -85,6 +85,12 @@ class SpinnerView : UIView {
         return false
     }
     
+    class func showSpinnerViewInView() {
+        if let tView = UIApplication.topViewController()?.view {
+            _ = self.showSpinnerViewInView(tView)
+        }
+    }
+    
     class func showSpinnerViewInView(_ view:UIView) -> SpinnerView? {
         
         guard DispatchQueue.isRunningOnMainQueue else {
