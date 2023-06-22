@@ -4,7 +4,7 @@
 //
 //  Created by M Abubaker Majeed on 27/07/2020.
 //  Copyright © 2020 elGrocer. All rights reserved.
-//
+//  6.5.50 2905 sent for approval
 
 import UIKit
 import CoreLocation
