@@ -712,7 +712,7 @@ extension Product {
                 if let reID = shop["retailer_id"] as? NSNumber {
                     if let data = HomePageData.shared.genericAllStoreDictionary?[reID.stringValue] as? [String:Any] {
                         allAvailableShops.append(reID)
-                        product.storePriceDictionary[reID.stringValue] = ["retailerId" : reID ,"price" : shop["price"] as? NSNumber ?? NSNumber(value: 0 as Int)]
+                        product.storePriceDictionary[reID.stringValue] = ["retailerId" : reID ,"price" : shop["price"] as? NSNumber ?? NSNumber(value: 0 as Int), "available_quantity" : shop["available_quantity"] as? NSNumber ?? NSNumber(value: -1 as Int)]
                         if let promotionalShopsA = productDict["promotional_shops"] as? [NSDictionary] {
                             for promtionalShop in promotionalShopsA {
                                 if let promoRetailerID = promtionalShop["retailer_id"] as? NSNumber  {
@@ -731,7 +731,7 @@ extension Product {
                                                 dic?["start_time"] = (promtionalShop["start_time"] as? NSNumber ?? NSNumber(value: 0 as Int))
                                                 dic?["end_time"] = (promtionalShop["end_time"] as? NSNumber ?? NSNumber(value: 0 as Int))
                                                 dic?["standard_price"]  = promtionalShop["standard_price"] as? NSNumber ?? NSNumber(value: 0 as Int)
-
+                                                dic?["product_limit"]  = promtionalShop["product_limit"] as? NSNumber ?? NSNumber(value: 0 as Int)
                                                 product.storePriceDictionary[promoRetailerID.stringValue] = dic
                                             }
                                         }

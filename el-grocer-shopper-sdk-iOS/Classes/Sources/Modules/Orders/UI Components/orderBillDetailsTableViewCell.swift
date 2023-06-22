@@ -176,22 +176,14 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         
         priceSum = order.produuctsTotal
         summaryCount = Int(order.totalProducts)
-//        for product in orderController.orderProducts {
-//
-//            let item = orderController.shoppingItemForProduct(product)
-//            if let notNilItem = item {
-//                if notNilItem.wasInShop.boolValue == true{
-//                    summaryCount += notNilItem.count.intValue
-//
-//                    if product.promoPrice?.intValue == 0 || !(product.promotion?.boolValue ?? false) {
-//                        priceSum += product.price.doubleValue * notNilItem.count.doubleValue
-//                    }else{
-//                        priceSum += product.promoPrice!.doubleValue * notNilItem.count.doubleValue
-//                    }
-//
-//                }
-//            }
-//        }
+        if summaryCount == 0 {
+            for product in orderController.orderProducts {
+                let item = orderController.shoppingItemForProduct(product)
+                if let notNilItem = item {
+                    summaryCount += notNilItem.count.intValue
+                }
+            }
+        }
         totalWithVat = priceSum
         let serviceFee = order.serviceFee?.doubleValue ?? 0.0
 //        let serviceFee = ElGrocerUtility.sharedInstance.getFinalServiceFee(currentGrocery: orderController.order.grocery, totalPrice: priceSum)
@@ -275,7 +267,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         }
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
-        self.finalBillAmountView.configure(title: localizedString("total_bill_amount", comment: ""), amount: finalBillAmount)
+        self.finalBillAmountView.configure(title: localizedString("amount_to_pay", comment: ""), amount: finalBillAmount)
         self.finalBillAmountView.setFinalBillAmountFont()
     }
 
