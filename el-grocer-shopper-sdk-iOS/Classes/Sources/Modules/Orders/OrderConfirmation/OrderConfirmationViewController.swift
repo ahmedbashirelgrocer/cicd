@@ -71,7 +71,11 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet weak var lblDeliveryTime: UILabel!
     @IBOutlet weak var orderProgressView: UIProgressView!
     @IBOutlet weak var lblOrderStatus: UILabel!
-    @IBOutlet weak var btnOrderStatusUserAction: AWButton!
+    @IBOutlet weak var btnOrderStatusUserAction: AWButton! {
+        didSet{
+            btnOrderStatusUserAction.setTitle(localizedString("choose_substitutions_title_cell", comment: "Choose Replacement"), for: UIControl.State())
+        }
+    }
     
     // PickerDetailView
     @IBOutlet weak var pickerDetailView: UIView!

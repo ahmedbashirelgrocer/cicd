@@ -123,6 +123,7 @@ class ProductCell : RxUICollectionViewCell {
         plusButton.clipsToBounds = true
         plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         plusButton.setBackgroundColor(.white, forState: .normal)
+        plusButton.backgroundColor = .white
     } }
     @IBOutlet weak var minusButton: UIButton! { didSet {
         minusButton.setImage(nil, for: .normal)
@@ -852,12 +853,13 @@ class ProductCell : RxUICollectionViewCell {
             TopsortManager.shared.log(.clicks(resolvedBidId: bidID))
         }
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            
+        guard let self = self else {return}
         
         guard self.product != nil else {return}
          
         func addCartAction() {
-    
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             self.cellAddToCartEvents()
             if self.product.isPg18.boolValue {
@@ -916,7 +918,6 @@ class ProductCell : RxUICollectionViewCell {
                         self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
                     }
                     
-                    
                     if self.product.promotion?.boolValue == true {
                         
                         func showOverLimitMsg() {
@@ -925,51 +926,35 @@ class ProductCell : RxUICollectionViewCell {
                             ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                         }
                         
-                        
                         if (isSubsituteItem && count == self.product.promoProductLimit as! Int) && self.product.promoProductLimit?.intValue ?? 0 > 0 {
                             showOverLimitMsg()
                         }
                         
                         if (itemCurrentCount >= self.product.promoProductLimit as! Int) && self.product.promoProductLimit?.intValue ?? 0 > 0 {
-                            // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonDisableBGColor
                             self.plusButton.isEnabled = false
                             showOverLimitMsg()
-                            
-                        }else{
+                        }else {
                             self.plusButton.isEnabled = true
-                            // self.plusButton.setBackgroundColor(ApplicationTheme.currentTheme.buttonEnableBGColor, forState: UIControl.State())
                             addCartAction()
-                            
                             ProductQuantiy.checkLimitForDisplayMsgs(selectedProduct: self.product, counter: count)
                         }
                         
-                        
-                        
-                    }else{
-                        
+                    }else {
+
                         if self.product.availableQuantity >= 0 && self.product.availableQuantity.intValue <= count {
-                            
                             func showOverLimitMsg() {
                                 let msg = localizedString("msg_limited_stock_start", comment: "") + "\(self.product.availableQuantity)" + localizedString("msg_limited_stock_end", comment: "")
                                 let title = localizedString("msg_limited_stock_Quantity_title", comment: "")
                                 ElGrocerUtility.sharedInstance.showTopMessageView(msg ,title, image: UIImage(name: "iconAddItemSuccess") , -1 , false) { (sender , index , isUnDo) in  }
                             }
-                            
                             showOverLimitMsg()
-                            
                         }
-                       
                         self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
                         self.plusButton.isEnabled = true
-                        // self.plusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                        //self.limitedStockBGView.isHidden = true
                         self.promotionBGView.isHidden = true
                         addCartAction()
                         
                     }
-                    
-                    
-
                     
                     return
                 }
@@ -1195,6 +1180,14 @@ class ProductCell : RxUICollectionViewCell {
                 }else{
                     product.promotion = false
                 }
+                if let available_quantity = productShopsDict["available_quantity"] {
+                    product.availableQuantity = available_quantity
+                }else {
+                    product.availableQuantity = NSNumber(integerLiteral: -1)
+                }
+                if let product_limit = productShopsDict["product_limit"] {
+                    product.promoProductLimit = product_limit
+                }else { product.promoProductLimit = NSNumber(integerLiteral: 0)}
                 if let startTime = productShopsDict["start_time"], let endTime = productShopsDict["end_time"]  {
                     let startepochTime = TimeInterval(startTime.doubleValue) / 1000
                     product.promoStartTime = Date(timeIntervalSince1970: startepochTime)
@@ -1222,7 +1215,7 @@ class ProductCell : RxUICollectionViewCell {
         self.limitedStockBGView.isHidden = isQuanityLimited
         
         if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                if ProductQuantiy.checkPromoLimitReached(product, count: item.count.intValue){
+            if ProductQuantiy.checkPromoLimitReached(product, count: item.count.intValue, self.productGrocery){
                     self.plusButton.isEnabled = false
                     FireBaseEventsLogger.trackInventoryReach(product: product, isCarousel: false)
                     return

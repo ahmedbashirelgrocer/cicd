@@ -42,9 +42,9 @@ class SignInViewController: RegistrationViewController, Form {
             phoneNumberTextField.setFlag(for: FPNOBJCCountryKey.AE)
             phoneNumberTextField.customDelegate = self
             phoneNumberTextField.delegate = self
-            if Platform.isSimulator || Platform.isDebugBuild {
-                phoneNumberTextField.text = "551629118"
-            }
+//            if Platform.isSimulator || Platform.isDebugBuild {
+//                phoneNumberTextField.text = "551629118"
+//            }
            // phoneNumberTextField.flagSize = CGSize.init(width: 25, height: CGFloat.leastNormalMagnitude)
         }
     }

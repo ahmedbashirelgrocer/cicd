@@ -2090,7 +2090,8 @@ extension MainCategoriesViewController {
     }
     
     func checkForRecipeCategory() {
-        
+        // TODO: For shopper we need to show the recipes 
+        return
         self.isRecipeAvailable = false
         if sdkManager.isSmileSDK {
             return

@@ -23,6 +23,10 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
         self.analytics = analytics
     }
     
+    func register(deviceToke: Data) {
+        self.analytics.registeredForRemoteNotifications(withDeviceToken: deviceToke)
+    }
+    
     func identify(userData: IdentifyUserDataType) {
         let traits = self.addMarketTypeProperty(metaData: userData.traits ?? [:])
         self.analytics.identify(userData.userId, traits: traits)

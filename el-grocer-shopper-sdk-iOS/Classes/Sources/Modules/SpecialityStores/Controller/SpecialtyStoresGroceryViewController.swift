@@ -349,6 +349,11 @@ class SpecialtyStoresGroceryViewController: UIViewController, UIScrollViewDelega
                     FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash")
                 }
             }
+           
+        }
+        
+        DispatchQueue.main.async {
+            SpinnerView.hideSpinnerView()
         }
     }
     
@@ -469,18 +474,20 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        //print(indexPath.row)
 //        let vc = ElGrocerViewControllers.getShopByCategoriesViewController()
 //        self.navigationController?.pushViewController(vc, animated: true)
         
         // Logging Segment Analytics Event of type Store Clicked
         let storeClickedEvent = StoreClickedEvent(grocery: self.groceryArray[indexPath.row], source: .allStoreScreen)
         SegmentAnalyticsEngine.instance.logEvent(event: storeClickedEvent)
-        
+        let _ = SpinnerView.showSpinnerView()
         self.dismiss(animated: true) {
             if self.filteredGroceryArray.count > 0{
                 self.goToGrocery(self.filteredGroceryArray[indexPath.row], nil)
+                return
             }
+            SpinnerView.hideSpinnerView()
         }
 
     }

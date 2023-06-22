@@ -92,12 +92,15 @@ class ProductQuantiy {
         return (false , false)
     }
     
-    public static func checkPromoLimitReached(_ product : Product , count : Int) -> Bool {
+    public static func checkPromoLimitReached(_ product : Product , count : Int, _ grcoery: Grocery? = nil) -> Bool {
         
         
         let finalLimit = product.promoProductLimit?.intValue ?? 0
         let availableQuantity = product.availableQuantity.intValue
-        let grocery = Grocery.getGroceryById(product.groceryId, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        var grocery = grcoery
+        if grocery == nil {
+            grocery = Grocery.getGroceryById(product.groceryId, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        }
         
         var ignorePromotionCheck = false
         var ignoreLimitLogicCheck = false

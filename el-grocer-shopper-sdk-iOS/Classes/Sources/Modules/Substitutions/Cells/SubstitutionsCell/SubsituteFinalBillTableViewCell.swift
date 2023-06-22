@@ -20,7 +20,7 @@ class SubsituteFinalBillTableViewCell: UITableViewCell {
     }
     @IBOutlet var lblTitileFinalBillAmount: UILabel!{
         didSet {
-            lblTitileFinalBillAmount.text = localizedString("total_bill_amount", comment: "")
+            lblTitileFinalBillAmount.text = localizedString("amount_to_pay", comment: "")
             lblTitileFinalBillAmount.setBodyBoldGreenStyle()
         }
     }

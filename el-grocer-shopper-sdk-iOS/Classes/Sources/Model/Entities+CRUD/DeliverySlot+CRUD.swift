@@ -240,7 +240,7 @@ extension DeliverySlot {
     class func sortFilterA (_ deliverySlots :  [DeliverySlot] ) -> [DeliverySlot] {
         var slotsA = deliverySlots
         slotsA.sort { $0.isInstant > $1.isInstant }
-        slotsA.sort { $0.start_time ?? Date() < $1.end_time ?? Date()}
+        slotsA.sort { $0.start_time ?? Date() < $1.start_time ?? Date()}
         return slotsA
     }
     

@@ -480,10 +480,10 @@ class CodeVerificationViewController : UIViewController , NavigationBarProtocol 
                         if isSuccess {
                             proceedForLogin()
                             // need to remove this after testing
-                            if Platform.isSimulator {
-                                LoginSignupService.setAddLocationView(from: self)
-                                return
-                            }
+//                            if Platform.isSimulator {
+//                                LoginSignupService.setAddLocationView(from: self)
+//                                return
+//                            }
                             if addresses.count > 0 {    // Navigate to home
                                 LoginSignupService.setHomeView(from: self)
                             } else if  UserDefaults.didUserSetAddress() {

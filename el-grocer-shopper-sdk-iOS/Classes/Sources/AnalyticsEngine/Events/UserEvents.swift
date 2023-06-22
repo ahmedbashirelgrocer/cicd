@@ -20,6 +20,11 @@ struct IdentifyUserEvent: IdentifyUserDataType {
             EventParameterKeys.phone        : user?.phone ?? "",
             EventParameterKeys.name         : user?.name ?? "",
             EventParameterKeys.isSmilesSDK  : SDKManager.shared.launchOptions?.isSmileSDK ?? true,
+            EventParameterKeys.language  : SDKManager.shared.launchOptions?.language ?? "en",
+            EventParameterKeys.msgEmail: true,          // email push notifications
+            EventParameterKeys.msgPush: true,           // Enable push notifications
+            EventParameterKeys.msgSMS : true,           // Enable SMS notifications
+            EventParameterKeys.msgWhatsApp : true       // Enable WhatsApp notifications
         ]
     }
 }
