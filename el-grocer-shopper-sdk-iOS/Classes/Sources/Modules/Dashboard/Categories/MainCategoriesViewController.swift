@@ -221,6 +221,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
     }
     
+    var cachedPosition = Dictionary<IndexPath,CGPoint>()
     // MARK: Life cycle
     
     required init?(coder aDecoder: NSCoder) {
@@ -836,6 +837,14 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
 //        }
 //        return totalRows
 //    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? HomeCell {
+            cachedPosition[indexPath] = cell.productsCollectionView.contentOffset
+        } else if let cell = cell as? CategoriesCell {
+            cachedPosition[indexPath] = cell.collectionView.contentOffset
+        }
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.viewModel.outputs.heightForCell(indexPath: indexPath)
@@ -1625,6 +1634,12 @@ private extension MainCategoriesViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
             self.viewModel.inputs.scrollObserver.onNext(indexPath)
             cell.configure(viewModel: viewModel)
+            
+            if let cell = cell as? HomeCell {
+                cell.productsCollectionView.contentOffset = self.cachedPosition[indexPath] ?? .zero
+            } else if let cell = cell as? CategoriesCell {
+                cell.collectionView.contentOffset = self.cachedPosition[indexPath] ?? .zero
+            }
             
             return cell
         })
