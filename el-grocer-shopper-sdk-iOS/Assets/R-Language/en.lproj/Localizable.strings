@@ -1842,6 +1842,7 @@ Add delivery details";
 "total_price_incl_VAT" = "Total price (incl. VAT)";
 "checkout_instruction_placeHolder" = "Type to leave additional instruction to the store";
 "promo_textfield_placeholder" = "Enter promo code";
+"screen_order_details_bags_text" = "Bags";
 
 "lbl_collection_detail_alert_highlight" = "arrive on time";
 

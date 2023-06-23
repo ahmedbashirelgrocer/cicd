@@ -210,6 +210,26 @@ extension Order {
         if let images_links = orderDict["order_positions"] as? [NSDictionary] {
             order.itemsPossition = images_links
         }
+        
+        if let additionalItemsCost = orderDict["additional_items_cost"] as? NSNumber {
+            order.additionalItemsCost = additionalItemsCost
+        }
+        
+        if let additionalItemsCount = orderDict["additional_items_no"] as? NSNumber {
+            order.additionalItemsCount = additionalItemsCount
+        }
+        
+        if let additionalItemsComment = orderDict["additional_items_comment"] as? NSNumber {
+            order.additionalItemsComment = additionalItemsComment
+        }
+        
+        if let businessLiability = orderDict["business_liability"] as? NSNumber {
+            order.businessLiability = businessLiability
+        }
+        
+        if let taxInvoiceLink = orderDict["tax_invoice_link"] as? String {
+            order.taxInvoiceLink = taxInvoiceLink
+        }
        
         var groceryOrderId = ""
         var groceryId = NSNumber(integerLiteral: -1)

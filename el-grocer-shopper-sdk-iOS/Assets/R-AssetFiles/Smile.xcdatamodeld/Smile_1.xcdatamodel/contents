@@ -35,7 +35,6 @@
     <entity name="DeliveryAddress" representedClassName=".DeliveryAddress" syncable="YES" codeGenerationType="class">
         <attribute name="additionalDirection" optional="YES" attributeType="String"/>
         <attribute name="address" attributeType="String" defaultValueString="Unknown"/>
-        <attribute name="addressImageUrl" optional="YES" attributeType="URI"/>
         <attribute name="addressTagId" optional="YES" attributeType="String"/>
         <attribute name="addressType" optional="YES" attributeType="String"/>
         <attribute name="apartment" optional="YES" attributeType="String"/>
@@ -51,7 +50,6 @@
         <attribute name="latitude" attributeType="Double" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="locationName" optional="YES" attributeType="String"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0" usesScalarValueType="NO"/>
-        <attribute name="nickName" optional="YES" attributeType="String"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="shopperName" optional="YES" attributeType="String"/>
         <attribute name="street" optional="YES" attributeType="String"/>
@@ -99,7 +97,7 @@
         <attribute name="nameEn" optional="YES" attributeType="String"/>
         <attribute name="openingTime" optional="YES" attributeType="String"/>
         <attribute name="parentID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="paymentAvailableID" optional="YES" attributeType="String"/>
+        <attribute name="paymentAvailableID" optional="YES" attributeType="Transformable"/>
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="ranking" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="retailerGroupName" optional="YES" attributeType="String"/>
@@ -109,7 +107,8 @@
         <attribute name="serviceFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="smallImageUrl" optional="YES" attributeType="String"/>
         <attribute name="smileSupport" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="storeType" optional="YES" attributeType="String"/>
+        <attribute name="storeType" optional="YES" attributeType="Transformable"/>
+        <attribute name="topSearch" optional="YES" attributeType="Transformable"/>
         <attribute name="vat" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="brands" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Brand"/>
         <relationship name="categories" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Category"/>
@@ -132,12 +131,12 @@
         <relationship name="grocery" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Grocery"/>
     </entity>
     <entity name="Order" representedClassName=".Order" syncable="YES" codeGenerationType="class">
-        <attribute name="additionalItemsComment" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="additionalItemsCost" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="additionalItemsCount" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="additionalItemsComment" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="additionalItemsCost" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="additionalItemsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="applePayWallet" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="authAmount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="businessLiability" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="businessLiability" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="cardID" optional="YES" attributeType="String"/>
         <attribute name="cardLast" optional="YES" attributeType="String"/>
         <attribute name="cardType" optional="YES" attributeType="String"/>

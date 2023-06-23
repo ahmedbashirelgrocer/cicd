@@ -1876,6 +1876,7 @@
 "total_price_incl_VAT" = "السعر الإجمالي (شامل الضريبة)";
 "checkout_instruction_placeHolder" = "اكتب لتترك لنا ملاحظة";
 "promo_textfield_placeholder" = "أدﺧﻞ الرمز الترويجي";
+"screen_order_details_bags_text" = "أكياس";
 
 "lbl_collection_detail_alert_highlight" = "وصولك في الوقت المحدد.";
 
