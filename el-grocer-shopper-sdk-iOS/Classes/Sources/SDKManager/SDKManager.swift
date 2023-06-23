@@ -345,10 +345,9 @@ class SDKManager: NSObject, SDKManagerType  {
             GMSPlacesClient.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
             GMSServices.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
         }else if Bundle.main.bundleIdentifier == "Etisalat.House" {
-            GMSPlacesClient.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
-            GMSServices.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
+          //  GMSPlacesClient.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
+          //  GMSServices.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
         }
-        
        
         // initialize Segment SDK used for event logging.
         initializeSegmentSDK()
