@@ -455,6 +455,10 @@ extension UIButton {
         self.titleLabel?.font = UIFont.SFProDisplayNormalFont(14)
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
+    func setBody3BoldSecondaryDarkGreenColorStyle() {
+        self.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
+        self.setTitleColor(ApplicationTheme.currentTheme.secondaryDarkGreenColor, for: UIControl.State())
+    }
     func setBody3BoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())

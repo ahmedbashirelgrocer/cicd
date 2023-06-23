@@ -44,6 +44,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     var orderIDFromNotification : String = ""
     var orderProducts:[Product]!
     var orderItems:[ShoppingBasketItem]!
+    var downloadCellCount = 0
     
     var shoppingBasketView:ShoppingBasketView!
     
@@ -1637,22 +1638,24 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard self.orderProducts != nil else { return 0 }
         
-        let downloadCellCount = order.taxInvoiceLink?.isNotEmpty == true ? 1 : 0
+        downloadCellCount = order.taxInvoiceLink?.isNotEmpty == true ? 1 : 0
         
         if section == 0 {
             if (order.smileEarn ?? 0) > 0 {
-                return 8 + downloadCellCount
+                return 7
             }else {
-                return 7 + downloadCellCount
+                return 6
             }
-        }else  if section == 2 {
+        } else if section == 1 {
+            return downloadCellCount + 1
+        } else  if section == 3 {
             return 1
         }else{
            return self.orderProducts.count
@@ -1728,16 +1731,16 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }else if indexPath.row == 6 {
                 if (self.order.smileEarn ?? 0) > 0 {
                     return UITableView.automaticDimension//70 //260 + ( self.order.promoCode != nil ? 20 : 0)
-                }else {
-                    return 40
                 }
                 
-            }else if indexPath.row == 7 {
-                return 40
             }
-           
             
-        }else if indexPath.section == 2 {
+        } else if indexPath.section == 1 {
+            if downloadCellCount == 1, indexPath.row == 0 {
+                return tableView.rowHeight
+            }
+            return 40
+        } else if indexPath.section == 3 {
             
             if (order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue || order.status.intValue == OrderStatus.payment_pending.rawValue) {
                 return 88
@@ -1849,20 +1852,19 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                         cell.configureBillDetails(order: self.order, orderController: self)
                     }
                     return cell
-                }else {
-                    let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                    cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))
-                    return cell
                 }
-            }else  if indexPath.row == 7 {
-                
+            }
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0, downloadCellCount == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DownloadPDFCell") as! DownloadPDFCell
+                cell.configure(url: URL(string: self.order.taxInvoiceLink!)!)
+                return cell
+            } else {
                 let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
                 cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))
                 return cell
-                
             }
-          
-        }else if indexPath.section == 2 {
+        } else if indexPath.section == 3 {
             let cell : SubsitutionActionButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SubsitutionActionButtonTableViewCell" , for: indexPath) as! SubsitutionActionButtonTableViewCell
             cell.configure(true)
             cell.buttonclicked = { [weak self] (isCancel) in

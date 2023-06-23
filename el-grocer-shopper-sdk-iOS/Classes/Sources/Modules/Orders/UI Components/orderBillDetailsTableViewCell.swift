@@ -21,7 +21,6 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     private var burnSmilePointsView = BillEntryView(isGreen: true)
     private var burnElwalletPointsView = BillEntryView(isGreen: true)
     private var finalBillAmountView = BillEntryView(isGreen: true)
-    private var downloadPDFView = DownloadPDFView()
     
     private lazy var dividerView: UIView = {
         let view = UIView()
@@ -130,11 +129,6 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         
         self.setFreeDeliveryFeeViewConstraints()
         
-        NSLayoutConstraint.activate([
-            downloadPDFView.leadingAnchor.constraint(equalTo: billStackView.leadingAnchor, constant: 8),
-            downloadPDFView.trailingAnchor.constraint(equalTo: billStackView.trailingAnchor, constant: -8)
-        ])
-        
     }
     func setFreeDeliveryFeeViewConstraints() {
 
@@ -171,7 +165,6 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.billStackView.addArrangedSubview(self.priceVarianceView)
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
-        self.billStackView.addArrangedSubview(self.downloadPDFView)
     }
     
     func configureBillDetails(order: Order, orderController: OrderDetailsViewController) {
