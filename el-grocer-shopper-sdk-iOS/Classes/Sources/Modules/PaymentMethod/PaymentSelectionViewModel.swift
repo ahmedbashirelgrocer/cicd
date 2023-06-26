@@ -57,7 +57,7 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
     var selectedItem: Observable<PaymentSelectionCellViewModel> { selectedItemSubject.asObservable() }
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     
-    init(elGrocerAPI: ElGrocerApi, adyenApiManager: AdyenApiManager, grocery: Grocery?,selectedPaymentOption: PaymentOption?, cardId: String?) {
+    init(elGrocerAPI: ElGrocerApi, adyenApiManager: AdyenApiManager, grocery: Grocery?,selectedPaymentOption: PaymentOption?, cardId: String?, paymentMethods: [PaymentType]) {
         self.elGrocerAPI = elGrocerAPI
         self.adyenAPIManager = adyenApiManager
         self.grocery = grocery
@@ -65,74 +65,53 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
         self.selectedCardId = cardId
         self.titleSubject.onNext(localizedString("payment_method_title", comment: ""))
         
-        self.fetchPaymentMethods()
+        let paymentOptions = paymentMethods.map { $0.getLocalPaymentOption() }
+        self.fetchPaymentMethods(paymentOptions: paymentOptions)
     }
 }
 
 private extension PaymentSelectionViewModel {
-    func fetchPaymentMethods() {
+    func fetchPaymentMethods(paymentOptions: [PaymentOption]) {
         guard let groceryID = grocery?.dbID else { return }
+    
+        if paymentOptions.contains(where: { $0 == .cash}) {
+            self.viewModels.append(PaymentSelectionCellViewModel(option: .cash, isSelected: self.paymentOption == .cash))
+        }
         
-        self.loadingSubject.onNext(true)
-        PaymentMethodFetcher.getPaymentOptions(groceryID: groceryID) { paymentOptions, error in
-            if let error = error {
-                self.errorSubject.onNext(error)
-                self.loadingSubject.onNext(false)
-                return
-            }
+        if paymentOptions.contains(where: { $0 == .card}) {
+            self.viewModels.append(PaymentSelectionCellViewModel(option: .card, isSelected: self.paymentOption == .card))
+        }
+        
+        
+        if paymentOptions.contains(where: { $0 == .creditCard }) {
+            let amount = AdyenManager.createAmount(amount: 100.0)
             
-            guard var paymentOptions = paymentOptions else {
-                self.loadingSubject.onNext(false)
-                return
-            }
-            
-            
-            if paymentOptions.contains(where: { $0 == .cash}) {
-                self.viewModels.append(PaymentSelectionCellViewModel(option: .cash, isSelected: self.paymentOption == .cash))
-            }
-            if paymentOptions.contains(where: { $0 == .card}) {
-                self.viewModels.append(PaymentSelectionCellViewModel(option: .card, isSelected: self.paymentOption == .card))
-//                self.viewModels.append(PaymentSelectionCellViewModel(option: .card, isSelected: true))
-            }
-            
-            
-            if paymentOptions.contains(where: { $0 == .creditCard }) {
-                // TODO: Ask why passing hard coded value of amount
-                let amount = AdyenManager.createAmount(amount: 100.0)
-                
-                PaymentMethodFetcher.getPaymentMethods(amount: amount, addApplePay: true) { creditCards, applePay, error in
-                    if let error = error {
-                        self.errorSubject.onNext(error)
-                        self.loadingSubject.onNext(false)
-                        return
-                    }
-                    
-                    paymentOptions.removeAll(where: { $0 == .creditCard })
-                    
-//                    paymentOptions.forEach { option in
-//                        self.viewModels.append(PaymentSelectionCellViewModel(option: option))
-//                    }
-                    
-                    if applePay != nil {
-                        self.viewModels.append(PaymentSelectionCellViewModel(option: .applePay, applePay: applePay, isSelected: self.paymentOption == .applePay))
-                    }
-                    
-                    creditCards?.forEach({ creditCard in
-                        if (self.selectedCardId ?? "").elementsEqual(creditCard.cardID) && self.paymentOption == .creditCard {
-                            self.viewModels.append(PaymentSelectionCellViewModel(card: creditCard, isSelected: true))
-                        }else {
-                            self.viewModels.append(PaymentSelectionCellViewModel(card: creditCard))
-                        }
-                    })
-                    
-                    self.viewModels.append(PaymentSelectionCellViewModel(string: localizedString("btn_add_new_card", comment: "")))
-                    self.cellViewModelsSubject.onNext(self.viewModels)
+            self.loadingSubject.onNext(true)
+            PaymentMethodFetcher.getPaymentMethods(amount: amount, addApplePay: true) { creditCards, applePay, error in
+                if let error = error {
+                    self.errorSubject.onNext(error)
                     self.loadingSubject.onNext(false)
+                    return
                 }
-            } else {
+                
+                if applePay != nil {
+                    self.viewModels.append(PaymentSelectionCellViewModel(option: .applePay, applePay: applePay, isSelected: self.paymentOption == .applePay))
+                }
+                
+                creditCards?.forEach({ creditCard in
+                    if (self.selectedCardId ?? "").elementsEqual(creditCard.cardID) && self.paymentOption == .creditCard {
+                        self.viewModels.append(PaymentSelectionCellViewModel(card: creditCard, isSelected: true))
+                    }else {
+                        self.viewModels.append(PaymentSelectionCellViewModel(card: creditCard))
+                    }
+                })
+                
+                self.viewModels.append(PaymentSelectionCellViewModel(string: localizedString("btn_add_new_card", comment: "")))
                 self.cellViewModelsSubject.onNext(self.viewModels)
                 self.loadingSubject.onNext(false)
             }
+        } else {
+            self.cellViewModelsSubject.onNext(self.viewModels)
         }
     }
 }

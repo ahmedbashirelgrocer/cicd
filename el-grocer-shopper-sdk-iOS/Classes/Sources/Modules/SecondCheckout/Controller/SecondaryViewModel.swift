@@ -45,7 +45,7 @@ class SecondaryViewModel {
     private var order: Order?
     private var userid: NSNumber?
     private var editOrderPrimarySelectedMethod: Int?
-    
+    var retailerPaymentTypes: [PaymentType] = []
     
     
     private var defaultApiData: [String : Any] = [:] // will provide default data with grocery delivery address and slot if provide in init method
@@ -138,6 +138,7 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
+                        self.retailerPaymentTypes = checkoutData.data.paymentTypes ?? []
                     } catch(let error) {
                         //  print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
@@ -172,6 +173,7 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
+                        self.retailerPaymentTypes = checkoutData.data.paymentTypes ?? []
                         
                         // Logging segment event for checkout started
                         SegmentAnalyticsEngine.instance.logEvent(event: CheckoutStartedEvent())
