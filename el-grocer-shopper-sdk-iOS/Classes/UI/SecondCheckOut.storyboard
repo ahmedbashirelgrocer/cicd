@@ -1596,11 +1596,11 @@
                         <outlet property="lblWarningMsg" destination="7PQ-u3-kC3" id="Mrt-5f-Dno"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" id="aNi-gq-415">
+                <view contentMode="scaleToFill" id="aNi-gq-415" customClass="TabbyView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="104"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jWN-Ru-rnJ" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jWN-Ru-rnJ" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                             <rect key="frame" x="16" y="8" width="382" height="87"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pay_via_tabby" translatesAutoresizingMaskIntoConstraints="NO" id="tZv-pu-kYx">
@@ -1675,6 +1675,12 @@
                         <constraint firstItem="ZkZ-v7-l72" firstAttribute="trailing" secondItem="jWN-Ru-rnJ" secondAttribute="trailing" constant="16" id="pE5-8p-eOy"/>
                         <constraint firstItem="jWN-Ru-rnJ" firstAttribute="leading" secondItem="aNi-gq-415" secondAttribute="leading" constant="16" id="zFN-mB-zd5"/>
                     </constraints>
+                    <connections>
+                        <outlet property="lblDetails" destination="hNg-L5-Sje" id="mAB-Mo-98w"/>
+                        <outlet property="lblTitle" destination="f2g-dY-0Rh" id="bBG-xb-HdF"/>
+                        <outlet property="tabbySwitch" destination="dgK-xH-s0e" id="f0L-jH-5nn"/>
+                        <outlet property="viewBG" destination="jWN-Ru-rnJ" id="joc-d2-0ZC"/>
+                    </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZ9-bz-Hgh" customClass="MapPinView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="311" height="140"/>

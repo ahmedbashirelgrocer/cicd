@@ -37,6 +37,7 @@ class SecondCheckoutVC: UIViewController {
             pinView.delegate = self
         }
     }
+    
     private var billView = BillView()
     private lazy var secondaryPaymentView: SecondaryPaymentView = SecondaryPaymentView()
     private lazy var mapDelegate: LocationMapDelegation = {
