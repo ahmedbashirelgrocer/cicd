@@ -274,7 +274,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         if sdkManager.isShopperApp && tabbyAmount != 0 {
             self.viewTabbyAmount.isHidden = false
             self.billStackView.addArrangedSubview(self.viewTabbyAmount)
-            self.viewTabbyAmount.configure(title: NSLocalizedString("paid_with_tabby", comment: ""), amount: tabbyAmount, isNegative: true)
+            self.viewTabbyAmount.configure(title: localizedString("paid_with_tabby", comment: ""), amount: tabbyAmount, isNegative: true)
         } else {
             self.viewTabbyAmount.isHidden = true
         }

@@ -295,6 +295,8 @@ extension SecondaryViewModel {
             secondaryPayments["promo_code"] = false
         }
         
+        secondaryPayments["tabby"] = self.tabbyEnabled
+        
         if let additionalInstruction  = self.additionalInstructions {
             finalParams["shopper_note"] = additionalInstruction
         }
@@ -663,6 +665,7 @@ extension SecondaryViewModel {
         secondaryPayments["smiles"] = self.isSmileTrue
         secondaryPayments["el_wallet"] = self.isWalletTrue
         secondaryPayments["promo_code"] = self.isPromoCodeTrue
+        secondaryPayments["tabby"] = self.tabbyEnabled
         
         parameters["secondary_payments"] = secondaryPayments
         parameters.update(other: self.setDefaultApiData())

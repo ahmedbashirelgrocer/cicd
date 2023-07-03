@@ -2132,7 +2132,7 @@ extension SubstitutionsProductViewController{
             showCVV(false)
         } else if paymentType == .tabby && sdkManager.isShopperApp {
             setApplePayAppearence(false)
-            self.lblSelectedPayment.text = NSLocalizedString("paid_with_tabby", comment: "")
+            self.lblSelectedPayment.text = localizedString("paid_with_tabby", comment: "")
             self.selectedPaymentImage.image = UIImage(named: "pay_via_tabby")
             showCVV(false)
         } else if paymentType == .applePay {
@@ -2349,7 +2349,7 @@ extension SubstitutionsProductViewController {
         if sdkManager.isShopperApp && tabbyRedeem > 0 {
             self.tabbyRedeemView.isHidden = false
             self.billStackView.addArrangedSubview(self.tabbyRedeemView)
-            self.tabbyRedeemView.configure(title: NSLocalizedString("paid_with_tabby", comment: ""), amount: tabbyRedeem, isNegative: true)
+            self.tabbyRedeemView.configure(title: localizedString("paid_with_tabby", comment: ""), amount: tabbyRedeem, isNegative: true)
         } else {
             self.tabbyRedeemView.isHidden = true
         }

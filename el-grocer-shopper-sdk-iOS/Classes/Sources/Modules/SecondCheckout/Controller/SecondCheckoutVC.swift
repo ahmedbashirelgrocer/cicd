@@ -256,7 +256,7 @@ class SecondCheckoutVC: UIViewController {
         
         Thread.OnMainThread {
         // configure bill view
-            self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0, smilesSubscriber: data.smilesSubscriber ?? false)
+            self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0, smilesSubscriber: data.smilesSubscriber ?? false, tabbyRedeem: data.tabbyRedeem)
 
             self.checkoutDeliverySlotView.configure(slots: self.viewModel.deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
         
@@ -454,6 +454,7 @@ private extension SecondCheckoutVC {
         checkoutStackView.addArrangedSubview(viewCollector)
         checkoutStackView.addArrangedSubview(paymentMethodView)
         checkoutStackView.addArrangedSubview(promocodeView)
+        checkoutStackView.addArrangedSubview(tabbyView)
         checkoutStackView.addArrangedSubview(secondaryPaymentView)
         checkoutStackView.addArrangedSubview(billView)
         

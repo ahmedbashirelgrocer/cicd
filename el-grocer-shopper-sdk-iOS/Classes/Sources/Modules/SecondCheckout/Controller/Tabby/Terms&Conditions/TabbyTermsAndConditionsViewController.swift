@@ -18,25 +18,24 @@ class TabbyTermsAndConditionsViewController: UIViewController {
             lblTitle.setBody2SemiboldDarkStyle()
         }
     }
-    
     @IBOutlet weak var tableView: UITableView!
     
     private let privacyPolicyArray: [PrivacyPolicyParagraph] = [
         PrivacyPolicyParagraph(
-            title: NSLocalizedString("tabby_tc_paraghraph_one_title", comment: ""),
-            description: NSLocalizedString("tabby_tc_paraghraph_one_description", comment: "")
+            title: localizedString("tabby_tc_paraghraph_one_title", comment: ""),
+            description: localizedString("tabby_tc_paraghraph_one_description", comment: "")
         ),
         PrivacyPolicyParagraph(
-            title: NSLocalizedString("tabby_tc_paraghraph_second_title", comment: ""),
-            description: NSLocalizedString("tabby_tc_paraghraph_second_description", comment: "")
+            title: localizedString("tabby_tc_paraghraph_second_title", comment: ""),
+            description: localizedString("tabby_tc_paraghraph_second_description", comment: "")
         ),
         PrivacyPolicyParagraph(
-            title: NSLocalizedString("tabby_tc_paraghraph_third_title", comment: ""),
-            description: NSLocalizedString("tabby_tc_paraghraph_third_description", comment: "")
+            title: localizedString("tabby_tc_paraghraph_third_title", comment: ""),
+            description: localizedString("tabby_tc_paraghraph_third_description", comment: "")
         ),
         PrivacyPolicyParagraph(
-            title: NSLocalizedString("tabby_tc_paraghraph_forth_title", comment: ""),
-            description: NSLocalizedString("tabby_tc_paraghraph_forth_description", comment: "")
+            title: localizedString("tabby_tc_paraghraph_forth_title", comment: ""),
+            description: localizedString("tabby_tc_paraghraph_forth_description", comment: "")
         ),
     ]
     private let cellIdentifier = "TermsAndConditionsTableViewCell"
@@ -44,12 +43,12 @@ class TabbyTermsAndConditionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        lblTitle.text = NSLocalizedString("tabby_terms_and_conditions_title", comment: "")
+        lblTitle.text = localizedString("tabby_terms_and_conditions_title", comment: "")
         
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UINib(nibName: cellIdentifier, bundle: .main), forCellReuseIdentifier: cellIdentifier)
+        tableView.register(UINib(nibName: cellIdentifier, bundle: .resource), forCellReuseIdentifier: cellIdentifier)
     }
     
     @IBAction func closeButtonTap(_ sender: Any) {
