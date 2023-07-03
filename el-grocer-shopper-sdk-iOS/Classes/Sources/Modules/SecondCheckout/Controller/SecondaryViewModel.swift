@@ -38,6 +38,8 @@ class SecondaryViewModel {
     private var carouselProductsArray : [Product]? = []
     private var selectedPreferenceId : Int? = nil
     private var additionalInstructions: String?
+    private var tabbyEnabled: Bool = false
+    
     var basketDataValue: BasketDataClass? = nil
     var deliverySlots: [DeliverySlotDTO] = []
     private var selectedCreditCard: CreditCard? = nil
@@ -46,6 +48,7 @@ class SecondaryViewModel {
     private var userid: NSNumber?
     private var editOrderPrimarySelectedMethod: Int?
     var retailerPaymentTypes: [PaymentType] = []
+    var tabbyWebUrl: String?
     
     
     private var defaultApiData: [String : Any] = [:] // will provide default data with grocery delivery address and slot if provide in init method
@@ -138,7 +141,6 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
-                        self.retailerPaymentTypes = checkoutData.data.paymentTypes ?? []
                     } catch(let error) {
                         //  print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
@@ -173,7 +175,6 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
-                        self.retailerPaymentTypes = checkoutData.data.paymentTypes ?? []
                         
                         // Logging segment event for checkout started
                         SegmentAnalyticsEngine.instance.logEvent(event: CheckoutStartedEvent())
@@ -397,6 +398,14 @@ extension SecondaryViewModel {
             self.isPromoCodeTrue = false
         }
         
+        if let tabbyRedeem = data.tabbyRedeem, tabbyRedeem > 0 {
+            self.tabbyEnabled = true
+        } else {
+            self.tabbyEnabled = false
+        }
+
+        self.retailerPaymentTypes = data.paymentTypes ?? []
+        self.tabbyWebUrl = data.tabbyWebUrl
     }
 }
 
@@ -479,6 +488,14 @@ extension SecondaryViewModel {
     }
     func getAdditionalInstructions()-> String {
         return self.additionalInstructions ?? ""
+    }
+    
+    func setTabbyEnabled(enabled: Bool) {
+        self.tabbyEnabled = enabled
+    }
+    
+    func getTabbyEnabled() -> Bool {
+        return self.tabbyEnabled
     }
     
     func updateCreditCard(_ selectedCreditCard : CreditCard?) {
@@ -891,6 +908,9 @@ struct BasketDataClass: Codable {
     let smilesEarn: Int?
     let priceVariance: Double?
     var smilesSubscriber: Bool?
+    var tabbyWebUrl: String?
+    var tabbyRedeem: Double?
+    var tabbyThresholdMessage: String?
     
     enum CodingKeys: String, CodingKey {
         case finalAmount = "final_amount"
@@ -917,6 +937,9 @@ struct BasketDataClass: Codable {
         case priceVariance = "Price_variance"
         case extraBalance = "balance"
         case smilesSubscriber = "food_subscription_status"
+        case tabbyWebUrl = "tabby_web_url"
+        case tabbyRedeem = "tabby_redeem"
+        case tabbyThresholdMessage = "tabby_threshold_message"
         
     }
     
@@ -950,6 +973,9 @@ struct BasketDataClass: Codable {
         priceVariance = (try? values.decode(Double.self, forKey: .smilesEarn))
         extraBalance = (try? values.decode(Double.self, forKey: .extraBalance))
         smilesSubscriber = (try? values.decode(Bool.self, forKey: .smilesSubscriber)) //?? false
+        tabbyWebUrl = (try? values.decode(String.self, forKey: .tabbyWebUrl))
+        tabbyRedeem = (try? values.decode(Double.self, forKey: .tabbyRedeem))
+        tabbyThresholdMessage = (try? values.decode(String.self, forKey: .tabbyThresholdMessage))
 
     }
 }
@@ -1002,7 +1028,9 @@ struct PaymentType: Codable {
             return PaymentOption.card
         }else if self.id == 3 {
             return PaymentOption.creditCard
-        }else if self.id == PaymentOption.applePay.rawValue {
+        } else if self.id == 7 {
+            return PaymentOption.tabby
+        } else if self.id == PaymentOption.applePay.rawValue {
             return PaymentOption.applePay
         }else {
             return PaymentOption.none

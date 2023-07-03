@@ -1858,6 +1858,7 @@ Add delivery details";
 
 "tabby_tc_paraghraph_forth_title" = "Review and pay in one bill";
 "tabby_tc_paraghraph_forth_description" = "You’ll receive your Tabby Pay later bill on the 25th of the month with payment due on the 28th.";
+"paid_with_tabby" = "Tabby";
 
 "lbl_collection_detail_alert_highlight" = "arrive on time";
 

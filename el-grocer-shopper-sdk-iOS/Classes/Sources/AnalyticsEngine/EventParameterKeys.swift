@@ -84,15 +84,15 @@ enum EventParameterKeys {
     static let deepLink             = "deepLink"
     static let pushNotifcation      = "pushNotification"
     
-    static let attemptCount     = "attemptCount"
-    static let isLoggedIn       = "isLoggedIn"
+    static let attemptCount         = "attemptCount"
+    static let isLoggedIn           = "isLoggedIn"
     
-    static let language          = "language"
+    static let language             = "language"
     // CleverTap
-    static let msgEmail          = "MSG-email"
-    static let msgPush           = "MSG-push"
-    static let msgSMS            = "MSG-sms"
-    static let msgWhatsApp       = "MSG-whatsapp"
-    
-    
+    static let msgEmail             = "MSG-email"
+    static let msgPush              = "MSG-push"
+    static let msgSMS               = "MSG-sms"
+    static let msgWhatsApp          = "MSG-whatsapp"
+    static let amountPaidWithTabby  = "amountPaidWithTabby"
+    static let isTabbyEnabled       = "isTabbyEnabled"
 }

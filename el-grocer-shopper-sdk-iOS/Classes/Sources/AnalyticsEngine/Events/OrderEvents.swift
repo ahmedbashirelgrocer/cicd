@@ -14,7 +14,22 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
 
     init(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?) {
         self.eventType = .track(eventName: AnalyticsEventName.orderPurchased)
-        self.metaData = [
+        
+        self.metaData = prepairMetaData(
+            products: products,
+            grocery: grocery,
+            order: order,
+            isWalletEnabled: isWalletEnabled,
+            isSmilesEnabled: isSmilesEnabled,
+            isPromoCodeApplied: isPromoCodeApplied,
+            smilesPointsEarned: smilesPointsEarned,
+            smilesPointsBurnt: smilesPointsBurnt,
+            realizationId: realizationId
+        )
+    }
+    
+    private func prepairMetaData(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?) -> [String: Any] {
+        var metaData: [String: Any] = [
             EventParameterKeys.totalOrderAmount : String(order?.totalValue ?? 0.0),
             EventParameterKeys.paymentMethodId  : order?.payementType?.stringValue ?? "",
             EventParameterKeys.paymentMethodName: PaymentOption(rawValue: UInt32(order?.payementType?.int32Value ?? 0))?.paymentMethodName ?? "",
@@ -31,6 +46,13 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             EventParameterKeys.realizationId    : String(realizationId ?? 0),
             EventParameterKeys.products         : self.getProductDic(products: products, gorcery: grocery),
         ]
+        
+        if sdkManager.isShopperApp {
+            metaData[EventParameterKeys.isTabbyEnabled] = false
+            metaData[EventParameterKeys.amountPaidWithTabby] = 4.0
+        }
+        
+        return metaData
     }
     
     private func getProductDic(products: [Product], gorcery: Grocery?) -> [[String: Any]] {

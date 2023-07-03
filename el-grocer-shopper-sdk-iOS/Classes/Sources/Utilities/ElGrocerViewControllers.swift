@@ -560,6 +560,15 @@ class ElGrocerViewControllers {
         return ElGrocerViewControllers.initializeControllerFromStoryboard("SecondCheckOut", storyboardControllerId: "myBasketCheckoutVC")
     }
     
+    //MARK: tabby web view controller
+    class func getTabbyWebViewController() -> TabbyWebViewController {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("SecondCheckOut", storyboardControllerId: "TabbyWebViewController")
+    }
+    
+    class func getTabbyTermsAndConditionsViewController() -> TabbyTermsAndConditionsViewController {
+        return ElGrocerViewControllers.initializeControllerFromStoryboard("SecondCheckOut", storyboardControllerId: "TabbyTermsAndConditionsViewController")
+    }
+    
     //MARK: new home UI
     //hyperMarketVC
     class func getHyperMarketViewController() -> HyperMarketViewController {

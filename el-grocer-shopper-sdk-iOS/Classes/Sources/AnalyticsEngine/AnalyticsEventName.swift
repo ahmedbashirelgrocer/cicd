@@ -46,6 +46,7 @@ enum AnalyticsEventName {
     static let fundAdded                = "Funds Added"
     static let voucherRedeemed          = "Voucher Redeemed"
     static let addFundClicked           = "Add Fund Clicked"
+    static let tabbyEnabled             = "Tabby Enabled"
     
     // MARK: Address
     static let addressClicked           = "Address Clicked"

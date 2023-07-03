@@ -37,7 +37,7 @@ class SecondCheckoutVC: UIViewController {
             pinView.delegate = self
         }
     }
-    
+    @IBOutlet var tabbyView: TabbyView!
     private var billView = BillView()
     private lazy var secondaryPaymentView: SecondaryPaymentView = SecondaryPaymentView()
     private lazy var mapDelegate: LocationMapDelegation = {
@@ -87,6 +87,7 @@ class SecondCheckoutVC: UIViewController {
         self.viewCollectorCar.delegate = self
         self.additionalInstructionsView.delegate = self
         self.secondaryPaymentView.delegate = self
+        self.tabbyView.delegate = self
         
         self.checkoutDeliverySlotView.changeSlot = { [weak self] (slot) in
             guard let self = self, let slot = slot else {return}
@@ -277,6 +278,25 @@ class SecondCheckoutVC: UIViewController {
         let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
         
             self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn ?? 0, promoCode: data.promoCode, isSmileOn: self.viewModel.getIsSmileTrue() )
+        }
+        
+        
+        if sdkManager.isShopperApp {
+            let isTabbyAvailable = data.paymentTypes?.contains(where: { type in type.id == PaymentOption.tabby.rawValue }) ?? true
+            self.tabbyView.isHidden = !isTabbyAvailable
+            
+            if let tabbyRedeem = data.tabbyRedeem, tabbyRedeem > 0 {
+                self.tabbyView.enableTabbyPayment(status: true)
+            } else {
+                self.tabbyView.enableTabbyPayment(status: false)
+                
+                if let message = data.tabbyThresholdMessage, message.isNotEmpty {
+                    ElGrocerUtility.sharedInstance.showTopMessageView(message, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
+                    }, buttonIcon: UIImage(named: "crossWhite"))
+                }
+            }
+        } else {
+            self.tabbyView.isHidden = true
         }
     }
     
@@ -695,4 +715,61 @@ extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelega
     
     
     
+}
+
+extension SecondCheckoutVC: TabbyViewDelegate {
+    func helpTap() {
+        let termsAndContitionsVC = ElGrocerViewControllers.getTabbyTermsAndConditionsViewController()
+        self.navigationController?.present(termsAndContitionsVC, animated: true)
+    }
+    
+    func switchStateChanged(_ tabbyView: TabbyView, _ state: Bool) {
+        if let tabbyRedirectionUrl = self.viewModel.tabbyWebUrl, tabbyRedirectionUrl.isNotEmpty {
+            if state {
+                let vc = ElGrocerViewControllers.getTabbyWebViewController()
+                vc.tabbyRedirectionUrl = self.viewModel.tabbyWebUrl
+                
+                vc.tabbyRegistrationHandler = { [weak self] registrationStatus in
+                    guard let self = self else { return }
+                    
+                    self.viewModel.setTabbyEnabled(enabled: registrationStatus == .success)
+                    self.viewModel.updateSecondaryPaymentMethods()
+                    
+                    if registrationStatus == .success && self.viewModel.getSelectedPaymentOption() == .none {
+                        self.selectCashAsPrimaryMethod()
+                    }
+                }
+                
+                let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                navigationController.hideSeparationLine()
+                navigationController.viewControllers = [vc]
+                navigationController.modalPresentationStyle = .fullScreen
+                self.navigationController?.present(navigationController, animated: true, completion: nil)
+            } else {
+                self.viewModel.setTabbyEnabled(enabled: false)
+                self.viewModel.updateSecondaryPaymentMethods()
+            }
+        } else {
+            self.viewModel.setTabbyEnabled(enabled: state)
+            self.viewModel.updateSecondaryPaymentMethods()
+            
+            if state && self.viewModel.getSelectedPaymentOption() == .none {
+                selectCashAsPrimaryMethod()
+            }
+        }
+    }
+    
+    // Auto select case as a primary payment method
+    private func selectCashAsPrimaryMethod() {
+        guard let groceryId = self.viewModel.getGroceryId(), let userId = self.viewModel.getUserId()?.stringValue else { return }
+        
+        ElGrocerUtility.sharedInstance.delay(0.5) {
+            UserDefaults.setPaymentMethod(PaymentOption.cash.rawValue, forStoreId:groceryId)
+            UserDefaults.setCardID(cardID: "", userID: userId)
+            self.viewModel.updateCreditCard(nil)
+            self.viewModel.updateApplePay(nil)
+            self.viewModel.setSelectedPaymentOption(id: Int(PaymentOption.cash.rawValue))
+            self.viewModel.updatePaymentMethod(PaymentOption.cash)
+        }
+    }
 }

@@ -1893,6 +1893,7 @@
 
 "tabby_tc_paraghraph_forth_title" = "راجع فاتورتك وادفع مرة واحدة";
 "tabby_tc_paraghraph_forth_description" = "ستتلقى فاتورة تابي في يوم 25 من الشهر مع استحقاق السداد في اليوم 28.";
+"paid_with_tabby" = "تابي";
 
 "lbl_collection_detail_alert_highlight" = "وصولك في الوقت المحدد.";
 
