@@ -12,7 +12,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
 
-    init(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?) {
+    init(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, isTabbyEnabled: Bool, amoutPaidWithTabby: Double) {
         self.eventType = .track(eventName: AnalyticsEventName.orderPurchased)
         
         self.metaData = prepairMetaData(
@@ -24,11 +24,13 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             isPromoCodeApplied: isPromoCodeApplied,
             smilesPointsEarned: smilesPointsEarned,
             smilesPointsBurnt: smilesPointsBurnt,
-            realizationId: realizationId
+            realizationId: realizationId,
+            isTabbyEnabled: isTabbyEnabled,
+            amoutPaidWithTabby: amoutPaidWithTabby
         )
     }
     
-    private func prepairMetaData(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?) -> [String: Any] {
+    private func prepairMetaData(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, isTabbyEnabled: Bool, amoutPaidWithTabby: Double) -> [String: Any] {
         var metaData: [String: Any] = [
             EventParameterKeys.totalOrderAmount : String(order?.totalValue ?? 0.0),
             EventParameterKeys.paymentMethodId  : order?.payementType?.stringValue ?? "",
@@ -48,8 +50,8 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
         ]
         
         if sdkManager.isShopperApp {
-            metaData[EventParameterKeys.isTabbyEnabled] = false
-            metaData[EventParameterKeys.amountPaidWithTabby] = 4.0
+            metaData[EventParameterKeys.isTabbyEnabled] = isTabbyEnabled
+            metaData[EventParameterKeys.amountPaidWithTabby] = amoutPaidWithTabby
         }
         
         return metaData

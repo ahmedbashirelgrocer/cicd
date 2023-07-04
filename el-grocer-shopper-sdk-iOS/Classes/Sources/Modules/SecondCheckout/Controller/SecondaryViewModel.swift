@@ -494,6 +494,9 @@ extension SecondaryViewModel {
     
     func setTabbyEnabled(enabled: Bool) {
         self.tabbyEnabled = enabled
+        
+        // Logging segment event Tabby Enabled
+        SegmentAnalyticsEngine.instance.logEvent(event: TabbyEnabledEvent(isEnabled: enabled))
     }
     
     func getTabbyEnabled() -> Bool {

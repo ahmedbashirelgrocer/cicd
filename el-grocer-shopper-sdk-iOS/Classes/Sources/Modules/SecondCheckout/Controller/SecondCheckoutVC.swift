@@ -489,7 +489,9 @@ private extension SecondCheckoutVC {
                 isPromoCodeApplied: viewModel.isPromoApplied(),
                 smilesPointsEarned: viewModel.basketDataValue?.smilesEarn ?? 0,
                 smilesPointsBurnt: viewModel.basketDataValue?.smilesRedeem ?? 0,
-                realizationId: viewModel.basketDataValue?.promoCode?.promotionCodeRealizationID
+                realizationId: viewModel.basketDataValue?.promoCode?.promotionCodeRealizationID,
+                isTabbyEnabled: viewModel.getTabbyEnabled(),
+                amoutPaidWithTabby: viewModel.basketDataValue?.tabbyRedeem ?? 0.0
             )
             SegmentAnalyticsEngine.instance.logEvent(event: orderCompletedEvent)
             
@@ -760,7 +762,7 @@ extension SecondCheckoutVC: TabbyViewDelegate {
         }
     }
     
-    // Auto select case as a primary payment method
+    // Auto select cash as a primary payment method
     private func selectCashAsPrimaryMethod() {
         guard let groceryId = self.viewModel.getGroceryId(), let userId = self.viewModel.getUserId()?.stringValue else { return }
         
