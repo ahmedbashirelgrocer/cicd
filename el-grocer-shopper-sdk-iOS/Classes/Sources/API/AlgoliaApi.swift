@@ -899,14 +899,13 @@ extension AlgoliaApi {
     
         // Product - BarCode
     func searchProductWithBarCode (_ barCode : String ,_ productId: String, storeIDs : [String], searchType: String  , completion : @escaping responseBlock ) -> Void {
-        var facetFiltersA : [SingleOrList<String>] = []
-//        let cleanProductId = Product.getCleanProductIdString(fromId: productId)
+        
+        //var facetFiltersA : [SingleOrList<String>] = []
         let facetFiltersForBarcodeItems : String = "barcode:\(barCode)"
         let facetFiltersForProductId : String = "id:\(productId)"
-        
         var filterString = ""
         
-        for storeID in storeIDs{
+        for storeID in storeIDs {
             let facetFiltersForCurrentStoreID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
             if filterString.count == 0 {
                 filterString.append(facetFiltersForCurrentStoreID)
@@ -916,16 +915,15 @@ extension AlgoliaApi {
             }
         }
         
-        
-        
-        
-        if productId.count > 0 {
-            facetFiltersA.append(SingleOrList.single(facetFiltersForProductId))
-        }else if barCode.count > 0{
-            facetFiltersA.append(SingleOrList.single(facetFiltersForBarcodeItems))
+        if filterString.count > 0, productId.count > 0  {
+            filterString.append(ANDOperator)
+            filterString.append(facetFiltersForProductId)
+        } else if filterString.count > 0, barCode.count > 0{
+            filterString.append(ANDOperator)
+            filterString.append(facetFiltersForBarcodeItems)
         }
+        
         let query = Query()
-            .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA))
             .set(\.filters, to: filterString)
             .set(\.clickAnalytics, to: true)
             .set(\.getRankingInfo, to: true)

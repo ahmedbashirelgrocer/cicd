@@ -16,8 +16,12 @@ enum displayType {
     
 }
 
-class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
+class BrandDeepLinksVC: UIViewController, NavigationBarProtocol, BasketIconOverlayViewProtocol {
+    func basketIconOverlayViewDidTouchBasket(_ basketIconOverlayView: BasketIconOverlayView) {
+        
+    }
     
+   
     @IBOutlet var collectionView: UICollectionView!{
         didSet{
             collectionView.backgroundColor = .tableViewBackgroundColor ()
@@ -81,6 +85,9 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         self.setLeftSideTitle()
         self.setDeepLink()
         self.removeViewedEventsLocalCache()
+        if self.grocery != nil {
+            self.getGroceryDeliverySlots(nil)
+        }
         
             // self.setTitleView()
     }
@@ -90,6 +97,14 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         navBarAppearance()
         searchAlgolia()
             //checkNoDataView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if self.grocery != nil {
+            self.basketIconOverlay?.grocery = self.grocery
+            self.refreshBasketIconStatus()
+        }
     }
     
     fileprivate func removeViewedEventsLocalCache() {
@@ -117,33 +132,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
         
         
     }
-    
-//    fileprivate func removeViewedEventsLocalCache() {
-//        BrandUserDefaults.removedProductViewedFor(screenName: screeName)
-//    }
-//    
-//    func setDeepLink() {
-//        
-//        if !ElGrocerUtility.sharedInstance.deepLinkShotURL.isEmptyStr {
-//            self.deepLink = ElGrocerUtility.sharedInstance.deepLinkShotURL
-//            ElGrocerUtility.sharedInstance.deepLinkShotURL = ""
-//        }
-//    }
-//    
-//    func setLeftSideTitle() {
-//        
-//        
-//        titleLabel.frame = CGRect(x: 0,y: 0,width: 300, height: 40) as CGRect
-//        titleLabel.font  = UIFont.SFProDisplaySemiBoldFont(17.0)
-//        titleLabel.textColor = .white
-//        titleLabel.textAlignment = .natural
-//        titleLabel.numberOfLines = 1
-//        titleLabel.text = ""
-//        self.navigationItem.titleView = titleLabel
-//        
-//        
-//    }
-    
+ 
     func backButtonClickedHandler(){
         BrandUserDefaults.removedProductViewedFor(screenName: self.screeName)
         self.dismiss(animated: true, completion: nil)
@@ -169,19 +158,14 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
             self.locationHeader.bottomAnchor.constraint(equalTo: self.collectionView.topAnchor, constant: 0)
             
         ])
-        
         let widthConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
         let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant:  self.locationHeader.headerMaxHeight )
         NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
-        
         if let groceryView = self.locationHeader.groceryBGView {
-            
-            groceryBgViewHeight = NSLayoutConstraint(item: groceryView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 50)
-            NSLayoutConstraint.activate([ groceryBgViewHeight! ])
-            
-                // self.locationLabelCenterConstraint = NSLayoutConstraint(item: self.locationHeader.myGroceryName!, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.locationHeader.myGroceryImage, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 10)
-            
-                //   NSLayoutConstraint.activate([ self.locationLabelCenterConstraint! ])
+            if self.grocery == nil {
+                groceryBgViewHeight = NSLayoutConstraint(item: groceryView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 50)
+                NSLayoutConstraint.activate([ groceryBgViewHeight! ])
+            }
         }
         
     }
@@ -270,6 +254,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     
     func searchAlgolia(){
         guard let brandID = brandID else {
+            SpinnerView.hideSpinnerView()
             return
         }
         var spiner: SpinnerView?
@@ -289,6 +274,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
             self.isProductApiCalling  = false
             DispatchQueue.main.async {
                 spiner?.removeFromSuperview()
+                SpinnerView.hideSpinnerView()
             }
             
             guard data != nil else {
@@ -357,7 +343,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     }
     
     func callToChangeStoreAfterAllDataSet() {
-        //if let SDKManager: SDKManagerType! = sdkManager {
+       
             if let currentTabBar = sdkManager.currentTabBar {
                 ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
                 if self.grocery != nil {
@@ -367,9 +353,31 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                 }
                 
             }
-        //}
         
+        self.addBasketIconOverlay(self, grocery: self.grocery, shouldShowGroceryActiveBasket: true)
+        self.basketIconOverlay?.grocery = grocery
+        self.basketIconOverlay?.shouldShow = true
+        self.refreshBasketIconStatus()
+        
+       // self.setTableViewBottomConstraint()
     }
+    
+//    //To adjust the bottom constraint for basketIconOverlay appear/disappear
+//    private func setTableViewBottomConstraint() {
+//
+//        if (tableViewBottomConstraint == nil) && (self.basketIconOverlay != nil) {
+//            tableViewBottomConstraint = NSLayoutConstraint(item:
+//                                        self.basketIconOverlay!,
+//                                        attribute: .top,
+//                                        relatedBy: .equal,
+//                                        toItem: self.tableView,
+//                                        attribute: .bottom,
+//                                        multiplier: 1.0,
+//                                        constant: 0.0)
+//        }
+//        tableViewBottomConstraint?.isActive = !(self.basketIconOverlay?.isHidden ?? true)
+//    }
+    
     
     func configureCellForUniversalSearchedProducts(_ indexPath:IndexPath) -> ProductCell {
         
@@ -404,13 +412,6 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
             self.groceryController  = ElGrocerViewControllers.getDeepLinkBottomGroceryVC()
         }
         var height = 500.0
-            //        if grocery.count == 3 || grocery.count == 2 {
-            //            height = 350
-            //        }else if grocery.count > 3 {
-            //            height = 500
-            //        }
-        
-        
         var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(height))
         configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
         let bottomSheetController = NBBottomSheetController(configuration: configuration)
@@ -424,24 +425,13 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
             guard let self = self else {return}
             func processGroceryChange() {
                 self.grocery = grocery
-                let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
-                if let groceryActive = ElGrocerUtility.sharedInstance.activeGrocery {
-                    if groceryActive.getCleanGroceryID().elementsEqual(grocery.getCleanGroceryID()) {
-                        
-                        UserDefaults.setCurrentSelectedDeliverySlotId(slotId)
-                    }
-                }else {
-                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
-                    UserDefaults.setCurrentSelectedDeliverySlotId(0)
-                }
-                
+                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                UserDefaults.setCurrentSelectedDeliverySlotId(0)
                 if let topVc = UIApplication.topViewController() {
                     if let tabbar = topVc.tabBarController {
                         ElGrocerUtility.sharedInstance.resetTabbar(tabbar)
                     }
                 }
-                
-                
                 UserDefaults.setPromoCodeValue(nil)
                 if (grocery.isOpen.boolValue && Int(grocery.deliveryTypeId!) != 1) || (grocery.isSchedule.boolValue && Int(grocery.deliveryTypeId!) != 0){
                     let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -449,7 +439,6 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                         UserDefaults.setGroceryId(grocery.dbID , WithLocationId: (currentAddress?.dbID)!)
                     }
                 }
-                
                 self.productsArray.removeAll()
                 self.filteredProductsArray.removeAll()
                 self.collectionView.reloadDataOnMainThread()
@@ -457,10 +446,9 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                 self.groceryController?.dismiss(animated: true, completion: nil)
                 self.removeViewedEventsLocalCache()
                 self.isBottomSheetClosed = true
-                if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
-                    FireBaseEventsLogger.setScreenName(topControllerName, screenClass: String(describing: self.view.classForCoder))
-                }
+                self.groceryBgViewHeight?.isActive = false
                 self.callToChangeStoreAfterAllDataSet()
+                
             }
             ElGrocerUtility.sharedInstance.checkActiveGroceryNeedsToClear(grocery) { (isUserApproved) in
                 if isUserApproved {
@@ -472,8 +460,12 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     
     
     
-    func getGroceryDeliverySlots(_ product : Product){
-        if self.grocery != nil{
+    func getGroceryDeliverySlots(_ product : Product?){
+        if self.grocery != nil {
+            Thread.OnMainThread {
+                let _ = SpinnerView.showSpinnerViewInView(self.view)
+            }
+            
             ElGrocerApi.sharedInstance.getGroceryDeliverySlotsWithGroceryId(self.grocery?.dbID , andWithDeliveryZoneId: self.grocery?.deliveryZoneId, false, completionHandler: { (result) -> Void in
                 
                 switch result {
@@ -484,6 +476,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                         
                     case .failure(let error):
                        elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
+                    SpinnerView.hideSpinnerView()
                 }
             })
             
@@ -491,7 +484,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
     }
     
         // MARK: Data
-    func saveResponseData(_ responseObject:NSDictionary, _ product : Product) {
+    func saveResponseData(_ responseObject:NSDictionary, _ product : Product?) {
         
         
         let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
@@ -508,7 +501,10 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
             self.grocery = updateGrocery
         }
         self.locationHeader.setSlotData()
-        self.searchProductFromAlgolia("\(product.getCleanProductId())", groceryID: "\(self.grocery?.getCleanGroceryID() ?? "")")
+        if product != nil {
+            self.searchProductFromAlgolia("\(product!.getCleanProductId())", groceryID: "\(self.grocery?.getCleanGroceryID() ?? "")")
+        }
+        
         
     }
     
@@ -519,6 +515,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
             
             
             guard data != nil else {
+                SpinnerView.hideSpinnerView()
                 return
             }
             if  let responseObject : NSDictionary = data as NSDictionary? {
@@ -533,7 +530,6 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol {
                         self.productCellOnProductQuickAddButtonClick(ProductCell(), product: newProduct)
                         ElGrocerEventsLogger.sharedInstance.addToCart(product: newProduct, "", nil, false , IndexPath.init(item: 0, section: 0))
                         self.configureHeader()
-                            //                        self.filterProducts(dataArray: newProducts)
                         self.collectionView.reloadDataOnMainThread()
                         
                     }else{
@@ -753,8 +749,8 @@ extension BrandDeepLinksVC: ProductCellProtocol{
             self.collectionView.reloadData()
         }
         
-            //        self.basketIconOverlay?.grocery = self.grocery
-            //        self.refreshBasketIconStatus()
+        self.basketIconOverlay?.grocery = self.grocery
+        self.refreshBasketIconStatus()
     }
     
     
@@ -775,29 +771,21 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
         }
         
         if self.grocery != nil {
-            
             scrollView.layoutIfNeeded()
-            
             let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
             if constraintA.count > 0 {
                 let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
                 let headerViewHeightConstraint = constraint
                 let maxHeight = self.locationHeader.headerMaxHeight
-                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
-            }
-            
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
-                self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y, self.grocery != nil ? 55: 64),maxHeight)
             }
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
                 self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
                 let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
                 self.navigationController?.navigationBar.topItem?.title = title
-                sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+                self.titleLabel.text = title
             }
-            
-            
         }
     }
     
