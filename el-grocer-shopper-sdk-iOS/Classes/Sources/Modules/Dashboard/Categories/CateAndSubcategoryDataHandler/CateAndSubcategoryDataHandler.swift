@@ -845,12 +845,12 @@ class CateAndSubcategoryDataHandler {
     }
     
     private func getBannersFromServer(_ gorceryId:String , parentCategoryID : Int? ,  subCategoryId : Int? ){
+        
+        Thread.OnMainThread {  SpinnerView.showSpinnerViewInView() }
         let homeTitle = "Banners"
         let location = BannerLocation.subCategory_tier_1.getType()
         
         let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
-        
-        SpinnerView.showSpinnerViewInView()
         ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [gorceryId], store_type_ids: storeTypes, retailer_group_ids: nil, category_id: parentCategoryID, subcategory_id: subCategoryId, brand_id: nil, search_input: nil) { (result) in
             SpinnerView.hideSpinnerView()
             switch (result) {
