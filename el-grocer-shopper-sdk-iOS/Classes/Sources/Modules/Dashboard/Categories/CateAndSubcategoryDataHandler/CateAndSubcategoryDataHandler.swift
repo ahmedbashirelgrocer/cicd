@@ -685,9 +685,9 @@ extension CateAndSubcategoryView {
             })
             return
         }
+   
+        Thread.OnMainThread { SpinnerView.showSpinnerViewInView() }
         
-        //self.subCategory.subCategoryId.stringValue
-        SpinnerView.showSpinnerViewInView()
         AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", self.productPerBrandLimmit, subcategory.subCategoryId.stringValue, "\(brand.brandId)", completion: { [weak self] (content, error) in
             SpinnerView.hideSpinnerView()
             

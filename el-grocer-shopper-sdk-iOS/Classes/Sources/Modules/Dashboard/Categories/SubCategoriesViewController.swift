@@ -577,6 +577,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             self.collectionView.reloadDataOnMainThread()
         }
     }
+    
  
     // MARK: Navigation
     

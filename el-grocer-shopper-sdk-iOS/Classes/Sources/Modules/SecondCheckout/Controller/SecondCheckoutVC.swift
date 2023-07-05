@@ -299,7 +299,10 @@ class SecondCheckoutVC: UIViewController {
             }
         }
         
-        AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: authValue, method: selectedMethod)
+        Thread.OnMainThread { [weak self ] in
+            guard let self = self else { return }
+            AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: authValue, method: selectedMethod)
+        }
         
     }
     
