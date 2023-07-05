@@ -19,13 +19,13 @@ class ProductsImagesTableViewCell: UITableViewCell {
         didSet{
             customCollection.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             customCollection.selectedStoreType  = {[weak self] (selectedStoreType) in
-                guard let self = self else {return}
+                    //    guard let self = self else {return}
 //                if let clouser = self.selectedStoreType {
 //                    clouser(selectedStoreType)
 //                }
             }
             customCollection.selectedChefType = {[weak self] (selectedChef) in
-                guard let self = self else {return}
+              //  guard let self = self else {return}
 //                if let clouser = self.selectedChef {
 //                    clouser(selectedChef)
 //                }

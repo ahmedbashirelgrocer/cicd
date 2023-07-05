@@ -147,7 +147,7 @@ class SecondCheckoutVC: UIViewController {
                 
                 func logPurchaseEvents() {
                     self?.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
-                    ElGrocerUtility.sharedInstance.delay(0.5) {
+                    ElGrocerUtility.sharedInstance.delay(0.5) { 
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
                             finalOrderItems:self?.viewModel.getShoppingItems() ?? []
                             , finalProducts:self?.viewModel.getFinalisedProducts() ?? []

@@ -28,6 +28,7 @@ class ElgrocerChannelController : SBUChannelViewController{
     var isClosedTicket: Bool = false
     var shouldPop: Bool = false
     var ratingUserMessage: SBDUserMessage?
+    var ticket : SBDSKTicket? = nil
     var rating: Float = 0
     var isAlertVisible: Bool = false
     
@@ -36,7 +37,7 @@ class ElgrocerChannelController : SBUChannelViewController{
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        setInitialAppearence()
+        self.setInitialAppearence()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,12 +47,28 @@ class ElgrocerChannelController : SBUChannelViewController{
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
          self.navigationController?.navigationBar.isTranslucent = true
         self.addBackButton(isGreen: true)
-        readLastMessage()
+        self.readLastMessage()
+        self.closeChatIfNeeded()
         self.handleArabicMode()
     }
     func handleArabicMode() {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.messageInputView.sendButton?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
+    }
+    
+    func closeChatIfNeeded() {
+        guard let message = self.channel?.lastMessage else {
+            return
+        }
+        if let msgData = message.data.data(using: .utf8) {
+            let dataObject = try? JSONSerialization.jsonObject(with: msgData, options: []) as? [String: Any]
+            if let dataObj = dataObject, let dataObj = dataObj, dataObj["type"] as? String == "NOTIFICATION_MANUAL_CLOSED" {
+                self.messageInputView.showsSendButton = false
+                for views in self.messageInputView.subviews {
+                    views.isHidden = true
+                }
+            }
         }
     }
     
@@ -162,25 +179,32 @@ class ElgrocerChannelController : SBUChannelViewController{
        elDebugPrint(message)
     }
     
+    
+    
+    
+       
+    
+    
+    
 }
 extension ElgrocerChannelController {
-    
+   
     func showTicketClosureAlert(message: SBDUserMessage?) {
+        
         guard message != nil else{
             return
         }
-       
+        
         for  view in (UIApplication.shared.keyWindow?.subviews ?? []) {
             if view is ElGrocerAlertView {
                 view.removeFromSuperview()
             }
         }
-       
-        
+
         let alert = ElGrocerAlertView.createAlert("", description: message!.message, positiveButton: localizedString("store_favourite_alert_yes", comment: ""), negativeButton: localizedString("sign_out_alert_no", comment: "")) { index in
             self.isAlertVisible = false
             if index == 0 {
-               elDebugPrint("yes")
+//               elDebugPrint("yes")
                 self.submitTicketClosure(message: message!)
             }
         }
@@ -220,7 +244,7 @@ extension ElgrocerChannelController {
                 
                 default: break
             }
-        }else if messageType == "SENDBIRD_DESK_INQUIRE_TICKET_CLOSURE"{
+        }else if messageType == "SENDBIRD_DESK_INQUIRE_TICKET_CLOSURE" {
             let closureInquiry = data["body"] as? [String: Any]
             let state = closureInquiry?["state"] as? String
             self.view.endEditing(true)
