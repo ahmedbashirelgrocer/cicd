@@ -509,6 +509,8 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
    // MARK:- Scroll Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
+        
+        
         scrollView.layoutIfNeeded()
         
         guard !sdkManager.isGrocerySingleStore else {
@@ -525,13 +527,12 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             }
             
             if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-                var kLoadingDistance = 2 * kProductCellHeight + 8
-                if self.viewHandler.isGridView {
-                    kLoadingDistance = CGFloat(10)
-                }
+                var kLoadingDistance = 4 * kProductCellHeight + 8
                 let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
-                if y + kLoadingDistance > scrollView.contentSize.height - 250 {
-                    self.viewHandler.loadMore()
+                if y  > scrollView.contentSize.height - kLoadingDistance {
+                    if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y < 0) {
+                        self.viewHandler.loadMore()
+                    }
                     return
                 }
             }
@@ -559,13 +560,15 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         }
         
         if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-            var kLoadingDistance = 2 * kProductCellHeight + 8
-            if self.viewHandler.isGridView {
-                kLoadingDistance = CGFloat(10)
-            }
+            var kLoadingDistance = 4 * kProductCellHeight + 8
+//            if self.viewHandler.isGridView {
+//                kLoadingDistance = CGFloat(10)
+//            }
             let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
-            if y + kLoadingDistance > scrollView.contentSize.height - 250 {
-                self.viewHandler.loadMore()
+            if y  > scrollView.contentSize.height - kLoadingDistance {
+                if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y < 0) {
+                    self.viewHandler.loadMore()
+                }
                 return
             }
         }
@@ -634,13 +637,15 @@ extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
         if !self.viewHandler.isGridView && index != nil {
             let visibleIndexPaths = self.collectionView.indexPathsForVisibleItems
             if visibleIndexPaths.first(where: { indexs in
-                indexs == index
+                indexs.row == index?.row
             }) != nil, ((index?.row ?? -1)) % 5 != 0   {
                 self.collectionView.performBatchUpdates {
                     self.collectionView.reloadItems(at: [index!])
                 }
                 return
-            } else { }
+            } else {
+                debugPrint("")
+            }
         }
         if index == nil  || (index?.row ?? Int.max) < 2 ||  (index?.row ?? Int.max) % 5 == 0 || (index?.row ?? Int.max) % 5 == 2  {
             self.collectionView.reloadDataOnMainThread()
