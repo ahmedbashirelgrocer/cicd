@@ -287,7 +287,7 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
             self.orderId = "0"
         }
         
-        let _ = SpinnerView.showSpinnerViewInView(self.view)
+        Thread.OnMainThread { let _ = SpinnerView.showSpinnerViewInView(self.view) }
         SBDGroupChannel.getWithUrl(urlData) { SBDchannel, error in
             SpinnerView.hideSpinnerView()
             guard let channel = SBDchannel , error == nil else{
@@ -299,6 +299,7 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
                 channelController.setOrderId(orderDbId: self.orderId)
                 channelController.isClosedTicket = self.showCloseTickets
                 channelController.shouldPop = true
+                channelController.ticket = ticket
                 //let naviVC = ElGrocerNavigationController(rootViewController: channelController)
                 self.navigationController?.pushViewController(channelController, animated: true)
             }

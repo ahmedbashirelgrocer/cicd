@@ -69,6 +69,7 @@ class LocationManager: NSObject {
         manager.activityType = CLActivityType.fitness
         manager.pausesLocationUpdatesAutomatically = true
         manager.distanceFilter = 10.0
+        manager.desiredAccuracy = 2000
         manager.delegate = self
         return manager
     }()
@@ -105,7 +106,6 @@ class LocationManager: NSObject {
             if let cloure = self.locationWithStatus {
                 cloure(self.currentLocation.value , state)
             }
-            
         }.disposed(by: disposeBag)
         
         
@@ -510,12 +510,24 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if var currentLocation = locations.last {
-            self.currentLocation.value = currentLocation
-            self.state.value = .success
+        
+        if locations.last!.horizontalAccuracy > manager.desiredAccuracy {
+            self.state.value = .fetchingLocation
+            return
         }
+        guard let currentLocation = locations.last else {
+            self.state.value = .error(ElGrocerError.genericError())
+            return
+        }
+        self.currentLocation.value = currentLocation
+        self.state.value = .success
+        self.stopUpdatingCurrentLocation()
     }
     
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+        debugPrint("error")
+    }
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
        elDebugPrint("loc≈rror:%@",error.localizedDescription)
     }

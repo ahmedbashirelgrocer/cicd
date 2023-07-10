@@ -367,79 +367,45 @@ class GoogleAnalyticsHelper {
     // MARK: Ecommerce
     @discardableResult
     class func trackPlacedOrderForEcommerce(_ order:Order, orderItems:[ShoppingBasketItem], products:[Product], productsPrices:NSDictionary?, IsSmiles: Bool) -> [[AnyHashable : Any]] {
-        return []
-// FixMe FixMe
-//        //get tracker
-//        let tracker = GAI.sharedInstance().defaultTracker
-//
-//        //orders item map
-//        var orderItemsMap = [String : ShoppingBasketItem]()
-//        for item in orderItems {
-//            orderItemsMap[item.productId] = item
-//        }
-//
-//        var revenue = 0.00
-//        var productsParams = [GAIDictionaryBuilder]()
-//
-//
-//        var fbDataA : [[AnyHashable : Any]] = []
-//
-//        //order revenue and products with prices
-//        for product in products {
-//
-//            let item = orderItemsMap[product.dbID]
-//            let priceDict = getPriceDictionaryForProduct(product, productsPrices: productsPrices)
-//            if item != nil {
-//
-//                var price = product.price.doubleValue
-//                if let priceFromGrocery = priceDict?["price_full"] as? NSNumber {
-//                    price = priceFromGrocery.doubleValue
-//                }
-//
-//                revenue += price * item!.count.doubleValue
-//
-//                 let idString = "\(Product.getCleanProductId(fromId: product.dbID))"
-//                 let quantitiy = item!.count.intValue
-//
-//                if !idString.isEmpty {
-//                    let facebookParams = ["id" : idString , "quantity" : quantitiy] as [AnyHashable: Any]
-//                    fbDataA.append(facebookParams)
-//                }
-//
-//                let smileParam = ["IsSmiles" : IsSmiles] as [AnyHashable: Any]
-//                fbDataA.append(smileParam)
-//
-//                //build product params
-//                let productParams = GAIDictionaryBuilder.createItem(withTransactionId: "\(order.dbID)",
-//                    name: product.name,
-//                    sku: "\(product.productId)",
-//                    category: item!.brandName,
-//                    price: price as NSNumber?,
-//                    quantity: item!.count.intValue as NSNumber?,
-//                    currencyCode: CurrencyManager.getCurrentCurrency())
-//
-//                productsParams.append(productParams!)
-//            }
-//        }
-//
-//        //build transaction params
-//        let transaction = GAIDictionaryBuilder.createTransaction(withId: "\(order.dbID)",
-//            affiliation: order.grocery.name,
-//            revenue: revenue as NSNumber?,
-//            tax: 0,
-//            shipping: 0,
-//            currencyCode: CurrencyManager.getCurrentCurrency())
-//
-//        //send params
-//        //tracker?.send(transaction?.build() as! [AnyHashable: Any])
-//        tracker?.send(transaction?.build() as? [AnyHashable: Any])
-//
-//        for productParam in productsParams {
-//            //tracker?.send(productParam.build() as! [AnyHashable: Any])
-//            tracker?.send(productParam.build() as? [AnyHashable: Any])
-//        }
-//
-//        return fbDataA
+
+        //orders item map
+        var orderItemsMap = [String : ShoppingBasketItem]()
+        for item in orderItems {
+            orderItemsMap[item.productId] = item
+        }
+
+        var revenue = 0.00
+       
+        var fbDataA : [[AnyHashable : Any]] = []
+
+        //order revenue and products with prices
+        for product in products {
+
+            let item = orderItemsMap[product.dbID]
+            let priceDict = getPriceDictionaryForProduct(product, productsPrices: productsPrices)
+            if item != nil {
+
+                var price = product.price.doubleValue
+                if let priceFromGrocery = priceDict?["price_full"] as? NSNumber {
+                    price = priceFromGrocery.doubleValue
+                }
+
+                revenue += price * item!.count.doubleValue
+
+                 let idString = "\(Product.getCleanProductId(fromId: product.dbID))"
+                 let quantitiy = item!.count.intValue
+
+                if !idString.isEmpty {
+                    let facebookParams = ["id" : idString , "quantity" : quantitiy] as [AnyHashable: Any]
+                    fbDataA.append(facebookParams)
+                }
+
+                let smileParam = ["IsSmiles" : IsSmiles] as [AnyHashable: Any]
+                fbDataA.append(smileParam)
+
+            }
+        }
+        return fbDataA
     }
     
     fileprivate class func getPriceDictionaryForProduct(_ product:Product, productsPrices:NSDictionary?) -> NSDictionary? {
