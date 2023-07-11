@@ -35,7 +35,7 @@
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
-		<string>https://el-grocer-admin.herokuapp.com/api/</string>
+		<string>https://elgrocer-admin-tabby-admin-4e61db251cfb.herokuapp.com/api/</string>
 	</dict>
 </dict>
 </plist>
