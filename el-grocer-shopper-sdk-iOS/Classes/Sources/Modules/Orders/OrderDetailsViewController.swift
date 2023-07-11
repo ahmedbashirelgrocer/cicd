@@ -1880,7 +1880,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderBasketProductTableViewCell", for: indexPath) as! OrderBasketProductTableViewCell
             let product =  self.orderProducts[indexPath.row]
             let item = shoppingItemForProduct(product)
-            let itemPossition = self.order.itemsPossition[indexPath.row]
+            // let itemPossition = self.order.itemsPossition[indexPath.row]
+            let itemPossition = self.order.itemsPossition.first { ips in
+                (ips["product_id"] as? NSNumber) == product.productId
+            }
             cell.configureProduct(product, grocery: self.order.grocery, item: item, orderPosition: itemPossition)
             return cell
              

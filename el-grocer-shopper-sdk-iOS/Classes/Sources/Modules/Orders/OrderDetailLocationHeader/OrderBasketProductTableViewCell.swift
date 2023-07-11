@@ -19,7 +19,7 @@ class OrderBasketProductTableViewCell: UITableViewCell {
     @IBOutlet var productQuantity: UILabel! {
         didSet {
             productQuantity.setTextStyleWhite()
-            productQuantity.backgroundColor = ApplicationTheme.currentTheme.viewSmilePurpleBGColor
+            productQuantity.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             productQuantity.layer.cornerRadius = 12
             productQuantity.textAlignment = .center
             productQuantity.clipsToBounds = true
@@ -115,7 +115,7 @@ class OrderBasketProductTableViewCell: UITableViewCell {
             if aWeight == 0 {
                 self.productUnit.text = (uWeight > 0 ? "\(uWeight)": "") + psUnit
             } else {
-                self.productUnit.text = "\(aWeight.doubleValue / Double(itemsCount))" + psUnit
+                self.productUnit.text = "\(round(aWeight.doubleValue / Double(itemsCount) * 100) / 100)" + psUnit
             }
         }
         

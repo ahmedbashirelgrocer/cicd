@@ -452,7 +452,7 @@ class MyBasketTableViewCell: UITableViewCell {
 //                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:"%@",CurrencyManager.getCurrentCurrency()), attributes:aedDict))
 //                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:" %.2f",promoPriceSum), attributes:priceDict))
 //                    self.productPrice.attributedText = attStringProductTotalPriceFinal
-                    self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: promoPriceSum)
+                    self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: promoPrice.doubleValue)
 //                    self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + priceSum.formateDisplayString()
                     self.lblStrikePrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: priceSum)
                     self.lblStrikePrice.strikeThrough(true)
@@ -464,7 +464,7 @@ class MyBasketTableViewCell: UITableViewCell {
 //                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:"%@",CurrencyManager.getCurrentCurrency()), attributes:aedDict))
 //                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:" %.2f",priceSum), attributes:priceDict))
 //                    self.productPrice.attributedText = attStringProductTotalPriceFinal
-                    self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: priceSum)
+                    self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: price.doubleValue)
                 }
                 
             }

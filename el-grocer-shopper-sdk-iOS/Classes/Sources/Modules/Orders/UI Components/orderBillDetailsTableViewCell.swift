@@ -239,7 +239,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         }
         
         // check if shopping bags are available if so showing quantity and price in bill
-        if let additionalItemsNo = order?.additionalItemsCount, let additionalItemsCost = order?.additionalItemsCost, additionalItemsNo.intValue != 0, additionalItemsCost.intValue != 0 {
+        if let additionalItemsNo = order?.additionalItemsCount, let additionalItemsCost = order?.additionalItemsCost, additionalItemsNo.intValue != 0, additionalItemsCost.doubleValue > 0 {
             self.shoppingBagsView.isHidden = false
             self.billStackView.addArrangedSubview(self.shoppingBagsView)
             self.shoppingBagsView.configure(title: localizedString("screen_order_details_bags_text", comment: ""), amount: additionalItemsCost.doubleValue)
