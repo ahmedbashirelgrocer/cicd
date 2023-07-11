@@ -58,10 +58,7 @@ class PlaceOrderHandler {
     }
     
     func generateEditOrderAndProcessPayment() {
-        if initiatePaymentParams.count == 0 {
-            print("Zero")
-        }
-        
+       
         var params = orderPlaceOrEditApiParams
         params["online_payment_auth"] = initiatePaymentParams
         

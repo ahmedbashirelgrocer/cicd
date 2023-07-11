@@ -183,7 +183,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             return categories.count > 5 ? 306 : 196
         
         case is HomeCellViewModel:
-            if indexPath.row == 0 && self.recentPurchasedVM.isNotEmpty {
+            // This check is for recent purchases, for recent purchased there will be only one HomeCellViewModel.
+            if self.viewModels[indexPath.section].items.count == 1 && self.recentPurchasedVM.isNotEmpty {
                 return 321
             }
             

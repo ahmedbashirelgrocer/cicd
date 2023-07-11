@@ -449,7 +449,7 @@ extension CateAndSubcategoryView {
                 return
             }
             
-            SpinnerView.showSpinnerViewInView()
+            if pageNumber == 0 { SpinnerView.showSpinnerViewInView() }
             ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 3, "\(subCategoryId)", "", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                 SpinnerView.hideSpinnerView()
                 if  let responseObject = content {
@@ -579,7 +579,7 @@ extension CateAndSubcategoryView {
     }
     func fetchBrandsWithSixRandomProductsOfCategory(_ parentSubCategory:SubCategory, isFromBackground:Bool = false, productOffset: Int = 0,index: IndexPath? = nil) {
         
-        SpinnerView.showSpinnerViewInView()
+        if self.ListbrandsArray.count == 0 { SpinnerView.showSpinnerViewInView() }
         
         ProductBrowser.shared.getBrandsForCategoryWithProducts(parentSubCategory,
                                                                forGrocery: self.grocery,
@@ -685,11 +685,13 @@ extension CateAndSubcategoryView {
             })
             return
         }
+   
+//        if brand.brandId == 0 {
+//            Thread.OnMainThread { SpinnerView.showSpinnerViewInView() }
+//        }
         
-        //self.subCategory.subCategoryId.stringValue
-        SpinnerView.showSpinnerViewInView()
         AlgoliaApi.sharedInstance.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: "", self.productPerBrandLimmit, subcategory.subCategoryId.stringValue, "\(brand.brandId)", completion: { [weak self] (content, error) in
-            SpinnerView.hideSpinnerView()
+           // SpinnerView.hideSpinnerView()
             
             if  let responseObject : NSDictionary = content as NSDictionary? {
                 self?.saveAlgoliaResponse(responseObject,indexPath: indexPath,brand: brand)
@@ -845,14 +847,14 @@ class CateAndSubcategoryDataHandler {
     }
     
     private func getBannersFromServer(_ gorceryId:String , parentCategoryID : Int? ,  subCategoryId : Int? ){
+        
+      //  Thread.OnMainThread {  SpinnerView.showSpinnerViewInView() }
         let homeTitle = "Banners"
         let location = BannerLocation.subCategory_tier_1.getType()
         
         let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
-        
-        SpinnerView.showSpinnerViewInView()
         ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: [gorceryId], store_type_ids: storeTypes, retailer_group_ids: nil, category_id: parentCategoryID, subcategory_id: subCategoryId, brand_id: nil, search_input: nil) { (result) in
-            SpinnerView.hideSpinnerView()
+            //SpinnerView.hideSpinnerView()
             switch (result) {
                 case .success(let response):
                     self.saveBannersResponseData(response, withHomeTitle: homeTitle, andWithGroceryId: gorceryId)
