@@ -11,12 +11,19 @@ import Lottie
 class LottieAniamtionViewUtil{
     
     //MARK: - GenericAnimationMethod
-      class func showAnimation(onView animationBackgroundView: UIView, withJsonFileName animationPath: String, removeFromSuper: Bool = true, loopMode: LottieLoopMode = .playOnce, completion: @escaping (Bool) -> ()) {
+    class func showAnimation(onView animationBackgroundView: UIView,
+                             contentMode:  UIView.ContentMode? = nil,
+                             withJsonFileName animationPath: String,
+                             removeFromSuper: Bool = true,
+                             loopMode: LottieLoopMode = .playOnce,
+                             completion: @escaping (Bool) -> ()) {
           
           let animationView = LottieAnimationView()
           animationView.animation = LottieAnimation.named(animationPath, bundle: .resource)
           if animationView.animation != nil {
-              //animationView.contentMode = .scaleAspectFill
+              if let contentMode = contentMode {
+                  animationView.contentMode = contentMode
+              }
               animationView.backgroundBehavior = .pauseAndRestore
               animationView.loopMode = loopMode
               //  animationView.frame.size = animationBackgroundView.frame.size

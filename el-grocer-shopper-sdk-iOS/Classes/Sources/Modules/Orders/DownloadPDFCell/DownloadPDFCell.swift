@@ -12,6 +12,7 @@ class DownloadPDFCell: UITableViewCell {
     @IBOutlet weak var btnDownload: UIButton! {
         didSet {
             btnDownload.setBody3BoldSecondaryDarkGreenColorStyle()
+            btnDownload.setTitle(localizedString("Download tax invoice", comment: ""), for: .normal)
         }
     }
     
