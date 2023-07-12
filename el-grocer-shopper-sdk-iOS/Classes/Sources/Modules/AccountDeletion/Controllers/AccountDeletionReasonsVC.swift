@@ -52,12 +52,6 @@ class AccountDeletionReasonsVC: UIViewController, NavigationBarProtocol {
         
     }
     func registerTableViewAndCells(){
-        self.tblView.delegate = self
-        self.tblView.dataSource = self
-        self.tblView.separatorStyle = .none
-        self.tblView.estimatedRowHeight = UITableView.automaticDimension
-        self.tblView.rowHeight = 44.0;
-        
         
         let instructionCell = UINib(nibName: "instructionsTableCell", bundle: .resource)
         self.tblView.register(instructionCell, forCellReuseIdentifier: "instructionsTableCell")
@@ -71,6 +65,12 @@ class AccountDeletionReasonsVC: UIViewController, NavigationBarProtocol {
         self.tblView.register(questionareCell, forCellReuseIdentifier: "QuestionareCell")
         let subsitutionActionButtonTableViewCell = UINib(nibName: "SubsitutionActionButtonTableViewCell", bundle: .resource)
         self.tblView.register(subsitutionActionButtonTableViewCell, forCellReuseIdentifier: "SubsitutionActionButtonTableViewCell")
+        
+        self.tblView.delegate = self
+        self.tblView.dataSource = self
+        self.tblView.separatorStyle = .none
+        self.tblView.estimatedRowHeight = UITableView.automaticDimension
+        self.tblView.rowHeight = 44.0;
     
     }
     override func backButtonClick() {
