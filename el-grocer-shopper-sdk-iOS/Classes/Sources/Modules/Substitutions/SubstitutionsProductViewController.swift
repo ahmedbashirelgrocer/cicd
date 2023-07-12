@@ -2234,6 +2234,7 @@ extension SubstitutionsProductViewController {
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
+        self.billStackView.addArrangedSubview(self.tabbyRedeemView)
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
         self.promotionView.addSubview(self.lblPromotion)
