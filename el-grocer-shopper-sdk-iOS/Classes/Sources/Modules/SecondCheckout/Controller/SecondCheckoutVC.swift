@@ -507,7 +507,7 @@ extension SecondCheckoutVC: AdditionalInstructionsViewDelegate {
 // MARK: - Payment method selection delegate
 extension SecondCheckoutVC: PaymentMethodViewDelegate {
     func tap(on view: PaymentMethodView, paymentTypes: [PaymentType]) {
-        let vm = PaymentSelectionViewModel(elGrocerAPI: ElGrocerApi.sharedInstance, adyenApiManager: AdyenApiManager(), grocery: self.grocery, selectedPaymentOption: self.viewModel.getSelectedPaymentOption(),cardId: self.viewModel.getCreditCard()?.cardID)
+        let vm = PaymentSelectionViewModel(elGrocerAPI: ElGrocerApi.sharedInstance, adyenApiManager: AdyenApiManager(), grocery: self.grocery, selectedPaymentOption: self.viewModel.getSelectedPaymentOption(),cardId: self.viewModel.getCreditCard()?.cardID, paymentTypes: paymentTypes)
         let viewController = PaymentMethodSelectionViewController.create(viewModel: vm) { option, applePay, creditCard in
             if let option = option, let groceryId = self.viewModel.getGroceryId() {
                 UserDefaults.setPaymentMethod(option.rawValue, forStoreId: groceryId)
