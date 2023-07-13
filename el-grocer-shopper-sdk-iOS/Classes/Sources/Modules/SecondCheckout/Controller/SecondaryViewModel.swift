@@ -47,7 +47,6 @@ class SecondaryViewModel {
     private var order: Order?
     private var userid: NSNumber?
     private var editOrderPrimarySelectedMethod: Int?
-    var retailerPaymentTypes: [PaymentType] = []
     var tabbyWebUrl: String?
     
     
@@ -406,7 +405,6 @@ extension SecondaryViewModel {
             self.tabbyEnabled = false
         }
 
-        self.retailerPaymentTypes = data.paymentTypes ?? []
         self.tabbyWebUrl = data.tabbyWebUrl
     }
 }
