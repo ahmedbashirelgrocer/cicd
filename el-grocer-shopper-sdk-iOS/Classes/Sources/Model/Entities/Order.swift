@@ -51,9 +51,13 @@ class Order: NSManagedObject, DBEntity {
     @NSManaged var serviceFee: NSNumber?
     @NSManaged var foodSubscriptionStatus: NSNumber?
     @NSManaged var smileEarn: NSNumber?
+    @NSManaged var additionalItemsCount: NSNumber?
+    @NSManaged var additionalItemsCost: NSNumber?
     
+    @NSManaged var additionalItemsComment: NSNumber?
+    @NSManaged var businessLiability: NSNumber?
     
-    
+    @NSManaged var taxInvoiceLink: String?
     
     func isDeliveryOrder () -> Bool {
         if self.retailerServiceId?.intValue == orderModeType.isdelivery.rawValue {

@@ -380,6 +380,12 @@ class BillEntryView: UIView {
         self.lblTitle.highlight(searchedText: quantityString + " " + (quantity == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")), color: UIColor.disableButtonColor(), size: UIFont.SFProDisplayNormalFont(14))
     }
     
+    func setTitleForBags(bags: Int) {
+        let quantityString = "\(ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: String(bags)))"
+        self.lblTitle.text = localizedString("screen_order_details_bags_text", comment: "") + " ×" + quantityString
+        self.lblTitle.highlight(searchedText: "×\(quantityString)", color: UIColor.disableButtonColor(), size: UIFont.SFProDisplayNormalFont(14))
+    }
+    
     func setFinalBillAmountFont() {
         self.lblTitle.font = UIFont.SFProDisplayBoldFont(14)
         self.lblAmount.font = UIFont.SFProDisplayBoldFont(14)

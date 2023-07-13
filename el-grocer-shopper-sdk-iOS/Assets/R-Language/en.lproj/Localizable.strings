@@ -6,6 +6,7 @@
   Copyright (c) 2015 RST IT. All rights reserved.
 */
 
+"Download tax invoice" = " Download tax invoice";
 "smiles_pts" = "    %@ pts    ";
 "earn_rewards_now" = "Earn rewards now! ❯";
 "Oops! Something went wrong on our side 🤔" = "Oops! Something went wrong on our side 🤔";
@@ -1859,6 +1860,7 @@ Add delivery details";
 "tabby_tc_paraghraph_forth_title" = "Review and pay in one bill";
 "tabby_tc_paraghraph_forth_description" = "You’ll receive your Tabby Pay later bill on the 25th of the month with payment due on the 28th.";
 "paid_with_tabby" = "Tabby";
+"screen_order_details_bags_text" = "Bags";
 
 "lbl_collection_detail_alert_highlight" = "arrive on time";
 
