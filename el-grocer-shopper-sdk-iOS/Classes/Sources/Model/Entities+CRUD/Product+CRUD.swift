@@ -304,7 +304,7 @@ extension Product {
                     }
 
                     //add product to the list
-                    if(product.isPublished.boolValue == true && product.brandId != nil){
+                    if(product.isPublished.boolValue == true && product.isAvailable.boolValue == true){
                         resultProducts.append(product)
                     }
                 }
@@ -368,7 +368,7 @@ extension Product {
                 product.brandId = nil
             }
        
-            if(product.isPublished.boolValue == true && product.brandId != nil){
+            if(product.isPublished.boolValue == true && product.isAvailable.boolValue){
                 //add product to the list
                 resultProducts.append(product)
             }
@@ -630,7 +630,7 @@ extension Product {
                     product.brandId = nil
                 }
                 
-                if(product.isPublished.boolValue == true && product.brandId != nil){
+                if(product.isPublished.boolValue == true && product.isAvailable.boolValue == true){
                     //add product to the list
                     resultProducts.append(product)
                 }
