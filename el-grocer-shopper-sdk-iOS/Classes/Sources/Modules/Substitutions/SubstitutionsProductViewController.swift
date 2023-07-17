@@ -2441,7 +2441,9 @@ extension SubstitutionsProductViewController {
                     self.handleSubstitutionBasketDetailsApiResponse(response: response)
                 case .failure(let error):
                     elDebugPrint("Failure: \(error)")
-                    error.showErrorAlert()
+                    if error.code != 4008 {
+                        error.showErrorAlert()
+                    }
             }
         }
     }
