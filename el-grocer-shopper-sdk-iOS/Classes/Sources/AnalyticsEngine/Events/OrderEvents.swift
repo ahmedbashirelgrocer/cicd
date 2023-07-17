@@ -51,7 +51,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
         
         if sdkManager.isShopperApp {
             metaData[EventParameterKeys.isTabbyEnabled] = isTabbyEnabled
-            metaData[EventParameterKeys.amountPaidWithTabby] = amoutPaidWithTabby
+            metaData[EventParameterKeys.amountPaidWithTabby] = "\(amoutPaidWithTabby)"
         }
         
         return metaData
