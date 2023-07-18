@@ -11,12 +11,25 @@ import FirebaseInstallations
 import FirebaseRemoteConfig
 
 class ABTestManager {
+    enum ConfigType: String {
+        case sdk, smilePreprod, smiles
+    }
     
     static var shared = ABTestManager()
+    
+    private let firProjectName = "elGrocerSecondary"
+    
+    private let firOptionsSDK = "GoogleService-Info-SDK"
+    private let firOptionsSmilesPreProd = "GoogleService-Info-Smiles-PreProd"
+    private let firOptionsSmiles = "GoogleService-Info-Smiles"
     
     var configs: Configs = .init()
     
     var authToken: String = ""
+    
+    var testEvent: [String] = []
+    
+    var configType: ConfigType?
     
     private var remoteConfig: RemoteConfig!
     
@@ -39,11 +52,13 @@ class ABTestManager {
                   if let error = error {
                       print("Config not fetched")
                       print("Error: \(error.localizedDescription)")
+                      self.testEvent.append("RemoteConfigActivateError:" + error.localizedDescription)
                   } else {
                       self.configs = Configs.init(remoteConfig: self.remoteConfig)
                   }
               }
           } else {
+              self.testEvent.append("RemoteConfigFetchError:" + (error?.localizedDescription ?? "Generic Error"))
               print("Config not fetched")
               print("Error: \(error?.localizedDescription ?? "No error available.")")
           }
@@ -52,51 +67,35 @@ class ABTestManager {
     }
     
     fileprivate func secondaryApp() -> FirebaseApp? {
-        if let secondary = FirebaseApp.app(name: "secondary") {
+        if let secondary = FirebaseApp.app(name: firProjectName) {
             return secondary
         }
         
-        let secondaryOptions: FirebaseOptions = {
-            if Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK" {
-                let firebaseOptions = FirebaseOptions(googleAppID: "1:793956033248:ios:9db3ef77651a673301a685",
-                                                      gcmSenderID: "793956033248")
-                firebaseOptions.apiKey = "AIzaSyBWHul-ZoG5mcMp5PQbf-JGitsgaIN0ov8"
-                firebaseOptions.projectID = "elgrocer-v2"
-                firebaseOptions.bundleID = "elgrocer.com.ElGrocerShopper.SDK"
-                firebaseOptions.clientID = "793956033248-0pm315psj836ndbb7afrf4r5rfsb92na.apps.googleusercontent.com"
-                firebaseOptions.storageBucket = "elgrocer-v2.appspot.com"
-                firebaseOptions.databaseURL = "https://elgrocer-v2.firebaseio.com"
-                return firebaseOptions
-            } else if Bundle.main.bundleIdentifier == "com.Etisalat.HouseApps" {
-                let firebaseOptions = FirebaseOptions(googleAppID: "1:793956033248:ios:07b1ffb22fe4696301a685",
-                                                      gcmSenderID: "793956033248")
-                firebaseOptions.apiKey = "AIzaSyBWHul-ZoG5mcMp5PQbf-JGitsgaIN0ov8"
-                firebaseOptions.projectID = "elgrocer-v2"
-                firebaseOptions.bundleID = "com.Etisalat.HouseApps"
-                firebaseOptions.clientID = "793956033248-ppiistkgi90im37138ded8m85f6mm4l2.apps.googleusercontent.com"
-                firebaseOptions.storageBucket = "elgrocer-v2.appspot.com"
-                firebaseOptions.databaseURL = "https://elgrocer-v2.firebaseio.com"
-                return firebaseOptions
-            } else {
-                let firebaseOptions = FirebaseOptions(googleAppID: "1:793956033248:ios:0bea4a41f785ab7201a685",
-                                                      gcmSenderID: "793956033248")
-                firebaseOptions.apiKey = "AIzaSyBWHul-ZoG5mcMp5PQbf-JGitsgaIN0ov8"
-                firebaseOptions.projectID = "elgrocer-v2"
-                firebaseOptions.bundleID = "Etisalat.House"
-                firebaseOptions.clientID = "793956033248-94r5vl24meiq6c8fod92759q2nvoabvl.apps.googleusercontent.com"
-                firebaseOptions.storageBucket = "elgrocer-v2.appspot.com"
-                firebaseOptions.databaseURL = "https://elgrocer-v2.firebaseio.com"
-                return firebaseOptions
-            }
-        }()
+        var firOptions: String = ""
         
-        FirebaseApp.configure(name: "secondary", options: secondaryOptions)
+        if Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK" {
+            firOptions = firOptionsSDK
+            self.configType = .sdk
+        } else if Bundle.main.bundleIdentifier == "com.Etisalat.HouseApps" {
+            firOptions = firOptionsSmilesPreProd
+            self.configType = .smilePreprod
+        } else {
+            firOptions = firOptionsSmiles
+            self.configType = .smiles
+        }
         
-        if let secondary = FirebaseApp.app(name: "secondary") {
+        guard let filePath = Bundle.resource.path(forResource: firOptions, ofType: "plist") else { return nil}
+        
+        guard let options = FirebaseOptions.init(contentsOfFile: filePath) else { return nil}
+        
+        FirebaseApp.configure(name: firProjectName, options: options)
+        
+        if let secondary = FirebaseApp.app(name: firProjectName) {
             Installations.installations(app: secondary).authToken { result, error in
                 if let error = error {
                     let error = ElGrocerError(error: error as NSError)
                     print(error.localizedMessage)
+                    self.testEvent.append("AuthTokenFetchError:" + error.localizedDescription)
                 } else {
                     self.authToken = result?.authToken ?? ""
                     print("AuthToken_Secondary: \(result?.authToken ?? "NA")")
@@ -105,6 +104,7 @@ class ABTestManager {
             
             return secondary
         } else {
+            self.testEvent.append("NilError: Failed to get secondary project, No token fetched")
             return nil
         }
     }

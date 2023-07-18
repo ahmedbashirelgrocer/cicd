@@ -97,6 +97,6 @@ enum AnalyticsEventName {
     static let otpAttempts              = "OTP Attempts"
     
     // MARK: A/B Testing
-    static let abTestExperiment              = "AB Test Experiment"
-    
+    static let abTestExperiment         = "AB Test Experiment"
+    static let genericABTestConfigError = "Generic ABTest Config Error"
 }
