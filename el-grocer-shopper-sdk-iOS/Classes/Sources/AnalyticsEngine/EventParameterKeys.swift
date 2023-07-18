@@ -94,5 +94,7 @@ enum EventParameterKeys {
     static let msgSMS            = "MSG-sms"
     static let msgWhatsApp       = "MSG-whatsapp"
     
-    
+    static let authToken            = "authToken"
+    static let variant              = "variant"
+    static let experimentType       = "experimentType"
 }
