@@ -379,6 +379,11 @@ extension SecondaryViewModel {
     
     func updateViewModelDataAccordingToBasket(data: BasketDataClass) {
         
+        if self.basketDataValue?.paymentTypes?.first( where: { ($0.id == self.basketDataValue?.primaryPaymentTypeID) || ( (self.basketDataValue?.primaryPaymentTypeID ?? -1) == PaymentOption.applePay.rawValue &&  $0.id == PaymentOption.creditCard.rawValue) }) == nil {
+            self.basketDataValue?.primaryPaymentTypeID = nil
+            self.basketData.onNext(self.basketDataValue)
+        }
+        
         if let elwalletRedeem = data.elWalletRedeem , elwalletRedeem > 0 {
             self.isWalletTrue = true
         }else {
