@@ -757,7 +757,7 @@ extension AlgoliaApi {
         let lan =   "ln_" + (ElGrocerUtility.sharedInstance.isArabicSelected() ? "ar" : "en")
         tags.append(lan)
         var rt = "rt_"
-        let selectedType =  ElGrocerUtility.sharedInstance.storeTypeA.filter { (type) -> Bool in
+        let selectedType =  HomePageData.shared.storeTypeA?.filter { (type) -> Bool in
             let activeGrocery = ElGrocerUtility.sharedInstance.activeGrocery
             if let storeType = activeGrocery?.convertToArrayOfNumber(text: activeGrocery?.storeType ?? "" ) {
                 return storeType.contains(NSNumber(value: type.storeTypeid))
@@ -766,8 +766,8 @@ extension AlgoliaApi {
         }
 
         if !isUniversal {
-            if selectedType.count > 0 {
-                for storeName in selectedType {
+            if (selectedType?.count ?? 0) > 0 {
+                for storeName in selectedType ?? [] {
                     if storeName.storeTypeid == 0 {
                         let finalName = rt + "Other"
                         tags.append(finalName)
@@ -814,6 +814,21 @@ extension AlgoliaApi {
         let apptype =  "atyp_" + (sdkManager.isSmileSDK ? "SmilesSDK" : "Shopper")
         tags.append(apptype)
         
+        
+        var marketType = "Shopper Marketplace"
+        if let launchOptions = sdkManager.launchOptions {
+            switch launchOptions.marketType {
+            case .marketPlace:
+                marketType = "Smiles Marketplace"
+            case .shopper:
+                marketType = "Shopper Marketplace"
+            case .grocerySingleStore:
+                marketType = "Smiles Market"
+            }
+        }
+        
+        let mtyp =  "mtyp_" + marketType
+        tags.append(mtyp)
         
         var finalTags : [String] = []
         for data in tags {
