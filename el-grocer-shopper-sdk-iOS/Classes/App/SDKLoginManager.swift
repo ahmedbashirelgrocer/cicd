@@ -14,6 +14,7 @@ public struct SDKLoginManager {
     static var KOpenOrderRefresh = NSNotification.Name(rawValue: "KOpenOrderRefreshFromPush")
     
     var launchOptions: LaunchOptions
+    static var isUserRegistered: Bool?
     
     typealias CompletionHandler = (_ isSuccess: Bool, _ errorMessage: String) -> Void
     
@@ -48,6 +49,14 @@ public struct SDKLoginManager {
                     if SDKManager.shared.isInitialized {
                         let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
+                        
+                        // Logging segment event for user signed in
+                        if SDKManager.shared.isInitialized {
+                            if let isRegistered = SDKLoginManager.isUserRegistered {
+                                let event: AnalyticsEventDataType = isRegistered ? UserRegisteredEvent() : UserSignedInEvent()
+                                SegmentAnalyticsEngine.instance.logEvent(event: event)
+                            }
+                        }
                     }
                     
                 }
@@ -106,20 +115,15 @@ public struct SDKLoginManager {
             if result {
                 let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if deliveryAddress.count == 0 {
+                    SDKLoginManager.isUserRegistered = true
                     self.createNewDefaultAddressForNewUser(for: userProfile, completion: completionHandler)
-                    
-                    // Logging segment event for user registered
-                    SegmentAnalyticsEngine.instance.logEvent(event: UserRegisteredEvent())
                 } else {
                     UserDefaults.setDidUserSetAddress(true)
                     UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
                     UserDefaults.setUserLoggedIn(true)
-                    completionHandler(true, "")
+                    SDKLoginManager.isUserRegistered = false
                     
-                    // Logging segment event for user signed in
-                    if SDKManager.shared.isInitialized {
-                        SegmentAnalyticsEngine.instance.logEvent(event: UserSignedInEvent())
-                    }
+                    completionHandler(true, "")
                 }
     
             } else {
