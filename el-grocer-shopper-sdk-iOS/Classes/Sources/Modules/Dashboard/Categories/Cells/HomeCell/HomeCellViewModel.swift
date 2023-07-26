@@ -152,7 +152,7 @@ private extension HomeCellViewModel {
             let pageNumber = self.offset / self.limit
             
             guard category.id > 1 else {
-                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: 0, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20, Int64(deliveryTime), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsStorePage ?? 3) { [weak self] content, error in
+                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20, Int64(deliveryTime), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsStorePage ?? 3) { [weak self] content, error in
                     if let error = error {
                         //  print("handle error >>> \(error)")
                         return
