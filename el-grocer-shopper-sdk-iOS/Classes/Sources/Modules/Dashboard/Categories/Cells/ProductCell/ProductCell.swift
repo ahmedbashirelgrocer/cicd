@@ -278,6 +278,10 @@ class ProductCell : RxUICollectionViewCell {
     @objc
     func notificationReceived ( notification : NSNotification) {
        
+        guard self != nil else { return }
+        guard let model : ProductCellViewModelType?  = self.viewModel, model != nil else {
+            return
+        }
         if let product = notification.object as? Product {
             if self.viewModel != nil {
                 return

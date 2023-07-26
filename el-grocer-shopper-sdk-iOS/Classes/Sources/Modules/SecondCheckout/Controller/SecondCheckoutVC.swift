@@ -147,7 +147,7 @@ class SecondCheckoutVC: UIViewController {
                 
                 func logPurchaseEvents() {
                     self?.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
-                    ElGrocerUtility.sharedInstance.delay(0.5) {
+                    ElGrocerUtility.sharedInstance.delay(0.5) { 
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
                             finalOrderItems:self?.viewModel.getShoppingItems() ?? []
                             , finalProducts:self?.viewModel.getFinalisedProducts() ?? []
@@ -299,7 +299,10 @@ class SecondCheckoutVC: UIViewController {
             }
         }
         
-        AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: authValue, method: selectedMethod)
+        Thread.OnMainThread { [weak self ] in
+            guard let self = self else { return }
+            AdyenManager.sharedInstance.makePaymentWithCard(controller: self, amount: authValue, method: selectedMethod)
+        }
         
     }
     

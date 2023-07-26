@@ -159,7 +159,7 @@ class NoStoreView: UIView {
     func configureNoDefaultSelectedStoreCart() {
         //You elGrocer cart is empty
         self.setUpApearence()
-        self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")?.applyTintEffect(with: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        self.imgNoData.image = UIImage(name: sdkManager.isShopperApp ? "empty-cart-white-bg" : "NoSelectedStoreCart")
         self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
         self.lblExtraDetail.text = localizedString("No_Selected_Store_Detail", comment: "")
         self.btnNoData.isHidden = false

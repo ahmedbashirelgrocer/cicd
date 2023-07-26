@@ -89,16 +89,12 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-      //  addBasketButton()
-        
         //register for keyboard notifications
         NotificationCenter.default.addObserver(self, selector: #selector(BasketBasicViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(BasketBasicViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: nil)
         
         addBasketIconOverlay(self, grocery: self.grocery, shouldShowGroceryActiveBasket: self.shouldShowGroceryActiveBasket)
-      //  addEmptyView()
-        
+   
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(BasketBasicViewController.dismissKeyboard))
         self.emptyView?.addGestureRecognizer(tapGesture)
         self.emptyView?.isUserInteractionEnabled = true
