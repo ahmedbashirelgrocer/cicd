@@ -78,11 +78,10 @@ public final class ElGrocer {
                             if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
                                 SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
                                 
-                                if let isRegistered = SDKLoginManager.isUserRegistered {
-                                    let event: AnalyticsEventDataType = isRegistered ? UserRegisteredEvent() : UserSignedInEvent()
-                                    SegmentAnalyticsEngine.instance.logEvent(event: event)
-                                    SDKLoginManager.isUserRegistered = nil
-                                }
+                                // Logging User Registered or User Signed In event
+                                let event: AnalyticsEventDataType = SDKLoginManager.isUserRegistered ? UserRegisteredEvent() : UserSignedInEvent()
+                                SegmentAnalyticsEngine.instance.logEvent(event: event)
+                                SDKLoginManager.isUserRegistered = false
                             }
                         }
                     }
