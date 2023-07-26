@@ -14,6 +14,9 @@ public struct SDKLoginManager {
     static var KOpenOrderRefresh = NSNotification.Name(rawValue: "KOpenOrderRefreshFromPush")
     
     var launchOptions: LaunchOptions
+    
+    // This flag is used to keep track whether user is registered or login with out system
+    // And on the base of this we are pushing User Registered or User Signed In events to Segment Analytics
     static var isUserRegistered: Bool?
     
     typealias CompletionHandler = (_ isSuccess: Bool, _ errorMessage: String) -> Void
@@ -46,18 +49,19 @@ public struct SDKLoginManager {
                     ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
                     FireBaseEventsLogger.trackSignIn()
                     SendBirdManager().createNewUserAndDeActivateOld()
-                    if SDKManager.shared.isInitialized {
-                        let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
-                        
-                        // Logging segment event for user signed in
-                        if SDKManager.shared.isInitialized {
-                            if let isRegistered = SDKLoginManager.isUserRegistered {
-                                let event: AnalyticsEventDataType = isRegistered ? UserRegisteredEvent() : UserSignedInEvent()
-                                SegmentAnalyticsEngine.instance.logEvent(event: event)
-                            }
-                        }
-                    }
+//                    if SDKManager.shared.isInitialized {
+//                        let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+//                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
+//                        
+//                        // Logging segment event for user signed in
+//                        if SDKManager.shared.isInitialized {
+//                            if let isRegistered = SDKLoginManager.isUserRegistered {
+//                                let event: AnalyticsEventDataType = isRegistered ? UserRegisteredEvent() : UserSignedInEvent()
+//                                SegmentAnalyticsEngine.instance.logEvent(event: event)
+//                                SDKLoginManager.isUserRegistered = nil
+//                            }
+//                        }
+//                    }
                     
                 }
                 completionHandler(isSuccess, errorMessage)

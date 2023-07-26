@@ -81,6 +81,7 @@ public final class ElGrocer {
                                 if let isRegistered = SDKLoginManager.isUserRegistered {
                                     let event: AnalyticsEventDataType = isRegistered ? UserRegisteredEvent() : UserSignedInEvent()
                                     SegmentAnalyticsEngine.instance.logEvent(event: event)
+                                    SDKLoginManager.isUserRegistered = nil
                                 }
                             }
                         }
