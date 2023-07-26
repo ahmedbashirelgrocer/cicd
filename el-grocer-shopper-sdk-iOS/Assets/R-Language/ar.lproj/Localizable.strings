@@ -7,7 +7,7 @@
  */
 
 // new message
-
+"Download tax invoice" = " تحميل الفاتورة الضريبية";
 "smiles_pts" =  "    نقطة %@    ";
 "earn_rewards_now" = "اكسب المكافآت الآن!";
 "Oops! Something went wrong on our side 🤔" = "للأسف حدث خطأ ما من جانبنا 🤔";
@@ -1876,6 +1876,7 @@
 "total_price_incl_VAT" = "السعر الإجمالي (شامل الضريبة)";
 "checkout_instruction_placeHolder" = "اكتب لتترك لنا ملاحظة";
 "promo_textfield_placeholder" = "أدﺧﻞ الرمز الترويجي";
+"screen_order_details_bags_text" = "أكياس";
 
 "lbl_collection_detail_alert_highlight" = "وصولك في الوقت المحدد.";
 

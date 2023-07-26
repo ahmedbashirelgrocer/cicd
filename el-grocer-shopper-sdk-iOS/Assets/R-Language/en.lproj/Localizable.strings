@@ -6,6 +6,7 @@
   Copyright (c) 2015 RST IT. All rights reserved.
 */
 
+"Download tax invoice" = " Download tax invoice";
 "smiles_pts" = "    %@ pts    ";
 "earn_rewards_now" = "Earn rewards now! ❯";
 "Oops! Something went wrong on our side 🤔" = "Oops! Something went wrong on our side 🤔";
@@ -1842,6 +1843,7 @@ Add delivery details";
 "total_price_incl_VAT" = "Total price (incl. VAT)";
 "checkout_instruction_placeHolder" = "Type to leave additional instruction to the store";
 "promo_textfield_placeholder" = "Enter promo code";
+"screen_order_details_bags_text" = "Bags";
 
 "lbl_collection_detail_alert_highlight" = "arrive on time";
 

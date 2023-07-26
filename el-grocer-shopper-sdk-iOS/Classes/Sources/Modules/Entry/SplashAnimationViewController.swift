@@ -108,6 +108,7 @@ class SplashAnimationViewController: UIViewController {
             if sdkManager.isShopperApp {
                 // splash_animation_shopper
                 LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
+                                                      contentMode: .scaleToFill,
                                                       withJsonFileName:
                                                       sdkManager.isSmileSDK ? "splash_animation_sdk" : "splash_animation_shopper",
                                                       removeFromSuper: false,
