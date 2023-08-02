@@ -22,7 +22,7 @@ import AdSupport
 import FirebaseCore
 import Messages
 // import AFNetworkActivityLogger
-import SendBirdUIKit
+import SendbirdChatSDK
 import SwiftDate
 import Adyen
 import Segment
@@ -940,12 +940,6 @@ extension SDKManager {
     
 }
 
-// Send Bird sdk management
-extension SDKManager {
-    func setSendbirdDelegate () {
-        SBDMain.add(self as SBDChannelDelegate, identifier: "UNIQUE_DELEGATE_ID")
-    }
-}
 
 // MARK: Supporting methods
 fileprivate extension SDKManager {
