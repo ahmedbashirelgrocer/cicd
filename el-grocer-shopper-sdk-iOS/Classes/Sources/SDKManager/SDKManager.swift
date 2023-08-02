@@ -415,7 +415,6 @@ class SDKManager: NSObject, SDKManagerType  {
         let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
         let dictionary = environmentsDict![configurationName] as! NSDictionary
-        
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
         
         let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
