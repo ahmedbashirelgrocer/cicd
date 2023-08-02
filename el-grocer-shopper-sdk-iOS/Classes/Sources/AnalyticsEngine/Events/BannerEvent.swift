@@ -17,7 +17,7 @@ struct BannerClickedEvent: AnalyticsEventDataType {
         self.metaData = [
             EventParameterKeys.bannerId         : banner.dbId.stringValue,
             EventParameterKeys.title            : banner.title,
-            EventParameterKeys.priority         : banner.priority.intValue,
+            EventParameterKeys.priority         : banner.priority.stringValue,
             EventParameterKeys.campaignType     : banner.campaignType.stringValue,
             EventParameterKeys.imageUrl         : banner.bannerImageUrl,
             EventParameterKeys.location         : "0",

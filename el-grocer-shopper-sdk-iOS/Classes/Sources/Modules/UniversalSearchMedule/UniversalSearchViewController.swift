@@ -1198,18 +1198,20 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         }
         
         // Logging segment event for Universal & Store Search
-        switch self.searchFor {
-        case .isForUniversalSearch:
-            SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: model != nil))
-            break
+        if searchData.count > 3 {
+            switch self.searchFor {
+            case .isForUniversalSearch:
+                SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: model != nil))
+                break
 
-        case .isForStoreSearch:
-            let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
-            SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: model != nil, retailerId: retailerId))
-            break
+            case .isForStoreSearch:
+                let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: model != nil, retailerId: retailerId))
+                break
 
-        case .isProductListing:
-            break
+            case .isProductListing:
+                break
+            }
         }
         // End Segment Logging
         
@@ -1315,18 +1317,20 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.dataSource?.getProductDataForStore(true, searchString: searchData,  "" , "" , storeIds: storeIDs, pageNumber: self.pageNumber , hitsPerPage: hitsPerPage)
         
         // Logging segment event for Universal & Store Search
-        switch self.searchFor {
-        case .isForUniversalSearch:
-            SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: false))
-            break
+        if searchData.count > 3 {
+            switch self.searchFor {
+            case .isForUniversalSearch:
+                SegmentAnalyticsEngine.instance.logEvent(event: UniversalSearchEvent(searchQuery: searchData, isSuggestion: false))
+                break
 
-        case .isForStoreSearch:
-            let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
-            SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: false, retailerId: retailerId))
-            break
+            case .isForStoreSearch:
+                let retailerId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? ""
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreSearchEvent(searchQuery: searchData, isSuggestion: false, retailerId: retailerId))
+                break
 
-        case .isProductListing:
-            break
+            case .isProductListing:
+                break
+            }
         }
         // End Segment Logging
     }

@@ -150,6 +150,16 @@ class SDKManager: NSObject, SDKManagerType  {
                         
                     }
                 }
+                
+                if SDKManager.shared.isInitialized {
+                    let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
+
+                    // Logging segment event for user signed in
+                    let event: AnalyticsEventDataType = SDKLoginManager.isUserRegistered ? UserRegisteredEvent() : UserSignedInEvent()
+                    SegmentAnalyticsEngine.instance.logEvent(event: event)
+                    SDKLoginManager.isUserRegistered = false
+                }
             
         } else {
             ElGrocerAlertView.createAlert(
@@ -517,6 +527,17 @@ class SDKManager: NSObject, SDKManagerType  {
                 let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
                 if isSuccess {
                     completion(manager)
+                    
+                    if SDKManager.shared.isInitialized {
+                        let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
+
+                        // Logging segment event for user signed in
+                        let event: AnalyticsEventDataType = SDKLoginManager.isUserRegistered ? UserRegisteredEvent() : UserSignedInEvent()
+                        SegmentAnalyticsEngine.instance.logEvent(event: event)
+                        SDKLoginManager.isUserRegistered = false
+                    }
+                    
                     //manager.setHomeView()
                 } else {
                  let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
