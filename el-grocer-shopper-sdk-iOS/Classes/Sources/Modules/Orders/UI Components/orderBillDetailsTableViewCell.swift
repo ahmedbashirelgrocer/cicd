@@ -21,7 +21,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     private var burnSmilePointsView = BillEntryView(isGreen: true)
     private var burnElwalletPointsView = BillEntryView(isGreen: true)
     private var finalBillAmountView = BillEntryView(isGreen: true)
-    
+    private var viewTabbyAmount = BillEntryView(isGreen: true)
     private lazy var dividerView: UIView = {
         let view = UIView()
         
@@ -163,6 +163,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
         self.billStackView.addArrangedSubview(self.priceVarianceView)
+        self.billStackView.addArrangedSubview(self.viewTabbyAmount)
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
     }
@@ -176,6 +177,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         var burnSmilePoints = 0.00
         var burnElwalletPoints = 0.00
         var smileEarn: Int = 0
+        var tabbyAmount = 0.00
         
         self.order = order
         
@@ -207,6 +209,8 @@ class orderBillDetailsTableViewCell: UITableViewCell {
                     burnElwalletPoints = amount.doubleValue
                 }else if (paymentTypeId ?? 0) == 6 {
                     discount = amount.doubleValue
+                } else if paymentTypeId == 7 {
+                    tabbyAmount = amount.doubleValue
                 }
             }
         }
@@ -219,10 +223,10 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         smileEarn = order.smileEarn?.intValue ?? 0
         priceSum = order.finalBillAmount?.doubleValue ?? 0.00 //grandTotal - discount - burnSmilePoints - burnElwalletPoints
         
-        setBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount, smilesSubscriber: order.foodSubscriptionStatus?.boolValue ?? false)
+        setBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount, smilesSubscriber: order.foodSubscriptionStatus?.boolValue ?? false, tabbyAmount: tabbyAmount)
     }
     
-    func setBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, smilesSubscriber: Bool) {
+    func setBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, smilesSubscriber: Bool, tabbyAmount: Double) {
 
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
@@ -288,6 +292,15 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         }else {
             self.priceVarianceView.isHidden = true
         }
+        
+        if sdkManager.isShopperApp && tabbyAmount != 0 {
+            self.viewTabbyAmount.isHidden = false
+            self.billStackView.addArrangedSubview(self.viewTabbyAmount)
+            self.viewTabbyAmount.configure(title: localizedString("paid_with_tabby", comment: ""), amount: tabbyAmount, isNegative: true)
+        } else {
+            self.viewTabbyAmount.isHidden = true
+        }
+        
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
         self.finalBillAmountView.configure(title: localizedString("amount_to_pay", comment: ""), amount: finalBillAmount)

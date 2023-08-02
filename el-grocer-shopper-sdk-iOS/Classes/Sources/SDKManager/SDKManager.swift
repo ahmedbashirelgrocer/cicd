@@ -235,8 +235,11 @@ class SDKManager: NSObject, SDKManagerType  {
                 
                 // Logging segment event for general api error
                 let elError = ElGrocerError(error: error)
-                SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: apiData["url"] as? String, message: elError.message ?? elError.localizedMessage, code: elError.code))
-                
+                let url = (apiData["url"] as? String) ?? ""
+                let isNoNeedToLogged = url.contains("sendbird.com") || url.contains("member_info_cache")
+                if !isNoNeedToLogged {
+                    SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: apiData["url"] as? String, message: elError.message ?? elError.localizedMessage, code: elError.code))
+                }
                
             }else{
                 
@@ -763,16 +766,13 @@ class SDKManager: NSObject, SDKManagerType  {
     
     func logout(completion: (() -> Void)? = nil) {
         
-        SendBirdManager().logout { success in
-            if success{
-               elDebugPrint("logout successfull")
-            }else{
-               elDebugPrint("error")
-            }
-        }
+        SendBirdManager().logout { success in }
         
         ElGrocerUtility.sharedInstance.isDeliveryMode = true
-        ElGrocerApi.sharedInstance.logoutUser { (result) -> Void in  }
+        if UserDefaults.getLogInUserID() != "0" {
+            ElGrocerApi.sharedInstance.logoutUser { (result) -> Void in  }
+        }
+       
         FireBaseEventsLogger.trackSignOut(true)
         AlgoliaApi.sharedInstance.resetAlgoliaLocalData()
         //ZohoChat.logOut()

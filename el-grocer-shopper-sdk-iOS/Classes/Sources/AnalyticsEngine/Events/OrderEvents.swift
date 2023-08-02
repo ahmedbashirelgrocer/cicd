@@ -12,9 +12,26 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
 
-    init(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?) {
+    init(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, isTabbyEnabled: Bool, amoutPaidWithTabby: Double) {
         self.eventType = .track(eventName: AnalyticsEventName.orderPurchased)
-        self.metaData = [
+        
+        self.metaData = prepairMetaData(
+            products: products,
+            grocery: grocery,
+            order: order,
+            isWalletEnabled: isWalletEnabled,
+            isSmilesEnabled: isSmilesEnabled,
+            isPromoCodeApplied: isPromoCodeApplied,
+            smilesPointsEarned: smilesPointsEarned,
+            smilesPointsBurnt: smilesPointsBurnt,
+            realizationId: realizationId,
+            isTabbyEnabled: isTabbyEnabled,
+            amoutPaidWithTabby: amoutPaidWithTabby
+        )
+    }
+    
+    private func prepairMetaData(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, isTabbyEnabled: Bool, amoutPaidWithTabby: Double) -> [String: Any] {
+        var metaData: [String: Any] = [
             EventParameterKeys.totalOrderAmount : String(order?.totalValue ?? 0.0),
             EventParameterKeys.paymentMethodId  : order?.payementType?.stringValue ?? "",
             EventParameterKeys.paymentMethodName: PaymentOption(rawValue: UInt32(order?.payementType?.int32Value ?? 0))?.paymentMethodName ?? "",
@@ -31,6 +48,13 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             EventParameterKeys.realizationId    : String(realizationId ?? 0),
             EventParameterKeys.products         : self.getProductDic(products: products, gorcery: grocery),
         ]
+        
+        if sdkManager.isShopperApp {
+            metaData[EventParameterKeys.isTabbyEnabled] = isTabbyEnabled
+            metaData[EventParameterKeys.amountPaidWithTabby] = "\(amoutPaidWithTabby)"
+        }
+        
+        return metaData
     }
     
     private func getProductDic(products: [Product], gorcery: Grocery?) -> [[String: Any]] {

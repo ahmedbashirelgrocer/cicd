@@ -135,6 +135,7 @@ class BillView: UIView {
     private var elWalletView = BillEntryView(isGreen: true)
     private var savingsView = BillEntryView(isGreen: true)
     private var extraBalanceView = BillEntryView(isGreen: true)
+    private var tabbyRedeemView = BillEntryView(isGreen: true)
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -174,7 +175,7 @@ class BillView: UIView {
         self.stackView.addArrangedSubview(smilesView)
     }
     
-    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?, smilesSubscriber: Bool) {
+    func configure(productTotal: Double, serviceFee: Double, total: Double, productSaving: Double, finalTotal: Double, elWalletRedemed: Double, smilesRedemed: Double, promocode: PromoCode?, quantity: Int?, smilesSubscriber: Bool, tabbyRedeem: Double?) {
         stackView.addArrangedSubview(totalPriceEntryView)
         stackView.addArrangedSubview(serviceFeeEntryView)
         
@@ -233,7 +234,13 @@ class BillView: UIView {
             self.smilesView.isHidden = true
         }
         
-            
+        if let tabbyRedeem = tabbyRedeem, tabbyRedeem > 0 {
+            self.tabbyRedeemView.isHidden = false
+            stackView.addArrangedSubview(tabbyRedeemView)
+            tabbyRedeemView.configure(title: localizedString("paid_with_tabby", comment: ""), amount: tabbyRedeem, isNegative: true)
+        } else {
+            self.tabbyRedeemView.isHidden = true
+        }
     }
     
     private func setupConstraint() {

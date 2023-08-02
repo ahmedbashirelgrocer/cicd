@@ -45,6 +45,22 @@ extension UIFont {
         return UIFont.getFont(name: "SFUIDisplay-Regular", size: size)!
     }
     
+    class func SFProDisplayHeavyItalic(_ size: CGFloat) -> UIFont {
+        if isArabic {
+            return UIFont(name: "MarkaziText-Bold", size: size)!
+        }
+        
+        return UIFont(name: "SFProDisplay-HeavyItalic", size: size)!
+    }
+    
+    class func SFProDisplayRegularItalic(_ size: CGFloat) -> UIFont {
+        if isArabic {
+            return UIFont(name: "MarkaziText-Regular", size: size)!
+        }
+        
+        return UIFont(name: "SFProDisplay-RegularItalic", size: size)!
+    }
+    
     //
     class func HelveticaBoldFont(_ size:CGFloat) -> UIFont {
         

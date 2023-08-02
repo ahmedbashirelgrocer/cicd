@@ -4,7 +4,7 @@
 #
 #  To learn more about Podspec attributes see https://guides.cocoapods.org/syntax/podspec.html
 #  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
-#
+#  // 6.7.4
 
 Pod::Spec.new do |s|
     
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.6.8'
+  s.version          = '1.7.2'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -188,13 +188,12 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-#
-
+  s.dependency 'lottie-ios', '~> 4.0.1'
+#s.dependency 'AppsFlyerFramework'
 
   # Segment analytics dependency
    s.dependency 'Mixpanel-swift'
    s.dependency 'CleverTap-iOS-SDK'
    s.dependency 'Analytics'
    s.dependency 'Segment-CleverTap'
-   s.dependency 'lottie-ios', '~> 3.5.0'
 end

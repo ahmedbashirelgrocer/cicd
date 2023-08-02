@@ -198,8 +198,8 @@ enum ElGrocerApiEndpoint : String {
     case getIfOOSReasons = "v1/orders/substitution/preferences"
     case payWithApplePay = "online_payments/applepay_authorization_call"
     
-    case getSecondCheckoutDetails = "v2/baskets/payment_details"// not using
-    case getSecondCheckoutDetailsForEditOrder = "v2/baskets/order_basket"
+    case getSecondCheckoutDetails = "v3/baskets/payment_details"// not using
+    case getSecondCheckoutDetailsForEditOrder = "v3/baskets/order_basket"
     case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
     
     case getSubstitutionBasketDetails = "v2/baskets/substitution"
@@ -697,6 +697,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   
   func logoutUser(_ completionHandler:@escaping (_ result:Bool) -> Void) {
+      
+      
   
   setAccessToken()
   NetworkCall.delete(ElGrocerApiEndpoint.Login.rawValue, parameters: nil, success: { (operation , response: Any) -> Void in

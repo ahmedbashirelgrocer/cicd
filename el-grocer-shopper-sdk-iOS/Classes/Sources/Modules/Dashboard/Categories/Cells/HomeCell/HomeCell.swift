@@ -65,6 +65,8 @@ private extension HomeCell {
         productsCollectionView.rx.didScroll.subscribe { [weak self] _ in
             guard let self = self else { return }
             
+            CellSelectionState.shared.inputs.selectProductWithID.onNext("")
+            
             let offSetX = self.productsCollectionView.contentOffset.x
             let contentWidth = self.productsCollectionView.contentSize.width
 

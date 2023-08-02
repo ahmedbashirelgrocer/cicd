@@ -64,7 +64,7 @@ class PaymentSelectionCellViewModel: PaymentSelectionCellViewModelType, PaymentS
         self.option = option
         
         switch option {
-            case .none, .creditCard, .smilePoints, .voucher, .PromoCode:
+        case .none, .creditCard, .smilePoints, .voucher, .PromoCode, .tabby:
                 break
 
             case .cash:

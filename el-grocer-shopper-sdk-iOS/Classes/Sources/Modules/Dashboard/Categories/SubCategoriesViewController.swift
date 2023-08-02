@@ -70,6 +70,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         self.addLocationHeader()
         self.hidesBottomBarWhenPushed = true
         
+        
         // Logging segment screen event 
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productListingScreen))
         _ = SpinnerView.showSpinnerViewInView(self.view)

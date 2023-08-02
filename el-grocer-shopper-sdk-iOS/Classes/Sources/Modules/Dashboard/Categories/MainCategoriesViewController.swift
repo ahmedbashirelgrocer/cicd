@@ -2265,6 +2265,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
+        CellSelectionState.shared.inputs.selectProductWithID.onNext("")
         // For shopper
         if sdkManager.launchOptions?.marketType == .shopper {
             self.scrollViewDidScroll(forShopper: scrollView)

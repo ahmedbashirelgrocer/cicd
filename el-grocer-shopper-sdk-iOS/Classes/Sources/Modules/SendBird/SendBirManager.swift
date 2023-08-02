@@ -493,18 +493,12 @@ class SendBirdManager {
         }
         
         if let channel = sendBirdData["channel"] as? NSDictionary{
-            
             var isAppStart = false
-            // if let SDKManager: SDKManagerType! = sdkManager {
                 if let dataAvailable = sdkManager.sdkStartTime {
                     if dataAvailable.timeIntervalSinceNow > -10 {
                         isAppStart = true
                     }
                 }
-            //}
-            
-            
-            
             if let channel_url = channel["channel_url"] as? String {
                 
                 //MARK: shoper and agent chat

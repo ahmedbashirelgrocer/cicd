@@ -1876,6 +1876,24 @@
 "total_price_incl_VAT" = "السعر الإجمالي (شامل الضريبة)";
 "checkout_instruction_placeHolder" = "اكتب لتترك لنا ملاحظة";
 "promo_textfield_placeholder" = "أدﺧﻞ الرمز الترويجي";
+"tabby_view_title_text" = "أدفع لاحقاً مع تابي*";
+"tabby_view_details_text" = "فاتورة واحدة، ادفعها في نهاية الشهر مع تابي. بدون فوائد او رسوم.";
+"tabby_threshold_with_currency" = "٥٠٠ درهم";
+"tabby_terms_and_conditions_title" = "شروط وأحكام الدفع عن طريق تابي";
+
+// Tabby Terms & Conditions
+"tabby_tc_paraghraph_one_title" = "كل مشترياتك بفاتورة واحدة";
+"tabby_tc_paraghraph_one_description" = "ادفع فاتورتك كاملة يوم 28 من كل شهر على تطبيق تابي. بدون فوائد او رسوم.";
+
+"tabby_tc_paraghraph_second_title" = "كيف تعمل الخدمة؟";
+"tabby_tc_paraghraph_second_description" = "حمل وافتح تطبيق تابي واضغط على مدفوعاتي\nستجد جميع مشترياتك ضمن قسم المدفوعات في فاتورة واحدة.";
+
+"tabby_tc_paraghraph_third_title" = "تابع مصاريفك الشهري";
+"tabby_tc_paraghraph_third_description" = "تبدأ دورة فاتورة تابي من يوم 25 من الشهر إلى يوم 24 من الشهر التالي.";
+
+"tabby_tc_paraghraph_forth_title" = "راجع فاتورتك وادفع مرة واحدة";
+"tabby_tc_paraghraph_forth_description" = "ستتلقى فاتورة تابي في يوم 25 من الشهر مع استحقاق السداد في اليوم 28.";
+"paid_with_tabby" = "تابي";
 "screen_order_details_bags_text" = "أكياس";
 
 "lbl_collection_detail_alert_highlight" = "وصولك في الوقت المحدد.";

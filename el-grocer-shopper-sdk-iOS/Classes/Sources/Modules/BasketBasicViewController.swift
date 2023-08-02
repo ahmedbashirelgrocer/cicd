@@ -26,6 +26,7 @@ enum PaymentOption : UInt32 {
     case smilePoints = 4
     case voucher = 5
     case PromoCode = 6
+    case tabby = 7
     case applePay = 1000
     
 }
@@ -41,6 +42,7 @@ extension PaymentOption {
         case .voucher       : return "Voucher"
         case .PromoCode     : return "Promo Code"
         case .applePay      : return "Apple Pay"
+        case .tabby         : return "Tabby"
         }
     }
 }
