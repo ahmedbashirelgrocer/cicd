@@ -89,10 +89,16 @@ enum EventParameterKeys {
     
     static let language             = "language"
     // CleverTap
-    static let msgEmail             = "MSG-email"
-    static let msgPush              = "MSG-push"
-    static let msgSMS               = "MSG-sms"
-    static let msgWhatsApp          = "MSG-whatsapp"
+    static let msgEmail          = "MSG-email"
+    static let msgPush           = "MSG-push"
+    static let msgSMS            = "MSG-sms"
+    static let msgWhatsApp       = "MSG-whatsapp"
+    // A/b testing
+    static let authToken            = "authToken"
+    static let variant              = "variant"
+    static let experimentType       = "experimentType"
+    // Tabby
     static let amountPaidWithTabby  = "amountPaidWithTabby"
     static let isTabbyEnabled       = "isTabbyEnabled"
+
 }
