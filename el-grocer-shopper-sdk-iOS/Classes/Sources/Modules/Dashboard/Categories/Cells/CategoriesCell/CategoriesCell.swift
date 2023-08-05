@@ -144,8 +144,6 @@ private extension CategoriesCell {
             self.cellHeightConstraint.constant = self.varient ? otherVarientHeight : baseVarientHeight
             self.invalidateIntrinsicContentSize()
         }).disposed(by: disposeBag)
-        
-        
     }
 }
 
