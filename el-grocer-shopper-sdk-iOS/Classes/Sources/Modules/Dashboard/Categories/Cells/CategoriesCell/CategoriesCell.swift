@@ -31,6 +31,9 @@ class CategoriesCell: RxUITableViewCell {
         }
     }
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var cellHeightConstraint: NSLayoutConstraint!
+    
+    private var varient: Bool = false
     
     private var viewModel: CategoriesCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -39,8 +42,19 @@ class CategoriesCell: RxUITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: StoresCategoriesCollectionViewCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: StoresCategoriesCollectionViewCell.defaultIdentifier)
+        
+        self.collectionView.collectionViewLayout = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            
+            layout.itemSize = self.calculateCellHeight()
+            layout.minimumInteritemSpacing = 8
+            layout.minimumLineSpacing = 12
+            let edgeInset: CGFloat =  16
+            layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: edgeInset / 2, right: edgeInset)
+            return layout
+        }()//16+
     }
 
     override func configure(viewModel: Any) {
@@ -49,6 +63,18 @@ class CategoriesCell: RxUITableViewCell {
         self.viewModel = viewModel
         self.bindViews()
         self.setBgColors()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+    private func calculateCellHeight() -> CGSize {
+        if varient {
+            return CGSize(width: (ScreenSize.SCREEN_WIDTH - 56) / 3, height: (ScreenSize.SCREEN_WIDTH - 56) / 3)
+        }
+        
+        return CGSize(width: 75 , height: 108)
     }
     
     private func setBgColors() {
@@ -107,7 +133,17 @@ private extension CategoriesCell {
             }
         }).disposed(by: disposeBag)
         
-        
+        viewModel.outputs.categoriesCount.subscribe(onNext: { [weak self] count in
+            guard let self = self else { return }
+            
+            let singleRowLimit = 5
+            let headerHeight = 61.0
+            let baseVarientHeight = count > 5 ? 314 : 206.0
+            let otherVarientHeight = (ScreenSize.SCREEN_WIDTH - 16) + headerHeight
+            
+            self.cellHeightConstraint.constant = self.varient ? otherVarientHeight : baseVarientHeight
+            self.invalidateIntrinsicContentSize()
+        }).disposed(by: disposeBag)
         
         
     }
