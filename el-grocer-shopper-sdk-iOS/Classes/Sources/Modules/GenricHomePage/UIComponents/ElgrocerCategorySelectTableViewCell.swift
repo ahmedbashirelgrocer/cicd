@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 let KElgrocerCategorySelectTableViewCell = "ElgrocerCategorySelectTableViewCell"
 //  155 110 31
@@ -14,11 +15,53 @@ let singleGroceryRowHeight = KGroceryNewCollectionViewCellHeight
 let singleTypeRowHeight = 110
 let doubleTypeRowHeight = 220
 let extraPadingRequired = 40
-class ElgrocerCategorySelectTableViewCell: UITableViewCell {
+
+protocol ElgrocerCategorySelectViewModelInput { }
+
+protocol ElgrocerCategorySelectViewModelOuput {
+    var chefList: Observable<[CHEF]> { get }
+    var selectedChed: Observable<CHEF?> { get }
+}
+
+protocol ElgrocerCategorySelectViewModelType: ElgrocerCategorySelectViewModelInput, ElgrocerCategorySelectViewModelOuput {
+    var inputs: ElgrocerCategorySelectViewModelInput { get }
+    var outputs: ElgrocerCategorySelectViewModelOuput { get }
+}
+
+extension ElgrocerCategorySelectViewModelType {
+    var inputs: ElgrocerCategorySelectViewModelInput { self }
+    var outputs: ElgrocerCategorySelectViewModelOuput { self }
+}
+
+class ElgrocerCategorySelectViewModel: ElgrocerCategorySelectViewModelType, ReusableTableViewCellViewModelType {
+    
+    var reusableIdentifier: String { "ElgrocerCategorySelectTableViewCell" }
+    // Inputs
+    
+    // Outputs
+    var chefList: RxSwift.Observable<[CHEF]> { chefListSubject.asObservable() }
+    var selectedChed: RxSwift.Observable<CHEF?> { selectedChefSubject.asObservable() }
+    
+    // Subjects
+    private let chefListSubject = BehaviorSubject<[CHEF]>(value: [])
+    private let selectedChefSubject = BehaviorSubject<CHEF?>(value: nil)
+    // Properties
+    
+    // Initializations
+    init(chefList : [CHEF] , selectedChef : CHEF?) {
+        self.chefListSubject.onNext(chefList)
+        self.selectedChefSubject.onNext(selectedChef)
+    }
+}
+
+
+class ElgrocerCategorySelectTableViewCell: RxUITableViewCell {
     
     var selectedStoreType: ((_ selectedStoreType : StoreType?)->Void)?
     var selectedChef: ((_ selectedChef : CHEF?)->Void)?
     var selectedGrocery: ((_ selectedChef : Grocery?)->Void)?
+    
+    @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     @IBOutlet var customCollectionView: StoresCategoriesCustomCollectionView! {
         didSet{
@@ -54,6 +97,7 @@ class ElgrocerCategorySelectTableViewCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
+    
     func configuredDataToShowTextOnly (storeTypeA : [StoreType] , selectedType : StoreType? , grocerA : [Grocery]) {
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
         if currentLang == "ar" {
@@ -109,6 +153,19 @@ class ElgrocerCategorySelectTableViewCell: UITableViewCell {
         }
         customCollectionView.configureChefData(chefList, selectType: selectedChef)
        // customCollectionView.reloadData()
+    }
+    
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? ElgrocerCategorySelectViewModelType else { return }
+        
+        Observable
+            .combineLatest(viewModel.outputs.chefList, viewModel.outputs.selectedChed)
+            .subscribe(onNext: { [weak self] cChefList, cSelectedChef in
+                guard let self = self else { return }
+                
+                self.cellHeight.constant = cChefList.isNotEmpty ? 125 : 0
+                self.configuredData(chefList: cChefList, selectedChef: cSelectedChef)
+            }).disposed(by: disposeBag)
     }
     
     
