@@ -147,8 +147,6 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 
                 self.viewModels.append(SectionModel(model: 3, items: result))
                 self.cellViewModelsSubject.onNext(self.viewModels)
-                
-                self.checkRecipes()
             } else {
                 if self.isCategoriesApiCompleted {
                     self.showEmptyViewSubject.onNext(())
@@ -158,6 +156,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 self.loadingSubject.onNext(false)
             }
             
+            // checking recipes and fetched if available
+            self.checkRecipes()
         }
         
         self.scrollSubject.asObservable().subscribe(onNext: { [weak self] indexPath in
