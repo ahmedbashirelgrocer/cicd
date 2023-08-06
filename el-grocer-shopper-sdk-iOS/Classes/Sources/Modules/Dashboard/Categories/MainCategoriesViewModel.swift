@@ -86,9 +86,12 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var location2BannerVMs = [ReusableTableViewCellViewModelType]()
     private var homeCellVMs = [ReusableTableViewCellViewModelType]()
     private var recentPurchasedVM = [ReusableTableViewCellViewModelType]()
+    private var chefCellVMs = [ReusableTableViewCellViewModelType]()
+    private var recipeCellVMs = [ReusableTableViewCellViewModelType]()
     
     private var dispatchGroup = DispatchGroup()
     private var bannersDispatchGroup = DispatchGroup()
+    private let dispatchGroupRecipe = DispatchGroup()
     private var disposeBag = DisposeBag()
     private var apiCallingStatus: [IndexPath: Bool] = [:]
 
@@ -144,6 +147,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 
                 self.viewModels.append(SectionModel(model: 3, items: result))
                 self.cellViewModelsSubject.onNext(self.viewModels)
+                
+                self.checkRecipes()
             } else {
                 if self.isCategoriesApiCompleted {
                     self.showEmptyViewSubject.onNext(())
@@ -337,6 +342,107 @@ private extension MainCategoriesViewModel {
             case .failure(let error):
                 //    print("handle error >> \(error)")
                 break
+            }
+        }
+    }
+}
+
+// MARK: Fetching reciipe section data
+fileprivate extension MainCategoriesViewModel {
+    func checkRecipes() {
+        if sdkManager.isSmileSDK { return }
+        
+        guard let grocery = self.grocery else { return }
+        let retailerString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
+        
+        DispatchQueue.global().async {
+            ELGrocerRecipeMeduleAPI().getRecipeListNew(offset: "0" , Limit: "1", recipeID: nil, ChefID: nil, shopperID: nil, categoryID: nil, retailerIDs: retailerString) { [weak self] (result) in
+                
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let response):
+                    
+                    if let dataDictionary = response["data"] as? [NSDictionary] {
+                        if dataDictionary.isNotEmpty {
+                            self.fetchRecipeAndChef()
+                        }
+                    }
+                case .failure( _):
+                    break
+                    
+                }
+            }
+        }
+    }
+    
+    func fetchRecipeAndChef() {
+        self.fetchChefs()
+        self.fetchRecipes()
+        
+        self.dispatchGroupRecipe.notify(queue: .main) {
+            self.viewModels.append(SectionModel(model: 4, items: self.chefCellVMs + self.recipeCellVMs))
+            self.cellViewModelsSubject.onNext(self.viewModels)
+        }
+    }
+    
+    func fetchChefs() {
+        guard let grocery = self.grocery else { return }
+        let retailerIDString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
+        
+        DispatchQueue.global().async {
+            self.dispatchGroupRecipe.enter()
+            ELGrocerRecipeMeduleAPI().getChefList(offset: "0" , Limit: "1000", chefID: "" , retailerIDs: retailerIDString) { [weak self] (result) in
+                
+                self?.dispatchGroupRecipe.leave()
+                
+                switch result {
+                    
+                case .success(let response):
+                    if let dataDictionary = response["data"] as? [NSDictionary] {
+                        if dataDictionary.isNotEmpty {
+                            let chefs: [CHEF] = dataDictionary.map { CHEF.init(chefDict: $0 as! Dictionary<String, Any>) }
+                            let chefCellVM = ElgrocerCategorySelectViewModel(chefList: chefs, selectedChef: nil)
+                            self?.chefCellVMs = [chefCellVM]
+                        }
+                    }
+                    
+                case .failure(let error):
+                    error.showErrorAlert()
+                }
+                
+            }
+        }
+    }
+    
+    func fetchRecipes() {
+        guard let grocery = self.grocery else { return }
+        let retailerIDString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
+        let kfeaturedCategoryId : Int64 = 0
+        
+        DispatchQueue.global().async {
+            self.dispatchGroupRecipe.enter()
+            
+            ELGrocerRecipeMeduleAPI().getRecipeListNew(offset: "0", Limit: "100", recipeID: nil, ChefID: nil, shopperID: nil, categoryID: kfeaturedCategoryId, retailerIDs: retailerIDString) {
+                [weak self] (result) in
+                
+                self?.dispatchGroupRecipe.leave()
+                
+                switch result {
+                    
+                case .success(let response):
+                    if let dataDictionary = response["data"] as? [NSDictionary] {
+                        
+                        if dataDictionary.isNotEmpty {
+                            let recipes: [Recipe] = dataDictionary.map { Recipe.init(recipeData: $0 as! Dictionary<String, Any>) }
+                            let recipeCellVM = RecipeCellViewModel(recipeList: recipes)
+                            self?.recipeCellVMs = [recipeCellVM]
+                        }
+                    }
+                case .failure(let error):
+                    error.showErrorAlert()
+                }
+                
             }
         }
     }
