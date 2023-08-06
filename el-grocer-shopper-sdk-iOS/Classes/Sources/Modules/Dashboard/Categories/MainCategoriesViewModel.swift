@@ -17,14 +17,12 @@ protocol MainCategoriesViewModelInput {
 protocol MainCategoriesViewModelOutput {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
     var loading: Observable<Bool> { get }
-    func heightForCell(indexPath: IndexPath) -> CGFloat
     
     var viewAllCategories: Observable<Grocery?> { get }
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Grocery?> { get }
     var categoryTap: Observable<CategoryDTO> { get }
     var bannerTap: Observable<BannerDTO> { get }
-    var reloadTable: Observable<Bool> { get }
     var refreshBasket: Observable<Void> { get }
     var showEmptyView: Observable<Void> { get }
     
@@ -58,7 +56,6 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var viewAllProductOfRecentPurchase: Observable<Grocery?> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     var categoryTap: Observable<CategoryDTO> { categoryTapSubject.asObservable() }
-    var reloadTable: Observable<Bool> { reloadTableSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     
     // MARK: subjects
@@ -71,7 +68,6 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Grocery?>()
     private var bannerTapSubject = PublishSubject<BannerDTO>()
     private var categoryTapSubject = PublishSubject<CategoryDTO>()
-    private var reloadTableSubject = PublishSubject<Bool>()
     private var refreshProductCellSubject = PublishSubject<Void>()
     private var showEmptyViewSubject = PublishSubject<Void>()
     
@@ -172,34 +168,6 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             }
         }).disposed(by: self.disposeBag)
     }
-    
-    func heightForCell(indexPath: IndexPath) -> CGFloat {
-        switch self.viewModels[indexPath.section].items.first {
-
-        case is GenericBannersCellViewModel:
-            return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
-        
-        case is CategoriesCellViewModel:
-            return categories.count > 5 ? 306 : 196
-        
-        case is HomeCellViewModel:
-            // This check is for recent purchases, for recent purchased there will be only one HomeCellViewModel.
-            if self.viewModels[indexPath.section].items.count == 1 && self.recentPurchasedVM.isNotEmpty {
-                return 321
-            }
-            
-            if self.viewModels[indexPath.section].items[indexPath.row] is HomeCellViewModel {
-                return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 321 : CGFloat(0.01)
-            } else if self.viewModels[indexPath.section].items[indexPath.row] is GenericBannersCellViewModel {
-                return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
-            } else {
-                return 0
-            }
-        
-        default:
-            return 0
-        }
-    }
 }
 
 // MARK: Helper Methods
@@ -282,11 +250,6 @@ private extension MainCategoriesViewModel {
                     let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                     viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
                     self.refreshProductCellSubject.bind(to: viewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
-                    
-                    viewModel.outputs.isProductAvailable
-                        .filter { $0 }
-                        .bind(to: self.reloadTableSubject)
-                        .disposed(by: self.disposeBag)
                     
                     return viewModel
                 })

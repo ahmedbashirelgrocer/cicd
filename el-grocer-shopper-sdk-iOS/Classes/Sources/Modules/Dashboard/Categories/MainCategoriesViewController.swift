@@ -560,6 +560,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.tableViewCategories.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableViewCategories.keyboardDismissMode = .onDrag
         self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGGreyColor
+        self.tableViewCategories.rowHeight = UITableView.automaticDimension
+        self.tableViewCategories.estimatedRowHeight = 500
         
         
         self.tableViewCategories.register(UINib(nibName: CategoriesCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: CategoriesCell.defaultIdentifier)
@@ -847,8 +849,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.viewModel.outputs.heightForCell(indexPath: indexPath)
-        
+        return tableView.rowHeight
+//        return self.viewModel.outputs.heightForCell(indexPath: indexPath)
 //        guard self.grocery != nil else {
 //            self.tableViewCategories.tableHeaderView = nil
 //            return .leastNormalMagnitude
@@ -1648,10 +1650,6 @@ private extension MainCategoriesViewController {
         self.viewModel.outputs.cellViewModels
             .bind(to: self.tableViewCategories.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
-        
-        viewModel.outputs.reloadTable.subscribe(onNext: { [weak self] (isNeedToReload) in
-            if isNeedToReload { self?.tableViewCategories.reloadDataOnMain() }
-        }).disposed(by: disposeBag)
         
         // MARK: Actions
         self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] grocery  in

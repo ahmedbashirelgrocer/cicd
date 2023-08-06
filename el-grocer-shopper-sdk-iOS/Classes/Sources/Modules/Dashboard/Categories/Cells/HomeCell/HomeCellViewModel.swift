@@ -23,8 +23,7 @@ protocol HomeCellViewModelOuput {
     var viewAll: Observable<CategoryDTO?> { get }
     var isArabic: Observable<Bool> { get }
     var viewAllText: Observable<String> { get }
-    var isProductAvailable: Observable<Bool> { get }
-    func isProductsAvailable() -> Bool
+    var productCount: Observable<Int> { get }
 }
 
 protocol HomeCellViewModelType: HomeCellViewModelInput, HomeCellViewModelOuput {
@@ -53,7 +52,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     var viewAll: Observable<CategoryDTO?> { viewAllSubject.map { self.category }.asObservable() }
     var isArabic: Observable<Bool> { isArabicSubject.asObserver() }
     var viewAllText: Observable<String> { viewAllTextSubject.asObservable() }
-    var isProductAvailable: Observable<Bool> { isProductAvailableSubject.asObservable() }
+    var productCount: Observable<Int> { productCountSubject.asObservable() }
     
     // MARK: Subjects
     private let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
@@ -63,8 +62,8 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     private let viewAllSubject = PublishSubject<Void>()
     private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     private var viewAllTextSubject = BehaviorSubject<String>(value: localizedString("view_more_title", bundle: .resource, comment: ""))
-    private var isProductAvailableSubject = PublishSubject<Bool>()
     private var refreshProductCellSubject = PublishSubject<Void>()
+    private var productCountSubject = BehaviorSubject<Int>(value: 1) // passing non-zero value to make the the height for shimmer
     
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
@@ -107,6 +106,7 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
             return viewModel
         }
         
+        self.productCountSubject.onNext(products.count)
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: productCellViewModels)])
     }
 }
@@ -195,20 +195,14 @@ private extension HomeCellViewModel {
             debugPrint("")
         }
         
+        // this check ensure that the first call products is zero
+        if offset == 0 {
+            self.productCountSubject.onNext(products.algoliaCount ?? products.products.count)
+        }
+        
         self.productCellVMs.append(contentsOf: cellVMs)
         self.isLoading = false
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: self.productCellVMs)])
-        self.isProductAvailableSubject.onNext((offset == 0) || self.moreAvailable == false)
         self.offset += limit
-    }
-}
-
-extension HomeCellViewModel {
-    func isProductsAvailable() -> Bool {
-        guard !self.isLoading else {
-            return true
-        }
-        return self.productCellVMs.isNotEmpty ?  true :  false
-        
     }
 }
