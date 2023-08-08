@@ -12,11 +12,14 @@ import RxSwift
 let KGenericViewTitileTableViewCell = "GenericViewTitileTableViewCell"
 let KGenericViewTitileTableViewCellHeight : CGFloat = 27
 
-protocol TableViewTitleCellViewModelInput { }
+protocol TableViewTitleCellViewModelInput {
+    var viewAllTapObserver: AnyObserver<Void> { get }
+}
 
 protocol TableViewTitleCellViewModelOutput {
     var title: Observable<String?> { get }
     var showViewMoreButton: Observable<Bool> { get }
+    var viewAll: Observable<Void> { get }
 }
 
 protocol TableViewTitleCellViewModelType: TableViewTitleCellViewModelInput, TableViewTitleCellViewModelOutput {
@@ -32,13 +35,18 @@ extension TableViewTitleCellViewModelType {
 class TableViewTitleCellViewModel: TableViewTitleCellViewModelType, ReusableTableViewCellViewModelType {
     var reusableIdentifier: String { "GenericViewTitileTableViewCell" }
     
+    // Inputs
+    var viewAllTapObserver: AnyObserver<Void> { viewAllSubject.asObserver() }
+    
     // Outputs
     var title: Observable<String?> { titleSubject.asObservable() }
     var showViewMoreButton: Observable<Bool> { showViewMoreButtonSubject.asObservable() }
+    var viewAll: Observable<Void> { viewAllSubject.asObservable() }
     
     // Subjects
     private let titleSubject = BehaviorSubject<String?>(value: nil)
     private let showViewMoreButtonSubject = BehaviorSubject<Bool>(value: false)
+    private let viewAllSubject = PublishSubject<Void>()
     
     init(title: String, showViewMore: Bool) {
         titleSubject.onNext(title)
@@ -96,6 +104,8 @@ class GenericViewTitileTableViewCell: RxUITableViewCell {
     }
     @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
+    var viewModel: TableViewTitleCellViewModelType?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -107,7 +117,8 @@ class GenericViewTitileTableViewCell: RxUITableViewCell {
     override func configure(viewModel: Any) {
         guard let viewModel = viewModel as? TableViewTitleCellViewModelType else { return }
         
-        self.backgroundColor = .white
+        self.viewModel = viewModel
+        
         viewModel.outputs.title
             .bind(to: self.lblTopHeader.rx.text)
             .disposed(by: disposeBag)
@@ -126,6 +137,7 @@ class GenericViewTitileTableViewCell: RxUITableViewCell {
             arrowImage.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
         
+        self.backgroundColor = .white
         self.cellHeight.constant = KGenericViewTitileTableViewCellHeight + 23
         self.invalidateIntrinsicContentSize()
     }
@@ -167,6 +179,11 @@ class GenericViewTitileTableViewCell: RxUITableViewCell {
     
     
     @IBAction func viewAllAction(_ sender: Any) {
+        if let viewModel = self.viewModel {
+            viewModel.inputs.viewAllTapObserver.onNext(())
+            return
+        }
+        
         if let click = viewAllAction {
             click()
         }

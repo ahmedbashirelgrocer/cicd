@@ -26,6 +26,7 @@ protocol MainCategoriesViewModelOutput {
     var refreshBasket: Observable<Void> { get }
     var showEmptyView: Observable<Void> { get }
     var chefTap: Observable<CHEF?> { get }
+    var viewAllRecipesTap: Observable<Void> { get }
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
 }
@@ -59,6 +60,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var categoryTap: Observable<CategoryDTO> { categoryTapSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     var chefTap: Observable<CHEF?> { chefTapSubject.asObservable() }
+    var viewAllRecipesTap: Observable<Void> { viewAllRecipesTapSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -73,6 +75,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var refreshProductCellSubject = PublishSubject<Void>()
     private var showEmptyViewSubject = PublishSubject<Void>()
     private var chefTapSubject = PublishSubject<CHEF?>()
+    private var viewAllRecipesTapSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -402,6 +405,9 @@ fileprivate extension MainCategoriesViewModel {
                     : localizedString("lbl_featured_recepies_title", comment: "")
                 
                 let titleVM = TableViewTitleCellViewModel(title: title, showViewMore: true)
+                titleVM.outputs.viewAll
+                    .bind(to: self.viewAllRecipesTapSubject)
+                    .disposed(by: self.disposeBag)
                 
                 if self.recipeCellVMs.isNotEmpty {
                     let recipeSectionVMs = [titleVM] + self.chefCellVMs + self.recipeCellVMs

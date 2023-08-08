@@ -1721,6 +1721,21 @@ private extension MainCategoriesViewController {
             self.showNoDataView()
         }).disposed(by: disposeBag)
         
+        self.viewModel.outputs.viewAllRecipesTap.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            let recipeStory = ElGrocerViewControllers.recipesBoutiqueListVC()
+            recipeStory.isNeedToShowCrossIcon = true
+            if let grocery = self.grocery {
+                recipeStory.groceryA = [grocery]
+            }
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [recipeStory]
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: { });
+        }).disposed(by: disposeBag)
+        
         // binding loader
         self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
