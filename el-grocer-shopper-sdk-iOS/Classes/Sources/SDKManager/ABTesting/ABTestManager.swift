@@ -24,6 +24,7 @@ class ABTestManager {
     private let firOptionsSmiles = "GoogleService-Info-Smiles"
     
     var configs: Configs = .init()
+    var storeConfigs: StoreConfigs = .init()
     
     var authToken: String = ""
     
@@ -35,6 +36,45 @@ class ABTestManager {
     
     init() {
         fetchRemoteConfigs()
+    }
+    
+    func fetchRemoteConfigs(app: FirebaseApp) {
+        self.remoteConfig = RemoteConfig.remoteConfig(app: app)
+        let settings = RemoteConfigSettings()
+        settings.minimumFetchInterval = 0
+        remoteConfig.configSettings = settings
+        
+        self.remoteConfig.fetch { (status, error) -> Void in
+            if status == .success {
+                self.remoteConfig.activate { changed, error in
+                    if let error = error {
+                        elDebugPrint("remote config fetching error >> \(error.localizedDescription)")
+                        self.testEvent.append("RemoteConfigActivateError:" + error.localizedDescription)
+                        return
+                    }
+                    
+                    self.storeConfigs = StoreConfigs.init(remoteConfig: self.remoteConfig)
+                }
+            } else {
+                elDebugPrint("remote config fetching error >> \(error?.localizedDescription ?? "Generic Error")")
+                self.testEvent.append("RemoteConfigActivateError:" + (error?.localizedDescription ?? ""))
+            }
+        }
+        
+        self.fetchToken(app: app)
+    }
+    
+    private func fetchToken(app: FirebaseApp) {
+        Installations.installations(app: app).authToken { result, error in
+            if let error = error {
+                let error = ElGrocerError(error: error as NSError)
+                print(error.localizedMessage)
+                self.testEvent.append("AuthTokenFetchError:" + error.localizedDescription)
+            } else {
+                self.authToken = result?.authToken ?? ""
+                print("AuthToken_Secondary: \(result?.authToken ?? "NA")")
+            }
+        }
     }
     
     func fetchRemoteConfigs() {
@@ -167,5 +207,47 @@ struct Configs {
     enum AvailableStoresStyle: String {
         case list,
              grid
+    }
+}
+
+struct StoreConfigs {
+    var categoriesStyle: CategoriesStyle
+    var showProductsSection: Bool
+    var variant: String
+    
+    private let defaults = Foundation.UserDefaults.standard
+    
+    init() {
+        categoriesStyle = CategoriesStyle(rawValue: defaults.string(forKey: Keys.categoriesStyle.rawValue) ?? "") ?? .twoRows
+        showProductsSection = (defaults.value(forKey: Keys.showProductsSection.rawValue) as? Bool) ?? true
+        variant = defaults.string(forKey: Keys.varient.rawValue) ?? "Baseline"
+    }
+    
+    init(remoteConfig: RemoteConfig) {
+        self.init()
+        
+        showProductsSection = remoteConfig[Keys.showProductsSection.rawValue].boolValue
+        if let categoryStyleString = remoteConfig[Keys.categoriesStyle.rawValue].stringValue, let style = CategoriesStyle(rawValue: categoryStyleString) {
+            categoriesStyle = style
+        }
+        
+        if let variant = remoteConfig[Keys.varient.rawValue].stringValue {
+            self.variant = variant
+        }
+        
+        defaults.set(showProductsSection, forKey: Keys.showProductsSection.rawValue)
+        defaults.set(categoriesStyle.rawValue, forKey: Keys.categoriesStyle.rawValue)
+        defaults.set(variant, forKey: Keys.varient.rawValue)
+    }
+    
+    enum Keys: String {
+        case categoriesStyle = "categoris_style"
+        case showProductsSection = "show_products_section"
+        case varient
+    }
+    
+    enum CategoriesStyle: String {
+        case twoRows = "two_row"
+        case threeRows = "three_row"
     }
 }
