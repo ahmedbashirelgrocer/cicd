@@ -162,11 +162,15 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 self.viewModels.append(SectionModel(model: 3, items: result))
             }
             
-            self.cellViewModelsSubject.onNext(self.viewModels)
+            if self.isCategoriesApiCompleted && self.categoriesCellVMs.isEmpty {
+                self.showEmptyViewSubject.onNext(())
+            } else {
+                self.cellViewModelsSubject.onNext(self.viewModels)
+                
+                // checking recipes and fetched if availability and fetch if available
+                self.checkRecipes()
+            }
             self.loadingSubject.onNext(false)
-            
-            // checking recipes and fetched if availability and fetch if available
-            self.checkRecipes()
         }
         
         self.scrollSubject.asObservable().subscribe(onNext: { [weak self] indexPath in
@@ -244,8 +248,6 @@ private extension MainCategoriesViewModel {
                     return
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
-                
-                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : localizedString("search_by_shopping_list_text", comment: "") , "name_ar" : "البحث بقائمة التسوق"]))
                 
                 self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : localizedString("search_by_shopping_list_text", comment: "") , "name_ar" : "البحث بقائمة التسوق"]))
                 
