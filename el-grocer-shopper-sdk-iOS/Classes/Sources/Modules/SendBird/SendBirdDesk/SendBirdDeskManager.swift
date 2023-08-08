@@ -67,7 +67,7 @@ class SendBirdDeskManager{
     func initialise() {
         
         let APP_ID = SendBirdManager().APP_ID // Specify your Sendbird application ID.
-        SendbirdUI.setLogLevel(.all)
+        SendbirdUI.setLogLevel(.none)
         // TODO: Change to your AppId
         SendbirdUI.initialize(applicationId: APP_ID) { // origin
             //
@@ -88,12 +88,22 @@ class SendBirdDeskManager{
         // Channel List - Message receipt state
         SendbirdUI.config.groupChannel.channelList.isMessageReceiptStatusEnabled = true
         // User Mention
-        SendbirdUI.config.groupChannel.channel.isMentionEnabled = true
+        SendbirdUI.config.groupChannel.channel.isMentionEnabled = false
         // GroupChannel - Voice Message
-        SendbirdUI.config.groupChannel.channel.isVoiceMessageEnabled = true
+        SendbirdUI.config.groupChannel.channel.isVoiceMessageEnabled = false
         
         SendbirdUI.config.groupChannel.channel.input.isDocumentEnabled = false
+        SendbirdUI.config.groupChannel.channel.input.camera.isPhotoEnabled = true
+        SendbirdUI.config.groupChannel.channel.input.camera.isVideoEnabled = false
+
+        SendbirdUI.config.groupChannel.channel.input.gallery.isVideoEnabled = true
+        SendbirdUI.config.groupChannel.channel.input.gallery.isPhotoEnabled = true
         
+        SBUGlobals.isImageCompressionEnabled = true
+        SBUGlobals.imageCompressionRate = 0.7
+        SBUGlobals.imageResizingSize = CGSize(width: 480, height: 480)
+        
+       
         
      
     }
@@ -630,7 +640,8 @@ class SendBirdDeskManager{
                 params.includeThreadInfo = true
                 params.includeParentMessageInfo = SendbirdUI.config.groupChannel.channel.replyType != .none
                 params.replyType = SendbirdUI.config.groupChannel.channel.replyType.filterValue
-                params.messageTypeFilter = .user
+                //params.messageTypeFilter = .file
+                params.customTypes = nil
                 let channelController = ElgrocerChannelController(channel: channel, messageListParams: params)
                 channelController.headerComponent?.rightBarButton = UIBarButtonItem()
                 let naviVC = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)

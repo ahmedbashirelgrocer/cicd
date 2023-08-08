@@ -40,11 +40,14 @@ extension SDKManager : GroupChannelDelegate, BaseChannelDelegate, ConnectionDele
                 }
             }
             
+            
             if let topVc = UIApplication.topViewController() {
-                if topVc is SendBirdListViewController  || topVc is ElgrocerChannelController {
+                if topVc is SendBirdListViewController {
+                    (topVc as? SendBirdListViewController)?.refreshChatTableView()
                     return
                 }
             }
+
             
             guard isUserFound else {return}
             

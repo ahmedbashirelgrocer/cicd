@@ -307,11 +307,12 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
             Thread.OnMainThread {
                 let params = MessageListParams()
                 params.includeMetaArray = true
-                params.includeReactions = true
+                params.includeReactions = false
                 params.includeThreadInfo = true
                 params.includeParentMessageInfo = SendbirdUI.config.groupChannel.channel.replyType != .none
                 params.replyType = SendbirdUI.config.groupChannel.channel.replyType.filterValue
-                params.messageTypeFilter = .user
+               // params.messageTypeFilter = .file
+                params.customTypes = nil
                 let channelController = ElgrocerChannelController(channel: channel, messageListParams: params)
                 channelController.headerComponent?.rightBarButton = UIBarButtonItem()
                 self.navigationController?.pushViewController(channelController, animated: true)
@@ -476,6 +477,13 @@ extension SendBirdListViewController {
 
 
 extension SendBirdListViewController : GroupChannelDelegate, BaseChannelDelegate, ConnectionDelegate, UserEventDelegate {
+    
+    
+    func refreshChatTableView() {
+        if UIApplication.shared.applicationState == .active {
+            self.tableView.reloadData()
+        }
+    }
     
     func channel(_ sender: BaseChannel, didReceive message: BaseMessage) {
         if UIApplication.shared.applicationState == .active {

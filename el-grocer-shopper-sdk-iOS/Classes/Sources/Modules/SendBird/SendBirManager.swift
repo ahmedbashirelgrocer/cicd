@@ -537,9 +537,8 @@ class SendBirdManager {
                         if let controller = UIApplication.topViewController(){
                             if controller is ElgrocerChannelController{
                                 let channelController = controller as! ElgrocerChannelController
-                                
                                 if channelController.channelUrl == channel_url {
-                                    
+                                    (controller as? ElgrocerChannelController)?.readLastMessage()
                                 }else{
                                     
                                     if UIApplication.shared.applicationState == .active && !isAppStart {

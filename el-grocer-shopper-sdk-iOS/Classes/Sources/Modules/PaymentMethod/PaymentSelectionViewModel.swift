@@ -89,6 +89,8 @@ private extension PaymentSelectionViewModel {
             PaymentMethodFetcher.getPaymentMethods(amount: amount, addApplePay: true) { creditCards, applePay, error in
                 if let error = error {
                     self.errorSubject.onNext(error)
+                    self.viewModels.append(PaymentSelectionCellViewModel(string: localizedString("btn_add_new_card", comment: "")))
+                    self.cellViewModelsSubject.onNext(self.viewModels)
                     self.loadingSubject.onNext(false)
                     return
                 }
