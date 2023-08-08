@@ -1630,7 +1630,11 @@ private extension MainCategoriesViewController {
     func bindViews() {
         self.tableViewCategories.dataSource = nil
         self.tableViewCategories.delegate = self
-        self.tableViewCategories.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0);
+        self.tableViewCategories.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        
+        if ABTestManager.shared.storeConfigs.showProductsSection == false {
+            self.tableViewCategories.backgroundColor = .white
+        }
         
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
@@ -1725,6 +1729,10 @@ private extension MainCategoriesViewController {
             ? self.porgressHud == nil
             ? self.porgressHud = SpinnerView.showSpinnerViewInView(self.view) : nil
             : self.porgressHud?.removeFromSuperview()
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.chefTap.subscribe(onNext: { [weak self] selectedChef in
+            self?.gotoFilterController(chef: selectedChef, category: nil)
         }).disposed(by: disposeBag)
         
         if SDKManager.shared.isGrocerySingleStore {

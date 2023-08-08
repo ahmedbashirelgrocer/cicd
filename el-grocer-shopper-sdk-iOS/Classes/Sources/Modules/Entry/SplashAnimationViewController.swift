@@ -14,6 +14,7 @@
 
 import UIKit
 import Lottie
+import FirebaseCore
 
 private enum BackendSuggestedAction: Int {
     case Continue = 0
@@ -271,6 +272,10 @@ extension SplashAnimationViewController {
                 case .success(let response):
                     if let newData = response["data"] as? NSDictionary {
                         ElGrocerUtility.sharedInstance.appConfigData = AppConfiguration.init(dict: newData as! Dictionary<String, Any>)
+                        
+                        if let firebaseApp = FirebaseApp.app() {
+                            ABTestManager.shared.fetchRemoteConfigs(app: firebaseApp)
+                        }
                     }else{
                         self.configFailureCase()
                     }

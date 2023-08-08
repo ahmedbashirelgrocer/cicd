@@ -36,7 +36,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6d-sV-IxY" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="248" y="10.666666666666664" width="48" height="24"/>
+                                        <rect key="frame" x="247" y="10.666666666666664" width="49" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Uoc-rb-cKS"/>
@@ -124,6 +124,7 @@
                 <outlet property="cellHeightConstraint" destination="Qdt-OO-cPc" id="N1I-vP-3sE"/>
                 <outlet property="collectionView" destination="SUj-yY-hTI" id="uFt-Jv-1sB"/>
                 <outlet property="contentBGView" destination="H2p-sc-9uM" id="3aj-9Q-YnQ"/>
+                <outlet property="dividerHeightConstraint" destination="x5p-vm-dn3" id="RdT-08-ZNx"/>
                 <outlet property="ivArrow" destination="Kdc-VT-DDZ" id="tPi-Rg-rux"/>
                 <outlet property="lblTitle" destination="20c-5R-myQ" id="a5z-a4-8LQ"/>
                 <outlet property="topLabelBgView" destination="uAW-Hq-YSf" id="dJM-VD-cWo"/>
@@ -133,7 +134,7 @@
     </objects>
     <designables>
         <designable name="V6d-sV-IxY">
-            <size key="intrinsicContentSize" width="48" height="29"/>
+            <size key="intrinsicContentSize" width="49" height="29"/>
         </designable>
     </designables>
     <resources>

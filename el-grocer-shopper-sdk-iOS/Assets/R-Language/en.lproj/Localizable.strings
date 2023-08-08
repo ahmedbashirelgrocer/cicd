@@ -1447,8 +1447,10 @@ Add delivery details";
 "btn_feedback_send_title" = "Send";
 
 //MARK: homePage
-"lbl_featured_recepies_title" = "Recipe Selctions";
+"lbl_featured_recepies_title" = "Recipe Sections";
 "lbl_nav_chat" = "Chat";
+"shop_by_ingredients_text" = "Shop by recipe ingredients";
+
 
 
 //editaddress

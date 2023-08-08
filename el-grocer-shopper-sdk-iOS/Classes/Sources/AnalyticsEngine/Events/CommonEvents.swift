@@ -90,13 +90,18 @@ struct ABTestExperimentEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(authToken: String, variant: String, experimentType: String = "home") {
+    init(authToken: String, variant: String, experimentType: ExperimentType = .home) {
         self.eventType = .track(eventName: AnalyticsEventName.abTestExperiment)
         self.metaData = [
             EventParameterKeys.authToken: authToken,
             EventParameterKeys.variant: variant,
-            EventParameterKeys.experimentType: experimentType
+            EventParameterKeys.experimentType: experimentType.rawValue
         ]
+    }
+    
+    enum ExperimentType: String {
+        case home = "home"
+        case store = "store"
     }
 }
 

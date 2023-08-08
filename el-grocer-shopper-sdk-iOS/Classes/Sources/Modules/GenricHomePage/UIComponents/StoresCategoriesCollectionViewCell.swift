@@ -236,7 +236,6 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
     
     
     func configuredChefCell( type : CHEF  , isSelected : Bool = false) {
-        
         self.setChefImage(type.chefImageURL, isSelected : isSelected, imageView: self.centerImage)
         self.lblCategoryName.text = type.chefName
         self.makeStateForChef(isSelected: isSelected)
@@ -313,7 +312,7 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
         }else{
             self.bgView.borderWidth = 0
             self.bgView.borderColor = .clear
-            lblCategoryName.textColor = ApplicationTheme.currentTheme.primarySelectionColor
+            lblCategoryName.textColor = ApplicationTheme.currentTheme.newBlackColor
         }
         
     }

@@ -34,9 +34,7 @@ class ABTestManager {
     
     private var remoteConfig: RemoteConfig!
     
-    init() {
-        fetchRemoteConfigs()
-    }
+    init() { }
     
     func fetchRemoteConfigs(app: FirebaseApp) {
         self.remoteConfig = RemoteConfig.remoteConfig(app: app)

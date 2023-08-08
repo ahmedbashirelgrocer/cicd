@@ -7,9 +7,46 @@
 //
 
 import UIKit
+import RxSwift
+
 let KGenericViewTitileTableViewCell = "GenericViewTitileTableViewCell"
 let KGenericViewTitileTableViewCellHeight : CGFloat = 27
-class GenericViewTitileTableViewCell: UITableViewCell {
+
+protocol TableViewTitleCellViewModelInput { }
+
+protocol TableViewTitleCellViewModelOutput {
+    var title: Observable<String?> { get }
+    var showViewMoreButton: Observable<Bool> { get }
+}
+
+protocol TableViewTitleCellViewModelType: TableViewTitleCellViewModelInput, TableViewTitleCellViewModelOutput {
+    var inputs: TableViewTitleCellViewModelInput { get }
+    var outputs: TableViewTitleCellViewModelOutput { get }
+}
+
+extension TableViewTitleCellViewModelType {
+    var inputs: TableViewTitleCellViewModelInput { self }
+    var outputs: TableViewTitleCellViewModelOutput { self }
+}
+
+class TableViewTitleCellViewModel: TableViewTitleCellViewModelType, ReusableTableViewCellViewModelType {
+    var reusableIdentifier: String { "GenericViewTitileTableViewCell" }
+    
+    // Outputs
+    var title: Observable<String?> { titleSubject.asObservable() }
+    var showViewMoreButton: Observable<Bool> { showViewMoreButtonSubject.asObservable() }
+    
+    // Subjects
+    private let titleSubject = BehaviorSubject<String?>(value: nil)
+    private let showViewMoreButtonSubject = BehaviorSubject<Bool>(value: false)
+    
+    init(title: String, showViewMore: Bool) {
+        titleSubject.onNext(title)
+        showViewMoreButtonSubject.onNext(showViewMore)
+    }
+}
+
+class GenericViewTitileTableViewCell: RxUITableViewCell {
     
     
     var isTitleOnly : Bool = false {
@@ -57,6 +94,7 @@ class GenericViewTitileTableViewCell: UITableViewCell {
             arrowImage.image =  UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "SettingArrowForward")
         }
     }
+    @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -64,6 +102,32 @@ class GenericViewTitileTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? TableViewTitleCellViewModelType else { return }
+        
+        self.backgroundColor = .white
+        viewModel.outputs.title
+            .bind(to: self.lblTopHeader.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.showViewMoreButton
+            .subscribe(onNext: { [weak self] showViewMore in
+                guard let self = self else { return }
+                
+                self.viewAll.isHidden = !showViewMore
+                self.arrowImage.isHidden = !showViewMore
+                self.viewAll.visibility = !showViewMore ? .gone : .visible
+                
+            }).disposed(by: disposeBag)
+        
+        if ElGrocerUtility.sharedInstance.isArabicSelected(){
+            arrowImage.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
+        
+        self.cellHeight.constant = KGenericViewTitileTableViewCellHeight + 23
+        self.invalidateIntrinsicContentSize()
     }
     
     func configureCell( title : String , _ isNeedToShowViewMore : Bool = false) {

@@ -16,11 +16,14 @@ let singleTypeRowHeight = 110
 let doubleTypeRowHeight = 220
 let extraPadingRequired = 40
 
-protocol ElgrocerCategorySelectViewModelInput { }
+protocol ElgrocerCategorySelectViewModelInput {
+    var chefTapObserver: AnyObserver<CHEF?> { get }
+}
 
 protocol ElgrocerCategorySelectViewModelOuput {
     var chefList: Observable<[CHEF]> { get }
     var selectedChed: Observable<CHEF?> { get }
+    var chefTap: Observable<CHEF?> { get }
 }
 
 protocol ElgrocerCategorySelectViewModelType: ElgrocerCategorySelectViewModelInput, ElgrocerCategorySelectViewModelOuput {
@@ -34,17 +37,20 @@ extension ElgrocerCategorySelectViewModelType {
 }
 
 class ElgrocerCategorySelectViewModel: ElgrocerCategorySelectViewModelType, ReusableTableViewCellViewModelType {
-    
     var reusableIdentifier: String { "ElgrocerCategorySelectTableViewCell" }
+    
     // Inputs
+    var chefTapObserver: AnyObserver<CHEF?> { chefTapSubject.asObserver() }
     
     // Outputs
     var chefList: RxSwift.Observable<[CHEF]> { chefListSubject.asObservable() }
     var selectedChed: RxSwift.Observable<CHEF?> { selectedChefSubject.asObservable() }
+    var chefTap: Observable<CHEF?> { chefTapSubject.asObservable() }
     
     // Subjects
     private let chefListSubject = BehaviorSubject<[CHEF]>(value: [])
     private let selectedChefSubject = BehaviorSubject<CHEF?>(value: nil)
+    private let chefTapSubject = PublishSubject<CHEF?>()
     // Properties
     
     // Initializations
@@ -61,6 +67,8 @@ class ElgrocerCategorySelectTableViewCell: RxUITableViewCell {
     var selectedChef: ((_ selectedChef : CHEF?)->Void)?
     var selectedGrocery: ((_ selectedChef : Grocery?)->Void)?
     
+    private var viewModel: ElgrocerCategorySelectViewModelType?
+    
     @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     @IBOutlet var customCollectionView: StoresCategoriesCustomCollectionView! {
@@ -73,7 +81,13 @@ class ElgrocerCategorySelectTableViewCell: RxUITableViewCell {
                 }
             }
             customCollectionView.selectedChefType = {[weak self] (selectedChef) in
-                guard let self = self else {return}
+                guard let self = self else { return }
+                
+                if let viewModel = self.viewModel {
+                    viewModel.inputs.chefTapObserver.onNext(selectedChef)
+                    return
+                }
+                
                 if let clouser = self.selectedChef {
                     clouser(selectedChef)
                 }
@@ -158,6 +172,7 @@ class ElgrocerCategorySelectTableViewCell: RxUITableViewCell {
     override func configure(viewModel: Any) {
         guard let viewModel = viewModel as? ElgrocerCategorySelectViewModelType else { return }
         
+        self.viewModel = viewModel
         Observable
             .combineLatest(viewModel.outputs.chefList, viewModel.outputs.selectedChed)
             .subscribe(onNext: { [weak self] cChefList, cSelectedChef in
@@ -165,6 +180,7 @@ class ElgrocerCategorySelectTableViewCell: RxUITableViewCell {
                 
                 self.cellHeight.constant = cChefList.isNotEmpty ? 125 : 0
                 self.configuredData(chefList: cChefList, selectedChef: cSelectedChef)
+                self.customCollectionView.backgroundColor = .white
             }).disposed(by: disposeBag)
     }
     
