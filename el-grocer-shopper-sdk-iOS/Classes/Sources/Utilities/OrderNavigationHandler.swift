@@ -180,11 +180,9 @@ class OrderNavigationHandler {
                                     }
                                     
                                     ELGrocerRecipeMeduleAPI().addRecipeToCart(retailerID: self.order.grocery.getCleanGroceryID() , productsArray: productA) { (result) in
+                                        self.navigateToBasket()
                                     }
-                                    
-                                    
                                     DatabaseHelper.sharedInstance.saveDatabase()
-                                    self.navigateToBasket()
                                     return
                                     
                                 }

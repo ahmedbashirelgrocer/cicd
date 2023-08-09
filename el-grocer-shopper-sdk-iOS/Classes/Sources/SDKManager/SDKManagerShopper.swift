@@ -25,7 +25,7 @@ import FirebaseDynamicLinks
 import FirebaseAnalytics
 import FirebaseAuth
 //import AFNetworkActivityLogger
-import SendBirdUIKit
+import SendbirdChatSDK
 import SwiftDate
 import Adyen
 import Segment
@@ -36,9 +36,10 @@ private enum BackendSuggestedAction: Int {
     case ForceUpdate = 1
 }
 
-public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
-    public static var shared: SDKManagerType = SDKManagerShopper()
+public class SDKManagerShopper: NSObject, SDKManagerType {
     
+    public static var shared: SDKManagerType = SDKManagerShopper()
+
     public var sdkStartTime: Date?
     public var window: UIWindow?
     public var backgroundUpdateTask: UIBackgroundTaskIdentifier! = .invalid
@@ -84,12 +85,12 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
         self.showAnimatedSplashView()
         
         Thread.sleep(forTimeInterval: 0.2)
-        self.setSendbirdDelegate()
         self.initializeExternalServices(application, didFinishLaunchingWithOptions: launchOptions)
         ElGrocerUtility.sharedInstance.resetBasketPresistence()
         self.checkForNotificationAtAppLaunch(application, userInfo: launchOptions)
         self.checkNotifcation()
         self.logApiError()
+        self.setSendbirdDelegate()
         
         return true
     }
@@ -1494,160 +1495,3 @@ extension SDKManagerShopper : UITabBarControllerDelegate {
     }
 }
 
-extension SDKManagerShopper : SBDConnectionDelegate, SBDUserEventDelegate {
-    
-    public func setSendbirdDelegate () {
-        
-        SBDMain.add(self as SBDChannelDelegate, identifier: "UNIQUE_DELEGATE_ID")
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
-        debugPrint("\(message.requestId)")
-        
-        if UIApplication.shared.applicationState == .active {
-            
-            let dataDict = message._toDictionary()
-            var isUserFound = false
-            if let usersA = sender.dictionaryWithValues(forKeys: ["_members"])["_members"] as? [SBDMember] {
-                for user in usersA {
-                    if let msgUserID = user.userId as? String {
-                        if msgUserID == SBDMain.getCurrentUser()?.userId {
-                            isUserFound = true
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            if let topVc = UIApplication.topViewController() {
-                if topVc is SBUChannelListViewController  || topVc is ElgrocerChannelController {
-                    return
-                }
-            }
-            
-            guard isUserFound else {return}
-            
-            if let msgType = message.customType {
-                if msgType.lowercased() == "SENDBIRD:AUTO_EVENT_MESSAGE".lowercased() {
-                    return
-                }
-            }
-            let nameDict = sender.dictionaryWithValues(forKeys: ["_name"])
-            let name = nameDict != nil ? nameDict["_name"] : message.sender?.nickname
-            var data  = [:] as [String : Any]
-            var sendbirdData = [:] as [String : Any]
-            sendbirdData["channel"] =  ["channel_url" : message.channelUrl , "custom_type" : sender.customType ,  "name" : name]
-            sendbirdData["message"] = message.message
-            data["sendbird"] = sendbirdData
-            SendBirdManager().didReciveRemoteNotification(userInfo: data)
-            
-            
-        }
-        
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
-        debugPrint("")
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
-        debugPrint("")
-    }
-    
-    public func channel(_ channel: SBDBaseChannel, didReceiveMention message: SBDBaseMessage) {
-        debugPrint("")
-    }
-    
-    public func channelWasChanged(_ sender: SBDBaseChannel) {
-        debugPrint("")
-        
-        
-    }
-    
-    public func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
-        debugPrint("")
-    }
-    
-    public func channelWasFrozen(_ sender: SBDBaseChannel) {
-        debugPrint("")
-    }
-    
-    public func channelWasUnfrozen(_ sender: SBDBaseChannel) {
-        debugPrint("")
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, createdMetaData: [String : String]?) {
-        debugPrint("")
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, updatedMetaData: [String : String]?) {
-        debugPrint("")
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, deletedMetaDataKeys: [String]?) {
-        debugPrint("")
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, createdMetaCounters: [String : NSNumber]?) {
-        debugPrint("")
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, updatedMetaCounters: [String : NSNumber]?) {
-        debugPrint("")
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, deletedMetaCountersKeys: [String]?) {
-        debugPrint("")
-    }
-    
-    public func channelWasHidden(_ sender: SBDGroupChannel) {
-        debugPrint("")
-    }
-    
-    public func channel(_ sender: SBDGroupChannel, didReceiveInvitation invitees: [SBDUser]?, inviter: SBDUser?) {
-    }
-    
-    public func channel(_ sender: SBDGroupChannel, didDeclineInvitation invitee: SBDUser?, inviter: SBDUser?) {
-    }
-    
-    public func channel(_ sender: SBDGroupChannel, userDidJoin user: SBDUser) {
-    }
-    
-    public func channel(_ sender: SBDGroupChannel, userDidLeave user: SBDUser) {
-    }
-    
-    public func channelDidUpdateDeliveryReceipt(_ sender: SBDGroupChannel) {
-    }
-    
-    public func channelDidUpdateReadReceipt(_ sender: SBDGroupChannel) {
-    }
-    
-    public func channelDidUpdateTypingStatus(_ sender: SBDGroupChannel) {
-        
-        debugPrint("unreadMentionCount\(sender.unreadMentionCount)")
-    }
-    
-    public func channel(_ sender: SBDOpenChannel, userDidEnter user: SBDUser) {
-    }
-    
-    public func channel(_ sender: SBDOpenChannel, userDidExit user: SBDUser) {
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, userWasMuted user: SBDUser) {
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, userWasUnmuted user: SBDUser) {
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, userWasBanned user: SBDUser) {
-    }
-    
-    public func channel(_ sender: SBDBaseChannel, userWasUnbanned user: SBDUser) {
-    }
-    
-    public func channelDidChangeMemberCount(_ channels: [SBDGroupChannel]) {
-    }
-    
-    public func channelDidChangeParticipantCount(_ channels: [SBDOpenChannel]) {
-    }
-}

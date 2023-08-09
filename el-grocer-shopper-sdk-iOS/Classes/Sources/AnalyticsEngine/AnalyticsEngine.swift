@@ -74,6 +74,11 @@ private extension SegmentAnalyticsEngine {
                 metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
                 return metaData
             }
+        }else {
+            var metaData = metaData
+            metaData[EventParameterKeys.marketType] = sdkManager.isShopperApp ? "Shopper Marketplace" : "Smiles Marketplace"
+            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
+            return metaData
         }
         
         return metaData

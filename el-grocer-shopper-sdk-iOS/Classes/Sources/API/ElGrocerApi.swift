@@ -198,7 +198,7 @@ enum ElGrocerApiEndpoint : String {
     case getIfOOSReasons = "v1/orders/substitution/preferences"
     case payWithApplePay = "online_payments/applepay_authorization_call"
     
-    case getSecondCheckoutDetails = "v3/baskets/payment_details"// not using
+    case getSecondCheckoutDetails = "v3/baskets/payment_details" // used for basket checkout info
     case getSecondCheckoutDetailsForEditOrder = "v3/baskets/order_basket"
     case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
     
