@@ -185,7 +185,7 @@ enum ElGrocerApiEndpoint : String {
     case vehicleAttributes = "v1/vehicle_details/vehicle_attributes"
     case pickupLocations = "v1/pickup_locations/all"
     
-    case orderDetail = "v4/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
+    case orderDetail = "v5/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case updateOrderCollectorStatus = "v1/order_collection_details/update"
     case openOrderDetail = "v1/orders/show/cnc_open_orders"
     
@@ -198,8 +198,8 @@ enum ElGrocerApiEndpoint : String {
     case getIfOOSReasons = "v1/orders/substitution/preferences"
     case payWithApplePay = "online_payments/applepay_authorization_call"
     
-    case getSecondCheckoutDetails = "v2/baskets/payment_details"// not using
-    case getSecondCheckoutDetailsForEditOrder = "v2/baskets/order_basket"
+    case getSecondCheckoutDetails = "v3/baskets/payment_details" // used for basket checkout info
+    case getSecondCheckoutDetailsForEditOrder = "v3/baskets/order_basket"
     case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
     
     case getSubstitutionBasketDetails = "v2/baskets/substitution"
@@ -697,6 +697,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   
   func logoutUser(_ completionHandler:@escaping (_ result:Bool) -> Void) {
+      
+      
   
   setAccessToken()
   NetworkCall.delete(ElGrocerApiEndpoint.Login.rawValue, parameters: nil, success: { (operation , response: Any) -> Void in

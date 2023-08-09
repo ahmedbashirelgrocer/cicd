@@ -11,6 +11,7 @@ public extension ElGrocer {
     
     
     static func configure(with launchOptions: LaunchOptions, completion: ((Bool) -> Void)? ) {
+        _ = ABTestManager.shared
         ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
             completion?(true)
         }

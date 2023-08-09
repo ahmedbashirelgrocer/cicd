@@ -10,6 +10,7 @@ import UIKit
 import FloatRatingView
 //import PageControl
 import SDWebImage
+import IQKeyboardManagerSwift
 
 enum feedBackType {
     case clickAndCollectFeedBack
@@ -165,6 +166,10 @@ class GenericFeedBackVC: UIViewController {
             self.feedBackPageControl.isUserInteractionEnabled = false
             self.feedBackPageControl.currentPage = 1
         }
+        
+        IQKeyboardManager.shared.enableAutoToolbar = true
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 10
     }
     func setFonts(){
         

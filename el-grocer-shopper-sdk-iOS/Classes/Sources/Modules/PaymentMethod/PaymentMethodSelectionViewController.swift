@@ -86,15 +86,9 @@ class PaymentMethodSelectionViewController: UIViewController {
             }
         }).disposed(by: disposeBag)
         
-        self.viewModel.outputs
-            .loading.subscribe(onNext: { [weak self] isAnimating in
-                if isAnimating {
-                    self?.activityIndicator.startAnimating()
-                } else {
-                    self?.activityIndicator.stopAnimating()
-                }
-                
-            }).disposed(by: disposeBag)
+        self.viewModel.outputs.loading
+            .bind(to: self.activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
     
     @IBAction func closeButtonTapped(_ sender: Any) {

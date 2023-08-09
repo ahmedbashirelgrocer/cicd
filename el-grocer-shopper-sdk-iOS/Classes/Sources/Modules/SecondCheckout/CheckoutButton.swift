@@ -64,7 +64,7 @@ class CheckoutButtonView: AWView {
         
         self.setSavedAmountAndEarnSmilePoints(savedAed: totalSavedAED, earnSmilePoints: earnSmilePoints, paymentOption: paymentOption, isSmileTrue: isSmileOn)
         switch paymentOption {
-            case .cash, .card, .creditCard, .smilePoints, .voucher, .PromoCode:
+        case .cash, .card, .creditCard, .smilePoints, .voucher, .PromoCode, .tabby:
             self.enableButton(isApplePay: false)
             break
         case .applePay:

@@ -7,9 +7,9 @@
 // ticketID: 7480421
 
 import UIKit
+import SendbirdChatSDK
+import SendbirdUIKit
 import SendBirdDesk
-import SendBirdSDK
-import SendBirdUIKit
 import CleverTapSDK
 import IQKeyboardManagerSwift
 
@@ -66,9 +66,46 @@ class SendBirdDeskManager{
     }
     func initialise() {
         
-         SBDMain.initWithApplicationId(SendBirdManager().APP_ID)
-         SBDSKMain.initializeDesk()
-       // SBDMain.setLogLevel([.error, .info])
+        let APP_ID = SendBirdManager().APP_ID // Specify your Sendbird application ID.
+        SendbirdUI.setLogLevel(.none)
+        // TODO: Change to your AppId
+        SendbirdUI.initialize(applicationId: APP_ID) { // origin
+            //
+        } migrationHandler: {
+            //
+        } completionHandler: { error in
+            //
+            SBDSKMain.initializeDesk()
+        }
+        
+        SBUGlobals.accessToken = ""
+        
+        SendbirdUI.config.common.isUsingDefaultUserProfileEnabled = true
+        // Reply
+        SendbirdUI.config.groupChannel.channel.replyType = .quoteReply
+        // Channel List - Typing indicator
+        SendbirdUI.config.groupChannel.channelList.isTypingIndicatorEnabled = true
+        // Channel List - Message receipt state
+        SendbirdUI.config.groupChannel.channelList.isMessageReceiptStatusEnabled = true
+        // User Mention
+        SendbirdUI.config.groupChannel.channel.isMentionEnabled = false
+        // GroupChannel - Voice Message
+        SendbirdUI.config.groupChannel.channel.isVoiceMessageEnabled = false
+        
+        SendbirdUI.config.groupChannel.channel.input.isDocumentEnabled = false
+        SendbirdUI.config.groupChannel.channel.input.camera.isPhotoEnabled = true
+        SendbirdUI.config.groupChannel.channel.input.camera.isVideoEnabled = false
+
+        SendbirdUI.config.groupChannel.channel.input.gallery.isVideoEnabled = true
+        SendbirdUI.config.groupChannel.channel.input.gallery.isPhotoEnabled = true
+        
+        SBUGlobals.isImageCompressionEnabled = true
+        SBUGlobals.imageCompressionRate = 0.7
+        SBUGlobals.imageResizingSize = CGSize(width: 480, height: 480)
+        
+       
+        
+     
     }
     func setUpSenBirdDeskWithCurrentUser(isWithChat:Bool = true){
         // Specify your Sendbird application ID.
@@ -85,7 +122,7 @@ class SendBirdDeskManager{
     }
     
     func loginSBUUserForChat(id: String, name: String){
-        SBUGlobals.CurrentUser = SBUUser(userId: shoperPrefix + id, nickname: name, profileUrl: nil)
+        SBUGlobals.CurrentUser = SBUUser(userId: shoperPrefix + id, nickname: name, profileURL: nil)
         SBUMain.connect { (user, error) in
             guard error == nil else {
                 // Handle error.
@@ -111,7 +148,7 @@ class SendBirdDeskManager{
     func logIn(isWithChat: Bool = false,completionHandler: (() -> Void)?) {
         
         
-        if isWithChat, let user = SBDMain.getCurrentUser() {
+        if isWithChat, let user = SendbirdChat.getCurrentUser() {
             
             if let topVc = UIApplication.topViewController() {
                 let _ = SpinnerView.showSpinnerViewInView(topVc.view)
@@ -142,6 +179,9 @@ class SendBirdDeskManager{
                     self.attachCustomFieldsWithCustomer()
                     self.setUpTicketConfigurationForCustomer()
                 }
+                SpinnerView.hideSpinnerView()
+                
+                
             }
             return
         }
@@ -163,7 +203,10 @@ class SendBirdDeskManager{
                 name = "NoName"
             }
             
-            SBDMain.connect(withUserId: id, accessToken: nil) { (user, error) in
+            
+              
+            
+            SendbirdChat.connect(userId: id, authToken: nil) { user, error in
                 guard error == nil else {
                     // Handle error.
                     error?.showSBDErrorAlert()
@@ -171,7 +214,12 @@ class SendBirdDeskManager{
                     return
                 }
                 if user?.nickname == nil {
-                    SBDMain.updateCurrentUserInfo(withNickname: name, profileUrl: nil) { (error) in
+                    
+                    let parms = UserUpdateParams.init()
+                    parms.nickname = name
+                    SendbirdChat.updateCurrentUserInfo(params: parms) { bytesSent, totalBytesSent, totalBytesExpectedToSend in
+                        
+                    } completionHandler: { error in
                         guard error == nil else{
                             SpinnerView.hideSpinnerView()
                             FireBaseEventsLogger.trackCustomEvent(eventType: "ChatUserName:\(name)", action: "updateCurrentUserInfo", [ "error" : error?.localizedDescription ?? ""], true)
@@ -240,8 +288,7 @@ class SendBirdDeskManager{
                 }
                 
                 let name = "Anonymous"
-                
-                SBDMain.connect(withUserId: shoperPrefix + id, accessToken: nil) { (user, error) in
+                SendbirdChat.connect(userId: shoperPrefix + id, authToken: nil) { user, error in
                     guard error == nil else {
                         // Handle error.
                         SpinnerView.hideSpinnerView()
@@ -254,7 +301,11 @@ class SendBirdDeskManager{
                     self.loginSBUUserForChat(id: id, name: name)
                     
                     if user?.nickname == "" {
-                        SBDMain.updateCurrentUserInfo(withNickname: name, profileUrl: nil) { (error) in
+                        
+                        let parms = UserUpdateParams.init()
+                        parms.nickname = name
+                        
+                        SendbirdChat.updateCurrentUserInfo(params: parms) { bytesSent, totalBytesSent, totalBytesExpectedToSend in } completionHandler: { error in
                             guard error == nil else{
                                 SpinnerView.hideSpinnerView()
                                 FireBaseEventsLogger.trackCustomEvent(eventType: "ChatUserName:\(name)", action: "updateCurrentUserInfo", [ "error" : error?.localizedDescription ?? ""], true)
@@ -327,7 +378,7 @@ class SendBirdDeskManager{
     }
     
     func setUpTicketConfigurationForCustomer(){
-        if let oId = self.orderId, let vc = self.controller,let type = self.deskType,let user = SBDMain.getCurrentUser() {
+        if let oId = self.orderId, let vc = self.controller,let type = self.deskType,let user = SendbirdChat.getCurrentUser() {
             
             self.getOpenedTicket { (isFound , openticket, ticketsCount) in
                 self.handleOpenTicketResponse(isFound: isFound, openTicket: openticket, ticketCount: ticketsCount)
@@ -348,21 +399,21 @@ class SendBirdDeskManager{
         
         if let type = self.deskType {
             if type == .orderSupport {
-                customFields["orderid"] = orderId
+                customFields["orderid"] = orderId == "0" ? "" : orderId
                 if let grocer = self.groceryId {
                     customFields["retailerid"] = grocer
                 }
                 prefixToSend = OrderUrlPrefix
                 orderIdToSend = orderId  + "_shopper"
             }else if type == .agentSupport{
-                customFields["orderid"] = "0"
+                customFields["orderid"] = ""
                 prefixToSend = SupportUrlPrefix
-                if let user = SBDMain.getCurrentUser(){
+                if let user = SendbirdChat.getCurrentUser(){
                     orderIdToSend = user.userId
                 }
             }
         }
-        if let userSendBird = SBDMain.getCurrentUser(){
+        if let userSendBird = SendbirdChat.getCurrentUser(){
            userToSend = userSendBird.nickname ?? ""
         }
         
@@ -547,21 +598,21 @@ class SendBirdDeskManager{
         }
     }
     
-    func navigateTochannelViewController(channel : SBDGroupChannel , controller : UIViewController , orderId : String){
+    func navigateTochannelViewController(channel : GroupChannel , controller : UIViewController , orderId : String){
         
-        ElGrocerEventsLogger.sharedInstance.chatWithSupportClicked(orderId: orderId)
+      //  ElGrocerEventsLogger.sharedInstance.chatWithSupportClicked(orderId: orderId)
         
         // Loggine segment event for help clicked
         SegmentAnalyticsEngine.instance.logEvent(event: HelpClickedEvent())
         
-        if let user = SBDMain.getCurrentUser() {
+        if let user = SendbirdChat.getCurrentUser() {
             let userID = user.userId
-            SBUGlobals.CurrentUser = SBUUser(userId: userID, nickname: user.nickname, profileUrl: nil)
+            SBUGlobals.CurrentUser = SBUUser(userId: userID, nickname: user.nickname, profileURL: nil)
         } else {
 
             if let id = CleverTapEventsLogger.getCTProfileId(){
                 let name = "Anonymous"
-                SBUGlobals.CurrentUser = SBUUser(userId: shoperPrefix + id, nickname: name, profileUrl: nil)
+                SBUGlobals.CurrentUser = SBUUser(userId: shoperPrefix + id, nickname: name, profileURL: nil)
                 
             }
         }
@@ -581,17 +632,25 @@ class SendBirdDeskManager{
             self.attachCustomFieldsWithCustomer()
             
             Thread.OnMainThread {
-                
                 IQKeyboardManager.shared.enableAutoToolbar = true
                 IQKeyboardManager.shared.enable = true
-                let channelController = ElgrocerChannelController(channel: channel)
-                channelController.setOrderId(orderDbId: orderId)
-                
-                let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                navigationController.viewControllers = [channelController]
-                navigationController.modalPresentationStyle = .fullScreen
-                
-                controller.present(navigationController, animated: true)
+                let params = MessageListParams()
+                params.includeMetaArray = true
+                params.includeReactions = true
+                params.includeThreadInfo = true
+                params.includeParentMessageInfo = SendbirdUI.config.groupChannel.channel.replyType != .none
+                params.replyType = SendbirdUI.config.groupChannel.channel.replyType.filterValue
+                //params.messageTypeFilter = .file
+                params.customTypes = nil
+                let channelController = ElgrocerChannelController(channel: channel, messageListParams: params)
+                channelController.headerComponent?.rightBarButton = UIBarButtonItem()
+                let naviVC = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                naviVC.hideSeparationLine()
+                naviVC.setLogoHidden(true)
+                naviVC.setBackButtonHidden(true)
+                naviVC.viewControllers = [channelController]
+                naviVC.modalPresentationStyle = .fullScreen
+                controller.present(naviVC, animated: true)
                 SpinnerView.hideSpinnerView()
             }
             
@@ -602,11 +661,11 @@ class SendBirdDeskManager{
     func navigateToChannelList(controller : UIViewController) {
         
         
-        guard let user = SBDMain.getCurrentUser() else {return}
+        guard let user = SendbirdChat.getCurrentUser() else {return}
         
         Thread.OnMainThread {
             let userID = user.userId
-            SBUGlobals.CurrentUser = SBUUser(userId: userID, nickname: user.nickname, profileUrl: nil)
+            SBUGlobals.CurrentUser = SBUUser(userId: userID, nickname: user.nickname, profileURL: nil)
             
             let vc = ElGrocerViewControllers.getDeskListVc()
             vc.orderId = self.orderId ?? "0"
@@ -623,7 +682,7 @@ class SendBirdDeskManager{
     
     func  setUserUpdatedLanguage()  {
         let preferredLanguages =  ElGrocerUtility.sharedInstance.isArabicSelected() ?  ["ar"] : ["en"] // French, German, Spanish, and Korean
-        SBDMain.updateCurrentUserInfo(withPreferredLanguages: preferredLanguages, completionHandler: { error in
+        SendbirdChat.updateCurrentUserInfo(preferredLanguages: preferredLanguages, completionHandler: { error in
         })
     }
     
@@ -663,11 +722,10 @@ class SendBirdDeskManager{
         }
     }
     
-    func checkIfChannelExist(channelUrl : String , completion: @escaping (Bool , SBDGroupChannel) ->()){
-        
-        SBDGroupChannel.getWithUrl(channelUrl) { SBDchannel, error in
-            guard let channel = SBDchannel , error == nil else{
-                completion(false , SBDGroupChannel(dictionary: ["" : ""]))
+    func checkIfChannelExist(channelUrl : String , completion: @escaping (Bool , GroupChannel) ->()){
+        GroupChannel.getChannel(url: channelUrl) { channel, error in
+            guard let channel = channel , error == nil else{
+                //completion(false , GroupChannel.build(fromSerializedData: nil) ?? <#default value#>)
                 return
             }
             completion(true , channel)
@@ -677,35 +735,35 @@ class SendBirdDeskManager{
     //MARK: push notification
     func registerPushNotification(_ deviceToken : Data, completion : @escaping(Bool) -> ()){
 
-        SBDMain.registerDevicePushToken(deviceToken, unique: true, completionHandler: { (status, error) in
+        SendbirdChat.registerDevicePushToken(deviceToken, unique: true, completionHandler: { (status, error) in
             if error == nil {
                 completion(true)
                 UserDefaults.setIsDevicePushTokenRegistered(true)
             }
             else {
-                if status == SBDPushTokenRegistrationStatus.pending {
-                    self.setPushNotification(enable: false)
-                    UserDefaults.setIsDevicePushTokenRegistered(false)
-                } else {
-                    // Handle registration failure.
-                    completion(false)
-                    UserDefaults.setIsDevicePushTokenRegistered(false)
-                }
+//                if status == SBDPushTokenRegistrationStatus.pending {
+//                    self.setPushNotification(enable: false)
+//                    UserDefaults.setIsDevicePushTokenRegistered(false)
+//                } else {
+//                    // Handle registration failure.
+//                    completion(false)
+//                    UserDefaults.setIsDevicePushTokenRegistered(false)
+//                }
             }
         })
     }
 
     func setPushNotification(enable: Bool) {
         if enable {
-            if let token = SBDMain.getPendingPushToken() {
-                SBDMain.registerDevicePushToken(token, unique: true, completionHandler: { (status, error) in
+            if let token = SendbirdChat.getPendingPushToken() {
+                SendbirdChat.registerDevicePushToken(token, unique: true, completionHandler: { (status, error) in
                 })
             }
         }
         else {
-            if let token = SBDMain.getPendingPushToken() {
+            if let token = SendbirdChat.getPendingPushToken() {
                 // If you want to unregister the current device only, invoke this method.
-                SBDMain.unregisterPushToken(token, completionHandler: { (response, error) in
+                SendbirdChat.unregisterPushToken(token, completionHandler: { (response, error) in
                     guard error == nil else{
                        elDebugPrint(error)
                         return
@@ -717,16 +775,16 @@ class SendBirdDeskManager{
     }
     
     
-//
-//    // SendBirdHelper.swift
-//    func logout(completionHandler: (() -> Void)?) {
-//
-//        self.setPushNotification(enable: false)
-//        SBDMain.disconnect { }
-//    }
+
+    // SendBirdHelper.swift
+    func logout(completionHandler: (() -> Void)?) {
+
+        self.setPushNotification(enable: false)
+        SendbirdChat.disconnect { }
+    }
 }
 
-extension SBDError {
+extension SBError {
     
     
     func showSBDErrorAlert() {
@@ -763,21 +821,21 @@ extension SendBirdDeskManager {
     }
     
     func handleCloseTicketResponse(openTicket: SBDSKTicket?, openTicketCount: Int, closeTicket: SBDSKTicket?, closeTicketCount: Int ) {
-        guard let oId = self.orderId, let vc = self.controller,let type = self.deskType,let user = SBDMain.getCurrentUser() else {
+        guard let oId = self.orderId, let vc = self.controller,let type = self.deskType,let user = SendbirdChat.getCurrentUser() else {
             SpinnerView.hideSpinnerView()
             return
         }
-
-        if openTicketCount > 1 || (closeTicketCount > 0 && type != .orderSupport) {
+//FIXME: please add check of great then zero one
+        if openTicketCount > (Platform.isDebugBuild ? 0:1 ) || (closeTicketCount > 0 && type != .orderSupport) {
             self.navigateToChannelList(controller: vc)
             return
         }
         
-        if let openTicketUrl = openTicket?.channel?.channelUrl {
+        if let openTicketUrl = openTicket?.channel?.channelURL {
             self.callSendBirdChat(orderId: oId, controller: vc, channelUrl: openTicketUrl)
             return
         }
-        self.createTicketWithCustomParams(orderId: oId, user: user.nickname!, controller: vc)
+        self.createTicketWithCustomParams(orderId: oId, user: user.nickname, controller: vc)
         //commenting because no ticket will be reopened now
 //        if type == .agentSupport {
 //            self.createTicketWithCustomParams(orderId: oId, user: user.nickname!, controller: vc)

@@ -852,18 +852,21 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     
     override func addProductToBasketFromQuickAdd(_ product: Product) {
        
-     //   ElGrocerEventsLogger.sharedInstance.addToCart(product: product)
-        
-//        ElGrocerUtility.sharedInstance.createBranchLinkForProduct(product)
-//        ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("add_item_to_cart")
-//
-//        ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(product)
-        
         var productQuantity = 1
-        
         // If the product already is in the basket, just increment its quantity by 1
         if let product = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             productQuantity += product.count.intValue
+        }
+        
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if isNewCart {
+            let cartCreatedEvent = CartCreatedEvent(grocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
         }
         
         self.selectedProduct = product

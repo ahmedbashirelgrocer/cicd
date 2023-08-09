@@ -594,6 +594,11 @@ extension  ElGrocerEventsLogger   {
         for product in finalProducts {
             let idString = "\(Product.getCleanProductId(fromId: product.dbID))"
             idData.append(idString)
+            if product.queryID?.count ?? 0 > 0 {
+                if !queryIDs.contains(product.queryID!){
+                    queryIDs.append(product.queryID!)
+                }
+            }
         }
         let idStr = (idData.map{String($0)}).joined(separator: ",")
         let cleanGroceryID =  Grocery.getGroceryIdForGrocery(grocery)

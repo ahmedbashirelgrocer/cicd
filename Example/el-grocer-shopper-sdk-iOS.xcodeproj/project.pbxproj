@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		102DA7102905FB5500886CB4 /* PresentedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102DA70F2905FB5500886CB4 /* PresentedViewController.swift */; };
 		1098C3C328D5C94600297EDF /* ElGrocerShopperAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1098C3C228D5C94600297EDF /* ElGrocerShopperAppViewController.swift */; };
-		10A88B952A31E936009E5E85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10A88B942A31E936009E5E85 /* GoogleService-Info.plist */; };
 		1720FD7E293550B700272FA5 /* PreLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1720FD7D293550B700272FA5 /* PreLoadViewController.swift */; };
 		174929B7292CF6F000246A47 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174929B6292CF6F000246A47 /* SearchCell.swift */; };
+		179C1ED12A38893D003B737B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 179C1ED02A38893D003B737B /* GoogleService-Info.plist */; };
 		17E884892930E44E00654632 /* IntegratedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E884882930E44E00654632 /* IntegratedSearchViewController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -36,9 +36,9 @@
 /* Begin PBXFileReference section */
 		102DA70F2905FB5500886CB4 /* PresentedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentedViewController.swift; sourceTree = "<group>"; };
 		1098C3C228D5C94600297EDF /* ElGrocerShopperAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElGrocerShopperAppViewController.swift; sourceTree = "<group>"; };
-		10A88B942A31E936009E5E85 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1720FD7D293550B700272FA5 /* PreLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLoadViewController.swift; sourceTree = "<group>"; };
 		174929B6292CF6F000246A47 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		179C1ED02A38893D003B737B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		17E884882930E44E00654632 /* IntegratedSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegratedSearchViewController.swift; sourceTree = "<group>"; };
 		359F630A0ED363F0F210A97E /* Pods-el-grocer-shopper-sdk-iOS_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-el-grocer-shopper-sdk-iOS_Tests.debug.xcconfig"; path = "Target Support Files/Pods-el-grocer-shopper-sdk-iOS_Tests/Pods-el-grocer-shopper-sdk-iOS_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3CDE9D3F113D6A4338D65FEA /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				102DA70F2905FB5500886CB4 /* PresentedViewController.swift */,
 				174929B6292CF6F000246A47 /* SearchCell.swift */,
-				10A88B942A31E936009E5E85 /* GoogleService-Info.plist */,
+				179C1ED02A38893D003B737B /* GoogleService-Info.plist */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -277,9 +277,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10A88B952A31E936009E5E85 /* GoogleService-Info.plist in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				179C1ED12A38893D003B737B /* GoogleService-Info.plist in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,8 +388,8 @@
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework/FBSDKCoreKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.framework/FBSDKCoreKit_Basics",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/SendBirdDesk/SendBirdDesk.framework/SendBirdDesk",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/SendBirdSDK/SendBirdSDK.framework/SendBirdSDK",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/SendBirdUIKit/SendBirdUIKit.framework/SendBirdUIKit",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/SendBirdUIKit/SendbirdUIKit.framework/SendbirdUIKit",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/SendbirdChatSDK/SendbirdChatSDK.framework/SendbirdChatSDK",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Storyly/Storyly.framework/Storyly",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -399,8 +399,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit_Basics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SendBirdDesk.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SendBirdSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SendBirdUIKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SendbirdUIKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SendbirdChatSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Storyly.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,7 +515,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -580,13 +580,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 136;
+				CURRENT_PROJECT_VERSION = 142;
 				DEVELOPMENT_TEAM = N883C2D2B2;
 				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "el-grocer-shopper-sdk-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.0;
+				MARKETING_VERSION = 8.0;
 				MODULE_NAME = ExampleApp;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = elgrocer.com.ElGrocerShopper.SDK;
@@ -606,13 +606,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 136;
+				CURRENT_PROJECT_VERSION = 142;
 				DEVELOPMENT_TEAM = N883C2D2B2;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = "el-grocer-shopper-sdk-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 7.0;
+				MARKETING_VERSION = 8.0;
 				MODULE_NAME = ExampleApp;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = elgrocer.com.ElGrocerShopper.SDK;
@@ -644,7 +644,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -670,6 +670,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

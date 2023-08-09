@@ -4,7 +4,7 @@
 #
 #  To learn more about Podspec attributes see https://guides.cocoapods.org/syntax/podspec.html
 #  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
-#
+#  // 6.7.4
 
 Pod::Spec.new do |s|
     
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.6.8'
+  s.version          = '1.7.5'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -176,8 +176,9 @@ Pod::Spec.new do |s|
       # Pods for RateView
   s.dependency 'FloatRatingView', '~> 4.0'
       # sendBird chat
-  s.dependency 'SendBirdUIKit', '~> 2.1.16'
-  s.dependency 'SendBirdDesk', '~> 1.0.17'
+  s.dependency 'SendBirdUIKit' ,'~> 3.6.1'
+  s.dependency 'SendBirdDesk' , '~> 1.1.3'
+  s.dependency 'SendbirdChatSDK' , '~> 4.9.3'
       # add file
   s.dependency 'Adyen', '~> 4.10.0'
   
@@ -188,13 +189,12 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-#
-
+  s.dependency 'lottie-ios', '~> 3.5.0'
+#s.dependency 'AppsFlyerFramework'
 
   # Segment analytics dependency
    s.dependency 'Mixpanel-swift'
    s.dependency 'CleverTap-iOS-SDK'
    s.dependency 'Analytics'
    s.dependency 'Segment-CleverTap'
-   s.dependency 'lottie-ios', '~> 3.5.0'
 end

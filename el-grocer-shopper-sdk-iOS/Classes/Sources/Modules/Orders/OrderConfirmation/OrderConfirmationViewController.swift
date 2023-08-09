@@ -123,6 +123,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //Todo: this should be removed; all data handling should be from view model.
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem()
+        self.setNavigationAppearance()
         self.getOrderDetail()
         if !self.statusView.isHidden  {
             self.viewModel.reloadData()

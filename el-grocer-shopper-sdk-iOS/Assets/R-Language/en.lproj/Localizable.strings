@@ -6,6 +6,7 @@
   Copyright (c) 2015 RST IT. All rights reserved.
 */
 
+"Download tax invoice" = " Download tax invoice";
 "smiles_pts" = "    %@ pts    ";
 "earn_rewards_now" = "Earn rewards now! ❯";
 "Oops! Something went wrong on our side 🤔" = "Oops! Something went wrong on our side 🤔";
@@ -1842,6 +1843,24 @@ Add delivery details";
 "total_price_incl_VAT" = "Total price (incl. VAT)";
 "checkout_instruction_placeHolder" = "Type to leave additional instruction to the store";
 "promo_textfield_placeholder" = "Enter promo code";
+"tabby_view_title_text" = "Pay later with Tabby*";
+"tabby_view_details_text" = "One bill, pay it at the end of the month with Tabby. No interest or fees.";
+"tabby_threshold_with_currency" = "500 AED";
+"tabby_terms_and_conditions_title" = "Tabby terms & conditions";
+// Tabby Terms & Conditions
+"tabby_tc_paraghraph_one_title" = "All your purchases in one bill";
+"tabby_tc_paraghraph_one_description" = "Pay once on the 28th of each month. No interest or fees.";
+
+"tabby_tc_paraghraph_second_title" = "How it works?";
+"tabby_tc_paraghraph_second_description" = "Download and open the Tabby app.\nYou’ll find all you purchases under the Payments section in one bill.";
+
+"tabby_tc_paraghraph_third_title" = "Track your monthly spend";
+"tabby_tc_paraghraph_third_description" = "You Tabby Pay later billing cycle runs from the 25th of the month to the 24th of the following month.";
+
+"tabby_tc_paraghraph_forth_title" = "Review and pay in one bill";
+"tabby_tc_paraghraph_forth_description" = "You’ll receive your Tabby Pay later bill on the 25th of the month with payment due on the 28th.";
+"paid_with_tabby" = "Tabby";
+"screen_order_details_bags_text" = "Bags";
 
 "lbl_collection_detail_alert_highlight" = "arrive on time";
 

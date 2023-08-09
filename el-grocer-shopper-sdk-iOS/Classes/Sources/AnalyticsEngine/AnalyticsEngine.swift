@@ -30,7 +30,7 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
     func identify(userData: IdentifyUserDataType) {
         let traits = self.addMarketTypeProperty(metaData: userData.traits ?? [:])
         self.analytics.identify(userData.userId, traits: traits)
-        self.debugLogEvent(eventType: "Identify", eventName: "", params: traits)
+        self.debugLogEvent(eventType: "Identify", eventName: "Identify User - \(userData.userId)", params: traits)
     }
     
     func logEvent(event: AnalyticsEventDataType) {
@@ -74,6 +74,11 @@ private extension SegmentAnalyticsEngine {
                 metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
                 return metaData
             }
+        }else {
+            var metaData = metaData
+            metaData[EventParameterKeys.marketType] = sdkManager.isShopperApp ? "Shopper Marketplace" : "Smiles Marketplace"
+            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
+            return metaData
         }
         
         return metaData

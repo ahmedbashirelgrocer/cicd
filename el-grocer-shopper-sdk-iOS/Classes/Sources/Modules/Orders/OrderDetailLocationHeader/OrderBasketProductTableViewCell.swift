@@ -16,7 +16,17 @@ class OrderBasketProductTableViewCell: UITableViewCell {
     @IBOutlet var saleView: UIImageView!
     @IBOutlet var imageProduct: UIImageView!
     @IBOutlet var productName: UILabel!
-    @IBOutlet var productQuantity: UILabel!
+    @IBOutlet var productQuantity: UILabel! {
+        didSet {
+            productQuantity.setTextStyleWhite()
+            productQuantity.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            productQuantity.layer.cornerRadius = 12
+            productQuantity.textAlignment = .center
+            productQuantity.clipsToBounds = true
+        }
+    }
+    @IBOutlet weak var productUnit: UILabel!
+    
     @IBOutlet var productPrice: UILabel!
     @IBOutlet var lblStrikePrice: UILabel!{
         didSet{
@@ -52,7 +62,7 @@ class OrderBasketProductTableViewCell: UITableViewCell {
         self.imageProduct.image =  self.placeholderPhoto
     }
     
-    func configureProduct (_ product : Product , grocery : Grocery? , item : ShoppingBasketItem?) {
+    func configureProduct (_ product : Product , grocery : Grocery? , item : ShoppingBasketItem?, orderPosition: NSDictionary? = nil) {
         
         guard grocery != nil else {
             return
@@ -85,8 +95,29 @@ class OrderBasketProductTableViewCell: UITableViewCell {
         self.productName.text = product.name
 
         let itemsCount = item!.count.intValue
-        let countLabel = itemsCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
-        self.productQuantity.text  = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsCount)") + " "  + countLabel + ")"
+        // let countLabel = itemsCount == 1 ? localizedString("shopping_basket_items_count_singular", comment: "") : localizedString("shopping_basket_items_count_plural", comment: "")
+        
+        self.productQuantity.text  = "x\(itemsCount)" //"(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(itemsCount)") + " "  + countLabel + ")"
+        
+//        if(actual_weight == 0.0){
+//            unit_weight + product_size_unit
+//        } else{
+//            actual_weight /quantity+ product_size_unit
+//        }
+        
+        if let orderPosition = orderPosition {
+            var unit = ""
+            
+            let aWeight = (orderPosition["actual_weight"] as? NSNumber) ?? 0
+            let uWeight = orderPosition["unit_weight"] as? NSNumber ?? 0
+            let psUnit = orderPosition["product_size_unit"] as? String ?? ""
+            
+            if aWeight == 0 {
+                self.productUnit.text = (uWeight > 0 ? "\(uWeight)": "") + psUnit
+            } else {
+                self.productUnit.text = "\(round(aWeight.doubleValue / Double(itemsCount) * 100) / 100)" + psUnit
+            }
+        }
         
         
 //        self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + product.price.doubleValue.formateDisplayString()

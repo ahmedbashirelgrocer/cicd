@@ -1389,6 +1389,11 @@ private extension ProductCell {
             }
         }).disposed(by: disposeBag)
         
+        
+        CellSelectionState.shared.outputs.productQuantity.subscribe(onNext: { [weak self] quantityString in
+            self?.quantityLabel.text = quantityString
+        }).disposed(by: disposeBag)
+        
         viewModel.outputs.isSubtituted.subscribe(onNext: { [weak self] substituted in
             guard let self = self, let substituted = substituted else { return }
             
@@ -1457,9 +1462,9 @@ private extension ProductCell {
         viewModel.outputs.quantity.subscribe(onNext: { [weak self] sQuantity in
             guard let self = self else { return }
             
-            UIView.transition(with: self.quantityLabel, duration: 0.25) {
-                self.quantityLabel.text = sQuantity
-            }
+//            UIView.transition(with: self.quantityLabel, duration: 0.25) {
+//                self.quantityLabel.text = sQuantity
+//            }
         }).disposed(by: disposeBag)
         
         viewModel.outputs.plusButtonEnabled.subscribe(onNext: { [weak self] enabled in

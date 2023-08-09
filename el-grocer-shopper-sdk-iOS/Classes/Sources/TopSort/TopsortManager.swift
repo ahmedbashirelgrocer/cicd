@@ -23,10 +23,14 @@ extension TopsortManager {
            switch result {
            case .success(let value):
                completion?(true)
-               print("TopSort Event Logged: \(value)")
+#if DEBUG
+               print("TopSort_Success_Event_Logged: \(value)")
+#endif
            case .failure(let error):
                completion?(false)
-               print("TopSort Event Failed: \(error.localizedDescription)")
+#if DEBUG
+               print("TopSort_Error_Log_Event: \(error)")
+#endif
            }
        }
    }
@@ -45,6 +49,11 @@ extension TopsortManager {
         }
         
         if forProductsIds.count == 1, forProductsIds.first == "0" {
+            completion(.success([]))
+            return
+        }
+        
+        if slots == 0 {
             completion(.success([]))
             return
         }
@@ -72,12 +81,14 @@ extension TopsortManager {
                 let winners = value.results.first?.winners ?? []
 #if DEBUG
                 if winners.count > 0 {
-                    //print("TopSortWinners: \(winners.map{ ($0.id, $0.rank) })")
+                    print("TopSort_Success_Listing_Winners: \(winners)")
                 }
 #endif
                 completion(.success(winners))
             case .failure(let error):
-                print(error)
+#if DEBUG
+                print("TopSort_Error_Listing: \(error)")
+#endif
                 completion(.failure(error))
             }
         }
@@ -114,6 +125,11 @@ extension TopsortManager {
         
         var winners: [WinnerBanner] = []
         var apiError: APIError?
+        
+        if slotId.isEmpty || slots == 0 {
+            completion(.success([]))
+            return
+        }
         
         let intervalSize = 5
         var index = 0
@@ -219,6 +235,9 @@ extension TopsortManager {
                 completion(.success(winners))
                 
             case .failure(let error):
+#if DEBUG
+                print("TopSort_Error_Banner_Fetch: \(error)")
+#endif
                 completion(.failure(error))
             }
             print("\(slotId), \(slots)")

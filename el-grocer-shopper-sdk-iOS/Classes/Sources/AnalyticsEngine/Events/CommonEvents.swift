@@ -85,3 +85,29 @@ struct MenuItemClickedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct ABTestExperimentEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(authToken: String, variant: String, experimentType: String = "home") {
+        self.eventType = .track(eventName: AnalyticsEventName.abTestExperiment)
+        self.metaData = [
+            EventParameterKeys.authToken: authToken,
+            EventParameterKeys.variant: variant,
+            EventParameterKeys.experimentType: experimentType
+        ]
+    }
+}
+
+struct GenericABTestConfigError: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(eventsArray: [String]) {
+        self.eventType = .track(eventName: AnalyticsEventName.genericABTestConfigError)
+        self.metaData = [
+            EventParameterKeys.message: eventsArray
+        ]
+    }
+}
