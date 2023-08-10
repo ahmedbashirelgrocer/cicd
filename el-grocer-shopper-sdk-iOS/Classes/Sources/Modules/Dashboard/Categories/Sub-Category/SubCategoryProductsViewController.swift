@@ -48,7 +48,7 @@ fileprivate extension SubCategoryProductsViewController {
         
         categoriesSegmentedView
             .onTap { [weak self] index in
-                self?.viewModel.inputs.categorySegmentTap.onNext(index)
+                self?.viewModel.inputs.categorySegmentTapObserver.onNext(index)
             }
     }
 }

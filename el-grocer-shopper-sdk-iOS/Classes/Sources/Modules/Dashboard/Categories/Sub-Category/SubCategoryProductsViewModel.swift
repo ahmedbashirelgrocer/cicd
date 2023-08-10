@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol SubCategoryProductsViewModelInputs {
-    var categorySegmentTap: AnyObserver<Int> { get }
+    var categorySegmentTapObserver: AnyObserver<Int> { get }
 }
 
 protocol SubCategoryProductsViewModelOutputs {
@@ -29,7 +29,7 @@ extension SubCategoryProductsViewModelType {
 
 class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     // MARK: Inputs
-    var categorySegmentTap: AnyObserver<Int> { categorySegmentTapSubject.asObserver() }
+    var categorySegmentTapObserver: AnyObserver<Int> { selectedCategoryIndexSubject.asObserver() }
     
     // MARK: Outputs
     var categories: Observable<[CategoryDTO]> { categoriesSubject.asObservable() }
@@ -37,7 +37,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
-    private var categorySegmentTapSubject = PublishSubject<Int>()
+//    private var categorySegmentTapSubject = PublishSubject<Int>()
     private var selectedCategoryIndexSubject = BehaviorSubject<Int>(value: 0)
     
     // MARK: Properties
@@ -53,7 +53,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             .compactMap { $0.firstIndex(where: { $0.id == selectedCategory.id }) }
             .bind(to: selectedCategoryIndexSubject)
         
-        self.categorySegmentTapSubject
+        self.selectedCategoryIndexSubject
             .flatMapLatest { [unowned self] index in self.filterCategory(index) }
             .subscribe(onNext: {
                 print("you selected the category with name >> \($0.name)")
