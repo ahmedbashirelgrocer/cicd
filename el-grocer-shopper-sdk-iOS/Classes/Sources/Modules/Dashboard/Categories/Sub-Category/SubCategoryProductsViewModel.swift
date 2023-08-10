@@ -15,6 +15,7 @@ protocol SubCategoryProductsViewModelInputs {
 protocol SubCategoryProductsViewModelOutputs {
     var categories: Observable<[CategoryDTO]> { get }
     var selectedCategoryIndex: Observable<Int> { get }
+    var subCategoriesTitle: Observable<[String]> { get }
 }
 
 protocol SubCategoryProductsViewModelType: SubCategoryProductsViewModelInputs, SubCategoryProductsViewModelOutputs {
@@ -34,11 +35,12 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     // MARK: Outputs
     var categories: Observable<[CategoryDTO]> { categoriesSubject.asObservable() }
     var selectedCategoryIndex: Observable<Int> { selectedCategoryIndexSubject.asObservable() }
+    var subCategoriesTitle: Observable<[String]> { subCategoriesTitleSubject.asObservable() }
     
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
-//    private var categorySegmentTapSubject = PublishSubject<Int>()
     private var selectedCategoryIndexSubject = BehaviorSubject<Int>(value: 0)
+    private var subCategoriesTitleSubject = BehaviorSubject<[String]>(value: [])
     
     // MARK: Properties
     private var disposeBag = DisposeBag()
@@ -53,6 +55,8 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             .compactMap { $0.firstIndex(where: { $0.id == selectedCategory.id }) }
             .bind(to: selectedCategoryIndexSubject)
             .disposed(by: disposeBag)
+        
+        self.subCategoriesTitleSubject.onNext(["Test category", "hello", "testing abc xyz", "iOS Developers", "Android Developers"])
         
         self.selectedCategoryIndexSubject
             .flatMapLatest { [unowned self] index in self.filterCategory(index) }
