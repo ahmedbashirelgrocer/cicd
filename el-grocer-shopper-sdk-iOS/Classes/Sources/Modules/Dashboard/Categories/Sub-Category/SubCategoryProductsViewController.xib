@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SubCategoryProductsViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <connections>
+                <outlet property="categoriesSegmentedView" destination="rfz-pg-EjY" id="NyB-SW-fbD"/>
+                <outlet property="collectionView" destination="Cr1-iH-6iW" id="n3V-Ri-hkg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -18,9 +20,37 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfz-pg-EjY" customClass="ILSegmentView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="59" width="393" height="140"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="140" id="yTA-O5-r6K"/>
+                    </constraints>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Cr1-iH-6iW">
+                    <rect key="frame" x="0.0" y="199" width="393" height="619"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n50-2a-2WB">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <point key="canvasLocation" x="47" y="20"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Cr1-iH-6iW" secondAttribute="bottom" id="8pr-hK-6tS"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="rfz-pg-EjY" secondAttribute="trailing" id="Ngj-HE-NGq"/>
+                <constraint firstItem="Cr1-iH-6iW" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="WEE-E8-5K7"/>
+                <constraint firstItem="rfz-pg-EjY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Yep-Bq-2T2"/>
+                <constraint firstItem="Cr1-iH-6iW" firstAttribute="top" secondItem="rfz-pg-EjY" secondAttribute="bottom" id="h81-ys-Aat"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Cr1-iH-6iW" secondAttribute="trailing" id="nbH-Hf-PpP"/>
+                <constraint firstItem="rfz-pg-EjY" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="oBi-hV-XQt"/>
+            </constraints>
+            <point key="canvasLocation" x="46.564885496183201" y="19.718309859154932"/>
         </view>
     </objects>
     <resources>

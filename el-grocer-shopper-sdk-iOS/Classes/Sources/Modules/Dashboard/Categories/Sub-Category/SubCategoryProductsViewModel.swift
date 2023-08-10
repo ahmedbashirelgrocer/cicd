@@ -6,10 +6,16 @@
 //
 
 import Foundation
+import RxSwift
 
-protocol SubCategoryProductsViewModelInputs { }
+protocol SubCategoryProductsViewModelInputs {
+    var categorySegmentTap: AnyObserver<Int> { get }
+}
 
-protocol SubCategoryProductsViewModelOutputs { }
+protocol SubCategoryProductsViewModelOutputs {
+    var categories: Observable<[CategoryDTO]> { get }
+    var selectedCategoryIndex: Observable<Int> { get }
+}
 
 protocol SubCategoryProductsViewModelType: SubCategoryProductsViewModelInputs, SubCategoryProductsViewModelOutputs {
     var inputs: SubCategoryProductsViewModelInputs { get }
@@ -22,5 +28,44 @@ extension SubCategoryProductsViewModelType {
 }
 
 class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
+    // MARK: Inputs
+    var categorySegmentTap: AnyObserver<Int> { categorySegmentTapSubject.asObserver() }
     
+    // MARK: Outputs
+    var categories: Observable<[CategoryDTO]> { categoriesSubject.asObservable() }
+    var selectedCategoryIndex: Observable<Int> { selectedCategoryIndexSubject.asObservable() }
+    
+    // MARK: Subjects
+    private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
+    private var categorySegmentTapSubject = PublishSubject<Int>()
+    private var selectedCategoryIndexSubject = BehaviorSubject<Int>(value: 0)
+    
+    // MARK: Properties
+    private var disposeBag = DisposeBag()
+    
+    // MARK: Initializations
+    init(categories: [CategoryDTO], selectedCategory: CategoryDTO) {
+        
+        self.categoriesSubject
+            .onNext(categories.filter{ $0.id != -1 })
+        
+        self.categoriesSubject
+            .compactMap { $0.firstIndex(where: { $0.id == selectedCategory.id }) }
+            .bind(to: selectedCategoryIndexSubject)
+        
+        self.categorySegmentTapSubject
+            .flatMapLatest { [unowned self] index in self.filterCategory(index) }
+            .subscribe(onNext: {
+                print("you selected the category with name >> \($0.name)")
+            }).disposed(by: disposeBag)
+    }
+    
+}
+
+// MARK: - Helpers
+fileprivate extension SubCategoryProductsViewModel {
+    func filterCategory(_ index: Int) -> Observable<CategoryDTO> {
+        return self.categoriesSubject
+            .map({ categories in categories[index] })
+    }
 }

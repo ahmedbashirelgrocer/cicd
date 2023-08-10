@@ -6,10 +6,16 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SubCategoryProductsViewController: UIViewController {
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var categoriesSegmentedView: ILSegmentView!
+    
     private var viewModel: SubCategoryProductsViewModelType!
-
+    private var disposeBag = DisposeBag()
+    
     static func make(viewModel: SubCategoryProductsViewModelType) -> SubCategoryProductsViewController {
         let vc = SubCategoryProductsViewController(nibName: "SubCategoryProductsViewController", bundle: .resource)
         vc.viewModel = viewModel
@@ -19,6 +25,30 @@ class SubCategoryProductsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupViews()
+        bindViews()
         
+        self.navigationController?.navigationBar.isHidden = false
+    }
+}
+
+fileprivate extension SubCategoryProductsViewController {
+    func setupViews() {
+        categoriesSegmentedView.selectionStyle = .wholeCellHighlight
+    }
+    
+    func bindViews() {
+        viewModel.outputs.categories
+            .bind(to: categoriesSegmentedView.rx.categories)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.selectedCategoryIndex
+            .bind(to: categoriesSegmentedView.rx.selectedItemIndex)
+            .disposed(by: disposeBag)
+        
+        categoriesSegmentedView
+            .onTap { [weak self] index in
+                self?.viewModel.inputs.categorySegmentTap.onNext(index)
+            }
     }
 }
