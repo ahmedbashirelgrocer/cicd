@@ -52,11 +52,12 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         self.categoriesSubject
             .compactMap { $0.firstIndex(where: { $0.id == selectedCategory.id }) }
             .bind(to: selectedCategoryIndexSubject)
+            .disposed(by: disposeBag)
         
         self.selectedCategoryIndexSubject
             .flatMapLatest { [unowned self] index in self.filterCategory(index) }
-            .subscribe(onNext: {
-                print("you selected the category with name >> \($0.name)")
+            .subscribe(onNext: { [weak self] selectedCategory in
+                // reload data for selected category
             }).disposed(by: disposeBag)
     }
     
