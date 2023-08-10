@@ -6,14 +6,37 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ILSegmentView: UICollectionView {
     
     var segmentData: [(imageURL: String, bgColor: UIColor, text: String)] = []
     var onTapCompletion: ((Int) -> Void)?
+    var selectionStyle: AWSegementImageViewcell.SelectionStyle = .imageHighlight
+    var selectedItemIndex: Int = 0 {
+        didSet {
+            self.selectItem(at: IndexPath(row: selectedItemIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.collectionViewLayout = Self.layoutCollectionView()
+        commonInit()
+    }
+    
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+    }
     
     convenience init() {
-        self.init(frame: .zero, collectionViewLayout: {
+        self.init(frame: .zero, collectionViewLayout: Self.layoutCollectionView())
+        commonInit()
+    }
+    
+    private static func layoutCollectionView() -> UICollectionViewFlowLayout {
+        return {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
             layout.itemSize = CGSize(width: 88, height: 88 + 42 )
@@ -22,7 +45,10 @@ class ILSegmentView: UICollectionView {
             let edgeInset:CGFloat =  16
             layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
             return layout
-        }())
+        }()
+    }
+    
+    private func commonInit() {
         
         self.backgroundColor = .clear
         self.showsVerticalScrollIndicator = false
@@ -30,6 +56,7 @@ class ILSegmentView: UICollectionView {
         self.allowsSelection = true
         self.allowsMultipleSelection = false
         self.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceRightToLeft : .forceLeftToRight
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         self.register(UINib(nibName: "AWSegementImageViewcell", bundle: Bundle.resource), forCellWithReuseIdentifier: kSegmentImageViewCellIdentifier)
         
@@ -40,7 +67,13 @@ class ILSegmentView: UICollectionView {
     func refreshWith(_ data : [(imageURL: String, bgColor: UIColor, text: String)]) {
         self.segmentData = data
         self.reloadData()
-        self.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+        
+        self.selectedItemIndex = 0
+    }
+    
+    func refreshWith(_ categories : [CategoryDTO]) {
+        let segmentData = categories.map { ($0.coloredImageUrl ?? "", UIColor.white, $0.name ?? "") }
+        self.refreshWith(segmentData)
     }
     
     func onTap(completion: @escaping (Int) -> Void) {
@@ -61,7 +94,8 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
         
         cell.configure(imageURL: dataItem.imageURL,
                        bgColor: dataItem.bgColor,
-                       text: dataItem.text)
+                       text: dataItem.text,
+                       selectionStyle: selectionStyle)
         
         return cell
     }
@@ -72,4 +106,19 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
         return false
     }
     
+}
+
+// MARK: Rx Extension
+extension Reactive where Base: ILSegmentView {
+    var categories: Binder<[CategoryDTO]> {
+        return Binder(self.base) { segmentedView, categories in
+            segmentedView.refreshWith(categories)
+        }
+    }
+    
+    var selectedItemIndex: Binder<Int> {
+        return Binder(self.base) { segmentedView, index in
+            segmentedView.selectedItemIndex = index
+        }
+    }
 }

@@ -11,13 +11,18 @@ import SDWebImage
 let kSegmentImageViewCellIdentifier = "AWSegementImageViewcell"
 
 class AWSegementImageViewcell: UICollectionViewCell {
+    enum SelectionStyle {
+        case imageHighlight
+        case wholeCellHighlight
+    }
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var label: UILabel!
+    private var selectionStyle: SelectionStyle = .imageHighlight
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.selectedBackgroundView?.frame = imageView.frame
+        self.selectedBackgroundView?.frame = selectionStyle == .imageHighlight ? imageView.frame : contentView.frame
     }
 
     override func awakeFromNib() {
@@ -48,12 +53,12 @@ class AWSegementImageViewcell: UICollectionViewCell {
         self.bringSubviewToFront(selectedBackgroundView!)
     }
     
-    func configure(imageURL: String, bgColor: UIColor, text: String) {
+    func configure(imageURL: String, bgColor: UIColor, text: String, selectionStyle: SelectionStyle = .imageHighlight) {
         
         self.imageView.sd_setImage(with: URL(string: imageURL))
         self.label.text = text
         self.imageView.backgroundColor = bgColor
-        
+        self.selectionStyle = selectionStyle
     }
     
 }
