@@ -16,29 +16,34 @@ class ILSegmentView: UICollectionView {
     var selectionStyle: AWSegementImageViewcell.SelectionStyle = .imageHighlight
     var selectedItemIndex: Int = 0 {
         didSet {
-            self.selectItem(at: IndexPath(row: selectedItemIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+            let scrollPosition: UICollectionView.ScrollPosition = self.scrollDirection == .horizontal
+                ? .centeredHorizontally
+                : .centeredVertically
+            
+            self.selectItem(at: IndexPath(row: selectedItemIndex, section: 0), animated: true, scrollPosition: scrollPosition)
         }
     }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        self.collectionViewLayout = Self.layoutCollectionView()
-        commonInit()
-    }
-    
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-    }
+    var scrollDirection: UICollectionView.ScrollDirection = .horizontal
     
     convenience init() {
-        self.init(frame: .zero, collectionViewLayout: Self.layoutCollectionView())
+        self.init(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         commonInit()
     }
     
-    private static func layoutCollectionView() -> UICollectionViewFlowLayout {
-        return {
+    convenience init(scrollDirection: UICollectionView.ScrollDirection, selectionStyle: AWSegementImageViewcell.SelectionStyle) {
+        self.init(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        
+        self.scrollDirection = scrollDirection
+        self.selectionStyle = selectionStyle
+        
+        commonInit()
+        
+    }
+    
+    private func commonInit() {
+        self.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .horizontal
+            layout.scrollDirection = scrollDirection
             layout.itemSize = CGSize(width: 88, height: 88 + 42 )
             layout.minimumInteritemSpacing = 16
             layout.minimumLineSpacing = 16
@@ -46,9 +51,6 @@ class ILSegmentView: UICollectionView {
             layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
             return layout
         }()
-    }
-    
-    private func commonInit() {
         
         self.backgroundColor = .clear
         self.showsVerticalScrollIndicator = false
@@ -118,7 +120,9 @@ extension Reactive where Base: ILSegmentView {
     
     var selectedItemIndex: Binder<Int> {
         return Binder(self.base) { segmentedView, index in
-            segmentedView.selectedItemIndex = index
+            DispatchQueue.main.async {
+                segmentedView.selectedItemIndex = index
+            }
         }
     }
 }
