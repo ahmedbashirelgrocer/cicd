@@ -23,13 +23,13 @@ class SubCategoryProductsViewController: UIViewController {
     }()
     private lazy var categoriesSegmentedView: ILSegmentView = {
         let view = ILSegmentView(scrollDirection: self.isVertical ? .vertical : .horizontal, selectionStyle: .wholeCellHighlight)
-        view.onTap { [weak self] index in self?.viewModel.inputs.categorySegmentTapObserver.onNext(index) }
+        view.onTap { [weak self] index in self?.viewModel.inputs.categorySwitchObserver.onNext(index) }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private var viewModel: SubCategoryProductsViewModelType!
-    private var isVertical: Bool = true
+    private var isVertical: Bool = false
     private var disposeBag = DisposeBag()
     
     static func make(viewModel: SubCategoryProductsViewModelType) -> SubCategoryProductsViewController {
@@ -101,7 +101,7 @@ private extension SubCategoryProductsViewController {
             .bind(to: categoriesSegmentedView.rx.categories)
             .disposed(by: disposeBag)
         
-        viewModel.outputs.selectedCategoryIndex
+        viewModel.outputs.categorySwitch
             .bind(to: categoriesSegmentedView.rx.selectedItemIndex)
             .disposed(by: disposeBag)
         

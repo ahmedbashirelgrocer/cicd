@@ -9,14 +9,14 @@ import Foundation
 import RxSwift
 
 protocol SubCategoryProductsViewModelInputs {
-    var categorySegmentTapObserver: AnyObserver<Int> { get }
+    var categorySwitchObserver: AnyObserver<Int> { get }
 }
 
 protocol SubCategoryProductsViewModelOutputs {
     var categories: Observable<[CategoryDTO]> { get }
-    var selectedCategoryIndex: Observable<Int> { get }
+    var categorySwitch: Observable<Int> { get }
     var subCategoriesTitle: Observable<[String]> { get }
-    var error: Observable<ElGrocerError?> { get }
+    var error: Observable<Error?> { get }
 }
 
 protocol SubCategoryProductsViewModelType: SubCategoryProductsViewModelInputs, SubCategoryProductsViewModelOutputs {
@@ -31,40 +31,35 @@ extension SubCategoryProductsViewModelType {
 
 class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     // MARK: Inputs
-    var categorySegmentTapObserver: AnyObserver<Int> { selectedCategoryIndexSubject.asObserver() }
+    var categorySwitchObserver: AnyObserver<Int> { categorySwitchSubject.asObserver() }
     
     // MARK: Outputs
     var categories: Observable<[CategoryDTO]> { categoriesSubject.asObservable() }
-    var selectedCategoryIndex: Observable<Int> { selectedCategoryIndexSubject.asObservable() }
+    var categorySwitch: Observable<Int> { categorySwitchSubject.asObservable() }
     var subCategoriesTitle: Observable<[String]> { subCategoriesTitleSubject.asObservable() }
-    var error: Observable<ElGrocerError?> { errorSubject.asObservable() }
+    var error: Observable<Error?> { errorSubject.asObservable() }
     
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
-    private var selectedCategoryIndexSubject = BehaviorSubject<Int>(value: 0)
-    private var subCategoriesTitleSubject = BehaviorSubject<[String]>(value: [])
-    private var errorSubject = BehaviorSubject<ElGrocerError?>(value: nil)
+    private var categorySwitchSubject = BehaviorSubject<Int>(value: 0)
+    private var subCategoriesTitleSubject = PublishSubject<[String]>()
+    private var errorSubject = PublishSubject<Error?>()
     
     // MARK: Properties
-    private var grocery: Grocery
-    private var selectedCategory: CategoryDTO
     private var disposeBag = DisposeBag()
     
     // MARK: Initializations
     init(categories: [CategoryDTO], selectedCategory: CategoryDTO, grocery: Grocery) {
-        self.selectedCategory = selectedCategory
-        self.grocery = grocery
-        
         self.categoriesSubject
-            .onNext(categories.filter{ $0.id != -1 })
+            .onNext(categories)
         
         self.categoriesSubject
             .compactMap { $0.firstIndex(where: { $0.id == selectedCategory.id }) }
-            .bind(to: selectedCategoryIndexSubject)
+            .bind(to: categorySwitchSubject)
             .disposed(by: disposeBag)
         
         // fetching sub-categories
-        let fetchSubCategories = self.selectedCategoryIndexSubject
+        let fetchSubCategories = self.categorySwitchSubject
             .flatMapLatest { [unowned self] in self.filterCategory($0) }
             .flatMap {[unowned self] in
                 self.getSubCategories(deliveryAddress: self.getCurrentDeliveryAddress(), category: $0.categoryDB, grocery: grocery)
@@ -77,7 +72,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             .disposed(by: disposeBag)
 
         fetchSubCategories
-            .compactMap{ ElGrocerError.init(error: $0.error as! NSError) }
+            .compactMap{ $0.error }
             .bind(to: self.errorSubject)
             .disposed(by: disposeBag)
     }
