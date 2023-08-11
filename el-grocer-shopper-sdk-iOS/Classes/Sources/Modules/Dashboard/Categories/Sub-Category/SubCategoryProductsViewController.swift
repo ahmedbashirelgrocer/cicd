@@ -11,8 +11,9 @@ import RxCocoa
 
 class SubCategoryProductsViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var categoriesSegmentedView: ILSegmentView!
     @IBOutlet weak var subCategoriesSegmentedView: AWSegmentView!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var contentViewLeadingConstraint: NSLayoutConstraint!
     
     private lazy var locationHeaderShopper: ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
@@ -20,9 +21,15 @@ class SubCategoryProductsViewController: UIViewController {
         locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return locationHeader!
     }()
-    
+    private lazy var categoriesSegmentedView: ILSegmentView = {
+        let view = ILSegmentView(scrollDirection: self.isVertical ? .vertical : .horizontal, selectionStyle: .wholeCellHighlight)
+        view.onTap { [weak self] index in self?.viewModel.inputs.categorySegmentTapObserver.onNext(index) }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private var viewModel: SubCategoryProductsViewModelType!
+    private var isVertical: Bool = true
     private var disposeBag = DisposeBag()
     
     static func make(viewModel: SubCategoryProductsViewModelType) -> SubCategoryProductsViewController {
@@ -35,9 +42,8 @@ class SubCategoryProductsViewController: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        setupConstraint()
         bindViews()
-        
-        self.navigationController?.navigationBar.isHidden = false
     }
     
     @objc func backButtonPressed() {
@@ -45,27 +51,49 @@ class SubCategoryProductsViewController: UIViewController {
     }
 }
 
-fileprivate extension SubCategoryProductsViewController {
+private extension SubCategoryProductsViewController {
     func setupViews() {
-        categoriesSegmentedView.selectionStyle = .wholeCellHighlight
-        
-        // sub-categories setup
-        subCategoriesSegmentedView.segmentViewType = .subCategories
-        subCategoriesSegmentedView.commonInit()
+        self.view.addSubview(self.categoriesSegmentedView)
         
         if sdkManager.isShopperApp {
             self.view.addSubview(self.locationHeaderShopper)
-            
-            NSLayoutConstraint.activate([
-                locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor),
-                locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor),
-                locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor)
-            ])
         } else {
-            
+
         }
         
+        subCategoriesSegmentedView.segmentViewType = .subCategories
+        subCategoriesSegmentedView.commonInit()
+    }
+    
+    func setupConstraint() {
+        if sdkManager.isShopperApp {
+            self.view.addSubview(self.locationHeaderShopper)
+            
+            locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+            locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
+            
+            categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
+        } else {
+
+        }
+        
+        categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        
+        if self.isVertical == false {
+            contentViewLeadingConstraint.isActive = true
+            categoriesSegmentedView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 140).isActive = true
+            categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        } else {
+            categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 92).isActive = true
+            categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    
+            contentViewLeadingConstraint.isActive = false
+            contentView.leftAnchor.constraint(equalTo: categoriesSegmentedView.rightAnchor).isActive = true
+            contentView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 0).isActive = true
+        }
     }
     
     func bindViews() {
@@ -82,10 +110,5 @@ fileprivate extension SubCategoryProductsViewController {
                 self?.subCategoriesSegmentedView.lastSelection = IndexPath(row: 0, section: 0)
                 self?.subCategoriesSegmentedView.refreshWith(dataA: titles)
             }).disposed(by: disposeBag)
-        
-        categoriesSegmentedView
-            .onTap { [weak self] index in
-                self?.viewModel.inputs.categorySegmentTapObserver.onNext(index)
-            }
     }
 }

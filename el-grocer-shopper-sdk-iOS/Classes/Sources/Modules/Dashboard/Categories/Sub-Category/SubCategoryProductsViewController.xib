@@ -11,8 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SubCategoryProductsViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <connections>
-                <outlet property="categoriesSegmentedView" destination="rfz-pg-EjY" id="NyB-SW-fbD"/>
                 <outlet property="collectionView" destination="Cr1-iH-6iW" id="n3V-Ri-hkg"/>
+                <outlet property="contentView" destination="yPm-SZ-Icj" id="LrY-ED-VyN"/>
+                <outlet property="contentViewLeadingConstraint" destination="Jv3-lK-f5U" id="RXE-mO-1yC"/>
                 <outlet property="subCategoriesSegmentedView" destination="V8o-5o-NMf" id="Ose-mW-noJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -32,15 +33,8 @@
                                 <constraint firstAttribute="height" constant="60" id="XRv-Xc-MUT"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfz-pg-EjY" customClass="ILSegmentView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="60" width="393" height="140"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="140" id="JEW-vL-ARk"/>
-                            </constraints>
-                        </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yPm-SZ-Icj">
-                            <rect key="frame" x="0.0" y="200" width="393" height="618"/>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yPm-SZ-Icj">
+                            <rect key="frame" x="0.0" y="68" width="393" height="750"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A51-8e-tsh">
                                     <rect key="frame" x="0.0" y="12" width="393" height="45"/>
@@ -85,7 +79,7 @@
                                     </constraints>
                                 </view>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Cr1-iH-6iW">
-                                    <rect key="frame" x="0.0" y="109" width="393" height="509"/>
+                                    <rect key="frame" x="0.0" y="109" width="393" height="641"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n50-2a-2WB">
                                         <size key="itemSize" width="128" height="128"/>
@@ -95,7 +89,6 @@
                                     </collectionViewFlowLayout>
                                 </collectionView>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="A51-8e-tsh" firstAttribute="top" secondItem="yPm-SZ-Icj" secondAttribute="top" constant="12" id="CMC-Pd-MU1"/>
                                 <constraint firstItem="A51-8e-tsh" firstAttribute="leading" secondItem="yPm-SZ-Icj" secondAttribute="leading" id="DsC-rv-OqO"/>
@@ -111,15 +104,12 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="yPm-SZ-Icj" firstAttribute="top" secondItem="rfz-pg-EjY" secondAttribute="bottom" id="9Mr-vF-soc"/>
-                        <constraint firstItem="rfz-pg-EjY" firstAttribute="top" secondItem="KkC-mK-UGM" secondAttribute="bottom" priority="999" id="Ebd-H3-hyQ"/>
                         <constraint firstItem="yPm-SZ-Icj" firstAttribute="leading" secondItem="KMu-R0-foG" secondAttribute="leading" id="Jv3-lK-f5U"/>
                         <constraint firstAttribute="trailing" secondItem="KkC-mK-UGM" secondAttribute="trailing" id="MUx-id-hrh"/>
                         <constraint firstAttribute="trailing" secondItem="yPm-SZ-Icj" secondAttribute="trailing" id="MXW-T5-7ae"/>
-                        <constraint firstItem="rfz-pg-EjY" firstAttribute="leading" secondItem="KMu-R0-foG" secondAttribute="leading" id="U6f-8N-JJO"/>
+                        <constraint firstItem="yPm-SZ-Icj" firstAttribute="top" secondItem="KkC-mK-UGM" secondAttribute="bottom" priority="999" constant="8" id="Z8q-tO-7wv"/>
                         <constraint firstItem="KkC-mK-UGM" firstAttribute="leading" secondItem="KMu-R0-foG" secondAttribute="leading" id="cfP-dA-uPV"/>
                         <constraint firstAttribute="bottom" secondItem="yPm-SZ-Icj" secondAttribute="bottom" id="e1n-UQ-KB7"/>
-                        <constraint firstAttribute="trailing" secondItem="rfz-pg-EjY" secondAttribute="trailing" id="r83-xi-HaB"/>
                         <constraint firstItem="KkC-mK-UGM" firstAttribute="top" secondItem="KMu-R0-foG" secondAttribute="top" id="si9-nb-I35"/>
                     </constraints>
                 </view>
