@@ -10,6 +10,8 @@ import RxSwift
 
 protocol SubCategoryProductsViewModelInputs {
     var categorySwitchObserver: AnyObserver<Int> { get }
+    var subCategorySwitchObserver: AnyObserver<Int> { get }
+    var categoriesButtonTapObserver: AnyObserver<Void> { get }
 }
 
 protocol SubCategoryProductsViewModelOutputs {
@@ -17,6 +19,8 @@ protocol SubCategoryProductsViewModelOutputs {
     var categorySwitch: Observable<Int> { get }
     var subCategoriesTitle: Observable<[String]> { get }
     var error: Observable<Error?> { get }
+    var categoriesButtonTap: Observable<[CategoryDTO]> { get }
+    var title: Observable<String> { get }
 }
 
 protocol SubCategoryProductsViewModelType: SubCategoryProductsViewModelInputs, SubCategoryProductsViewModelOutputs {
@@ -32,18 +36,25 @@ extension SubCategoryProductsViewModelType {
 class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     // MARK: Inputs
     var categorySwitchObserver: AnyObserver<Int> { categorySwitchSubject.asObserver() }
+    var subCategorySwitchObserver: AnyObserver<Int> { subCategorySwitchSubject.asObserver() }
+    var categoriesButtonTapObserver: AnyObserver<Void> { categoriesButtonTapSubject.asObserver() }
     
     // MARK: Outputs
     var categories: Observable<[CategoryDTO]> { categoriesSubject.asObservable() }
     var categorySwitch: Observable<Int> { categorySwitchSubject.asObservable() }
     var subCategoriesTitle: Observable<[String]> { subCategoriesTitleSubject.asObservable() }
     var error: Observable<Error?> { errorSubject.asObservable() }
+    var categoriesButtonTap: Observable<[CategoryDTO]> { categoriesButtonTapSubject.withLatestFrom(categoriesSubject).asObservable() }
+    var title: Observable<String> { titleSubject.asObservable() }
     
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
     private var categorySwitchSubject = BehaviorSubject<Int>(value: 0)
     private var subCategoriesTitleSubject = PublishSubject<[String]>()
     private var errorSubject = PublishSubject<Error?>()
+    private var subCategorySwitchSubject = PublishSubject<Int>()
+    private var categoriesButtonTapSubject = PublishSubject<Void>()
+    private var titleSubject = BehaviorSubject<String>(value: "")
     
     // MARK: Properties
     private var disposeBag = DisposeBag()
@@ -53,12 +64,14 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         self.categoriesSubject
             .onNext(categories)
         
+        self.titleSubject.onNext(selectedCategory.name ?? "")
+        
         self.categoriesSubject
             .compactMap { $0.firstIndex(where: { $0.id == selectedCategory.id }) }
             .bind(to: categorySwitchSubject)
             .disposed(by: disposeBag)
         
-        // fetching sub-categories
+        // Fetch Sub-Category
         let fetchSubCategories = self.categorySwitchSubject
             .flatMapLatest { [unowned self] in self.filterCategory($0) }
             .flatMap {[unowned self] in
@@ -75,6 +88,14 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             .compactMap{ $0.error }
             .bind(to: self.errorSubject)
             .disposed(by: disposeBag)
+        
+        // Fetch Products for switching category
+        let fetchProducts = self.categorySwitchSubject
+            .flatMapLatest { [unowned self] in self.filterCategory($0) }
+            .flatMap { [unowned self] in
+                self.getProducts(category: $0.categoryDB, subcategory: "All Category")
+            }.share()
+            
     }
 }
 
@@ -102,6 +123,15 @@ fileprivate extension SubCategoryProductsViewModel {
             
             return Disposables.create()
         }.materialize()
+    }
+    
+    func getProducts(category: Category?, subcategory: String) -> Observable<Void> {
+        print("fetch products for category >> \(category?.name) and sub-category >>> \(subcategory)")
+        
+        return Observable.just(())
+//        Observable<[SubCategory]>.create { observer in
+//            return Disposables.create()
+//        }.materialize()
     }
     
     func getCurrentDeliveryAddress() -> DeliveryAddress? {

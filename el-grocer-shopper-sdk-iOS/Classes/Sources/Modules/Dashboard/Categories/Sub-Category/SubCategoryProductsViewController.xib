@@ -14,6 +14,7 @@
                 <outlet property="collectionView" destination="Cr1-iH-6iW" id="n3V-Ri-hkg"/>
                 <outlet property="contentView" destination="yPm-SZ-Icj" id="LrY-ED-VyN"/>
                 <outlet property="contentViewLeadingConstraint" destination="Jv3-lK-f5U" id="RXE-mO-1yC"/>
+                <outlet property="lblCategoryTitle" destination="dWW-yZ-Rk1" id="Dyu-EQ-JTx"/>
                 <outlet property="subCategoriesSegmentedView" destination="V8o-5o-NMf" id="Ose-mW-noJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -34,7 +35,7 @@
                             </constraints>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yPm-SZ-Icj">
-                            <rect key="frame" x="0.0" y="68" width="393" height="750"/>
+                            <rect key="frame" x="0.0" y="60" width="393" height="758"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A51-8e-tsh">
                                     <rect key="frame" x="0.0" y="12" width="393" height="45"/>
@@ -45,7 +46,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mho-dM-pck" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mho-dM-pck" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                             <rect key="frame" x="222" y="5" width="155" height="35"/>
                                             <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -60,6 +61,9 @@
                                                     <real key="value" value="17.5"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="showCategoriesBottomSheet:" destination="-1" eventType="touchUpInside" id="U2D-tm-dEh"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -79,7 +83,7 @@
                                     </constraints>
                                 </view>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Cr1-iH-6iW">
-                                    <rect key="frame" x="0.0" y="109" width="393" height="641"/>
+                                    <rect key="frame" x="0.0" y="109" width="393" height="649"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n50-2a-2WB">
                                         <size key="itemSize" width="128" height="128"/>
@@ -107,7 +111,7 @@
                         <constraint firstItem="yPm-SZ-Icj" firstAttribute="leading" secondItem="KMu-R0-foG" secondAttribute="leading" id="Jv3-lK-f5U"/>
                         <constraint firstAttribute="trailing" secondItem="KkC-mK-UGM" secondAttribute="trailing" id="MUx-id-hrh"/>
                         <constraint firstAttribute="trailing" secondItem="yPm-SZ-Icj" secondAttribute="trailing" id="MXW-T5-7ae"/>
-                        <constraint firstItem="yPm-SZ-Icj" firstAttribute="top" secondItem="KkC-mK-UGM" secondAttribute="bottom" priority="999" constant="8" id="Z8q-tO-7wv"/>
+                        <constraint firstItem="yPm-SZ-Icj" firstAttribute="top" secondItem="KkC-mK-UGM" secondAttribute="bottom" priority="999" id="Z8q-tO-7wv"/>
                         <constraint firstItem="KkC-mK-UGM" firstAttribute="leading" secondItem="KMu-R0-foG" secondAttribute="leading" id="cfP-dA-uPV"/>
                         <constraint firstAttribute="bottom" secondItem="yPm-SZ-Icj" secondAttribute="bottom" id="e1n-UQ-KB7"/>
                         <constraint firstItem="KkC-mK-UGM" firstAttribute="top" secondItem="KMu-R0-foG" secondAttribute="top" id="si9-nb-I35"/>
