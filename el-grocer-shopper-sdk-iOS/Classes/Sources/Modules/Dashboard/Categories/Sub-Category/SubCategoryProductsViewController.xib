@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SubCategoryProductsViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <connections>
+                <outlet property="buttonChangeCategory" destination="Mho-dM-pck" id="Eyt-46-ttb"/>
                 <outlet property="collectionView" destination="Cr1-iH-6iW" id="n3V-Ri-hkg"/>
                 <outlet property="contentView" destination="yPm-SZ-Icj" id="LrY-ED-VyN"/>
                 <outlet property="contentViewLeadingConstraint" destination="Jv3-lK-f5U" id="RXE-mO-1yC"/>

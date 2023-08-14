@@ -20,6 +20,7 @@ class SubCategoryProductsViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var contentViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var lblCategoryTitle: UILabel!
+    @IBOutlet weak var buttonChangeCategory: AWButton!
     
     private lazy var locationHeaderShopper: ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
@@ -35,7 +36,7 @@ class SubCategoryProductsViewController: UIViewController {
     }()
     
     private var viewModel: SubCategoryProductsViewModelType!
-    private var varientTest: Varient = .bottomSheet
+    private var varientTest: Varient = .vertical
     private var disposeBag = DisposeBag()
     
     static func make(viewModel: SubCategoryProductsViewModelType) -> SubCategoryProductsViewController {
@@ -59,18 +60,19 @@ class SubCategoryProductsViewController: UIViewController {
     
     @IBAction func showCategoriesBottomSheet(_ sender: Any) {
         self.viewModel.inputs.categoriesButtonTapObserver.onNext(())
-//        self.showCategoriesBottomSheet(cateogies: [])
     }
 }
 
 private extension SubCategoryProductsViewController {
     func setupViews() {
-        self.view.addSubview(self.categoriesSegmentedView)
+        if self.varientTest != .bottomSheet {
+            self.view.addSubview(self.categoriesSegmentedView)
+        }
         
         if sdkManager.isShopperApp {
             self.view.addSubview(self.locationHeaderShopper)
         } else {
-
+            // add SDK header
         }
         
         subCategoriesSegmentedView.segmentViewType = .subCategories
@@ -85,9 +87,7 @@ private extension SubCategoryProductsViewController {
             locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             
-//            categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
         } else {
 
         }
@@ -95,23 +95,28 @@ private extension SubCategoryProductsViewController {
         switch self.varientTest {
             
         case .vertical:
-            categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            contentViewLeadingConstraint.isActive = true
-            categoriesSegmentedView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-            categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 140).isActive = true
-            categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-            
-        case .horizontal:
+            buttonChangeCategory.isHidden = true
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
+            categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
             categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 92).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-    
             contentViewLeadingConstraint.isActive = false
             contentView.leftAnchor.constraint(equalTo: categoriesSegmentedView.rightAnchor).isActive = true
             contentView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 0).isActive = true
             
+        case .horizontal:
+            buttonChangeCategory.isHidden = true
+            categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
+            categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            categoriesSegmentedView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 140).isActive = true
+            categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
+
         case .bottomSheet:
-            break
+            buttonChangeCategory.isHidden = false
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
         }
     }
     
@@ -147,11 +152,11 @@ private extension SubCategoryProductsViewController {
         let categoriesVC = CategorySelectionBottomSheetViewController.make(viewModel: viewModel)
         
         categoriesVC.categorySelected = { [weak self] category in
+            self?.viewModel.inputs.categorySwitchObserver.onNext(category)
             self?.dismissPopUpVc()
         }
         
-        let height = ScreenSize.SCREEN_HEIGHT * 0.6
-        categoriesVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
+        categoriesVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT * 0.6))
         
         let popupController = STPopupController(rootViewController: categoriesVC)
         popupController.navigationBarHidden = true

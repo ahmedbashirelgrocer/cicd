@@ -10,6 +10,9 @@ import RxSwift
 import RxCocoa
 
 class ILSegmentView: UICollectionView {
+    // Fix Me: Need to make this view dependent on generic type instead of category or touple array
+    var categories: [CategoryDTO] = []
+    var onTapCompletionWithCategory: ((CategoryDTO) -> Void)?
     
     var segmentData: [(imageURL: String, bgColor: UIColor, text: String)] = []
     var onTapCompletion: ((Int) -> Void)?
@@ -81,6 +84,10 @@ class ILSegmentView: UICollectionView {
     func onTap(completion: @escaping (Int) -> Void) {
         self.onTapCompletion = completion
     }
+    
+    func onTap(completion: @escaping (CategoryDTO) -> Void) {
+        self.onTapCompletionWithCategory = completion
+    }
 }
 
 extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -105,6 +112,7 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
         self.onTapCompletion?(indexPath.row)
+        self.onTapCompletionWithCategory?(self.categories[indexPath.row])
         return false
     }
     
@@ -114,13 +122,15 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
 extension Reactive where Base: ILSegmentView {
     var categories: Binder<[CategoryDTO]> {
         return Binder(self.base) { segmentedView, categories in
+            segmentedView.categories = categories
             segmentedView.refreshWith(categories)
         }
     }
     
-    var selectedItemIndex: Binder<Int> {
-        return Binder(self.base) { segmentedView, index in
+    var selectedItemIndex: Binder<CategoryDTO> {
+        return Binder(self.base) { segmentedView, category in
             DispatchQueue.main.async {
+                let index = segmentedView.categories.firstIndex(where: { $0.id == category.id }) ?? 0
                 segmentedView.selectedItemIndex = index
             }
         }
