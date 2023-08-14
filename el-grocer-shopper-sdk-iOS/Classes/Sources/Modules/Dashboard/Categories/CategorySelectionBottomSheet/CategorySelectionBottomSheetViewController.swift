@@ -17,6 +17,8 @@ class CategorySelectionBottomSheetViewController: UIViewController {
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
     private var disposeBag = DisposeBag()
     
+    var categorySelected: ((CategoryDTO)->())?
+    
     static func make(viewModel: CategorySelectionViewModelType) -> CategorySelectionBottomSheetViewController {
         let vc = CategorySelectionBottomSheetViewController(nibName: "CategorySelectionBottomSheetViewController", bundle: .resource)
         vc.viewModel = viewModel
@@ -60,5 +62,11 @@ fileprivate extension CategorySelectionBottomSheetViewController {
             .disposed(by: disposeBag)
         
         self.collectionView.rx.modelSelected(StoresCategoriesCollectionViewCellViewModel.self)
+            .map { $0.category }
+            .subscribe(onNext: { [weak self] in
+                if let categorySelected = self?.categorySelected {
+                    categorySelected($0)
+                }
+            }).disposed(by: disposeBag)
     }
 }
